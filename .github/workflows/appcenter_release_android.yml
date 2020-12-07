@@ -1,0 +1,77 @@
+name: Appcenter release android
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Define the environment (dev|staging|production)'
+        required: true
+        default: 'dev'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./android
+    container:
+      image: docker://fabernovel/android:api-29-v1.3.0
+      volumes:
+        - /github/home/.ssh:/root/.ssh
+    env:
+      JAVA_TOOL_OPTIONS: '-XX:MinRAMPercentage=20.0 -XX:MaxRAMPercentage=90.0'
+      GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dkotlin.compiler.execution.strategy=in-process'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install Yarn
+        working-directory: ./
+        run: npm install -g yarn
+      - name: Set up dependencies
+        working-directory: ./
+        run: yarn install
+      - name: Prepare env
+        working-directory: ./
+        env:
+          ANDROID_B64_GOOGLE_SERVICES: ${{ secrets.ANDROID_B64_GOOGLE_SERVICES }}
+          ANDROID_B64_RELEASE_KEYSTORE: ${{ secrets.ANDROID_B64_RELEASE_KEYSTORE }}
+          ANDROID_B64_FASTFILE_ENV_DEV: ${{ secrets.ANDROID_B64_FASTFILE_ENV_DEV }}
+          ANDROID_B64_FASTFILE_ENV_STAGING: ${{ secrets.ANDROID_B64_FASTFILE_ENV_STAGING }}
+          ANDROID_B64_FASTFILE_ENV_PRODUCTION: ${{ secrets.ANDROID_B64_FASTFILE_ENV_PRODUCTION }}
+          RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
+          RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
+        run: ./cli.js prepare ${{ github.event.inputs.environment }}
+
+      - name: Ruby cache
+        uses: actions/cache@v2.1.1
+        with:
+          path: /root/vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Gradle cache
+        uses: actions/cache@v2.1.1
+        with:
+          path: /root/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle
+      - name: Bundle install
+        run: |
+          bundle config path /root/vendor/bundle
+          bundle check || bundle install
+
+      - name: Fastlane
+        env:
+          APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
+          SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
+          ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}
+        run: |
+          bundle exec fastlane deliver_beta \
+            --env ${{ github.event.inputs.environment }}
