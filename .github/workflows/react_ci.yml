@@ -1,0 +1,41 @@
+name: CI React
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - develop
+
+jobs:
+  build:
+    env:
+      PATH: /Users/slave/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: ubuntu:latest
+
+    steps:
+      - name: Git update
+        run: |
+          apt update
+          apt install -y git
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Set up dependencies
+        run: yarn install
+      - name: Prepare env
+        env:
+          RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
+          RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
+        run: ./cli.js prepare staging
+      - name: Lint
+        run: yarn run eslint
+      - name: Build
+        run: yarn run tsc
