@@ -75,3 +75,6 @@ ios/fastlane/.env.*
 !ios/fastlane/.env.*.skeleton
 !ios/fastlane/.env.skeleton
 /config/firebase_plists/*.plist
+
+# Github Action
+ios/vendor/
