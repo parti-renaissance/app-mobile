@@ -1,0 +1,212 @@
+{
+  "fr": {
+    "common": {
+      "loading": "Chargement...",
+      "keyboard": { "done": "Ok" },
+      "error": {
+        "network": "Une erreur réseau est survenue",
+        "internal": "Désolé, une erreur interne est survenue. Nous vous invitons à réessayer ultérieurement. \n(code 500)",
+        "bad_request": "Mauvaise requête. Une erreur technique est survenue. Veuillez réessayer ultérieurement.\n(code 400)",
+        "unauthorized": "Vous ne disposez pas des autorisations suffisantes pour effectuer cette demande.\n(code 401)",
+        "forbidden": "Cette demande n'est pas autorisée.\n(code 403)",
+        "not_found": "La ressource que vous essayez de récupérer ne semble pas exister.\n(code 404)",
+        "generic": "Une erreur est survenue"
+      },
+      "error_reload": "Rechargez la page",
+      "error_title": "Oups !",
+      "error_retry": "Réessayer",
+      "cancel": "Annuler"
+    },
+    "tab": {
+      "item_polls": "Sondages",
+      "item_region": "Région",
+      "item_tools": "Outils",
+      "item_profile": "Profil",
+      "item_home": "Accueil"
+    },
+    "polls": {
+      "question_count_format": "{{count}} question",
+      "question_count_format_plural": "{{count}} questions",
+      "title": "Sondages",
+      "subtitle": "Un sondage est disponible.\nOrganisez des actions terrains pour récolter des avis.",
+      "subtitle_plural": "Des sondages sont disponibles.\nOrganisez des actions terrains pour récolter des avis.",
+      "subtitle_no_polls": "Aucun sondage disponible pour votre région actuellement. Une notification vous sera envoyée pour vous prévenir de leur prochaine arrivée."
+    },
+    "polldetail": {
+      "next": "Suivant",
+      "previous": "Retour",
+      "progress_format": "Étape {{currentStep}}/{{numberOfSteps}}",
+      "progress_format_step": "{{progress}}: {{step}}",
+      "leave_alert": {
+        "title": "Annuler les réponses au questionnaire",
+        "message": "Souhaitez-vous effacer les questions déjà remplies et revenir au choix du questionnaire ?",
+        "cancel": "Annuler",
+        "action": "Quitter"
+      },
+      "question_placeholder": "Votre réponse",
+      "question_unique_choice": "Une seule réponse possible",
+      "question_multiple_choices": "Plusieurs réponses possibles",
+      "send_answers_error": { "title": "Envoi des réponses" },
+      "user_profile_progress": "Profil du répondant",
+      "consent_data_progress": "Données personnelles",
+      "success": {
+        "title": "Bravo!",
+        "message": "Un sondage de plus de rempli.\nMerci pour votre engagement !",
+        "restart": "Recommencer",
+        "finish": "Terminer"
+      },
+      "profile": {
+        "header": "Afin d’améliorer l’analyse des réponses à ce sondage vous pouvez renseigner le profil de votre interlocuteur. Toutes ces informations sont facultatives.",
+        "gender_section": "Quel est son genre ?",
+        "gender_male": "Masculin",
+        "gender_female": "Féminin",
+        "gender_other": "Autre",
+        "age_section": "Sa tranche d’âge ?",
+        "age_range_20": "-20 ans",
+        "age_range_20_24": "20-24 ans",
+        "age_range_25_39": "25-39 ans",
+        "age_range_40_54": "40-54 ans",
+        "age_range_55_64": "55-64 ans",
+        "age_range_65_80": "65-80 ans",
+        "age_range_80": "80+ ans",
+        "profession_section": "Sa profession ?",
+        "profession_employee": "Employé",
+        "profession_worker": "Ouvrier",
+        "profession_executive": "Cadre",
+        "profession_tempWorker": "Profession intérimaire",
+        "profession_independent": "Indépendant et professions libérales",
+        "profession_retired": "Retraité",
+        "profession_student": "Étudiant"
+      },
+      "user_form": {
+        "consent_title": "Souhaite-t-il être au courant des résultats de cette consultation via \ne-mail ?",
+        "consent_subtitle": "En cochant oui, vous certifiez qu’il consent à ce que ses données personnelles soient traitées par La République En Marche dans le cadre de ce sondage et qu’il est ",
+        "consent_subtitle_suffix": "informé des droits dont il dispose sur ses données.",
+        "positive_choice": "Oui",
+        "negative_choice": "Non",
+        "form_title": "Informations personnelles",
+        "first_name": "Prénom",
+        "last_name": "Nom",
+        "email": "Adresse email",
+        "zip_code": "Code postal",
+        "invitation_title": "Souhaite-il être invité à adhérer à La République En Marche ?",
+        "submit": "Soumettre"
+      }
+    },
+    "personal_data": {
+      "title": "Droits sur vos données",
+      "message": "Nous vous informons que vous pouvez retirer votre consentement à tout moment et disposez d’un droit d’accès, de rectification et d’effacement de vos données conformément à la législation en vigueur. Nous vous informons que vous pouvez exercer vos droits via la politique de protection des données personnelles publiée sur le site de LaREM."
+    },
+    "unauthenticatedhome": {
+      "description": "Bienvenue sur l’application militante de \nLa République En Marche.\n \nRetrouvez rapidement nos outils, \nréalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.  ",
+      "login": "Se connecter",
+      "register": "Pas encore adhérent ? Adhérer",
+      "skip": "Continuer sans adhérer",
+      "register_url": "https://en-marche.fr/adhesion"
+    },
+    "login": {
+      "title": "Connexion",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "login": "Se connecter",
+      "password_lost": "Mot de passe oublié ?",
+      "password_lost_url": "https://en-marche.fr/mot-de-passe-oublie",
+      "credentials_error": "Email/mot de passe invalide"
+    },
+    "profile": {
+      "version": "VERSION {{version}}",
+      "not_connected": "Connectez-vous pour accéder à ce paramètre.",
+      "polls_total": "au total",
+      "polls_month": "ce mois-ci",
+      "polls_accomplished": "Sondages effectués",
+      "menu": {
+        "termsofuse_url": "https://en-marche.fr/mentions-legales",
+        "termsofuse": "Conditions générales",
+        "legal": "Juridique",
+        "notifications": "Notifications",
+        "postal_code": "Code postal",
+        "personal_information_url": "https://en-marche.fr/parametres/mon-compte/modifier",
+        "personal_information": "Mon profil adhérent",
+        "parameters": "Paramètres"
+      },
+      "alert": {
+        "logout": {
+          "confirm": "Déconnecter",
+          "cancel": "Annuler",
+          "text": "Êtes-vous sûr de vouloir vous déconnecter ?",
+          "title": "Déconnexion"
+        }
+      },
+      "localisation2": "{{area}}, {{postalCode}}",
+      "localisation1": "{{region}},",
+      "name": "{{firstName}} {{lastName}}",
+      "logout": "Se déconnecter"
+    },
+    "anonymousloginzipcode": {
+      "title": "Quel est votre code postal ?",
+      "continue": "Continuer",
+      "invalid_code": "Code postal invalide"
+    },
+    "zipcodeconfirmation": {
+      "title": "Vous êtes désormais localisé dans le département {{department}}",
+      "description": "Vous pouvez à tout moment changer de code postal dans votre profil.",
+      "continue": "Continuer"
+    },
+    "tools": {
+      "title": "Outils militants",
+      "near": {
+        "title": "Ce qui a changé près de chez vous",
+        "url": "https://chezvous.en-marche.fr/"
+      },
+      "reforms": {
+        "title": "On l'a dit, On le fait",
+        "url": "https://transformer.en-marche.fr/fr"
+      },
+      "covid": {
+        "title": "Infos Covid",
+        "url": "https://en-marche.fr/infocovid"
+      },
+      "desintox": {
+        "title": "Désintox",
+        "url": "https://en-marche.fr/desintox"
+      },
+      "answers": {
+        "title": "Réponses concrètes",
+        "url": "https://enmarche.typeform.com/to/vbvThF"
+      }
+    },
+    "termsofuse": {
+      "title": "Conditions générales d'utilisation",
+      "content": "TODO",
+      "close": "Fermer",
+      "accept": "Accepter"
+    },
+    "home": {
+      "greeting": "Bonjour 👋",
+      "greeting_name": "Bonjour 👋\n{{username}},",
+      "section_polls": "Sondage de campagne",
+      "section_tools": "Vos outils militants",
+      "footer": {
+        "title": "En marche !",
+        "description": "Phasellus ac pharetra quam, a pretium sapien. Sed sit amet ipsum erat. Sed vulputate lectus porta, hendrerit leo quis, tincidunt nibh. Sed ut mi non sem viverra consectetur sollicitudin a…",
+        "button": "Je m'engage"
+      },
+      "polls_more": "Voir tous les sondages",
+      "tools_more": "Voir tous les outils",
+      "section_region": "La campagne est lancée",
+      "region_more": "En savoir plus",
+      "news": {
+        "section": "Actualités",
+        "date_format": "dd/MM/yyyy",
+        "more": "Voir toutes les actualités"
+      }
+    },
+    "regions": { "website": "Site de campagne" },
+    "profileZipCode": {
+      "title": "Code postal",
+      "label": "Code postal",
+      "validate": "Continuer"
+    },
+    "news": { "title": "Actualités" }
+  }
+}

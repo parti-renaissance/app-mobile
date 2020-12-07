@@ -1,0 +1,10 @@
+export const unit = 8
+export const margin = 2 * unit
+export const small = unit / 2
+export const largeMargin = 4 * unit
+export const mediumMargin = 3 * unit
+export const inputTextBorder = 1
+export const topMargin = 52
+export const minWidthButton = 132
+export const rowVerticalMargin = 12
+export const separatorHeight = 1

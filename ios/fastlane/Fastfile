@@ -1,0 +1,138 @@
+WORKSPACE = "JeMarche.xcworkspace"
+XCODEPROJ = "JeMarche.xcodeproj"
+SCHEME = "JeMarche"
+TEMP_KEYCHAIN_NAME = "fastlane_enterprise"
+TEMP_KEYCHAIN_PASSWORD = "temppassword"
+
+skip_docs
+
+before_all do
+  pod_install
+  ensure_git_status_clean
+end
+
+lane :build do
+  build_without_codesign
+end
+
+lane :deploy do |options|
+  download_codesigning(
+    force_codesign: options[:force_codesign]
+  )
+  set_codesigning
+  gym(
+    clean: true,
+    scheme: SCHEME,
+    configuration: ENV["CONFIGURATION"],
+    output_name: SCHEME,
+    export_method: ENV["EXPORT_METHOD"]
+  )
+  if ENV["USE_TESTFLIGHT"]
+    upload_to_testflight(
+      username: ENV["MATCH_USERNAME"],
+      team_id: ENV["FASTLANE_TEAM_ID"],
+      team_name: ENV["FASTLANE_TEAM_NAME"],
+      skip_waiting_for_build_processing: true
+    )
+  else
+    deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
+    post_slack_notification
+  end
+end
+
+#####################################################
+# Private
+#####################################################
+
+private_lane :pod_install do
+  Dir.chdir("..") do
+    sh("bundle exec pod install || bundle exec pod install --repo-update")
+  end
+end
+
+private_lane :build_without_codesign do
+  xargs = []
+  xargs << "clean build"
+  xargs << "-configuration Debug"
+  xargs << "CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS= CODE_SIGN_IDENTITY="
+  xargs << "-quiet"
+  xargs = xargs.join(" ")
+  xcodebuild(
+    workspace: WORKSPACE,
+    scheme: SCHEME,
+    xcargs: xargs,
+    output_style: :standard
+  )
+end
+
+private_lane :deploy_to_appcenter do |options|
+	appcenter_upload(
+	  api_token: ENV["APP_CENTER_API_KEY"],
+	  owner_name: ENV["APP_CENTER_OWNER"],
+	  app_name: ENV["APP_CENTER_NAME"],
+	  ipa: options[:ipa]
+	)
+end
+
+private_lane :download_codesigning do |options|
+  create_temporary_keychain
+  match(
+    type: ENV["MATCH_TYPE"],
+    force: options[:force_codesign],
+    keychain_name: TEMP_KEYCHAIN_NAME,
+    keychain_password: TEMP_KEYCHAIN_PASSWORD
+  )
+end
+
+private_lane :set_codesigning do
+  update_code_signing_settings(
+    use_automatic_signing: false,
+    profile_name: ENV["PROFILE_NAME"],
+    code_sign_identity: ENV["CODE_SIGN_IDENTIFY"],
+    path: XCODEPROJ,
+    targets: ["JeMarche"]
+  )
+end
+
+# We need to create a temporary keychain on github actions
+# https://stackoverflow.com/questions/58118395/github-action-macos-keychain-access
+private_lane :create_temporary_keychain do
+  if File.exist?(File.expand_path("~/Library/Keychains/#{TEMP_KEYCHAIN_NAME}-db"))
+    delete_keychain(name: TEMP_KEYCHAIN_NAME)
+  end
+  create_keychain(
+    name: TEMP_KEYCHAIN_NAME,
+    password: TEMP_KEYCHAIN_PASSWORD,
+    unlock: true,
+    timeout: false
+  )
+end
+
+private_lane :post_slack_notification do
+  appcenter_url = "https://appcenter.ms/users/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribute/releases"
+  slack(
+    message: "New iOS build available",
+    channel: ENV["SLACK_CHANNEL"],
+    success: true,
+    default_payloads: [],
+    payload: {
+      "Configuration": ENV["CONFIGURATION"],
+      "Environment": ENV["ENVIRONMENT"],
+      "Version" => app_version_number,
+      "Build number" => app_build_number,
+      "AppCenter" => appcenter_url
+    },
+    slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
+  )
+end
+
+def app_version_number
+  get_version_number(
+    xcodeproj: XCODEPROJ,
+    target: SCHEME
+  )
+end
+
+def app_build_number
+  get_build_number(xcodeproj: XCODEPROJ)
+end

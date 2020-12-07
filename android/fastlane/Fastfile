@@ -1,0 +1,65 @@
+skip_docs
+
+before_all do
+  ensure_git_status_clean
+end
+
+lane :ci_check do
+  variant = 'Debug'
+  build(variant: variant)
+end
+
+lane :deliver_beta do
+  variant = ENV["BUILD_VARIANT"]
+  build(variant: variant)
+  deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
+  post_slack_notification(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
+end
+
+private_lane :build do |options|
+  gradle(task: "assemble#{options[:variant]}")
+end
+
+private_lane :deploy_apk_to_beta_system do |options|
+  appcenter_upload(
+    api_token: ENV["APP_CENTER_API_KEY"],
+	  owner_name: ENV["APP_CENTER_OWNER"],
+	  app_name: ENV["APP_CENTER_NAME"],
+    release_notes: "Uploaded via Fastlane on #{Time.new}",
+    apk: options[:apk],
+  )
+end
+
+private_lane :post_slack_notification do |options|
+  apk_url = options[:download_link]
+  appcenter_url = "https://appcenter.ms/users/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribute/releases"
+  variant = options[:variant]
+  slack(
+    message: "New Android build available",
+    channel: ENV["SLACK_CHANNEL"],
+    success: true,
+    default_payloads: [],
+    payload: {
+      "Configuration": variant,
+      "Version Name" => get_version_name,
+      "Version Code" => get_version_code,
+      "AppCenter" => appcenter_url,
+      "Download APK" => apk_url
+    },
+    slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
+  )
+end
+
+lane :get_version_code do
+  v_code_output = gradle(task: "getVCode -Pvariant=#{lane_context[:BUILD_VARIANT]}")
+  captures = v_code_output.match("version_code:\\s*(\\d+)").captures
+  captures[0]
+end
+
+lane :get_version_name do
+  v_code_output = gradle(task: "getVName -Pvariant=#{lane_context[:BUILD_VARIANT]}")
+  captures = v_code_output.match("version_name:\\s*((\\w+.?)+)").captures
+  UI.message captures[0]
+  captures[0]
+end
+

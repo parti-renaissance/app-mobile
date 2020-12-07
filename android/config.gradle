@@ -1,0 +1,4 @@
+ext.release = [
+    versionCode: 18,
+    versionName: "2.0.0",
+]
