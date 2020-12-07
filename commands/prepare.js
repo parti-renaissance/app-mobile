@@ -101,6 +101,12 @@ function prepareIosLocalFiles() {
       'config/firebase_plists/GoogleService-Info_Production.plist',
     )
   }
+  if (process.env.IOS_B64_APP_STORE_CONNECT_API_KEY) {
+    copyBase64File(
+      process.env.IOS_B64_APP_STORE_CONNECT_API_KEY,
+      'ios/fastlane/app_store_connect_api_key.json',
+    )
+  }
 }
 
 function prepareReactNativeLocalFiles() {

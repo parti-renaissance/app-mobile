@@ -46,6 +46,7 @@ jobs:
           IOS_B64_FIREBASE_PLIST_DEV: ${{ secrets.IOS_B64_FIREBASE_PLIST_DEV }}
           IOS_B64_FIREBASE_PLIST_STAGING: ${{ secrets.IOS_B64_FIREBASE_PLIST_STAGING }}
           IOS_B64_FIREBASE_PLIST_PRODUCTION: ${{ secrets.IOS_B64_FIREBASE_PLIST_PRODUCTION }}
+          IOS_B64_APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_B64_APP_STORE_CONNECT_API_KEY }}
         run: ./cli.js prepare ${{ github.event.inputs.environment }}
 
       - name: Ruby cache
