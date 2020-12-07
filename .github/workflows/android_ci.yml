@@ -2,7 +2,7 @@ name: CI android
 on:
   push:
     branches-ignore:
-      - master
+      - main
       - develop
 
 jobs:
