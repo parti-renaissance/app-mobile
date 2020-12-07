@@ -83,12 +83,6 @@ function prepareIosLocalFiles() {
       'ios/fastlane/.env.production',
     )
   }
-  if (process.env.IOS_B64_FASTLANE_ENV_DISTRIBUTION) {
-    copyBase64File(
-      process.env.IOS_B64_FASTLANE_ENV_DISTRIBUTION,
-      'ios/fastlane/.env.distribution',
-    )
-  }
   if (process.env.IOS_B64_FIREBASE_PLIST_DEV) {
     copyBase64File(
       process.env.IOS_B64_FIREBASE_PLIST_DEV,

@@ -1,4 +1,4 @@
-name: CI iOS
+name: AppCenter Delivery iOS
 on:
   workflow_dispatch:
     inputs:
@@ -6,6 +6,10 @@ on:
         description: 'Define the environment (staging|production)'
         required: true
         default: 'staging'
+      signing:
+        description: 'Define the code signing method (adhoc|appstore)'
+        required: true
+        default: 'adhoc'
 
 jobs:
   build:
@@ -81,4 +85,4 @@ jobs:
           APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
           MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD_SECRET }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_SECRET }}
-        run: bundle exec fastlane deploy --env ${{ github.event.inputs.environment }}
+        run: bundle exec fastlane deploy match_type:${{ github.event.inputs.signing }} --env ${{ github.event.inputs.environment }}
