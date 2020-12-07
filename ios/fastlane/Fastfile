@@ -15,14 +15,15 @@ lane :build do
 end
 
 lane :deploy do |options|
-  download_codesigning
+  match_type = options[:match_type]
+  download_codesigning(match_type: match_type)
   set_codesigning
   gym(
     clean: true,
     scheme: SCHEME,
-    configuration: ENV["CONFIGURATION"],
+    configuration: "Release",
     output_name: SCHEME,
-    export_method: ENV["EXPORT_METHOD"]
+    export_method: export_method_from_match_type(match_type)
   )
   if ENV["USE_TESTFLIGHT"]
     upload_to_testflight(
@@ -65,10 +66,11 @@ private_lane :deploy_to_appcenter do |options|
 	)
 end
 
-private_lane :download_codesigning do
+private_lane :download_codesigning do |options|
+  match_type = options[:match_type]
   create_temporary_keychain
   match(
-    type: ENV["MATCH_TYPE"],
+    type: match_type,
     readonly: true,
     keychain_name: TEMP_KEYCHAIN_NAME,
     keychain_password: TEMP_KEYCHAIN_PASSWORD
@@ -76,10 +78,13 @@ private_lane :download_codesigning do
 end
 
 private_lane :set_codesigning do
+  mapping = lane_context[:MATCH_PROVISIONING_PROFILE_MAPPING]
+  bundle_identifier = get_build_settings("PRODUCT_BUNDLE_IDENTIFIER")
+  profile_name = mapping[bundle_identifier]
   update_code_signing_settings(
     use_automatic_signing: false,
-    profile_name: ENV["PROFILE_NAME"],
-    code_sign_identity: ENV["CODE_SIGN_IDENTIFY"],
+    profile_name: profile_name,
+    code_sign_identity: "iPhone Distribution",
     path: XCODEPROJ,
     targets: ["JeMarche"]
   )
@@ -107,7 +112,7 @@ private_lane :post_slack_notification do
     success: true,
     default_payloads: [],
     payload: {
-      "Configuration": ENV["CONFIGURATION"],
+      "Configuration": "Release",
       "Environment": ENV["ENVIRONMENT"],
       "Version" => app_version_number,
       "Build number" => app_build_number,
@@ -126,4 +131,38 @@ end
 
 def app_build_number
   get_build_number(xcodeproj: XCODEPROJ)
+end
+
+def get_build_settings(build_setting)
+  # xcodebuild -showBuildSettings will return something like `   PRODUCT_NAME = YourAppName`
+  # So we search for the `    PRODUCT_NAME =` part and remove it from the line
+  string_to_search_for = build_setting + ' ='
+
+  command = []
+  command << "xcodebuild -showBuildSettings"
+  command << "-project #{XCODEPROJ}"
+  command << "-configuration Release"
+  command << "-scheme #{SCHEME}"
+  command << "2>/dev/null" # removes warnigs
+  command << "| grep \"\s#{string_to_search_for}\""
+
+  begin
+    Dir.chdir("..") do
+      build_setting_value = Action.sh(command.join(' ')).gsub(string_to_search_for, '').strip
+      return build_setting_value
+    end
+  rescue StandardError
+    UI.user_error!("Could not find the requested build setting #{build_setting}")
+  end
+end
+
+def export_method_from_match_type(match_type)
+  case match_type
+  when 'adhoc'
+    'ad-hoc'
+  when 'appstore'
+    'app-store'
+  else
+    UI.user_error!("Invalid match type #{match_type}. Could not infer export method.")
+  end
 end
