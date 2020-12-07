@@ -7,7 +7,6 @@ TEMP_KEYCHAIN_PASSWORD = "temppassword"
 skip_docs
 
 before_all do
-  pod_install
   ensure_git_status_clean
 end
 
@@ -43,12 +42,6 @@ end
 #####################################################
 # Private
 #####################################################
-
-private_lane :pod_install do
-  Dir.chdir("..") do
-    sh("bundle exec pod install || bundle exec pod install --repo-update")
-  end
-end
 
 private_lane :build_without_codesign do
   xargs = []
