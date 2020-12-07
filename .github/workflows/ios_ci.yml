@@ -1,0 +1,55 @@
+name: CI iOS
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.5
+
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Set up dependencies
+        run: yarn install
+
+      - name: Prepare env
+        env:
+          RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
+          RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
+          IOS_B64_FASTLANE_ENV_DEFAULT: ${{ secrets.IOS_B64_FASTLANE_ENV_DEFAULT }}
+          IOS_B64_FASTLANE_ENV_DEV: ${{ secrets.IOS_B64_FASTLANE_ENV_DEV }}
+          IOS_B64_FASTLANE_ENV_STAGING: ${{ secrets.IOS_B64_FASTLANE_ENV_STAGING }}
+          IOS_B64_FASTLANE_ENV_PRODUCTION: ${{ secrets.IOS_B64_FASTLANE_ENV_PRODUCTION }}
+          IOS_B64_FASTLANE_ENV_DISTRIBUTION: ${{ secrets.IOS_B64_FASTLANE_ENV_DISTRIBUTION }}
+          IOS_B64_FIREBASE_PLIST_DEV: ${{ secrets.IOS_B64_FIREBASE_PLIST_DEV }}
+          IOS_B64_FIREBASE_PLIST_STAGING: ${{ secrets.IOS_B64_FIREBASE_PLIST_STAGING }}
+          IOS_B64_FIREBASE_PLIST_PRODUCTION: ${{ secrets.IOS_B64_FIREBASE_PLIST_PRODUCTION }}
+        run: ./cli.js prepare staging
+
+      - name: Bundle install
+        working-directory: ./ios
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Build and test
+        working-directory: ./ios
+        env:
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8
+        run: bundle exec fastlane build
