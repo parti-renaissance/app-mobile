@@ -15,9 +15,7 @@ lane :build do
 end
 
 lane :deploy do |options|
-  download_codesigning(
-    force_codesign: options[:force_codesign]
-  )
+  download_codesigning
   set_codesigning
   gym(
     clean: true,
@@ -67,11 +65,11 @@ private_lane :deploy_to_appcenter do |options|
 	)
 end
 
-private_lane :download_codesigning do |options|
+private_lane :download_codesigning do
   create_temporary_keychain
   match(
     type: ENV["MATCH_TYPE"],
-    force: options[:force_codesign],
+    readonly: true,
     keychain_name: TEMP_KEYCHAIN_NAME,
     keychain_password: TEMP_KEYCHAIN_PASSWORD
   )
