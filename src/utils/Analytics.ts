@@ -10,4 +10,10 @@ export const Analytics = {
   logUrlOpened: async (url: string) => {
     await analytics().logEvent('external_link_opened', { url: url })
   },
+  enable: async () => {
+    await analytics().setAnalyticsCollectionEnabled(true)
+  },
+  disable: async () => {
+    await analytics().setAnalyticsCollectionEnabled(false)
+  },
 }

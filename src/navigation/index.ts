@@ -49,6 +49,7 @@ export type UnauthenticatedStackParamList = {
   Login: undefined
   AnonymousLoginZipCode: undefined
   ZipCodeConfirmation: { zipCode: string }
+  DataCollect: { zipCode: string }
   TermsOfUse: { zipCode: string }
 }
 
@@ -149,6 +150,12 @@ export type ZipCodeConfirmationScreenProps = StackScreenProps<
 export type TermsOfUseScreenProps = StackScreenProps<
   UnauthenticatedStackParamList,
   typeof Screen.termsOfUse
+>
+
+// DataCollect
+export type DataCollectScreenProps = StackScreenProps<
+  UnauthenticatedStackParamList,
+  typeof Screen.dataCollect
 >
 
 // Profile
