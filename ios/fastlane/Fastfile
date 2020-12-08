@@ -109,7 +109,6 @@ private_lane :post_slack_notification do
   appcenter_url = "https://appcenter.ms/users/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribute/releases"
   slack(
     message: "New iOS build available",
-    channel: ENV["SLACK_CHANNEL"],
     success: true,
     default_payloads: [],
     payload: {
