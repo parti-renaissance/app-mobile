@@ -15,6 +15,7 @@ import PollDetailModal from '../screens/pollDetail/PollDetailModal'
 import { headerBlank } from '../styles/navigationAppearance'
 import { PushNotification } from '../utils/PushNotification'
 import DataCollectScreen from '../screens/authentication/DataCollectScreen'
+import { Analytics } from '../utils/Analytics'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -28,9 +29,11 @@ const Navigator: FunctionComponent = () => {
 
   const updateFromState = (authenticationState: AuthenticationState) => {
     if (authenticationState === AuthenticationState.Unauthenticated) {
+      Analytics.disable()
       setLoggedIn(false)
     } else {
       PushNotification.requestPermission()
+      Analytics.enable()
       setLoggedIn(true)
     }
     SplashScreen.hide()
