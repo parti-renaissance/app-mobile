@@ -14,6 +14,7 @@ import AuthenticatedHomeScreen from '../screens/AuthenticatedHomeScreen'
 import PollDetailModal from '../screens/pollDetail/PollDetailModal'
 import { headerBlank } from '../styles/navigationAppearance'
 import { PushNotification } from '../utils/PushNotification'
+import DataCollectScreen from '../screens/authentication/DataCollectScreen'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -76,6 +77,10 @@ const Navigator: FunctionComponent = () => {
         <UnauthenticatedStack.Screen
           name={Screen.zipCodeConfirmation}
           component={ZipCodeConfirmationScreen}
+        />
+        <UnauthenticatedStack.Screen
+          name={Screen.dataCollect}
+          component={DataCollectScreen}
         />
         <UnauthenticatedStack.Screen
           name={Screen.termsOfUse}

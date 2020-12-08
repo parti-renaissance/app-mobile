@@ -178,7 +178,11 @@
     "termsofuse": {
       "title": "Conditions générales d'utilisation",
       "content": "TODO",
-      "close": "Fermer",
+      "accept": "Accepter"
+    },
+    "datacollect": {
+      "title": "Politique de protection des données",
+      "content": "TODO",
       "accept": "Accepter"
     },
     "home": {
