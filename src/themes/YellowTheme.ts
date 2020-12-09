@@ -34,7 +34,6 @@ const YellowTheme: Theme = {
     profile: () => require('../assets/images/yellow/imageProfil.png'),
     profilePoll: () =>
       require('../assets/images/yellow/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/yellow/imageDroits.png'),
     region: () => require('../assets/images/yellow/imageRegion.png'),
     homeNews: () => require('../assets/images/yellow/imageActualite.png'),
     homeTools: () => require('../assets/images/yellow/imageOutilsprofil.png'),

@@ -17,7 +17,6 @@ interface ThemedImages {
   pollTools: () => ImageSourcePropType
   profile: () => ImageSourcePropType
   profilePoll: () => ImageSourcePropType
-  personalData: () => ImageSourcePropType
   region: () => ImageSourcePropType
   homeNews: () => ImageSourcePropType
   homeTools: () => ImageSourcePropType

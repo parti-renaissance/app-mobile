@@ -33,7 +33,6 @@ const OrangeTheme: Theme = {
     profile: () => require('../assets/images/orange/imageProfil.png'),
     profilePoll: () =>
       require('../assets/images/orange/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/orange/imageDroits.png'),
     region: () => require('../assets/images/orange/imageRegion.png'),
     homeNews: () => require('../assets/images/orange/imageActualite.png'),
     homeTools: () => require('../assets/images/orange/imageOutilsprofil.png'),

@@ -94,10 +94,6 @@
         "submit": "Soumettre"
       }
     },
-    "personal_data": {
-      "title": "Droits sur vos données",
-      "message": "Nous vous informons que vous pouvez retirer votre consentement à tout moment et disposez d’un droit d’accès, de rectification et d’effacement de vos données conformément à la législation en vigueur. Nous vous informons que vous pouvez exercer vos droits via la politique de protection des données personnelles publiée sur le site de LaREM."
-    },
     "unauthenticatedhome": {
       "description": "Bienvenue sur l’application militante de \nLa République En Marche.\n \nRetrouvez rapidement nos outils, \nréalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.  ",
       "login": "Se connecter",

@@ -24,7 +24,6 @@ import {
 import LabelTextInput from '../shared/LabelTextInput'
 import { QuestionDualChoiceRowViewModel } from './QuestionDualChoiceRowViewModel'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
-import PollDetailPersonalDataInformations from './PollDetailPersonalDataInformations'
 import ModalOverlay from '../shared/ModalOverlay'
 import QuestionTextLinkRow from './QuestionTextLinkRow'
 import { ExternalLink } from '../shared/ExternalLink'
@@ -141,17 +140,8 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
     }
   }
 
-  const [modalVisible, setModalVisible] = React.useState(false)
-
   return (
     <KeyboardOffsetView>
-      <ModalOverlay
-        modalVisible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-        contentContainerStyle={styles.modal}
-      >
-        <PollDetailPersonalDataInformations />
-      </ModalOverlay>
       <SectionList
         stickySectionHeadersEnabled={false}
         contentContainerStyle={styles.listContainer}
@@ -183,10 +173,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginBottom: Spacing.margin,
-  },
-  modal: {
-    paddingTop: 0,
-    paddingBottom: 0,
   },
 })
 

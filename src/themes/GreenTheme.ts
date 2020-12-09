@@ -32,7 +32,6 @@ const GreenTheme: Theme = {
       require('../assets/images/green/navigationBarLeftAccessoriesOutils.png'),
     profile: () => require('../assets/images/green/imageProfil.png'),
     profilePoll: () => require('../assets/images/green/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/green/imageDroits.png'),
     region: () => require('../assets/images/green/imageRegion.png'),
     homeNews: () => require('../assets/images/green/imageActualite.png'),
     homeTools: () => require('../assets/images/green/imageOutilsprofil.png'),

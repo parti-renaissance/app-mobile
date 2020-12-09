@@ -32,7 +32,6 @@ const BlueTheme: Theme = {
       require('../assets/images/blue/navigationBarLeftAccessoriesOutils.png'),
     profile: () => require('../assets/images/blue/imageProfil.png'),
     profilePoll: () => require('../assets/images/blue/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/blue/imageDroits.png'),
     region: () => require('../assets/images/blue/imageRegion.png'),
     homeNews: () => require('../assets/images/blue/imageActualite.png'),
     homeTools: () => require('../assets/images/blue/imageOutilsprofil.png'),

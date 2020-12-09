@@ -32,7 +32,6 @@ const RedTheme: Theme = {
       require('../assets/images/red/navigationBarLeftAccessoriesOutils.png'),
     profile: () => require('../assets/images/red/imageProfil.png'),
     profilePoll: () => require('../assets/images/red/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/red/imageDroits.png'),
     region: () => require('../assets/images/red/imageRegion.png'),
     homeNews: () => require('../assets/images/red/imageActualite.png'),
     homeTools: () => require('../assets/images/red/imageOutilsprofil.png'),
