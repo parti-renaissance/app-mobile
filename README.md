@@ -8,6 +8,7 @@
 
 
 [![CodeFactor](https://www.codefactor.io/repository/github/enmarche/je-marche/badge)](https://www.codefactor.io/repository/github/enmarche/je-marche)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/50263b46091244089accaa4482d8b536)](https://www.codacy.com/gh/EnMarche/Je-Marche/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EnMarche/Je-Marche&amp;utm_campaign=Badge_Grade)
 
 #### Installing dependencies
 
