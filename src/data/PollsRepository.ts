@@ -2,22 +2,41 @@ import { Poll } from '../core/entities/Poll'
 import { PollResult } from '../core/entities/PollResult'
 import ApiService from './network/ApiService'
 import { RestPollResultRequestMapper } from './mapper/RestPollResultRequestMapper'
+import { DataSource } from './DataSource'
+import CacheManager from './store/CacheManager'
+import { CacheMissError } from '../core/errors'
 
 class PollsRepository {
   private static instance: PollsRepository
   private apiService = ApiService.getInstance()
-  private cachedPolls: Array<Poll> = []
+  private cacheManager = CacheManager.getInstance()
+  private memoryCachedPolls: Array<Poll> = []
   private constructor() {}
 
-  public async getPolls(zipCode?: string): Promise<Array<Poll>> {
-    this.cachedPolls = []
-    const polls = await this.apiService.getPolls(zipCode)
-    this.cachedPolls = polls
-    return polls
+  public async getPolls(
+    zipCode?: string,
+    dataSource: DataSource = 'remote',
+  ): Promise<Array<Poll>> {
+    const cacheKey = zipCode !== undefined ? 'polls_' + zipCode : 'polls'
+    switch (dataSource) {
+      case 'cache':
+        const result = await this.cacheManager.getFromCache(cacheKey)
+        if (result === undefined) {
+          throw new CacheMissError()
+        }
+        const cachedPolls = JSON.parse(result)
+        this.memoryCachedPolls = cachedPolls
+        return cachedPolls
+      case 'remote':
+        const polls = await this.apiService.getPolls(zipCode)
+        await this.cacheManager.setInCache(cacheKey, JSON.stringify(polls))
+        this.memoryCachedPolls = polls
+        return polls
+    }
   }
 
   public async getPoll(pollId: number): Promise<Poll> {
-    const cachedPoll = this.cachedPolls.find((item) => item.id === pollId)
+    const cachedPoll = this.memoryCachedPolls.find((item) => item.id === pollId)
     if (cachedPoll) {
       return cachedPoll
     }

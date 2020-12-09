@@ -6,6 +6,7 @@ import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
 import iid from '@react-native-firebase/iid'
 import PushRepository from './PushRepository'
+import CacheManager from './store/CacheManager'
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository
@@ -64,6 +65,7 @@ class AuthenticationRepository {
   public async logout(): Promise<void> {
     await this.localStore.clearCredentials()
     await this.localStore.clearPreferences()
+    await CacheManager.getInstance().purgeCache()
     try {
       await this.pushRepository.invalidatePushToken()
     } catch (error) {

@@ -7,3 +7,4 @@ export class NotFoundError extends Error {}
 export class InternalServerError extends Error {}
 export class RefreshTokenPermanentlyInvalidatedError extends Error {}
 export class DepartmentNotFoundError extends Error {}
+export class CacheMissError extends Error {}
