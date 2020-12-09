@@ -18,7 +18,7 @@
       "cancel": "Annuler"
     },
     "tab": {
-      "item_polls": "Sondages",
+      "item_polls": "Questionnaires",
       "item_region": "Région",
       "item_tools": "Outils",
       "item_profile": "Profil",
@@ -27,10 +27,10 @@
     "polls": {
       "question_count_format": "{{count}} question",
       "question_count_format_plural": "{{count}} questions",
-      "title": "Sondages",
-      "subtitle": "Un sondage est disponible.\nOrganisez des actions terrains pour récolter des avis.",
-      "subtitle_plural": "Des sondages sont disponibles.\nOrganisez des actions terrains pour récolter des avis.",
-      "subtitle_no_polls": "Aucun sondage disponible pour votre région actuellement. Une notification vous sera envoyée pour vous prévenir de leur prochaine arrivée."
+      "title": "Questionnaires",
+      "subtitle": "Un questionnaire est disponible.\nOrganisez des actions terrains pour récolter des avis.",
+      "subtitle_plural": "Des questionnaire sont disponibles.\r\nOrganisez des actions terrains pour récolter des avis.",
+      "subtitle_no_polls": "Aucun questionnaire n'est actuellement disponible pour votre région"
     },
     "polldetail": {
       "next": "Suivant",
@@ -38,7 +38,7 @@
       "progress_format": "Étape {{currentStep}}/{{numberOfSteps}}",
       "progress_format_step": "{{progress}}: {{step}}",
       "leave_alert": {
-        "title": "Annuler les réponses au questionnaire",
+        "title": "Quitter le questionnaire",
         "message": "Souhaitez-vous effacer les questions déjà remplies et revenir au choix du questionnaire ?",
         "cancel": "Annuler",
         "action": "Quitter"
@@ -50,7 +50,7 @@
       "user_profile_progress": "Profil du répondant",
       "consent_data_progress": "Données personnelles",
       "success": {
-        "title": "Bravo!",
+        "title": "Bravo !",
         "message": "Un sondage de plus de rempli.\nMerci pour votre engagement !",
         "restart": "Recommencer",
         "finish": "Terminer"
@@ -80,8 +80,9 @@
       },
       "user_form": {
         "consent_title": "Souhaite-t-il être au courant des résultats de cette consultation via \ne-mail ?",
-        "consent_subtitle": "En cochant oui, vous certifiez qu’il consent à ce que ses données personnelles soient traitées par La République En Marche dans le cadre de ce sondage et qu’il est ",
-        "consent_subtitle_suffix": "informé des droits dont il dispose sur ses données.",
+        "consent_subtitle": "En cochant OUI, vous certifiez que la personne consultée consent à ce que ses données personnelles soient traitées par la République en Marche dans le cadre de ce sondage et qu'il est informé qu'il dispose d'un droit d'accès, de rectification, d'effacement de ses données ainsi que du droit de s'opposer et de limiter le traitement de ses données ; qu'il peut exercer ses droits via ",
+        "consent_subtitle_suffix": "la politique de données de LaREM.",
+        "consent_url": "https://en-marche.fr/politique-protection-donnees",
         "positive_choice": "Oui",
         "negative_choice": "Non",
         "form_title": "Informations personnelles",
@@ -118,7 +119,7 @@
       "not_connected": "Connectez-vous pour accéder à ce paramètre.",
       "polls_total": "au total",
       "polls_month": "ce mois-ci",
-      "polls_accomplished": "Sondages effectués",
+      "polls_accomplished": "Questionnaires effectués",
       "menu": {
         "termsofuse_url": "https://en-marche.fr/mentions-legales",
         "termsofuse": "Conditions générales",
@@ -154,16 +155,16 @@
     },
     "tools": {
       "title": "Outils militants",
-      "near": {
-        "title": "Ce qui a changé près de chez vous",
-        "url": "https://chezvous.en-marche.fr/"
-      },
       "reforms": {
         "title": "On l'a dit, On le fait",
         "url": "https://transformer.en-marche.fr/fr"
       },
+      "near": {
+        "title": "Ce qui a changé près de chez vous",
+        "url": "https://chezvous.en-marche.fr/"
+      },
       "covid": {
-        "title": "Infos Covid",
+        "title": "InfoCovid",
         "url": "https://en-marche.fr/infocovid"
       },
       "desintox": {
@@ -188,14 +189,14 @@
     "home": {
       "greeting": "Bonjour 👋",
       "greeting_name": "Bonjour 👋\n{{username}},",
-      "section_polls": "Sondage de campagne",
+      "section_polls": "Questionnaires",
       "section_tools": "Vos outils militants",
       "footer": {
-        "title": "En marche !",
-        "description": "Phasellus ac pharetra quam, a pretium sapien. Sed sit amet ipsum erat. Sed vulputate lectus porta, hendrerit leo quis, tincidunt nibh. Sed ut mi non sem viverra consectetur sollicitudin a…",
+        "title": "En Marche !",
+        "description": "Vous voulez contribuer à la transformation En Marche ? Rejoignez les plus de 400 000 adhérents de La République En Marche ! C'est facile, gratuit et 3 minutes suffiront.",
         "button": "Je m'engage"
       },
-      "polls_more": "Voir tous les sondages",
+      "polls_more": "Voir tous les questionnaires",
       "tools_more": "Voir tous les outils",
       "section_region": "La campagne est lancée",
       "region_more": "En savoir plus",
