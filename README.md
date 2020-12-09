@@ -6,6 +6,9 @@
 
 **JeMarche** application is built with [React Native](https://reactnative.dev/) and [Typescript](https://www.typescriptlang.org/).
 
+
+[![CodeFactor](https://www.codefactor.io/repository/github/enmarche/je-marche/badge)](https://www.codefactor.io/repository/github/enmarche/je-marche)
+
 #### Installing dependencies
 
 To be able to run the application on iOS and Android, please follow the _Installing dependencies_ part of the [React Native CLI Quickstart](https://reactnative.dev/docs/getting-started) documentation.
