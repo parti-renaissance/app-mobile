@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginInteractor'
 import { DataCollectScreenProps } from '../../navigation'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -74,15 +74,6 @@ const styles = StyleSheet.create({
     ...Styles.topElevatedContainerStyle,
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
-  },
-  title: {
-    ...Typography.largeTitle,
-    marginTop: Spacing.unit,
-    marginHorizontal: Spacing.margin,
-  },
-  content: {
-    ...Typography.body,
-    margin: Spacing.margin,
   },
   contentContainer: {
     flex: 1,

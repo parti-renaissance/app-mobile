@@ -24,7 +24,6 @@ import {
 import LabelTextInput from '../shared/LabelTextInput'
 import { QuestionDualChoiceRowViewModel } from './QuestionDualChoiceRowViewModel'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
-import ModalOverlay from '../shared/ModalOverlay'
 import QuestionTextLinkRow from './QuestionTextLinkRow'
 import { ExternalLink } from '../shared/ExternalLink'
 import i18n from '../../utils/i18n'
