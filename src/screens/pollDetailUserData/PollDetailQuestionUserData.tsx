@@ -27,6 +27,8 @@ import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import PollDetailPersonalDataInformations from './PollDetailPersonalDataInformations'
 import ModalOverlay from '../shared/ModalOverlay'
 import QuestionTextLinkRow from './QuestionTextLinkRow'
+import { ExternalLink } from '../shared/ExternalLink'
+import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   viewModel: PollDetailQuestionUserDataViewModel
@@ -131,7 +133,9 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
         return (
           <QuestionTextLinkRow
             viewModel={info.item.value}
-            onLinkPress={() => setModalVisible(true)}
+            onLinkPress={() =>
+              ExternalLink.openUrl(i18n.t('polldetail.user_form.consent_url'))
+            }
           />
         )
     }
