@@ -1,15 +1,15 @@
-import { Region } from '../../core/entities/Region'
+import { Campaign } from '../../core/entities/Campaign'
 import { RegionViewModel } from './RegionViewModel'
 
 export const RegionViewModelMapper = {
-  map: (region: Region): RegionViewModel => {
+  map: (name: string, campaign: Campaign): RegionViewModel => {
     return {
-      title: region.name,
-      subtitle: region.subtitle,
-      text: region.description,
-      bannerUrl: region.banner,
-      logoUrl: region.logo,
-      websiteUrl: region.externalLink,
+      title: name,
+      subtitle: campaign.subtitle,
+      text: campaign.description,
+      bannerUrl: campaign.banner,
+      logoUrl: campaign.logo,
+      websiteUrl: campaign.externalLink,
     }
   },
 }

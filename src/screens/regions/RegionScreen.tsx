@@ -24,8 +24,21 @@ const RegionScreen: FC<Props> = ({ route }) => {
     RegionsRepository.getInstance()
       .getRegion(route.params.zipCode)
       .then((result) => {
-        const viewModel = RegionViewModelMapper.map(result)
-        setStatefulState(new ViewState.Content(viewModel))
+        if (result.campaign) {
+          const viewModel = RegionViewModelMapper.map(
+            result.name,
+            result.campaign,
+          )
+          setStatefulState(new ViewState.Content(viewModel))
+        } else {
+          setStatefulState(
+            new ViewState.Error(
+              GenericErrorMapper.mapErrorMessage(
+                new Error('No campaign for region.'),
+              ),
+            ),
+          )
+        }
       })
       .catch((error) => {
         setStatefulState(

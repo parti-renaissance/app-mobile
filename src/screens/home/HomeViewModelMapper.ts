@@ -58,14 +58,14 @@ function appendRegion(
   region: Region | undefined,
   rows: HomeSectionViewModel[],
 ) {
-  if (region !== undefined) {
+  if (region !== undefined && region.campaign) {
     rows.push({
       id: 'region_content',
       sectionViewModel: { sectionName: i18n.t('home.section_region') },
       data: [
         {
           type: 'region',
-          value: RegionViewModelMapper.map(region),
+          value: RegionViewModelMapper.map(region.name, region.campaign),
         },
       ],
     })

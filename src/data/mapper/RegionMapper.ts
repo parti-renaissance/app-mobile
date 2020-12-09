@@ -1,5 +1,7 @@
 import { Region } from '../../core/entities/Region'
+import RegionTheme from '../../core/entities/RegionTheme'
 import { RestRegion } from '../restObjects/RestRegion'
+import { CampaignMapper } from './CampaignMapper'
 import { ThemeMapper } from './ThemeMapper'
 
 export const RegionMapper = {
@@ -8,13 +10,12 @@ export const RegionMapper = {
       id: restRegion.uuid,
       name: restRegion.name,
       code: restRegion.code,
-      subtitle: restRegion.subtitle,
-      description: restRegion.description,
-      theme: ThemeMapper.map(restRegion.primary_color),
-      externalLink: restRegion.external_link,
-      slug: restRegion.slug,
-      logo: restRegion.logo,
-      banner: restRegion.banner,
+      theme: restRegion.campaign
+        ? ThemeMapper.map(restRegion.campaign.primary_color)
+        : RegionTheme.BLUE,
+      campaign: restRegion.campaign
+        ? CampaignMapper.map(restRegion.campaign)
+        : null,
     }
   },
 }
