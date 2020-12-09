@@ -8,6 +8,7 @@ import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
+import PdfView from '../shared/PdfView'
 
 const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
   route,
@@ -44,10 +45,7 @@ const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.contentContainer}>
-        <ScrollView style={styles.textContainer}>
-          <Text style={styles.title}>{i18n.t('datacollect.title')}</Text>
-          <Text style={styles.content}>{i18n.t('datacollect.content')}</Text>
-        </ScrollView>
+        <PdfView style={styles.pdf} assetFileName="dataprotection.pdf" />
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('datacollect.accept')}
@@ -67,6 +65,10 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     flexGrow: 1,
+  },
+  pdf: {
+    flex: 1,
+    backgroundColor: Colors.defaultBackground,
   },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
