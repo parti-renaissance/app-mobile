@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, Image, BackHandler } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { PollDetailSuccessScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
@@ -29,37 +30,44 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
   }, [navigation, route.params.title])
 
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={theme.image.pollSuccess()}
-        resizeMode="cover"
-      />
-      <View style={styles.content}>
-        <Text style={styles.title}>{i18n.t('polldetail.success.title')}</Text>
-        <Text style={styles.text}>{i18n.t('polldetail.success.message')}</Text>
-        <PrimaryButton
-          style={styles.primaryButton}
-          title={i18n.t('polldetail.success.restart')}
-          onPress={() =>
-            navigation.replace(Screen.pollDetail, {
-              pollId: route.params.pollId,
-            })
-          }
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.container}>
+        <Image
+          style={styles.image}
+          source={theme.image.pollSuccess()}
+          resizeMode="cover"
         />
-        <SecondaryButton
-          title={i18n.t('polldetail.success.finish')}
-          onPress={() => navigation.navigate(Screen.polls)}
-        />
+        <View style={styles.content}>
+          <Text style={styles.title}>{i18n.t('polldetail.success.title')}</Text>
+          <Text style={styles.text}>
+            {i18n.t('polldetail.success.message')}
+          </Text>
+          <PrimaryButton
+            style={styles.primaryButton}
+            title={i18n.t('polldetail.success.restart')}
+            onPress={() =>
+              navigation.replace(Screen.pollDetail, {
+                pollId: route.params.pollId,
+              })
+            }
+          />
+          <SecondaryButton
+            title={i18n.t('polldetail.success.finish')}
+            onPress={() => navigation.navigate(Screen.polls)}
+          />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: Colors.defaultBackground,
+  },
   container: {
     flex: 1,
-    backgroundColor: Colors.defaultBackground,
+    marginBottom: Spacing.margin,
   },
   image: {
     width: '100%',

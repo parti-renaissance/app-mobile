@@ -107,7 +107,7 @@ export const TertiaryButton: FunctionComponent<ButtonProps> = (props) => {
           styles.baseAppButtonContainer,
           { backgroundColor: Colors.tertiaryButtonBackground },
           props.style,
-          { elevation: styles.baseAppButtonContainer.elevation * opacity },
+          { elevation: Spacing.buttonElevation * opacity },
         ]}
       >
         <TouchablePlatform
@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
   },
   baseAppButtonContainer: {
     borderRadius: 100,
-    elevation: 4,
     overflow: 'hidden',
   },
   buttonTouchable: {
