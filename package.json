@@ -15,7 +15,9 @@
     "simulator": "open -a Simulator",
     "start": "react-native start",
     "tsc": "tsc --build",
-    "tsc:watch": "yarn tsc --watch"
+    "tsc:watch": "yarn tsc --watch",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -63,7 +65,8 @@
     "react-native-screens": "2.13.0",
     "react-native-splash-screen": "3.2.0",
     "react-native-vector-icons": "7.1.0",
-    "rn-fetch-blob": "0.12.0"
+    "rn-fetch-blob": "0.12.0",
+    "snyk": "^1.436.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -101,5 +104,6 @@
       "json",
       "node"
     ]
-  }
+  },
+  "snyk": true
 }
