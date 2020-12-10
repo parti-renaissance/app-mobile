@@ -37,6 +37,7 @@
     "@react-navigation/material-bottom-tabs": "5.3.9",
     "@react-navigation/native": "5.8.6",
     "@react-navigation/stack": "5.12.3",
+    "@sentry/react-native": "2.1.0",
     "@types/promise.allsettled": "1.0.3",
     "@types/react-native-custom-tabs": "0.1.1",
     "@types/react-native-loading-spinner-overlay": "0.5.2",
