@@ -24,7 +24,7 @@ import ThemeManager from './src/themes/ThemeManager'
 import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import * as Sentry from '@sentry/react-native'
-import { SENTRY_DSN } from './src/Config'
+import { ENVIRONMENT, SENTRY_DSN } from './src/Config'
 
 declare var global: { HermesInternal: null | {} }
 
@@ -34,6 +34,7 @@ PushNotification.setUp()
 if (!__DEV__ && SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
+    environment: ENVIRONMENT,
   })
 }
 
