@@ -5,6 +5,7 @@ import i18n from '../../utils/i18n'
 import { PollDetailQuestionInputViewModel } from './PollDetailQuestionInputViewModel'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
+import { ScrollView } from 'react-native-gesture-handler'
 
 type Props = Readonly<{
   viewModel: PollDetailQuestionInputViewModel
@@ -20,24 +21,28 @@ const PollDetailQuestionInput: FunctionComponent<Props> = ({
   const inputRef = useRef<TextInput>(null)
 
   return (
-    <KeyboardOffsetView style={styles.container}>
-      <Text style={styles.title}>{viewModel.title}</Text>
-      <View style={styles.inner}>
-        <TextInput
-          ref={inputRef}
-          style={styles.input}
-          multiline={true}
-          value={viewModel.content}
-          placeholder={i18n.t('polldetail.question_placeholder')}
-          inputAccessoryViewID={inputAccessoryViewId}
-          onChangeText={onChangeText}
-        />
-        <InputAccessoryClose
-          id={inputAccessoryViewId}
-          title={i18n.t('common.keyboard.done')}
-          onPress={() => inputRef.current?.blur()}
-        />
-      </View>
+    <KeyboardOffsetView>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>{viewModel.title}</Text>
+          <View style={styles.inner}>
+            <TextInput
+              ref={inputRef}
+              style={styles.input}
+              multiline={true}
+              value={viewModel.content}
+              placeholder={i18n.t('polldetail.question_placeholder')}
+              inputAccessoryViewID={inputAccessoryViewId}
+              onChangeText={onChangeText}
+            />
+            <InputAccessoryClose
+              id={inputAccessoryViewId}
+              title={i18n.t('common.keyboard.done')}
+              onPress={() => inputRef.current?.blur()}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </KeyboardOffsetView>
   )
 }
