@@ -44,7 +44,7 @@
     "@types/react-native-push-notification": "5.0.5",
     "async-mutex": "0.2.4",
     "date-fns": "2.16.1",
-    "hermes-engine": "0.5.2-rc1",
+    "hermes-engine": "0.7.2",
     "i18next": "19.8.3",
     "ky": "0.24.0",
     "promise.allsettled": "1.0.2",
