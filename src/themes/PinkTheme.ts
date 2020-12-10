@@ -33,7 +33,6 @@ const PinkTheme: Theme = {
       require('../assets/images/pink/navigationBarLeftAccessoriesOutils.png'),
     profile: () => require('../assets/images/pink/imageProfil.png'),
     profilePoll: () => require('../assets/images/pink/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/pink/imageDroits.png'),
     region: () => require('../assets/images/pink/imageRegion.png'),
     homeNews: () => require('../assets/images/pink/imageActualite.png'),
     homeTools: () => require('../assets/images/pink/imageOutilsprofil.png'),

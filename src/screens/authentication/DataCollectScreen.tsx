@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginInteractor'
 import { DataCollectScreenProps } from '../../navigation'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
+import PdfView from '../shared/PdfView'
 
 const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
   route,
@@ -44,10 +45,7 @@ const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.contentContainer}>
-        <ScrollView style={styles.textContainer}>
-          <Text style={styles.title}>{i18n.t('datacollect.title')}</Text>
-          <Text style={styles.content}>{i18n.t('datacollect.content')}</Text>
-        </ScrollView>
+        <PdfView style={styles.pdf} assetFileName="dataprotection.pdf" />
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('datacollect.accept')}
@@ -68,19 +66,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
   },
+  pdf: {
+    flex: 1,
+    backgroundColor: Colors.defaultBackground,
+  },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
-  },
-  title: {
-    ...Typography.largeTitle,
-    marginTop: Spacing.unit,
-    marginHorizontal: Spacing.margin,
-  },
-  content: {
-    ...Typography.body,
-    margin: Spacing.margin,
   },
   contentContainer: {
     flex: 1,

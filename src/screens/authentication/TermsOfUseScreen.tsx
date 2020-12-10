@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { TermsOfUseScreenProps, Screen } from '../../navigation'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
+import PdfView from '../shared/PdfView'
 
 const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
   route,
@@ -13,10 +14,7 @@ const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
-        <ScrollView style={styles.textContainer}>
-          <Text style={styles.title}>{i18n.t('termsofuse.title')}</Text>
-          <Text style={styles.content}>{i18n.t('termsofuse.content')}</Text>
-        </ScrollView>
+        <PdfView style={styles.pdf} assetFileName="cgu.pdf" />
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('termsofuse.accept')}
@@ -41,19 +39,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
   },
+  pdf: {
+    flex: 1,
+    backgroundColor: Colors.defaultBackground,
+  },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
-  },
-  title: {
-    ...Typography.largeTitle,
-    marginTop: Spacing.unit,
-    marginHorizontal: Spacing.margin,
-  },
-  content: {
-    ...Typography.body,
-    margin: Spacing.margin,
   },
   contentContainer: {
     flex: 1,

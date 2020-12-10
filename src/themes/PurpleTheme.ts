@@ -33,7 +33,6 @@ const PurpleTheme: Theme = {
     profile: () => require('../assets/images/purple/imageProfil.png'),
     profilePoll: () =>
       require('../assets/images/purple/imageSondageProfil.png'),
-    personalData: () => require('../assets/images/purple/imageDroits.png'),
     region: () => require('../assets/images/purple/imageRegion.png'),
     homeNews: () => require('../assets/images/purple/imageActualite.png'),
     homeTools: () => require('../assets/images/purple/imageOutilsprofil.png'),

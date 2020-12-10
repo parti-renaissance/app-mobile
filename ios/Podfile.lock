@@ -318,6 +318,8 @@ PODS:
     - React
   - react-native-custom-tabs (0.1.8):
     - React
+  - react-native-pdf (6.2.2):
+    - React-Core
   - react-native-progress-bar-android (1.0.4):
     - React
   - react-native-progress-view (1.2.3):
@@ -386,6 +388,8 @@ PODS:
     - React-Core (= 0.63.3)
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
+  - rn-fetch-blob (0.12.0):
+    - React-Core
   - RNCAsyncStorage (1.13.2):
     - React
   - RNCMaskedView (0.1.10):
@@ -461,6 +465,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-custom-tabs (from `../node_modules/react-native-custom-tabs`)
+  - react-native-pdf (from `../node_modules/react-native-pdf`)
   - "react-native-progress-bar-android (from `../node_modules/@react-native-community/progress-bar-android`)"
   - "react-native-progress-view (from `../node_modules/@react-native-community/progress-view`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -475,6 +480,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
@@ -551,6 +557,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-custom-tabs:
     :path: "../node_modules/react-native-custom-tabs"
+  react-native-pdf:
+    :path: "../node_modules/react-native-pdf"
   react-native-progress-bar-android:
     :path: "../node_modules/@react-native-community/progress-bar-android"
   react-native-progress-view:
@@ -579,6 +587,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  rn-fetch-blob:
+    :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
@@ -647,6 +657,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-custom-tabs: 526caf17f2a2c037d04d7e587e4a4c16830393b9
+  react-native-pdf: 4b5a9e4465a6a3b399e91dc4838eb44ddf716d1f
   react-native-progress-bar-android: be43138ab7da30d51fc038bafa98e9ed594d0c40
   react-native-progress-view: 21b1e29e70c7559c16c9e0a04c4adc19fce6ede2
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
@@ -661,6 +672,7 @@ SPEC CHECKSUMS:
   React-RCTText: 65a6de06a7389098ce24340d1d3556015c38f746
   React-RCTVibration: 8e9fb25724a0805107fc1acc9075e26f814df454
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: edeeea93b7210d2f918fc0e46e1a2a189b5fdacc
