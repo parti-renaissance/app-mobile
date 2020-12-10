@@ -8,3 +8,4 @@ export const topMargin = 52
 export const minWidthButton = 132
 export const rowVerticalMargin = 12
 export const separatorHeight = 1
+export const buttonElevation = 4
