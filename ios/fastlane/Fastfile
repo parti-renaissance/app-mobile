@@ -31,7 +31,9 @@ lane :deploy do |options|
       skip_metadata: true,
       force: true,
       team_name: ENV["FASTLANE_TEAM_NAME"],
-      api_key_path: "fastlane/app_store_connect_api_key.json"
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_app_version_update: true, # https://github.com/fastlane/fastlane/issues/16785
+      precheck_include_in_app_purchases: false
     )
   else
     deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
