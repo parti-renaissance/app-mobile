@@ -10,6 +10,10 @@ class PushRepository {
     return messaging().subscribeToTopic(this.createTopicName(topic))
   }
 
+  public async invalidatePushToken(): Promise<void> {
+    return messaging().deleteToken()
+  }
+
   private createTopicName(topic: PushTopic): string {
     return ENVIRONMENT + '_' + topic
   }

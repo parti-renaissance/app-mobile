@@ -5,11 +5,13 @@ import { RestLoginResponse } from './restObjects/RestLoginResponse'
 import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
 import iid from '@react-native-firebase/iid'
+import PushRepository from './PushRepository'
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository
   private apiService = OAuthApiService.getInstance()
   private localStore = LocalStore.getInstance()
+  private pushRepository = PushRepository.getInstance()
 
   private constructor() {}
 
@@ -61,6 +63,12 @@ class AuthenticationRepository {
   public async logout(): Promise<void> {
     await this.localStore.clearCredentials()
     await this.localStore.clearPreferences()
+    try {
+      await this.pushRepository.invalidatePushToken()
+    } catch (error) {
+      // logout should not be blocked if the user is offline
+      console.log(error)
+    }
     this.dispatchState(AuthenticationState.Unauthenticated)
   }
 
