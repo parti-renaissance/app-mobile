@@ -7,6 +7,10 @@ on:
         description: 'Define the environment (dev|staging|production)'
         required: true
         default: 'dev'
+      channel:
+        description: 'Define the publishing channel (appcenter|playstore)'
+        required: true
+        default: 'appcenter'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -73,5 +77,6 @@ jobs:
           SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
           ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}
         run: |
-          bundle exec fastlane deliver_beta \
+          bundle exec fastlane deliver_app \
+            channel:${{ github.event.inputs.channel }}\
             --env ${{ github.event.inputs.environment }}

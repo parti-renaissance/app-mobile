@@ -9,11 +9,18 @@ lane :ci_check do
   build(variant: variant)
 end
 
-lane :deliver_beta do
+lane :deliver_app do |options|
   variant = ENV["BUILD_VARIANT"]
-  build(variant: variant)
-  deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
-  post_slack_notification(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
+  channel = options[:channel]
+  if channel == "appcenter" then
+    build(variant: variant)
+    deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
+    post_slack_notification(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
+  elsif channel == "playstore" then
+    # TODO
+  else
+    UI.user_error! "Unknown channel"
+  end
 end
 
 private_lane :build do |options|
