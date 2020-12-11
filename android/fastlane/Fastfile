@@ -15,13 +15,14 @@ lane :deliver_app do |options|
   if channel == "appcenter" then
     build_apk(variant: variant)
     deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
-    post_slack_notification(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
+    post_slack_notification_beta(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
   elsif channel == "playstore" then
     if variant != "ProductionRelease" then
       UI.user_error! "only ProductionRelease variant can be delivered on the playstore"
     end
     build_aab(variant: variant)
     deploy_aab_to_playstore(aab: lane_context[:GRADLE_AAB_OUTPUT_PATH])
+    post_slack_notification_playstore(variant: variant)
   else
     UI.user_error! "Unknown channel"
   end
@@ -52,7 +53,7 @@ private_lane :deploy_aab_to_playstore do |options|
   )
 end
 
-private_lane :post_slack_notification do |options|
+private_lane :post_slack_notification_beta do |options|
   apk_url = options[:download_link]
   appcenter_url = "https://appcenter.ms/users/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribute/releases"
   variant = options[:variant]
@@ -66,6 +67,22 @@ private_lane :post_slack_notification do |options|
       "Version Code" => get_version_code,
       "AppCenter" => appcenter_url,
       "Download APK" => apk_url
+    },
+    slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
+  )
+end
+
+private_lane :post_slack_notification_playstore do |options|
+  variant = options[:variant]
+  slack(
+    message: "New Android build ready to deploy on playstore",
+    success: true,
+    default_payloads: [],
+    payload: {
+      "Configuration": variant,
+      "Version Name" => get_version_name,
+      "Version Code" => get_version_code,
+      "Playstore console" => "https://play.google.com/console"
     },
     slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
   )
