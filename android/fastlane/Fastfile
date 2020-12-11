@@ -5,60 +5,105 @@ before_all do
 end
 
 lane :ci_check do
-  variant = 'Debug'
-  build(variant: variant)
+  variant = 'DevDebug'
+  build_apk(variant: variant)
 end
 
-lane :deliver_beta do
-  variant = ENV["BUILD_VARIANT"]
-  build(variant: variant)
-  deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
-  post_slack_notification(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
+lane :deliver_app do |options|
+  variant = ENV['BUILD_VARIANT']
+  channel = options[:channel]
+  case channel
+  when 'appcenter'
+    build_apk(variant: variant)
+    deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
+    post_slack_notification_beta(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
+  when 'playstore'
+    UI.user_error! 'only ProductionRelease variant can be delivered on the playstore' if variant != 'ProductionRelease'
+    build_aab(variant: variant)
+    deploy_aab_to_playstore(aab: lane_context[:GRADLE_AAB_OUTPUT_PATH])
+    post_slack_notification_playstore(variant: variant)
+  else
+    UI.user_error! 'Unknown channel'
+  end
 end
 
-private_lane :build do |options|
+private_lane :build_apk do |options|
   gradle(task: "assemble#{options[:variant]}")
+end
+
+private_lane :build_aab do |options|
+  gradle(task: "bundle#{options[:variant]}")
 end
 
 private_lane :deploy_apk_to_beta_system do |options|
   appcenter_upload(
-    api_token: ENV["APP_CENTER_API_KEY"],
-	  owner_name: ENV["APP_CENTER_OWNER"],
-	  app_name: ENV["APP_CENTER_NAME"],
+    api_token: ENV['APP_CENTER_API_KEY'],
+    owner_name: ENV['APP_CENTER_OWNER'],
+    app_name: ENV['APP_CENTER_NAME'],
     release_notes: "Uploaded via Fastlane on #{Time.new}",
-    apk: options[:apk],
+    apk: options[:apk]
   )
 end
 
-private_lane :post_slack_notification do |options|
+private_lane :deploy_aab_to_playstore do |options|
+  upload_to_play_store(
+    package_name: 'fr.en_marche.jecoute',
+    version_name: get_version_name,
+    version_code: get_version_code,
+    aab: options[:aab],
+    release_status: 'draft',
+    json_key_data: ENV['ANDROID_JSON_PLAYSTORE_KEY'],
+    skip_upload_metadata: true,
+    skip_upload_changelogs: true,
+    skip_upload_images: true,
+    skip_upload_screenshots: true
+  )
+end
+
+private_lane :post_slack_notification_beta do |options|
   apk_url = options[:download_link]
-  appcenter_url = "https://appcenter.ms/users/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribute/releases"
+  appcenter_url = "https://appcenter.ms/users/#{ENV['APP_CENTER_OWNER']}/apps/#{ENV['APP_CENTER_NAME']}/distribute/releases"
   variant = options[:variant]
   slack(
-    message: "New Android build available",
+    message: 'New Android build available',
     success: true,
     default_payloads: [],
     payload: {
       "Configuration": variant,
-      "Version Name" => get_version_name,
-      "Version Code" => get_version_code,
-      "AppCenter" => appcenter_url,
-      "Download APK" => apk_url
+      'Version Name' => get_version_name,
+      'Version Code' => get_version_code,
+      'AppCenter' => appcenter_url,
+      'Download APK' => apk_url
     },
-    slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
+    slack_url: ENV['SLACK_INCOMING_WEBKOOK_URL']
+  )
+end
+
+private_lane :post_slack_notification_playstore do |options|
+  variant = options[:variant]
+  slack(
+    message: 'New Android build ready to deploy on playstore',
+    success: true,
+    default_payloads: [],
+    payload: {
+      "Configuration": variant,
+      'Version Name' => get_version_name,
+      'Version Code' => get_version_code,
+      'Playstore console' => 'https://play.google.com/console'
+    },
+    slack_url: ENV['SLACK_INCOMING_WEBKOOK_URL']
   )
 end
 
 lane :get_version_code do
   v_code_output = gradle(task: "getVCode -Pvariant=#{lane_context[:BUILD_VARIANT]}")
-  captures = v_code_output.match("version_code:\\s*(\\d+)").captures
+  captures = v_code_output.match('version_code:\\s*(\\d+)').captures
   captures[0]
 end
 
 lane :get_version_name do
   v_code_output = gradle(task: "getVName -Pvariant=#{lane_context[:BUILD_VARIANT]}")
-  captures = v_code_output.match("version_name:\\s*((\\w+.?)+)").captures
+  captures = v_code_output.match('version_name:\\s*((\\w+.?)+)').captures
   UI.message captures[0]
   captures[0]
 end
-
