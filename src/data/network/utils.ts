@@ -9,7 +9,12 @@ import {
 } from '../../core/errors'
 
 const genericErrorMapping = (error: Error) => {
-  if (error instanceof ky.TimeoutError) {
+  if (
+    error instanceof TypeError &&
+    error.message === 'Network request failed'
+  ) {
+    throw new ServerTimeoutError(error.message)
+  } else if (error instanceof ky.TimeoutError) {
     throw new ServerTimeoutError(error.message)
   } else if (error instanceof ky.HTTPError) {
     switch (error.response.status) {
