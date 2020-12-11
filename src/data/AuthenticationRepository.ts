@@ -31,11 +31,12 @@ class AuthenticationRepository {
   }
 
   public async login(email: string, password: string): Promise<void> {
-    // We want to remove preferences as we may have saved an anonymous zipcode before
-    await this.localStore.clearPreferences()
     const instanceId = await iid().get()
     const result = await this.apiService.login(email, password, instanceId)
     const credentials = this.mapCredentials(result)
+
+    // We want to remove preferences as we may have saved an anonymous zipcode before
+    await this.localStore.clearPreferences()
     await this.localStore.storeCredentials(credentials)
   }
 
