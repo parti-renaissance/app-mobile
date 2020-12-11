@@ -15,7 +15,7 @@ class PushRepository {
   }
 
   private createTopicName(topic: PushTopic): string {
-    return ENVIRONMENT + '_' + topic
+    return ENVIRONMENT + '_jemarche_' + topic
   }
 
   public static getInstance(): PushRepository {
