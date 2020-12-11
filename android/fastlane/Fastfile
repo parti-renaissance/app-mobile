@@ -5,7 +5,7 @@ before_all do
 end
 
 lane :ci_check do
-  variant = 'Debug'
+  variant = 'DevDebug'
   build(variant: variant)
 end
 
