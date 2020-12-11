@@ -76,6 +76,7 @@ jobs:
           APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
           SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
           ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}
+          ANDROID_JSON_PLAYSTORE_KEY: ${{ secrets.ANDROID_JSON_PLAYSTORE_KEY }}
         run: |
           bundle exec fastlane deliver_app \
             channel:${{ github.event.inputs.channel }}\
