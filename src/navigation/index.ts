@@ -49,8 +49,8 @@ export type UnauthenticatedStackParamList = {
   Login: undefined
   AnonymousLoginZipCode: undefined
   ZipCodeConfirmation: { zipCode: string }
-  DataCollect: { zipCode: string }
-  TermsOfUse: { zipCode: string }
+  DataCollect: undefined
+  TermsOfUse: undefined
 }
 
 //----------- Screen Props -----------//

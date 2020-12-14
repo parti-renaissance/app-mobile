@@ -8,7 +8,6 @@ import { PrimaryButton } from '../shared/Buttons'
 import PdfView from '../shared/PdfView'
 
 const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
-  route,
   navigation,
 }) => {
   return (
@@ -18,11 +17,7 @@ const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('termsofuse.accept')}
-            onPress={() =>
-              navigation.navigate(Screen.dataCollect, {
-                zipCode: route.params.zipCode,
-              })
-            }
+            onPress={() => navigation.navigate(Screen.dataCollect)}
           />
         </View>
       </View>
