@@ -21,7 +21,9 @@ jobs:
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.5
+          working-directory: ./ios
+          bundler: 'Gemfile.lock'
+          bundler-cache: true
 
       - name: Use Node.js 12
         uses: actions/setup-node@v1
@@ -48,21 +50,6 @@ jobs:
           IOS_B64_FIREBASE_PLIST_PRODUCTION: ${{ secrets.IOS_B64_FIREBASE_PLIST_PRODUCTION }}
           IOS_B64_APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_B64_APP_STORE_CONNECT_API_KEY }}
         run: ./cli.js prepare ${{ github.event.inputs.environment }}
-
-      - name: Ruby cache
-        uses: actions/cache@v1
-        with:
-          path: ./ios/vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('ios/**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - name: Bundle install
-        working-directory: ./ios
-        run: |
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle check || bundle install
 
       - name: Pods cache
         uses: actions/cache@v1

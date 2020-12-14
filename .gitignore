@@ -80,3 +80,4 @@ ios/fastlane/app_store_connect_api_key.json
 # Github Action
 ios/vendor/
 android/vendor/
+ios/.bundle/
