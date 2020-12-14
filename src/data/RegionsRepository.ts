@@ -5,10 +5,12 @@ import ApiService from './network/ApiService'
 import { DepartmentMapper } from './mapper/DepartmentMapper'
 import OAuthApiService from './network/OAuthApiService'
 import { RestDepartmentResponse } from './restObjects/RestDepartmentResponse'
+import AuthenticationRepository from './AuthenticationRepository'
 
 class RegionsRepository {
   private static instance: RegionsRepository
   private oauthService = OAuthApiService.getInstance()
+  private authenticationRepository = AuthenticationRepository.getInstance()
   private apiService = ApiService.getInstance()
   private constructor() {}
 
@@ -20,7 +22,8 @@ class RegionsRepository {
       let restDepartment: RestDepartmentResponse
       switch (mode) {
         case 'Anonymous':
-          const credentials = await this.oauthService.anonymousLogin('')
+          const deviceId = await this.authenticationRepository.getDeviceId()
+          const credentials = await this.oauthService.anonymousLogin(deviceId)
           restDepartment = await this.apiService.getDepartment(
             zipCode,
             credentials.access_token,

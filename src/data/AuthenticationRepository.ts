@@ -31,7 +31,7 @@ class AuthenticationRepository {
   }
 
   public async login(email: string, password: string): Promise<void> {
-    const instanceId = await iid().get()
+    const instanceId = await this.getDeviceId()
     const result = await this.apiService.login(email, password, instanceId)
     const credentials = this.mapCredentials(result)
 
@@ -41,7 +41,7 @@ class AuthenticationRepository {
   }
 
   public async anonymousLogin(): Promise<void> {
-    const instanceId = await iid().get()
+    const instanceId = await this.getDeviceId()
     const result = await this.apiService.anonymousLogin(instanceId)
     const credentials = this.mapCredentials(result)
     await this.localStore.storeCredentials(credentials)
@@ -78,6 +78,10 @@ class AuthenticationRepository {
     if (listener) {
       listener(state)
     }
+  }
+
+  public getDeviceId(): Promise<string> {
+    return iid().get()
   }
 
   private mapCredentials(result: RestLoginResponse): Credentials {
