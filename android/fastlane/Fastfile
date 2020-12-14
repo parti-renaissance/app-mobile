@@ -48,6 +48,7 @@ end
 private_lane :deploy_aab_to_playstore do |options|
   upload_to_play_store(
     aab: options[:aab],
+    release_status: 'draft',
     json_key_data: ENV['ANDROID_JSON_PLAYSTORE_KEY']
   )
 end
