@@ -50,7 +50,7 @@ const UnauthenticatedHomeScreen = ({
           style={styles.skipButton}
           title={i18n.t('unauthenticatedhome.skip')}
           onPress={() => {
-            navigation.navigate(Screen.anonymousLoginZipCode)
+            navigation.navigate(Screen.termsOfUse)
           }}
         />
       </View>

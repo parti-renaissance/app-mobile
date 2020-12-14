@@ -1,28 +1,59 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Image, StyleSheet, Text } from 'react-native'
+import { Alert, Image, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Department } from '../../core/entities/Department'
+import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginInteractor'
 import RegionsRepository from '../../data/RegionsRepository'
-import { Screen, ZipCodeConfirmationScreenProps } from '../../navigation'
+import { ZipCodeConfirmationScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
+import LoadingOverlay from '../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 
 type ContentProps = Readonly<{
-  onPress?: () => void
   department: string
+  zipCode: string
 }>
 
 const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
-  onPress,
   department,
+  zipCode,
 }) => {
+  const [isLoading, setIsLoading] = useState(false)
   const { theme } = useTheme()
+
+  const displayError = (error: string) => {
+    Alert.alert(
+      i18n.t('common.error_title'),
+      error,
+      [
+        {
+          text: i18n.t('common.error_retry'),
+          onPress: authenticate,
+        },
+        {
+          text: i18n.t('common.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
+  }
+
+  const authenticate = () => {
+    setIsLoading(true)
+    new AnonymousLoginInteractor()
+      .login(zipCode)
+      .catch((error) => displayError(GenericErrorMapper.mapErrorMessage(error)))
+      .finally(() => setIsLoading(false))
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isLoading} />
       <Image style={styles.logo} source={theme.image.region()} />
       <Text style={styles.title}>
         {i18n.t('zipcodeconfirmation.title', { department: department })}
@@ -33,7 +64,7 @@ const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
       <PrimaryButton
         style={styles.continueButton}
         title={i18n.t('zipcodeconfirmation.continue')}
-        onPress={onPress}
+        onPress={authenticate}
       />
     </SafeAreaView>
   )
@@ -41,7 +72,6 @@ const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
 
 const ZipCodeConfirmationScreen = ({
   route,
-  navigation,
 }: ZipCodeConfirmationScreenProps) => {
   const zipCode = route.params.zipCode
 
@@ -79,11 +109,7 @@ const ZipCodeConfirmationScreen = ({
         return (
           <ZipCodeConfirmationContent
             department={department.name}
-            onPress={() =>
-              navigation.navigate(Screen.termsOfUse, {
-                zipCode: zipCode,
-              })
-            }
+            zipCode={route.params.zipCode}
           />
         )
       }}
