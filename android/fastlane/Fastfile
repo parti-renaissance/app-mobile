@@ -47,9 +47,16 @@ end
 
 private_lane :deploy_aab_to_playstore do |options|
   upload_to_play_store(
+    package_name: 'fr.en_marche.jecoute',
+    version_name: get_version_name,
+    version_code: get_version_code,
     aab: options[:aab],
     release_status: 'draft',
-    json_key_data: ENV['ANDROID_JSON_PLAYSTORE_KEY']
+    json_key_data: ENV['ANDROID_JSON_PLAYSTORE_KEY'],
+    skip_upload_metadata: true,
+    skip_upload_changelogs: true,
+    skip_upload_images: true,
+    skip_upload_screenshots: true
   )
 end
 
