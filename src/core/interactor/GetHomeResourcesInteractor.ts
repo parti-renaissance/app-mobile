@@ -11,6 +11,7 @@ import RegionsRepository from '../../data/RegionsRepository'
 import ToolsRepository from '../../data/ToolsRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
+import PushRepository from '../../data/PushRepository'
 
 export interface HomeResources {
   zipCode: string
@@ -29,6 +30,7 @@ export class GetHomeResourcesInteractor {
   private newsRepository = NewsRepository.getInstance()
   private getPollsInteractor = new GetPollsInteractor()
   private toolsRepository = ToolsRepository.getInstance()
+  private pushRepository = PushRepository.getInstance()
 
   public async execute(): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
@@ -36,7 +38,7 @@ export class GetHomeResourcesInteractor {
 
     const [
       profileResult,
-      regionResult,
+      departmentResult,
       newsResult,
       pollsResult,
       toolsResult,
@@ -44,16 +46,30 @@ export class GetHomeResourcesInteractor {
       state === AuthenticationState.Authenticated
         ? this.profileRepository.getProfile()
         : undefined,
-      this.regionsRepository.getRegion(zipCode),
+      this.regionsRepository.getDepartment(zipCode),
       this.newsRepository.getLatestNews(),
       this.getPollsInteractor.execute(),
       this.toolsRepository.getTools(),
     ])
 
+    const department =
+      departmentResult.status === 'fulfilled'
+        ? departmentResult.value
+        : undefined
+
+    if (department !== undefined) {
+      try {
+        await this.pushRepository.subscribeToDepartment(department)
+        await this.pushRepository.subscribeToRegion(department.region)
+      } catch (error) {
+        console.log(error)
+        // no-op
+      }
+    }
+
     return {
       zipCode: zipCode,
-      region:
-        regionResult.status === 'fulfilled' ? regionResult.value : undefined,
+      region: department?.region,
       profile:
         profileResult?.status === 'fulfilled' ? profileResult.value : undefined,
       news: newsResult.status === 'fulfilled' ? newsResult.value : [],

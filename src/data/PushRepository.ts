@@ -16,8 +16,9 @@ class PushRepository {
       await this.localStore.updateTopicsRegistration({
         globalRegistered: true,
       })
+      console.log('global topic subscribed with success')
     } else {
-      // no-op: already registered
+      console.log('already subscribed to global topic')
     }
   }
 
@@ -28,13 +29,15 @@ class PushRepository {
     if (previousTopic !== topicName) {
       if (previousTopic !== undefined) {
         await messaging().unsubscribeFromTopic(previousTopic)
+        console.log(`unsubscribed from ${previousTopic}`)
       }
       await messaging().subscribeToTopic(topicName)
       await this.localStore.updateTopicsRegistration({
         departementRegistered: topicName,
       })
+      console.log(`subscribed to ${topicName} with success`)
     } else {
-      // no-op
+      console.log(`already subscribed to ${topicName}`)
     }
   }
 
@@ -45,13 +48,15 @@ class PushRepository {
     if (previousTopic !== topicName) {
       if (previousTopic !== undefined) {
         await messaging().unsubscribeFromTopic(previousTopic)
+        console.log(`unsubscribed from ${previousTopic}`)
       }
       await messaging().subscribeToTopic(topicName)
       await this.localStore.updateTopicsRegistration({
         regionRegistered: topicName,
       })
+      console.log(`subscribed to ${topicName} with success`)
     } else {
-      // no-op
+      console.log(`already subscribed to ${topicName}`)
     }
   }
 

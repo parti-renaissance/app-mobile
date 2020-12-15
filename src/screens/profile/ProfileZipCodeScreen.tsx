@@ -22,6 +22,7 @@ import ProfileRepository from '../../data/ProfileRepository'
 import { Department } from '../../core/entities/Department'
 import RegionTheme from '../../core/entities/RegionTheme'
 import ThemeRepository from '../../data/ThemeRepository'
+import PushRepository from '../../data/PushRepository'
 
 const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   navigation,
@@ -41,13 +42,16 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
     ThemeRepository.getInstance().saveRegionTheme(newTheme)
   }
 
-  const onSuccessZipCode = (department: Department) => {
-    ProfileRepository.getInstance()
-      .saveZipCode(zipCode)
-      .then(() => {
-        updateTheme(department.region.theme)
-        navigation.navigate(Screen.profile)
-      })
+  const onSuccessZipCode = async (department: Department) => {
+    await ProfileRepository.getInstance().saveZipCode(zipCode)
+    try {
+      await PushRepository.getInstance().subscribeToDepartment(department)
+      await PushRepository.getInstance().subscribeToRegion(department.region)
+    } catch (error) {
+      //no-op
+    }
+    updateTheme(department.region.theme)
+    navigation.navigate(Screen.profile)
   }
   const onErrorZipCode = (error: Error) => {
     setErrorMessage(GenericErrorMapper.mapErrorMessage(error))
