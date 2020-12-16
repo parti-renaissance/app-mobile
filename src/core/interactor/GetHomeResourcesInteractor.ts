@@ -12,6 +12,7 @@ import ToolsRepository from '../../data/ToolsRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
+import { DataSource } from '../../data/DataSource'
 
 export interface HomeResources {
   zipCode: string
@@ -32,7 +33,7 @@ export class GetHomeResourcesInteractor {
   private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
 
-  public async execute(): Promise<HomeResources> {
+  public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
     const state = await this.authenticationRepository.getAuthenticationState()
 
@@ -44,11 +45,11 @@ export class GetHomeResourcesInteractor {
       toolsResult,
     ] = await allSettled([
       state === AuthenticationState.Authenticated
-        ? this.profileRepository.getProfile()
+        ? this.profileRepository.getProfile(dataSource)
         : undefined,
-      this.regionsRepository.getDepartment(zipCode),
+      this.regionsRepository.getDepartment(zipCode, dataSource),
       this.newsRepository.getLatestNews(),
-      this.getPollsInteractor.execute(),
+      this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
     ])
 

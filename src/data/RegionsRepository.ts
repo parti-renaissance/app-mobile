@@ -77,8 +77,11 @@ class RegionsRepository {
     }
   }
 
-  public async getRegion(zipCode: string): Promise<Region> {
-    return (await this.getDepartment(zipCode)).region
+  public async getRegion(
+    zipCode: string,
+    dataSource: DataSource = 'remote',
+  ): Promise<Region> {
+    return (await this.getDepartment(zipCode, dataSource)).region
   }
 
   public static getInstance(): RegionsRepository {
