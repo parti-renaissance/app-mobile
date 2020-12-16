@@ -2,93 +2,81 @@ import React, { FC, useCallback, useState } from 'react'
 import { StyleSheet, SafeAreaView } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 
-import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { Colors } from '../../styles'
 import { ProfileScreenProps } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import ProfileAnonymous from './ProfileAnonymous'
-import { ProfileScreenViewModel } from './ProfileScreenViewModel'
-import { useProfile } from './useProfile'
 import { Screen } from '../../navigation'
 import ProfileAuthenticated from './ProfileAuthenticated'
-import ProfileRepository from '../../data/ProfileRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
-import { AuthenticationState } from '../../core/entities/AuthenticationState'
+import {
+  GetUserProfileInteractor,
+  GetUserProfileInteractorResult,
+  ProfileAnonymousResult,
+  ProfileAuthenticatedResult,
+} from '../../core/interactor/GetUserProfileInteractor'
+import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
-  const [anonymousStatefulState, setAnonymousStatefulState] = useState<
-    ViewState.Type<string>
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<GetUserProfileInteractorResult>
   >(new ViewState.Loading())
-  const { statefulState, refresh } = useProfile()
-  const [state, setState] = useState({
-    isAnonymousUser: true,
-  })
 
-  const ProfileContent = (viewModel: ProfileScreenViewModel) => {
-    return <ProfileAuthenticated viewModel={viewModel} />
-  }
+  const ProfileDispatcher = (content: GetUserProfileInteractorResult) => {
+    if (content instanceof ProfileAnonymousResult) {
+      const openZipCode = () => {
+        navigation.navigate(Screen.profileZipCode, {
+          zipCode: content.zipCode,
+        })
+      }
+      const openTermsOfUse = () => {
+        navigation.navigate(Screen.profileTermsOfUse)
+      }
 
-  const AnonymousProfileContent = (zipCode: string) => {
-    const openZipCode = () => {
-      navigation.navigate(Screen.profileZipCode, {
-        zipCode: zipCode,
-      })
+      const openLogin = () => {
+        navigation.navigate(Screen.profileLogin)
+      }
+      return (
+        <ProfileAnonymous
+          openTermsOfUse={openTermsOfUse}
+          openLogin={openLogin}
+          openZipCode={openZipCode}
+        />
+      )
+    } else if (content instanceof ProfileAuthenticatedResult) {
+      const viewModel = ProfileScreenViewModelMapper.map(
+        content.profile,
+        content.department,
+      )
+      return <ProfileAuthenticated viewModel={viewModel} />
+    } else {
+      throw Error('unreachable')
     }
-    const openTermsOfUse = () => {
-      navigation.navigate(Screen.profileTermsOfUse)
-    }
-
-    const openLogin = () => {
-      navigation.navigate(Screen.profileLogin)
-    }
-    return (
-      <ProfileAnonymous
-        openTermsOfUse={openTermsOfUse}
-        openLogin={openLogin}
-        openZipCode={openZipCode}
-      />
-    )
   }
 
   useFocusEffect(
     useCallback(() => {
-      AuthenticationRepository.getInstance()
-        .getAuthenticationState()
-        .then((authenticationState) => {
-          const isAnonymousUser =
-            authenticationState === AuthenticationState.Anonymous
-          if (!isAnonymousUser) {
-            refresh()
-          } else {
-            ProfileRepository.getInstance()
-              .getZipCode()
-              .then((zipCode) => {
-                setAnonymousStatefulState(new ViewState.Content(zipCode))
-              })
-              .catch((error) => {
-                console.error(error)
-                setAnonymousStatefulState(
-                  new ViewState.Error(
-                    GenericErrorMapper.mapErrorMessage(error),
-                  ),
-                )
-              })
-          }
-          setState({ isAnonymousUser })
+      setStatefulState(new ViewState.Loading())
+      new GetUserProfileInteractor()
+        .execute()
+        .then((result) => {
+          setStatefulState(new ViewState.Content(result))
         })
-    }, [refresh]),
+        .catch((error) => {
+          console.error(error)
+          setStatefulState(
+            new ViewState.Error(GenericErrorMapper.mapErrorMessage(error)),
+          )
+        })
+    }, []),
   )
 
   return (
     <SafeAreaView style={styles.container}>
-      {state.isAnonymousUser ? (
-        <StatefulView
-          state={anonymousStatefulState}
-          contentComponent={AnonymousProfileContent}
-        />
-      ) : (
-        <StatefulView state={statefulState} contentComponent={ProfileContent} />
-      )}
+      <StatefulView
+        state={statefulState}
+        contentComponent={ProfileDispatcher}
+      />
     </SafeAreaView>
   )
 }
