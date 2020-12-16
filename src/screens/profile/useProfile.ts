@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
-import ProfileRepository from '../../data/ProfileRepository'
-import RegionsRepository from '../../data/RegionsRepository'
+import { GetUserProfileInteractor } from '../../core/interactor/GetUserProfileInteractor'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { ViewState } from '../shared/StatefulView'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
@@ -14,18 +13,8 @@ export function useProfile() {
 
   const refresh = useCallback(() => {
     setRefreshing(true)
-    ProfileRepository.getInstance()
-      .getProfile()
-      .then((profile) => {
-        return RegionsRepository.getInstance()
-          .getDepartment(profile.zipCode)
-          .then((department) => {
-            return {
-              department: department,
-              profile: profile,
-            }
-          })
-      })
+    new GetUserProfileInteractor()
+      .execute()
       .then(({ profile, department }) => {
         const viewModel = ProfileScreenViewModelMapper.map(profile, department)
         setStatefulState(new ViewState.Content(viewModel))
