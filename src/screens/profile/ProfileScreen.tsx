@@ -16,6 +16,7 @@ import {
   ProfileAuthenticatedResult,
 } from '../../core/interactor/GetUserProfileInteractor'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
+import { ServerTimeoutError } from '../../core/errors'
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
@@ -60,17 +61,34 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
+      const getProfileInteractor = new GetUserProfileInteractor()
+      const remoteDataFetch = (cacheJustLoaded: boolean = false) => {
+        getProfileInteractor
+          .execute('remote')
+          .then((result) => {
+            setStatefulState(new ViewState.Content(result))
+          })
+          .catch((error) => {
+            console.error(error)
+            const isNetworkError = error instanceof ServerTimeoutError
+            if (isNetworkError && cacheJustLoaded) {
+              return
+            }
+            setStatefulState(
+              new ViewState.Error(GenericErrorMapper.mapErrorMessage(error)),
+            )
+          })
+      }
+
       setStatefulState(new ViewState.Loading())
-      new GetUserProfileInteractor()
-        .execute()
-        .then((result) => {
-          setStatefulState(new ViewState.Content(result))
+      getProfileInteractor
+        .execute('cache')
+        .then((cachedProfile) => {
+          setStatefulState(new ViewState.Content(cachedProfile))
+          remoteDataFetch(true)
         })
-        .catch((error) => {
-          console.error(error)
-          setStatefulState(
-            new ViewState.Error(GenericErrorMapper.mapErrorMessage(error)),
-          )
+        .catch(() => {
+          remoteDataFetch()
         })
     }, []),
   )

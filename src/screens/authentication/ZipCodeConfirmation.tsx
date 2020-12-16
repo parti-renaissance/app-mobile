@@ -82,7 +82,7 @@ const ZipCodeConfirmationScreen = ({
   useEffect(() => {
     const fetchData = () => {
       RegionsRepository.getInstance()
-        .getDepartment(zipCode, 'Anonymous')
+        .getDepartment(zipCode, 'remote', 'Anonymous')
         .then((department) => {
           setStatefulState(new ViewState.Content(department))
         })

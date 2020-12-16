@@ -1,4 +1,5 @@
 import AuthenticationRepository from '../../data/AuthenticationRepository'
+import { DataSource } from '../../data/DataSource'
 import ProfileRepository from '../../data/ProfileRepository'
 import RegionsRepository from '../../data/RegionsRepository'
 import { AuthenticationState } from '../entities/AuthenticationState'
@@ -28,17 +29,23 @@ export class GetUserProfileInteractor {
   private regionRepository = RegionsRepository.getInstance()
   private authenticationRepository = AuthenticationRepository.getInstance()
 
-  public async execute(): Promise<GetUserProfileInteractorResult> {
+  public async execute(
+    dataSource: DataSource,
+  ): Promise<GetUserProfileInteractorResult> {
     const authenticationState = await this.authenticationRepository.getAuthenticationState()
     const isAnonymous = authenticationState === AuthenticationState.Anonymous
     if (isAnonymous) {
       const zipCode = await this.profileRepository.getZipCode()
-      const department = await this.regionRepository.getDepartment(zipCode)
+      const department = await this.regionRepository.getDepartment(
+        zipCode,
+        dataSource,
+      )
       return new ProfileAnonymousResult(zipCode, department)
     } else {
       const profile = await this.profileRepository.getProfile()
       const department = await this.regionRepository.getDepartment(
         profile.zipCode,
+        dataSource,
       )
       return new ProfileAuthenticatedResult(profile, department)
     }
