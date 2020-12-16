@@ -36,11 +36,15 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       const openLogin = () => {
         navigation.navigate(Screen.profileLogin)
       }
+      const viewModel = ProfileScreenViewModelMapper.mapFromDepartment(
+        content.department,
+      )
       return (
         <ProfileAnonymous
           openTermsOfUse={openTermsOfUse}
           openLogin={openLogin}
           openZipCode={openZipCode}
+          viewModel={viewModel}
         />
       )
     } else if (content instanceof ProfileAuthenticatedResult) {
