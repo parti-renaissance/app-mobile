@@ -13,7 +13,6 @@ import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
-import { Department } from '../entities/Department'
 
 export interface HomeResources {
   zipCode: string
