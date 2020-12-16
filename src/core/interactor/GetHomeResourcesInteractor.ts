@@ -13,6 +13,7 @@ import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
+import { Department } from '../entities/Department'
 
 export interface HomeResources {
   zipCode: string
@@ -56,7 +57,15 @@ export class GetHomeResourcesInteractor {
     const department =
       departmentResult.status === 'fulfilled'
         ? departmentResult.value
-        : undefined
+        : await this.getDefault(
+            dataSource,
+            (departmentDataSource) =>
+              this.regionsRepository.getDepartment(
+                zipCode,
+                departmentDataSource,
+              ),
+            undefined,
+          )
 
     if (department !== undefined) {
       try {
@@ -72,11 +81,43 @@ export class GetHomeResourcesInteractor {
       zipCode: zipCode,
       region: department?.region,
       profile:
-        profileResult?.status === 'fulfilled' ? profileResult.value : undefined,
+        profileResult?.status === 'fulfilled'
+          ? profileResult.value
+          : await this.getDefault(
+              dataSource,
+              (profileDataSource) =>
+                this.profileRepository.getProfile(profileDataSource),
+              undefined,
+            ),
       news: newsResult.status === 'fulfilled' ? newsResult.value : [],
-      polls: pollsResult.status === 'fulfilled' ? pollsResult.value : [],
+      polls:
+        pollsResult.status === 'fulfilled'
+          ? pollsResult.value
+          : await this.getDefault(
+              dataSource,
+              (pollsDataSource) =>
+                this.getPollsInteractor.execute(pollsDataSource),
+              [],
+            ),
       tools: toolsResult.status === 'fulfilled' ? toolsResult.value : [],
       state: state,
+    }
+  }
+
+  private async getDefault<T>(
+    dataSource: DataSource,
+    fetch: (dataSource: DataSource) => Promise<T>,
+    defaultValue: T,
+  ): Promise<T> {
+    switch (dataSource) {
+      case 'cache':
+        return defaultValue
+      case 'remote':
+        try {
+          return fetch('cache')
+        } catch {
+          return defaultValue
+        }
     }
   }
 }
