@@ -49,7 +49,7 @@ export class GetHomeResourcesInteractor {
         ? this.profileRepository.getProfile(dataSource)
         : undefined,
       this.regionsRepository.getDepartment(zipCode, dataSource),
-      this.newsRepository.getLatestNews(),
+      this.newsRepository.getLatestNews(dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
     ])
@@ -89,7 +89,15 @@ export class GetHomeResourcesInteractor {
                 this.profileRepository.getProfile(profileDataSource),
               undefined,
             ),
-      news: newsResult.status === 'fulfilled' ? newsResult.value : [],
+      news:
+        newsResult.status === 'fulfilled'
+          ? newsResult.value
+          : await this.getDefault(
+              dataSource,
+              (newsDataSource) =>
+                this.newsRepository.getLatestNews(newsDataSource),
+              [],
+            ),
       polls:
         pollsResult.status === 'fulfilled'
           ? pollsResult.value
@@ -113,11 +121,7 @@ export class GetHomeResourcesInteractor {
       case 'cache':
         return defaultValue
       case 'remote':
-        try {
-          return fetch('cache')
-        } catch {
-          return defaultValue
-        }
+        return fetch('cache').catch(() => defaultValue)
     }
   }
 }
