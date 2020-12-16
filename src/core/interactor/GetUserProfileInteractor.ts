@@ -42,7 +42,7 @@ export class GetUserProfileInteractor {
       )
       return new ProfileAnonymousResult(zipCode, department)
     } else {
-      const profile = await this.profileRepository.getProfile()
+      const profile = await this.profileRepository.getProfile(dataSource)
       const department = await this.regionRepository.getDepartment(
         profile.zipCode,
         dataSource,
