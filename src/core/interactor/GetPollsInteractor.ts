@@ -1,4 +1,5 @@
 import AuthenticationRepository from '../../data/AuthenticationRepository'
+import { DataSource } from '../../data/DataSource'
 import PollsRepository from '../../data/PollsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { AuthenticationState } from '../entities/AuthenticationState'
@@ -9,7 +10,9 @@ export class GetPollsInteractor {
   private profileRepository = ProfileRepository.getInstance()
   private authenticationRepository = AuthenticationRepository.getInstance()
 
-  public async execute(): Promise<Array<Poll>> {
+  public async execute(
+    dataSource: DataSource = 'remote',
+  ): Promise<Array<Poll>> {
     const state = await this.authenticationRepository.getAuthenticationState()
     let zipCode: string | undefined
     if (state === AuthenticationState.Anonymous) {
@@ -17,6 +20,6 @@ export class GetPollsInteractor {
     } else {
       zipCode = undefined
     }
-    return this.pollsRepository.getPolls(zipCode)
+    return this.pollsRepository.getPolls(zipCode, dataSource)
   }
 }

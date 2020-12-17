@@ -12,6 +12,7 @@ import ToolsRepository from '../../data/ToolsRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
+import { DataSource } from '../../data/DataSource'
 
 export interface HomeResources {
   zipCode: string
@@ -32,7 +33,7 @@ export class GetHomeResourcesInteractor {
   private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
 
-  public async execute(): Promise<HomeResources> {
+  public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
     const state = await this.authenticationRepository.getAuthenticationState()
 
@@ -44,18 +45,26 @@ export class GetHomeResourcesInteractor {
       toolsResult,
     ] = await allSettled([
       state === AuthenticationState.Authenticated
-        ? this.profileRepository.getProfile()
+        ? this.profileRepository.getProfile(dataSource)
         : undefined,
-      this.regionsRepository.getDepartment(zipCode),
-      this.newsRepository.getLatestNews(),
-      this.getPollsInteractor.execute(),
+      this.regionsRepository.getDepartment(zipCode, dataSource),
+      this.newsRepository.getLatestNews(dataSource),
+      this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
     ])
 
     const department =
       departmentResult.status === 'fulfilled'
         ? departmentResult.value
-        : undefined
+        : await this.getDefault(
+            dataSource,
+            (departmentDataSource) =>
+              this.regionsRepository.getDepartment(
+                zipCode,
+                departmentDataSource,
+              ),
+            undefined,
+          )
 
     if (department !== undefined) {
       try {
@@ -71,11 +80,47 @@ export class GetHomeResourcesInteractor {
       zipCode: zipCode,
       region: department?.region,
       profile:
-        profileResult?.status === 'fulfilled' ? profileResult.value : undefined,
-      news: newsResult.status === 'fulfilled' ? newsResult.value : [],
-      polls: pollsResult.status === 'fulfilled' ? pollsResult.value : [],
+        profileResult?.status === 'fulfilled'
+          ? profileResult.value
+          : await this.getDefault(
+              dataSource,
+              (profileDataSource) =>
+                this.profileRepository.getProfile(profileDataSource),
+              undefined,
+            ),
+      news:
+        newsResult.status === 'fulfilled'
+          ? newsResult.value
+          : await this.getDefault(
+              dataSource,
+              (newsDataSource) =>
+                this.newsRepository.getLatestNews(newsDataSource),
+              [],
+            ),
+      polls:
+        pollsResult.status === 'fulfilled'
+          ? pollsResult.value
+          : await this.getDefault(
+              dataSource,
+              (pollsDataSource) =>
+                this.getPollsInteractor.execute(pollsDataSource),
+              [],
+            ),
       tools: toolsResult.status === 'fulfilled' ? toolsResult.value : [],
       state: state,
+    }
+  }
+
+  private async getDefault<T>(
+    dataSource: DataSource,
+    fetch: (dataSource: DataSource) => Promise<T>,
+    defaultValue: T,
+  ): Promise<T> {
+    switch (dataSource) {
+      case 'cache':
+        return defaultValue
+      case 'remote':
+        return fetch('cache').catch(() => defaultValue)
     }
   }
 }

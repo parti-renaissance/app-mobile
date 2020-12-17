@@ -27,35 +27,73 @@ import {
   GetHomeResourcesInteractor,
   HomeResources,
 } from '../../core/interactor/GetHomeResourcesInteractor'
-import ProfileRepository from '../../data/ProfileRepository'
 import { useFocusEffect } from '@react-navigation/native'
 import { Region } from '../../core/entities/Region'
 import ThemeRepository from '../../data/ThemeRepository'
 import { ExternalLink } from '../shared/ExternalLink'
+import { ServerTimeoutError } from '../../core/errors'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<HomeViewModel>
   >(new ViewState.Loading())
-  const [zipCode, setZipCode] = useState('')
   const [isRefreshing, setRefreshing] = useState(true)
+  const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
 
-  const fetchData = useCallback(() => {
-    const updateTheme = (region: Region | undefined) => {
-      if (region) {
-        setTheme(region.theme)
-        ThemeRepository.getInstance().saveRegionTheme(region.theme)
+  const fetchData = useCallback(
+    (cacheJustLoaded: boolean = false) => {
+      const updateTheme = (region: Region | undefined) => {
+        if (region) {
+          setTheme(region.theme)
+          ThemeRepository.getInstance().saveRegionTheme(region.theme)
+        }
       }
-    }
 
-    setRefreshing(true)
+      setRefreshing(true)
+      new GetHomeResourcesInteractor()
+        .execute('remote')
+        .then((resources) => {
+          setResources(resources)
+          updateTheme(resources.region)
+          const viewModel = HomeViewModelMapper.map(
+            theme,
+            resources.profile,
+            resources.region,
+            resources.news,
+            resources.polls,
+            resources.tools,
+            resources.state,
+          )
+          setStatefulState(new ViewState.Content(viewModel))
+        })
+        .catch((error) => {
+          const isNetworkError = error instanceof ServerTimeoutError
+          if (isNetworkError && cacheJustLoaded) {
+            return
+          }
+          setStatefulState(
+            new ViewState.Error(
+              GenericErrorMapper.mapErrorMessage(error),
+              () => {
+                setStatefulState(new ViewState.Loading())
+                fetchData()
+              },
+            ),
+          )
+        })
+        .finally(() => {
+          setRefreshing(false)
+        })
+    },
+    [theme, setTheme],
+  )
+
+  const firstDataFetch = useCallback(() => {
     new GetHomeResourcesInteractor()
-      .execute()
+      .execute('cache')
       .then((resources) => {
-        setResources(resources)
-        updateTheme(resources.region)
         const viewModel = HomeViewModelMapper.map(
           theme,
           resources.profile,
@@ -66,31 +104,17 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           resources.state,
         )
         setStatefulState(new ViewState.Content(viewModel))
-      })
-      .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            setStatefulState(new ViewState.Loading())
-            fetchData()
-          }),
-        )
-      })
-      .finally(() => {
-        setRefreshing(false)
-      })
-  }, [theme, setTheme])
-
-  useFocusEffect(() => {
-    ProfileRepository.getInstance()
-      .getZipCode()
-      .then((code) => {
-        if (code !== zipCode) {
-          // only fetch data on init and if zip code has changed
-          fetchData()
+        if (!initialFetchDone) {
+          setInitialFetchDone(true)
+          fetchData(true)
         }
-        setZipCode(code)
       })
-  })
+      .catch(() => {
+        fetchData()
+      })
+  }, [theme, fetchData, initialFetchDone])
+
+  useFocusEffect(firstDataFetch)
 
   const onPollSelected = (pollId: number) => {
     navigation.navigate(Screen.pollDetailModal, {

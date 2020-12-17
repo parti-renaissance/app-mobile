@@ -18,7 +18,11 @@ export function useValidateZipCode(
   const validateExistence = useCallback((value: string): Promise<
     Department
   > => {
-    return RegionsRepository.getInstance().getDepartment(value, 'Anonymous')
+    return RegionsRepository.getInstance().getDepartment(
+      value,
+      'remote',
+      'Anonymous',
+    )
   }, [])
 
   const validateZipCode = useCallback(

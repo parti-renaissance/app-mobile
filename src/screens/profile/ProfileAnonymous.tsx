@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native'
 
 import { Colors, Spacing, Typography } from '../../styles'
@@ -8,29 +8,17 @@ import ProfileSettingsItem from './ProfileSettingsItem'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { versionLabel } from './version'
-import ProfileRepository from '../../data/ProfileRepository'
-import RegionsRepository from '../../data/RegionsRepository'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
-import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
-import { StatefulView, ViewState } from '../shared/StatefulView'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
-import { useFocusEffect } from '@react-navigation/native'
 import { ExternalLink } from '../shared/ExternalLink'
 
 type Props = Readonly<{
   openTermsOfUse: () => void
   openLogin: () => void
   openZipCode: () => void
-}>
-
-type ContentProps = Readonly<{
-  openTermsOfUse: () => void
-  openLogin: () => void
-  openZipCode: () => void
   viewModel: ProfileScreenViewModel
 }>
 
-const ProfileAnonymousContent: FC<ContentProps> = ({
+const ProfileAnonymous: FC<Props> = ({
   openTermsOfUse,
   openLogin,
   openZipCode,
@@ -77,65 +65,6 @@ const ProfileAnonymousContent: FC<ContentProps> = ({
       />
       <Text style={styles.version}>{versionLabel}</Text>
     </ScrollView>
-  )
-}
-
-const ProfileAnonymous: FC<Props> = ({
-  openTermsOfUse,
-  openLogin,
-  openZipCode,
-}) => {
-  const [zipCode, setZipCode] = useState('')
-  const [statefulState, setStatefulState] = useState<
-    ViewState.Type<ProfileScreenViewModel>
-  >(new ViewState.Loading())
-
-  const fetchDepartment = (code: string) => {
-    RegionsRepository.getInstance()
-      .getDepartment(code)
-      .then((department) =>
-        setStatefulState(
-          new ViewState.Content(
-            ProfileScreenViewModelMapper.mapFromDepartment(department),
-          ),
-        ),
-      )
-      .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            setStatefulState(new ViewState.Loading())
-            fetchDepartment(code)
-          }),
-        )
-      })
-  }
-
-  useFocusEffect(() => {
-    ProfileRepository.getInstance()
-      .getZipCode()
-      .then((code) => {
-        if (code !== zipCode) {
-          // only fetch data on init and if zip code has changed
-          fetchDepartment(code)
-        }
-        setZipCode(code)
-      })
-  })
-
-  return (
-    <StatefulView
-      state={statefulState}
-      contentComponent={(viewModel) => {
-        return (
-          <ProfileAnonymousContent
-            viewModel={viewModel}
-            openTermsOfUse={openTermsOfUse}
-            openLogin={openLogin}
-            openZipCode={openZipCode}
-          />
-        )
-      }}
-    />
   )
 }
 

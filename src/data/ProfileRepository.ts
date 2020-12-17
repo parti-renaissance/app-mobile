@@ -2,15 +2,29 @@ import { Profile } from '../core/entities/Profile'
 import ApiService from './network/ApiService'
 import { ProfileFromRestProfileResponseMapper } from './mapper/ProfileFromRestProfileResponseMapper'
 import LocalStore from './store/LocalStore'
+import { DataSource } from './DataSource'
+import CacheManager from './store/CacheManager'
+import { RestProfileResponse } from './restObjects/RestProfileResponse'
 
 class ProfileRepository {
   private static instance: ProfileRepository
   private apiService = ApiService.getInstance()
   private localStore = LocalStore.getInstance()
+  private cacheManager = CacheManager.getInstance()
   private constructor() {}
 
-  public async getProfile(): Promise<Profile> {
-    const result = await this.apiService.getProfile()
+  public async getProfile(dataSource: DataSource = 'remote'): Promise<Profile> {
+    const cacheKey = 'profile'
+    let result: RestProfileResponse
+    switch (dataSource) {
+      case 'cache':
+        result = await this.cacheManager.getFromCache(cacheKey)
+        break
+      case 'remote':
+        result = await this.apiService.getProfile()
+        await this.cacheManager.setInCache(cacheKey, result)
+        break
+    }
     return ProfileFromRestProfileResponseMapper.map(result)
   }
 
