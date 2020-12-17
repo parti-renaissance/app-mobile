@@ -74,6 +74,7 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
           autoCorrect: false,
           returnKeyType: 'next',
           autoFocus: true,
+          autoCompleteType: 'email',
           onChangeText: (text) => {
             setEmail(text)
           },
@@ -89,6 +90,8 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         errorMessage={passwordErrorMessage}
         textInputProps={{
           textContentType: 'password',
+          autoCapitalize: 'none',
+          autoCorrect: false,
           secureTextEntry: true,
           onChangeText: (text) => {
             setPassword(text)
