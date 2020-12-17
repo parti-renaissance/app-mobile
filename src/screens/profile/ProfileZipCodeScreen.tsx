@@ -23,6 +23,7 @@ import { Department } from '../../core/entities/Department'
 import RegionTheme from '../../core/entities/RegionTheme'
 import ThemeRepository from '../../data/ThemeRepository'
 import PushRepository from '../../data/PushRepository'
+import LoadingOverlay from '../shared/LoadingOverlay'
 
 const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   navigation,
@@ -59,7 +60,7 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   const onInvalidFormat = () => {
     setErrorMessage(i18n.t('anonymousloginzipcode.invalid_code'))
   }
-  const { validateZipCode } = useValidateZipCode(
+  const { validateZipCode, isLoading } = useValidateZipCode(
     onSuccessZipCode,
     onErrorZipCode,
     onInvalidFormat,
@@ -67,6 +68,7 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isLoading} />
       <View style={styles.imageWrap}>
         <Image source={theme.image.zipCode()} />
       </View>

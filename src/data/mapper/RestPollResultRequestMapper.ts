@@ -99,7 +99,7 @@ const mapAnswer = (answer: Answer): RestPollResultAnswer => {
       textField: textAnswer.value,
     }
   }
-  throw 'Impossible path'
+  throw Error('Impossible path')
 }
 
 export const RestPollResultRequestMapper = {

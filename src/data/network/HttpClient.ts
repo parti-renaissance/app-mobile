@@ -19,7 +19,7 @@ const refreshTokenMutex = new Mutex()
 
 const refreshToken = async (options: { request: Request }) => {
   const requestAccessToken = extractAccessToken(options.request)
-  return await refreshTokenMutex.runExclusive(async () => {
+  return refreshTokenMutex.runExclusive(async () => {
     const credentials = await LocalStore.getInstance().getCredentials()
     if (credentials == null) {
       return

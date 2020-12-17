@@ -7,7 +7,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    ad_localize (4.0.4)
+    ad_localize (4.0.5)
       activesupport (>= 5.2, < 7.0)
       colorize (~> 0.8)
       google-api-client (~> 0.34)
@@ -72,12 +72,13 @@ GEM
 
 PLATFORMS
   ruby
+  x86_64-darwin-19
 
 DEPENDENCIES
-  ad_localize (~> 4.0)
+  ad_localize
 
 RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.4
+   2.2.0

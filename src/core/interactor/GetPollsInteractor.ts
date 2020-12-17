@@ -17,6 +17,6 @@ export class GetPollsInteractor {
     } else {
       zipCode = undefined
     }
-    return await this.pollsRepository.getPolls(zipCode)
+    return this.pollsRepository.getPolls(zipCode)
   }
 }

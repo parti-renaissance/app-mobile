@@ -81,3 +81,4 @@ ios/fastlane/app_store_connect_api_key.json
 ios/vendor/
 android/vendor/
 ios/.bundle/
+vendor/
