@@ -172,15 +172,11 @@
         "url": "https://enmarche.typeform.com/to/vbvThF"
       }
     },
-    "termsofuse": {
-      "accept": "Accepter"
-    },
-    "datacollect": {
-      "accept": "Accepter"
-    },
+    "termsofuse": { "accept": "Accepter" },
+    "datacollect": { "accept": "Accepter" },
     "home": {
       "greeting": "Bonjour 👋",
-      "greeting_name": "Bonjour 👋\n{{username}},",
+      "greeting_name": "Bonjour 👋\n{{username}}",
       "section_polls": "Questionnaires",
       "section_tools": "Vos outils militants",
       "footer": {
