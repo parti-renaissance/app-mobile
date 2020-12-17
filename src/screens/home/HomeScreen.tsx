@@ -39,6 +39,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     ViewState.Type<HomeViewModel>
   >(new ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
+  const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
 
   const fetchData = useCallback(
@@ -103,12 +104,15 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           resources.state,
         )
         setStatefulState(new ViewState.Content(viewModel))
-        fetchData(true)
+        if (!initialFetchDone) {
+          setInitialFetchDone(true)
+          fetchData(true)
+        }
       })
       .catch(() => {
         fetchData()
       })
-  }, [theme, fetchData])
+  }, [theme, fetchData, initialFetchDone])
 
   useFocusEffect(firstDataFetch)
 

@@ -30,6 +30,7 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
     ViewState.Type<PollsScreenViewModel>
   >(new ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
+  const [initialFetchDone, setInitialFetchDone] = useState(false)
 
   const fetchData = useCallback(
     (cacheJustLoaded: boolean = false) => {
@@ -66,12 +67,15 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
       .then((cachedPolls) => {
         const viewModel = PollsScreenViewModelMapper.map(theme, cachedPolls)
         setStatefulState(new ViewState.Content(viewModel))
-        fetchData(true)
+        if (!initialFetchDone) {
+          fetchData(true)
+          setInitialFetchDone(true)
+        }
       })
       .catch(() => {
         fetchData()
       })
-  }, [fetchData, theme])
+  }, [fetchData, theme, initialFetchDone])
 
   const navigationToPollDetail = (viewModelId: string) => {
     const pollId = parseInt(viewModelId, 10)
