@@ -4,7 +4,6 @@ import { ProfileFromRestProfileResponseMapper } from './mapper/ProfileFromRestPr
 import LocalStore from './store/LocalStore'
 import { DataSource } from './DataSource'
 import CacheManager from './store/CacheManager'
-import { CacheMissError } from '../core/errors'
 import { RestProfileResponse } from './restObjects/RestProfileResponse'
 
 class ProfileRepository {
@@ -19,15 +18,11 @@ class ProfileRepository {
     let result: RestProfileResponse
     switch (dataSource) {
       case 'cache':
-        const cacheResult = await this.cacheManager.getFromCache(cacheKey)
-        if (cacheResult === undefined) {
-          throw new CacheMissError()
-        }
-        result = JSON.parse(cacheResult)
+        result = await this.cacheManager.getFromCache(cacheKey)
         break
       case 'remote':
         result = await this.apiService.getProfile()
-        await this.cacheManager.setInCache(cacheKey, JSON.stringify(result))
+        await this.cacheManager.setInCache(cacheKey, result)
         break
     }
     return ProfileFromRestProfileResponseMapper.map(result)

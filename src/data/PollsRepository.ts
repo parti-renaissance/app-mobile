@@ -4,7 +4,6 @@ import ApiService from './network/ApiService'
 import { RestPollResultRequestMapper } from './mapper/RestPollResultRequestMapper'
 import { DataSource } from './DataSource'
 import CacheManager from './store/CacheManager'
-import { CacheMissError } from '../core/errors'
 
 class PollsRepository {
   private static instance: PollsRepository
@@ -20,16 +19,12 @@ class PollsRepository {
     const cacheKey = zipCode !== undefined ? 'polls_' + zipCode : 'polls'
     switch (dataSource) {
       case 'cache':
-        const result = await this.cacheManager.getFromCache(cacheKey)
-        if (result === undefined) {
-          throw new CacheMissError()
-        }
-        const cachedPolls = JSON.parse(result)
+        const cachedPolls = await this.cacheManager.getFromCache(cacheKey)
         this.memoryCachedPolls = cachedPolls
         return cachedPolls
       case 'remote':
         const polls = await this.apiService.getPolls(zipCode)
-        await this.cacheManager.setInCache(cacheKey, JSON.stringify(polls))
+        await this.cacheManager.setInCache(cacheKey, polls)
         this.memoryCachedPolls = polls
         return polls
     }

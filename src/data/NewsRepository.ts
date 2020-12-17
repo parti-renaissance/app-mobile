@@ -4,7 +4,6 @@ import { RestNewsMapper } from './mapper/RestNewsMapper'
 import PaginatedResult from '../core/entities/PaginatedResult'
 import { RestMetadataMapper } from './mapper/RestMetadataMapper'
 import CacheManager from './store/CacheManager'
-import { CacheMissError } from '../core/errors'
 import { DataSource } from './DataSource'
 import { RestNewsResponse } from './restObjects/RestNewsResponse'
 
@@ -23,15 +22,11 @@ class NewsRepository {
     let restNews: RestNewsResponse
     switch (dataSource) {
       case 'cache':
-        const cacheResult = await this.cacheManager.getFromCache(cacheKey)
-        if (cacheResult === undefined) {
-          throw new CacheMissError()
-        }
-        restNews = JSON.parse(cacheResult)
+        restNews = await this.cacheManager.getFromCache(cacheKey)
         break
       case 'remote':
         restNews = await this.apiService.getNews(firstPage)
-        await this.cacheManager.setInCache(cacheKey, JSON.stringify(restNews))
+        await this.cacheManager.setInCache(cacheKey, restNews)
         break
     }
     return restNews.items.map(RestNewsMapper.map)

@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Cache } from 'react-native-cache'
+import { CacheMissError } from '../../core/errors'
 
 class CacheManager {
   private static instance: CacheManager
@@ -12,12 +13,16 @@ class CacheManager {
   })
   private constructor() {}
 
-  async setInCache(cacheKey: string, payload: string) {
-    return this.cache.set(cacheKey, payload)
+  async setInCache(cacheKey: string, payload: any) {
+    return this.cache.set(cacheKey, JSON.stringify(payload))
   }
 
-  getFromCache(cacheKey: string): Promise<string | undefined> {
-    return this.cache.get(cacheKey)
+  async getFromCache(cacheKey: string): Promise<any | undefined> {
+    const cacheResult = await this.cache.get(cacheKey)
+    if (cacheResult === undefined) {
+      throw new CacheMissError()
+    }
+    return JSON.parse(cacheResult)
   }
 
   purgeCache(): Promise<any> {

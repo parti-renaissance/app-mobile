@@ -1,10 +1,6 @@
 import { Department } from '../core/entities/Department'
 import { Region } from '../core/entities/Region'
-import {
-  DepartmentNotFoundError,
-  NotFoundError,
-  CacheMissError,
-} from '../core/errors'
+import { DepartmentNotFoundError, NotFoundError } from '../core/errors'
 import ApiService from './network/ApiService'
 import { DepartmentMapper } from './mapper/DepartmentMapper'
 import OAuthApiService from './network/OAuthApiService'
@@ -65,14 +61,10 @@ class RegionsRepository {
     const cacheKey = 'department_' + zipCode
     switch (dataSource) {
       case 'cache':
-        const result = await this.cacheManager.getFromCache(cacheKey)
-        if (result === undefined) {
-          throw new CacheMissError()
-        }
-        return JSON.parse(result)
+        return this.cacheManager.getFromCache(cacheKey)
       case 'remote':
         const department = await this.apiService.getDepartment(zipCode)
-        await this.cacheManager.setInCache(cacheKey, JSON.stringify(department))
+        await this.cacheManager.setInCache(cacheKey, department)
         return department
     }
   }
