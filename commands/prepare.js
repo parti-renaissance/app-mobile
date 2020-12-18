@@ -170,6 +170,9 @@ function prepareFirebase(environement) {
 
 function copyBase64File(data, outputPath) {
   const buffer = Buffer.from(data, 'base64')
+
+  // Disabled because 'outputPath' is not a user input but comes from a constant used in this file
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   fs.writeFileSync(outputPath, buffer)
 }
 

@@ -6,7 +6,7 @@ const paths = require('../../config/paths')
 function getEnv() {
   return Object.keys(process.env)
     .filter((key) => /(?:^NODE_ENV$)|(?:^RN_)/i.test(key))
-    .reduce((env, key) => ({ ...env, [key]: process.env[key] }), {})
+    .reduce((env, key) => ({ ...env, [key]: process.env[String(key)] }), {})
 }
 
 function readEnv(environment) {
@@ -34,7 +34,10 @@ function appendEnv(env, path) {
 }
 
 function stringifyEnv(env) {
-  return Object.keys(env).reduce((str, key) => `${str}${key}=${env[key]}\n`, '')
+  return Object.keys(env).reduce(
+    (str, key) => `${str}${key}=${env[String(key)]}\n`,
+    '',
+  )
 }
 
 module.exports = { getEnv, readEnv, writeEnv, appendEnv }

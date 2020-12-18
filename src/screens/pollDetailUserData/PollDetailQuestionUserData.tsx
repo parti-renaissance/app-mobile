@@ -108,7 +108,7 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
           onSubmitEditing: () => {
             if (index + 1 < section.data.length) {
               const nextId = section.data[index + 1].value.id
-              refStorage[nextId]?.focus()
+              refStorage[String(nextId)]?.focus()
             }
           },
           onBlur: onBlur,
