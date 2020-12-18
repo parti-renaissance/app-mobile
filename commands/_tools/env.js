@@ -1,3 +1,5 @@
+/* eslint-disable security/detect-non-literal-fs-filename */
+// cli.js depends on a WHITELISTED use input. Injection is prevented this way
 const dotenv = require('dotenv')
 const fs = require('fs-extra')
 
