@@ -22,6 +22,7 @@ export type ProfileParamList = {
   ProfileLogin: undefined
   ProfileZipCode: { zipCode: string }
   ProfileTermsOfUse: undefined
+  ProfileDataProtection: undefined
 }
 
 export type AuthenticatedHomeParamList = {

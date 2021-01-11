@@ -13,6 +13,7 @@ import { ExternalLink } from '../shared/ExternalLink'
 
 type Props = Readonly<{
   openTermsOfUse: () => void
+  openDataProtection: () => void
   openLogin: () => void
   openZipCode: () => void
   viewModel: ProfileScreenViewModel
@@ -20,6 +21,7 @@ type Props = Readonly<{
 
 const ProfileAnonymous: FC<Props> = ({
   openTermsOfUse,
+  openDataProtection,
   openLogin,
   openZipCode,
   viewModel,
@@ -62,6 +64,10 @@ const ProfileAnonymous: FC<Props> = ({
       <ProfileSettingsItem
         title={i18n.t('profile.menu.termsofuse')}
         onPress={openTermsOfUse}
+      />
+      <ProfileSettingsItem
+        title={i18n.t('profile.menu.dataprotection')}
+        onPress={openDataProtection}
       />
       <Text style={styles.version}>{versionLabel}</Text>
     </ScrollView>

@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react'
 import { ProfileParamList, Screen } from '../../navigation'
 import { headerBlank } from '../../styles/navigationAppearance'
 import i18n from '../../utils/i18n'
+import ProfileDataProtectionScreen from './ProfileDataProtectionScreen'
 import ProfilLoginScreen from './ProfileLoginScreen'
 import ProfileScreen from './ProfileScreen'
 import ProfileTermsOfUseScreen from './ProfileTermsOfUseScreen'
@@ -25,6 +26,10 @@ const ProfileNavigator: FunctionComponent = () => {
       <ProfileStack.Screen
         name={Screen.profileTermsOfUse}
         component={ProfileTermsOfUseScreen}
+      />
+      <ProfileStack.Screen
+        name={Screen.profileDataProtection}
+        component={ProfileDataProtectionScreen}
       />
       <ProfileStack.Screen
         name={Screen.profileZipCode}
