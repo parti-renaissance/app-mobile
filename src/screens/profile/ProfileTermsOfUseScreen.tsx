@@ -1,17 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
+import { Colors } from '../../styles'
+import PdfView from '../shared/PdfView'
+import { ASSET_CGU } from '../../utils/Const'
 
 const ProfileTermsOfUseScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.textContainer}>
-        <Text style={styles.title}>{i18n.t('termsofuse.title')}</Text>
-        <Text style={styles.content}>{i18n.t('termsofuse.content')}</Text>
-      </ScrollView>
+      <PdfView style={styles.pdf} assetFileName={ASSET_CGU} />
     </SafeAreaView>
   )
 }
@@ -21,19 +18,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.defaultBackground,
   },
-  textContainer: {
+  pdf: {
     flex: 1,
-    flexGrow: 1,
-  },
-  title: {
-    ...Typography.largeTitle,
-    marginTop: Spacing.unit,
-    marginHorizontal: Spacing.margin,
-  },
-  content: {
-    ...Typography.body,
-    margin: Spacing.margin,
-    lineHeight: 19,
+    backgroundColor: Colors.defaultBackground,
   },
 })
 

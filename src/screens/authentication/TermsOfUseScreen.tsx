@@ -6,6 +6,7 @@ import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import PdfView from '../shared/PdfView'
+import { ASSET_CGU } from '../../utils/Const'
 
 const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
   navigation,
@@ -13,7 +14,7 @@ const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
-        <PdfView style={styles.pdf} assetFileName="cgu.pdf" />
+        <PdfView style={styles.pdf} assetFileName={ASSET_CGU} />
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('termsofuse.accept')}
