@@ -15,15 +15,16 @@ export function useValidateZipCode(
     return value.length === 5
   }
 
-  const validateExistence = useCallback((value: string): Promise<
-    Department
-  > => {
-    return RegionsRepository.getInstance().getDepartment(
-      value,
-      'remote',
-      'Anonymous',
-    )
-  }, [])
+  const validateExistence = useCallback(
+    (value: string): Promise<Department> => {
+      return RegionsRepository.getInstance().getDepartment(
+        value,
+        'remote',
+        'Anonymous',
+      )
+    },
+    [],
+  )
 
   const validateZipCode = useCallback(
     (zipCode: string) => {

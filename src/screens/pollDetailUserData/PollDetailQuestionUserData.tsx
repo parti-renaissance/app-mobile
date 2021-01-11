@@ -118,9 +118,7 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
   }
 
   const renderItem = (
-    info: SectionListRenderItemInfo<
-      PollDetailQuestionUserDataSectionContentViewModel
-    >,
+    info: SectionListRenderItemInfo<PollDetailQuestionUserDataSectionContentViewModel>,
   ) => {
     switch (info.item.type) {
       case 'dualChoice':
