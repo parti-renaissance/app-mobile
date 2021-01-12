@@ -2,7 +2,7 @@ import React from 'react'
 import ErrorView from './ErrorView'
 import LoadingView from './LoadingView'
 
-export namespace ViewState {
+export module ViewState {
   export class Error {
     public constructor(
       readonly errorMessage: string,

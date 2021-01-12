@@ -8,7 +8,7 @@ const registerMessageHandlers = () => {
     createLocalNotificationInForegroundIfNeeded(message)
   })
   messaging().setBackgroundMessageHandler((message) => {
-    return new Promise<any>((resolve) => {
+    return new Promise<void>((resolve) => {
       console.log('Message handled in background', message)
       resolve()
     })

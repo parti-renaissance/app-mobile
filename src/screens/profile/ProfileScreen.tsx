@@ -33,6 +33,9 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       const openTermsOfUse = () => {
         navigation.navigate(Screen.profileTermsOfUse)
       }
+      const openDataProtection = () => {
+        navigation.navigate(Screen.profileDataProtection)
+      }
 
       const openLogin = () => {
         navigation.navigate(Screen.profileLogin)
@@ -43,6 +46,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       return (
         <ProfileAnonymous
           openTermsOfUse={openTermsOfUse}
+          openDataProtection={openDataProtection}
           openLogin={openLogin}
           openZipCode={openZipCode}
           viewModel={viewModel}

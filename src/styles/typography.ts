@@ -83,7 +83,6 @@ export const tagCaption: TextStyle = {
 export const inputText: TextStyle = {
   fontSize: subheadFontSize,
   fontFamily: robotoRegular,
-  lineHeight: 19,
   color: Colors.darkText,
 }
 
