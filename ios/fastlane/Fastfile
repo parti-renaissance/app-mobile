@@ -35,9 +35,10 @@ lane :deploy do |options|
       skip_app_version_update: true, # https://github.com/fastlane/fastlane/issues/16785
       precheck_include_in_app_purchases: false
     )
+    post_slack_notification_appstore
   else
     deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
-    post_slack_notification
+    post_slack_notification_beta
   end
 end
 
@@ -107,8 +108,8 @@ private_lane :create_temporary_keychain do
   )
 end
 
-private_lane :post_slack_notification do
-  appcenter_url = "https://appcenter.ms/users/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribute/releases"
+private_lane :post_slack_notification_beta do
+  appcenter_url = "https://install.appcenter.ms/orgs/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribution_groups/public"
   slack(
     message: "New iOS build available",
     success: true,
@@ -121,6 +122,23 @@ private_lane :post_slack_notification do
       "AppCenter" => appcenter_url
     },
     slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
+  )
+end
+
+private_lane :post_slack_notification_appstore do |options|
+  variant = options[:variant]
+  slack(
+    message: 'New iOS build ready to deploy on appstore',
+    success: true,
+    default_payloads: [],
+    payload: {
+      "Configuration": "Release",
+      "Environment": ENV["ENVIRONMENT"],
+      "Version" => app_version_number,
+      "Build number" => app_build_number,
+      "App store" => 'https://appstoreconnect.apple.com/apps/1441973895/testflight/ios'
+    },
+    slack_url: ENV['SLACK_INCOMING_WEBKOOK_URL']
   )
 end
 

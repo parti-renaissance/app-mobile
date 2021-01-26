@@ -62,7 +62,7 @@ end
 
 private_lane :post_slack_notification_beta do |options|
   apk_url = options[:download_link]
-  appcenter_url = "https://appcenter.ms/users/#{ENV['APP_CENTER_OWNER']}/apps/#{ENV['APP_CENTER_NAME']}/distribute/releases"
+  appcenter_url = "https://install.appcenter.ms/orgs/#{ENV['APP_CENTER_OWNER']}/apps/#{ENV['APP_CENTER_NAME']}/distribution_groups/public"
   variant = options[:variant]
   slack(
     message: 'New Android build available',
