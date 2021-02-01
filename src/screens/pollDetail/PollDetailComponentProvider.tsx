@@ -68,7 +68,7 @@ export class PollDetailComponentProviderImplementation
   public getStepComponent(step: number): JSX.Element {
     switch (this.getStepType(step)) {
       case 'remoteQuestion':
-        const question = this.questions[step]
+        const question = this.questions[Number(step)]
         const answer = this.storage.get(question.id)
         return this.getComponent(question, answer)
       case 'userProfile':
