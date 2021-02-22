@@ -37,9 +37,11 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public getNews(page: number): Promise<RestNewsResponse> {
+  public getNews(zipCode: string, page: number): Promise<RestNewsResponse> {
     return this.httpClient
-      .get('api/jecoute/news', { searchParams: { page: page } })
+      .get('api/jecoute/news', {
+        searchParams: { zipCode: zipCode, page: page },
+      })
       .json<RestNewsResponse>()
       .catch(genericErrorMapping)
   }

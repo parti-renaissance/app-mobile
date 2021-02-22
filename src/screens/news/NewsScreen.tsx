@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import NewsRepository from '../../data/NewsRepository'
+import ProfileRepository from '../../data/ProfileRepository'
 import { Colors, Spacing } from '../../styles'
 import { useTheme } from '../../themes'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -31,11 +32,14 @@ const NewsScreen = () => {
   >(new ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [isLoadingMore, setLoadingMore] = useState(false)
+  const fetchNews = async (page: number) => {
+    const zipCode = await ProfileRepository.getInstance().getZipCode()
+    return NewsRepository.getInstance().getNews(zipCode, page)
+  }
 
   const loadFirstPage = () => {
     setRefreshing(true)
-    NewsRepository.getInstance()
-      .getNews(1)
+    fetchNews(1)
       .then((paginatedResult) => {
         const content = NewsContentViewModelMapper.map(paginatedResult)
         setStatefulState(new ViewState.Content(content))
@@ -61,8 +65,7 @@ const NewsScreen = () => {
         return
       }
       setLoadingMore(true)
-      NewsRepository.getInstance()
-        .getNews(paginationInfo.currentPage + 1)
+      fetchNews(paginationInfo.currentPage + 1)
         .then((paginatedResult) => {
           const newContent = NewsContentViewModelMapper.map(
             paginatedResult,

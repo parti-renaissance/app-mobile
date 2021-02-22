@@ -16,24 +16,28 @@ class NewsRepository {
   private constructor() {}
 
   public async getLatestNews(
+    zipCode: string,
     dataSource: DataSource = 'remote',
   ): Promise<Array<News>> {
-    const cacheKey = 'latest_news'
+    const cacheKey = 'latest_news_' + zipCode
     let restNews: RestNewsResponse
     switch (dataSource) {
       case 'cache':
         restNews = await this.cacheManager.getFromCache(cacheKey)
         break
       case 'remote':
-        restNews = await this.apiService.getNews(firstPage)
+        restNews = await this.apiService.getNews(zipCode, firstPage)
         await this.cacheManager.setInCache(cacheKey, restNews)
         break
     }
     return restNews.items.map(RestNewsMapper.map)
   }
 
-  public async getNews(page: number): Promise<PaginatedResult<Array<News>>> {
-    const restNews = await this.apiService.getNews(page)
+  public async getNews(
+    zipCode: string,
+    page: number,
+  ): Promise<PaginatedResult<Array<News>>> {
+    const restNews = await this.apiService.getNews(zipCode, page)
     const paginationInfo = RestMetadataMapper.map(restNews.metadata)
     const news = restNews.items.map(RestNewsMapper.map)
     return {
