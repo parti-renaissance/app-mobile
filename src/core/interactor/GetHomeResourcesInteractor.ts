@@ -48,7 +48,7 @@ export class GetHomeResourcesInteractor {
         ? this.profileRepository.getProfile(dataSource)
         : undefined,
       this.regionsRepository.getDepartment(zipCode, dataSource),
-      this.newsRepository.getLatestNews(dataSource),
+      this.newsRepository.getLatestNews(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
     ])
@@ -94,7 +94,7 @@ export class GetHomeResourcesInteractor {
           : await this.getDefault(
               dataSource,
               (newsDataSource) =>
-                this.newsRepository.getLatestNews(newsDataSource),
+                this.newsRepository.getLatestNews(zipCode, newsDataSource),
               [],
             ),
       polls:
