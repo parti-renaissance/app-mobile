@@ -217,35 +217,7 @@
       },
       "certified": {
         "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
-      },
-      "title": "Informations personnelles",
-      "section_identity": "Paramètres du compte",
-      "section_coordinates": "Paramètres du compte",
-      "section_social": "Paramètres du compte (optionnel)",
-      "first_name": "Prénom",
-      "last_name": "Nom",
-      "gender": "Genre",
-      "gender_other": "Identité de genre",
-      "birthdate": "Date de naissance",
-      "nationality": "Nationalité",
-      "address": "Adresse",
-      "email": "E-mail",
-      "phone": "Tél.",
-      "facebook": "Facebook",
-      "linkedin": "Linkedin",
-      "twitter": "Twitter",
-      "telegram": "Telegram",
-      "placeholder": "Renseigner",
-      "cancel": "Annuler",
-      "save": "Enregistrer",
-      "gender_male": "Homme",
-      "gender_female": "Femme",
-      "gender_unknown": "Autre"
-    },
-    "events": {
-      "title": "Événements",
-      "tab_next": "À venir",
-      "tab_mine": "Mes événements"
+      }
     }
   }
 }
