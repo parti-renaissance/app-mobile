@@ -22,10 +22,14 @@ import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
 
 type Props = Readonly<{
+  openPersonalInformation: () => void
   viewModel: ProfileScreenViewModel
 }>
 
-const ProfileAuthenticated: FC<Props> = ({ viewModel }) => {
+const ProfileAuthenticated: FC<Props> = ({
+  openPersonalInformation,
+  viewModel,
+}) => {
   const { theme } = useTheme()
   const logout = () => {
     Alert.alert(
@@ -67,9 +71,7 @@ const ProfileAuthenticated: FC<Props> = ({ viewModel }) => {
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
       <ProfileSettingsItem
         title={i18n.t('profile.menu.personal_information')}
-        onPress={() => {
-          ExternalLink.openUrl(i18n.t('profile.menu.personal_information_url'))
-        }}
+        onPress={openPersonalInformation}
       />
       <ProfileSettingsItem
         title={i18n.t('profile.menu.notifications')}

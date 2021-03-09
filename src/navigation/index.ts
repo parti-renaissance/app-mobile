@@ -23,6 +23,7 @@ export type ProfileParamList = {
   ProfileZipCode: { zipCode: string }
   ProfileTermsOfUse: undefined
   ProfileDataProtection: undefined
+  PersonalInformation: undefined
 }
 
 export type AuthenticatedHomeParamList = {
@@ -187,4 +188,10 @@ export type ProfileLoginScreenProps = Readonly<{
 export type RegionScreenProps = StackScreenProps<
   HomeParamList,
   typeof Screen.region
+>
+
+// PersonalInformation
+export type PersonalInformationScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.personalInformation
 >
