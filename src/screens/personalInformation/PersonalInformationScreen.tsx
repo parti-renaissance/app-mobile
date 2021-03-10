@@ -1,11 +1,12 @@
-import React, { FC, RefObject, useRef } from 'react'
+import React, { FC, useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import CertifiedProfileView from './CertifiedProfileView'
-import UserInputView from './UserInputView'
+import LabelInputContainer from './LabelInputContainer'
+import LabelTextInput from './LabelTextInput'
 
 type Props = Readonly<{}>
 
@@ -28,39 +29,51 @@ const PersonalInformationScreen: FC<Props> = () => {
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_identity')}
           </Text>
-          <UserInputView
+          <LabelTextInput
             ref={firstNameRef}
             nextInput={lastNameRef}
             label={i18n.t('personalinformation.first_name')}
           />
-          <UserInputView
+          <LabelTextInput
             ref={lastNameRef}
             label={i18n.t('personalinformation.last_name')}
           />
+          <LabelInputContainer
+            label={i18n.t('personalinformation.gender')}
+          ></LabelInputContainer>
+          <LabelInputContainer
+            label={i18n.t('personalinformation.birthdate')}
+          ></LabelInputContainer>
+          <LabelInputContainer
+            label={i18n.t('personalinformation.nationality')}
+          ></LabelInputContainer>
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_coordinates')}
           </Text>
-          <UserInputView label={i18n.t('personalinformation.email')} />
-          <UserInputView label={i18n.t('personalinformation.phone')} />
+          <LabelInputContainer
+            label={i18n.t('personalinformation.address')}
+          ></LabelInputContainer>
+          <LabelTextInput label={i18n.t('personalinformation.email')} />
+          <LabelTextInput label={i18n.t('personalinformation.phone')} />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_social')}
           </Text>
-          <UserInputView
+          <LabelTextInput
             ref={facebookRef}
             nextInput={linkedInRef}
             label={i18n.t('personalinformation.facebook')}
           />
-          <UserInputView
+          <LabelTextInput
             ref={linkedInRef}
             nextInput={twitterRef}
             label={i18n.t('personalinformation.linkedin')}
           />
-          <UserInputView
+          <LabelTextInput
             ref={twitterRef}
             nextInput={telegramRef}
             label={i18n.t('personalinformation.twitter')}
           />
-          <UserInputView
+          <LabelTextInput
             ref={telegramRef}
             isLastInput={true}
             label={i18n.t('personalinformation.telegram')}

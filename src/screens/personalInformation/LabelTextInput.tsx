@@ -1,8 +1,9 @@
 import React, { forwardRef, RefObject } from 'react'
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
+import LabelInputContainer from './LabelInputContainer'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -11,7 +12,7 @@ type Props = Readonly<{
   isLastInput?: boolean
 }>
 
-const UserInputView = forwardRef<TextInput, Props>((props, ref) => {
+const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
   const returnKeyType = props.isLastInput === true ? 'done' : 'next'
   const submitEditing = () => {
     if (props.nextInput !== undefined) {
@@ -19,20 +20,16 @@ const UserInputView = forwardRef<TextInput, Props>((props, ref) => {
     }
   }
   return (
-    <View>
-      <View style={styles.container}>
-        <Text style={styles.label}>{props.label}</Text>
-        <TextInput
-          ref={ref}
-          style={styles.textInput}
-          placeholder={i18n.t('personalinformation.placeholder')}
-          placeholderTextColor={Colors.lightText}
-          returnKeyType={returnKeyType}
-          onSubmitEditing={submitEditing}
-        />
-      </View>
-      <View style={styles.separator} />
-    </View>
+    <LabelInputContainer label={props.label}>
+      <TextInput
+        ref={ref}
+        style={styles.textInput}
+        placeholder={i18n.t('personalinformation.placeholder')}
+        placeholderTextColor={Colors.lightText}
+        returnKeyType={returnKeyType}
+        onSubmitEditing={submitEditing}
+      />
+    </LabelInputContainer>
   )
 })
 
@@ -49,7 +46,6 @@ const styles = StyleSheet.create({
   textInput: {
     ...Typography.body,
     textAlign: 'right',
-    flexGrow: 1,
     paddingVertical: 0,
     color: Colors.darkText,
   },
@@ -60,4 +56,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default UserInputView
+export default LabelTextInput
