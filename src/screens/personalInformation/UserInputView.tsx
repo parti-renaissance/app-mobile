@@ -1,29 +1,40 @@
-import React, { FC } from 'react'
+import React, { forwardRef, RefObject } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   label: string
+  nextInput?: RefObject<TextInput>
+  isLastInput?: boolean
 }>
 
-const UserInputView: FC<Props> = (props) => {
+const UserInputView = forwardRef<TextInput, Props>((props, ref) => {
+  const returnKeyType = props.isLastInput === true ? 'done' : 'next'
+  const submitEditing = () => {
+    if (props.nextInput !== undefined) {
+      props.nextInput?.current?.focus()
+    }
+  }
   return (
     <View>
       <View style={styles.container}>
         <Text style={styles.label}>{props.label}</Text>
         <TextInput
+          ref={ref}
           style={styles.textInput}
           placeholder={i18n.t('personalinformation.placeholder')}
           placeholderTextColor={Colors.lightText}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={submitEditing}
         />
       </View>
       <View style={styles.separator} />
     </View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   container: {

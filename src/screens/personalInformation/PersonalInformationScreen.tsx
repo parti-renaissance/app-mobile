@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { FC, RefObject, useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
@@ -10,6 +10,12 @@ import UserInputView from './UserInputView'
 type Props = Readonly<{}>
 
 const PersonalInformationScreen: FC<Props> = () => {
+  const firstNameRef = useRef<TextInput>(null)
+  const lastNameRef = useRef<TextInput>(null)
+  const facebookRef = useRef<TextInput>(null)
+  const linkedInRef = useRef<TextInput>(null)
+  const twitterRef = useRef<TextInput>(null)
+  const telegramRef = useRef<TextInput>(null)
   const isCertified = false
   return (
     <KeyboardOffsetView>
@@ -22,8 +28,15 @@ const PersonalInformationScreen: FC<Props> = () => {
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_identity')}
           </Text>
-          <UserInputView label={i18n.t('personalinformation.first_name')} />
-          <UserInputView label={i18n.t('personalinformation.last_name')} />
+          <UserInputView
+            ref={firstNameRef}
+            nextInput={lastNameRef}
+            label={i18n.t('personalinformation.first_name')}
+          />
+          <UserInputView
+            ref={lastNameRef}
+            label={i18n.t('personalinformation.last_name')}
+          />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_coordinates')}
           </Text>
@@ -32,10 +45,26 @@ const PersonalInformationScreen: FC<Props> = () => {
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_social')}
           </Text>
-          <UserInputView label={i18n.t('personalinformation.facebook')} />
-          <UserInputView label={i18n.t('personalinformation.linkedin')} />
-          <UserInputView label={i18n.t('personalinformation.twitter')} />
-          <UserInputView label={i18n.t('personalinformation.telegram')} />
+          <UserInputView
+            ref={facebookRef}
+            nextInput={linkedInRef}
+            label={i18n.t('personalinformation.facebook')}
+          />
+          <UserInputView
+            ref={linkedInRef}
+            nextInput={twitterRef}
+            label={i18n.t('personalinformation.linkedin')}
+          />
+          <UserInputView
+            ref={twitterRef}
+            nextInput={telegramRef}
+            label={i18n.t('personalinformation.twitter')}
+          />
+          <UserInputView
+            ref={telegramRef}
+            isLastInput={true}
+            label={i18n.t('personalinformation.telegram')}
+          />
         </View>
       </ScrollView>
     </KeyboardOffsetView>
