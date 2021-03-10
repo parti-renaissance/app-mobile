@@ -9,11 +9,13 @@ import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
 import { gender_unknown } from '../../core/entities/PersonalInformation'
+import BirthdayPicker from './BirthdayPicker'
 
 type Props = Readonly<{}>
 
 const PersonalInformationScreen: FC<Props> = () => {
   const [currentGender, setCurrentGender] = useState<any>()
+  const [date, setDate] = useState<string | undefined>(undefined)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -24,6 +26,9 @@ const PersonalInformationScreen: FC<Props> = () => {
   const isCertified = false
   const genderListener = (value: any) => {
     setCurrentGender(value)
+  }
+  const onDateChange = (newDate: string) => {
+    setDate(newDate)
   }
   return (
     <KeyboardOffsetView>
@@ -52,9 +57,9 @@ const PersonalInformationScreen: FC<Props> = () => {
               label={i18n.t('personalinformation.gender_other')}
             />
           ) : null}
-          <LabelInputContainer
-            label={i18n.t('personalinformation.birthdate')}
-          ></LabelInputContainer>
+          <LabelInputContainer label={i18n.t('personalinformation.birthdate')}>
+            <BirthdayPicker date={date} onDateChange={onDateChange} />
+          </LabelInputContainer>
           <LabelInputContainer
             label={i18n.t('personalinformation.nationality')}
           ></LabelInputContainer>
