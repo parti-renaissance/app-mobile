@@ -233,7 +233,10 @@
       "linkedin": "Linkedin",
       "twitter": "Twitter",
       "telegram": "Telegram",
-      "placeholder": "Renseigner"
+      "placeholder": "Renseigner",
+      "gender_male": "Homme",
+      "gender_female": "Femme",
+      "gender_unknown": "Autre"
     }
   }
 }

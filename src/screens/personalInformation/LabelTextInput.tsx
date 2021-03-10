@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     ...Typography.body,
+    flexGrow: 1,
     textAlign: 'right',
     paddingVertical: 0,
     color: Colors.darkText,

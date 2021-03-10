@@ -7,6 +7,7 @@ import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import CertifiedProfileView from './CertifiedProfileView'
 import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
+import GenderPicker from './GenderPicker'
 
 type Props = Readonly<{}>
 
@@ -38,9 +39,7 @@ const PersonalInformationScreen: FC<Props> = () => {
             ref={lastNameRef}
             label={i18n.t('personalinformation.last_name')}
           />
-          <LabelInputContainer
-            label={i18n.t('personalinformation.gender')}
-          ></LabelInputContainer>
+          <GenderPicker />
           <LabelInputContainer
             label={i18n.t('personalinformation.birthdate')}
           ></LabelInputContainer>
