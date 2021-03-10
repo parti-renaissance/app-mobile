@@ -224,6 +224,7 @@
       "first_name": "Prénom",
       "last_name": "Nom",
       "gender": "Genre",
+      "gender_other": "Identité de genre",
       "birthdate": "Date de naissance",
       "nationality": "Nationalité",
       "address": "Adresse",

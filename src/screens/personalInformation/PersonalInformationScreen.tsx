@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -8,17 +8,23 @@ import CertifiedProfileView from './CertifiedProfileView'
 import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
+import { gender_unknown } from '../../core/entities/PersonalInformation'
 
 type Props = Readonly<{}>
 
 const PersonalInformationScreen: FC<Props> = () => {
+  const [currentGender, setCurrentGender] = useState<any>()
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
+  const genderOther = useRef<TextInput>(null)
   const facebookRef = useRef<TextInput>(null)
   const linkedInRef = useRef<TextInput>(null)
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
   const isCertified = false
+  const genderListener = (value: any) => {
+    setCurrentGender(value)
+  }
   return (
     <KeyboardOffsetView>
       <ScrollView style={styles.mainContainer}>
@@ -39,7 +45,13 @@ const PersonalInformationScreen: FC<Props> = () => {
             ref={lastNameRef}
             label={i18n.t('personalinformation.last_name')}
           />
-          <GenderPicker />
+          <GenderPicker onValueChange={genderListener} />
+          {currentGender === gender_unknown ? (
+            <LabelTextInput
+              ref={genderOther}
+              label={i18n.t('personalinformation.gender_other')}
+            />
+          ) : null}
           <LabelInputContainer
             label={i18n.t('personalinformation.birthdate')}
           ></LabelInputContainer>

@@ -10,9 +10,11 @@ import i18n from '../../utils/i18n'
 import LabelInputContainer from './LabelInputContainer'
 import RNPickerSelect from 'react-native-picker-select'
 
-type Props = Readonly<{}>
+type Props = Readonly<{
+  onValueChange: (value: any) => void
+}>
 
-const GenderPicker: FC<Props> = () => {
+const GenderPicker: FC<Props> = (props) => {
   return (
     <LabelInputContainer label={i18n.t('personalinformation.gender')}>
       <RNPickerSelect
@@ -33,7 +35,7 @@ const GenderPicker: FC<Props> = () => {
           value: null,
         }}
         Icon={() => <View style={styles.icon} />}
-        onValueChange={(value) => console.log(value)}
+        onValueChange={props.onValueChange}
         items={[
           {
             label: i18n.t('personalinformation.gender_male'),
