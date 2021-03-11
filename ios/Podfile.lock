@@ -398,6 +398,8 @@ PODS:
     - React-Core
   - RNCPushNotificationIOS (1.7.3):
     - React-Core
+  - RNDateTimePicker (3.2.0):
+    - React-Core
   - RNDeviceInfo (7.1.0):
     - React-Core
   - RNFBAnalytics (10.1.1):
@@ -493,6 +495,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -608,6 +611,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-picker/picker"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFBAnalytics:
@@ -692,6 +697,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPicker: 6780c753e9e674065db90d9c965920516402579d
   RNCPushNotificationIOS: edeeea93b7210d2f918fc0e46e1a2a189b5fdacc
+  RNDateTimePicker: 17593e41b6b1585aeb8ecbe1c1cbc30cba3d0b4b
   RNDeviceInfo: 6cf87235aa11e675b93b31aa9b88a825753eea2f
   RNFBAnalytics: da48ff33f20c26ee63745271ae9c0fb252422e66
   RNFBApp: 2b4e07dfca4cf780b9e2d61bcc21e34d890cd654

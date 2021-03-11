@@ -10,11 +10,13 @@ import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
 import { gender_unknown } from '../../core/entities/PersonalInformation'
 import BirthdayPicker from './BirthdayPicker'
+import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
 
 type Props = Readonly<{}>
 
 const PersonalInformationScreen: FC<Props> = () => {
   const [currentGender, setCurrentGender] = useState<any>()
+  const [countryCode, setCountryCode] = useState<CountryCode>('FR')
   const [date, setDate] = useState<string | undefined>(undefined)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
@@ -62,7 +64,19 @@ const PersonalInformationScreen: FC<Props> = () => {
           </LabelInputContainer>
           <LabelInputContainer
             label={i18n.t('personalinformation.nationality')}
-          ></LabelInputContainer>
+          >
+            <CountryPicker
+              countryCode={countryCode}
+              preferredCountries={['FR']}
+              withFlagButton={false}
+              translation={'fra'}
+              withCountryNameButton={true}
+              containerButtonStyle={{ alignSelf: 'flex-end' }}
+              onSelect={(country) => {
+                setCountryCode(country.cca2)
+              }}
+            />
+          </LabelInputContainer>
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_coordinates')}
           </Text>
