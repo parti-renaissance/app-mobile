@@ -11,6 +11,8 @@ import GenderPicker from './GenderPicker'
 import { gender_unknown } from '../../core/entities/PersonalInformation'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
+import LocationPicker from './LocationPicker'
+import { GooglePlaceDetail } from 'react-native-google-places-autocomplete'
 
 type Props = Readonly<{}>
 
@@ -18,6 +20,7 @@ const PersonalInformationScreen: FC<Props> = () => {
   const [currentGender, setCurrentGender] = useState<any>()
   const [countryCode, setCountryCode] = useState<CountryCode>('FR')
   const [date, setDate] = useState<string | undefined>(undefined)
+  const [address, setAddress] = useState<GooglePlaceDetail | null>(null)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -34,7 +37,10 @@ const PersonalInformationScreen: FC<Props> = () => {
   }
   return (
     <KeyboardOffsetView>
-      <ScrollView style={styles.mainContainer}>
+      <ScrollView
+        style={styles.mainContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.container}>
           <CertifiedProfileView
             style={styles.certifiedContainer}
@@ -80,9 +86,12 @@ const PersonalInformationScreen: FC<Props> = () => {
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_coordinates')}
           </Text>
-          <LabelInputContainer
-            label={i18n.t('personalinformation.address')}
-          ></LabelInputContainer>
+          <LabelInputContainer label={i18n.t('personalinformation.address')}>
+            <LocationPicker
+              address={address?.formatted_address}
+              onAddressSelected={(data, details) => setAddress(details)}
+            />
+          </LabelInputContainer>
           <LabelTextInput label={i18n.t('personalinformation.email')} />
           <LabelTextInput label={i18n.t('personalinformation.phone')} />
           <Text style={styles.section}>
