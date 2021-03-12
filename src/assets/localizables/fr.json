@@ -218,6 +218,9 @@
       "certified": {
         "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
       },
+      "title": "Informations personnelles",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
       "section_identity": "Paramètres du compte",
       "section_coordinates": "Paramètres du compte",
       "section_social": "Paramètres du compte (optionnel)",

@@ -1,6 +1,10 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
@@ -13,10 +17,29 @@ import BirthdayPicker from './BirthdayPicker'
 import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete'
+import { PersonalInformationScreenProps } from '../../navigation'
 
-type Props = Readonly<{}>
-
-const PersonalInformationScreen: FC<Props> = () => {
+const PersonalInformationScreen = ({
+  navigation,
+}: PersonalInformationScreenProps) => {
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.headerButtonText}>
+          {i18n.t('personalinformation.cancel')}
+        </Text>
+      </TouchableOpacity>
+    ),
+    title: i18n.t('personalinformation.title'),
+    headerRight: () => (
+      <TouchableOpacity>
+        <Text style={styles.headerButtonText}>
+          {i18n.t('personalinformation.save')}
+        </Text>
+      </TouchableOpacity>
+    ),
+    headerTitleStyle: styles.title,
+  })
   const [currentGender, setCurrentGender] = useState<any>()
   const [countryCode, setCountryCode] = useState<CountryCode>('FR')
   const [date, setDate] = useState<string | undefined>(undefined)
@@ -53,10 +76,16 @@ const PersonalInformationScreen: FC<Props> = () => {
             ref={firstNameRef}
             nextInput={lastNameRef}
             label={i18n.t('personalinformation.first_name')}
+            textInputProps={{
+              textContentType: 'givenName',
+            }}
           />
           <LabelTextInput
             ref={lastNameRef}
             label={i18n.t('personalinformation.last_name')}
+            textInputProps={{
+              textContentType: 'familyName',
+            }}
           />
           <GenderPicker onValueChange={genderListener} />
           {currentGender === gender_unknown ? (
@@ -76,6 +105,7 @@ const PersonalInformationScreen: FC<Props> = () => {
               preferredCountries={['FR']}
               withFlagButton={false}
               translation={'fra'}
+              closeButtonImage={require('../../assets/images/navigationBarBack.png')}
               withCountryNameButton={true}
               containerButtonStyle={{ alignSelf: 'flex-end' }}
               onSelect={(country) => {
@@ -92,8 +122,24 @@ const PersonalInformationScreen: FC<Props> = () => {
               onAddressSelected={(data, details) => setAddress(details)}
             />
           </LabelInputContainer>
-          <LabelTextInput label={i18n.t('personalinformation.email')} />
-          <LabelTextInput label={i18n.t('personalinformation.phone')} />
+          <LabelTextInput
+            label={i18n.t('personalinformation.email')}
+            textInputProps={{
+              keyboardType: 'email-address',
+              textContentType: 'emailAddress',
+              autoCapitalize: 'none',
+              autoCorrect: false,
+            }}
+          />
+          <LabelTextInput
+            label={i18n.t('personalinformation.phone')}
+            textInputProps={{
+              keyboardType: 'phone-pad',
+              textContentType: 'telephoneNumber',
+              autoCapitalize: 'none',
+              autoCorrect: false,
+            }}
+          />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_social')}
           </Text>
@@ -123,6 +169,10 @@ const PersonalInformationScreen: FC<Props> = () => {
   )
 }
 
+PersonalInformationScreen.navigationOptions = (screenProps) => ({
+  title: 'test',
+})
+
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: Colors.defaultBackground,
@@ -136,6 +186,13 @@ const styles = StyleSheet.create({
     ...Typography.caption1,
     color: Colors.lightText,
     marginTop: Spacing.margin,
+  },
+  headerButtonText: {
+    paddingHorizontal: Spacing.margin,
+  },
+  title: {
+    ...Typography.title2,
+    paddingHorizontal: Spacing.mediumMargin,
   },
 })
 

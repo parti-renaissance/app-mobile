@@ -1,5 +1,5 @@
 import React, { forwardRef, RefObject } from 'react'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, TextInputProps, ViewStyle } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -10,6 +10,7 @@ type Props = Readonly<{
   label: string
   nextInput?: RefObject<TextInput>
   isLastInput?: boolean
+  textInputProps?: TextInputProps
 }>
 
 const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -28,6 +29,7 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
         placeholderTextColor={Colors.lightText}
         returnKeyType={returnKeyType}
         onSubmitEditing={submitEditing}
+        {...props.textInputProps}
       />
     </LabelInputContainer>
   )
