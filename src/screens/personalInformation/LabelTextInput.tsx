@@ -1,6 +1,11 @@
-import React, { forwardRef, RefObject } from 'react'
-import { StyleProp, StyleSheet, TextInputProps, ViewStyle } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import React, { forwardRef } from 'react'
+import {
+  StyleProp,
+  StyleSheet,
+  TextInputProps,
+  ViewStyle,
+  TextInput,
+} from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LabelInputContainer from './LabelInputContainer'
@@ -8,7 +13,7 @@ import LabelInputContainer from './LabelInputContainer'
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   label: string
-  nextInput?: RefObject<TextInput>
+  nextInput?: React.RefObject<TextInput>
   isLastInput?: boolean
   textInputProps?: TextInputProps
 }>

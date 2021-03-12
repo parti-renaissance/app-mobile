@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 import {
-  ScrollView,
+  StyleSheet,
+  Text,
+  View,
   TextInput,
+  ScrollView,
   TouchableOpacity,
-} from 'react-native-gesture-handler'
+} from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
@@ -119,7 +121,7 @@ const PersonalInformationScreen = ({
           <LabelInputContainer label={i18n.t('personalinformation.address')}>
             <LocationPicker
               address={address?.formatted_address}
-              onAddressSelected={(data, details) => setAddress(details)}
+              onAddressSelected={(_, details) => setAddress(details)}
             />
           </LabelInputContainer>
           <LabelTextInput
@@ -168,10 +170,6 @@ const PersonalInformationScreen = ({
     </KeyboardOffsetView>
   )
 }
-
-PersonalInformationScreen.navigationOptions = (screenProps) => ({
-  title: 'test',
-})
 
 const styles = StyleSheet.create({
   mainContainer: {
