@@ -50,7 +50,7 @@
     "promise.allsettled": "1.0.2",
     "react": "16.13.1",
     "react-i18next": "11.7.3",
-    "react-native": "0.63.3",
+    "react-native": "0.64.0",
     "react-native-cache": "2.0.1",
     "react-native-custom-tabs": "https://github.com/adminphoeniixx/react-native-custom-tabs#7605cda",
     "react-native-device-info": "7.1.0",
