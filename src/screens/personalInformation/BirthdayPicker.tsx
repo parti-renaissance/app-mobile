@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import DatePicker from 'react-native-datepicker'
+import { StyleSheet } from 'react-native'
 
 type Props = Readonly<{
   date: string | undefined
@@ -17,6 +18,7 @@ const BirthdayPicker: FC<Props> = (props) => {
       cancelBtnText={i18n.t('common.cancel')}
       placeholder={i18n.t('personalinformation.placeholder')}
       customStyles={{
+        // @ts-ignore: Placeholder attributes
         placeholderText: {
           ...Typography.body,
           color: Colors.lightText,
@@ -29,11 +31,15 @@ const BirthdayPicker: FC<Props> = (props) => {
         },
         btnTextConfirm: { color: Colors.darkText },
       }}
-      style={{ alignSelf: 'flex-end' }}
+      style={styles.picker}
       date={props.date}
       onDateChange={props.onDateChange}
     />
   )
 }
+
+const styles = StyleSheet.create({
+  picker: { alignSelf: 'flex-end' },
+})
 
 export default BirthdayPicker

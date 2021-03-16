@@ -107,9 +107,10 @@ const PersonalInformationScreen = ({
               preferredCountries={['FR']}
               withFlagButton={false}
               translation={'fra'}
+              // @ts-ignore: Issue in the country picker typescript definition
               closeButtonImage={require('../../assets/images/navigationBarBack.png')}
               withCountryNameButton={true}
-              containerButtonStyle={{ alignSelf: 'flex-end' }}
+              containerButtonStyle={styles.countryPickerContainerButton}
               onSelect={(country) => {
                 setCountryCode(country.cca2)
               }}
@@ -191,6 +192,9 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title2,
     paddingHorizontal: Spacing.mediumMargin,
+  },
+  countryPickerContainerButton: {
+    alignSelf: 'flex-end',
   },
 })
 
