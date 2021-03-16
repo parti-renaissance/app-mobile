@@ -1,6 +1,7 @@
 export const authenticatedHome = 'AuthenticatedHome'
 export const polls = 'Polls'
 export const homeNavigator = 'HomeNavigator'
+export const events = 'Events'
 export const home = 'Home'
 export const tools = 'Tools'
 export const profileNavigator = 'ProfileNavigator'
