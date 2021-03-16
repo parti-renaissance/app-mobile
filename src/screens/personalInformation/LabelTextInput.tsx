@@ -16,6 +16,7 @@ type Props = Readonly<{
   nextInput?: React.RefObject<TextInput>
   isLastInput?: boolean
   textInputProps?: TextInputProps
+  defaultValue?: string
 }>
 
 const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -34,6 +35,7 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
         placeholderTextColor={Colors.lightText}
         returnKeyType={returnKeyType}
         onSubmitEditing={submitEditing}
+        defaultValue={props.defaultValue}
         {...props.textInputProps}
       />
     </LabelInputContainer>

@@ -57,7 +57,7 @@
     "react-native-cache": "2.0.1",
     "react-native-country-picker-modal": "2.0.0",
     "react-native-custom-tabs": "https://github.com/adminphoeniixx/react-native-custom-tabs#7605cda",
-    "react-native-datepicker": "1.7.2",
+    "react-native-datepicker": "github:codynguyen/react-native-datepicker#ios-datepicker-component",
     "react-native-device-info": "7.1.0",
     "react-native-gesture-handler": "1.8.0",
     "react-native-google-places-autocomplete": "2.1.3",

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -14,37 +14,29 @@ import CertifiedProfileView from './CertifiedProfileView'
 import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
-import { gender_unknown } from '../../core/entities/PersonalInformation'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete'
 import { PersonalInformationScreenProps } from '../../navigation'
+import { StatefulView, ViewState } from '../shared/StatefulView'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import ProfileRepository from '../../data/ProfileRepository'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { Gender } from '../../core/entities/UserProfile'
 
-const PersonalInformationScreen = ({
-  navigation,
-}: PersonalInformationScreenProps) => {
-  navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.headerButtonText}>
-          {i18n.t('personalinformation.cancel')}
-        </Text>
-      </TouchableOpacity>
-    ),
-    title: i18n.t('personalinformation.title'),
-    headerRight: () => (
-      <TouchableOpacity>
-        <Text style={styles.headerButtonText}>
-          {i18n.t('personalinformation.save')}
-        </Text>
-      </TouchableOpacity>
-    ),
-    headerTitleStyle: styles.title,
-  })
-  const [currentGender, setCurrentGender] = useState<any>()
-  const [countryCode, setCountryCode] = useState<CountryCode>('FR')
-  const [date, setDate] = useState<string | undefined>(undefined)
+type ContentProps = Readonly<{
+  profile: DetailedProfile
+}>
+
+const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
+  const [currentGender, setCurrentGender] = useState<Gender | undefined>(
+    profile.gender,
+  )
+  const [countryCode, setCountryCode] = useState<CountryCode>(
+    profile.nationality,
+  )
+  const [date, setDate] = useState<Date | undefined>(profile.birthDate)
   const [address, setAddress] = useState<GooglePlaceDetail | null>(null)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
@@ -54,10 +46,11 @@ const PersonalInformationScreen = ({
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
   const isCertified = false
-  const genderListener = (value: any) => {
+
+  const genderListener = (value: Gender | undefined) => {
     setCurrentGender(value)
   }
-  const onDateChange = (newDate: string) => {
+  const onDateChange = (_: string, newDate: Date) => {
     setDate(newDate)
   }
   return (
@@ -81,6 +74,7 @@ const PersonalInformationScreen = ({
             textInputProps={{
               textContentType: 'givenName',
             }}
+            defaultValue={profile.firstName}
           />
           <LabelTextInput
             ref={lastNameRef}
@@ -88,12 +82,17 @@ const PersonalInformationScreen = ({
             textInputProps={{
               textContentType: 'familyName',
             }}
+            defaultValue={profile.lastName}
           />
-          <GenderPicker onValueChange={genderListener} />
-          {currentGender === gender_unknown ? (
+          <GenderPicker
+            onValueChange={genderListener}
+            defaultValue={currentGender}
+          />
+          {currentGender === Gender.Other ? (
             <LabelTextInput
               ref={genderOther}
               label={i18n.t('personalinformation.gender_other')}
+              defaultValue={profile.customGender}
             />
           ) : null}
           <LabelInputContainer label={i18n.t('personalinformation.birthdate')}>
@@ -169,6 +168,65 @@ const PersonalInformationScreen = ({
         </View>
       </ScrollView>
     </KeyboardOffsetView>
+  )
+}
+
+const PersonalInformationScreen = ({
+  navigation,
+}: PersonalInformationScreenProps) => {
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<DetailedProfile>
+  >(new ViewState.Loading())
+
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.headerButtonText}>
+          {i18n.t('personalinformation.cancel')}
+        </Text>
+      </TouchableOpacity>
+    ),
+    title: i18n.t('personalinformation.title'),
+    headerRight: () => (
+      <TouchableOpacity>
+        <Text style={styles.headerButtonText}>
+          {i18n.t('personalinformation.save')}
+        </Text>
+      </TouchableOpacity>
+    ),
+    headerTitleStyle: styles.title,
+  })
+
+  useEffect(() => {
+    const fetchData = () => {
+      ProfileRepository.getInstance()
+        .getDetailedProfile()
+        .then((detailedProfile) => {
+          setStatefulState(new ViewState.Content(detailedProfile))
+        })
+        .catch((error) => {
+          setStatefulState(
+            new ViewState.Error(
+              GenericErrorMapper.mapErrorMessage(error),
+              () => {
+                setStatefulState(new ViewState.Loading())
+                fetchData()
+              },
+            ),
+          )
+        })
+    }
+
+    fetchData()
+  }, [])
+
+  return (
+    <StatefulView
+      state={statefulState}
+      contentComponent={(detailedProfile) => {
+        return <PersonalInformationScreenContent profile={detailedProfile} />
+      }}
+    />
   )
 }
 
