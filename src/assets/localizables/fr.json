@@ -248,6 +248,12 @@
       "default_country_code": "FR",
       "country_picker_language": "fra",
       "gmaps_language": "fr"
+    },
+    "events": {
+      "title": "Événements",
+      "tab_home": "À la une",
+      "tab_calendar": "Calendrier",
+      "tab_mine": "Mes événements"
     }
   }
 }
