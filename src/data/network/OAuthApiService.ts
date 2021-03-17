@@ -23,7 +23,9 @@ class OAuthApiService {
     formData.append('client_id', OAUTH_CLIENT_ID)
     formData.append('client_secret', OAUTH_CLIENT_SECRET)
     formData.append('grant_type', 'password')
-    formData.append('scope', SCOPE)
+    formData.append('scope[]', SCOPE_APP)
+    formData.append('scope[]', SCOPE_READ_PROFILE)
+    formData.append('scope[]', SCOPE_WRITE_PROFILE)
     formData.append('device_id', deviceId)
     formData.append('username', username)
     formData.append('password', password)
@@ -56,7 +58,9 @@ class OAuthApiService {
     formData.append('client_id', OAUTH_CLIENT_ID)
     formData.append('client_secret', OAUTH_CLIENT_SECRET)
     formData.append('grant_type', 'client_credentials')
-    formData.append('scope', SCOPE)
+    formData.append('scope[]', SCOPE_APP)
+    formData.append('scope[]', SCOPE_READ_PROFILE)
+    formData.append('scope[]', SCOPE_WRITE_PROFILE)
     formData.append('device_id', deviceId)
 
     return this.oauthHttpClient
@@ -96,7 +100,9 @@ class OAuthApiService {
   }
 }
 
-const SCOPE = 'jemarche_app'
+const SCOPE_APP = 'jemarche_app'
+const SCOPE_READ_PROFILE = 'read:profile'
+const SCOPE_WRITE_PROFILE = 'write:profile'
 
 const INVALID_CREDENTIALS_HTTP_STATUS = 401
 const INVALID_REFRESH_TOKEN_HTTP_STATUS = 401
