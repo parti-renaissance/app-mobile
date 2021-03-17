@@ -1,9 +1,14 @@
 import { CountryCode, isCountryCode } from 'react-native-country-picker-modal'
-import { Address, DetailedProfile } from '../../core/entities/DetailedProfile'
+import {
+  Address,
+  DetailedProfile,
+  PhoneNumber,
+} from '../../core/entities/DetailedProfile'
 import { Profile } from '../../core/entities/Profile'
 import { Gender } from '../../core/entities/UserProfile'
 import {
   RestDetailedProfileResponse,
+  RestPhoneNumber,
   RestPostAddress,
 } from '../restObjects/RestDetailedProfileResponse'
 import { RestProfileResponse } from '../restObjects/RestProfileResponse'
@@ -43,6 +48,7 @@ export const ProfileMapper = {
       linkedin: result.linkedin_page_url ?? undefined,
       twitter: result.twitter_page_url ?? undefined,
       telegram: result.telegram_page_url ?? undefined,
+      phone: phoneNumber(result.phone),
     }
   },
 }
@@ -67,5 +73,23 @@ const postAddress = (restPostAddress: RestPostAddress): Address => {
     postalCode: restPostAddress.postal_code ?? undefined,
     city: restPostAddress.city_name ?? undefined,
     country: restPostAddress.country ?? undefined,
+  }
+}
+
+const phoneNumber = (
+  restPhoneNumber: RestPhoneNumber | null,
+): PhoneNumber | undefined => {
+  if (restPhoneNumber == null) return undefined
+
+  let countryCode: CountryCode
+  if (isCountryCode(restPhoneNumber.country)) {
+    countryCode = restPhoneNumber.country
+  } else {
+    // by default
+    countryCode = 'FR'
+  }
+  return {
+    countryCode: countryCode,
+    number: restPhoneNumber.number,
   }
 }

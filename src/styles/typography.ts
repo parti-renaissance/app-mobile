@@ -1,4 +1,5 @@
 import { TextStyle } from 'react-native'
+import { Theme } from 'react-native-country-picker-modal/lib/CountryTheme'
 import * as Colors from './colors'
 
 const titleFontSize = 24
@@ -107,4 +108,14 @@ export const errorMessage: TextStyle = {
 export const tabLabel: TextStyle = {
   fontFamily: robotoRegular,
   fontSize: calloutFontSize,
+}
+
+export const countryPicker: Theme = {
+  fontSize: bodyFontSize,
+  fontFamily: robotoRegular,
+}
+
+export const phoneNumberPicker: Theme = {
+  fontSize: calloutFontSize,
+  fontFamily: robotoRegular,
 }

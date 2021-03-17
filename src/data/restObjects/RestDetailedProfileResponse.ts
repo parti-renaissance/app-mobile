@@ -12,6 +12,7 @@ export interface RestDetailedProfileResponse {
   twitter_page_url: string | null
   linkedin_page_url: string | null
   telegram_page_url: string | null
+  phone: RestPhoneNumber | null
 }
 
 export interface RestPostAddress {
@@ -21,4 +22,9 @@ export interface RestPostAddress {
   city_name: string | null
   region: string | null
   country: string | null
+}
+
+export interface RestPhoneNumber {
+  country: string
+  number: string
 }

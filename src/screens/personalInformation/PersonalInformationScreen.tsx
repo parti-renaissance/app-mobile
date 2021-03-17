@@ -19,10 +19,15 @@ import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
 import { PersonalInformationScreenProps } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import { Address, DetailedProfile } from '../../core/entities/DetailedProfile'
+import {
+  Address,
+  DetailedProfile,
+  PhoneNumber,
+} from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { Gender } from '../../core/entities/UserProfile'
+import PhoneNumberInput from './PhoneNumberInput'
 
 type ContentProps = Readonly<{
   profile: DetailedProfile
@@ -37,6 +42,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
   )
   const [date, setDate] = useState<Date | undefined>(profile.birthDate)
   const [address, setAddress] = useState<Address | undefined>(profile.address)
+  const [, setPhoneNumber] = useState<PhoneNumber | undefined>(profile.phone)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -109,6 +115,12 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
               closeButtonImage={require('../../assets/images/navigationBarBack.png')}
               withCountryNameButton={true}
               containerButtonStyle={styles.countryPickerContainerButton}
+              withFlag={false}
+              theme={Typography.countryPicker}
+              // @ts-ignore: Issue in the country picker typescript definition
+              flatListProps={{
+                contentContainerStyle: { paddingHorizontal: Spacing.margin },
+              }}
               onSelect={(country) => {
                 setCountryCode(country.cca2)
               }}
@@ -135,14 +147,11 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
             }}
             defaultValue={profile.email}
           />
-          <LabelTextInput
+          <PhoneNumberInput
+            defaultValue={profile.phone}
             label={i18n.t('personalinformation.phone')}
-            textInputProps={{
-              keyboardType: 'phone-pad',
-              textContentType: 'telephoneNumber',
-              autoCapitalize: 'none',
-              autoCorrect: false,
-            }}
+            nextInput={facebookRef}
+            onValueChange={setPhoneNumber}
           />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_social')}

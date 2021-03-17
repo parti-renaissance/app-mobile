@@ -15,6 +15,7 @@ export interface DetailedProfile {
   twitter: string | undefined
   linkedin: string | undefined
   telegram: string | undefined
+  phone: PhoneNumber | undefined
 }
 
 export interface Address {
@@ -22,4 +23,9 @@ export interface Address {
   postalCode: string | undefined
   city: string | undefined
   country: string | undefined
+}
+
+export interface PhoneNumber {
+  countryCode: CountryCode
+  number: string
 }

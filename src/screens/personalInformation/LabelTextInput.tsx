@@ -6,7 +6,7 @@ import {
   ViewStyle,
   TextInput,
 } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
+import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LabelInputContainer from './LabelInputContainer'
 
@@ -43,26 +43,12 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
 })
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: Spacing.unit,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  label: {
-    ...Typography.body,
-    color: Colors.darkText,
-  },
   textInput: {
     ...Typography.body,
     flexGrow: 1,
     textAlign: 'right',
     paddingVertical: 0,
     color: Colors.darkText,
-  },
-  separator: {
-    height: Spacing.separatorHeight,
-    marginTop: Spacing.unit,
-    backgroundColor: Colors.separator,
   },
 })
 
