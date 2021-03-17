@@ -6,4 +6,14 @@ export interface RestDetailedProfileResponse {
   custom_gender: string | null
   nationality: string
   birthdate: string | null
+  post_address: RestPostAddress
+}
+
+export interface RestPostAddress {
+  address: string | null
+  postal_code: string | null
+  city: string | null
+  city_name: string | null
+  region: string | null
+  country: string | null
 }

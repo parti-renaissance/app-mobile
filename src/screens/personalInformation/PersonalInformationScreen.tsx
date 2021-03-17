@@ -17,10 +17,9 @@ import GenderPicker from './GenderPicker'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
-import { GooglePlaceDetail } from 'react-native-google-places-autocomplete'
 import { PersonalInformationScreenProps } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import { Address, DetailedProfile } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { Gender } from '../../core/entities/UserProfile'
@@ -37,7 +36,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
     profile.nationality,
   )
   const [date, setDate] = useState<Date | undefined>(profile.birthDate)
-  const [address, setAddress] = useState<GooglePlaceDetail | null>(null)
+  const [address, setAddress] = useState<Address | undefined>(profile.address)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -120,8 +119,10 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
           </Text>
           <LabelInputContainer label={i18n.t('personalinformation.address')}>
             <LocationPicker
-              address={address?.formatted_address}
-              onAddressSelected={(_, details) => setAddress(details)}
+              address={address}
+              onAddressSelected={(pickedAddress) => {
+                setAddress(pickedAddress)
+              }}
             />
           </LabelInputContainer>
           <LabelTextInput

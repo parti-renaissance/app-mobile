@@ -9,4 +9,12 @@ export interface DetailedProfile {
   customGender: string | undefined
   nationality: CountryCode
   birthDate: Date | undefined
+  address: Address
+}
+
+export interface Address {
+  address: string | undefined
+  postalCode: string | undefined
+  city: string | undefined
+  country: string | undefined
 }

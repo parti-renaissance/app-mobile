@@ -1,8 +1,11 @@
 import { CountryCode, isCountryCode } from 'react-native-country-picker-modal'
-import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import { Address, DetailedProfile } from '../../core/entities/DetailedProfile'
 import { Profile } from '../../core/entities/Profile'
 import { Gender } from '../../core/entities/UserProfile'
-import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
+import {
+  RestDetailedProfileResponse,
+  RestPostAddress,
+} from '../restObjects/RestDetailedProfileResponse'
 import { RestProfileResponse } from '../restObjects/RestProfileResponse'
 
 export const ProfileMapper = {
@@ -34,6 +37,7 @@ export const ProfileMapper = {
       customGender: result.custom_gender ?? undefined,
       nationality: nationality,
       birthDate: result.birthdate ? new Date(result.birthdate) : undefined,
+      address: postAddress(result.post_address),
     }
   },
 }
@@ -49,5 +53,14 @@ const restGender = (gender: string | undefined): Gender | undefined => {
       return Gender.Female
     default:
       return Gender.Other
+  }
+}
+
+const postAddress = (restPostAddress: RestPostAddress): Address => {
+  return {
+    address: restPostAddress.address ?? undefined,
+    postalCode: restPostAddress.postal_code ?? undefined,
+    city: restPostAddress.city_name ?? undefined,
+    country: restPostAddress.country ?? undefined,
   }
 }
