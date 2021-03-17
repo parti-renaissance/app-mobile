@@ -133,6 +133,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
               autoCapitalize: 'none',
               autoCorrect: false,
             }}
+            defaultValue={profile.email}
           />
           <LabelTextInput
             label={i18n.t('personalinformation.phone')}
@@ -150,21 +151,25 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
             ref={facebookRef}
             nextInput={linkedInRef}
             label={i18n.t('personalinformation.facebook')}
+            defaultValue={profile.facebook}
           />
           <LabelTextInput
             ref={linkedInRef}
             nextInput={twitterRef}
             label={i18n.t('personalinformation.linkedin')}
+            defaultValue={profile.linkedin}
           />
           <LabelTextInput
             ref={twitterRef}
             nextInput={telegramRef}
             label={i18n.t('personalinformation.twitter')}
+            defaultValue={profile.twitter}
           />
           <LabelTextInput
             ref={telegramRef}
             isLastInput={true}
             label={i18n.t('personalinformation.telegram')}
+            defaultValue={profile.telegram}
           />
         </View>
       </ScrollView>

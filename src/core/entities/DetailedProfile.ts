@@ -10,6 +10,11 @@ export interface DetailedProfile {
   nationality: CountryCode
   birthDate: Date | undefined
   address: Address
+  email: string | undefined
+  facebook: string | undefined
+  twitter: string | undefined
+  linkedin: string | undefined
+  telegram: string | undefined
 }
 
 export interface Address {

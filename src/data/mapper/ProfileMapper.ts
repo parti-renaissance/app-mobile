@@ -38,6 +38,11 @@ export const ProfileMapper = {
       nationality: nationality,
       birthDate: result.birthdate ? new Date(result.birthdate) : undefined,
       address: postAddress(result.post_address),
+      email: result.email_address ?? undefined,
+      facebook: result.facebook_page_url ?? undefined,
+      linkedin: result.linkedin_page_url ?? undefined,
+      twitter: result.twitter_page_url ?? undefined,
+      telegram: result.telegram_page_url ?? undefined,
     }
   },
 }

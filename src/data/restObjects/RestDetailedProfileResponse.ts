@@ -7,6 +7,11 @@ export interface RestDetailedProfileResponse {
   nationality: string
   birthdate: string | null
   post_address: RestPostAddress
+  email_address: string | null
+  facebook_page_url: string | null
+  twitter_page_url: string | null
+  linkedin_page_url: string | null
+  telegram_page_url: string | null
 }
 
 export interface RestPostAddress {
