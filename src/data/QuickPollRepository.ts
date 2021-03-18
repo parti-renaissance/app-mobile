@@ -4,11 +4,13 @@ import { DataSource } from './DataSource'
 import { QuickPoll } from '../core/entities/QuickPoll'
 import { RestQuickPollResponse } from './restObjects/RestQuickPollResponse'
 import { QuickPollMapper } from './mapper/QuickPollMapper'
+import LocalStore from './store/LocalStore'
 
 class QuickPollRepository {
   private static instance: QuickPollRepository
   private apiService = ApiService.getInstance()
   private cacheManager = CacheManager.getInstance()
+  private localStore = LocalStore.getInstance()
   private constructor() {}
 
   public async getQuickPolls(
@@ -31,6 +33,14 @@ class QuickPollRepository {
   public async sendQuickPollAnswer(answerId: string): Promise<QuickPoll> {
     let restPoll = await this.apiService.sendQuickPollAnswer(answerId)
     return QuickPollMapper.map(restPoll)
+  }
+
+  public saveAnsweredQuickPoll(quickPollId: string): Promise<void> {
+    return this.localStore.storeAnsweredQuickPoll(quickPollId)
+  }
+
+  public getAnsweredQuickPolls(): Promise<Array<string>> {
+    return this.localStore.getAnsweredQuickPolls()
   }
 
   public static getInstance(): QuickPollRepository {

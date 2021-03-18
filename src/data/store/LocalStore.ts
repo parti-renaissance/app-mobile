@@ -6,6 +6,7 @@ import { TopicsRegistration } from './TopicsRegistration'
 const KEY_CREDENTIALS = 'credentials'
 const USER_PREFERENCES = 'userPreferences'
 const TOPICS_REGISTRATION = 'topicsRegistration'
+const ANSWERED_QUICK_POLLS = 'answeredQuickPolls'
 
 class LocalStore {
   private static instance: LocalStore
@@ -50,6 +51,18 @@ class LocalStore {
 
   clearTopicsRegistration(): Promise<void> {
     return AsyncStorage.removeItem(TOPICS_REGISTRATION)
+  }
+
+  async storeAnsweredQuickPoll(quickPollId: string): Promise<void> {
+    const pollsIds = await this.getAnsweredQuickPolls()
+    const jsonValue = JSON.stringify(pollsIds + quickPollId)
+    await AsyncStorage.setItem(ANSWERED_QUICK_POLLS, jsonValue)
+  }
+
+  async getAnsweredQuickPolls(): Promise<Array<string>> {
+    const rawValue = await AsyncStorage.getItem(ANSWERED_QUICK_POLLS)
+    const value = this.parseJSON(rawValue)
+    return value ?? []
   }
 
   public static getInstance(): LocalStore {
