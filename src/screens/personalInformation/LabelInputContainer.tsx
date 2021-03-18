@@ -4,17 +4,26 @@ import { Colors, Spacing, Typography } from '../../styles'
 
 type Props = Readonly<{
   label: string
+  errorMessage?: string
   children: any
 }>
 
 const LabelInputContainer: FC<Props> = (props) => {
+  const hasErrorMessage =
+    props.errorMessage !== undefined && props.errorMessage !== ''
+  const borderColor = hasErrorMessage
+    ? Colors.inputTextErrorMessage
+    : Colors.separator
   return (
     <View>
       <View style={styles.container}>
         <Text style={styles.label}>{props.label}</Text>
         <View style={styles.input}>{props.children}</View>
       </View>
-      <View style={styles.separator} />
+      <View style={[styles.separator, { backgroundColor: borderColor }]} />
+      {hasErrorMessage ? (
+        <Text style={styles.errorMessage}>{props.errorMessage}</Text>
+      ) : null}
     </View>
   )
 }
@@ -36,6 +45,10 @@ const styles = StyleSheet.create({
     height: Spacing.separatorHeight,
     marginTop: Spacing.unit,
     backgroundColor: Colors.separator,
+  },
+  errorMessage: {
+    ...Typography.errorMessage,
+    marginTop: Spacing.small,
   },
 })
 

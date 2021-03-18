@@ -5,13 +5,18 @@ import { RestProfileResponse } from '../restObjects/RestProfileResponse'
 import { genericErrorMapping } from './utils'
 import { RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
-import { Options } from 'ky'
 import {
   RestQuickPollItem,
   RestQuickPollResponse,
 } from '../restObjects/RestQuickPollResponse'
+import ky, { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
-import { RestUpdateProfileRequest } from '../restObjects/RestUpdateProfileRequest'
+import {
+  RestUpdateErrorResponse,
+  RestUpdateProfileRequest,
+} from '../restObjects/RestUpdateProfileRequest'
+import { ProfileFormError } from '../../core/errors'
+import { FormViolation } from '../../core/entities/DetailedProfile'
 
 class ApiService {
   private static instance: ApiService
@@ -57,7 +62,23 @@ class ApiService {
     return this.httpClient
       .put('api/v3/profile/' + userUuid, { json: request })
       .json<RestDetailedProfileResponse>()
-      .catch(genericErrorMapping)
+      .catch(async (error) => {
+        if (error instanceof ky.HTTPError && error.response.status === 400) {
+          const errorResponse = await error.response.json()
+
+          const parsedError = errorResponse as RestUpdateErrorResponse
+          const violations = parsedError.violations.map<FormViolation>(
+            (value) => {
+              return {
+                propertyPath: value.propertyPath,
+                message: value.message,
+              }
+            },
+          )
+          throw new ProfileFormError(violations)
+        }
+        return genericErrorMapping(error)
+      })
   }
 
   public getNews(zipCode: string, page: number): Promise<RestNewsResponse> {

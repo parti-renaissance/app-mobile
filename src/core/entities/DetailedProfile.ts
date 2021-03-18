@@ -29,3 +29,8 @@ export interface PhoneNumber {
   countryCode: CountryCode
   number: string
 }
+
+export interface FormViolation {
+  propertyPath: string
+  message: string
+}

@@ -18,6 +18,7 @@ type Props = Readonly<{
   textInputProps?: TextInputProps
   defaultValue?: string
   onValueChange: (newValue: string) => void
+  errorMessage?: string
 }>
 
 const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -28,7 +29,7 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
     }
   }
   return (
-    <LabelInputContainer label={props.label}>
+    <LabelInputContainer label={props.label} errorMessage={props.errorMessage}>
       <TextInput
         ref={ref}
         style={styles.textInput}

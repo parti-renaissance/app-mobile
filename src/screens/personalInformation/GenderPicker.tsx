@@ -9,11 +9,15 @@ import { Gender } from '../../core/entities/UserProfile'
 type Props = Readonly<{
   onValueChange: (value: Gender) => void
   defaultValue?: Gender
+  errorMessage?: string
 }>
 
 const GenderPicker: FC<Props> = (props) => {
   return (
-    <LabelInputContainer label={i18n.t('personalinformation.gender')}>
+    <LabelInputContainer
+      label={i18n.t('personalinformation.gender')}
+      errorMessage={props.errorMessage}
+    >
       <RNPickerSelect
         style={{
           inputAndroid: {

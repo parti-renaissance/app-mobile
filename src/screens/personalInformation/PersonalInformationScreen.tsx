@@ -25,6 +25,7 @@ import { StatefulView, ViewState } from '../shared/StatefulView'
 import {
   Address,
   DetailedProfile,
+  FormViolation,
   PhoneNumber,
 } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
@@ -33,6 +34,7 @@ import { Gender } from '../../core/entities/UserProfile'
 import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { ProfileFormError } from '../../core/errors'
 
 type ContentProps = Readonly<{
   profile: DetailedProfile
@@ -63,6 +65,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   const [linkedin, setLinkedin] = useState<string | undefined>(profile.linkedin)
   const [telegram, setTelegram] = useState<string | undefined>(profile.telegram)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [errors, setErrors] = useState<Array<FormViolation>>([])
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -71,6 +74,14 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
   const isCertified = false
+  const getError = (violations: Array<FormViolation>, path: string): string => {
+    return violations
+      .filter((error) => error.propertyPath.startsWith(path))
+      .map((value) => value.message)
+      .reduce((previous, current) => {
+        return previous + current + '\n'
+      }, '')
+  }
 
   const submit = useCallback(() => {
     const newDetailedProfile: DetailedProfile = {
@@ -90,11 +101,14 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
       telegram: telegram,
     }
     setIsLoading(true)
+    setErrors([])
     ProfileRepository.getInstance()
       .updateDetailedProfile(newDetailedProfile)
       .then(() => navigation.goBack())
-      .catch(() => {
-        // TODO: show error
+      .catch((error) => {
+        if (error instanceof ProfileFormError) {
+          setErrors(error.violations)
+        }
       })
       .finally(() => setIsLoading(false))
   }, [
@@ -166,6 +180,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             }}
             defaultValue={profile.firstName}
             onValueChange={setFirstName}
+            errorMessage={getError(errors, 'first_name')}
           />
           <LabelTextInput
             ref={lastNameRef}
@@ -175,10 +190,12 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             }}
             defaultValue={profile.lastName}
             onValueChange={setLastName}
+            errorMessage={getError(errors, 'last_name')}
           />
           <GenderPicker
             onValueChange={genderListener}
             defaultValue={currentGender}
+            errorMessage={getError(errors, 'gender')}
           />
           {currentGender === Gender.Other ? (
             <LabelTextInput
@@ -188,11 +205,15 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
               onValueChange={setCustomGender}
             />
           ) : null}
-          <LabelInputContainer label={i18n.t('personalinformation.birthdate')}>
+          <LabelInputContainer
+            label={i18n.t('personalinformation.birthdate')}
+            errorMessage={getError(errors, 'birthdate')}
+          >
             <BirthdayPicker date={date} onDateChange={onDateChange} />
           </LabelInputContainer>
           <LabelInputContainer
             label={i18n.t('personalinformation.nationality')}
+            errorMessage={getError(errors, 'nationality')}
           >
             <CountryPicker
               countryCode={countryCode}
@@ -217,7 +238,10 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_coordinates')}
           </Text>
-          <LabelInputContainer label={i18n.t('personalinformation.address')}>
+          <LabelInputContainer
+            label={i18n.t('personalinformation.address')}
+            errorMessage={getError(errors, 'address')}
+          >
             <LocationPicker
               address={address}
               onAddressSelected={(pickedAddress) => {
@@ -235,12 +259,14 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             }}
             defaultValue={profile.email}
             onValueChange={setEmail}
+            errorMessage={getError(errors, 'email_address')}
           />
           <PhoneNumberInput
             defaultValue={profile.phone}
             label={i18n.t('personalinformation.phone')}
             nextInput={facebookRef}
             onValueChange={setPhoneNumber}
+            errorMessage={getError(errors, 'phone')}
           />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_social')}
@@ -251,6 +277,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             label={i18n.t('personalinformation.facebook')}
             defaultValue={profile.facebook}
             onValueChange={setFacebook}
+            errorMessage={getError(errors, 'facebook_page_url')}
           />
           <LabelTextInput
             ref={linkedInRef}
@@ -258,6 +285,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             label={i18n.t('personalinformation.linkedin')}
             defaultValue={profile.linkedin}
             onValueChange={setLinkedin}
+            errorMessage={getError(errors, 'linkedin_page_url')}
           />
           <LabelTextInput
             ref={twitterRef}
@@ -265,6 +293,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             label={i18n.t('personalinformation.twitter')}
             defaultValue={profile.twitter}
             onValueChange={setTwitter}
+            errorMessage={getError(errors, 'twitter_page_url')}
           />
           <LabelTextInput
             ref={telegramRef}
@@ -272,6 +301,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             label={i18n.t('personalinformation.telegram')}
             defaultValue={profile.telegram}
             onValueChange={setTelegram}
+            errorMessage={getError(errors, 'telegram_page_url')}
           />
         </View>
       </ScrollView>

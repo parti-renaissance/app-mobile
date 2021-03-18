@@ -25,3 +25,12 @@ export interface RestUpdatePhoneNumber {
   country: string
   number: string
 }
+
+export interface RestUpdateErrorResponse {
+  violations: Array<RestViolation>
+}
+
+export interface RestViolation {
+  propertyPath: string
+  message: string
+}

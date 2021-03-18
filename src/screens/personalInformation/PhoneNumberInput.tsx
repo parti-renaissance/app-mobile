@@ -20,6 +20,7 @@ type Props = Readonly<{
   isLastInput?: boolean
   defaultValue?: PhoneNumber | undefined
   onValueChange: (value: PhoneNumber | undefined) => void
+  errorMessage?: string
 }>
 
 const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -50,7 +51,7 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
   }
 
   return (
-    <LabelInputContainer label={props.label}>
+    <LabelInputContainer label={props.label} errorMessage={props.errorMessage}>
       <View style={styles.container}>
         <TextInput
           ref={ref}
