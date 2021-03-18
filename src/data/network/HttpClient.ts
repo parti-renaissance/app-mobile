@@ -6,7 +6,7 @@ import { Mutex } from 'async-mutex'
 
 const injectAccessTokenHook = async (request: Request) => {
   const credentials = await LocalStore.getInstance().getCredentials()
-  if (credentials == null) {
+  if (credentials == null || request.headers.has('Authorization')) {
     // don't inject accessToken
     return request
   } else {

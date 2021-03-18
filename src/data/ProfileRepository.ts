@@ -43,6 +43,12 @@ class ProfileRepository {
     }
   }
 
+  public async getCityFromPostalCode(
+    postalCode: string,
+  ): Promise<string | undefined> {
+    return this.apiService.getCityFromPostalCode(postalCode)
+  }
+
   public async saveZipCode(zipCode: string): Promise<void> {
     await this.localStore.storeZipCode(zipCode)
   }

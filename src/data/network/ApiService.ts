@@ -85,6 +85,25 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public async getCityFromPostalCode(
+    postalCode: string,
+  ): Promise<string | undefined> {
+    // Exclude accessToken injection on this route
+    const headers = { Authorization: '' }
+    const response = await this.httpClient
+      .get('api/postal-code/' + postalCode, { headers: headers })
+      .json()
+      .catch(genericErrorMapping)
+    const result = response as { [key: string]: string }
+    const entries = Object.entries(result)
+    if (entries.length > 0) {
+      const [, value] = Object.entries(result)[0]
+      return value
+    } else {
+      return undefined
+    }
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()

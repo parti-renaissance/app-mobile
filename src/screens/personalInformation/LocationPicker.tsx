@@ -12,6 +12,7 @@ import i18n from '../../utils/i18n'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { GOOGLE_PLACES_API_KEY } from '../../Config'
 import { Address } from '../../core/entities/DetailedProfile'
+import ProfileRepository from '../../data/ProfileRepository'
 
 type Props = Readonly<{
   address: Address | undefined
@@ -24,7 +25,6 @@ const extractComponent = (
 ): AddressComponent | undefined => {
   return components?.find((value) => {
     for (const type of value.types) {
-      console.log(type)
       if (type === searchedType) {
         return true
       }
@@ -83,6 +83,31 @@ const stringifyAddress = (address: Address | undefined): string => {
 
 const LocationPicker: FC<Props> = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
+  const onAddressSelected = async (details: GooglePlaceDetail | null) => {
+    let address = extractAddress(details)
+
+    if (address.postalCode) {
+      let newCity: string | undefined
+
+      try {
+        const cityFound = await ProfileRepository.getInstance().getCityFromPostalCode(
+          address.postalCode,
+        )
+        newCity = cityFound ? cityFound : address.city
+      } catch (error) {
+        newCity = address.city
+      }
+      address = {
+        address: address.address,
+        postalCode: address.postalCode,
+        city: newCity,
+        country: address.country,
+      }
+    }
+
+    props.onAddressSelected(address)
+    setModalVisible(false)
+  }
 
   return (
     <View>
@@ -124,8 +149,7 @@ const LocationPicker: FC<Props> = (props) => {
             placeholder={i18n.t('common.search')}
             fetchDetails={true}
             onPress={(_, details) => {
-              props.onAddressSelected(extractAddress(details))
-              setModalVisible(false)
+              onAddressSelected(details)
             }}
             query={{
               key: GOOGLE_PLACES_API_KEY,
