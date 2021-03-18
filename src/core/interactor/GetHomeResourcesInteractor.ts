@@ -13,6 +13,8 @@ import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
+import QuickPollRepository from '../../data/QuickPollRepository'
+import { QuickPoll } from '../entities/QuickPoll'
 
 export interface HomeResources {
   zipCode: string
@@ -21,6 +23,7 @@ export interface HomeResources {
   news: Array<News>
   polls: Array<Poll>
   tools: Array<Tool>
+  quickPoll?: QuickPoll
   state: AuthenticationState
 }
 
@@ -32,6 +35,7 @@ export class GetHomeResourcesInteractor {
   private getPollsInteractor = new GetPollsInteractor()
   private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
+  private quickPollRepository = QuickPollRepository.getInstance()
 
   public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
@@ -43,6 +47,7 @@ export class GetHomeResourcesInteractor {
       newsResult,
       pollsResult,
       toolsResult,
+      quickPollsResult,
     ] = await allSettled([
       state === AuthenticationState.Authenticated
         ? this.profileRepository.getProfile(dataSource)
@@ -51,6 +56,7 @@ export class GetHomeResourcesInteractor {
       this.newsRepository.getLatestNews(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
+      this.quickPollRepository.getQuickPolls(dataSource),
     ])
 
     const department =
@@ -75,6 +81,12 @@ export class GetHomeResourcesInteractor {
         // no-op
       }
     }
+
+    const quickPoll =
+      quickPollsResult.status === 'fulfilled' &&
+      quickPollsResult.value.length > 0
+        ? quickPollsResult.value[0]
+        : undefined
 
     return {
       zipCode: zipCode,
@@ -107,6 +119,7 @@ export class GetHomeResourcesInteractor {
               [],
             ),
       tools: toolsResult.status === 'fulfilled' ? toolsResult.value : [],
+      quickPoll: quickPoll,
       state: state,
     }
   }

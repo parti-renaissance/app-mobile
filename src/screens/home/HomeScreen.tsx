@@ -66,6 +66,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
             resources.polls,
             resources.tools,
             resources.state,
+            resources.quickPoll,
           )
           setStatefulState(new ViewState.Content(viewModel))
         })
@@ -103,6 +104,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           resources.polls,
           resources.tools,
           resources.state,
+          resources.quickPoll,
         )
         setStatefulState(new ViewState.Content(viewModel))
         if (!initialFetchDone) {

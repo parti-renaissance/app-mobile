@@ -21,7 +21,7 @@ export interface HomeToolsRowContainerViewModel {
 }
 
 export interface HomeQuickPollRowContainerViewModel {
-  id: number
+  id: string
   title: string
   leadingAnswerViewModel: HomeQuickPollRowAnswerViewModel
   trailingAnswerViewModel: HomeQuickPollRowAnswerViewModel

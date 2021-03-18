@@ -1,4 +1,4 @@
 export interface HomeQuickPollRowAnswerViewModel {
-  id: number
+  id: string
   title: string
 }

@@ -2,6 +2,7 @@ import { AuthenticationState } from '../../core/entities/AuthenticationState'
 import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
+import { QuickPoll } from '../../core/entities/QuickPoll'
 import { Region } from '../../core/entities/Region'
 import { Tool } from '../../core/entities/Tool'
 import Theme from '../../themes/Theme'
@@ -26,10 +27,11 @@ export const HomeViewModelMapper = {
     polls: Array<Poll>,
     tools: Array<Tool>,
     authenticationState: AuthenticationState,
+    quickPoll: QuickPoll | undefined,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
-    appendQuickPoll(rows)
+    appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
     appendNews(news, rows)
     appendPolls(polls, rows, theme)
@@ -55,20 +57,32 @@ function greeting(profile?: Profile): string {
   }
 }
 
-function appendQuickPoll(rows: HomeSectionViewModel[]) {
-  // TODO: (Pierre Felgines) Remove stubs
+function appendQuickPoll(
+  quickPoll: QuickPoll | undefined,
+  rows: HomeSectionViewModel[],
+) {
+  if (!quickPoll || quickPoll.result.answers.length < 2) {
+    return
+  }
+  const leadingAnswer = quickPoll.result.answers[0]
+  const trailingAnswer = quickPoll.result.answers[1]
   rows.push({
-    id: 'quick_poll',
+    id: quickPoll.id,
     sectionViewModel: { sectionName: i18n.t('home.section_quick_poll') },
     data: [
       {
         type: 'quick_poll',
         value: {
-          id: 0,
-          title:
-            'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-          leadingAnswerViewModel: { id: 1, title: 'Oui' },
-          trailingAnswerViewModel: { id: 2, title: 'Non' },
+          id: quickPoll.id,
+          title: quickPoll.question,
+          leadingAnswerViewModel: {
+            id: leadingAnswer.id,
+            title: leadingAnswer.value,
+          },
+          trailingAnswerViewModel: {
+            id: trailingAnswer.id,
+            title: trailingAnswer.value,
+          },
         },
       },
     ],
