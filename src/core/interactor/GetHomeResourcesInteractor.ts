@@ -13,8 +13,8 @@ import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
-import QuickPollRepository from '../../data/QuickPollRepository'
-import { QuickPoll } from '../entities/QuickPoll'
+import { GetQuickPollInteractor } from './GetQuickPollInteractor'
+import { StatefulQuickPoll } from '../entities/StatefulQuickPoll'
 
 export interface HomeResources {
   zipCode: string
@@ -23,7 +23,7 @@ export interface HomeResources {
   news: Array<News>
   polls: Array<Poll>
   tools: Array<Tool>
-  quickPoll?: QuickPoll
+  quickPoll?: StatefulQuickPoll
   state: AuthenticationState
 }
 
@@ -35,7 +35,7 @@ export class GetHomeResourcesInteractor {
   private getPollsInteractor = new GetPollsInteractor()
   private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
-  private quickPollRepository = QuickPollRepository.getInstance()
+  private getQuickPollInteractor = new GetQuickPollInteractor()
 
   public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
@@ -56,7 +56,7 @@ export class GetHomeResourcesInteractor {
       this.newsRepository.getLatestNews(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
-      this.quickPollRepository.getQuickPolls(dataSource),
+      this.getQuickPollInteractor.execute(dataSource),
     ])
 
     const department =
@@ -81,12 +81,6 @@ export class GetHomeResourcesInteractor {
         // no-op
       }
     }
-
-    const quickPoll =
-      quickPollsResult.status === 'fulfilled' &&
-      quickPollsResult.value.length > 0
-        ? quickPollsResult.value[0]
-        : undefined
 
     return {
       zipCode: zipCode,
@@ -119,7 +113,10 @@ export class GetHomeResourcesInteractor {
               [],
             ),
       tools: toolsResult.status === 'fulfilled' ? toolsResult.value : [],
-      quickPoll: quickPoll,
+      quickPoll:
+        quickPollsResult.status === 'fulfilled'
+          ? quickPollsResult.value
+          : undefined,
       state: state,
     }
   }

@@ -2,8 +2,8 @@ import { AuthenticationState } from '../../core/entities/AuthenticationState'
 import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
-import { QuickPoll } from '../../core/entities/QuickPoll'
 import { Region } from '../../core/entities/Region'
+import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import { Tool } from '../../core/entities/Tool'
 import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
@@ -27,7 +27,7 @@ export const HomeViewModelMapper = {
     polls: Array<Poll>,
     tools: Array<Tool>,
     authenticationState: AuthenticationState,
-    quickPoll: QuickPoll | undefined,
+    quickPoll: StatefulQuickPoll | undefined,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
@@ -58,7 +58,7 @@ function greeting(profile?: Profile): string {
 }
 
 function appendQuickPoll(
-  quickPoll: QuickPoll | undefined,
+  quickPoll: StatefulQuickPoll | undefined,
   rows: HomeSectionViewModel[],
 ) {
   if (!quickPoll || quickPoll.result.answers.length < 2) {
