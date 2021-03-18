@@ -12,6 +12,11 @@ import {
   RestPostAddress,
 } from '../restObjects/RestDetailedProfileResponse'
 import { RestProfileResponse } from '../restObjects/RestProfileResponse'
+import {
+  RestUpdatePhoneNumber,
+  RestUpdatePostAddress,
+  RestUpdateProfileRequest,
+} from '../restObjects/RestUpdateProfileRequest'
 
 export const ProfileMapper = {
   map: (result: RestProfileResponse): Profile => {
@@ -38,10 +43,10 @@ export const ProfileMapper = {
       uuid: result.uuid,
       firstName: result.first_name,
       lastName: result.last_name,
-      gender: restGender(result.gender),
+      gender: restGenderToGender(result.gender),
       customGender: result.custom_gender ?? undefined,
       nationality: nationality,
-      birthDate: result.birthdate ? new Date(result.birthdate) : undefined,
+      birthDate: new Date(result.birthdate),
       address: postAddress(result.post_address),
       email: result.email_address ?? undefined,
       facebook: result.facebook_page_url ?? undefined,
@@ -51,12 +56,48 @@ export const ProfileMapper = {
       phone: phoneNumber(result.phone),
     }
   },
+  mapDetailedProfileUpdate: (
+    profile: DetailedProfile,
+  ): RestUpdateProfileRequest => {
+    let phone: RestUpdatePhoneNumber | null
+    if (profile.phone) {
+      phone = {
+        country: profile.phone.countryCode,
+        number: profile.phone.number,
+      }
+    } else {
+      phone = null
+    }
+    let address: RestUpdatePostAddress | null
+    if (profile.address) {
+      address = {
+        address: profile.address.address ?? '',
+        postal_code: profile.address.postalCode ?? '',
+        city_name: profile.address.city ?? '',
+        country: profile.address.country ?? '',
+      }
+    } else {
+      address = null
+    }
+    return {
+      first_name: profile.firstName,
+      last_name: profile.lastName,
+      gender: genderToRestGender(profile.gender),
+      custom_gender: profile.customGender ?? null,
+      birthdate: profile.birthDate?.toUTCString() ?? null,
+      nationality: profile.nationality,
+      address: address,
+      email_address: profile.email,
+      phone: phone,
+      facebook_page_url: profile.facebook ?? '',
+      linkedin_page_url: profile.linkedin ?? '',
+      twitter_page_url: profile.twitter ?? '',
+      telegram_page_url: profile.telegram ?? '',
+    }
+  },
 }
 
-const restGender = (gender: string | undefined): Gender | undefined => {
-  if (!gender) {
-    return undefined
-  }
+const restGenderToGender = (gender: string): Gender => {
   switch (gender) {
     case 'male':
       return Gender.Male
@@ -67,12 +108,23 @@ const restGender = (gender: string | undefined): Gender | undefined => {
   }
 }
 
-const postAddress = (restPostAddress: RestPostAddress): Address => {
+const genderToRestGender = (gender: Gender): string => {
+  switch (gender) {
+    case Gender.Male:
+      return 'male'
+    case Gender.Female:
+      return 'female'
+    case Gender.Other:
+      return 'other'
+  }
+}
+
+const postAddress = (restPostAddress: RestPostAddress | null): Address => {
   return {
-    address: restPostAddress.address ?? undefined,
-    postalCode: restPostAddress.postal_code ?? undefined,
-    city: restPostAddress.city_name ?? undefined,
-    country: restPostAddress.country ?? undefined,
+    address: restPostAddress?.address ?? undefined,
+    postalCode: restPostAddress?.postal_code ?? undefined,
+    city: restPostAddress?.city_name ?? undefined,
+    country: restPostAddress?.country ?? undefined,
   }
 }
 

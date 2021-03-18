@@ -17,6 +17,7 @@ type Props = Readonly<{
   isLastInput?: boolean
   textInputProps?: TextInputProps
   defaultValue?: string
+  onValueChange: (newValue: string) => void
 }>
 
 const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -37,6 +38,7 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
         onSubmitEditing={submitEditing}
         defaultValue={props.defaultValue}
         {...props.textInputProps}
+        onChangeText={props.onValueChange}
       />
     </LabelInputContainer>
   )

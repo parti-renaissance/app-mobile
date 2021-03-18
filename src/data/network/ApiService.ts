@@ -11,6 +11,7 @@ import {
   RestQuickPollResponse,
 } from '../restObjects/RestQuickPollResponse'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
+import { RestUpdateProfileRequest } from '../restObjects/RestUpdateProfileRequest'
 
 class ApiService {
   private static instance: ApiService
@@ -45,6 +46,16 @@ class ApiService {
   public getDetailedProfile(): Promise<RestDetailedProfileResponse> {
     return this.httpClient
       .get('api/v3/profile/me')
+      .json<RestDetailedProfileResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public updateProfile(
+    userUuid: string,
+    request: RestUpdateProfileRequest,
+  ): Promise<RestDetailedProfileResponse> {
+    return this.httpClient
+      .put('api/v3/profile/' + userUuid, { json: request })
       .json<RestDetailedProfileResponse>()
       .catch(genericErrorMapping)
   }

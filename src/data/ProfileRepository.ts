@@ -34,6 +34,15 @@ class ProfileRepository {
     return ProfileMapper.mapDetailedProfile(response)
   }
 
+  public async updateDetailedProfile(
+    newProfile: DetailedProfile,
+  ): Promise<void> {
+    await this.apiService.updateProfile(
+      newProfile.uuid,
+      ProfileMapper.mapDetailedProfileUpdate(newProfile),
+    )
+  }
+
   public async getZipCode(): Promise<string> {
     const userPreferences = await this.localStore.getUserPreferences()
     if (userPreferences?.zipCode) {

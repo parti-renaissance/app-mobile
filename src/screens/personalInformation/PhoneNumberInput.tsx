@@ -35,16 +35,20 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
   const [number, setNumber] = useState<string | undefined>(
     props.defaultValue?.number,
   )
-  const dispatchNewPhoneNumber = () => {
-    if (number === undefined || number.length === 0) {
+  const dispatchNewPhoneNumber = (
+    newCountryCode: CountryCode,
+    newNumber: string | undefined,
+  ) => {
+    if (newNumber === undefined || newNumber.length === 0) {
       props.onValueChange(undefined)
     } else {
       props.onValueChange({
-        countryCode: countryCode,
-        number: number,
+        countryCode: newCountryCode,
+        number: newNumber,
       })
     }
   }
+
   return (
     <LabelInputContainer label={props.label}>
       <View style={styles.container}>
@@ -62,7 +66,7 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
           autoCorrect={false}
           onChangeText={(value) => {
             setNumber(value)
-            dispatchNewPhoneNumber()
+            dispatchNewPhoneNumber(countryCode, value)
           }}
         />
         <CountryPicker
@@ -86,7 +90,7 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
           theme={{ ...Typography.phoneNumberPicker, itemHeight: 44 }}
           onSelect={(country) => {
             setCountryCode(country.cca2)
-            dispatchNewPhoneNumber()
+            dispatchNewPhoneNumber(country.cca2, number)
           }}
         />
       </View>

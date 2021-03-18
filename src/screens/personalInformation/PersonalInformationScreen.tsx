@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -17,7 +17,10 @@ import GenderPicker from './GenderPicker'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
-import { PersonalInformationScreenProps } from '../../navigation'
+import {
+  PersonalInformationScreenProps,
+  ProfileParamList,
+} from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import {
   Address,
@@ -28,21 +31,38 @@ import ProfileRepository from '../../data/ProfileRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { Gender } from '../../core/entities/UserProfile'
 import PhoneNumberInput from './PhoneNumberInput'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 type ContentProps = Readonly<{
   profile: DetailedProfile
+  navigation: StackNavigationProp<ProfileParamList, 'PersonalInformation'>
 }>
 
-const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
-  const [currentGender, setCurrentGender] = useState<Gender | undefined>(
-    profile.gender,
+const PersonalInformationScreenContent: FC<ContentProps> = ({
+  profile,
+  navigation,
+}) => {
+  const [firstName, setFirstName] = useState<string>(profile.firstName)
+  const [lastName, setLastName] = useState<string>(profile.lastName)
+  const [currentGender, setCurrentGender] = useState<Gender>(profile.gender)
+  const [customGender, setCustomGender] = useState<string | undefined>(
+    profile.customGender,
   )
   const [countryCode, setCountryCode] = useState<CountryCode>(
     profile.nationality,
   )
-  const [date, setDate] = useState<Date | undefined>(profile.birthDate)
+  const [date, setDate] = useState<Date>(profile.birthDate)
   const [address, setAddress] = useState<Address | undefined>(profile.address)
-  const [, setPhoneNumber] = useState<PhoneNumber | undefined>(profile.phone)
+  const [email, setEmail] = useState<string>(profile.email)
+  const [phoneNumber, setPhoneNumber] = useState<PhoneNumber | undefined>(
+    profile.phone,
+  )
+  const [facebook, setFacebook] = useState<string | undefined>(profile.facebook)
+  const [twitter, setTwitter] = useState<string | undefined>(profile.twitter)
+  const [linkedin, setLinkedin] = useState<string | undefined>(profile.linkedin)
+  const [telegram, setTelegram] = useState<string | undefined>(profile.telegram)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -52,7 +72,71 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
   const telegramRef = useRef<TextInput>(null)
   const isCertified = false
 
-  const genderListener = (value: Gender | undefined) => {
+  const submit = useCallback(() => {
+    const newDetailedProfile: DetailedProfile = {
+      uuid: profile.uuid,
+      firstName: firstName,
+      lastName: lastName,
+      gender: currentGender,
+      customGender: currentGender === Gender.Other ? customGender : undefined,
+      nationality: countryCode,
+      birthDate: date,
+      address: address,
+      email: email,
+      phone: phoneNumber,
+      facebook: facebook,
+      twitter: twitter,
+      linkedin: linkedin,
+      telegram: telegram,
+    }
+    setIsLoading(true)
+    ProfileRepository.getInstance()
+      .updateDetailedProfile(newDetailedProfile)
+      .then(() => navigation.goBack())
+      .catch(() => {
+        // TODO: show error
+      })
+      .finally(() => setIsLoading(false))
+  }, [
+    firstName,
+    lastName,
+    address,
+    currentGender,
+    customGender,
+    countryCode,
+    date,
+    email,
+    phoneNumber,
+    facebook,
+    twitter,
+    linkedin,
+    telegram,
+    navigation,
+    profile,
+  ])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.headerButtonText}>
+            {i18n.t('personalinformation.cancel')}
+          </Text>
+        </TouchableOpacity>
+      ),
+      title: i18n.t('personalinformation.title'),
+      headerRight: () => (
+        <TouchableOpacity onPress={submit}>
+          <Text style={styles.headerButtonText}>
+            {i18n.t('personalinformation.save')}
+          </Text>
+        </TouchableOpacity>
+      ),
+      headerTitleStyle: styles.title,
+    })
+  }, [navigation, submit])
+
+  const genderListener = (value: Gender) => {
     setCurrentGender(value)
   }
   const onDateChange = (_: string, newDate: Date) => {
@@ -64,6 +148,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
         style={styles.mainContainer}
         keyboardShouldPersistTaps="handled"
       >
+        <LoadingOverlay visible={isLoading} />
         <View style={styles.container}>
           <CertifiedProfileView
             style={styles.certifiedContainer}
@@ -80,6 +165,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
               textContentType: 'givenName',
             }}
             defaultValue={profile.firstName}
+            onValueChange={setFirstName}
           />
           <LabelTextInput
             ref={lastNameRef}
@@ -88,6 +174,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
               textContentType: 'familyName',
             }}
             defaultValue={profile.lastName}
+            onValueChange={setLastName}
           />
           <GenderPicker
             onValueChange={genderListener}
@@ -98,6 +185,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
               ref={genderOther}
               label={i18n.t('personalinformation.gender_other')}
               defaultValue={profile.customGender}
+              onValueChange={setCustomGender}
             />
           ) : null}
           <LabelInputContainer label={i18n.t('personalinformation.birthdate')}>
@@ -146,6 +234,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
               autoCorrect: false,
             }}
             defaultValue={profile.email}
+            onValueChange={setEmail}
           />
           <PhoneNumberInput
             defaultValue={profile.phone}
@@ -161,24 +250,28 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({ profile }) => {
             nextInput={linkedInRef}
             label={i18n.t('personalinformation.facebook')}
             defaultValue={profile.facebook}
+            onValueChange={setFacebook}
           />
           <LabelTextInput
             ref={linkedInRef}
             nextInput={twitterRef}
             label={i18n.t('personalinformation.linkedin')}
             defaultValue={profile.linkedin}
+            onValueChange={setLinkedin}
           />
           <LabelTextInput
             ref={twitterRef}
             nextInput={telegramRef}
             label={i18n.t('personalinformation.twitter')}
             defaultValue={profile.twitter}
+            onValueChange={setTwitter}
           />
           <LabelTextInput
             ref={telegramRef}
             isLastInput={true}
             label={i18n.t('personalinformation.telegram')}
             defaultValue={profile.telegram}
+            onValueChange={setTelegram}
           />
         </View>
       </ScrollView>
@@ -192,25 +285,6 @@ const PersonalInformationScreen = ({
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<DetailedProfile>
   >(new ViewState.Loading())
-
-  navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.headerButtonText}>
-          {i18n.t('personalinformation.cancel')}
-        </Text>
-      </TouchableOpacity>
-    ),
-    title: i18n.t('personalinformation.title'),
-    headerRight: () => (
-      <TouchableOpacity>
-        <Text style={styles.headerButtonText}>
-          {i18n.t('personalinformation.save')}
-        </Text>
-      </TouchableOpacity>
-    ),
-    headerTitleStyle: styles.title,
-  })
 
   useEffect(() => {
     const fetchData = () => {
@@ -239,7 +313,12 @@ const PersonalInformationScreen = ({
     <StatefulView
       state={statefulState}
       contentComponent={(detailedProfile) => {
-        return <PersonalInformationScreenContent profile={detailedProfile} />
+        return (
+          <PersonalInformationScreenContent
+            navigation={navigation}
+            profile={detailedProfile}
+          />
+        )
       }}
     />
   )

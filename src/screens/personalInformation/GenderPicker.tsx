@@ -7,7 +7,7 @@ import RNPickerSelect from 'react-native-picker-select'
 import { Gender } from '../../core/entities/UserProfile'
 
 type Props = Readonly<{
-  onValueChange: (value: Gender | undefined) => void
+  onValueChange: (value: Gender) => void
   defaultValue?: Gender
 }>
 
@@ -27,10 +27,7 @@ const GenderPicker: FC<Props> = (props) => {
           },
         }}
         useNativeAndroidPickerStyle={false}
-        placeholder={{
-          label: i18n.t('personalinformation.placeholder'),
-          value: undefined,
-        }}
+        placeholder={{}}
         value={props.defaultValue}
         Icon={() => <View style={styles.icon} />}
         onValueChange={props.onValueChange}

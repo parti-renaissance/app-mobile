@@ -5,12 +5,12 @@ export interface DetailedProfile {
   uuid: string
   firstName: string
   lastName: string
-  gender: Gender | undefined
+  gender: Gender
   customGender: string | undefined
   nationality: CountryCode
-  birthDate: Date | undefined
-  address: Address
-  email: string | undefined
+  birthDate: Date
+  address: Address | undefined
+  email: string
   facebook: string | undefined
   twitter: string | undefined
   linkedin: string | undefined
