@@ -6,6 +6,7 @@ import { genericErrorMapping } from './utils'
 import { RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
 import { Options } from 'ky'
+import { RestQuickPollResponse } from '../restObjects/RestQuickPollResponse'
 
 class ApiService {
   private static instance: ApiService
@@ -56,6 +57,13 @@ class ApiService {
     return this.httpClient
       .get('api/jecoute/departments/' + zipCode, { headers: headers })
       .json<RestDepartmentResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getQuickPolls(): Promise<RestQuickPollResponse> {
+    return this.httpClient
+      .get('api/polls')
+      .json<RestQuickPollResponse>()
       .catch(genericErrorMapping)
   }
 
