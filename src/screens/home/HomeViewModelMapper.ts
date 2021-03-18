@@ -29,6 +29,7 @@ export const HomeViewModelMapper = {
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
+    appendQuickPoll(rows)
     appendRegion(region, rows)
     appendNews(news, rows)
     appendPolls(polls, rows, theme)
@@ -52,6 +53,26 @@ function greeting(profile?: Profile): string {
   } else {
     return i18n.t('home.greeting')
   }
+}
+
+function appendQuickPoll(rows: HomeSectionViewModel[]) {
+  // TODO: (Pierre Felgines) Remove stubs
+  rows.push({
+    id: 'quick_poll',
+    sectionViewModel: { sectionName: i18n.t('home.section_quick_poll') },
+    data: [
+      {
+        type: 'quick_poll',
+        value: {
+          id: 0,
+          title:
+            'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+          leadingAnswerViewModel: { id: 1, title: 'Oui' },
+          trailingAnswerViewModel: { id: 2, title: 'Non' },
+        },
+      },
+    ],
+  })
 }
 
 function appendRegion(

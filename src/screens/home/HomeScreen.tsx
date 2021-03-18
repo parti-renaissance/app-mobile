@@ -32,6 +32,7 @@ import { Region } from '../../core/entities/Region'
 import ThemeRepository from '../../data/ThemeRepository'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ServerTimeoutError } from '../../core/errors'
+import HomeQuickPollRowContainer from './HomeQuickPollRowContainer'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -187,6 +188,15 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeRegion
           viewModel={item.value}
           onMorePressed={onRegionMorePressed}
+        />
+      )
+    } else if (item.type === 'quick_poll') {
+      return (
+        <HomeQuickPollRowContainer
+          viewModel={item.value}
+          onAnswerSelected={(answerId) => {
+            console.log('Selected ', answerId)
+          }}
         />
       )
     } else {
