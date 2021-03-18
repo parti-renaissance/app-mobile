@@ -28,6 +28,11 @@ class QuickPollRepository {
     return restResponse.items.map(QuickPollMapper.map)
   }
 
+  public async sendQuickPollAnswer(answerId: string): Promise<QuickPoll> {
+    let restPoll = await this.apiService.sendQuickPollAnswer(answerId)
+    return QuickPollMapper.map(restPoll)
+  }
+
   public static getInstance(): QuickPollRepository {
     if (!QuickPollRepository.instance) {
       QuickPollRepository.instance = new QuickPollRepository()
