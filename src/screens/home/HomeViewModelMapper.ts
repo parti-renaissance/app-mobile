@@ -7,6 +7,7 @@ import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import { Tool } from '../../core/entities/Tool'
 import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
+import NumberFormatter from '../../utils/NumerFormatter'
 import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
 import { HomeNewsRowViewModelMapper } from './HomeNewsRowViewModelMapper'
@@ -74,15 +75,30 @@ function appendQuickPoll(
         type: 'quick_poll',
         value: {
           id: quickPoll.id,
+          type: quickPoll.state === 'answered' ? 'results' : 'question',
           title: quickPoll.question,
           leadingAnswerViewModel: {
             id: leadingAnswer.id,
             title: leadingAnswer.value,
+            formattedPercentage: NumberFormatter.formatPercent(
+              leadingAnswer.votesPercentage / 100,
+            ),
+            percentage: leadingAnswer.votesPercentage,
           },
           trailingAnswerViewModel: {
             id: trailingAnswer.id,
             title: trailingAnswer.value,
+            formattedPercentage: NumberFormatter.formatPercent(
+              trailingAnswer.votesPercentage / 100,
+            ),
+            percentage: trailingAnswer.votesPercentage,
           },
+          totalVotes: i18n.t('home.quick_poll.votes_count', {
+            count: quickPoll.result.totalVotesCount,
+            format: NumberFormatter.formatDecimal(
+              quickPoll.result.totalVotesCount,
+            ),
+          }),
         },
       },
     ],

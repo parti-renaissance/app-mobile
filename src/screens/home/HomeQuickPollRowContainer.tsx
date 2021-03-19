@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing } from '../../styles'
 import CardView from '../shared/CardView'
 import HomeQuickPollChoicesView from './HomeQuickPollChoicesView'
+import HomeQuickPollResultView from './HomeQuickPollResultView'
 import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
 
 type Props = Readonly<{
@@ -21,10 +22,14 @@ const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
     >
       <View style={styles.container}>
         <Text style={styles.title}>{viewModel.title}</Text>
-        <HomeQuickPollChoicesView
-          viewModel={viewModel}
-          onAnswerSelected={onAnswerSelected}
-        />
+        {viewModel.type === 'question' ? (
+          <HomeQuickPollChoicesView
+            viewModel={viewModel}
+            onAnswerSelected={onAnswerSelected}
+          />
+        ) : (
+          <HomeQuickPollResultView viewModel={viewModel} />
+        )}
       </View>
     </CardView>
   )

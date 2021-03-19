@@ -197,7 +197,11 @@
         "date_format": "dd/MM/yyyy",
         "more": "Voir toutes les actualités"
       },
-      "section_quick_poll": "La question du jour"
+      "section_quick_poll": "La question du jour",
+      "quick_poll": {
+        "votes_count": "{{format}} votant",
+        "votes_count_plural": "{{format}} votants"
+      }
     },
     "regions": { "website": "Site de campagne" },
     "profileZipCode": {

@@ -23,8 +23,10 @@ export interface HomeToolsRowContainerViewModel {
 export interface HomeQuickPollRowContainerViewModel {
   id: string
   title: string
+  type: 'results' | 'question'
   leadingAnswerViewModel: HomeQuickPollRowAnswerViewModel
   trailingAnswerViewModel: HomeQuickPollRowAnswerViewModel
+  totalVotes: string
 }
 
 export type HomeSectionViewModel = {
