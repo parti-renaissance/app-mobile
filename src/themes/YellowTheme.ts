@@ -7,6 +7,7 @@ const dandelion80Light = '#FDDE80'
 const dandelion50Light = '#FEEAAE'
 const islandSpice = '#FFFCF5'
 const corn = '#ecae03'
+const creamBrulee = '#ffe495'
 
 const YellowTheme: Theme = {
   id: RegionTheme.YELLOW,
@@ -16,6 +17,7 @@ const YellowTheme: Theme = {
   primaryButtonBackgroundHighlight: dandelion50Light,
   primaryButtonTextColor: Colors.shipGray,
   coloredText: corn,
+  quickPollProgress: creamBrulee,
   image: {
     near: () => require('../assets/images/yellow/imageProche.png'),
     reforms: () => require('../assets/images/yellow/imageReformes.png'),

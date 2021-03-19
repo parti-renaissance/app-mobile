@@ -31,5 +31,6 @@ export default interface Theme {
   primaryButtonBackgroundHighlight: string
   primaryButtonTextColor: string
   coloredText: string
+  quickPollProgress: string
   image: ThemedImages
 }

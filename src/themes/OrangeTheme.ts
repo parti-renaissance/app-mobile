@@ -6,6 +6,7 @@ const pizazz = '#ff8b01'
 const pizazz80Light = '#FFA539'
 const pizazz50Light = '#FFC580'
 const soapstone = '#fff9f6'
+const macaroniAndCheese = '#fec183'
 
 const OrangeTheme: Theme = {
   id: RegionTheme.ORANGE,
@@ -15,6 +16,7 @@ const OrangeTheme: Theme = {
   primaryButtonBackgroundHighlight: pizazz50Light,
   primaryButtonTextColor: Colors.white,
   coloredText: pizazz,
+  quickPollProgress: macaroniAndCheese,
   image: {
     near: () => require('../assets/images/orange/imageProche.png'),
     reforms: () => require('../assets/images/orange/imageReformes.png'),

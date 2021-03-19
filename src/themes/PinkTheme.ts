@@ -7,6 +7,7 @@ const cupid80Light = '#FBD2D2'
 const cupid50Light = '#FDE3E3'
 const chablis = '#fff6f6'
 const wildWatermelon = '#fe596a'
+const cinderella = '#fdd7d7'
 
 const PinkTheme: Theme = {
   id: RegionTheme.PINK,
@@ -16,6 +17,7 @@ const PinkTheme: Theme = {
   primaryButtonBackgroundHighlight: cupid50Light,
   primaryButtonTextColor: Colors.shipGray,
   coloredText: wildWatermelon,
+  quickPollProgress: cinderella,
   image: {
     near: () => require('../assets/images/pink/imageProche.png'),
     reforms: () => require('../assets/images/pink/imageReformes.png'),
