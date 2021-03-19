@@ -1,4 +1,4 @@
-import { Tool } from '../../core/entities/Tool'
+import { Tool } from '../../../core/entities/Tool'
 import { HomeToolRowViewModel } from './HomeToolRowViewModel'
 
 export const HomeToolRowViewModelMapper = {

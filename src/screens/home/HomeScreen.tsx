@@ -24,10 +24,10 @@ import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
 import { HomeRowViewModel } from './HomeRowViewModel'
 import HomeSectionRow from './HomeSectionRow'
-import HomeToolRowContainer from './HomeToolRowContainer'
+import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
-import HomeNewsRowContainer from './HomeNewsRowContainer'
+import HomeNewsRowContainer from './news/HomeNewsRowContainer'
 import {
   GetHomeResourcesInteractor,
   HomeResources,
@@ -37,7 +37,7 @@ import { Region } from '../../core/entities/Region'
 import ThemeRepository from '../../data/ThemeRepository'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ServerTimeoutError } from '../../core/errors'
-import HomeQuickPollRowContainer from './HomeQuickPollRowContainer'
+import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {

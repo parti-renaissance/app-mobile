@@ -1,8 +1,8 @@
 import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
-import { HomeNewsRowViewModel } from './HomeNewsRowViewModel'
-import { HomeQuickPollRowAnswerViewModel } from './HomeQuickPollRowAnswerViewModel'
-import { HomeToolRowViewModel } from './HomeToolRowViewModel'
+import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
+import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
+import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
   sectionName: string

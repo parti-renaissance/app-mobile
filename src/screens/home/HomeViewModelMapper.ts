@@ -10,9 +10,9 @@ import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
-import { HomeNewsRowViewModelMapper } from './HomeNewsRowViewModelMapper'
+import { HomeNewsRowViewModelMapper } from './news/HomeNewsRowViewModelMapper'
 import { HomeSectionViewModel } from './HomeRowViewModel'
-import { HomeToolRowViewModelMapper } from './HomeToolRowViewModelMapper'
+import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
 
 const MAX_NEWS = 3

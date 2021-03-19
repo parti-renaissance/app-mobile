@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Spacing } from '../../styles'
-import { TertiaryButton } from '../shared/Buttons'
-import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
+import { Spacing } from '../../../styles'
+import { TertiaryButton } from '../../shared/Buttons'
+import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeQuickPollRowContainerViewModel

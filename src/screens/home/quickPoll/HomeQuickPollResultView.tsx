@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
+import { Colors, Spacing, Typography } from '../../../styles'
+import { useTheme } from '../../../themes'
 import { HomeQuickPollRowAnswerViewModel } from './HomeQuickPollRowAnswerViewModel'
-import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
+import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
 
 const TextContainer: FunctionComponent<
   Readonly<{
