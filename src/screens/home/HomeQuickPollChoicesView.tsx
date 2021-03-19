@@ -6,7 +6,7 @@ import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeQuickPollRowContainerViewModel
-  onAnswerSelected: (answerId: string) => void
+  onAnswerSelected: (pollId: string, answerId: string) => void
 }>
 
 const HomeQuickPollChoicesView: FunctionComponent<Props> = ({
@@ -17,13 +17,17 @@ const HomeQuickPollChoicesView: FunctionComponent<Props> = ({
     <View style={styles.buttonRow}>
       <TertiaryButton
         style={styles.leftButton}
-        onPress={() => onAnswerSelected(viewModel.leadingAnswerViewModel.id)}
+        onPress={() =>
+          onAnswerSelected(viewModel.id, viewModel.leadingAnswerViewModel.id)
+        }
         title={viewModel.leadingAnswerViewModel.title}
         noShadow={true}
       />
       <TertiaryButton
         style={styles.rightButton}
-        onPress={() => onAnswerSelected(viewModel.trailingAnswerViewModel.id)}
+        onPress={() =>
+          onAnswerSelected(viewModel.id, viewModel.trailingAnswerViewModel.id)
+        }
         title={viewModel.trailingAnswerViewModel.title}
         noShadow={true}
       />

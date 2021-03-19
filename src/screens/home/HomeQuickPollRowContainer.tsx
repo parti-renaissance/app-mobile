@@ -8,7 +8,7 @@ import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeQuickPollRowContainerViewModel
-  onAnswerSelected: (answerId: string) => void
+  onAnswerSelected: (pollId: string, answerId: string) => void
 }>
 
 const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
