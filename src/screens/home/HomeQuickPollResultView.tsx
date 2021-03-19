@@ -1,8 +1,25 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
+import { HomeQuickPollRowAnswerViewModel } from './HomeQuickPollRowAnswerViewModel'
 import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
+
+const TextContainer: FunctionComponent<
+  Readonly<{
+    viewModel: HomeQuickPollRowAnswerViewModel
+    textStyle: TextStyle
+  }>
+> = ({ viewModel, textStyle }) => {
+  return (
+    <View>
+      <Text style={[textStyle, styles.percentage]}>
+        {viewModel.formattedPercentage}
+      </Text>
+      <Text style={[textStyle, styles.choice]}>{viewModel.title}</Text>
+    </View>
+  )
+}
 
 type Props = Readonly<{ viewModel: HomeQuickPollRowContainerViewModel }>
 
@@ -11,14 +28,10 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
     <View>
       <View style={styles.progressContainer}>
-        <View>
-          <Text style={[styles.leadingText, styles.percentage]}>
-            {viewModel.leadingAnswerViewModel.formattedPercentage}
-          </Text>
-          <Text style={[styles.leadingText, styles.choice]}>
-            {viewModel.leadingAnswerViewModel.title}
-          </Text>
-        </View>
+        <TextContainer
+          viewModel={viewModel.leadingAnswerViewModel}
+          textStyle={styles.leadingText}
+        />
         <View style={styles.middle}>
           <View
             style={[
@@ -30,14 +43,10 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
             ]}
           />
         </View>
-        <View>
-          <Text style={[styles.trailingText, styles.percentage]}>
-            {viewModel.trailingAnswerViewModel.formattedPercentage}
-          </Text>
-          <Text style={[styles.trailingText, styles.choice]}>
-            {viewModel.trailingAnswerViewModel.title}
-          </Text>
-        </View>
+        <TextContainer
+          viewModel={viewModel.trailingAnswerViewModel}
+          textStyle={styles.trailingText}
+        />
       </View>
       <Text style={styles.votesCount}>{viewModel.totalVotes}</Text>
     </View>
