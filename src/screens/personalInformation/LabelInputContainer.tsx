@@ -5,6 +5,7 @@ import { Colors, Spacing, Typography } from '../../styles'
 type Props = Readonly<{
   label: string
   errorMessage?: string
+  disabled?: boolean
   children: any
 }>
 
@@ -14,10 +15,12 @@ const LabelInputContainer: FC<Props> = (props) => {
   const borderColor = hasErrorMessage
     ? Colors.inputTextErrorMessage
     : Colors.separator
+  const labelStyle =
+    props.disabled === true ? styles.labelDisabled : styles.labelEnabled
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.label}>{props.label}</Text>
+        <Text style={[styles.label, labelStyle]}>{props.label}</Text>
         <View style={styles.input}>{props.children}</View>
       </View>
       <View style={[styles.separator, { backgroundColor: borderColor }]} />
@@ -37,6 +40,12 @@ const styles = StyleSheet.create({
   label: {
     ...Typography.body,
     color: Colors.darkText,
+  },
+  labelEnabled: {
+    color: Colors.darkText,
+  },
+  labelDisabled: {
+    color: Colors.lightText,
   },
   input: {
     flexGrow: 1,

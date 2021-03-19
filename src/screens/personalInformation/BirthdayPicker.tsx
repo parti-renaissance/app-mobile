@@ -8,9 +8,13 @@ import RNDateTimePicker from '@react-native-community/datetimepicker'
 type Props = Readonly<{
   date: Date | undefined
   onDateChange: (dateStr: string, date: Date) => void
+  disabled?: boolean
 }>
 
 const BirthdayPicker: FC<Props> = (props) => {
+  const dateTextStyle = props.disabled
+    ? styles.textDisabled
+    : styles.textEnabled
   return (
     <DatePicker
       showIcon={false}
@@ -38,16 +42,23 @@ const BirthdayPicker: FC<Props> = (props) => {
           marginEnd: 4,
         },
         btnTextConfirm: { color: Colors.darkText },
+        dateText: dateTextStyle,
+        disabled: { backgroundColor: Colors.defaultBackground },
       }}
       style={styles.picker}
       date={props.date}
       onDateChange={props.onDateChange}
+      disabled={props.disabled}
     />
   )
 }
 
 const styles = StyleSheet.create({
   picker: { alignSelf: 'flex-end' },
+  textEnabled: { color: Colors.darkText },
+  textDisabled: {
+    color: Colors.lightText,
+  },
 })
 
 export default BirthdayPicker

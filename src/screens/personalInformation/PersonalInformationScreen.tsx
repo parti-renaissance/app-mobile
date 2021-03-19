@@ -206,6 +206,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             defaultValue={profile.firstName}
             onValueChange={setFirstName}
             errorMessage={getError(errors, 'first_name')}
+            disabled={isCertified}
           />
           <LabelTextInput
             ref={lastNameRef}
@@ -216,11 +217,13 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             defaultValue={profile.lastName}
             onValueChange={setLastName}
             errorMessage={getError(errors, 'last_name')}
+            disabled={isCertified}
           />
           <GenderPicker
             onValueChange={genderListener}
             defaultValue={currentGender}
             errorMessage={getError(errors, 'gender')}
+            disabled={isCertified}
           />
           {currentGender === Gender.Other ? (
             <LabelTextInput
@@ -228,13 +231,19 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
               label={i18n.t('personalinformation.gender_other')}
               defaultValue={profile.customGender}
               onValueChange={setCustomGender}
+              disabled={isCertified}
             />
           ) : null}
           <LabelInputContainer
             label={i18n.t('personalinformation.birthdate')}
             errorMessage={getError(errors, 'birthdate')}
+            disabled={isCertified}
           >
-            <BirthdayPicker date={date} onDateChange={onDateChange} />
+            <BirthdayPicker
+              date={date}
+              onDateChange={onDateChange}
+              disabled={isCertified}
+            />
           </LabelInputContainer>
           <LabelInputContainer
             label={i18n.t('personalinformation.nationality')}

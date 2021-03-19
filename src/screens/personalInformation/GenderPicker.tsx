@@ -10,21 +10,26 @@ type Props = Readonly<{
   onValueChange: (value: Gender) => void
   defaultValue?: Gender
   errorMessage?: string
+  disabled?: boolean
 }>
 
 const GenderPicker: FC<Props> = (props) => {
+  const textStyle = props.disabled ? styles.textDisabled : styles.textEnabled
   return (
     <LabelInputContainer
       label={i18n.t('personalinformation.gender')}
       errorMessage={props.errorMessage}
+      disabled={props.disabled}
     >
       <RNPickerSelect
         style={{
           inputAndroid: {
             ...styles.genderPickerAndroid,
+            ...textStyle,
           },
           inputIOS: {
             ...styles.genderPickerIOS,
+            ...textStyle,
           },
           placeholder: {
             ...styles.placeholder,
@@ -49,6 +54,7 @@ const GenderPicker: FC<Props> = (props) => {
             value: Gender.Other,
           },
         ]}
+        disabled={props.disabled}
       />
     </LabelInputContainer>
   )
@@ -59,12 +65,16 @@ const styles = StyleSheet.create({
     ...Typography.body,
     textAlign: 'right',
     paddingVertical: 0,
-    color: Colors.darkText,
   },
   genderPickerIOS: {
     ...Typography.body,
-    color: Colors.darkText,
     textAlign: 'right',
+  },
+  textEnabled: {
+    color: Colors.darkText,
+  },
+  textDisabled: {
+    color: Colors.lightText,
   },
   placeholder: {
     color: Colors.lightText,

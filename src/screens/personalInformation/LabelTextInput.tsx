@@ -19,6 +19,7 @@ type Props = Readonly<{
   defaultValue?: string
   onValueChange: (newValue: string) => void
   errorMessage?: string
+  disabled?: boolean
 }>
 
 const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -28,11 +29,18 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
       props.nextInput?.current?.focus()
     }
   }
+  const textInputStyle = props.disabled
+    ? styles.textInputDisabled
+    : styles.textInputEnabled
   return (
-    <LabelInputContainer label={props.label} errorMessage={props.errorMessage}>
+    <LabelInputContainer
+      label={props.label}
+      errorMessage={props.errorMessage}
+      disabled={props.disabled}
+    >
       <TextInput
         ref={ref}
-        style={styles.textInput}
+        style={[styles.textInput, textInputStyle]}
         placeholder={i18n.t('personalinformation.placeholder')}
         placeholderTextColor={Colors.lightText}
         returnKeyType={returnKeyType}
@@ -40,6 +48,7 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
         defaultValue={props.defaultValue}
         {...props.textInputProps}
         onChangeText={props.onValueChange}
+        editable={!props.disabled}
       />
     </LabelInputContainer>
   )
@@ -51,7 +60,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     textAlign: 'right',
     paddingVertical: 0,
+  },
+  textInputEnabled: {
     color: Colors.darkText,
+  },
+  textInputDisabled: {
+    color: Colors.lightText,
   },
 })
 
