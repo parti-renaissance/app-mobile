@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -35,6 +36,8 @@ import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ProfileFormError } from '../../core/errors'
+import { useThemedStyles } from '../../themes'
+import Theme from '../../themes/Theme'
 
 type ContentProps = Readonly<{
   profile: DetailedProfile
@@ -73,7 +76,9 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   const linkedInRef = useRef<TextInput>(null)
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
+  const styles = useThemedStyles(stylesFactory)
   const isCertified = false
+
   const getError = (violations: Array<FormViolation>, path: string): string => {
     return violations
       .filter((error) => error.propertyPath.startsWith(path))
@@ -84,6 +89,24 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   }
 
   const submit = useCallback(() => {
+    const displayError = (error: string) => {
+      console.log('Displaying error ', error)
+      Alert.alert(
+        i18n.t('common.error_title'),
+        error,
+        [
+          {
+            text: i18n.t('common.error_retry'),
+            onPress: submit,
+          },
+          {
+            text: i18n.t('common.cancel'),
+            style: 'cancel',
+          },
+        ],
+        { cancelable: false },
+      )
+    }
     const newDetailedProfile: DetailedProfile = {
       uuid: profile.uuid,
       firstName: firstName,
@@ -108,6 +131,8 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
       .catch((error) => {
         if (error instanceof ProfileFormError) {
           setErrors(error.violations)
+        } else {
+          displayError(GenericErrorMapper.mapErrorMessage(error))
         }
       })
       .finally(() => setIsLoading(false))
@@ -141,14 +166,14 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
       title: i18n.t('personalinformation.title'),
       headerRight: () => (
         <TouchableOpacity onPress={submit}>
-          <Text style={styles.headerButtonText}>
+          <Text style={[styles.headerButtonText, styles.headerSubmit]}>
             {i18n.t('personalinformation.save')}
           </Text>
         </TouchableOpacity>
       ),
       headerTitleStyle: styles.title,
     })
-  }, [navigation, submit])
+  }, [navigation, submit, styles])
 
   const genderListener = (value: Gender) => {
     setCurrentGender(value)
@@ -353,31 +378,37 @@ const PersonalInformationScreen = ({
     />
   )
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: Colors.defaultBackground,
-  },
-  container: {
-    padding: Spacing.margin,
-    flex: 1,
-  },
-  certifiedContainer: {},
-  section: {
-    ...Typography.caption1,
-    color: Colors.lightText,
-    marginTop: Spacing.margin,
-  },
-  headerButtonText: {
-    paddingHorizontal: Spacing.margin,
-  },
-  title: {
-    ...Typography.title2,
-    paddingHorizontal: Spacing.mediumMargin,
-  },
-  countryPickerContainerButton: {
-    alignSelf: 'flex-end',
-  },
-})
+const stylesFactory = (theme: Theme) => {
+  return StyleSheet.create({
+    mainContainer: {
+      backgroundColor: Colors.defaultBackground,
+    },
+    container: {
+      padding: Spacing.margin,
+      flex: 1,
+    },
+    certifiedContainer: {},
+    section: {
+      ...Typography.caption1,
+      color: Colors.lightText,
+      marginTop: Spacing.margin,
+    },
+    headerButtonText: {
+      ...Typography.headline,
+      fontSize: 14,
+      paddingHorizontal: Spacing.margin,
+    },
+    headerSubmit: {
+      color: theme.primaryColor,
+    },
+    title: {
+      ...Typography.title2,
+      paddingHorizontal: Spacing.mediumMargin,
+    },
+    countryPickerContainerButton: {
+      alignSelf: 'flex-end',
+    },
+  })
+}
 
 export default PersonalInformationScreen
