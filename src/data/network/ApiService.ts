@@ -72,7 +72,7 @@ class ApiService {
 
   public sendQuickPollAnswer(answerId: string): Promise<RestQuickPollItem> {
     return this.httpClient
-      .post('api/polls/' + answerId + '/vote')
+      .post('api/polls/vote', { json: { uuid: answerId } })
       .json<RestQuickPollItem>()
       .catch(genericErrorMapping)
   }
