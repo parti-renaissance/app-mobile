@@ -10,6 +10,7 @@ import {
 import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
+import { ExternalLink } from '../shared/ExternalLink'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -30,6 +31,11 @@ const CertifiedProfileView: FC<Props> = ({ style, isCertified }) => {
             buttonStyle={styles.buttonInnerStyle}
             textStyle={styles.buttonTextStyle}
             title={i18n.t('personalinformation.uncertified.button')}
+            onPress={() =>
+              ExternalLink.openUrl(
+                i18n.t('personalinformation.uncertified.url'),
+              )
+            }
           />
         ) : null}
       </View>
