@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
 
@@ -12,10 +12,10 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
     <View>
       <View style={styles.progressContainer}>
         <View>
-          <Text style={styles.leadingText}>
+          <Text style={[styles.leadingText, styles.percentage]}>
             {viewModel.leadingAnswerViewModel.formattedPercentage}
           </Text>
-          <Text style={styles.leadingText}>
+          <Text style={[styles.leadingText, styles.choice]}>
             {viewModel.leadingAnswerViewModel.title}
           </Text>
         </View>
@@ -31,10 +31,10 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
           />
         </View>
         <View>
-          <Text style={styles.trailingText}>
+          <Text style={[styles.trailingText, styles.percentage]}>
             {viewModel.trailingAnswerViewModel.formattedPercentage}
           </Text>
-          <Text style={styles.trailingText}>
+          <Text style={[styles.trailingText, styles.choice]}>
             {viewModel.trailingAnswerViewModel.title}
           </Text>
         </View>
@@ -49,6 +49,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.unit,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  percentage: {
+    ...Typography.subheadline,
+  },
+  choice: {
+    ...Typography.lightCalloutOnLightBackground,
   },
   leadingText: {
     textAlign: 'right',
@@ -68,6 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   votesCount: {
+    ...Typography.lightCalloutOnLightBackground,
     marginTop: Spacing.margin,
   },
 })

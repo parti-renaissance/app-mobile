@@ -6,11 +6,13 @@ const spunPearl = '#a9a5ae'
 const cararra = '#eae8e4'
 const cinnarbar = '#e74536'
 const lightGrey = '#e7e9ec'
+const doveGray = '#6a6a6a'
 
-export const tab = '#6a6a6a'
+export const tab = doveGray
 export const darkText = shipGray
 export const lightText = spunPearl
 export const veryLightText = white
+export const lightTextOnLightBackground = doveGray
 export const tagBackground = shipGray
 export const defaultBackground = white
 export const touchHighlight = '#dddddd'

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import HomeQuickPollChoicesView from './HomeQuickPollChoicesView'
 import HomeQuickPollResultView from './HomeQuickPollResultView'
@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.groupedListBackground,
   },
   title: {
+    ...Typography.subheadline,
+    lineHeight: 20,
     marginBottom: Spacing.margin,
   },
 })
