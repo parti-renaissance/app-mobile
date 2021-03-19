@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing } from '../../styles'
-import { TertiaryButton } from '../shared/Buttons'
 import CardView from '../shared/CardView'
+import HomeQuickPollChoicesView from './HomeQuickPollChoicesView'
 import { HomeQuickPollRowContainerViewModel } from './HomeRowViewModel'
 
 type Props = Readonly<{
@@ -21,24 +21,10 @@ const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
     >
       <View style={styles.container}>
         <Text style={styles.title}>{viewModel.title}</Text>
-        <View style={styles.buttonRow}>
-          <TertiaryButton
-            style={styles.leftButton}
-            onPress={() =>
-              onAnswerSelected(viewModel.leadingAnswerViewModel.id)
-            }
-            title={viewModel.leadingAnswerViewModel.title}
-            noShadow={true}
-          />
-          <TertiaryButton
-            style={styles.rightButton}
-            onPress={() =>
-              onAnswerSelected(viewModel.trailingAnswerViewModel.id)
-            }
-            title={viewModel.trailingAnswerViewModel.title}
-            noShadow={true}
-          />
-        </View>
+        <HomeQuickPollChoicesView
+          viewModel={viewModel}
+          onAnswerSelected={onAnswerSelected}
+        />
       </View>
     </CardView>
   )
@@ -55,16 +41,6 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: Spacing.margin,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-  },
-  leftButton: {
-    flex: 1,
-    marginRight: Spacing.margin,
-  },
-  rightButton: {
-    flex: 1,
   },
 })
 
