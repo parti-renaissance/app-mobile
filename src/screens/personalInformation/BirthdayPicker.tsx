@@ -7,7 +7,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker'
 
 type Props = Readonly<{
   date: Date | undefined
-  onDateChange: (dateStr: string, date: Date) => void
+  onDateChange: (formattedDate: string, date: Date) => void
   disabled?: boolean
 }>
 
