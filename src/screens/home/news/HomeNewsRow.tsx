@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { Colors, Spacing, Typography } from '../../../styles'
+import { TouchablePlatform } from '../../shared/TouchablePlatform'
 import { HomeNewsRowViewModel } from './HomeNewsRowViewModel'
 
 type Props = Readonly<{
@@ -30,7 +30,7 @@ const HomeNewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
         {hasUrl ? (
           <Image
             style={styles.disclosureIcon}
-            source={require('../../assets/images/disclosureIndicator.png')}
+            source={require('../../../assets/images/disclosureIndicator.png')}
           />
         ) : null}
       </View>

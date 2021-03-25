@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
-import { Colors, Spacing, Styles } from '../../styles'
-import { useTheme } from '../../themes'
-import i18n from '../../utils/i18n'
-import { BorderlessButton } from '../shared/Buttons'
-import CardView from '../shared/CardView'
-import { HomeToolsRowContainerViewModel } from './HomeRowViewModel'
+import { Colors, Spacing, Styles } from '../../../styles'
+import { useTheme } from '../../../themes'
+import i18n from '../../../utils/i18n'
+import { BorderlessButton } from '../../shared/Buttons'
+import CardView from '../../shared/CardView'
+import { HomeToolsRowContainerViewModel } from '../HomeRowViewModel'
 import HomeToolRow from './HomeToolRow'
 
 type Props = Readonly<{

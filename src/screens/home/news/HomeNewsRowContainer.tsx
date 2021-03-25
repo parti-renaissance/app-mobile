@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
-import { Colors, Spacing, Styles } from '../../styles'
-import { useTheme } from '../../themes'
-import i18n from '../../utils/i18n'
-import { BorderlessButton } from '../shared/Buttons'
-import CardView from '../shared/CardView'
+import { Colors, Spacing, Styles } from '../../../styles'
+import { useTheme } from '../../../themes'
+import i18n from '../../../utils/i18n'
+import { BorderlessButton } from '../../shared/Buttons'
+import CardView from '../../shared/CardView'
 import HomeNewsRow from './HomeNewsRow'
-import { HomeNewsRowContainerViewModel } from './HomeRowViewModel'
+import { HomeNewsRowContainerViewModel } from '../HomeRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeNewsRowContainerViewModel

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { Colors, Spacing, Typography } from '../../../styles'
+import { TouchablePlatform } from '../../shared/TouchablePlatform'
 import { HomeToolRowViewModel } from './HomeToolRowViewModel'
 
 type Props = Readonly<{
@@ -21,7 +21,7 @@ const HomeToolRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
         <Text style={styles.text}>{viewModel.title}</Text>
         <Image
           style={styles.image}
-          source={require('../../assets/images/disclosureIndicator.png')}
+          source={require('../../../assets/images/disclosureIndicator.png')}
         />
       </View>
     </TouchablePlatform>

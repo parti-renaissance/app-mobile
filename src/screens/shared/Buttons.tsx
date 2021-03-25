@@ -22,6 +22,8 @@ type ButtonProps = Readonly<{
   theme?: Theme
 }>
 
+type TertiaryButtonProps = ButtonProps & Readonly<{ noShadow?: boolean }>
+
 export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   const { theme } = useTheme()
   const currentTheme = props.theme ? props.theme : theme
@@ -92,21 +94,24 @@ export const SecondaryButton: FunctionComponent<ButtonProps> = (props) => {
   )
 }
 
-export const TertiaryButton: FunctionComponent<ButtonProps> = (props) => {
+export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
+  props,
+) => {
   const opacity = props.disabled ? 0.5 : 1.0
   const { theme } = useTheme()
-  return (
-    <View
-      style={[
+  const containerStyle = props.noShadow
+    ? [props.style]
+    : [
+        props.style,
         styles.shadow,
         { shadowOpacity: styles.shadow.shadowOpacity * opacity },
-      ]}
-    >
+      ]
+  return (
+    <View style={containerStyle}>
       <View
         style={[
           styles.baseAppButtonContainer,
           { backgroundColor: Colors.tertiaryButtonBackground },
-          props.style,
           { elevation: Spacing.buttonElevation * opacity },
         ]}
       >

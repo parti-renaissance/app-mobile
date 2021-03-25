@@ -6,6 +6,7 @@ const chateauGreen = '#44ae64'
 const chateauGreen80Light = '#69BE83'
 const chateauGreen50Light = '#A2D7B2'
 const offwhite = '#F8FFF8'
+const fringyFlower = '#c9ebc9'
 
 const GreenTheme: Theme = {
   id: RegionTheme.GREEN,
@@ -15,6 +16,7 @@ const GreenTheme: Theme = {
   primaryButtonBackgroundHighlight: chateauGreen50Light,
   primaryButtonTextColor: Colors.white,
   coloredText: chateauGreen,
+  quickPollProgress: fringyFlower,
   image: {
     near: () => require('../assets/images/green/imageProche.png'),
     reforms: () => require('../assets/images/green/imageReformes.png'),

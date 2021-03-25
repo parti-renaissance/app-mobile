@@ -75,7 +75,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  ad_localize
+  ad_localize (~> 4.0)
 
 RUBY VERSION
    ruby 2.6.5p114

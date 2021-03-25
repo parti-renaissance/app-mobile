@@ -1,7 +1,8 @@
 import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
-import { HomeNewsRowViewModel } from './HomeNewsRowViewModel'
-import { HomeToolRowViewModel } from './HomeToolRowViewModel'
+import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
+import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
+import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
   sectionName: string
@@ -17,6 +18,15 @@ export interface HomePollsRowContainerViewModel {
 
 export interface HomeToolsRowContainerViewModel {
   tools: Array<HomeToolRowViewModel>
+}
+
+export interface HomeQuickPollRowContainerViewModel {
+  id: string
+  title: string
+  type: 'results' | 'question'
+  leadingAnswerViewModel: HomeQuickPollRowAnswerViewModel
+  trailingAnswerViewModel: HomeQuickPollRowAnswerViewModel
+  totalVotes: string
 }
 
 export type HomeSectionViewModel = {
@@ -44,4 +54,8 @@ export type HomeRowViewModel =
     }
   | {
       type: 'adhere'
+    }
+  | {
+      type: 'quick_poll'
+      value: HomeQuickPollRowContainerViewModel
     }

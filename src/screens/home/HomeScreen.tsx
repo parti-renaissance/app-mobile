@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback, useState } from 'react'
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import {
   StyleSheet,
   SectionList,
@@ -19,10 +24,10 @@ import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
 import { HomeRowViewModel } from './HomeRowViewModel'
 import HomeSectionRow from './HomeSectionRow'
-import HomeToolRowContainer from './HomeToolRowContainer'
+import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
-import HomeNewsRowContainer from './HomeNewsRowContainer'
+import HomeNewsRowContainer from './news/HomeNewsRowContainer'
 import {
   GetHomeResourcesInteractor,
   HomeResources,
@@ -32,15 +37,35 @@ import { Region } from '../../core/entities/Region'
 import ThemeRepository from '../../data/ThemeRepository'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ServerTimeoutError } from '../../core/errors'
+import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
+import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<HomeViewModel>
+    ViewState.Type<HomeResources>
   >(new ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
+
+  useEffect(() => {
+    // Reload view model (and view) when resources model changes
+    if (!currentResources) {
+      return
+    }
+    const viewModel = HomeViewModelMapper.map(
+      theme,
+      currentResources.profile,
+      currentResources.region,
+      currentResources.news,
+      currentResources.polls,
+      currentResources.tools,
+      currentResources.state,
+      currentResources.quickPoll,
+    )
+    setStatefulState(new ViewState.Content(viewModel))
+  }, [theme, currentResources])
 
   const fetchData = useCallback(
     (cacheJustLoaded: boolean = false) => {
@@ -57,16 +82,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         .then((resources) => {
           setResources(resources)
           updateTheme(resources.region)
-          const viewModel = HomeViewModelMapper.map(
-            theme,
-            resources.profile,
-            resources.region,
-            resources.news,
-            resources.polls,
-            resources.tools,
-            resources.state,
-          )
-          setStatefulState(new ViewState.Content(viewModel))
         })
         .catch((error) => {
           const isNetworkError = error instanceof ServerTimeoutError
@@ -87,23 +102,14 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           setRefreshing(false)
         })
     },
-    [theme, setTheme],
+    [setTheme],
   )
 
   const firstDataFetch = useCallback(() => {
     new GetHomeResourcesInteractor()
       .execute('cache')
       .then((resources) => {
-        const viewModel = HomeViewModelMapper.map(
-          theme,
-          resources.profile,
-          resources.region,
-          resources.news,
-          resources.polls,
-          resources.tools,
-          resources.state,
-        )
-        setStatefulState(new ViewState.Content(viewModel))
+        setResources(resources)
         if (!initialFetchDone) {
           setInitialFetchDone(true)
           fetchData(true)
@@ -112,7 +118,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       .catch(() => {
         fetchData()
       })
-  }, [theme, fetchData, initialFetchDone])
+  }, [fetchData, initialFetchDone])
 
   useFocusEffect(firstDataFetch)
 
@@ -152,6 +158,25 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const onFooterButtonPressed = () => {
     ExternalLink.openUrl(i18n.t('unauthenticatedhome.register_url'))
   }
+  const onQuickPollAnswerSelected = async (
+    pollId: string,
+    answerId: string,
+  ) => {
+    if (!currentResources) {
+      return
+    }
+    const interactor = new SaveQuickPollAsAnsweredInteractor()
+    const updatedPoll = await interactor.execute({
+      quickPollId: pollId,
+      answerId: answerId,
+    })
+    // We must make a clone to update state
+    const clone: HomeResources = {
+      ...currentResources,
+      quickPoll: updatedPoll,
+    }
+    setResources(clone)
+  }
 
   const renderItem = ({
     item,
@@ -187,6 +212,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeRegion
           viewModel={item.value}
           onMorePressed={onRegionMorePressed}
+        />
+      )
+    } else if (item.type === 'quick_poll') {
+      return (
+        <HomeQuickPollRowContainer
+          viewModel={item.value}
+          onAnswerSelected={onQuickPollAnswerSelected}
         />
       )
     } else {

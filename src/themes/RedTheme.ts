@@ -6,6 +6,7 @@ const punch = '#df372a'
 const punch80Light = '#E55F55'
 const punch50Light = '#EF9B95'
 const chablis = '#fff5f5'
+const cornflowerLilac = '#ffadac'
 
 const RedTheme: Theme = {
   id: RegionTheme.RED,
@@ -15,6 +16,7 @@ const RedTheme: Theme = {
   primaryButtonBackgroundHighlight: punch50Light,
   primaryButtonTextColor: Colors.white,
   coloredText: punch,
+  quickPollProgress: cornflowerLilac,
   image: {
     near: () => require('../assets/images/red/imageProche.png'),
     reforms: () => require('../assets/images/red/imageReformes.png'),

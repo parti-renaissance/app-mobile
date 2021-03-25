@@ -15,14 +15,17 @@
       "error_reload": "Rechargez la page",
       "error_title": "Oups !",
       "error_retry": "Réessayer",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "search": "Rechercher"
     },
     "tab": {
       "item_polls": "Questionnaires",
       "item_region": "Région",
       "item_tools": "Outils",
       "item_profile": "Profil",
-      "item_home": "Accueil"
+      "item_home": "Accueil",
+      "item_events": "Événements"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -124,7 +127,7 @@
         "notifications": "Notifications",
         "postal_code": "Code postal",
         "personal_information_url": "https://en-marche.fr/parametres/mon-compte/modifier",
-        "personal_information": "Mon profil adhérent",
+        "personal_information": "Informations personnelles",
         "parameters": "Paramètres"
       },
       "alert": {
@@ -193,6 +196,11 @@
         "section": "Actualités",
         "date_format": "dd/MM/yyyy",
         "more": "Voir toutes les actualités"
+      },
+      "section_quick_poll": "La question du jour",
+      "quick_poll": {
+        "votes_count": "{{format}} votant",
+        "votes_count_plural": "{{format}} votants"
       }
     },
     "regions": { "website": "Site de campagne" },
@@ -201,6 +209,43 @@
       "label": "Code postal",
       "validate": "Continuer"
     },
-    "news": { "title": "Actualités" }
+    "news": { "title": "Actualités" },
+    "personalinformation": {
+      "uncertified": {
+        "text": "Votre compte n'est pas certifié",
+        "button": "Certifier mon compte"
+      },
+      "certified": {
+        "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
+      },
+      "title": "Informations personnelles",
+      "section_identity": "Paramètres du compte",
+      "section_coordinates": "Paramètres du compte",
+      "section_social": "Paramètres du compte (optionnel)",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "gender": "Genre",
+      "gender_other": "Identité de genre",
+      "birthdate": "Date de naissance",
+      "nationality": "Nationalité",
+      "address": "Adresse",
+      "email": "E-mail",
+      "phone": "Tél.",
+      "facebook": "Facebook",
+      "linkedin": "Linkedin",
+      "twitter": "Twitter",
+      "telegram": "Telegram",
+      "placeholder": "Renseigner",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "gender_male": "Homme",
+      "gender_female": "Femme",
+      "gender_unknown": "Autre"
+    },
+    "events": {
+      "title": "Événements",
+      "tab_next": "À venir",
+      "tab_mine": "Mes événements"
+    }
   }
 }

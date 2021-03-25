@@ -73,6 +73,12 @@ export const lightCallout: TextStyle = {
   color: Colors.lightText,
 }
 
+export const lightCalloutOnLightBackground: TextStyle = {
+  fontSize: calloutFontSize,
+  fontFamily: robotoRegular,
+  color: Colors.lightTextOnLightBackground,
+}
+
 export const tagCaption: TextStyle = {
   fontSize: captionFontSize,
   fontFamily: robotoRegular,

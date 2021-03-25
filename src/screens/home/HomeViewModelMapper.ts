@@ -3,14 +3,16 @@ import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
+import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import { Tool } from '../../core/entities/Tool'
 import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
+import NumberFormatter from '../../utils/NumerFormatter'
 import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
-import { HomeNewsRowViewModelMapper } from './HomeNewsRowViewModelMapper'
+import { HomeNewsRowViewModelMapper } from './news/HomeNewsRowViewModelMapper'
 import { HomeSectionViewModel } from './HomeRowViewModel'
-import { HomeToolRowViewModelMapper } from './HomeToolRowViewModelMapper'
+import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
 
 const MAX_NEWS = 3
@@ -26,9 +28,11 @@ export const HomeViewModelMapper = {
     polls: Array<Poll>,
     tools: Array<Tool>,
     authenticationState: AuthenticationState,
+    quickPoll: StatefulQuickPoll | undefined,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
+    appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
     appendNews(news, rows)
     appendPolls(polls, rows, theme)
@@ -52,6 +56,53 @@ function greeting(profile?: Profile): string {
   } else {
     return i18n.t('home.greeting')
   }
+}
+
+function appendQuickPoll(
+  quickPoll: StatefulQuickPoll | undefined,
+  rows: HomeSectionViewModel[],
+) {
+  if (!quickPoll || quickPoll.result.answers.length < 2) {
+    return
+  }
+  const leadingAnswer = quickPoll.result.answers[0]
+  const trailingAnswer = quickPoll.result.answers[1]
+  rows.push({
+    id: quickPoll.id,
+    sectionViewModel: { sectionName: i18n.t('home.section_quick_poll') },
+    data: [
+      {
+        type: 'quick_poll',
+        value: {
+          id: quickPoll.id,
+          type: quickPoll.state === 'answered' ? 'results' : 'question',
+          title: quickPoll.question,
+          leadingAnswerViewModel: {
+            id: leadingAnswer.id,
+            title: leadingAnswer.value,
+            formattedPercentage: NumberFormatter.formatPercent(
+              leadingAnswer.votesPercentage / 100,
+            ),
+            percentage: leadingAnswer.votesPercentage,
+          },
+          trailingAnswerViewModel: {
+            id: trailingAnswer.id,
+            title: trailingAnswer.value,
+            formattedPercentage: NumberFormatter.formatPercent(
+              trailingAnswer.votesPercentage / 100,
+            ),
+            percentage: trailingAnswer.votesPercentage,
+          },
+          totalVotes: i18n.t('home.quick_poll.votes_count', {
+            count: quickPoll.result.totalVotesCount,
+            format: NumberFormatter.formatDecimal(
+              quickPoll.result.totalVotesCount,
+            ),
+          }),
+        },
+      },
+    ],
+  })
 }
 
 function appendRegion(

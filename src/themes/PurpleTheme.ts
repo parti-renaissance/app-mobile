@@ -6,6 +6,7 @@ const moodyBlue = '#6d5ed3'
 const moodyBlue80Light = '#8A7EDC'
 const moodyBlue50Light = '#B6AFE9'
 const magnolia = '#faf6ff'
+const moonRaker = '#bfc6f2'
 
 const PurpleTheme: Theme = {
   id: RegionTheme.PURPLE,
@@ -15,6 +16,7 @@ const PurpleTheme: Theme = {
   primaryButtonBackgroundHighlight: moodyBlue50Light,
   primaryButtonTextColor: Colors.white,
   coloredText: moodyBlue,
+  quickPollProgress: moonRaker,
   image: {
     near: () => require('../assets/images/purple/imageProche.png'),
     reforms: () => require('../assets/images/purple/imageReformes.png'),
