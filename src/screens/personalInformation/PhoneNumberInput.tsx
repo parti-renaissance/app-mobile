@@ -31,7 +31,8 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
     }
   }
   const [countryCode, setCountryCode] = useState<CountryCode>(
-    props.defaultValue?.countryCode ?? 'FR',
+    props.defaultValue?.countryCode ??
+      i18n.t('personalinformation.default_country_code'),
   )
   const [number, setNumber] = useState<string | undefined>(
     props.defaultValue?.number,
@@ -72,9 +73,11 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
         />
         <CountryPicker
           countryCode={countryCode}
-          preferredCountries={['FR']}
+          preferredCountries={[
+            i18n.t('personalinformation.default_country_code'),
+          ]}
           withFlagButton={false}
-          translation={'fra'}
+          translation={i18n.t('personalinformation.country_picker_language')}
           // @ts-ignore: Issue in the country picker typescript definition
           closeButtonImage={require('../../assets/images/navigationBarBack.png')}
           withCallingCodeButton={true}

@@ -6,6 +6,7 @@ import {
 } from '../../core/entities/DetailedProfile'
 import { Profile } from '../../core/entities/Profile'
 import { Gender } from '../../core/entities/UserProfile'
+import i18n from '../../utils/i18n'
 import {
   RestDetailedProfileResponse,
   RestPhoneNumber,
@@ -37,7 +38,7 @@ export const ProfileMapper = {
       nationality = result.nationality
     } else {
       // by default
-      nationality = 'FR'
+      nationality = i18n.t('personalinformation.default_country_code')
     }
     return {
       uuid: result.uuid,
@@ -138,7 +139,7 @@ const phoneNumber = (
     countryCode = restPhoneNumber.country
   } else {
     // by default
-    countryCode = 'FR'
+    countryCode = i18n.t('personalinformation.default_country_code')
   }
   return {
     countryCode: countryCode,

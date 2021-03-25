@@ -241,7 +241,10 @@
       "placeholder": "Renseigner",
       "gender_male": "Homme",
       "gender_female": "Femme",
-      "gender_unknown": "Autre"
+      "gender_unknown": "Autre",
+      "default_country_code": "FR",
+      "country_picker_language": "fra",
+      "gmaps_language": "fr"
     }
   }
 }

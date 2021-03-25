@@ -251,9 +251,13 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
           >
             <CountryPicker
               countryCode={countryCode}
-              preferredCountries={['FR']}
+              preferredCountries={[
+                i18n.t('personalinformation.default_country_code'),
+              ]}
               withFlagButton={false}
-              translation={'fra'}
+              translation={i18n.t(
+                'personalinformation.country_picker_language',
+              )}
               // @ts-ignore: Issue in the country picker typescript definition
               closeButtonImage={require('../../assets/images/navigationBarBack.png')}
               withCountryNameButton={true}

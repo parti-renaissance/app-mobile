@@ -153,7 +153,7 @@ const LocationPicker: FC<Props> = (props) => {
             }}
             query={{
               key: GOOGLE_PLACES_API_KEY,
-              language: 'fr',
+              language: i18n.t('personalinformation.gmaps_language'),
             }}
             styles={{
               textInputContainer: {
