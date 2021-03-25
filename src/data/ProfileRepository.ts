@@ -6,6 +6,8 @@ import { DataSource } from './DataSource'
 import CacheManager from './store/CacheManager'
 import { RestProfileResponse } from './restObjects/RestProfileResponse'
 import { DetailedProfile } from '../core/entities/DetailedProfile'
+import { PersonalInformationsForm } from '../core/entities/PersonalInformationsForm'
+import { ProfileUpdateMapper } from './mapper/ProfileUpdateMapper'
 
 class ProfileRepository {
   private static instance: ProfileRepository
@@ -35,11 +37,12 @@ class ProfileRepository {
   }
 
   public async updateDetailedProfile(
-    newProfile: DetailedProfile,
+    profileUuid: string,
+    newProfile: PersonalInformationsForm,
   ): Promise<void> {
     await this.apiService.updateProfile(
-      newProfile.uuid,
-      ProfileMapper.mapDetailedProfileUpdate(newProfile),
+      profileUuid,
+      ProfileUpdateMapper.mapPersonalInformationForm(newProfile),
     )
   }
 

@@ -16,7 +16,7 @@ import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
 import BirthdayPicker from './BirthdayPicker'
-import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
+import CountryPicker from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
 import {
   PersonalInformationScreenProps,
@@ -24,10 +24,8 @@ import {
 } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import {
-  Address,
   DetailedProfile,
   FormViolation,
-  PhoneNumber,
 } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -38,35 +36,21 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { ProfileFormError } from '../../core/errors'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
+import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
+import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
 
 type ContentProps = Readonly<{
-  profile: DetailedProfile
+  profileUuid: string
+  initialForm: PersonalInformationsForm
   navigation: StackNavigationProp<ProfileParamList, 'PersonalInformation'>
 }>
 
 const PersonalInformationScreenContent: FC<ContentProps> = ({
-  profile,
+  profileUuid,
+  initialForm,
   navigation,
 }) => {
-  const [firstName, setFirstName] = useState<string>(profile.firstName)
-  const [lastName, setLastName] = useState<string>(profile.lastName)
-  const [currentGender, setCurrentGender] = useState<Gender>(profile.gender)
-  const [customGender, setCustomGender] = useState<string | undefined>(
-    profile.customGender,
-  )
-  const [countryCode, setCountryCode] = useState<CountryCode>(
-    profile.nationality,
-  )
-  const [date, setDate] = useState<Date>(profile.birthDate)
-  const [address, setAddress] = useState<Address | undefined>(profile.address)
-  const [email, setEmail] = useState<string>(profile.email)
-  const [phoneNumber, setPhoneNumber] = useState<PhoneNumber | undefined>(
-    profile.phone,
-  )
-  const [facebook, setFacebook] = useState<string | undefined>(profile.facebook)
-  const [twitter, setTwitter] = useState<string | undefined>(profile.twitter)
-  const [linkedin, setLinkedin] = useState<string | undefined>(profile.linkedin)
-  const [telegram, setTelegram] = useState<string | undefined>(profile.telegram)
+  const [form, updateForm] = useState<PersonalInformationsForm>(initialForm)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
   const firstNameRef = useRef<TextInput>(null)
@@ -107,26 +91,10 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
         { cancelable: false },
       )
     }
-    const newDetailedProfile: DetailedProfile = {
-      uuid: profile.uuid,
-      firstName: firstName,
-      lastName: lastName,
-      gender: currentGender,
-      customGender: currentGender === Gender.Other ? customGender : undefined,
-      nationality: countryCode,
-      birthDate: date,
-      address: address,
-      email: email,
-      phone: phoneNumber,
-      facebook: facebook,
-      twitter: twitter,
-      linkedin: linkedin,
-      telegram: telegram,
-    }
     setIsLoading(true)
     setErrors([])
     ProfileRepository.getInstance()
-      .updateDetailedProfile(newDetailedProfile)
+      .updateDetailedProfile(profileUuid, form)
       .then(() => navigation.goBack())
       .catch((error) => {
         if (error instanceof ProfileFormError) {
@@ -136,23 +104,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
         }
       })
       .finally(() => setIsLoading(false))
-  }, [
-    firstName,
-    lastName,
-    address,
-    currentGender,
-    customGender,
-    countryCode,
-    date,
-    email,
-    phoneNumber,
-    facebook,
-    twitter,
-    linkedin,
-    telegram,
-    navigation,
-    profile,
-  ])
+  }, [profileUuid, form, navigation])
 
   useEffect(() => {
     navigation.setOptions({
@@ -176,10 +128,10 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   }, [navigation, submit, styles])
 
   const genderListener = (value: Gender) => {
-    setCurrentGender(value)
+    updateForm({ ...form, gender: value })
   }
   const onDateChange = (_: string, newDate: Date) => {
-    setDate(newDate)
+    updateForm({ ...form, birthdate: newDate })
   }
   return (
     <KeyboardOffsetView>
@@ -203,8 +155,8 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             textInputProps={{
               textContentType: 'givenName',
             }}
-            defaultValue={profile.firstName}
-            onValueChange={setFirstName}
+            defaultValue={initialForm.firstName}
+            onValueChange={(value) => updateForm({ ...form, firstName: value })}
             errorMessage={getError(errors, 'first_name')}
             disabled={isCertified}
           />
@@ -214,23 +166,25 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             textInputProps={{
               textContentType: 'familyName',
             }}
-            defaultValue={profile.lastName}
-            onValueChange={setLastName}
+            defaultValue={initialForm.lastName}
+            onValueChange={(value) => updateForm({ ...form, lastName: value })}
             errorMessage={getError(errors, 'last_name')}
             disabled={isCertified}
           />
           <GenderPicker
             onValueChange={genderListener}
-            defaultValue={currentGender}
+            defaultValue={form.gender}
             errorMessage={getError(errors, 'gender')}
             disabled={isCertified}
           />
-          {currentGender === Gender.Other ? (
+          {form.gender === Gender.Other ? (
             <LabelTextInput
               ref={genderOther}
               label={i18n.t('personalinformation.gender_other')}
-              defaultValue={profile.customGender}
-              onValueChange={setCustomGender}
+              defaultValue={initialForm.customGender}
+              onValueChange={(value) =>
+                updateForm({ ...form, customGender: value })
+              }
               disabled={isCertified}
             />
           ) : null}
@@ -240,7 +194,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             disabled={isCertified}
           >
             <BirthdayPicker
-              date={date}
+              date={form.birthdate}
               onDateChange={onDateChange}
               disabled={isCertified}
             />
@@ -250,7 +204,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             errorMessage={getError(errors, 'nationality')}
           >
             <CountryPicker
-              countryCode={countryCode}
+              countryCode={form.countryCode}
               preferredCountries={[
                 i18n.t('personalinformation.default_country_code'),
               ]}
@@ -269,7 +223,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
                 contentContainerStyle: { paddingHorizontal: Spacing.margin },
               }}
               onSelect={(country) => {
-                setCountryCode(country.cca2)
+                updateForm({ ...form, countryCode: country.cca2 })
               }}
             />
           </LabelInputContainer>
@@ -281,9 +235,9 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             errorMessage={getError(errors, 'address')}
           >
             <LocationPicker
-              address={address}
+              address={form.address}
               onAddressSelected={(pickedAddress) => {
-                setAddress(pickedAddress)
+                updateForm({ ...form, address: pickedAddress })
               }}
             />
           </LabelInputContainer>
@@ -295,15 +249,17 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
               autoCapitalize: 'none',
               autoCorrect: false,
             }}
-            defaultValue={profile.email}
-            onValueChange={setEmail}
+            defaultValue={initialForm.email}
+            onValueChange={(value) => updateForm({ ...form, email: value })}
             errorMessage={getError(errors, 'email_address')}
           />
           <PhoneNumberInput
-            defaultValue={profile.phone}
+            defaultValue={initialForm.phoneNumber}
             label={i18n.t('personalinformation.phone')}
             nextInput={facebookRef}
-            onValueChange={setPhoneNumber}
+            onValueChange={(value) =>
+              updateForm({ ...form, phoneNumber: value })
+            }
             errorMessage={getError(errors, 'phone')}
           />
           <Text style={styles.section}>
@@ -313,32 +269,32 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             ref={facebookRef}
             nextInput={linkedInRef}
             label={i18n.t('personalinformation.facebook')}
-            defaultValue={profile.facebook}
-            onValueChange={setFacebook}
+            defaultValue={initialForm.facebook}
+            onValueChange={(value) => updateForm({ ...form, facebook: value })}
             errorMessage={getError(errors, 'facebook_page_url')}
           />
           <LabelTextInput
             ref={linkedInRef}
             nextInput={twitterRef}
             label={i18n.t('personalinformation.linkedin')}
-            defaultValue={profile.linkedin}
-            onValueChange={setLinkedin}
+            defaultValue={initialForm.linkedin}
+            onValueChange={(value) => updateForm({ ...form, linkedin: value })}
             errorMessage={getError(errors, 'linkedin_page_url')}
           />
           <LabelTextInput
             ref={twitterRef}
             nextInput={telegramRef}
             label={i18n.t('personalinformation.twitter')}
-            defaultValue={profile.twitter}
-            onValueChange={setTwitter}
+            defaultValue={initialForm.twitter}
+            onValueChange={(value) => updateForm({ ...form, twitter: value })}
             errorMessage={getError(errors, 'twitter_page_url')}
           />
           <LabelTextInput
             ref={telegramRef}
             isLastInput={true}
             label={i18n.t('personalinformation.telegram')}
-            defaultValue={profile.telegram}
-            onValueChange={setTelegram}
+            defaultValue={initialForm.telegram}
+            onValueChange={(value) => updateForm({ ...form, telegram: value })}
             errorMessage={getError(errors, 'telegram_page_url')}
           />
         </View>
@@ -381,10 +337,14 @@ const PersonalInformationScreen = ({
     <StatefulView
       state={statefulState}
       contentComponent={(detailedProfile) => {
+        const form = PersonalInformationsFormMapper.mapFromDetailedProfile(
+          detailedProfile,
+        )
         return (
           <PersonalInformationScreenContent
+            profileUuid={detailedProfile.uuid}
             navigation={navigation}
-            profile={detailedProfile}
+            initialForm={form}
           />
         )
       }}
