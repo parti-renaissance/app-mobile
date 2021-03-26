@@ -27,7 +27,8 @@ export interface EventRowViewModel {
   title: string
   isOnline: boolean
   tag: string
-  tagBackground: string
+  tagBackgroundColor: string
+  tagTextColor: string
   imageUrl?: string
   isSubscribed: boolean
   date: string

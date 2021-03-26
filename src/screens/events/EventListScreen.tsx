@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native'
 import { Spacing, Typography } from '../../styles'
+import EventView from './EventView'
 import {
   EventSectionViewModel,
   EventRowContainerViewModel,
@@ -31,7 +32,10 @@ const EventListScreen: FC<Props> = (props) => {
             title: 'LREM Senlis Sud Oise - déjeunon',
             isOnline: true,
             tag: 'CONFERENCE',
-            tagBackground: '#ff0000',
+            tagBackgroundColor: '#4489f7',
+            tagTextColor: '#ffffff',
+            imageUrl:
+              'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
             isSubscribed: true,
             date: '12:00 - 15:00',
           },
@@ -43,7 +47,8 @@ const EventListScreen: FC<Props> = (props) => {
             title: 'Porte à porte Montmartre',
             isOnline: false,
             tag: 'ACTIONS TERRAINS',
-            tagBackground: '#00ff00',
+            tagBackgroundColor: '#b1d8ff',
+            tagTextColor: '#413d45',
             isSubscribed: false,
             date: '11:00 - 15:00',
           },
@@ -61,7 +66,8 @@ const EventListScreen: FC<Props> = (props) => {
             title: 'Échange sur le Grand Paris avec Pâcome',
             isOnline: false,
             tag: 'REUNIONS',
-            tagBackground: '#0000ff',
+            tagBackgroundColor: '#1c00ff',
+            tagTextColor: '#ffffff',
             isSubscribed: true,
             date: '12:00 - 15:00',
           },
@@ -76,8 +82,7 @@ const EventListScreen: FC<Props> = (props) => {
       // TODO
       return <View />
     } else if (item.type === 'event') {
-      // TODO
-      return <View />
+      return <EventView viewModel={item.value} />
     } else {
       return null
     }
