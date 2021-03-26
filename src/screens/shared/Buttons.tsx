@@ -15,6 +15,7 @@ import { TouchablePlatform } from './TouchablePlatform'
 
 type ButtonProps = Readonly<{
   style?: StyleProp<ViewStyle>
+  buttonStyle?: StyleProp<ViewStyle>
   textStyle?: StyleProp<TextStyle>
   onPress?: () => void
   title: string
@@ -44,7 +45,7 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
         onPress={props.onPress}
         touchHighlight={currentTheme.primaryButtonBackgroundHighlight}
         disabled={props.disabled}
-        style={styles.buttonTouchable}
+        style={[styles.buttonTouchable, props.buttonStyle]}
       >
         <Text
           style={[

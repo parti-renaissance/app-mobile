@@ -53,11 +53,19 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
         />
       )
     } else if (content instanceof ProfileAuthenticatedResult) {
+      const openPersonalInformation = () => {
+        navigation.navigate(Screen.personalInformation)
+      }
       const viewModel = ProfileScreenViewModelMapper.map(
         content.profile,
         content.department,
       )
-      return <ProfileAuthenticated viewModel={viewModel} />
+      return (
+        <ProfileAuthenticated
+          openPersonalInformation={openPersonalInformation}
+          viewModel={viewModel}
+        />
+      )
     } else {
       throw Error('unreachable')
     }

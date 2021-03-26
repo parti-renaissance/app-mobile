@@ -14,19 +14,13 @@ import {
   RestPollResultRequest,
   RestPollResultAnswer,
 } from '../restObjects/RestPollResultRequest'
+import { GenderMapper } from './GenderMapper'
 
 const restGender = (gender: Gender | undefined): string | undefined => {
   if (!gender) {
     return undefined
   }
-  switch (gender) {
-    case Gender.Male:
-      return 'male'
-    case Gender.Female:
-      return 'female'
-    case Gender.Other:
-      return 'other'
-  }
+  return GenderMapper.mapFromGender(gender)
 }
 
 const restProfession = (

@@ -213,15 +213,18 @@
     "personalinformation": {
       "uncertified": {
         "text": "Votre compte n'est pas certifié",
-        "button": "Certifier mon compte"
+        "button": "Certifier mon compte",
+        "url": "https://en-marche.fr/espace-adherent/mon-compte/certification"
       },
       "certified": {
         "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
       },
       "title": "Informations personnelles",
-      "section_identity": "Paramètres du compte",
-      "section_coordinates": "Paramètres du compte",
-      "section_social": "Paramètres du compte (optionnel)",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "section_identity": "Votre identité",
+      "section_coordinates": "Vos coordonnées",
+      "section_social": "Vos identifiants réseaux sociaux (optionnel)",
       "first_name": "Prénom",
       "last_name": "Nom",
       "gender": "Genre",
@@ -236,16 +239,12 @@
       "twitter": "Twitter",
       "telegram": "Telegram",
       "placeholder": "Renseigner",
-      "cancel": "Annuler",
-      "save": "Enregistrer",
       "gender_male": "Homme",
       "gender_female": "Femme",
-      "gender_unknown": "Autre"
-    },
-    "events": {
-      "title": "Événements",
-      "tab_next": "À venir",
-      "tab_mine": "Mes événements"
+      "gender_unknown": "Autre",
+      "default_country_code": "FR",
+      "country_picker_language": "fra",
+      "gmaps_language": "fr"
     }
   }
 }
