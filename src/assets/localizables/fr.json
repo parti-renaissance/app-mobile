@@ -125,9 +125,12 @@
         "dataprotection": "Données à caractère personnel",
         "legal": "Juridique",
         "notifications": "Notifications",
+        "notifications_description": "Paramétrez vos préférences de notifications",
         "postal_code": "Code postal",
+        "postal_code_description": "Modifiez votre localisation",
         "personal_information_url": "https://en-marche.fr/parametres/mon-compte/modifier",
         "personal_information": "Informations personnelles",
+        "personal_information_description": "Modifiez les informations de votre profil.",
         "parameters": "Paramètres"
       },
       "alert": {

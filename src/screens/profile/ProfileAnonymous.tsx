@@ -10,6 +10,7 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { versionLabel } from './version'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { ExternalLink } from '../shared/ExternalLink'
+import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
   openTermsOfUse: () => void
@@ -52,12 +53,18 @@ const ProfileAnonymous: FC<Props> = ({
         />
       </View>
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
-      <ProfileSettingsItem
+      <ProfileSettingsCard
+        style={styles.settingsCard}
         title={i18n.t('profile.menu.postal_code')}
+        description={i18n.t('profile.menu.postal_code_description')}
+        image={require('../../assets/images/imageProfileZipCode.png')}
         onPress={openZipCode}
       />
-      <ProfileSettingsItem
+      <ProfileSettingsCard
+        style={styles.settingsCard}
         title={i18n.t('profile.menu.notifications')}
+        description={i18n.t('profile.menu.notifications_description')}
+        image={require('../../assets/images/imageProfileNotifications.png')}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
@@ -101,6 +108,10 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.largeMargin,
     textAlign: 'center',
     ...Typography.lightCallout,
+  },
+  settingsCard: {
+    marginTop: Spacing.small,
+    marginHorizontal: Spacing.margin,
   },
 })
 

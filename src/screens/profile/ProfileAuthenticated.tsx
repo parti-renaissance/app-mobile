@@ -20,6 +20,7 @@ import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { versionLabel } from './version'
 import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
+import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
@@ -69,12 +70,18 @@ const ProfileAuthenticated: FC<Props> = ({
         <ProfilePollsCompleted viewModel={viewModel.polls} />
       </View>
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
-      <ProfileSettingsItem
+      <ProfileSettingsCard
+        style={styles.settingsCard}
         title={i18n.t('profile.menu.personal_information')}
+        description={i18n.t('profile.menu.personal_information_description')}
+        image={require('../../assets/images/imageProfileInformations.png')}
         onPress={openPersonalInformation}
       />
-      <ProfileSettingsItem
+      <ProfileSettingsCard
+        style={styles.settingsCard}
         title={i18n.t('profile.menu.notifications')}
+        description={i18n.t('profile.menu.notifications_description')}
+        image={require('../../assets/images/imageProfileNotifications.png')}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
@@ -130,6 +137,10 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.largeMargin,
     textAlign: 'center',
     ...Typography.lightCallout,
+  },
+  settingsCard: {
+    marginTop: Spacing.small,
+    marginHorizontal: Spacing.margin,
   },
 })
 
