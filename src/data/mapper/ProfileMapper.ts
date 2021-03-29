@@ -23,6 +23,7 @@ export const ProfileMapper = {
       zipCode: result.postal_code,
       totalSurveys: result.surveys.total,
       totalSurveysLastMonth: result.surveys.last_month,
+      isCertified: result.certified,
     }
   },
   mapDetailedProfile: (

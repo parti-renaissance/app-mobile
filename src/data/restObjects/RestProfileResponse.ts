@@ -7,4 +7,5 @@ export interface RestProfileResponse {
     total: number
     last_month: number
   }
+  certified: boolean
 }

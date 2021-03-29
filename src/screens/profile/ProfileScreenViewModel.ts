@@ -5,4 +5,5 @@ export interface ProfileScreenViewModel {
   area: string
   name?: string
   polls: ProfilePollsCompletedViewModel
+  isCertified: boolean
 }

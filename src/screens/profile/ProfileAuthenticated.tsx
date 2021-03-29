@@ -59,7 +59,14 @@ const ProfileAuthenticated: FC<Props> = ({
       <View style={styles.container}>
         <View style={styles.avatar}>
           <Image source={theme.image.profile()} />
+          {viewModel.isCertified ? (
+            <Image
+              source={require('../../assets/images/certified.png')}
+              style={styles.certifiedBadge}
+            />
+          ) : null}
         </View>
+
         <View style={styles.title}>
           <Text style={styles.titleText}>{viewModel.name ?? ''}</Text>
         </View>
@@ -141,6 +148,11 @@ const styles = StyleSheet.create({
   settingsCard: {
     marginTop: Spacing.small,
     marginHorizontal: Spacing.margin,
+  },
+  certifiedBadge: {
+    width: 32,
+    height: 32,
+    marginTop: -18,
   },
 })
 
