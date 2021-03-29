@@ -5,12 +5,17 @@ import {
   SectionListRenderItemInfo,
   Text,
   View,
+  ListRenderItem,
+  ListRenderItemInfo,
 } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import { Spacing, Typography } from '../../styles'
+import EventGridItem from './EventGridItem'
 import EventView from './EventView'
 import {
   EventSectionViewModel,
   EventRowContainerViewModel,
+  EventRowViewModel,
 } from './EventViewModel'
 
 type Props = Readonly<{
@@ -20,7 +25,89 @@ type Props = Readonly<{
 type EventFilter = 'home' | 'calendar' | 'myEvents'
 
 const EventListScreen: FC<Props> = (props) => {
-  const mockedData: Array<EventSectionViewModel> = [
+  const mockedDataGrouped: Array<EventSectionViewModel> = [
+    {
+      id: 'conference',
+      sectionViewModel: { sectionName: 'Conférences' },
+      data: [
+        {
+          type: 'grouped',
+          value: {
+            events: [
+              {
+                id: '1',
+                title: 'LREM Senlis Sud Oise - déjeunons Zoom',
+                isOnline: true,
+                tag: 'CONFERENCE',
+                tagBackgroundColor: '#4489f7',
+                tagTextColor: '#ffffff',
+                imageUrl:
+                  'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
+                isSubscribed: true,
+                date: "Aujourd'hui\n12:00 - 15:00",
+              },
+              {
+                id: '2',
+                title: 'Porte à porte Montmartre',
+                isOnline: false,
+                tag: 'CONFERENCE',
+                tagBackgroundColor: '#4489f7',
+                tagTextColor: '#ffffff',
+                isSubscribed: false,
+                date: "Aujourd'hui\n11:00 - 15:00",
+              },
+              {
+                id: '3',
+                title: 'Porte à porte Montmartre',
+                isOnline: false,
+                tag: 'CONFERENCE',
+                tagBackgroundColor: '#4489f7',
+                tagTextColor: '#ffffff',
+                isSubscribed: false,
+                date: "Aujourd'hui\n11:00 - 15:00",
+              },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      id: 'meeting',
+      sectionViewModel: { sectionName: 'Réunions' },
+      data: [
+        {
+          type: 'grouped',
+          value: {
+            events: [
+              {
+                id: '10',
+                title: 'LREM Senlis Sud Oise - déjeunons Zoom',
+                isOnline: true,
+                tag: 'REUNIONS',
+                tagBackgroundColor: '#1c00ff',
+                tagTextColor: '#ffffff',
+                imageUrl:
+                  'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
+                isSubscribed: true,
+                date: "Aujourd'hui\n12:00 - 15:00",
+              },
+              {
+                id: '20',
+                title: 'Porte à porte Montmartre',
+                isOnline: false,
+                tag: 'REUNIONS',
+                tagBackgroundColor: '#1c00ff',
+                tagTextColor: '#ffffff',
+                isSubscribed: false,
+                date: "Aujourd'hui\n11:00 - 15:00",
+              },
+            ],
+          },
+        },
+      ],
+    },
+  ]
+  const mockedDataFlat: Array<EventSectionViewModel> = [
     {
       id: 'today',
       sectionViewModel: { sectionName: "Aujourd'hui" },
@@ -75,12 +162,33 @@ const EventListScreen: FC<Props> = (props) => {
       ],
     },
   ]
+
+  const renderItemHorizontal = (
+    info: ListRenderItemInfo<EventRowViewModel>,
+    totalItemCount: number,
+  ) => {
+    const isLastItem = info.index + 1 === totalItemCount
+    const marginEnd = isLastItem ? Spacing.margin : 0
+    return (
+      <EventGridItem
+        style={[styles.eventGridCell, { marginEnd: marginEnd }]}
+        viewModel={info.item}
+      />
+    )
+  }
   const renderItem = ({
     item,
   }: SectionListRenderItemInfo<EventRowContainerViewModel>) => {
     if (item.type === 'grouped') {
-      // TODO
-      return <View />
+      return (
+        <FlatList
+          horizontal={true}
+          data={item.value.events}
+          renderItem={(info) =>
+            renderItemHorizontal(info, item.value.events.length)
+          }
+        />
+      )
     } else if (item.type === 'event') {
       return <EventView viewModel={item.value} />
     } else {
@@ -90,7 +198,9 @@ const EventListScreen: FC<Props> = (props) => {
   return (
     <SectionList
       stickySectionHeadersEnabled={false}
-      sections={mockedData}
+      sections={
+        props.eventFilter === 'home' ? mockedDataGrouped : mockedDataFlat
+      }
       renderItem={renderItem}
       renderSectionHeader={({ section: { sectionViewModel } }) => {
         return sectionViewModel !== undefined ? (
@@ -103,6 +213,10 @@ const EventListScreen: FC<Props> = (props) => {
 }
 
 const styles = StyleSheet.create({
+  eventGridCell: {
+    marginStart: Spacing.margin,
+    marginVertical: Spacing.margin,
+  },
   section: {
     ...Typography.headline,
     marginTop: Spacing.mediumMargin,
