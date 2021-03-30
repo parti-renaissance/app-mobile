@@ -55,16 +55,20 @@ const ProfileAnonymous: FC<Props> = ({
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
       <ProfileSettingsCard
         style={styles.settingsCard}
-        title={i18n.t('profile.menu.postal_code')}
-        description={i18n.t('profile.menu.postal_code_description')}
-        image={require('../../assets/images/imageProfileZipCode.png')}
+        viewModel={{
+          title: i18n.t('profile.menu.postal_code'),
+          description: i18n.t('profile.menu.postal_code_description'),
+          image: require('../../assets/images/imageProfileZipCode.png'),
+        }}
         onPress={openZipCode}
       />
       <ProfileSettingsCard
         style={styles.settingsCard}
-        title={i18n.t('profile.menu.notifications')}
-        description={i18n.t('profile.menu.notifications_description')}
-        image={require('../../assets/images/imageProfileNotifications.png')}
+        viewModel={{
+          title: i18n.t('profile.menu.notifications'),
+          description: i18n.t('profile.menu.notifications_description'),
+          image: require('../../assets/images/imageProfileNotifications.png'),
+        }}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />

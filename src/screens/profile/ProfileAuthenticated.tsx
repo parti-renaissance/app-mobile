@@ -79,16 +79,20 @@ const ProfileAuthenticated: FC<Props> = ({
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
       <ProfileSettingsCard
         style={styles.settingsCard}
-        title={i18n.t('profile.menu.personal_information')}
-        description={i18n.t('profile.menu.personal_information_description')}
-        image={require('../../assets/images/imageProfileInformations.png')}
+        viewModel={{
+          title: i18n.t('profile.menu.personal_information'),
+          description: i18n.t('profile.menu.personal_information_description'),
+          image: require('../../assets/images/imageProfileInformations.png'),
+        }}
         onPress={openPersonalInformation}
       />
       <ProfileSettingsCard
         style={styles.settingsCard}
-        title={i18n.t('profile.menu.notifications')}
-        description={i18n.t('profile.menu.notifications_description')}
-        image={require('../../assets/images/imageProfileNotifications.png')}
+        viewModel={{
+          title: i18n.t('profile.menu.notifications'),
+          description: i18n.t('profile.menu.notifications_description'),
+          image: require('../../assets/images/imageProfileNotifications.png'),
+        }}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />

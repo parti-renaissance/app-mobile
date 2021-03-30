@@ -11,10 +11,14 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 
-type Props = Readonly<{
+export interface ProfileSettingsCardViewModel {
   title: string
   description: string
   image?: ImageSourcePropType
+}
+
+type Props = Readonly<{
+  viewModel: ProfileSettingsCardViewModel
   onPress: () => void
   style?: StyleProp<ViewStyle>
 }>
@@ -28,13 +32,13 @@ const ProfileSettingsCard: FC<Props> = (props) => {
       >
         <View style={styles.container}>
           <View style={styles.leftSide}>
-            <Text style={styles.title}>{props.title}</Text>
+            <Text style={styles.title}>{props.viewModel.title}</Text>
             <Text numberOfLines={2} style={styles.description}>
-              {props.description}
+              {props.viewModel.description}
             </Text>
           </View>
-          {props.image ? (
-            <Image source={props.image} style={styles.image} />
+          {props.viewModel.image ? (
+            <Image source={props.viewModel.image} style={styles.image} />
           ) : null}
         </View>
       </TouchablePlatform>
