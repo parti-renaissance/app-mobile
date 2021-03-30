@@ -253,7 +253,8 @@
       "title": "Événements",
       "tab_home": "À la une",
       "tab_calendar": "Calendrier",
-      "tab_mine": "Mes événements"
+      "tab_mine": "Mes événements",
+      "empty": "Vous n’avez aucun évènement à venir."
     }
   }
 }
