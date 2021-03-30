@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* JeMarcheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* JeMarcheTests.m */; };
-		0CA89314254B29A0001D3337 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CA89313254B29A0001D3337 /* LaunchScreen.xib */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2179FAA9261231F900FD532C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2179FAA8261231F900FD532C /* LaunchScreen.storyboard */; };
 		21BB8E25258151F9001831DB /* cgu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 21BB8E24258151F9001831DB /* cgu.pdf */; };
 		21BB8E2925815465001831DB /* dataprotection.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 21BB8E2825815465001831DB /* dataprotection.pdf */; };
 		337778839660A7D27BC680BC /* libPods-JeMarche.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */; };
@@ -38,7 +38,6 @@
 		06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../src/assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		0C1255AE2550550B00C8F812 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		0C76102C2457232400F2D450 /* JeMarche-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JeMarche-Bridging-Header.h"; sourceTree = "<group>"; };
-		0CA89313254B29A0001D3337 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* JeMarche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JeMarche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = JeMarche/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = JeMarche/AppDelegate.m; sourceTree = "<group>"; };
@@ -46,6 +45,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = JeMarche/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = JeMarche/main.m; sourceTree = "<group>"; };
 		1C07EDF216C5BAB0CE5E9DC0 /* libPods-JeMarche-JeMarcheTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JeMarche-JeMarcheTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2179FAA8261231F900FD532C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21BB8E24258151F9001831DB /* cgu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = cgu.pdf; path = ../android/app/src/main/assets/cgu.pdf; sourceTree = "<group>"; };
 		21BB8E2825815465001831DB /* dataprotection.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = dataprotection.pdf; path = ../android/app/src/main/assets/dataprotection.pdf; sourceTree = "<group>"; };
 		38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JeMarche.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +112,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				0C76102C2457232400F2D450 /* JeMarche-Bridging-Header.h */,
-				0CA89313254B29A0001D3337 /* LaunchScreen.xib */,
+				2179FAA8261231F900FD532C /* LaunchScreen.storyboard */,
 			);
 			name = JeMarche;
 			sourceTree = "<group>";
@@ -283,7 +283,7 @@
 			files = (
 				21BB8E25258151F9001831DB /* cgu.pdf in Resources */,
 				21BB8E2925815465001831DB /* dataprotection.pdf in Resources */,
-				0CA89314254B29A0001D3337 /* LaunchScreen.xib in Resources */,
+				2179FAA9261231F900FD532C /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */,
 				794BADE3CB9540AD9E901E92 /* Roboto-Regular.ttf in Resources */,
