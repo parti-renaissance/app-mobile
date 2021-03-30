@@ -20,6 +20,7 @@ import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { versionLabel } from './version'
 import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
+import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
@@ -58,7 +59,14 @@ const ProfileAuthenticated: FC<Props> = ({
       <View style={styles.container}>
         <View style={styles.avatar}>
           <Image source={theme.image.profile()} />
+          {viewModel.isCertified ? (
+            <Image
+              source={require('../../assets/images/certified.png')}
+              style={styles.certifiedBadge}
+            />
+          ) : null}
         </View>
+
         <View style={styles.title}>
           <Text style={styles.titleText}>{viewModel.name ?? ''}</Text>
         </View>
@@ -69,12 +77,22 @@ const ProfileAuthenticated: FC<Props> = ({
         <ProfilePollsCompleted viewModel={viewModel.polls} />
       </View>
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.personal_information')}
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.personal_information'),
+          description: i18n.t('profile.menu.personal_information_description'),
+          image: require('../../assets/images/imageProfileInformations.png'),
+        }}
         onPress={openPersonalInformation}
       />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.notifications')}
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.notifications'),
+          description: i18n.t('profile.menu.notifications_description'),
+          image: require('../../assets/images/imageProfileNotifications.png'),
+        }}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
@@ -102,6 +120,11 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.unit,
     marginTop: Spacing.mediumMargin,
   },
+  certifiedBadge: {
+    height: 32,
+    marginTop: -18,
+    width: 32,
+  },
   container: {
     flex: 1,
     paddingHorizontal: Spacing.margin,
@@ -109,6 +132,10 @@ const styles = StyleSheet.create({
   },
   logout: {
     marginTop: Spacing.mediumMargin,
+  },
+  settingsCard: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.small,
   },
   subtitle: {
     ...Typography.subheadline,

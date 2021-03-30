@@ -10,6 +10,7 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { versionLabel } from './version'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { ExternalLink } from '../shared/ExternalLink'
+import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
   openTermsOfUse: () => void
@@ -52,12 +53,22 @@ const ProfileAnonymous: FC<Props> = ({
         />
       </View>
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.postal_code')}
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.postal_code'),
+          description: i18n.t('profile.menu.postal_code_description'),
+          image: require('../../assets/images/imageProfileZipCode.png'),
+        }}
         onPress={openZipCode}
       />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.notifications')}
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.notifications'),
+          description: i18n.t('profile.menu.notifications_description'),
+          image: require('../../assets/images/imageProfileNotifications.png'),
+        }}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
@@ -87,6 +98,10 @@ const styles = StyleSheet.create({
     ...Typography.caption1,
     color: Colors.lightText,
     marginBottom: Spacing.mediumMargin,
+  },
+  settingsCard: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.small,
   },
   title: {
     alignItems: 'center',

@@ -16,6 +16,9 @@ i18n.use(initReactI18next).init({
   keySeparator: '.',
   fallbackLng: false,
   debug: true,
+  interpolation: {
+    escapeValue: false,
+  },
 })
 
 export default i18n
