@@ -17,6 +17,8 @@ const HomeQuickPollChoicesView: FunctionComponent<Props> = ({
     <View style={styles.buttonRow}>
       <TertiaryButton
         style={styles.leftButton}
+        shape="rounded"
+        innerStyle={styles.innerButton}
         onPress={() =>
           onAnswerSelected(viewModel.id, viewModel.leadingAnswerViewModel.id)
         }
@@ -25,6 +27,8 @@ const HomeQuickPollChoicesView: FunctionComponent<Props> = ({
       />
       <TertiaryButton
         style={styles.rightButton}
+        shape="rounded"
+        innerStyle={styles.innerButton}
         onPress={() =>
           onAnswerSelected(viewModel.id, viewModel.trailingAnswerViewModel.id)
         }
@@ -38,6 +42,9 @@ const HomeQuickPollChoicesView: FunctionComponent<Props> = ({
 const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
+  },
+  innerButton: {
+    paddingVertical: 8,
   },
   leftButton: {
     flex: 1,
