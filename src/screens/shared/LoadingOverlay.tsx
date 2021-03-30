@@ -51,28 +51,28 @@ const LoadingOverlay: FunctionComponent<Props> = ({ visible }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Colors.loadingOverlayBackground,
-    justifyContent: 'center',
     alignItems: 'center',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    start: 0,
-    end: 0,
-    zIndex: 100,
+    backgroundColor: Colors.loadingOverlayBackground,
+    flex: 1,
+    justifyContent: 'center',
   },
   inner: {
+    alignContent: 'center',
+    borderRadius: 8,
     elevation: 6,
+    justifyContent: 'center',
     minHeight: 100,
     minWidth: 100,
     padding: Spacing.margin,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignContent: 'center',
     ...Styles.elevatedContainerStyle,
+  },
+  overlay: {
+    bottom: 0,
+    end: 0,
+    position: 'absolute',
+    start: 0,
+    top: 0,
+    zIndex: 100,
   },
   text: {
     marginTop: Spacing.margin,

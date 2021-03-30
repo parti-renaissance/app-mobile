@@ -37,23 +37,23 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
   },
+  image: {
+    height: 85,
+    width: 136,
+  },
   labelsContainer: {
-    flex: 1,
     alignItems: 'flex-start',
+    flex: 1,
     marginLeft: Spacing.unit,
     padding: Spacing.small,
-  },
-  title: {
-    ...Typography.subheadline,
-    marginBottom: Spacing.small,
   },
   subtitle: {
     ...Typography.lightCallout,
     marginBottom: Spacing.small,
   },
-  image: {
-    width: 136,
-    height: 85,
+  title: {
+    ...Typography.subheadline,
+    marginBottom: Spacing.small,
   },
 })
 

@@ -161,35 +161,35 @@ export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
 }
 
 const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.3,
+  appButtonContainerBorderless: {
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  appButtonText: {
+    ...Typography.subheadline,
+    alignSelf: 'center',
+  },
+  appButtonTextBorderless: {
+    color: Colors.darkText,
+  },
+  appButtonTextSecondary: {
+    color: Colors.secondaryButtonText,
   },
   baseAppButtonContainer: {
     borderRadius: 100,
     overflow: 'hidden',
   },
   buttonTouchable: {
-    paddingVertical: 14,
     paddingHorizontal: Spacing.mediumMargin,
-  },
-  appButtonContainerBorderless: {
     paddingVertical: 14,
-    paddingHorizontal: 16,
   },
-  appButtonText: {
-    ...Typography.subheadline,
-    alignSelf: 'center',
-  },
-  appButtonTextSecondary: {
-    color: Colors.secondaryButtonText,
-  },
-  appButtonTextBorderless: {
-    color: Colors.darkText,
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
 })

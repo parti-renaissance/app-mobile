@@ -51,18 +51,18 @@ const HomeNewsRowContainer: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   cardView: {
-    marginVertical: Spacing.margin,
     marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.margin,
   },
   image: {
-    width: '100%',
-    height: undefined,
     aspectRatio: 288 / 103,
+    height: undefined,
+    width: '100%',
   },
   separator: {
+    backgroundColor: Colors.separator,
     height: Spacing.separatorHeight,
     marginHorizontal: Spacing.margin,
-    backgroundColor: Colors.separator,
   },
 })
 

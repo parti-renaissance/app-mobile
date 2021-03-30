@@ -104,41 +104,34 @@ const RegionScreen: FC<Props> = ({ route }) => {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    overflow: 'hidden',
+  banner: {
+    aspectRatio: 320 / 203,
+    height: undefined,
+    width: '100%',
+  },
+  bottomContainer: {
+    ...Styles.topElevatedContainerStyle,
+    backgroundColor: Colors.defaultBackground,
+    padding: Spacing.margin,
   },
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
-  },
-  wrapBanner: {
-    minHeight: 130,
-  },
-  banner: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 320 / 203,
+    flex: 1,
   },
   containerLogo: {
-    flex: 1,
     alignItems: 'center',
-  },
-  wrapLogo: {
-    width: 100,
-    marginTop: -66,
-    transform: [{ rotate: '-3deg' }],
-    ...Styles.topElevatedContainerStyle,
-  },
-  logo: {
-    width: 100,
-    height: 100,
+    flex: 1,
   },
   content: {
     padding: Spacing.margin,
   },
-  title: {
-    ...Typography.title,
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
+  },
+  logo: {
+    height: 100,
+    width: 100,
   },
   subtitle: {
     marginTop: Spacing.unit,
@@ -148,10 +141,17 @@ const styles = StyleSheet.create({
     marginTop: Spacing.margin,
     ...Typography.body,
   },
-  bottomContainer: {
+  title: {
+    ...Typography.title,
+  },
+  wrapBanner: {
+    minHeight: 130,
+  },
+  wrapLogo: {
+    marginTop: -66,
+    transform: [{ rotate: '-3deg' }],
+    width: 100,
     ...Styles.topElevatedContainerStyle,
-    backgroundColor: Colors.defaultBackground,
-    padding: Spacing.margin,
   },
 })
 

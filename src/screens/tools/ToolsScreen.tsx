@@ -77,17 +77,17 @@ const ToolsScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    paddingHorizontal: Spacing.margin,
+    paddingTop: Spacing.largeMargin,
   },
   title: {
     ...Typography.title,
     marginBottom: Spacing.mediumMargin,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    paddingTop: Spacing.largeMargin,
-    paddingHorizontal: Spacing.margin,
   },
 })
 

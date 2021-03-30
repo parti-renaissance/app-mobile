@@ -56,43 +56,43 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      flex: 1,
+      flexDirection: 'row',
+      paddingHorizontal: Spacing.mediumMargin,
+      paddingVertical: 10,
+    },
+    icon: {
+      tintColor: theme.primaryButtonTextColor,
+    },
     row: {
       backgroundColor: Colors.secondaryButtonBackground,
       borderRadius: 100,
+      flex: 1,
       marginBottom: Spacing.unit,
       overflow: 'hidden',
-      flex: 1,
-    },
-    rowUnselected: {
-      backgroundColor: Colors.secondaryButtonBackground,
     },
     rowSelected: {
       backgroundColor: theme.primaryColor,
     },
-    container: {
-      paddingHorizontal: Spacing.mediumMargin,
-      paddingVertical: 10,
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
+    rowUnselected: {
+      backgroundColor: Colors.secondaryButtonBackground,
     },
     text: {
-      flex: 1,
-      textAlign: 'center',
-      minHeight: 24, // height of checkIcon
-      lineHeight: 24,
       ...Typography.subheadline,
-    },
-    textUnselected: {
-      paddingStart: 0,
-      color: Colors.secondaryButtonText,
+      flex: 1,
+      lineHeight: 24,
+      minHeight: 24, // height of checkIcon
+      textAlign: 'center',
     },
     textSelected: {
       color: theme.primaryButtonTextColor,
       paddingStart: 24, // width of checkIcon
     },
-    icon: {
-      tintColor: theme.primaryButtonTextColor,
+    textUnselected: {
+      color: Colors.secondaryButtonText,
+      paddingStart: 0,
     },
   })
 }

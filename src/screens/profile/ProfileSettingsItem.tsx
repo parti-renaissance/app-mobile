@@ -23,13 +23,13 @@ const ProfileSettingsItem: FC<Props> = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    height: 44,
-    marginHorizontal: Spacing.margin,
-    borderBottomWidth: 1,
     borderBottomColor: Colors.separator,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    height: 44,
+    justifyContent: 'space-between',
+    marginHorizontal: Spacing.margin,
   },
   title: {
     ...Typography.subheadline,

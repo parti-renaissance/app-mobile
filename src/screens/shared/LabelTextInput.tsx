@@ -47,20 +47,20 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
 })
 
 const styles = StyleSheet.create({
-  inputLabel: {
-    ...Typography.subheadline,
-    marginBottom: Spacing.unit,
+  errorMessage: {
+    ...Typography.errorMessage,
+    marginTop: Spacing.small,
   },
   input: {
     ...Typography.inputText,
     borderBottomWidth: Spacing.inputTextBorder,
-    paddingTop: 0,
-    paddingHorizontal: 0,
     paddingBottom: Spacing.unit,
+    paddingHorizontal: 0,
+    paddingTop: 0,
   },
-  errorMessage: {
-    ...Typography.errorMessage,
-    marginTop: Spacing.small,
+  inputLabel: {
+    ...Typography.subheadline,
+    marginBottom: Spacing.unit,
   },
 })
 

@@ -97,23 +97,18 @@ const ProfileAuthenticated: FC<Props> = ({
 }
 
 const styles = StyleSheet.create({
+  avatar: {
+    alignItems: 'center',
+    marginBottom: Spacing.unit,
+    marginTop: Spacing.mediumMargin,
+  },
   container: {
     flex: 1,
-    paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.unit,
   },
-  title: {
-    marginTop: Spacing.margin,
-    marginBottom: Spacing.unit,
-    alignItems: 'center',
-  },
-  avatar: {
+  logout: {
     marginTop: Spacing.mediumMargin,
-    marginBottom: Spacing.unit,
-    alignItems: 'center',
-  },
-  titleText: {
-    ...Typography.largeTitle,
   },
   subtitle: {
     ...Typography.subheadline,
@@ -122,13 +117,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: Spacing.unit,
   },
-  logout: {
-    marginTop: Spacing.mediumMargin,
+  title: {
+    alignItems: 'center',
+    marginBottom: Spacing.unit,
+    marginTop: Spacing.margin,
+  },
+  titleText: {
+    ...Typography.largeTitle,
   },
   version: {
-    textAlign: 'center',
     marginTop: Spacing.mediumMargin,
     marginVertical: Spacing.largeMargin,
+    textAlign: 'center',
     ...Typography.lightCallout,
   },
 })

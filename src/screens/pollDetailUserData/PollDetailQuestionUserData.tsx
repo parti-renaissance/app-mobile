@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
   keyboardAvoidingView: {
     flex: 1,
   },
-  listContainer: {
-    paddingVertical: Spacing.unit,
-    paddingHorizontal: Spacing.margin,
-  },
   list: {
     flex: 1,
+  },
+  listContainer: {
+    paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.unit,
   },
   textInput: {
     marginBottom: Spacing.margin,

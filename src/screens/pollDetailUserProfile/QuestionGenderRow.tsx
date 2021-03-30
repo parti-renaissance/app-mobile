@@ -32,11 +32,11 @@ const QuestionGenderRow: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
   button: {
     marginRight: Spacing.margin,
+  },
+  container: {
+    flexDirection: 'row',
   },
 })
 

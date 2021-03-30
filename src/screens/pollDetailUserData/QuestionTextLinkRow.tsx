@@ -27,13 +27,13 @@ const QuestionTextLinkRow: FunctionComponent<Props> = ({
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
+    link: {
+      color: theme.coloredText,
+      textDecorationLine: 'underline',
+    },
     text: {
       ...Typography.body,
       marginBottom: Spacing.margin,
-    },
-    link: {
-      textDecorationLine: 'underline',
-      color: theme.coloredText,
     },
   })
 }

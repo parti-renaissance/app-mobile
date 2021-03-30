@@ -33,30 +33,30 @@ const HomeAdhere: FunctionComponent<Props> = ({ onPress }) => {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.margin,
+  },
   container: {
     margin: Spacing.margin,
   },
-  title: {
-    ...Typography.largeTitle,
-    marginTop: Spacing.largeMargin,
-    marginHorizontal: Spacing.margin,
-    alignSelf: 'center',
-  },
   description: {
     ...Typography.body,
-    marginTop: Spacing.mediumMargin,
-    marginHorizontal: Spacing.margin,
     alignSelf: 'center',
-  },
-  button: {
-    marginTop: Spacing.margin,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
   logo: {
+    aspectRatio: 288 / 78,
+    height: undefined,
     marginTop: Spacing.margin,
     width: '100%',
-    height: undefined,
-    aspectRatio: 288 / 78,
+  },
+  title: {
+    ...Typography.largeTitle,
+    alignSelf: 'center',
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.largeMargin,
   },
 })
 

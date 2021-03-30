@@ -51,8 +51,8 @@ function getNextTheme(theme: RegionTheme): RegionTheme {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Spacing.largeMargin,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.largeMargin,
   },
   title: {
     ...Typography.title,

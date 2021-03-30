@@ -64,39 +64,29 @@ const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
 }
 
 const styles = StyleSheet.create({
+  banner: {
+    aspectRatio: 320 / 203,
+    height: undefined,
+    width: '100%',
+  },
   cardView: {
-    marginVertical: Spacing.margin,
     marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.margin,
   },
   container: {
     flex: 1,
-    paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
-  },
-  wrapBanner: {
-    minHeight: 70, // 54 + 16 (padding)
-  },
-  banner: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 320 / 203,
+    paddingVertical: Spacing.unit,
   },
   containerLogo: {
     flex: 1,
   },
-  wrapLogo: {
-    width: 80,
-    marginTop: -54,
-    marginLeft: Spacing.margin,
-    transform: [{ rotate: '-3deg' }],
-    ...Styles.topElevatedContainerStyle,
-  },
-  logo: {
-    width: 80,
-    height: 80,
-  },
   content: {
     paddingTop: Spacing.unit,
+  },
+  logo: {
+    height: 80,
+    width: 80,
   },
   subtitle: {
     ...Typography.subheadline,
@@ -104,6 +94,16 @@ const styles = StyleSheet.create({
   text: {
     marginTop: Spacing.unit,
     ...Typography.body,
+  },
+  wrapBanner: {
+    minHeight: 70, // 54 + 16 (padding)
+  },
+  wrapLogo: {
+    marginLeft: Spacing.margin,
+    marginTop: -54,
+    transform: [{ rotate: '-3deg' }],
+    width: 80,
+    ...Styles.topElevatedContainerStyle,
   },
 })
 

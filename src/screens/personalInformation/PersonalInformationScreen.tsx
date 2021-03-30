@@ -353,18 +353,13 @@ const PersonalInformationScreen = ({
 }
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
-    mainContainer: {
-      backgroundColor: Colors.defaultBackground,
-    },
-    container: {
-      padding: Spacing.margin,
-      flex: 1,
-    },
     certifiedContainer: {},
-    section: {
-      ...Typography.caption1,
-      color: Colors.lightText,
-      marginTop: Spacing.margin,
+    container: {
+      flex: 1,
+      padding: Spacing.margin,
+    },
+    countryPickerContainerButton: {
+      alignSelf: 'flex-end',
     },
     headerButtonText: {
       ...Typography.headline,
@@ -374,12 +369,17 @@ const stylesFactory = (theme: Theme) => {
     headerSubmit: {
       color: theme.primaryColor,
     },
+    mainContainer: {
+      backgroundColor: Colors.defaultBackground,
+    },
+    section: {
+      ...Typography.caption1,
+      color: Colors.lightText,
+      marginTop: Spacing.margin,
+    },
     title: {
       ...Typography.title2,
       paddingHorizontal: Spacing.mediumMargin,
-    },
-    countryPickerContainerButton: {
-      alignSelf: 'flex-end',
     },
   })
 }

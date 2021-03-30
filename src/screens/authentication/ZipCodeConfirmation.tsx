@@ -119,28 +119,28 @@ const ZipCodeConfirmationScreen = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
-  logo: {
-    height: 180,
-    width: 320,
-    alignSelf: 'center',
-    marginTop: Spacing.unit,
-  },
-  title: {
-    ...Typography.largeTitle,
+  continueButton: {
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.unit,
+    marginTop: Spacing.mediumMargin,
   },
   description: {
     ...Typography.body,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },
-  continueButton: {
+  logo: {
+    alignSelf: 'center',
+    height: 180,
+    marginTop: Spacing.unit,
+    width: 320,
+  },
+  title: {
+    ...Typography.largeTitle,
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.mediumMargin,
+    marginTop: Spacing.unit,
   },
 })
 

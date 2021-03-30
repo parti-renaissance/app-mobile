@@ -63,23 +63,23 @@ const GenderPicker: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   genderPickerAndroid: {
     ...Typography.body,
-    textAlign: 'right',
     paddingVertical: 0,
+    textAlign: 'right',
   },
   genderPickerIOS: {
     ...Typography.body,
     textAlign: 'right',
   },
-  textEnabled: {
-    color: Colors.darkText,
+  icon: { height: 1, width: 1 },
+  placeholder: {
+    color: Colors.lightText,
   },
   textDisabled: {
     color: Colors.lightText,
   },
-  placeholder: {
-    color: Colors.lightText,
+  textEnabled: {
+    color: Colors.darkText,
   },
-  icon: { width: 1, height: 1 },
 })
 
 export default GenderPicker

@@ -55,10 +55,10 @@ const BirthdayPicker: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   picker: { alignSelf: 'flex-end' },
-  textEnabled: { color: Colors.darkText },
   textDisabled: {
     color: Colors.lightText,
   },
+  textEnabled: { color: Colors.darkText },
 })
 
 export default BirthdayPicker

@@ -34,9 +34,9 @@ export const ToolRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     card: {
-      marginBottom: Spacing.unit,
       backgroundColor: theme.lightBackground,
       borderRadius: 8,
+      marginBottom: Spacing.unit,
       overflow: 'hidden',
     },
     container: {

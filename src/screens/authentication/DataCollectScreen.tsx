@@ -25,23 +25,23 @@ const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.defaultBackground,
-    overflow: 'hidden',
-  },
-  textContainer: {
-    flex: 1,
-    flexGrow: 1,
-  },
-  pdf: {
-    flex: 1,
-    backgroundColor: Colors.defaultBackground,
-  },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+    overflow: 'hidden',
+  },
+  pdf: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  textContainer: {
+    flex: 1,
+    flexGrow: 1,
   },
 })
 
