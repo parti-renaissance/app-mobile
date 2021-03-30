@@ -11,57 +11,64 @@ import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   viewModel: EventRowViewModel
+  onEventSelected: (eventId: string) => void
 }>
 
-const EventGridItem: FC<Props> = ({ viewModel, style }) => {
+const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   const styles = useThemedStyles(stylesFactory)
   return (
     <CardView
       style={[styles.card, style]}
       backgroundColor={Colors.defaultBackground}
     >
-      <View style={styles.container}>
-        {viewModel.imageUrl ? (
-          <Image source={{ uri: viewModel.imageUrl }} style={styles.image} />
-        ) : (
-          <View style={[styles.image, styles.imagePlaceholder]} />
-        )}
-        <View style={styles.leftColumn}>
-          <Text
-            numberOfLines={1}
-            style={[
-              styles.tag,
-              {
-                backgroundColor: viewModel.tagBackgroundColor,
-                color: viewModel.tagTextColor,
-              },
-            ]}
-          >
-            {viewModel.tag}
-          </Text>
-          <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
-            {viewModel.title}
-          </Text>
-          <View style={styles.footer}>
-            <Text style={styles.date}>{viewModel.date}</Text>
-            {viewModel.isSubscribed ? (
-              <Text style={styles.subscribed}>
-                <Image
-                  style={styles.checkIcon}
-                  source={require('../../assets/images/checkIcon.png')}
-                />
-                {'\n'}
-                Inscrit
-              </Text>
-            ) : null}
+      <TouchablePlatform
+        touchHighlight={Colors.touchHighlight}
+        onPress={() => onEventSelected(viewModel.id)}
+      >
+        <View style={styles.container}>
+          {viewModel.imageUrl ? (
+            <Image source={{ uri: viewModel.imageUrl }} style={styles.image} />
+          ) : (
+            <View style={[styles.image, styles.imagePlaceholder]} />
+          )}
+          <View style={styles.leftColumn}>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.tag,
+                {
+                  backgroundColor: viewModel.tagBackgroundColor,
+                  color: viewModel.tagTextColor,
+                },
+              ]}
+            >
+              {viewModel.tag}
+            </Text>
+            <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
+              {viewModel.title}
+            </Text>
+            <View style={styles.footer}>
+              <Text style={styles.date}>{viewModel.date}</Text>
+              {viewModel.isSubscribed ? (
+                <Text style={styles.subscribed}>
+                  <Image
+                    style={styles.checkIcon}
+                    source={require('../../assets/images/checkIcon.png')}
+                  />
+                  {'\n'}
+                  Inscrit
+                </Text>
+              ) : null}
+            </View>
           </View>
         </View>
-      </View>
+      </TouchablePlatform>
     </CardView>
   )
 }

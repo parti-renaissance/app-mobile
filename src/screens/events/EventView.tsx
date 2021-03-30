@@ -4,49 +4,59 @@ import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel
+  onEventSelected: (eventId: string) => void
 }>
 
-const EventView: FC<Props> = ({ viewModel }) => {
+const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
   const styles = useThemedStyles(stylesFactory)
   return (
     <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
-      <View style={styles.container}>
-        <View style={styles.leftColumn}>
-          <Text
-            style={[
-              styles.tag,
-              {
-                backgroundColor: viewModel.tagBackgroundColor,
-                color: viewModel.tagTextColor,
-              },
-            ]}
-          >
-            {viewModel.tag}
-          </Text>
-          <Text style={styles.title}>{viewModel.title}</Text>
-          <Text style={styles.date}>{viewModel.date}</Text>
-        </View>
-        <View style={styles.rightColumn}>
-          {viewModel.imageUrl ? (
-            <Image source={{ uri: viewModel.imageUrl }} style={styles.image} />
-          ) : (
-            <View style={styles.image} />
-          )}
-          {viewModel.isSubscribed ? (
-            <Text style={styles.subscribed}>
-              <Image
-                style={styles.checkIcon}
-                source={require('../../assets/images/checkIcon.png')}
-              />
-              Inscrit
+      <TouchablePlatform
+        touchHighlight={Colors.touchHighlight}
+        onPress={() => onEventSelected(viewModel.id)}
+      >
+        <View style={styles.container}>
+          <View style={styles.leftColumn}>
+            <Text
+              style={[
+                styles.tag,
+                {
+                  backgroundColor: viewModel.tagBackgroundColor,
+                  color: viewModel.tagTextColor,
+                },
+              ]}
+            >
+              {viewModel.tag}
             </Text>
-          ) : null}
+            <Text style={styles.title}>{viewModel.title}</Text>
+            <Text style={styles.date}>{viewModel.date}</Text>
+          </View>
+          <View style={styles.rightColumn}>
+            {viewModel.imageUrl ? (
+              <Image
+                source={{ uri: viewModel.imageUrl }}
+                style={styles.image}
+              />
+            ) : (
+              <View style={styles.image} />
+            )}
+            {viewModel.isSubscribed ? (
+              <Text style={styles.subscribed}>
+                <Image
+                  style={styles.checkIcon}
+                  source={require('../../assets/images/checkIcon.png')}
+                />
+                Inscrit
+              </Text>
+            ) : null}
+          </View>
         </View>
-      </View>
+      </TouchablePlatform>
     </CardView>
   )
 }

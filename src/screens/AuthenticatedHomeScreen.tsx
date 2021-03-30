@@ -12,7 +12,7 @@ import { Screen } from '../navigation'
 import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
 import ProfileNavigator from './profile/ProfileNavigator'
-import EventsScreen from './events/EventsScreen'
+import EventNavigator from './events/EventNavigator'
 
 const TabAndroid = createMaterialBottomTabNavigator()
 const TabIos = createBottomTabNavigator()
@@ -26,7 +26,7 @@ const getTabBarIcon = (route: any, focused: boolean) => {
     return focused
       ? require('../assets/images/tabBarIconsHomeOn.png')
       : require('../assets/images/tabBarIconsHomeOff.png')
-  } else if (route.name === Screen.events) {
+  } else if (route.name === Screen.eventNavigator) {
     return focused
       ? require('../assets/images/tabBarIconsEventOn.png')
       : require('../assets/images/tabBarIconsEventOff.png')
@@ -73,8 +73,8 @@ const AuthenticatedHomeScreenAndroid = () => {
         options={{ tabBarLabel: i18n.t('tab.item_polls') }}
       />
       <TabAndroid.Screen
-        name={Screen.events}
-        component={EventsScreen}
+        name={Screen.eventNavigator}
+        component={EventNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_events') }}
       />
       <TabAndroid.Screen
@@ -125,8 +125,8 @@ const AuthenticatedHomeScreenIos = () => {
         options={{ tabBarLabel: i18n.t('tab.item_polls') }}
       />
       <TabIos.Screen
-        name={Screen.events}
-        component={EventsScreen}
+        name={Screen.eventNavigator}
+        component={EventNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_events') }}
       />
       <TabIos.Screen

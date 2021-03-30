@@ -20,6 +20,7 @@ import {
 
 type Props = Readonly<{
   eventFilter: EventFilter
+  onEventSelected: (eventId: string) => void
 }>
 
 type EventFilter = 'home' | 'calendar' | 'myEvents'
@@ -36,6 +37,7 @@ const EventListScreen: FC<Props> = (props) => {
       <EventGridItem
         style={[styles.eventGridCell, { marginEnd: marginEnd }]}
         viewModel={info.item}
+        onEventSelected={props.onEventSelected}
       />
     )
   }
@@ -53,7 +55,12 @@ const EventListScreen: FC<Props> = (props) => {
         />
       )
     } else if (item.type === 'event') {
-      return <EventView viewModel={item.value} />
+      return (
+        <EventView
+          viewModel={item.value}
+          onEventSelected={props.onEventSelected}
+        />
+      )
     } else {
       return null
     }

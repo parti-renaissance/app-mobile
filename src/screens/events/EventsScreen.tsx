@@ -1,16 +1,13 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Dimensions, SafeAreaView, StyleSheet, Text } from 'react-native'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
+import { EventScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import EventListScreen from './EventListScreen'
 
-const Home = () => <EventListScreen eventFilter="home" />
-const Calendar = () => <EventListScreen eventFilter="calendar" />
-const MyEvents = () => <EventListScreen eventFilter="myEvents" />
-
-const EventsScreen = () => {
+const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const { theme } = useTheme()
 
   const [index, setIndex] = React.useState(0)
@@ -20,6 +17,21 @@ const EventsScreen = () => {
     { key: 'myEvents', title: i18n.t('events.tab_mine') },
   ])
   const initialLayout = { width: Dimensions.get('window').width }
+  const onEventSelected = (eventId: string) => {
+    navigation.navigate(Screen.eventDetails, {
+      eventId: eventId,
+    })
+  }
+
+  const Home = () => (
+    <EventListScreen eventFilter="home" onEventSelected={onEventSelected} />
+  )
+  const Calendar = () => (
+    <EventListScreen eventFilter="calendar" onEventSelected={onEventSelected} />
+  )
+  const MyEvents = () => (
+    <EventListScreen eventFilter="myEvents" onEventSelected={onEventSelected} />
+  )
 
   const renderScene = SceneMap({
     home: Home,
