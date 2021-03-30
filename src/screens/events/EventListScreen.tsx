@@ -4,8 +4,6 @@ import {
   StyleSheet,
   SectionListRenderItemInfo,
   Text,
-  View,
-  ListRenderItem,
   ListRenderItemInfo,
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
@@ -219,9 +217,9 @@ const styles = StyleSheet.create({
   },
   section: {
     ...Typography.headline,
-    marginTop: Spacing.mediumMargin,
     marginBottom: Spacing.unit,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
 })
 

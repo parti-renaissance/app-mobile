@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
+  tabStyle: { width: 'auto' },
   title: {
     ...Typography.title,
     margin: Spacing.margin,
   },
-  tabStyle: { width: 'auto' },
 })
 
 export default EventsScreen
