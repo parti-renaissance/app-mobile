@@ -143,15 +143,12 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
   contentContainer: {
     flexGrow: 1,
     paddingTop: Spacing.largeMargin,
-  },
-  header: {
-    marginBottom: Spacing.margin,
   },
   emptyContainer: {
     flex: 1,
@@ -160,8 +157,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyImage: {
-    width: 141,
     height: 166,
+    width: 141,
+  },
+  header: {
+    marginBottom: Spacing.margin,
   },
 })
 

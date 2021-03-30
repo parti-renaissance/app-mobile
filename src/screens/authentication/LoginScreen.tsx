@@ -118,29 +118,29 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
-  title: {
-    ...Typography.title,
+  input: {
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.unit,
-    marginBottom: Spacing.mediumMargin,
+    marginTop: Spacing.margin,
   },
   inputLabel: {
     ...Typography.headline,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
   },
-  input: {
+  passwordLostButton: {
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.margin,
+    marginTop: Spacing.unit,
   },
   submitButton: {
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.mediumMargin,
   },
-  passwordLostButton: {
+  title: {
+    ...Typography.title,
+    marginBottom: Spacing.mediumMargin,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
   },

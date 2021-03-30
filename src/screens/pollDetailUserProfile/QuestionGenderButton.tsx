@@ -58,41 +58,41 @@ const QuestionGenderButton: FunctionComponent<Props> = ({
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     button: {
-      flex: 1,
       backgroundColor: Colors.secondaryButtonBackground,
       borderRadius: 8,
+      flex: 1,
       overflow: 'hidden',
-    },
-    buttonUnselected: {
-      backgroundColor: Colors.secondaryButtonBackground,
     },
     buttonSelected: {
       backgroundColor: theme.primaryColor,
     },
-    text: {
-      ...Typography.subheadline,
+    buttonUnselected: {
+      backgroundColor: Colors.secondaryButtonBackground,
     },
-    textUnselected: {
-      color: Colors.secondaryButtonText,
-    },
-    textSelected: {
-      color: theme.primaryButtonTextColor,
+    container: {
+      alignItems: 'center',
+      flex: 1,
+      justifyContent: 'center',
+      paddingVertical: Spacing.unit,
     },
     image: {
-      width: 42,
       height: 42,
-    },
-    imageUnselected: {
-      tintColor: Colors.secondaryButtonText,
+      width: 42,
     },
     imageSelected: {
       tintColor: theme.primaryButtonTextColor,
     },
-    container: {
-      paddingVertical: Spacing.unit,
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+    imageUnselected: {
+      tintColor: Colors.secondaryButtonText,
+    },
+    text: {
+      ...Typography.subheadline,
+    },
+    textSelected: {
+      color: theme.primaryButtonTextColor,
+    },
+    textUnselected: {
+      color: Colors.secondaryButtonText,
     },
   })
 }

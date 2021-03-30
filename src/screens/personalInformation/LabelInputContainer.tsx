@@ -33,31 +33,31 @@ const LabelInputContainer: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Spacing.unit,
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: Spacing.unit,
+  },
+  errorMessage: {
+    ...Typography.errorMessage,
+    marginTop: Spacing.small,
+  },
+  input: {
+    flexGrow: 1,
   },
   label: {
     ...Typography.body,
     color: Colors.darkText,
   },
-  labelEnabled: {
-    color: Colors.darkText,
-  },
   labelDisabled: {
     color: Colors.lightText,
   },
-  input: {
-    flexGrow: 1,
+  labelEnabled: {
+    color: Colors.darkText,
   },
   separator: {
+    backgroundColor: Colors.separator,
     height: Spacing.separatorHeight,
     marginTop: Spacing.unit,
-    backgroundColor: Colors.separator,
-  },
-  errorMessage: {
-    ...Typography.errorMessage,
-    marginTop: Spacing.small,
   },
 })
 

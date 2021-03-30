@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.groupedListBackground,
     borderRadius: 8,
   },
+  separator: {
+    backgroundColor: Colors.separator,
+    height: Spacing.separatorHeight,
+    marginHorizontal: Spacing.margin,
+  },
   title: {
     ...Typography.largeTitle,
     marginBottom: Spacing.margin,
-  },
-  separator: {
-    height: Spacing.separatorHeight,
-    marginHorizontal: Spacing.margin,
-    backgroundColor: Colors.separator,
   },
 })
 

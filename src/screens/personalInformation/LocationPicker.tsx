@@ -173,28 +173,28 @@ const LocationPicker: FC<Props> = (props) => {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.defaultBackground },
+  commonText: {
+    ...Typography.body,
+    paddingVertical: 4,
+    textAlign: 'right',
+  },
+  container: { backgroundColor: Colors.defaultBackground, flex: 1 },
   headerContainer: {
     flexDirection: 'row',
   },
   headerTitle: {
     ...Typography.title2,
-    flexGrow: 1,
-    textAlignVertical: 'center',
-    textAlign: 'center',
-    marginEnd: 44,
     alignSelf: 'center',
+    flexGrow: 1,
+    marginEnd: 44,
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
   placeholder: {
     color: Colors.lightText,
   },
   selectedAddress: {
     color: Colors.darkText,
-  },
-  commonText: {
-    ...Typography.body,
-    textAlign: 'right',
-    paddingVertical: 4,
   },
 })
 

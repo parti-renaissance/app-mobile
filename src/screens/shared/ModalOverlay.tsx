@@ -35,25 +35,25 @@ const ModalOverlay: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.modalOverlayBackground,
-    justifyContent: 'center',
-  },
-  content: {
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.largeMargin,
-    paddingTop: Spacing.topMargin,
-    paddingBottom: Spacing.margin,
-    backgroundColor: Colors.defaultBackground,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
   close: {
     position: 'absolute',
     start: 3, // takes image blank padding into account
     top: 3,
     zIndex: 1,
+  },
+  container: {
+    backgroundColor: Colors.modalOverlayBackground,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  content: {
+    backgroundColor: Colors.defaultBackground,
+    borderRadius: 8,
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.largeMargin,
+    overflow: 'hidden',
+    paddingBottom: Spacing.margin,
+    paddingTop: Spacing.topMargin,
   },
 })
 

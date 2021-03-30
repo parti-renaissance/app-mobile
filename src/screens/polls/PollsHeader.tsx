@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: Spacing.margin,
   },
-  title: {
-    ...Typography.title,
-    marginBottom: Spacing.mediumMargin,
-  },
   content: {
     marginBottom: Spacing.unit,
     ...Typography.body,
+  },
+  title: {
+    ...Typography.title,
+    marginBottom: Spacing.mediumMargin,
   },
 })
 

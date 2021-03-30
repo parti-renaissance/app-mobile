@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
   textInput: {
     ...Typography.body,
     flexGrow: 1,
-    textAlign: 'right',
     paddingVertical: 0,
-  },
-  textInputEnabled: {
-    color: Colors.darkText,
+    textAlign: 'right',
   },
   textInputDisabled: {
     color: Colors.lightText,
+  },
+  textInputEnabled: {
+    color: Colors.darkText,
   },
 })
 

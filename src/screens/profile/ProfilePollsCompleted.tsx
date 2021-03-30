@@ -44,33 +44,33 @@ const stylesFactory = (theme: Theme) => {
     container: {
       flex: 1,
     },
-    image: {
-      flexDirection: 'column-reverse',
-      resizeMode: 'contain',
-      width: '100%',
-      height: 62,
-    },
-    title: {
-      ...Typography.headline,
-      marginBottom: Spacing.unit,
-    },
-    counters: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      marginBottom: Spacing.unit,
-      height: 77,
-      backgroundColor: theme.lightBackground,
-      borderRadius: 8,
-    },
     counter: {
       alignItems: 'center',
+    },
+    counterLegend: {
+      ...Typography.body,
     },
     counterNumber: {
       ...Typography.largeTitle,
     },
-    counterLegend: {
-      ...Typography.body,
+    counters: {
+      alignItems: 'center',
+      backgroundColor: theme.lightBackground,
+      borderRadius: 8,
+      flexDirection: 'row',
+      height: 77,
+      justifyContent: 'space-around',
+      marginBottom: Spacing.unit,
+    },
+    image: {
+      flexDirection: 'column-reverse',
+      height: 62,
+      resizeMode: 'contain',
+      width: '100%',
+    },
+    title: {
+      ...Typography.headline,
+      marginBottom: Spacing.unit,
     },
   })
 }

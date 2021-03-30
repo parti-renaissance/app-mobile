@@ -130,25 +130,25 @@ const NewsScreen = () => {
 }
 
 const styles = StyleSheet.create({
+  bottomLoader: {
+    margin: Spacing.margin,
+  },
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  image: {
+    aspectRatio: 288 / 103,
+    height: undefined,
+    width: '100%',
   },
   imageContainer: {
     paddingHorizontal: Spacing.margin,
   },
-  image: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 288 / 103,
-  },
   separator: {
+    backgroundColor: Colors.separator,
     height: Spacing.separatorHeight,
     marginHorizontal: Spacing.margin,
-    backgroundColor: Colors.separator,
-  },
-  bottomLoader: {
-    margin: Spacing.margin,
   },
 })
 

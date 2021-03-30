@@ -54,33 +54,33 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
 }
 
 const styles = StyleSheet.create({
-  progressContainer: {
-    paddingHorizontal: Spacing.unit,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  percentage: {
-    ...Typography.subheadline,
-  },
   choice: {
     ...Typography.lightCalloutOnLightBackground,
   },
   leadingText: {
     textAlign: 'right',
   },
-  trailingText: {
-    textAlign: 'left',
-  },
   middle: {
+    backgroundColor: Colors.defaultBackground,
+    borderRadius: 8.0,
     flexGrow: 1,
     marginHorizontal: Spacing.unit,
-    backgroundColor: Colors.defaultBackground,
     minHeight: 40,
-    borderRadius: 8.0,
     overflow: 'hidden',
+  },
+  percentage: {
+    ...Typography.subheadline,
   },
   progress: {
     flex: 1,
+  },
+  progressContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: Spacing.unit,
+  },
+  trailingText: {
+    textAlign: 'left',
   },
   votesCount: {
     ...Typography.lightCalloutOnLightBackground,

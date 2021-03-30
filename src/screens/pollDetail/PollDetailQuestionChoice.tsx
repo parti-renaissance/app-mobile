@@ -47,9 +47,13 @@ const PollDetailQuestionChoice: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
+  callout: {
+    ...Typography.lightCallout,
+    marginBottom: Spacing.margin,
+  },
   container: {
-    paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.unit,
   },
   list: {
     flex: 1,
@@ -57,10 +61,6 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.headline,
     marginBottom: Spacing.unit,
-  },
-  callout: {
-    ...Typography.lightCallout,
-    marginBottom: Spacing.margin,
   },
 })
 

@@ -107,32 +107,32 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
 }
 
 const styles = StyleSheet.create({
-  container: {
+  blur: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.small,
+  },
+  container: {
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  continueButton: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
   imageWrap: {
     alignItems: 'center',
   },
   title: {
     ...Typography.subheadline,
-    marginTop: Spacing.unit,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.unit,
   },
   zipCode: {
+    marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
-    marginHorizontal: Spacing.margin,
-  },
-  continueButton: {
-    marginTop: Spacing.mediumMargin,
-    marginHorizontal: Spacing.margin,
-  },
-  blur: {
-    paddingVertical: Spacing.small,
-    paddingHorizontal: Spacing.margin,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
 })
 

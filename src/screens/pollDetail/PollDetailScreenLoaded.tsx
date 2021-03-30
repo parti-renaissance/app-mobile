@@ -150,8 +150,8 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
   content: {
     flex: 1,

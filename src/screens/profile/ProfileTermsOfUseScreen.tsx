@@ -15,12 +15,12 @@ const ProfileTermsOfUseScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
   pdf: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
 })
 

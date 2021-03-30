@@ -37,12 +37,12 @@ const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   cardView: {
-    marginVertical: Spacing.margin,
     marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.margin,
   },
   container: {
-    padding: Spacing.margin,
     backgroundColor: Colors.groupedListBackground,
+    padding: Spacing.margin,
   },
   title: {
     ...Typography.subheadline,

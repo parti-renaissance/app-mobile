@@ -77,30 +77,30 @@ const ProfileAnonymous: FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.unit,
   },
-  title: {
-    marginTop: Spacing.mediumMargin,
-    marginBottom: Spacing.margin,
-    alignItems: 'center',
-  },
-  titleText: {
-    ...Typography.largeTitle,
-  },
-  version: {
-    textAlign: 'center',
-    marginTop: Spacing.mediumMargin,
-    marginVertical: Spacing.largeMargin,
-    ...Typography.lightCallout,
+  loginButton: {
+    marginBottom: Spacing.unit,
   },
   notLogged: {
     ...Typography.caption1,
     color: Colors.lightText,
     marginBottom: Spacing.mediumMargin,
   },
-  loginButton: {
-    marginBottom: Spacing.unit,
+  title: {
+    alignItems: 'center',
+    marginBottom: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
+  },
+  titleText: {
+    ...Typography.largeTitle,
+  },
+  version: {
+    marginTop: Spacing.mediumMargin,
+    marginVertical: Spacing.largeMargin,
+    textAlign: 'center',
+    ...Typography.lightCallout,
   },
 })
 

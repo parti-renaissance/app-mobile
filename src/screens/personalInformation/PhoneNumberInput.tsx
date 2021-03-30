@@ -104,15 +104,15 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row-reverse',
     alignItems: Platform.OS === 'android' ? 'center' : 'baseline',
+    flexDirection: 'row-reverse',
   },
   textInput: {
     ...Typography.body,
-    width: 115,
-    textAlign: 'right',
-    paddingVertical: 0,
     color: Colors.darkText,
+    paddingVertical: 0,
+    textAlign: 'right',
+    width: 115,
   },
 })
 
