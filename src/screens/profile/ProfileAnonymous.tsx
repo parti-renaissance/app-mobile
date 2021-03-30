@@ -99,6 +99,10 @@ const styles = StyleSheet.create({
     color: Colors.lightText,
     marginBottom: Spacing.mediumMargin,
   },
+  settingsCard: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.small,
+  },
   title: {
     alignItems: 'center',
     marginBottom: Spacing.margin,
@@ -112,10 +116,6 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.largeMargin,
     textAlign: 'center',
     ...Typography.lightCallout,
-  },
-  settingsCard: {
-    marginTop: Spacing.small,
-    marginHorizontal: Spacing.margin,
   },
 })
 

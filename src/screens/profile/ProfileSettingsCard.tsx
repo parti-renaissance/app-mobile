@@ -47,13 +47,18 @@ const ProfileSettingsCard: FC<Props> = (props) => {
 }
 
 const styles = StyleSheet.create({
-  touchableArea: {
-    backgroundColor: Colors.groupedListBackground,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
   container: {
     flexDirection: 'row',
+  },
+  description: {
+    ...Typography.caption1,
+    color: Colors.lightText,
+    marginTop: Spacing.small,
+  },
+  image: {
+    alignSelf: 'center',
+    height: 80,
+    width: 80,
   },
   leftSide: {
     flexGrow: 1,
@@ -63,15 +68,10 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.headline,
   },
-  description: {
-    ...Typography.caption1,
-    marginTop: Spacing.small,
-    color: Colors.lightText,
-  },
-  image: {
-    width: 80,
-    height: 80,
-    alignSelf: 'center',
+  touchableArea: {
+    backgroundColor: Colors.groupedListBackground,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 })
 

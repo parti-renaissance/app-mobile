@@ -120,6 +120,11 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.unit,
     marginTop: Spacing.mediumMargin,
   },
+  certifiedBadge: {
+    height: 32,
+    marginTop: -18,
+    width: 32,
+  },
   container: {
     flex: 1,
     paddingHorizontal: Spacing.margin,
@@ -127,6 +132,10 @@ const styles = StyleSheet.create({
   },
   logout: {
     marginTop: Spacing.mediumMargin,
+  },
+  settingsCard: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.small,
   },
   subtitle: {
     ...Typography.subheadline,
@@ -148,15 +157,6 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.largeMargin,
     textAlign: 'center',
     ...Typography.lightCallout,
-  },
-  settingsCard: {
-    marginTop: Spacing.small,
-    marginHorizontal: Spacing.margin,
-  },
-  certifiedBadge: {
-    width: 32,
-    height: 32,
-    marginTop: -18,
   },
 })
 
