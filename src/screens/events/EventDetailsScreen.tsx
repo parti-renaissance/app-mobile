@@ -6,6 +6,7 @@ import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { BorderlessButton } from '../shared/Buttons'
+import { ExternalLink } from '../shared/ExternalLink'
 import EventDetailsItemContainer from './EventDetailsItemContainer'
 import { EventDetailsViewModel } from './EventDetailsViewModel'
 import TagView from './TagView'
@@ -14,6 +15,16 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const eventId = route.params.eventId
   const viewModel = mockedData
   const { theme } = useTheme()
+  const openOnlineUrl = () => {
+    if (viewModel.onlineUrl) {
+      ExternalLink.openUrl(viewModel.onlineUrl)
+    }
+  }
+  const openEventUrl = () => {
+    if (viewModel.eventUrl) {
+      ExternalLink.openUrl(viewModel.eventUrl)
+    }
+  }
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
       <ScrollView>
@@ -58,6 +69,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
                 title={i18n.t('eventdetails.access_online_event')}
                 textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
                 style={Styles.eventSeeMoreButtonContainer}
+                onPress={openOnlineUrl}
               />
             </View>
           </EventDetailsItemContainer>
@@ -86,6 +98,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
               title={i18n.t('eventdetails.share_event')}
               textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
               style={Styles.eventSeeMoreButtonContainer}
+              onPress={openEventUrl}
             />
           </View>
         </EventDetailsItemContainer>
@@ -117,7 +130,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   container: {
-    backgroundColor: Colors.defaultBackground,
+    backgroundColor: Colors.defaultdefaultBackground,
     flex: 1,
   },
   description: {
