@@ -1,3 +1,5 @@
+import * as AddCalendarEvent from 'react-native-add-calendar-event'
+
 export interface EventDetailsViewModel {
   id: string
   title: string
@@ -12,6 +14,7 @@ export interface EventDetailsViewModel {
   date: EventDateViewModel
   eventUrl?: string
   description: string
+  calendarEvent: AddCalendarEvent.CreateOptions
 }
 
 export interface EventAddressViewModel {

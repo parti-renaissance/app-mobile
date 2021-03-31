@@ -54,6 +54,7 @@
     "react": "16.13.1",
     "react-i18next": "11.7.3",
     "react-native": "0.63.3",
+    "react-native-add-calendar-event": "4.0.0",
     "react-native-cache": "2.0.1",
     "react-native-country-picker-modal": "2.0.0",
     "react-native-custom-tabs": "https://github.com/adminphoeniixx/react-native-custom-tabs#7605cda",

@@ -1,5 +1,12 @@
 import React, { FC } from 'react'
-import { StyleSheet, ScrollView, Image, View, Text } from 'react-native'
+import {
+  StyleSheet,
+  ScrollView,
+  Image,
+  View,
+  Text,
+  Platform,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
@@ -10,6 +17,8 @@ import { ExternalLink } from '../shared/ExternalLink'
 import EventDetailsItemContainer from './EventDetailsItemContainer'
 import { EventDetailsViewModel } from './EventDetailsViewModel'
 import TagView from './TagView'
+import * as AddCalendarEvent from 'react-native-add-calendar-event'
+import moment from 'moment'
 
 const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const eventId = route.params.eventId
@@ -24,6 +33,9 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
     if (viewModel.eventUrl) {
       ExternalLink.openUrl(viewModel.eventUrl)
     }
+  }
+  const addCalendarEvent = () => {
+    AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
   }
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
@@ -54,6 +66,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
               title={i18n.t('eventdetails.add_calendar')}
               textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
               style={Styles.eventSeeMoreButtonContainer}
+              onPress={addCalendarEvent}
             />
           </View>
         </EventDetailsItemContainer>
@@ -130,7 +143,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   container: {
-    backgroundColor: Colors.defaultdefaultBackground,
+    backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
   description: {
@@ -200,6 +213,17 @@ const mockedData: EventDetailsViewModel = {
   eventUrl: 'https://en-marche.fr/evenements/20',
   description:
     'Phasellus ac pharetra quam, a pretium sapien. Sed sit amet ipsum erat. Sed vulputate lectus porta, hendrerit leo quis, tincidunt nibh. Sed ut mi non sem viverra consectetur sollicitudin ac tortor. Sed lectus est, suscipit ac tortor ut, sagittis mattis nisl. Proin euismod nisl vitae risus hendrerit tristique. Proin ultrices diam nec nisi dignissim mollis. Vivamus consequat egestas mi eu volutpat. Sed hendrerit sagittis mi et ornare. Donec maximus ornare enim, sed scelerisque est venenatis id. Nulla com',
+  calendarEvent: {
+    title: 'Élections : où quand, comment ?',
+    startDate: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    endDate: moment(new Date())
+      .add(1, 'h')
+      .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    url: 'https://zoom.us/j/91611561795',
+    location: '7 rue Beaurepaire, 75010 Paris',
+    notes:
+      Platform.OS === 'android' ? 'https://zoom.us/j/91611561795' : undefined,
+  },
 }
 
 export default EventDetailsScreen
