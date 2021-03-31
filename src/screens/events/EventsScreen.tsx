@@ -26,7 +26,7 @@ const EventsScreen = () => {
     calendar: Calendar,
     myEvents: MyEvents,
   })
-  const renderTabBar = (props) => (
+  const renderTabBar = (props: any) => (
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: theme.primaryColor }}
@@ -43,6 +43,7 @@ const EventsScreen = () => {
   return (
     <SafeAreaView style={styles.scene}>
       <Text style={styles.title}>{i18n.t('events.title')}</Text>
+      {/* @ts-ignore https://github.com/satya164/react-native-tab-view/issues/1159 */}
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
