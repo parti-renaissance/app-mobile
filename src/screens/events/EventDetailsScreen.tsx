@@ -7,6 +7,7 @@ import {
   Text,
   Platform,
   Alert,
+  Share,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps } from '../../navigation'
@@ -34,10 +35,11 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
       ExternalLink.openUrl(viewModel.onlineUrl)
     }
   }
-  const openEventUrl = () => {
-    if (viewModel.eventUrl) {
-      ExternalLink.openUrl(viewModel.eventUrl)
-    }
+  const shareEvent = () => {
+    Share.share({
+      message: i18n.t('eventdetails.share_message'),
+      url: viewModel.eventUrl,
+    })
   }
   const addCalendarEvent = () => {
     AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
@@ -139,7 +141,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
               title={i18n.t('eventdetails.share_event')}
               textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
               style={Styles.eventSeeMoreButtonContainer}
-              onPress={openEventUrl}
+              onPress={shareEvent}
             />
           </View>
         </EventDetailsItemContainer>
