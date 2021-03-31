@@ -91,7 +91,7 @@
     "eslint-plugin-security": "1.4.0",
     "fs-extra": "8.1.0",
     "husky": "4.3.0",
-    "jest": "25.5.4",
+    "jest": "26.0.0",
     "metro-react-native-babel-preset": "0.64.0",
     "mustache": "3.2.1",
     "react-test-renderer": "16.13.1",
