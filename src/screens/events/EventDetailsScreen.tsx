@@ -6,13 +6,18 @@ import {
   View,
   Text,
   Platform,
+  Alert,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
-import { BorderlessButton } from '../shared/Buttons'
+import {
+  BorderlessButton,
+  PrimaryButton,
+  SecondaryButton,
+} from '../shared/Buttons'
 import { ExternalLink } from '../shared/ExternalLink'
 import EventDetailsItemContainer from './EventDetailsItemContainer'
 import { EventDetailsViewModel } from './EventDetailsViewModel'
@@ -36,6 +41,29 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   }
   const addCalendarEvent = () => {
     AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
+  }
+  const subscribe = () => {
+    // TODO: subscribe
+  }
+  const performUnsubscription = () => {
+    // TODO unsubscribe
+  }
+  const unsubscribe = () => {
+    Alert.alert(
+      i18n.t('eventdetails.unsubscribe.title'),
+      i18n.t('eventdetails.unsubscribe.content', { title: viewModel.title }),
+      [
+        {
+          text: i18n.t('eventdetails.unsubscribe.confirm'),
+          onPress: performUnsubscription,
+        },
+        {
+          text: i18n.t('common.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
   }
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
@@ -130,6 +158,22 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
         />
         <View style={styles.separator} />
       </ScrollView>
+      <View style={styles.bottomContainer}>
+        {viewModel.isSubscribed ? (
+          <SecondaryButton
+            icon={require('../../assets/images/checkIcon.png')}
+            title={i18n.t('eventdetails.registered')}
+            iconTint={Colors.blueRibbon}
+            iconPadding={Spacing.unit}
+            onPress={unsubscribe}
+          />
+        ) : (
+          <PrimaryButton
+            title={i18n.t('eventdetails.register')}
+            onPress={subscribe}
+          />
+        )}
+      </View>
     </SafeAreaView>
   )
 }
@@ -141,6 +185,11 @@ const styles = StyleSheet.create({
     color: Colors.lightText,
     flexGrow: 1,
     textAlign: 'right',
+  },
+  bottomContainer: {
+    ...Styles.elevatedContainerStyle,
+    paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,
