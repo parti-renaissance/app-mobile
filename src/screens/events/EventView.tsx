@@ -6,6 +6,7 @@ import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
+import TagView from './TagView'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel
@@ -22,17 +23,11 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
       >
         <View style={styles.container}>
           <View style={styles.leftColumn}>
-            <Text
-              style={[
-                styles.tag,
-                {
-                  backgroundColor: viewModel.tagBackgroundColor,
-                  color: viewModel.tagTextColor,
-                },
-              ]}
-            >
-              {viewModel.tag}
-            </Text>
+            <TagView
+              tag={viewModel.tag}
+              tagBackgroundColor={viewModel.tagBackgroundColor}
+              tagTextColor={viewModel.tagTextColor}
+            />
             <Text style={styles.title}>{viewModel.title}</Text>
             <Text style={styles.date}>{viewModel.date}</Text>
           </View>
@@ -92,16 +87,6 @@ const stylesFactory = (theme: Theme) => {
       marginVertical: Spacing.margin,
       ...Typography.caption1,
       color: theme.primaryColor,
-    },
-    tag: {
-      ...Typography.body,
-      borderRadius: Spacing.unit,
-      fontSize: 8,
-      lineHeight: 16,
-      marginStart: Spacing.margin,
-      marginTop: Spacing.margin,
-      overflow: 'hidden',
-      paddingHorizontal: Spacing.unit,
     },
     title: {
       ...Typography.eventItemTitle,

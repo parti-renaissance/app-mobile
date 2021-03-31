@@ -13,6 +13,7 @@ import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
+import TagView from './TagView'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -38,18 +39,11 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             <View style={[styles.image, styles.imagePlaceholder]} />
           )}
           <View style={styles.leftColumn}>
-            <Text
-              numberOfLines={1}
-              style={[
-                styles.tag,
-                {
-                  backgroundColor: viewModel.tagBackgroundColor,
-                  color: viewModel.tagTextColor,
-                },
-              ]}
-            >
-              {viewModel.tag}
-            </Text>
+            <TagView
+              tag={viewModel.tag}
+              tagBackgroundColor={viewModel.tagBackgroundColor}
+              tagTextColor={viewModel.tagTextColor}
+            />
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.title}
             </Text>
@@ -118,16 +112,6 @@ const stylesFactory = (theme: Theme) => {
       marginVertical: Spacing.unit,
       ...Typography.caption1,
       color: theme.primaryColor,
-    },
-    tag: {
-      ...Typography.body,
-      borderRadius: Spacing.unit,
-      fontSize: 8,
-      lineHeight: 16,
-      marginStart: Spacing.unit,
-      marginTop: Spacing.unit,
-      overflow: 'hidden',
-      paddingHorizontal: Spacing.unit,
     },
     title: {
       ...Typography.eventItemTitle,
