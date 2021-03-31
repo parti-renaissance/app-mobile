@@ -147,7 +147,7 @@ export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
       <TouchableOpacity
         onPress={props.onPress}
         disabled={props.disabled}
-        style={[props.style, styles.appButtonContainerBorderless]}
+        style={[styles.appButtonContainerBorderless, props.style]}
       >
         <Text
           style={[

@@ -1,4 +1,5 @@
 import { TextStyle, ViewStyle } from 'react-native'
+import { Typography } from '.'
 import Theme from '../themes/Theme'
 import * as Colors from './colors'
 
@@ -44,6 +45,23 @@ export const homeSeeMoreButtonTextStyle = (theme: Theme) => {
   return style
 }
 
+export const eventSeeMoreButtonTextStyle = (theme: Theme) => {
+  const style: TextStyle = {
+    ...Typography.body,
+    color: theme.coloredText,
+    textAlign: 'left',
+    lineHeight: 19,
+  }
+  return style
+}
+
 export const homeSeeMoreButtonContainer: ViewStyle = {
   alignSelf: 'flex-start',
+}
+
+export const eventSeeMoreButtonContainer: ViewStyle = {
+  alignSelf: 'flex-start',
+  paddingHorizontal: 0,
+  paddingVertical: 0,
+  marginTop: 4,
 }

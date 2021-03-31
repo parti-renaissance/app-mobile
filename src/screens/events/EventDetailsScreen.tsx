@@ -2,7 +2,8 @@ import React, { FC } from 'react'
 import { StyleSheet, ScrollView, Image, View, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps } from '../../navigation'
-import { Colors, Spacing, Typography } from '../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { BorderlessButton } from '../shared/Buttons'
 import EventDetailsItemContainer from './EventDetailsItemContainer'
@@ -12,6 +13,7 @@ import TagView from './TagView'
 const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const eventId = route.params.eventId
   const viewModel = mockedData
+  const { theme } = useTheme()
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
       <ScrollView>
@@ -37,7 +39,11 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
             <Text style={styles.rowItemDescription}>
               {viewModel.date.description}
             </Text>
-            <BorderlessButton title={i18n.t('eventdetails.add_calendar')} />
+            <BorderlessButton
+              title={i18n.t('eventdetails.add_calendar')}
+              textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+              style={Styles.eventSeeMoreButtonContainer}
+            />
           </View>
         </EventDetailsItemContainer>
         {viewModel.onlineUrl ? (
@@ -50,6 +56,8 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
               </Text>
               <BorderlessButton
                 title={i18n.t('eventdetails.access_online_event')}
+                textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+                style={Styles.eventSeeMoreButtonContainer}
               />
             </View>
           </EventDetailsItemContainer>
@@ -74,7 +82,11 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
         >
           <View>
             <Text style={styles.rowItemDescription}>{viewModel.eventUrl}</Text>
-            <BorderlessButton title={i18n.t('eventdetails.share_event')} />
+            <BorderlessButton
+              title={i18n.t('eventdetails.share_event')}
+              textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+              style={Styles.eventSeeMoreButtonContainer}
+            />
           </View>
         </EventDetailsItemContainer>
         <View style={styles.separator} />
@@ -82,7 +94,14 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
           {i18n.t('eventdetails.description')}
         </Text>
         <Text style={styles.description}>{viewModel.description}</Text>
-        <BorderlessButton title={i18n.t('eventdetails.see_more')} />
+        <BorderlessButton
+          title={i18n.t('eventdetails.see_more')}
+          textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+          style={[
+            styles.descriptionSeeMore,
+            Styles.eventSeeMoreButtonContainer,
+          ]}
+        />
         <View style={styles.separator} />
       </ScrollView>
     </SafeAreaView>
@@ -105,6 +124,9 @@ const styles = StyleSheet.create({
     ...Typography.body,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
+  },
+  descriptionSeeMore: {
+    marginHorizontal: Spacing.margin,
   },
   image: {
     height: 203,
