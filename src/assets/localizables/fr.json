@@ -255,6 +255,17 @@
       "tab_calendar": "Calendrier",
       "tab_mine": "Mes événements",
       "empty": "Vous n’avez aucun évènement à venir."
+    },
+    "eventdetails": {
+      "add_calendar": "Ajouter à mon calendrier",
+      "online_event": "Événement en ligne",
+      "access_online_event": "Accéder à l'événement en ligne",
+      "share_event": "Partager l'événement",
+      "description": "Description",
+      "see_more": "Voir plus",
+      "associated_survey": "Questionnaire lié",
+      "register": "S'inscrire",
+      "registered": "Inscrit"
     }
   }
 }

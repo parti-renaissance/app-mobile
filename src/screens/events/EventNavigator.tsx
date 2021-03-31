@@ -18,6 +18,7 @@ const EventNavigator: FunctionComponent = () => {
       <EventStack.Screen
         name={Screen.eventDetails}
         component={EventDetailsScreen}
+        options={{ headerTransparent: true }}
       />
     </EventStack.Navigator>
   )
