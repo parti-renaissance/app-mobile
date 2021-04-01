@@ -55,7 +55,7 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     card: {
       marginHorizontal: Spacing.margin,
-      marginTop: 6,
+      marginVertical: Spacing.unit,
     },
     checkIcon: {
       tintColor: theme.primaryColor,

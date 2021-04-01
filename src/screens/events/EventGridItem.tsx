@@ -70,7 +70,7 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     card: {
       marginHorizontal: Spacing.margin,
-      marginVertical: Spacing.small,
+      marginVertical: Spacing.unit,
       minHeight: 212,
       width: 152,
     },
