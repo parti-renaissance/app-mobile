@@ -75,6 +75,6 @@ const isRequestBlacklistedForCrendentials = (request: Request): boolean => {
   return false
 }
 
-const credentialsBlackListedPaths = ['/api/polls', '/api/polls/vote']
+const credentialsBlackListedPaths: Array<string> = []
 
 export default httpClient
