@@ -7,7 +7,6 @@ const cararra = '#eae8e4'
 const cinnarbar = '#e74536'
 const lightGrey = '#e7e9ec'
 const doveGray = '#6a6a6a'
-export const blueRibbon = '#0d65ff'
 
 export const tab = doveGray
 export const darkText = shipGray

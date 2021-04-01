@@ -8,6 +8,8 @@ import {
   ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import { useThemedStyles } from '../../themes'
+import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
 import { EventRowViewModel } from './EventViewModel'
 
@@ -17,6 +19,7 @@ type Props = Readonly<{
 }>
 
 const EventGridItem: FC<Props> = ({ viewModel, style }) => {
+  const styles = useThemedStyles(stylesFactory)
   return (
     <CardView
       style={[styles.card, style]}
@@ -63,71 +66,68 @@ const EventGridItem: FC<Props> = ({ viewModel, style }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  card: {
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.small,
-    minHeight: 212,
-    width: 152,
-  },
-  checkIcon: {
-    tintColor: Colors.blueRibbon,
-  },
-  container: {
-    flexDirection: 'column',
-  },
-  date: {
-    ...Typography.body,
-    color: Colors.lightText,
-    flexGrow: 1,
-    flexShrink: 1,
-    fontSize: 14,
-    lineHeight: 19,
-    marginBottom: Spacing.unit,
-    marginStart: Spacing.unit,
-    marginTop: Spacing.unit,
-  },
-  footer: {
-    flexDirection: 'row',
-  },
-  image: {
-    height: 86,
-  },
-  imagePlaceholder: {
-    backgroundColor: Colors.groupedListBackground,
-  },
-  leftColumn: {
-    alignItems: 'flex-start',
-    flexGrow: 1,
-    flexShrink: 1,
-  },
-  rightColumn: {
-    alignItems: 'flex-end',
-  },
-  subscribed: {
-    marginEnd: Spacing.unit,
-    marginVertical: Spacing.unit,
-    ...Typography.caption1,
-    color: Colors.blueRibbon,
-  },
-  tag: {
-    ...Typography.body,
-    borderRadius: Spacing.unit,
-    fontSize: 8,
-    lineHeight: 16,
-    marginStart: Spacing.unit,
-    marginTop: Spacing.unit,
-    overflow: 'hidden',
-    paddingHorizontal: Spacing.unit,
-  },
-  title: {
-    ...Typography.headline,
-    fontSize: 14,
-    letterSpacing: 0,
-    lineHeight: 20,
-    marginHorizontal: Spacing.unit,
-    marginTop: Spacing.unit,
-  },
-})
+const stylesFactory = (theme: Theme) => {
+  return StyleSheet.create({
+    card: {
+      marginHorizontal: Spacing.margin,
+      marginVertical: Spacing.small,
+      minHeight: 212,
+      width: 152,
+    },
+    checkIcon: {
+      tintColor: theme.primaryColor,
+    },
+    container: {
+      flexDirection: 'column',
+    },
+    date: {
+      ...Typography.body,
+      color: Colors.lightText,
+      flexGrow: 1,
+      flexShrink: 1,
+      marginBottom: Spacing.unit,
+      marginStart: Spacing.unit,
+      marginTop: Spacing.unit,
+    },
+    footer: {
+      flexDirection: 'row',
+    },
+    image: {
+      height: 86,
+    },
+    imagePlaceholder: {
+      backgroundColor: Colors.groupedListBackground,
+    },
+    leftColumn: {
+      alignItems: 'flex-start',
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    rightColumn: {
+      alignItems: 'flex-end',
+    },
+    subscribed: {
+      marginEnd: Spacing.unit,
+      marginVertical: Spacing.unit,
+      ...Typography.caption1,
+      color: theme.primaryColor,
+    },
+    tag: {
+      ...Typography.body,
+      borderRadius: Spacing.unit,
+      fontSize: 8,
+      lineHeight: 16,
+      marginStart: Spacing.unit,
+      marginTop: Spacing.unit,
+      overflow: 'hidden',
+      paddingHorizontal: Spacing.unit,
+    },
+    title: {
+      ...Typography.eventItemTitle,
+      marginHorizontal: Spacing.unit,
+      marginTop: Spacing.unit,
+    },
+  })
+}
 
 export default EventGridItem
