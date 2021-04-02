@@ -6,11 +6,7 @@ import { Mutex } from 'async-mutex'
 
 const injectAccessTokenHook = async (request: Request) => {
   const credentials = await LocalStore.getInstance().getCredentials()
-  if (
-    credentials == null ||
-    request.headers.has('Authorization') ||
-    isRequestBlacklistedForCrendentials(request)
-  ) {
+  if (credentials == null || request.headers.has('Authorization')) {
     // don't inject accessToken
     return request
   } else {
@@ -64,17 +60,5 @@ const httpClient = baseHttpClient.extend({
     beforeRetry: [refreshToken],
   },
 })
-
-const isRequestBlacklistedForCrendentials = (request: Request): boolean => {
-  const url = request.url
-  for (const blackListedPath of credentialsBlackListedPaths) {
-    if (url.endsWith(blackListedPath)) {
-      return true
-    }
-  }
-  return false
-}
-
-const credentialsBlackListedPaths: Array<string> = []
 
 export default httpClient
