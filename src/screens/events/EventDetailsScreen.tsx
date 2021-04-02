@@ -53,6 +53,11 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const performUnsubscription = () => {
     // TODO unsubscribe
   }
+  const openOrganizerUrl = () => {
+    if (viewModel.organizer) {
+      ExternalLink.openUrl(viewModel.organizer.openUrl)
+    }
+  }
   const unsubscribe = () => {
     Alert.alert(
       i18n.t('eventdetails.unsubscribe.title'),
@@ -134,6 +139,27 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
             </View>
           </EventDetailsItemContainer>
         ) : null}
+        {viewModel.organizer ? (
+          <>
+            <View style={styles.separator} />
+            <EventDetailsItemContainer
+              onPress={openOrganizerUrl}
+              icon={require('../../assets/images/iconOrganizer.png')}
+            >
+              <View style={styles.organizerContainer}>
+                <Text style={styles.rowItemTitle}>
+                  {viewModel.organizer?.title}
+                </Text>
+                <Text style={styles.rowItemDescription}>
+                  {viewModel.organizer?.description}
+                </Text>
+              </View>
+              <Image
+                source={require('../../assets/images/disclosureIndicator.png')}
+              />
+            </EventDetailsItemContainer>
+          </>
+        ) : null}
         <View style={styles.separator} />
         <EventDetailsItemContainer
           icon={require('../../assets/images/iconShare.png')}
@@ -211,13 +237,15 @@ const styles = StyleSheet.create({
   image: {
     height: 203,
   },
+  organizerContainer: {
+    flex: 1,
+  },
   rowItemDescription: {
     ...Typography.body,
     color: Colors.lightText,
   },
   rowItemTitle: {
-    ...Typography.headline,
-    fontSize: 14,
+    ...Typography.eventItemTitle,
   },
   separator: {
     backgroundColor: Colors.separator,
@@ -226,7 +254,7 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.margin,
   },
   subtitle: {
-    ...Typography.headline,
+    ...Typography.eventItemTitle,
     fontSize: 14,
     marginHorizontal: Spacing.margin,
   },
@@ -277,6 +305,11 @@ const mockedData: EventDetailsViewModel = {
     location: '7 rue Beaurepaire, 75010 Paris',
     notes:
       Platform.OS === 'android' ? 'https://zoom.us/j/91611561795' : undefined,
+  },
+  organizer: {
+    title: 'Organisé par : Victor Cohen',
+    description: 'En Marche - Faubourg Montmartre\nParis 9e',
+    openUrl: 'http://google.fr',
   },
 }
 

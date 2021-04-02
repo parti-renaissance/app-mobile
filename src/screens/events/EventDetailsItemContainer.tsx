@@ -4,23 +4,29 @@ import {
   ImageSourcePropType,
   StyleProp,
   StyleSheet,
-  View,
   ViewStyle,
 } from 'react-native'
-import { Spacing } from '../../styles'
+import { Colors, Spacing } from '../../styles'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   icon: ImageSourcePropType
+  onPress?: () => void
   children: any
 }>
 
 const EventDetailsItemContainer: FC<Props> = (props) => {
   return (
-    <View style={[styles.container, props.style]}>
+    <TouchablePlatform
+      disabled={props.onPress === undefined}
+      onPress={props.onPress}
+      touchHighlight={Colors.touchHighlight}
+      style={[styles.container, props.style]}
+    >
       <Image style={styles.icon} source={props.icon} />
       {props.children}
-    </View>
+    </TouchablePlatform>
   )
 }
 
