@@ -28,6 +28,9 @@ import moment from 'moment'
 
 const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const eventId = route.params.eventId
+  // TODO use EventId when webservices are available
+  console.log(eventId)
+
   const viewModel = mockedData
   const { theme } = useTheme()
   const openOnlineUrl = () => {
@@ -165,7 +168,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
           <SecondaryButton
             icon={require('../../assets/images/checkIcon.png')}
             title={i18n.t('eventdetails.registered')}
-            iconTint={Colors.blueRibbon}
+            iconTint={theme.primaryColor}
             iconPadding={Spacing.unit}
             onPress={unsubscribe}
           />
