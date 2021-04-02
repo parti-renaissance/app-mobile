@@ -10,7 +10,7 @@ import {
   Share,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { EventDetailsScreenProps } from '../../navigation'
+import { EventDetailsScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
@@ -25,8 +25,13 @@ import { EventDetailsViewModel } from './EventDetailsViewModel'
 import TagView from './TagView'
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import moment from 'moment'
+import CardView from '../shared/CardView'
+import PollRow from '../polls/PollRow'
 
-const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
+const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const eventId = route.params.eventId
   // TODO use EventId when webservices are available
   console.log(eventId)
@@ -56,6 +61,17 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const openOrganizerUrl = () => {
     if (viewModel.organizer) {
       ExternalLink.openUrl(viewModel.organizer.openUrl)
+    }
+  }
+  const openSurvey = () => {
+    if (viewModel.survey) {
+      const pollId = parseInt(viewModel.survey.id, 10)
+
+      // @ts-ignore It works and this navigation is nightmare to declare in typescript
+      navigation.navigate(Screen.pollDetailModal, {
+        screen: Screen.pollDetail,
+        params: { pollId: pollId },
+      })
     }
   }
   const unsubscribe = () => {
@@ -188,6 +204,19 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
           ]}
         />
         <View style={styles.separator} />
+        {viewModel.survey ? (
+          <>
+            <Text style={styles.subtitle}>
+              {i18n.t('eventdetails.associated_survey')}
+            </Text>
+            <CardView
+              style={styles.cardView}
+              backgroundColor={Colors.defaultBackground}
+            >
+              <PollRow viewModel={viewModel.survey} onPress={openSurvey} />
+            </CardView>
+          </>
+        ) : null}
       </ScrollView>
       <View style={styles.bottomContainer}>
         {viewModel.isSubscribed ? (
@@ -221,6 +250,10 @@ const styles = StyleSheet.create({
     ...Styles.elevatedContainerStyle,
     paddingHorizontal: Spacing.margin,
     paddingVertical: Spacing.margin,
+  },
+  cardView: {
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,
@@ -310,6 +343,13 @@ const mockedData: EventDetailsViewModel = {
     title: 'Organisé par : Victor Cohen',
     description: 'En Marche - Faubourg Montmartre\nParis 9e',
     openUrl: 'http://google.fr',
+  },
+  survey: {
+    id: '354',
+    image: require('../../assets/images/blue/imageSondage01.png'),
+    title: 'Ensemble, #NousRéussirons',
+    subtitle: '3 questions',
+    tag: 'DEPARTEMENTAL',
   },
 }
 
