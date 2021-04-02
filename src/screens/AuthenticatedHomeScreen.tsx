@@ -27,8 +27,9 @@ const getTabBarIcon = (route: any, focused: boolean) => {
       ? require('../assets/images/tabBarIconsHomeOn.png')
       : require('../assets/images/tabBarIconsHomeOff.png')
   } else if (route.name === Screen.events) {
-    // TODO: Add events off icon
-    return require('../assets/images/tabBarIconsEventOn.png')
+    return focused
+      ? require('../assets/images/tabBarIconsEventOn.png')
+      : require('../assets/images/tabBarIconsEventOff.png')
   } else if (route.name === Screen.tools) {
     return focused
       ? require('../assets/images/tabBarIconsToolsOn.png')
