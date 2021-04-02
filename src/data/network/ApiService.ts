@@ -105,14 +105,14 @@ class ApiService {
 
   public getQuickPolls(): Promise<RestQuickPollResponse> {
     return this.httpClient
-      .get('api/polls')
+      .get('api/v3/polls')
       .json<RestQuickPollResponse>()
       .catch(genericErrorMapping)
   }
 
   public sendQuickPollAnswer(answerId: string): Promise<RestQuickPollItem> {
     return this.httpClient
-      .post('api/polls/vote', { json: { uuid: answerId } })
+      .post('api/v3/polls/vote', { json: { uuid: answerId } })
       .json<RestQuickPollItem>()
       .catch(genericErrorMapping)
   }

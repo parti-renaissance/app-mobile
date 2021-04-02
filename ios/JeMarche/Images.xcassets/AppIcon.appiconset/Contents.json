@@ -55,7 +55,7 @@
       "size" : "20x20"
     },
     {
-      "filename" : "Notification_iPad@2x.png",
+      "filename" : "Notification@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
@@ -67,7 +67,7 @@
       "size" : "29x29"
     },
     {
-      "filename" : "Settings_iPad@2x.png",
+      "filename" : "Settings@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
@@ -79,7 +79,7 @@
       "size" : "40x40"
     },
     {
-      "filename" : "Spotlight_iPad@2x.png",
+      "filename" : "Spotlight@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
