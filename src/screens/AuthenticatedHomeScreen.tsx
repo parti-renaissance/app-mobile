@@ -12,6 +12,7 @@ import { Screen } from '../navigation'
 import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
 import ProfileNavigator from './profile/ProfileNavigator'
+import EventsScreen from './events/EventsScreen'
 
 const TabAndroid = createMaterialBottomTabNavigator()
 const TabIos = createBottomTabNavigator()
@@ -25,6 +26,10 @@ const getTabBarIcon = (route: any, focused: boolean) => {
     return focused
       ? require('../assets/images/tabBarIconsHomeOn.png')
       : require('../assets/images/tabBarIconsHomeOff.png')
+  } else if (route.name === Screen.events) {
+    return focused
+      ? require('../assets/images/tabBarIconsEventOn.png')
+      : require('../assets/images/tabBarIconsEventOff.png')
   } else if (route.name === Screen.tools) {
     return focused
       ? require('../assets/images/tabBarIconsToolsOn.png')
@@ -66,6 +71,11 @@ const AuthenticatedHomeScreenAndroid = () => {
         name={Screen.polls}
         component={PollsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_polls') }}
+      />
+      <TabAndroid.Screen
+        name={Screen.events}
+        component={EventsScreen}
+        options={{ tabBarLabel: i18n.t('tab.item_events') }}
       />
       <TabAndroid.Screen
         name={Screen.tools}
@@ -113,6 +123,11 @@ const AuthenticatedHomeScreenIos = () => {
         name={Screen.polls}
         component={PollsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_polls') }}
+      />
+      <TabIos.Screen
+        name={Screen.events}
+        component={EventsScreen}
+        options={{ tabBarLabel: i18n.t('tab.item_events') }}
       />
       <TabIos.Screen
         name={Screen.tools}
