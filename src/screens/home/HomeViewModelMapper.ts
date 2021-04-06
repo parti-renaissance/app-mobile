@@ -1,4 +1,3 @@
-import { AuthenticationState } from '../../core/entities/AuthenticationState'
 import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
@@ -27,7 +26,6 @@ export const HomeViewModelMapper = {
     news: Array<News>,
     polls: Array<Poll>,
     tools: Array<Tool>,
-    authenticationState: AuthenticationState,
     quickPoll: StatefulQuickPoll | undefined,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
@@ -37,7 +35,6 @@ export const HomeViewModelMapper = {
     appendNews(news, rows)
     appendPolls(polls, rows, theme)
     appendTools(tools, rows)
-    appendAdhere(authenticationState, rows)
 
     return {
       title: greeting(profile),
@@ -177,22 +174,6 @@ function appendTools(tools: Tool[], rows: HomeSectionViewModel[]) {
         {
           type: 'tools',
           value: { tools: subTools.map(HomeToolRowViewModelMapper.map) },
-        },
-      ],
-    })
-  }
-}
-
-function appendAdhere(
-  authenticationState: AuthenticationState,
-  rows: HomeSectionViewModel[],
-) {
-  if (authenticationState !== AuthenticationState.Authenticated) {
-    rows.push({
-      id: 'adhere',
-      data: [
-        {
-          type: 'adhere',
         },
       ],
     })

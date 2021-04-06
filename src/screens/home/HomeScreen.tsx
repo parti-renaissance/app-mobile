@@ -61,7 +61,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.news,
       currentResources.polls,
       currentResources.tools,
-      currentResources.state,
       currentResources.quickPoll,
     )
     setStatefulState(new ViewState.Content(viewModel))

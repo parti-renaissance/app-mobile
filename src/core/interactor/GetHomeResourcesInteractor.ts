@@ -24,7 +24,6 @@ export interface HomeResources {
   polls: Array<Poll>
   tools: Array<Tool>
   quickPoll?: StatefulQuickPoll
-  state: AuthenticationState
 }
 
 export class GetHomeResourcesInteractor {
@@ -117,7 +116,6 @@ export class GetHomeResourcesInteractor {
         quickPollsResult.status === 'fulfilled'
           ? quickPollsResult.value
           : undefined,
-      state: state,
     }
   }
 
