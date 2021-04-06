@@ -1,3 +1,5 @@
+import { RestInterestConfiguration } from './RestConfigurations'
+
 export interface RestDetailedProfileResponse {
   uuid: string
   first_name: string
@@ -14,6 +16,7 @@ export interface RestDetailedProfileResponse {
   telegram_page_url: string | null
   phone: RestPhoneNumber
   certified: boolean
+  interests: Array<RestInterestConfiguration>
 }
 
 export interface RestPostAddress {

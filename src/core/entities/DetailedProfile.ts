@@ -17,6 +17,7 @@ export interface DetailedProfile {
   linkedin: string | undefined
   telegram: string | undefined
   phone: PhoneNumber | undefined
+  interests: Array<string>
 }
 
 export interface Address {
