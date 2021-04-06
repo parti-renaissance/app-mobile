@@ -28,6 +28,7 @@ const CenterOfInterestContent = (
         data={viewModel.interests}
         keyExtractor={(item) => item.code}
         renderItem={renderItem}
+        numColumns={3}
       />
       <View style={styles.bottomContainer}>
         <PrimaryButton
