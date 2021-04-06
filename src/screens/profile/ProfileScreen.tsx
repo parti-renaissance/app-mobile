@@ -56,6 +56,9 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       const openPersonalInformation = () => {
         navigation.navigate(Screen.personalInformation)
       }
+      const openCenterOfInterest = () => {
+        navigation.navigate(Screen.centerOfInterest)
+      }
       const viewModel = ProfileScreenViewModelMapper.map(
         content.profile,
         content.department,
@@ -63,6 +66,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       return (
         <ProfileAuthenticated
           openPersonalInformation={openPersonalInformation}
+          openCenterOfInterest={openCenterOfInterest}
           viewModel={viewModel}
         />
       )

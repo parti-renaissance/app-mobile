@@ -24,6 +24,7 @@ export type ProfileParamList = {
   ProfileTermsOfUse: undefined
   ProfileDataProtection: undefined
   PersonalInformation: undefined
+  CenterOfInterest: undefined
 }
 
 export type AuthenticatedHomeParamList = {
