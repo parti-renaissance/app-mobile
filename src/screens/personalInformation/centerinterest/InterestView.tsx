@@ -40,8 +40,8 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      marginHorizontal: Spacing.unit,
-      marginVertical: Spacing.unit,
+      marginHorizontal: Spacing.small,
+      marginVertical: Spacing.small,
     },
     containerSelected: {
       borderColor: theme.primaryColor,
