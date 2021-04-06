@@ -38,28 +38,28 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
   },
-  verticalLabelsContainer: {
-    flex: 1,
-    marginTop: Spacing.unit,
-    padding: Spacing.small,
-  },
   horizontalLabelsContainer: {
     flex: 1,
     flexDirection: 'row',
   },
-  title: {
-    ...Typography.title2,
-    marginBottom: Spacing.small,
+  image: {
+    aspectRatio: 395 / 247,
+    flex: 1,
+    height: undefined,
+    width: '100%',
   },
   subtitle: {
     ...Typography.lightCallout,
     marginRight: Spacing.small,
   },
-  image: {
+  title: {
+    ...Typography.title2,
+    marginBottom: Spacing.small,
+  },
+  verticalLabelsContainer: {
     flex: 1,
-    aspectRatio: 395 / 247,
-    width: '100%',
-    height: undefined,
+    marginTop: Spacing.unit,
+    padding: Spacing.small,
   },
 })
 

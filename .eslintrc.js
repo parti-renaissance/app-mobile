@@ -7,4 +7,14 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'security'],
+  rules: {
+    'react-native/sort-styles': [
+      'error',
+      'asc',
+      {
+        ignoreClassNames: false,
+        ignoreStyleProperties: false,
+      },
+    ],
+  },
 }

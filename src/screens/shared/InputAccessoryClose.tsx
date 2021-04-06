@@ -22,11 +22,11 @@ const InputAccessoryClose: FC<Props> = ({ id, title, onPress }) => {
 
 const styles = StyleSheet.create({
   blur: {
-    paddingVertical: Spacing.small,
-    paddingHorizontal: Spacing.margin,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.small,
   },
 })
 

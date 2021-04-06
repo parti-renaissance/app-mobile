@@ -47,37 +47,37 @@ const CertifiedProfileView: FC<Props> = ({ style, isCertified }) => {
   )
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.defaultBackground,
+  buttonContainer: {
+    alignSelf: 'flex-start',
+    marginTop: 8,
+  },
+  buttonInnerStyle: {
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+  },
+  buttonTextStyle: {
+    ...Typography.caption1,
   },
   certifiedContainer: {
     backgroundColor: Colors.groupedListBackground,
     flexDirection: 'row',
   },
   certifiedContentContainer: {
-    flexShrink: 1,
-    flexGrow: 1,
-    padding: 16,
     flexDirection: 'column',
+    flexGrow: 1,
+    flexShrink: 1,
+    padding: 16,
+  },
+  certifiedImage: {
+    alignSelf: 'flex-end',
   },
   certifiedText: {
     ...Typography.caption1,
     color: Colors.shipGray,
   },
-  certifiedImage: {
-    alignSelf: 'flex-end',
-  },
-  buttonTextStyle: {
-    ...Typography.caption1,
-  },
-  buttonInnerStyle: {
-    paddingVertical: 4,
-    paddingHorizontal: 16,
-  },
-  buttonContainer: {
-    alignSelf: 'flex-start',
-    marginTop: 8,
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
 })
 

@@ -24,19 +24,19 @@ const PollDetailToolRow: FunctionComponent<Props> = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Spacing.rowVerticalMargin,
-    paddingEnd: Spacing.unit,
-    paddingStart: Spacing.margin,
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    paddingEnd: Spacing.unit,
+    paddingStart: Spacing.margin,
+    paddingVertical: Spacing.rowVerticalMargin,
+  },
+  image: {
+    marginStart: Spacing.unit,
   },
   text: {
     ...Typography.subheadline,
     flexShrink: 1,
-  },
-  image: {
-    marginStart: Spacing.unit,
   },
 })
 

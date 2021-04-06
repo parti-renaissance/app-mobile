@@ -23,13 +23,13 @@ const CardView: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  shadow: {
-    ...Styles.cardViewContainerStyle,
-  },
   card: {
     borderRadius: 8,
-    overflow: 'hidden',
     elevation: 4,
+    overflow: 'hidden',
+  },
+  shadow: {
+    ...Styles.cardViewContainerStyle,
   },
 })
 

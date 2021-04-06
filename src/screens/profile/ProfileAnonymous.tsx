@@ -10,6 +10,7 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { versionLabel } from './version'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { ExternalLink } from '../shared/ExternalLink'
+import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
   openTermsOfUse: () => void
@@ -52,12 +53,22 @@ const ProfileAnonymous: FC<Props> = ({
         />
       </View>
       <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.postal_code')}
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.postal_code'),
+          description: i18n.t('profile.menu.postal_code_description'),
+          image: require('../../assets/images/imageProfileZipCode.png'),
+        }}
         onPress={openZipCode}
       />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.notifications')}
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.notifications'),
+          description: i18n.t('profile.menu.notifications_description'),
+          image: require('../../assets/images/imageProfileNotifications.png'),
+        }}
         onPress={openAppSettings}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
@@ -77,30 +88,34 @@ const ProfileAnonymous: FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.unit,
   },
-  title: {
-    marginTop: Spacing.mediumMargin,
-    marginBottom: Spacing.margin,
-    alignItems: 'center',
-  },
-  titleText: {
-    ...Typography.largeTitle,
-  },
-  version: {
-    textAlign: 'center',
-    marginTop: Spacing.mediumMargin,
-    marginVertical: Spacing.largeMargin,
-    ...Typography.lightCallout,
+  loginButton: {
+    marginBottom: Spacing.unit,
   },
   notLogged: {
     ...Typography.caption1,
     color: Colors.lightText,
     marginBottom: Spacing.mediumMargin,
   },
-  loginButton: {
-    marginBottom: Spacing.unit,
+  settingsCard: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.small,
+  },
+  title: {
+    alignItems: 'center',
+    marginBottom: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
+  },
+  titleText: {
+    ...Typography.largeTitle,
+  },
+  version: {
+    marginTop: Spacing.mediumMargin,
+    marginVertical: Spacing.largeMargin,
+    textAlign: 'center',
+    ...Typography.lightCallout,
   },
 })
 

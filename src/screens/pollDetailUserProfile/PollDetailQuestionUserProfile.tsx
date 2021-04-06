@@ -87,14 +87,14 @@ const PollDetailQuestionUserProfile: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Spacing.unit,
     paddingHorizontal: Spacing.margin,
-  },
-  list: {
-    flex: 1,
+    paddingVertical: Spacing.unit,
   },
   headerText: {
     ...Typography.body,
+  },
+  list: {
+    flex: 1,
   },
 })
 

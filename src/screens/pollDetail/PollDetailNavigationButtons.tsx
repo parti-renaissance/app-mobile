@@ -44,20 +44,20 @@ const PollDetailNavigationButtons: FunctionComponent<Props> = ({
 const styles = StyleSheet.create({
   bottomContainer: {
     ...Styles.elevatedContainerStyle,
-    paddingVertical: Spacing.margin,
     flexDirection: 'row',
+    paddingVertical: Spacing.margin,
+  },
+  center: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  left: {
+    alignItems: 'flex-start',
+    flex: 1,
+    justifyContent: 'center',
   },
   nextButton: {
     minWidth: Spacing.minWidthButton,
-  },
-  left: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
   },
   right: {
     flex: 1,

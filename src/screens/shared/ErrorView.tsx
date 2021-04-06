@@ -37,27 +37,27 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
   },
   image: {
-    width: 221,
+    alignSelf: 'center',
     height: 165,
-    alignSelf: 'center',
     marginHorizontal: Spacing.margin,
+    width: 221,
   },
-  title: {
-    ...Typography.largeTitle,
-    marginTop: Spacing.mediumMargin,
-    alignSelf: 'center',
+  retryButton: {
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
   text: {
     ...Typography.body,
     alignSelf: 'center',
-    marginTop: Spacing.unit,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.unit,
     textAlign: 'center',
   },
-  retryButton: {
-    marginTop: Spacing.mediumMargin,
+  title: {
+    ...Typography.largeTitle,
+    alignSelf: 'center',
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
 })
 

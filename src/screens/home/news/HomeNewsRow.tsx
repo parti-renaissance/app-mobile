@@ -45,23 +45,23 @@ const styles = StyleSheet.create({
     padding: Spacing.margin,
   },
   contentContainer: {
-    flexShrink: 1,
     flexGrow: 1,
+    flexShrink: 1,
   },
-  disclosureIcon: {
-    marginStart: Spacing.small,
-    alignSelf: 'center',
-  },
-  title: {
-    ...Typography.subheadline,
+  date: {
+    ...Typography.lightCallout,
+    marginTop: Spacing.small,
   },
   description: {
     ...Typography.body,
     marginTop: Spacing.small,
   },
-  date: {
-    ...Typography.lightCallout,
-    marginTop: Spacing.small,
+  disclosureIcon: {
+    alignSelf: 'center',
+    marginStart: Spacing.small,
+  },
+  title: {
+    ...Typography.subheadline,
   },
 })
 

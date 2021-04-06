@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  row: {
-    flexDirection: 'row',
-  },
   left: {
     marginRight: Spacing.margin,
+  },
+  row: {
+    flexDirection: 'row',
   },
 })
 

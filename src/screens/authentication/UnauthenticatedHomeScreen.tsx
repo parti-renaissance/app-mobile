@@ -59,14 +59,18 @@ const UnauthenticatedHomeScreen = ({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.defaultBackground,
-    justifyContent: 'space-between',
+  backgroundImage: {
+    aspectRatio: 319 / 239,
+    bottom: 90,
+    height: undefined,
+    position: 'absolute',
+    resizeMode: 'contain',
+    width: '100%',
   },
-  headerLogo: {
-    alignSelf: 'center',
-    marginTop: 42,
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+    justifyContent: 'space-between',
   },
   description: {
     ...Typography.body,
@@ -74,27 +78,23 @@ const styles = StyleSheet.create({
     marginTop: 28,
     textAlign: 'center',
   },
-  backgroundImage: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 319 / 239,
-    resizeMode: 'contain',
-    position: 'absolute',
-    bottom: 90,
+  headerLogo: {
+    alignSelf: 'center',
+    marginTop: 42,
   },
   loginButton: {
-    marginHorizontal: Spacing.largeMargin,
     justifyContent: 'center',
+    marginHorizontal: Spacing.largeMargin,
   },
   registerButtonContainer: {
+    justifyContent: 'center',
     marginHorizontal: Spacing.largeMargin,
     marginTop: Spacing.unit,
-    justifyContent: 'center',
   },
   skipButton: {
+    justifyContent: 'center',
     marginBottom: Spacing.margin,
     marginTop: Spacing.unit,
-    justifyContent: 'center',
   },
 })
 

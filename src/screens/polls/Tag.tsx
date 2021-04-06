@@ -18,11 +18,11 @@ const Tag: FunctionComponent<Props> = (props) => {
 
 const styles = StyleSheet.create({
   tag: {
-    justifyContent: 'center',
     backgroundColor: Colors.tagBackground,
     borderRadius: 8,
-    paddingHorizontal: 8,
     height: 16,
+    justifyContent: 'center',
+    paddingHorizontal: 8,
   },
   tagText: {
     ...Typography.tagCaption,

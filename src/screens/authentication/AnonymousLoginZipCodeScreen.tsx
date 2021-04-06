@@ -82,21 +82,21 @@ const AnonymousLoginZipCodeScreen = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  continueButton: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
   title: {
     ...Typography.title,
-    marginTop: Spacing.unit,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.unit,
   },
   zipCode: {
-    marginTop: Spacing.mediumMargin,
     marginHorizontal: Spacing.margin,
-  },
-  continueButton: {
     marginTop: Spacing.mediumMargin,
-    marginHorizontal: Spacing.margin,
   },
 })
 

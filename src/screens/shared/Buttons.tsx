@@ -21,9 +21,16 @@ type ButtonProps = Readonly<{
   title: string
   disabled?: boolean
   theme?: Theme
+  shape?: ButtonShape
 }>
 
-type TertiaryButtonProps = ButtonProps & Readonly<{ noShadow?: boolean }>
+type ButtonShape = 'oval' | 'rounded'
+
+type TertiaryButtonProps = ButtonProps &
+  Readonly<{
+    noShadow?: boolean
+    innerStyle?: StyleProp<ViewStyle>
+  }>
 
 export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   const { theme } = useTheme()
@@ -32,14 +39,11 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   const background = props.disabled
     ? currentTheme.primaryButtonBackgroundDisabled
     : currentTheme.primaryColor
+  const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
 
   return (
     <View
-      style={[
-        styles.baseAppButtonContainer,
-        { backgroundColor: background },
-        props.style,
-      ]}
+      style={[baseButtonStyle, { backgroundColor: background }, props.style]}
     >
       <TouchablePlatform
         onPress={props.onPress}
@@ -66,13 +70,11 @@ export const SecondaryButton: FunctionComponent<ButtonProps> = (props) => {
   const background = props.disabled
     ? Colors.secondaryButtonDisabled
     : Colors.secondaryButtonBackground
+
+  const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
   return (
     <View
-      style={[
-        styles.baseAppButtonContainer,
-        { backgroundColor: background },
-        props.style,
-      ]}
+      style={[baseButtonStyle, { backgroundColor: background }, props.style]}
     >
       <TouchablePlatform
         onPress={props.onPress}
@@ -107,11 +109,12 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
         styles.shadow,
         { shadowOpacity: styles.shadow.shadowOpacity * opacity },
       ]
+  const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
   return (
     <View style={containerStyle}>
       <View
         style={[
-          styles.baseAppButtonContainer,
+          baseButtonStyle,
           { backgroundColor: Colors.tertiaryButtonBackground },
           { elevation: Spacing.buttonElevation * opacity },
         ]}
@@ -119,7 +122,7 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
         <TouchablePlatform
           onPress={props.onPress}
           disabled={props.disabled}
-          style={styles.buttonTouchable}
+          style={[styles.buttonTouchable, props.innerStyle]}
           touchHighlight={Colors.tertiaryButtonBackground}
         >
           <Text
@@ -160,36 +163,49 @@ export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
   )
 }
 
+const getBaseButtonStyle = (shape: ButtonShape): StyleProp<ViewStyle> => {
+  switch (shape) {
+    case 'oval':
+      return styles.baseAppButtonContainerOval
+    case 'rounded':
+      return styles.baseAppButtonContainerRounded
+  }
+}
+
 const styles = StyleSheet.create({
+  appButtonContainerBorderless: {
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  appButtonText: {
+    ...Typography.subheadline,
+    alignSelf: 'center',
+  },
+  appButtonTextBorderless: {
+    color: Colors.darkText,
+  },
+  appButtonTextSecondary: {
+    color: Colors.secondaryButtonText,
+  },
+  baseAppButtonContainerOval: {
+    borderRadius: 100,
+    overflow: 'hidden',
+  },
+  baseAppButtonContainerRounded: {
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  buttonTouchable: {
+    paddingHorizontal: Spacing.mediumMargin,
+    paddingVertical: 14,
+  },
   shadow: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 0,
     },
-    shadowRadius: 2,
     shadowOpacity: 0.3,
-  },
-  baseAppButtonContainer: {
-    borderRadius: 100,
-    overflow: 'hidden',
-  },
-  buttonTouchable: {
-    paddingVertical: 14,
-    paddingHorizontal: Spacing.mediumMargin,
-  },
-  appButtonContainerBorderless: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-  },
-  appButtonText: {
-    ...Typography.subheadline,
-    alignSelf: 'center',
-  },
-  appButtonTextSecondary: {
-    color: Colors.secondaryButtonText,
-  },
-  appButtonTextBorderless: {
-    color: Colors.darkText,
+    shadowRadius: 2,
   },
 })

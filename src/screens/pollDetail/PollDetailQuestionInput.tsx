@@ -79,18 +79,21 @@ function computeRemainingCharsLabel(text: string): string {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: Spacing.unit,
+  blur: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.small,
+  },
+  container: {
     flexGrow: 1,
+    paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.unit,
   },
   inner: {
     flex: 1,
     marginBottom: Spacing.unit,
-  },
-  title: {
-    ...Typography.headline,
-    marginBottom: Spacing.largeMargin,
   },
   input: {
     borderBottomColor: Colors.inputTextBorder,
@@ -102,12 +105,9 @@ const styles = StyleSheet.create({
     color: Colors.darkText,
     textAlign: 'right',
   },
-  blur: {
-    paddingVertical: Spacing.small,
-    paddingHorizontal: Spacing.margin,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+  title: {
+    ...Typography.headline,
+    marginBottom: Spacing.largeMargin,
   },
 })
 

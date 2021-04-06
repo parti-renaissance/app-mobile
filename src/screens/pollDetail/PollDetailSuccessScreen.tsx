@@ -62,31 +62,31 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.defaultBackground,
-  },
   container: {
     flex: 1,
     marginBottom: Spacing.margin,
   },
-  image: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 395 / 283,
-  },
   content: {
-    marginTop: Spacing.margin,
     marginHorizontal: Spacing.margin,
+    marginTop: Spacing.margin,
   },
-  title: {
-    ...Typography.largeTitle,
+  image: {
+    aspectRatio: 395 / 283,
+    height: undefined,
+    width: '100%',
+  },
+  primaryButton: {
     marginBottom: Spacing.unit,
+  },
+  scrollView: {
+    backgroundColor: Colors.defaultBackground,
   },
   text: {
     ...Typography.body,
     marginBottom: Spacing.mediumMargin,
   },
-  primaryButton: {
+  title: {
+    ...Typography.largeTitle,
     marginBottom: Spacing.unit,
   },
 })

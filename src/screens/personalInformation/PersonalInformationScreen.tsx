@@ -41,12 +41,14 @@ import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInform
 
 type ContentProps = Readonly<{
   profileUuid: string
+  isCertified: boolean
   initialForm: PersonalInformationsForm
   navigation: StackNavigationProp<ProfileParamList, 'PersonalInformation'>
 }>
 
 const PersonalInformationScreenContent: FC<ContentProps> = ({
   profileUuid,
+  isCertified,
   initialForm,
   navigation,
 }) => {
@@ -61,7 +63,6 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
   const styles = useThemedStyles(stylesFactory)
-  const isCertified = false
 
   const getError = (violations: Array<FormViolation>, path: string): string => {
     return violations
@@ -343,6 +344,7 @@ const PersonalInformationScreen = ({
         return (
           <PersonalInformationScreenContent
             profileUuid={detailedProfile.uuid}
+            isCertified={detailedProfile.isCertified}
             navigation={navigation}
             initialForm={form}
           />
@@ -353,18 +355,13 @@ const PersonalInformationScreen = ({
 }
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
-    mainContainer: {
-      backgroundColor: Colors.defaultBackground,
-    },
-    container: {
-      padding: Spacing.margin,
-      flex: 1,
-    },
     certifiedContainer: {},
-    section: {
-      ...Typography.caption1,
-      color: Colors.lightText,
-      marginTop: Spacing.margin,
+    container: {
+      flex: 1,
+      padding: Spacing.margin,
+    },
+    countryPickerContainerButton: {
+      alignSelf: 'flex-end',
     },
     headerButtonText: {
       ...Typography.headline,
@@ -374,12 +371,17 @@ const stylesFactory = (theme: Theme) => {
     headerSubmit: {
       color: theme.primaryColor,
     },
+    mainContainer: {
+      backgroundColor: Colors.defaultBackground,
+    },
+    section: {
+      ...Typography.caption1,
+      color: Colors.lightText,
+      marginTop: Spacing.margin,
+    },
     title: {
       ...Typography.title2,
       paddingHorizontal: Spacing.mediumMargin,
-    },
-    countryPickerContainerButton: {
-      alignSelf: 'flex-end',
     },
   })
 }
