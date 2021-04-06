@@ -26,14 +26,10 @@ lane :deploy do |options|
     export_method: export_method_from_match_type(match_type)
   )
   if match_type == "appstore"
-    upload_to_app_store(
-      skip_screenshots: true,
-      skip_metadata: true,
-      force: true,
+    upload_to_testflight(
       team_name: ENV["FASTLANE_TEAM_NAME"],
       api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_app_version_update: true, # https://github.com/fastlane/fastlane/issues/16785
-      precheck_include_in_app_purchases: false
+      skip_waiting_for_build_processing: true
     )
     post_slack_notification_appstore
   else
