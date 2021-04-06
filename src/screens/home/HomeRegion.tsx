@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
   wrapLogo: {
     marginLeft: Spacing.margin,
     marginTop: -54,
-    transform: [{ rotate: '-3deg' }],
     width: 80,
     ...Styles.topElevatedContainerStyle,
   },
