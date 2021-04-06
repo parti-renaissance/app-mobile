@@ -45,6 +45,7 @@ const ProfileNavigator: FunctionComponent = () => {
       <ProfileStack.Screen
         name={Screen.centerOfInterest}
         component={CenterOfInterestScreen}
+        options={{ title: i18n.t('centerofinterest.title') }}
       />
     </ProfileStack.Navigator>
   )

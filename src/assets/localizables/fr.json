@@ -250,6 +250,10 @@
       "default_country_code": "FR",
       "country_picker_language": "fra",
       "gmaps_language": "fr"
+    },
+    "centerofinterest": {
+      "title": "Centres d'intérêt",
+      "save": "Enregistrer"
     }
   }
 }
