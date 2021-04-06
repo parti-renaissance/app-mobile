@@ -12,6 +12,9 @@ export class SaveQuickPollAsAnsweredInteractor {
       request.answerId,
     )
     await this.quickPollRepository.saveAnsweredQuickPoll(request.quickPollId)
+
+    // refresh the 'quick polls list' cache
+    await this.quickPollRepository.getQuickPolls('remote')
     return {
       ...poll,
       state: 'answered',

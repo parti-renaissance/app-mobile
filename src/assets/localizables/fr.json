@@ -98,7 +98,7 @@
       }
     },
     "unauthenticatedhome": {
-      "description": "Bienvenue sur l’application militante de \nLa République En Marche.\n \nRetrouvez rapidement nos outils, \nréalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.  ",
+      "description": "Retrouvez rapidement nos outils, réalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.",
       "login": "Se connecter",
       "register": "Pas encore adhérent ? Adhérer",
       "skip": "Continuer sans adhérer",
