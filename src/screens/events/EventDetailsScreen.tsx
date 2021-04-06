@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import {
   StyleSheet,
   ScrollView,
@@ -21,7 +21,10 @@ import {
 } from '../shared/Buttons'
 import { ExternalLink } from '../shared/ExternalLink'
 import EventDetailsItemContainer from './EventDetailsItemContainer'
-import { EventDetailsViewModel } from './EventDetailsViewModel'
+import {
+  EventDescriptionViewModel,
+  EventDetailsViewModel,
+} from './EventDetailsViewModel'
 import TagView from './TagView'
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import moment from 'moment'
@@ -38,6 +41,9 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
 
   const viewModel = mockedData
   const { theme } = useTheme()
+  const [descriptionViewModel, setDescriptionViewModel] = useState(
+    initDescription(viewModel),
+  )
   const openOnlineUrl = () => {
     if (viewModel.onlineUrl) {
       ExternalLink.openUrl(viewModel.onlineUrl)
@@ -73,6 +79,12 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
         params: { pollId: pollId },
       })
     }
+  }
+  const descriptionSeeMore = () => {
+    setDescriptionViewModel({
+      description: viewModel.description,
+      canSeeMore: false,
+    })
   }
   const unsubscribe = () => {
     Alert.alert(
@@ -194,15 +206,20 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
         <Text style={styles.subtitle}>
           {i18n.t('eventdetails.description')}
         </Text>
-        <Text style={styles.description}>{viewModel.description}</Text>
-        <BorderlessButton
-          title={i18n.t('eventdetails.see_more')}
-          textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
-          style={[
-            styles.descriptionSeeMore,
-            Styles.eventSeeMoreButtonContainer,
-          ]}
-        />
+        <Text style={styles.description}>
+          {descriptionViewModel.description}
+        </Text>
+        {descriptionViewModel.canSeeMore ? (
+          <BorderlessButton
+            title={i18n.t('eventdetails.see_more')}
+            textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+            style={[
+              styles.descriptionSeeMore,
+              Styles.eventSeeMoreButtonContainer,
+            ]}
+            onPress={descriptionSeeMore}
+          />
+        ) : null}
         <View style={styles.separator} />
         {viewModel.survey ? (
           <>
@@ -352,5 +369,21 @@ const mockedData: EventDetailsViewModel = {
     tag: 'DEPARTEMENTAL',
   },
 }
+
+const initDescription = (
+  viewModel: EventDetailsViewModel,
+): EventDescriptionViewModel => {
+  if (viewModel.survey && viewModel.description.length > DESCRIPTION_MAX_CHAR) {
+    return {
+      description:
+        viewModel.description.substring(0, DESCRIPTION_MAX_CHAR) + '…',
+      canSeeMore: true,
+    }
+  } else {
+    return { description: viewModel.description, canSeeMore: false }
+  }
+}
+
+const DESCRIPTION_MAX_CHAR = 500
 
 export default EventDetailsScreen

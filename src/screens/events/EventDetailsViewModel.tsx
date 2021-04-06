@@ -35,3 +35,8 @@ export interface EventOrganizerViewModel {
   description: string
   openUrl: string
 }
+
+export interface EventDescriptionViewModel {
+  description: string
+  canSeeMore: boolean
+}
