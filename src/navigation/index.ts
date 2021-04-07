@@ -196,3 +196,9 @@ export type PersonalInformationScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.personalInformation
 >
+
+// Centers of interests
+export type CentersOfInterestScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.centerOfInterest
+>

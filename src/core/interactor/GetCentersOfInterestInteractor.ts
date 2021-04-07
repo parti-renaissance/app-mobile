@@ -8,17 +8,18 @@ export class GetCentersOfInterestInteractor {
 
   public async execute(): Promise<CentersOfInterestInteractorResult> {
     const centersOfInterest = await this.personalInformationRepository.getAvailableCentersOfInterest()
-    const userInterests = (await this.profileRepository.getDetailedProfile())
-      .interests
+    const profile = await this.profileRepository.getDetailedProfile()
 
     return {
       interests: centersOfInterest,
-      userInterests: userInterests,
+      profileUuid: profile.uuid,
+      userInterests: profile.interests,
     }
   }
 }
 
 export interface CentersOfInterestInteractorResult {
+  profileUuid: string
   interests: Array<Interest>
   userInterests: Array<string>
 }
