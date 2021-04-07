@@ -4,6 +4,7 @@ import {
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
+  Text,
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
@@ -13,7 +14,7 @@ import {
 } from '../../../core/interactor/GetCentersOfInterestInteractor'
 import PersonalInformationRepository from '../../../data/PersonalInformationRepository'
 import { CentersOfInterestScreenProps } from '../../../navigation'
-import { Colors, Spacing, Styles } from '../../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton } from '../../shared/Buttons'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
@@ -85,6 +86,13 @@ const CenterOfInterestContent = (
         keyExtractor={(item) => item.code}
         renderItem={renderItem}
         numColumns={3}
+        ListHeaderComponent={() => {
+          return (
+            <Text style={styles.title}>
+              {i18n.t('centerofinterest.description')}
+            </Text>
+          )
+        }}
       />
       <View style={styles.bottomContainer}>
         <PrimaryButton
@@ -144,6 +152,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
     paddingTop: Spacing.margin,
+  },
+  title: {
+    ...Typography.headline,
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.unit,
   },
 })
 

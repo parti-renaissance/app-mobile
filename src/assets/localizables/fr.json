@@ -253,7 +253,8 @@
     },
     "centerofinterest": {
       "title": "Centres d'intérêt",
-      "save": "Enregistrer"
+      "save": "Enregistrer",
+      "description": "Sélectionnez les thématiques qui vous intéressent."
     }
   }
 }
