@@ -1,5 +1,5 @@
 import { TextStyle, ViewStyle } from 'react-native'
-import { Typography } from '.'
+import { Spacing, Typography } from '.'
 import Theme from '../themes/Theme'
 import * as Colors from './colors'
 
@@ -63,5 +63,5 @@ export const eventSeeMoreButtonContainer: ViewStyle = {
   alignSelf: 'flex-start',
   paddingHorizontal: 0,
   paddingVertical: 0,
-  marginTop: 4,
+  marginTop: Spacing.small,
 }
