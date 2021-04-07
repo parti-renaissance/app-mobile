@@ -112,11 +112,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
           ) : null}
         </View>
         <View style={styles.tagAttendeesContainer}>
-          <TagView
-            tag={viewModel.tag}
-            tagBackgroundColor={viewModel.tagBackgroundColor}
-            tagTextColor={viewModel.tagTextColor}
-          />
+          <TagView viewModel={viewModel.tag} />
           <Text style={styles.attendees}>{viewModel.attendeesNumber}</Text>
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>
@@ -326,9 +322,11 @@ const styles = StyleSheet.create({
 const mockedData: EventDetailsViewModel = {
   id: '666',
   title: 'Élections : où quand, comment ?',
-  tag: 'CONFERENCE',
-  tagBackgroundColor: '#4489f7',
-  tagTextColor: '#ffffff',
+  tag: {
+    label: 'CONFERENCE',
+    backgroundColor: '#4489f7',
+    textColor: '#ffffff',
+  },
   attendeesNumber: '23 inscrits',
   onlineUrl: 'https://zoom.us/j/91611561795',
   address: {

@@ -39,11 +39,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             <View style={[styles.image, styles.imagePlaceholder]} />
           )}
           <View style={styles.leftColumn}>
-            <TagView
-              tag={viewModel.tag}
-              tagBackgroundColor={viewModel.tagBackgroundColor}
-              tagTextColor={viewModel.tagTextColor}
-            />
+            <TagView viewModel={viewModel.tag} />
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.title}
             </Text>

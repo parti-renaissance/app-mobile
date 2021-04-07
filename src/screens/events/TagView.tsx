@@ -1,34 +1,27 @@
 import React, { FC } from 'react'
-import {
-  ColorValue,
-  StyleProp,
-  StyleSheet,
-  Text,
-  ViewStyle,
-} from 'react-native'
+import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
 import { Spacing, Typography } from '../../styles'
+import { TagViewModel } from './TagViewModel'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
-  tag: string
-  tagTextColor: ColorValue
-  tagBackgroundColor: ColorValue
+  viewModel: TagViewModel
 }>
 
-const TagView: FC<Props> = (props) => {
+const TagView: FC<Props> = ({ style, viewModel }) => {
   return (
     <Text
       numberOfLines={1}
       style={[
         styles.tag,
         {
-          backgroundColor: props.tagBackgroundColor,
-          color: props.tagTextColor,
+          backgroundColor: viewModel.backgroundColor,
+          color: viewModel.textColor,
         },
-        props.style,
+        style,
       ]}
     >
-      {props.tag}
+      {viewModel.label}
     </Text>
   )
 }

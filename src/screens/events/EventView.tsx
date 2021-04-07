@@ -23,11 +23,7 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
       >
         <View style={styles.container}>
           <View style={styles.leftColumn}>
-            <TagView
-              tag={viewModel.tag}
-              tagBackgroundColor={viewModel.tagBackgroundColor}
-              tagTextColor={viewModel.tagTextColor}
-            />
+            <TagView viewModel={viewModel.tag} />
             <Text style={styles.title}>{viewModel.title}</Text>
             <Text style={styles.date}>{viewModel.date}</Text>
           </View>

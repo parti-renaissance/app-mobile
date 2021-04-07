@@ -1,12 +1,11 @@
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import { PollRowViewModel } from '../polls/PollRowViewModel'
+import { TagViewModel } from './TagViewModel'
 
 export interface EventDetailsViewModel {
   id: string
   title: string
-  tag: string
-  tagBackgroundColor: string
-  tagTextColor: string
+  tag: TagViewModel
   attendeesNumber: string
   onlineUrl?: string
   address?: EventAddressViewModel
