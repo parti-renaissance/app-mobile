@@ -82,6 +82,7 @@ const CenterOfInterestContent = (
     <>
       <LoadingOverlay visible={isLoading} />
       <FlatList
+        style={styles.grid}
         data={viewModel.interests}
         keyExtractor={(item) => item.code}
         renderItem={renderItem}
@@ -153,9 +154,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Spacing.margin,
   },
+  grid: {
+    marginHorizontal: Spacing.unit,
+  },
   title: {
     ...Typography.headline,
-    marginHorizontal: Spacing.margin,
+    marginHorizontal: Spacing.unit,
     marginVertical: Spacing.unit,
   },
 })

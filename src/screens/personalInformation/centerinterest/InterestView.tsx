@@ -17,7 +17,9 @@ const InterestView: FC<Props> = ({ viewModel, onInterestSelected }) => {
     ? styles.containerSelected
     : styles.containerUnselected
   const labelStyle = viewModel.isSelected ? styles.labelSelected : undefined
-  const imageStyle = viewModel.isSelected ? styles.imageSelected : undefined
+  const imageStyle = viewModel.isSelected
+    ? styles.imageSelected
+    : styles.imageUnselected
   return (
     <View style={[styles.container, containerStyle]}>
       <TouchablePlatform
@@ -55,6 +57,9 @@ const stylesFactory = (theme: Theme) => {
     imageSelected: {
       tintColor: theme.primaryColor,
     },
+    imageUnselected: {
+      tintColor: Colors.lightText,
+    },
     innerContainer: {
       alignItems: 'center',
       height: 94,
@@ -65,6 +70,7 @@ const stylesFactory = (theme: Theme) => {
       ...Typography.body,
       marginTop: Spacing.unit,
       textAlign: 'center',
+      tintColor: Colors.darkText,
     },
     labelSelected: {
       color: theme.primaryColor,
