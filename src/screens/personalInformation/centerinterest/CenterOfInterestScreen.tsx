@@ -17,9 +17,21 @@ import InterestView from './InterestView'
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
 ) => {
-  const viewModel = CentersOfInterestViewModelMapper.map(content)
+  const [viewModel, setViewModel] = useState(
+    CentersOfInterestViewModelMapper.map(content),
+  )
+  const onInterestSelected = (code: string) => {
+    const index = viewModel.interests.findIndex((value) => value.code === code)
+    if (index === -1) return
+    setViewModel({
+      ...viewModel,
+      interests: toggleSelectionAtIndex(viewModel.interests, index),
+    })
+  }
   const renderItem = ({ item }: ListRenderItemInfo<InterestViewModel>) => {
-    return <InterestView viewModel={item} />
+    return (
+      <InterestView viewModel={item} onInterestSelected={onInterestSelected} />
+    )
   }
 
   return (
@@ -85,5 +97,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
+
+function toggleSelectionAtIndex(
+  interests: InterestViewModel[],
+  indexToToggle: number,
+): InterestViewModel[] {
+  const newInterests: Array<InterestViewModel> = []
+  interests.forEach((value, index) => {
+    if (index === indexToToggle) {
+      newInterests.push({
+        ...value,
+        isSelected: !value.isSelected,
+      })
+    } else {
+      newInterests.push(value)
+    }
+  })
+  return newInterests
+}
 
 export default CenterOfInterestScreen

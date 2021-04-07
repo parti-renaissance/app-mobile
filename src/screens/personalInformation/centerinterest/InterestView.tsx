@@ -8,13 +8,14 @@ import { InterestViewModel } from './CentersOfInterestViewModel'
 
 type Props = Readonly<{
   viewModel: InterestViewModel
+  onInterestSelected: (code: string) => void
 }>
 
-const InterestView: FC<Props> = ({ viewModel }) => {
+const InterestView: FC<Props> = ({ viewModel, onInterestSelected }) => {
   const styles = useThemedStyles(stylesFactory)
   const containerStyle = viewModel.isSelected
     ? styles.containerSelected
-    : undefined
+    : styles.containerUnselected
   const labelStyle = viewModel.isSelected ? styles.labelSelected : undefined
   const imageStyle = viewModel.isSelected ? styles.imageSelected : undefined
   return (
@@ -22,7 +23,7 @@ const InterestView: FC<Props> = ({ viewModel }) => {
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
         onPress={() => {
-          // TODO
+          onInterestSelected(viewModel.code)
         }}
       >
         <View style={styles.innerContainer}>
@@ -39,14 +40,17 @@ const InterestView: FC<Props> = ({ viewModel }) => {
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     container: {
+      borderRadius: 4,
+      borderWidth: 2,
       flex: 1,
       marginHorizontal: Spacing.small,
       marginVertical: Spacing.small,
     },
     containerSelected: {
       borderColor: theme.primaryColor,
-      borderRadius: 4,
-      borderWidth: 2,
+    },
+    containerUnselected: {
+      borderColor: Colors.defaultBackground,
     },
     imageSelected: {
       tintColor: theme.primaryColor,
