@@ -20,6 +20,7 @@ import {
 
 type Props = Readonly<{
   eventFilter: EventFilter
+  onEventSelected: (eventId: string) => void
 }>
 
 type EventFilter = 'home' | 'calendar' | 'myEvents'
@@ -36,6 +37,7 @@ const EventListScreen: FC<Props> = (props) => {
       <EventGridItem
         style={[styles.eventGridCell, { marginEnd: marginEnd }]}
         viewModel={info.item}
+        onEventSelected={props.onEventSelected}
       />
     )
   }
@@ -53,7 +55,12 @@ const EventListScreen: FC<Props> = (props) => {
         />
       )
     } else if (item.type === 'event') {
-      return <EventView viewModel={item.value} />
+      return (
+        <EventView
+          viewModel={item.value}
+          onEventSelected={props.onEventSelected}
+        />
+      )
     } else {
       return null
     }
@@ -105,9 +112,11 @@ const mockedDataGrouped: Array<EventSectionViewModel> = [
               id: '1',
               title: 'LREM Senlis Sud Oise - déjeunons Zoom',
               isOnline: true,
-              tag: 'CONFERENCE',
-              tagBackgroundColor: '#4489f7',
-              tagTextColor: '#ffffff',
+              tag: {
+                label: 'CONFERENCE',
+                backgroundColor: '#4489f7',
+                textColor: '#ffffff',
+              },
               imageUrl:
                 'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
               isSubscribed: true,
@@ -117,9 +126,11 @@ const mockedDataGrouped: Array<EventSectionViewModel> = [
               id: '2',
               title: 'Porte à porte Montmartre',
               isOnline: false,
-              tag: 'CONFERENCE',
-              tagBackgroundColor: '#4489f7',
-              tagTextColor: '#ffffff',
+              tag: {
+                label: 'CONFERENCE',
+                backgroundColor: '#4489f7',
+                textColor: '#ffffff',
+              },
               isSubscribed: false,
               date: "Aujourd'hui\n11:00 - 15:00",
             },
@@ -127,9 +138,11 @@ const mockedDataGrouped: Array<EventSectionViewModel> = [
               id: '3',
               title: 'Porte à porte Montmartre',
               isOnline: false,
-              tag: 'CONFERENCE',
-              tagBackgroundColor: '#4489f7',
-              tagTextColor: '#ffffff',
+              tag: {
+                label: 'CONFERENCE',
+                backgroundColor: '#4489f7',
+                textColor: '#ffffff',
+              },
               isSubscribed: false,
               date: "Aujourd'hui\n11:00 - 15:00",
             },
@@ -150,9 +163,11 @@ const mockedDataGrouped: Array<EventSectionViewModel> = [
               id: '10',
               title: 'LREM Senlis Sud Oise - déjeunons Zoom',
               isOnline: true,
-              tag: 'REUNIONS',
-              tagBackgroundColor: '#1c00ff',
-              tagTextColor: '#ffffff',
+              tag: {
+                label: 'REUNIONS',
+                backgroundColor: '#1c00ff',
+                textColor: '#ffffff',
+              },
               imageUrl:
                 'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
               isSubscribed: true,
@@ -162,9 +177,11 @@ const mockedDataGrouped: Array<EventSectionViewModel> = [
               id: '20',
               title: 'Porte à porte Montmartre',
               isOnline: false,
-              tag: 'REUNIONS',
-              tagBackgroundColor: '#1c00ff',
-              tagTextColor: '#ffffff',
+              tag: {
+                label: 'REUNIONS',
+                backgroundColor: '#1c00ff',
+                textColor: '#ffffff',
+              },
               isSubscribed: false,
               date: "Aujourd'hui\n11:00 - 15:00",
             },
@@ -186,9 +203,11 @@ const mockedDataFlat: Array<EventSectionViewModel> = [
           id: '1',
           title: 'LREM Senlis Sud Oise - déjeunon',
           isOnline: true,
-          tag: 'CONFERENCE',
-          tagBackgroundColor: '#4489f7',
-          tagTextColor: '#ffffff',
+          tag: {
+            label: 'CONFERENCE',
+            backgroundColor: '#4489f7',
+            textColor: '#ffffff',
+          },
           imageUrl:
             'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
           isSubscribed: true,
@@ -201,9 +220,11 @@ const mockedDataFlat: Array<EventSectionViewModel> = [
           id: '2',
           title: 'Porte à porte Montmartre',
           isOnline: false,
-          tag: 'ACTIONS TERRAINS',
-          tagBackgroundColor: '#b1d8ff',
-          tagTextColor: '#413d45',
+          tag: {
+            label: 'ACTIONS TERRAINS',
+            backgroundColor: '#b1d8ff',
+            textColor: '#413d45',
+          },
           isSubscribed: false,
           date: '11:00 - 15:00',
         },
@@ -220,9 +241,11 @@ const mockedDataFlat: Array<EventSectionViewModel> = [
           id: '4',
           title: 'Échange sur le Grand Paris avec Pâcome',
           isOnline: false,
-          tag: 'REUNIONS',
-          tagBackgroundColor: '#1c00ff',
-          tagTextColor: '#ffffff',
+          tag: {
+            label: 'REUNIONS',
+            backgroundColor: '#1c00ff',
+            textColor: '#ffffff',
+          },
           isSubscribed: true,
           date: '12:00 - 15:00',
         },

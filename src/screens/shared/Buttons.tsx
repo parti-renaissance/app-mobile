@@ -1,5 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import {
+  ColorValue,
+  Image,
+  ImageSourcePropType,
   StyleProp,
   StyleSheet,
   Text,
@@ -31,6 +34,12 @@ type TertiaryButtonProps = ButtonProps &
     noShadow?: boolean
     innerStyle?: StyleProp<ViewStyle>
   }>
+
+type IconProps = Readonly<{
+  icon?: ImageSourcePropType
+  iconTint?: ColorValue
+  iconPadding?: number
+}>
 
 export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   const { theme } = useTheme()
@@ -65,7 +74,9 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   )
 }
 
-export const SecondaryButton: FunctionComponent<ButtonProps> = (props) => {
+export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
+  props,
+) => {
   const opacity = props.disabled ? 0.5 : 1.0
   const background = props.disabled
     ? Colors.secondaryButtonDisabled
@@ -90,6 +101,17 @@ export const SecondaryButton: FunctionComponent<ButtonProps> = (props) => {
             props.textStyle,
           ]}
         >
+          {props.icon ? (
+            <View style={{ paddingRight: props.iconPadding }}>
+              <Image
+                style={{
+                  tintColor: props.iconTint,
+                }}
+                source={props.icon}
+              />
+            </View>
+          ) : null}
+
           {props.title}
         </Text>
       </TouchablePlatform>
@@ -147,7 +169,7 @@ export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
       <TouchableOpacity
         onPress={props.onPress}
         disabled={props.disabled}
-        style={[props.style, styles.appButtonContainerBorderless]}
+        style={[styles.appButtonContainerBorderless, props.style]}
       >
         <Text
           style={[

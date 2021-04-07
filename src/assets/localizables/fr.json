@@ -255,6 +255,23 @@
       "tab_calendar": "Calendrier",
       "tab_mine": "Mes événements",
       "empty": "Vous n’avez aucun évènement à venir."
+    },
+    "eventdetails": {
+      "add_calendar": "Ajouter à mon calendrier",
+      "online_event": "Événement en ligne",
+      "access_online_event": "Accéder à l'événement en ligne",
+      "share_event": "Partager l'événement",
+      "share_message": "TODO: message partage",
+      "description": "Description",
+      "see_more": "Voir plus",
+      "associated_survey": "Questionnaire lié",
+      "register": "S'inscrire",
+      "registered": "Inscrit",
+      "unsubscribe": {
+        "title": "Annuler mon inscription",
+        "content": "Vous êtes sur le point d’annuler votre inscription à l’évènement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
+        "confirm": "oui"
+      }
     }
   }
 }

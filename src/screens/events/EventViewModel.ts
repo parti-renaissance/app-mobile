@@ -1,3 +1,5 @@
+import { TagViewModel } from './TagViewModel'
+
 export type EventSectionViewModel = {
   id: string
   sectionViewModel?: EventSectionRowViewModel
@@ -26,9 +28,7 @@ export interface EventRowViewModel {
   id: string
   title: string
   isOnline: boolean
-  tag: string
-  tagBackgroundColor: string
-  tagTextColor: string
+  tag: TagViewModel
   imageUrl?: string
   isSubscribed: boolean
   date: string

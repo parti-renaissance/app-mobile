@@ -124,4 +124,5 @@ export const eventItemTitle: TextStyle = {
   fontSize: bodyFontSize,
   fontFamily: robotoMedium,
   lineHeight: 20,
+  color: Colors.darkText,
 }

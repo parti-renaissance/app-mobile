@@ -26,10 +26,16 @@ export type ProfileParamList = {
   PersonalInformation: undefined
 }
 
+export type EventParamList = {
+  Events: undefined
+  EventDetails: { eventId: string }
+}
+
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
   Polls: undefined
   Tools: undefined
+  EventNavigator: NavigatorScreenParams<EventParamList>
   ProfileNavigator: NavigatorScreenParams<ProfileParamList>
 }
 
@@ -194,4 +200,18 @@ export type RegionScreenProps = StackScreenProps<
 export type PersonalInformationScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.personalInformation
+>
+
+// Event
+export type EventScreenNavigationProp = StackNavigationProp<
+  EventParamList,
+  typeof Screen.events
+>
+export type EventScreenProps = Readonly<{
+  navigation: EventScreenNavigationProp
+}>
+
+export type EventDetailsScreenProps = StackScreenProps<
+  EventParamList,
+  typeof Screen.eventDetails
 >

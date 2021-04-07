@@ -314,6 +314,8 @@ PODS:
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
   - React-jsinspector (0.63.3)
+  - react-native-add-calendar-event (4.0.0):
+    - React-Core
   - react-native-blur (0.8.0):
     - React
   - react-native-custom-tabs (0.1.8):
@@ -475,6 +477,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-add-calendar-event (from `../node_modules/react-native-add-calendar-event`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-custom-tabs (from `../node_modules/react-native-custom-tabs`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -570,6 +573,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-add-calendar-event:
+    :path: "../node_modules/react-native-add-calendar-event"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
   react-native-custom-tabs:
@@ -680,6 +685,7 @@ SPEC CHECKSUMS:
   React-jsi: df07aa95b39c5be3e41199921509bfa929ed2b9d
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
+  react-native-add-calendar-event: d7744f983d6770cc9e4f004db22bc4d4b4575f17
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-custom-tabs: 526caf17f2a2c037d04d7e587e4a4c16830393b9
   react-native-pager-view: c1ec84a464024641ccb1102e9ec12be020d3d74c
