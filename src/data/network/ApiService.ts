@@ -12,6 +12,7 @@ import {
 import ky, { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
+  RestUpdateCentersOfInterestRequest,
   RestUpdateErrorResponse,
   RestUpdateProfileRequest,
 } from '../restObjects/RestUpdateProfileRequest'
@@ -141,6 +142,17 @@ class ApiService {
     return this.httpClient
       .get('api/v3/profile/configuration')
       .json<RestConfigurations>()
+      .catch(genericErrorMapping)
+  }
+
+  public updateCentersOfInterest(
+    userUuid: string,
+    request: RestUpdateCentersOfInterestRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/' + userUuid, { json: request })
+      .json()
+      .then(() => {})
       .catch(genericErrorMapping)
   }
 
