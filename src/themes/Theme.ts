@@ -21,6 +21,7 @@ interface ThemedImages {
   homeNews: () => ImageSourcePropType
   homeTools: () => ImageSourcePropType
   zipCode: () => ImageSourcePropType
+  notification: () => ImageSourcePropType
 }
 
 export default interface Theme {

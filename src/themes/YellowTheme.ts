@@ -40,6 +40,8 @@ const YellowTheme: Theme = {
     homeNews: () => require('../assets/images/yellow/imageActualite.png'),
     homeTools: () => require('../assets/images/yellow/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/yellow/imageCodePostal.png'),
+    notification: () =>
+      require('../assets/images/yellow/imageNotification.png'),
   },
 }
 

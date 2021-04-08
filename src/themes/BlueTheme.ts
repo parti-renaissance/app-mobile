@@ -38,6 +38,7 @@ const BlueTheme: Theme = {
     homeNews: () => require('../assets/images/blue/imageActualite.png'),
     homeTools: () => require('../assets/images/blue/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/blue/imageCodePostal.png'),
+    notification: () => require('../assets/images/blue/imageNotification.png'),
   },
 }
 
