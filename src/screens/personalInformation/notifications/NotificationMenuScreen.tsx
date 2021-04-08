@@ -1,15 +1,20 @@
 import React from 'react'
 import { Image, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { NotificationMenuScreenProps, Screen } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import { useTheme } from '../../../themes'
 import i18n from '../../../utils/i18n'
 import ProfileSettingsItem from '../../profile/ProfileSettingsItem'
 
-const NotificationMenuScreen = () => {
+const NotificationMenuScreen = (props: NotificationMenuScreenProps) => {
   const { theme } = useTheme()
-  const onLocal = () => {}
-  const onNational = () => {}
+  const onLocal = () => {
+    props.navigation.navigate(Screen.notifications, { category: 'local' })
+  }
+  const onNational = () => {
+    props.navigation.navigate(Screen.notifications, { category: 'national' })
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={theme.image.notification()} />

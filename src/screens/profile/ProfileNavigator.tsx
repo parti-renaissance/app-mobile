@@ -5,6 +5,7 @@ import { headerBlank } from '../../styles/navigationAppearance'
 import i18n from '../../utils/i18n'
 import CenterOfInterestScreen from '../personalInformation/centerinterest/CenterOfInterestScreen'
 import NotificationMenuScreen from '../personalInformation/notifications/NotificationMenuScreen'
+import NotificationsScreen from '../personalInformation/notifications/NotificationsScreen'
 import PersonalInformationScreen from '../personalInformation/PersonalInformationScreen'
 import ProfileDataProtectionScreen from './ProfileDataProtectionScreen'
 import ProfilLoginScreen from './ProfileLoginScreen'
@@ -52,6 +53,10 @@ const ProfileNavigator: FunctionComponent = () => {
         name={Screen.notificationMenu}
         component={NotificationMenuScreen}
         options={{ title: i18n.t('notificationmenu.title') }}
+      />
+      <ProfileStack.Screen
+        name={Screen.notifications}
+        component={NotificationsScreen}
       />
     </ProfileStack.Navigator>
   )
