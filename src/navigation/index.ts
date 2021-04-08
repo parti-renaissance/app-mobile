@@ -26,6 +26,7 @@ export type ProfileParamList = {
   ProfileDataProtection: undefined
   PersonalInformation: undefined
   CenterOfInterest: undefined
+  NotificationMenu: undefined
 }
 
 export type EventParamList = {

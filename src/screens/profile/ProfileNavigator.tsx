@@ -4,6 +4,7 @@ import { ProfileParamList, Screen } from '../../navigation'
 import { headerBlank } from '../../styles/navigationAppearance'
 import i18n from '../../utils/i18n'
 import CenterOfInterestScreen from '../personalInformation/centerinterest/CenterOfInterestScreen'
+import NotificationMenuScreen from '../personalInformation/notifications/NotificationMenuScreen'
 import PersonalInformationScreen from '../personalInformation/PersonalInformationScreen'
 import ProfileDataProtectionScreen from './ProfileDataProtectionScreen'
 import ProfilLoginScreen from './ProfileLoginScreen'
@@ -46,6 +47,10 @@ const ProfileNavigator: FunctionComponent = () => {
         name={Screen.centerOfInterest}
         component={CenterOfInterestScreen}
         options={{ title: i18n.t('centerofinterest.title') }}
+      />
+      <ProfileStack.Screen
+        name={Screen.notificationMenu}
+        component={NotificationMenuScreen}
       />
     </ProfileStack.Navigator>
   )
