@@ -28,12 +28,20 @@ class ProfileRepository {
         await this.cacheManager.setInCache(cacheKey, result)
         break
     }
-    return ProfileMapper.map(result)
+    const profile = ProfileMapper.map(result)
+    this.saveZipCode(profile.zipCode)
+    return profile
   }
 
   public async getDetailedProfile(): Promise<DetailedProfile> {
     const response = await this.apiService.getDetailedProfile()
-    return ProfileMapper.mapDetailedProfile(response)
+    const profile = ProfileMapper.mapDetailedProfile(response)
+
+    const zipCode = profile.address?.postalCode
+    if (zipCode) {
+      this.saveZipCode(zipCode)
+    }
+    return profile
   }
 
   public async updateDetailedProfile(
