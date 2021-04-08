@@ -51,6 +51,7 @@ const ProfileNavigator: FunctionComponent = () => {
       <ProfileStack.Screen
         name={Screen.notificationMenu}
         component={NotificationMenuScreen}
+        options={{ title: i18n.t('notificationmenu.title') }}
       />
     </ProfileStack.Navigator>
   )
