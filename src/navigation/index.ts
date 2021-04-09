@@ -24,6 +24,7 @@ export type ProfileParamList = {
   ProfileTermsOfUse: undefined
   ProfileDataProtection: undefined
   PersonalInformation: undefined
+  CenterOfInterest: undefined
 }
 
 export type AuthenticatedHomeParamList = {
@@ -194,4 +195,10 @@ export type RegionScreenProps = StackScreenProps<
 export type PersonalInformationScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.personalInformation
+>
+
+// Centers of interests
+export type CentersOfInterestScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.centerOfInterest
 >

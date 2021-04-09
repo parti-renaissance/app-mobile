@@ -131,6 +131,8 @@
         "personal_information_url": "https://en-marche.fr/parametres/mon-compte/modifier",
         "personal_information": "Informations personnelles",
         "personal_information_description": "Modifiez les informations de votre profil.",
+        "center_interest": "Centres d'intérêt",
+        "center_interest_description": "Sélectionnez les thématiques qui vous intéressent.",
         "parameters": "Paramètres"
       },
       "alert": {
@@ -248,6 +250,11 @@
       "default_country_code": "FR",
       "country_picker_language": "fra",
       "gmaps_language": "fr"
+    },
+    "centerofinterest": {
+      "title": "Centres d'intérêt",
+      "save": "Enregistrer",
+      "description": "Sélectionnez les thématiques qui vous intéressent."
     }
   }
 }
