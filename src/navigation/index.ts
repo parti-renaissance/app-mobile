@@ -6,7 +6,7 @@ import {
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import * as _Screen from './screen'
-import { NotificationCategory } from '../screens/personalInformation/notifications/NotificationsScreen'
+import { NotificationCategory } from '../core/entities/Notification'
 
 export const Screen = _Screen
 
