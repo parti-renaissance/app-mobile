@@ -1,4 +1,5 @@
 import { Interest } from '../core/entities/Interest'
+import { Notification } from '../core/entities/Notification'
 import { ConfigurationMapper } from './mapper/ConfigurationMapper'
 import ApiService from './network/ApiService'
 import { RestUpdateCentersOfInterestRequest } from './restObjects/RestUpdateProfileRequest'
@@ -16,6 +17,13 @@ class PersonalInformationRepository {
   public async getAvailableCentersOfInterest(): Promise<Array<Interest>> {
     const configurations = await this.apiService.getProfileAvailableConfiguration()
     return configurations.interests.map(ConfigurationMapper.mapInterest)
+  }
+
+  public async getAvailableNotifications(): Promise<Array<Notification>> {
+    const configurations = await this.apiService.getProfileAvailableConfiguration()
+    return configurations.subscription_types.map(
+      ConfigurationMapper.mapSubscriptions,
+    )
   }
 
   public async updateCentersOfInterest(

@@ -18,6 +18,7 @@ export interface DetailedProfile {
   telegram: string | undefined
   phone: PhoneNumber | undefined
   interests: Array<string>
+  subscriptions: Array<string>
 }
 
 export interface Address {
