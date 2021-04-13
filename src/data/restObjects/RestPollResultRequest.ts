@@ -26,4 +26,6 @@ export interface RestPollResultRequest {
   ageRange?: string
   gender?: string
   answers: ReadonlyArray<RestPollResultAnswer>
+  latitude?: number
+  longitude?: number
 }

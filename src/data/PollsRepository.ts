@@ -4,6 +4,7 @@ import ApiService from './network/ApiService'
 import { RestPollResultRequestMapper } from './mapper/RestPollResultRequestMapper'
 import { DataSource } from './DataSource'
 import CacheManager from './store/CacheManager'
+import { Location } from 'react-native-location'
 
 class PollsRepository {
   private static instance: PollsRepository
@@ -46,8 +47,12 @@ class PollsRepository {
     }
   }
 
-  public async sendPollAnswers(poll: Poll, result: PollResult): Promise<void> {
-    const restResponse = RestPollResultRequestMapper.map(poll, result)
+  public async sendPollAnswers(
+    poll: Poll,
+    result: PollResult,
+    location: Location | null,
+  ): Promise<void> {
+    const restResponse = RestPollResultRequestMapper.map(poll, result, location)
     await this.apiService.sendPollAnswers(restResponse)
   }
 
