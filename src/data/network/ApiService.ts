@@ -5,10 +5,7 @@ import { RestProfileResponse } from '../restObjects/RestProfileResponse'
 import { genericErrorMapping } from './utils'
 import { RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
-import {
-  RestQuickPollItem,
-  RestQuickPollResponse,
-} from '../restObjects/RestQuickPollResponse'
+import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
 import ky, { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
@@ -103,10 +100,10 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public getQuickPolls(): Promise<RestQuickPollResponse> {
+  public getQuickPolls(zipCode: string): Promise<RestQuickPollItem> {
     return this.httpClient
-      .get('api/v3/polls')
-      .json<RestQuickPollResponse>()
+      .get('api/v3/polls/' + zipCode)
+      .json<RestQuickPollItem>()
       .catch(genericErrorMapping)
   }
 

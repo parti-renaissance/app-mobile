@@ -55,7 +55,7 @@ export class GetHomeResourcesInteractor {
       this.newsRepository.getLatestNews(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
-      this.getQuickPollInteractor.execute(dataSource),
+      this.getQuickPollInteractor.execute(zipCode, dataSource),
     ])
 
     const department =

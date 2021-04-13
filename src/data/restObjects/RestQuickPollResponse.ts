@@ -20,7 +20,3 @@ export interface RestQuickPollItem {
   finish_at: string
   result: RestQuickPollItemResult
 }
-
-export interface RestQuickPollResponse {
-  items: ReadonlyArray<RestQuickPollItem>
-}

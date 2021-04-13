@@ -1,8 +1,10 @@
+import ProfileRepository from '../../data/ProfileRepository'
 import QuickPollRepository from '../../data/QuickPollRepository'
 import { StatefulQuickPoll } from '../entities/StatefulQuickPoll'
 
 export class SaveQuickPollAsAnsweredInteractor {
   private quickPollRepository = QuickPollRepository.getInstance()
+  private profileRepository = ProfileRepository.getInstance()
 
   public async execute(request: {
     quickPollId: string
@@ -14,7 +16,8 @@ export class SaveQuickPollAsAnsweredInteractor {
     await this.quickPollRepository.saveAnsweredQuickPoll(request.quickPollId)
 
     // refresh the 'quick polls list' cache
-    await this.quickPollRepository.getQuickPolls('remote')
+    const zipCode = await this.profileRepository.getZipCode()
+    await this.quickPollRepository.getQuickPoll(zipCode, 'remote')
     return {
       ...poll,
       state: 'answered',
