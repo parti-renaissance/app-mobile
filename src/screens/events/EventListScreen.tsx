@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   SectionList,
   StyleSheet,
@@ -8,8 +8,11 @@ import {
   View,
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import EventRepository from '../../data/EventRepository'
 import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { StatefulView, ViewState } from '../shared/StatefulView'
 import EventGridItem from './EventGridItem'
 import EventView from './EventView'
 import {
@@ -17,16 +20,19 @@ import {
   EventRowContainerViewModel,
   EventRowViewModel,
 } from './EventViewModel'
+import { EventViewModelMapper } from './EventViewModelMapper'
 
 type Props = Readonly<{
   eventFilter: EventFilter
   onEventSelected: (eventId: string) => void
 }>
 
-type EventFilter = 'home' | 'calendar' | 'myEvents'
+export type EventFilter = 'home' | 'calendar' | 'myEvents'
 
-const EventListScreen: FC<Props> = (props) => {
-  const events = getMockedData(props.eventFilter)
+const EventListContent = (
+  events: Array<EventSectionViewModel>,
+  props: Props,
+) => {
   const renderItemHorizontal = (
     info: ListRenderItemInfo<EventRowViewModel>,
     totalItemCount: number,
@@ -86,6 +92,46 @@ const EventListScreen: FC<Props> = (props) => {
       </View>
     )
   }
+}
+
+const EventListScreen: FC<Props> = (props) => {
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<Array<EventSectionViewModel>>
+  >(new ViewState.Loading())
+
+  const fetchData = () => {
+    if (props.eventFilter === 'calendar') {
+      EventRepository.getInstance()
+        .getEvents(1)
+        .then((result) => {
+          const viewModel = EventViewModelMapper.map(result, props.eventFilter)
+          setStatefulState(new ViewState.Content(viewModel))
+        })
+        .catch((error) => {
+          console.log(error)
+          setStatefulState(
+            new ViewState.Error(
+              GenericErrorMapper.mapErrorMessage(error),
+              () => {
+                setStatefulState(new ViewState.Loading())
+                fetchData()
+              },
+            ),
+          )
+        })
+    } else {
+      setStatefulState(new ViewState.Content(getMockedData(props.eventFilter)))
+    }
+  }
+
+  useEffect(fetchData, [])
+
+  return (
+    <StatefulView
+      state={statefulState}
+      contentComponent={(value) => EventListContent(value, props)}
+    />
+  )
 }
 
 const getMockedData = (filter: EventFilter): Array<EventSectionViewModel> => {

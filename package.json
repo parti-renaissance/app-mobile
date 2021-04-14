@@ -50,6 +50,7 @@
     "hermes-engine": "0.5.2-rc1",
     "i18next": "19.8.3",
     "ky": "0.24.0",
+    "mnemonist": "0.38.3",
     "promise.allsettled": "1.0.2",
     "react": "16.13.1",
     "react-i18next": "11.7.3",
