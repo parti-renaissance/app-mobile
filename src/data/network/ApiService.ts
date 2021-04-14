@@ -17,7 +17,7 @@ import {
 } from '../restObjects/RestUpdateProfileRequest'
 import { ProfileFormError } from '../../core/errors'
 import { FormViolation } from '../../core/entities/DetailedProfile'
-import { RestEvents } from '../restObjects/RestEvents'
+import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
 
 class ApiService {
   private static instance: ApiService
@@ -143,6 +143,13 @@ class ApiService {
         searchParams: { page: page },
       })
       .json<RestEvents>()
+      .catch(genericErrorMapping)
+  }
+
+  public getEventDetails(eventId: string): Promise<RestDetailedEvent> {
+    return this.httpClient
+      .get('api/v3/events/' + eventId)
+      .json<RestDetailedEvent>()
       .catch(genericErrorMapping)
   }
 

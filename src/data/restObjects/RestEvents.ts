@@ -23,3 +23,43 @@ export interface RestShortEvent {
 export interface RestEventCategory {
   name: string
 }
+
+export interface RestDetailedEvent {
+  committee: RestEventComittee
+  uuid: string
+  name: string
+  slug: string
+  description: string
+  time_zone: string
+  begin_at: string
+  finish_at: string
+  organizer: RestEventOrganizer
+  participants_count: number
+  status: string
+  capacity: number
+  visio_url: string | null
+  mode: string
+  image_url: string | null
+  user_registered_at: string | null
+  post_address: RestEventAddress | null
+}
+
+export interface RestEventOrganizer {
+  first_name: string
+  last_name: string
+}
+
+export interface RestEventComittee {
+  name: string
+  url: string
+}
+
+export interface RestEventAddress {
+  address: string
+  postal_code: string
+  city: string
+  city_name: string
+  country: string
+  latitude: number
+  longitude: number
+}
