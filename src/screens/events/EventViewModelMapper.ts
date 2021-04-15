@@ -13,6 +13,7 @@ import { Styles } from '../../styles'
 import { Moment } from 'moment'
 import moment from 'moment'
 import i18n from '../../utils/i18n'
+import { TagViewModelMapper } from './TagViewModelMapper'
 
 export const EventViewModelMapper = {
   map: (
@@ -57,18 +58,9 @@ function mapEvent(event: ShortEvent): EventRowViewModel {
     title: event.name,
     isOnline: event.mode === EventMode.ONLINE,
     imageUrl: event.imageUrl,
-    tag: mapTag(event.tag),
+    tag: TagViewModelMapper.map(event.tag),
     isSubscribed: event.userRegisteredAt !== undefined,
     date: mapDate(event),
-  }
-}
-function mapTag(tag: string): TagViewModel {
-  const tagStyles = [Styles.eventTag1, Styles.eventTag2, Styles.eventTag3]
-  const tagStyle = tagStyles[Math.abs(hashCode(tag)) % tagStyles.length]
-  return {
-    label: tag,
-    textColor: tagStyle.textColor,
-    backgroundColor: tagStyle.backgroundColor,
   }
 }
 function mapDate(event: ShortEvent): string {

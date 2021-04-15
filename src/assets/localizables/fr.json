@@ -273,7 +273,9 @@
         "title": "Annuler mon inscription",
         "content": "Vous êtes sur le point d’annuler votre inscription à l’évènement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
         "confirm": "oui"
-      }
+      },
+      "attendees": "{{attendees}} inscrits",
+      "date_format": "dddd D MMMM YYYY"
     }
   }
 }

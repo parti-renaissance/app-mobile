@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   StyleSheet,
   ScrollView,
@@ -30,16 +30,15 @@ import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import moment from 'moment'
 import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
+import { StatefulView, ViewState } from '../shared/StatefulView'
+import EventRepository from '../../data/EventRepository'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
 
-const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
-  route,
-  navigation,
-}) => {
-  const eventId = route.params.eventId
-  // TODO use EventId when webservices are available
-  console.log(eventId)
-
-  const viewModel = mockedData
+const EventDetailsContent = (
+  viewModel: EventDetailsViewModel,
+  navigateToSurvey: (surveyId: number) => void,
+) => {
   const { theme } = useTheme()
   const [descriptionViewModel, setDescriptionViewModel] = useState(
     initDescription(viewModel),
@@ -73,11 +72,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
     if (viewModel.survey) {
       const pollId = parseInt(viewModel.survey.id, 10)
 
-      // @ts-ignore It works and this navigation is nightmare to declare in typescript
-      navigation.navigate(Screen.pollDetailModal, {
-        screen: Screen.pollDetail,
-        params: { pollId: pollId },
-      })
+      navigateToSurvey(pollId)
     }
   }
   const descriptionSeeMore = () => {
@@ -104,7 +99,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
     )
   }
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+    <>
       <ScrollView>
         <View style={styles.wrapImage}>
           {viewModel.imageUrl ? (
@@ -247,6 +242,56 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
           />
         )}
       </View>
+    </>
+  )
+}
+
+const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
+  route,
+  navigation,
+}) => {
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<EventDetailsViewModel>
+  >(new ViewState.Loading())
+  const eventId = route.params.eventId
+  // TODO use EventId when webservices are available
+  console.log(eventId)
+
+  const navigateToSurvey = (surveyId: number) => {
+    // @ts-ignore It works and this navigation is nightmare to declare in typescript
+    navigation.navigate(Screen.pollDetailModal, {
+      screen: Screen.pollDetail,
+      params: { pollId: surveyId },
+    })
+  }
+
+  const fetchData = () => {
+    EventRepository.getInstance()
+      .getEventDetails(eventId)
+      .then((result) => {
+        const viewModel = EventDetailsViewModelMapper.map(result)
+        setStatefulState(new ViewState.Content(viewModel))
+      })
+      .catch((error) => {
+        setStatefulState(
+          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+            setStatefulState(new ViewState.Loading())
+            fetchData()
+          }),
+        )
+      })
+  }
+
+  useEffect(fetchData, [])
+
+  return (
+    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+      <StatefulView
+        state={statefulState}
+        contentComponent={(result) => {
+          return EventDetailsContent(result, navigateToSurvey)
+        }}
+      />
     </SafeAreaView>
   )
 }
