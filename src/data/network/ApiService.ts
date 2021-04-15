@@ -137,10 +137,10 @@ class ApiService {
     }
   }
 
-  public getEvents(page: number): Promise<RestEvents> {
+  public getEvents(zipCode: string, page: number): Promise<RestEvents> {
     return this.httpClient
       .get('api/v3/events', {
-        searchParams: { page: page },
+        searchParams: { page: page, zipCode: zipCode },
       })
       .json<RestEvents>()
       .catch(genericErrorMapping)

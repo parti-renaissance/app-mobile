@@ -9,9 +9,10 @@ class EventRepository {
   private apiService = ApiService.getInstance()
 
   public async getEvents(
+    zipCode: string,
     page: number,
   ): Promise<PaginatedResult<Array<ShortEvent>>> {
-    const restEvents = await this.apiService.getEvents(page)
+    const restEvents = await this.apiService.getEvents(zipCode, page)
     const paginationInfo = RestMetadataMapper.map(restEvents.metadata)
     return {
       paginationInfo: paginationInfo,

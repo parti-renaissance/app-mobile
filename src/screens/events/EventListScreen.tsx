@@ -11,7 +11,7 @@ import {
 import { FlatList } from 'react-native-gesture-handler'
 import { ShortEvent } from '../../core/entities/Event'
 import PaginatedResult from '../../core/entities/PaginatedResult'
-import EventRepository from '../../data/EventRepository'
+import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
@@ -42,7 +42,7 @@ const EventListScreen: FC<Props> = (props) => {
   >(new ViewState.Loading())
 
   const fetchEvents = async (page: number) => {
-    return EventRepository.getInstance().getEvents(page)
+    return new GetEventsInteractor().execute(page)
   }
   const loadFirstPage = () => {
     setRefreshing(true)
