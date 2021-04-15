@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { ShortEvent } from '../../core/entities/Event'
+import { EventFilters, ShortEvent } from '../../core/entities/Event'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { Spacing, Typography } from '../../styles'
@@ -41,9 +41,16 @@ const EventListScreen: FC<Props> = (props) => {
     ViewState.Type<PaginatedResult<Array<ShortEvent>>>
   >(new ViewState.Loading())
 
-  const fetchEvents = async (page: number) => {
-    return new GetEventsInteractor().execute(page)
-  }
+  const fetchEvents = useCallback(
+    (page: number) => {
+      const subscribedOnly = props.eventFilter === 'myEvents' ? true : false
+      const filters: EventFilters = {
+        subscribedOnly: subscribedOnly,
+      }
+      return new GetEventsInteractor().execute(page, filters)
+    },
+    [props],
+  )
   const loadFirstPage = () => {
     setRefreshing(true)
     fetchEvents(1)
@@ -86,7 +93,7 @@ const EventListScreen: FC<Props> = (props) => {
         })
         .finally(() => setLoadingMore(false))
     }
-  }, [statefulState])
+  }, [statefulState, fetchEvents])
 
   useEffect(loadFirstPage, [])
 

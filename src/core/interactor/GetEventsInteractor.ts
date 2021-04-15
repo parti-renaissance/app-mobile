@@ -1,6 +1,6 @@
 import EventRepository from '../../data/EventRepository'
 import ProfileRepository from '../../data/ProfileRepository'
-import { ShortEvent } from '../entities/Event'
+import { EventFilters, ShortEvent } from '../entities/Event'
 import PaginatedResult from '../entities/PaginatedResult'
 
 export class GetEventsInteractor {
@@ -9,8 +9,9 @@ export class GetEventsInteractor {
 
   public async execute(
     page: number,
+    filters?: EventFilters,
   ): Promise<PaginatedResult<Array<ShortEvent>>> {
     const zipCode = await this.profileRepository.getZipCode()
-    return this.eventRepository.getEvents(zipCode, page)
+    return this.eventRepository.getEvents(zipCode, page, filters)
   }
 }

@@ -51,3 +51,7 @@ export interface Commitee {
   name: string
   url: string
 }
+
+export interface EventFilters {
+  subscribedOnly?: boolean
+}

@@ -18,6 +18,7 @@ import {
 import { ProfileFormError } from '../../core/errors'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
+import { EventFilters } from '../../core/entities/Event'
 
 class ApiService {
   private static instance: ApiService
@@ -137,10 +138,25 @@ class ApiService {
     }
   }
 
-  public getEvents(zipCode: string, page: number): Promise<RestEvents> {
+  public getEvents(
+    zipCode: string,
+    page: number,
+    eventFilters?: EventFilters,
+  ): Promise<RestEvents> {
+    const subscribedOnly = eventFilters?.subscribedOnly ? true : undefined
+    let searchParams: SearchParams = {
+      page: page,
+      zipCode: zipCode,
+    }
+    if (subscribedOnly) {
+      searchParams = {
+        ...searchParams,
+        subscribedOnly: true,
+      }
+    }
     return this.httpClient
       .get('api/v3/events', {
-        searchParams: { page: page, zipCode: zipCode },
+        searchParams: searchParams,
       })
       .json<RestEvents>()
       .catch(genericErrorMapping)
@@ -168,5 +184,11 @@ class ApiService {
     return ApiService.instance
   }
 }
+
+type SearchParams =
+  | string
+  | { [key: string]: string | number | boolean }
+  | Array<Array<string | number | boolean>>
+  | URLSearchParams
 
 export default ApiService

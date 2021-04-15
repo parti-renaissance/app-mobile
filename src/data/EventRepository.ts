@@ -1,4 +1,4 @@
-import { DetailedEvent, ShortEvent } from '../core/entities/Event'
+import { DetailedEvent, EventFilters, ShortEvent } from '../core/entities/Event'
 import PaginatedResult from '../core/entities/PaginatedResult'
 import { EventMapper } from './mapper/EventMapper'
 import { RestMetadataMapper } from './mapper/RestMetadataMapper'
@@ -11,8 +11,13 @@ class EventRepository {
   public async getEvents(
     zipCode: string,
     page: number,
+    eventFilters?: EventFilters,
   ): Promise<PaginatedResult<Array<ShortEvent>>> {
-    const restEvents = await this.apiService.getEvents(zipCode, page)
+    const restEvents = await this.apiService.getEvents(
+      zipCode,
+      page,
+      eventFilters,
+    )
     const paginationInfo = RestMetadataMapper.map(restEvents.metadata)
     return {
       paginationInfo: paginationInfo,
