@@ -34,10 +34,12 @@ import { StatefulView, ViewState } from '../shared/StatefulView'
 import EventRepository from '../../data/EventRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
+import LoadingOverlay from '../shared/LoadingOverlay'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
   navigateToSurvey: (surveyId: number) => void,
+  refetchData: () => void,
 ) => {
   const { theme } = useTheme()
   const [descriptionViewModel, setDescriptionViewModel] = useState(
@@ -48,6 +50,7 @@ const EventDetailsContent = (
       ExternalLink.openUrl(viewModel.onlineUrl)
     }
   }
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const shareEvent = () => {
     Share.share({
       message: i18n.t('eventdetails.share_message'),
@@ -58,7 +61,34 @@ const EventDetailsContent = (
     AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
   }
   const subscribe = () => {
-    // TODO: subscribe
+    setIsLoading(true)
+    EventRepository.getInstance()
+      .subscribeToEvent(viewModel.id)
+      .then(() => refetchData())
+      .catch((error) => {
+        displayError(GenericErrorMapper.mapErrorMessage(error))
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+  const displayError = (error: string) => {
+    console.log('Displaying error ', error)
+    Alert.alert(
+      i18n.t('common.error_title'),
+      error,
+      [
+        {
+          text: i18n.t('common.error_retry'),
+          onPress: subscribe,
+        },
+        {
+          text: i18n.t('common.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
   }
   const performUnsubscription = () => {
     // TODO unsubscribe
@@ -100,6 +130,7 @@ const EventDetailsContent = (
   }
   return (
     <>
+      <LoadingOverlay visible={isLoading} />
       <ScrollView>
         <View style={styles.wrapImage}>
           {viewModel.imageUrl ? (
@@ -275,8 +306,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
       .catch((error) => {
         setStatefulState(
           new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            setStatefulState(new ViewState.Loading())
-            fetchData()
+            refetchData()
           }),
         )
       })
@@ -284,12 +314,17 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
 
   useEffect(fetchData, [])
 
+  const refetchData = () => {
+    setStatefulState(new ViewState.Loading())
+    fetchData()
+  }
+
   return (
     <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
       <StatefulView
         state={statefulState}
         contentComponent={(result) => {
-          return EventDetailsContent(result, navigateToSurvey)
+          return EventDetailsContent(result, navigateToSurvey, refetchData)
         }}
       />
     </SafeAreaView>

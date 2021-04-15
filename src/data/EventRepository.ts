@@ -24,6 +24,10 @@ class EventRepository {
     return EventMapper.mapDetailedEvent(restDetailedEvent)
   }
 
+  public async subscribeToEvent(eventId: string): Promise<void> {
+    return this.apiService.subscribeToEvent(eventId)
+  }
+
   public static getInstance(): EventRepository {
     if (!EventRepository.instance) {
       EventRepository.instance = new EventRepository()
