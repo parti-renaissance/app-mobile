@@ -5,7 +5,6 @@ import {
   Image,
   View,
   Text,
-  Platform,
   Alert,
   Share,
 } from 'react-native'
@@ -27,7 +26,6 @@ import {
 } from './EventDetailsViewModel'
 import TagView from './TagView'
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
-import moment from 'moment'
 import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -398,55 +396,6 @@ const styles = StyleSheet.create({
     minHeight: 130,
   },
 })
-
-const mockedData: EventDetailsViewModel = {
-  id: '666',
-  title: 'Élections : où quand, comment ?',
-  tag: {
-    label: 'CONFERENCE',
-    backgroundColor: '#4489f7',
-    textColor: '#ffffff',
-  },
-  attendeesNumber: '23 inscrits',
-  onlineUrl: 'https://zoom.us/j/91611561795',
-  address: {
-    title: 'La Barrique',
-    description: '7 rue Beaurepaire\n75010 Paris',
-  },
-  imageUrl:
-    'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
-  isSubscribed: true,
-  date: {
-    title: 'Lundi 22 mars 2021',
-    description: '12:00 - 15:00',
-  },
-  eventUrl: 'https://en-marche.fr/evenements/20',
-  description:
-    'Phasellus ac pharetra quam, a pretium sapien. Sed sit amet ipsum erat. Sed vulputate lectus porta, hendrerit leo quis, tincidunt nibh. Sed ut mi non sem viverra consectetur sollicitudin ac tortor. Sed lectus est, suscipit ac tortor ut, sagittis mattis nisl. Proin euismod nisl vitae risus hendrerit tristique. Proin ultrices diam nec nisi dignissim mollis. Vivamus consequat egestas mi eu volutpat. Sed hendrerit sagittis mi et ornare. Donec maximus ornare enim, sed scelerisque est venenatis id. Nulla com',
-  calendarEvent: {
-    title: 'Élections : où quand, comment ?',
-    startDate: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    endDate: moment(new Date())
-      .add(1, 'h')
-      .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    url: 'https://zoom.us/j/91611561795',
-    location: '7 rue Beaurepaire, 75010 Paris',
-    notes:
-      Platform.OS === 'android' ? 'https://zoom.us/j/91611561795' : undefined,
-  },
-  organizer: {
-    title: 'Organisé par : Victor Cohen',
-    description: 'En Marche - Faubourg Montmartre\nParis 9e',
-    openUrl: 'http://google.fr',
-  },
-  survey: {
-    id: '354',
-    image: require('../../assets/images/blue/imageSondage01.png'),
-    title: 'Ensemble, #NousRéussirons',
-    subtitle: '3 questions',
-    tag: 'DEPARTEMENTAL',
-  },
-}
 
 const initDescription = (
   viewModel: EventDetailsViewModel,

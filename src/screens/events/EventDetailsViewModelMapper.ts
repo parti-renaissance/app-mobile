@@ -1,4 +1,4 @@
-import { DetailedEvent, EventAddress } from '../../core/entities/Event'
+import { DetailedEvent } from '../../core/entities/Event'
 import i18n from '../../utils/i18n'
 import {
   EventAddressViewModel,
