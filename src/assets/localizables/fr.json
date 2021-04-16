@@ -98,7 +98,7 @@
       }
     },
     "unauthenticatedhome": {
-      "description": "Bienvenue sur l’application militante de \nLa République En Marche.\n \nRetrouvez rapidement nos outils, \nréalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.  ",
+      "description": "Retrouvez rapidement nos outils, réalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.",
       "login": "Se connecter",
       "register": "Pas encore adhérent ? Adhérer",
       "skip": "Continuer sans adhérer",
@@ -123,7 +123,7 @@
         "termsofuse_url": "https://en-marche.fr/mentions-legales",
         "termsofuse": "Conditions générales",
         "dataprotection": "Données à caractère personnel",
-        "legal": "Juridique",
+        "application": "Application",
         "notifications": "Notifications",
         "notifications_description": "Paramétrez vos préférences de notifications",
         "postal_code": "Code postal",
@@ -131,7 +131,10 @@
         "personal_information_url": "https://en-marche.fr/parametres/mon-compte/modifier",
         "personal_information": "Informations personnelles",
         "personal_information_description": "Modifiez les informations de votre profil.",
-        "parameters": "Paramètres"
+        "center_interest": "Centres d'intérêt",
+        "center_interest_description": "Sélectionnez les thématiques qui vous intéressent.",
+        "account": "Compte",
+        "settings": "Paramètres"
       },
       "alert": {
         "logout": {
@@ -276,6 +279,11 @@
       },
       "attendees": "{{attendees}} inscrits",
       "date_format": "dddd D MMMM YYYY"
+    },
+    "centerofinterest": {
+      "title": "Centres d'intérêt",
+      "save": "Enregistrer",
+      "description": "Sélectionnez les thématiques qui vous intéressent."
     }
   }
 }

@@ -12,6 +12,7 @@ import {
 import ky, { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
+  RestUpdateCentersOfInterestRequest,
   RestUpdateErrorResponse,
   RestUpdateProfileRequest,
 } from '../restObjects/RestUpdateProfileRequest'
@@ -19,6 +20,7 @@ import { ProfileFormError } from '../../core/errors'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
 import { EventFilters } from '../../core/entities/Event'
+import { RestConfigurations } from '../restObjects/RestConfigurations'
 
 class ApiService {
   private static instance: ApiService
@@ -107,14 +109,14 @@ class ApiService {
 
   public getQuickPolls(): Promise<RestQuickPollResponse> {
     return this.httpClient
-      .get('api/polls')
+      .get('api/v3/polls')
       .json<RestQuickPollResponse>()
       .catch(genericErrorMapping)
   }
 
   public sendQuickPollAnswer(answerId: string): Promise<RestQuickPollItem> {
     return this.httpClient
-      .post('api/polls/vote', { json: { uuid: answerId } })
+      .post('api/v3/polls/vote', { json: { uuid: answerId } })
       .json<RestQuickPollItem>()
       .catch(genericErrorMapping)
   }
@@ -186,6 +188,24 @@ class ApiService {
   public unsubscribeFromEvent(eventId: string): Promise<void> {
     return this.httpClient
       .delete('api/v3/events/' + eventId + '/subscribe')
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {
+    return this.httpClient
+      .get('api/v3/profile/configuration')
+      .json<RestConfigurations>()
+      .catch(genericErrorMapping)
+  }
+
+  public updateCentersOfInterest(
+    userUuid: string,
+    request: RestUpdateCentersOfInterestRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/' + userUuid, { json: request })
       .json()
       .then(() => {})
       .catch(genericErrorMapping)

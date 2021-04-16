@@ -15,6 +15,7 @@ import {
   RestPollResultAnswer,
 } from '../restObjects/RestPollResultRequest'
 import { GenderMapper } from './GenderMapper'
+import { Location } from 'react-native-location'
 
 const restGender = (gender: Gender | undefined): string | undefined => {
   if (!gender) {
@@ -97,7 +98,11 @@ const mapAnswer = (answer: Answer): RestPollResultAnswer => {
 }
 
 export const RestPollResultRequestMapper = {
-  map: (poll: Poll, result: PollResult): RestPollResultRequest => {
+  map: (
+    poll: Poll,
+    result: PollResult,
+    location: Location | null,
+  ): RestPollResultRequest => {
     return {
       survey: poll.id,
       type: poll.type,
@@ -112,6 +117,8 @@ export const RestPollResultRequestMapper = {
       ageRange: restAge(result.profile?.age),
       gender: restGender(result.profile?.gender),
       answers: result.answers.map(mapAnswer),
+      latitude: location?.latitude ?? undefined,
+      longitude: location?.longitude ?? undefined,
     }
   },
 }

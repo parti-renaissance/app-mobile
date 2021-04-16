@@ -23,6 +23,7 @@ import i18n from '../../utils/i18n'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { PollDetailModalParamList, Screen } from '../../navigation'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { LocationManager } from '../../utils/LocationManager'
 
 type Props = Readonly<{
   poll: Poll
@@ -85,10 +86,12 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
     )
   }
 
-  const postAnswers = () => {
+  const postAnswers = async () => {
     setIsLoading(true)
+
+    const location = await LocationManager.getLatestLocation()
     PollsRepository.getInstance()
-      .sendPollAnswers(poll, provider.getResult())
+      .sendPollAnswers(poll, provider.getResult(), location)
       .then(() => {
         navigation.replace(Screen.pollDetailSuccess, {
           pollId: poll.id,

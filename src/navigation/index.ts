@@ -24,6 +24,7 @@ export type ProfileParamList = {
   ProfileTermsOfUse: undefined
   ProfileDataProtection: undefined
   PersonalInformation: undefined
+  CenterOfInterest: undefined
 }
 
 export type EventParamList = {
@@ -214,4 +215,10 @@ export type EventScreenProps = Readonly<{
 export type EventDetailsScreenProps = StackScreenProps<
   EventParamList,
   typeof Screen.eventDetails
+>
+
+// Centers of interests
+export type CentersOfInterestScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.centerOfInterest
 >

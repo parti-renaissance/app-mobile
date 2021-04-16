@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useState } from 'react'
-import { StyleSheet, SafeAreaView } from 'react-native'
+import { StyleSheet, SafeAreaView, Linking } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 
 import { Colors } from '../../styles'
@@ -24,6 +24,9 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   >(new ViewState.Loading())
 
   const ProfileDispatcher = (content: GetUserProfileInteractorResult) => {
+    const openApplicationSettings = async () => {
+      await Linking.openSettings()
+    }
     if (content instanceof ProfileAnonymousResult) {
       const openZipCode = () => {
         navigation.navigate(Screen.profileZipCode, {
@@ -49,12 +52,16 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
           openDataProtection={openDataProtection}
           openLogin={openLogin}
           openZipCode={openZipCode}
+          openApplicationSettings={openApplicationSettings}
           viewModel={viewModel}
         />
       )
     } else if (content instanceof ProfileAuthenticatedResult) {
       const openPersonalInformation = () => {
         navigation.navigate(Screen.personalInformation)
+      }
+      const openCenterOfInterest = () => {
+        navigation.navigate(Screen.centerOfInterest)
       }
       const viewModel = ProfileScreenViewModelMapper.map(
         content.profile,
@@ -63,6 +70,8 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       return (
         <ProfileAuthenticated
           openPersonalInformation={openPersonalInformation}
+          openCenterOfInterest={openCenterOfInterest}
+          openApplicationSettings={openApplicationSettings}
           viewModel={viewModel}
         />
       )
