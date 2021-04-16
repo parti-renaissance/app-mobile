@@ -89,7 +89,16 @@ const EventDetailsContent = (
     )
   }
   const performUnsubscription = () => {
-    // TODO unsubscribe
+    setIsLoading(true)
+    EventRepository.getInstance()
+      .unsubscribeFromEvent(viewModel.id)
+      .then(() => refetchData())
+      .catch((error) => {
+        displayError(GenericErrorMapper.mapErrorMessage(error))
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
   const openOrganizerUrl = () => {
     if (viewModel.organizer) {

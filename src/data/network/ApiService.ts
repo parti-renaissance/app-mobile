@@ -177,6 +177,14 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public unsubscribeFromEvent(eventId: string): Promise<void> {
+    return this.httpClient
+      .delete('api/v3/events/' + eventId + '/subscribe')
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()
