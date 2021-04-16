@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment-timezone'
 import {
   Commitee,
   DetailedEvent,
@@ -16,7 +16,7 @@ import {
 export const EventMapper = {
   mapShortEvent: (restShortEvent: RestShortEvent): ShortEvent => {
     const userRegisteredAt = restShortEvent.user_registered_at
-      ? new Date(restShortEvent.user_registered_at)
+      ? moment(restShortEvent.user_registered_at).tz(restShortEvent.time_zone)
       : undefined
     return {
       uuid: restShortEvent.uuid,
@@ -24,14 +24,15 @@ export const EventMapper = {
       name: restShortEvent.name,
       mode: mapMode(restShortEvent.mode),
       imageUrl: restShortEvent.image_url ?? undefined,
-      dateStart: moment(restShortEvent.begin_at),
-      dateEnd: moment(restShortEvent.finish_at),
+      dateStart: moment(restShortEvent.begin_at).tz(restShortEvent.time_zone),
+      dateEnd: moment(restShortEvent.finish_at).tz(restShortEvent.time_zone),
       userRegisteredAt: userRegisteredAt,
     }
   },
   mapDetailedEvent: (restDetailedEvent: RestDetailedEvent): DetailedEvent => {
+    const timeZone = restDetailedEvent.time_zone
     const userRegisteredAt = restDetailedEvent.user_registered_at
-      ? moment(restDetailedEvent.user_registered_at)
+      ? moment(restDetailedEvent.user_registered_at).tz(timeZone)
       : undefined
     const address = mapAddress(restDetailedEvent.post_address)
     return {
@@ -41,8 +42,8 @@ export const EventMapper = {
       name: restDetailedEvent.name,
       mode: mapMode(restDetailedEvent.mode),
       imageUrl: restDetailedEvent.image_url ?? undefined,
-      dateStart: moment(restDetailedEvent.begin_at),
-      dateEnd: moment(restDetailedEvent.finish_at),
+      dateStart: moment(restDetailedEvent.begin_at).tz(timeZone),
+      dateEnd: moment(restDetailedEvent.finish_at).tz(timeZone),
       userRegisteredAt: userRegisteredAt,
       participantsCount: restDetailedEvent.participants_count,
       visioUrl: restDetailedEvent.visio_url ?? undefined,
@@ -52,6 +53,7 @@ export const EventMapper = {
       },
       address: address,
       commitee: mapCommitee(restDetailedEvent.committee),
+      timezone: restDetailedEvent.time_zone,
     }
   },
 }

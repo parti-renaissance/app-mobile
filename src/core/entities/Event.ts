@@ -1,10 +1,10 @@
-import { Moment } from 'moment'
+import { Moment } from 'moment-timezone'
 
 export interface ShortEvent {
   uuid: string
   name: string
   tag: string
-  userRegisteredAt?: Date
+  userRegisteredAt?: Moment
   imageUrl?: string
   mode: EventMode
   dateStart: Moment
@@ -31,6 +31,7 @@ export interface DetailedEvent {
   address?: EventAddress
   organizer: EventOrganizer
   commitee: Commitee
+  timezone: string
 }
 
 export interface EventAddress {

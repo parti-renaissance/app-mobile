@@ -79,8 +79,8 @@ function createCalendarEvent(event: DetailedEvent): CreateOptions {
     : undefined
   return {
     title: event.name,
-    startDate: event.dateStart.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    endDate: event.dateEnd.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    startDate: event.dateStart.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    endDate: event.dateEnd.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
     url: event.visioUrl, // ios only
     location: address,
     notes: Platform.OS === 'android' ? event.visioUrl : undefined,
