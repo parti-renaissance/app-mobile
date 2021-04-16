@@ -50,10 +50,12 @@ const EventDetailsContent = (
   }
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const shareEvent = () => {
-    Share.share({
-      message: i18n.t('eventdetails.share_message'),
-      url: viewModel.eventUrl,
-    })
+    if (viewModel.eventUrl) {
+      Share.share({
+        message: viewModel.eventUrl,
+        url: viewModel.eventUrl,
+      })
+    }
   }
   const addCalendarEvent = () => {
     AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
@@ -138,7 +140,7 @@ const EventDetailsContent = (
   return (
     <>
       <LoadingOverlay visible={isLoading} />
-      <ScrollView>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <View style={styles.wrapImage}>
           {viewModel.imageUrl ? (
             <Image style={styles.image} source={{ uri: viewModel.imageUrl }} />
@@ -150,6 +152,7 @@ const EventDetailsContent = (
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>
         <EventDetailsItemContainer
+          style={styles.date}
           icon={require('../../assets/images/iconCalendar.png')}
         >
           <View>
@@ -186,14 +189,7 @@ const EventDetailsContent = (
           <EventDetailsItemContainer
             icon={require('../../assets/images/iconAddress.png')}
           >
-            <View>
-              <Text style={styles.rowItemTitle}>
-                {viewModel.address?.title}
-              </Text>
-              <Text style={styles.rowItemDescription}>
-                {viewModel.address?.description}
-              </Text>
-            </View>
+            <Text style={styles.rowItemDescription}>{viewModel.address}</Text>
           </EventDetailsItemContainer>
         ) : null}
         {viewModel.organizer ? (
@@ -221,8 +217,14 @@ const EventDetailsContent = (
         <EventDetailsItemContainer
           icon={require('../../assets/images/iconShare.png')}
         >
-          <View>
-            <Text style={styles.rowItemDescription}>{viewModel.eventUrl}</Text>
+          <View style={styles.eventItemsContainer}>
+            <Text
+              style={styles.rowItemDescription}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {viewModel.eventUrl}
+            </Text>
             <BorderlessButton
               title={i18n.t('eventdetails.share_event')}
               textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
@@ -359,6 +361,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
+  date: {
+    marginTop: Spacing.margin,
+  },
   description: {
     ...Typography.body,
     marginHorizontal: Spacing.margin,
@@ -366,6 +371,9 @@ const styles = StyleSheet.create({
   },
   descriptionSeeMore: {
     marginHorizontal: Spacing.margin,
+  },
+  eventItemsContainer: {
+    flex: 1,
   },
   image: {
     height: 203,

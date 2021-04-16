@@ -8,7 +8,7 @@ export interface EventDetailsViewModel {
   tag: TagViewModel
   attendeesNumber: string
   onlineUrl?: string
-  address?: EventAddressViewModel
+  address?: string
   organizer?: EventOrganizerViewModel
   imageUrl?: string
   isSubscribed: boolean
@@ -17,11 +17,6 @@ export interface EventDetailsViewModel {
   description: string
   calendarEvent: AddCalendarEvent.CreateOptions
   survey?: PollRowViewModel
-}
-
-export interface EventAddressViewModel {
-  title: string
-  description: string
 }
 
 export interface EventDateViewModel {

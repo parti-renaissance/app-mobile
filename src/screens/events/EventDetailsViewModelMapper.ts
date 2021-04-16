@@ -1,7 +1,6 @@
 import { DetailedEvent } from '../../core/entities/Event'
 import i18n from '../../utils/i18n'
 import {
-  EventAddressViewModel,
   EventDateViewModel,
   EventDetailsViewModel,
   EventOrganizerViewModel,
@@ -25,7 +24,7 @@ export const EventDetailsViewModelMapper = {
       imageUrl: event.imageUrl,
       isSubscribed: event.userRegisteredAt !== undefined,
       date: mapDate(event),
-      eventUrl: '', // TODO find out the event url
+      eventUrl: event.link,
       description: event.description,
       calendarEvent: createCalendarEvent(event),
     }
@@ -45,15 +44,11 @@ function mapDate(event: DetailedEvent): EventDateViewModel {
 }
 
 const HOUR_MINUTE_FORMAT = 'HH:mm'
-function mapAddress(event: DetailedEvent): EventAddressViewModel | undefined {
+function mapAddress(event: DetailedEvent): string | undefined {
   const address = event.address
   if (address === undefined) return undefined
 
-  return {
-    title: event.commitee.name,
-    description:
-      address.address + '\n' + address.postalCode + ' ' + address.city,
-  }
+  return address.address + '\n' + address.postalCode + ' ' + address.city
 }
 
 function mapOrganizer(
