@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import {
   SectionList,
@@ -46,6 +47,7 @@ const EventListScreen: FC<Props> = (props) => {
       const subscribedOnly = props.eventFilter === 'myEvents' ? true : false
       const filters: EventFilters = {
         subscribedOnly: subscribedOnly,
+        finishAfter: moment().format('YYYY-MM-DD'),
       }
       return new GetEventsInteractor().execute(page, filters)
     },

@@ -56,4 +56,5 @@ export interface Commitee {
 
 export interface EventFilters {
   subscribedOnly?: boolean
+  finishAfter?: string
 }

@@ -154,6 +154,12 @@ class ApiService {
         subscribedOnly: true,
       }
     }
+    if (eventFilters?.finishAfter) {
+      searchParams = {
+        ...searchParams,
+        'finishAt[strictly_after]': eventFilters?.finishAfter,
+      }
+    }
     return this.httpClient
       .get('api/v3/events', {
         searchParams: searchParams,
