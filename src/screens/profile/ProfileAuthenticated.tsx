@@ -24,11 +24,15 @@ import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
+  openCenterOfInterest: () => void
+  openApplicationSettings: () => void
   viewModel: ProfileScreenViewModel
 }>
 
 const ProfileAuthenticated: FC<Props> = ({
   openPersonalInformation,
+  openCenterOfInterest,
+  openApplicationSettings,
   viewModel,
 }) => {
   const { theme } = useTheme()
@@ -76,7 +80,16 @@ const ProfileAuthenticated: FC<Props> = ({
         </View>
         <ProfilePollsCompleted viewModel={viewModel.polls} />
       </View>
-      <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
+      <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
+      <ProfileSettingsCard
+        style={styles.settingsCard}
+        viewModel={{
+          title: i18n.t('profile.menu.center_interest'),
+          description: i18n.t('profile.menu.center_interest_description'),
+          image: require('../../assets/images/imageCenterInterest.png'),
+        }}
+        onPress={openCenterOfInterest}
+      />
       <ProfileSettingsCard
         style={styles.settingsCard}
         viewModel={{
@@ -95,7 +108,11 @@ const ProfileAuthenticated: FC<Props> = ({
         }}
         onPress={openAppSettings}
       />
-      <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
+      <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
+      <ProfileSettingsItem
+        title={i18n.t('profile.menu.settings')}
+        onPress={openApplicationSettings}
+      />
       <ProfileSettingsItem
         title={i18n.t('profile.menu.termsofuse')}
         onPress={() => {

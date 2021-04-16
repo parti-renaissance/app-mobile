@@ -17,6 +17,7 @@ type Props = Readonly<{
   openDataProtection: () => void
   openLogin: () => void
   openZipCode: () => void
+  openApplicationSettings: () => void
   viewModel: ProfileScreenViewModel
 }>
 
@@ -25,6 +26,7 @@ const ProfileAnonymous: FC<Props> = ({
   openDataProtection,
   openLogin,
   openZipCode,
+  openApplicationSettings,
   viewModel,
 }) => {
   const openAppSettings = async () => {
@@ -52,7 +54,7 @@ const ProfileAnonymous: FC<Props> = ({
           }}
         />
       </View>
-      <ProfileSettingsHeader title={i18n.t('profile.menu.parameters')} />
+      <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
       <ProfileSettingsCard
         style={styles.settingsCard}
         viewModel={{
@@ -71,7 +73,11 @@ const ProfileAnonymous: FC<Props> = ({
         }}
         onPress={openAppSettings}
       />
-      <ProfileSettingsHeader title={i18n.t('profile.menu.legal')} />
+      <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
+      <ProfileSettingsItem
+        title={i18n.t('profile.menu.settings')}
+        onPress={openApplicationSettings}
+      />
       <ProfileSettingsItem
         title={i18n.t('profile.menu.termsofuse')}
         onPress={openTermsOfUse}

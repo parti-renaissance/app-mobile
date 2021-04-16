@@ -34,3 +34,7 @@ export interface RestViolation {
   propertyPath: string
   message: string
 }
+
+export interface RestUpdateCentersOfInterestRequest {
+  interests: Array<string>
+}

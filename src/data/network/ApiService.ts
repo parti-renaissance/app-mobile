@@ -9,11 +9,13 @@ import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
 import ky, { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
+  RestUpdateCentersOfInterestRequest,
   RestUpdateErrorResponse,
   RestUpdateProfileRequest,
 } from '../restObjects/RestUpdateProfileRequest'
 import { ProfileFormError } from '../../core/errors'
 import { FormViolation } from '../../core/entities/DetailedProfile'
+import { RestConfigurations } from '../restObjects/RestConfigurations'
 
 class ApiService {
   private static instance: ApiService
@@ -131,6 +133,24 @@ class ApiService {
     } else {
       return undefined
     }
+  }
+
+  public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {
+    return this.httpClient
+      .get('api/v3/profile/configuration')
+      .json<RestConfigurations>()
+      .catch(genericErrorMapping)
+  }
+
+  public updateCentersOfInterest(
+    userUuid: string,
+    request: RestUpdateCentersOfInterestRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/' + userUuid, { json: request })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
   }
 
   public static getInstance(): ApiService {
