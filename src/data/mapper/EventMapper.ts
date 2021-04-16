@@ -20,7 +20,7 @@ export const EventMapper = {
       : undefined
     return {
       uuid: restShortEvent.uuid,
-      tag: restShortEvent.category.name,
+      tag: restShortEvent.category.event_group_category.name,
       name: restShortEvent.name,
       mode: mapMode(restShortEvent.mode),
       imageUrl: restShortEvent.image_url ?? undefined,
@@ -37,7 +37,7 @@ export const EventMapper = {
     const address = mapAddress(restDetailedEvent.post_address)
     return {
       uuid: restDetailedEvent.uuid,
-      tag: restDetailedEvent.slug,
+      tag: restDetailedEvent.category.event_group_category.name,
       description: restDetailedEvent.description,
       name: restDetailedEvent.name,
       mode: mapMode(restDetailedEvent.mode),
@@ -54,6 +54,7 @@ export const EventMapper = {
       address: address,
       commitee: mapCommitee(restDetailedEvent.committee),
       timezone: restDetailedEvent.time_zone,
+      link: restDetailedEvent.link,
     }
   },
 }
@@ -81,6 +82,6 @@ function mapAddress(
 function mapCommitee(committee: RestEventComittee): Commitee {
   return {
     name: committee.name,
-    url: committee.url,
+    url: committee.link,
   }
 }

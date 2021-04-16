@@ -32,6 +32,7 @@ export interface DetailedEvent {
   organizer: EventOrganizer
   commitee: Commitee
   timezone: string
+  link: string
 }
 
 export interface EventAddress {
@@ -55,4 +56,5 @@ export interface Commitee {
 
 export interface EventFilters {
   subscribedOnly?: boolean
+  finishAfter?: string
 }

@@ -22,6 +22,13 @@ export interface RestShortEvent {
 
 export interface RestEventCategory {
   name: string
+  slug: string
+  event_group_category: RestEventParentCategory
+}
+
+export interface RestEventParentCategory {
+  name: string
+  slug: string
 }
 
 export interface RestDetailedEvent {
@@ -42,6 +49,8 @@ export interface RestDetailedEvent {
   image_url: string | null
   user_registered_at: string | null
   post_address: RestEventAddress | null
+  link: string
+  category: RestEventCategory
 }
 
 export interface RestEventOrganizer {
@@ -51,7 +60,7 @@ export interface RestEventOrganizer {
 
 export interface RestEventComittee {
   name: string
-  url: string
+  link: string
 }
 
 export interface RestEventAddress {

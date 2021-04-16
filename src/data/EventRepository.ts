@@ -34,6 +34,10 @@ class EventRepository {
     return this.apiService.subscribeToEvent(eventId)
   }
 
+  public async unsubscribeFromEvent(eventId: string): Promise<void> {
+    return this.apiService.unsubscribeFromEvent(eventId)
+  }
+
   public static getInstance(): EventRepository {
     if (!EventRepository.instance) {
       EventRepository.instance = new EventRepository()

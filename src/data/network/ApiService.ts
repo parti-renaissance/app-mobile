@@ -154,6 +154,12 @@ class ApiService {
         subscribedOnly: true,
       }
     }
+    if (eventFilters?.finishAfter) {
+      searchParams = {
+        ...searchParams,
+        'finishAt[strictly_after]': eventFilters?.finishAfter,
+      }
+    }
     return this.httpClient
       .get('api/v3/events', {
         searchParams: searchParams,
@@ -172,6 +178,14 @@ class ApiService {
   public subscribeToEvent(eventId: string): Promise<void> {
     return this.httpClient
       .post('api/v3/events/' + eventId + '/subscribe')
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public unsubscribeFromEvent(eventId: string): Promise<void> {
+    return this.httpClient
+      .delete('api/v3/events/' + eventId + '/subscribe')
       .json()
       .then(() => {})
       .catch(genericErrorMapping)
