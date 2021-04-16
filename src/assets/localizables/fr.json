@@ -254,7 +254,9 @@
       "tab_home": "À la une",
       "tab_calendar": "Calendrier",
       "tab_mine": "Mes événements",
-      "empty": "Vous n’avez aucun évènement à venir."
+      "empty": "Vous n’avez aucun évènement à venir.",
+      "section_date_format": "dddd D MMMM YYYY",
+      "section_date_today": "Aujourd'hui"
     },
     "eventdetails": {
       "add_calendar": "Ajouter à mon calendrier",
@@ -271,7 +273,9 @@
         "title": "Annuler mon inscription",
         "content": "Vous êtes sur le point d’annuler votre inscription à l’évènement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
         "confirm": "oui"
-      }
+      },
+      "attendees": "{{attendees}} inscrits",
+      "date_format": "dddd D MMMM YYYY"
     }
   }
 }

@@ -12,7 +12,6 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
 
   const [index, setIndex] = React.useState(0)
   const [routes] = React.useState([
-    { key: 'home', title: i18n.t('events.tab_home') },
     { key: 'calendar', title: i18n.t('events.tab_calendar') },
     { key: 'myEvents', title: i18n.t('events.tab_mine') },
   ])
@@ -23,9 +22,6 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
     })
   }
 
-  const Home = () => (
-    <EventListScreen eventFilter="home" onEventSelected={onEventSelected} />
-  )
   const Calendar = () => (
     <EventListScreen eventFilter="calendar" onEventSelected={onEventSelected} />
   )
@@ -34,7 +30,6 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   )
 
   const renderScene = SceneMap({
-    home: Home,
     calendar: Calendar,
     myEvents: MyEvents,
   })

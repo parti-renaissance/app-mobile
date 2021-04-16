@@ -23,7 +23,7 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
       >
         <View style={styles.container}>
           <View style={styles.leftColumn}>
-            <TagView viewModel={viewModel.tag} />
+            <TagView style={styles.tag} viewModel={viewModel.tag} />
             <Text style={styles.title}>{viewModel.title}</Text>
             <Text style={styles.date}>{viewModel.date}</Text>
           </View>
@@ -83,6 +83,10 @@ const stylesFactory = (theme: Theme) => {
       marginVertical: Spacing.margin,
       ...Typography.caption1,
       color: theme.primaryColor,
+    },
+    tag: {
+      marginStart: Spacing.margin,
+      marginTop: Spacing.margin,
     },
     title: {
       ...Typography.eventItemTitle,

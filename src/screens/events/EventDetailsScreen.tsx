@@ -1,11 +1,10 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   StyleSheet,
   ScrollView,
   Image,
   View,
   Text,
-  Platform,
   Alert,
   Share,
 } from 'react-native'
@@ -27,19 +26,19 @@ import {
 } from './EventDetailsViewModel'
 import TagView from './TagView'
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
-import moment from 'moment'
 import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
+import { StatefulView, ViewState } from '../shared/StatefulView'
+import EventRepository from '../../data/EventRepository'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
+import LoadingOverlay from '../shared/LoadingOverlay'
 
-const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
-  route,
-  navigation,
-}) => {
-  const eventId = route.params.eventId
-  // TODO use EventId when webservices are available
-  console.log(eventId)
-
-  const viewModel = mockedData
+const EventDetailsContent = (
+  viewModel: EventDetailsViewModel,
+  navigateToSurvey: (surveyId: number) => void,
+  refetchData: () => void,
+) => {
   const { theme } = useTheme()
   const [descriptionViewModel, setDescriptionViewModel] = useState(
     initDescription(viewModel),
@@ -49,6 +48,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
       ExternalLink.openUrl(viewModel.onlineUrl)
     }
   }
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const shareEvent = () => {
     Share.share({
       message: i18n.t('eventdetails.share_message'),
@@ -59,7 +59,34 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
     AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
   }
   const subscribe = () => {
-    // TODO: subscribe
+    setIsLoading(true)
+    EventRepository.getInstance()
+      .subscribeToEvent(viewModel.id)
+      .then(() => refetchData())
+      .catch((error) => {
+        displayError(GenericErrorMapper.mapErrorMessage(error))
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+  const displayError = (error: string) => {
+    console.log('Displaying error ', error)
+    Alert.alert(
+      i18n.t('common.error_title'),
+      error,
+      [
+        {
+          text: i18n.t('common.error_retry'),
+          onPress: subscribe,
+        },
+        {
+          text: i18n.t('common.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
   }
   const performUnsubscription = () => {
     // TODO unsubscribe
@@ -73,11 +100,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
     if (viewModel.survey) {
       const pollId = parseInt(viewModel.survey.id, 10)
 
-      // @ts-ignore It works and this navigation is nightmare to declare in typescript
-      navigation.navigate(Screen.pollDetailModal, {
-        screen: Screen.pollDetail,
-        params: { pollId: pollId },
-      })
+      navigateToSurvey(pollId)
     }
   }
   const descriptionSeeMore = () => {
@@ -104,7 +127,8 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
     )
   }
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+    <>
+      <LoadingOverlay visible={isLoading} />
       <ScrollView>
         <View style={styles.wrapImage}>
           {viewModel.imageUrl ? (
@@ -247,6 +271,60 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
           />
         )}
       </View>
+    </>
+  )
+}
+
+const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
+  route,
+  navigation,
+}) => {
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<EventDetailsViewModel>
+  >(new ViewState.Loading())
+  const eventId = route.params.eventId
+  // TODO use EventId when webservices are available
+  console.log(eventId)
+
+  const navigateToSurvey = (surveyId: number) => {
+    // @ts-ignore It works and this navigation is nightmare to declare in typescript
+    navigation.navigate(Screen.pollDetailModal, {
+      screen: Screen.pollDetail,
+      params: { pollId: surveyId },
+    })
+  }
+
+  const fetchData = () => {
+    EventRepository.getInstance()
+      .getEventDetails(eventId)
+      .then((result) => {
+        const viewModel = EventDetailsViewModelMapper.map(result)
+        setStatefulState(new ViewState.Content(viewModel))
+      })
+      .catch((error) => {
+        setStatefulState(
+          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+            refetchData()
+          }),
+        )
+      })
+  }
+
+  useEffect(fetchData, [])
+
+  const refetchData = () => {
+    setStatefulState(new ViewState.Loading())
+    fetchData()
+  }
+
+  return (
+    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+      <StatefulView
+        state={statefulState}
+        contentComponent={(result) => {
+          return EventDetailsContent(result, navigateToSurvey, refetchData)
+        }}
+      />
     </SafeAreaView>
   )
 }
@@ -318,55 +396,6 @@ const styles = StyleSheet.create({
     minHeight: 130,
   },
 })
-
-const mockedData: EventDetailsViewModel = {
-  id: '666',
-  title: 'Élections : où quand, comment ?',
-  tag: {
-    label: 'CONFERENCE',
-    backgroundColor: '#4489f7',
-    textColor: '#ffffff',
-  },
-  attendeesNumber: '23 inscrits',
-  onlineUrl: 'https://zoom.us/j/91611561795',
-  address: {
-    title: 'La Barrique',
-    description: '7 rue Beaurepaire\n75010 Paris',
-  },
-  imageUrl:
-    'https://upload.wikimedia.org/wikipedia/fr/thumb/e/e2/Olympique_lyonnais_%28logo%29.svg/980px-Olympique_lyonnais_%28logo%29.svg.png',
-  isSubscribed: true,
-  date: {
-    title: 'Lundi 22 mars 2021',
-    description: '12:00 - 15:00',
-  },
-  eventUrl: 'https://en-marche.fr/evenements/20',
-  description:
-    'Phasellus ac pharetra quam, a pretium sapien. Sed sit amet ipsum erat. Sed vulputate lectus porta, hendrerit leo quis, tincidunt nibh. Sed ut mi non sem viverra consectetur sollicitudin ac tortor. Sed lectus est, suscipit ac tortor ut, sagittis mattis nisl. Proin euismod nisl vitae risus hendrerit tristique. Proin ultrices diam nec nisi dignissim mollis. Vivamus consequat egestas mi eu volutpat. Sed hendrerit sagittis mi et ornare. Donec maximus ornare enim, sed scelerisque est venenatis id. Nulla com',
-  calendarEvent: {
-    title: 'Élections : où quand, comment ?',
-    startDate: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    endDate: moment(new Date())
-      .add(1, 'h')
-      .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    url: 'https://zoom.us/j/91611561795',
-    location: '7 rue Beaurepaire, 75010 Paris',
-    notes:
-      Platform.OS === 'android' ? 'https://zoom.us/j/91611561795' : undefined,
-  },
-  organizer: {
-    title: 'Organisé par : Victor Cohen',
-    description: 'En Marche - Faubourg Montmartre\nParis 9e',
-    openUrl: 'http://google.fr',
-  },
-  survey: {
-    id: '354',
-    image: require('../../assets/images/blue/imageSondage01.png'),
-    title: 'Ensemble, #NousRéussirons',
-    subtitle: '3 questions',
-    tag: 'DEPARTEMENTAL',
-  },
-}
 
 const initDescription = (
   viewModel: EventDetailsViewModel,

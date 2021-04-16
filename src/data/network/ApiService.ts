@@ -17,6 +17,8 @@ import {
 } from '../restObjects/RestUpdateProfileRequest'
 import { ProfileFormError } from '../../core/errors'
 import { FormViolation } from '../../core/entities/DetailedProfile'
+import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
+import { EventFilters } from '../../core/entities/Event'
 
 class ApiService {
   private static instance: ApiService
@@ -136,6 +138,45 @@ class ApiService {
     }
   }
 
+  public getEvents(
+    zipCode: string,
+    page: number,
+    eventFilters?: EventFilters,
+  ): Promise<RestEvents> {
+    const subscribedOnly = eventFilters?.subscribedOnly ? true : undefined
+    let searchParams: SearchParams = {
+      page: page,
+      zipCode: zipCode,
+    }
+    if (subscribedOnly) {
+      searchParams = {
+        ...searchParams,
+        subscribedOnly: true,
+      }
+    }
+    return this.httpClient
+      .get('api/v3/events', {
+        searchParams: searchParams,
+      })
+      .json<RestEvents>()
+      .catch(genericErrorMapping)
+  }
+
+  public getEventDetails(eventId: string): Promise<RestDetailedEvent> {
+    return this.httpClient
+      .get('api/v3/events/' + eventId)
+      .json<RestDetailedEvent>()
+      .catch(genericErrorMapping)
+  }
+
+  public subscribeToEvent(eventId: string): Promise<void> {
+    return this.httpClient
+      .post('api/v3/events/' + eventId + '/subscribe')
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()
@@ -143,5 +184,11 @@ class ApiService {
     return ApiService.instance
   }
 }
+
+type SearchParams =
+  | string
+  | { [key: string]: string | number | boolean }
+  | Array<Array<string | number | boolean>>
+  | URLSearchParams
 
 export default ApiService
