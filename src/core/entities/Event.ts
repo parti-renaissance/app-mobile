@@ -32,6 +32,7 @@ export interface DetailedEvent {
   organizer: EventOrganizer
   commitee: Commitee
   timezone: string
+  link: string
 }
 
 export interface EventAddress {
