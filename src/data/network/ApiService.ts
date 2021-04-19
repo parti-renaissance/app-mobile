@@ -21,6 +21,8 @@ import { FormViolation } from '../../core/entities/DetailedProfile'
 import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
 import { EventFilters } from '../../core/entities/Event'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
+import { SearchParamsKeyValue } from './SearchParams'
+import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
 
 class ApiService {
   private static instance: ApiService
@@ -145,22 +147,13 @@ class ApiService {
     page: number,
     eventFilters?: EventFilters,
   ): Promise<RestEvents> {
-    const subscribedOnly = eventFilters?.subscribedOnly ? true : undefined
-    let searchParams: SearchParams = {
+    const filterParams: SearchParamsKeyValue = GetEventsSearchParametersMapper.map(
+      eventFilters,
+    )
+    let searchParams: SearchParamsKeyValue = {
       page: page,
       zipCode: zipCode,
-    }
-    if (subscribedOnly) {
-      searchParams = {
-        ...searchParams,
-        subscribedOnly: true,
-      }
-    }
-    if (eventFilters?.finishAfter) {
-      searchParams = {
-        ...searchParams,
-        'finishAt[strictly_after]': eventFilters?.finishAfter,
-      }
+      ...filterParams,
     }
     return this.httpClient
       .get('api/v3/events', {
@@ -218,11 +211,5 @@ class ApiService {
     return ApiService.instance
   }
 }
-
-type SearchParams =
-  | string
-  | { [key: string]: string | number | boolean }
-  | Array<Array<string | number | boolean>>
-  | URLSearchParams
 
 export default ApiService
