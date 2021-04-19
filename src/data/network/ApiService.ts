@@ -155,6 +155,13 @@ class ApiService {
       zipCode: zipCode,
       ...filterParams,
     }
+    const searchText = eventFilters?.searchText
+    if (searchText && searchText.length > 0) {
+      searchParams = {
+        ...searchParams,
+        name: searchText,
+      }
+    }
     return this.httpClient
       .get('api/v3/events', {
         searchParams: searchParams,

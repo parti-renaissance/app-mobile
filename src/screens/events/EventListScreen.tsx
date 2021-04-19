@@ -30,6 +30,7 @@ import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 
 type Props = Readonly<{
   eventFilter: EventFilter
+  searchText?: string
   onEventSelected: (eventId: string) => void
 }>
 
@@ -48,6 +49,7 @@ const EventListScreen: FC<Props> = (props) => {
       const filters: EventFilters = {
         subscribedOnly: subscribedOnly,
         finishAfter: DateProvider.now(),
+        searchText: props.searchText,
       }
       return new GetEventsInteractor().execute(page, filters)
     },
