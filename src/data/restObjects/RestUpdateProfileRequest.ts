@@ -4,7 +4,7 @@ export interface RestUpdateProfileRequest {
   gender: string
   custom_gender: string | null
   nationality: string
-  birthdate: string
+  birthdate: string | null
   address: RestUpdatePostAddress | null
   email_address: string
   facebook_page_url: string
