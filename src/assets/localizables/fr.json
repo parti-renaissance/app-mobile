@@ -260,7 +260,8 @@
       "subscribed": "Inscrit",
       "empty": "Vous n’avez aucun évènement à venir.",
       "section_date_format": "dddd D MMMM YYYY",
-      "section_date_today": "Aujourd'hui"
+      "section_date_today": "Aujourd'hui",
+      "search_placeholder": "Rechercher un événement"
     },
     "eventdetails": {
       "add_calendar": "Ajouter à mon calendrier",
