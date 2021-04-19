@@ -133,8 +133,7 @@
         "personal_information_description": "Modifiez les informations de votre profil.",
         "center_interest": "Centres d'intérêt",
         "center_interest_description": "Sélectionnez les thématiques qui vous intéressent.",
-        "account": "Compte",
-        "settings": "Paramètres"
+        "account": "Compte"
       },
       "alert": {
         "logout": {
@@ -207,7 +206,8 @@
       "quick_poll": {
         "votes_count": "{{format}} votant",
         "votes_count_plural": "{{format}} votants"
-      }
+      },
+      "event": { "section": "Prochain évènement" }
     },
     "regions": { "website": "Site de campagne" },
     "profileZipCode": {
@@ -226,8 +226,6 @@
         "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
       },
       "title": "Informations personnelles",
-      "save": "Enregistrer",
-      "cancel": "Annuler",
       "section_identity": "Votre identité",
       "section_coordinates": "Vos coordonnées",
       "section_social": "Vos identifiants réseaux sociaux (optionnel)",
@@ -245,6 +243,8 @@
       "twitter": "Twitter",
       "telegram": "Telegram",
       "placeholder": "Renseigner",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
       "gender_male": "Homme",
       "gender_female": "Femme",
       "gender_unknown": "Autre",
@@ -257,6 +257,7 @@
       "tab_home": "À la une",
       "tab_calendar": "Calendrier",
       "tab_mine": "Mes événements",
+      "subscribed": "Inscrit",
       "empty": "Vous n’avez aucun évènement à venir.",
       "section_date_format": "dddd D MMMM YYYY",
       "section_date_today": "Aujourd'hui"
@@ -275,7 +276,7 @@
       "unsubscribe": {
         "title": "Annuler mon inscription",
         "content": "Vous êtes sur le point d’annuler votre inscription à l’évènement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
-        "confirm": "oui"
+        "confirm": "Oui"
       },
       "attendees": "{{attendees}} inscrits",
       "date_format": "dddd D MMMM YYYY"
@@ -284,6 +285,12 @@
       "title": "Centres d'intérêt",
       "save": "Enregistrer",
       "description": "Sélectionnez les thématiques qui vous intéressent."
+    },
+    "notificationmenu": {
+      "title": "Notifications",
+      "description": "Activez les notifications pour profiter au mieux de Je m'engage !",
+      "local": "Locales",
+      "national": "Nationales"
     }
   }
 }
