@@ -1,3 +1,4 @@
+import { EventRowViewModel } from '../events/EventViewModel'
 import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
@@ -30,7 +31,7 @@ export interface HomeQuickPollRowContainerViewModel {
 }
 
 export interface HomeEventRowContainerViewModel {
-  id: string
+  event: EventRowViewModel
 }
 
 export type HomeSectionViewModel = {

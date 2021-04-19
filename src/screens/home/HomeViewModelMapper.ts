@@ -14,6 +14,7 @@ import { HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
+import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
 
 const MAX_NEWS = 3
 const MAX_POLLS = 2
@@ -68,7 +69,9 @@ function appendEvent(
   rows.push({
     id: event.uuid,
     sectionViewModel: { sectionName: i18n.t('home.event.section') },
-    data: [{ type: 'event', value: { id: event.uuid } }],
+    data: [
+      { type: 'event', value: { event: EventRowViewModelMapper.map(event) } },
+    ],
   })
 }
 

@@ -15,6 +15,7 @@ export type HomeParamList = {
   Home: undefined
   Region: { zipCode: string }
   News: undefined
+  EventDetails: { eventId: string }
 }
 
 export type ProfileParamList = {

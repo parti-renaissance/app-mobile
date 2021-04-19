@@ -1,34 +1,17 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
-import CardView from '../../shared/CardView'
+import EventView from '../../events/EventView'
+import { HomeEventRowContainerViewModel } from '../HomeRowViewModel'
 
-type Props = Readonly<{}>
+type Props = Readonly<{
+  viewModel: HomeEventRowContainerViewModel
+  onEventSelected: (eventId: string) => void
+}>
 
-export const HomeEventRowContainer: FunctionComponent<Props> = ({}) => {
+export const HomeEventRowContainer: FunctionComponent<Props> = ({
+  viewModel,
+  onEventSelected,
+}) => {
   return (
-    <CardView
-      style={styles.cardView}
-      backgroundColor={Colors.defaultBackground}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>HELLO</Text>
-      </View>
-    </CardView>
+    <EventView viewModel={viewModel.event} onEventSelected={onEventSelected} />
   )
 }
-
-const styles = StyleSheet.create({
-  cardView: {
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.margin,
-  },
-  container: {
-    padding: Spacing.margin,
-  },
-  title: {
-    ...Typography.subheadline,
-    lineHeight: 20,
-    marginBottom: Spacing.margin,
-  },
-})

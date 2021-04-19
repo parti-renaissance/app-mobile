@@ -178,6 +178,12 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     }
     setResources(clone)
   }
+  const onEventSelected = (eventId: string) => {
+    navigation.navigate(Screen.homeNavigator, {
+      screen: Screen.eventDetails,
+      params: { eventId: eventId },
+    })
+  }
 
   const renderItem = ({
     item,
@@ -223,7 +229,12 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         />
       )
     } else if (item.type === 'event') {
-      return <HomeEventRowContainer />
+      return (
+        <HomeEventRowContainer
+          viewModel={item.value}
+          onEventSelected={onEventSelected}
+        />
+      )
     } else {
       return null
     }
