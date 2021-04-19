@@ -29,6 +29,10 @@ export interface HomeQuickPollRowContainerViewModel {
   totalVotes: string
 }
 
+export interface HomeEventRowContainerViewModel {
+  id: string
+}
+
 export type HomeSectionViewModel = {
   id: string
   sectionViewModel?: HomeSectionRowViewModel
@@ -58,4 +62,8 @@ export type HomeRowViewModel =
   | {
       type: 'quick_poll'
       value: HomeQuickPollRowContainerViewModel
+    }
+  | {
+      type: 'event'
+      value: HomeEventRowContainerViewModel
     }

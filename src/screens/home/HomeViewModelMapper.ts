@@ -13,6 +13,7 @@ import { HomeNewsRowViewModelMapper } from './news/HomeNewsRowViewModelMapper'
 import { HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
+import { ShortEvent } from '../../core/entities/Event'
 
 const MAX_NEWS = 3
 const MAX_POLLS = 2
@@ -27,9 +28,11 @@ export const HomeViewModelMapper = {
     polls: Array<Poll>,
     tools: Array<Tool>,
     quickPoll: StatefulQuickPoll | undefined,
+    event: ShortEvent | undefined,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
+    appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
     appendNews(news, rows)
@@ -53,6 +56,20 @@ function greeting(profile?: Profile): string {
   } else {
     return i18n.t('home.greeting')
   }
+}
+
+function appendEvent(
+  event: ShortEvent | undefined,
+  rows: HomeSectionViewModel[],
+) {
+  if (!event) {
+    return
+  }
+  rows.push({
+    id: event.uuid,
+    sectionViewModel: { sectionName: i18n.t('home.event.section') },
+    data: [{ type: 'event', value: { id: event.uuid } }],
+  })
 }
 
 function appendQuickPoll(
