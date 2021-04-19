@@ -1,18 +1,17 @@
 import {
   EventRowContainerViewModel,
-  EventRowViewModel,
   EventSectionRowViewModel,
   EventSectionViewModel,
 } from './EventViewModel'
-import { EventMode, ShortEvent } from '../../core/entities/Event'
+import { ShortEvent } from '../../core/entities/Event'
 import { EventFilter } from './EventListScreen'
 import MultiMap from 'mnemonist/multi-map'
 import { Moment } from 'moment'
 import moment from 'moment'
 import i18n from '../../utils/i18n'
-import { TagViewModelMapper } from './TagViewModelMapper'
+import { EventRowViewModelMapper } from './EventRowViewModelMapper'
 
-export const EventViewModelMapper = {
+export const EventSectionViewModelMapper = {
   map: (
     events: Array<ShortEvent>,
     _: EventFilter,
@@ -32,7 +31,7 @@ export const EventViewModelMapper = {
         (event) => {
           return {
             type: 'event',
-            value: mapEvent(event),
+            value: EventRowViewModelMapper.map(event),
           }
         },
       )
@@ -49,26 +48,7 @@ export const EventViewModelMapper = {
 function extractSectionKey(sectionTime: Moment): string {
   return sectionTime.format('YYYYMMDD')
 }
-function mapEvent(event: ShortEvent): EventRowViewModel {
-  return {
-    id: event.uuid,
-    title: event.name,
-    isOnline: event.mode === EventMode.ONLINE,
-    imageUrl: event.imageUrl,
-    tag: TagViewModelMapper.map(event.tag),
-    isSubscribed: event.userRegisteredAt !== undefined,
-    date: mapDate(event),
-  }
-}
-function mapDate(event: ShortEvent): string {
-  return (
-    event.dateStart.format(HOUR_MINUTE_FORMAT) +
-    ' - ' +
-    event.dateEnd.format(HOUR_MINUTE_FORMAT)
-  )
-}
 
-const HOUR_MINUTE_FORMAT = 'HH:mm'
 function mapSection(
   key: string,
   firstEvent: ShortEvent,

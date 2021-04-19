@@ -26,7 +26,7 @@ import {
   EventRowContainerViewModel,
   EventRowViewModel,
 } from './EventViewModel'
-import { EventViewModelMapper } from './EventViewModelMapper'
+import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -185,7 +185,7 @@ const EventListScreen: FC<Props> = (props) => {
     <StatefulView
       state={statefulState}
       contentComponent={(result) => {
-        const viewModel = EventViewModelMapper.map(
+        const viewModel = EventSectionViewModelMapper.map(
           result.result,
           props.eventFilter,
         )
