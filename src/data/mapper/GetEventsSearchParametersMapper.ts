@@ -1,5 +1,6 @@
 import { EventFilters } from '../../core/entities/Event'
 import { SearchParamsKeyValue } from '../network/SearchParams'
+import moment from 'moment'
 
 export const GetEventsSearchParametersMapper = {
   map: (filters: EventFilters | undefined): SearchParamsKeyValue => {
@@ -12,9 +13,10 @@ export const GetEventsSearchParametersMapper = {
       }
     }
     if (filters?.finishAfter) {
+      const formattedDate = moment(filters?.finishAfter).format('YYYY-MM-DD')
       searchParams = {
         ...searchParams,
-        'finishAt[strictly_after]': filters?.finishAfter,
+        'finishAt[strictly_after]': formattedDate,
       }
     }
     return searchParams
