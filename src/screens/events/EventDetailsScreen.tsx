@@ -7,6 +7,7 @@ import {
   Text,
   Alert,
   Share,
+  useWindowDimensions,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps, Screen } from '../../navigation'
@@ -33,12 +34,14 @@ import EventRepository from '../../data/EventRepository'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
+import HTML from 'react-native-render-html'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
   navigateToSurvey: (surveyId: number) => void,
   refetchData: () => void,
 ) => {
+  const contentWidth = useWindowDimensions().width
   const { theme } = useTheme()
   const [descriptionViewModel, setDescriptionViewModel] = useState(
     initDescription(viewModel),
@@ -237,9 +240,11 @@ const EventDetailsContent = (
         <Text style={styles.subtitle}>
           {i18n.t('eventdetails.description')}
         </Text>
-        <Text style={styles.description}>
-          {descriptionViewModel.description}
-        </Text>
+        <HTML
+          containerStyle={styles.description}
+          source={{ html: descriptionViewModel.description }}
+          contentWidth={contentWidth}
+        />
         {descriptionViewModel.canSeeMore ? (
           <BorderlessButton
             title={i18n.t('eventdetails.see_more')}
