@@ -1,10 +1,8 @@
 import { ImageSourcePropType } from 'react-native'
 import { Interest } from '../../../core/entities/Interest'
 import { CentersOfInterestInteractorResult } from '../../../core/interactor/GetCentersOfInterestInteractor'
-import {
-  CentersOfInterestViewModel,
-  InterestViewModel,
-} from './CentersOfInterestViewModel'
+import { SelectableIconLabelViewModel } from '../../shared/SelectableIconLabelView'
+import { CentersOfInterestViewModel } from './CentersOfInterestViewModel'
 
 export const CentersOfInterestViewModelMapper = {
   map: (
@@ -21,7 +19,7 @@ export const CentersOfInterestViewModelMapper = {
 function mapInterest(
   result: CentersOfInterestInteractorResult,
   interest: Interest,
-): InterestViewModel {
+): SelectableIconLabelViewModel {
   return {
     code: interest.code,
     label: interest.label,
