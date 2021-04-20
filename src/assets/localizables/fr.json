@@ -133,7 +133,8 @@
         "personal_information_description": "Modifiez les informations de votre profil.",
         "center_interest": "Centres d'intérêt",
         "center_interest_description": "Sélectionnez les thématiques qui vous intéressent.",
-        "account": "Compte"
+        "account": "Compte",
+        "settings": "Paramètres"
       },
       "alert": {
         "logout": {
