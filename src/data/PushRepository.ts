@@ -1,6 +1,7 @@
 import messaging from '@react-native-firebase/messaging'
 import { ENVIRONMENT } from '../Config'
 import { Department } from '../core/entities/Department'
+import { NotificationCategory } from '../core/entities/Notification'
 import { Region } from '../core/entities/Region'
 import LocalStore from './store/LocalStore'
 
@@ -9,7 +10,18 @@ class PushRepository {
   private localStore = LocalStore.getInstance()
   private constructor() {}
 
-  public async subscribeToGeneralTopic(): Promise<void> {
+  public async synchronizeGeneralTopicSubscription(): Promise<void> {
+    const globalNotificationsEnabled = await this.arePushNotificationsEnabled(
+      'national',
+    )
+    if (globalNotificationsEnabled) {
+      this.subscribeToGeneralTopic()
+    } else {
+      this.unsubscribeFromGeneralTopic()
+    }
+  }
+
+  private async subscribeToGeneralTopic() {
     const registrations = await this.localStore.getTopicsRegistration()
     if (registrations?.globalRegistered !== true) {
       await messaging().subscribeToTopic(this.createTopicName('global'))
@@ -22,7 +34,33 @@ class PushRepository {
     }
   }
 
-  public async subscribeToDepartment(department: Department): Promise<void> {
+  private async unsubscribeFromGeneralTopic() {
+    const registrations = await this.localStore.getTopicsRegistration()
+    if (registrations?.globalRegistered === true) {
+      await messaging().unsubscribeFromTopic(this.createTopicName('global'))
+      await this.localStore.updateTopicsRegistration({
+        globalRegistered: false,
+      })
+      console.log('global topic unsubscribed with success')
+    } else {
+      console.log('already unsubscribed from global topic')
+    }
+  }
+
+  public async synchronizeDepartmentSubscription(
+    department: Department,
+  ): Promise<void> {
+    const localNotificationsEnabled = await this.arePushNotificationsEnabled(
+      'local',
+    )
+    if (localNotificationsEnabled) {
+      return this.subscribeToDepartment(department)
+    } else {
+      this.unsubscribeDepartments()
+    }
+  }
+
+  private async subscribeToDepartment(department: Department): Promise<void> {
     const topicName = this.createTopicName('department_' + department.code)
     const registrations = await this.localStore.getTopicsRegistration()
     const previousTopic = registrations?.departementRegistered
@@ -41,7 +79,32 @@ class PushRepository {
     }
   }
 
-  public async subscribeToRegion(region: Region): Promise<void> {
+  private async unsubscribeDepartments() {
+    const registrations = await this.localStore.getTopicsRegistration()
+    const previousTopic = registrations?.departementRegistered
+    if (previousTopic !== undefined) {
+      await messaging().unsubscribeFromTopic(previousTopic)
+      await this.localStore.updateTopicsRegistration({
+        departementRegistered: undefined,
+      })
+      console.log(`unsubscribed from ${previousTopic}`)
+    } else {
+      console.log('already unsubscribed from departments')
+    }
+  }
+
+  public async synchronizeRegionSubscription(region: Region): Promise<void> {
+    const localNotificationsEnabled = await this.arePushNotificationsEnabled(
+      'local',
+    )
+    if (localNotificationsEnabled) {
+      this.subscribeToRegion(region)
+    } else {
+      this.unsubscribeRegion()
+    }
+  }
+
+  private async subscribeToRegion(region: Region): Promise<void> {
     const topicName = this.createTopicName('region_' + region.code)
     const registrations = await this.localStore.getTopicsRegistration()
     const previousTopic = registrations?.regionRegistered
@@ -60,10 +123,54 @@ class PushRepository {
     }
   }
 
+  private async unsubscribeRegion() {
+    const registrations = await this.localStore.getTopicsRegistration()
+    const previousTopic = registrations?.regionRegistered
+    if (previousTopic !== undefined) {
+      await messaging().unsubscribeFromTopic(previousTopic)
+      await this.localStore.updateTopicsRegistration({
+        regionRegistered: undefined,
+      })
+      console.log(`unsubscribed from ${previousTopic}`)
+    } else {
+      console.log('already unsubscribed from regions')
+    }
+  }
+
   public async invalidatePushToken(): Promise<void> {
     return messaging()
       .deleteToken()
       .then(() => this.localStore.clearTopicsRegistration())
+  }
+
+  public async enablePushNotifications(
+    notificationCategory: NotificationCategory,
+    enable: boolean,
+  ) {
+    switch (notificationCategory) {
+      case 'local':
+        await this.localStore.updateTopicsRegistration({
+          localNotificationsEnabled: enable,
+        })
+        break
+      case 'national':
+        await this.localStore.updateTopicsRegistration({
+          nationalNotificationsEnabled: enable,
+        })
+        break
+    }
+  }
+
+  public async arePushNotificationsEnabled(
+    notificationCategory: NotificationCategory,
+  ): Promise<boolean> {
+    const registrations = await this.localStore.getTopicsRegistration()
+    switch (notificationCategory) {
+      case 'local':
+        return registrations?.localNotificationsEnabled ?? true
+      case 'national':
+        return registrations?.nationalNotificationsEnabled ?? true
+    }
   }
 
   private createTopicName(topic: string): string {

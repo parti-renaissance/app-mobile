@@ -1,10 +1,12 @@
 import PersonalInformationRepository from '../../data/PersonalInformationRepository'
 import ProfileRepository from '../../data/ProfileRepository'
+import PushRepository from '../../data/PushRepository'
 import { Notification, NotificationCategory } from '../entities/Notification'
 
 export class GetNotificationsInteractor {
   private personalInformationRepository = PersonalInformationRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
+  private pushRepository = PushRepository.getInstance()
   public async execute(
     category: NotificationCategory,
   ): Promise<GetNotificationsInteractorResult> {
@@ -13,8 +15,11 @@ export class GetNotificationsInteractor {
       (notification) => notification.category === category,
     )
     const profile = await this.profileRepository.getDetailedProfile()
+    const pushEnabled = await this.pushRepository.arePushNotificationsEnabled(
+      category,
+    )
     return {
-      isPushEnabled: true, // TODO fetch push info from settings
+      isPushEnabled: pushEnabled,
       notifications: notifications,
       notificationsEnabled: profile.subscriptions,
     }

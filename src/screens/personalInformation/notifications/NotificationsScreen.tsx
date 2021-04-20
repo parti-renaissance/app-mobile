@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
+  Alert,
   SectionList,
   SectionListRenderItemInfo,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { NotificationCategory } from '../../../core/entities/Notification'
+import { EnablePushNotificationsInteractor } from '../../../core/interactor/EnablePushNotificationsInteractor'
 import {
   GetNotificationsInteractor,
   GetNotificationsInteractorResult,
@@ -16,14 +18,16 @@ import { NotificationsScreenProps } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
+import LoadingOverlay from '../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import NotificationRowView from './NotificationRowView'
-import { NotificationRowViewModel } from './NotificationViewModel'
+import { ID_PUSH, NotificationRowViewModel } from './NotificationViewModel'
 import { NotificationViewModelMapper } from './NotificationViewModelMapper'
 
 const NotificationsContent = (
   category: NotificationCategory,
   content: GetNotificationsInteractorResult,
+  refetchData: () => void,
 ) => {
   const viewModel = NotificationViewModelMapper.map(
     category,
@@ -31,8 +35,36 @@ const NotificationsContent = (
     content.notifications,
     content.notificationsEnabled,
   )
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const displayError = (error: string) => {
+    console.log('Displaying error ', error)
+    Alert.alert(
+      i18n.t('common.error_title'),
+      error,
+      [
+        {
+          text: i18n.t('common.ok'),
+          style: 'default',
+        },
+      ],
+      { cancelable: false },
+    )
+  }
   const onNotificationChanged = (id: string, isSelected: boolean) => {
-    // TODO
+    if (id === ID_PUSH) {
+      setIsLoading(true)
+      new EnablePushNotificationsInteractor()
+        .execute(category, isSelected)
+        .then(() => refetchData())
+        .catch((error) => {
+          displayError(GenericErrorMapper.mapErrorMessage(error))
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    } else {
+      // TODO
+    }
   }
   const renderItem = ({
     item,
@@ -45,7 +77,8 @@ const NotificationsContent = (
     )
   }
   return (
-    <View>
+    <>
+      <LoadingOverlay visible={isLoading} />
       <SectionList
         stickySectionHeadersEnabled={false}
         sections={viewModel.sections}
@@ -57,7 +90,7 @@ const NotificationsContent = (
           return item.id
         }}
       />
-    </View>
+    </>
   )
 }
 
@@ -88,12 +121,17 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
     })
     fetchData()
   }, [props, fetchData, category])
+
+  const refetchData = () => {
+    setStatefulState(new ViewState.Loading())
+    fetchData()
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatefulView
         state={statefulState}
         contentComponent={(result) => {
-          return NotificationsContent(category, result)
+          return NotificationsContent(category, result, refetchData)
         }}
       />
     </SafeAreaView>

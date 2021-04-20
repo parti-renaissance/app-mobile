@@ -5,6 +5,7 @@ import {
 } from '../../../core/entities/Notification'
 import i18n from '../../../utils/i18n'
 import {
+  ID_PUSH,
   NotificationRowViewModel,
   NotificationSectionViewModel,
   NotificationsViewModel,
@@ -47,7 +48,6 @@ export const NotificationViewModelMapper = {
   },
 }
 
-const ID_PUSH = '__push'
 function getNotificationLabel(notificationCategory: NotificationCategory) {
   switch (notificationCategory) {
     case 'local':

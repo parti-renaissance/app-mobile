@@ -17,7 +17,8 @@
       "error_retry": "Réessayer",
       "cancel": "Annuler",
       "confirm": "Confirmer",
-      "search": "Rechercher"
+      "search": "Rechercher",
+      "ok": "OK"
     },
     "tab": {
       "item_polls": "Questionnaires",

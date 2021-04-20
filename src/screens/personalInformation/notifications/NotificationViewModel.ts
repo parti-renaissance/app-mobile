@@ -13,3 +13,5 @@ export interface NotificationRowViewModel {
   isSelected: boolean
   isLastOfSection: boolean
 }
+
+export const ID_PUSH = '__push'
