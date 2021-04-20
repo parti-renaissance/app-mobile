@@ -1,13 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import {
   Dimensions,
   Image,
   Modal,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
@@ -21,6 +19,7 @@ import EventQuickFilters from './EventQuickFilters'
 import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventMode } from '../../core/entities/Event'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const { theme } = useTheme()
@@ -147,7 +146,7 @@ const stylesFactory = (theme: Theme) => {
       flex: 1,
     },
     search: {
-      ...Typography.body,
+      ...Typography.inputText,
       flex: 1,
       paddingHorizontal: Spacing.small,
       paddingVertical: Spacing.unit,
