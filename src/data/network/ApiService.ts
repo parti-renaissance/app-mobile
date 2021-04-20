@@ -14,6 +14,7 @@ import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileR
 import {
   RestUpdateCentersOfInterestRequest,
   RestUpdateProfileRequest,
+  RestUpdateSubscriptionsRequest,
 } from '../restObjects/RestUpdateProfileRequest'
 import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
 import { EventFilters } from '../../core/entities/Event'
@@ -178,6 +179,17 @@ class ApiService {
   public updateCentersOfInterest(
     userUuid: string,
     request: RestUpdateCentersOfInterestRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/' + userUuid, { json: request })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public updateSubscriptions(
+    userUuid: string,
+    request: RestUpdateSubscriptionsRequest,
   ): Promise<void> {
     return this.httpClient
       .put('api/v3/profile/' + userUuid, { json: request })

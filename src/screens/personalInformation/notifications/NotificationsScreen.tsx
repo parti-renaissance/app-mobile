@@ -5,7 +5,6 @@ import {
   SectionListRenderItemInfo,
   StyleSheet,
   Text,
-  View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { NotificationCategory } from '../../../core/entities/Notification'
@@ -14,6 +13,7 @@ import {
   GetNotificationsInteractor,
   GetNotificationsInteractorResult,
 } from '../../../core/interactor/GetNotificationsInteractor'
+import PersonalInformationRepository from '../../../data/PersonalInformationRepository'
 import { NotificationsScreenProps } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
@@ -63,7 +63,29 @@ const NotificationsContent = (
           setIsLoading(false)
         })
     } else {
-      // TODO
+      let newSubscriptions: Array<string>
+      if (isSelected && !content.notificationsEnabled.includes(id)) {
+        newSubscriptions = [...content.notificationsEnabled]
+        newSubscriptions.push(id)
+      } else if (!isSelected) {
+        newSubscriptions = content.notificationsEnabled.filter(
+          (subscription) => {
+            return subscription !== id
+          },
+        )
+      } else {
+        return
+      }
+      setIsLoading(true)
+      PersonalInformationRepository.getInstance()
+        .updateSubscriptions(content.userUuid, newSubscriptions)
+        .then(() => refetchData())
+        .catch((error) => {
+          displayError(GenericErrorMapper.mapErrorMessage(error))
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
   }
   const renderItem = ({

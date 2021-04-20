@@ -2,7 +2,10 @@ import { Interest } from '../core/entities/Interest'
 import { Notification } from '../core/entities/Notification'
 import { ConfigurationMapper } from './mapper/ConfigurationMapper'
 import ApiService from './network/ApiService'
-import { RestUpdateCentersOfInterestRequest } from './restObjects/RestUpdateProfileRequest'
+import {
+  RestUpdateCentersOfInterestRequest,
+  RestUpdateSubscriptionsRequest,
+} from './restObjects/RestUpdateProfileRequest'
 
 class PersonalInformationRepository {
   private static instance: PersonalInformationRepository
@@ -34,6 +37,16 @@ class PersonalInformationRepository {
       interests: interests,
     }
     await this.apiService.updateCentersOfInterest(profileUuid, request)
+  }
+
+  public async updateSubscriptions(
+    profileUuid: string,
+    subscriptions: Array<string>,
+  ): Promise<void> {
+    const request: RestUpdateSubscriptionsRequest = {
+      subscription_types: subscriptions,
+    }
+    await this.apiService.updateSubscriptions(profileUuid, request)
   }
 }
 

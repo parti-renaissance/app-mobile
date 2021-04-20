@@ -19,6 +19,7 @@ export class GetNotificationsInteractor {
       category,
     )
     return {
+      userUuid: profile.uuid,
       isPushEnabled: pushEnabled,
       notifications: notifications,
       notificationsEnabled: profile.subscriptions,
@@ -27,6 +28,7 @@ export class GetNotificationsInteractor {
 }
 
 export interface GetNotificationsInteractorResult {
+  userUuid: string
   isPushEnabled: boolean
   notifications: Array<Notification>
   notificationsEnabled: Array<string>

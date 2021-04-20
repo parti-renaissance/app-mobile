@@ -309,7 +309,7 @@
       "section_emails": "E-mails",
       "section_sms": "SMS/MMS",
       "push_description_local": "Recevoir des notifications pour ne manquer aucune action locale",
-      "push_description_national": "Recevoir des notifications pour ne manquer aucune grands rendez-vous nationaux"
+      "push_description_national": "Recevoir des notifications pour ne manquer aucun grands rendez-vous nationaux"
     }
   }
 }
