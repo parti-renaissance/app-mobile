@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import {
+  SectionList,
+  SectionListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { NotificationCategory } from '../../../core/entities/Notification'
 import {
@@ -7,16 +13,41 @@ import {
   GetNotificationsInteractorResult,
 } from '../../../core/interactor/GetNotificationsInteractor'
 import { NotificationsScreenProps } from '../../../navigation'
-import { Colors } from '../../../styles'
+import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
+import { NotificationRowViewModel } from './NotificationViewModel'
+import { NotificationViewModelMapper } from './NotificationViewModelMapper'
 
-const NotificationsContent = (content: GetNotificationsInteractorResult) => {
-  // TODO: implement SectionList here
+const NotificationsContent = (
+  category: NotificationCategory,
+  content: GetNotificationsInteractorResult,
+) => {
+  const viewModel = NotificationViewModelMapper.map(
+    category,
+    content.isPushEnabled,
+    content.notifications,
+    content.notificationsEnabled,
+  )
+  const renderItem = ({
+    item,
+  }: SectionListRenderItemInfo<NotificationRowViewModel>) => {
+    return <Text>{item.label}</Text>
+  }
   return (
     <View>
-      <Text>{content.notifications.length}</Text>
+      <SectionList
+        stickySectionHeadersEnabled={false}
+        sections={viewModel.sections}
+        renderItem={renderItem}
+        renderSectionHeader={({ section: { title } }) => {
+          return <Text style={styles.section}>{title}</Text>
+        }}
+        keyExtractor={(item) => {
+          return item.id
+        }}
+      />
     </View>
   )
 }
@@ -25,10 +56,11 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<GetNotificationsInteractorResult>
   >(new ViewState.Loading())
+  const category = props.route.params.category
 
   const fetchData = useCallback(() => {
     new GetNotificationsInteractor()
-      .execute(props.route.params.category)
+      .execute(category)
       .then((result) => {
         setStatefulState(new ViewState.Content(result))
       })
@@ -40,19 +72,19 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
           }),
         )
       })
-  }, [props.route.params.category])
+  }, [category])
   useEffect(() => {
     props.navigation.setOptions({
-      title: getTitle(props.route.params.category),
+      title: getTitle(category),
     })
     fetchData()
-  }, [props, fetchData])
+  }, [props, fetchData, category])
   return (
     <SafeAreaView style={styles.container}>
       <StatefulView
         state={statefulState}
         contentComponent={(result) => {
-          return NotificationsContent(result)
+          return NotificationsContent(category, result)
         }}
       />
     </SafeAreaView>
@@ -63,6 +95,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  section: {
+    ...Typography.headline,
+    marginBottom: Spacing.unit,
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
 })
 
