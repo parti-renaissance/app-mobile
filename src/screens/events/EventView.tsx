@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
+import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
@@ -49,7 +50,7 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
                     style={styles.checkIcon}
                     source={require('../../assets/images/checkIcon.png')}
                   />
-                  Inscrit
+                  {i18n.t('events.subscribed')}
                 </Text>
               ) : null}
             </View>
