@@ -12,8 +12,8 @@ export interface ShortEvent {
 }
 
 export enum EventMode {
-  MEETING,
-  ONLINE,
+  MEETING = 'meeting',
+  ONLINE = 'online',
 }
 
 export interface DetailedEvent {
@@ -58,4 +58,5 @@ export interface EventFilters {
   subscribedOnly?: boolean
   finishAfter?: Date
   searchText?: string
+  mode?: EventMode
 }

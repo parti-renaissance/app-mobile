@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { ListRenderItemInfo } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -14,22 +14,44 @@ import SelectableIconLabelView, {
 import { PrimaryButton } from '../shared/Buttons'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMapper'
+import { EventMode } from '../../core/entities/Event'
 
 type Props = Readonly<{
-  selectedFilters: Array<string>
+  onNewFilters: (eventTypeFilter: EventMode | undefined) => void
   onDismissModal: () => void
 }>
 
 const EventQuickFilters: FC<Props> = (props) => {
   const styles = useThemedStyles(stylesFactory)
-  const viewModel = EventQuickFiltersViewModelMapper.map(props.selectedFilters)
+  const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
+    undefined,
+  )
+  const [viewModel, setViewModel] = useState(
+    EventQuickFiltersViewModelMapper.map(),
+  )
 
   const submit = () => {
-    // TODO
+    props.onNewFilters(eventModeFilter)
   }
 
-  const onInterestSelected = (_: string) => {
-    // no-op
+  const updateViewModel = (newEventTypeFilter: EventMode | undefined) => {
+    setViewModel(EventQuickFiltersViewModelMapper.map(newEventTypeFilter))
+  }
+
+  const onInterestSelected = (code: string) => {
+    if (code === EventMode.MEETING || code === EventMode.ONLINE) {
+      const previousSelection = eventModeFilter
+      let newSelection: EventMode | undefined
+      if (previousSelection === code) {
+        newSelection = undefined
+      } else {
+        newSelection = code
+      }
+      setEventModeFilter(newSelection)
+      updateViewModel(newSelection)
+    } else {
+      // categories not implemented yet
+    }
   }
 
   const renderItem = ({

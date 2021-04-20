@@ -20,6 +20,7 @@ import { useDebounce } from 'use-debounce'
 import EventQuickFilters from './EventQuickFilters'
 import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { EventMode } from '../../core/entities/Event'
 
 const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const { theme } = useTheme()
@@ -38,6 +39,13 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
     },
     [navigation],
   )
+  const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
+    undefined,
+  )
+  const onNewFilters = (eventMode: EventMode | undefined) => {
+    setEventModeFilter(eventMode)
+    setModalVisible(false)
+  }
   const [searchText, setSearchText] = useState('')
   const [searchTextDebounced] = useDebounce(searchText, DEBOUNCE_TIMEOUT_MILLIS)
   const [modalVisible, setModalVisible] = useState(false)
@@ -50,20 +58,22 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
       <EventListScreen
         eventFilter="calendar"
         searchText={searchTextDebounced}
+        eventModeFilter={eventModeFilter}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchTextDebounced],
+    [onEventSelected, searchTextDebounced, eventModeFilter],
   )
   const MyEvents = useCallback(
     () => (
       <EventListScreen
         eventFilter="myEvents"
         searchText={searchTextDebounced}
+        eventModeFilter={eventModeFilter}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchTextDebounced],
+    [onEventSelected, searchTextDebounced, eventModeFilter],
   )
 
   const renderScene = SceneMap({
@@ -87,7 +97,10 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.scene}>
       <Modal visible={modalVisible} animationType="slide">
-        <EventQuickFilters onDismissModal={dismissModal} />
+        <EventQuickFilters
+          onDismissModal={dismissModal}
+          onNewFilters={onNewFilters}
+        />
       </Modal>
       <TouchablePlatform
         style={styles.filterIconContainer}

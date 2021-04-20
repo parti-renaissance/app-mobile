@@ -162,6 +162,13 @@ class ApiService {
         name: searchText,
       }
     }
+    const eventMode = eventFilters?.mode
+    if (eventMode) {
+      searchParams = {
+        ...searchParams,
+        mode: eventMode,
+      }
+    }
     return this.httpClient
       .get('api/v3/events', {
         searchParams: searchParams,
