@@ -39,6 +39,8 @@ const OrangeTheme: Theme = {
     homeNews: () => require('../assets/images/orange/imageActualite.png'),
     homeTools: () => require('../assets/images/orange/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/orange/imageCodePostal.png'),
+    notification: () =>
+      require('../assets/images/orange/imageNotification.png'),
   },
 }
 

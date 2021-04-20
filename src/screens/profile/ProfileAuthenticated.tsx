@@ -1,13 +1,5 @@
 import React, { FC } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Linking,
-  Alert,
-} from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native'
 
 import { Spacing, Typography } from '../../styles'
 import ProfilePollsCompleted from './ProfilePollsCompleted'
@@ -26,6 +18,7 @@ type Props = Readonly<{
   openPersonalInformation: () => void
   openCenterOfInterest: () => void
   openApplicationSettings: () => void
+  openNotificationMenu: () => void
   viewModel: ProfileScreenViewModel
 }>
 
@@ -33,6 +26,7 @@ const ProfileAuthenticated: FC<Props> = ({
   openPersonalInformation,
   openCenterOfInterest,
   openApplicationSettings,
+  openNotificationMenu,
   viewModel,
 }) => {
   const { theme } = useTheme()
@@ -52,10 +46,6 @@ const ProfileAuthenticated: FC<Props> = ({
         },
       ],
     )
-  }
-
-  const openAppSettings = async () => {
-    await Linking.openSettings()
   }
 
   return (
@@ -106,7 +96,7 @@ const ProfileAuthenticated: FC<Props> = ({
           description: i18n.t('profile.menu.notifications_description'),
           image: require('../../assets/images/imageProfileNotifications.png'),
         }}
-        onPress={openAppSettings}
+        onPress={openNotificationMenu}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
       <ProfileSettingsItem

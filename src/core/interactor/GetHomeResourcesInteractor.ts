@@ -79,8 +79,10 @@ export class GetHomeResourcesInteractor {
 
     if (department !== undefined) {
       try {
-        await this.pushRepository.subscribeToDepartment(department)
-        await this.pushRepository.subscribeToRegion(department.region)
+        await this.pushRepository.synchronizeDepartmentSubscription(department)
+        await this.pushRepository.synchronizeRegionSubscription(
+          department.region,
+        )
       } catch (error) {
         console.log(error)
         // no-op

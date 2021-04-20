@@ -6,6 +6,7 @@ import {
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import * as _Screen from './screen'
+import { NotificationCategory } from '../core/entities/Notification'
 
 export const Screen = _Screen
 
@@ -26,6 +27,8 @@ export type ProfileParamList = {
   ProfileDataProtection: undefined
   PersonalInformation: undefined
   CenterOfInterest: undefined
+  NotificationMenu: undefined
+  Notifications: { category: NotificationCategory }
 }
 
 export type EventParamList = {
@@ -222,4 +225,16 @@ export type EventDetailsScreenProps = StackScreenProps<
 export type CentersOfInterestScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.centerOfInterest
+>
+
+// Notifications Menu
+export type NotificationMenuScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.notificationMenu
+>
+
+// Notifications
+export type NotificationsScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.notifications
 >

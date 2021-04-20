@@ -27,6 +27,9 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
     const openApplicationSettings = async () => {
       await Linking.openSettings()
     }
+    const openNotificationMenu = () => {
+      navigation.navigate(Screen.notificationMenu)
+    }
     if (content instanceof ProfileAnonymousResult) {
       const openZipCode = () => {
         navigation.navigate(Screen.profileZipCode, {
@@ -53,6 +56,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
           openLogin={openLogin}
           openZipCode={openZipCode}
           openApplicationSettings={openApplicationSettings}
+          openNotificationMenu={openNotificationMenu}
           viewModel={viewModel}
         />
       )
@@ -72,6 +76,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
           openPersonalInformation={openPersonalInformation}
           openCenterOfInterest={openCenterOfInterest}
           openApplicationSettings={openApplicationSettings}
+          openNotificationMenu={openNotificationMenu}
           viewModel={viewModel}
         />
       )

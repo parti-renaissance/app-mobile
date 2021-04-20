@@ -46,8 +46,12 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   const onSuccessZipCode = async (department: Department) => {
     await ProfileRepository.getInstance().saveZipCode(zipCode)
     try {
-      await PushRepository.getInstance().subscribeToDepartment(department)
-      await PushRepository.getInstance().subscribeToRegion(department.region)
+      await PushRepository.getInstance().synchronizeDepartmentSubscription(
+        department,
+      )
+      await PushRepository.getInstance().synchronizeRegionSubscription(
+        department.region,
+      )
     } catch (error) {
       //no-op
     }

@@ -53,6 +53,9 @@ export const ProfileMapper = {
       phone: phoneNumber(result.phone),
       isCertified: result.certified,
       interests: result.interests.map((interest) => interest.code),
+      subscriptions: result.subscription_types.map(
+        (subscription) => subscription.code,
+      ),
     }
   },
 }

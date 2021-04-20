@@ -39,6 +39,7 @@ const PinkTheme: Theme = {
     homeNews: () => require('../assets/images/pink/imageActualite.png'),
     homeTools: () => require('../assets/images/pink/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/pink/imageCodePostal.png'),
+    notification: () => require('../assets/images/pink/imageNotification.png'),
   },
 }
 

@@ -38,3 +38,7 @@ export interface RestViolation {
 export interface RestUpdateCentersOfInterestRequest {
   interests: Array<string>
 }
+
+export interface RestUpdateSubscriptionsRequest {
+  subscription_types: Array<string>
+}
