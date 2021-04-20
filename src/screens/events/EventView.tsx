@@ -26,7 +26,17 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
           <View style={styles.topRow}>
             <View style={styles.leftColumn}>
               <TagView style={styles.tag} viewModel={viewModel.tag} />
-              <Text style={styles.title}>{viewModel.title}</Text>
+              <Text style={styles.title}>
+                {viewModel.isOnline ? (
+                  <View style={styles.webcamIconContainer}>
+                    <Image
+                      style={styles.webcamIcon}
+                      source={require('../../assets/images/videocam.png')}
+                    />
+                  </View>
+                ) : null}
+                {viewModel.title}
+              </Text>
             </View>
             <View style={styles.rightColumn}>
               {viewModel.imageUrl ? (
@@ -112,6 +122,15 @@ const stylesFactory = (theme: Theme) => {
     },
     topRow: {
       flexDirection: 'row',
+    },
+    webcamIcon: {
+      borderRadius: 2,
+      height: 16,
+      resizeMode: 'contain',
+      width: 24,
+    },
+    webcamIconContainer: {
+      paddingRight: Spacing.unit,
     },
   })
 }
