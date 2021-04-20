@@ -6,17 +6,17 @@ export class GetQuickPollInteractor {
   private quickPollRepository = QuickPollRepository.getInstance()
 
   public async execute(
+    zipCode: string,
     dataSource: DataSource = 'remote',
-  ): Promise<StatefulQuickPoll | undefined> {
-    const polls = await this.quickPollRepository.getQuickPolls(dataSource)
-    if (polls.length === 0) {
-      return undefined
-    }
-    const poll = polls[0]
+  ): Promise<StatefulQuickPoll> {
+    const quickPoll = await this.quickPollRepository.getQuickPoll(
+      zipCode,
+      dataSource,
+    )
     const answeredPollsIds = await this.quickPollRepository.getAnsweredQuickPolls()
     return {
-      ...poll,
-      state: answeredPollsIds.includes(poll.id) ? 'answered' : 'pending',
+      ...quickPoll,
+      state: answeredPollsIds.includes(quickPoll.id) ? 'answered' : 'pending',
     }
   }
 }
