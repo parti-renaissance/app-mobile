@@ -19,6 +19,20 @@ export const GetEventsSearchParametersMapper = {
         'finishAt[strictly_after]': formattedDate,
       }
     }
+    const searchText = filters?.searchText
+    if (searchText && searchText.length > 0) {
+      searchParams = {
+        ...searchParams,
+        name: searchText,
+      }
+    }
+    const eventMode = filters?.mode
+    if (eventMode) {
+      searchParams = {
+        ...searchParams,
+        mode: eventMode,
+      }
+    }
     return searchParams
   },
 }
