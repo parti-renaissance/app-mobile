@@ -17,18 +17,24 @@ import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMa
 import { EventMode } from '../../core/entities/Event'
 
 type Props = Readonly<{
-  onNewFilters: (eventTypeFilter: EventMode | undefined) => void
+  initialEventMode: EventMode | undefined
+  onNewFilters: (eventMode: EventMode | undefined) => void
   onDismissModal: () => void
 }>
 
 const EventQuickFilters: FC<Props> = (props) => {
   const styles = useThemedStyles(stylesFactory)
   const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
-    undefined,
+    props.initialEventMode,
   )
   const [viewModel, setViewModel] = useState(
-    EventQuickFiltersViewModelMapper.map(),
+    EventQuickFiltersViewModelMapper.map(props.initialEventMode),
   )
+
+  const clear = () => {
+    setEventModeFilter(undefined)
+    updateViewModel(undefined)
+  }
 
   const submit = () => {
     props.onNewFilters(eventModeFilter)
@@ -72,7 +78,7 @@ const EventQuickFilters: FC<Props> = (props) => {
           onPress={props.onDismissModal}
         />
         <Text style={styles.headerTitle}>{i18n.t('events.filters.title')}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={clear}>
           <Text style={styles.headerClearFilters}>
             {i18n.t('events.filters.clear')}
           </Text>

@@ -98,6 +98,7 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
     <SafeAreaView style={styles.scene}>
       <Modal visible={modalVisible} animationType="slide">
         <EventQuickFilters
+          initialEventMode={eventModeFilter}
           onDismissModal={dismissModal}
           onNewFilters={onNewFilters}
         />
