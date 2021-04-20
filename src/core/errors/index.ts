@@ -17,3 +17,4 @@ export class ProfileFormError extends Error {
     this.violations = violations
   }
 }
+export class EventSubscriptionError extends Error {}

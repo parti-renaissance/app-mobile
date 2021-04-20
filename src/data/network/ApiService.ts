@@ -9,20 +9,18 @@ import {
   RestQuickPollItem,
   RestQuickPollResponse,
 } from '../restObjects/RestQuickPollResponse'
-import ky, { Options } from 'ky'
+import { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
   RestUpdateCentersOfInterestRequest,
-  RestUpdateErrorResponse,
   RestUpdateProfileRequest,
 } from '../restObjects/RestUpdateProfileRequest'
-import { ProfileFormError } from '../../core/errors'
-import { FormViolation } from '../../core/entities/DetailedProfile'
 import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
 import { EventFilters } from '../../core/entities/Event'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
 import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
+import { mapProfileFormError, mapSubscriptionError } from './errorMappers'
 
 class ApiService {
   private static instance: ApiService
@@ -68,23 +66,7 @@ class ApiService {
     return this.httpClient
       .put('api/v3/profile/' + userUuid, { json: request })
       .json<RestDetailedProfileResponse>()
-      .catch(async (error) => {
-        if (error instanceof ky.HTTPError && error.response.status === 400) {
-          const errorResponse = await error.response.json()
-
-          const parsedError = errorResponse as RestUpdateErrorResponse
-          const violations = parsedError.violations.map<FormViolation>(
-            (value) => {
-              return {
-                propertyPath: value.propertyPath,
-                message: value.message,
-              }
-            },
-          )
-          throw new ProfileFormError(violations)
-        }
-        return genericErrorMapping(error)
-      })
+      .catch(mapProfileFormError)
   }
 
   public getNews(zipCode: string, page: number): Promise<RestNewsResponse> {
@@ -175,7 +157,7 @@ class ApiService {
       .post('api/v3/events/' + eventId + '/subscribe')
       .json()
       .then(() => {})
-      .catch(genericErrorMapping)
+      .catch(mapSubscriptionError)
   }
 
   public unsubscribeFromEvent(eventId: string): Promise<void> {
@@ -183,7 +165,7 @@ class ApiService {
       .delete('api/v3/events/' + eventId + '/subscribe')
       .json()
       .then(() => {})
-      .catch(genericErrorMapping)
+      .catch(mapSubscriptionError)
   }
 
   public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {
