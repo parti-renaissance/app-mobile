@@ -27,22 +27,19 @@ export const NotificationViewModelMapper = {
           id: ID_PUSH,
           label: notificationLabel,
           isSelected: isPushEnabled,
+          isLastOfSection: true,
         },
       ],
     }
     sections.push(sectionPush)
-    const multiMap = new MultiMap<string, NotificationRowViewModel>()
+    const multiMap = new MultiMap<string, Notification>()
 
     notifications.forEach((notification) => {
-      const notificationViewModel = mapNotification(
-        notification,
-        notificationsEnabled,
-      )
-      multiMap.set(notification.media, notificationViewModel)
+      multiMap.set(notification.media, notification)
     })
 
-    insertSections(sections, multiMap, 'email')
-    insertSections(sections, multiMap, 'sms')
+    insertSections(sections, notificationsEnabled, multiMap, 'email')
+    insertSections(sections, notificationsEnabled, multiMap, 'sms')
 
     return {
       sections: sections,
@@ -62,25 +59,31 @@ function getNotificationLabel(notificationCategory: NotificationCategory) {
 function mapNotification(
   notification: Notification,
   notificationsEnabled: Array<string>,
+  isLastOfSection: boolean,
 ): NotificationRowViewModel {
   return {
     id: notification.id,
     label: notification.label,
     isSelected: notificationsEnabled.includes(notification.id),
+    isLastOfSection: isLastOfSection,
   }
 }
 
 function insertSections(
   sections: NotificationSectionViewModel[],
-  multiMap: MultiMap<
-    string,
-    NotificationRowViewModel,
-    NotificationRowViewModel[]
-  >,
+  notificationsEnabled: Array<string>,
+  multiMap: MultiMap<string, Notification, Notification[]>,
   media: NotificationMedia,
 ) {
-  const viewModels = multiMap.get(media)
-  if (viewModels) {
+  const notifications = multiMap.get(media)
+  if (notifications) {
+    const viewModels = notifications.map((notification, index) => {
+      return mapNotification(
+        notification,
+        notificationsEnabled,
+        index === notifications.length - 1,
+      )
+    })
     sections.push({ title: mapSectionLabel(media), data: viewModels })
   }
 }

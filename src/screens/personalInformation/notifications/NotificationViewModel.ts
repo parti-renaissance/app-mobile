@@ -11,4 +11,5 @@ export interface NotificationRowViewModel {
   id: string
   label: string
   isSelected: boolean
+  isLastOfSection: boolean
 }

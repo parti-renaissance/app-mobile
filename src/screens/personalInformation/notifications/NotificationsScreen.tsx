@@ -17,6 +17,7 @@ import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
+import NotificationRowView from './NotificationRowView'
 import { NotificationRowViewModel } from './NotificationViewModel'
 import { NotificationViewModelMapper } from './NotificationViewModelMapper'
 
@@ -30,10 +31,18 @@ const NotificationsContent = (
     content.notifications,
     content.notificationsEnabled,
   )
+  const onNotificationChanged = (id: string, isSelected: boolean) => {
+    // TODO
+  }
   const renderItem = ({
     item,
   }: SectionListRenderItemInfo<NotificationRowViewModel>) => {
-    return <Text>{item.label}</Text>
+    return (
+      <NotificationRowView
+        viewModel={item}
+        onSelectionChanged={onNotificationChanged}
+      />
+    )
   }
   return (
     <View>
