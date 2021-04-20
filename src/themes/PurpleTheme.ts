@@ -39,6 +39,8 @@ const PurpleTheme: Theme = {
     homeNews: () => require('../assets/images/purple/imageActualite.png'),
     homeTools: () => require('../assets/images/purple/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/purple/imageCodePostal.png'),
+    notification: () =>
+      require('../assets/images/purple/imageNotification.png'),
   },
 }
 

@@ -36,7 +36,7 @@ const Navigator: FunctionComponent = () => {
       PushNotification.requestPermission()
       Analytics.enable()
       PushRepository.getInstance()
-        .subscribeToGeneralTopic()
+        .synchronizeGeneralTopicSubscription()
         .catch((error) => {
           console.log(error)
         })

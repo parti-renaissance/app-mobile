@@ -6,6 +6,7 @@ import {
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import * as _Screen from './screen'
+import { NotificationCategory } from '../core/entities/Notification'
 
 export const Screen = _Screen
 
@@ -15,6 +16,7 @@ export type HomeParamList = {
   Home: undefined
   Region: { zipCode: string }
   News: undefined
+  EventDetails: { eventId: string }
 }
 
 export type ProfileParamList = {
@@ -25,12 +27,20 @@ export type ProfileParamList = {
   ProfileDataProtection: undefined
   PersonalInformation: undefined
   CenterOfInterest: undefined
+  NotificationMenu: undefined
+  Notifications: { category: NotificationCategory }
+}
+
+export type EventParamList = {
+  Events: undefined
+  EventDetails: { eventId: string }
 }
 
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
   Polls: undefined
   Tools: undefined
+  EventNavigator: NavigatorScreenParams<EventParamList>
   ProfileNavigator: NavigatorScreenParams<ProfileParamList>
 }
 
@@ -197,8 +207,34 @@ export type PersonalInformationScreenProps = StackScreenProps<
   typeof Screen.personalInformation
 >
 
+// Event
+export type EventScreenNavigationProp = StackNavigationProp<
+  EventParamList,
+  typeof Screen.events
+>
+export type EventScreenProps = Readonly<{
+  navigation: EventScreenNavigationProp
+}>
+
+export type EventDetailsScreenProps = StackScreenProps<
+  EventParamList,
+  typeof Screen.eventDetails
+>
+
 // Centers of interests
 export type CentersOfInterestScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.centerOfInterest
+>
+
+// Notifications Menu
+export type NotificationMenuScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.notificationMenu
+>
+
+// Notifications
+export type NotificationsScreenProps = StackScreenProps<
+  ProfileParamList,
+  typeof Screen.notifications
 >

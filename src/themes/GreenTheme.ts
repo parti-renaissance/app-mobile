@@ -38,6 +38,7 @@ const GreenTheme: Theme = {
     homeNews: () => require('../assets/images/green/imageActualite.png'),
     homeTools: () => require('../assets/images/green/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/green/imageCodePostal.png'),
+    notification: () => require('../assets/images/green/imageNotification.png'),
   },
 }
 

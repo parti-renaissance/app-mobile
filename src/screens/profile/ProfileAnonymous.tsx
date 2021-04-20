@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 
 import { Colors, Spacing, Typography } from '../../styles'
 import ProfilePollsCompleted from './ProfilePollsCompleted'
@@ -18,6 +18,7 @@ type Props = Readonly<{
   openLogin: () => void
   openZipCode: () => void
   openApplicationSettings: () => void
+  openNotificationMenu: () => void
   viewModel: ProfileScreenViewModel
 }>
 
@@ -27,12 +28,9 @@ const ProfileAnonymous: FC<Props> = ({
   openLogin,
   openZipCode,
   openApplicationSettings,
+  openNotificationMenu,
   viewModel,
 }) => {
-  const openAppSettings = async () => {
-    await Linking.openSettings()
-  }
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -71,7 +69,7 @@ const ProfileAnonymous: FC<Props> = ({
           description: i18n.t('profile.menu.notifications_description'),
           image: require('../../assets/images/imageProfileNotifications.png'),
         }}
-        onPress={openAppSettings}
+        onPress={openNotificationMenu}
       />
       <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
       <ProfileSettingsItem

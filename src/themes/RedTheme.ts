@@ -38,6 +38,7 @@ const RedTheme: Theme = {
     homeNews: () => require('../assets/images/red/imageActualite.png'),
     homeTools: () => require('../assets/images/red/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/red/imageCodePostal.png'),
+    notification: () => require('../assets/images/red/imageNotification.png'),
   },
 }
 

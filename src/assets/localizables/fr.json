@@ -17,7 +17,8 @@
       "error_retry": "Réessayer",
       "cancel": "Annuler",
       "confirm": "Confirmer",
-      "search": "Rechercher"
+      "search": "Rechercher",
+      "ok": "OK"
     },
     "tab": {
       "item_polls": "Questionnaires",
@@ -207,7 +208,8 @@
       "quick_poll": {
         "votes_count": "{{format}} votant",
         "votes_count_plural": "{{format}} votants"
-      }
+      },
+      "event": { "section": "Prochain évènement" }
     },
     "regions": { "website": "Site de campagne" },
     "profileZipCode": {
@@ -226,8 +228,6 @@
         "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
       },
       "title": "Informations personnelles",
-      "save": "Enregistrer",
-      "cancel": "Annuler",
       "section_identity": "Votre identité",
       "section_coordinates": "Vos coordonnées",
       "section_social": "Vos identifiants réseaux sociaux (optionnel)",
@@ -245,6 +245,8 @@
       "twitter": "Twitter",
       "telegram": "Telegram",
       "placeholder": "Renseigner",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
       "gender_male": "Homme",
       "gender_female": "Femme",
       "gender_unknown": "Autre",
@@ -252,10 +254,62 @@
       "country_picker_language": "fra",
       "gmaps_language": "fr"
     },
+    "events": {
+      "title": "Événements",
+      "tab_home": "À la une",
+      "tab_calendar": "Calendrier",
+      "tab_mine": "Mes événements",
+      "subscribed": "Inscrit",
+      "empty": "Vous n’avez aucun évènement à venir.",
+      "section_date_format": "dddd D MMMM YYYY",
+      "section_date_today": "Aujourd'hui",
+      "search_placeholder": "Rechercher un événement",
+      "filters": {
+        "title": "Filtres",
+        "section_event": "Type d'événements",
+        "event_online": "En ligne",
+        "event_meeting": "En personne",
+        "section_category": "Catégories",
+        "apply": "Appliquer",
+        "clear": "Effacer"
+      }
+    },
+    "eventdetails": {
+      "add_calendar": "Ajouter à mon calendrier",
+      "online_event": "Événement en ligne",
+      "access_online_event": "Accéder à l'événement en ligne",
+      "share_event": "Partager l'événement",
+      "share_message": "TODO: message partage",
+      "description": "Description",
+      "see_more": "Voir plus",
+      "associated_survey": "Questionnaire lié",
+      "register": "S'inscrire",
+      "registered": "Inscrit",
+      "unsubscribe": {
+        "title": "Annuler mon inscription",
+        "content": "Vous êtes sur le point d’annuler votre inscription à l’évènement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
+        "confirm": "Oui"
+      },
+      "attendees": "{{attendees}} inscrits",
+      "date_format": "dddd D MMMM YYYY"
+    },
     "centerofinterest": {
       "title": "Centres d'intérêt",
       "save": "Enregistrer",
       "description": "Sélectionnez les thématiques qui vous intéressent."
+    },
+    "notificationmenu": {
+      "title": "Notifications",
+      "description": "Activez les notifications pour profiter au mieux de Je m'engage !",
+      "local": "Locales",
+      "national": "Nationales"
+    },
+    "notificationsubmenu": {
+      "section_push": "Pushs",
+      "section_emails": "E-mails",
+      "section_sms": "SMS/MMS",
+      "push_description_local": "Recevoir des notifications pour ne manquer aucune action locale",
+      "push_description_national": "Recevoir des notifications pour ne manquer aucun grands rendez-vous nationaux"
     }
   }
 }

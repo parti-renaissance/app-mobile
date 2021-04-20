@@ -1,4 +1,7 @@
-import { RestInterestConfiguration } from './RestConfigurations'
+import {
+  RestInterestConfiguration,
+  RestSubscriptionTypeConfiguration,
+} from './RestConfigurations'
 
 export interface RestDetailedProfileResponse {
   uuid: string
@@ -17,6 +20,7 @@ export interface RestDetailedProfileResponse {
   phone: RestPhoneNumber
   certified: boolean
   interests: Array<RestInterestConfiguration>
+  subscription_types: Array<RestSubscriptionTypeConfiguration>
 }
 
 export interface RestPostAddress {

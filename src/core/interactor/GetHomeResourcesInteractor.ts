@@ -15,6 +15,8 @@ import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
 import { GetQuickPollInteractor } from './GetQuickPollInteractor'
 import { StatefulQuickPoll } from '../entities/StatefulQuickPoll'
+import { GetNextEventInteractor } from './GetNextEventInteractor'
+import { ShortEvent } from '../entities/Event'
 
 export interface HomeResources {
   zipCode: string
@@ -24,6 +26,7 @@ export interface HomeResources {
   polls: Array<Poll>
   tools: Array<Tool>
   quickPoll?: StatefulQuickPoll
+  nextEvent?: ShortEvent
 }
 
 export class GetHomeResourcesInteractor {
@@ -35,6 +38,7 @@ export class GetHomeResourcesInteractor {
   private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
   private getQuickPollInteractor = new GetQuickPollInteractor()
+  private getNextEventInteractor = new GetNextEventInteractor()
 
   public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
@@ -47,6 +51,7 @@ export class GetHomeResourcesInteractor {
       pollsResult,
       toolsResult,
       quickPollsResult,
+      nextEventResult,
     ] = await allSettled([
       state === AuthenticationState.Authenticated
         ? this.profileRepository.getProfile(dataSource)
@@ -55,7 +60,8 @@ export class GetHomeResourcesInteractor {
       this.newsRepository.getLatestNews(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
-      this.getQuickPollInteractor.execute(zipCode, dataSource),
+      this.getQuickPollInteractor.execute(dataSource),
+      this.getNextEventInteractor.execute(),
     ])
 
     const department =
@@ -73,8 +79,10 @@ export class GetHomeResourcesInteractor {
 
     if (department !== undefined) {
       try {
-        await this.pushRepository.subscribeToDepartment(department)
-        await this.pushRepository.subscribeToRegion(department.region)
+        await this.pushRepository.synchronizeDepartmentSubscription(department)
+        await this.pushRepository.synchronizeRegionSubscription(
+          department.region,
+        )
       } catch (error) {
         console.log(error)
         // no-op
@@ -115,6 +123,10 @@ export class GetHomeResourcesInteractor {
       quickPoll:
         quickPollsResult.status === 'fulfilled'
           ? quickPollsResult.value
+          : undefined,
+      nextEvent:
+        nextEventResult.status === 'fulfilled'
+          ? nextEventResult.value
           : undefined,
     }
   }
