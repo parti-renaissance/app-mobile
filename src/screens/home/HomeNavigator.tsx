@@ -7,6 +7,7 @@ import { headerBlank } from '../../styles/navigationAppearance'
 import RegionScreen from '../regions/RegionScreen'
 import NewsScreen from '../news/NewsScreen'
 import i18n from '../../utils/i18n'
+import EventDetailsScreen from '../events/EventDetailsScreen'
 
 const HomeStack = createStackNavigator<HomeParamList>()
 
@@ -32,6 +33,11 @@ const HomeNavigator: FunctionComponent = () => {
             title: i18n.t('news.title'),
           }
         }}
+      />
+
+      <HomeStack.Screen
+        name={Screen.eventDetails}
+        component={EventDetailsScreen}
       />
     </HomeStack.Navigator>
   )

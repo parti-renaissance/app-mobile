@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import {
   SectionList,
@@ -15,6 +14,7 @@ import PaginatedResult from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
+import { DateProvider } from '../../utils/DateProvider'
 import i18n from '../../utils/i18n'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoaderView from '../shared/LoaderView'
@@ -26,7 +26,7 @@ import {
   EventRowContainerViewModel,
   EventRowViewModel,
 } from './EventViewModel'
-import { EventViewModelMapper } from './EventViewModelMapper'
+import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -47,7 +47,7 @@ const EventListScreen: FC<Props> = (props) => {
       const subscribedOnly = props.eventFilter === 'myEvents' ? true : false
       const filters: EventFilters = {
         subscribedOnly: subscribedOnly,
-        finishAfter: moment().format('YYYY-MM-DD'),
+        finishAfter: DateProvider.now(),
       }
       return new GetEventsInteractor().execute(page, filters)
     },
@@ -185,7 +185,7 @@ const EventListScreen: FC<Props> = (props) => {
     <StatefulView
       state={statefulState}
       contentComponent={(result) => {
-        const viewModel = EventViewModelMapper.map(
+        const viewModel = EventSectionViewModelMapper.map(
           result.result,
           props.eventFilter,
         )

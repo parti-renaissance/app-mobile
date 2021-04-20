@@ -39,6 +39,7 @@ import { ExternalLink } from '../shared/ExternalLink'
 import { ServerTimeoutError } from '../../core/errors'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
+import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -62,6 +63,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.polls,
       currentResources.tools,
       currentResources.quickPoll,
+      currentResources.nextEvent,
     )
     setStatefulState(new ViewState.Content(viewModel))
   }, [theme, currentResources])
@@ -176,6 +178,12 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     }
     setResources(clone)
   }
+  const onEventSelected = (eventId: string) => {
+    navigation.navigate(Screen.homeNavigator, {
+      screen: Screen.eventDetails,
+      params: { eventId: eventId },
+    })
+  }
 
   const renderItem = ({
     item,
@@ -218,6 +226,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeQuickPollRowContainer
           viewModel={item.value}
           onAnswerSelected={onQuickPollAnswerSelected}
+        />
+      )
+    } else if (item.type === 'event') {
+      return (
+        <HomeEventRowContainer
+          viewModel={item.value}
+          onEventSelected={onEventSelected}
         />
       )
     } else {
