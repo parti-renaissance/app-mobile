@@ -72,3 +72,12 @@ export interface RestEventAddress {
   latitude: number
   longitude: number
 }
+
+export interface RestSubscriptionErrorResponse {
+  violations: Array<RestSubscriptionViolation>
+}
+
+export interface RestSubscriptionViolation {
+  propertyPath: string
+  title: string
+}

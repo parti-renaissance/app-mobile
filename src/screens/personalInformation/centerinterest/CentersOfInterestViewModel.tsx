@@ -1,12 +1,5 @@
-import { ImageSourcePropType } from 'react-native'
+import { SelectableIconLabelViewModel } from '../../shared/SelectableIconLabelView'
 
 export interface CentersOfInterestViewModel {
-  interests: Array<InterestViewModel>
-}
-
-export interface InterestViewModel {
-  code: string
-  label: string
-  image: ImageSourcePropType
-  isSelected: boolean
+  interests: Array<SelectableIconLabelViewModel>
 }

@@ -1,17 +1,29 @@
 import React, { FC } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
-import { useThemedStyles } from '../../../themes'
-import Theme from '../../../themes/Theme'
-import { TouchablePlatform } from '../../shared/TouchablePlatform'
-import { InterestViewModel } from './CentersOfInterestViewModel'
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { useThemedStyles } from '../../themes'
+import Theme from '../../themes/Theme'
+import { TouchablePlatform } from './TouchablePlatform'
 
 type Props = Readonly<{
-  viewModel: InterestViewModel
-  onInterestSelected: (code: string) => void
+  viewModel: SelectableIconLabelViewModel
+  onSelected: (code: string) => void
 }>
 
-const InterestView: FC<Props> = ({ viewModel, onInterestSelected }) => {
+export interface SelectableIconLabelViewModel {
+  code: string
+  label: string
+  image: ImageSourcePropType
+  isSelected: boolean
+}
+
+const SelectableIconLabelView: FC<Props> = ({ viewModel, onSelected }) => {
   const styles = useThemedStyles(stylesFactory)
   const containerStyle = viewModel.isSelected
     ? styles.containerSelected
@@ -25,7 +37,7 @@ const InterestView: FC<Props> = ({ viewModel, onInterestSelected }) => {
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
         onPress={() => {
-          onInterestSelected(viewModel.code)
+          onSelected(viewModel.code)
         }}
       >
         <View style={styles.innerContainer}>
@@ -78,4 +90,4 @@ const stylesFactory = (theme: Theme) => {
   })
 }
 
-export default InterestView
+export default SelectableIconLabelView

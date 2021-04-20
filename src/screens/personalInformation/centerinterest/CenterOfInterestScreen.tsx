@@ -20,9 +20,10 @@ import { PrimaryButton } from '../../shared/Buttons'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import LoadingOverlay from '../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
-import { InterestViewModel } from './CentersOfInterestViewModel'
 import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
-import InterestView from './InterestView'
+import SelectableIconLabelView, {
+  SelectableIconLabelViewModel,
+} from '../../shared/SelectableIconLabelView'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -72,9 +73,14 @@ const CenterOfInterestContent = (
       .finally(() => setIsLoading(false))
   }, [content, viewModel, onSumitSuccessful])
 
-  const renderItem = ({ item }: ListRenderItemInfo<InterestViewModel>) => {
+  const renderItem = ({
+    item,
+  }: ListRenderItemInfo<SelectableIconLabelViewModel>) => {
     return (
-      <InterestView viewModel={item} onInterestSelected={onInterestSelected} />
+      <SelectableIconLabelView
+        viewModel={item}
+        onSelected={onInterestSelected}
+      />
     )
   }
 
@@ -165,10 +171,10 @@ const styles = StyleSheet.create({
 })
 
 function toggleSelectionAtIndex(
-  interests: InterestViewModel[],
+  interests: SelectableIconLabelViewModel[],
   indexToToggle: number,
-): InterestViewModel[] {
-  const newInterests: Array<InterestViewModel> = []
+): SelectableIconLabelViewModel[] {
+  const newInterests: Array<SelectableIconLabelViewModel> = []
   interests.forEach((value, index) => {
     if (index === indexToToggle) {
       newInterests.push({

@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { EventFilters, ShortEvent } from '../../core/entities/Event'
+import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { Spacing, Typography } from '../../styles'
@@ -30,6 +30,8 @@ import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 
 type Props = Readonly<{
   eventFilter: EventFilter
+  searchText?: string
+  eventModeFilter?: EventMode
   onEventSelected: (eventId: string) => void
 }>
 
@@ -48,6 +50,8 @@ const EventListScreen: FC<Props> = (props) => {
       const filters: EventFilters = {
         subscribedOnly: subscribedOnly,
         finishAfter: DateProvider.now(),
+        searchText: props.searchText,
+        mode: props.eventModeFilter,
       }
       return new GetEventsInteractor().execute(page, filters)
     },

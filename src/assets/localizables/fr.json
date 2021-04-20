@@ -133,7 +133,8 @@
         "personal_information_description": "Modifiez les informations de votre profil.",
         "center_interest": "Centres d'intérêt",
         "center_interest_description": "Sélectionnez les thématiques qui vous intéressent.",
-        "account": "Compte"
+        "account": "Compte",
+        "settings": "Paramètres"
       },
       "alert": {
         "logout": {
@@ -260,7 +261,17 @@
       "subscribed": "Inscrit",
       "empty": "Vous n’avez aucun évènement à venir.",
       "section_date_format": "dddd D MMMM YYYY",
-      "section_date_today": "Aujourd'hui"
+      "section_date_today": "Aujourd'hui",
+      "search_placeholder": "Rechercher un événement",
+      "filters": {
+        "title": "Filtres",
+        "section_event": "Type d'événements",
+        "event_online": "En ligne",
+        "event_meeting": "En personne",
+        "section_category": "Catégories",
+        "apply": "Appliquer",
+        "clear": "Effacer"
+      }
     },
     "eventdetails": {
       "add_calendar": "Ajouter à mon calendrier",

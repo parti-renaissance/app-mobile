@@ -35,6 +35,7 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import HTML from 'react-native-render-html'
+import { EventSubscriptionError } from '../../core/errors'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -69,7 +70,11 @@ const EventDetailsContent = (
       .subscribeToEvent(viewModel.id)
       .then(() => refetchData())
       .catch((error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
+        if (error instanceof EventSubscriptionError) {
+          displayError(error.message)
+        } else {
+          displayError(GenericErrorMapper.mapErrorMessage(error))
+        }
       })
       .finally(() => {
         setIsLoading(false)
@@ -99,7 +104,11 @@ const EventDetailsContent = (
       .unsubscribeFromEvent(viewModel.id)
       .then(() => refetchData())
       .catch((error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
+        if (error instanceof EventSubscriptionError) {
+          displayError(error.message)
+        } else {
+          displayError(GenericErrorMapper.mapErrorMessage(error))
+        }
       })
       .finally(() => {
         setIsLoading(false)
