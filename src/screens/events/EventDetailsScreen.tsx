@@ -35,7 +35,7 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import HTML from 'react-native-render-html'
-import { EventSubscriptionError } from '../../core/errors'
+import { EventSubscriptionError, ForbiddenError } from '../../core/errors'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -72,6 +72,8 @@ const EventDetailsContent = (
       .catch((error) => {
         if (error instanceof EventSubscriptionError) {
           displayError(error.message)
+        } else if (error instanceof ForbiddenError) {
+          displayError(i18n.t('eventdetails.connect_to_subscribe'))
         } else {
           displayError(GenericErrorMapper.mapErrorMessage(error))
         }
