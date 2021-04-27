@@ -41,6 +41,14 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
           <View style={styles.leftColumn}>
             <TagView viewModel={viewModel.tag} />
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
+              {viewModel.isOnline ? (
+                <View style={styles.webcamIconContainer}>
+                  <Image
+                    style={styles.webcamIcon}
+                    source={require('../../assets/images/videocam.png')}
+                  />
+                </View>
+              ) : null}
               {viewModel.title}
             </Text>
             <View style={styles.footer}>
@@ -115,6 +123,15 @@ const stylesFactory = (theme: Theme) => {
       ...Typography.eventItemTitle,
       marginHorizontal: Spacing.unit,
       marginTop: Spacing.unit,
+    },
+    webcamIcon: {
+      borderRadius: 2,
+      height: 16,
+      resizeMode: 'contain',
+      width: 24,
+    },
+    webcamIconContainer: {
+      paddingRight: Spacing.unit,
     },
   })
 }
