@@ -58,12 +58,14 @@ export const EventMapper = {
     }
   },
 }
-function mapMode(mode: string): EventMode {
+function mapMode(mode: string | null): EventMode | undefined {
   switch (mode) {
     case 'meeting':
       return EventMode.MEETING
-    default:
+    case 'online':
       return EventMode.ONLINE
+    default:
+      return undefined
   }
 }
 function mapAddress(

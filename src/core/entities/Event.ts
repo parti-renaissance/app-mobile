@@ -6,7 +6,7 @@ export interface ShortEvent {
   tag: string
   userRegisteredAt?: Moment
   imageUrl?: string
-  mode: EventMode
+  mode?: EventMode
   dateStart: Moment
   dateEnd: Moment
 }
@@ -23,7 +23,7 @@ export interface DetailedEvent {
   tag: string
   userRegisteredAt?: Moment
   imageUrl?: string
-  mode: EventMode
+  mode?: EventMode
   dateStart: Moment
   dateEnd: Moment
   participantsCount: number

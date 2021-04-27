@@ -45,7 +45,7 @@ export interface RestDetailedEvent {
   status: string
   capacity: number
   visio_url: string | null
-  mode: string
+  mode: string | null
   image_url: string | null
   user_registered_at: string | null
   post_address: RestEventAddress | null
