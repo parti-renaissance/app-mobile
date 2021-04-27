@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import {
   SectionList,
   StyleSheet,
@@ -28,6 +28,7 @@ import {
 } from './EventViewModel'
 import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInteractor'
+import { useFocusEffect } from '@react-navigation/core'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -60,10 +61,9 @@ const EventListScreen: FC<Props> = (props) => {
         return new GetEventsInteractor().execute(page, filters)
       }
     },
-    [props],
+    [props.eventFilter, props.searchText, props.eventModeFilter],
   )
-  const loadFirstPage = () => {
-    setRefreshing(true)
+  const loadFirstPage = useCallback(() => {
     fetchEvents(1)
       .then((paginatedResult) => {
         setStatefulState(new ViewState.Content(paginatedResult))
@@ -77,7 +77,12 @@ const EventListScreen: FC<Props> = (props) => {
         )
       })
       .finally(() => setRefreshing(false))
-  }
+  }, [fetchEvents])
+
+  const refreshData = useCallback(() => {
+    setRefreshing(true)
+    loadFirstPage()
+  }, [loadFirstPage])
 
   const loadMore = useCallback(() => {
     const currentState = statefulState
@@ -109,7 +114,12 @@ const EventListScreen: FC<Props> = (props) => {
   // There is no pagination for the main home
   const onEndReached = props.eventFilter === 'home' ? undefined : loadMore
 
-  useEffect(loadFirstPage, [])
+  useFocusEffect(
+    useCallback(() => {
+      setStatefulState(new ViewState.Loading())
+      loadFirstPage()
+    }, [loadFirstPage]),
+  )
 
   const EventListContent = (events: Array<EventSectionViewModel>) => {
     const { theme } = useTheme()
@@ -182,7 +192,7 @@ const EventListScreen: FC<Props> = (props) => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={loadFirstPage}
+            onRefresh={refreshData}
             colors={[theme.primaryColor]}
           />
         }
