@@ -70,7 +70,10 @@ function appendEvent(
     id: event.uuid,
     sectionViewModel: { sectionName: i18n.t('home.event.section') },
     data: [
-      { type: 'event', value: { event: EventRowViewModelMapper.map(event) } },
+      {
+        type: 'event',
+        value: { event: EventRowViewModelMapper.map(event, 'hour') },
+      },
     ],
   })
 }

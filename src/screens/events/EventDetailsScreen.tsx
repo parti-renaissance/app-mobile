@@ -116,11 +116,13 @@ const EventDetailsContent = (
         setIsLoading(false)
       })
   }
-  const openOrganizerUrl = () => {
-    if (viewModel.organizer) {
-      ExternalLink.openUrl(viewModel.organizer.openUrl)
-    }
-  }
+  const openOrganizerUrl = viewModel.organizer.openUrl
+    ? () => {
+        if (viewModel.organizer.openUrl) {
+          ExternalLink.openUrl(viewModel.organizer.openUrl)
+        }
+      }
+    : undefined
   const openSurvey = () => {
     if (viewModel.survey) {
       const pollId = parseInt(viewModel.survey.id, 10)
@@ -206,27 +208,27 @@ const EventDetailsContent = (
             <Text style={styles.rowItemDescription}>{viewModel.address}</Text>
           </EventDetailsItemContainer>
         ) : null}
-        {viewModel.organizer ? (
-          <>
-            <View style={styles.separator} />
-            <EventDetailsItemContainer
-              onPress={openOrganizerUrl}
-              icon={require('../../assets/images/iconOrganizer.png')}
-            >
-              <View style={styles.organizerContainer}>
-                <Text style={styles.rowItemTitle}>
-                  {viewModel.organizer?.title}
-                </Text>
-                <Text style={styles.rowItemDescription}>
-                  {viewModel.organizer?.description}
-                </Text>
-              </View>
-              <Image
-                source={require('../../assets/images/disclosureIndicator.png')}
-              />
-            </EventDetailsItemContainer>
-          </>
-        ) : null}
+        <View style={styles.separator} />
+        <EventDetailsItemContainer
+          onPress={openOrganizerUrl}
+          icon={require('../../assets/images/iconOrganizer.png')}
+        >
+          <View style={styles.organizerContainer}>
+            <Text style={styles.rowItemTitle}>
+              {viewModel.organizer?.title}
+            </Text>
+            {viewModel.organizer?.description ? (
+              <Text style={styles.rowItemDescription}>
+                {viewModel.organizer?.description}
+              </Text>
+            ) : null}
+          </View>
+          {viewModel.organizer?.openUrl ? (
+            <Image
+              source={require('../../assets/images/disclosureIndicator.png')}
+            />
+          ) : null}
+        </EventDetailsItemContainer>
         <View style={styles.separator} />
         <EventDetailsItemContainer
           icon={require('../../assets/images/iconShare.png')}

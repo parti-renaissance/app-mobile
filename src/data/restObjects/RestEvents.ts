@@ -32,7 +32,7 @@ export interface RestEventParentCategory {
 }
 
 export interface RestDetailedEvent {
-  committee: RestEventComittee
+  committee: RestEventComittee | null
   uuid: string
   name: string
   slug: string

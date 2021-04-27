@@ -68,14 +68,14 @@ const stylesFactory = (theme: Theme) => {
     card: {
       marginHorizontal: Spacing.margin,
       marginVertical: Spacing.unit,
-      minHeight: 212,
-      width: 152,
+      width: 170,
     },
     checkIcon: {
       tintColor: theme.primaryColor,
     },
     container: {
       flexDirection: 'column',
+      minHeight: 212,
     },
     date: {
       ...Typography.body,
@@ -87,7 +87,9 @@ const stylesFactory = (theme: Theme) => {
       marginTop: Spacing.unit,
     },
     footer: {
+      alignItems: 'center',
       flexDirection: 'row',
+      flexGrow: 1,
     },
     image: {
       height: 86,

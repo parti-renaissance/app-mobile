@@ -1,5 +1,6 @@
 import {
   EventRowContainerViewModel,
+  EventRowViewModel,
   EventSectionRowViewModel,
   EventSectionViewModel,
 } from './EventViewModel'
@@ -14,35 +15,77 @@ import { EventRowViewModelMapper } from './EventRowViewModelMapper'
 export const EventSectionViewModelMapper = {
   map: (
     events: Array<ShortEvent>,
-    _: EventFilter,
+    filter: EventFilter,
   ): Array<EventSectionViewModel> => {
-    const multiMap = new MultiMap<string, ShortEvent>()
-    events.forEach((event) => {
-      const sectionKey = extractSectionKey(event.dateStart)
-      multiMap.set(sectionKey, event)
-    })
-    const result: Array<EventSectionViewModel> = []
-    let keys = new Array(...multiMap.keys())
-    keys = keys.sort()
-    for (const key of keys) {
-      const eventsOfSection = multiMap.get(key) ?? []
-      const sectionViewModel = mapSection(key, eventsOfSection[0])
-      const eventsViewModel: Array<EventRowContainerViewModel> = eventsOfSection.map(
-        (event) => {
-          return {
-            type: 'event',
-            value: EventRowViewModelMapper.map(event),
-          }
-        },
-      )
-      result.push({
-        id: key,
-        sectionViewModel: sectionViewModel,
-        data: eventsViewModel,
-      })
+    if (filter === 'home') {
+      return mapHome(events)
+    } else {
+      return mapCalendar(events)
     }
-    return result
   },
+}
+
+function mapCalendar(events: ShortEvent[]): EventSectionViewModel[] {
+  const multiMap = new MultiMap<string, ShortEvent>()
+  events.forEach((event) => {
+    const sectionKey = extractSectionKey(event.dateStart)
+    multiMap.set(sectionKey, event)
+  })
+  const result: Array<EventSectionViewModel> = []
+  let keys = new Array(...multiMap.keys())
+  keys = keys.sort()
+  for (const key of keys) {
+    const eventsOfSection = multiMap.get(key) ?? []
+    const sectionViewModel = mapSection(key, eventsOfSection[0])
+    const eventsViewModel: Array<EventRowContainerViewModel> = eventsOfSection.map(
+      (event) => {
+        return {
+          type: 'event',
+          value: EventRowViewModelMapper.map(event, 'hour'),
+        }
+      },
+    )
+    result.push({
+      id: key,
+      sectionViewModel: sectionViewModel,
+      data: eventsViewModel,
+    })
+  }
+  return result
+}
+
+function mapHome(events: ShortEvent[]): EventSectionViewModel[] {
+  const multiMap = new MultiMap<string, ShortEvent>()
+  events.forEach((event) => {
+    const sectionKey = event.tag
+    multiMap.set(sectionKey, event)
+  })
+  const result: Array<EventSectionViewModel> = []
+  const keys = new Array(...multiMap.keys())
+  for (const key of keys) {
+    const eventsOfSection = multiMap.get(key) ?? []
+    const sectionViewModel = mapHomeSection(eventsOfSection[0])
+    const eventViewModels: Array<EventRowViewModel> = eventsOfSection.map(
+      (event) => {
+        return EventRowViewModelMapper.map(event, 'day_hour')
+      },
+    )
+    eventViewModels.sort((event1, event2) => {
+      return event1.dateTimestamp - event2.dateTimestamp
+    })
+    const eventContainerViewModel: EventRowContainerViewModel = {
+      type: 'grouped',
+      value: {
+        events: eventViewModels,
+      },
+    }
+    result.push({
+      id: key,
+      sectionViewModel: sectionViewModel,
+      data: [eventContainerViewModel],
+    })
+  }
+  return result
 }
 
 function extractSectionKey(sectionTime: Moment): string {
@@ -60,5 +103,11 @@ function mapSection(
     : firstEvent.dateStart.format(i18n.t('events.section_date_format'))
   return {
     sectionName: name,
+  }
+}
+
+function mapHomeSection(firstEvent: ShortEvent): EventSectionRowViewModel {
+  return {
+    sectionName: firstEvent.tag,
   }
 }
