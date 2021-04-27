@@ -143,46 +143,46 @@ const EventListScreen: FC<Props> = (props) => {
         return null
       }
     }
-    if (events.length > 0) {
-      return (
-        <SectionList
-          stickySectionHeadersEnabled={false}
-          sections={events}
-          renderItem={renderItem}
-          renderSectionHeader={({ section: { sectionViewModel } }) => {
-            return sectionViewModel !== undefined ? (
-              <Text style={styles.section}>{sectionViewModel.sectionName}</Text>
-            ) : null
-          }}
-          ListFooterComponent={
-            isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
+    return (
+      <SectionList
+        stickySectionHeadersEnabled={false}
+        sections={events}
+        renderItem={renderItem}
+        renderSectionHeader={({ section: { sectionViewModel } }) => {
+          return sectionViewModel !== undefined ? (
+            <Text style={styles.section}>{sectionViewModel.sectionName}</Text>
+          ) : null
+        }}
+        ListFooterComponent={
+          isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
+        }
+        keyExtractor={(item) => {
+          switch (item.type) {
+            case 'event':
+              return item.value.id
+            case 'grouped':
+              return item.value.events[0]?.id
           }
-          keyExtractor={(item) => {
-            switch (item.type) {
-              case 'event':
-                return item.value.id
-              case 'grouped':
-                return item.value.events[0]?.id
-            }
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={loadFirstPage}
-              colors={[theme.primaryColor]}
-            />
-          }
-          onEndReachedThreshold={0.8}
-          onEndReached={loadMore}
-        />
-      )
-    } else {
-      return (
-        <View style={styles.emptyTextContainer}>
-          <Text style={styles.emptyText}>{i18n.t('events.empty')}</Text>
-        </View>
-      )
-    }
+        }}
+        ListEmptyComponent={() => {
+          return (
+            <View style={styles.emptyTextContainer}>
+              <Text style={styles.emptyText}>{i18n.t('events.empty')}</Text>
+            </View>
+          )
+        }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={loadFirstPage}
+            colors={[theme.primaryColor]}
+          />
+        }
+        contentContainerStyle={styles.contentContainerStyle}
+        onEndReachedThreshold={0.8}
+        onEndReached={loadMore}
+      />
+    )
   }
 
   return (
@@ -202,6 +202,9 @@ const EventListScreen: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   bottomLoader: {
     margin: Spacing.margin,
+  },
+  contentContainerStyle: {
+    flexGrow: 1,
   },
   emptyText: {
     ...Typography.body,
