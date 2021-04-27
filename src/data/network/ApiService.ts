@@ -126,6 +126,7 @@ class ApiService {
     zipCode: string,
     page: number,
     eventFilters?: EventFilters,
+    orderBySubscriptions?: boolean,
   ): Promise<RestEvents> {
     const filterParams: SearchParamsKeyValue = GetEventsSearchParametersMapper.map(
       eventFilters,
@@ -134,6 +135,12 @@ class ApiService {
       page: page,
       zipCode: zipCode,
       ...filterParams,
+    }
+    if (orderBySubscriptions) {
+      searchParams = {
+        'order[subscriptions]': 'desc',
+        ...searchParams,
+      }
     }
     return this.httpClient
       .get('api/v3/events', {

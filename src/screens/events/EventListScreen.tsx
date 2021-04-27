@@ -27,6 +27,7 @@ import {
   EventRowViewModel,
 } from './EventViewModel'
 import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
+import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInteractor'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -53,7 +54,11 @@ const EventListScreen: FC<Props> = (props) => {
         searchText: props.searchText,
         mode: props.eventModeFilter,
       }
-      return new GetEventsInteractor().execute(page, filters)
+      if (props.eventFilter === 'home') {
+        return new GetMainEventsInteractor().execute(filters)
+      } else {
+        return new GetEventsInteractor().execute(page, filters)
+      }
     },
     [props],
   )
@@ -100,6 +105,9 @@ const EventListScreen: FC<Props> = (props) => {
         .finally(() => setLoadingMore(false))
     }
   }, [statefulState, fetchEvents])
+
+  // There is no pagination for the main home
+  const onEndReached = props.eventFilter === 'home' ? undefined : loadMore
 
   useEffect(loadFirstPage, [])
 
@@ -180,7 +188,7 @@ const EventListScreen: FC<Props> = (props) => {
         }
         contentContainerStyle={styles.contentContainerStyle}
         onEndReachedThreshold={0.8}
-        onEndReached={loadMore}
+        onEndReached={onEndReached}
       />
     )
   }

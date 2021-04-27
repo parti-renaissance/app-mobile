@@ -25,6 +25,23 @@ class EventRepository {
     }
   }
 
+  public async getMainEvents(
+    zipCode: string,
+    eventFilters?: EventFilters,
+  ): Promise<PaginatedResult<Array<ShortEvent>>> {
+    const restEvents = await this.apiService.getEvents(
+      zipCode,
+      1,
+      eventFilters,
+      true,
+    )
+    const paginationInfo = RestMetadataMapper.map(restEvents.metadata)
+    return {
+      paginationInfo: paginationInfo,
+      result: restEvents.items.map(EventMapper.mapShortEvent),
+    }
+  }
+
   public async getEventDetails(eventId: string): Promise<DetailedEvent> {
     const restDetailedEvent = await this.apiService.getEventDetails(eventId)
     return EventMapper.mapDetailedEvent(restDetailedEvent)

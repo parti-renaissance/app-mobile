@@ -263,6 +263,7 @@
       "empty": "Vous n’avez aucun évènement à venir.",
       "section_date_format": "dddd D MMMM YYYY",
       "section_date_today": "Aujourd'hui",
+      "event_date_format": "D MMMM YYYY",
       "search_placeholder": "Rechercher un événement",
       "filters": {
         "title": "Filtres",
