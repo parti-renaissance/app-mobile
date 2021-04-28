@@ -51,17 +51,15 @@ function mapAddress(event: DetailedEvent): string | undefined {
   return address.address + '\n' + address.postalCode + ' ' + address.city
 }
 
-function mapOrganizer(
-  event: DetailedEvent,
-): EventOrganizerViewModel | undefined {
+function mapOrganizer(event: DetailedEvent): EventOrganizerViewModel {
   const fullName = i18n.t('profile.name', {
     firstName: event.organizer.firstName,
     lastName: event.organizer.lastName,
   })
   return {
     title: fullName,
-    description: event.commitee.name,
-    openUrl: event.commitee.url,
+    description: event.commitee?.name,
+    openUrl: event.commitee?.url,
   }
 }
 function createCalendarEvent(event: DetailedEvent): CreateOptions {

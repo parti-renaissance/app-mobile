@@ -9,7 +9,7 @@ export interface EventDetailsViewModel {
   attendeesNumber: string
   onlineUrl?: string
   address?: string
-  organizer?: EventOrganizerViewModel
+  organizer: EventOrganizerViewModel
   imageUrl?: string
   isSubscribed: boolean
   date: EventDateViewModel
@@ -26,8 +26,8 @@ export interface EventDateViewModel {
 
 export interface EventOrganizerViewModel {
   title: string
-  description: string
-  openUrl: string
+  description?: string
+  openUrl?: string
 }
 
 export interface EventDescriptionViewModel {

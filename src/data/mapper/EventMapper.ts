@@ -58,12 +58,14 @@ export const EventMapper = {
     }
   },
 }
-function mapMode(mode: string): EventMode {
+function mapMode(mode: string | null): EventMode | undefined {
   switch (mode) {
     case 'meeting':
       return EventMode.MEETING
-    default:
+    case 'online':
       return EventMode.ONLINE
+    default:
+      return undefined
   }
 }
 function mapAddress(
@@ -79,7 +81,11 @@ function mapAddress(
     latitude: postAddress.latitude,
   }
 }
-function mapCommitee(committee: RestEventComittee): Commitee {
+function mapCommitee(
+  committee: RestEventComittee | null,
+): Commitee | undefined {
+  if (committee === null) return undefined
+
   return {
     name: committee.name,
     url: committee.link,

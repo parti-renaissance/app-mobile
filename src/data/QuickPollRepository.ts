@@ -5,6 +5,7 @@ import { QuickPoll } from '../core/entities/QuickPoll'
 import { RestQuickPollItem } from './restObjects/RestQuickPollResponse'
 import { QuickPollMapper } from './mapper/QuickPollMapper'
 import LocalStore from './store/LocalStore'
+import { NotFoundError } from '../core/errors'
 
 class QuickPollRepository {
   private static instance: QuickPollRepository
@@ -24,7 +25,14 @@ class QuickPollRepository {
         restResponse = await this.cacheManager.getFromCache(cacheKey)
         break
       case 'remote':
-        restResponse = await this.apiService.getQuickPolls(zipCode)
+        try {
+          restResponse = await this.apiService.getQuickPolls(zipCode)
+        } catch (error) {
+          if (error instanceof NotFoundError) {
+            await this.cacheManager.removeFromCache(cacheKey)
+          }
+          throw error
+        }
         await this.cacheManager.setInCache(cacheKey, restResponse)
         break
     }

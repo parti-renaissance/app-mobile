@@ -263,6 +263,7 @@
       "empty": "Vous n’avez aucun évènement à venir.",
       "section_date_format": "dddd D MMMM YYYY",
       "section_date_today": "Aujourd'hui",
+      "event_date_format": "D MMMM YYYY",
       "search_placeholder": "Rechercher un événement",
       "filters": {
         "title": "Filtres",
@@ -291,7 +292,8 @@
         "confirm": "Oui"
       },
       "attendees": "{{attendees}} inscrits",
-      "date_format": "dddd D MMMM YYYY"
+      "date_format": "dddd D MMMM YYYY",
+      "connect_to_subscribe": "Connectez-vous pour vous inscrire"
     },
     "centerofinterest": {
       "title": "Centres d'intérêt",

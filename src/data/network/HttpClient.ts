@@ -30,12 +30,17 @@ const refreshToken = async (options: { request: Request }) => {
     }
 
     if (credentials.refreshToken) {
-      return AuthenticationRepository.getInstance().refreshToken(
+      await AuthenticationRepository.getInstance().refreshToken(
         credentials.refreshToken,
       )
     } else {
-      return AuthenticationRepository.getInstance().anonymousLogin()
+      await AuthenticationRepository.getInstance().anonymousLogin()
     }
+    const newCredentials = await LocalStore.getInstance().getCredentials()
+    options.request.headers.set(
+      'Authorization',
+      `Bearer ${newCredentials?.accessToken}`,
+    )
   })
 }
 

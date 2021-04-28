@@ -2,14 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSContactsUsageDescription</key>
-	<string></string>
-	<key>NSCalendarsUsageDescription</key>
-	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Je m&apos;engage</string>
+	<string>Je m'engage</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -45,6 +41,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Requis pour partager les événements dans le calendrier</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Requis pour partager les événements dans le calendrier</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Requis pour enrichir les questionnaires</string>
 	<key>UIAppFonts</key>

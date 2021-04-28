@@ -32,7 +32,7 @@ export interface RestEventParentCategory {
 }
 
 export interface RestDetailedEvent {
-  committee: RestEventComittee
+  committee: RestEventComittee | null
   uuid: string
   name: string
   slug: string
@@ -45,7 +45,7 @@ export interface RestDetailedEvent {
   status: string
   capacity: number
   visio_url: string | null
-  mode: string
+  mode: string | null
   image_url: string | null
   user_registered_at: string | null
   post_address: RestEventAddress | null

@@ -25,6 +25,10 @@ class CacheManager {
     return JSON.parse(cacheResult)
   }
 
+  async removeFromCache(cacheKey: string) {
+    return this.cache.remove(cacheKey)
+  }
+
   purgeCache(): Promise<any> {
     return this.cache.clearAll()
   }
