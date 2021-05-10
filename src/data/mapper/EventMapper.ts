@@ -69,9 +69,9 @@ function mapMode(mode: string | null): EventMode | undefined {
   }
 }
 function mapAddress(
-  postAddress: RestEventAddress | null,
+  postAddress: RestEventAddress | null | undefined,
 ): EventAddress | undefined {
-  if (postAddress === null) return undefined
+  if (!postAddress) return undefined
   return {
     address: postAddress.address,
     postalCode: postAddress.postal_code,
@@ -82,9 +82,9 @@ function mapAddress(
   }
 }
 function mapCommitee(
-  committee: RestEventComittee | null,
+  committee: RestEventComittee | null | undefined,
 ): Commitee | undefined {
-  if (committee === null) return undefined
+  if (!committee) return undefined
 
   return {
     name: committee.name,
