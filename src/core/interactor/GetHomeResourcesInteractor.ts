@@ -123,7 +123,15 @@ export class GetHomeResourcesInteractor {
       quickPoll:
         quickPollsResult.status === 'fulfilled'
           ? quickPollsResult.value
-          : undefined,
+          : await this.getDefault(
+              dataSource,
+              (quickPollsDatasource) =>
+                this.getQuickPollInteractor.execute(
+                  zipCode,
+                  quickPollsDatasource,
+                ),
+              undefined,
+            ),
       nextEvent:
         nextEventResult.status === 'fulfilled'
           ? nextEventResult.value
