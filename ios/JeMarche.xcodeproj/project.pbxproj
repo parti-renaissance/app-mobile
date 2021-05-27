@@ -602,13 +602,13 @@
 				CODE_SIGN_ENTITLEMENTS = JeMarche/JeMarche.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 216;
+				CURRENT_PROJECT_VERSION = 217;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = U5M7X5V6ZG;
 				INFOPLIST_FILE = JeMarche/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.4;
+				MARKETING_VERSION = 2.1.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -634,12 +634,12 @@
 				CODE_SIGN_ENTITLEMENTS = JeMarche/JeMarche.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 216;
+				CURRENT_PROJECT_VERSION = 217;
 				DEVELOPMENT_TEAM = "$(RN_DEVELOPMENT_TEAM)";
 				INFOPLIST_FILE = JeMarche/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.4;
+				MARKETING_VERSION = 2.1.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
