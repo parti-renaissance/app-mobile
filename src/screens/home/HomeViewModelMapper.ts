@@ -132,7 +132,7 @@ function appendRegion(
   if (region !== undefined && region.campaign) {
     rows.push({
       id: 'region_content',
-      sectionViewModel: { sectionName: i18n.t('home.section_region') },
+      sectionViewModel: { sectionName: undefined },
       data: [
         {
           type: 'region',

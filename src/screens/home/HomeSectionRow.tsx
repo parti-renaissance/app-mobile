@@ -8,7 +8,11 @@ type Props = Readonly<{
 }>
 
 const HomeSectionRow: FunctionComponent<Props> = ({ viewModel }) => {
-  return <Text style={styles.content}>{viewModel.sectionName}</Text>
+  if (viewModel.sectionName) {
+    return <Text style={styles.content}>{viewModel.sectionName}</Text>
+  } else {
+    return null
+  }
 }
 
 const styles = StyleSheet.create({
