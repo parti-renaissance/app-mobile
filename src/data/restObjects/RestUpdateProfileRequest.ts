@@ -42,3 +42,12 @@ export interface RestUpdateCentersOfInterestRequest {
 export interface RestUpdateSubscriptionsRequest {
   subscription_types: Array<string>
 }
+
+export interface RestPostPushTokenRequest {
+  identifier: string
+  source: string
+}
+
+export interface RestUpdateErrorResponse {
+  violations: Array<RestViolation>
+}
