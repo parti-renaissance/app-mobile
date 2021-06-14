@@ -6,7 +6,7 @@ import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAns
 import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
-  sectionName: string
+  sectionName?: string
 }
 
 export interface HomeNewsRowContainerViewModel {
