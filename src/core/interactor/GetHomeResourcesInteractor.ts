@@ -88,6 +88,11 @@ export class GetHomeResourcesInteractor {
         // no-op
       }
     }
+    await this.pushRepository
+      .synchronizePushTokenAssociation()
+      .catch((error) => {
+        console.log(error)
+      })
 
     return {
       zipCode: zipCode,

@@ -3,12 +3,56 @@ import { ENVIRONMENT } from '../Config'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
 import { Region } from '../core/entities/Region'
+import { TokenCannotBeSubscribedError } from '../core/errors'
+import ApiService from './network/ApiService'
 import LocalStore from './store/LocalStore'
 
 class PushRepository {
   private static instance: PushRepository
   private localStore = LocalStore.getInstance()
+  private apiService = ApiService.getInstance()
   private constructor() {}
+
+  public async synchronizePushTokenAssociation(): Promise<void> {
+    const registrations = await this.localStore.getTopicsRegistration()
+    const pushToken = await messaging().getToken()
+    if (registrations?.pushTokenAssociated !== pushToken) {
+      try {
+        await this.apiService.removePushToken(pushToken)
+        console.log('pushToken dissociated with success')
+      } catch (error) {
+        // no-op
+        console.log(error)
+      }
+      try {
+        await this.apiService.addPushToken({
+          identifier: pushToken,
+          source: TOKEN_SOURCE,
+        })
+      } catch (error) {
+        if (!(error instanceof TokenCannotBeSubscribedError)) {
+          throw error
+        }
+      }
+      await this.localStore.updateTopicsRegistration({
+        pushTokenAssociated: pushToken,
+      })
+      console.log('pushToken associated with success')
+    } else {
+      console.log('pushToken already associated to the user')
+    }
+  }
+
+  public async dissociateToken() {
+    const pushToken = await messaging().getToken()
+    try {
+      await this.apiService.removePushToken(pushToken)
+      console.log('pushToken dissociated with success')
+    } catch (error) {
+      // no-op
+      console.log(error)
+    }
+  }
 
   public async synchronizeGeneralTopicSubscription(): Promise<void> {
     const globalNotificationsEnabled = await this.arePushNotificationsEnabled(
@@ -184,5 +228,7 @@ class PushRepository {
     return PushRepository.instance
   }
 }
+
+const TOKEN_SOURCE = 'je_marche'
 
 export default PushRepository

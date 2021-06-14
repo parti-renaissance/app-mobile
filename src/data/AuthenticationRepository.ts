@@ -63,6 +63,7 @@ class AuthenticationRepository {
   }
 
   public async logout(): Promise<void> {
+    await this.pushRepository.dissociateToken()
     await this.localStore.clearCredentials()
     await this.localStore.clearPreferences()
     await CacheManager.getInstance().purgeCache()
