@@ -181,6 +181,65 @@ class PushRepository {
     }
   }
 
+  public async synchronizeBoroughSubscription(zipCode: string): Promise<void> {
+    const localNotificationsEnabled = await this.arePushNotificationsEnabled(
+      'local',
+    )
+    if (localNotificationsEnabled) {
+      return this.subscribeToBorough(zipCode)
+    } else {
+      this.unsubscribeBorough()
+    }
+  }
+
+  private async subscribeToBorough(zipCode: string): Promise<void> {
+    const topicName = this.createTopicName('borough_' + zipCode)
+    const registrations = await this.localStore.getTopicsRegistration()
+    const previousTopic = registrations?.boroughRegistered
+    if (previousTopic !== topicName) {
+      if (previousTopic !== undefined) {
+        await messaging().unsubscribeFromTopic(previousTopic)
+        console.log(`unsubscribed from ${previousTopic}`)
+      }
+      if (this.boroughSubscriptionSupported(zipCode)) {
+        await messaging().subscribeToTopic(topicName)
+        await this.localStore.updateTopicsRegistration({
+          boroughRegistered: topicName,
+        })
+        console.log(`subscribed to ${topicName} with success`)
+      } else {
+        await this.localStore.updateTopicsRegistration({
+          boroughRegistered: undefined,
+        })
+        console.log(`Borough subscription is not supported for ${zipCode}`)
+      }
+    } else {
+      console.log(`already subscribed to ${topicName}`)
+    }
+  }
+
+  private boroughSubscriptionSupported(zipCode: string): boolean {
+    return (
+      zipCode.startsWith('13') ||
+      zipCode.startsWith('69') ||
+      zipCode.startsWith('75')
+    )
+  }
+
+  private async unsubscribeBorough() {
+    const registrations = await this.localStore.getTopicsRegistration()
+    const previousTopic = registrations?.boroughRegistered
+    if (previousTopic !== undefined) {
+      await messaging().unsubscribeFromTopic(previousTopic)
+      await this.localStore.updateTopicsRegistration({
+        boroughRegistered: undefined,
+      })
+      console.log(`unsubscribed from ${previousTopic}`)
+    } else {
+      console.log('already unsubscribed from borough')
+    }
+  }
+
   public async invalidatePushToken(): Promise<void> {
     return messaging()
       .deleteToken()

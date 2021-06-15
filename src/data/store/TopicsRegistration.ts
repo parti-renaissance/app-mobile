@@ -5,4 +5,5 @@ export interface TopicsRegistration {
   localNotificationsEnabled?: boolean
   nationalNotificationsEnabled?: boolean
   pushTokenAssociated?: string
+  boroughRegistered?: string
 }

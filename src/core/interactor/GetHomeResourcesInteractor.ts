@@ -83,6 +83,7 @@ export class GetHomeResourcesInteractor {
         await this.pushRepository.synchronizeRegionSubscription(
           department.region,
         )
+        await this.pushRepository.synchronizeBoroughSubscription(zipCode)
       } catch (error) {
         console.log(error)
         // no-op
