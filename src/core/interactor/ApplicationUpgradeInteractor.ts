@@ -2,11 +2,13 @@ import ApplicationVersionRepository, {
   NO_APPLICATION_VERSION_CODE,
 } from '../../data/ApplicationVersionRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
+import ProfileRepository from '../../data/ProfileRepository'
 import { AuthenticationState } from '../entities/AuthenticationState'
 
 export class ApplicationUpgradeInteractor {
   private applicationVersionRepository = ApplicationVersionRepository.getInstance()
   private authenticationRepository = AuthenticationRepository.getInstance()
+  private profileRepository = ProfileRepository.getInstance()
   public async execute(): Promise<void> {
     const currentVersion = this.applicationVersionRepository.currentVersionCode()
     const lastVersion = await this.lastVersionCompat(
@@ -27,7 +29,18 @@ export class ApplicationUpgradeInteractor {
 
   private async performMigrations(currentVersion: number, lastVersion: number) {
     if (this.isUpgradingTo(2, currentVersion, lastVersion)) {
-      // TODO trigger migration from version 1 to version 2
+      console.log('migrating to version 2')
+      const applicationState = await this.authenticationRepository.getAuthenticationState()
+      if (applicationState === AuthenticationState.Anonymous) {
+        const deviceId = await this.authenticationRepository.getDeviceId()
+        const zipCode = await this.profileRepository.getZipCode()
+        try {
+          await this.profileRepository.updateDeviceZipCode(deviceId, zipCode)
+        } catch (error) {
+          console.log('migration failed: ' + error)
+        }
+      }
+      console.log('migration to version 2 DONE')
     }
   }
 
