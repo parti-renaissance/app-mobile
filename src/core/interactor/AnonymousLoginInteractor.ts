@@ -7,7 +7,8 @@ export class AnonymousLoginInteractor {
   private profileRepository = ProfileRepository.getInstance()
 
   public async login(zipCode: string): Promise<void> {
-    await this.authenticationRepository.anonymousLogin()
+    const deviceId = await this.authenticationRepository.getDeviceId()
+    await this.authenticationRepository.anonymousLogin(deviceId)
     await this.profileRepository.saveZipCode(zipCode)
     this.authenticationRepository.dispatchState(AuthenticationState.Anonymous)
   }
