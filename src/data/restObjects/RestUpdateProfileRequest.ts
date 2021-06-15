@@ -51,3 +51,7 @@ export interface RestPostPushTokenRequest {
 export interface RestUpdateErrorResponse {
   violations: Array<RestViolation>
 }
+
+export interface RestUpdatePostalCodeRequest {
+  postal_code: string
+}

@@ -73,6 +73,13 @@ class ProfileRepository {
     await this.localStore.storeZipCode(zipCode)
   }
 
+  public updateDeviceZipCode(deviceId: string, zipCode: string): Promise<void> {
+    const request = {
+      postal_code: zipCode,
+    }
+    return this.apiService.updateDeviceZipCode(deviceId, request)
+  }
+
   public static getInstance(): ProfileRepository {
     if (!ProfileRepository.instance) {
       ProfileRepository.instance = new ProfileRepository()

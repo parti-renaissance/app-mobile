@@ -11,6 +11,7 @@ import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileR
 import {
   RestPostPushTokenRequest,
   RestUpdateCentersOfInterestRequest,
+  RestUpdatePostalCodeRequest,
   RestUpdateProfileRequest,
   RestUpdateSubscriptionsRequest,
 } from '../restObjects/RestUpdateProfileRequest'
@@ -218,6 +219,17 @@ class ApiService {
   public removePushToken(pushToken: string): Promise<void> {
     return this.httpClient
       .delete('api/v3/push-token/' + pushToken)
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public updateDeviceZipCode(
+    deviceId: string,
+    request: RestUpdatePostalCodeRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .put(`api/v3/device/${deviceId}`, { json: request })
       .json()
       .then(() => {})
       .catch(genericErrorMapping)
