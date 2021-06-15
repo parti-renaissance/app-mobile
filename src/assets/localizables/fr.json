@@ -22,7 +22,6 @@
     },
     "tab": {
       "item_polls": "Questionnaires",
-      "item_region": "Région",
       "item_tools": "Outils",
       "item_profile": "Profil",
       "item_home": "Accueil",
@@ -34,7 +33,7 @@
       "title": "Questionnaires",
       "subtitle": "Un questionnaire est disponible.\nOrganisez des actions terrains pour récolter des avis.",
       "subtitle_plural": "Des questionnaire sont disponibles.\r\nOrganisez des actions terrains pour récolter des avis.",
-      "subtitle_no_polls": "Aucun questionnaire n'est actuellement disponible pour votre région"
+      "subtitle_no_polls": "Aucun questionnaire n'est actuellement disponible pour votre territoire"
     },
     "polldetail": {
       "next": "Suivant",
@@ -210,7 +209,7 @@
       },
       "event": { "section": "Prochain évènement" }
     },
-    "regions": { "website": "Site de campagne" },
+    "regions": { "website": "Plus de détails" },
     "profileZipCode": {
       "title": "Code postal",
       "label": "Code postal",
