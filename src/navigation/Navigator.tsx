@@ -17,6 +17,7 @@ import { PushNotification } from '../utils/PushNotification'
 import DataCollectScreen from '../screens/authentication/DataCollectScreen'
 import { Analytics } from '../utils/Analytics'
 import PushRepository from '../data/PushRepository'
+import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -46,7 +47,9 @@ const Navigator: FunctionComponent = () => {
   }
 
   useEffect(() => {
-    authenticationRepository.getAuthenticationState().then(updateFromState)
+    new ApplicationUpgradeInteractor().execute().then(() => {
+      authenticationRepository.getAuthenticationState().then(updateFromState)
+    })
   }, [])
 
   if (isLoggedIn === undefined) {

@@ -41,9 +41,8 @@ class AuthenticationRepository {
     await this.localStore.storeCredentials(credentials)
   }
 
-  public async anonymousLogin(): Promise<void> {
-    const instanceId = await this.getDeviceId()
-    const result = await this.apiService.anonymousLogin(instanceId)
+  public async anonymousLogin(deviceId: string): Promise<void> {
+    const result = await this.apiService.anonymousLogin(deviceId)
     const credentials = this.mapCredentials(result)
     await this.localStore.storeCredentials(credentials)
   }
@@ -63,6 +62,7 @@ class AuthenticationRepository {
   }
 
   public async logout(): Promise<void> {
+    await this.pushRepository.dissociateToken()
     await this.localStore.clearCredentials()
     await this.localStore.clearPreferences()
     await CacheManager.getInstance().purgeCache()
