@@ -29,12 +29,12 @@ const refreshToken = async (options: { request: Request }) => {
       return
     }
 
+    const authenticationRepository = AuthenticationRepository.getInstance()
     if (credentials.refreshToken) {
-      await AuthenticationRepository.getInstance().refreshToken(
-        credentials.refreshToken,
-      )
+      await authenticationRepository.refreshToken(credentials.refreshToken)
     } else {
-      await AuthenticationRepository.getInstance().anonymousLogin()
+      const deviceId = await authenticationRepository.getDeviceId()
+      await authenticationRepository.anonymousLogin(deviceId)
     }
     const newCredentials = await LocalStore.getInstance().getCredentials()
     options.request.headers.set(

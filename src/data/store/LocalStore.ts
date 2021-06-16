@@ -7,6 +7,7 @@ const KEY_CREDENTIALS = 'credentials'
 const USER_PREFERENCES = 'userPreferences'
 const TOPICS_REGISTRATION = 'topicsRegistration'
 const ANSWERED_QUICK_POLLS = 'answeredQuickPolls'
+const PREVIOUS_APPLICATION_VERSION = 'previousApplicationVersion'
 
 class LocalStore {
   private static instance: LocalStore
@@ -51,6 +52,27 @@ class LocalStore {
 
   clearTopicsRegistration(): Promise<void> {
     return AsyncStorage.removeItem(TOPICS_REGISTRATION)
+  }
+
+  getPreviousApplicationVersion(): Promise<number | null> {
+    return AsyncStorage.getItem(PREVIOUS_APPLICATION_VERSION).then(
+      (version) => {
+        if (version != null) {
+          return parseInt(version, 10)
+        } else {
+          return version
+        }
+      },
+    )
+  }
+
+  setPreviousApplicationVersion(
+    previousApplicationVersion: number,
+  ): Promise<void> {
+    return AsyncStorage.setItem(
+      PREVIOUS_APPLICATION_VERSION,
+      previousApplicationVersion.toString(),
+    )
   }
 
   async storeAnsweredQuickPoll(quickPollId: string): Promise<void> {

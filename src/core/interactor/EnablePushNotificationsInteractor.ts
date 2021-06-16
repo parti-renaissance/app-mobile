@@ -23,6 +23,7 @@ export class EnablePushNotificationsInteractor {
         await this.pushRepository.synchronizeRegionSubscription(
           department.region,
         )
+        await this.pushRepository.synchronizeBoroughSubscription(zipCode)
         break
     }
   }

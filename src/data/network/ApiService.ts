@@ -9,7 +9,9 @@ import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
 import { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
+  RestPostPushTokenRequest,
   RestUpdateCentersOfInterestRequest,
+  RestUpdatePostalCodeRequest,
   RestUpdateProfileRequest,
   RestUpdateSubscriptionsRequest,
 } from '../restObjects/RestUpdateProfileRequest'
@@ -18,7 +20,11 @@ import { EventFilters } from '../../core/entities/Event'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
 import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
-import { mapProfileFormError, mapSubscriptionError } from './errorMappers'
+import {
+  mapAssociatedToken,
+  mapProfileFormError,
+  mapSubscriptionError,
+} from './errorMappers'
 
 class ApiService {
   private static instance: ApiService
@@ -197,6 +203,33 @@ class ApiService {
   ): Promise<void> {
     return this.httpClient
       .put('api/v3/profile/' + userUuid, { json: request })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public addPushToken(request: RestPostPushTokenRequest): Promise<void> {
+    return this.httpClient
+      .post('api/v3/push-token', { json: request })
+      .json()
+      .then(() => {})
+      .catch(mapAssociatedToken)
+  }
+
+  public removePushToken(pushToken: string): Promise<void> {
+    return this.httpClient
+      .delete('api/v3/push-token/' + pushToken)
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public updateDeviceZipCode(
+    deviceId: string,
+    request: RestUpdatePostalCodeRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .put(`api/v3/device/${deviceId}`, { json: request })
       .json()
       .then(() => {})
       .catch(genericErrorMapping)

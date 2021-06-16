@@ -1,6 +1,10 @@
 import ky from 'ky'
 import { FormViolation } from '../../core/entities/DetailedProfile'
-import { EventSubscriptionError, ProfileFormError } from '../../core/errors'
+import {
+  EventSubscriptionError,
+  ProfileFormError,
+  TokenCannotBeSubscribedError,
+} from '../../core/errors'
 import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
 import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
 import { genericErrorMapping } from './utils'
@@ -39,6 +43,27 @@ export const mapSubscriptionError = async (error: any) => {
       '',
     )
     throw new EventSubscriptionError(errorMessage)
+  }
+  return genericErrorMapping(error)
+}
+
+export const mapAssociatedToken = async (error: any) => {
+  if (error instanceof ky.HTTPError && error.response.status === 400) {
+    const errorResponse = await error.response.json()
+
+    const parsedError = errorResponse as RestUpdateErrorResponse
+    const violations = parsedError.violations.map<FormViolation>((value) => {
+      return {
+        propertyPath: value.propertyPath,
+        message: value.message,
+      }
+    })
+    const hasTokenError = violations.find((value) => {
+      return value.propertyPath === 'identifier'
+    })
+    if (hasTokenError) {
+      throw new TokenCannotBeSubscribedError()
+    }
   }
   return genericErrorMapping(error)
 }

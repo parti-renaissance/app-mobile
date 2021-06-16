@@ -18,3 +18,4 @@ export class ProfileFormError extends Error {
   }
 }
 export class EventSubscriptionError extends Error {}
+export class TokenCannotBeSubscribedError extends Error {}
