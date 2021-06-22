@@ -54,15 +54,17 @@ class AuthenticationRepository {
       return this.localStore.storeCredentials(credentials)
     } catch (error) {
       if (error instanceof RefreshTokenPermanentlyInvalidatedError) {
-        return this.logout()
+        return this.logout(false)
       } else {
         throw error
       }
     }
   }
 
-  public async logout(): Promise<void> {
-    await this.pushRepository.dissociateToken()
+  public async logout(dissociateToken: boolean = true): Promise<void> {
+    if (dissociateToken) {
+      await this.pushRepository.dissociateToken()
+    }
     await this.localStore.clearCredentials()
     await this.localStore.clearPreferences()
     await CacheManager.getInstance().purgeCache()
