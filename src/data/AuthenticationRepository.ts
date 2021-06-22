@@ -41,23 +41,24 @@ class AuthenticationRepository {
     await this.localStore.storeCredentials(credentials)
   }
 
-  public async anonymousLogin(deviceId: string): Promise<void> {
+  public async anonymousLogin(deviceId: string): Promise<Credentials> {
     const result = await this.apiService.anonymousLogin(deviceId)
     const credentials = this.mapCredentials(result)
     await this.localStore.storeCredentials(credentials)
+    return credentials
   }
 
-  public async refreshToken(refreshToken: string): Promise<void> {
+  public async refreshToken(refreshToken: string): Promise<Credentials> {
     try {
       const result = await this.apiService.refreshToken(refreshToken)
       const credentials = this.mapCredentials(result)
-      return this.localStore.storeCredentials(credentials)
+      await this.localStore.storeCredentials(credentials)
+      return credentials
     } catch (error) {
       if (error instanceof RefreshTokenPermanentlyInvalidatedError) {
-        return this.logout(false)
-      } else {
-        throw error
+        await this.logout(false)
       }
+      throw error
     }
   }
 
