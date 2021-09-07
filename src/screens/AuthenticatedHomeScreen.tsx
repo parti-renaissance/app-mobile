@@ -34,6 +34,10 @@ const getTabBarIcon = (route: any, focused: boolean) => {
     return focused
       ? require('../assets/images/tabBarIconsToolsOn.png')
       : require('../assets/images/tabBarIconsToolsOff.png')
+  } else if (route.name === Screen.phoning) {
+    return focused
+      ? require('../assets/images/tabBarIconsPhoningOn.png')
+      : require('../assets/images/tabBarIconsPhoningOff.png')
   }
 }
 
