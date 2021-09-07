@@ -12,6 +12,7 @@ import { Screen } from '../navigation'
 import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
 import EventNavigator from './events/EventNavigator'
+import PhoningScreen from './phoning/PhoningScreen'
 
 const TabAndroid = createMaterialBottomTabNavigator()
 const TabIos = createBottomTabNavigator()
@@ -77,6 +78,11 @@ const AuthenticatedHomeScreenAndroid = () => {
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
       />
+      <TabAndroid.Screen
+        name={Screen.phoning}
+        component={PhoningScreen}
+        options={{ tabBarLabel: i18n.t('tab.item_phoning') }}
+      />
     </TabAndroid.Navigator>
   )
 }
@@ -123,6 +129,11 @@ const AuthenticatedHomeScreenIos = () => {
         name={Screen.tools}
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
+      />
+      <TabIos.Screen
+        name={Screen.phoning}
+        component={PhoningScreen}
+        options={{ tabBarLabel: i18n.t('tab.item_phoning') }}
       />
     </TabIos.Navigator>
   )

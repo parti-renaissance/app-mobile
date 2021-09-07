@@ -25,7 +25,11 @@
       "item_tools": "Outils",
       "item_profile": "Profil",
       "item_home": "Accueil",
-      "item_events": "Événements"
+      "item_events": "Événements",
+      "item_phoning": "Phoning"
+    },
+    "phoning": {
+      "title": "Phoning"
     },
     "polls": {
       "question_count_format": "{{count}} question",
