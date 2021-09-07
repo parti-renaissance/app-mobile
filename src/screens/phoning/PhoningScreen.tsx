@@ -21,16 +21,18 @@ import { PhoningRowViewModel } from './PhoningRowViewModel'
 import HomeSectionRow from '../home/HomeSectionRow'
 import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningViewModelMapper } from './PhoningViewModelMapper'
+import { useFocusEffect } from '@react-navigation/core'
 
 export interface PhoningResources {}
 
 const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
   const [isRefreshing, setRefreshing] = useState(false)
+  const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<PhoningResources>()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<PhoningResources>
-  >(new ViewState.Loading())
+  >(new ViewState.Content({}))
 
   useEffect(() => {
     // Reload view model (and view) when resources model changes
@@ -43,6 +45,7 @@ const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   const fetchData = useCallback(() => {
     setRefreshing(false)
+    setResources({})
   }, [setTheme])
 
   const renderItem = ({
@@ -50,6 +53,16 @@ const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   }: SectionListRenderItemInfo<PhoningRowViewModel>) => {
     return null
   }
+
+  const firstDataFetch = useCallback(() => {
+    setResources({})
+    if (!initialFetchDone) {
+      setInitialFetchDone(true)
+      fetchData()
+    }
+  }, [fetchData, initialFetchDone])
+
+  useFocusEffect(firstDataFetch)
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
