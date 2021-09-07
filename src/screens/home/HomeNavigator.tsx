@@ -14,11 +14,7 @@ const HomeStack = createStackNavigator<HomeParamList>()
 const HomeNavigator: FunctionComponent = () => {
   return (
     <HomeStack.Navigator screenOptions={headerBlank}>
-      <HomeStack.Screen
-        name={Screen.home}
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
+      <HomeStack.Screen name={Screen.home} component={HomeScreen} />
       <HomeStack.Screen
         name={Screen.region}
         component={RegionScreen}

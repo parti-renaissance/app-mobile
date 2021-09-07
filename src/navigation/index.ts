@@ -41,7 +41,6 @@ export type AuthenticatedHomeParamList = {
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
-  ProfileNavigator: NavigatorScreenParams<ProfileParamList>
 }
 
 export type PollDetailModalParamList = {
@@ -52,6 +51,7 @@ export type PollDetailModalParamList = {
 export type RootStackParamList = {
   AuthenticatedHome: NavigatorScreenParams<AuthenticatedHomeParamList>
   PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
+  ProfileModal: undefined
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
   News: undefined
@@ -104,6 +104,20 @@ export type PollDetailModalRouteProp = RouteProp<
 export type PollDetailModalProps = Readonly<{
   route: PollDetailModalRouteProp
   navigation: PollDetailModalNavigationProp
+}>
+
+// ProfileModal
+export type ProfileModalNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<ProfileParamList>,
+  StackNavigationProp<RootStackParamList>
+>
+export type ProfileModalRouteProp = RouteProp<
+  RootStackParamList,
+  typeof Screen.profileModal
+>
+export type ProfileModalProps = Readonly<{
+  route: ProfileModalRouteProp
+  navigation: ProfileModalNavigationProp
 }>
 
 // PollDetail

@@ -18,6 +18,7 @@ import DataCollectScreen from '../screens/authentication/DataCollectScreen'
 import { Analytics } from '../utils/Analytics'
 import PushRepository from '../data/PushRepository'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
+import ProfileModal from '../screens/profile/ProfileModal'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -66,6 +67,11 @@ const Navigator: FunctionComponent = () => {
         <RootStack.Screen
           name={Screen.pollDetailModal}
           component={PollDetailModal}
+          options={{ gestureEnabled: false }}
+        />
+        <RootStack.Screen
+          name={Screen.profileModal}
+          component={ProfileModal}
           options={{ gestureEnabled: false }}
         />
       </RootStack.Navigator>
