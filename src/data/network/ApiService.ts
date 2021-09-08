@@ -278,6 +278,19 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public updatePhoningSessionStatus(
+    sessionId: string,
+    status: string,
+  ): Promise<void> {
+    return this.httpClient
+      .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
+        json: { status },
+      })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()

@@ -44,6 +44,13 @@ class PhoningCampaignRepository {
     )
     return PhoningSessionConfigurationMapper.map(restConfiguration)
   }
+
+  public async updatePhoningSessionStatus(
+    sessionId: string,
+    status: string,
+  ): Promise<void> {
+    await this.apiService.updatePhoningSessionStatus(sessionId, status)
+  }
 }
 
 export default PhoningCampaignRepository
