@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
+import { StyleSheet, Text, View } from 'react-native'
+import { Spacing, Typography } from '../../../styles'
 import { useThemedStyles } from '../../../themes'
 import Theme from '../../../themes/Theme'
-import { TouchablePlatform } from '../../shared/TouchablePlatform'
 
 type Props = Readonly<{
   onPress: () => void
@@ -41,13 +40,6 @@ const stylesFactory = (theme: Theme) => {
       alignItems: 'center',
       paddingRight: 8 * Spacing.unit,
     },
-    title: {
-      ...Typography.headline,
-      flexShrink: 1,
-      padding: 16,
-      paddingBottom: 5,
-      alignSelf: 'flex-start',
-    },
     link: {
       ...Typography.headline,
       flexShrink: 1,
@@ -55,6 +47,13 @@ const stylesFactory = (theme: Theme) => {
       paddingTop: 5,
       alignSelf: 'flex-start',
       color: theme.primaryColor,
+    },
+    title: {
+      ...Typography.headline,
+      flexShrink: 1,
+      padding: 16,
+      paddingBottom: 5,
+      alignSelf: 'flex-start',
     },
   })
 }

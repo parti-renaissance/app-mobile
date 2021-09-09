@@ -4,16 +4,10 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import {
-  Text,
-  StyleSheet,
-  RefreshControl,
-  FlatList,
-  ListRenderItemInfo,
-} from 'react-native'
+import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
-import { HomeScreenProps, Screen } from '../../navigation'
+import { HomeScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -25,9 +19,9 @@ import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 
 export interface PhoningResources {}
 
-const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
-  const { theme, setTheme } = useTheme()
-  const [isRefreshing, setRefreshing] = useState(false)
+const PhoningScreen: FunctionComponent<HomeScreenProps> = () => {
+  const { theme } = useTheme()
+  const [, setRefreshing] = useState(false)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<PhoningResources>()
   const [statefulState, setStatefulState] = useState<
@@ -39,14 +33,14 @@ const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     if (!currentResources) {
       return
     }
-    const viewModel = PhoningViewModelMapper.map(theme)
+    const viewModel = PhoningViewModelMapper.map()
     setStatefulState(new ViewState.Content(viewModel))
   }, [theme, currentResources])
 
   const fetchData = useCallback(() => {
     setRefreshing(false)
     setResources({})
-  }, [setTheme])
+  }, [])
 
   const renderItem = ({ item }: ListRenderItemInfo<PhoningRowViewModel>) => {
     if (item.type === 'tutorial') {
