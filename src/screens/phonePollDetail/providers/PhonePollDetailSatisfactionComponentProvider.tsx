@@ -65,7 +65,12 @@ export class PhonePollDetailSatisfactionComponentProvider
             type: 'boolean',
             value: choice,
           }
-          this.answers.set(questionId, answer)
+          const oldAnswer = this.answers.get(questionId)
+          if (oldAnswer?.value === answer.value) {
+            this.answers.delete(questionId)
+          } else {
+            this.answers.set(questionId, answer)
+          }
           this.onUpdate()
         }}
       />
