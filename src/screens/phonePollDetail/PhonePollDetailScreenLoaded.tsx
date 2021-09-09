@@ -20,6 +20,9 @@ import { PhonePollDetailModalParamList, Screen } from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import { PollRemoteQuestionResult } from '../../core/entities/PollResult'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
+import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
+import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
+import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
 
 type Props = Readonly<{
   poll: Poll
@@ -28,6 +31,25 @@ type Props = Readonly<{
     typeof Screen.phonePollDetail
   >
 }>
+
+// TODO: (Pierre Felgines) Remove this stub data
+const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
+  {
+    code: 'postal_code_checked',
+    label: 'Code postal à jour ?',
+    type: 'boolean',
+  },
+  {
+    code: 'become_caller',
+    label: 'Souhaiteriez-vous devenir appelant ?',
+    type: 'boolean',
+  },
+  {
+    code: 'call_more',
+    label: 'Souhaitez-vous être rappelé plus souvent ?',
+    type: 'boolean',
+  },
+]
 
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
@@ -38,7 +60,12 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   const forceUpdate = useCallback(() => updateState({}), [])
   const [provider] = useState<
     PollDetailComponentProvider<PollRemoteQuestionResult>
-  >(new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate))
+  >(
+    new CompoundPollDetailComponentProvider(
+      new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
+      new PhonePollDetailSatisfactionComponentProvider(QUESTIONS, forceUpdate),
+    ),
+  )
 
   const [isLoading, setIsLoading] = useState(false)
 

@@ -1,0 +1,74 @@
+import React from 'react'
+import { PhoningSatisfactionAnswer } from '../../../core/entities/PhoningSatisfactionAnswer'
+import { PhoningSatisfactionQuestion } from '../../../core/entities/PhoningSessionConfiguration'
+import { StepType } from '../../../core/entities/StepType'
+import PhonePollSatisfactionScreen from '../../phonePollSatisfaction/PhonePollSatisfactionScreen'
+import { PhonePollSatisfactionViewModelMapper } from '../../phonePollSatisfaction/PhonePollSatisfactionViewModelMapper'
+import { PollDetailComponentProvider } from '../../pollDetail/providers/PollDetailComponentProvider'
+
+export class PhonePollDetailSatisfactionComponentProvider
+  implements PollDetailComponentProvider<void> {
+  private questions: Array<PhoningSatisfactionQuestion>
+  private answers = new Map<string, PhoningSatisfactionAnswer>()
+  private onUpdate: () => void
+  private numberOfSteps: number
+
+  constructor(
+    questions: Array<PhoningSatisfactionQuestion>,
+    onUpdate: () => void,
+  ) {
+    this.questions = questions
+    this.numberOfSteps = 1
+    this.onUpdate = onUpdate
+  }
+
+  public getStepComponent(step: number): JSX.Element {
+    switch (this.getStepType(step)) {
+      case 'phoneSatisfaction':
+        return this.getSatisfactionComponent()
+      default:
+        return <></>
+    }
+  }
+
+  public getStepType(_: number): StepType {
+    return 'phoneSatisfaction'
+  }
+
+  public getNumberOfSteps(): number {
+    return this.numberOfSteps
+  }
+
+  public isDataComplete(step: number): boolean {
+    switch (this.getStepType(step)) {
+      case 'phoneSatisfaction':
+        return true
+      default:
+        return true
+    }
+  }
+
+  public getResult(): void {
+    return // TODO: (Pierre Felgines) Change the return type with correct entity
+  }
+
+  private getSatisfactionComponent(): JSX.Element {
+    const viewModel = PhonePollSatisfactionViewModelMapper.map(
+      this.questions,
+      this.answers,
+    )
+    return (
+      <PhonePollSatisfactionScreen
+        viewModel={viewModel}
+        onUpdateBoolean={(questionId, choice) => {
+          const answer: PhoningSatisfactionAnswer = {
+            type: 'boolean',
+            value: choice,
+          }
+          this.answers.set(questionId, answer)
+          this.onUpdate()
+        }}
+      />
+    )
+  }
+}

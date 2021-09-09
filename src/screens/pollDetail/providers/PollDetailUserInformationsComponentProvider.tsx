@@ -66,6 +66,8 @@ export class PollDetailUserInformationsComponentProvider
         return true
       case 'consentData':
         return this.isConsentDataComplete()
+      case 'phoneSatisfaction':
+        return true
     }
   }
 

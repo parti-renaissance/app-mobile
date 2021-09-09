@@ -323,6 +323,12 @@
       "tutorial": {
         "title": "Comment faire un appel?",
         "link": "Regarder le tutoriel"
+      },
+      "callcontact": {
+        "title": "Appeler un contact de mon téléphone",
+        "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
+        "callbuttontitle": "Appeler un de mes contact",
+        "progressformat": "{{alreadyCalled}} appelés sur {{numberOfPersonsToCall}}"
       }
     }
   }
