@@ -53,7 +53,8 @@ const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
 
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
-  navigation: _navigation, // TODO: (Pierre Felgines) Unused for now
+  // TODO: (Pierre Felgines) Unused for now
+  // navigation,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
