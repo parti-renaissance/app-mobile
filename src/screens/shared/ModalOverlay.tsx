@@ -26,7 +26,9 @@ const ModalOverlay: FunctionComponent<Props> = ({
     >
       <SafeAreaView style={styles.container}>
         <View style={[styles.content, contentContainerStyle]}>
-          <CloseButton style={styles.close} onPress={onRequestClose} />
+          <View style={styles.closeButtonContainer}>
+            <CloseButton onPress={onRequestClose} />
+          </View>
           {children}
         </View>
       </SafeAreaView>
@@ -35,7 +37,7 @@ const ModalOverlay: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  close: {
+  closeButtonContainer: {
     position: 'absolute',
     start: 3, // takes image blank padding into account
     top: 3,
