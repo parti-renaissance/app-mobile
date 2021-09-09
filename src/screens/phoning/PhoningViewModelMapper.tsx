@@ -21,8 +21,6 @@ function appendTutorial(rows: PhoningRowViewModel[]) {
     type: 'tutorial',
     value: {
       id: 'string',
-      title: 'string',
-      url: 'string',
     },
   })
 }

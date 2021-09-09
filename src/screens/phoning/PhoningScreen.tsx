@@ -52,9 +52,9 @@ const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     if (item.type === 'tutorial') {
       return (
         <PhoningTutorialRow
-          viewModel={item.value}
-          onPress={(url) => {
-            console.log(url)
+          onPress={() => {
+            // TODO open tutorial screen
+            console.log('shold open tutorial screen')
           }}
         />
       )

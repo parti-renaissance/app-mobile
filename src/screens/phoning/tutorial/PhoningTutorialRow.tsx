@@ -6,33 +6,23 @@ import Theme from '../../../themes/Theme'
 import { TouchablePlatform } from '../../shared/TouchablePlatform'
 
 type Props = Readonly<{
-  viewModel: PhoningTutorialRowViewModel
-  onPress: (url: string) => void
+  onPress: () => void
 }>
 
 export interface PhoningTutorialRowViewModel {
   id: string
-  title: string
-  url?: string
 }
 
-export const PhoningTutorialRow: FunctionComponent<Props> = ({
-  viewModel,
-  onPress,
-}) => {
+export const PhoningTutorialRow: FunctionComponent<Props> = ({ onPress }) => {
   const styles = useThemedStyles(stylesFactory)
   return (
     <View style={styles.card}>
-      <TouchablePlatform
-        onPress={() => {
-          onPress(viewModel.id)
-        }}
-        touchHighlight={Colors.touchHighlight}
-      >
-        <View style={styles.container}>
-          <Text style={styles.title}>{viewModel.title}</Text>
-        </View>
-      </TouchablePlatform>
+      <View style={styles.container}>
+        <Text style={styles.title}>{'Comment faire un appel'}</Text>
+        <Text style={styles.link} accessibilityRole={'link'} onPress={onPress}>
+          {'regarder le tutoriel'}
+        </Text>
+      </View>
     </View>
   )
 }
@@ -47,13 +37,24 @@ const stylesFactory = (theme: Theme) => {
     },
     container: {
       flex: 1,
-      flexDirection: 'row',
+      flexDirection: 'column',
       alignItems: 'center',
       paddingRight: 8 * Spacing.unit,
     },
     title: {
-      ...Typography.title2,
+      ...Typography.headline,
       flexShrink: 1,
+      padding: 16,
+      paddingBottom: 5,
+      alignSelf: 'flex-start',
+    },
+    link: {
+      ...Typography.headline,
+      flexShrink: 1,
+      padding: 16,
+      paddingTop: 5,
+      alignSelf: 'flex-start',
+      color: theme.primaryColor,
     },
   })
 }
