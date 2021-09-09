@@ -25,8 +25,9 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
 }) => {
   if (Platform.OS === 'android') {
     return (
-      <View style={[style, styles.rippleContainer]}>
+      <View style={styles.rippleContainer}>
         <Pressable
+          style={[styles.container, style]}
           onPress={onPress}
           android_ripple={{ color: Colors.touchHighlight }}
         >
@@ -36,7 +37,7 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
     )
   } else {
     return (
-      <TouchableOpacity style={style} onPress={onPress}>
+      <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
         <Image source={source} />
       </TouchableOpacity>
     )
@@ -44,26 +45,37 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 44,
+    minWidth: 44,
+  },
   rippleContainer: {
     borderRadius: 100,
     overflow: 'hidden',
   },
 })
 
-type CloseButtonProps = Readonly<{
+type ButtonProps = Readonly<{
   style?: StyleProp<ViewStyle>
   onPress?: () => void
 }>
 
-export const CloseButton: FunctionComponent<CloseButtonProps> = ({
-  style,
-  onPress,
-}) => {
+export const CloseButton: FunctionComponent<ButtonProps> = (props) => {
   return (
     <NavigationHeaderButton
-      style={style}
+      {...props}
       source={require('../../assets/images/navigationBarClose.png')}
-      onPress={onPress}
+    />
+  )
+}
+
+export const ProfileButton: FunctionComponent<ButtonProps> = (props) => {
+  return (
+    <NavigationHeaderButton
+      {...props}
+      source={require('../../assets/images/profileIcon.png')}
     />
   )
 }

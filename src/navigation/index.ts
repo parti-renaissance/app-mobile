@@ -41,7 +41,6 @@ export type AuthenticatedHomeParamList = {
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
-  ProfileNavigator: NavigatorScreenParams<ProfileParamList>
 }
 
 export type PollDetailModalParamList = {
@@ -52,6 +51,7 @@ export type PollDetailModalParamList = {
 export type RootStackParamList = {
   AuthenticatedHome: NavigatorScreenParams<AuthenticatedHomeParamList>
   PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
+  ProfileModal: undefined
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
   News: undefined
@@ -106,6 +106,20 @@ export type PollDetailModalProps = Readonly<{
   navigation: PollDetailModalNavigationProp
 }>
 
+// ProfileModal
+export type ProfileModalNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<ProfileParamList>,
+  StackNavigationProp<RootStackParamList>
+>
+export type ProfileModalRouteProp = RouteProp<
+  RootStackParamList,
+  typeof Screen.profileModal
+>
+export type ProfileModalProps = Readonly<{
+  route: ProfileModalRouteProp
+  navigation: ProfileModalNavigationProp
+}>
+
 // PollDetail
 export type PollDetailScreenProps = StackScreenProps<
   PollDetailModalParamList,
@@ -127,31 +141,22 @@ export type PollDetailSuccessScreenProps = Readonly<{
 }>
 
 // Unauthenticated
-export type UnauthenticatedHomeScreenNavigationProp = StackNavigationProp<
+export type UnauthenticatedHomeScreenProps = StackScreenProps<
   UnauthenticatedStackParamList,
   typeof Screen.unauthenticatedHome
 >
-export type UnauthenticatedHomeScreenProps = Readonly<{
-  navigation: UnauthenticatedHomeScreenNavigationProp
-}>
 
 // Login
-export type LoginScreenNavigationProp = StackNavigationProp<
+export type LoginScreenProps = StackScreenProps<
   UnauthenticatedStackParamList,
   typeof Screen.login
 >
-export type LoginScreenProps = Readonly<{
-  navigation: LoginScreenNavigationProp
-}>
 
 // AnonymousLoginZipCode
-export type AnonymousLoginZipCodeScreenNavigationProp = StackNavigationProp<
+export type AnonymousLoginZipCodeScreenProps = StackScreenProps<
   UnauthenticatedStackParamList,
   typeof Screen.anonymousLoginZipCode
 >
-export type AnonymousLoginZipCodeScreenProps = Readonly<{
-  navigation: AnonymousLoginZipCodeScreenNavigationProp
-}>
 
 // ZipCodeConfirmation
 export type ZipCodeConfirmationScreenProps = StackScreenProps<
@@ -172,13 +177,10 @@ export type DataCollectScreenProps = StackScreenProps<
 >
 
 // Profile
-export type ProfileScreenNavigationProp = StackNavigationProp<
+export type ProfileScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.profile
 >
-export type ProfileScreenProps = Readonly<{
-  navigation: ProfileScreenNavigationProp
-}>
 
 // ProfileZipCode
 export type ProfileZipCodeScreenProps = StackScreenProps<
@@ -187,13 +189,10 @@ export type ProfileZipCodeScreenProps = StackScreenProps<
 >
 
 // ProfileLogin
-export type ProfileLoginScreenNavigationProp = StackNavigationProp<
+export type ProfileLoginScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.profileLogin
 >
-export type ProfileLoginScreenProps = Readonly<{
-  navigation: ProfileLoginScreenNavigationProp
-}>
 
 // Region
 export type RegionScreenProps = StackScreenProps<
@@ -208,14 +207,12 @@ export type PersonalInformationScreenProps = StackScreenProps<
 >
 
 // Event
-export type EventScreenNavigationProp = StackNavigationProp<
+export type EventScreenProps = StackScreenProps<
   EventParamList,
   typeof Screen.events
 >
-export type EventScreenProps = Readonly<{
-  navigation: EventScreenNavigationProp
-}>
 
+// Event Detail
 export type EventDetailsScreenProps = StackScreenProps<
   EventParamList,
   typeof Screen.eventDetails

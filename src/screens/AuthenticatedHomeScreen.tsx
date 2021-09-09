@@ -11,7 +11,6 @@ import i18n from '../utils/i18n'
 import { Screen } from '../navigation'
 import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
-import ProfileNavigator from './profile/ProfileNavigator'
 import EventNavigator from './events/EventNavigator'
 
 const TabAndroid = createMaterialBottomTabNavigator()
@@ -34,10 +33,6 @@ const getTabBarIcon = (route: any, focused: boolean) => {
     return focused
       ? require('../assets/images/tabBarIconsToolsOn.png')
       : require('../assets/images/tabBarIconsToolsOff.png')
-  } else if (route.name === Screen.profileNavigator) {
-    return focused
-      ? require('../assets/images/tabBarIconsProfileOn.png')
-      : require('../assets/images/tabBarIconsProfileOff.png')
   }
 }
 
@@ -81,11 +76,6 @@ const AuthenticatedHomeScreenAndroid = () => {
         name={Screen.tools}
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
-      />
-      <TabAndroid.Screen
-        name={Screen.profileNavigator}
-        component={ProfileNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_profile') }}
       />
     </TabAndroid.Navigator>
   )
@@ -133,11 +123,6 @@ const AuthenticatedHomeScreenIos = () => {
         name={Screen.tools}
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
-      />
-      <TabIos.Screen
-        name={Screen.profileNavigator}
-        component={ProfileNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_profile') }}
       />
     </TabIos.Navigator>
   )
