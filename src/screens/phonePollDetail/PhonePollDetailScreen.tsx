@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BackHandler, View, StyleSheet, Text } from 'react-native'
+import { BackHandler, View, StyleSheet } from 'react-native'
 
 import { Poll } from '../../core/entities/Poll'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -10,6 +10,20 @@ import { useTheme } from '../../themes'
 import { PhonePollDetailScreenProps } from '../../navigation'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
+import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
+import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
+
+// TODO: (Pierre Felgines) Change status with values from webservice
+const STATUSES: Array<PhoningSessionCallStatus> = [
+  {
+    code: 'interrupted-dont-remind',
+    label: 'Appel interrompu, ne pas rappeler',
+  },
+  {
+    code: 'interrupted',
+    label: 'Appel interrompu',
+  },
+]
 
 const PhonePollDetailScreen = ({
   route,
@@ -72,7 +86,7 @@ const PhonePollDetailScreen = ({
         modalVisible={isModalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <Text>TODO</Text>
+        <PhonePollDetailInterruptionModalContent callStatuses={STATUSES} />
       </ModalOverlay>
       <StatefulView
         state={statefulState}
