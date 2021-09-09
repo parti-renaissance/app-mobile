@@ -1,4 +1,4 @@
-export interface HomeNewsRowViewModel {
+export interface PhoningTutorialRowViewModel {
   id: string
   title: string
   description: string

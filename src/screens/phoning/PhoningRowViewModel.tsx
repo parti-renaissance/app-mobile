@@ -1,16 +1,10 @@
-import { RegionViewModel } from '../regions/RegionViewModel'
+import { PhoningTutorialRowViewModel } from './tutorial/PhoningTutorialRow'
 
 export interface PhoningSectionRowViewModel {
   sectionName?: string
 }
 
-export type PhoningSectionViewModel = {
-  id: string
-  sectionViewModel?: PhoningSectionRowViewModel
-  data: Array<PhoningRowViewModel>
-}
-
 export type PhoningRowViewModel = {
-  type: 'region'
-  value: RegionViewModel
+  type: 'tutorial'
+  value: PhoningTutorialRowViewModel
 }

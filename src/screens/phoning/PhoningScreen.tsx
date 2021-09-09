@@ -5,23 +5,23 @@ import React, {
   useState,
 } from 'react'
 import {
+  Text,
   StyleSheet,
-  SectionList,
-  SectionListRenderItemInfo,
   RefreshControl,
+  FlatList,
+  ListRenderItemInfo,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
 import { HomeScreenProps, Screen } from '../../navigation'
-import { Colors } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import HomeHeader from '../home/HomeHeader'
 import { PhoningRowViewModel } from './PhoningRowViewModel'
-import HomeSectionRow from '../home/HomeSectionRow'
 import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningViewModelMapper } from './PhoningViewModelMapper'
 import { useFocusEffect } from '@react-navigation/core'
+import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 
 export interface PhoningResources {}
 
@@ -48,9 +48,17 @@ const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     setResources({})
   }, [setTheme])
 
-  const renderItem = ({
-    item,
-  }: SectionListRenderItemInfo<PhoningRowViewModel>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<PhoningRowViewModel>) => {
+    if (item.type === 'tutorial') {
+      return (
+        <PhoningTutorialRow
+          viewModel={item.value}
+          onPress={(url) => {
+            console.log(url)
+          }}
+        />
+      )
+    }
     return null
   }
 
@@ -66,24 +74,14 @@ const PhoningScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
-      <SectionList
-        stickySectionHeadersEnabled={false}
-        ListHeaderComponent={<HomeHeader title={phoningViewModel.title} />}
-        sections={phoningViewModel.rows}
+      <FlatList
+        data={phoningViewModel.rows}
         renderItem={renderItem}
-        renderSectionHeader={({ section: { sectionViewModel } }) => {
-          return sectionViewModel !== undefined ? (
-            <HomeSectionRow viewModel={sectionViewModel} />
-          ) : null
-        }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={fetchData}
-            colors={[theme.primaryColor]}
-          />
+        keyExtractor={(item) => item.value.id}
+        ListHeaderComponent={
+          <Text style={styles.title}>{phoningViewModel.title}</Text>
         }
-        keyExtractor={(item, index) => item.type + index}
+        contentContainerStyle={styles.contentContainer}
       />
     )
   }
@@ -98,6 +96,15 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    paddingHorizontal: Spacing.margin,
+    paddingTop: Spacing.largeMargin,
+  },
+  title: {
+    ...Typography.title,
+    marginBottom: Spacing.mediumMargin,
   },
 })
 
