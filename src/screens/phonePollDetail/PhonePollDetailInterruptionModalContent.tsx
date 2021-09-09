@@ -17,10 +17,12 @@ import { PhonePollDetailInterruptionModalContentViewModelMapper } from './PhoneP
 
 type Props = Readonly<{
   callStatuses: Array<PhoningSessionCallStatus>
+  onInterruption: (statusCode: string) => void
 }>
 
 const PhonePollDetailInterruptionModalContent: FunctionComponent<Props> = ({
   callStatuses,
+  onInterruption,
 }) => {
   const [selectedStatusCode, setSelectedStatusCode] = useState<string>()
 
@@ -56,7 +58,7 @@ const PhonePollDetailInterruptionModalContent: FunctionComponent<Props> = ({
       <TertiaryButton
         style={styles.button}
         disabled={!viewModel.isActionEnabled}
-        onPress={() => {}}
+        onPress={() => selectedStatusCode && onInterruption(selectedStatusCode)}
         title={i18n.t('phonepolldetail.interruption_alert.action')}
       />
     </>
