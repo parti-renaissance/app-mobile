@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: Spacing.margin,
     marginVertical: Spacing.largeMargin,
+    maxHeight: '100%',
     overflow: 'hidden',
     paddingBottom: Spacing.margin,
     paddingTop: Spacing.topMargin,
