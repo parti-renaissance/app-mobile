@@ -16,6 +16,7 @@ import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningViewModelMapper } from './PhoningViewModelMapper'
 import { useFocusEffect } from '@react-navigation/core'
 import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
+import { PrimaryButton } from '../shared/Buttons'
 
 export interface PhoningResources {}
 
@@ -69,15 +70,25 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
-      <FlatList
-        data={phoningViewModel.rows}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.value.id}
-        ListHeaderComponent={
-          <Text style={styles.title}>{phoningViewModel.title}</Text>
-        }
-        contentContainerStyle={styles.contentContainer}
-      />
+      <>
+        <FlatList
+          data={phoningViewModel.rows}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.value.id}
+          ListHeaderComponent={
+            <Text style={styles.title}>{phoningViewModel.title}</Text>
+          }
+          contentContainerStyle={styles.contentContainer}
+        />
+        <PrimaryButton
+          title="_OPEN_CAMPAIGN_"
+          onPress={() =>
+            navigation.navigate(Screen.phoningCampaignBrief, {
+              campaignId: '612911ee-7b89-488f-9960-3792aac8d5de',
+            })
+          }
+        />
+      </>
     )
   }
   return (

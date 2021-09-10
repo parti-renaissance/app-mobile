@@ -39,6 +39,7 @@ export type EventParamList = {
 export type PhoningParamList = {
   Phoning: undefined
   PhoningTutorial: undefined
+  PhoningCampaignBrief: { campaignId: string }
 }
 
 export type AuthenticatedHomeParamList = {
@@ -93,6 +94,27 @@ export type PhoningScreenNavigationProp = CompositeNavigationProp<
 >
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
+}>
+
+// Phoning Campaign Brief
+export type PhoningCampaignBriefScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.phoningNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
+>
+export type PhoningCampaignBriefScreenRouteProp = RouteProp<
+  PhoningParamList,
+  typeof Screen.phoningCampaignBrief
+>
+
+export type PhoningCampaignBriefScreenProp = Readonly<{
+  route: PhoningCampaignBriefScreenRouteProp
+  navigation: PhoningCampaignBriefScreenNavigationProp
 }>
 
 // Polls
