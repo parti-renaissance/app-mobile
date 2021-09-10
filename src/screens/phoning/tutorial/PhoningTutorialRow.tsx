@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { phoning } from '../../../navigation/screen'
 import { Spacing, Typography, Styles } from '../../../styles'
-import { useThemedStyles, useTheme } from '../../../themes'
+import { useThemedStyles } from '../../../themes'
 import Theme from '../../../themes/Theme'
 import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
@@ -17,7 +16,6 @@ export interface PhoningTutorialRowViewModel {
 
 export const PhoningTutorialRow: FunctionComponent<Props> = ({ onPress }) => {
   const styles = useThemedStyles(stylesFactory)
-  const { theme } = useTheme()
   return (
     <View style={styles.card}>
       <View style={styles.container}>
