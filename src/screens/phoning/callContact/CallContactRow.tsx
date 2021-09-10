@@ -4,8 +4,8 @@ import { Spacing, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme } from '../../../themes'
 import ProgressBar from '../../shared/ProgressBar'
-import { Button } from 'react-native-paper'
 import { PrimaryButton } from '../../shared/Buttons'
+import i18n from '../../../utils/i18n'
 
 type Props = Readonly<{
   viewModel: PhoningCallContactRowViewModel
@@ -25,20 +25,16 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
   return (
     <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
       <View style={styles.container}>
-        <Text style={styles.title}>{'Title Lorem Ipsum'}</Text>
+        <Text style={styles.title}>{i18n.t('phoning.callcontact.title')}</Text>
         <Image
           style={styles.image}
           source={require('../../../assets/images/blue/imageActualite.png')}
         />
-        <Text style={styles.body}>
-          {
-            'body Lorem Ipsum, appelez un contact pour tenter de le convaincre de voter Emmanuel Macron'
-          }
-        </Text>
+        <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
         <ProgressBar progress={viewModel.progress} color={theme.primaryColor} />
         <PrimaryButton
           style={styles.callButton}
-          title={'Appeler un de vos contact'}
+          title={i18n.t('phoning.callcontact.callbuttontitle')}
           onPress={onCallButtonPressed}
           shape={'rounded'}
         />
