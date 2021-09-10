@@ -14,7 +14,8 @@ type Props = Readonly<{
 
 export interface PhoningCallContactRowViewModel {
   id: string
-  progress: number
+  calledCount: number
+  numberOfPersonToCall: number
 }
 
 const PhoningCallContactRow: FunctionComponent<Props> = ({
@@ -31,7 +32,16 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
           source={require('../../../assets/images/blue/imageActualite.png')}
         />
         <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
-        <ProgressBar progress={viewModel.progress} color={theme.primaryColor} />
+        <Text style={styles.body}>
+          {i18n.t('phoning.callcontact.progressformat', {
+            done: viewModel.calledCount,
+            total: viewModel.numberOfPersonToCall,
+          })}
+        </Text>
+        <ProgressBar
+          progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
+          color={theme.primaryColor}
+        />
         <PrimaryButton
           style={styles.callButton}
           title={i18n.t('phoning.callcontact.callbuttontitle')}

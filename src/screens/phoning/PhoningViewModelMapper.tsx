@@ -30,7 +30,8 @@ function appendCallContact(rows: PhoningRowViewModel[]) {
     type: 'callContact',
     value: {
       id: 'callContact',
-      progress: 73,
+      calledCount: 75,
+      numberOfPersonToCall: 134,
     },
   })
 }
