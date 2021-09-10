@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Alert, BackHandler, View, StyleSheet } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Alert, View, StyleSheet } from 'react-native'
 
 import { PollDetailScreenProps } from '../../navigation'
 import i18n from '../../utils/i18n'
@@ -15,6 +15,7 @@ import {
 import ModalOverlay from '../shared/ModalOverlay'
 import PollDetailTools from './PollDetailTools'
 import { useTheme } from '../../themes'
+import { useBackHandler } from '../shared/useBackHandler.hook'
 
 const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
   const { theme } = useTheme()
@@ -23,45 +24,34 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
   )
   const [isModalVisible, setModalVisible] = useState(false)
 
-  React.useLayoutEffect(() => {
-    const askConfirmationBeforeLeaving = () => {
-      Alert.alert(
-        i18n.t('polldetail.leave_alert.title'),
-        i18n.t('polldetail.leave_alert.message'),
-        [
-          {
-            text: i18n.t('polldetail.leave_alert.action'),
-            onPress: () => navigation.goBack(),
-            style: 'destructive',
-          },
-          {
-            text: i18n.t('polldetail.leave_alert.cancel'),
-            style: 'cancel',
-          },
-        ],
-        { cancelable: false },
-      )
-    }
-
-    const updateNavigationHeader = () => {
-      navigation.setOptions({
-        headerLeft: () => (
-          <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
-        ),
-      })
-    }
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        askConfirmationBeforeLeaving()
-        return true
-      },
+  const askConfirmationBeforeLeaving = useCallback(() => {
+    Alert.alert(
+      i18n.t('polldetail.leave_alert.title'),
+      i18n.t('polldetail.leave_alert.message'),
+      [
+        {
+          text: i18n.t('polldetail.leave_alert.action'),
+          onPress: () => navigation.goBack(),
+          style: 'destructive',
+        },
+        {
+          text: i18n.t('polldetail.leave_alert.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
     )
-
-    updateNavigationHeader()
-    return () => backHandler.remove()
   }, [navigation])
+
+  useBackHandler(askConfirmationBeforeLeaving)
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
+      ),
+    })
+  }, [navigation, askConfirmationBeforeLeaving])
 
   const fetchPoll = () => {
     setStatefulState(new ViewState.Loading())

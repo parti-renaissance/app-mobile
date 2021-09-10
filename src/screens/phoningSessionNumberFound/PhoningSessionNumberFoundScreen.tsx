@@ -3,6 +3,7 @@ import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing } from '../../styles'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 
@@ -10,6 +11,8 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
   navigation,
   route,
 }) => {
+  usePreventGoingBack()
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>PhoningSessionNumberFoundScreen</Text>

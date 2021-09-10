@@ -1,30 +1,22 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, BackHandler } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhonePollDetailSuccessScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
 const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScreenProps> = ({
   navigation,
   route,
 }) => {
+  usePreventGoingBack()
+
   React.useLayoutEffect(() => {
-    const updateNavigationHeader = () => {
-      navigation.setOptions({
-        title: route.params.title,
-      })
-    }
-
-    // Disable back press
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => true,
-    )
-
-    updateNavigationHeader()
-    return () => backHandler.remove()
+    navigation.setOptions({
+      title: route.params.title,
+    })
   }, [navigation, route.params.title])
 
   return (

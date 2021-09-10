@@ -1,5 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { BackHandler, View, StyleSheet, Alert } from 'react-native'
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
+import { View, StyleSheet, Alert } from 'react-native'
 
 import { Poll } from '../../core/entities/Poll'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -14,6 +19,8 @@ import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterrupti
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import i18n from '../../utils/i18n'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { useBackHandler } from '../shared/useBackHandler.hook'
 
 // TODO: (Pierre Felgines) Change status with values from webservice
 const STATUSES: Array<PhoningSessionCallStatus> = [
@@ -40,37 +47,35 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  React.useLayoutEffect(() => {
-    const askConfirmationBeforeLeaving = () => {
-      setModalVisible(true)
-    }
+  usePreventGoingBack()
 
+  const askConfirmationBeforeLeaving = () => {
+    setModalVisible(true)
+  }
+
+  useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
         headerLeft: () => (
           <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
         ),
+        // (Pierre Felgines) 10/09/2021 We need this for the text to be centered
+        headerRight: () => <View />,
       })
     }
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        askConfirmationBeforeLeaving()
-        return true
-      },
-    )
-
     updateNavigationHeader()
-    return () => backHandler.remove()
   }, [navigation])
+
+  useBackHandler(askConfirmationBeforeLeaving)
 
   const fetchPoll = () => {
     setStatefulState(new ViewState.Loading())
     PhoningCampaignRepository.getInstance()
       .getPhoningCampaignPoll(route.params.campaignId)
       .then((poll) => {
-        navigation.setOptions({ title: poll.name })
+        navigation.setOptions({
+          title: poll.name,
+        })
         setStatefulState(new ViewState.Content(poll))
       })
       .catch((error) => {

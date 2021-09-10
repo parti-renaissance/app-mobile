@@ -5,11 +5,14 @@ import { PhoningSessionLoaderScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing } from '../../styles'
 import { PrimaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
 const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenProps> = ({
   navigation,
   route,
 }) => {
+  usePreventGoingBack()
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>PhoningSessionLoaderScreen</Text>
