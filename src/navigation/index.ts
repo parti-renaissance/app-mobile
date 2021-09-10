@@ -59,6 +59,7 @@ export type PhonePollDetailModalParamList = {
   PhoningSessionLoader: { campaignId: string }
   PhoningSessionNumberFound: { campaignId: string; sessionId: string }
   PhoneCallStatusPicker: { campaignId: string; sessionId: string }
+  PhoneCallFailure: { campaignId: string }
   PhonePollDetail: { campaignId: string; sessionId: string }
   PhonePollDetailSuccess: { campaignId: string; title: string }
 }
@@ -336,3 +337,17 @@ export type PhoneCallStatusPickerScreenProps = StackScreenProps<
   PhonePollDetailModalParamList,
   typeof Screen.phoneCallStatusPicker
 >
+
+// Phone Call Failure
+export type PhoneCallFailureScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  StackNavigationProp<PhonePollDetailModalParamList>
+>
+export type PhoneCallFailureScreenRouteProp = RouteProp<
+  PhonePollDetailModalParamList,
+  typeof Screen.phoneCallFailure
+>
+export type PhoneCallFailureScreenProps = Readonly<{
+  route: PhoneCallFailureScreenRouteProp
+  navigation: PhoneCallFailureScreenNavigationProp
+}>

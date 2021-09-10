@@ -29,9 +29,11 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
       <VerticalSpacer spacing={Spacing.margin} />
       <SecondaryButton
         title="_DO_NOT_ACCEPT_"
-        onPress={() => {
-          // TODO: (Pierre Felgines) Navigate to correct screen
-        }}
+        onPress={() =>
+          navigation.replace(Screen.phoneCallFailure, {
+            campaignId: route.params.campaignId,
+          })
+        }
       />
     </SafeAreaView>
   )
