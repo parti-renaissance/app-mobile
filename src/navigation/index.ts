@@ -58,6 +58,7 @@ export type PollDetailModalParamList = {
 export type PhonePollDetailModalParamList = {
   PhoningSessionLoader: { campaignId: string }
   PhoningSessionNumberFound: { campaignId: string; sessionId: string }
+  PhoneCallStatusPicker: { campaignId: string; sessionId: string }
   PhonePollDetail: { campaignId: string; sessionId: string }
   PhonePollDetailSuccess: { title: string }
 }
@@ -328,4 +329,10 @@ export type PhoningSessionLoaderScreenProps = StackScreenProps<
 export type PhoningSessionNumberFoundScreenProps = StackScreenProps<
   PhonePollDetailModalParamList,
   typeof Screen.phoningSessionNumberFound
+>
+
+// Phone Call Status Picker
+export type PhoneCallStatusPickerScreenProps = StackScreenProps<
+  PhonePollDetailModalParamList,
+  typeof Screen.phoneCallStatusPicker
 >
