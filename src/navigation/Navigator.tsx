@@ -19,6 +19,7 @@ import { Analytics } from '../utils/Analytics'
 import PushRepository from '../data/PushRepository'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
 import ProfileModal from '../screens/profile/ProfileModal'
+import PhonePollDetailModal from '../screens/phonePollDetail/PhonePollDetailModal'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -67,6 +68,11 @@ const Navigator: FunctionComponent = () => {
         <RootStack.Screen
           name={Screen.pollDetailModal}
           component={PollDetailModal}
+          options={{ gestureEnabled: false }}
+        />
+        <RootStack.Screen
+          name={Screen.phonePollDetailModal}
+          component={PhonePollDetailModal}
           options={{ gestureEnabled: false }}
         />
         <RootStack.Screen

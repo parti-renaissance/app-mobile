@@ -49,9 +49,14 @@ export type PollDetailModalParamList = {
   PollDetailSuccess: { pollId: number; title: string }
 }
 
+export type PhonePollDetailModalParamList = {
+  PhonePollDetail: { campaignId: string }
+}
+
 export type RootStackParamList = {
   AuthenticatedHome: NavigatorScreenParams<AuthenticatedHomeParamList>
   PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
+  PhonePollDetailModal: NavigatorScreenParams<PhonePollDetailModalParamList>
   ProfileModal: undefined
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
@@ -134,6 +139,12 @@ export type ProfileModalProps = Readonly<{
 export type PollDetailScreenProps = StackScreenProps<
   PollDetailModalParamList,
   typeof Screen.pollDetail
+>
+
+// PhonePollDetail
+export type PhonePollDetailScreenProps = StackScreenProps<
+  PhonePollDetailModalParamList,
+  typeof Screen.phonePollDetail
 >
 
 // PollDetailSuccess

@@ -5,46 +5,66 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, Alert, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import PollDetailProgressBar from './PollDetailProgressBar'
 import { Colors, Spacing } from '../../styles'
-import PollDetailNavigationButtons from './PollDetailNavigationButtons'
+import PollDetailNavigationButtons from '../pollDetail/PollDetailNavigationButtons'
 import { Poll } from '../../core/entities/Poll'
-import { PollDetailComponentProvider } from './providers/PollDetailComponentProvider'
-import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarViewModelMapper'
-import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
-import PollsRepository from '../../data/PollsRepository'
+import { PollDetailComponentProvider } from '../pollDetail/providers/PollDetailComponentProvider'
+import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailProgressBarViewModelMapper'
+import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import i18n from '../../utils/i18n'
+
 import { StackNavigationProp } from '@react-navigation/stack'
-import { PollDetailModalParamList, Screen } from '../../navigation'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
-import { LocationManager } from '../../utils/LocationManager'
-import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
-import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
-import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
-import { PollResult } from '../../core/entities/PollResult'
+import { PhonePollDetailModalParamList, Screen } from '../../navigation'
+import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
+import { PollRemoteQuestionResult } from '../../core/entities/PollResult'
+import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
+import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
+import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
+import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
 
 type Props = Readonly<{
   poll: Poll
   navigation: StackNavigationProp<
-    PollDetailModalParamList,
-    typeof Screen.pollDetail
+    PhonePollDetailModalParamList,
+    typeof Screen.phonePollDetail
   >
 }>
 
-const PollDetailScreenLoaded: FunctionComponent<Props> = ({
+// TODO: (Pierre Felgines) Remove this stub data
+const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
+  {
+    code: 'postal_code_checked',
+    label: 'Code postal à jour ?',
+    type: 'boolean',
+  },
+  {
+    code: 'become_caller',
+    label: 'Souhaiteriez-vous devenir appelant ?',
+    type: 'boolean',
+  },
+  {
+    code: 'call_more',
+    label: 'Souhaitez-vous être rappelé plus souvent ?',
+    type: 'boolean',
+  },
+]
+
+const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
-  navigation,
+  // TODO: (Pierre Felgines) Unused for now
+  // navigation,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
-  const [provider] = useState<PollDetailComponentProvider<PollResult>>(
+  const [provider] = useState<
+    PollDetailComponentProvider<PollRemoteQuestionResult>
+  >(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
-      new PollDetailUserInformationsComponentProvider(forceUpdate),
+      new PhonePollDetailSatisfactionComponentProvider(QUESTIONS, forceUpdate),
     ),
   )
 
@@ -77,41 +97,14 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
     })
   }, [currentStep])
 
-  const displayError = (error: string) => {
-    console.log('Displaying error ', error)
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: postAnswers,
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
-
   const postAnswers = async () => {
     setIsLoading(true)
 
-    const location = await LocationManager.getLatestLocation()
-    PollsRepository.getInstance()
-      .sendPollAnswers(poll, provider.getResult(), location)
-      .then(() => {
-        navigation.replace(Screen.pollDetailSuccess, {
-          pollId: poll.id,
-          title: poll.name,
-        })
-      })
-      .catch((error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
-      })
-      .finally(() => setIsLoading(false))
+    setTimeout(() => {
+      setIsLoading(false)
+      console.log('DONE')
+      // TODO: (Pierre Felgines) Push next screen
+    }, 2000)
   }
 
   return (
@@ -181,4 +174,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PollDetailScreenLoaded
+export default PhonePollDetailScreenLoaded
