@@ -36,12 +36,17 @@ export type EventParamList = {
   EventDetails: { eventId: string }
 }
 
+export type PhoningParamList = {
+  Phoning: undefined
+  PhoningTutorial: undefined
+}
+
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
-  Phoning: undefined
+  PhoningNavigator: NavigatorScreenParams<PhoningParamList>
 }
 
 export type PollDetailModalParamList = {
@@ -51,6 +56,7 @@ export type PollDetailModalParamList = {
 
 export type PhonePollDetailModalParamList = {
   PhonePollDetail: { campaignId: string }
+  PhonePollDetailSuccess: { title: string }
 }
 
 export type RootStackParamList = {
@@ -76,8 +82,14 @@ export type UnauthenticatedStackParamList = {
 
 // Phoning
 export type PhoningScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<AuthenticatedHomeParamList, typeof Screen.phoning>,
-  StackNavigationProp<RootStackParamList>
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.phoningNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
 >
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
@@ -157,6 +169,23 @@ export type PollDetailSuccessScreenRouteProp = RouteProp<
   typeof Screen.pollDetailSuccess
 >
 export type PollDetailSuccessScreenProps = Readonly<{
+  route: PollDetailSuccessScreenRouteProp
+  navigation: PollDetailSuccessScreenNavigationProp
+}>
+
+// PhonePollDetailSuccess
+export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    StackNavigationProp<PhonePollDetailModalParamList>,
+    PhoningScreenNavigationProp
+  >
+>
+export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
+  PollDetailModalParamList,
+  typeof Screen.pollDetailSuccess
+>
+export type PhonePollDetailSuccessScreenProps = Readonly<{
   route: PollDetailSuccessScreenRouteProp
   navigation: PollDetailSuccessScreenNavigationProp
 }>
