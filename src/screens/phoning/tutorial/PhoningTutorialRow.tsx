@@ -44,10 +44,6 @@ const stylesFactory = (theme: Theme) => {
       flexDirection: 'column',
       paddingRight: 8 * Spacing.unit,
     },
-    linkText: {
-      ...Styles.eventSeeMoreButtonTextStyle(theme),
-      color: theme.primaryColor,
-    },
     linkButton: {
       flexShrink: 1,
       padding: Spacing.margin,
@@ -55,6 +51,10 @@ const stylesFactory = (theme: Theme) => {
       paddingTop: Spacing.small,
       textAlign: 'left',
       alignSelf: 'flex-start',
+    },
+    linkText: {
+      ...Styles.eventSeeMoreButtonTextStyle(theme),
+      color: theme.primaryColor,
     },
     title: {
       ...Typography.headline,
