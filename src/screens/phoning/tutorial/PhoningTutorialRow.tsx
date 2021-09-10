@@ -46,9 +46,6 @@ const stylesFactory = (theme: Theme) => {
     },
     linkButton: {
       flexShrink: 1,
-      padding: Spacing.margin,
-      paddingLeft: -Spacing.margin,
-      paddingTop: Spacing.small,
       textAlign: 'left',
       alignSelf: 'flex-start',
     },
