@@ -43,27 +43,23 @@ const PhonePollDetailInterruptionModalContent: FunctionComponent<Props> = ({
   }
 
   return (
-    <>
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          {i18n.t('phonepolldetail.interruption_alert.title')}
-        </Text>
-        <FlatList
-          bounces={false}
-          data={viewModel.choices}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-        />
-        <PrimaryButton
-          style={styles.button}
-          disabled={!viewModel.isActionEnabled}
-          onPress={() =>
-            selectedStatusCode && onInterruption(selectedStatusCode)
-          }
-          title={i18n.t('phonepolldetail.interruption_alert.action')}
-        />
-      </View>
-    </>
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        {i18n.t('phonepolldetail.interruption_alert.title')}
+      </Text>
+      <FlatList
+        bounces={false}
+        data={viewModel.choices}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+      />
+      <PrimaryButton
+        style={styles.button}
+        disabled={!viewModel.isActionEnabled}
+        onPress={() => selectedStatusCode && onInterruption(selectedStatusCode)}
+        title={i18n.t('phonepolldetail.interruption_alert.action')}
+      />
+    </View>
   )
 }
 
