@@ -36,12 +36,17 @@ export type EventParamList = {
   EventDetails: { eventId: string }
 }
 
+export type PhoningParamList = {
+  Phoning: undefined
+  PhoningTutorial: undefined
+}
+
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
-  Phoning: undefined
+  PhoningNavigator: NavigatorScreenParams<PhoningParamList>
 }
 
 export type PollDetailModalParamList = {
@@ -77,8 +82,14 @@ export type UnauthenticatedStackParamList = {
 
 // Phoning
 export type PhoningScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<AuthenticatedHomeParamList, typeof Screen.phoning>,
-  StackNavigationProp<RootStackParamList>
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.phoningNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
 >
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
@@ -164,8 +175,11 @@ export type PollDetailSuccessScreenProps = Readonly<{
 
 // PhonePollDetailSuccess
 export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<PhonePollDetailModalParamList>,
-  PhoningScreenNavigationProp
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    StackNavigationProp<PhonePollDetailModalParamList>,
+    PhoningScreenNavigationProp
+  >
 >
 export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
   PollDetailModalParamList,

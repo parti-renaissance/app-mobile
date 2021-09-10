@@ -7,7 +7,7 @@ import React, {
 import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
-import { PhoningScreenProp } from '../../navigation'
+import { PhoningScreenProp, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -19,7 +19,9 @@ import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 
 export interface PhoningResources {}
 
-const PhoningScreen: FunctionComponent<PhoningScreenProp> = () => {
+const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
+  navigation,
+}) => {
   const { theme } = useTheme()
   const [, setRefreshing] = useState(false)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
@@ -47,8 +49,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = () => {
       return (
         <PhoningTutorialRow
           onPress={() => {
-            // TODO open tutorial screen
-            console.log('shold open tutorial screen')
+            navigation.navigate(Screen.phoningTutorial)
           }}
         />
       )

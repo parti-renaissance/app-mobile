@@ -37,7 +37,11 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
       <VerticalSpacer spacing={Spacing.margin} />
       <SecondaryButton
         title="_TERMINER_"
-        onPress={() => navigation.navigate(Screen.phoning)}
+        onPress={() =>
+          navigation.navigate(Screen.phoningNavigator, {
+            screen: Screen.phoning,
+          })
+        }
       />
     </SafeAreaView>
   )
