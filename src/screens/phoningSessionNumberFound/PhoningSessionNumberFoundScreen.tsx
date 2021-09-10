@@ -22,6 +22,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
         onPress={() =>
           navigation.navigate(Screen.phonePollDetail, {
             campaignId: route.params.campaignId,
+            sessionId: route.params.sessionId,
           })
         }
       />

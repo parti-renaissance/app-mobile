@@ -57,8 +57,8 @@ export type PollDetailModalParamList = {
 
 export type PhonePollDetailModalParamList = {
   PhoningSessionLoader: { campaignId: string }
-  PhoningSessionNumberFound: { campaignId: string }
-  PhonePollDetail: { campaignId: string }
+  PhoningSessionNumberFound: { campaignId: string; sessionId: string }
+  PhonePollDetail: { campaignId: string; sessionId: string }
   PhonePollDetailSuccess: { title: string }
 }
 

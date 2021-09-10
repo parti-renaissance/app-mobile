@@ -33,9 +33,6 @@ const STATUSES: Array<PhoningSessionCallStatus> = [
     label: 'Appel interrompu',
   },
 ]
-// TODO: (Pierre Felgines) Change session id with value from webservice
-const PHONING_SESSION_ID = '993979fd-7a13-4f38-9e93-a9dce269172a'
-
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
@@ -112,7 +109,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   const sendInterruptionStatusAndLeave = (statusCode: string) => {
     setLoading(true)
     PhoningCampaignRepository.getInstance()
-      .updatePhoningSessionStatus(PHONING_SESSION_ID, statusCode)
+      .updatePhoningSessionStatus(route.params.sessionId, statusCode)
       .then(() => navigation.navigate(Screen.phoning))
       .catch((error) =>
         displayError(GenericErrorMapper.mapErrorMessage(error), statusCode),
