@@ -15,7 +15,11 @@ import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailPr
 import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 
-import { PhonePollDetailScreenNavigationProp, Screen } from '../../navigation'
+import {
+  PhonePollDetailScreenNavigationProp,
+  PhonePollDetailScreenRouteProp,
+  Screen,
+} from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import { PollRemoteQuestionResult } from '../../core/entities/PollResult'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
@@ -25,6 +29,7 @@ import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionC
 
 type Props = Readonly<{
   poll: Poll
+  route: PhonePollDetailScreenRouteProp
   navigation: PhonePollDetailScreenNavigationProp
 }>
 
@@ -49,6 +54,7 @@ const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
 
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
+  route,
   navigation,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
@@ -97,8 +103,9 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
 
     setTimeout(() => {
       setIsLoading(false)
-      navigation.navigate(Screen.phonePollDetailSuccess, {
+      navigation.replace(Screen.phonePollDetailSuccess, {
         title: poll.name,
+        campaignId: route.params.campaignId,
       })
     }, 2000)
   }

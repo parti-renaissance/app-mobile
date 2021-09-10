@@ -7,7 +7,7 @@ export const usePreventGoingBack = (forceBack = false): void => {
   useEffect(() => {
     const unsubscribe = addListener('beforeRemove', (e) => {
       // We don't want this hook to prevent reseting the navigation stack
-      if (e.data.action.type !== 'RESET') {
+      if (e.data.action.type === 'GO_BACK') {
         e.preventDefault()
       }
     })

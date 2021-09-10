@@ -20,7 +20,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
       <PrimaryButton
         title="_ACCEPT_"
         onPress={() =>
-          navigation.navigate(Screen.phonePollDetail, {
+          navigation.replace(Screen.phonePollDetail, {
             campaignId: route.params.campaignId,
             sessionId: '993979fd-7a13-4f38-9e93-a9dce269172a',
           })

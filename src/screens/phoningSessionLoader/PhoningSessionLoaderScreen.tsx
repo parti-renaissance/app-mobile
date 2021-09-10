@@ -24,7 +24,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
       <PrimaryButton
         title="_FOUND_NUMBER_"
         onPress={() =>
-          navigation.navigate(Screen.phoningSessionNumberFound, {
+          navigation.replace(Screen.phoningSessionNumberFound, {
             campaignId: route.params.campaignId,
             sessionId: '993979fd-7a13-4f38-9e93-a9dce269172a',
           })

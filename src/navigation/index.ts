@@ -60,7 +60,7 @@ export type PhonePollDetailModalParamList = {
   PhoningSessionNumberFound: { campaignId: string; sessionId: string }
   PhoneCallStatusPicker: { campaignId: string; sessionId: string }
   PhonePollDetail: { campaignId: string; sessionId: string }
-  PhonePollDetailSuccess: { title: string }
+  PhonePollDetailSuccess: { campaignId: string; title: string }
 }
 
 export type RootStackParamList = {

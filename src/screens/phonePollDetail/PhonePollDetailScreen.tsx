@@ -137,7 +137,11 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
       <StatefulView
         state={statefulState}
         contentComponent={(poll) => (
-          <PhonePollDetailScreenLoaded poll={poll} navigation={navigation} />
+          <PhonePollDetailScreenLoaded
+            poll={poll}
+            route={route}
+            navigation={navigation}
+          />
         )}
       />
     </View>

@@ -20,7 +20,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
       <PrimaryButton
         title="_NEXT_"
         onPress={() =>
-          navigation.navigate(Screen.phoneCallStatusPicker, {
+          navigation.replace(Screen.phoneCallStatusPicker, {
             campaignId: route.params.campaignId,
             sessionId: route.params.sessionId,
           })

@@ -23,7 +23,14 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
     <SafeAreaView style={styles.container}>
       <Text>PhonePollDetailSuccessScreen</Text>
       <VerticalSpacer spacing={Spacing.margin} />
-      <PrimaryButton title="_NOUVEL_APPEL_" />
+      <PrimaryButton
+        title="_NOUVEL_APPEL_"
+        onPress={() =>
+          navigation.replace(Screen.phoningSessionLoader, {
+            campaignId: route.params.campaignId,
+          })
+        }
+      />
       <VerticalSpacer spacing={Spacing.margin} />
       <SecondaryButton title="_VOIR_NUMERO_" />
       <VerticalSpacer spacing={Spacing.margin} />
