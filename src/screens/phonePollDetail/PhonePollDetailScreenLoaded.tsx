@@ -15,8 +15,7 @@ import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailPr
 import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 
-import { StackNavigationProp } from '@react-navigation/stack'
-import { PhonePollDetailModalParamList, Screen } from '../../navigation'
+import { PhonePollDetailScreenNavigationProp, Screen } from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import { PollRemoteQuestionResult } from '../../core/entities/PollResult'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
@@ -26,10 +25,7 @@ import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionC
 
 type Props = Readonly<{
   poll: Poll
-  navigation: StackNavigationProp<
-    PhonePollDetailModalParamList,
-    typeof Screen.phonePollDetail
-  >
+  navigation: PhonePollDetailScreenNavigationProp
 }>
 
 // TODO: (Pierre Felgines) Remove this stub data

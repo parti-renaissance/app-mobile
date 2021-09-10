@@ -176,10 +176,18 @@ export type PollDetailScreenProps = StackScreenProps<
 >
 
 // PhonePollDetail
-export type PhonePollDetailScreenProps = StackScreenProps<
+export type PhonePollDetailScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  StackNavigationProp<PhonePollDetailModalParamList>
+>
+export type PhonePollDetailScreenRouteProp = RouteProp<
   PhonePollDetailModalParamList,
   typeof Screen.phonePollDetail
 >
+export type PhonePollDetailScreenProps = Readonly<{
+  route: PhonePollDetailScreenRouteProp
+  navigation: PhonePollDetailScreenNavigationProp
+}>
 
 // PollDetailSuccess
 export type PollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
@@ -204,12 +212,12 @@ export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp
   >
 >
 export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
-  PollDetailModalParamList,
-  typeof Screen.pollDetailSuccess
+  PhonePollDetailModalParamList,
+  typeof Screen.phonePollDetailSuccess
 >
 export type PhonePollDetailSuccessScreenProps = Readonly<{
-  route: PollDetailSuccessScreenRouteProp
-  navigation: PollDetailSuccessScreenNavigationProp
+  route: PhonePollDetailSuccessScreenRouteProp
+  navigation: PhonePollDetailSuccessScreenNavigationProp
 }>
 
 // Unauthenticated

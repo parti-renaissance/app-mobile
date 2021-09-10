@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { BackHandler, View, StyleSheet, Alert } from 'react-native'
 
 import { Poll } from '../../core/entities/Poll'
@@ -7,7 +7,7 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
 import { useTheme } from '../../themes'
-import { PhonePollDetailScreenProps } from '../../navigation'
+import { PhonePollDetailScreenProps, Screen } from '../../navigation'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
@@ -29,10 +29,10 @@ const STATUSES: Array<PhoningSessionCallStatus> = [
 // TODO: (Pierre Felgines) Change session id with value from webservice
 const PHONING_SESSION_ID = '993979fd-7a13-4f38-9e93-a9dce269172a'
 
-const PhonePollDetailScreen = ({
+const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
-}: PhonePollDetailScreenProps) => {
+}) => {
   const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
     new ViewState.Loading(),
@@ -108,7 +108,7 @@ const PhonePollDetailScreen = ({
     setLoading(true)
     PhoningCampaignRepository.getInstance()
       .updatePhoningSessionStatus(PHONING_SESSION_ID, statusCode)
-      .then(() => navigation.goBack())
+      .then(() => navigation.navigate(Screen.phoning))
       .catch((error) =>
         displayError(GenericErrorMapper.mapErrorMessage(error), statusCode),
       )
