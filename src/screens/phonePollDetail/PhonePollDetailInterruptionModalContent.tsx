@@ -12,7 +12,7 @@ import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
 import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
-import { TertiaryButton } from '../shared/Buttons'
+import { PrimaryButton } from '../shared/Buttons'
 import { PhonePollDetailInterruptionModalContentViewModelMapper } from './PhonePollDetailInterruptionModalContentViewModelMapper'
 
 type Props = Readonly<{
@@ -55,7 +55,7 @@ const PhonePollDetailInterruptionModalContent: FunctionComponent<Props> = ({
           renderItem={renderItem}
         />
       </View>
-      <TertiaryButton
+      <PrimaryButton
         style={styles.button}
         disabled={!viewModel.isActionEnabled}
         onPress={() => selectedStatusCode && onInterruption(selectedStatusCode)}
