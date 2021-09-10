@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { headerOptions } from '../../styles/navigationAppearance'
 import { PhonePollDetailScreenProps, Screen } from '../../navigation'
 import PhonePollDetailScreen from './PhonePollDetailScreen'
+import PhonePollDetailSuccessScreen from '../phonePollDetailSuccess/PhonePollDetailSuccessScreen'
 
 const Stack = createStackNavigator()
 
@@ -14,11 +15,11 @@ const PhonePollDetailModal: FunctionComponent<PhonePollDetailScreenProps> = () =
         component={PhonePollDetailScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
-      {/* <Stack.Screen
-        name={Screen.pollDetailSuccess}
-        component={PollDetailSuccessScreen}
+      <Stack.Screen
+        name={Screen.phonePollDetailSuccess}
+        component={PhonePollDetailSuccessScreen}
         options={{ headerLeft: () => null, title: '' }}
-      /> */}
+      />
     </Stack.Navigator>
   )
 }

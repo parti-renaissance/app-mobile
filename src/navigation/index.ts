@@ -51,6 +51,7 @@ export type PollDetailModalParamList = {
 
 export type PhonePollDetailModalParamList = {
   PhonePollDetail: { campaignId: string }
+  PhonePollDetailSuccess: { title: string }
 }
 
 export type RootStackParamList = {
@@ -157,6 +158,20 @@ export type PollDetailSuccessScreenRouteProp = RouteProp<
   typeof Screen.pollDetailSuccess
 >
 export type PollDetailSuccessScreenProps = Readonly<{
+  route: PollDetailSuccessScreenRouteProp
+  navigation: PollDetailSuccessScreenNavigationProp
+}>
+
+// PhonePollDetailSuccess
+export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhonePollDetailModalParamList>,
+  PhoningScreenNavigationProp
+>
+export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
+  PollDetailModalParamList,
+  typeof Screen.pollDetailSuccess
+>
+export type PhonePollDetailSuccessScreenProps = Readonly<{
   route: PollDetailSuccessScreenRouteProp
   navigation: PollDetailSuccessScreenNavigationProp
 }>

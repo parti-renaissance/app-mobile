@@ -53,8 +53,7 @@ const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
 
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
-  // TODO: (Pierre Felgines) Unused for now
-  // navigation,
+  navigation,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
@@ -102,8 +101,9 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
 
     setTimeout(() => {
       setIsLoading(false)
-      console.log('DONE')
-      // TODO: (Pierre Felgines) Push next screen
+      navigation.navigate(Screen.phonePollDetailSuccess, {
+        title: poll.name,
+      })
     }, 2000)
   }
 
