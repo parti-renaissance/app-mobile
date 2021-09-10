@@ -41,6 +41,7 @@ export type AuthenticatedHomeParamList = {
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
+  Phoning: undefined
 }
 
 export type PollDetailModalParamList = {
@@ -67,6 +68,15 @@ export type UnauthenticatedStackParamList = {
 }
 
 //----------- Screen Props -----------//
+
+// Phoning
+export type PhoningScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<AuthenticatedHomeParamList, typeof Screen.phoning>,
+  StackNavigationProp<RootStackParamList>
+>
+export type PhoningScreenProp = Readonly<{
+  navigation: PhoningScreenNavigationProp
+}>
 
 // Polls
 export type PollsScreenNavigationProp = CompositeNavigationProp<

@@ -1,7 +1,7 @@
 {
   "fr": {
     "common": {
-      "loading": "Chargement...",
+      "loading": "chargement...",
       "keyboard": { "done": "Ok" },
       "error": {
         "network": "Une erreur réseau est survenue",
@@ -25,7 +25,8 @@
       "item_tools": "Outils",
       "item_profile": "Profil",
       "item_home": "Accueil",
-      "item_events": "Événements"
+      "item_events": "Événements",
+      "item_phoning": "Phoning"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -310,6 +311,19 @@
       "section_sms": "SMS/MMS",
       "push_description_local": "Recevoir des notifications pour ne manquer aucune action locale",
       "push_description_national": "Recevoir des notifications pour ne manquer aucun grands rendez-vous nationaux"
+    },
+    "phonepolldetail": {
+      "phone_satisfaction": "Satisfaction",
+      "interruption_alert": {
+        "title": "Êtes-vous sûr de vouloir interrompre l'appel ?",
+        "action": "Interrompre l'appel"
+      }
+    },
+    "phoning": {
+      "tutorial": {
+        "title": "Comment faire un appel?",
+        "link": "Regarder le tutoriel"
+      }
     }
   }
 }
