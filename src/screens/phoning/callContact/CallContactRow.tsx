@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Image, Text, View } from 'react-native'
-import { Spacing, Typography } from '../../../styles'
+import { Spacing, Typography, Colors } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme } from '../../../themes'
 import ProgressBar from '../../shared/ProgressBar'
@@ -32,7 +32,7 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
           source={require('../../../assets/images/blue/imageActualite.png')}
         />
         <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
-        <Text style={styles.body}>
+        <Text style={styles.caption}>
           {i18n.t('phoning.callcontact.progressformat', {
             done: viewModel.calledCount,
             total: viewModel.numberOfPersonToCall,
@@ -58,6 +58,11 @@ const styles = StyleSheet.create({
     ...Typography.body,
     marginBottom: Spacing.margin,
   },
+  caption: {
+    ...Typography.caption1,
+    color: Colors.lightText,
+    paddingBottom: Spacing.unit,
+  },
   cardView: {
     marginHorizontal: Spacing.margin,
     marginVertical: Spacing.margin,
@@ -73,8 +78,7 @@ const styles = StyleSheet.create({
     marginStart: Spacing.unit,
   },
   title: {
-    ...Typography.subheadline,
-    lineHeight: 20,
+    ...Typography.title2,
     marginBottom: Spacing.margin,
   },
 })
