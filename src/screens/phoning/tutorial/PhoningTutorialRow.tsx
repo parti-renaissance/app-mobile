@@ -1,8 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { phoning } from '../../../navigation/screen'
 import { Spacing, Typography, Styles } from '../../../styles'
 import { useThemedStyles, useTheme } from '../../../themes'
 import Theme from '../../../themes/Theme'
+import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
 
 type Props = Readonly<{
@@ -19,9 +21,9 @@ export const PhoningTutorialRow: FunctionComponent<Props> = ({ onPress }) => {
   return (
     <View style={styles.card}>
       <View style={styles.container}>
-        <Text style={styles.title}>{'Comment faire un appel'}</Text>
+        <Text style={styles.title}>{i18n.t('phoning.tutorial.title')}</Text>
         <BorderlessButton
-          title={'regarder le tutoriel'}
+          title={i18n.t('phoning.tutorial.link')}
           textStyle={styles.linkText}
           style={styles.linkButton}
           onPress={onPress}
