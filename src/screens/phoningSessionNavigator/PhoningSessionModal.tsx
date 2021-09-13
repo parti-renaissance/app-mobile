@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { headerOptions } from '../../styles/navigationAppearance'
-import { PhonePollDetailScreenProps, Screen } from '../../navigation'
-import PhonePollDetailScreen from './PhonePollDetailScreen'
+import { Screen } from '../../navigation'
+import PhonePollDetailScreen from '../phonePollDetail/PhonePollDetailScreen'
 import PhonePollDetailSuccessScreen from '../phonePollDetailSuccess/PhonePollDetailSuccessScreen'
 import PhoningSessionLoaderScreen from '../phoningSessionLoader/PhoningSessionLoaderScreen'
 import PhoningSessionNumberFoundScreen from '../phoningSessionNumberFound/PhoningSessionNumberFoundScreen'
@@ -13,7 +13,7 @@ import PhoningSessionNumberFoundOtherDeviceScreen from '../phoningSessionNumberF
 
 const Stack = createStackNavigator()
 
-const PhonePollDetailModal: FunctionComponent<PhonePollDetailScreenProps> = () => {
+const PhoningSessionModal: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
@@ -60,4 +60,4 @@ const PhonePollDetailModal: FunctionComponent<PhonePollDetailScreenProps> = () =
   )
 }
 
-export default PhonePollDetailModal
+export default PhoningSessionModal

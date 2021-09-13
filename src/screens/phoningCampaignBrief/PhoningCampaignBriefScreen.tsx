@@ -17,7 +17,7 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
       <PrimaryButton
         title="_LANCER_APPEL_"
         onPress={() =>
-          navigation.navigate(Screen.phonePollDetailModal, {
+          navigation.navigate(Screen.phoningSessionModal, {
             screen: Screen.phoningSessionLoader,
             params: { campaignId: route.params.campaignId, device: 'current' },
           })
@@ -27,7 +27,7 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
       <SecondaryButton
         title="_LANCER_APPEL_AUTRE_TEL_"
         onPress={() =>
-          navigation.navigate(Screen.phonePollDetailModal, {
+          navigation.navigate(Screen.phoningSessionModal, {
             screen: Screen.phoningSessionLoader,
             params: { campaignId: route.params.campaignId, device: 'external' },
           })

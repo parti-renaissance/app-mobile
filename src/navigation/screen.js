@@ -38,6 +38,6 @@ export const phoningSessionNumberFoundOtherDevice =
 export const phoningSessionNoNumberAvailable = 'PhoningSessionNoNumberAvailable'
 export const phoneCallStatusPicker = 'PhoneCallStatusPicker'
 export const phoneCallFailure = 'PhoneCallFailure'
-export const phonePollDetailModal = 'PhonePollDetailModal'
+export const phoningSessionModal = 'PhoningSessionModal'
 export const phonePollDetail = 'PhonePollDetail'
 export const phonePollDetailSuccess = 'PhonePollDetailSuccess'

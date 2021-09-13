@@ -59,7 +59,7 @@ export type PollDetailModalParamList = {
   PollDetailSuccess: { pollId: number; title: string }
 }
 
-export type PhonePollDetailModalParamList = {
+export type PhoningSessionModalParamList = {
   PhoningSessionLoader: { campaignId: string; device: PhoningSessionDevice }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
@@ -73,7 +73,7 @@ export type PhonePollDetailModalParamList = {
 export type RootStackParamList = {
   AuthenticatedHome: NavigatorScreenParams<AuthenticatedHomeParamList>
   PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
-  PhonePollDetailModal: NavigatorScreenParams<PhonePollDetailModalParamList>
+  PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalParamList>
   ProfileModal: undefined
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
@@ -188,10 +188,10 @@ export type PollDetailScreenProps = StackScreenProps<
 // PhonePollDetail
 export type PhonePollDetailScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PhoningParamList>,
-  StackNavigationProp<PhonePollDetailModalParamList>
+  StackNavigationProp<PhoningSessionModalParamList>
 >
 export type PhonePollDetailScreenRouteProp = RouteProp<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phonePollDetail
 >
 export type PhonePollDetailScreenProps = Readonly<{
@@ -217,12 +217,12 @@ export type PollDetailSuccessScreenProps = Readonly<{
 export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PhoningParamList>,
   CompositeNavigationProp<
-    StackNavigationProp<PhonePollDetailModalParamList>,
+    StackNavigationProp<PhoningSessionModalParamList>,
     PhoningScreenNavigationProp
   >
 >
 export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phonePollDetailSuccess
 >
 export type PhonePollDetailSuccessScreenProps = Readonly<{
@@ -328,35 +328,35 @@ export type NotificationsScreenProps = StackScreenProps<
 
 // Phoning Session Loader
 export type PhoningSessionLoaderScreenProps = StackScreenProps<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phoningSessionLoader
 >
 
 // Phoning Session Number Found
 export type PhoningSessionNumberFoundScreenProps = StackScreenProps<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phoningSessionNumberFound
 >
 
 // Phoning Session Number Found Other Device
 export type PhoningSessionNumberFoundOtherDeviceScreenProps = StackScreenProps<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phoningSessionNumberFoundOtherDevice
 >
 
 // Phone Call Status Picker
 export type PhoneCallStatusPickerScreenProps = StackScreenProps<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phoneCallStatusPicker
 >
 
 // Phone Call Failure
 export type PhoneCallFailureScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PhoningParamList>,
-  StackNavigationProp<PhonePollDetailModalParamList>
+  StackNavigationProp<PhoningSessionModalParamList>
 >
 export type PhoneCallFailureScreenRouteProp = RouteProp<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phoneCallFailure
 >
 export type PhoneCallFailureScreenProps = Readonly<{
@@ -367,10 +367,10 @@ export type PhoneCallFailureScreenProps = Readonly<{
 // Phoning Session No Number Available
 export type PhoningSessionNoNumberAvailableScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PhoningParamList>,
-  StackNavigationProp<PhonePollDetailModalParamList>
+  StackNavigationProp<PhoningSessionModalParamList>
 >
 export type PhoningSessionNoNumberAvailableScreenRouteProp = RouteProp<
-  PhonePollDetailModalParamList,
+  PhoningSessionModalParamList,
   typeof Screen.phoningSessionNoNumberAvailable
 >
 export type PhoningSessionNoNumberAvailableScreenProps = Readonly<{
