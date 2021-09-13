@@ -11,14 +11,13 @@ import { PrimaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
 
-// TODO: (Pierre Felgines) Remove stub
-const PHONE_NUMBER = '+33 6 03 04 05 06'
-
 const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<PhoningSessionNumberFoundOtherDeviceScreenProps> = ({
   navigation,
   route,
 }) => {
   usePreventGoingBack()
+
+  const phoneNumber = route.params.data.adherent.phone.number
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,7 +29,7 @@ const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<PhoningSessi
         {i18n.t('phoningsession.other_device.description')}
       </Text>
       <VerticalSpacer spacing={Spacing.extraExtraLargeMargin} />
-      <Text style={styles.phoneNumber}>{PHONE_NUMBER}</Text>
+      <Text style={styles.phoneNumber}>{phoneNumber}</Text>
       <FlexibleVerticalSpacer minSpacing={Spacing.margin} />
       <PrimaryButton
         title={i18n.t('phoningsession.call_started')}
