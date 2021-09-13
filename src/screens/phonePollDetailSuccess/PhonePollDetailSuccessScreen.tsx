@@ -27,7 +27,8 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
         title="_NOUVEL_APPEL_"
         onPress={() =>
           navigation.replace(Screen.phoningSessionLoader, {
-            campaignId: route.params.campaignId,
+            campaignId: route.params.data.campaignId,
+            device: route.params.data.device,
           })
         }
       />

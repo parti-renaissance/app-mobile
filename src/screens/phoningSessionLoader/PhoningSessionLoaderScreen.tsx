@@ -9,6 +9,9 @@ import LoadingView from '../shared/LoadingView'
 import { VerticalSpacer } from '../shared/Spacer'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
+// TODO: (Pierre Felgines) Change this session id
+const DUMMY_SESSION_ID = '993979fd-7a13-4f38-9e93-a9dce269172a'
+
 const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenProps> = ({
   navigation,
   route,
@@ -23,12 +26,25 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
       <VerticalSpacer spacing={Spacing.margin} />
       <PrimaryButton
         title="_FOUND_NUMBER_"
-        onPress={() =>
-          navigation.replace(Screen.phoningSessionNumberFound, {
+        onPress={() => {
+          const navigationData = {
             campaignId: route.params.campaignId,
-            sessionId: '993979fd-7a13-4f38-9e93-a9dce269172a',
-          })
-        }
+            sessionId: DUMMY_SESSION_ID,
+            device: route.params.device,
+          }
+          switch (route.params.device) {
+            case 'current':
+              navigation.replace(Screen.phoningSessionNumberFound, {
+                data: navigationData,
+              })
+              break
+            case 'external':
+              navigation.replace(Screen.phoningSessionNumberFoundOtherDevice, {
+                data: navigationData,
+              })
+              break
+          }
+        }}
       />
       <VerticalSpacer spacing={Spacing.margin} />
       <SecondaryButton

@@ -7,6 +7,10 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import * as _Screen from './screen'
 import { NotificationCategory } from '../core/entities/Notification'
+import {
+  PhoningSessionDevice,
+  PhoningSessionNavigationData,
+} from '../core/entities/PhoningSessionNavigationData'
 
 export const Screen = _Screen
 
@@ -56,13 +60,14 @@ export type PollDetailModalParamList = {
 }
 
 export type PhonePollDetailModalParamList = {
-  PhoningSessionLoader: { campaignId: string }
-  PhoningSessionNumberFound: { campaignId: string; sessionId: string }
+  PhoningSessionLoader: { campaignId: string; device: PhoningSessionDevice }
+  PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
+  PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
   PhoningSessionNoNumberAvailable: undefined
-  PhoneCallStatusPicker: { campaignId: string; sessionId: string }
-  PhoneCallFailure: { campaignId: string }
-  PhonePollDetail: { campaignId: string; sessionId: string }
-  PhonePollDetailSuccess: { campaignId: string; title: string }
+  PhoneCallStatusPicker: { data: PhoningSessionNavigationData }
+  PhoneCallFailure: { data: PhoningSessionNavigationData }
+  PhonePollDetail: { data: PhoningSessionNavigationData }
+  PhonePollDetailSuccess: { data: PhoningSessionNavigationData; title: string }
 }
 
 export type RootStackParamList = {
@@ -331,6 +336,12 @@ export type PhoningSessionLoaderScreenProps = StackScreenProps<
 export type PhoningSessionNumberFoundScreenProps = StackScreenProps<
   PhonePollDetailModalParamList,
   typeof Screen.phoningSessionNumberFound
+>
+
+// Phoning Session Number Found Other Device
+export type PhoningSessionNumberFoundOtherDeviceScreenProps = StackScreenProps<
+  PhonePollDetailModalParamList,
+  typeof Screen.phoningSessionNumberFoundOtherDevice
 >
 
 // Phone Call Status Picker

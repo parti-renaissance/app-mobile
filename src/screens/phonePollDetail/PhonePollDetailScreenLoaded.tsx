@@ -105,7 +105,7 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
       setIsLoading(false)
       navigation.replace(Screen.phonePollDetailSuccess, {
         title: poll.name,
-        campaignId: route.params.campaignId,
+        data: route.params.data,
       })
     }, 2000)
   }

@@ -21,8 +21,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
         title="_ACCEPT_"
         onPress={() =>
           navigation.replace(Screen.phonePollDetail, {
-            campaignId: route.params.campaignId,
-            sessionId: '993979fd-7a13-4f38-9e93-a9dce269172a',
+            data: route.params.data,
           })
         }
       />
@@ -31,7 +30,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
         title="_DO_NOT_ACCEPT_"
         onPress={() =>
           navigation.replace(Screen.phoneCallFailure, {
-            campaignId: route.params.campaignId,
+            data: route.params.data,
           })
         }
       />

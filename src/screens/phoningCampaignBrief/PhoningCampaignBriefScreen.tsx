@@ -19,12 +19,20 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
         onPress={() =>
           navigation.navigate(Screen.phonePollDetailModal, {
             screen: Screen.phoningSessionLoader,
-            params: { campaignId: route.params.campaignId },
+            params: { campaignId: route.params.campaignId, device: 'current' },
           })
         }
       />
       <VerticalSpacer spacing={Spacing.margin} />
-      <SecondaryButton title="_LANCER_APPEL_AUTRE_TEL_" />
+      <SecondaryButton
+        title="_LANCER_APPEL_AUTRE_TEL_"
+        onPress={() =>
+          navigation.navigate(Screen.phonePollDetailModal, {
+            screen: Screen.phoningSessionLoader,
+            params: { campaignId: route.params.campaignId, device: 'external' },
+          })
+        }
+      />
     </SafeAreaView>
   )
 }

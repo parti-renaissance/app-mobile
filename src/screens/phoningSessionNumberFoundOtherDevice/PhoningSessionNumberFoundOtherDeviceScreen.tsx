@@ -1,13 +1,16 @@
 import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
+import {
+  PhoningSessionNumberFoundOtherDeviceScreenProps,
+  Screen,
+} from '../../navigation'
 import { Colors, Spacing } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 
-const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
+const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<PhoningSessionNumberFoundOtherDeviceScreenProps> = ({
   navigation,
   route,
 }) => {
@@ -15,10 +18,10 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>PhoningSessionNumberFoundScreen</Text>
+      <Text>PhoningSessionNumberFoundOtherDeviceScreen</Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <PrimaryButton
-        title="_NEXT_"
+        title="_CALL_"
         onPress={() =>
           navigation.replace(Screen.phoneCallStatusPicker, {
             data: route.params.data,
@@ -37,4 +40,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhoningSessionNumberFoundScreen
+export default PhoningSessionNumberFoundOtherDeviceScreen

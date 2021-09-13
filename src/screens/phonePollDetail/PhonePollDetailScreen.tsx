@@ -68,7 +68,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   const fetchPoll = () => {
     setStatefulState(new ViewState.Loading())
     PhoningCampaignRepository.getInstance()
-      .getPhoningCampaignPoll(route.params.campaignId)
+      .getPhoningCampaignPoll(route.params.data.campaignId)
       .then((poll) => {
         navigation.setOptions({
           title: poll.name,
@@ -86,7 +86,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
       })
   }
 
-  useEffect(fetchPoll, [route.params.campaignId, navigation, theme])
+  useEffect(fetchPoll, [route.params.data.campaignId, navigation, theme])
 
   const displayError = (error: string, statusCode: string) => {
     Alert.alert(
@@ -109,7 +109,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   const sendInterruptionStatusAndLeave = (statusCode: string) => {
     setLoading(true)
     PhoningCampaignRepository.getInstance()
-      .updatePhoningSessionStatus(route.params.sessionId, statusCode)
+      .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
       .then(() => navigation.navigate(Screen.phoning))
       .catch((error) =>
         displayError(GenericErrorMapper.mapErrorMessage(error), statusCode),

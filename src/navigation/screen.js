@@ -33,6 +33,8 @@ export const phoningTutorial = 'PhoningTutorial'
 export const phoningCampaignBrief = 'PhoningCampaignBrief'
 export const phoningSessionLoader = 'PhoningSessionLoader'
 export const phoningSessionNumberFound = 'PhoningSessionNumberFound'
+export const phoningSessionNumberFoundOtherDevice =
+  'PhoningSessionNumberFoundOtherDevice'
 export const phoningSessionNoNumberAvailable = 'PhoningSessionNoNumberAvailable'
 export const phoneCallStatusPicker = 'PhoneCallStatusPicker'
 export const phoneCallFailure = 'PhoneCallFailure'
