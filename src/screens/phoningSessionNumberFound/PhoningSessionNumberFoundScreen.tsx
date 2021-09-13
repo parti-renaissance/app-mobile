@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import React, { FunctionComponent, useCallback, useEffect } from 'react'
+import { Text, StyleSheet, Linking } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -13,6 +13,23 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
   route,
 }) => {
   usePreventGoingBack()
+
+  const phoneNumberUrl = (phoneNumber: string): string => {
+    const whitespaceRegex = /\s/g
+    const sanitizedPhoneNumber = phoneNumber.replace(whitespaceRegex, '')
+    return `tel:${sanitizedPhoneNumber}`
+  }
+
+  const phoneNumber = route.params.data.adherent.phone.number
+
+  const callNumber = useCallback(() => {
+    const url = phoneNumberUrl(phoneNumber)
+    Linking.openURL(url)
+  }, [phoneNumber])
+
+  useEffect(() => {
+    callNumber()
+  }, [callNumber])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,9 +52,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
       <VerticalSpacer spacing={Spacing.unit} />
       <BorderlessButton
         title={i18n.t('phoningsession.number_found.recall')}
-        onPress={() => {
-          // TODO: (Pierre Felgines) Call number
-        }}
+        onPress={() => callNumber()}
       />
     </SafeAreaView>
   )
