@@ -31,14 +31,14 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{i18n.t('phoningsessionfailure.title')}</Text>
+      <Text style={styles.title}>{i18n.t('phoningsession.failure.title')}</Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <Text style={styles.body}>
         Donec id elit non mi porta gravida at eget metus.
       </Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <Text style={styles.body}>
-        {i18n.t('phoningsessionfailure.new_call_description')}
+        {i18n.t('phoningsession.failure.new_call_description')}
       </Text>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
       <Image

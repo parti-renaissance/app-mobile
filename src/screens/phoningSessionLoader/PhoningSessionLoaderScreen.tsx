@@ -20,7 +20,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{i18n.t('phoningsessionloader.title')}</Text>
+      <Text style={styles.title}>{i18n.t('phoningsession.loader.title')}</Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <LoadingView />
       <VerticalSpacer spacing={Spacing.margin} />
