@@ -10,7 +10,7 @@ import { NotificationCategory } from '../core/entities/Notification'
 import {
   PhoningSessionDevice,
   PhoningSessionNavigationData,
-} from '../core/entities/PhoningSessionNavigationData'
+} from '../screens/shared/PhoningSessionNavigationData'
 
 export const Screen = _Screen
 
