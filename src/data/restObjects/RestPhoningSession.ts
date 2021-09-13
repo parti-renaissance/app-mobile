@@ -10,8 +10,5 @@ export interface RestPhoningSessionAdherent {
     country: string
     number: string
   }
-  first_name: string
-  age: number | null
-  city_name: string | null
-  postal_code: string | null
+  info: string
 }
