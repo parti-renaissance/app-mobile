@@ -8,6 +8,7 @@ import PhoningSessionLoaderScreen from '../phoningSessionLoader/PhoningSessionLo
 import PhoningSessionNumberFoundScreen from '../phoningSessionNumberFound/PhoningSessionNumberFoundScreen'
 import PhoneCallStatusPickerScreen from '../phoneCallStatusPicker/PhoneCallStatusPickerScreen'
 import PhoneCallFailureScreen from '../phoneCallFailure/PhoneCallFailureScreen'
+import PhoningSessionNoNumberAvailableScreen from '../phoningSessionNoNumberAvailable/PhoningSessionNoNumberAvailableScreen'
 
 const Stack = createStackNavigator()
 
@@ -42,6 +43,11 @@ const PhonePollDetailModal: FunctionComponent<PhonePollDetailScreenProps> = () =
       <Stack.Screen
         name={Screen.phoneCallFailure}
         component={PhoneCallFailureScreen}
+        options={{ headerLeft: () => null, title: '' }}
+      />
+      <Stack.Screen
+        name={Screen.phoningSessionNoNumberAvailable}
+        component={PhoningSessionNoNumberAvailableScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
     </Stack.Navigator>

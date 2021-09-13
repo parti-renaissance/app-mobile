@@ -58,6 +58,7 @@ export type PollDetailModalParamList = {
 export type PhonePollDetailModalParamList = {
   PhoningSessionLoader: { campaignId: string }
   PhoningSessionNumberFound: { campaignId: string; sessionId: string }
+  PhoningSessionNoNumberAvailable: undefined
   PhoneCallStatusPicker: { campaignId: string; sessionId: string }
   PhoneCallFailure: { campaignId: string }
   PhonePollDetail: { campaignId: string; sessionId: string }
@@ -350,4 +351,18 @@ export type PhoneCallFailureScreenRouteProp = RouteProp<
 export type PhoneCallFailureScreenProps = Readonly<{
   route: PhoneCallFailureScreenRouteProp
   navigation: PhoneCallFailureScreenNavigationProp
+}>
+
+// Phoning Session No Number Available
+export type PhoningSessionNoNumberAvailableScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  StackNavigationProp<PhonePollDetailModalParamList>
+>
+export type PhoningSessionNoNumberAvailableScreenRouteProp = RouteProp<
+  PhonePollDetailModalParamList,
+  typeof Screen.phoningSessionNoNumberAvailable
+>
+export type PhoningSessionNoNumberAvailableScreenProps = Readonly<{
+  route: PhoningSessionNoNumberAvailableScreenRouteProp
+  navigation: PhoningSessionNoNumberAvailableScreenNavigationProp
 }>

@@ -4,7 +4,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionLoaderScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { PrimaryButton } from '../shared/Buttons'
+import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import LoadingView from '../shared/LoadingView'
 import { VerticalSpacer } from '../shared/Spacer'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
@@ -28,6 +28,13 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
             campaignId: route.params.campaignId,
             sessionId: '993979fd-7a13-4f38-9e93-a9dce269172a',
           })
+        }
+      />
+      <VerticalSpacer spacing={Spacing.margin} />
+      <SecondaryButton
+        title="_NO_NUMBER_AVAILABLE_"
+        onPress={() =>
+          navigation.replace(Screen.phoningSessionNoNumberAvailable)
         }
       />
     </SafeAreaView>
