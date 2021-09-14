@@ -16,12 +16,15 @@ import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningViewModelMapper } from './PhoningViewModelMapper'
 import { useFocusEffect } from '@react-navigation/core'
 import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
-import { PrimaryButton } from '../shared/Buttons'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhoningCallContactRow from './callContact/CallContactRow'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import PhoningCampaignRow from './campaign/PhoningCampaignRow'
 
-export interface PhoningResources {}
+export interface PhoningResources {
+  campaigns: PhoningCampaign[]
+}
 
 const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   navigation,
@@ -39,13 +42,25 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     if (!currentResources) {
       return
     }
-    const viewModel = PhoningViewModelMapper.map()
+    const viewModel = PhoningViewModelMapper.map(currentResources.campaigns)
     setStatefulState(new ViewState.Content(viewModel))
   }, [theme, currentResources])
 
   const fetchData = useCallback(() => {
-    setRefreshing(false)
-    setResources({})
+    PhoningCampaignRepository.getInstance()
+      .getPhoningCampaigns()
+      .then((campaigns) => {
+        setRefreshing(false)
+        setResources({ campaigns: campaigns })
+      })
+      .catch((error) => {
+        setStatefulState(
+          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+            setStatefulState(new ViewState.Loading())
+            fetchData()
+          }),
+        )
+      })
   }, [])
 
   const renderItem = ({ item }: ListRenderItemInfo<PhoningRowViewModel>) => {
@@ -66,12 +81,21 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
           }}
         />
       )
+    } else if (item.type === 'campaign') {
+      return (
+        <PhoningCampaignRow
+          viewModel={item.value}
+          onCallButtonPressed={() => {
+            console.log('should open call screen')
+          }}
+        />
+      )
     }
     return null
   }
 
   const firstDataFetch = useCallback(() => {
-    setResources({})
+    setResources({ campaigns: [] })
     if (!initialFetchDone) {
       setInitialFetchDone(true)
       fetchData()
@@ -79,14 +103,6 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   }, [fetchData, initialFetchDone])
 
   useFocusEffect(firstDataFetch)
-
-  const [campaigns, setCampaigns] = useState<Array<PhoningCampaign>>([])
-
-  useEffect(() => {
-    PhoningCampaignRepository.getInstance()
-      .getPhoningCampaigns()
-      .then(setCampaigns)
-  }, [])
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
@@ -100,22 +116,6 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
           }
           contentContainerStyle={styles.contentContainer}
         />
-        {campaigns.map((campaign) => {
-          return (
-            <PrimaryButton
-              title={campaign.title}
-              onPress={() =>
-                navigation.navigate(Screen.phoningCampaignBrief, {
-                  data: {
-                    id: campaign.id,
-                    title: campaign.title,
-                    brief: campaign.brief,
-                  },
-                })
-              }
-            />
-          )
-        })}
       </>
     )
   }
