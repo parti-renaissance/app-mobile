@@ -21,10 +21,12 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
     })
   }, [navigation, styles, route.params.data.title])
 
+  const markdownStyle = { body: styles.contentContainer }
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.contentContainer}>
-        <Markdown>{route.params.data.brief}</Markdown>
+      <ScrollView>
+        <Markdown style={markdownStyle}>{route.params.data.brief}</Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
