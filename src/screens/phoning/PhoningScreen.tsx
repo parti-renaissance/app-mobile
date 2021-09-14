@@ -17,6 +17,7 @@ import { PhoningViewModelMapper } from './PhoningViewModelMapper'
 import { useFocusEffect } from '@react-navigation/core'
 import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 import { PrimaryButton } from '../shared/Buttons'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 
 export interface PhoningResources {}
 
@@ -82,11 +83,23 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
         />
         <PrimaryButton
           title="_OPEN_CAMPAIGN_"
-          onPress={() =>
-            navigation.navigate(Screen.phoningCampaignBrief, {
-              campaignId: '612911ee-7b89-488f-9960-3792aac8d5de',
-            })
-          }
+          onPress={() => {
+            // (Romain GF) 14.09.2021 Use data previously fetched for the screen instead
+            PhoningCampaignRepository.getInstance()
+              .getPhoningCampaigns()
+              .then((campaigns) => {
+                if (campaigns.length > 0) {
+                  const campaign = campaigns[0]
+                  navigation.navigate(Screen.phoningCampaignBrief, {
+                    data: {
+                      id: campaign.id,
+                      title: campaign.title,
+                      brief: campaign.brief,
+                    },
+                  })
+                }
+              })
+          }}
         />
       </>
     )
