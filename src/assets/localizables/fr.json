@@ -334,8 +334,38 @@
       "brief": {
         "call": "Lancer l’appel",
         "call_from_other_device": "Lancer l’appel sur un autre appareil"
+      },
+      "scoreboard": {
+        "title": "Classement",
+        "header_name": "Noms",
+        "header_calls": "Appelés",
+        "header_calls_completed": "Complétés",
+        "name": "{{position}}. {{name}}"
       }
     },
-    "phoningsessionloader": { "title": "Recherche de numéro en cours…" }
+    "phoningsession": {
+      "new_call": "Nouvel appel",
+      "end_session": "Terminer",
+      "failure": {
+        "title": "On ne lâche rien !",
+        "new_call_description": "Prêt pour un autre appel ?"
+      },
+      "no_number": { "title": "Pas de numéro pour aujourd’hui" },
+      "loader": { "title": "Recherche de numéro en cours…" },
+      "other_device": {
+        "title": "Appeler depuis un autre appareil",
+        "description": "Entrer le numéro de téléphone suivant sur un autre appareil puis cliquer sur « j’ai lancé l’appel »."
+      },
+      "call_started": "J'ai lancé l'appel",
+      "number_found": {
+        "title": "Appeler depuis mon appareil",
+        "description": "Un numéro a été trouvé. Cliquer sur « j’ai lancé l’appel » une fois le numéro appelé.",
+        "recall": "Rappeler"
+      },
+      "status_picker": {
+        "title": "Accepte-t-il de répondre à vos questions ?",
+        "action": "Valider"
+      }
+    }
   }
 }

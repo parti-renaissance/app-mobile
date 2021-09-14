@@ -7,6 +7,7 @@ export const PhoningViewModelMapper = {
     const rows: Array<PhoningRowViewModel> = []
 
     appendTutorial(rows)
+    appendCallContact(rows)
 
     return {
       title: i18n.t('phoning.title'),
@@ -19,7 +20,18 @@ function appendTutorial(rows: PhoningRowViewModel[]) {
   rows.push({
     type: 'tutorial',
     value: {
-      id: 'string',
+      id: 'tutorial',
+    },
+  })
+}
+
+function appendCallContact(rows: PhoningRowViewModel[]) {
+  rows.push({
+    type: 'callContact',
+    value: {
+      id: 'callContact',
+      calledCount: 75,
+      numberOfPersonToCall: 134,
     },
   })
 }

@@ -18,6 +18,7 @@ import { useFocusEffect } from '@react-navigation/core'
 import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 import { PrimaryButton } from '../shared/Buttons'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
+import PhoningCallContactRow from './callContact/CallContactRow'
 
 export interface PhoningResources {}
 
@@ -52,6 +53,15 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
         <PhoningTutorialRow
           onPress={() => {
             navigation.navigate(Screen.phoningTutorial)
+          }}
+        />
+      )
+    } else if (item.type === 'callContact') {
+      return (
+        <PhoningCallContactRow
+          viewModel={item.value}
+          onCallButtonPressed={() => {
+            console.log('should open call screen')
           }}
         />
       )
