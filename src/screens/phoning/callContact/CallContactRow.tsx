@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Image, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography, Colors } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme } from '../../../themes'
@@ -27,10 +27,6 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
     <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
       <View style={styles.container}>
         <Text style={styles.title}>{i18n.t('phoning.callcontact.title')}</Text>
-        <Image
-          style={styles.image}
-          source={require('../../../assets/images/blue/imageActualite.png')}
-        />
         <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
         <Text style={styles.caption}>
           {i18n.t('phoning.callcontact.progressformat', {
