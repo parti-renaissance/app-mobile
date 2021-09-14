@@ -12,6 +12,7 @@ import {
   PhoningSessionNavigationData,
 } from '../screens/shared/PhoningSessionNavigationData'
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
+import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
 
 export const Screen = _Screen
 
@@ -45,6 +46,7 @@ export type PhoningParamList = {
   Phoning: undefined
   PhoningTutorial: undefined
   PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
+  PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
 }
 
 export type AuthenticatedHomeParamList = {
@@ -126,6 +128,27 @@ export type PhoningCampaignBriefScreenRouteProp = RouteProp<
 export type PhoningCampaignBriefScreenProp = Readonly<{
   route: PhoningCampaignBriefScreenRouteProp
   navigation: PhoningCampaignBriefScreenNavigationProp
+}>
+
+// Phoning Campaign Scoreboard
+export type PhoningCampaignScoreboardScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.phoningNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
+>
+export type PhoningCampaignScoreboardScreenRouteProp = RouteProp<
+  PhoningParamList,
+  typeof Screen.phoningCampaignScoreboard
+>
+
+export type PhoningCampaignScoreboardScreenProp = Readonly<{
+  route: PhoningCampaignScoreboardScreenRouteProp
+  navigation: PhoningCampaignScoreboardScreenNavigationProp
 }>
 
 // Polls
