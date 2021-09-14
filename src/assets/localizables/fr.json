@@ -328,7 +328,6 @@
       "callcontact": {
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
-<<<<<<< HEAD
         "callbuttontitle": "Appeler un de mes contact",
         "progressformat": "{{done}} appelés sur {{total}}"
       },
@@ -366,12 +365,6 @@
       "status_picker": {
         "title": "Accepte-t-il de répondre à vos questions ?",
         "action": "Valider"
-||||||| parent of b56ee3b (Add label for progressBar)
-        "callbuttontitle": "Appeler un de mes contact"
-=======
-        "callbuttontitle": "Appeler un de mes contact",
-        "progressformat": "{{done}} appelés sur {{total}}"
->>>>>>> b56ee3b (Add label for progressBar)
       }
     }
   }
