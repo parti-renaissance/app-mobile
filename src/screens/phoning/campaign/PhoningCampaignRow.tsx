@@ -29,7 +29,9 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
     <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
       <View style={styles.container}>
         <Text style={styles.title}>{viewModel.title}</Text>
-        <Text style={styles.body}>{viewModel.brief}</Text>
+        <Text style={styles.body} numberOfLines={3}>
+          {viewModel.brief}
+        </Text>
         <Text style={styles.caption}>
           {i18n.t('phoning.callcontact.progressformat', {
             done: viewModel.calledCount,
@@ -42,7 +44,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
         />
         <PrimaryButton
           style={styles.callButton}
-          title={i18n.t('phoning.callcontact.callbuttontitle')}
+          title={i18n.t('phoning.campaign.callbuttontitle')}
           onPress={onCallButtonPressed}
           shape={'rounded'}
         />

@@ -4,7 +4,13 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
 import { PhoningScreenProp, Screen } from '../../navigation'
@@ -30,7 +36,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   navigation,
 }) => {
   const { theme } = useTheme()
-  const [, setRefreshing] = useState(false)
+  const [isRefreshing, setRefreshing] = useState(false)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<PhoningResources>()
   const [statefulState, setStatefulState] = useState<
@@ -50,7 +56,6 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     PhoningCampaignRepository.getInstance()
       .getPhoningCampaigns()
       .then((campaigns) => {
-        setRefreshing(false)
         setResources({ campaigns: campaigns })
       })
       .catch((error) => {
@@ -60,6 +65,9 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
             fetchData()
           }),
         )
+      })
+      .finally(() => {
+        setRefreshing(false)
       })
   }, [])
 
@@ -95,8 +103,8 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   }
 
   const firstDataFetch = useCallback(() => {
-    setResources({ campaigns: [] })
     if (!initialFetchDone) {
+      setResources({ campaigns: [] })
       setInitialFetchDone(true)
       fetchData()
     }
@@ -111,6 +119,13 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
           data={phoningViewModel.rows}
           renderItem={renderItem}
           keyExtractor={(item) => item.value.id}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={fetchData}
+              colors={[theme.primaryColor]}
+            />
+          }
           ListHeaderComponent={
             <Text style={styles.title}>{phoningViewModel.title}</Text>
           }
