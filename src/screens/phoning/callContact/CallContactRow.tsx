@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
     ...Typography.body,
     marginBottom: Spacing.margin,
   },
+  callButton: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
+  },
   caption: {
     ...Typography.caption1,
     color: Colors.lightText,
@@ -62,10 +66,6 @@ const styles = StyleSheet.create({
   cardView: {
     marginHorizontal: Spacing.margin,
     marginVertical: Spacing.margin,
-  },
-  callButton: {
-    marginHorizontal: Spacing.margin,
-    marginTop: Spacing.mediumMargin,
   },
   container: {
     padding: Spacing.margin,
