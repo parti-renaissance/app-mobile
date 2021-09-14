@@ -34,10 +34,6 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
       <Text style={styles.title}>{i18n.t('phoningsession.failure.title')}</Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <Text style={styles.body}>
-        Donec id elit non mi porta gravida at eget metus.
-      </Text>
-      <VerticalSpacer spacing={Spacing.margin} />
-      <Text style={styles.body}>
         {i18n.t('phoningsession.failure.new_call_description')}
       </Text>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
