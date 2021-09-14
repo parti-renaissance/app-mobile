@@ -31,7 +31,6 @@ function appendCampaigns(
   campaigns: PhoningCampaign[],
   rows: PhoningRowViewModel[],
 ) {
-  console.log(campaigns)
   campaigns.forEach((campaign) => {
     rows.push({
       type: 'campaign',
@@ -39,7 +38,7 @@ function appendCampaigns(
         id: campaign.id,
         title: campaign.title,
         brief: campaign.brief,
-        calledCount: 0,
+        calledCount: campaign.callsCount,
         numberOfPersonToCall: campaign.goal,
       },
     })

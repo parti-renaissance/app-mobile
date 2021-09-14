@@ -8,6 +8,7 @@ export const PhoningCampaignMapper = {
       title: restObject.title,
       brief: restObject.brief,
       goal: restObject.goal,
+      callsCount: restObject.nb_calls,
       finishAt: new Date(restObject.finish_at),
     }
   },
