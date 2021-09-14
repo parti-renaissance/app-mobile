@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+    paddingBottom: Spacing.margin,
     paddingHorizontal: Spacing.margin,
   },
   phoneNumber: {
