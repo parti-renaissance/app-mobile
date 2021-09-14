@@ -22,6 +22,7 @@ import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
 import {
   mapAssociatedToken,
+  mapPhoningSessionError,
   mapProfileFormError,
   mapSubscriptionError,
 } from './errorMappers'
@@ -266,7 +267,7 @@ class ApiService {
     return this.httpClient
       .post(`api/v3/phoning_campaigns/${campaignId}/start`)
       .json<RestPhoningSession>()
-      .catch(genericErrorMapping)
+      .catch(mapPhoningSessionError)
   }
 
   public getPhoningSessionConfiguration(

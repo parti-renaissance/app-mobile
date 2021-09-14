@@ -111,6 +111,14 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
               })
           }}
         />
+        <PrimaryButton
+          title="_OPEN_CAMPAIGN_WITHOUT_PHONE_NUMBER"
+          onPress={() =>
+            navigation.navigate(Screen.phoningCampaignBrief, {
+              campaignId: '869a1e31-0896-48cb-b088-c33634c68204',
+            })
+          }
+        />
       </>
     )
   }

@@ -12,3 +12,8 @@ export interface RestPhoningSessionAdherent {
   }
   info: string
 }
+
+export interface RestPhoningSessionErrorResponse {
+  code: string
+  message: string
+}
