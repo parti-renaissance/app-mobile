@@ -1,7 +1,7 @@
 {
   "fr": {
     "common": {
-      "loading": "chargement...",
+      "loading": "Chargement...",
       "keyboard": { "done": "Ok" },
       "error": {
         "network": "Une erreur réseau est survenue",
@@ -320,6 +320,7 @@
       }
     },
     "phoning": {
+      "title": "Phoning",
       "tutorial": {
         "title": "Comment faire un appel?",
         "link": "Regarder le tutoriel"
@@ -328,8 +329,9 @@
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
         "callbuttontitle": "Appeler un de mes contact",
-        "progressformat": "{{alreadyCalled}} appelés sur {{numberOfPersonsToCall}}"
+        "progressformat": "{{done}} appelés sur {{total}}"
       }
-    }
+    },
+    "phoningsessionloader": { "title": "Recherche de numéro en cours…" }
   }
 }

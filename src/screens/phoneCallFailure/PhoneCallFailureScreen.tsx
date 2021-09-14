@@ -1,27 +1,33 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhonePollDetailSuccessScreenProps, Screen } from '../../navigation'
+import { PhoneCallFailureScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing } from '../../styles'
-import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import { PrimaryButton } from '../shared/Buttons'
+import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
-const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScreenProps> = ({
+const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = ({
   navigation,
   route,
 }) => {
   usePreventGoingBack()
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: route.params.title,
-    })
-  }, [navigation, route.params.title])
+  useLayoutEffect(() => {
+    const updateNavigationHeader = () => {
+      navigation.setOptions({
+        headerLeft: () => (
+          <CloseButton onPress={() => navigation.navigate(Screen.phoning)} />
+        ),
+      })
+    }
+    updateNavigationHeader()
+  }, [navigation])
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>PhonePollDetailSuccessScreen</Text>
+      <Text>PhoneCallFailureScreen</Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <PrimaryButton
         title="_NOUVEL_APPEL_"
@@ -29,17 +35,6 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
           navigation.replace(Screen.phoningSessionLoader, {
             campaignId: route.params.data.campaignId,
             device: route.params.data.device,
-          })
-        }
-      />
-      <VerticalSpacer spacing={Spacing.margin} />
-      <SecondaryButton title="_VOIR_NUMERO_" />
-      <VerticalSpacer spacing={Spacing.margin} />
-      <SecondaryButton
-        title="_TERMINER_"
-        onPress={() =>
-          navigation.navigate(Screen.phoningNavigator, {
-            screen: Screen.phoning,
           })
         }
       />
@@ -55,4 +50,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhonePollDetailSuccessScreen
+export default PhoneCallFailureScreen

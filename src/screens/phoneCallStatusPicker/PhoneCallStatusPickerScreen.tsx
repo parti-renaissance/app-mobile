@@ -1,45 +1,36 @@
 import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhonePollDetailSuccessScreenProps, Screen } from '../../navigation'
+import { PhoneCallStatusPickerScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
-const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScreenProps> = ({
+const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreenProps> = ({
   navigation,
   route,
 }) => {
   usePreventGoingBack()
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: route.params.title,
-    })
-  }, [navigation, route.params.title])
-
   return (
     <SafeAreaView style={styles.container}>
-      <Text>PhonePollDetailSuccessScreen</Text>
+      <Text>PhoneCallStatusPickerScreen</Text>
       <VerticalSpacer spacing={Spacing.margin} />
       <PrimaryButton
-        title="_NOUVEL_APPEL_"
+        title="_ACCEPT_"
         onPress={() =>
-          navigation.replace(Screen.phoningSessionLoader, {
-            campaignId: route.params.data.campaignId,
-            device: route.params.data.device,
+          navigation.replace(Screen.phonePollDetail, {
+            data: route.params.data,
           })
         }
       />
       <VerticalSpacer spacing={Spacing.margin} />
-      <SecondaryButton title="_VOIR_NUMERO_" />
-      <VerticalSpacer spacing={Spacing.margin} />
       <SecondaryButton
-        title="_TERMINER_"
+        title="_DO_NOT_ACCEPT_"
         onPress={() =>
-          navigation.navigate(Screen.phoningNavigator, {
-            screen: Screen.phoning,
+          navigation.replace(Screen.phoneCallFailure, {
+            data: route.params.data,
           })
         }
       />
@@ -55,4 +46,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhonePollDetailSuccessScreen
+export default PhoneCallStatusPickerScreen

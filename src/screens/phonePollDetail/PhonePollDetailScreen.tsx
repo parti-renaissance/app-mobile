@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { BackHandler, View, StyleSheet, Alert } from 'react-native'
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
+import { View, StyleSheet, Alert } from 'react-native'
 
 import { Poll } from '../../core/entities/Poll'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -7,13 +12,15 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
 import { useTheme } from '../../themes'
-import { PhonePollDetailScreenProps } from '../../navigation'
+import { PhonePollDetailScreenProps, Screen } from '../../navigation'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import i18n from '../../utils/i18n'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { useBackHandler } from '../shared/useBackHandler.hook'
 
 // TODO: (Pierre Felgines) Change status with values from webservice
 const STATUSES: Array<PhoningSessionCallStatus> = [
@@ -26,13 +33,10 @@ const STATUSES: Array<PhoningSessionCallStatus> = [
     label: 'Appel interrompu',
   },
 ]
-// TODO: (Pierre Felgines) Change session id with value from webservice
-const PHONING_SESSION_ID = '993979fd-7a13-4f38-9e93-a9dce269172a'
-
-const PhonePollDetailScreen = ({
+const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
-}: PhonePollDetailScreenProps) => {
+}) => {
   const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
     new ViewState.Loading(),
@@ -40,37 +44,35 @@ const PhonePollDetailScreen = ({
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  React.useLayoutEffect(() => {
-    const askConfirmationBeforeLeaving = () => {
-      setModalVisible(true)
-    }
+  usePreventGoingBack()
 
+  const askConfirmationBeforeLeaving = () => {
+    setModalVisible(true)
+  }
+
+  useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
         headerLeft: () => (
           <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
         ),
+        // (Pierre Felgines) 10/09/2021 We need this for the text to be centered
+        headerRight: () => <View />,
       })
     }
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        askConfirmationBeforeLeaving()
-        return true
-      },
-    )
-
     updateNavigationHeader()
-    return () => backHandler.remove()
   }, [navigation])
+
+  useBackHandler(askConfirmationBeforeLeaving)
 
   const fetchPoll = () => {
     setStatefulState(new ViewState.Loading())
     PhoningCampaignRepository.getInstance()
-      .getPhoningCampaignPoll(route.params.campaignId)
+      .getPhoningCampaignPoll(route.params.data.campaignId)
       .then((poll) => {
-        navigation.setOptions({ title: poll.name })
+        navigation.setOptions({
+          title: poll.name,
+        })
         setStatefulState(new ViewState.Content(poll))
       })
       .catch((error) => {
@@ -84,7 +86,7 @@ const PhonePollDetailScreen = ({
       })
   }
 
-  useEffect(fetchPoll, [route.params.campaignId, navigation, theme])
+  useEffect(fetchPoll, [route.params.data.campaignId, navigation, theme])
 
   const displayError = (error: string, statusCode: string) => {
     Alert.alert(
@@ -107,8 +109,8 @@ const PhonePollDetailScreen = ({
   const sendInterruptionStatusAndLeave = (statusCode: string) => {
     setLoading(true)
     PhoningCampaignRepository.getInstance()
-      .updatePhoningSessionStatus(PHONING_SESSION_ID, statusCode)
-      .then(() => navigation.goBack())
+      .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
+      .then(() => navigation.navigate(Screen.phoning))
       .catch((error) =>
         displayError(GenericErrorMapper.mapErrorMessage(error), statusCode),
       )
@@ -135,7 +137,11 @@ const PhonePollDetailScreen = ({
       <StatefulView
         state={statefulState}
         contentComponent={(poll) => (
-          <PhonePollDetailScreenLoaded poll={poll} navigation={navigation} />
+          <PhonePollDetailScreenLoaded
+            poll={poll}
+            route={route}
+            navigation={navigation}
+          />
         )}
       />
     </View>

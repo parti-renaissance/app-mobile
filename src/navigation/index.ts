@@ -7,6 +7,10 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import * as _Screen from './screen'
 import { NotificationCategory } from '../core/entities/Notification'
+import {
+  PhoningSessionDevice,
+  PhoningSessionNavigationData,
+} from '../screens/shared/PhoningSessionNavigationData'
 
 export const Screen = _Screen
 
@@ -39,6 +43,7 @@ export type EventParamList = {
 export type PhoningParamList = {
   Phoning: undefined
   PhoningTutorial: undefined
+  PhoningCampaignBrief: { campaignId: string }
 }
 
 export type AuthenticatedHomeParamList = {
@@ -54,15 +59,21 @@ export type PollDetailModalParamList = {
   PollDetailSuccess: { pollId: number; title: string }
 }
 
-export type PhonePollDetailModalParamList = {
-  PhonePollDetail: { campaignId: string }
-  PhonePollDetailSuccess: { title: string }
+export type PhoningSessionModalParamList = {
+  PhoningSessionLoader: { campaignId: string; device: PhoningSessionDevice }
+  PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
+  PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
+  PhoningSessionNoNumberAvailable: undefined
+  PhoneCallStatusPicker: { data: PhoningSessionNavigationData }
+  PhoneCallFailure: { data: PhoningSessionNavigationData }
+  PhonePollDetail: { data: PhoningSessionNavigationData }
+  PhonePollDetailSuccess: { data: PhoningSessionNavigationData; title: string }
 }
 
 export type RootStackParamList = {
   AuthenticatedHome: NavigatorScreenParams<AuthenticatedHomeParamList>
   PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
-  PhonePollDetailModal: NavigatorScreenParams<PhonePollDetailModalParamList>
+  PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalParamList>
   ProfileModal: undefined
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
@@ -93,6 +104,27 @@ export type PhoningScreenNavigationProp = CompositeNavigationProp<
 >
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
+}>
+
+// Phoning Campaign Brief
+export type PhoningCampaignBriefScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.phoningNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
+>
+export type PhoningCampaignBriefScreenRouteProp = RouteProp<
+  PhoningParamList,
+  typeof Screen.phoningCampaignBrief
+>
+
+export type PhoningCampaignBriefScreenProp = Readonly<{
+  route: PhoningCampaignBriefScreenRouteProp
+  navigation: PhoningCampaignBriefScreenNavigationProp
 }>
 
 // Polls
@@ -154,10 +186,18 @@ export type PollDetailScreenProps = StackScreenProps<
 >
 
 // PhonePollDetail
-export type PhonePollDetailScreenProps = StackScreenProps<
-  PhonePollDetailModalParamList,
+export type PhonePollDetailScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  StackNavigationProp<PhoningSessionModalParamList>
+>
+export type PhonePollDetailScreenRouteProp = RouteProp<
+  PhoningSessionModalParamList,
   typeof Screen.phonePollDetail
 >
+export type PhonePollDetailScreenProps = Readonly<{
+  route: PhonePollDetailScreenRouteProp
+  navigation: PhonePollDetailScreenNavigationProp
+}>
 
 // PollDetailSuccess
 export type PollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
@@ -177,17 +217,17 @@ export type PollDetailSuccessScreenProps = Readonly<{
 export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PhoningParamList>,
   CompositeNavigationProp<
-    StackNavigationProp<PhonePollDetailModalParamList>,
+    StackNavigationProp<PhoningSessionModalParamList>,
     PhoningScreenNavigationProp
   >
 >
 export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
-  PollDetailModalParamList,
-  typeof Screen.pollDetailSuccess
+  PhoningSessionModalParamList,
+  typeof Screen.phonePollDetailSuccess
 >
 export type PhonePollDetailSuccessScreenProps = Readonly<{
-  route: PollDetailSuccessScreenRouteProp
-  navigation: PollDetailSuccessScreenNavigationProp
+  route: PhonePollDetailSuccessScreenRouteProp
+  navigation: PhonePollDetailSuccessScreenNavigationProp
 }>
 
 // Unauthenticated
@@ -285,3 +325,55 @@ export type NotificationsScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.notifications
 >
+
+// Phoning Session Loader
+export type PhoningSessionLoaderScreenProps = StackScreenProps<
+  PhoningSessionModalParamList,
+  typeof Screen.phoningSessionLoader
+>
+
+// Phoning Session Number Found
+export type PhoningSessionNumberFoundScreenProps = StackScreenProps<
+  PhoningSessionModalParamList,
+  typeof Screen.phoningSessionNumberFound
+>
+
+// Phoning Session Number Found Other Device
+export type PhoningSessionNumberFoundOtherDeviceScreenProps = StackScreenProps<
+  PhoningSessionModalParamList,
+  typeof Screen.phoningSessionNumberFoundOtherDevice
+>
+
+// Phone Call Status Picker
+export type PhoneCallStatusPickerScreenProps = StackScreenProps<
+  PhoningSessionModalParamList,
+  typeof Screen.phoneCallStatusPicker
+>
+
+// Phone Call Failure
+export type PhoneCallFailureScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  StackNavigationProp<PhoningSessionModalParamList>
+>
+export type PhoneCallFailureScreenRouteProp = RouteProp<
+  PhoningSessionModalParamList,
+  typeof Screen.phoneCallFailure
+>
+export type PhoneCallFailureScreenProps = Readonly<{
+  route: PhoneCallFailureScreenRouteProp
+  navigation: PhoneCallFailureScreenNavigationProp
+}>
+
+// Phoning Session No Number Available
+export type PhoningSessionNoNumberAvailableScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  StackNavigationProp<PhoningSessionModalParamList>
+>
+export type PhoningSessionNoNumberAvailableScreenRouteProp = RouteProp<
+  PhoningSessionModalParamList,
+  typeof Screen.phoningSessionNoNumberAvailable
+>
+export type PhoningSessionNoNumberAvailableScreenProps = Readonly<{
+  route: PhoningSessionNoNumberAvailableScreenRouteProp
+  navigation: PhoningSessionNoNumberAvailableScreenNavigationProp
+}>
