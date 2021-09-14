@@ -330,6 +330,10 @@
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
         "callbuttontitle": "Appeler un de mes contact",
         "progressformat": "{{done}} appelés sur {{total}}"
+      },
+      "brief": {
+        "call": "Lancer l’appel",
+        "call_from_other_device": "Lancer l’appel sur un autre appareil"
       }
     },
     "phoningsessionloader": { "title": "Recherche de numéro en cours…" }

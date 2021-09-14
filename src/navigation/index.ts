@@ -11,6 +11,7 @@ import {
   PhoningSessionDevice,
   PhoningSessionNavigationData,
 } from '../screens/shared/PhoningSessionNavigationData'
+import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 
 export const Screen = _Screen
 
@@ -43,7 +44,7 @@ export type EventParamList = {
 export type PhoningParamList = {
   Phoning: undefined
   PhoningTutorial: undefined
-  PhoningCampaignBrief: { campaignId: string }
+  PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
 }
 
 export type AuthenticatedHomeParamList = {
