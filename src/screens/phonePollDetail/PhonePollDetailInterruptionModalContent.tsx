@@ -13,7 +13,7 @@ import i18n from '../../utils/i18n'
 import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
 import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
 import { PrimaryButton } from '../shared/Buttons'
-import { PhonePollDetailInterruptionModalContentViewModelMapper } from './PhonePollDetailInterruptionModalContentViewModelMapper'
+import { PhonePollDetailCallStatusViewModelMapper } from './PhonePollDetailCallStatusViewModelMapper'
 
 type Props = Readonly<{
   callStatuses: Array<PhoningSessionCallStatus>
@@ -26,7 +26,7 @@ const PhonePollDetailInterruptionModalContent: FunctionComponent<Props> = ({
 }) => {
   const [selectedStatusCode, setSelectedStatusCode] = useState<string>()
 
-  const viewModel = PhonePollDetailInterruptionModalContentViewModelMapper.map(
+  const viewModel = PhonePollDetailCallStatusViewModelMapper.map(
     callStatuses,
     selectedStatusCode,
   )

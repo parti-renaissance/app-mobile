@@ -18,7 +18,7 @@ import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { PhoneCallStatusPickerScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { PhonePollDetailInterruptionModalContentViewModelMapper } from '../phonePollDetail/PhonePollDetailInterruptionModalContentViewModelMapper'
+import { PhonePollDetailCallStatusViewModelMapper } from '../phonePollDetail/PhonePollDetailCallStatusViewModelMapper'
 import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
 import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
 import { PrimaryButton } from '../shared/Buttons'
@@ -117,8 +117,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
   }
 
   const Content = (callStatuses: Array<PhoningSessionCallStatus>) => {
-    // TODO: (Pierre Felgines) Rename this mapper to be used on both screens
-    const viewModel = PhonePollDetailInterruptionModalContentViewModelMapper.map(
+    const viewModel = PhonePollDetailCallStatusViewModelMapper.map(
       callStatuses,
       selectedStatusCode,
     )
