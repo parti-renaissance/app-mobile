@@ -1,5 +1,6 @@
 import React, {
   FunctionComponent,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useState,
@@ -22,17 +23,6 @@ import i18n from '../../utils/i18n'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { useBackHandler } from '../shared/useBackHandler.hook'
 
-// TODO: (Pierre Felgines) Change status with values from webservice
-const STATUSES: Array<PhoningSessionCallStatus> = [
-  {
-    code: 'interrupted-dont-remind',
-    label: 'Appel interrompu, ne pas rappeler',
-  },
-  {
-    code: 'interrupted',
-    label: 'Appel interrompu',
-  },
-]
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
@@ -41,10 +31,23 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
     new ViewState.Loading(),
   )
+  const [callStatuses, setCallStatuses] = useState<
+    Array<PhoningSessionCallStatus>
+  >([])
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
   usePreventGoingBack()
+
+  const fetchInterruptionStatuses = useCallback(() => {
+    const sessionId = route.params.data.sessionId
+    PhoningCampaignRepository.getInstance()
+      .getPhoningSessionConfiguration(sessionId)
+      .then((configuration) => configuration.callStatus.interrupted)
+      .then(setCallStatuses)
+  }, [route.params.data.sessionId])
+
+  useEffect(() => fetchInterruptionStatuses(), [fetchInterruptionStatuses])
 
   const askConfirmationBeforeLeaving = () => {
     setModalVisible(true)
@@ -130,7 +133,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
         onRequestClose={() => setModalVisible(false)}
       >
         <PhonePollDetailInterruptionModalContent
-          callStatuses={STATUSES}
+          callStatuses={callStatuses}
           onInterruption={onInterruption}
         />
       </ModalOverlay>
