@@ -331,9 +331,7 @@
         "callbuttontitle": "Appeler un de mes contact",
         "progressformat": "{{done}} appelés sur {{total}}"
       },
-      "campaign": {
-        "callbuttontitle": "lancer l’appel"
-      },
+      "campaign": { "action": "Commencer" },
       "brief": {
         "call": "Lancer l’appel",
         "call_from_other_device": "Lancer l’appel sur un autre appareil"

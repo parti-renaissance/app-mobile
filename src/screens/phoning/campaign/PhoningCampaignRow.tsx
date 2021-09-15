@@ -44,7 +44,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
         />
         <PrimaryButton
           style={styles.callButton}
-          title={i18n.t('phoning.campaign.callbuttontitle')}
+          title={i18n.t('phoning.campaign.action')}
           onPress={onCallButtonPressed}
           shape={'rounded'}
         />
