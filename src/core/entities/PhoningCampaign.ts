@@ -12,5 +12,5 @@ export interface PhoningCampaignScore {
   firstName: string
   score: string
   position: number
-  caller: true
+  caller: boolean
 }
