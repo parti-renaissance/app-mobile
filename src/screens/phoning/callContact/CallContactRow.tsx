@@ -6,6 +6,8 @@ import { useTheme } from '../../../themes'
 import ProgressBar from '../../shared/ProgressBar'
 import { PrimaryButton } from '../../shared/Buttons'
 import i18n from '../../../utils/i18n'
+import { VerticalSpacer } from '../../shared/Spacer'
+import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
 
 type Props = Readonly<{
   viewModel: PhoningCallContactRowViewModel
@@ -24,10 +26,15 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
 }) => {
   const { theme } = useTheme()
   return (
-    <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
+    <CardView
+      style={styles.cardView}
+      backgroundColor={Colors.defaultBackground}
+    >
       <View style={styles.container}>
         <Text style={styles.title}>{i18n.t('phoning.callcontact.title')}</Text>
+        <VerticalSpacer spacing={Spacing.unit} />
         <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
+        <VerticalSpacer spacing={Spacing.unit} />
         <Text style={styles.caption}>
           {i18n.t('phoning.callcontact.progressformat', {
             done: viewModel.calledCount,
@@ -38,8 +45,11 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
           progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
           color={theme.primaryColor}
         />
+        <VerticalSpacer spacing={Spacing.margin} />
+        <HorizontalSeparator />
+        <VerticalSpacer spacing={Spacing.margin} />
         <PrimaryButton
-          style={styles.callButton}
+          buttonStyle={styles.callButton}
           title={i18n.t('phoning.callcontact.callbuttontitle')}
           onPress={onCallButtonPressed}
           shape={'rounded'}
@@ -52,11 +62,9 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
 const styles = StyleSheet.create({
   body: {
     ...Typography.body,
-    marginBottom: Spacing.margin,
   },
   callButton: {
-    marginHorizontal: Spacing.margin,
-    marginTop: Spacing.mediumMargin,
+    paddingVertical: Spacing.unit,
   },
   caption: {
     ...Typography.caption1,
@@ -64,7 +72,6 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.unit,
   },
   cardView: {
-    marginHorizontal: Spacing.margin,
     marginVertical: Spacing.margin,
   },
   container: {
@@ -75,7 +82,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title2,
-    marginBottom: Spacing.margin,
   },
 })
 
