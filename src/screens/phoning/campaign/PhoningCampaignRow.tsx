@@ -10,17 +10,19 @@ import { VerticalSpacer } from '../../shared/Spacer'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
 
 type Props = Readonly<{
-  viewModel: PhoningCallContactRowViewModel
+  viewModel: PhoningCampaignRowViewModel
   onCallButtonPressed: () => void
 }>
 
-export interface PhoningCallContactRowViewModel {
+export interface PhoningCampaignRowViewModel {
   id: string
+  title: string
+  brief: string
   calledCount: number
   numberOfPersonToCall: number
 }
 
-const PhoningCallContactRow: FunctionComponent<Props> = ({
+const PhoningCampaignRow: FunctionComponent<Props> = ({
   viewModel,
   onCallButtonPressed,
 }) => {
@@ -31,9 +33,11 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
       backgroundColor={Colors.defaultBackground}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>{i18n.t('phoning.callcontact.title')}</Text>
+        <Text style={styles.title}>{viewModel.title}</Text>
         <VerticalSpacer spacing={Spacing.unit} />
-        <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
+        <Text style={styles.body} numberOfLines={3}>
+          {viewModel.brief}
+        </Text>
         <VerticalSpacer spacing={Spacing.unit} />
         <Text style={styles.caption}>
           {i18n.t('phoning.callcontact.progressformat', {
@@ -50,7 +54,7 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
         <VerticalSpacer spacing={Spacing.margin} />
         <PrimaryButton
           buttonStyle={styles.callButton}
-          title={i18n.t('phoning.callcontact.callbuttontitle')}
+          title={i18n.t('phoning.campaign.action')}
           onPress={onCallButtonPressed}
           shape={'rounded'}
         />
@@ -85,4 +89,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhoningCallContactRow
+export default PhoningCampaignRow

@@ -4,7 +4,13 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
 import { PhoningScreenProp, Screen } from '../../navigation'
@@ -16,18 +22,21 @@ import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningViewModelMapper } from './PhoningViewModelMapper'
 import { useFocusEffect } from '@react-navigation/core'
 import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
-import { PrimaryButton } from '../shared/Buttons'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhoningCallContactRow from './callContact/CallContactRow'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import PhoningCampaignRow from './campaign/PhoningCampaignRow'
 
-export interface PhoningResources {}
+export interface PhoningResources {
+  campaigns: PhoningCampaign[]
+}
 
 const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   navigation,
 }) => {
   const { theme } = useTheme()
-  const [, setRefreshing] = useState(false)
+  const [isRefreshing, setRefreshing] = useState(false)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<PhoningResources>()
   const [statefulState, setStatefulState] = useState<
@@ -39,13 +48,27 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     if (!currentResources) {
       return
     }
-    const viewModel = PhoningViewModelMapper.map()
+    const viewModel = PhoningViewModelMapper.map(currentResources.campaigns)
     setStatefulState(new ViewState.Content(viewModel))
   }, [theme, currentResources])
 
   const fetchData = useCallback(() => {
-    setRefreshing(false)
-    setResources({})
+    PhoningCampaignRepository.getInstance()
+      .getPhoningCampaigns()
+      .then((campaigns) => {
+        setResources({ campaigns: campaigns })
+      })
+      .catch((error) => {
+        setStatefulState(
+          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+            setStatefulState(new ViewState.Loading())
+            fetchData()
+          }),
+        )
+      })
+      .finally(() => {
+        setRefreshing(false)
+      })
   }, [])
 
   const renderItem = ({ item }: ListRenderItemInfo<PhoningRowViewModel>) => {
@@ -66,27 +89,39 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
           }}
         />
       )
+    } else if (item.type === 'campaign') {
+      return (
+        <PhoningCampaignRow
+          viewModel={item.value}
+          onCallButtonPressed={() => {
+            const selectedCampaign = currentResources?.campaigns.find(
+              (campaign) => campaign.id === item.value.id,
+            )
+            if (selectedCampaign) {
+              navigation.navigate(Screen.phoningCampaignBrief, {
+                data: {
+                  id: selectedCampaign.id,
+                  title: selectedCampaign.title,
+                  brief: selectedCampaign.brief,
+                },
+              })
+            }
+          }}
+        />
+      )
     }
     return null
   }
 
   const firstDataFetch = useCallback(() => {
-    setResources({})
     if (!initialFetchDone) {
+      setResources({ campaigns: [] })
       setInitialFetchDone(true)
       fetchData()
     }
   }, [fetchData, initialFetchDone])
 
   useFocusEffect(firstDataFetch)
-
-  const [campaigns, setCampaigns] = useState<Array<PhoningCampaign>>([])
-
-  useEffect(() => {
-    PhoningCampaignRepository.getInstance()
-      .getPhoningCampaigns()
-      .then(setCampaigns)
-  }, [])
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
@@ -95,27 +130,18 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
           data={phoningViewModel.rows}
           renderItem={renderItem}
           keyExtractor={(item) => item.value.id}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={fetchData}
+              colors={[theme.primaryColor]}
+            />
+          }
           ListHeaderComponent={
             <Text style={styles.title}>{phoningViewModel.title}</Text>
           }
           contentContainerStyle={styles.contentContainer}
         />
-        {campaigns.map((campaign) => {
-          return (
-            <PrimaryButton
-              title={campaign.title}
-              onPress={() =>
-                navigation.navigate(Screen.phoningCampaignBrief, {
-                  data: {
-                    id: campaign.id,
-                    title: campaign.title,
-                    brief: campaign.brief,
-                  },
-                })
-              }
-            />
-          )
-        })}
       </>
     )
   }
