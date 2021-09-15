@@ -39,6 +39,8 @@ const BlueTheme: Theme = {
     homeTools: () => require('../assets/images/blue/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/blue/imageCodePostal.png'),
     notification: () => require('../assets/images/blue/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/blue/phoningSessionFailure.png'),
   },
 }
 

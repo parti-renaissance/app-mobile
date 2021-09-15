@@ -19,6 +19,7 @@ import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 import { PrimaryButton } from '../shared/Buttons'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhoningCallContactRow from './callContact/CallContactRow'
+import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 
 export interface PhoningResources {}
 
@@ -79,6 +80,14 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
 
   useFocusEffect(firstDataFetch)
 
+  const [campaigns, setCampaigns] = useState<Array<PhoningCampaign>>([])
+
+  useEffect(() => {
+    PhoningCampaignRepository.getInstance()
+      .getPhoningCampaigns()
+      .then(setCampaigns)
+  }, [])
+
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
       <>
@@ -91,26 +100,22 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
           }
           contentContainerStyle={styles.contentContainer}
         />
-        <PrimaryButton
-          title="_OPEN_CAMPAIGN_"
-          onPress={() => {
-            // (Romain GF) 14.09.2021 Use data previously fetched for the screen instead
-            PhoningCampaignRepository.getInstance()
-              .getPhoningCampaigns()
-              .then((campaigns) => {
-                if (campaigns.length > 0) {
-                  const campaign = campaigns[0]
-                  navigation.navigate(Screen.phoningCampaignBrief, {
-                    data: {
-                      id: campaign.id,
-                      title: campaign.title,
-                      brief: campaign.brief,
-                    },
-                  })
-                }
-              })
-          }}
-        />
+        {campaigns.map((campaign) => {
+          return (
+            <PrimaryButton
+              title={campaign.title}
+              onPress={() =>
+                navigation.navigate(Screen.phoningCampaignBrief, {
+                  data: {
+                    id: campaign.id,
+                    title: campaign.title,
+                    brief: campaign.brief,
+                  },
+                })
+              }
+            />
+          )
+        })}
       </>
     )
   }

@@ -40,6 +40,8 @@ const PinkTheme: Theme = {
     homeTools: () => require('../assets/images/pink/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/pink/imageCodePostal.png'),
     notification: () => require('../assets/images/pink/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/pink/phoningSessionFailure.png'),
   },
 }
 

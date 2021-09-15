@@ -64,7 +64,7 @@ export type PhoningSessionModalParamList = {
   PhoningSessionLoader: { campaignId: string; device: PhoningSessionDevice }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
-  PhoningSessionNoNumberAvailable: undefined
+  PhoningSessionNoNumberAvailable: { message: string }
   PhoneCallStatusPicker: { data: PhoningSessionNavigationData }
   PhoneCallFailure: { data: PhoningSessionNavigationData }
   PhonePollDetail: { data: PhoningSessionNavigationData }

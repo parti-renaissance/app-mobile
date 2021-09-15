@@ -1,11 +1,11 @@
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
-import { PhonePollDetailInterruptionModalContentViewModel } from './PhonePollDetailInterruptionModalContentViewModel'
+import { PhonePollDetailCallStatusViewModel } from './PhonePollDetailCallStatusViewModel'
 
-export const PhonePollDetailInterruptionModalContentViewModelMapper = {
+export const PhonePollDetailCallStatusViewModelMapper = {
   map: (
     statuses: Array<PhoningSessionCallStatus>,
     selectedStatusCode: string | undefined,
-  ): PhonePollDetailInterruptionModalContentViewModel => {
+  ): PhonePollDetailCallStatusViewModel => {
     return {
       isActionEnabled: selectedStatusCode !== undefined,
       choices: statuses.map((status) => {

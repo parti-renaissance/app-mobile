@@ -1,12 +1,9 @@
 export interface PhoningSessionAdherent {
   id: string
-  firstName: string
+  info: string
   phone: {
     country: string
     number: string
   }
   gender?: 'male' | 'female' | 'other'
-  age?: number
-  city?: string
-  postalCode?: string
 }

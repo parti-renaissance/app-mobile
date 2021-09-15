@@ -7,9 +7,18 @@ import { PhoningSessionConfigurationMapper } from './mapper/PhoningSessionConfig
 import { PhoningSessionMapper } from './mapper/PhoningSessionMapper'
 import ApiService from './network/ApiService'
 
+interface CacheSessionValue<T> {
+  sessionId: string
+  value: T
+}
+
 class PhoningCampaignRepository {
   private static instance: PhoningCampaignRepository
   private apiService = ApiService.getInstance()
+  private cachedMemoryConfigurationForSession:
+    | CacheSessionValue<PhoningSessionConfiguration>
+    | undefined
+
   public static getInstance(): PhoningCampaignRepository {
     if (!PhoningCampaignRepository.instance) {
       PhoningCampaignRepository.instance = new PhoningCampaignRepository()
@@ -39,10 +48,24 @@ class PhoningCampaignRepository {
   public async getPhoningSessionConfiguration(
     sessionId: string,
   ): Promise<PhoningSessionConfiguration> {
+    if (
+      this.cachedMemoryConfigurationForSession &&
+      this.cachedMemoryConfigurationForSession.sessionId === sessionId
+    ) {
+      return this.cachedMemoryConfigurationForSession.value
+    }
+    this.cachedMemoryConfigurationForSession = undefined
     const restConfiguration = await this.apiService.getPhoningSessionConfiguration(
       sessionId,
     )
-    return PhoningSessionConfigurationMapper.map(restConfiguration)
+    const configuration = PhoningSessionConfigurationMapper.map(
+      restConfiguration,
+    )
+    this.cachedMemoryConfigurationForSession = {
+      sessionId,
+      value: configuration,
+    }
+    return configuration
   }
 
   public async updatePhoningSessionStatus(
