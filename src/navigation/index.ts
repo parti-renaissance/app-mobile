@@ -131,25 +131,10 @@ export type PhoningCampaignBriefScreenProp = Readonly<{
 }>
 
 // Phoning Campaign Scoreboard
-export type PhoningCampaignScoreboardScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<PhoningParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.phoningNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type PhoningCampaignScoreboardScreenRouteProp = RouteProp<
+export type PhoningCampaignScoreboardScreenProp = StackScreenProps<
   PhoningParamList,
   typeof Screen.phoningCampaignScoreboard
 >
-
-export type PhoningCampaignScoreboardScreenProp = Readonly<{
-  route: PhoningCampaignScoreboardScreenRouteProp
-  navigation: PhoningCampaignScoreboardScreenNavigationProp
-}>
 
 // Polls
 export type PollsScreenNavigationProp = CompositeNavigationProp<
