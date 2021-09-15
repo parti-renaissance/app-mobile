@@ -22,9 +22,14 @@ import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
 import {
   mapAssociatedToken,
+  mapPhoningSessionError,
   mapProfileFormError,
   mapSubscriptionError,
 } from './errorMappers'
+import { RestUserScope } from '../restObjects/RestUserScope'
+import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
+import { RestPhoningSession } from '../restObjects/RestPhoningSession'
+import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
 
 class ApiService {
   private static instance: ApiService
@@ -53,6 +58,13 @@ class ApiService {
     return this.httpClient
       .get('api/me')
       .json<RestProfileResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getUserScopes(): Promise<Array<RestUserScope>> {
+    return this.httpClient
+      .get('api/v3/profile/me/scopes')
+      .json<Array<RestUserScope>>()
       .catch(genericErrorMapping)
   }
 
@@ -230,6 +242,51 @@ class ApiService {
   ): Promise<void> {
     return this.httpClient
       .put(`api/v3/device/${deviceId}`, { json: request })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaigns(): Promise<Array<RestPhoningCampaign>> {
+    return this.httpClient
+      .get('api/v3/phoning_campaigns/scores')
+      .json<Array<RestPhoningCampaign>>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
+    return this.httpClient
+      .get(`api/v3/phoning_campaigns/${campaignId}/survey`)
+      .json<Poll>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaignSession(
+    campaignId: string,
+  ): Promise<RestPhoningSession> {
+    return this.httpClient
+      .post(`api/v3/phoning_campaigns/${campaignId}/start`)
+      .json<RestPhoningSession>()
+      .catch(mapPhoningSessionError)
+  }
+
+  public getPhoningSessionConfiguration(
+    sessionId: string,
+  ): Promise<RestPhoningSessionConfiguration> {
+    return this.httpClient
+      .get(`api/v3/phoning_campaign_histories/${sessionId}/survey-config`)
+      .json<RestPhoningSessionConfiguration>()
+      .catch(genericErrorMapping)
+  }
+
+  public updatePhoningSessionStatus(
+    sessionId: string,
+    status: string,
+  ): Promise<void> {
+    return this.httpClient
+      .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
+        json: { status },
+      })
       .json()
       .then(() => {})
       .catch(genericErrorMapping)

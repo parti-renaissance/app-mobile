@@ -11,10 +11,7 @@ import PollDetailProgressBar from './PollDetailProgressBar'
 import { Colors, Spacing } from '../../styles'
 import PollDetailNavigationButtons from './PollDetailNavigationButtons'
 import { Poll } from '../../core/entities/Poll'
-import {
-  PollDetailComponentProvider,
-  PollDetailComponentProviderImplementation,
-} from './PollDetailComponentProvider'
+import { PollDetailComponentProvider } from './providers/PollDetailComponentProvider'
 import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarViewModelMapper'
 import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
 import PollsRepository from '../../data/PollsRepository'
@@ -24,6 +21,10 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { PollDetailModalParamList, Screen } from '../../navigation'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { LocationManager } from '../../utils/LocationManager'
+import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
+import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
+import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
+import { PollResult } from '../../core/entities/PollResult'
 
 type Props = Readonly<{
   poll: Poll
@@ -40,8 +41,11 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
-  const [provider] = useState<PollDetailComponentProvider>(
-    new PollDetailComponentProviderImplementation(poll, forceUpdate),
+  const [provider] = useState<PollDetailComponentProvider<PollResult>>(
+    new CompoundPollDetailComponentProvider(
+      new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
+      new PollDetailUserInformationsComponentProvider(forceUpdate),
+    ),
   )
 
   const [isLoading, setIsLoading] = useState(false)
@@ -51,9 +55,15 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
     provider.getNumberOfSteps(),
     provider.getStepType(currentStep),
   )
+  const isNextStepAvailable = () => {
+    return currentStep < provider.getNumberOfSteps() - 1
+  }
+  const isPreviousStepAvailable = () => {
+    return currentStep > 0
+  }
   const navigationViewModel = PollDetailNavigationButtonsViewModelMapper.map(
-    provider.isPreviousStepAvailable(currentStep),
-    provider.isNextStepAvailable(currentStep),
+    isPreviousStepAvailable(),
+    isNextStepAvailable(),
     provider.isDataComplete(currentStep),
   )
 

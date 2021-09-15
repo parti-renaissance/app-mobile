@@ -11,8 +11,8 @@ import i18n from '../utils/i18n'
 import { Screen } from '../navigation'
 import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
-import ProfileNavigator from './profile/ProfileNavigator'
 import EventNavigator from './events/EventNavigator'
+import PhoningNavigator from './phoning/PhoningNavigator'
 
 const TabAndroid = createMaterialBottomTabNavigator()
 const TabIos = createBottomTabNavigator()
@@ -34,10 +34,10 @@ const getTabBarIcon = (route: any, focused: boolean) => {
     return focused
       ? require('../assets/images/tabBarIconsToolsOn.png')
       : require('../assets/images/tabBarIconsToolsOff.png')
-  } else if (route.name === Screen.profileNavigator) {
+  } else if (route.name === Screen.phoningNavigator) {
     return focused
-      ? require('../assets/images/tabBarIconsProfileOn.png')
-      : require('../assets/images/tabBarIconsProfileOff.png')
+      ? require('../assets/images/tabBarIconsPhoningOn.png')
+      : require('../assets/images/tabBarIconsPhoningOff.png')
   }
 }
 
@@ -83,9 +83,9 @@ const AuthenticatedHomeScreenAndroid = () => {
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
       />
       <TabAndroid.Screen
-        name={Screen.profileNavigator}
-        component={ProfileNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_profile') }}
+        name={Screen.phoningNavigator}
+        component={PhoningNavigator}
+        options={{ tabBarLabel: i18n.t('tab.item_phoning') }}
       />
     </TabAndroid.Navigator>
   )
@@ -135,9 +135,9 @@ const AuthenticatedHomeScreenIos = () => {
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
       />
       <TabIos.Screen
-        name={Screen.profileNavigator}
-        component={ProfileNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_profile') }}
+        name={Screen.phoningNavigator}
+        component={PhoningNavigator}
+        options={{ tabBarLabel: i18n.t('tab.item_phoning') }}
       />
     </TabIos.Navigator>
   )
