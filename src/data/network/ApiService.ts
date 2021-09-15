@@ -282,10 +282,11 @@ class ApiService {
   public updatePhoningSessionStatus(
     sessionId: string,
     status: string,
+    params: any = {},
   ): Promise<void> {
     return this.httpClient
       .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
-        json: { status },
+        json: { status, ...params },
       })
       .json()
       .then(() => {})

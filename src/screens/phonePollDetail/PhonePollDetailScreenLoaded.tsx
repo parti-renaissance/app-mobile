@@ -21,11 +21,12 @@ import {
   Screen,
 } from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
-import { PollRemoteQuestionResult } from '../../core/entities/PollResult'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
 import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
 import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
 import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
+import { PhonePollResult } from '../../core/entities/PhonePollResult'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 
 type Props = Readonly<{
   poll: Poll
@@ -60,9 +61,7 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
-  const [provider] = useState<
-    PollDetailComponentProvider<PollRemoteQuestionResult>
-  >(
+  const [provider] = useState<PollDetailComponentProvider<PhonePollResult>>(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
       new PhonePollDetailSatisfactionComponentProvider(QUESTIONS, forceUpdate),
@@ -101,13 +100,19 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   const postAnswers = async () => {
     setIsLoading(true)
 
-    setTimeout(() => {
-      setIsLoading(false)
-      navigation.replace(Screen.phonePollDetailSuccess, {
-        title: poll.name,
-        data: route.params.data,
+    PhoningCampaignRepository.getInstance()
+      .sendSatisfactionAnswers(
+        route.params.data.sessionId,
+        provider.getResult().satisfactionAnswers,
+      )
+      .finally(() => {
+        // We don't care about an error here
+        setIsLoading(false)
+        navigation.replace(Screen.phonePollDetailSuccess, {
+          title: poll.name,
+          data: route.params.data,
+        })
       })
-    }, 2000)
   }
 
   return (

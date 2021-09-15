@@ -1,4 +1,5 @@
 import { PhoningCampaign } from '../core/entities/PhoningCampaign'
+import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
 import { PhoningSession } from '../core/entities/PhoningSession'
 import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
 import { Poll } from '../core/entities/Poll'
@@ -73,6 +74,21 @@ class PhoningCampaignRepository {
     status: string,
   ): Promise<void> {
     await this.apiService.updatePhoningSessionStatus(sessionId, status)
+  }
+
+  public async sendSatisfactionAnswers(
+    sessionId: string,
+    answers: ReadonlyArray<PhoningSatisfactionAnswer>,
+  ): Promise<void> {
+    const params: Record<string, any> = {}
+    answers.forEach((item) => {
+      params[item.code] = item.value
+    })
+    await this.apiService.updatePhoningSessionStatus(
+      sessionId,
+      'completed',
+      params,
+    )
   }
 }
 
