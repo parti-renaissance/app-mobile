@@ -3,9 +3,11 @@ import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionA
 import { PhoningSession } from '../core/entities/PhoningSession'
 import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
 import { Poll } from '../core/entities/Poll'
+import { PollRemoteQuestionResult } from '../core/entities/PollResult'
 import { PhoningCampaignMapper } from './mapper/PhoningCampaignMapper'
 import { PhoningSessionConfigurationMapper } from './mapper/PhoningSessionConfigurationMapper'
 import { PhoningSessionMapper } from './mapper/PhoningSessionMapper'
+import { RestPhonePollResultRequestMapper } from './mapper/RestPhonePollResultRequestMapper'
 import ApiService from './network/ApiService'
 
 interface CacheSessionValue<T> {
@@ -89,6 +91,15 @@ class PhoningCampaignRepository {
       'completed',
       params,
     )
+  }
+
+  public async sendPhonePollAnswers(
+    poll: Poll,
+    sessionId: string,
+    result: PollRemoteQuestionResult,
+  ): Promise<void> {
+    const request = RestPhonePollResultRequestMapper.map(sessionId, result)
+    await this.apiService.sendPhonePollAnswers(poll.uuid, request)
   }
 }
 

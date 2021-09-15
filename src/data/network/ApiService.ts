@@ -30,6 +30,7 @@ import { RestUserScope } from '../restObjects/RestUserScope'
 import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
 import { RestPhoningSession } from '../restObjects/RestPhoningSession'
 import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
+import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
 
 class ApiService {
   private static instance: ApiService
@@ -288,6 +289,17 @@ class ApiService {
       .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
         json: { status, ...params },
       })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public sendPhonePollAnswers(
+    pollId: string,
+    request: RestPhonePollResultRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .post(`api/v3/surveys/${pollId}/reply`, { json: request })
       .json()
       .then(() => {})
       .catch(genericErrorMapping)
