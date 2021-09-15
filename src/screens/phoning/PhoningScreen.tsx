@@ -94,7 +94,18 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
         <PhoningCampaignRow
           viewModel={item.value}
           onCallButtonPressed={() => {
-            console.log('should open call screen')
+            const selectedCampaign = currentResources?.campaigns.find(
+              (campaign) => campaign.id === item.value.id,
+            )
+            if (selectedCampaign) {
+              navigation.navigate(Screen.phoningCampaignBrief, {
+                data: {
+                  id: selectedCampaign.id,
+                  title: selectedCampaign.title,
+                  brief: selectedCampaign.brief,
+                },
+              })
+            }
           }}
         />
       )
