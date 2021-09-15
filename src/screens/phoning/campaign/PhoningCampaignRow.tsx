@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography, Colors } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme } from '../../../themes'
@@ -8,10 +8,12 @@ import { PrimaryButton } from '../../shared/Buttons'
 import i18n from '../../../utils/i18n'
 import { VerticalSpacer } from '../../shared/Spacer'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
+import { TouchablePlatform } from '../../shared/TouchablePlatform'
 
 type Props = Readonly<{
   viewModel: PhoningCampaignRowViewModel
   onCallButtonPressed: () => void
+  onRankButtonPressed: () => void
 }>
 
 export interface PhoningCampaignRowViewModel {
@@ -20,11 +22,13 @@ export interface PhoningCampaignRowViewModel {
   brief: string
   calledCount: number
   numberOfPersonToCall: number
+  rank: number
 }
 
 const PhoningCampaignRow: FunctionComponent<Props> = ({
   viewModel,
   onCallButtonPressed,
+  onRankButtonPressed,
 }) => {
   const { theme } = useTheme()
   return (
@@ -49,7 +53,25 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
           progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
           color={theme.primaryColor}
         />
-        <VerticalSpacer spacing={Spacing.margin} />
+        <VerticalSpacer spacing={Spacing.unit} />
+        <TouchablePlatform
+          style={styles.scoreboardButton}
+          touchHighlight={Colors.touchHighlight}
+          onPress={onRankButtonPressed}
+        >
+          <View style={styles.scoreboardButtonContainer}>
+            <Text style={styles.scoreboardText}>
+              {i18n.t('phoning.position', {
+                count: viewModel.rank,
+                position: viewModel.rank,
+              })}
+            </Text>
+            <Image
+              style={styles.scoreboardImage}
+              source={require('../../../assets/images/disclosureIndicator.png')}
+            />
+          </View>
+        </TouchablePlatform>
         <HorizontalSeparator />
         <VerticalSpacer spacing={Spacing.margin} />
         <PrimaryButton
@@ -83,6 +105,21 @@ const styles = StyleSheet.create({
   },
   image: {
     marginStart: Spacing.unit,
+  },
+  scoreboardButton: {
+    borderRadius: Spacing.small,
+    paddingVertical: Spacing.unit,
+  },
+  scoreboardButtonContainer: {
+    flexDirection: 'row',
+  },
+  scoreboardImage: {
+    alignSelf: 'center',
+  },
+  scoreboardText: {
+    ...Typography.subheadline,
+    flexGrow: 1,
+    paddingVertical: Spacing.small,
   },
   title: {
     ...Typography.title2,

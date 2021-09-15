@@ -71,6 +71,10 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
       })
   }, [])
 
+  const findCampaignInCurrentResources = (id: string) => {
+    return currentResources?.campaigns.find((campaign) => campaign.id === id)
+  }
+
   const renderItem = ({ item }: ListRenderItemInfo<PhoningRowViewModel>) => {
     if (item.type === 'tutorial') {
       return (
@@ -94,8 +98,8 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
         <PhoningCampaignRow
           viewModel={item.value}
           onCallButtonPressed={() => {
-            const selectedCampaign = currentResources?.campaigns.find(
-              (campaign) => campaign.id === item.value.id,
+            const selectedCampaign = findCampaignInCurrentResources(
+              item.value.id,
             )
             if (selectedCampaign) {
               navigation.navigate(Screen.phoningCampaignBrief, {
@@ -104,6 +108,16 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
                   title: selectedCampaign.title,
                   brief: selectedCampaign.brief,
                 },
+              })
+            }
+          }}
+          onRankButtonPressed={() => {
+            const selectedCampaign = findCampaignInCurrentResources(
+              item.value.id,
+            )
+            if (selectedCampaign) {
+              navigation.navigate(Screen.phoningCampaignScoreboard, {
+                data: { scoreboard: selectedCampaign.scoreboard },
               })
             }
           }}
