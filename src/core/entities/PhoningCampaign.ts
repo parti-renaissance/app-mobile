@@ -10,7 +10,8 @@ export interface PhoningCampaign {
 
 export interface PhoningCampaignScore {
   firstName: string
-  score: string
+  calls: string
+  surveys: string
   position: number
   caller: boolean
 }

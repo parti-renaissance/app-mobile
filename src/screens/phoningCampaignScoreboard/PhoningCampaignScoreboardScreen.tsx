@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { PhoningCampaignScore } from '../../core/entities/PhoningCampaign'
 import { PhoningCampaignScoreboardScreenProp } from '../../navigation'
 import { Colors, Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -16,11 +17,29 @@ const PhoningCampaignScoreboardScreen: FunctionComponent<PhoningCampaignScoreboa
     })
   }, [navigation])
 
+  const map = (scores: Array<PhoningCampaignScore>) => {
+    return {
+      rows: scores.map((item) => {
+        return {
+          id: `${item.position}_${item.firstName}_${item.calls}_${item.surveys}`,
+          name: i18n.t('phoning.scoreboard.name', {
+            position: item.position,
+            name: item.firstName,
+          }),
+          position: item.position,
+          caller: item.caller,
+          calls: item.calls,
+          surveys: item.surveys,
+        }
+      }),
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <PhoningCampaignRankingView scores={route.params.data.scoreboard} />
-      </ScrollView>
+      <PhoningCampaignRankingView
+        viewModel={map(route.params.data.scoreboard)}
+      />
     </SafeAreaView>
   )
 }

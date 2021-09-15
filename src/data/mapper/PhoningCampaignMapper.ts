@@ -13,7 +13,8 @@ export const PhoningCampaignMapper = {
       scoreboard: restObject.scoreboard.map((item) => {
         return {
           caller: item.caller,
-          score: item.score,
+          calls: item.nb_calls,
+          surveys: item.nb_survey,
           position: item.position,
           firstName: item.firstName,
         }

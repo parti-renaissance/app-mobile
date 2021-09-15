@@ -10,7 +10,8 @@ export interface RestPhoningCampaign {
 
 export interface RestPhoningCampaignScore {
   firstName: string
-  score: string
   position: number
   caller: boolean
+  nb_calls: string
+  nb_survey: string
 }
