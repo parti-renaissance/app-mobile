@@ -36,24 +36,26 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
       style={styles.cardView}
       backgroundColor={Colors.defaultBackground}
     >
-      <View style={styles.container}>
-        <Text style={styles.title}>{viewModel.title}</Text>
-        <VerticalSpacer spacing={Spacing.unit} />
-        <Text style={styles.body} numberOfLines={3}>
-          {viewModel.brief}
-        </Text>
-        <VerticalSpacer spacing={Spacing.unit} />
-        <Text style={styles.caption}>
-          {i18n.t('phoning.callcontact.progressformat', {
-            done: viewModel.calledCount,
-            total: viewModel.numberOfPersonToCall,
-          })}
-        </Text>
-        <ProgressBar
-          progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
-          color={theme.primaryColor}
-        />
-        <VerticalSpacer spacing={Spacing.unit} />
+      <>
+        <View style={styles.informationContainer}>
+          <Text style={styles.title}>{viewModel.title}</Text>
+          <VerticalSpacer spacing={Spacing.unit} />
+          <Text style={styles.body} numberOfLines={3}>
+            {viewModel.brief}
+          </Text>
+          <VerticalSpacer spacing={Spacing.unit} />
+          <Text style={styles.caption}>
+            {i18n.t('phoning.callcontact.progressformat', {
+              done: viewModel.calledCount,
+              total: viewModel.numberOfPersonToCall,
+            })}
+          </Text>
+          <ProgressBar
+            progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
+            color={theme.primaryColor}
+          />
+          <VerticalSpacer spacing={Spacing.unit} />
+        </View>
         <TouchablePlatform
           style={styles.scoreboardButton}
           touchHighlight={Colors.touchHighlight}
@@ -72,15 +74,17 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
             />
           </View>
         </TouchablePlatform>
-        <HorizontalSeparator />
-        <VerticalSpacer spacing={Spacing.margin} />
-        <PrimaryButton
-          buttonStyle={styles.callButton}
-          title={i18n.t('phoning.campaign.action')}
-          onPress={onCallButtonPressed}
-          shape={'rounded'}
-        />
-      </View>
+        <View style={styles.buttonContainer}>
+          <HorizontalSeparator />
+          <VerticalSpacer spacing={Spacing.margin} />
+          <PrimaryButton
+            buttonStyle={styles.callButton}
+            title={i18n.t('phoning.campaign.action')}
+            onPress={onCallButtonPressed}
+            shape={'rounded'}
+          />
+        </View>
+      </>
     </CardView>
   )
 }
@@ -88,6 +92,10 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
 const styles = StyleSheet.create({
   body: {
     ...Typography.body,
+  },
+  buttonContainer: {
+    marginBottom: Spacing.margin,
+    marginHorizontal: Spacing.margin,
   },
   callButton: {
     paddingVertical: Spacing.unit,
@@ -100,14 +108,15 @@ const styles = StyleSheet.create({
   cardView: {
     marginVertical: Spacing.margin,
   },
-  container: {
-    padding: Spacing.margin,
-  },
   image: {
     marginStart: Spacing.unit,
   },
+  informationContainer: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.margin,
+  },
   scoreboardButton: {
-    borderRadius: Spacing.small,
+    paddingHorizontal: Spacing.margin,
     paddingVertical: Spacing.unit,
   },
   scoreboardButtonContainer: {
