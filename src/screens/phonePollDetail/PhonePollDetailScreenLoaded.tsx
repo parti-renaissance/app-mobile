@@ -32,31 +32,14 @@ import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhoneP
 
 type Props = Readonly<{
   poll: Poll
+  satisfactionQuestions: Array<PhoningSatisfactionQuestion>
   route: PhonePollDetailScreenRouteProp
   navigation: PhonePollDetailScreenNavigationProp
 }>
 
-// TODO: (Pierre Felgines) Remove this stub data
-const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
-  {
-    code: 'postal_code_checked',
-    label: 'Code postal à jour ?',
-    type: 'boolean',
-  },
-  {
-    code: 'become_caller',
-    label: 'Souhaiteriez-vous devenir appelant ?',
-    type: 'boolean',
-  },
-  {
-    code: 'call_more',
-    label: 'Souhaitez-vous être rappelé plus souvent ?',
-    type: 'boolean',
-  },
-]
-
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
+  satisfactionQuestions,
   route,
   navigation,
 }) => {
@@ -66,7 +49,10 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   const [provider] = useState<PollDetailComponentProvider<PhonePollResult>>(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
-      new PhonePollDetailSatisfactionComponentProvider(QUESTIONS, forceUpdate),
+      new PhonePollDetailSatisfactionComponentProvider(
+        satisfactionQuestions,
+        forceUpdate,
+      ),
     ),
   )
 
