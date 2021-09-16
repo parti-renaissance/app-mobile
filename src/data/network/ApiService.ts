@@ -33,6 +33,12 @@ import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
 import { RestPhoningSession } from '../restObjects/RestPhoningSession'
 import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
 import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
+import {
+  RestPhoningCharter,
+  RestPhoningCharterAccepted,
+  RestPhoningCharterNotAccepted,
+  RestPhoningCharterResponse,
+} from '../restObjects/RestPhoningCharter'
 
 class ApiService {
   private static instance: ApiService
@@ -321,6 +327,20 @@ class ApiService {
       .json()
       .then(() => {})
       .catch(mapPhonePollError)
+  }
+
+  public getPhoningCharter(): Promise<RestPhoningCharter> {
+    return this.httpClient
+      .get('api/v3/profile/charter/phoning_campaign')
+      .json<RestPhoningCharterResponse>()
+      .catch(genericErrorMapping)
+      .then((response) => {
+        if (response.content === undefined) {
+          return new RestPhoningCharterAccepted()
+        } else {
+          return new RestPhoningCharterNotAccepted(response.content)
+        }
+      })
   }
 
   public static getInstance(): ApiService {

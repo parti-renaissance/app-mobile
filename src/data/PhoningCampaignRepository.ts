@@ -1,5 +1,6 @@
 import { PhoningCampaign } from '../core/entities/PhoningCampaign'
 import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
+import { PhoningCharterState } from '../core/entities/PhoningCharterState'
 import { PhoningSession } from '../core/entities/PhoningSession'
 import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
 import { Poll } from '../core/entities/Poll'
@@ -9,6 +10,7 @@ import { PhoningSessionConfigurationMapper } from './mapper/PhoningSessionConfig
 import { PhoningSessionMapper } from './mapper/PhoningSessionMapper'
 import { RestPhonePollResultRequestMapper } from './mapper/RestPhonePollResultRequestMapper'
 import ApiService from './network/ApiService'
+import { PhoningCharterMapper } from './mapper/PhoningCharterMapper'
 
 interface CacheSessionValue<T> {
   sessionId: string
@@ -112,6 +114,11 @@ class PhoningCampaignRepository {
   ): Promise<void> {
     const request = RestPhonePollResultRequestMapper.map(poll.uuid, result)
     await this.apiService.sendPhonePollAnswers(sessionId, request)
+  }
+
+  public async getPhoningCharterState(): Promise<PhoningCharterState> {
+    const restPhoningCharter = await this.apiService.getPhoningCharter()
+    return PhoningCharterMapper.map(restPhoningCharter)
   }
 }
 
