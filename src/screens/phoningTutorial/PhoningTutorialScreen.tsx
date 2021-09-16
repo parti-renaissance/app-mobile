@@ -4,8 +4,6 @@ import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { Colors, Spacing } from '../../styles'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import { PhoningTutorialScreenProp } from '../../navigation'
 import i18n from '../../utils/i18n'
 
@@ -16,7 +14,6 @@ export interface TutorialResources {
 const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
   navigation,
 }) => {
-  const styles = useThemedStyles(styleFactory)
   const [currentResources, setResources] = useState<TutorialResources>()
 
   useEffect(() => {
@@ -41,16 +38,14 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
   )
 }
 
-const styleFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    contentContainer: {
-      padding: Spacing.margin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  contentContainer: {
+    padding: Spacing.margin,
+  },
+})
 
 export default PhoningTutorialScreen
