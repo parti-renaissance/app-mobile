@@ -271,6 +271,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getPhoningCampaign(campaignId: string): Promise<RestPhoningCampaign> {
+    return this.httpClient
+      .get(`api/v3/phoning_campaigns/${campaignId}/scores`)
+      .json<RestPhoningCampaign>()
+      .catch(genericErrorMapping)
+  }
+
   public getPhoningCampaignSession(
     campaignId: string,
   ): Promise<RestPhoningSession> {

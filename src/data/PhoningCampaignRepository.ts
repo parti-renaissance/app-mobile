@@ -39,6 +39,13 @@ class PhoningCampaignRepository {
     return restCampaigns.map(PhoningCampaignMapper.map)
   }
 
+  public async getPhoningCampaign(
+    campaignId: string,
+  ): Promise<PhoningCampaign> {
+    const restCampaign = await this.apiService.getPhoningCampaign(campaignId)
+    return PhoningCampaignMapper.map(restCampaign)
+  }
+
   public async getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
     const poll = await this.apiService.getPhoningCampaignPoll(campaignId)
     return poll
