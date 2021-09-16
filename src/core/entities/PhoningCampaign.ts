@@ -5,4 +5,13 @@ export interface PhoningCampaign {
   goal: number
   callsCount: number
   finishAt: Date
+  scoreboard: Array<PhoningCampaignScore>
+}
+
+export interface PhoningCampaignScore {
+  firstName: string
+  calls: string
+  surveys: string
+  position: number
+  caller: boolean
 }

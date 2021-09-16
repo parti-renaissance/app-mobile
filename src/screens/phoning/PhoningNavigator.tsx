@@ -5,6 +5,7 @@ import { headerBlank } from '../../styles/navigationAppearance'
 import PhoningScreen from './PhoningScreen'
 import PhoningTutorialScreen from '../phoningTutorial/PhoningTutorialScreen'
 import PhoningCampaignBriefScreen from '../phoningCampaignBrief/PhoningCampaignBriefScreen'
+import PhoningCampaignScoreboardScreen from '../phoningCampaignScoreboard/PhoningCampaignScoreboardScreen'
 
 const Stack = createStackNavigator<PhoningParamList>()
 
@@ -24,6 +25,10 @@ const PhoningNavigator: FunctionComponent = () => {
       <Stack.Screen
         name={Screen.phoningCampaignBrief}
         component={PhoningCampaignBriefScreen}
+      />
+      <Stack.Screen
+        name={Screen.phoningCampaignScoreboard}
+        component={PhoningCampaignScoreboardScreen}
       />
     </Stack.Navigator>
   )

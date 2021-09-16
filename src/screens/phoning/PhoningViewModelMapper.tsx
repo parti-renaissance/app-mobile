@@ -40,6 +40,8 @@ function appendCampaigns(
         brief: campaign.brief,
         calledCount: campaign.callsCount,
         numberOfPersonToCall: campaign.goal,
+        rank:
+          campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
       },
     })
   })
@@ -55,3 +57,5 @@ function appendCallContact(rows: PhoningRowViewModel[]) {
     },
   })
 }
+
+const DEFAULT_RANK = 1

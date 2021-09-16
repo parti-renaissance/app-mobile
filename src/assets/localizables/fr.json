@@ -342,7 +342,9 @@
         "header_calls": "Appelés",
         "header_calls_completed": "Complétés",
         "name": "{{position}}. {{name}}"
-      }
+      },
+      "position": "{{position}}er au classement",
+      "position_plural": "{{position}}ème au classement"
     },
     "phoningsession": {
       "new_call": "Nouvel appel",
