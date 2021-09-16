@@ -31,7 +31,7 @@ type Props = Readonly<{
   viewModel: PhoningScoreboardViewModel
 }>
 
-const PhoningCampaignRankingView: FunctionComponent<Props> = ({
+export const PhoningCampaignRankingView: FunctionComponent<Props> = ({
   style,
   viewModel,
 }) => {
@@ -103,5 +103,3 @@ const styleFactory = (theme: Theme) => {
     },
   })
 }
-
-export default PhoningCampaignRankingView
