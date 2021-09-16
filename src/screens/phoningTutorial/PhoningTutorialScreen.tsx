@@ -43,22 +43,12 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
 
 const styleFactory = (theme: Theme) => {
   return StyleSheet.create({
-    bottomContainer: {
-      ...Styles.topElevatedContainerStyle,
-      backgroundColor: Colors.defaultBackground,
-      paddingHorizontal: Spacing.margin,
-      paddingTop: Spacing.margin,
-    },
     container: {
       backgroundColor: Colors.defaultBackground,
       flex: 1,
     },
     contentContainer: {
       padding: Spacing.margin,
-    },
-    linkText: {
-      ...Styles.eventSeeMoreButtonTextStyle(theme),
-      color: theme.primaryColor,
     },
   })
 }
