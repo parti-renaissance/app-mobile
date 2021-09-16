@@ -344,7 +344,8 @@
         "name": "{{position}}. {{name}}"
       },
       "position": "{{position}}er au classement",
-      "position_plural": "{{position}}ème au classement"
+      "position_plural": "{{position}}ème au classement",
+      "charter": { "title": "Charte", "accept": "Accepter" }
     },
     "phoningsession": {
       "new_call": "Nouvel appel",
@@ -368,7 +369,8 @@
       "status_picker": {
         "title": "Accepte-t-il de répondre à vos questions ?",
         "action": "Valider"
-      }
+      },
+      "success": { "title": "Et un de plus, bravo ! " }
     }
   }
 }
