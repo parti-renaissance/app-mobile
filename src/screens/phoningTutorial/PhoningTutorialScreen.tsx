@@ -25,21 +25,20 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<TutorialResources>
   >(new ViewState.Loading())
-  const [currentResources, setResources] = useState<TutorialResources>()
 
   useEffect(() => {
     navigation.setOptions({
       title: i18n.t('phoning.tutorial.title'),
     })
-    setStatefulState(new ViewState.Content(currentResources))
-  }, [navigation, currentResources])
+    setStatefulState(new ViewState.Loading())
+  }, [navigation])
 
   const fetchData = useCallback(() => {
     setStatefulState(new ViewState.Loading())
     PhoningCampaignRepository.getInstance()
       .getPhoningTutorial()
       .then((markdown) => {
-        setResources({ content: markdown })
+        setStatefulState(new ViewState.Content({ content: markdown }))
       })
       .catch((error) => {
         setStatefulState(
@@ -52,10 +51,10 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
 
   useFocusEffect(fetchData)
 
-  const TutorialContent = () => {
+  const TutorialContent = (resources: TutorialResources) => {
     return (
       <ScrollView style={styles.contentContainer}>
-        <Markdown>{currentResources?.content}</Markdown>
+        <Markdown>{resources.content}</Markdown>
       </ScrollView>
     )
   }
