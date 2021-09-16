@@ -1,3 +1,4 @@
+import { RestMarkdown } from './../restObjects/RestMarkdown'
 import _httpClient from './HttpClient'
 import { Poll } from '../../core/entities/Poll'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
@@ -246,6 +247,13 @@ class ApiService {
       .put(`api/v3/device/${deviceId}`, { json: request })
       .json()
       .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningTutorial(): Promise<RestMarkdown> {
+    return this.httpClient
+      .get('api/v3/phoning_campaigns/tutorial')
+      .json<RestMarkdown>()
       .catch(genericErrorMapping)
   }
 

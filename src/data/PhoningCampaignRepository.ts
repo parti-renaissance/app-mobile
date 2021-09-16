@@ -29,6 +29,11 @@ class PhoningCampaignRepository {
     return PhoningCampaignRepository.instance
   }
 
+  public async getPhoningTutorial(): Promise<string> {
+    const restMarkdown = await this.apiService.getPhoningTutorial()
+    return restMarkdown.content
+  }
+
   public async getPhoningCampaigns(): Promise<Array<PhoningCampaign>> {
     const restCampaigns = await this.apiService.getPhoningCampaigns()
     return restCampaigns.map(PhoningCampaignMapper.map)
