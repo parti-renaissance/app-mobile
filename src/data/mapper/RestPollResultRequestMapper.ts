@@ -4,7 +4,7 @@ import { AgeRange, Gender, Profession } from '../../core/entities/UserProfile'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
 import { GenderMapper } from './GenderMapper'
 import { Location } from 'react-native-location'
-import { RestPollResultAnswerMapper } from './RestPollResultAnswerMapper'
+import { RestPollResultAnswerLegacyMapper } from './RestPollResultAnswerLegacyMapper'
 
 const restGender = (gender: Gender | undefined): string | undefined => {
   if (!gender) {
@@ -78,7 +78,7 @@ export const RestPollResultRequestMapper = {
       profession: restProfession(result.profile?.profession),
       ageRange: restAge(result.profile?.age),
       gender: restGender(result.profile?.gender),
-      answers: result.answers.map(RestPollResultAnswerMapper.map),
+      answers: result.answers.map(RestPollResultAnswerLegacyMapper.map),
       latitude: location?.latitude ?? undefined,
       longitude: location?.longitude ?? undefined,
     }
