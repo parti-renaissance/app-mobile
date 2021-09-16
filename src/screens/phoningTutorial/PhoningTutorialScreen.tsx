@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
-import Markdown, { styles } from 'react-native-markdown-display'
+import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { Colors, Spacing, Styles } from '../../styles'
+import { Colors, Spacing } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
-import { PhoningTutorialScreenProp, Screen } from '../../navigation'
+import { PhoningTutorialScreenProp } from '../../navigation'
 import i18n from '../../utils/i18n'
 
 export interface TutorialResources {
