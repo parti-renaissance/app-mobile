@@ -6,8 +6,9 @@ import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 export const PhoningViewModelMapper = {
   map: (campaigns: PhoningCampaign[]): PhoningViewModel => {
     const rows: Array<PhoningRowViewModel> = []
-
-    appendTutorial(rows)
+    if (campaigns.length > 0) {
+      appendTutorial(rows)
+    }
     appendCampaigns(campaigns, rows)
     appendCallContact(rows)
 
