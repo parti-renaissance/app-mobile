@@ -27,7 +27,7 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
           content: markdown,
         })
       })
-  })
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>

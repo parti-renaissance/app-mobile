@@ -105,9 +105,10 @@ export type PhoningTutorialScreenNavigationProp = CompositeNavigationProp<
     StackNavigationProp<RootStackParamList>
   >
 >
-export type PhoningTutorialScreenProp = Readonly<{
-  navigation: PhoningScreenNavigationProp
-}>
+export type PhoningTutorialScreenProp = StackScreenProps<
+  PhoningParamList,
+  typeof Screen.phoningTutorial
+>
 
 // Phoning
 export type PhoningScreenNavigationProp = CompositeNavigationProp<
