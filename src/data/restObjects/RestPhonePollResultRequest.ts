@@ -1,6 +1,6 @@
-import { RestPollResultAnswer } from './RestPollResultRequest'
+import { RestPollResultAnswer } from './RestPollResultAnswer'
 
 export interface RestPhonePollResultRequest {
-  phoning_campaign_history_uuid: string
+  survey: string
   answers: ReadonlyArray<RestPollResultAnswer>
 }

@@ -4,11 +4,11 @@ import { RestPollResultAnswerMapper } from './RestPollResultAnswerMapper'
 
 export const RestPhonePollResultRequestMapper = {
   map: (
-    sessionId: string,
+    pollId: string,
     result: PollRemoteQuestionResult,
   ): RestPhonePollResultRequest => {
     return {
-      phoning_campaign_history_uuid: sessionId,
+      survey: pollId,
       answers: result.answers.map(RestPollResultAnswerMapper.map),
     }
   },

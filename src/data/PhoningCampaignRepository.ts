@@ -98,8 +98,8 @@ class PhoningCampaignRepository {
     sessionId: string,
     result: PollRemoteQuestionResult,
   ): Promise<void> {
-    const request = RestPhonePollResultRequestMapper.map(sessionId, result)
-    await this.apiService.sendPhonePollAnswers(poll.uuid, request)
+    const request = RestPhonePollResultRequestMapper.map(poll.uuid, result)
+    await this.apiService.sendPhonePollAnswers(sessionId, request)
   }
 }
 

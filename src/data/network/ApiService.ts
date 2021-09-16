@@ -22,6 +22,7 @@ import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
 import {
   mapAssociatedToken,
+  mapPhonePollError,
   mapPhoningSessionError,
   mapProfileFormError,
   mapSubscriptionError,
@@ -295,14 +296,16 @@ class ApiService {
   }
 
   public sendPhonePollAnswers(
-    pollId: string,
+    sessionId: string,
     request: RestPhonePollResultRequest,
   ): Promise<void> {
     return this.httpClient
-      .post(`api/v3/surveys/${pollId}/reply`, { json: request })
+      .post(`api/v3/phoning_campaign_histories/${sessionId}/reply`, {
+        json: request,
+      })
       .json()
       .then(() => {})
-      .catch(genericErrorMapping)
+      .catch(mapPhonePollError)
   }
 
   public static getInstance(): ApiService {
