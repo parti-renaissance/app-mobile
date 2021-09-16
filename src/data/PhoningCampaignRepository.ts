@@ -1,10 +1,13 @@
 import { PhoningCampaign } from '../core/entities/PhoningCampaign'
+import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
 import { PhoningSession } from '../core/entities/PhoningSession'
 import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
 import { Poll } from '../core/entities/Poll'
+import { PollRemoteQuestionResult } from '../core/entities/PollResult'
 import { PhoningCampaignMapper } from './mapper/PhoningCampaignMapper'
 import { PhoningSessionConfigurationMapper } from './mapper/PhoningSessionConfigurationMapper'
 import { PhoningSessionMapper } from './mapper/PhoningSessionMapper'
+import { RestPhonePollResultRequestMapper } from './mapper/RestPhonePollResultRequestMapper'
 import ApiService from './network/ApiService'
 
 interface CacheSessionValue<T> {
@@ -73,6 +76,30 @@ class PhoningCampaignRepository {
     status: string,
   ): Promise<void> {
     await this.apiService.updatePhoningSessionStatus(sessionId, status)
+  }
+
+  public async sendSatisfactionAnswers(
+    sessionId: string,
+    answers: ReadonlyArray<PhoningSatisfactionAnswer>,
+  ): Promise<void> {
+    const params: Record<string, any> = {}
+    answers.forEach((item) => {
+      params[item.code] = item.value
+    })
+    await this.apiService.updatePhoningSessionStatus(
+      sessionId,
+      'completed',
+      params,
+    )
+  }
+
+  public async sendPhonePollAnswers(
+    poll: Poll,
+    sessionId: string,
+    result: PollRemoteQuestionResult,
+  ): Promise<void> {
+    const request = RestPhonePollResultRequestMapper.map(poll.uuid, result)
+    await this.apiService.sendPhonePollAnswers(sessionId, request)
   }
 }
 

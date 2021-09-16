@@ -1,13 +1,11 @@
 import React, {
   FunctionComponent,
-  useCallback,
   useEffect,
   useLayoutEffect,
   useState,
 } from 'react'
 import { View, StyleSheet, Alert } from 'react-native'
 
-import { Poll } from '../../core/entities/Poll'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
@@ -17,37 +15,27 @@ import { PhonePollDetailScreenProps, Screen } from '../../navigation'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
-import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import i18n from '../../utils/i18n'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { useBackHandler } from '../shared/useBackHandler.hook'
+import {
+  GetPhonePollDetailResourcesInteractor,
+  PhonePollDetailResources,
+} from '../../core/interactor/GetPhonePollDetailResourcesInteractor'
 
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
 }) => {
   const { theme } = useTheme()
-  const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
-    new ViewState.Loading(),
-  )
-  const [callStatuses, setCallStatuses] = useState<
-    Array<PhoningSessionCallStatus>
-  >([])
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<PhonePollDetailResources>
+  >(new ViewState.Loading())
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
   usePreventGoingBack()
-
-  const fetchInterruptionStatuses = useCallback(() => {
-    const sessionId = route.params.data.sessionId
-    PhoningCampaignRepository.getInstance()
-      .getPhoningSessionConfiguration(sessionId)
-      .then((configuration) => configuration.callStatus.interrupted)
-      .then(setCallStatuses)
-  }, [route.params.data.sessionId])
-
-  useEffect(() => fetchInterruptionStatuses(), [fetchInterruptionStatuses])
 
   const askConfirmationBeforeLeaving = () => {
     setModalVisible(true)
@@ -68,28 +56,34 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
 
   useBackHandler(askConfirmationBeforeLeaving)
 
-  const fetchPoll = () => {
+  const fetchResources = () => {
     setStatefulState(new ViewState.Loading())
-    PhoningCampaignRepository.getInstance()
-      .getPhoningCampaignPoll(route.params.data.campaignId)
-      .then((poll) => {
+
+    new GetPhonePollDetailResourcesInteractor()
+      .execute(route.params.data.campaignId, route.params.data.sessionId)
+      .then((resources) => {
         navigation.setOptions({
-          title: poll.name,
+          title: resources.poll.name,
         })
-        setStatefulState(new ViewState.Content(poll))
+        setStatefulState(new ViewState.Content(resources))
       })
       .catch((error) => {
         console.error(error)
         setStatefulState(
           new ViewState.Error(
             GenericErrorMapper.mapErrorMessage(error),
-            fetchPoll,
+            fetchResources,
           ),
         )
       })
   }
 
-  useEffect(fetchPoll, [route.params.data.campaignId, navigation, theme])
+  useEffect(fetchResources, [
+    route.params.data.campaignId,
+    route.params.data.sessionId,
+    navigation,
+    theme,
+  ])
 
   const displayError = (error: string, statusCode: string) => {
     Alert.alert(
@@ -128,23 +122,28 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   return (
     <View style={styles.container}>
       <LoadingOverlay visible={isLoading} />
-      <ModalOverlay
-        modalVisible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <PhonePollDetailInterruptionModalContent
-          callStatuses={callStatuses}
-          onInterruption={onInterruption}
-        />
-      </ModalOverlay>
       <StatefulView
         state={statefulState}
-        contentComponent={(poll) => (
-          <PhonePollDetailScreenLoaded
-            poll={poll}
-            route={route}
-            navigation={navigation}
-          />
+        contentComponent={(resources) => (
+          <>
+            <ModalOverlay
+              modalVisible={isModalVisible}
+              onRequestClose={() => setModalVisible(false)}
+            >
+              <PhonePollDetailInterruptionModalContent
+                callStatuses={resources.configuration.callStatus.interrupted}
+                onInterruption={onInterruption}
+              />
+            </ModalOverlay>
+            <PhonePollDetailScreenLoaded
+              poll={resources.poll}
+              satisfactionQuestions={
+                resources.configuration.satisfactionQuestions
+              }
+              route={route}
+              navigation={navigation}
+            />
+          </>
         )}
       />
     </View>

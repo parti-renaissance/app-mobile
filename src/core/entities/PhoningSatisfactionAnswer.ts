@@ -1,1 +1,7 @@
-export type PhoningSatisfactionAnswer = { type: 'boolean'; value: boolean }
+import { PhoningSatisfactionQuestion } from './PhoningSessionConfiguration'
+
+export type PhoningSatisfactionAnswer = {
+  code: PhoningSatisfactionQuestion['code']
+  type: 'boolean'
+  value: boolean
+}

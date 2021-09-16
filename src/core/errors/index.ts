@@ -21,3 +21,4 @@ export class EventSubscriptionError extends Error {}
 export class TokenCannotBeSubscribedError extends Error {}
 export class PhoningSessionNoNumberError extends Error {}
 export class PhoningSessionFinishedCampaignError extends Error {}
+export class PhonePollAlreadyAnsweredError extends Error {}

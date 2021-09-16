@@ -22,6 +22,7 @@ import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
 import {
   mapAssociatedToken,
+  mapPhonePollError,
   mapPhoningSessionError,
   mapProfileFormError,
   mapSubscriptionError,
@@ -30,6 +31,7 @@ import { RestUserScope } from '../restObjects/RestUserScope'
 import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
 import { RestPhoningSession } from '../restObjects/RestPhoningSession'
 import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
+import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
 
 class ApiService {
   private static instance: ApiService
@@ -282,14 +284,28 @@ class ApiService {
   public updatePhoningSessionStatus(
     sessionId: string,
     status: string,
+    params: any = {},
   ): Promise<void> {
     return this.httpClient
       .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
-        json: { status },
+        json: { status, ...params },
       })
       .json()
       .then(() => {})
       .catch(genericErrorMapping)
+  }
+
+  public sendPhonePollAnswers(
+    sessionId: string,
+    request: RestPhonePollResultRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .post(`api/v3/phoning_campaign_histories/${sessionId}/reply`, {
+        json: request,
+      })
+      .json()
+      .then(() => {})
+      .catch(mapPhonePollError)
   }
 
   public static getInstance(): ApiService {

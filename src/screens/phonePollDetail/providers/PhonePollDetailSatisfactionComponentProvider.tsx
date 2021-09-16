@@ -1,4 +1,5 @@
 import React from 'react'
+import { PhonePollSatisfactionResult } from '../../../core/entities/PhonePollResult'
 import { PhoningSatisfactionAnswer } from '../../../core/entities/PhoningSatisfactionAnswer'
 import { PhoningSatisfactionQuestion } from '../../../core/entities/PhoningSessionConfiguration'
 import { StepType } from '../../../core/entities/StepType'
@@ -7,7 +8,7 @@ import { PhonePollSatisfactionViewModelMapper } from '../../phonePollSatisfactio
 import { PollDetailComponentProvider } from '../../pollDetail/providers/PollDetailComponentProvider'
 
 export class PhonePollDetailSatisfactionComponentProvider
-  implements PollDetailComponentProvider<void> {
+  implements PollDetailComponentProvider<PhonePollSatisfactionResult> {
   private questions: Array<PhoningSatisfactionQuestion>
   private answers = new Map<string, PhoningSatisfactionAnswer>()
   private onUpdate: () => void
@@ -48,8 +49,8 @@ export class PhonePollDetailSatisfactionComponentProvider
     }
   }
 
-  public getResult(): void {
-    return // TODO: (Pierre Felgines) Change the return type with correct entity
+  public getResult(): PhonePollSatisfactionResult {
+    return { satisfactionAnswers: Array.from(this.answers.values()) }
   }
 
   private getSatisfactionComponent(): JSX.Element {
@@ -62,6 +63,7 @@ export class PhonePollDetailSatisfactionComponentProvider
         viewModel={viewModel}
         onUpdateBoolean={(questionId, choice) => {
           const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
             type: 'boolean',
             value: choice,
           }

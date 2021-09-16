@@ -2,6 +2,7 @@ import ky from 'ky'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
   EventSubscriptionError,
+  PhonePollAlreadyAnsweredError,
   PhoningSessionFinishedCampaignError,
   PhoningSessionNoNumberError,
   ProfileFormError,
@@ -80,6 +81,18 @@ export const mapPhoningSessionError = async (error: any) => {
         throw new PhoningSessionNoNumberError(parsedError.message)
       case 'finished_campaign':
         throw new PhoningSessionFinishedCampaignError(parsedError.message)
+    }
+  }
+  return genericErrorMapping(error)
+}
+
+export const mapPhonePollError = async (error: any) => {
+  if (error instanceof ky.HTTPError && error.response.status === 400) {
+    const errorResponse = await error.response.json()
+    const parsedError = errorResponse as RestPhoningSessionErrorResponse
+    switch (parsedError.code) {
+      case 'already_replied':
+        throw new PhonePollAlreadyAnsweredError(parsedError.message)
     }
   }
   return genericErrorMapping(error)
