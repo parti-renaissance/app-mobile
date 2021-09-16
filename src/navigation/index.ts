@@ -95,16 +95,6 @@ export type UnauthenticatedStackParamList = {
 //----------- Screen Props -----------//
 
 // Phoning Tutorial
-export type PhoningTutorialScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<PhoningParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.phoningNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
 export type PhoningTutorialScreenProp = StackScreenProps<
   PhoningParamList,
   typeof Screen.phoningTutorial
