@@ -120,6 +120,10 @@ class PhoningCampaignRepository {
     const restPhoningCharter = await this.apiService.getPhoningCharter()
     return PhoningCharterMapper.map(restPhoningCharter)
   }
+
+  public async acceptPhoningCharter(): Promise<void> {
+    await this.apiService.acceptPhoningCharter()
+  }
 }
 
 export default PhoningCampaignRepository

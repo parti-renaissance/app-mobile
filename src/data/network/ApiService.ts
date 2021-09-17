@@ -343,6 +343,13 @@ class ApiService {
       })
   }
 
+  public acceptPhoningCharter(): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/charter/phoning_campaign/accept')
+      .json<void>()
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()
