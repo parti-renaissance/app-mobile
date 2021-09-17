@@ -4,7 +4,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
-import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
+import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
 import { useTheme } from '../../themes'
@@ -52,6 +52,11 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
           />
         </View>
       </View>
+      <SecondaryButton
+        title={i18n.t('phoningsession.number_found.recall')}
+        onPress={() => callNumber()}
+      />
+      <VerticalSpacer spacing={Spacing.margin} />
       <PrimaryButton
         title={i18n.t('phoningsession.call_started')}
         onPress={() =>
@@ -60,11 +65,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
           })
         }
       />
-      <VerticalSpacer spacing={Spacing.unit} />
-      <BorderlessButton
-        title={i18n.t('phoningsession.number_found.recall')}
-        onPress={() => callNumber()}
-      />
+      <VerticalSpacer spacing={Spacing.margin} />
     </SafeAreaView>
   )
 }
