@@ -11,6 +11,7 @@ import { PhoningSessionLoaderScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
@@ -29,6 +30,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     const handleSession = (session: PhoningSession) => {
       const navigationData = {
         campaignId: route.params.campaignId,
+        campaignTitle: route.params.campaignTitle,
         sessionId: session.id,
         adherent: session.adherent,
         device: route.params.device,
@@ -48,6 +50,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     }
 
     const loadSession = () => {
+      navigation.setOptions({ headerLeft: () => null })
       setStatefulState(new ViewState.Loading())
       PhoningCampaignRepository.getInstance()
         .getPhoningCampaignSession(route.params.campaignId)
@@ -57,10 +60,16 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
             error instanceof PhoningSessionNoNumberError ||
             error instanceof PhoningSessionFinishedCampaignError
           ) {
-            navigation.navigate(Screen.phoningSessionNoNumberAvailable, {
+            navigation.replace(Screen.phoningSessionNoNumberAvailable, {
               message: error.message,
             })
           } else {
+            // We add a close button when there is an error to be able to leave
+            navigation.setOptions({
+              headerLeft: () => (
+                <CloseButton onPress={() => navigation.pop()} />
+              ),
+            })
             setStatefulState(
               new ViewState.Error(
                 GenericErrorMapper.mapErrorMessage(error),
@@ -74,7 +83,12 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     }
 
     loadSession()
-  }, [route.params.campaignId, route.params.device, navigation])
+  }, [
+    route.params.campaignId,
+    route.params.campaignTitle,
+    route.params.device,
+    navigation,
+  ])
 
   return (
     <SafeAreaView style={styles.container}>

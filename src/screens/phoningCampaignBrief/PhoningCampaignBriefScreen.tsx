@@ -34,7 +34,11 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
           onPress={() =>
             navigation.navigate(Screen.phoningSessionModal, {
               screen: Screen.phoningSessionLoader,
-              params: { campaignId: route.params.data.id, device: 'current' },
+              params: {
+                campaignId: route.params.data.id,
+                campaignTitle: route.params.data.title,
+                device: 'current',
+              },
             })
           }
         />
@@ -44,7 +48,11 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
           onPress={() =>
             navigation.navigate(Screen.phoningSessionModal, {
               screen: Screen.phoningSessionLoader,
-              params: { campaignId: route.params.data.id, device: 'external' },
+              params: {
+                campaignId: route.params.data.id,
+                campaignTitle: route.params.data.title,
+                device: 'external',
+              },
             })
           }
         />

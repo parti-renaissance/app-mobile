@@ -208,7 +208,11 @@
         "votes_count": "{{format}} votant",
         "votes_count_plural": "{{format}} votants"
       },
-      "event": { "section": "Prochain évènement" }
+      "event": { "section": "Prochain évènement" },
+      "retaliation": {
+        "retaliate_button": "Copier le texte et riposter",
+        "see_more": "Détail de la riposte"
+      }
     },
     "regions": { "website": "Plus de détails" },
     "profileZipCode": {
@@ -362,9 +366,9 @@
       },
       "call_started": "J'ai lancé l'appel",
       "number_found": {
-        "title": "Appeler depuis mon appareil",
-        "description": "Un numéro a été trouvé. Cliquer sur « j’ai lancé l’appel » une fois le numéro appelé.",
-        "recall": "Rappeler"
+        "title": "Un numéro a été trouvé !",
+        "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
+        "recall": "L’appel n’a pas fonctionné : relancer"
       },
       "status_picker": {
         "title": "Accepte-t-il de répondre à vos questions ?",

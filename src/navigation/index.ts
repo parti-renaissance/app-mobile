@@ -63,7 +63,11 @@ export type PollDetailModalParamList = {
 }
 
 export type PhoningSessionModalParamList = {
-  PhoningSessionLoader: { campaignId: string; device: PhoningSessionDevice }
+  PhoningSessionLoader: {
+    campaignId: string
+    campaignTitle: string
+    device: PhoningSessionDevice
+  }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
   PhoningSessionNoNumberAvailable: { message: string }
