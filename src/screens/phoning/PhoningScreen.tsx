@@ -21,6 +21,10 @@ import PhoningCallContactRow from './callContact/CallContactRow'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import PhoningCampaignRow from './campaign/PhoningCampaignRow'
+import {
+  PhoningCharterNotAccepted,
+  PhoningCharterState,
+} from '../../core/entities/PhoningCharterState'
 
 export interface PhoningResources {
   campaigns: PhoningCampaign[]
@@ -34,6 +38,9 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   const [currentResources, setResources] = useState<PhoningResources>({
     campaigns: [],
   })
+  const [charterState, setCharterState] = useState<
+    PhoningCharterState | undefined
+  >()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<PhoningResources>
   >(new ViewState.Loading())
@@ -67,8 +74,38 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
       })
   }, [])
 
+  const fetchCharterState = useCallback(() => {
+    PhoningCampaignRepository.getInstance()
+      .getPhoningCharterState()
+      .then((state) => {
+        setCharterState(state)
+      })
+      .catch(() => {
+        setCharterState(undefined)
+      })
+  }, [])
+
   const findCampaignInCurrentResources = (id: string) => {
     return currentResources?.campaigns.find((campaign) => campaign.id === id)
+  }
+
+  const navigateToCampaign = (campaign: PhoningCampaign) => {
+    const brief = {
+      id: campaign.id,
+      title: campaign.title,
+      brief: campaign.brief,
+    }
+    if (charterState instanceof PhoningCharterNotAccepted) {
+      navigation.navigate(Screen.phoningCharter, {
+        data: {
+          id: campaign.id,
+          charter: charterState.charter,
+          brief: brief,
+        },
+      })
+    } else {
+      navigation.navigate(Screen.phoningCampaignBrief, { data: brief })
+    }
   }
 
   const renderItem = ({ item }: ListRenderItemInfo<PhoningRowViewModel>) => {
@@ -97,15 +134,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
             const selectedCampaign = findCampaignInCurrentResources(
               item.value.id,
             )
-            if (selectedCampaign) {
-              navigation.navigate(Screen.phoningCampaignBrief, {
-                data: {
-                  id: selectedCampaign.id,
-                  title: selectedCampaign.title,
-                  brief: selectedCampaign.brief,
-                },
-              })
-            }
+            if (selectedCampaign) navigateToCampaign(selectedCampaign)
           }}
           onRankButtonPressed={() => {
             const selectedCampaign = findCampaignInCurrentResources(
@@ -123,7 +152,12 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     return null
   }
 
-  useFocusEffect(useCallback(() => fetchData(), [fetchData]))
+  useFocusEffect(
+    useCallback(() => {
+      fetchCharterState()
+      fetchData()
+    }, [fetchCharterState, fetchData]),
+  )
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (

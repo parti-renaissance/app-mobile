@@ -13,6 +13,7 @@ import {
 } from '../screens/shared/PhoningSessionNavigationData'
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
+import { PhoningCharterNavigationData } from '../screens/phoningCharter/PhoningCharterNavigationData'
 
 export const Screen = _Screen
 
@@ -44,6 +45,7 @@ export type EventParamList = {
 
 export type PhoningParamList = {
   Phoning: undefined
+  PhoningCharter: { data: PhoningCharterNavigationData }
   PhoningTutorial: undefined
   PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
   PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
@@ -117,6 +119,26 @@ export type PhoningScreenNavigationProp = CompositeNavigationProp<
 >
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
+}>
+
+// Phoning charter
+export type PhoningCharterScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<PhoningParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.phoningNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
+>
+export type PhoningCharterScreenRouteProp = RouteProp<
+  PhoningParamList,
+  typeof Screen.phoningCharter
+>
+export type PhoningCharterScreenProp = Readonly<{
+  route: PhoningCharterScreenRouteProp
+  navigation: PhoningCharterScreenNavigationProp
 }>
 
 // Phoning Campaign Brief
