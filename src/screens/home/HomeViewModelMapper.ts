@@ -33,6 +33,7 @@ export const HomeViewModelMapper = {
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
+    appendRetaliation(rows)
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
@@ -73,6 +74,21 @@ function appendEvent(
       {
         type: 'event',
         value: { event: EventRowViewModelMapper.map(event, 'hour') },
+      },
+    ],
+  })
+}
+
+function appendRetaliation(rows: HomeSectionViewModel[]) {
+  rows.push({
+    id: 'id',
+    data: [
+      {
+        type: 'retaliation',
+        value: {
+          id: 'id',
+          title: 'title',
+        },
       },
     ],
   })

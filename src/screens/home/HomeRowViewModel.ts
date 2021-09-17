@@ -30,6 +30,11 @@ export interface HomeQuickPollRowContainerViewModel {
   totalVotes: string
 }
 
+export interface HomeRetaliationRowContainerViewModel {
+  id: string
+  title: string
+}
+
 export interface HomeEventRowContainerViewModel {
   event: EventRowViewModel
 }
@@ -67,4 +72,8 @@ export type HomeRowViewModel =
   | {
       type: 'event'
       value: HomeEventRowContainerViewModel
+    }
+  | {
+      type: 'retaliation'
+      value: HomeRetaliationRowContainerViewModel
     }
