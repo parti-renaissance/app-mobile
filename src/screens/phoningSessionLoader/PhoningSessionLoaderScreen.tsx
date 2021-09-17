@@ -30,6 +30,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     const handleSession = (session: PhoningSession) => {
       const navigationData = {
         campaignId: route.params.campaignId,
+        campaignTitle: route.params.campaignTitle,
         sessionId: session.id,
         adherent: session.adherent,
         device: route.params.device,
@@ -82,7 +83,12 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     }
 
     loadSession()
-  }, [route.params.campaignId, route.params.device, navigation])
+  }, [
+    route.params.campaignId,
+    route.params.campaignTitle,
+    route.params.device,
+    navigation,
+  ])
 
   return (
     <SafeAreaView style={styles.container}>

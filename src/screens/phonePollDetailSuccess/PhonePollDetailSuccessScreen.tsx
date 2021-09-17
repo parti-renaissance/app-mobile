@@ -51,6 +51,7 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
                   onNewCall={() =>
                     navigation.replace(Screen.phoningSessionLoader, {
                       campaignId: route.params.data.campaignId,
+                      campaignTitle: route.params.data.campaignTitle,
                       device: route.params.data.device,
                     })
                   }

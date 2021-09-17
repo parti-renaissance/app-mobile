@@ -48,6 +48,7 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
         onPress={() =>
           navigation.replace(Screen.phoningSessionLoader, {
             campaignId: route.params.data.campaignId,
+            campaignTitle: route.params.data.campaignTitle,
             device: route.params.data.device,
           })
         }
