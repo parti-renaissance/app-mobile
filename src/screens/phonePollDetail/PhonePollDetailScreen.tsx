@@ -11,7 +11,7 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
 import { useTheme } from '../../themes'
-import { PhonePollDetailScreenProps, Screen } from '../../navigation'
+import { PhonePollDetailScreenProps } from '../../navigation'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
@@ -107,7 +107,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
     setLoading(true)
     PhoningCampaignRepository.getInstance()
       .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
-      .then(() => navigation.navigate(Screen.phoning))
+      .then(() => navigation.pop())
       .catch((error) =>
         displayError(GenericErrorMapper.mapErrorMessage(error), statusCode),
       )

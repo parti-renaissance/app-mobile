@@ -60,7 +60,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
             error instanceof PhoningSessionNoNumberError ||
             error instanceof PhoningSessionFinishedCampaignError
           ) {
-            navigation.navigate(Screen.phoningSessionNoNumberAvailable, {
+            navigation.replace(Screen.phoningSessionNoNumberAvailable, {
               message: error.message,
             })
           } else {

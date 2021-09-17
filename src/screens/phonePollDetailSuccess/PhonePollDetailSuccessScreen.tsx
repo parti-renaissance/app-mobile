@@ -55,11 +55,7 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
                       device: route.params.data.device,
                     })
                   }
-                  onFinish={() =>
-                    navigation.navigate(Screen.phoningNavigator, {
-                      screen: Screen.phoning,
-                    })
-                  }
+                  onFinish={() => navigation.pop()}
                 />
               )
             case 'rankingHeader':
