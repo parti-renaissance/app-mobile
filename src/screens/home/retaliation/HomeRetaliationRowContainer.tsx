@@ -24,17 +24,9 @@ const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
       <View style={styles.container}>
         <Text>
           <Image source={require('../../../assets/images/iconSearch.png')} />
-          <Text style={styles.title}>
-            {
-              'Riposte : Nicolas Dupont-Aignan a écrit un tweet à propos du vaccin. Répondez- lui !'
-            }
-          </Text>
+          <Text style={styles.title}>{viewModel.title}</Text>
         </Text>
-        <Text style={styles.body}>
-          {
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore'
-          }
-        </Text>
+        <Text style={styles.body}>{viewModel.body}</Text>
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}
           textStyle={styles.linkText}

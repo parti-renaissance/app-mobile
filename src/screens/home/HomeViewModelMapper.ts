@@ -88,6 +88,8 @@ function appendRetaliation(rows: HomeSectionViewModel[]) {
         value: {
           id: 'id',
           title: 'title',
+          body:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. #hashtag',
         },
       },
     ],
