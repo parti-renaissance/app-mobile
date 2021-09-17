@@ -42,6 +42,7 @@ import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQui
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import HomeRetaliationRowContainer from './retaliation/HomeRetaliationRowContainer'
+import RetaliationRepository from '../../data/RetaliationRepository'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -75,6 +76,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.tools,
       currentResources.quickPoll,
       currentResources.nextEvent,
+      currentResources.retaliations,
     )
     setStatefulState(new ViewState.Content(viewModel))
   }, [theme, currentResources])

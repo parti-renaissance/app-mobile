@@ -7,7 +7,6 @@ import { useTheme, useThemedStyles } from '../../../themes'
 import { BorderlessButton, PrimaryButton } from '../../shared/Buttons'
 import Theme from '../../../themes/Theme'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
-import { Button } from 'react-native-paper'
 import i18n from '../../../utils/i18n'
 
 type Props = Readonly<{

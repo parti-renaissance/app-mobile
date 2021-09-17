@@ -6,7 +6,8 @@ export const RestRetaliationMapper = {
     return {
       id: restRetaliation.uuid,
       title: restRetaliation.title,
-      source_url: restRetaliation.source_url,
+      body: restRetaliation.body,
+      sourceUrl: restRetaliation.source_url,
       createdAt: new Date(restRetaliation.created_at),
       withNotification: restRetaliation.with_notification,
     }

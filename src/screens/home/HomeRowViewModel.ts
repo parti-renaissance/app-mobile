@@ -33,6 +33,7 @@ export interface HomeQuickPollRowContainerViewModel {
 export interface HomeRetaliationRowContainerViewModel {
   id: string
   title: string
+  body: string
 }
 
 export interface HomeEventRowContainerViewModel {

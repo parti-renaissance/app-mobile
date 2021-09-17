@@ -1,9 +1,10 @@
 export interface RestRetaliation {
-  uuid: string
   title: string
-  text: string
+  body: string
+  source_url: string
+  with_notification: boolean
+  uuid: string
   created_at: string
-  external_link: string | null
 }
 
 export interface RestRetaliationsResponse {
