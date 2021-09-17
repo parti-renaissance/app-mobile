@@ -1,18 +1,21 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react'
-import { Text, StyleSheet, Linking } from 'react-native'
+import { Text, StyleSheet, Linking, View, Image } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
-import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
+import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
+import { useTheme } from '../../themes'
 
 const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
   navigation,
   route,
 }) => {
   usePreventGoingBack()
+
+  const { theme } = useTheme()
 
   const phoneNumberUrl = (phoneNumber: string): string => {
     const whitespaceRegex = /\s/g
@@ -40,7 +43,15 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
       <Text style={styles.body}>
         {i18n.t('phoningsession.number_found.description')}
       </Text>
-      <FlexibleVerticalSpacer minSpacing={Spacing.margin} />
+      <View style={styles.imageContainer}>
+        <View style={styles.imageCircle}>
+          <Image
+            style={{ tintColor: theme.primaryColor }}
+            source={require('../../assets/images/phoneIcon.png')}
+            resizeMode="center"
+          />
+        </View>
+      </View>
       <PrimaryButton
         title={i18n.t('phoningsession.call_started')}
         onPress={() =>
@@ -58,6 +69,8 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
   )
 }
 
+const IMAGE_SIZE = 140
+
 const styles = StyleSheet.create({
   body: {
     ...Typography.body,
@@ -66,6 +79,19 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
     paddingHorizontal: Spacing.margin,
+  },
+  imageCircle: {
+    alignItems: 'center',
+    backgroundColor: Colors.secondaryButtonBackground,
+    borderRadius: IMAGE_SIZE / 2,
+    height: IMAGE_SIZE,
+    justifyContent: 'center',
+    width: IMAGE_SIZE,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   title: {
     ...Typography.title,
