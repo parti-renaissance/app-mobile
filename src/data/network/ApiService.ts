@@ -39,6 +39,7 @@ import {
   RestPhoningCharterNotAccepted,
   RestPhoningCharterResponse,
 } from '../restObjects/RestPhoningCharter'
+import { RestRetaliationsResponse } from '../restObjects/RestRetaliationsResponse'
 
 class ApiService {
   private static instance: ApiService
@@ -81,6 +82,13 @@ class ApiService {
     return this.httpClient
       .get('api/v3/profile/me')
       .json<RestDetailedProfileResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getRetaliations(): Promise<RestRetaliationsResponse> {
+    return this.httpClient
+      .get('api/v3/ripostes')
+      .json<RestRetaliationsResponse>()
       .catch(genericErrorMapping)
   }
 
