@@ -4,13 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import {
-  Text,
-  StyleSheet,
-  FlatList,
-  ListRenderItemInfo,
-  RefreshControl,
-} from 'react-native'
+import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
 import { PhoningScreenProp, Screen } from '../../navigation'
@@ -37,11 +31,12 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
 }) => {
   const { theme } = useTheme()
   const [isRefreshing, setRefreshing] = useState(false)
-  const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const [currentResources, setResources] = useState<PhoningResources>()
+  const [currentResources, setResources] = useState<PhoningResources>({
+    campaigns: [],
+  })
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<PhoningResources>
-  >(new ViewState.Content({}))
+  >(new ViewState.Loading())
 
   useEffect(() => {
     // Reload view model (and view) when resources model changes
@@ -53,6 +48,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   }, [theme, currentResources])
 
   const fetchData = useCallback(() => {
+    setRefreshing(true)
     PhoningCampaignRepository.getInstance()
       .getPhoningCampaigns()
       .then((campaigns) => {
@@ -127,36 +123,21 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     return null
   }
 
-  const firstDataFetch = useCallback(() => {
-    if (!initialFetchDone) {
-      setResources({ campaigns: [] })
-      setInitialFetchDone(true)
-      fetchData()
-    }
-  }, [fetchData, initialFetchDone])
-
-  useFocusEffect(firstDataFetch)
+  useFocusEffect(useCallback(() => fetchData(), [fetchData]))
 
   const PhoningContent = (phoningViewModel: PhoningViewModel) => {
     return (
-      <>
-        <FlatList
-          data={phoningViewModel.rows}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.value.id}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={fetchData}
-              colors={[theme.primaryColor]}
-            />
-          }
-          ListHeaderComponent={
-            <Text style={styles.title}>{phoningViewModel.title}</Text>
-          }
-          contentContainerStyle={styles.contentContainer}
-        />
-      </>
+      <FlatList
+        data={phoningViewModel.rows}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.value.id}
+        refreshing={isRefreshing}
+        onRefresh={fetchData}
+        ListHeaderComponent={
+          <Text style={styles.title}>{phoningViewModel.title}</Text>
+        }
+        contentContainerStyle={styles.contentContainer}
+      />
     )
   }
   return (
