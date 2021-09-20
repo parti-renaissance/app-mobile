@@ -17,17 +17,20 @@ import {
   PHONE_POLL_SATISFACTION_NO_ID,
   PHONE_POLL_SATISFACTION_YES_ID,
 } from './PhonePollSatisfactionViewModelMapper'
+import SatisfactionQuestionChoice from './question/SatisfactionQuestionChoice'
 
 type Props = Readonly<{
   viewModel: PhonePollSatisfactionViewModel
   onUpdateBoolean: (questionId: string, choice: boolean) => void
   onUpdateRating: (questionId: string, rate: number) => void
+  onUpdateChoice: (questionId: string, choiceId: string) => void
 }>
 
 const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
   viewModel,
   onUpdateBoolean,
   onUpdateRating,
+  onUpdateChoice,
 }) => {
   const renderItem = (
     info: SectionListRenderItemInfo<PhonePollSatisfactionSectionContentViewModel>,
@@ -58,6 +61,15 @@ const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
             viewModel={info.item.value}
             onRateUpdate={(rate: number) => {
               onUpdateRating(info.item.value.id, rate)
+            }}
+          />
+        )
+      case 'single_choice':
+        return (
+          <SatisfactionQuestionChoice
+            viewModel={info.item.value}
+            toggleChoice={(choiceId) => {
+              onUpdateChoice(info.item.value.id, choiceId)
             }}
           />
         )

@@ -84,6 +84,20 @@ export class PhonePollDetailSatisfactionComponentProvider
           this.answers.set(questionId, answer)
           this.onUpdate()
         }}
+        onUpdateChoice={(questionId, choiceId) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'single_choice',
+            value: choiceId,
+          }
+          const oldAnswer = this.answers.get(questionId)
+          if (oldAnswer?.value === answer.value) {
+            this.answers.delete(questionId)
+          } else {
+            this.answers.set(questionId, answer)
+          }
+          this.onUpdate()
+        }}
       />
     )
   }

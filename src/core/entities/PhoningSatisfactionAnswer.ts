@@ -12,6 +12,13 @@ export type PhoningSatisfactionRateAnswer = {
   value: number
 }
 
+export type PhoningSatisfactionChoiceAnswer = {
+  code: PhoningSatisfactionQuestion['code']
+  type: 'single_choice'
+  value: string
+}
+
 export type PhoningSatisfactionAnswer =
   | PhoningSatisfactionBooleanAnswer
   | PhoningSatisfactionRateAnswer
+  | PhoningSatisfactionChoiceAnswer
