@@ -25,7 +25,9 @@ const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
           <Image source={require('../../../assets/images/iconSearch.png')} />
           <Text style={styles.title}>{viewModel.title}</Text>
         </Text>
-        <Text style={styles.body}>{viewModel.body}</Text>
+        <Text style={styles.body} numberOfLines={4}>
+          {viewModel.body}
+        </Text>
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}
           textStyle={styles.linkText}
