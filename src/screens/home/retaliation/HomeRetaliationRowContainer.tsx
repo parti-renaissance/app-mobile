@@ -36,9 +36,9 @@ const Cards: FunctionComponent<Props> = ({ viewModel }) => {
 const stylesFactory = () => {
   return StyleSheet.create({
     container: {
-      padding: Spacing.margin,
-      flexDirection: 'row',
       alignItems: 'center',
+      flexDirection: 'row',
+      padding: Spacing.margin,
     },
   })
 }

@@ -61,9 +61,9 @@ const stylesFactory = (theme: Theme) => {
     },
     linkButton: {
       alignSelf: 'flex-start',
-      textAlign: 'left',
       paddingHorizontal: 0,
       paddingVertical: 12,
+      textAlign: 'left',
     },
     linkText: {
       ...Styles.eventSeeMoreButtonTextStyle(theme),
