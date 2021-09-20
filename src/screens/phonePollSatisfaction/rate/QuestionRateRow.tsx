@@ -1,0 +1,70 @@
+import React, { FunctionComponent } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../../styles'
+import { useThemedStyles } from '../../../themes'
+import Theme from '../../../themes/Theme'
+import { QuestionRateRowViewModel } from './QuestionRateRowViewModel'
+
+type Props = Readonly<{
+  viewModel: QuestionRateRowViewModel
+  onRateUpdate: (rate: number) => void
+}>
+
+const QuestionRateRow: FunctionComponent<Props> = ({
+  viewModel,
+  onRateUpdate,
+}) => {
+  const styles = useThemedStyles(stylesFactory)
+
+  const rates = Array.from(Array(viewModel.rateMaximum).keys())
+
+  return (
+    <View>
+      <Text style={styles.callout}>{viewModel.subtitle}</Text>
+      <View style={styles.ratingBar}>
+        {rates.map((item, index) => {
+          return (
+            <TouchableOpacity
+              key={item}
+              onPress={() => {
+                onRateUpdate(index + 1) // range from [0;viewModel.maxRating[ to [1;viewModel.maxRating]
+              }}
+            >
+              <Image
+                style={
+                  index < viewModel.rate
+                    ? [styles.starImageStyle, styles.starImageFilled]
+                    : styles.starImageStyle
+                }
+                source={require('../../../assets/images/star.png')}
+              />
+            </TouchableOpacity>
+          )
+        })}
+      </View>
+    </View>
+  )
+}
+
+const stylesFactory = (theme: Theme) => {
+  return StyleSheet.create({
+    callout: {
+      ...Typography.lightCallout,
+      marginBottom: Spacing.margin,
+    },
+    ratingBar: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+    },
+    starImageFilled: {
+      tintColor: theme.primaryColor,
+    },
+    starImageStyle: {
+      height: 45,
+      tintColor: Colors.secondaryButtonBackground,
+      width: 45,
+    },
+  })
+}
+
+export default QuestionRateRow
