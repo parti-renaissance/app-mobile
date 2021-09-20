@@ -13,6 +13,7 @@ import {
 } from '../screens/shared/PhoningSessionNavigationData'
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
+import { PhoningCharterNavigationData } from '../screens/phoningCharter/PhoningCharterNavigationData'
 
 export const Screen = _Screen
 
@@ -44,6 +45,7 @@ export type EventParamList = {
 
 export type PhoningParamList = {
   Phoning: undefined
+  PhoningCharter: { data: PhoningCharterNavigationData }
   PhoningTutorial: undefined
   PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
   PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
@@ -118,6 +120,12 @@ export type PhoningScreenNavigationProp = CompositeNavigationProp<
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
 }>
+
+// Phoning charter
+export type PhoningCharterScreenProp = StackScreenProps<
+  PhoningParamList,
+  typeof Screen.phoningCharter
+>
 
 // Phoning Campaign Brief
 export type PhoningCampaignBriefScreenNavigationProp = CompositeNavigationProp<
