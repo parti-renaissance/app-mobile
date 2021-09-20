@@ -1,5 +1,5 @@
 import { Retaliation } from './../../core/entities/Retaliation'
-import { RestRetaliation } from './../restObjects/RestRetaliationsResponse'
+import { RestRetaliation } from '../restObjects/RestRetaliation'
 
 export const RestRetaliationMapper = {
   map: (restRetaliation: RestRetaliation): Retaliation => {

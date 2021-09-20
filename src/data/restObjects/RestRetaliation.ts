@@ -6,7 +6,3 @@ export interface RestRetaliation {
   uuid: string
   created_at: string
 }
-
-export interface RestRetaliationsResponse {
-  items: Array<RestRetaliation>
-}

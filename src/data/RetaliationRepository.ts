@@ -1,5 +1,4 @@
 import { RestRetaliationMapper } from './mapper/RestRetaliationMapper'
-import { RestRetaliationsResponse } from './restObjects/RestRetaliationsResponse'
 import ApiService from './network/ApiService'
 import { Retaliation } from '../core/entities/Retaliation'
 
@@ -9,9 +8,9 @@ class RetaliationRepository {
   private constructor() {}
 
   public async getRetaliations(): Promise<Array<Retaliation>> {
-    let restRetaliations: RestRetaliationsResponse
-    restRetaliations = await this.apiService.getRetaliations()
-    return restRetaliations.items.map(RestRetaliationMapper.map)
+    let restRetaliations = await this.apiService.getRetaliations()
+    const retaliations = restRetaliations.map(RestRetaliationMapper.map)
+    return retaliations
   }
 
   public static getInstance(): RetaliationRepository {
