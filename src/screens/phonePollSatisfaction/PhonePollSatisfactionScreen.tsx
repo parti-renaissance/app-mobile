@@ -7,6 +7,7 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing } from '../../styles'
 import QuestionDualChoiceRow from '../pollDetailUserData/QuestionDualChoiceRow'
+import QuestionRateRow from './rate/QuestionRateRow'
 import QuestionUserProfileSectionHeader from '../pollDetailUserProfile/QuestionUserProfileSectionHeader'
 import {
   PhonePollSatisfactionSectionContentViewModel,
@@ -20,11 +21,13 @@ import {
 type Props = Readonly<{
   viewModel: PhonePollSatisfactionViewModel
   onUpdateBoolean: (questionId: string, choice: boolean) => void
+  onUpdateRating: (questionId: string, rate: number) => void
 }>
 
 const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
   viewModel,
   onUpdateBoolean,
+  onUpdateRating,
 }) => {
   const renderItem = (
     info: SectionListRenderItemInfo<PhonePollSatisfactionSectionContentViewModel>,
@@ -46,6 +49,15 @@ const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
                 default:
                   throw 'Wrong id for boolean question'
               }
+            }}
+          />
+        )
+      case 'rate':
+        return (
+          <QuestionRateRow
+            viewModel={info.item.value}
+            onRateUpdate={(rate: number) => {
+              onUpdateRating(info.item.value.id, rate)
             }}
           />
         )

@@ -75,6 +75,15 @@ export class PhonePollDetailSatisfactionComponentProvider
           }
           this.onUpdate()
         }}
+        onUpdateRating={(questionId, rate) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'rate',
+            value: rate,
+          }
+          this.answers.set(questionId, answer)
+          this.onUpdate()
+        }}
       />
     )
   }

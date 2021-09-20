@@ -1,9 +1,20 @@
 import { QuestionDualChoiceRowViewModel } from '../pollDetailUserData/QuestionDualChoiceRowViewModel'
+import { QuestionRateRowViewModel } from './rate/QuestionRateRowViewModel'
 
-export type PhonePollSatisfactionSectionContentViewModel = {
+export type PhonePollSatisfactionSectionBooleanViewModel = {
   type: 'boolean'
   value: QuestionDualChoiceRowViewModel
-} // TODO: (Pierre Felgines) Add union type with other types of content
+}
+
+export type PhonePollSatisfactionSectionRateViewModel = {
+  type: 'rate'
+  value: QuestionRateRowViewModel
+}
+
+// TODO: (Pierre Felgines) Add union type with other types of content
+export type PhonePollSatisfactionSectionContentViewModel =
+  | PhonePollSatisfactionSectionBooleanViewModel
+  | PhonePollSatisfactionSectionRateViewModel
 
 export interface PhonePollSatisfactionSectionViewModel {
   id: string
