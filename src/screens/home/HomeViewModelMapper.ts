@@ -93,7 +93,7 @@ function appendRetaliation(
     }
   })
   rows.push({
-    id: 'id',
+    id: 'retaliation',
     data: [
       {
         type: 'retaliation',
