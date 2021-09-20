@@ -85,20 +85,23 @@ function appendRetaliation(
   retaliations: Retaliation[],
   rows: HomeSectionViewModel[],
 ) {
-  retaliations.forEach((retaliation) => {
-    rows.push({
-      id: 'id',
-      data: [
-        {
-          type: 'retaliation',
-          value: {
-            id: retaliation.id,
-            title: retaliation.title,
-            body: retaliation.body,
-          },
+  const retaliationsViewModel = retaliations.map((retaliation) => {
+    return {
+      id: retaliation.id,
+      title: retaliation.title,
+      body: retaliation.body,
+    }
+  })
+  rows.push({
+    id: 'id',
+    data: [
+      {
+        type: 'retaliation',
+        value: {
+          retaliations: retaliationsViewModel,
         },
-      ],
-    })
+      },
+    ],
   })
 }
 
