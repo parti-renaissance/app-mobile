@@ -1,6 +1,9 @@
 import { PhoningCampaign } from '../core/entities/PhoningCampaign'
 import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
-import { PhoningCharterState } from '../core/entities/PhoningCharterState'
+import {
+  PhoningCharterAccepted,
+  PhoningCharterState,
+} from '../core/entities/PhoningCharterState'
 import { PhoningSession } from '../core/entities/PhoningSession'
 import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
 import { Poll } from '../core/entities/Poll'
@@ -23,6 +26,7 @@ class PhoningCampaignRepository {
   private cachedMemoryConfigurationForSession:
     | CacheSessionValue<PhoningSessionConfiguration>
     | undefined
+  private cachedPhoningCharterState: PhoningCharterState | undefined
 
   public static getInstance(): PhoningCampaignRepository {
     if (!PhoningCampaignRepository.instance) {
@@ -117,12 +121,16 @@ class PhoningCampaignRepository {
   }
 
   public async getPhoningCharterState(): Promise<PhoningCharterState> {
+    if (this.cachedPhoningCharterState) return this.cachedPhoningCharterState
     const restPhoningCharter = await this.apiService.getPhoningCharter()
-    return PhoningCharterMapper.map(restPhoningCharter)
+    const state = PhoningCharterMapper.map(restPhoningCharter)
+    this.cachedPhoningCharterState = state
+    return state
   }
 
   public async acceptPhoningCharter(): Promise<void> {
     await this.apiService.acceptPhoningCharter()
+    this.cachedPhoningCharterState = new PhoningCharterAccepted()
   }
 }
 
