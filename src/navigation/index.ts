@@ -122,24 +122,10 @@ export type PhoningScreenProp = Readonly<{
 }>
 
 // Phoning charter
-export type PhoningCharterScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<PhoningParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.phoningNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type PhoningCharterScreenRouteProp = RouteProp<
+export type PhoningCharterScreenProp = StackScreenProps<
   PhoningParamList,
   typeof Screen.phoningCharter
 >
-export type PhoningCharterScreenProp = Readonly<{
-  route: PhoningCharterScreenRouteProp
-  navigation: PhoningCharterScreenNavigationProp
-}>
 
 // Phoning Campaign Brief
 export type PhoningCampaignBriefScreenNavigationProp = CompositeNavigationProp<
