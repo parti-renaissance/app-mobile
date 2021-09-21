@@ -49,7 +49,7 @@ export class GetHomeResourcesInteractor {
     const state = await this.authenticationRepository.getAuthenticationState()
 
     const [
-      retaliations,
+      retaliationsResult,
       profileResult,
       departmentResult,
       newsResult,
@@ -149,7 +149,9 @@ export class GetHomeResourcesInteractor {
           ? nextEventResult.value
           : undefined,
       retaliations:
-        retaliations.status === 'fulfilled' ? retaliations.value : [],
+        retaliationsResult.status === 'fulfilled'
+          ? retaliationsResult.value
+          : [],
     }
   }
 
