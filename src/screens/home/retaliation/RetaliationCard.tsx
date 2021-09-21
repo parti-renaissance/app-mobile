@@ -79,7 +79,6 @@ const stylesFactory = (theme: Theme) => {
     },
     title: {
       ...Typography.title2,
-      lineHeight: 21,
       marginBottom: Spacing.margin,
     },
   })
