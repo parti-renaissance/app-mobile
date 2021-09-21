@@ -12,8 +12,6 @@ type Props = Readonly<{
 export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
   viewModel,
 }) => {
-  // export default class HomeRetaliationRowContainer extends React.Component<Props> {
-
   const [currentItem, setCurrentItem] = useState(0)
   const width = Dimensions.get('window').width
   return (
