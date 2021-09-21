@@ -89,8 +89,7 @@ function appendRetaliation(
     return {
       id: retaliation.id,
       title: retaliation.title,
-      body: retaliation.body + '\n\n\n',
-      // adding eols to the body enable to force the card to use all the available space for the body
+      body: retaliation.body,
     }
   })
   rows.push({

@@ -16,6 +16,7 @@ type Props = Readonly<{
 const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
   const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
+  // adding eols to the body enable to force the card to use all the available space for the body
   return (
     <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
       <View style={styles.container}>
@@ -24,7 +25,7 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
           <Text style={styles.title}>{viewModel.title}</Text>
         </Text>
         <Text style={styles.body} numberOfLines={4}>
-          {viewModel.body}
+          {viewModel.body + '\n\n\n\n'}
         </Text>
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}

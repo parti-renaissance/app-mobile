@@ -38,11 +38,12 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
   )
 }
 
+const DOT_SIZE = 10
 const styles = StyleSheet.create({
   paginationDotStyle: {
     backgroundColor: Colors.shipGray,
-    borderRadius: 5,
-    height: 10,
-    width: 10,
+    borderRadius: DOT_SIZE / 2,
+    height: DOT_SIZE,
+    width: DOT_SIZE,
   },
 })
