@@ -46,6 +46,8 @@ const QuestionRateRow: FunctionComponent<Props> = ({
   )
 }
 
+const STAR_SIZE = 45
+
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     callout: {
@@ -60,9 +62,9 @@ const stylesFactory = (theme: Theme) => {
       tintColor: theme.primaryColor,
     },
     starImageStyle: {
-      height: 45,
+      height: STAR_SIZE,
       tintColor: Colors.secondaryButtonBackground,
-      width: 45,
+      width: STAR_SIZE,
     },
   })
 }
