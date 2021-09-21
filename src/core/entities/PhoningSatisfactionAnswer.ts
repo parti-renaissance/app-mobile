@@ -18,7 +18,14 @@ export type PhoningSatisfactionChoiceAnswer = {
   value: string
 }
 
+export type PhoningSatisfactionInputAnswer = {
+  code: PhoningSatisfactionQuestion['code']
+  type: 'input'
+  value: string
+}
+
 export type PhoningSatisfactionAnswer =
   | PhoningSatisfactionBooleanAnswer
   | PhoningSatisfactionRateAnswer
   | PhoningSatisfactionChoiceAnswer
+  | PhoningSatisfactionInputAnswer

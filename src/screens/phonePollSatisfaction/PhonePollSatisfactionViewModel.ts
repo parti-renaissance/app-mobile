@@ -1,3 +1,4 @@
+import { PollDetailQuestionInputContentViewModel } from '../pollDetail/PollDetailQuestionInputViewModel'
 import { QuestionDualChoiceRowViewModel } from '../pollDetailUserData/QuestionDualChoiceRowViewModel'
 import { SatisfactionQuestionChoiceViewModel } from './question/SatisfactionQuestionChoiceViewModel'
 import { QuestionRateRowViewModel } from './rate/QuestionRateRowViewModel'
@@ -17,11 +18,17 @@ export type PhonePollSatisfactionSectionChoiceViewModel = {
   value: SatisfactionQuestionChoiceViewModel
 }
 
+export type PhonePollSatisfactionSectionInputViewModel = {
+  type: 'input'
+  value: PollDetailQuestionInputContentViewModel
+}
+
 // TODO: (Pierre Felgines) Add union type with other types of content
 export type PhonePollSatisfactionSectionContentViewModel =
   | PhonePollSatisfactionSectionBooleanViewModel
   | PhonePollSatisfactionSectionRateViewModel
   | PhonePollSatisfactionSectionChoiceViewModel
+  | PhonePollSatisfactionSectionInputViewModel
 
 export interface PhonePollSatisfactionSectionViewModel {
   id: string

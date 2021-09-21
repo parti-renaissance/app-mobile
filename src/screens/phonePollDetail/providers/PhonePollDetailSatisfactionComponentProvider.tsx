@@ -53,10 +53,7 @@ export class PhonePollDetailSatisfactionComponentProvider
     return { satisfactionAnswers: Array.from(this.answers.values()) }
   }
 
-  private updateAnswer(
-    questionId: string,
-    answer: PhoningSatisfactionAnswer,
-  ) {
+  private updateAnswer(questionId: string, answer: PhoningSatisfactionAnswer) {
     const oldAnswer = this.answers.get(questionId)
     if (oldAnswer?.value === answer.value) {
       this.answers.delete(questionId)
@@ -98,6 +95,15 @@ export class PhonePollDetailSatisfactionComponentProvider
             value: choiceId,
           }
           this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateInput={(questionId, text) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'input',
+            value: text,
+          }
+          this.answers.set(questionId, answer)
           this.onUpdate()
         }}
       />

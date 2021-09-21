@@ -18,12 +18,14 @@ import {
   PHONE_POLL_SATISFACTION_YES_ID,
 } from './PhonePollSatisfactionViewModelMapper'
 import SatisfactionQuestionChoice from './question/SatisfactionQuestionChoice'
+import PollDetailQuestionInputContent from '../pollDetail/PollDetailQuestionInputContent'
 
 type Props = Readonly<{
   viewModel: PhonePollSatisfactionViewModel
   onUpdateBoolean: (questionId: string, choice: boolean) => void
   onUpdateRating: (questionId: string, rate: number) => void
   onUpdateChoice: (questionId: string, choiceId: string) => void
+  onUpdateInput: (questionId: string, text: string) => void
 }>
 
 const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
@@ -31,6 +33,7 @@ const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
   onUpdateBoolean,
   onUpdateRating,
   onUpdateChoice,
+  onUpdateInput,
 }) => {
   const renderItem = (
     info: SectionListRenderItemInfo<PhonePollSatisfactionSectionContentViewModel>,
@@ -70,6 +73,15 @@ const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
             viewModel={info.item.value}
             toggleChoice={(choiceId) => {
               onUpdateChoice(info.item.value.id, choiceId)
+            }}
+          />
+        )
+      case 'input':
+        return (
+          <PollDetailQuestionInputContent
+            viewModel={info.item.value}
+            onChangeText={(text: string) => {
+              onUpdateInput(info.item.value.id, text)
             }}
           />
         )
