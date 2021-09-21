@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { HomeRetaliationRowContainerViewModel } from '../HomeRowViewModel'
 import RetaliationCard from './RetaliationCard'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
-import { Dimensions, ListRenderItemInfo } from 'react-native'
+import { Dimensions, ListRenderItemInfo, StyleSheet } from 'react-native'
 import { Spacing, Colors } from '../../../styles'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
 
@@ -30,15 +30,19 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
       <Pagination
         dotsLength={viewModel.retaliations.length}
         activeDotIndex={currentItem}
-        dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: Colors.shipGray,
-        }}
+        dotStyle={styles.paginationDotStyle}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
       />
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  paginationDotStyle: {
+    backgroundColor: Colors.shipGray,
+    borderRadius: 5,
+    height: 10,
+    width: 10,
+  },
+})
