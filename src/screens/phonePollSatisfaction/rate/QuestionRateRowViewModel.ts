@@ -1,6 +1,6 @@
 export interface QuestionRateRowViewModel {
   id: string
-  rate: number
-  rateMaximum: number
+  value: number
+  values: Array<number>
   subtitle: string
 }

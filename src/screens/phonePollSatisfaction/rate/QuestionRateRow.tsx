@@ -16,23 +16,21 @@ const QuestionRateRow: FunctionComponent<Props> = ({
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
-  const rates = Array.from(Array(viewModel.rateMaximum).keys())
-
   return (
     <View>
       <Text style={styles.callout}>{viewModel.subtitle}</Text>
       <View style={styles.ratingBar}>
-        {rates.map((item, index) => {
+        {viewModel.values.map((item, index) => {
           return (
             <TouchableOpacity
               key={item}
               onPress={() => {
-                onRateUpdate(index + 1) // range from [0;viewModel.maxRating[ to [1;viewModel.maxRating]
+                onRateUpdate(viewModel.values[index as number])
               }}
             >
               <Image
                 style={
-                  index < viewModel.rate
+                  index <= viewModel.values.indexOf(viewModel.value)
                     ? [styles.starImageStyle, styles.starImageFilled]
                     : styles.starImageStyle
                 }
