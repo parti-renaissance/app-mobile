@@ -11,8 +11,27 @@ export interface RestPhoningSessionCallStatus {
   label: string
 }
 
-export interface RestPhoningSatisfactionQuestion {
+export type RestPhoningSatisfactionQuestion =
+  | RestPhoningSatisfactionBooleanQuestion
+  | RestPhoningSatisfactionChoiceQuestion
+  | RestPhoningSatisfactionRateQuestion
+
+export interface RestPhoningSatisfactionBooleanQuestion {
   code: string
   label: string
-  type: 'boolean' // for now only one type, but could be more
+  type: 'boolean'
+}
+
+export interface RestPhoningSatisfactionChoiceQuestion {
+  code: string
+  label: string
+  type: 'choice'
+  choices: Map<string, string>
+}
+
+export interface RestPhoningSatisfactionRateQuestion {
+  code: string
+  label: string
+  type: 'note'
+  values: Array<number>
 }

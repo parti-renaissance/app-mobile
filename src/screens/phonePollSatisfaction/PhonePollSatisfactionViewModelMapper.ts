@@ -16,9 +16,9 @@ export const PhonePollSatisfactionViewModelMapper = {
   ): PhonePollSatisfactionViewModel => {
     const sections: Array<PhonePollSatisfactionSectionViewModel> = questions.map(
       (question) => {
+        const answer = answers.get(question.code)
         switch (question.type) {
           case 'boolean':
-            const answer = answers.get(question.code)
             const isYesAnswer =
               answer?.type === 'boolean' ? answer?.value : undefined
             return {
@@ -39,6 +39,46 @@ export const PhonePollSatisfactionViewModelMapper = {
                       title: i18n.t('polldetail.user_form.negative_choice'),
                       isSelected: isYesAnswer === false,
                     },
+                  },
+                },
+              ],
+            }
+          case 'choice':
+            const selectedChoiceId = answer?.value
+            return {
+              id: question.code,
+              title: question.label,
+              data: [
+                {
+                  type: 'single_choice',
+                  value: {
+                    id: question.code,
+                    subtitle: i18n.t('polldetail.question_unique_choice'),
+                    answers: question.choices.map((choice) => {
+                      return {
+                        id: choice.id,
+                        title: choice.content,
+                        isSelected: choice.id === selectedChoiceId,
+                      }
+                    }),
+                  },
+                },
+              ],
+            }
+          case 'note':
+            const rate =
+              answer?.type === 'rate' ? (answer?.value as number) ?? 0 : 0
+            return {
+              id: question.code,
+              title: question.label,
+              data: [
+                {
+                  type: 'rate',
+                  value: {
+                    id: question.code,
+                    values: question.values,
+                    value: rate,
+                    subtitle: i18n.t('polldetail.question_rate'),
                   },
                 },
               ],
