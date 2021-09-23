@@ -8,6 +8,8 @@ import { RestProfileResponse } from './restObjects/RestProfileResponse'
 import { DetailedProfile } from '../core/entities/DetailedProfile'
 import { PersonalInformationsForm } from '../core/entities/PersonalInformationsForm'
 import { ProfileUpdateMapper } from './mapper/ProfileUpdateMapper'
+import { UserScope } from '../core/entities/UserScope'
+import { UserScopeMapper } from './mapper/UserScopeMapper'
 
 class ProfileRepository {
   private static instance: ProfileRepository
@@ -78,6 +80,11 @@ class ProfileRepository {
       postal_code: zipCode,
     }
     return this.apiService.updateDeviceZipCode(deviceId, request)
+  }
+
+  public async getUserScopes(): Promise<Array<UserScope>> {
+    const restScopes = await this.apiService.getUserScopes()
+    return UserScopeMapper.map(restScopes)
   }
 
   public static getInstance(): ProfileRepository {

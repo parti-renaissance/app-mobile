@@ -2,10 +2,14 @@ import ky from 'ky'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
   EventSubscriptionError,
+  PhonePollAlreadyAnsweredError,
+  PhoningSessionFinishedCampaignError,
+  PhoningSessionNoNumberError,
   ProfileFormError,
   TokenCannotBeSubscribedError,
 } from '../../core/errors'
 import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
+import { RestPhoningSessionErrorResponse } from '../restObjects/RestPhoningSession'
 import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
 import { genericErrorMapping } from './utils'
 
@@ -63,6 +67,32 @@ export const mapAssociatedToken = async (error: any) => {
     })
     if (hasTokenError) {
       throw new TokenCannotBeSubscribedError()
+    }
+  }
+  return genericErrorMapping(error)
+}
+
+export const mapPhoningSessionError = async (error: any) => {
+  if (error instanceof ky.HTTPError && error.response.status === 400) {
+    const errorResponse = await error.response.json()
+    const parsedError = errorResponse as RestPhoningSessionErrorResponse
+    switch (parsedError.code) {
+      case 'no_available_number':
+        throw new PhoningSessionNoNumberError(parsedError.message)
+      case 'finished_campaign':
+        throw new PhoningSessionFinishedCampaignError(parsedError.message)
+    }
+  }
+  return genericErrorMapping(error)
+}
+
+export const mapPhonePollError = async (error: any) => {
+  if (error instanceof ky.HTTPError && error.response.status === 400) {
+    const errorResponse = await error.response.json()
+    const parsedError = errorResponse as RestPhoningSessionErrorResponse
+    switch (parsedError.code) {
+      case 'already_replied':
+        throw new PhonePollAlreadyAnsweredError(parsedError.message)
     }
   }
   return genericErrorMapping(error)

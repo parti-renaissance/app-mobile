@@ -1,3 +1,4 @@
+import { RestMarkdown } from './../restObjects/RestMarkdown'
 import _httpClient from './HttpClient'
 import { Poll } from '../../core/entities/Poll'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
@@ -22,9 +23,22 @@ import { SearchParamsKeyValue } from './SearchParams'
 import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
 import {
   mapAssociatedToken,
+  mapPhonePollError,
+  mapPhoningSessionError,
   mapProfileFormError,
   mapSubscriptionError,
 } from './errorMappers'
+import { RestUserScope } from '../restObjects/RestUserScope'
+import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
+import { RestPhoningSession } from '../restObjects/RestPhoningSession'
+import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
+import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
+import {
+  RestPhoningCharter,
+  RestPhoningCharterAccepted,
+  RestPhoningCharterNotAccepted,
+  RestPhoningCharterResponse,
+} from '../restObjects/RestPhoningCharter'
 
 class ApiService {
   private static instance: ApiService
@@ -53,6 +67,13 @@ class ApiService {
     return this.httpClient
       .get('api/me')
       .json<RestProfileResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getUserScopes(): Promise<Array<RestUserScope>> {
+    return this.httpClient
+      .get('api/v3/profile/me/scopes')
+      .json<Array<RestUserScope>>()
       .catch(genericErrorMapping)
   }
 
@@ -232,6 +253,100 @@ class ApiService {
       .put(`api/v3/device/${deviceId}`, { json: request })
       .json()
       .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningTutorial(): Promise<RestMarkdown> {
+    return this.httpClient
+      .get('api/v3/phoning_campaigns/tutorial')
+      .json<RestMarkdown>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaigns(): Promise<Array<RestPhoningCampaign>> {
+    return this.httpClient
+      .get('api/v3/phoning_campaigns/scores')
+      .json<Array<RestPhoningCampaign>>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
+    return this.httpClient
+      .get(`api/v3/phoning_campaigns/${campaignId}/survey`)
+      .json<Poll>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaign(campaignId: string): Promise<RestPhoningCampaign> {
+    return this.httpClient
+      .get(`api/v3/phoning_campaigns/${campaignId}/scores`)
+      .json<RestPhoningCampaign>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPhoningCampaignSession(
+    campaignId: string,
+  ): Promise<RestPhoningSession> {
+    return this.httpClient
+      .post(`api/v3/phoning_campaigns/${campaignId}/start`)
+      .json<RestPhoningSession>()
+      .catch(mapPhoningSessionError)
+  }
+
+  public getPhoningSessionConfiguration(
+    sessionId: string,
+  ): Promise<RestPhoningSessionConfiguration> {
+    return this.httpClient
+      .get(`api/v3/phoning_campaign_histories/${sessionId}/survey-config`)
+      .json<RestPhoningSessionConfiguration>()
+      .catch(genericErrorMapping)
+  }
+
+  public updatePhoningSessionStatus(
+    sessionId: string,
+    status: string,
+    params: any = {},
+  ): Promise<void> {
+    return this.httpClient
+      .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
+        json: { status, ...params },
+      })
+      .json()
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
+
+  public sendPhonePollAnswers(
+    sessionId: string,
+    request: RestPhonePollResultRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .post(`api/v3/phoning_campaign_histories/${sessionId}/reply`, {
+        json: request,
+      })
+      .json()
+      .then(() => {})
+      .catch(mapPhonePollError)
+  }
+
+  public getPhoningCharter(): Promise<RestPhoningCharter> {
+    return this.httpClient
+      .get('api/v3/profile/charter/phoning_campaign')
+      .json<RestPhoningCharterResponse>()
+      .catch(genericErrorMapping)
+      .then((response) => {
+        if (response.content === undefined) {
+          return new RestPhoningCharterAccepted()
+        } else {
+          return new RestPhoningCharterNotAccepted(response.content)
+        }
+      })
+  }
+
+  public acceptPhoningCharter(): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/charter/phoning_campaign/accept')
+      .json<void>()
       .catch(genericErrorMapping)
   }
 

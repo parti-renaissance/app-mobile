@@ -1,1 +1,5 @@
-export type StepType = 'remoteQuestion' | 'userProfile' | 'consentData'
+export type StepType =
+  | 'remoteQuestion'
+  | 'userProfile'
+  | 'consentData'
+  | 'phoneSatisfaction'
