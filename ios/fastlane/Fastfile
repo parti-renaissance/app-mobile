@@ -16,7 +16,11 @@ end
 
 lane :deploy do |options|
   match_type = options[:match_type]
-  download_codesigning(match_type: match_type)
+  force_codesign = options[:force_codesign]
+  download_codesigning(
+    match_type: match_type,
+    force_codesign: force_codesign
+  )
   set_codesigning
   gym(
     clean: true,
@@ -62,16 +66,21 @@ private_lane :deploy_to_appcenter do |options|
 	  api_token: ENV["APP_CENTER_API_KEY"],
 	  owner_name: ENV["APP_CENTER_OWNER"],
 	  app_name: ENV["APP_CENTER_NAME"],
-	  ipa: options[:ipa]
+	  ipa: options[:ipa],
+    destinations: "Public,Collaborators",
+    destination_type: "group"
 	)
 end
 
 private_lane :download_codesigning do |options|
   match_type = options[:match_type]
+  force_codesign = options[:force_codesign]
   create_temporary_keychain
   match(
     type: match_type,
-    readonly: true,
+    readonly: !force_codesign,
+    force_for_new_devices: force_codesign,
+    api_key_path: "fastlane/app_store_connect_api_key.json",
     keychain_name: TEMP_KEYCHAIN_NAME,
     keychain_password: TEMP_KEYCHAIN_PASSWORD
   )

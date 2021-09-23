@@ -22,6 +22,7 @@ interface ThemedImages {
   homeTools: () => ImageSourcePropType
   zipCode: () => ImageSourcePropType
   notification: () => ImageSourcePropType
+  phoningSessionFailure: () => ImageSourcePropType
 }
 
 export default interface Theme {

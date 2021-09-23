@@ -52,7 +52,7 @@ function getNextTheme(theme: RegionTheme): RegionTheme {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.largeMargin,
+    marginTop: Spacing.margin,
   },
   title: {
     ...Typography.title,
