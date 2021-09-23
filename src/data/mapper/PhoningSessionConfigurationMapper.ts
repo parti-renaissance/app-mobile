@@ -12,6 +12,8 @@ export const PhoningSessionConfigurationMapper = {
           switch (question.type) {
             case 'boolean':
               return question
+            case 'text':
+              return question
             case 'choice':
               const choices = new Map(Object.entries(question.choices))
               return {

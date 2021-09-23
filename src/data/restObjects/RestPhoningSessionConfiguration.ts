@@ -13,6 +13,7 @@ export interface RestPhoningSessionCallStatus {
 
 export type RestPhoningSatisfactionQuestion =
   | RestPhoningSatisfactionBooleanQuestion
+  | RestPhoningSatisfactionTextQuestion
   | RestPhoningSatisfactionChoiceQuestion
   | RestPhoningSatisfactionRateQuestion
 
@@ -20,6 +21,12 @@ export interface RestPhoningSatisfactionBooleanQuestion {
   code: string
   label: string
   type: 'boolean'
+}
+
+export interface RestPhoningSatisfactionTextQuestion {
+  code: string
+  label: string
+  type: 'text'
 }
 
 export interface RestPhoningSatisfactionChoiceQuestion {

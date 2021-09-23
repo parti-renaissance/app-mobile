@@ -13,6 +13,7 @@ export interface PhoningSessionCallStatus {
 
 export type PhoningSatisfactionQuestion =
   | PhoningSatisfactionBooleanQuestion
+  | PhoningSatisfactionInputQuestion
   | PhoningSatisfactionChoiceQuestion
   | PhoningSatisfactionRateQuestion
 
@@ -20,6 +21,12 @@ export interface PhoningSatisfactionBooleanQuestion {
   code: string
   label: string
   type: 'boolean'
+}
+
+export interface PhoningSatisfactionInputQuestion {
+  code: string
+  label: string
+  type: 'text'
 }
 
 export interface PhoningSatisfactionChoiceQuestion {

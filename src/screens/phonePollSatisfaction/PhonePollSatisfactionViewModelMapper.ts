@@ -43,6 +43,20 @@ export const PhonePollSatisfactionViewModelMapper = {
                 },
               ],
             }
+          case 'text':
+            return {
+              id: question.code,
+              title: question.label,
+              data: [
+                {
+                  type: 'input',
+                  value: {
+                    id: question.code,
+                    text: answer?.type === 'input' ? answer.value : '',
+                  },
+                },
+              ],
+            }
           case 'choice':
             const selectedChoiceId = answer?.value
             return {
@@ -86,26 +100,6 @@ export const PhonePollSatisfactionViewModelMapper = {
         }
       },
     )
-
-    // TODO (Romain GF) 20/09/2021 Use real data when back ready
-    const inputId = 'test-input-id'
-    const inputAnswer = answers.get(inputId)
-    sections.splice(0, 0, {
-      id: inputId,
-      title: '_INPUT_TITLE_',
-      data: [
-        {
-          type: 'input',
-          value: {
-            id: inputId,
-            text:
-              inputAnswer && inputAnswer?.type === 'input'
-                ? inputAnswer.value
-                : '',
-          },
-        },
-      ],
-    })
 
     return { sections }
   },
