@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet, Image, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import {
-  PhoningSessionNoNumberAvailableScreenProps,
-  Screen,
-} from '../../navigation'
+import { PhoningSessionNoNumberAvailableScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { TertiaryButton } from '../shared/Buttons'
@@ -35,7 +32,7 @@ const PhoningSessionNoNumberAvailableScreen: FunctionComponent<PhoningSessionNoN
       </View>
       <TertiaryButton
         title={i18n.t('phoningsession.end_session')}
-        onPress={() => navigation.navigate(Screen.phoning)}
+        onPress={() => navigation.pop()}
       />
     </SafeAreaView>
   )
