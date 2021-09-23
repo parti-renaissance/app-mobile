@@ -105,7 +105,7 @@
     "jest": "25.5.4",
     "jetifier": "1.6.6",
     "metro-react-native-babel-preset": "0.64.0",
-    "mustache": "3.2.1",
+    "mustache": "4.2.0",
     "react-test-renderer": "16.13.1",
     "shelljs": "0.8.3",
     "tmp": "0.1.0",
