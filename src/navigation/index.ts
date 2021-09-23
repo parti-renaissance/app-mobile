@@ -12,6 +12,8 @@ import {
   PhoningSessionNavigationData,
 } from '../screens/shared/PhoningSessionNavigationData'
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
+import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
+import { PhoningCharterNavigationData } from '../screens/phoningCharter/PhoningCharterNavigationData'
 
 export const Screen = _Screen
 
@@ -43,8 +45,10 @@ export type EventParamList = {
 
 export type PhoningParamList = {
   Phoning: undefined
+  PhoningCharter: { data: PhoningCharterNavigationData }
   PhoningTutorial: undefined
   PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
+  PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
 }
 
 export type AuthenticatedHomeParamList = {
@@ -61,7 +65,11 @@ export type PollDetailModalParamList = {
 }
 
 export type PhoningSessionModalParamList = {
-  PhoningSessionLoader: { campaignId: string; device: PhoningSessionDevice }
+  PhoningSessionLoader: {
+    campaignId: string
+    campaignTitle: string
+    device: PhoningSessionDevice
+  }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
   PhoningSessionNoNumberAvailable: { message: string }
@@ -92,6 +100,12 @@ export type UnauthenticatedStackParamList = {
 
 //----------- Screen Props -----------//
 
+// Phoning Tutorial
+export type PhoningTutorialScreenProp = StackScreenProps<
+  PhoningParamList,
+  typeof Screen.phoningTutorial
+>
+
 // Phoning
 export type PhoningScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PhoningParamList>,
@@ -106,6 +120,12 @@ export type PhoningScreenNavigationProp = CompositeNavigationProp<
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
 }>
+
+// Phoning charter
+export type PhoningCharterScreenProp = StackScreenProps<
+  PhoningParamList,
+  typeof Screen.phoningCharter
+>
 
 // Phoning Campaign Brief
 export type PhoningCampaignBriefScreenNavigationProp = CompositeNavigationProp<
@@ -127,6 +147,12 @@ export type PhoningCampaignBriefScreenProp = Readonly<{
   route: PhoningCampaignBriefScreenRouteProp
   navigation: PhoningCampaignBriefScreenNavigationProp
 }>
+
+// Phoning Campaign Scoreboard
+export type PhoningCampaignScoreboardScreenProp = StackScreenProps<
+  PhoningParamList,
+  typeof Screen.phoningCampaignScoreboard
+>
 
 // Polls
 export type PollsScreenNavigationProp = CompositeNavigationProp<

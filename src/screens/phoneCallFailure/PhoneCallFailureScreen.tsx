@@ -19,9 +19,7 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
-        headerLeft: () => (
-          <CloseButton onPress={() => navigation.navigate(Screen.phoning)} />
-        ),
+        headerLeft: () => <CloseButton onPress={() => navigation.pop()} />,
       })
     }
     updateNavigationHeader()
@@ -48,6 +46,7 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
         onPress={() =>
           navigation.replace(Screen.phoningSessionLoader, {
             campaignId: route.params.data.campaignId,
+            campaignTitle: route.params.data.campaignTitle,
             device: route.params.data.device,
           })
         }

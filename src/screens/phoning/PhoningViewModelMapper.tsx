@@ -6,8 +6,9 @@ import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 export const PhoningViewModelMapper = {
   map: (campaigns: PhoningCampaign[]): PhoningViewModel => {
     const rows: Array<PhoningRowViewModel> = []
-
-    appendTutorial(rows)
+    if (campaigns.length > 0) {
+      appendTutorial(rows)
+    }
     appendCampaigns(campaigns, rows)
     appendCallContact(rows)
 
@@ -40,6 +41,8 @@ function appendCampaigns(
         brief: campaign.brief,
         calledCount: campaign.callsCount,
         numberOfPersonToCall: campaign.goal,
+        rank:
+          campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
       },
     })
   })
@@ -55,3 +58,5 @@ function appendCallContact(rows: PhoningRowViewModel[]) {
     },
   })
 }
+
+const DEFAULT_RANK = 1

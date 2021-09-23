@@ -56,6 +56,11 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
       })
   }, [route.params.data.sessionId])
 
+  useEffect(
+    () => navigation.setOptions({ title: route.params.data.campaignTitle }),
+    [navigation, route.params.data.campaignTitle],
+  )
+
   useEffect(() => {
     fetchCallStatuses()
   }, [fetchCallStatuses])
