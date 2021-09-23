@@ -15,14 +15,10 @@ import ProfileZipCodeScreen from './ProfileZipCodeScreen'
 
 const ProfileStack = createStackNavigator<ProfileParamList>()
 
-const ProfileNavigator: FunctionComponent = () => {
+const ProfileModal: FunctionComponent = () => {
   return (
     <ProfileStack.Navigator screenOptions={headerBlank}>
-      <ProfileStack.Screen
-        name={Screen.profile}
-        component={ProfileScreen}
-        options={{ headerShown: false }}
-      />
+      <ProfileStack.Screen name={Screen.profile} component={ProfileScreen} />
       <ProfileStack.Screen
         name={Screen.profileLogin}
         component={ProfilLoginScreen}
@@ -62,4 +58,4 @@ const ProfileNavigator: FunctionComponent = () => {
   )
 }
 
-export default ProfileNavigator
+export default ProfileModal

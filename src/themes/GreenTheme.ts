@@ -39,6 +39,8 @@ const GreenTheme: Theme = {
     homeTools: () => require('../assets/images/green/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/green/imageCodePostal.png'),
     notification: () => require('../assets/images/green/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/green/phoningSessionFailure.png'),
   },
 }
 
