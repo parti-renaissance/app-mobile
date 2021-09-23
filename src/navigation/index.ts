@@ -14,6 +14,7 @@ import {
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
 import { PhoningCharterNavigationData } from '../screens/phoningCharter/PhoningCharterNavigationData'
+import { RetaliationDetailViewModel } from '../screens/retaliation/RetaliationDetailViewModel'
 
 export const Screen = _Screen
 
@@ -24,6 +25,7 @@ export type HomeParamList = {
   Region: { zipCode: string }
   News: undefined
   EventDetails: { eventId: string }
+  RetaliationDetailScreen: { viewModel: RetaliationDetailViewModel }
 }
 
 export type ProfileParamList = {
@@ -99,6 +101,12 @@ export type UnauthenticatedStackParamList = {
 }
 
 //----------- Screen Props -----------//
+
+// Retaliation Detail
+export type RetaliationDetailScreenProp = StackScreenProps<
+  HomeParamList,
+  typeof Screen.retaliationDetailScreen
+>
 
 // Phoning Tutorial
 export type PhoningTutorialScreenProp = StackScreenProps<

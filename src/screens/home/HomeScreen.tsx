@@ -256,25 +256,27 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   const HomeContent = (homeViewModel: HomeViewModel) => {
     return (
-      <SectionList
-        stickySectionHeadersEnabled={false}
-        ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
-        sections={homeViewModel.rows}
-        renderItem={renderItem}
-        renderSectionHeader={({ section: { sectionViewModel } }) => {
-          return sectionViewModel !== undefined ? (
-            <HomeSectionRow viewModel={sectionViewModel} />
-          ) : null
-        }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={fetchData}
-            colors={[theme.primaryColor]}
-          />
-        }
-        keyExtractor={(item, index) => item.type + index}
-      />
+      <>
+        <SectionList
+          stickySectionHeadersEnabled={false}
+          ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
+          sections={homeViewModel.rows}
+          renderItem={renderItem}
+          renderSectionHeader={({ section: { sectionViewModel } }) => {
+            return sectionViewModel !== undefined ? (
+              <HomeSectionRow viewModel={sectionViewModel} />
+            ) : null
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={fetchData}
+              colors={[theme.primaryColor]}
+            />
+          }
+          keyExtractor={(item, index) => item.type + index}
+        />
+      </>
     )
   }
   return (
