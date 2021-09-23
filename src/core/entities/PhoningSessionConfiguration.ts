@@ -11,8 +11,39 @@ export interface PhoningSessionCallStatus {
   label: string
 }
 
-export interface PhoningSatisfactionQuestion {
+export type PhoningSatisfactionQuestion =
+  | PhoningSatisfactionBooleanQuestion
+  | PhoningSatisfactionInputQuestion
+  | PhoningSatisfactionChoiceQuestion
+  | PhoningSatisfactionRateQuestion
+
+export interface PhoningSatisfactionBooleanQuestion {
   code: string
   label: string
-  type: 'boolean' // for now only one type, but could be more
+  type: 'boolean'
+}
+
+export interface PhoningSatisfactionInputQuestion {
+  code: string
+  label: string
+  type: 'text'
+}
+
+export interface PhoningSatisfactionChoiceQuestion {
+  code: string
+  label: string
+  type: 'choice'
+  choices: Array<PhoningSatisfactionChoice>
+}
+
+export interface PhoningSatisfactionChoice {
+  id: string
+  content: string
+}
+
+export interface PhoningSatisfactionRateQuestion {
+  code: string
+  label: string
+  type: 'note'
+  values: Array<number>
 }
