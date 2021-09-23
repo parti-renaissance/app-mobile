@@ -41,6 +41,8 @@ const OrangeTheme: Theme = {
     zipCode: () => require('../assets/images/orange/imageCodePostal.png'),
     notification: () =>
       require('../assets/images/orange/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/orange/phoningSessionFailure.png'),
   },
 }
 
