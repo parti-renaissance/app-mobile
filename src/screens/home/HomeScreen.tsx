@@ -40,6 +40,7 @@ import { ServerTimeoutError } from '../../core/errors'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
+import { ProfileButton } from '../shared/NavigationHeaderButton'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -49,6 +50,15 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
+
+  useEffect(() => {
+    const navigationToProfile = () => {
+      navigation.navigate(Screen.profileModal)
+    }
+    navigation.setOptions({
+      headerRight: () => <ProfileButton onPress={navigationToProfile} />,
+    })
+  }, [navigation])
 
   useEffect(() => {
     // Reload view model (and view) when resources model changes

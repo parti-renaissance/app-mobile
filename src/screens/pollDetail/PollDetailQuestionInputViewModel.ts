@@ -1,5 +1,9 @@
 export interface PollDetailQuestionInputViewModel {
-  id: string
   title: string
-  content: string
+  content: PollDetailQuestionInputContentViewModel
+}
+
+export interface PollDetailQuestionInputContentViewModel {
+  id: string
+  text: string
 }

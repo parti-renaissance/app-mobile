@@ -39,6 +39,8 @@ const RedTheme: Theme = {
     homeTools: () => require('../assets/images/red/imageOutilsprofil.png'),
     zipCode: () => require('../assets/images/red/imageCodePostal.png'),
     notification: () => require('../assets/images/red/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/red/phoningSessionFailure.png'),
   },
 }
 

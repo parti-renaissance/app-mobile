@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, Linking } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 
@@ -17,6 +17,7 @@ import {
 } from '../../core/interactor/GetUserProfileInteractor'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 import { ServerTimeoutError } from '../../core/errors'
+import { CloseButton } from '../shared/NavigationHeaderButton'
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
@@ -118,6 +119,12 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
         })
     }, []),
   )
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
+    })
+  }, [navigation])
 
   return (
     <SafeAreaView style={styles.container}>

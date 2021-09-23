@@ -1,16 +1,4 @@
-export interface RestPollResultAnswerChoice {
-  surveyQuestion: number
-  selectedChoices: ReadonlyArray<string>
-}
-
-export interface RestPollResultAnswerText {
-  surveyQuestion: number
-  textField: string
-}
-
-export type RestPollResultAnswer =
-  | RestPollResultAnswerChoice
-  | RestPollResultAnswerText
+import { RestPollResultAnswerLegacy } from './RestPollResultAnswer'
 
 export interface RestPollResultRequest {
   survey: number
@@ -25,7 +13,7 @@ export interface RestPollResultRequest {
   profession?: string
   ageRange?: string
   gender?: string
-  answers: ReadonlyArray<RestPollResultAnswer>
+  answers: ReadonlyArray<RestPollResultAnswerLegacy>
   latitude?: number
   longitude?: number
 }

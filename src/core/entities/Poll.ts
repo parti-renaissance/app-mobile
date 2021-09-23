@@ -15,6 +15,7 @@ export interface Question {
 type PollType = 'local' | 'national'
 
 export interface Poll {
+  uuid: string
   id: number
   type: PollType
   questions: Array<Question>
