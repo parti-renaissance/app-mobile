@@ -19,6 +19,7 @@ import {
 } from './PhonePollSatisfactionViewModelMapper'
 import SatisfactionQuestionChoice from './question/SatisfactionQuestionChoice'
 import PollDetailQuestionInputContent from '../pollDetail/PollDetailQuestionInputContent'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 
 type Props = Readonly<{
   viewModel: PhonePollSatisfactionViewModel
@@ -90,17 +91,19 @@ const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <SectionList
-        stickySectionHeadersEnabled={false}
-        contentContainerStyle={styles.listContainer}
-        style={styles.list}
-        sections={viewModel.sections}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => item.value.id + index}
-        renderSectionHeader={({ section: { title } }) => (
-          <QuestionUserProfileSectionHeader title={title} />
-        )}
-      />
+      <KeyboardOffsetView>
+        <SectionList
+          stickySectionHeadersEnabled={false}
+          contentContainerStyle={styles.listContainer}
+          style={styles.list}
+          sections={viewModel.sections}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => item.value.id + index}
+          renderSectionHeader={({ section: { title } }) => (
+            <QuestionUserProfileSectionHeader title={title} />
+          )}
+        />
+      </KeyboardOffsetView>
     </SafeAreaView>
   )
 }

@@ -36,6 +36,7 @@ const PollDetailQuestionInputContent: FunctionComponent<PollDetailQuestionInputC
         inputAccessoryViewID={inputAccessoryViewId}
         onChangeText={textChanged}
         maxLength={MAX_CHARACTERS}
+        scrollEnabled={false}
       />
       <Text style={styles.remaingCharsIndicator}>{remaingCharsLabel}</Text>
       <InputAccessoryClose
