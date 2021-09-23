@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Linking } from 'react-native'
 import { Spacing, Styles, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme, useThemedStyles } from '../../../themes'
@@ -8,10 +8,16 @@ import Theme from '../../../themes/Theme'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
 import i18n from '../../../utils/i18n'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import Clipboard from '@react-native-community/clipboard'
 
 type Props = Readonly<{
   viewModel: RetaliationCardViewModel
 }>
+
+export const Retaliate = (text: string, url: string) => {
+  Clipboard.setString(text)
+  Linking.openURL(url)
+}
 
 const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
   const { theme } = useTheme()
@@ -40,7 +46,7 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
           style={styles.retaliateButton}
           textStyle={styles.retaliateButtonText}
           title={i18n.t('home.retaliation.retaliate_button')}
-          onPress={() => {}}
+          onPress={() => Retaliate(viewModel.body, viewModel.url)}
         />
       </View>
     </CardView>

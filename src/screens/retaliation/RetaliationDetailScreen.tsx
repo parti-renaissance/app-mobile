@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { RetaliationDetailScreenProp } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
+import { Retaliate } from '../home/retaliation/RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 
@@ -12,22 +13,21 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
 }) => {
   const viewModel = route.params.viewModel
 
-  const copyAndNavigate = () => {
-    // TODO copy `viewModel.retaliation` to clipboard and navigate to defined url
-  }
-
   return (
     <>
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{viewModel.title}</Text>
-        <VerticalSpacer spacing={256} /> { /* TODO Remove spacer and put retaliation card */ }
+        <VerticalSpacer spacing={256} />
+        {
+          // Replace spacer by the retaliation card
+        }
         <Text style={styles.subtitle}>{i18n.t('retaliation.title')}</Text>
         <Text style={styles.retaliation}>{viewModel.retaliation}</Text>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
           title={i18n.t('retaliation.execute')}
-          onPress={copyAndNavigate}
+          onPress={() => Retaliate(viewModel.retaliation, viewModel.url)}
         />
       </View>
     </>

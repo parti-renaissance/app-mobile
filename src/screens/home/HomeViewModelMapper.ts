@@ -90,6 +90,7 @@ function appendRetaliation(
       id: retaliation.id,
       title: retaliation.title,
       body: retaliation.body,
+      url: retaliation.sourceUrl,
     }
   })
   rows.push({
