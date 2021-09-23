@@ -53,6 +53,15 @@ export class PhonePollDetailSatisfactionComponentProvider
     return { satisfactionAnswers: Array.from(this.answers.values()) }
   }
 
+  private updateAnswer(questionId: string, answer: PhoningSatisfactionAnswer) {
+    const oldAnswer = this.answers.get(questionId)
+    if (oldAnswer?.value === answer.value) {
+      this.answers.delete(questionId)
+    } else {
+      this.answers.set(questionId, answer)
+    }
+  }
+
   private getSatisfactionComponent(): JSX.Element {
     const viewModel = PhonePollSatisfactionViewModelMapper.map(
       this.questions,
@@ -67,12 +76,34 @@ export class PhonePollDetailSatisfactionComponentProvider
             type: 'boolean',
             value: choice,
           }
-          const oldAnswer = this.answers.get(questionId)
-          if (oldAnswer?.value === answer.value) {
-            this.answers.delete(questionId)
-          } else {
-            this.answers.set(questionId, answer)
+          this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateRating={(questionId, rate) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'rate',
+            value: rate,
           }
+          this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateChoice={(questionId, choiceId) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'single_choice',
+            value: choiceId,
+          }
+          this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateInput={(questionId, text) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'input',
+            value: text,
+          }
+          this.answers.set(questionId, answer)
           this.onUpdate()
         }}
       />

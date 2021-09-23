@@ -50,6 +50,7 @@
       "question_placeholder": "Votre réponse",
       "question_unique_choice": "Une seule réponse possible",
       "question_multiple_choices": "Plusieurs réponses possibles",
+      "question_rate": "Notez de 1 à 5",
       "send_answers_error": { "title": "Envoi des réponses" },
       "user_profile_progress": "Profil du répondant",
       "consent_data_progress": "Données personnelles",
