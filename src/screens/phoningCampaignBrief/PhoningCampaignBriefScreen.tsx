@@ -21,10 +21,12 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
     })
   }, [navigation, styles, route.params.data.title])
 
+  const markdownStyle = { body: styles.contentContainer }
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.contentContainer}>
-        <Markdown>{route.params.data.brief}</Markdown>
+      <ScrollView>
+        <Markdown style={markdownStyle}>{route.params.data.brief}</Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
@@ -32,7 +34,11 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
           onPress={() =>
             navigation.navigate(Screen.phoningSessionModal, {
               screen: Screen.phoningSessionLoader,
-              params: { campaignId: route.params.data.id, device: 'current' },
+              params: {
+                campaignId: route.params.data.id,
+                campaignTitle: route.params.data.title,
+                device: 'current',
+              },
             })
           }
         />
@@ -42,7 +48,11 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
           onPress={() =>
             navigation.navigate(Screen.phoningSessionModal, {
               screen: Screen.phoningSessionLoader,
-              params: { campaignId: route.params.data.id, device: 'external' },
+              params: {
+                campaignId: route.params.data.id,
+                campaignTitle: route.params.data.title,
+                device: 'external',
+              },
             })
           }
         />

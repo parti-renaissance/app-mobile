@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList, Alert } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing } from '../../styles'
 import PollDetailNavigationButtons from '../pollDetail/PollDetailNavigationButtons'
@@ -21,51 +21,38 @@ import {
   Screen,
 } from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
-import { PollRemoteQuestionResult } from '../../core/entities/PollResult'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
 import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
 import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
 import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
+import { PhonePollResult } from '../../core/entities/PhonePollResult'
+import i18n from '../../utils/i18n'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
 
 type Props = Readonly<{
   poll: Poll
+  satisfactionQuestions: Array<PhoningSatisfactionQuestion>
   route: PhonePollDetailScreenRouteProp
   navigation: PhonePollDetailScreenNavigationProp
 }>
 
-// TODO: (Pierre Felgines) Remove this stub data
-const QUESTIONS: Array<PhoningSatisfactionQuestion> = [
-  {
-    code: 'postal_code_checked',
-    label: 'Code postal à jour ?',
-    type: 'boolean',
-  },
-  {
-    code: 'become_caller',
-    label: 'Souhaiteriez-vous devenir appelant ?',
-    type: 'boolean',
-  },
-  {
-    code: 'call_more',
-    label: 'Souhaitez-vous être rappelé plus souvent ?',
-    type: 'boolean',
-  },
-]
-
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
+  satisfactionQuestions,
   route,
   navigation,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
-  const [provider] = useState<
-    PollDetailComponentProvider<PollRemoteQuestionResult>
-  >(
+  const [provider] = useState<PollDetailComponentProvider<PhonePollResult>>(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
-      new PhonePollDetailSatisfactionComponentProvider(QUESTIONS, forceUpdate),
+      new PhonePollDetailSatisfactionComponentProvider(
+        satisfactionQuestions,
+        forceUpdate,
+      ),
     ),
   )
 
@@ -98,16 +85,39 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
     })
   }, [currentStep])
 
-  const postAnswers = async () => {
-    setIsLoading(true)
+  const displayError = (error: string) => {
+    console.log('Displaying error ', error)
+    Alert.alert(
+      i18n.t('common.error_title'),
+      error,
+      [
+        {
+          text: i18n.t('common.error_retry'),
+          onPress: postAnswers,
+        },
+        {
+          text: i18n.t('common.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
+  }
 
-    setTimeout(() => {
-      setIsLoading(false)
-      navigation.replace(Screen.phonePollDetailSuccess, {
-        title: poll.name,
-        data: route.params.data,
+  const postAnswers = () => {
+    setIsLoading(true)
+    new SendPhonePollAnswersInteractor()
+      .execute(poll, route.params.data.sessionId, provider.getResult())
+      .then(() => {
+        navigation.replace(Screen.phonePollDetailSuccess, {
+          title: poll.name,
+          data: route.params.data,
+        })
       })
-    }, 2000)
+      .catch((error) => {
+        displayError(GenericErrorMapper.mapErrorMessage(error))
+      })
+      .finally(() => setIsLoading(false))
   }
 
   return (

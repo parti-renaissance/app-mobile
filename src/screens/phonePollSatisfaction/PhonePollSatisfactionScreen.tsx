@@ -7,6 +7,7 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing } from '../../styles'
 import QuestionDualChoiceRow from '../pollDetailUserData/QuestionDualChoiceRow'
+import QuestionRateRow from './rate/QuestionRateRow'
 import QuestionUserProfileSectionHeader from '../pollDetailUserProfile/QuestionUserProfileSectionHeader'
 import {
   PhonePollSatisfactionSectionContentViewModel,
@@ -16,15 +17,24 @@ import {
   PHONE_POLL_SATISFACTION_NO_ID,
   PHONE_POLL_SATISFACTION_YES_ID,
 } from './PhonePollSatisfactionViewModelMapper'
+import SatisfactionQuestionChoice from './question/SatisfactionQuestionChoice'
+import PollDetailQuestionInputContent from '../pollDetail/PollDetailQuestionInputContent'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 
 type Props = Readonly<{
   viewModel: PhonePollSatisfactionViewModel
   onUpdateBoolean: (questionId: string, choice: boolean) => void
+  onUpdateRating: (questionId: string, rate: number) => void
+  onUpdateChoice: (questionId: string, choiceId: string) => void
+  onUpdateInput: (questionId: string, text: string) => void
 }>
 
 const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
   viewModel,
   onUpdateBoolean,
+  onUpdateRating,
+  onUpdateChoice,
+  onUpdateInput,
 }) => {
   const renderItem = (
     info: SectionListRenderItemInfo<PhonePollSatisfactionSectionContentViewModel>,
@@ -49,22 +59,51 @@ const PhonePollSatisfactionScreen: FunctionComponent<Props> = ({
             }}
           />
         )
+      case 'rate':
+        return (
+          <QuestionRateRow
+            viewModel={info.item.value}
+            onRateUpdate={(rate: number) => {
+              onUpdateRating(info.item.value.id, rate)
+            }}
+          />
+        )
+      case 'single_choice':
+        return (
+          <SatisfactionQuestionChoice
+            viewModel={info.item.value}
+            toggleChoice={(choiceId) => {
+              onUpdateChoice(info.item.value.id, choiceId)
+            }}
+          />
+        )
+      case 'input':
+        return (
+          <PollDetailQuestionInputContent
+            viewModel={info.item.value}
+            onChangeText={(text: string) => {
+              onUpdateInput(info.item.value.id, text)
+            }}
+          />
+        )
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <SectionList
-        stickySectionHeadersEnabled={false}
-        contentContainerStyle={styles.listContainer}
-        style={styles.list}
-        sections={viewModel.sections}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => item.value.id + index}
-        renderSectionHeader={({ section: { title } }) => (
-          <QuestionUserProfileSectionHeader title={title} />
-        )}
-      />
+      <KeyboardOffsetView>
+        <SectionList
+          stickySectionHeadersEnabled={false}
+          contentContainerStyle={styles.listContainer}
+          style={styles.list}
+          sections={viewModel.sections}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => item.value.id + index}
+          renderSectionHeader={({ section: { title } }) => (
+            <QuestionUserProfileSectionHeader title={title} />
+          )}
+        />
+      </KeyboardOffsetView>
     </SafeAreaView>
   )
 }

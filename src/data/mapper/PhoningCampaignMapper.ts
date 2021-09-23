@@ -10,6 +10,15 @@ export const PhoningCampaignMapper = {
       goal: restObject.goal,
       callsCount: restObject.nb_calls,
       finishAt: new Date(restObject.finish_at),
+      scoreboard: restObject.scoreboard.map((item) => {
+        return {
+          caller: item.caller,
+          calls: item.nb_calls,
+          surveys: item.nb_survey,
+          position: item.position,
+          firstName: item.firstName,
+        }
+      }),
     }
   },
 }

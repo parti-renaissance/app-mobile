@@ -1,4 +1,5 @@
 import React from 'react'
+import { PhonePollSatisfactionResult } from '../../../core/entities/PhonePollResult'
 import { PhoningSatisfactionAnswer } from '../../../core/entities/PhoningSatisfactionAnswer'
 import { PhoningSatisfactionQuestion } from '../../../core/entities/PhoningSessionConfiguration'
 import { StepType } from '../../../core/entities/StepType'
@@ -7,7 +8,7 @@ import { PhonePollSatisfactionViewModelMapper } from '../../phonePollSatisfactio
 import { PollDetailComponentProvider } from '../../pollDetail/providers/PollDetailComponentProvider'
 
 export class PhonePollDetailSatisfactionComponentProvider
-  implements PollDetailComponentProvider<void> {
+  implements PollDetailComponentProvider<PhonePollSatisfactionResult> {
   private questions: Array<PhoningSatisfactionQuestion>
   private answers = new Map<string, PhoningSatisfactionAnswer>()
   private onUpdate: () => void
@@ -48,8 +49,17 @@ export class PhonePollDetailSatisfactionComponentProvider
     }
   }
 
-  public getResult(): void {
-    return // TODO: (Pierre Felgines) Change the return type with correct entity
+  public getResult(): PhonePollSatisfactionResult {
+    return { satisfactionAnswers: Array.from(this.answers.values()) }
+  }
+
+  private updateAnswer(questionId: string, answer: PhoningSatisfactionAnswer) {
+    const oldAnswer = this.answers.get(questionId)
+    if (oldAnswer?.value === answer.value) {
+      this.answers.delete(questionId)
+    } else {
+      this.answers.set(questionId, answer)
+    }
   }
 
   private getSatisfactionComponent(): JSX.Element {
@@ -62,15 +72,38 @@ export class PhonePollDetailSatisfactionComponentProvider
         viewModel={viewModel}
         onUpdateBoolean={(questionId, choice) => {
           const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
             type: 'boolean',
             value: choice,
           }
-          const oldAnswer = this.answers.get(questionId)
-          if (oldAnswer?.value === answer.value) {
-            this.answers.delete(questionId)
-          } else {
-            this.answers.set(questionId, answer)
+          this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateRating={(questionId, rate) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'rate',
+            value: rate,
           }
+          this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateChoice={(questionId, choiceId) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'single_choice',
+            value: choiceId,
+          }
+          this.updateAnswer(questionId, answer)
+          this.onUpdate()
+        }}
+        onUpdateInput={(questionId, text) => {
+          const answer: PhoningSatisfactionAnswer = {
+            code: questionId,
+            type: 'input',
+            value: text,
+          }
+          this.answers.set(questionId, answer)
           this.onUpdate()
         }}
       />

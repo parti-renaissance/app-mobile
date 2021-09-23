@@ -8,9 +8,11 @@ export const PollDetailQuestionInputViewModelMapper = {
     answer: TextAnswer,
   ): PollDetailQuestionInputViewModel => {
     return {
-      id: question.id.toString(),
       title: question.content,
-      content: answer.value,
+      content: {
+        id: question.id.toString(),
+        text: answer.value,
+      },
     }
   },
 }
