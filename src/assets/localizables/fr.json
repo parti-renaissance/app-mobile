@@ -25,7 +25,8 @@
       "item_tools": "Outils",
       "item_profile": "Profil",
       "item_home": "Accueil",
-      "item_events": "Événements"
+      "item_events": "Événements",
+      "item_phoning": "Phoning"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -49,6 +50,7 @@
       "question_placeholder": "Votre réponse",
       "question_unique_choice": "Une seule réponse possible",
       "question_multiple_choices": "Plusieurs réponses possibles",
+      "question_rate": "Notez de 1 à 5",
       "send_answers_error": { "title": "Envoi des réponses" },
       "user_profile_progress": "Profil du répondant",
       "consent_data_progress": "Données personnelles",
@@ -207,7 +209,11 @@
         "votes_count": "{{format}} votant",
         "votes_count_plural": "{{format}} votants"
       },
-      "event": { "section": "Prochain évènement" }
+      "event": { "section": "Prochain évènement" },
+      "retaliation": {
+        "retaliate_button": "Copier le texte et riposter",
+        "see_more": "Détail de la riposte"
+      }
     },
     "regions": { "website": "Plus de détails" },
     "profileZipCode": {
@@ -310,6 +316,66 @@
       "section_sms": "SMS/MMS",
       "push_description_local": "Recevoir des notifications pour ne manquer aucune action locale",
       "push_description_national": "Recevoir des notifications pour ne manquer aucun grands rendez-vous nationaux"
+    },
+    "phonepolldetail": {
+      "phone_satisfaction": "Satisfaction",
+      "interruption_alert": {
+        "title": "Êtes-vous sûr de vouloir interrompre l'appel ?",
+        "action": "Interrompre l'appel"
+      }
+    },
+    "phoning": {
+      "title": "Phoning",
+      "tutorial": {
+        "title": "Comment faire un appel?",
+        "link": "Regarder le tutoriel"
+      },
+      "callcontact": {
+        "title": "Appeler un contact de mon téléphone",
+        "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
+        "callbuttontitle": "Appeler un de mes contact",
+        "progressformat": "{{done}} appelés sur {{total}}"
+      },
+      "campaign": { "action": "Commencer" },
+      "brief": {
+        "call": "Lancer l’appel",
+        "call_from_other_device": "Lancer l’appel sur un autre appareil"
+      },
+      "scoreboard": {
+        "title": "Classement",
+        "header_name": "Noms",
+        "header_calls": "Appelés",
+        "header_calls_completed": "Complétés",
+        "name": "{{position}}. {{name}}"
+      },
+      "position": "{{position}}er au classement",
+      "position_plural": "{{position}}ème au classement",
+      "charter": { "title": "Charte", "accept": "Accepter" }
+    },
+    "phoningsession": {
+      "new_call": "Nouvel appel",
+      "end_session": "Terminer",
+      "failure": {
+        "title": "On ne lâche rien !",
+        "new_call_description": "Prêt pour un autre appel ?"
+      },
+      "no_number": { "title": "Pas de numéro pour aujourd’hui" },
+      "loader": { "title": "Recherche de numéro en cours…" },
+      "other_device": {
+        "title": "Appeler depuis un autre appareil",
+        "description": "Entrer le numéro de téléphone suivant sur un autre appareil puis cliquer sur « j’ai lancé l’appel »."
+      },
+      "call_started": "J'ai lancé l'appel",
+      "number_found": {
+        "title": "Un numéro a été trouvé !",
+        "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
+        "recall": "L’appel n’a pas fonctionné : relancer"
+      },
+      "status_picker": {
+        "title": "Accepte-t-il de répondre à vos questions ?",
+        "action": "Valider"
+      },
+      "success": { "title": "Et un de plus, bravo ! " }
     }
   }
 }

@@ -41,6 +41,8 @@ const PurpleTheme: Theme = {
     zipCode: () => require('../assets/images/purple/imageCodePostal.png'),
     notification: () =>
       require('../assets/images/purple/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/purple/phoningSessionFailure.png'),
   },
 }
 

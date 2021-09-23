@@ -42,6 +42,8 @@ const YellowTheme: Theme = {
     zipCode: () => require('../assets/images/yellow/imageCodePostal.png'),
     notification: () =>
       require('../assets/images/yellow/imageNotification.png'),
+    phoningSessionFailure: () =>
+      require('../assets/images/yellow/phoningSessionFailure.png'),
   },
 }
 
