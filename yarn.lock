@@ -1227,10 +1227,10 @@
     query-string "^6.13.6"
     react-is "^16.13.0"
 
-"@react-navigation/material-bottom-tabs@5.3.9":
-  version "5.3.9"
-  resolved "https://registry.yarnpkg.com/@react-navigation/material-bottom-tabs/-/material-bottom-tabs-5.3.9.tgz"
-  integrity sha512-LZmFJ2EFF84ZAAvQ+rZ/w9khXTFPgIqk32ALfTillXY55+JViWBVNym1DP9vvb7ZCb03fyjFPsNLWBbK0ygmiA==
+"@react-navigation/material-bottom-tabs@5.3.19":
+  version "5.3.19"
+  resolved "https://registry.yarnpkg.com/@react-navigation/material-bottom-tabs/-/material-bottom-tabs-5.3.19.tgz#04367fee9361ee00e67e99713f33b9c2103b88f1"
+  integrity sha512-djwoz1YejO4pSz/jddbm0mv1fdkMykgTaufzfJl890RlyCpFXc3J+Oxc6I6Kskfk8ALCGIWm+8DjX8alsyDvzA==
 
 "@react-navigation/native@5.8.6":
   version "5.8.6"
