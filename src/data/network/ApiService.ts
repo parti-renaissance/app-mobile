@@ -92,6 +92,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getRetaliation(id: string): Promise<RestRetaliation> {
+    return this.httpClient
+      .get('api/v3/ripostes/' + id)
+      .json<RestRetaliation>()
+      .catch(genericErrorMapping)
+  }
+
   public updateProfile(
     userUuid: string,
     request: RestUpdateProfileRequest,
