@@ -183,7 +183,10 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
             <Text style={styles.emptySubtitle}>
               {i18n.t('phoning.subtitle_no_campaigns')}
             </Text>
-            <Image source={theme.image.emptyPoll()} style={styles.emptyImage} />
+            <Image
+              source={theme.image.emptyCampaigns()}
+              style={styles.emptyImage}
+            />
           </View>
         }
         contentContainerStyle={styles.contentContainer}
