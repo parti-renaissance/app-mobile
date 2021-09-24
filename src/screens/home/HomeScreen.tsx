@@ -197,6 +197,9 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     })
   }
   const onRetaliationSelected = (id: string) => {
+    navigation.navigate(Screen.retaliationDetailScreen, {
+      retaliationId: id,
+    })
   }
 
   const renderItem = ({
