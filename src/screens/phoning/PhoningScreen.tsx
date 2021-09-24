@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { FunctionComponent, useCallback, useState } from 'react'
 import {
   Text,
   StyleSheet,
@@ -53,21 +48,14 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     ViewState.Type<PhoningResources>
   >(new ViewState.Loading())
 
-  useEffect(() => {
-    // Reload view model (and view) when resources model changes
-    if (!currentResources) {
-      return
-    }
-    const viewModel = PhoningViewModelMapper.map(currentResources.campaigns)
-    setStatefulState(new ViewState.Content(viewModel))
-  }, [theme, currentResources])
-
   const fetchData = useCallback(() => {
     setRefreshing(true)
     PhoningCampaignRepository.getInstance()
       .getPhoningCampaigns()
       .then((campaigns) => {
         setResources({ campaigns: campaigns })
+        const viewModel = PhoningViewModelMapper.map(campaigns)
+        setStatefulState(new ViewState.Content(viewModel))
       })
       .catch((error) => {
         setStatefulState(
@@ -80,7 +68,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
       .finally(() => {
         setRefreshing(false)
       })
-  }, [])
+  }, [setResources, setStatefulState])
 
   const fetchCharterState = useCallback(() => {
     PhoningCampaignRepository.getInstance()
