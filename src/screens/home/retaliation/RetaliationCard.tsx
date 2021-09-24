@@ -31,7 +31,7 @@ const RetaliationCard: FunctionComponent<Props> = ({
     <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
       <View style={styles.container}>
         <Text>
-          <Image source={require('../../../assets/images/iconSearch.png')} />
+          <Image source={viewModel.socialIcon} />
           <Text style={styles.title}>{viewModel.title}</Text>
         </Text>
         <Text style={styles.body} numberOfLines={4}>

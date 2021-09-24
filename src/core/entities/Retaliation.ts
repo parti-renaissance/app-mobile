@@ -13,6 +13,8 @@ export interface RetaliationOpenGraph {
   type: string | null
   image: string | null
   title: string | null
-  siteName: string | null
+  site: RetaliationSiteType
   description: string | null
 }
+
+export type RetaliationSiteType = 'twitter' | 'facebook' | 'others'
