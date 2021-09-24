@@ -330,6 +330,7 @@
         "title": "Comment faire un appel?",
         "link": "Regarder le tutoriel"
       },
+      "subtitle_no_campaigns": "Aucune campagne d'appels n'est actuellement en cours.",
       "callcontact": {
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",

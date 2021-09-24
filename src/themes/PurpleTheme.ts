@@ -43,6 +43,7 @@ const PurpleTheme: Theme = {
       require('../assets/images/purple/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/purple/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/purple/imagePhoning.png'),
   },
 }
 

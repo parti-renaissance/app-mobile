@@ -4,7 +4,14 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  ListRenderItemInfo,
+  View,
+  Image,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
 import { PhoningScreenProp, Screen } from '../../navigation'
@@ -25,6 +32,7 @@ import {
   PhoningCharterNotAccepted,
   PhoningCharterState,
 } from '../../core/entities/PhoningCharterState'
+import i18n from '../../utils/i18n'
 
 export interface PhoningResources {
   campaigns: PhoningCampaign[]
@@ -170,6 +178,17 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
         ListHeaderComponent={
           <Text style={styles.title}>{phoningViewModel.title}</Text>
         }
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptySubtitle}>
+              {i18n.t('phoning.subtitle_no_campaigns')}
+            </Text>
+            <Image
+              source={theme.image.emptyCampaigns()}
+              style={styles.emptyImage}
+            />
+          </View>
+        }
         contentContainerStyle={styles.contentContainer}
       />
     )
@@ -190,6 +209,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: Spacing.margin,
     paddingTop: Spacing.largeMargin,
+  },
+  emptyContainer: {
+    flex: 1,
+    flexGrow: 1,
+  },
+  emptyImage: {
+    alignSelf: 'center',
+    flex: 1,
+    height: 166,
+    resizeMode: 'contain',
+  },
+  emptySubtitle: {
+    ...Typography.body,
   },
   title: {
     ...Typography.title,
