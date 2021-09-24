@@ -5,4 +5,14 @@ export interface Retaliation {
   withNotification: boolean
   id: string
   createdAt: Date
+  openGraph: RetaliationOpenGraph | null
+}
+
+export interface RetaliationOpenGraph {
+  url: string | null
+  type: string | null
+  image: string | null
+  title: string | null
+  siteName: string | null
+  description: string | null
 }
