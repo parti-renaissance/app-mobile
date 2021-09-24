@@ -1,3 +1,4 @@
+import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
 import {
   Retaliation,
   RetaliationSiteType,
@@ -19,7 +20,6 @@ import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
 import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
-import { ImageSourcePropType } from 'react-native'
 
 const MAX_NEWS = 3
 const MAX_POLLS = 2
@@ -89,17 +89,9 @@ function appendRetaliation(
   retaliations: Retaliation[],
   rows: HomeSectionViewModel[],
 ) {
-  const retaliationsViewModel = retaliations.map((retaliation) => {
-    return {
-      id: retaliation.id,
-      socialIcon: mapRetaliationIconImage(
-        retaliation.openGraph?.site ?? 'others',
-      ),
-      title: retaliation.title,
-      body: retaliation.body,
-      url: retaliation.sourceUrl,
-    }
-  })
+  const retaliationsViewModel = retaliations.map(
+    HomeRetaliationCardViewModelMapper.map,
+  )
   rows.push({
     id: 'retaliation',
     data: [
@@ -111,19 +103,6 @@ function appendRetaliation(
       },
     ],
   })
-}
-
-function mapRetaliationIconImage(
-  site: RetaliationSiteType,
-): ImageSourcePropType {
-  switch (site) {
-    case 'facebook':
-      return require('../../assets/images/facebook.png')
-    case 'twitter':
-      return require('../../assets/images/twitter.png')
-    case 'others':
-      return require('../../assets/images/otherSocialNetwork.png')
-  }
 }
 
 function appendQuickPoll(
