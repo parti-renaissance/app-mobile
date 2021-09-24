@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Linking } from 'react-native'
 import { Spacing, Styles, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme, useThemedStyles } from '../../../themes'
@@ -8,12 +8,22 @@ import Theme from '../../../themes/Theme'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
 import i18n from '../../../utils/i18n'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import Clipboard from '@react-native-community/clipboard'
 
 type Props = Readonly<{
   viewModel: RetaliationCardViewModel
+  onRetaliationSelected: (id: string) => void
 }>
 
-const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
+export const Retaliate = (text: string, url: string) => {
+  Clipboard.setString(text)
+  Linking.openURL(url)
+}
+
+const RetaliationCard: FunctionComponent<Props> = ({
+  viewModel,
+  onRetaliationSelected,
+}) => {
   const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
   // adding eols to the body enable to force the card to use all the available space for the body
@@ -31,7 +41,9 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
           title={i18n.t('home.retaliation.see_more')}
           textStyle={styles.linkText}
           style={styles.linkButton}
-          onPress={() => {}}
+          onPress={() => {
+            onRetaliationSelected(viewModel.id)
+          }}
         />
         <HorizontalSeparator />
         <PrimaryButton
@@ -40,7 +52,7 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
           style={styles.retaliateButton}
           textStyle={styles.retaliateButtonText}
           title={i18n.t('home.retaliation.retaliate_button')}
-          onPress={() => {}}
+          onPress={() => Retaliate(viewModel.body, viewModel.url)}
         />
       </View>
     </CardView>

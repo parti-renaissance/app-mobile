@@ -5,12 +5,23 @@ import { Retaliation } from '../core/entities/Retaliation'
 class RetaliationRepository {
   private static instance: RetaliationRepository
   private apiService = ApiService.getInstance()
+  private memoryCachedRetaliations: Array<Retaliation> | undefined
   private constructor() {}
 
   public async getRetaliations(): Promise<Array<Retaliation>> {
-    let restRetaliations = await this.apiService.getRetaliations()
+    const restRetaliations = await this.apiService.getRetaliations()
     const retaliations = restRetaliations.map(RestRetaliationMapper.map)
+    this.memoryCachedRetaliations = retaliations
     return retaliations
+  }
+
+  public async getRetaliation(id: string): Promise<Retaliation> {
+    const cachedRetaliation = this.memoryCachedRetaliations?.find(
+      (item) => item.id === id,
+    )
+    if (cachedRetaliation) return cachedRetaliation
+    const restRetaliation = await this.apiService.getRetaliation(id)
+    return RestRetaliationMapper.map(restRetaliation)
   }
 
   public static getInstance(): RetaliationRepository {

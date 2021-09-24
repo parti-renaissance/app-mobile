@@ -377,6 +377,10 @@
         "action": "Valider"
       },
       "success": { "title": "Et un de plus, bravo ! " }
+    },
+    "retaliation": {
+      "title": "Riposte",
+      "execute": "Copier le texte et riposter"
     }
   }
 }

@@ -8,9 +8,11 @@ import { RetaliationCardViewModel } from './RetaliationCardViewModel'
 
 type Props = Readonly<{
   viewModel: HomeRetaliationRowContainerViewModel
+  onRetaliationSelected: (id: string) => void
 }>
 export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
   viewModel,
+  onRetaliationSelected,
 }) => {
   const [currentItem, setCurrentItem] = useState(0)
   const width = Dimensions.get('window').width
@@ -23,7 +25,12 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
         itemWidth={width - Spacing.margin * 2}
         itemHeight={280}
         renderItem={(model: ListRenderItemInfo<RetaliationCardViewModel>) => {
-          return <RetaliationCard viewModel={model.item} />
+          return (
+            <RetaliationCard
+              viewModel={model.item}
+              onRetaliationSelected={onRetaliationSelected}
+            />
+          )
         }}
         onSnapToItem={(index) => setCurrentItem(index)}
       />
