@@ -20,7 +20,7 @@ export const Retaliate = (text: string, url: string) => {
   Linking.openURL(url)
 }
 
-const RetaliationCard: FunctionComponent<Props> = ({
+const HomeRetaliationCard: FunctionComponent<Props> = ({
   viewModel,
   onRetaliationSelected,
 }) => {
@@ -30,10 +30,10 @@ const RetaliationCard: FunctionComponent<Props> = ({
   return (
     <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
       <View style={styles.container}>
-        <Text>
+        <View style={styles.titleContainer}>
           <Image source={viewModel.socialIcon} />
           <Text style={styles.title}>{viewModel.title}</Text>
-        </Text>
+        </View>
         <Text style={styles.body} numberOfLines={4}>
           {viewModel.body + '\n\n\n\n'}
         </Text>
@@ -93,8 +93,12 @@ const stylesFactory = (theme: Theme) => {
     title: {
       ...Typography.title2,
       marginBottom: Spacing.margin,
+      marginLeft: Spacing.margin,
+    },
+    titleContainer: {
+      flexDirection: 'row',
     },
   })
 }
 
-export default RetaliationCard
+export default HomeRetaliationCard

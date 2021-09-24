@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react'
 import { HomeRetaliationRowContainerViewModel } from '../HomeRowViewModel'
-import RetaliationCard from './RetaliationCard'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { Dimensions, ListRenderItemInfo, StyleSheet } from 'react-native'
 import { Spacing, Colors } from '../../../styles'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import HomeRetaliationCard from './HomeRetaliationCard'
 
 type Props = Readonly<{
   viewModel: HomeRetaliationRowContainerViewModel
@@ -26,7 +26,7 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
         itemHeight={280}
         renderItem={(model: ListRenderItemInfo<RetaliationCardViewModel>) => {
           return (
-            <RetaliationCard
+            <HomeRetaliationCard
               viewModel={model.item}
               onRetaliationSelected={onRetaliationSelected}
             />

@@ -6,10 +6,11 @@ import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationDetailScreenProp } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { Retaliate } from '../home/retaliation/RetaliationCard'
+import HomeRetaliationCard, {
+  Retaliate,
+} from '../home/retaliation/HomeRetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
-import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 
 const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = ({
@@ -46,10 +47,18 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
             <>
               <ScrollView style={styles.contentContainer}>
                 <Text style={styles.title}>{retaliation.title}</Text>
-                <VerticalSpacer spacing={256} />
-                {
-                  // Replace spacer by the retaliation card
-                }
+                <HomeRetaliationCard
+                  viewModel={{
+                    id: retaliation.id,
+                    socialIcon: require('../../assets/images/facebook.png'),
+                    title: retaliation.title,
+                    body: retaliation.body,
+                    url: retaliation.sourceUrl,
+                  }}
+                  onRetaliationSelected={() => {
+                    console.log('retaliate')
+                  }}
+                />
                 <Text style={styles.subtitle}>
                   {i18n.t('retaliation.title')}
                 </Text>
