@@ -41,7 +41,7 @@ import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
-import HomeRetaliationRowContainer from './retaliation/HomeRetaliationRowContainer'
+import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
