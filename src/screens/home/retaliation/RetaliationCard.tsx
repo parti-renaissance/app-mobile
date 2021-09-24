@@ -12,6 +12,7 @@ import Clipboard from '@react-native-community/clipboard'
 
 type Props = Readonly<{
   viewModel: RetaliationCardViewModel
+  onRetaliationSelected: (id: string) => void
 }>
 
 export const Retaliate = (text: string, url: string) => {
@@ -19,7 +20,10 @@ export const Retaliate = (text: string, url: string) => {
   Linking.openURL(url)
 }
 
-const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
+const RetaliationCard: FunctionComponent<Props> = ({
+  viewModel,
+  onRetaliationSelected,
+}) => {
   const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
   // adding eols to the body enable to force the card to use all the available space for the body
@@ -37,7 +41,9 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
           title={i18n.t('home.retaliation.see_more')}
           textStyle={styles.linkText}
           style={styles.linkButton}
-          onPress={() => {}}
+          onPress={() => {
+            onRetaliationSelected(viewModel.id)
+          }}
         />
         <HorizontalSeparator />
         <PrimaryButton

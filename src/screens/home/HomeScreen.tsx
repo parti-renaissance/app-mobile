@@ -196,6 +196,8 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       params: { eventId: eventId },
     })
   }
+  const onRetaliationSelected = (id: string) => {
+  }
 
   const renderItem = ({
     item,
@@ -248,7 +250,12 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         />
       )
     } else if (item.type === 'retaliation') {
-      return <HomeRetaliationRowContainer viewModel={item.value} />
+      return (
+        <HomeRetaliationRowContainer
+          viewModel={item.value}
+          onRetaliationSelected={onRetaliationSelected}
+        />
+      )
     } else {
       return null
     }
