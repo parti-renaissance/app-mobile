@@ -3,7 +3,7 @@ import { HomeRetaliationRowContainerViewModel } from '../HomeRowViewModel'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { Dimensions, ListRenderItemInfo, StyleSheet } from 'react-native'
 import { Spacing, Colors } from '../../../styles'
-import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import { HomeRetaliationCardViewModel } from './HomeRetaliationCardViewModel'
 import HomeRetaliationCard from './HomeRetaliationCard'
 
 type Props = Readonly<{
@@ -24,7 +24,9 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
         sliderWidth={width}
         itemWidth={width - Spacing.margin * 2}
         itemHeight={280}
-        renderItem={(model: ListRenderItemInfo<RetaliationCardViewModel>) => {
+        renderItem={(
+          model: ListRenderItemInfo<HomeRetaliationCardViewModel>,
+        ) => {
           return (
             <HomeRetaliationCard
               viewModel={model.item}

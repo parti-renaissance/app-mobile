@@ -1,18 +1,17 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image, Linking } from 'react-native'
-import { Spacing, Styles, Typography } from '../../../styles'
-import CardView from '../../shared/CardView'
-import { useTheme, useThemedStyles } from '../../../themes'
-import { BorderlessButton, PrimaryButton } from '../../shared/Buttons'
-import Theme from '../../../themes/Theme'
-import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
-import i18n from '../../../utils/i18n'
-import { HomeRetaliationCardViewModel } from './HomeRetaliationCardViewModel'
+import { Spacing, Styles, Typography } from '../../styles'
+import CardView from '../shared/CardView'
+import { useTheme, useThemedStyles } from '../../themes'
+import { PrimaryButton } from '../shared/Buttons'
+import Theme from '../../themes/Theme'
+import { HorizontalSeparator } from '../shared/HorizontalSeparator'
+import i18n from '../../utils/i18n'
+import { RetaliationCardViewModel } from './RetaliationCardViewModel'
 import Clipboard from '@react-native-community/clipboard'
 
 type Props = Readonly<{
-  viewModel: HomeRetaliationCardViewModel
-  onRetaliationSelected: (id: string) => void
+  viewModel: RetaliationCardViewModel
 }>
 
 export const Retaliate = (text: string, url: string) => {
@@ -20,10 +19,7 @@ export const Retaliate = (text: string, url: string) => {
   Linking.openURL(url)
 }
 
-const HomeRetaliationCard: FunctionComponent<Props> = ({
-  viewModel,
-  onRetaliationSelected,
-}) => {
+const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
   const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
   // adding eols to the body enable to force the card to use all the available space for the body
@@ -34,17 +30,7 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
           <Image source={viewModel.socialIcon} />
           <Text style={styles.title}>{viewModel.title}</Text>
         </View>
-        <Text style={styles.body} numberOfLines={4}>
-          {viewModel.body + '\n\n\n\n'}
-        </Text>
-        <BorderlessButton
-          title={i18n.t('home.retaliation.see_more')}
-          textStyle={styles.linkText}
-          style={styles.linkButton}
-          onPress={() => {
-            onRetaliationSelected(viewModel.id)
-          }}
-        />
+        <Text style={styles.body}>{viewModel.body}</Text>
         <HorizontalSeparator />
         <PrimaryButton
           shape={'rounded'}
@@ -101,4 +87,4 @@ const stylesFactory = (theme: Theme) => {
   })
 }
 
-export default HomeRetaliationCard
+export default RetaliationCard

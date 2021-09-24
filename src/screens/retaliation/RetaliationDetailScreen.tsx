@@ -6,9 +6,7 @@ import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationDetailScreenProp } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import HomeRetaliationCard, {
-  Retaliate,
-} from '../home/retaliation/HomeRetaliationCard'
+import RetaliationCard, { Retaliate } from './RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -47,16 +45,13 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
             <>
               <ScrollView style={styles.contentContainer}>
                 <Text style={styles.title}>{retaliation.title}</Text>
-                <HomeRetaliationCard
+                <RetaliationCard
                   viewModel={{
                     id: retaliation.id,
                     socialIcon: require('../../assets/images/facebook.png'),
                     title: retaliation.title,
                     body: retaliation.body,
                     url: retaliation.sourceUrl,
-                  }}
-                  onRetaliationSelected={() => {
-                    console.log('retaliate')
                   }}
                 />
                 <Text style={styles.subtitle}>

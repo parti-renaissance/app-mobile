@@ -3,7 +3,7 @@ import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
-import { RetaliationCardViewModel } from './retaliation/RetaliationCardViewModel'
+import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
 import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
@@ -32,7 +32,7 @@ export interface HomeQuickPollRowContainerViewModel {
 }
 
 export interface HomeRetaliationRowContainerViewModel {
-  retaliations: Array<RetaliationCardViewModel>
+  retaliations: Array<HomeRetaliationCardViewModel>
 }
 
 export interface HomeEventRowContainerViewModel {
