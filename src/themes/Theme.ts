@@ -23,6 +23,7 @@ interface ThemedImages {
   zipCode: () => ImageSourcePropType
   notification: () => ImageSourcePropType
   phoningSessionFailure: () => ImageSourcePropType
+  emptyCampaigns: () => ImageSourcePropType
 }
 
 export default interface Theme {

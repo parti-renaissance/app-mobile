@@ -41,6 +41,7 @@ const BlueTheme: Theme = {
     notification: () => require('../assets/images/blue/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/blue/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/blue/imagePhoning.png'),
   },
 }
 
