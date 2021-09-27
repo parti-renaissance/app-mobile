@@ -8,6 +8,7 @@ import RegionScreen from '../regions/RegionScreen'
 import NewsScreen from '../news/NewsScreen'
 import i18n from '../../utils/i18n'
 import EventDetailsScreen from '../events/EventDetailsScreen'
+import RetaliationDetailScreen from '../retaliation/RetaliationDetailScreen'
 
 const HomeStack = createStackNavigator<HomeParamList>()
 
@@ -34,6 +35,11 @@ const HomeNavigator: FunctionComponent = () => {
       <HomeStack.Screen
         name={Screen.eventDetails}
         component={EventDetailsScreen}
+      />
+
+      <HomeStack.Screen
+        name={Screen.retaliationDetailScreen}
+        component={RetaliationDetailScreen}
       />
     </HomeStack.Navigator>
   )
