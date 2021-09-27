@@ -41,6 +41,7 @@ const RedTheme: Theme = {
     notification: () => require('../assets/images/red/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/red/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/red/imagePhoning.png'),
   },
 }
 

@@ -330,11 +330,12 @@
         "title": "Comment faire un appel?",
         "link": "Regarder le tutoriel"
       },
+      "subtitle_no_campaigns": "Aucune campagne d'appels n'est actuellement en cours.",
       "callcontact": {
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
         "callbuttontitle": "Appeler un de mes contact",
-        "progressformat": "{{done}} appelés sur {{total}}"
+        "progressformat": "{{done}} questionnaires remplis sur {{total}}"
       },
       "campaign": { "action": "Commencer" },
       "brief": {
@@ -354,28 +355,34 @@
     },
     "phoningsession": {
       "new_call": "Nouvel appel",
-      "end_session": "Terminer",
+      "end_session": "Revenir à l'accueil",
       "failure": {
         "title": "On ne lâche rien !",
         "new_call_description": "Prêt pour un autre appel ?"
       },
-      "no_number": { "title": "Pas de numéro pour aujourd’hui" },
-      "loader": { "title": "Recherche de numéro en cours…" },
+      "no_number": {
+        "title": "Je n'ai plus de numéro disponible pour le moment."
+      },
+      "loader": { "title": "Je cherche un numéro à appeler..." },
       "other_device": {
         "title": "Appeler depuis un autre appareil",
-        "description": "Entrer le numéro de téléphone suivant sur un autre appareil puis cliquer sur « j’ai lancé l’appel »."
+        "description": "Entrez le numéro de téléphone suivant dans un autre appareil puis cliquez sur « j'ai lancé l'appel »."
       },
       "call_started": "J'ai lancé l'appel",
       "number_found": {
-        "title": "Un numéro a été trouvé !",
+        "title": "C'est parti !",
         "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
-        "recall": "L’appel n’a pas fonctionné : relancer"
+        "recall": "Le numéro est erroné"
       },
       "status_picker": {
         "title": "Accepte-t-il de répondre à vos questions ?",
         "action": "Valider"
       },
       "success": { "title": "Et un de plus, bravo ! " }
+    },
+    "retaliation": {
+      "title": "Riposte",
+      "execute": "Copier le texte et riposter"
     }
   }
 }
