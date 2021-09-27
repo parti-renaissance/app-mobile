@@ -10,7 +10,6 @@ export const PhoningViewModelMapper = {
       appendTutorial(rows)
     }
     appendCampaigns(campaigns, rows)
-    appendCallContact(rows)
 
     return {
       title: i18n.t('phoning.title'),
@@ -45,17 +44,6 @@ function appendCampaigns(
           campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
       },
     })
-  })
-}
-
-function appendCallContact(rows: PhoningRowViewModel[]) {
-  rows.push({
-    type: 'callContact',
-    value: {
-      id: 'callContact',
-      calledCount: 75,
-      numberOfPersonToCall: 134,
-    },
   })
 }
 
