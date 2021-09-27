@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image, Linking } from 'react-native'
-import { Spacing, Styles, Typography } from '../../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
 import { useTheme, useThemedStyles } from '../../../themes'
 import { BorderlessButton, PrimaryButton } from '../../shared/Buttons'
@@ -24,11 +24,13 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
   viewModel,
   onRetaliationSelected,
 }) => {
-  const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
   // adding eols to the body enable to force the card to use all the available space for the body
   return (
-    <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
+    <CardView
+      style={styles.cardView}
+      backgroundColor={Colors.defaultBackground}
+    >
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Image source={viewModel.socialIcon} />

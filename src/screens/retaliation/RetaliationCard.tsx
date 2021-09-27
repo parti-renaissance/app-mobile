@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image, Linking } from 'react-native'
-import { Spacing, Typography } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
-import { useTheme, useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
+import { useThemedStyles } from '../../themes'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
 import Clipboard from '@react-native-community/clipboard'
 
@@ -17,10 +16,12 @@ export const Retaliate = (text: string, url: string) => {
 }
 
 const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
-  const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
   return (
-    <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
+    <CardView
+      style={styles.cardView}
+      backgroundColor={Colors.defaultBackground}
+    >
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Image source={viewModel.socialIcon} />
@@ -35,7 +36,7 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
+const stylesFactory = () => {
   return StyleSheet.create({
     body: {
       ...Typography.body,
