@@ -13,5 +13,5 @@ export interface RestPhoningCampaignScore {
   position: number
   caller: boolean
   nb_calls: string
-  nb_survey: string
+  nb_surveys: string
 }

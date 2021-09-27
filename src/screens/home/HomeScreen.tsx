@@ -41,6 +41,7 @@ import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
+import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -74,6 +75,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.tools,
       currentResources.quickPoll,
       currentResources.nextEvent,
+      currentResources.retaliations,
     )
     setStatefulState(new ViewState.Content(viewModel))
   }, [theme, currentResources])
@@ -194,6 +196,11 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       params: { eventId: eventId },
     })
   }
+  const onRetaliationSelected = (id: string) => {
+    navigation.navigate(Screen.retaliationDetailScreen, {
+      retaliationId: id,
+    })
+  }
 
   const renderItem = ({
     item,
@@ -245,6 +252,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           onEventSelected={onEventSelected}
         />
       )
+    } else if (item.type === 'retaliation') {
+      return (
+        <HomeRetaliationRowContainer
+          viewModel={item.value}
+          onRetaliationSelected={onRetaliationSelected}
+        />
+      )
     } else {
       return null
     }
@@ -252,25 +266,27 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   const HomeContent = (homeViewModel: HomeViewModel) => {
     return (
-      <SectionList
-        stickySectionHeadersEnabled={false}
-        ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
-        sections={homeViewModel.rows}
-        renderItem={renderItem}
-        renderSectionHeader={({ section: { sectionViewModel } }) => {
-          return sectionViewModel !== undefined ? (
-            <HomeSectionRow viewModel={sectionViewModel} />
-          ) : null
-        }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={fetchData}
-            colors={[theme.primaryColor]}
-          />
-        }
-        keyExtractor={(item, index) => item.type + index}
-      />
+      <>
+        <SectionList
+          stickySectionHeadersEnabled={false}
+          ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
+          sections={homeViewModel.rows}
+          renderItem={renderItem}
+          renderSectionHeader={({ section: { sectionViewModel } }) => {
+            return sectionViewModel !== undefined ? (
+              <HomeSectionRow viewModel={sectionViewModel} />
+            ) : null
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={fetchData}
+              colors={[theme.primaryColor]}
+            />
+          }
+          keyExtractor={(item, index) => item.type + index}
+        />
+      </>
     )
   }
   return (

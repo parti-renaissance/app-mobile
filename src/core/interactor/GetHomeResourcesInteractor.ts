@@ -1,3 +1,4 @@
+import { Retaliation } from './../entities/Retaliation'
 import { AuthenticationState } from '../entities/AuthenticationState'
 import { News } from '../entities/News'
 import { Poll } from '../entities/Poll'
@@ -17,6 +18,7 @@ import { GetQuickPollInteractor } from './GetQuickPollInteractor'
 import { StatefulQuickPoll } from '../entities/StatefulQuickPoll'
 import { GetNextEventInteractor } from './GetNextEventInteractor'
 import { ShortEvent } from '../entities/Event'
+import RetaliationRepository from '../../data/RetaliationRepository'
 
 export interface HomeResources {
   zipCode: string
@@ -27,6 +29,7 @@ export interface HomeResources {
   tools: Array<Tool>
   quickPoll?: StatefulQuickPoll
   nextEvent?: ShortEvent
+  retaliations: Array<Retaliation>
 }
 
 export class GetHomeResourcesInteractor {
@@ -34,6 +37,7 @@ export class GetHomeResourcesInteractor {
   private profileRepository = ProfileRepository.getInstance()
   private regionsRepository = RegionsRepository.getInstance()
   private newsRepository = NewsRepository.getInstance()
+  private retaliationRepository = RetaliationRepository.getInstance()
   private getPollsInteractor = new GetPollsInteractor()
   private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
@@ -45,6 +49,7 @@ export class GetHomeResourcesInteractor {
     const state = await this.authenticationRepository.getAuthenticationState()
 
     const [
+      retaliationsResult,
       profileResult,
       departmentResult,
       newsResult,
@@ -53,6 +58,7 @@ export class GetHomeResourcesInteractor {
       quickPollsResult,
       nextEventResult,
     ] = await allSettled([
+      this.retaliationRepository.getRetaliations(),
       state === AuthenticationState.Authenticated
         ? this.profileRepository.getProfile(dataSource)
         : undefined,
@@ -142,6 +148,10 @@ export class GetHomeResourcesInteractor {
         nextEventResult.status === 'fulfilled'
           ? nextEventResult.value
           : undefined,
+      retaliations:
+        retaliationsResult.status === 'fulfilled'
+          ? retaliationsResult.value
+          : [],
     }
   }
 
