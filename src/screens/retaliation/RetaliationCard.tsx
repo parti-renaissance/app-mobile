@@ -51,8 +51,8 @@ const stylesFactory = () => {
     },
     image: {
       aspectRatio: 258 / 145,
-      width: '100%',
       resizeMode: 'cover',
+      width: '100%',
     },
     title: {
       ...Typography.title2,
