@@ -41,6 +41,7 @@ const GreenTheme: Theme = {
     notification: () => require('../assets/images/green/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/green/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/green/imagePhoning.png'),
   },
 }
 

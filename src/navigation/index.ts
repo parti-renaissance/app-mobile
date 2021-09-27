@@ -24,6 +24,7 @@ export type HomeParamList = {
   Region: { zipCode: string }
   News: undefined
   EventDetails: { eventId: string }
+  RetaliationDetailScreen: { retaliationId: string }
 }
 
 export type ProfileParamList = {
@@ -99,6 +100,12 @@ export type UnauthenticatedStackParamList = {
 }
 
 //----------- Screen Props -----------//
+
+// Retaliation Detail
+export type RetaliationDetailScreenProp = StackScreenProps<
+  HomeParamList,
+  typeof Screen.retaliationDetailScreen
+>
 
 // Phoning Tutorial
 export type PhoningTutorialScreenProp = StackScreenProps<
