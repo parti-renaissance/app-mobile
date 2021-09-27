@@ -14,7 +14,7 @@ export const PhoningCampaignMapper = {
         return {
           caller: item.caller,
           calls: item.nb_calls,
-          surveys: item.nb_survey,
+          surveys: item.nb_surveys,
           position: item.position,
           firstName: item.firstName,
         }
