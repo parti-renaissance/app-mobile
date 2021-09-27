@@ -13,8 +13,8 @@ export const RetaliationCardViewModelMapper = {
         retaliation.openGraph?.site ?? 'others',
       ),
       image: retaliation.openGraph?.image ?? '',
-      title: retaliation.title,
-      body: retaliation.body,
+      title: retaliation.openGraph?.title ?? '',
+      body: retaliation.openGraph?.description,
       url: retaliation.sourceUrl,
     }
   },
