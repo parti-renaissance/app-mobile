@@ -10,6 +10,7 @@ import RetaliationCard, { Retaliate } from './RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
+import { RetaliationCardViewModelMapper } from './RetaliationCardViewModelMapper'
 
 const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = ({
   route,
@@ -46,13 +47,7 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
               <ScrollView style={styles.contentContainer}>
                 <Text style={styles.title}>{retaliation.title}</Text>
                 <RetaliationCard
-                  viewModel={{
-                    id: retaliation.id,
-                    socialIcon: require('../../assets/images/facebook.png'),
-                    title: retaliation.title,
-                    body: retaliation.body,
-                    url: retaliation.sourceUrl,
-                  }}
+                  viewModel={RetaliationCardViewModelMapper.map(retaliation)}
                 />
                 <Text style={styles.subtitle}>
                   {i18n.t('retaliation.title')}

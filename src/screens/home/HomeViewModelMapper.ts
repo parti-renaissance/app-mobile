@@ -1,8 +1,5 @@
 import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
-import {
-  Retaliation,
-  RetaliationSiteType,
-} from './../../core/entities/Retaliation'
+import { Retaliation } from './../../core/entities/Retaliation'
 import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'

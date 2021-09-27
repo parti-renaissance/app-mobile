@@ -2,11 +2,11 @@ import { ImageSourcePropType } from 'react-native'
 import {
   Retaliation,
   RetaliationSiteType,
-} from './../../../core/entities/Retaliation'
-import { HomeRetaliationCardViewModel } from './HomeRetaliationCardViewModel'
+} from '../../core/entities/Retaliation'
+import { RetaliationCardViewModel } from './RetaliationCardViewModel'
 
-export const HomeRetaliationCardViewModelMapper = {
-  map: (retaliation: Retaliation): HomeRetaliationCardViewModel => {
+export const RetaliationCardViewModelMapper = {
+  map: (retaliation: Retaliation): RetaliationCardViewModel => {
     return {
       id: retaliation.id,
       socialIcon: mapRetaliationIconImage(
@@ -24,10 +24,10 @@ function mapRetaliationIconImage(
 ): ImageSourcePropType {
   switch (site) {
     case 'facebook':
-      return require('..//../../assets/images/facebook.png')
+      return require('../../assets/images/facebook.png')
     case 'twitter':
-      return require('../../../assets/images/twitter.png')
+      return require('../../assets/images/twitter.png')
     case 'others':
-      return require('../../../assets/images/otherSocialNetwork.png')
+      return require('../../assets/images/otherSocialNetwork.png')
   }
 }
