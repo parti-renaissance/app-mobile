@@ -3,6 +3,7 @@ import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
+import { RetaliationCardViewModel } from './retaliation/RetaliationCardViewModel'
 import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
@@ -28,6 +29,10 @@ export interface HomeQuickPollRowContainerViewModel {
   leadingAnswerViewModel: HomeQuickPollRowAnswerViewModel
   trailingAnswerViewModel: HomeQuickPollRowAnswerViewModel
   totalVotes: string
+}
+
+export interface HomeRetaliationRowContainerViewModel {
+  retaliations: Array<RetaliationCardViewModel>
 }
 
 export interface HomeEventRowContainerViewModel {
@@ -67,4 +72,8 @@ export type HomeRowViewModel =
   | {
       type: 'event'
       value: HomeEventRowContainerViewModel
+    }
+  | {
+      type: 'retaliation'
+      value: HomeRetaliationRowContainerViewModel
     }

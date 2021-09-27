@@ -43,6 +43,7 @@ const OrangeTheme: Theme = {
       require('../assets/images/orange/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/orange/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/orange/imagePhoning.png'),
   },
 }
 

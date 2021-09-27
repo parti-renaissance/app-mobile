@@ -44,6 +44,7 @@ const YellowTheme: Theme = {
       require('../assets/images/yellow/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/yellow/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/yellow/imagePhoning.png'),
   },
 }
 
