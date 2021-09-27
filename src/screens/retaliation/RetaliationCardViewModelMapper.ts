@@ -12,6 +12,7 @@ export const RetaliationCardViewModelMapper = {
       socialIcon: mapRetaliationIconImage(
         retaliation.openGraph?.site ?? 'others',
       ),
+      image: retaliation.openGraph?.image ?? '',
       title: retaliation.title,
       body: retaliation.body,
       url: retaliation.sourceUrl,

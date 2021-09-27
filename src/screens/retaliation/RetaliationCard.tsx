@@ -27,6 +27,9 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
           <Text style={styles.title}>{viewModel.title}</Text>
         </View>
         <Text style={styles.body}>{viewModel.body}</Text>
+        {viewModel.image.length !== 0 ? (
+          <Image style={styles.image} source={{ uri: viewModel.image }} />
+        ) : null}
       </View>
     </CardView>
   )
@@ -36,7 +39,7 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     body: {
       ...Typography.body,
-      marginTop: Spacing.margin,
+      marginBottom: Spacing.margin,
     },
     cardView: {
       marginHorizontal: Spacing.margin,
@@ -44,6 +47,11 @@ const stylesFactory = (theme: Theme) => {
     },
     container: {
       padding: Spacing.margin,
+    },
+    image: {
+      aspectRatio: 258 / 145,
+      width: '100%',
+      resizeMode: 'cover',
     },
     title: {
       ...Typography.title2,
