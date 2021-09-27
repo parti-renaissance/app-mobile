@@ -1,3 +1,4 @@
+import { Retaliation } from './../../core/entities/Retaliation'
 import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
@@ -30,9 +31,11 @@ export const HomeViewModelMapper = {
     tools: Array<Tool>,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
+    retaliations: Retaliation[],
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
+    appendRetaliation(retaliations, rows)
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
@@ -73,6 +76,31 @@ function appendEvent(
       {
         type: 'event',
         value: { event: EventRowViewModelMapper.map(event, 'hour') },
+      },
+    ],
+  })
+}
+
+function appendRetaliation(
+  retaliations: Retaliation[],
+  rows: HomeSectionViewModel[],
+) {
+  const retaliationsViewModel = retaliations.map((retaliation) => {
+    return {
+      id: retaliation.id,
+      title: retaliation.title,
+      body: retaliation.body,
+      url: retaliation.sourceUrl,
+    }
+  })
+  rows.push({
+    id: 'retaliation',
+    data: [
+      {
+        type: 'retaliation',
+        value: {
+          retaliations: retaliationsViewModel,
+        },
       },
     ],
   })

@@ -42,6 +42,7 @@ const PinkTheme: Theme = {
     notification: () => require('../assets/images/pink/imageNotification.png'),
     phoningSessionFailure: () =>
       require('../assets/images/pink/phoningSessionFailure.png'),
+    emptyCampaigns: () => require('../assets/images/pink/imagePhoning.png'),
   },
 }
 
