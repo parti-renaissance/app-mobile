@@ -117,8 +117,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContainer: {
+    paddingBottom: Spacing.largeMargin,
     paddingHorizontal: Spacing.margin,
-    paddingVertical: Spacing.unit,
+    paddingTop: Spacing.unit,
   },
 })
 
