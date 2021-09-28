@@ -171,13 +171,9 @@
         "title": "Ce qui a changé près de chez vous",
         "url": "https://chezvous.en-marche.fr/"
       },
-      "covid": {
-        "title": "InfoCovid",
-        "url": "https://en-marche.fr/infocovid"
-      },
-      "desintox": {
-        "title": "Désintox",
-        "url": "https://en-marche.fr/desintox"
+      "anothermandate": {
+        "title": "5 ans de plus",
+        "url": "https://5ansdeplus.fr"
       },
       "answers": {
         "title": "Réponses concrètes",
