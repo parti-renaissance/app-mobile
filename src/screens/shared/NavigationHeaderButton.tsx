@@ -10,7 +10,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import { Colors } from '../../styles'
+import { Colors, Spacing } from '../../styles'
 
 type NavigationHeaderButtonProps = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    margin: Spacing.small,
     minHeight: 44,
     minWidth: 44,
   },
