@@ -1,16 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Linking, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Retaliation } from '../../core/entities/Retaliation'
 import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationDetailScreenProp } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import RetaliationCard, { Retaliate } from './RetaliationCard'
+import RetaliationCard from './RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { RetaliationCardViewModelMapper } from './RetaliationCardViewModelMapper'
+import Clipboard from '@react-native-community/clipboard'
 
 const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = ({
   route,
@@ -33,6 +34,11 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
           }),
         )
       })
+  }
+
+  const retaliate = (text: string, url: string) => {
+    Clipboard.setString(text)
+    Linking.openURL(url)
   }
 
   useEffect(fetchData, [setState])
@@ -58,7 +64,7 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
                 <PrimaryButton
                   title={i18n.t('retaliation.execute')}
                   onPress={() =>
-                    Retaliate(retaliation.body, retaliation.sourceUrl)
+                    retaliate(retaliation.body, retaliation.sourceUrl)
                   }
                 />
               </View>

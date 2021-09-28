@@ -9,6 +9,7 @@ import {
   SectionList,
   SectionListRenderItemInfo,
   RefreshControl,
+  Linking,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -42,6 +43,7 @@ import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQui
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
+import Clipboard from '@react-native-community/clipboard'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -201,6 +203,15 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       retaliationId: id,
     })
   }
+  const onRetaliateSelected = (id: string) => {
+    const retaliation = currentResources?.retaliations.find(
+      (retaliation) => retaliation.id === id,
+    )
+    if (retaliation !== null && retaliation !== undefined) {
+      Clipboard.setString(retaliation.body)
+      Linking.openURL(retaliation.sourceUrl)
+    }
+  }
 
   const renderItem = ({
     item,
@@ -257,6 +268,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeRetaliationRowContainer
           viewModel={item.value}
           onRetaliationSelected={onRetaliationSelected}
+          onRetaliateSelected={onRetaliateSelected}
         />
       )
     } else {

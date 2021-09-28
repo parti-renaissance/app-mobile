@@ -9,10 +9,12 @@ import HomeRetaliationCard from './HomeRetaliationCard'
 type Props = Readonly<{
   viewModel: HomeRetaliationRowContainerViewModel
   onRetaliationSelected: (id: string) => void
+  onRetaliateSelected: (id: string) => void
 }>
 export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
   viewModel,
   onRetaliationSelected,
+  onRetaliateSelected,
 }) => {
   const [currentItem, setCurrentItem] = useState(0)
   const width = Dimensions.get('window').width
@@ -31,6 +33,7 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
             <HomeRetaliationCard
               viewModel={model.item}
               onRetaliationSelected={onRetaliationSelected}
+              onRetaliateSelected={onRetaliateSelected}
             />
           )
         }}
