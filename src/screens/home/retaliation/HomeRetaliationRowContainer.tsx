@@ -25,7 +25,6 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
         data={viewModel.retaliations}
         sliderWidth={width}
         itemWidth={width - Spacing.margin * 2}
-        itemHeight={280}
         renderItem={(
           model: ListRenderItemInfo<HomeRetaliationCardViewModel>,
         ) => {
