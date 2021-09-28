@@ -42,6 +42,7 @@ import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQui
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
+import { RetaliationService } from '../../data/RetaliationService'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -197,9 +198,22 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     })
   }
   const onRetaliationSelected = (id: string) => {
-    navigation.navigate(Screen.retaliationDetailScreen, {
-      retaliationId: id,
-    })
+    const retaliation = currentResources?.retaliations.find(
+      (item) => item.id === id,
+    )
+    if (retaliation !== null && retaliation !== undefined) {
+      navigation.navigate(Screen.retaliationDetailScreen, {
+        retaliation: retaliation,
+      })
+    }
+  }
+  const onRetaliateSelected = (id: string) => {
+    const retaliation = currentResources?.retaliations.find(
+      (item) => item.id === id,
+    )
+    if (retaliation !== null && retaliation !== undefined) {
+      RetaliationService.retaliate(retaliation)
+    }
   }
 
   const renderItem = ({
@@ -257,6 +271,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeRetaliationRowContainer
           viewModel={item.value}
           onRetaliationSelected={onRetaliationSelected}
+          onRetaliateSelected={onRetaliateSelected}
         />
       )
     } else {

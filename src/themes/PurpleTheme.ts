@@ -20,8 +20,8 @@ const PurpleTheme: Theme = {
   image: {
     near: () => require('../assets/images/purple/imageProche.png'),
     reforms: () => require('../assets/images/purple/imageReformes.png'),
-    covid: () => require('../assets/images/purple/imageCovid.png'),
-    desintox: () => require('../assets/images/purple/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/purple/imageAnotherMandate.png'),
     answers: () => require('../assets/images/purple/imageReponses.png'),
     error: () => require('../assets/images/purple/imageErreur.png'),
     emptyPoll: () => require('../assets/images/purple/imageSondage.png'),

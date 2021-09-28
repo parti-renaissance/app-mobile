@@ -1,3 +1,4 @@
+import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
 import { Retaliation } from './../../core/entities/Retaliation'
 import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
@@ -85,14 +86,9 @@ function appendRetaliation(
   retaliations: Retaliation[],
   rows: HomeSectionViewModel[],
 ) {
-  const retaliationsViewModel = retaliations.map((retaliation) => {
-    return {
-      id: retaliation.id,
-      title: retaliation.title,
-      body: retaliation.body,
-      url: retaliation.sourceUrl,
-    }
-  })
+  const retaliationsViewModel = retaliations.map(
+    HomeRetaliationCardViewModelMapper.map,
+  )
   rows.push({
     id: 'retaliation',
     data: [

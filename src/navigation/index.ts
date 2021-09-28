@@ -1,3 +1,4 @@
+import { Retaliation } from './../core/entities/Retaliation'
 import {
   NavigatorScreenParams,
   CompositeNavigationProp,
@@ -24,7 +25,7 @@ export type HomeParamList = {
   Region: { zipCode: string }
   News: undefined
   EventDetails: { eventId: string }
-  RetaliationDetailScreen: { retaliationId: string }
+  RetaliationDetailScreen: { retaliation: Retaliation }
 }
 
 export type ProfileParamList = {

@@ -21,8 +21,8 @@ const YellowTheme: Theme = {
   image: {
     near: () => require('../assets/images/yellow/imageProche.png'),
     reforms: () => require('../assets/images/yellow/imageReformes.png'),
-    covid: () => require('../assets/images/yellow/imageCovid.png'),
-    desintox: () => require('../assets/images/yellow/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/yellow/imageAnotherMandate.png'),
     answers: () => require('../assets/images/yellow/imageReponses.png'),
     error: () => require('../assets/images/yellow/imageErreur.png'),
     emptyPoll: () => require('../assets/images/yellow/imageSondage.png'),

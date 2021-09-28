@@ -21,10 +21,8 @@ function mapImage(theme: Theme, image: ToolImage): ImageSourcePropType {
       return theme.image.near()
     case ToolImage.REFORMS:
       return theme.image.reforms()
-    case ToolImage.COVID:
-      return theme.image.covid()
-    case ToolImage.DESINTOX:
-      return theme.image.desintox()
+    case ToolImage.ANOTHERMANDATE:
+      return theme.image.anotherMandate()
     case ToolImage.ANSWERS:
       return theme.image.answers()
   }

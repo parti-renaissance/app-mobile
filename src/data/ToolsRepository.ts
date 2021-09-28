@@ -19,15 +19,9 @@ class ToolsRepository {
       url: i18n.t('tools.near.url'),
     },
     {
-      id: 3,
-      title: i18n.t('tools.covid.title'),
-      image: ToolImage.COVID,
-      url: i18n.t('tools.covid.url'),
-    },
-    {
       id: 4,
       title: i18n.t('tools.desintox.title'),
-      image: ToolImage.DESINTOX,
+      image: ToolImage.ANOTHERMANDATE,
       url: i18n.t('tools.desintox.url'),
     },
     {

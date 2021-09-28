@@ -8,7 +8,6 @@ export interface Tool {
 export enum ToolImage {
   NEAR,
   REFORMS,
-  COVID,
-  DESINTOX,
+  ANOTHERMANDATE,
   ANSWERS,
 }

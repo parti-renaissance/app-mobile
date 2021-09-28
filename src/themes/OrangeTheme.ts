@@ -20,8 +20,8 @@ const OrangeTheme: Theme = {
   image: {
     near: () => require('../assets/images/orange/imageProche.png'),
     reforms: () => require('../assets/images/orange/imageReformes.png'),
-    covid: () => require('../assets/images/orange/imageCovid.png'),
-    desintox: () => require('../assets/images/orange/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/orange/imageAnotherMandate.png'),
     answers: () => require('../assets/images/orange/imageReponses.png'),
     error: () => require('../assets/images/orange/imageErreur.png'),
     emptyPoll: () => require('../assets/images/orange/imageSondage.png'),

@@ -1,72 +1,37 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Retaliation } from '../../core/entities/Retaliation'
-import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationDetailScreenProp } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { Retaliate } from '../home/retaliation/RetaliationCard'
+import RetaliationCard from './RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
-import { VerticalSpacer } from '../shared/Spacer'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { RetaliationCardViewModelMapper } from './RetaliationCardViewModelMapper'
+import { RetaliationService } from '../../data/RetaliationService'
 
 const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = ({
   route,
 }) => {
-  const id = route.params.retaliationId
-  const [state, setState] = useState<ViewState.Type<Retaliation>>(
-    new ViewState.Loading(),
-  )
-
-  const fetchData = () => {
-    RetaliationRepository.getInstance()
-      .getRetaliation(id)
-      .then((retaliation) => {
-        setState(new ViewState.Content(retaliation))
-      })
-      .catch((error) => {
-        setState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            fetchData()
-          }),
-        )
-      })
-  }
-
-  useEffect(fetchData, [setState])
+  const retaliation = route.params.retaliation
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatefulView
-        state={state}
-        contentComponent={(retaliation) => {
-          return (
-            <>
-              <ScrollView style={styles.contentContainer}>
-                <Text style={styles.title}>{retaliation.title}</Text>
-                <VerticalSpacer spacing={256} />
-                {
-                  // Replace spacer by the retaliation card
-                }
-                <Text style={styles.subtitle}>
-                  {i18n.t('retaliation.title')}
-                </Text>
-                <Text style={styles.retaliation}>{retaliation.body}</Text>
-              </ScrollView>
-              <View style={styles.bottomContainer}>
-                <PrimaryButton
-                  title={i18n.t('retaliation.execute')}
-                  onPress={() =>
-                    Retaliate(retaliation.body, retaliation.sourceUrl)
-                  }
-                />
-              </View>
-            </>
-          )
-        }}
-      />
+      <>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <Text style={styles.title}>{retaliation.title}</Text>
+          <RetaliationCard
+            viewModel={RetaliationCardViewModelMapper.map(retaliation)}
+          />
+          <Text style={styles.subtitle}>{i18n.t('retaliation.title')}</Text>
+          <Text style={styles.retaliation}>{retaliation.body}</Text>
+        </ScrollView>
+        <View style={styles.bottomContainer}>
+          <PrimaryButton
+            title={i18n.t('retaliation.execute')}
+            onPress={() => RetaliationService.retaliate(retaliation)}
+          />
+        </View>
+      </>
     </SafeAreaView>
   )
 }
