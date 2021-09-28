@@ -20,8 +20,8 @@ const BlueTheme: Theme = {
   image: {
     near: () => require('../assets/images/blue/imageProche.png'),
     reforms: () => require('../assets/images/blue/imageReformes.png'),
-    covid: () => require('../assets/images/blue/imageCovid.png'),
-    desintox: () => require('../assets/images/blue/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/blue/imageAnotherMandate.png'),
     answers: () => require('../assets/images/blue/imageReponses.png'),
     error: () => require('../assets/images/blue/imageErreur.png'),
     emptyPoll: () => require('../assets/images/blue/imageSondage.png'),

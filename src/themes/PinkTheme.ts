@@ -21,8 +21,8 @@ const PinkTheme: Theme = {
   image: {
     near: () => require('../assets/images/pink/imageProche.png'),
     reforms: () => require('../assets/images/pink/imageReformes.png'),
-    covid: () => require('../assets/images/pink/imageCovid.png'),
-    desintox: () => require('../assets/images/pink/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/pink/imageAnotherMandate.png'),
     answers: () => require('../assets/images/pink/imageReponses.png'),
     error: () => require('../assets/images/pink/imageErreur.png'),
     emptyPoll: () => require('../assets/images/pink/imageSondage.png'),

@@ -4,8 +4,7 @@ import RegionTheme from '../core/entities/RegionTheme'
 interface ThemedImages {
   near: () => ImageSourcePropType
   reforms: () => ImageSourcePropType
-  covid: () => ImageSourcePropType
-  desintox: () => ImageSourcePropType
+  anotherMandate: () => ImageSourcePropType
   answers: () => ImageSourcePropType
   error: () => ImageSourcePropType
   emptyPoll: () => ImageSourcePropType
