@@ -34,8 +34,8 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
             {viewModel.title + '\n\n'}
           </Text>
         </View>
-        <Text style={styles.body} numberOfLines={4}>
-          {viewModel.body + '\n\n\n\n'}
+        <Text style={styles.body} numberOfLines={3}>
+          {viewModel.body + '\n\n\n'}
         </Text>
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}
@@ -65,6 +65,7 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     body: {
       ...Typography.body,
+      height: 57,
       marginTop: Spacing.margin,
     },
     cardView: {
@@ -93,9 +94,10 @@ const stylesFactory = (theme: Theme) => {
     },
     title: {
       ...Typography.title2,
-      flex: 1,
+      height: 44,
       marginBottom: Spacing.margin,
       marginLeft: Spacing.margin,
+      marginRight: Spacing.margin,
     },
     titleContainer: {
       flexDirection: 'row',
