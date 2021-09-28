@@ -21,7 +21,7 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
   onRetaliateSelected,
 }) => {
   const styles = useThemedStyles(stylesFactory)
-  // adding eols to the body enable to force the card to use all the available space for the body
+  // adding eols to the title and the body enable to force the card to use all the available space
   return (
     <CardView
       style={styles.cardView}
@@ -30,7 +30,9 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Image source={viewModel.socialIcon} />
-          <Text style={styles.title}>{viewModel.title}</Text>
+          <Text style={styles.title} numberOfLines={2}>
+            {viewModel.title + '\n\n'}
+          </Text>
         </View>
         <Text style={styles.body} numberOfLines={4}>
           {viewModel.body + '\n\n\n\n'}
