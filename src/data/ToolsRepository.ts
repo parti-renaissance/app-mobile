@@ -20,9 +20,9 @@ class ToolsRepository {
     },
     {
       id: 4,
-      title: i18n.t('tools.desintox.title'),
+      title: i18n.t('tools.anothermandate.title'),
       image: ToolImage.ANOTHERMANDATE,
-      url: i18n.t('tools.desintox.url'),
+      url: i18n.t('tools.anothermandate.url'),
     },
     {
       id: 5,
