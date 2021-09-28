@@ -1,39 +1,37 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image, Linking } from 'react-native'
-import { Spacing, Styles, Typography } from '../../../styles'
+import { StyleSheet, Text, View, Image } from 'react-native'
+import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
-import { useTheme, useThemedStyles } from '../../../themes'
+import { useThemedStyles } from '../../../themes'
 import { BorderlessButton, PrimaryButton } from '../../shared/Buttons'
 import Theme from '../../../themes/Theme'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
 import i18n from '../../../utils/i18n'
-import { RetaliationCardViewModel } from './RetaliationCardViewModel'
-import Clipboard from '@react-native-community/clipboard'
+import { HomeRetaliationCardViewModel } from './HomeRetaliationCardViewModel'
 
 type Props = Readonly<{
-  viewModel: RetaliationCardViewModel
+  viewModel: HomeRetaliationCardViewModel
   onRetaliationSelected: (id: string) => void
+  onRetaliateSelected: (id: string) => void
 }>
 
-export const Retaliate = (text: string, url: string) => {
-  Clipboard.setString(text)
-  Linking.openURL(url)
-}
-
-const RetaliationCard: FunctionComponent<Props> = ({
+const HomeRetaliationCard: FunctionComponent<Props> = ({
   viewModel,
   onRetaliationSelected,
+  onRetaliateSelected,
 }) => {
-  const { theme } = useTheme()
   const styles = useThemedStyles(stylesFactory)
   // adding eols to the body enable to force the card to use all the available space for the body
   return (
-    <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
+    <CardView
+      style={styles.cardView}
+      backgroundColor={Colors.defaultBackground}
+    >
       <View style={styles.container}>
-        <Text>
-          <Image source={require('../../../assets/images/iconSearch.png')} />
+        <View style={styles.titleContainer}>
+          <Image source={viewModel.socialIcon} />
           <Text style={styles.title}>{viewModel.title}</Text>
-        </Text>
+        </View>
         <Text style={styles.body} numberOfLines={4}>
           {viewModel.body + '\n\n\n\n'}
         </Text>
@@ -52,7 +50,9 @@ const RetaliationCard: FunctionComponent<Props> = ({
           style={styles.retaliateButton}
           textStyle={styles.retaliateButtonText}
           title={i18n.t('home.retaliation.retaliate_button')}
-          onPress={() => Retaliate(viewModel.body, viewModel.url)}
+          onPress={() => {
+            onRetaliateSelected(viewModel.id)
+          }}
         />
       </View>
     </CardView>
@@ -93,8 +93,12 @@ const stylesFactory = (theme: Theme) => {
     title: {
       ...Typography.title2,
       marginBottom: Spacing.margin,
+      marginLeft: Spacing.margin,
+    },
+    titleContainer: {
+      flexDirection: 'row',
     },
   })
 }
 
-export default RetaliationCard
+export default HomeRetaliationCard
