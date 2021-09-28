@@ -66,7 +66,6 @@ const stylesFactory = (theme: Theme) => {
       marginTop: Spacing.margin,
     },
     cardView: {
-      marginHorizontal: Spacing.margin,
       marginVertical: Spacing.margin,
     },
     container: {
@@ -92,6 +91,7 @@ const stylesFactory = (theme: Theme) => {
     },
     title: {
       ...Typography.title2,
+      flex: 1,
       marginBottom: Spacing.margin,
       marginLeft: Spacing.margin,
     },
