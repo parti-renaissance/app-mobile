@@ -1,19 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image, Linking } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import { useThemedStyles } from '../../themes'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
-import Clipboard from '@react-native-community/clipboard'
 
 type Props = Readonly<{
   viewModel: RetaliationCardViewModel
 }>
-
-export const Retaliate = (text: string, url: string) => {
-  Clipboard.setString(text)
-  Linking.openURL(url)
-}
 
 const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
   const styles = useThemedStyles(stylesFactory)
