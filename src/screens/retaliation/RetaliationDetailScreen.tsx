@@ -17,7 +17,7 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProp> = 
   return (
     <SafeAreaView style={styles.container}>
       <>
-        <ScrollView style={styles.contentContainer}>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
           <Text style={styles.title}>{retaliation.title}</Text>
           <RetaliationCard
             viewModel={RetaliationCardViewModelMapper.map(retaliation)}

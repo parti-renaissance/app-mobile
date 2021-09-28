@@ -37,7 +37,6 @@ const stylesFactory = () => {
       marginBottom: Spacing.margin,
     },
     cardView: {
-      marginHorizontal: Spacing.margin,
       marginVertical: Spacing.margin,
     },
     container: {
