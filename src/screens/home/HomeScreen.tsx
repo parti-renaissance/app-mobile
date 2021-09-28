@@ -199,7 +199,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   }
   const onRetaliationSelected = (id: string) => {
     const retaliation = currentResources?.retaliations.find(
-      (retaliation) => retaliation.id === id,
+      (item) => item.id === id,
     )
     if (retaliation !== null && retaliation !== undefined) {
       navigation.navigate(Screen.retaliationDetailScreen, {
@@ -209,7 +209,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   }
   const onRetaliateSelected = (id: string) => {
     const retaliation = currentResources?.retaliations.find(
-      (retaliation) => retaliation.id === id,
+      (item) => item.id === id,
     )
     if (retaliation !== null && retaliation !== undefined) {
       RetaliationService.retaliate(retaliation)
