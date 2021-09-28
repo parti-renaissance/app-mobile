@@ -434,11 +434,11 @@ PODS:
     - React
   - RNCPicker (1.9.11):
     - React-Core
-  - RNCPushNotificationIOS (1.7.3):
+  - RNCPushNotificationIOS (1.8.0):
     - React-Core
   - RNDateTimePicker (3.2.0):
     - React-Core
-  - RNDeviceInfo (7.1.0):
+  - RNDeviceInfo (8.3.3):
     - React-Core
   - RNFBAnalytics (11.5.0):
     - Firebase/Analytics (= 7.11.0)
@@ -462,14 +462,14 @@ PODS:
     - React-Core
   - RNScreens (2.13.0):
     - React-Core
-  - RNSentry (2.1.0):
+  - RNSentry (2.6.2):
     - React-Core
-    - Sentry (= 6.0.9)
+    - Sentry (= 7.1.4)
   - RNVectorIcons (7.1.0):
     - React
-  - Sentry (6.0.9):
-    - Sentry/Core (= 6.0.9)
-  - Sentry/Core (6.0.9)
+  - Sentry (7.1.4):
+    - Sentry/Core (= 7.1.4)
+  - Sentry/Core (7.1.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -750,9 +750,9 @@ SPEC CHECKSUMS:
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPicker: 6780c753e9e674065db90d9c965920516402579d
-  RNCPushNotificationIOS: edeeea93b7210d2f918fc0e46e1a2a189b5fdacc
+  RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
   RNDateTimePicker: 17593e41b6b1585aeb8ecbe1c1cbc30cba3d0b4b
-  RNDeviceInfo: 6cf87235aa11e675b93b31aa9b88a825753eea2f
+  RNDeviceInfo: cc7de0772378f85d8f36ae439df20f05c590a651
   RNFBAnalytics: 3e250066a98d6ea0a7816c52de75f2633f726580
   RNFBApp: 9c90f9d576861947ba75fe0830567c570bcbcf6d
   RNFBIid: e3a0c5de29ab0d414f6b186963066b4d34884d59
@@ -760,9 +760,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNLocalize: 7c7aeda16c01db7a0918981c14875c0a53be9b79
   RNScreens: 13f23e5498fb4aa749d19a5eda7f8792fbb9d01f
-  RNSentry: 51972e3fe50e2fb38ae459af8c87d61f63f364db
+  RNSentry: 68644ef607b780551cc555f084869764f2566652
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
-  Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
+  Sentry: 1d3eb1a25f8c5333c88dd5603904a6d461cd9fcf
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
