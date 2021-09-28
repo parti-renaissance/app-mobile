@@ -1,12 +1,4 @@
-export interface Retaliation {
-  title: string
-  body: string
-  sourceUrl: string
-  withNotification: boolean
-  id: string
-  createdAt: Date
-  openGraph: RetaliationOpenGraph | null
-}
+export type RetaliationSiteType = 'twitter' | 'facebook' | 'others'
 
 export interface RetaliationOpenGraph {
   url: string | null
@@ -17,4 +9,12 @@ export interface RetaliationOpenGraph {
   description: string | null
 }
 
-export type RetaliationSiteType = 'twitter' | 'facebook' | 'others'
+export interface Retaliation {
+  title: string
+  body: string
+  sourceUrl: string
+  withNotification: boolean
+  id: string
+  createdAt: Date
+  openGraph: RetaliationOpenGraph | null
+}
