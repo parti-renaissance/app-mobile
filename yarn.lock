@@ -6611,10 +6611,10 @@ react-native-country-picker-modal@2.0.0:
   dependencies:
     moment "^2.22.0"
 
-react-native-device-info@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-7.1.0.tgz"
-  integrity sha512-H0fQ9fi6DNq85SUmJK8Opo8twHKXKp86FI4jL1Abg2tH6CjVbQ871QibD12ZMjKLMy4kKHL7BRxNEPUcI79JNg==
+react-native-device-info@8.3.3:
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-8.3.3.tgz#05c1900602d174b58c6ac927d748a785d76d0898"
+  integrity sha512-l8/3MHq6O9PRWSrKwy63WvDCnt8IXOce86AEkJFVVtKR9cAGLLaFyXUGyqIc5T/kpCyOqofOattVDjZGUn/zAQ==
 
 react-native-fit-image@^1.5.5:
   version "1.5.5"
