@@ -20,8 +20,8 @@ const GreenTheme: Theme = {
   image: {
     near: () => require('../assets/images/green/imageProche.png'),
     reforms: () => require('../assets/images/green/imageReformes.png'),
-    covid: () => require('../assets/images/green/imageCovid.png'),
-    desintox: () => require('../assets/images/green/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/green/imageAnotherMandate.png'),
     answers: () => require('../assets/images/green/imageReponses.png'),
     error: () => require('../assets/images/green/imageErreur.png'),
     emptyPoll: () => require('../assets/images/green/imageSondage.png'),

@@ -20,8 +20,8 @@ const RedTheme: Theme = {
   image: {
     near: () => require('../assets/images/red/imageProche.png'),
     reforms: () => require('../assets/images/red/imageReformes.png'),
-    covid: () => require('../assets/images/red/imageCovid.png'),
-    desintox: () => require('../assets/images/red/imageDesintox.png'),
+    anotherMandate: () =>
+      require('../assets/images/red/imageAnotherMandate.png'),
     answers: () => require('../assets/images/red/imageReponses.png'),
     error: () => require('../assets/images/red/imageErreur.png'),
     emptyPoll: () => require('../assets/images/red/imageSondage.png'),
