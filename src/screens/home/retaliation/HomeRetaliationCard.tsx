@@ -89,7 +89,7 @@ const stylesFactory = (theme: Theme) => {
       marginTop: Spacing.mediumMargin,
     },
     retaliateButtonText: {
-      ...Typography.headline,
+      ...Typography.body,
       color: theme.primaryButtonTextColor,
     },
     title: {
