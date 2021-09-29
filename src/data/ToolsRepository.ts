@@ -24,12 +24,6 @@ class ToolsRepository {
       image: ToolImage.ANOTHERMANDATE,
       url: i18n.t('tools.anothermandate.url'),
     },
-    {
-      id: 5,
-      title: i18n.t('tools.answers.title'),
-      image: ToolImage.ANSWERS,
-      url: i18n.t('tools.answers.url'),
-    },
   ]
 
   public getTools(): Promise<Array<Tool>> {

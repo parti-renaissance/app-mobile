@@ -22,7 +22,6 @@ const OrangeTheme: Theme = {
     reforms: () => require('../assets/images/orange/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/orange/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/orange/imageReponses.png'),
     error: () => require('../assets/images/orange/imageErreur.png'),
     emptyPoll: () => require('../assets/images/orange/imageSondage.png'),
     pollImage1: () => require('../assets/images/orange/imageSondage01.png'),

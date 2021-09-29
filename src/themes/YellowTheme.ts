@@ -23,7 +23,6 @@ const YellowTheme: Theme = {
     reforms: () => require('../assets/images/yellow/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/yellow/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/yellow/imageReponses.png'),
     error: () => require('../assets/images/yellow/imageErreur.png'),
     emptyPoll: () => require('../assets/images/yellow/imageSondage.png'),
     pollImage1: () => require('../assets/images/yellow/imageSondage01.png'),

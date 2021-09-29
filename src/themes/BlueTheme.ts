@@ -22,7 +22,6 @@ const BlueTheme: Theme = {
     reforms: () => require('../assets/images/blue/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/blue/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/blue/imageReponses.png'),
     error: () => require('../assets/images/blue/imageErreur.png'),
     emptyPoll: () => require('../assets/images/blue/imageSondage.png'),
     pollImage1: () => require('../assets/images/blue/imageSondage01.png'),

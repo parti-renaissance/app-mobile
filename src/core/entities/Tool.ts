@@ -9,5 +9,4 @@ export enum ToolImage {
   NEAR,
   REFORMS,
   ANOTHERMANDATE,
-  ANSWERS,
 }

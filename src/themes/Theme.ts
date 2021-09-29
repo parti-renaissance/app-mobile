@@ -5,7 +5,6 @@ interface ThemedImages {
   near: () => ImageSourcePropType
   reforms: () => ImageSourcePropType
   anotherMandate: () => ImageSourcePropType
-  answers: () => ImageSourcePropType
   error: () => ImageSourcePropType
   emptyPoll: () => ImageSourcePropType
   pollImage1: () => ImageSourcePropType
