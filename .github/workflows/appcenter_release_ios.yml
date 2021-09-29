@@ -10,6 +10,14 @@ on:
         description: 'Define the code signing method (adhoc|appstore)'
         required: true
         default: 'adhoc'
+      bump_build_number:
+        description: 'Bump the build number (false|true)'
+        required: true
+        default: 'true'
+      tag_release:
+        description: 'Tag commit and create the github release (false|true)'
+        required: true
+        default: 'true'
       force_codesign:
         description: 'Recreate signing assets (false|true)'
         required: true
@@ -75,4 +83,10 @@ jobs:
           APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
           MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD_SECRET }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_SECRET }}
-        run: bundle exec fastlane deploy match_type:${{ github.event.inputs.signing }} force_codesign:${{ github.event.inputs.force_codesign }} --env ${{ github.event.inputs.environment }}
+        run: |
+          bundle exec fastlane deploy \
+          match_type:${{ github.event.inputs.signing }} \
+          force_codesign:${{ github.event.inputs.force_codesign }} \
+          tag_release:${{ github.event.inputs.tag_release }} \
+          bump_build_number:${{ github.event.inputs.bump_build_number }} \
+          --env ${{ github.event.inputs.environment }}
