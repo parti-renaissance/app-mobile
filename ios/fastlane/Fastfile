@@ -109,7 +109,7 @@ private_lane :create_temporary_keychain do
     name: TEMP_KEYCHAIN_NAME,
     password: TEMP_KEYCHAIN_PASSWORD,
     unlock: true,
-    timeout: false
+    timeout: 0
   )
 end
 
