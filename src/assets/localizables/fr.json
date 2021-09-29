@@ -368,7 +368,7 @@
       "number_found": {
         "title": "C'est parti !",
         "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
-        "recall": "Le numéro est erroné"
+        "recall": "Relancer l'appel"
       },
       "status_picker": {
         "title": "Accepte-t-il de répondre à vos questions ?",
