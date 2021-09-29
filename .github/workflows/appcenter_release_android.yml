@@ -7,6 +7,14 @@ on:
         description: 'Define the environment (staging|production)'
         required: true
         default: 'staging'
+      bump_build_number:
+        description: 'Bump the build number'
+        required: true
+        default: 'true'
+      tag_release:
+        description: 'Tag commit and create the github release'
+        required: true
+        default: 'true'
       channel:
         description: 'Define the publishing channel (appcenter|playstore)'
         required: true
@@ -79,5 +87,7 @@ jobs:
           ANDROID_JSON_PLAYSTORE_KEY: ${{ secrets.ANDROID_JSON_PLAYSTORE_KEY }}
         run: |
           bundle exec fastlane deliver_app \
-            channel:${{ github.event.inputs.channel }}\
-            --env ${{ github.event.inputs.environment }}
+          channel:${{ github.event.inputs.channel }} \
+          bump_build_number:${{ github.event.inputs.bump_build_number }} \
+          tag_release:${{ github.event.inputs.tag_release }} \
+          --env ${{ github.event.inputs.environment }}
