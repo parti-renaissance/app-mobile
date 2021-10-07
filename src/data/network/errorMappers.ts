@@ -1,3 +1,4 @@
+import { LoginError } from './../../core/errors/index'
 import ky from 'ky'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
@@ -9,9 +10,21 @@ import {
   TokenCannotBeSubscribedError,
 } from '../../core/errors'
 import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
+import { RestLoginErrorResponse } from '../restObjects/RestLoginErrorResponse'
 import { RestPhoningSessionErrorResponse } from '../restObjects/RestPhoningSession'
 import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
 import { genericErrorMapping } from './utils'
+
+export const mapLoginError = async (error: any) => {
+  if (error instanceof ky.HTTPError && error.response.status === 400) {
+    const errorResponse = await error.response.json()
+
+    const parsedError = errorResponse as RestLoginErrorResponse
+    console.log(parsedError)
+    throw new LoginError(parsedError.message)
+  }
+  return genericErrorMapping(error)
+}
 
 export const mapProfileFormError = async (error: any) => {
   if (error instanceof ky.HTTPError && error.response.status === 400) {

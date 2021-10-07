@@ -8,6 +8,7 @@ import {
 } from '../../core/errors'
 import { RestLoginErrorResponse } from '../restObjects/RestLoginErrorResponse'
 import { genericErrorMapping } from './utils'
+import { mapLoginError } from './errorMappers'
 
 class OAuthApiService {
   private static instance: OAuthApiService
@@ -50,7 +51,7 @@ class OAuthApiService {
           throw error
         }
       })
-      .catch(genericErrorMapping)
+      .catch(mapLoginError)
   }
 
   public anonymousLogin(deviceId: string): Promise<RestLoginResponse> {

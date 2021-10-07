@@ -17,6 +17,7 @@ export class ProfileFormError extends Error {
     this.violations = violations
   }
 }
+export class LoginError extends Error {}
 export class EventSubscriptionError extends Error {}
 export class TokenCannotBeSubscribedError extends Error {}
 export class PhoningSessionNoNumberError extends Error {}
