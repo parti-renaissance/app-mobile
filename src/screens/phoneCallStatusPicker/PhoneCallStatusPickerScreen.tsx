@@ -142,10 +142,6 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
                   {route.params.data.adherent.info}
                 </Text>
                 <VerticalSpacer spacing={Spacing.margin} />
-                <Text style={styles.title}>
-                  {i18n.t('phoningsession.status_picker.title')}
-                </Text>
-                <VerticalSpacer spacing={Spacing.margin} />
               </>
             )
           }}
