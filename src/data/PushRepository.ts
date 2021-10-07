@@ -1,3 +1,4 @@
+import { Mutex } from 'async-mutex'
 import messaging from '@react-native-firebase/messaging'
 import { ENVIRONMENT } from '../Config'
 import { Department } from '../core/entities/Department'
@@ -11,12 +12,45 @@ class PushRepository {
   private static instance: PushRepository
   private localStore = LocalStore.getInstance()
   private apiService = ApiService.getInstance()
+  private syncrhonizePushTokenMutex = new Mutex()
+  private dissociatedTokenMutex = new Mutex()
   private constructor() {}
 
   public async synchronizePushTokenAssociation(): Promise<void> {
-    const registrations = await this.localStore.getTopicsRegistration()
-    const pushToken = await messaging().getToken()
-    if (registrations?.pushTokenAssociated !== pushToken) {
+    this.syncrhonizePushTokenMutex.runExclusive(async () => {
+      const registrations = await this.localStore.getTopicsRegistration()
+      const pushToken = await messaging().getToken()
+      if (registrations?.pushTokenAssociated !== pushToken) {
+        try {
+          await this.apiService.removePushToken(pushToken)
+          console.log('pushToken dissociated with success')
+        } catch (error) {
+          // no-op
+          console.log(error)
+        }
+        try {
+          await this.apiService.addPushToken({
+            identifier: pushToken,
+            source: TOKEN_SOURCE,
+          })
+        } catch (error) {
+          if (!(error instanceof TokenCannotBeSubscribedError)) {
+            throw error
+          }
+        }
+        await this.localStore.updateTopicsRegistration({
+          pushTokenAssociated: pushToken,
+        })
+        console.log('pushToken associated with success')
+      } else {
+        console.log('pushToken already associated to the user')
+      }
+    })
+  }
+
+  public async dissociateToken() {
+    this.dissociatedTokenMutex.runExclusive(async () => {
+      const pushToken = await messaging().getToken()
       try {
         await this.apiService.removePushToken(pushToken)
         console.log('pushToken dissociated with success')
@@ -24,34 +58,7 @@ class PushRepository {
         // no-op
         console.log(error)
       }
-      try {
-        await this.apiService.addPushToken({
-          identifier: pushToken,
-          source: TOKEN_SOURCE,
-        })
-      } catch (error) {
-        if (!(error instanceof TokenCannotBeSubscribedError)) {
-          throw error
-        }
-      }
-      await this.localStore.updateTopicsRegistration({
-        pushTokenAssociated: pushToken,
-      })
-      console.log('pushToken associated with success')
-    } else {
-      console.log('pushToken already associated to the user')
-    }
-  }
-
-  public async dissociateToken() {
-    const pushToken = await messaging().getToken()
-    try {
-      await this.apiService.removePushToken(pushToken)
-      console.log('pushToken dissociated with success')
-    } catch (error) {
-      // no-op
-      console.log(error)
-    }
+    })
   }
 
   public async synchronizeGeneralTopicSubscription(): Promise<void> {
