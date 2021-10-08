@@ -3,6 +3,7 @@ export interface PhoningCampaign {
   title: string
   brief: string
   goal: number
+  permanent: boolean
   callsCount: number
   finishAt: Date
   scoreboard: Array<PhoningCampaignScore>

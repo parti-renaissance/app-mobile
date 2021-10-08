@@ -19,7 +19,7 @@ type Props = Readonly<{
 export interface PhoningCampaignRowViewModel {
   id: string
   title: string
-  remainingDays: string
+  subtitle: string
   calledCount: number
   numberOfPersonToCall: number
   rank: number
@@ -41,7 +41,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
           <Text style={styles.title}>{viewModel.title}</Text>
           <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.body} numberOfLines={3}>
-            {viewModel.remainingDays}
+            {viewModel.subtitle}
           </Text>
           <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.caption}>

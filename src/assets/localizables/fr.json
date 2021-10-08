@@ -331,6 +331,9 @@
       },
       "campaign": {
         "remainingdays": "Il vous reste {{remainingdays}} jours \u2028pour atteindre votre objectif.",
+        "permanent": {
+          "subtitle": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron"
+        },
         "action": "Commencer"
       },
       "brief": {
