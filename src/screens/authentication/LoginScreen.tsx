@@ -12,7 +12,6 @@ import { LoginInteractor } from '../../core/interactor/LoginInteractor'
 import RegionTheme from '../../core/entities/RegionTheme'
 import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
-import { errorMessage } from '../../styles/typography'
 
 type Props = Readonly<{
   onSuccess?: () => void
