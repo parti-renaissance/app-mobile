@@ -88,8 +88,6 @@ const stylesFactory = (theme: Theme) => {
     },
     title: {
       ...Typography.title2,
-      height: 44,
-      marginBottom: Spacing.margin,
       marginLeft: Spacing.margin,
       marginRight: Spacing.margin,
     },
