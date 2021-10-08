@@ -1,6 +1,5 @@
 import { FormViolation } from '../entities/DetailedProfile'
 
-export class CredentialsInvalidError extends Error {}
 export class ServerTimeoutError extends Error {}
 export class BadRequestError extends Error {}
 export class UnauthorizedError extends Error {}

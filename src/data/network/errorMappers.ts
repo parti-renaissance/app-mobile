@@ -20,7 +20,6 @@ export const mapLoginError = async (error: any) => {
     const errorResponse = await error.response.json()
 
     const parsedError = errorResponse as RestLoginErrorResponse
-    console.log(parsedError)
     throw new LoginError(parsedError.message)
   }
   return genericErrorMapping(error)
