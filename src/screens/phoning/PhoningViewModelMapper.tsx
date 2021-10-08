@@ -32,12 +32,17 @@ function appendCampaigns(
   rows: PhoningRowViewModel[],
 ) {
   campaigns.forEach((campaign) => {
+    const remainingDays = Math.floor(
+      (campaign.finishAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+    )
     rows.push({
       type: 'campaign',
       value: {
         id: campaign.id,
         title: campaign.title,
-        brief: campaign.brief,
+        remainingDays: i18n.t('phoning.campaign.remainingdays', {
+          remainingdays: remainingDays,
+        }),
         calledCount: campaign.callsCount,
         numberOfPersonToCall: campaign.goal,
         rank:

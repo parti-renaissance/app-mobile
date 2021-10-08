@@ -329,7 +329,10 @@
         "callbuttontitle": "Appeler un de mes contact",
         "progressformat": "{{done}} questionnaires remplis sur {{total}}"
       },
-      "campaign": { "action": "Commencer" },
+      "campaign": {
+        "remainingdays": "Il vous reste {{remainingdays}} jours \u2028pour atteindre votre objectif.",
+        "action": "Commencer"
+      },
       "brief": {
         "call": "Lancer l’appel",
         "call_from_other_device": "Lancer l’appel sur un autre appareil"
