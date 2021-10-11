@@ -2,6 +2,7 @@ import i18n from '../../utils/i18n'
 import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningRowViewModel } from './PhoningRowViewModel'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
+import { differenceInCalendarDays } from 'date-fns'
 
 export const PhoningViewModelMapper = {
   map: (campaigns: PhoningCampaign[]): PhoningViewModel => {
@@ -32,8 +33,9 @@ function appendCampaigns(
   rows: PhoningRowViewModel[],
 ) {
   campaigns.forEach((campaign) => {
-    const remainingDays = Math.floor(
-      (campaign.finishAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+    const remainingDays = differenceInCalendarDays(
+      campaign.finishAt,
+      Date.now(),
     )
     const subtitle = !campaign.permanent
       ? i18n.t('phoning.campaign.remainingdays', {
