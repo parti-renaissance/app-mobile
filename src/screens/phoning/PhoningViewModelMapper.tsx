@@ -35,12 +35,11 @@ function appendCampaigns(
     const remainingDays = Math.floor(
       (campaign.finishAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
     )
-    const subtitle =
-      campaign.permanent === false
-        ? i18n.t('phoning.campaign.remainingdays', {
-            remainingdays: remainingDays,
-          })
-        : i18n.t('phoning.campaign.permanent.subtitle')
+    const subtitle = !campaign.permanent
+      ? i18n.t('phoning.campaign.remainingdays', {
+          remainingdays: remainingDays,
+        })
+      : i18n.t('phoning.campaign.permanent.subtitle')
     rows.push({
       type: 'campaign',
       value: {
