@@ -3,6 +3,7 @@ export interface RestPhoningCampaign {
   title: string
   brief: string
   goal: number
+  permanent: boolean
   nb_calls: number
   finish_at: string
   scoreboard: Array<RestPhoningCampaignScore>

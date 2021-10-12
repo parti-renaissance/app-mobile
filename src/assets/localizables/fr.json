@@ -174,10 +174,6 @@
       "anothermandate": {
         "title": "5 ans de plus",
         "url": "https://5ansdeplus.fr"
-      },
-      "answers": {
-        "title": "Réponses concrètes",
-        "url": "https://enmarche.typeform.com/to/vbvThF"
       }
     },
     "termsofuse": { "accept": "Accepter" },
@@ -333,7 +329,13 @@
         "callbuttontitle": "Appeler un de mes contact",
         "progressformat": "{{done}} questionnaires remplis sur {{total}}"
       },
-      "campaign": { "action": "Commencer" },
+      "campaign": {
+        "remainingdays": "Il vous reste {{remainingdays}} jours \u2028pour atteindre votre objectif.",
+        "permanent": {
+          "subtitle": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron"
+        },
+        "action": "Commencer"
+      },
       "brief": {
         "call": "Lancer l’appel",
         "call_from_other_device": "Lancer l’appel sur un autre appareil"
@@ -368,12 +370,9 @@
       "number_found": {
         "title": "C'est parti !",
         "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
-        "recall": "Le numéro est erroné"
+        "recall": "Relancer l'appel"
       },
-      "status_picker": {
-        "title": "Accepte-t-il de répondre à vos questions ?",
-        "action": "Valider"
-      },
+      "status_picker": { "action": "Valider" },
       "success": { "title": "Et un de plus, bravo ! " }
     },
     "retaliation": {

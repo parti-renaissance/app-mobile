@@ -48,9 +48,7 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
         <HorizontalSeparator />
         <PrimaryButton
           shape={'rounded'}
-          disabled={false}
-          style={styles.retaliateButton}
-          textStyle={styles.retaliateButtonText}
+          buttonStyle={styles.retaliateButton}
           title={i18n.t('home.retaliation.retaliate_button')}
           onPress={() => {
             onRetaliateSelected(viewModel.id)
@@ -86,16 +84,10 @@ const stylesFactory = (theme: Theme) => {
       color: theme.primaryColor,
     },
     retaliateButton: {
-      marginTop: Spacing.mediumMargin,
-    },
-    retaliateButtonText: {
-      ...Typography.body,
-      color: theme.primaryButtonTextColor,
+      paddingVertical: Spacing.unit,
     },
     title: {
       ...Typography.title2,
-      height: 44,
-      marginBottom: Spacing.margin,
       marginLeft: Spacing.margin,
       marginRight: Spacing.margin,
     },

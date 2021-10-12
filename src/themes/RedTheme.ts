@@ -22,7 +22,6 @@ const RedTheme: Theme = {
     reforms: () => require('../assets/images/red/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/red/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/red/imageReponses.png'),
     error: () => require('../assets/images/red/imageErreur.png'),
     emptyPoll: () => require('../assets/images/red/imageSondage.png'),
     pollImage1: () => require('../assets/images/red/imageSondage01.png'),

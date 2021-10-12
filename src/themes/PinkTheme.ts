@@ -23,7 +23,6 @@ const PinkTheme: Theme = {
     reforms: () => require('../assets/images/pink/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/pink/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/pink/imageReponses.png'),
     error: () => require('../assets/images/pink/imageErreur.png'),
     emptyPoll: () => require('../assets/images/pink/imageSondage.png'),
     pollImage1: () => require('../assets/images/pink/imageSondage01.png'),

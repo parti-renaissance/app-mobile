@@ -22,7 +22,6 @@ const PurpleTheme: Theme = {
     reforms: () => require('../assets/images/purple/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/purple/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/purple/imageReponses.png'),
     error: () => require('../assets/images/purple/imageErreur.png'),
     emptyPoll: () => require('../assets/images/purple/imageSondage.png'),
     pollImage1: () => require('../assets/images/purple/imageSondage01.png'),

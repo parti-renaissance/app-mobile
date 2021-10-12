@@ -1,7 +1,7 @@
 import React, { FC, useRef, useState } from 'react'
 import { StyleSheet, Text, TextInput } from 'react-native'
 import i18n from '../../utils/i18n'
-import { CredentialsInvalidError } from '../../core/errors'
+import { LoginError } from '../../core/errors'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -46,8 +46,8 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         onSuccess?.()
       })
       .catch((exception) => {
-        if (exception instanceof CredentialsInvalidError) {
-          setPasswordErrorMessage(i18n.t('login.credentials_error'))
+        if (exception instanceof LoginError) {
+          setPasswordErrorMessage(exception.message)
         } else {
           setPasswordErrorMessage(GenericErrorMapper.mapErrorMessage(exception))
         }

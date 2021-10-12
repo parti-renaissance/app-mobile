@@ -22,6 +22,7 @@ export const HomeRetaliationRowContainer: FunctionComponent<Props> = ({
     <>
       <Carousel
         layout={'default'}
+        scrollEnabled={viewModel.retaliations.length > 1}
         data={viewModel.retaliations}
         sliderWidth={width}
         itemWidth={width - Spacing.margin * 2}

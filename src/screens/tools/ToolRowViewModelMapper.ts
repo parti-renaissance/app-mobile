@@ -23,7 +23,5 @@ function mapImage(theme: Theme, image: ToolImage): ImageSourcePropType {
       return theme.image.reforms()
     case ToolImage.ANOTHERMANDATE:
       return theme.image.anotherMandate()
-    case ToolImage.ANSWERS:
-      return theme.image.answers()
   }
 }

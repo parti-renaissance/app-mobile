@@ -22,7 +22,6 @@ const GreenTheme: Theme = {
     reforms: () => require('../assets/images/green/imageReformes.png'),
     anotherMandate: () =>
       require('../assets/images/green/imageAnotherMandate.png'),
-    answers: () => require('../assets/images/green/imageReponses.png'),
     error: () => require('../assets/images/green/imageErreur.png'),
     emptyPoll: () => require('../assets/images/green/imageSondage.png'),
     pollImage1: () => require('../assets/images/green/imageSondage01.png'),
