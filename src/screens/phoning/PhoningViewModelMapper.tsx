@@ -39,6 +39,7 @@ function appendCampaigns(
     )
     const subtitle = !campaign.permanent
       ? i18n.t('phoning.campaign.remainingdays', {
+          count: remainingDays,
           remainingdays: remainingDays,
         })
       : i18n.t('phoning.campaign.permanent.subtitle')
