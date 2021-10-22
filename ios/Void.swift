@@ -6,3 +6,6 @@
 //
 
 import Foundation
+
+// This file here resolve a compilation issue with the CI
+// https://github.com/facebook/flipper/issues/2477#issuecomment-880675251
