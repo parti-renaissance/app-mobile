@@ -18,6 +18,7 @@
 		4357DD720478FB7E4ECC1373 /* libPods-JeMarche-JeMarcheTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C07EDF216C5BAB0CE5E9DC0 /* libPods-JeMarche-JeMarcheTests.a */; };
 		49B934592567DE5C0072A28F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49B934582567DE5C0072A28F /* GoogleService-Info.plist */; };
 		794BADE3CB9540AD9E901E92 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */; };
+		92BF777B2722EFC2000A3406 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF777A2722EFC2000A3406 /* Void.swift */; };
 		FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		67822E4FB7FA4380C59E7FDA /* Pods-JeMarche-JeMarcheTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche-JeMarcheTests.debug.xcconfig"; path = "Target Support Files/Pods-JeMarche-JeMarcheTests/Pods-JeMarche-JeMarcheTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B2CC1F1A2CD05387D86D773 /* Pods-JeMarche-JeMarcheTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche-JeMarcheTests.release.xcconfig"; path = "Target Support Files/Pods-JeMarche-JeMarcheTests/Pods-JeMarche-JeMarcheTests.release.xcconfig"; sourceTree = "<group>"; };
 		910E80E2D61779496565AF56 /* Pods-JeMarche.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche.release.xcconfig"; path = "Target Support Files/Pods-JeMarche/Pods-JeMarche.release.xcconfig"; sourceTree = "<group>"; };
+		92BF777A2722EFC2000A3406 /* Void.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Void.swift; sourceTree = "<group>"; };
 		AC18FA1AAF1599D689BEBC58 /* Pods-JeMarcheTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarcheTests.debug.xcconfig"; path = "Target Support Files/Pods-JeMarcheTests/Pods-JeMarcheTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		C606647894720E57B500C9A8 /* Pods-JeMarcheTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarcheTests.release.xcconfig"; path = "Target Support Files/Pods-JeMarcheTests/Pods-JeMarcheTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				0C76102C2457232400F2D450 /* JeMarche-Bridging-Header.h */,
 				2179FAA8261231F900FD532C /* LaunchScreen.storyboard */,
+				92BF777A2722EFC2000A3406 /* Void.swift */,
 			);
 			name = JeMarche;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				92BF777B2722EFC2000A3406 /* Void.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +561,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 67822E4FB7FA4380C59E7FDA /* Pods-JeMarche-JeMarcheTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -580,6 +585,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8B2CC1F1A2CD05387D86D773 /* Pods-JeMarche-JeMarcheTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = JeMarcheTests/Info.plist;
