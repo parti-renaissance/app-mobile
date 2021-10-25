@@ -28,15 +28,17 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
       backgroundColor={Colors.defaultBackground}
     >
       <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Image source={viewModel.socialIcon} />
-          <Text style={styles.title} numberOfLines={2}>
-            {viewModel.title + '\n\n'}
+        <View style={styles.textContainer}>
+          <View style={styles.titleContainer}>
+            <Image source={viewModel.socialIcon} />
+            <Text style={styles.title} numberOfLines={2}>
+              {viewModel.title}
+            </Text>
+          </View>
+          <Text style={styles.body} numberOfLines={3}>
+            {viewModel.body + '\n\n\n'}
           </Text>
         </View>
-        <Text style={styles.body} numberOfLines={3}>
-          {viewModel.body + '\n\n\n'}
-        </Text>
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}
           textStyle={styles.linkText}
@@ -63,7 +65,6 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     body: {
       ...Typography.body,
-      height: 57,
       marginTop: Spacing.margin,
     },
     cardView: {
@@ -85,6 +86,9 @@ const stylesFactory = (theme: Theme) => {
     },
     retaliateButton: {
       paddingVertical: Spacing.unit,
+    },
+    textContainer: {
+      height: 110,
     },
     title: {
       ...Typography.title2,
