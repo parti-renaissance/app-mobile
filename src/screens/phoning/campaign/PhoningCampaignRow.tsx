@@ -46,6 +46,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
           <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.caption}>
             {i18n.t('phoning.callcontact.progressformat', {
+              count: viewModel.calledCount,
               done: viewModel.calledCount,
               total: viewModel.numberOfPersonToCall,
             })}
