@@ -19,8 +19,6 @@ import { CloseButton } from '../shared/NavigationHeaderButton'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { NotFoundError } from '../../core/errors'
-import { errorMessage } from '../../styles/typography'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 
 const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProp> = ({
