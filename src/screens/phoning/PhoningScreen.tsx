@@ -118,7 +118,17 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
         <PhoningCallContactRow
           viewModel={item.value}
           onCallButtonPressed={() => {
-            console.log('should open call screen')
+            const campaign = findCampaignInCurrentResources(item.value.id)
+            if (campaign?.permanent) {
+              navigation.navigate(Screen.phoningSessionModal, {
+                screen: Screen.phoningContactTutorial,
+                params: {
+                  campaignId: campaign.id,
+                  campaignTitle: campaign.title,
+                  device: 'current',
+                },
+              })
+            }
           }}
         />
       )
@@ -131,19 +141,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
               item.value.id,
             )
             if (selectedCampaign) {
-              if (selectedCampaign.permanent) {
-                console.log(selectedCampaign)
-                navigation.navigate(Screen.phoningSessionModal, {
-                  screen: Screen.phoningContactTutorial,
-                  params: {
-                    campaignId: selectedCampaign.id,
-                    campaignTitle: selectedCampaign.title,
-                    device: 'current',
-                  },
-                })
-              } else {
-                navigateToCampaign(selectedCampaign)
-              }
+              navigateToCampaign(selectedCampaign)
             }
           }}
           onRankButtonPressed={() => {
