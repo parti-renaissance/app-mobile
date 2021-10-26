@@ -12,7 +12,7 @@ export const PhoningSessionMapper = {
     } else {
       return {
         id: restObject.uuid,
-        adherent: null,
+        adherent: undefined,
       }
     }
   },
