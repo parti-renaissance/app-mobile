@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, Alert } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
@@ -15,28 +15,28 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
-import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { NotFoundError } from '../../core/errors'
+import { errorMessage } from '../../styles/typography'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
 
 const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProp> = ({
   navigation,
   route,
 }) => {
-  const [statefulState, setStatefulState] = useState<ViewState.Type<void>>(
-    new ViewState.Content({}),
-  )
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSession = useCallback(
     (session: PhoningSession) => {
+      setIsLoading(false)
       const navigationData: PhoningSessionNavigationData = {
         campaignId: route.params.campaignId,
         campaignTitle: route.params.campaignTitle,
         sessionId: session.id,
         device: 'current',
-        adherent: null,
       }
       navigation.replace(Screen.phonePollDetail, {
         data: navigationData,
@@ -46,15 +46,26 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
   )
 
   const loadSession = useCallback(() => {
-    setStatefulState(new ViewState.Loading())
+    setIsLoading(true)
     PhoningCampaignRepository.getInstance()
       .getPhoningCampaignSession(route.params.campaignId)
       .then(handleSession)
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            loadSession()
-          }),
+        setIsLoading(false)
+        Alert.alert(
+          i18n.t('common.error_title'),
+          GenericErrorMapper.mapErrorMessage(error),
+          [
+            {
+              text: i18n.t('common.error_retry'),
+              onPress: loadSession,
+            },
+            {
+              text: i18n.t('common.cancel'),
+              style: 'cancel',
+            },
+          ],
+          { cancelable: false },
         )
       })
   }, [route.params.campaignId, handleSession])
@@ -67,23 +78,17 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{i18n.t('phoningcontacttutorial.title')}</Text>
-      <StatefulView
-        state={statefulState}
-        contentComponent={() => (
-          <>
-            <VerticalSpacer spacing={Spacing.extraLargeMargin} />
-            <Text style={styles.body}>
-              {i18n.t('phoningcontacttutorial.description')}
-            </Text>
-            <FlexibleVerticalSpacer minSpacing={Spacing.margin} />
-            <PrimaryButton
-              title={i18n.t('phoningsession.call_started')}
-              onPress={() => loadSession()}
-            />
-            <VerticalSpacer spacing={Spacing.margin} />
-          </>
-        )}
+      <VerticalSpacer spacing={Spacing.extraLargeMargin} />
+      <Text style={styles.body}>
+        {i18n.t('phoningcontacttutorial.description')}
+      </Text>
+      <FlexibleVerticalSpacer minSpacing={Spacing.margin} />
+      <PrimaryButton
+        title={i18n.t('phoningsession.call_started')}
+        onPress={() => loadSession()}
       />
+      <VerticalSpacer spacing={Spacing.margin} />
+      <LoadingOverlay visible={isLoading} />
     </SafeAreaView>
   )
 }
