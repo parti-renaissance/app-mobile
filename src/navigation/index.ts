@@ -72,7 +72,10 @@ export type PhoningSessionModalParamList = {
     campaignTitle: string
     device: PhoningSessionDevice
   }
-  PhoningContactTutorial: { campaignId: string; campaignTitle: string }
+  PhoningSessionLoaderPermanentCampaign: {
+    campaignId: string
+    campaignTitle: string
+  }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
   PhoningSessionNoNumberAvailable: { message: string }
@@ -202,9 +205,9 @@ export type PollDetailModalProps = Readonly<{
 }>
 
 // Phoning contact tutorial
-export type PhoningContactTutorialScreenProp = StackScreenProps<
+export type PhoningSessionLoaderPermanentCampaignScreenProp = StackScreenProps<
   PhoningSessionModalParamList,
-  typeof Screen.phoningContactTutorial
+  typeof Screen.phoningSessionLoaderPermanentCampaign
 >
 
 // ProfileModal

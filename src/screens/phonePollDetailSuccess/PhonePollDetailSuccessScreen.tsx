@@ -57,10 +57,13 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
                         device: route.params.data.device,
                       })
                     } else {
-                      navigation.replace(Screen.phoningContactTutorial, {
-                        campaignId: route.params.data.campaignId,
-                        campaignTitle: route.params.data.campaignTitle,
-                      })
+                      navigation.replace(
+                        Screen.phoningSessionLoaderPermanentCampaign,
+                        {
+                          campaignId: route.params.data.campaignId,
+                          campaignTitle: route.params.data.campaignTitle,
+                        },
+                      )
                     }
                   }}
                   onFinish={() => navigation.pop()}

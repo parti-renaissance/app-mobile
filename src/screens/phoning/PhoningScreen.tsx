@@ -121,7 +121,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
             const campaign = findCampaignInCurrentResources(item.value.id)
             if (campaign?.permanent) {
               navigation.navigate(Screen.phoningSessionModal, {
-                screen: Screen.phoningContactTutorial,
+                screen: Screen.phoningSessionLoaderPermanentCampaign,
                 params: {
                   campaignId: campaign.id,
                   campaignTitle: campaign.title,

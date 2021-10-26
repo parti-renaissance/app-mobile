@@ -8,7 +8,10 @@ import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoningContactTutorialScreenProp, Screen } from '../../navigation'
+import {
+  PhoningSessionLoaderPermanentCampaignScreenProp,
+  Screen,
+} from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
@@ -18,7 +21,7 @@ import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
 
-const PhoningContactTutorialScreen: FunctionComponent<PhoningContactTutorialScreenProp> = ({
+const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProp> = ({
   navigation,
   route,
 }) => {
@@ -99,4 +102,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PhoningContactTutorialScreen
+export default PhoningSessionLoaderPermanentCampaignScreen
