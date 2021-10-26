@@ -130,7 +130,21 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
             const selectedCampaign = findCampaignInCurrentResources(
               item.value.id,
             )
-            if (selectedCampaign) navigateToCampaign(selectedCampaign)
+            if (selectedCampaign) {
+              if (selectedCampaign.permanent) {
+                console.log(selectedCampaign)
+                navigation.navigate(Screen.phoningSessionModal, {
+                  screen: Screen.phoningContactTutorial,
+                  params: {
+                    campaignId: selectedCampaign.id,
+                    campaignTitle: selectedCampaign.title,
+                    device: 'current',
+                  },
+                })
+              } else {
+                navigateToCampaign(selectedCampaign)
+              }
+            }
           }}
           onRankButtonPressed={() => {
             const selectedCampaign = findCampaignInCurrentResources(

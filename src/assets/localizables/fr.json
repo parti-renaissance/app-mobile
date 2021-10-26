@@ -353,6 +353,10 @@
       "position_plural": "{{position}}ème au classement",
       "charter": { "title": "Charte", "accept": "Accepter" }
     },
+    "phoningcontacttutorial": {
+      "title": "Appeler un de mes contacts",
+      "description": "Lancez un appel depuis votre répertoire puis retournez sur l'application pour démarrer le questionnaire."
+    },
     "phoningsession": {
       "new_call": "Nouvel appel",
       "end_session": "Revenir à l'accueil",

@@ -72,6 +72,7 @@ export type PhoningSessionModalParamList = {
     campaignTitle: string
     device: PhoningSessionDevice
   }
+  PhoningContactTutorial: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
   PhoningSessionNoNumberAvailable: { message: string }
@@ -199,6 +200,12 @@ export type PollDetailModalProps = Readonly<{
   route: PollDetailModalRouteProp
   navigation: PollDetailModalNavigationProp
 }>
+
+// Phoning contact tutorial
+export type PhoningContactTutorialScreenProp = StackScreenProps<
+  PhoningSessionModalParamList,
+  typeof Screen.phoningContactTutorial
+>
 
 // ProfileModal
 export type ProfileModalNavigationProp = CompositeNavigationProp<
