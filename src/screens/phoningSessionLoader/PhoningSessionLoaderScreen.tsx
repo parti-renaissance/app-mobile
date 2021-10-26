@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
+import { PhoningSessionAdherent } from '../../core/entities/PhoningSessionAdherent'
 import {
   PhoningSessionFinishedCampaignError,
   PhoningSessionNoNumberError,
@@ -27,12 +28,15 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
   )
 
   useEffect(() => {
-    const handleSession = (session: PhoningSession) => {
+    const handleSession = (
+      session: PhoningSession,
+      adherent: PhoningSessionAdherent,
+    ) => {
       const navigationData = {
         campaignId: route.params.campaignId,
         campaignTitle: route.params.campaignTitle,
         sessionId: session.id,
-        adherent: session.adherent,
+        adherent: adherent,
         device: route.params.device,
       }
       switch (route.params.device) {
@@ -54,7 +58,14 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
       setStatefulState(new ViewState.Loading())
       PhoningCampaignRepository.getInstance()
         .getPhoningCampaignSession(route.params.campaignId)
-        .then(handleSession)
+        .then((session) => {
+          // session adherent is only ull when creating a session for the permanent campaign it should not be the case here
+          if (session.adherent) {
+            handleSession(session, session.adherent)
+          } else {
+            throw new PhoningSessionNoNumberError('')
+          }
+        })
         .catch((error) => {
           if (
             error instanceof PhoningSessionNoNumberError ||

@@ -72,7 +72,7 @@ export type PhoningSessionModalParamList = {
     campaignTitle: string
     device: PhoningSessionDevice
   }
-  PhoningContactTutorial: { data: PhoningSessionNavigationData }
+  PhoningContactTutorial: { campaignId: string; campaignTitle: string }
   PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
   PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
   PhoningSessionNoNumberAvailable: { message: string }

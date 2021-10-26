@@ -4,9 +4,16 @@ import { PhoningSessionAdherentMapper } from './PhoningSessionAdherentMapper'
 
 export const PhoningSessionMapper = {
   map: (restObject: RestPhoningSession): PhoningSession => {
-    return {
-      id: restObject.uuid,
-      adherent: PhoningSessionAdherentMapper.map(restObject.adherent),
+    if (restObject.adherent) {
+      return {
+        id: restObject.uuid,
+        adherent: PhoningSessionAdherentMapper.map(restObject.adherent),
+      }
+    } else {
+      return {
+        id: restObject.uuid,
+        adherent: null,
+      }
     }
   },
 }

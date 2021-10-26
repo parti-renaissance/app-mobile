@@ -63,6 +63,7 @@ class PhoningCampaignRepository {
     const restSession = await this.apiService.getPhoningCampaignSession(
       campaignId,
     )
+    console.log(restSession)
     return PhoningSessionMapper.map(restSession)
   }
 

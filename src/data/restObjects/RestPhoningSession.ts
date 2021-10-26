@@ -1,6 +1,6 @@
 export interface RestPhoningSession {
   uuid: string
-  adherent: RestPhoningSessionAdherent
+  adherent: RestPhoningSessionAdherent | null
 }
 
 export interface RestPhoningSessionAdherent {

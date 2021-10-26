@@ -125,7 +125,6 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
                 params: {
                   campaignId: campaign.id,
                   campaignTitle: campaign.title,
-                  device: 'current',
                 },
               })
             }
