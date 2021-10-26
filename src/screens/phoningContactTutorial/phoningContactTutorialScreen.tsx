@@ -18,8 +18,6 @@ import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
 
-export interface PhoningResources {}
-
 const PhoningContactTutorialScreen: FunctionComponent<PhoningContactTutorialScreenProp> = ({
   navigation,
   route,
