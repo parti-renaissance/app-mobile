@@ -63,7 +63,7 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
     navigation.setOptions({
       headerLeft: () => <CloseButton onPress={() => navigation.pop()} />,
     })
-  })
+  }, [navigation])
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{i18n.t('phoningcontacttutorial.title')}</Text>

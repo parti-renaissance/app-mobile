@@ -7,7 +7,7 @@ export interface PhoningSessionNavigationData {
   campaignTitle: string
   sessionId: string
   device: PhoningSessionDevice
-  adherent: PhoningSessionAdherent | null
+  adherent?: PhoningSessionAdherent
   // The adherent is not provided only for the permanent campaign.
 }
 

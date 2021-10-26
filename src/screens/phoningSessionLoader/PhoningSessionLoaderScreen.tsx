@@ -59,7 +59,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
       PhoningCampaignRepository.getInstance()
         .getPhoningCampaignSession(route.params.campaignId)
         .then((session) => {
-          // session adherent is only ull when creating a session for the permanent campaign it should not be the case here
+          // session adherent is only null when creating a session for the permanent campaign it should not be the case here
           if (session.adherent) {
             handleSession(session, session.adherent)
           } else {
