@@ -48,13 +48,21 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
               return (
                 <PhonePollDetailSuccessContent
                   viewModel={item.viewModel}
-                  onNewCall={() =>
-                    navigation.replace(Screen.phoningSessionLoader, {
-                      campaignId: route.params.data.campaignId,
-                      campaignTitle: route.params.data.campaignTitle,
-                      device: route.params.data.device,
-                    })
-                  }
+                  onNewCall={() => {
+                    // If adherent is null in the param list it means we are in the permanent campaign and should navigate to phoningContactTutorial
+                    if (route.params.data.adherent) {
+                      navigation.replace(Screen.phoningSessionLoader, {
+                        campaignId: route.params.data.campaignId,
+                        campaignTitle: route.params.data.campaignTitle,
+                        device: route.params.data.device,
+                      })
+                    } else {
+                      navigation.replace(Screen.phoningContactTutorial, {
+                        campaignId: route.params.data.campaignId,
+                        campaignTitle: route.params.data.campaignTitle,
+                      })
+                    }
+                  }}
                   onFinish={() => navigation.pop()}
                 />
               )
