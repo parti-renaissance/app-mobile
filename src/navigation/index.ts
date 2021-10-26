@@ -11,6 +11,7 @@ import { NotificationCategory } from '../core/entities/Notification'
 import {
   PhoningSessionDevice,
   PhoningSessionNavigationData,
+  PhoningSessionNavigationDataRequiredAdherent,
 } from '../screens/shared/PhoningSessionNavigationData'
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
@@ -76,10 +77,14 @@ export type PhoningSessionModalParamList = {
     campaignId: string
     campaignTitle: string
   }
-  PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
-  PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
+  PhoningSessionNumberFound: {
+    data: PhoningSessionNavigationDataRequiredAdherent
+  }
+  PhoningSessionNumberFoundOtherDevice: {
+    data: PhoningSessionNavigationDataRequiredAdherent
+  }
   PhoningSessionNoNumberAvailable: { message: string }
-  PhoneCallStatusPicker: { data: PhoningSessionNavigationData }
+  PhoneCallStatusPicker: { data: PhoningSessionNavigationDataRequiredAdherent }
   PhoneCallFailure: { data: PhoningSessionNavigationData }
   PhonePollDetail: { data: PhoningSessionNavigationData }
   PhonePollDetailSuccess: { data: PhoningSessionNavigationData; title: string }
