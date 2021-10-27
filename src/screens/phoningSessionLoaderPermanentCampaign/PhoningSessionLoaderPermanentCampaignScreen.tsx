@@ -29,7 +29,6 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
 
   const handleSession = useCallback(
     (session: PhoningSession) => {
-      setIsLoading(false)
       const navigationData: PhoningSessionNavigationData = {
         campaignId: route.params.campaignId,
         campaignTitle: route.params.campaignTitle,
@@ -48,8 +47,10 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
     PhoningCampaignRepository.getInstance()
       .getPhoningCampaignSession(route.params.campaignId)
       .then(handleSession)
-      .catch((error) => {
+      .finally(() => {
         setIsLoading(false)
+      })
+      .catch((error) => {
         Alert.alert(
           i18n.t('common.error_title'),
           GenericErrorMapper.mapErrorMessage(error),
