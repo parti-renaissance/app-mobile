@@ -40,7 +40,10 @@ export const PhonePollDetailSuccessViewModelMapper = {
         ],
       },
     ]
-    if ((campaign?.scoreboard.length ?? 0) > 0) {
+    if (
+      ((campaign?.scoreboard.length ?? 0) > 0 && !campaign?.permanent) ??
+      true
+    ) {
       sections.push(rankingSection)
     }
     return { sections }
