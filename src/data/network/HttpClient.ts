@@ -65,6 +65,7 @@ const baseHttpClient = ky.create({
 const httpClient = baseHttpClient.extend({
   retry: {
     limit: 2,
+    methods: ['get', 'put', 'post', 'delete', 'patch'],
     statusCodes: [401],
   },
   hooks: {
