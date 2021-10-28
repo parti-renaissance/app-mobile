@@ -18,8 +18,14 @@ export const PhonePollDetailSuccessViewModelMapper = {
       type: 'rankingRow',
       viewModel,
     }))
+    const rankingSection: PhonePollDetailSuccessSection = {
+      title: i18n.t('phoning.scoreboard.title'),
+      data: [{ type: 'rankingHeader' }].concat(
+        rankingRows,
+      ) as Array<PhonePollDetailSuccessRowType>,
+    }
 
-    const sections: Array<PhonePollDetailSuccessSection> = [
+    var sections: Array<PhonePollDetailSuccessSection> = [
       {
         title: i18n.t('phoningsession.success.title'),
         data: [
@@ -33,14 +39,10 @@ export const PhonePollDetailSuccessViewModelMapper = {
           },
         ],
       },
-      {
-        title: i18n.t('phoning.scoreboard.title'),
-        data: [{ type: 'rankingHeader' }].concat(
-          rankingRows,
-        ) as Array<PhonePollDetailSuccessRowType>,
-      },
     ]
-
+    if ((campaign?.scoreboard.length ?? 0) > 0) {
+      sections.push(rankingSection)
+    }
     return { sections }
   },
 }
