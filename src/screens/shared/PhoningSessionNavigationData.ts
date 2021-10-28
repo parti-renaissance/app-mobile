@@ -7,5 +7,15 @@ export interface PhoningSessionNavigationData {
   campaignTitle: string
   sessionId: string
   device: PhoningSessionDevice
+  adherent?: PhoningSessionAdherent
+  // The adherent is not provided only for the permanent campaign.
+}
+
+// Some screens in the phoning workflow need an adherent.
+export interface PhoningSessionNavigationDataRequiredAdherent {
+  campaignId: string
+  campaignTitle: string
+  sessionId: string
+  device: PhoningSessionDevice
   adherent: PhoningSessionAdherent
 }

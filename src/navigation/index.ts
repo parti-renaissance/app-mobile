@@ -11,6 +11,7 @@ import { NotificationCategory } from '../core/entities/Notification'
 import {
   PhoningSessionDevice,
   PhoningSessionNavigationData,
+  PhoningSessionNavigationDataRequiredAdherent,
 } from '../screens/shared/PhoningSessionNavigationData'
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
@@ -72,10 +73,18 @@ export type PhoningSessionModalParamList = {
     campaignTitle: string
     device: PhoningSessionDevice
   }
-  PhoningSessionNumberFound: { data: PhoningSessionNavigationData }
-  PhoningSessionNumberFoundOtherDevice: { data: PhoningSessionNavigationData }
+  PhoningSessionLoaderPermanentCampaign: {
+    campaignId: string
+    campaignTitle: string
+  }
+  PhoningSessionNumberFound: {
+    data: PhoningSessionNavigationDataRequiredAdherent
+  }
+  PhoningSessionNumberFoundOtherDevice: {
+    data: PhoningSessionNavigationDataRequiredAdherent
+  }
   PhoningSessionNoNumberAvailable: { message: string }
-  PhoneCallStatusPicker: { data: PhoningSessionNavigationData }
+  PhoneCallStatusPicker: { data: PhoningSessionNavigationDataRequiredAdherent }
   PhoneCallFailure: { data: PhoningSessionNavigationData }
   PhonePollDetail: { data: PhoningSessionNavigationData }
   PhonePollDetailSuccess: { data: PhoningSessionNavigationData; title: string }
@@ -199,6 +208,12 @@ export type PollDetailModalProps = Readonly<{
   route: PollDetailModalRouteProp
   navigation: PollDetailModalNavigationProp
 }>
+
+// Phoning contact tutorial
+export type PhoningSessionLoaderPermanentCampaignScreenProp = StackScreenProps<
+  PhoningSessionModalParamList,
+  typeof Screen.phoningSessionLoaderPermanentCampaign
+>
 
 // ProfileModal
 export type ProfileModalNavigationProp = CompositeNavigationProp<
