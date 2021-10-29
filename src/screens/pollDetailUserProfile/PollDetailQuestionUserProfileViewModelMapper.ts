@@ -63,8 +63,8 @@ const professionTitle = (profession: Profession): string => {
       return i18n.t('polldetail.profile.profession_worker')
     case Profession.Executive:
       return i18n.t('polldetail.profile.profession_executive')
-    case Profession.TempWorker:
-      return i18n.t('polldetail.profile.profession_tempWorker')
+    case Profession.Intermediate:
+      return i18n.t('polldetail.profile.profession_intermediate')
     case Profession.Independent:
       return i18n.t('polldetail.profile.profession_independent')
     case Profession.Retired:

@@ -26,7 +26,7 @@ const restProfession = (
       return 'workers'
     case Profession.Executive:
       return 'managerial staff'
-    case Profession.TempWorker:
+    case Profession.Intermediate:
       return 'intermediate_professions'
     case Profession.Independent:
       return 'self_contractor'
