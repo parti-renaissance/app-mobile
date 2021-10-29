@@ -33,7 +33,7 @@ export const PhonePollDetailSuccessViewModelMapper = {
       !campaign.permanent
     ) {
       const rankingRows: Array<PhonePollDetailSuccessRowRanking> = PhoningScoreboardRowViewModelMapper.map(
-        campaign?.scoreboard ?? [],
+        campaign.scoreboard,
       ).rows.map((viewModel) => ({
         type: 'rankingRow',
         viewModel,
