@@ -97,6 +97,7 @@ const stylesFactory = (theme: Theme) => {
     },
     titleContainer: {
       flexDirection: 'row',
+      alignItems: 'center',
     },
   })
 }
