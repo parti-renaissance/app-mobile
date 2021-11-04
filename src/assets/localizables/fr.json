@@ -101,16 +101,16 @@
     },
     "unauthenticatedhome": {
       "description": "Retrouvez rapidement nos outils, réalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.",
-      "login": "Se connecter",
+      "login": "Connexion LaREM",
       "register": "Pas encore adhérent ? Adhérer",
-      "skip": "Continuer sans adhérer",
+      "skip": "Connexion Majorité Présidentielle",
       "register_url": "https://en-marche.fr/adhesion"
     },
     "login": {
       "title": "Connexion",
       "email": "Adresse e-mail",
       "password": "Mot de passe",
-      "login": "Se connecter",
+      "login": "Connexion LaREM",
       "password_lost": "Mot de passe oublié ?",
       "password_lost_url": "https://en-marche.fr/mot-de-passe-oublie",
       "credentials_error": "Email/mot de passe invalide"
