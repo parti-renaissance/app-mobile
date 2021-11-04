@@ -6,10 +6,9 @@ import ProfilePollsCompleted from './ProfilePollsCompleted'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
 import i18n from '../../utils/i18n'
-import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import { PrimaryButton } from '../shared/Buttons'
 import { versionLabel } from './version'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
-import { ExternalLink } from '../shared/ExternalLink'
 import ProfileSettingsCard from './ProfileSettingsCard'
 
 type Props = Readonly<{
@@ -44,12 +43,6 @@ const ProfileAnonymous: FC<Props> = ({
           style={styles.loginButton}
           title={i18n.t('unauthenticatedhome.login')}
           onPress={openLogin}
-        />
-        <SecondaryButton
-          title={i18n.t('unauthenticatedhome.register')}
-          onPress={() => {
-            ExternalLink.openUrl(i18n.t('unauthenticatedhome.register_url'))
-          }}
         />
       </View>
       <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
