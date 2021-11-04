@@ -38,14 +38,14 @@ const UnauthenticatedHomeScreen = ({
             navigation.navigate(Screen.login)
           }}
         />
-        <View style={styles.registerButtonContainer}>
+        {/* <View style={styles.registerButtonContainer}>
           <SecondaryButton
             title={i18n.t('unauthenticatedhome.register')}
             onPress={() => {
               ExternalLink.openUrl(i18n.t('unauthenticatedhome.register_url'))
             }}
           />
-        </View>
+        </View> */}
         <BorderlessButton
           style={styles.skipButton}
           title={i18n.t('unauthenticatedhome.skip')}
