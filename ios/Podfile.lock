@@ -1,6 +1,5 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.63.3)
   - FBReactNativeSpec (0.63.3):
@@ -74,63 +73,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Reachability (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
-  - Flipper (0.87.0):
-    - Flipper-Folly (~> 2.5)
-    - Flipper-RSocket (~> 1.3)
-  - Flipper-DoubleConversion (1.1.7)
-  - Flipper-Folly (2.5.3):
-    - boost-for-react-native
-    - Flipper-DoubleConversion
-    - Flipper-Glog
-    - libevent (~> 2.1.12)
-    - OpenSSL-Universal (= 1.1.180)
-  - Flipper-Glog (0.3.6)
-  - Flipper-PeerTalk (0.0.4)
-  - Flipper-RSocket (1.3.1):
-    - Flipper-Folly (~> 2.5)
-  - FlipperKit (0.87.0):
-    - FlipperKit/Core (= 0.87.0)
-  - FlipperKit/Core (0.87.0):
-    - Flipper (~> 0.87.0)
-    - FlipperKit/CppBridge
-    - FlipperKit/FBCxxFollyDynamicConvert
-    - FlipperKit/FBDefines
-    - FlipperKit/FKPortForwarding
-  - FlipperKit/CppBridge (0.87.0):
-    - Flipper (~> 0.87.0)
-  - FlipperKit/FBCxxFollyDynamicConvert (0.87.0):
-    - Flipper-Folly (~> 2.5)
-  - FlipperKit/FBDefines (0.87.0)
-  - FlipperKit/FKPortForwarding (0.87.0):
-    - CocoaAsyncSocket (~> 7.6)
-    - Flipper-PeerTalk (~> 0.0.4)
-  - FlipperKit/FlipperKitHighlightOverlay (0.87.0)
-  - FlipperKit/FlipperKitLayoutHelpers (0.87.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitHighlightOverlay
-    - FlipperKit/FlipperKitLayoutTextSearchable
-  - FlipperKit/FlipperKitLayoutIOSDescriptors (0.87.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitHighlightOverlay
-    - FlipperKit/FlipperKitLayoutHelpers
-    - YogaKit (~> 1.18)
-  - FlipperKit/FlipperKitLayoutPlugin (0.87.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitHighlightOverlay
-    - FlipperKit/FlipperKitLayoutHelpers
-    - FlipperKit/FlipperKitLayoutIOSDescriptors
-    - FlipperKit/FlipperKitLayoutTextSearchable
-    - YogaKit (~> 1.18)
-  - FlipperKit/FlipperKitLayoutTextSearchable (0.87.0)
-  - FlipperKit/FlipperKitNetworkPlugin (0.87.0):
-    - FlipperKit/Core
-  - FlipperKit/FlipperKitReactPlugin (0.87.0):
-    - FlipperKit/Core
-  - FlipperKit/FlipperKitUserDefaultsPlugin (0.87.0):
-    - FlipperKit/Core
-  - FlipperKit/SKIOSNetworkPlugin (0.87.0):
-    - FlipperKit/Core
-    - FlipperKit/FlipperKitNetworkPlugin
   - Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -170,13 +112,11 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.4.1):
     - GoogleUtilities/Logger
-  - libevent (2.1.12)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OpenSSL-Universal (1.1.180)
   - PromisesObjC (1.2.12)
   - RCTRequired (0.63.3)
   - RCTTypeSafety (0.63.3):
@@ -471,32 +411,11 @@ PODS:
     - Sentry/Core (= 7.1.4)
   - Sentry/Core (7.1.4)
   - Yoga (1.14.0)
-  - YogaKit (1.18.1):
-    - Yoga (~> 1.14)
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
-  - Flipper (= 0.87.0)
-  - Flipper-DoubleConversion (= 1.1.7)
-  - Flipper-Folly (= 2.5.3)
-  - Flipper-Glog (= 0.3.6)
-  - Flipper-PeerTalk (~> 0.0.4)
-  - Flipper-RSocket (= 1.3.1)
-  - FlipperKit (= 0.87.0)
-  - FlipperKit/Core (= 0.87.0)
-  - FlipperKit/CppBridge (= 0.87.0)
-  - FlipperKit/FBCxxFollyDynamicConvert (= 0.87.0)
-  - FlipperKit/FBDefines (= 0.87.0)
-  - FlipperKit/FKPortForwarding (= 0.87.0)
-  - FlipperKit/FlipperKitHighlightOverlay (= 0.87.0)
-  - FlipperKit/FlipperKitLayoutPlugin (= 0.87.0)
-  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.87.0)
-  - FlipperKit/FlipperKitNetworkPlugin (= 0.87.0)
-  - FlipperKit/FlipperKitReactPlugin (= 0.87.0)
-  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.87.0)
-  - FlipperKit/SKIOSNetworkPlugin (= 0.87.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -553,7 +472,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
-    - CocoaAsyncSocket
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -561,22 +479,12 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
-    - Flipper
-    - Flipper-DoubleConversion
-    - Flipper-Folly
-    - Flipper-Glog
-    - Flipper-PeerTalk
-    - Flipper-RSocket
-    - FlipperKit
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
-    - libevent
     - nanopb
-    - OpenSSL-Universal
     - PromisesObjC
     - Sentry
-    - YogaKit
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -688,7 +596,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 878b59e31113e289e275165efbe4b54fa614d43d
   FBReactNativeSpec: 7da9338acfb98d4ef9e5536805a0704572d33c2f
@@ -699,21 +606,12 @@ SPEC CHECKSUMS:
   FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
   FirebaseInstanceID: ad5135045a498d7775903efd39762d2cdfa1be27
   FirebaseMessaging: 163435fb6db065e3b6228f1e577b10ed2cc506d2
-  Flipper: 1bd2db48dcc31e4b167b9a33ec1df01c2ded4893
-  Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
-  Flipper-Folly: 755929a4f851b2fb2c347d533a23f191b008554c
-  Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
-  Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
-  Flipper-RSocket: 127954abe8b162fcaf68d2134d34dc2bd7076154
-  FlipperKit: 651f50a42eb95c01b3e89a60996dd6aded529eeb
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: fd19169c3034975cb934e865e5667bfdce59df7f
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
-  libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
@@ -764,8 +662,7 @@ SPEC CHECKSUMS:
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Sentry: 1d3eb1a25f8c5333c88dd5603904a6d461cd9fcf
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
-  YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: f15c50179901d74870983b7425c21fe4d377a4db
+PODFILE CHECKSUM: 3a6ad167aa0b710dbd788d6da60c869a61a47c9b
 
 COCOAPODS: 1.10.0
