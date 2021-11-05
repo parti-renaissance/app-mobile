@@ -48,7 +48,7 @@ function appendCampaigns(
         type: 'callContact',
         value: {
           id: campaign.id,
-          calledCount: campaign.callsCount,
+          calledCount: campaign.surveysCount,
           numberOfPersonToCall: campaign.goal,
         },
       })
@@ -59,7 +59,7 @@ function appendCampaigns(
           id: campaign.id,
           title: campaign.title,
           subtitle: subtitle,
-          calledCount: campaign.callsCount,
+          calledCount: campaign.surveysCount,
           numberOfPersonToCall: campaign.goal,
           rank:
             campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
