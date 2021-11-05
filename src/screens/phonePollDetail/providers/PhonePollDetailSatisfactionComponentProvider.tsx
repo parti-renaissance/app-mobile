@@ -19,7 +19,7 @@ export class PhonePollDetailSatisfactionComponentProvider
     onUpdate: () => void,
   ) {
     this.questions = questions
-    this.numberOfSteps = 1
+    this.numberOfSteps = questions.length === 0 ? 0 : 1
     this.onUpdate = onUpdate
   }
 
