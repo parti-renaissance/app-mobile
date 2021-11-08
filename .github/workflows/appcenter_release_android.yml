@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Define the environment (dev|staging|production)'
+        description: 'Define the environment (staging|production)'
         required: true
-        default: 'dev'
+        default: 'staging'
       channel:
         description: 'Define the publishing channel (appcenter|playstore)'
         required: true
