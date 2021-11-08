@@ -576,6 +576,15 @@
 				CURRENT_PROJECT_VERSION = 221;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = U5M7X5V6ZG;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+					"FB_SONARKIT_ENABLED=1",
+				);
 				INFOPLIST_FILE = JeMarche/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited) @executable_path/Frameworks";
@@ -607,6 +616,15 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 221;
 				DEVELOPMENT_TEAM = "$(RN_DEVELOPMENT_TEAM)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+					"FB_SONARKIT_ENABLED=1",
+				);
 				INFOPLIST_FILE = JeMarche/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited) @executable_path/Frameworks";
