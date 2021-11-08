@@ -22,7 +22,7 @@
     },
     "tab": {
       "item_polls": "Questionnaires",
-      "item_tools": "Outils",
+      "item_tools": "Ressources",
       "item_profile": "Profil",
       "item_home": "Accueil",
       "item_events": "Événements",
@@ -162,7 +162,7 @@
       "continue": "Continuer"
     },
     "tools": {
-      "title": "Outils militants",
+      "title": "Ressources",
       "reforms": {
         "title": "On l'a dit, On le fait",
         "url": "https://transformer.en-marche.fr/fr"
@@ -182,7 +182,7 @@
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
       "section_polls": "Questionnaires",
-      "section_tools": "Vos outils militants",
+      "section_tools": "Vos ressources",
       "footer": {
         "title": "En Marche !",
         "description": "Vous voulez contribuer à la transformation En Marche ? Rejoignez les plus de 400 000 adhérents de La République En Marche ! C'est facile, gratuit et 3 minutes suffiront.",
@@ -319,7 +319,7 @@
     "phoning": {
       "title": "Phoning",
       "tutorial": {
-        "title": "Comment faire un appel?",
+        "title": "Comment faire un appel ?",
         "link": "Regarder le tutoriel"
       },
       "subtitle_no_campaigns": "Aucune campagne d'appels n'est actuellement en cours.",
