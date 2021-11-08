@@ -63,9 +63,6 @@ export type HomeRowViewModel =
       value: HomeToolsRowContainerViewModel
     }
   | {
-      type: 'adhere'
-    }
-  | {
       type: 'quick_poll'
       value: HomeQuickPollRowContainerViewModel
     }

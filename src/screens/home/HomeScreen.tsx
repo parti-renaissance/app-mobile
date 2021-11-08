@@ -15,10 +15,8 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { HomeScreenProps, Screen } from '../../navigation'
 import { Colors } from '../../styles'
 import { useTheme } from '../../themes'
-import i18n from '../../utils/i18n'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import HomeAdhere from './HomeAdhere'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
@@ -169,9 +167,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       params: { zipCode: currentResources.zipCode },
     })
   }
-  const onFooterButtonPressed = () => {
-    ExternalLink.openUrl(i18n.t('unauthenticatedhome.register_url'))
-  }
   const onQuickPollAnswerSelected = async (
     pollId: string,
     answerId: string,
@@ -243,8 +238,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           onToolSelected={onToolSelected}
         />
       )
-    } else if (item.type === 'adhere') {
-      return <HomeAdhere onPress={onFooterButtonPressed} />
     } else if (item.type === 'region') {
       return (
         <HomeRegion

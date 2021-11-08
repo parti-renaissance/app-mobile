@@ -96,6 +96,7 @@ const stylesFactory = (theme: Theme) => {
       marginRight: Spacing.margin,
     },
     titleContainer: {
+      alignItems: 'center',
       flexDirection: 'row',
     },
   })
