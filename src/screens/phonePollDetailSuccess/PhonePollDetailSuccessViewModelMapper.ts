@@ -20,7 +20,7 @@ export const PhonePollDetailSuccessViewModelMapper = {
             type: 'successContent',
             viewModel: {
               isProgressDisplayed: campaign !== undefined,
-              progress: campaign?.callsCount ?? 0,
+              progress: campaign?.surveysCount ?? 0,
               total: campaign?.goal ?? 0,
             },
           },
