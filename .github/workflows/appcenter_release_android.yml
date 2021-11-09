@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Define the environment (dev|staging|production)'
+        description: 'Define the environment (staging|production)'
         required: true
-        default: 'dev'
+        default: 'staging'
       channel:
         description: 'Define the publishing channel (appcenter|playstore)'
         required: true
@@ -43,9 +43,9 @@ jobs:
       - name: Prepare env
         working-directory: ./
         env:
-          ANDROID_B64_GOOGLE_SERVICES: ${{ secrets.ANDROID_B64_GOOGLE_SERVICES }}
+          ANDROID_B64_GOOGLE_SERVICES_PRODUCTION: ${{ secrets.ANDROID_B64_GOOGLE_SERVICES_PRODUCTION }}
+          ANDROID_B64_GOOGLE_SERVICES_STAGING: ${{ secrets.ANDROID_B64_GOOGLE_SERVICES_STAGING }}
           ANDROID_B64_RELEASE_KEYSTORE: ${{ secrets.ANDROID_B64_RELEASE_KEYSTORE }}
-          ANDROID_B64_FASTFILE_ENV_DEV: ${{ secrets.ANDROID_B64_FASTFILE_ENV_DEV }}
           ANDROID_B64_FASTFILE_ENV_STAGING: ${{ secrets.ANDROID_B64_FASTFILE_ENV_STAGING }}
           ANDROID_B64_FASTFILE_ENV_PRODUCTION: ${{ secrets.ANDROID_B64_FASTFILE_ENV_PRODUCTION }}
           RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
