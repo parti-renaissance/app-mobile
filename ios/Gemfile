@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby File.read('.ruby-version').strip
 
-gem 'cocoapods', '1.10.0'
+gem 'cocoapods', '1.10.1'
 gem 'fastlane', '>= 2.195.0'
 gem 'ccios', '~> 4.0'
 
