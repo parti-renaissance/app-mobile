@@ -10,7 +10,7 @@
     "open:android": "open -a \"/Applications/Android Studio.app\" android",
     "open:ios": "open \"ios/JeMarche.xcworkspace\"",
     "preflight": "yarn tsc && yarn eslint",
-    "run:android": "react-native run-android --variant=devDebug --appId fr.en_marche.jecoute.dev",
+    "run:android": "react-native run-android --variant=stagingDebug --appId fr.en_marche.jecoute.staging",
     "run:ios": "react-native run-ios --simulator \"iPhone Xs\"",
     "simulator": "open -a Simulator",
     "start": "react-native start",
