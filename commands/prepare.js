@@ -26,10 +26,16 @@ const handler = ({ environment }) => {
 }
 
 function prepareAndroidLocalFiles() {
-  if (process.env.ANDROID_B64_GOOGLE_SERVICES) {
+  if (process.env.ANDROID_B64_GOOGLE_SERVICES_STAGING) {
     copyBase64File(
-      process.env.ANDROID_B64_GOOGLE_SERVICES,
-      'android/app/google-services.json',
+      process.env.ANDROID_B64_GOOGLE_SERVICES_STAGING,
+      'android/app/src/staging/google-services.json',
+    )
+  }
+  if (process.env.ANDROID_B64_GOOGLE_SERVICES_PRODUCTION) {
+    copyBase64File(
+      process.env.ANDROID_B64_GOOGLE_SERVICES_PRODUCTION,
+      'android/app/src/production/google-services.json',
     )
   }
   if (process.env.ANDROID_B64_RELEASE_KEYSTORE) {

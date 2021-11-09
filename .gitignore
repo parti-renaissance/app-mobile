@@ -67,7 +67,8 @@ yarn-error.log
 /ios/GoogleService-Info.plist
 
 # Sensitive files
-android/app/google-services.json
+android/app/src/production/google-services.json
+android/app/src/staging/google-services.json
 android/app/keystores/release.keystore
 android/fastlane/.env.*
 !android/fastlane/.env.skeleton
