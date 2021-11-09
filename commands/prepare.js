@@ -56,12 +56,6 @@ function prepareAndroidLocalFiles() {
       'android/fastlane/.env.production',
     )
   }
-  if (process.env.ANDROID_B64_FASTFILE_ENV_DEV) {
-    copyBase64File(
-      process.env.ANDROID_B64_FASTFILE_ENV_DEV,
-      'android/fastlane/.env.dev',
-    )
-  }
 }
 
 function prepareIosLocalFiles() {
@@ -69,12 +63,6 @@ function prepareIosLocalFiles() {
     copyBase64File(
       process.env.IOS_B64_FASTLANE_ENV_DEFAULT,
       'ios/fastlane/.env.default',
-    )
-  }
-  if (process.env.IOS_B64_FASTLANE_ENV_DEV) {
-    copyBase64File(
-      process.env.IOS_B64_FASTLANE_ENV_DEV,
-      'ios/fastlane/.env.dev',
     )
   }
   if (process.env.IOS_B64_FASTLANE_ENV_STAGING) {
@@ -87,12 +75,6 @@ function prepareIosLocalFiles() {
     copyBase64File(
       process.env.IOS_B64_FASTLANE_ENV_PRODUCTION,
       'ios/fastlane/.env.production',
-    )
-  }
-  if (process.env.IOS_B64_FIREBASE_PLIST_DEV) {
-    copyBase64File(
-      process.env.IOS_B64_FIREBASE_PLIST_DEV,
-      'config/firebase_plists/GoogleService-Info_Dev.plist',
     )
   }
   if (process.env.IOS_B64_FIREBASE_PLIST_STAGING) {
@@ -117,10 +99,6 @@ function prepareIosLocalFiles() {
 
 function prepareReactNativeLocalFiles() {
   if (process.env.RN_B64_ENV_STAGING) {
-    copyBase64File(
-      process.env.RN_B64_ENV_STAGING,
-      'config/environments/.env.dev.local',
-    )
     copyBase64File(
       process.env.RN_B64_ENV_STAGING,
       'config/environments/.env.staging.local',
