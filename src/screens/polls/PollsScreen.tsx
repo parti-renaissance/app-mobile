@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
     width: 141,
   },
   header: {
+    marginTop: Spacing.margin,
     marginBottom: Spacing.margin,
   },
 })

@@ -5,7 +5,6 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Colors, Spacing, Typography } from '../styles'
-import PollsScreen from './polls/PollsScreen'
 import ToolsScreen from './tools/ToolsScreen'
 import i18n from '../utils/i18n'
 import { Screen } from '../navigation'
@@ -15,15 +14,16 @@ import EventNavigator from './events/EventNavigator'
 import PhoningNavigator from './phoning/PhoningNavigator'
 import { GetPhoningStateInteractor } from '../core/interactor/GetPhoningStateInteractor'
 import { PhoningState } from '../core/entities/PhoningState'
+import ActsNavigator from './act/ActsNavigator'
 
 const TabAndroid = createMaterialBottomTabNavigator()
 const TabIos = createBottomTabNavigator()
 
 const getTabBarIcon = (route: any, focused: boolean) => {
-  if (route.name === Screen.polls) {
+  if (route.name === Screen.acts) {
     return focused
-      ? require('../assets/images/tabBarIconsPollsOn.png')
-      : require('../assets/images/tabBarIconsPollsOff.png')
+      ? require('../assets/images/tabBarIconsActOn.png')
+      : require('../assets/images/tabBarIconsActOff.png')
   } else if (route.name === Screen.homeNavigator) {
     return focused
       ? require('../assets/images/tabBarIconsHomeOn.png')
@@ -76,9 +76,9 @@ const AuthenticatedHomeScreenAndroid: FunctionComponent<AuthenticatedHomeScreenP
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
       />
       <TabAndroid.Screen
-        name={Screen.polls}
-        component={PollsScreen}
-        options={{ tabBarLabel: i18n.t('tab.item_polls') }}
+        name={Screen.acts}
+        component={ActsNavigator}
+        options={{ tabBarLabel: i18n.t('tab.item_acts') }}
       />
       <TabAndroid.Screen
         name={Screen.eventNavigator}
@@ -132,9 +132,9 @@ const AuthenticatedHomeScreenIos: FunctionComponent<AuthenticatedHomeScreenProps
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
       />
       <TabIos.Screen
-        name={Screen.polls}
-        component={PollsScreen}
-        options={{ tabBarLabel: i18n.t('tab.item_polls') }}
+        name={Screen.acts}
+        component={ActsNavigator}
+        options={{ tabBarLabel: i18n.t('tab.item_acts') }}
       />
       <TabIos.Screen
         name={Screen.eventNavigator}
