@@ -100,7 +100,7 @@
       }
     },
     "unauthenticatedhome": {
-      "description": "Retrouvez rapidement nos outils, réalisez des sondages et restez informés de l’actualité de votre territoire.",
+      "description": "Retrouvez rapidement nos outils, réalisez des questionnaires et restez informés de l’actualité de votre territoire.",
       "login": "Connexion LaREM",
       "skip": "Connexion Majorité Présidentielle",
       "register_url": "https://en-marche.fr/adhesion"
