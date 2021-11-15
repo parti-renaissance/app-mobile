@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: macOS-11
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,11 +34,9 @@ jobs:
           RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
           RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
           IOS_B64_FASTLANE_ENV_DEFAULT: ${{ secrets.IOS_B64_FASTLANE_ENV_DEFAULT }}
-          IOS_B64_FASTLANE_ENV_DEV: ${{ secrets.IOS_B64_FASTLANE_ENV_DEV }}
           IOS_B64_FASTLANE_ENV_STAGING: ${{ secrets.IOS_B64_FASTLANE_ENV_STAGING }}
           IOS_B64_FASTLANE_ENV_PRODUCTION: ${{ secrets.IOS_B64_FASTLANE_ENV_PRODUCTION }}
           IOS_B64_FASTLANE_ENV_DISTRIBUTION: ${{ secrets.IOS_B64_FASTLANE_ENV_DISTRIBUTION }}
-          IOS_B64_FIREBASE_PLIST_DEV: ${{ secrets.IOS_B64_FIREBASE_PLIST_DEV }}
           IOS_B64_FIREBASE_PLIST_STAGING: ${{ secrets.IOS_B64_FIREBASE_PLIST_STAGING }}
           IOS_B64_FIREBASE_PLIST_PRODUCTION: ${{ secrets.IOS_B64_FIREBASE_PLIST_PRODUCTION }}
         run: ./cli.js prepare staging

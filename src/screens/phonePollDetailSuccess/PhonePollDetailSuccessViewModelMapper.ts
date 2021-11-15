@@ -12,14 +12,7 @@ export const PhonePollDetailSuccessViewModelMapper = {
   map: (
     campaign: PhoningCampaign | undefined,
   ): PhonePollDetailSuccessViewModel => {
-    const rankingRows: Array<PhonePollDetailSuccessRowRanking> = PhoningScoreboardRowViewModelMapper.map(
-      campaign?.scoreboard ?? [],
-    ).rows.map((viewModel) => ({
-      type: 'rankingRow',
-      viewModel,
-    }))
-
-    const sections: Array<PhonePollDetailSuccessSection> = [
+    var sections: Array<PhonePollDetailSuccessSection> = [
       {
         title: i18n.t('phoningsession.success.title'),
         data: [
@@ -27,20 +20,33 @@ export const PhonePollDetailSuccessViewModelMapper = {
             type: 'successContent',
             viewModel: {
               isProgressDisplayed: campaign !== undefined,
-              progress: campaign?.callsCount ?? 0,
+              progress: campaign?.surveysCount ?? 0,
               total: campaign?.goal ?? 0,
             },
           },
         ],
       },
-      {
+    ]
+    if (
+      campaign !== undefined &&
+      campaign.scoreboard.length > 0 &&
+      !campaign.permanent
+    ) {
+      const rankingRows: Array<PhonePollDetailSuccessRowRanking> = PhoningScoreboardRowViewModelMapper.map(
+        campaign.scoreboard,
+      ).rows.map((viewModel) => ({
+        type: 'rankingRow',
+        viewModel,
+      }))
+      const rankingSection: PhonePollDetailSuccessSection = {
         title: i18n.t('phoning.scoreboard.title'),
         data: [{ type: 'rankingHeader' }].concat(
           rankingRows,
         ) as Array<PhonePollDetailSuccessRowType>,
-      },
-    ]
+      }
 
+      sections.push(rankingSection)
+    }
     return { sections }
   },
 }

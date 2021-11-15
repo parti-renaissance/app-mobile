@@ -31,6 +31,8 @@ export const phoningNavigator = 'PhoningNavigator'
 export const phoning = 'Phoning'
 export const phoningCharter = 'PhoningCharter'
 export const phoningTutorial = 'PhoningTutorial'
+export const phoningSessionLoaderPermanentCampaign =
+  'PhoningSessionLoaderPermanentCampaign'
 export const phoningCampaignBrief = 'PhoningCampaignBrief'
 export const phoningCampaignScoreboard = 'PhoningCampaignScoreboard'
 export const phoningSessionLoader = 'PhoningSessionLoader'

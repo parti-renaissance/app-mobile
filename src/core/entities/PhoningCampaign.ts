@@ -5,6 +5,7 @@ export interface PhoningCampaign {
   goal: number
   permanent: boolean
   callsCount: number
+  surveysCount: number
   finishAt: Date
   scoreboard: Array<PhoningCampaignScore>
 }

@@ -3,13 +3,8 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
-import {
-  BorderlessButton,
-  PrimaryButton,
-  SecondaryButton,
-} from '../shared/Buttons'
+import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import { Screen, UnauthenticatedHomeScreenProps } from '../../navigation'
-import { ExternalLink } from '../shared/ExternalLink'
 
 const UnauthenticatedHomeScreen = ({
   navigation,
@@ -38,14 +33,6 @@ const UnauthenticatedHomeScreen = ({
             navigation.navigate(Screen.login)
           }}
         />
-        <View style={styles.registerButtonContainer}>
-          <SecondaryButton
-            title={i18n.t('unauthenticatedhome.register')}
-            onPress={() => {
-              ExternalLink.openUrl(i18n.t('unauthenticatedhome.register_url'))
-            }}
-          />
-        </View>
         <BorderlessButton
           style={styles.skipButton}
           title={i18n.t('unauthenticatedhome.skip')}

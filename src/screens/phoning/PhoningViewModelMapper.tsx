@@ -39,21 +39,33 @@ function appendCampaigns(
     )
     const subtitle = !campaign.permanent
       ? i18n.t('phoning.campaign.remainingdays', {
+          count: remainingDays,
           remainingdays: remainingDays,
         })
       : i18n.t('phoning.campaign.permanent.subtitle')
-    rows.push({
-      type: 'campaign',
-      value: {
-        id: campaign.id,
-        title: campaign.title,
-        subtitle: subtitle,
-        calledCount: campaign.callsCount,
-        numberOfPersonToCall: campaign.goal,
-        rank:
-          campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
-      },
-    })
+    if (campaign.permanent) {
+      rows.push({
+        type: 'callContact',
+        value: {
+          id: campaign.id,
+          calledCount: campaign.surveysCount,
+          numberOfPersonToCall: campaign.goal,
+        },
+      })
+    } else {
+      rows.push({
+        type: 'campaign',
+        value: {
+          id: campaign.id,
+          title: campaign.title,
+          subtitle: subtitle,
+          calledCount: campaign.surveysCount,
+          numberOfPersonToCall: campaign.goal,
+          rank:
+            campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
+        },
+      })
+    }
   })
 }
 

@@ -1,5 +1,5 @@
 function getAvailableEnvironments() {
-  return ['dev', 'staging', 'production']
+  return ['staging', 'production']
 }
 
 function getDefaultEnvironment() {

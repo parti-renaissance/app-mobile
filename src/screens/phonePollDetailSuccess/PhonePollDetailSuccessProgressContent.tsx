@@ -23,6 +23,7 @@ export const PhonePollDetailSuccessProgressContent: FunctionComponent<Props> = (
     <>
       <Text style={styles.caption}>
         {i18n.t('phoning.callcontact.progressformat', {
+          count: viewModel.progress,
           done: viewModel.progress,
           total: viewModel.total,
         })}

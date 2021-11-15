@@ -22,7 +22,7 @@
     },
     "tab": {
       "item_polls": "Questionnaires",
-      "item_tools": "Outils",
+      "item_tools": "Ressources",
       "item_profile": "Profil",
       "item_home": "Accueil",
       "item_events": "Événements",
@@ -78,7 +78,7 @@
         "profession_employee": "Employé",
         "profession_worker": "Ouvrier",
         "profession_executive": "Cadre",
-        "profession_tempWorker": "Profession intérimaire",
+        "profession_intermediate": "Profession intermédiaire",
         "profession_independent": "Indépendant et professions libérales",
         "profession_retired": "Retraité",
         "profession_student": "Étudiant"
@@ -100,17 +100,16 @@
       }
     },
     "unauthenticatedhome": {
-      "description": "Retrouvez rapidement nos outils, réalisez des sondages et restez informés de l’actualité des campagnes régionales près de chez vous.",
-      "login": "Se connecter",
-      "register": "Pas encore adhérent ? Adhérer",
-      "skip": "Continuer sans adhérer",
+      "description": "Retrouvez rapidement nos outils, réalisez des sondages et restez informés de l’actualité de votre territoire.",
+      "login": "Connexion LaREM",
+      "skip": "Connexion Majorité Présidentielle",
       "register_url": "https://en-marche.fr/adhesion"
     },
     "login": {
       "title": "Connexion",
       "email": "Adresse e-mail",
       "password": "Mot de passe",
-      "login": "Se connecter",
+      "login": "Connexion LaREM",
       "password_lost": "Mot de passe oublié ?",
       "password_lost_url": "https://en-marche.fr/mot-de-passe-oublie",
       "credentials_error": "Email/mot de passe invalide"
@@ -162,7 +161,7 @@
       "continue": "Continuer"
     },
     "tools": {
-      "title": "Outils militants",
+      "title": "Ressources",
       "reforms": {
         "title": "On l'a dit, On le fait",
         "url": "https://transformer.en-marche.fr/fr"
@@ -182,7 +181,7 @@
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
       "section_polls": "Questionnaires",
-      "section_tools": "Vos outils militants",
+      "section_tools": "Vos ressources",
       "footer": {
         "title": "En Marche !",
         "description": "Vous voulez contribuer à la transformation En Marche ? Rejoignez les plus de 400 000 adhérents de La République En Marche ! C'est facile, gratuit et 3 minutes suffiront.",
@@ -319,7 +318,7 @@
     "phoning": {
       "title": "Phoning",
       "tutorial": {
-        "title": "Comment faire un appel?",
+        "title": "Comment faire un appel ?",
         "link": "Regarder le tutoriel"
       },
       "subtitle_no_campaigns": "Aucune campagne d'appels n'est actuellement en cours.",
@@ -327,10 +326,12 @@
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
         "callbuttontitle": "Appeler un de mes contact",
-        "progressformat": "{{done}} questionnaires remplis sur {{total}}"
+        "progressformat_plural": "{{done}} questionnaires remplis sur {{total}}",
+        "progressformat": "{{done}} questionnaire rempli sur {{total}}"
       },
       "campaign": {
-        "remainingdays": "Il vous reste {{remainingdays}} jours \u2028pour atteindre votre objectif.",
+        "remainingdays_plural": "Il vous reste {{remainingdays}} jours pour atteindre votre objectif.",
+        "remainingdays": "Il vous reste {{remainingdays}} jour pour atteindre votre objectif.",
         "permanent": {
           "subtitle": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron"
         },
@@ -350,6 +351,10 @@
       "position": "{{position}}er au classement",
       "position_plural": "{{position}}ème au classement",
       "charter": { "title": "Charte", "accept": "Accepter" }
+    },
+    "phoningcontacttutorial": {
+      "title": "Appeler un de mes contacts",
+      "description": "Lancez un appel depuis votre répertoire puis retournez sur l'application pour démarrer le questionnaire."
     },
     "phoningsession": {
       "new_call": "Nouvel appel",

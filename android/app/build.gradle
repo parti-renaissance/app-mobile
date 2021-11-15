@@ -159,10 +159,6 @@ android {
 
     flavorDimensions "environment"
     productFlavors {
-        dev {
-            dimension "environment"
-            applicationIdSuffix '.dev'
-        }
         staging {
             dimension "environment"
             applicationIdSuffix '.staging'

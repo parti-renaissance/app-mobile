@@ -10,6 +10,7 @@ export const PhoningCampaignMapper = {
       permanent: restObject.permanent,
       goal: restObject.goal,
       callsCount: restObject.nb_calls,
+      surveysCount: restObject.nb_surveys,
       finishAt: new Date(restObject.finish_at),
       scoreboard: restObject.scoreboard.map((item) => {
         return {

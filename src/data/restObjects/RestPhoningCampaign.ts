@@ -5,6 +5,7 @@ export interface RestPhoningCampaign {
   goal: number
   permanent: boolean
   nb_calls: number
+  nb_surveys: number
   finish_at: string
   scoreboard: Array<RestPhoningCampaignScore>
 }
