@@ -93,7 +93,7 @@
     "@react-native-community/eslint-config": "1.1.0",
     "@types/jest": "25.1.0",
     "@types/react-native": "0.63.35",
-    "@types/react-test-renderer": "16.9.1",
+    "@types/react-test-renderer": "17.0.1",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "babel-jest": "25.5.1",
