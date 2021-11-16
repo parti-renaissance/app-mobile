@@ -11,6 +11,8 @@ import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
 import { useTheme } from '../../themes'
+import { GetPhoningStateInteractor } from '../../core/interactor/GetPhoningStateInteractor'
+import { PhoningState } from '../../core/entities/PhoningState'
 
 const ActionsScreen = ({ navigation }: any) => {
   const [statefulState, setStatefulState] = useState<
@@ -19,10 +21,23 @@ const ActionsScreen = ({ navigation }: any) => {
 
   const { theme } = useTheme()
   const [fetchedActions] = useState(new Map<number, Action>())
+  const [enablePhoning, setEnablePhoning] = useState(false)
+
+  useEffect(() => {
+    new GetPhoningStateInteractor()
+      .execute()
+      .then((state) => {
+        setEnablePhoning(state === PhoningState.ENABLED)
+      })
+      .catch(() => {
+        setEnablePhoning(false)
+      })
+  }, [setEnablePhoning])
+
   const fetch = () => {
     setStatefulState(new ViewState.Loading())
     ActionsRepository.getInstance()
-      .getActions()
+      .getActions(enablePhoning)
       .then((actions) => {
         fetchedActions.clear()
         actions.forEach((action) => {
@@ -38,7 +53,7 @@ const ActionsScreen = ({ navigation }: any) => {
       })
   }
 
-  useEffect(fetch, [theme])
+  useEffect(fetch, [theme, enablePhoning])
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (

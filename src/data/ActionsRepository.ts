@@ -8,28 +8,31 @@ class ActionsRepository {
 
   private actions: Array<Action> = [
     {
-      id: 2,
+      id: 1,
       title: i18n.t('actions.polls.title'),
       image: ActionImage.POLLS,
       screen: Screen.polls,
     },
     {
-      id: 1,
+      id: 2,
       title: i18n.t('actions.door_to_door.title'),
       image: ActionImage.DOOR2DOOR,
       screen: Screen.polls,
     },
-    {
-      id: 4,
-      title: i18n.t('actions.phoning.title'),
-      image: ActionImage.PHONING,
-      screen: Screen.polls,
-    },
   ]
 
-  public getActions(): Promise<Array<Action>> {
+  private phoningAction = {
+    id: 3,
+    title: i18n.t('actions.phoning.title'),
+    image: ActionImage.PHONING,
+    screen: Screen.phoning,
+  }
+
+  public getActions(enablePhoning: boolean): Promise<Array<Action>> {
     return new Promise((resolve) => {
-      resolve(this.actions)
+      resolve(
+        enablePhoning ? [...this.actions, this.phoningAction] : this.actions,
+      )
     })
   }
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React from 'react'
 import { Image, Platform } from 'react-native'
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
@@ -11,9 +11,6 @@ import { Screen } from '../navigation'
 import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
 import EventNavigator from './events/EventNavigator'
-import PhoningNavigator from './phoning/PhoningNavigator'
-import { GetPhoningStateInteractor } from '../core/interactor/GetPhoningStateInteractor'
-import { PhoningState } from '../core/entities/PhoningState'
 import ActionsNavigator from './actions/ActionsNavigator'
 
 const TabAndroid = createMaterialBottomTabNavigator()
@@ -43,13 +40,7 @@ const getTabBarIcon = (route: any, focused: boolean) => {
   }
 }
 
-interface AuthenticatedHomeScreenProps {
-  enablePhoning: boolean
-}
-
-const AuthenticatedHomeScreenAndroid: FunctionComponent<AuthenticatedHomeScreenProps> = ({
-  enablePhoning,
-}) => {
+const AuthenticatedHomeScreenAndroid = () => {
   const { theme } = useTheme()
   return (
     <TabAndroid.Navigator
@@ -90,20 +81,11 @@ const AuthenticatedHomeScreenAndroid: FunctionComponent<AuthenticatedHomeScreenP
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
       />
-      {enablePhoning ? (
-        <TabAndroid.Screen
-          name={Screen.phoningNavigator}
-          component={PhoningNavigator}
-          options={{ tabBarLabel: i18n.t('tab.item_phoning') }}
-        />
-      ) : null}
     </TabAndroid.Navigator>
   )
 }
 
-const AuthenticatedHomeScreenIos: FunctionComponent<AuthenticatedHomeScreenProps> = ({
-  enablePhoning,
-}) => {
+const AuthenticatedHomeScreenIos = () => {
   const { theme } = useTheme()
   return (
     <TabIos.Navigator
@@ -146,36 +128,15 @@ const AuthenticatedHomeScreenIos: FunctionComponent<AuthenticatedHomeScreenProps
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
       />
-      {enablePhoning ? (
-        <TabIos.Screen
-          name={Screen.phoningNavigator}
-          component={PhoningNavigator}
-          options={{ tabBarLabel: i18n.t('tab.item_phoning') }}
-        />
-      ) : null}
     </TabIos.Navigator>
   )
 }
 
-const AuthenticatedHomeScreen = () => {
-  const [enablePhoning, setEnablePhoning] = useState<boolean>(false)
-
-  useEffect(() => {
-    new GetPhoningStateInteractor()
-      .execute()
-      .then((state) => {
-        setEnablePhoning(state === PhoningState.ENABLED)
-      })
-      .catch(() => {
-        setEnablePhoning(false)
-      })
-  }, [setEnablePhoning])
-
-  if (Platform.OS === 'android') {
-    return <AuthenticatedHomeScreenAndroid enablePhoning={enablePhoning} />
-  } else {
-    return <AuthenticatedHomeScreenIos enablePhoning={enablePhoning} />
-  }
-}
+const AuthenticatedHomeScreen = () =>
+  Platform.OS === 'android' ? (
+    <AuthenticatedHomeScreenAndroid />
+  ) : (
+    <AuthenticatedHomeScreenIos />
+  )
 
 export default AuthenticatedHomeScreen
