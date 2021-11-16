@@ -2,26 +2,26 @@ import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Screen } from '../../navigation'
 import { headerBlank } from '../../styles/navigationAppearance'
-import ActScreen from './ActScreen'
+import ActionsScreen from './ActionsScreen'
 import PollsScreen from '../polls/PollsScreen'
 
-const ActsStack = createStackNavigator()
+const ActionsStack = createStackNavigator()
 
-const ActsNavigator: FunctionComponent = () => {
+const ActionsNavigator: FunctionComponent = () => {
   return (
-    <ActsStack.Navigator screenOptions={headerBlank}>
-      <ActsStack.Screen
-        name={Screen.acts}
-        component={ActScreen}
+    <ActionsStack.Navigator screenOptions={headerBlank}>
+      <ActionsStack.Screen
+        name={Screen.actions}
+        component={ActionsScreen}
         options={{ headerShown: false }}
       />
-      <ActsStack.Screen
+      <ActionsStack.Screen
         name={Screen.polls}
         component={PollsScreen}
         options={{ headerTransparent: true }}
       />
-    </ActsStack.Navigator>
+    </ActionsStack.Navigator>
   )
 }
 
-export default ActsNavigator
+export default ActionsNavigator

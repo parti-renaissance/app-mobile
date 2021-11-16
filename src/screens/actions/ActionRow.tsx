@@ -5,29 +5,24 @@ import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
-import { ActRowViewModel } from './ActRowViewModel'
+import { ActionRowViewModel } from './ActionRowViewModel'
 
 type Props = Readonly<{
-  viewModel: ActRowViewModel
+  viewModel: ActionRowViewModel
   onPress: (id: number) => void
 }>
 
-export const ActRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
+export const ActionRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
   const styles = useThemedStyles(stylesFactory)
   return (
     <View style={styles.card}>
       <TouchablePlatform
-        onPress={() => {
-          onPress(viewModel.id)
-        }}
+        onPress={() => onPress(viewModel.id)}
         touchHighlight={Colors.touchHighlight}
       >
         <View style={styles.container}>
           <Image source={viewModel.image} />
-          <View style={styles.textWrap}>
-            <Text style={styles.title}>{viewModel.title}</Text>
-            <Text style={styles.subtitle}>{viewModel.subtitle}</Text>
-          </View>
+          <Text style={styles.title}>{viewModel.title}</Text>
         </View>
       </TouchablePlatform>
     </View>
@@ -48,16 +43,10 @@ const stylesFactory = (theme: Theme) => {
       alignItems: 'center',
       paddingRight: 8 * Spacing.unit,
     },
-    textWrap: {
-      marginLeft: Spacing.unit,
-    },
     title: {
       ...Typography.title2,
       flexShrink: 1,
-    },
-    subtitle: {
-      ...Typography.lightCallout,
-      flexShrink: 1,
+      marginLeft: Spacing.unit,
     },
   })
 }

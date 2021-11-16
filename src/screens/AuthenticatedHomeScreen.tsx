@@ -14,13 +14,13 @@ import EventNavigator from './events/EventNavigator'
 import PhoningNavigator from './phoning/PhoningNavigator'
 import { GetPhoningStateInteractor } from '../core/interactor/GetPhoningStateInteractor'
 import { PhoningState } from '../core/entities/PhoningState'
-import ActsNavigator from './act/ActsNavigator'
+import ActionsNavigator from './actions/ActionsNavigator'
 
 const TabAndroid = createMaterialBottomTabNavigator()
 const TabIos = createBottomTabNavigator()
 
 const getTabBarIcon = (route: any, focused: boolean) => {
-  if (route.name === Screen.acts) {
+  if (route.name === Screen.actions) {
     return focused
       ? require('../assets/images/tabBarIconsActOn.png')
       : require('../assets/images/tabBarIconsActOff.png')
@@ -76,9 +76,9 @@ const AuthenticatedHomeScreenAndroid: FunctionComponent<AuthenticatedHomeScreenP
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
       />
       <TabAndroid.Screen
-        name={Screen.acts}
-        component={ActsNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_acts') }}
+        name={Screen.actions}
+        component={ActionsNavigator}
+        options={{ tabBarLabel: i18n.t('tab.item_actions') }}
       />
       <TabAndroid.Screen
         name={Screen.eventNavigator}
@@ -132,9 +132,9 @@ const AuthenticatedHomeScreenIos: FunctionComponent<AuthenticatedHomeScreenProps
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
       />
       <TabIos.Screen
-        name={Screen.acts}
-        component={ActsNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_acts') }}
+        name={Screen.actions}
+        component={ActionsNavigator}
+        options={{ tabBarLabel: i18n.t('tab.item_actions') }}
       />
       <TabIos.Screen
         name={Screen.eventNavigator}

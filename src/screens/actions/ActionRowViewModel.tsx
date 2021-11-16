@@ -1,9 +1,8 @@
 import { ImageSourcePropType } from 'react-native'
 
-export interface ActRowViewModel {
+export interface ActionRowViewModel {
   id: number
   title: string
-  subtitle: string
   screen: string
   image: ImageSourcePropType
 }

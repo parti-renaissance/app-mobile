@@ -27,7 +27,7 @@
       "item_home": "Accueil",
       "item_events": "Événements",
       "item_phoning": "Phoning",
-      "item_acts": "J'agis"
+      "item_actions": "Actions"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -385,21 +385,16 @@
       "title": "Riposte",
       "execute": "Copier le texte et riposter"
     },
-    "acts": {
-      "title": "J'agis",
+    "actions": {
+      "title": "Actions",
       "polls": {
-        "title": "Questionnaires",
-        "subtitle_format": "{{count}} questionnaire en cours",
-        "subtitle_format_plural": "{{count}} questionnaires en cours"
+        "title": "Questionnaires"
       },
       "door_to_door": {
-        "title": "Porte-à-porte",
-        "subtitle_format": "{{count}} campagnes en cours",
-        "subtitle_format_plural": "{{count}} campagnes en cours"
+        "title": "Porte-à-porte"
       },
       "phoning": {
-        "title": "Phoning",
-        "subtitle_no_campaigns": "Aucune campagne actuellement"
+        "title": "Phoning"
       }
     }
   }

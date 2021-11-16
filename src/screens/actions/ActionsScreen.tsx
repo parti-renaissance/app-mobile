@@ -1,38 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Act } from '../../core/entities/Act'
-import ActsRepository from '../../data/ActsRepository'
+import { Action } from '../../core/entities/Action'
+import ActionsRepository from '../../data/ActionsRepository'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import { ActRow } from './ActRow'
-import { ActRowViewModel } from './ActRowViewModel'
-import { ActRowViewModelMapper } from './ActRowViewModelMapper'
+import { ActionRow } from './ActionRow'
+import { ActionRowViewModel } from './ActionRowViewModel'
+import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
 import { useTheme } from '../../themes'
 
-type Props = {
-  navigation: any
-}
-const ActScreen = ({ navigation }: Props) => {
+const ActionsScreen = ({ navigation }: any) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<ReadonlyArray<ActRowViewModel>>
+    ViewState.Type<ReadonlyArray<ActionRowViewModel>>
   >(new ViewState.Loading())
 
   const { theme } = useTheme()
-  const [fetchedActs] = useState(new Map<number, Act>())
+  const [fetchedActions] = useState(new Map<number, Action>())
   const fetch = () => {
     setStatefulState(new ViewState.Loading())
-    ActsRepository.getInstance()
-      .getActs()
-      .then((acts) => {
-        fetchedActs.clear()
-        acts.forEach((act) => {
-          fetchedActs.set(act.id, act)
+    ActionsRepository.getInstance()
+      .getActions()
+      .then((actions) => {
+        fetchedActions.clear()
+        actions.forEach((action) => {
+          fetchedActions.set(action.id, action)
         })
-        const actsViewModel = ActRowViewModelMapper.map(theme, acts)
-        setStatefulState(new ViewState.Content(actsViewModel))
+        const actionsViewModel = ActionRowViewModelMapper.map(theme, actions)
+        setStatefulState(new ViewState.Content(actionsViewModel))
       })
       .catch((error) => {
         setStatefulState(
@@ -43,23 +40,23 @@ const ActScreen = ({ navigation }: Props) => {
 
   useEffect(fetch, [theme])
 
-  const renderItem = ({ item }: ListRenderItemInfo<ActRowViewModel>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (
-      <ActRow
+      <ActionRow
         viewModel={item}
         onPress={() => navigation.navigate(item.screen)}
       />
     )
   }
 
-  const ActContent = (acts: ReadonlyArray<ActRowViewModel>) => {
+  const ActionContent = (actions: ReadonlyArray<ActionRowViewModel>) => {
     return (
       <FlatList
-        data={acts}
+        data={actions}
         renderItem={renderItem}
         keyExtractor={(item) => item.title}
         ListHeaderComponent={
-          <Text style={styles.title}>{i18n.t('acts.title')}</Text>
+          <Text style={styles.title}>{i18n.t('actions.title')}</Text>
         }
         contentContainerStyle={styles.contentContainer}
       />
@@ -68,7 +65,7 @@ const ActScreen = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatefulView state={statefulState} contentComponent={ActContent} />
+      <StatefulView state={statefulState} contentComponent={ActionContent} />
     </SafeAreaView>
   )
 }
@@ -85,8 +82,9 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title,
+
     marginBottom: Spacing.mediumMargin,
   },
 })
 
-export default ActScreen
+export default ActionsScreen

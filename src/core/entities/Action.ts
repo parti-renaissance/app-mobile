@@ -1,12 +1,11 @@
-export interface Act {
+export interface Action {
   id: number
-  image: ActImage
+  image: ActionImage
   title: string
   screen: string
-  subtitle: string
 }
 
-export enum ActImage {
+export enum ActionImage {
   POLLS,
   DOOR2DOOR,
   PHONING,
