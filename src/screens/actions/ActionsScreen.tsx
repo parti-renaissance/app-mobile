@@ -22,23 +22,11 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
 
   const { theme } = useTheme()
   const [fetchedActions] = useState(new Map<number, Action>())
-  const [enablePhoning, setEnablePhoning] = useState(false)
 
-  useEffect(() => {
-    new GetPhoningStateInteractor()
-      .execute()
-      .then((state) => {
-        setEnablePhoning(state === PhoningState.ENABLED)
-      })
-      .catch(() => {
-        setEnablePhoning(false)
-      })
-  }, [setEnablePhoning])
-
-  const fetch = () => {
+  const fetch = (enablePhoning?: boolean) => {
     setStatefulState(new ViewState.Loading())
     ActionsRepository.getInstance()
-      .getActions(enablePhoning)
+      .getActions(!!enablePhoning)
       .then((actions) => {
         fetchedActions.clear()
         actions.forEach((action) => {
@@ -54,7 +42,12 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
       })
   }
 
-  useEffect(fetch, [theme, enablePhoning])
+  useEffect(() => {
+    new GetPhoningStateInteractor()
+      .execute()
+      .then((state) => fetch(state === PhoningState.ENABLED))
+      .catch(fetch)
+  }, [theme, fetch])
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (
