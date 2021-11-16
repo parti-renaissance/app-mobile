@@ -23,31 +23,34 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const { theme } = useTheme()
   const [fetchedActions] = useState(new Map<number, Action>())
 
-  const fetch = (enablePhoning?: boolean) => {
-    setStatefulState(new ViewState.Loading())
-    ActionsRepository.getInstance()
-      .getActions(!!enablePhoning)
-      .then((actions) => {
-        fetchedActions.clear()
-        actions.forEach((action) => {
-          fetchedActions.set(action.id, action)
-        })
-        const actionsViewModel = ActionRowViewModelMapper.map(theme, actions)
-        setStatefulState(new ViewState.Content(actionsViewModel))
-      })
-      .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), fetch),
-        )
-      })
-  }
-
   useEffect(() => {
+    const fetch = (enablePhoning?: boolean) => {
+      setStatefulState(new ViewState.Loading())
+      ActionsRepository.getInstance()
+        .getActions(!!enablePhoning)
+        .then((actions) => {
+          fetchedActions.clear()
+          actions.forEach((action) => {
+            fetchedActions.set(action.id, action)
+          })
+          const actionsViewModel = ActionRowViewModelMapper.map(theme, actions)
+          setStatefulState(new ViewState.Content(actionsViewModel))
+        })
+        .catch((error) => {
+          setStatefulState(
+            new ViewState.Error(
+              GenericErrorMapper.mapErrorMessage(error),
+              fetch,
+            ),
+          )
+        })
+    }
+
     new GetPhoningStateInteractor()
       .execute()
       .then((state) => fetch(state === PhoningState.ENABLED))
       .catch(fetch)
-  }, [theme, fetch])
+  }, [theme])
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (
