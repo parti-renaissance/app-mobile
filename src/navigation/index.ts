@@ -138,6 +138,15 @@ export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
 }>
 
+// Actions
+export type ActionsScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<AuthenticatedHomeParamList, typeof Screen.polls>,
+  StackNavigationProp<RootStackParamList>
+>
+export type ActionsScreenProp = Readonly<{
+  navigation: ActionsScreenNavigationProp
+}>
+
 // Phoning charter
 export type PhoningCharterScreenProp = StackScreenProps<
   PhoningParamList,

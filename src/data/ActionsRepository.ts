@@ -9,22 +9,22 @@ class ActionsRepository {
   private actions: Array<Action> = [
     {
       id: 1,
-      title: i18n.t('actions.polls.title'),
       image: ActionImage.POLLS,
+      title: i18n.t('actions.polls.title'),
       screen: Screen.polls,
     },
     {
       id: 2,
-      title: i18n.t('actions.door_to_door.title'),
       image: ActionImage.DOOR2DOOR,
+      title: i18n.t('actions.door_to_door.title'),
       screen: Screen.polls,
     },
   ]
 
   private phoningAction = {
     id: 3,
-    title: i18n.t('actions.phoning.title'),
     image: ActionImage.PHONING,
+    title: i18n.t('actions.phoning.title'),
     screen: Screen.phoning,
   }
 

@@ -38,9 +38,9 @@ const stylesFactory = (theme: Theme) => {
       overflow: 'hidden',
     },
     container: {
-      flex: 1,
-      flexDirection: 'row',
       alignItems: 'center',
+      flexDirection: 'row',
+      flex: 1,
       paddingRight: 8 * Spacing.unit,
     },
     title: {

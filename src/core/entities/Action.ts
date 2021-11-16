@@ -1,12 +1,12 @@
+export enum ActionImage {
+  DOOR2DOOR,
+  PHONING,
+  POLLS,
+}
+
 export interface Action {
   id: number
   image: ActionImage
-  title: string
   screen: string
-}
-
-export enum ActionImage {
-  POLLS,
-  DOOR2DOOR,
-  PHONING,
+  title: string
 }

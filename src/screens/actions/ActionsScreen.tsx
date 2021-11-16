@@ -13,8 +13,9 @@ import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
 import { useTheme } from '../../themes'
 import { GetPhoningStateInteractor } from '../../core/interactor/GetPhoningStateInteractor'
 import { PhoningState } from '../../core/entities/PhoningState'
+import { ActionsScreenProp } from '../../navigation'
 
-const ActionsScreen = ({ navigation }: any) => {
+const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<ReadonlyArray<ActionRowViewModel>>
   >(new ViewState.Loading())
