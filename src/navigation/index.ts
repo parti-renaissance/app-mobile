@@ -3,6 +3,8 @@ import {
   NavigatorScreenParams,
   CompositeNavigationProp,
   RouteProp,
+  NavigationProp,
+  ParamListBase,
 } from '@react-navigation/native'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
@@ -56,6 +58,7 @@ export type PhoningParamList = {
 
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
+  Actions: undefined
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
@@ -139,12 +142,8 @@ export type PhoningScreenProp = Readonly<{
 }>
 
 // Actions
-export type ActionsScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<AuthenticatedHomeParamList, typeof Screen.polls>,
-  StackNavigationProp<RootStackParamList>
->
 export type ActionsScreenProp = Readonly<{
-  navigation: ActionsScreenNavigationProp
+  navigation: NavigationProp<ParamListBase>
 }>
 
 // Phoning charter
