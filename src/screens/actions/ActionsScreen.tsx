@@ -66,7 +66,7 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
       <FlatList
         data={actions}
         renderItem={renderItem}
-        keyExtractor={(item) => item.title}
+        keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
           <Text style={styles.title}>{i18n.t('actions.title')}</Text>
         }
@@ -88,13 +88,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    flexGrow: 1,
     paddingHorizontal: Spacing.margin,
     paddingTop: Spacing.largeMargin,
   },
   title: {
     ...Typography.title,
-
     marginBottom: Spacing.mediumMargin,
   },
 })
