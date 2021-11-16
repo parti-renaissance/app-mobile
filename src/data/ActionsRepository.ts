@@ -17,7 +17,7 @@ class ActionsRepository {
       id: 2,
       image: ActionImage.DOORTODOOR,
       title: i18n.t('actions.door_to_door.title'),
-      screen: Screen.polls,
+      screen: Screen.doorToDoor,
     },
   ]
 

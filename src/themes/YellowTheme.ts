@@ -47,6 +47,7 @@ const YellowTheme: Theme = {
     polls: () => require('../assets/images/yellow/imagePolls.png'),
     doorToDoor: () => require('../assets/images/yellow/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/yellow/imagePhoningV2.png'),
+    locationPhone: () => require('../assets/images/blue/locationPhone.png'),
   },
 }
 

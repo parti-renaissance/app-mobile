@@ -5,6 +5,7 @@ import { headerBlank } from '../../styles/navigationAppearance'
 import ActionsScreen from './ActionsScreen'
 import PollsScreen from '../polls/PollsScreen'
 import PhoningNavigator from '../phoning/PhoningNavigator'
+import DoorToDoorNavigator from '../doorToDoor/DoorToDoorNavigator'
 
 const ActionsStack = createStackNavigator()
 
@@ -24,6 +25,11 @@ const ActionsNavigator: FunctionComponent = () => {
       <ActionsStack.Screen
         name={Screen.phoning}
         component={PhoningNavigator}
+        options={{ headerTransparent: true }}
+      />
+      <ActionsStack.Screen
+        name={Screen.doorToDoor}
+        component={DoorToDoorNavigator}
         options={{ headerTransparent: true }}
       />
     </ActionsStack.Navigator>
