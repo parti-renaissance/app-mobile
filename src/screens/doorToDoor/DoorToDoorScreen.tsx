@@ -21,6 +21,7 @@ import {
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { LocationManager } from '../../utils/LocationManager'
 import { Screen } from '../../navigation'
+import DoorToDoorMapView from './DoorToDoorMapView'
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -84,7 +85,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       </TouchablePlatform>
       <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
 
-      {!locationAuthorized && (
+      {locationAuthorized ? (
+        <DoorToDoorMapView />
+      ) : (
         <LocationAuthorization onAuthorizationRequest={requestPermission} />
       )}
     </SafeAreaView>
@@ -95,7 +98,6 @@ const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     classementIcon: {
       margin: Spacing.margin,
-      tintColor: theme.primaryColor,
     },
     classementIconContainer: {
       alignSelf: 'flex-end',
