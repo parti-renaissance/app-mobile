@@ -6,10 +6,10 @@ import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 
 type Props = {
-  onAuthorization: (isAuthorized: Boolean) => void
+  onAuthorizationRequest: () => void
 }
 
-const LocationAuthorization = ({ onAuthorization }: Props) => {
+const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
   const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
 
@@ -20,7 +20,7 @@ const LocationAuthorization = ({ onAuthorization }: Props) => {
       <Text style={styles.subtitle}>
         {i18n.t('doorToDoor.location.subtitle')}
       </Text>
-      <TouchableOpacity onPress={() => onAuthorization(true)}>
+      <TouchableOpacity onPress={onAuthorizationRequest}>
         <Text style={styles.authorise}>
           {i18n.t('doorToDoor.location.cta')}
         </Text>

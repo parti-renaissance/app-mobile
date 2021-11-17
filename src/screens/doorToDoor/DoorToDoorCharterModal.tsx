@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
@@ -48,9 +48,6 @@ const DoorToDoorCharterModal: FC<Props> = (props) => {
           source={require('../../assets/images/navigationBarClose.png')}
           onPress={props.onDismissModal}
         />
-        <Text style={styles.headerTitle}>
-          {i18n.t('doorToDoor.charter.title')}
-        </Text>
       </View>
       <ScrollView>
         <Markdown style={markdownStyle}>{props.charter}</Markdown>

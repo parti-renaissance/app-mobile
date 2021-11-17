@@ -10,7 +10,7 @@ import { useThemedStyles } from '../../themes'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import i18n from '../../utils/i18n'
 import Theme from '../../themes/Theme'
-import Classements from './Classements'
+import ClassementsModal from './ClassementsModal'
 import LocationAuthorization from './LocationAuthorization'
 import { DoorToDoorScreenProp } from '../../navigation'
 import DoorToDoorCharterModal from './DoorToDoorCharterModal'
@@ -19,13 +19,14 @@ import {
   DoorToDoorCharterState,
 } from '../../core/entities/DoorToDoorCharterState'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
+import { LocationManager } from '../../utils/LocationManager'
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
   const styles = useThemedStyles(stylesFactory)
   const [modalVisible, setModalVisible] = useState(false)
-  const [locationAuthorized, setLocationAuthorized] = useState<Boolean>(false)
+  const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [charterState, setCharterState] = useState<
     DoorToDoorCharterState | undefined
   >()
@@ -41,16 +42,25 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       })
   }, [])
 
+  const getPermissionStatus = async () => {
+    setLocationAuthorized(await LocationManager.permissionStatus())
+  }
+
+  const requestPermission = async () => {
+    setLocationAuthorized(await LocationManager.requestPermission())
+  }
+
   useEffect(
     useCallback(() => {
       fetchCharterState()
+      getPermissionStatus()
     }, [fetchCharterState]),
   )
 
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={modalVisible} animationType="slide">
-        <Classements onDismissModal={() => setModalVisible(false)} />
+        <ClassementsModal onDismissModal={() => setModalVisible(false)} />
       </Modal>
 
       {charterState instanceof DoorToDoorCharterNotAccepted && (
@@ -76,11 +86,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
 
       {!locationAuthorized && (
-        <LocationAuthorization
-          onAuthorization={(isAuthorized) => {
-            setLocationAuthorized(isAuthorized)
-          }}
-        />
+        <LocationAuthorization onAuthorizationRequest={requestPermission} />
       )}
     </SafeAreaView>
   )

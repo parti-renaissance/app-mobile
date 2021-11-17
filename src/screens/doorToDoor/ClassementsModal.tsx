@@ -9,7 +9,7 @@ type Props = Readonly<{
   onDismissModal: () => void
 }>
 
-const Classements: FC<Props> = (props) => {
+const ClassementsModal: FC<Props> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Classements
+export default ClassementsModal
