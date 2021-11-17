@@ -71,6 +71,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
   },
+  chartContainer: {
+    margin: Spacing.margin,
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
   headerContainer: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -78,13 +85,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     ...Typography.title2,
     textAlign: 'center',
-  },
-  chartContainer: {
-    margin: Spacing.margin,
-  },
-  container: {
-    backgroundColor: Colors.defaultBackground,
-    flex: 1,
   },
 })
 

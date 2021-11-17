@@ -31,22 +31,6 @@ const LocationAuthorization = ({ onAuthorization }: Props) => {
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-    },
-    phone: {
-      alignSelf: 'center',
-    },
-    title: {
-      ...Typography.title2,
-      textAlign: 'center',
-    },
-    subtitle: {
-      ...Typography.lightCallout,
-      padding: Spacing.margin,
-      textAlign: 'center',
-    },
     authorise: {
       ...Typography.title2,
       color: theme.primaryColor,
@@ -54,6 +38,22 @@ const stylesFactory = (theme: Theme) => {
       marginTop: Spacing.margin,
       textAlign: 'center',
       textAlignVertical: 'center',
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    phone: {
+      alignSelf: 'center',
+    },
+    subtitle: {
+      ...Typography.lightCallout,
+      padding: Spacing.margin,
+      textAlign: 'center',
+    },
+    title: {
+      ...Typography.title2,
+      textAlign: 'center',
     },
   })
 }

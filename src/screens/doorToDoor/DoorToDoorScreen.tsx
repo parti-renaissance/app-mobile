@@ -88,16 +88,16 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
     classementIcon: {
       margin: Spacing.margin,
       tintColor: theme.primaryColor,
     },
     classementIconContainer: {
       alignSelf: 'flex-end',
+    },
+    container: {
+      backgroundColor: Colors.defaultBackground,
+      flex: 1,
     },
     title: {
       ...Typography.title,
