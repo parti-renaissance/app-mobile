@@ -43,8 +43,8 @@ const stylesFactory = (theme: Theme) => {
       textAlign: 'center',
     },
     subtitle: {
-      ...Typography.body,
-      paddingVertical: Spacing.margin,
+      ...Typography.lightCallout,
+      padding: Spacing.margin,
       textAlign: 'center',
     },
     authorise: {

@@ -40,6 +40,12 @@ import {
   RestPhoningCharterResponse,
 } from '../restObjects/RestPhoningCharter'
 import { RestRetaliation } from '../restObjects/RestRetaliation'
+import {
+  RestDoorToDoorCharter,
+  RestDoorToDoorCharterAccepted,
+  RestDoorToDoorCharterNotAccepted,
+  RestDoorToDoorCharterResponse,
+} from '../restObjects/RestDoorToDoorCharter'
 
 class ApiService {
   private static instance: ApiService
@@ -361,6 +367,27 @@ class ApiService {
   public acceptPhoningCharter(): Promise<void> {
     return this.httpClient
       .put('api/v3/profile/charter/phoning_campaign/accept')
+      .json<void>()
+      .catch(genericErrorMapping)
+  }
+
+  public getDoorToDoorCharter(): Promise<RestDoorToDoorCharter> {
+    return this.httpClient
+      .get('api/v3/profile/charter/pap_campaign')
+      .json<RestDoorToDoorCharterResponse>()
+      .catch(genericErrorMapping)
+      .then((response) => {
+        if (response.content === undefined) {
+          return new RestDoorToDoorCharterAccepted()
+        } else {
+          return new RestDoorToDoorCharterNotAccepted(response.content)
+        }
+      })
+  }
+
+  public acceptDoorToDoorCharter(): Promise<void> {
+    return this.httpClient
+      .put('api/v3/profile/charter/pap_campaign/accept')
       .json<void>()
       .catch(genericErrorMapping)
   }

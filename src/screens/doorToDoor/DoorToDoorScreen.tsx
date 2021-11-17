@@ -1,4 +1,9 @@
-import React, { useState } from 'react'
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { Image, Modal, StyleSheet, Text, SafeAreaView } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
@@ -7,17 +12,57 @@ import i18n from '../../utils/i18n'
 import Theme from '../../themes/Theme'
 import Classements from './Classements'
 import LocationAuthorization from './LocationAuthorization'
+import { DoorToDoorScreenProp } from '../../navigation'
+import DoorToDoorCharterModal from './DoorToDoorCharterModal'
+import {
+  DoorToDoorCharterNotAccepted,
+  DoorToDoorCharterState,
+} from '../../core/entities/DoorToDoorCharterState'
+import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 
-const DoorToDoorScreen = () => {
+const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
+  navigation,
+}) => {
   const styles = useThemedStyles(stylesFactory)
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState<Boolean>(false)
+  const [charterState, setCharterState] = useState<
+    DoorToDoorCharterState | undefined
+  >()
+
+  const fetchCharterState = useCallback(() => {
+    DoorToDoorRepository.getInstance()
+      .getDoorToDoorCharterState()
+      .then((state) => {
+        setCharterState(state)
+      })
+      .catch(() => {
+        setCharterState(undefined)
+      })
+  }, [])
+
+  useEffect(
+    useCallback(() => {
+      fetchCharterState()
+    }, [fetchCharterState]),
+  )
 
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={modalVisible} animationType="slide">
         <Classements onDismissModal={() => setModalVisible(false)} />
       </Modal>
+
+      {charterState instanceof DoorToDoorCharterNotAccepted && (
+        <Modal visible={true} animationType="slide">
+          <DoorToDoorCharterModal
+            charter={charterState.charter}
+            onAcceptCharter={fetchCharterState}
+            onDismissModal={() => navigation.goBack()}
+          />
+        </Modal>
+      )}
+
       <TouchablePlatform
         style={styles.classementIconContainer}
         touchHighlight={Colors.touchHighlight}
