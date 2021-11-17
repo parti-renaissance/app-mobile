@@ -45,6 +45,7 @@ const stylesFactory = (theme: Theme) => {
     },
     phone: {
       alignSelf: 'center',
+      marginBottom: 2 * Spacing.margin,
     },
     subtitle: {
       ...Typography.lightCallout,

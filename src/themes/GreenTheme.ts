@@ -41,10 +41,10 @@ const GreenTheme: Theme = {
     phoningSessionFailure: () =>
       require('../assets/images/green/phoningSessionFailure.png'),
     emptyCampaigns: () => require('../assets/images/green/imagePhoning.png'),
-    polls: () => require('../assets/images/blue/imagePolls.png'),
+    polls: () => require('../assets/images/green/imagePolls.png'),
     doorToDoor: () => require('../assets/images/green/imageDoorToDoor.png'),
-    phoning: () => require('../assets/images/blue/imagePhoningV2.png'),
-    locationPhone: () => require('../assets/images/blue/locationPhone.png'),
+    phoning: () => require('../assets/images/green/imagePhoningV2.png'),
+    locationPhone: () => require('../assets/images/green/locationPhone.png'),
   },
 }
 
