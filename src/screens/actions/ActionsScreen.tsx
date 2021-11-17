@@ -47,15 +47,12 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
     [fetchedActions, theme],
   )
 
-  useEffect(
-    useCallback(() => {
-      new GetPhoningStateInteractor()
-        .execute()
-        .then((state) => fetch(state === PhoningState.ENABLED))
-        .catch(fetch)
-    }, [fetch]),
-    [theme],
-  )
+  useEffect(() => {
+    new GetPhoningStateInteractor()
+      .execute()
+      .then((state) => fetch(state === PhoningState.ENABLED))
+      .catch(() => fetch(false))
+  }, [theme, fetch])
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (
