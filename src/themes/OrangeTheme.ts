@@ -43,9 +43,9 @@ const OrangeTheme: Theme = {
     phoningSessionFailure: () =>
       require('../assets/images/orange/phoningSessionFailure.png'),
     emptyCampaigns: () => require('../assets/images/orange/imagePhoning.png'),
-    polls: () => require('../assets/images/blue/imagePolls.png'),
-    door2door: () => require('../assets/images/blue/imageDoor2Door.png'),
-    phoning: () => require('../assets/images/blue/imagePhoningV2.png'),
+    polls: () => require('../assets/images/orange/imagePolls.png'),
+    doorToDoor: () => require('../assets/images/orange/imageDoorToDoor.png'),
+    phoning: () => require('../assets/images/orange/imagePhoningV2.png'),
   },
 }
 

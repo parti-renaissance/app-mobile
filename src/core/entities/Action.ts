@@ -1,5 +1,5 @@
 export enum ActionImage {
-  DOOR2DOOR,
+  DOORTODOOR,
   PHONING,
   POLLS,
 }

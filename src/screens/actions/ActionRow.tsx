@@ -41,7 +41,7 @@ const stylesFactory = (theme: Theme) => {
       alignItems: 'center',
       flexDirection: 'row',
       flex: 1,
-      paddingRight: 8 * Spacing.margin,
+      paddingRight: Spacing.margin,
     },
     title: {
       ...Typography.title2,

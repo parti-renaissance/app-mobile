@@ -20,8 +20,8 @@ function mapImage(theme: Theme, image: ActionImage): ImageSourcePropType {
   switch (image) {
     case ActionImage.POLLS:
       return theme.image.polls()
-    case ActionImage.DOOR2DOOR:
-      return theme.image.door2door()
+    case ActionImage.DOORTODOOR:
+      return theme.image.doorToDoor()
     case ActionImage.PHONING:
       return theme.image.phoning()
   }

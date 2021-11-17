@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Action } from '../../core/entities/Action'
@@ -23,11 +23,11 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const { theme } = useTheme()
   const [fetchedActions] = useState(new Map<number, Action>())
 
-  useEffect(() => {
-    const fetch = (enablePhoning?: boolean) => {
+  const fetch = useCallback(
+    (enablePhoning: boolean) => {
       setStatefulState(new ViewState.Loading())
       ActionsRepository.getInstance()
-        .getActions(!!enablePhoning)
+        .getActions(enablePhoning)
         .then((actions) => {
           fetchedActions.clear()
           actions.forEach((action) => {
@@ -38,19 +38,24 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
         })
         .catch((error) => {
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              fetch,
+            new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () =>
+              fetch(enablePhoning),
             ),
           )
         })
-    }
+    },
+    [fetchedActions, theme],
+  )
 
-    new GetPhoningStateInteractor()
-      .execute()
-      .then((state) => fetch(state === PhoningState.ENABLED))
-      .catch(fetch)
-  }, [theme])
+  useEffect(
+    useCallback(() => {
+      new GetPhoningStateInteractor()
+        .execute()
+        .then((state) => fetch(state === PhoningState.ENABLED))
+        .catch(fetch)
+    }, [fetch]),
+    [theme],
+  )
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (

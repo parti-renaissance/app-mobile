@@ -23,7 +23,7 @@ interface ThemedImages {
   phoningSessionFailure: () => ImageSourcePropType
   emptyCampaigns: () => ImageSourcePropType
   polls: () => ImageSourcePropType
-  door2door: () => ImageSourcePropType
+  doorToDoor: () => ImageSourcePropType
   phoning: () => ImageSourcePropType
 }
 
