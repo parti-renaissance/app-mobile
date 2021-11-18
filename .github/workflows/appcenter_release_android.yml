@@ -81,10 +81,10 @@ jobs:
 
       - name: Fastlane
         env:
-          GIT_COMMITTER_NAME: Bot LREM
-          GIT_AUTHOR_NAME: Bot LREM
-          GIT_AUTHOR_EMAIL: bot@lrem.fr
-          GIT_COMMITTER_EMAIL: bot@lrem.fr
+          GIT_COMMITTER_NAME: GHBot
+          GIT_AUTHOR_NAME: GHBot
+          GIT_AUTHOR_EMAIL: ${{ secrets.GH_BOT_EMAIL }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GH_BOT_EMAIL }}
           APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
           SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
           ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}

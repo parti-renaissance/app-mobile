@@ -79,10 +79,10 @@ jobs:
         env:
           LC_ALL: en_US.UTF-8
           LANG: en_US.UTF-8
-          GIT_COMMITTER_NAME: Bot LREM
-          GIT_AUTHOR_NAME: Bot LREM
-          GIT_AUTHOR_EMAIL: bot@lrem.fr
-          GIT_COMMITTER_EMAIL: bot@lrem.fr
+          GIT_COMMITTER_NAME: GHBot
+          GIT_AUTHOR_NAME: GHBot
+          GIT_AUTHOR_EMAIL: ${{ secrets.GH_BOT_EMAIL }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GH_BOT_EMAIL }}
           SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
           APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
           MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD_SECRET }}
