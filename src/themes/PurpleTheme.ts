@@ -43,6 +43,9 @@ const PurpleTheme: Theme = {
     phoningSessionFailure: () =>
       require('../assets/images/purple/phoningSessionFailure.png'),
     emptyCampaigns: () => require('../assets/images/purple/imagePhoning.png'),
+    polls: () => require('../assets/images/purple/imagePolls.png'),
+    doorToDoor: () => require('../assets/images/purple/imageDoorToDoor.png'),
+    phoning: () => require('../assets/images/purple/imagePhoningV2.png'),
   },
 }
 
