@@ -22,6 +22,9 @@ interface ThemedImages {
   notification: () => ImageSourcePropType
   phoningSessionFailure: () => ImageSourcePropType
   emptyCampaigns: () => ImageSourcePropType
+  polls: () => ImageSourcePropType
+  doorToDoor: () => ImageSourcePropType
+  phoning: () => ImageSourcePropType
 }
 
 export default interface Theme {
