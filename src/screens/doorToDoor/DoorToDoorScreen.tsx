@@ -4,7 +4,14 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Image, Modal, StyleSheet, Text, SafeAreaView } from 'react-native'
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+} from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
@@ -22,6 +29,9 @@ import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { LocationManager } from '../../utils/LocationManager'
 import { Screen } from '../../navigation'
 import DoorToDoorMapView from './DoorToDoorMapView'
+import MapListSwitch from './MapListSwitch'
+import { DisplayMode } from '../../core/entities/DoorToDoor'
+import DoorToDoorListView from './DoorToDoorListView'
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -29,6 +39,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const styles = useThemedStyles(stylesFactory)
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('map')
   const [charterState, setCharterState] = useState<
     DoorToDoorCharterState | undefined
   >()
@@ -83,10 +94,21 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
           source={require('../../assets/images/iconClassement.png')}
         />
       </TouchablePlatform>
-      <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
+        <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
+      </View>
+
+      <View style={{ height: 50 }}></View>
 
       {locationAuthorized ? (
-        <DoorToDoorMapView />
+        <>
+          {displayMode === 'map' ? (
+            <DoorToDoorMapView />
+          ) : (
+            <DoorToDoorListView />
+          )}
+        </>
       ) : (
         <LocationAuthorization onAuthorizationRequest={requestPermission} />
       )}
@@ -106,9 +128,14 @@ const stylesFactory = (theme: Theme) => {
       backgroundColor: Colors.defaultBackground,
       flex: 1,
     },
+    header: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginRight: Spacing.margin,
+    },
     title: {
       ...Typography.title,
-      marginBottom: Spacing.margin,
       marginHorizontal: Spacing.margin,
     },
   })

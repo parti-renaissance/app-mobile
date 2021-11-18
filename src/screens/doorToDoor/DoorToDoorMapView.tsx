@@ -21,6 +21,7 @@ const DoorToDoorMapView = () => {
   return (
     <MapView
       zoomEnabled
+      liteMode={true}
       style={{ flex: 1 }}
       initialCamera={initialCamera}
       initialRegion={initialRegion}
