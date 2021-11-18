@@ -1,9 +1,10 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography } from '../../styles'
 import { useTheme, useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
+import { BorderlessButton } from '../shared/Buttons'
 
 type Props = {
   onAuthorizationRequest: () => void
@@ -20,11 +21,11 @@ const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
       <Text style={styles.subtitle}>
         {i18n.t('doorToDoor.location.subtitle')}
       </Text>
-      <TouchableOpacity onPress={onAuthorizationRequest}>
-        <Text style={styles.authorise}>
-          {i18n.t('doorToDoor.location.cta')}
-        </Text>
-      </TouchableOpacity>
+      <BorderlessButton
+        onPress={onAuthorizationRequest}
+        title={i18n.t('doorToDoor.location.cta')}
+        textStyle={styles.authorise}
+      />
     </View>
   )
 }
@@ -34,10 +35,8 @@ const stylesFactory = (theme: Theme) => {
     authorise: {
       ...Typography.title2,
       color: theme.primaryColor,
-      marginHorizontal: Spacing.margin,
       marginTop: Spacing.margin,
       textAlign: 'center',
-      textAlignVertical: 'center',
     },
     container: {
       flex: 1,
@@ -45,7 +44,7 @@ const stylesFactory = (theme: Theme) => {
     },
     phone: {
       alignSelf: 'center',
-      marginBottom: 2 * Spacing.margin,
+      marginBottom: Spacing.extraExtraLargeMargin,
     },
     subtitle: {
       ...Typography.lightCallout,

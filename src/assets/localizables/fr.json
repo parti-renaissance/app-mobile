@@ -399,7 +399,7 @@
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
-      "classements": {
+      "ranking": {
         "title": "Classements"
       },
       "location": {

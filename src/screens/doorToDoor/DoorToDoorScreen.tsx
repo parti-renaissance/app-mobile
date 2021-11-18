@@ -10,7 +10,7 @@ import { useThemedStyles } from '../../themes'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import i18n from '../../utils/i18n'
 import Theme from '../../themes/Theme'
-import ClassementsModal from './ClassementsModal'
+import RankingModal from './RankingModal'
 import LocationAuthorization from './LocationAuthorization'
 import { DoorToDoorScreenProp } from '../../navigation'
 import DoorToDoorCharterModal from './DoorToDoorCharterModal'
@@ -50,17 +50,15 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     setLocationAuthorized(await LocationManager.requestPermission())
   }
 
-  useEffect(
-    useCallback(() => {
-      fetchCharterState()
-      getPermissionStatus()
-    }, [fetchCharterState]),
-  )
+  useEffect(() => {
+    fetchCharterState()
+    getPermissionStatus()
+  }, [fetchCharterState])
 
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={modalVisible} animationType="slide">
-        <ClassementsModal onDismissModal={() => setModalVisible(false)} />
+        <RankingModal onDismissModal={() => setModalVisible(false)} />
       </Modal>
 
       {charterState instanceof DoorToDoorCharterNotAccepted && (

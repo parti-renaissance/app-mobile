@@ -9,7 +9,7 @@ type Props = Readonly<{
   onDismissModal: () => void
 }>
 
-const ClassementsModal: FC<Props> = (props) => {
+const RankingModal: FC<Props> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -18,7 +18,7 @@ const ClassementsModal: FC<Props> = (props) => {
           onPress={props.onDismissModal}
         />
         <Text style={styles.headerTitle}>
-          {i18n.t('doorToDoor.classements.title')}
+          {i18n.t('doorToDoor.ranking.title')}
         </Text>
       </View>
     </SafeAreaView>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ClassementsModal
+export default RankingModal

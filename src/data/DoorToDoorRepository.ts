@@ -18,8 +18,9 @@ class DoorToDoorRepository {
   }
 
   public async getDoorToDoorCharterState(): Promise<DoorToDoorCharterState> {
-    if (this.cachedDoorToDoorCharterState)
+    if (this.cachedDoorToDoorCharterState) {
       return this.cachedDoorToDoorCharterState
+    }
     const restDoorToDoorCharter = await this.apiService.getDoorToDoorCharter()
     const state = DoorToDoorCharterMapper.map(restDoorToDoorCharter)
     this.cachedDoorToDoorCharterState = state
