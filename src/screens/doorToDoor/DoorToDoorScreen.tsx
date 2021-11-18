@@ -30,8 +30,9 @@ import { LocationManager } from '../../utils/LocationManager'
 import { Screen } from '../../navigation'
 import DoorToDoorMapView from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
-import { DisplayMode } from '../../core/entities/DoorToDoor'
+import { DisplayFilter, DisplayMode } from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
+import DoorToDoorFilter from './DoorToDoorFilter'
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -40,6 +41,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [displayMode, setDisplayMode] = useState<DisplayMode>('map')
+  const [filter, setFilter] = useState<DisplayFilter>('all')
   const [charterState, setCharterState] = useState<
     DoorToDoorCharterState | undefined
   >()
@@ -99,7 +101,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
         <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
       </View>
 
-      <View style={{ height: 50 }}></View>
+      <View style={{ height: 50, marginVertical: Spacing.unit }}>
+        <DoorToDoorFilter filter={filter} onPress={setFilter} />
+      </View>
 
       {locationAuthorized ? (
         <>

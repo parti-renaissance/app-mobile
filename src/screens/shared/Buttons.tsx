@@ -119,9 +119,9 @@ export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
   )
 }
 
-export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
-  props,
-) => {
+export const TertiaryButton: FunctionComponent<
+  TertiaryButtonProps & IconProps
+> = (props) => {
   const opacity = props.disabled ? 0.5 : 1.0
   const { theme } = useTheme()
   const containerStyle = props.noShadow
@@ -154,6 +154,17 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
               props.textStyle,
             ]}
           >
+            {props.icon ? (
+              <View style={{ paddingRight: props.iconPadding }}>
+                <Image
+                  style={{
+                    tintColor: props.iconTint,
+                  }}
+                  source={props.icon}
+                />
+              </View>
+            ) : null}
+
             {props.title}
           </Text>
         </TouchablePlatform>
