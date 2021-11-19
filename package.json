@@ -51,7 +51,7 @@
     "async-mutex": "0.2.4",
     "date-fns": "2.16.1",
     "hermes-engine": "0.8.0",
-    "i18next": "19.8.5",
+    "i18next": "21.3.3",
     "ky": "0.24.0",
     "mnemonist": "0.38.4",
     "moment-timezone": "0.5.33",
