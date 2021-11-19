@@ -21,29 +21,29 @@ lane :deploy do |options|
   tag_release = options[:tag_release]
 
   bump_build_number if bump
-  download_codesigning(
-    match_type: match_type,
-    force_codesign: force_codesign
-  )
-  set_codesigning
-  gym(
-    clean: true,
-    scheme: SCHEME,
-    configuration: "Release",
-    output_name: SCHEME,
-    export_method: export_method_from_match_type(match_type)
-  )
-  if match_type == "appstore"
-    upload_to_testflight(
-      team_name: ENV["FASTLANE_TEAM_NAME"],
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_waiting_for_build_processing: true
-    )
-    post_slack_notification_appstore
-  else
-    deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
-    post_slack_notification_beta
-  end
+  # download_codesigning(
+  #   match_type: match_type,
+  #   force_codesign: force_codesign
+  # )
+  # set_codesigning
+  # gym(
+  #   clean: true,
+  #   scheme: SCHEME,
+  #   configuration: "Release",
+  #   output_name: SCHEME,
+  #   export_method: export_method_from_match_type(match_type)
+  # )
+  # if match_type == "appstore"
+  #   upload_to_testflight(
+  #     team_name: ENV["FASTLANE_TEAM_NAME"],
+  #     api_key_path: "fastlane/app_store_connect_api_key.json",
+  #     skip_waiting_for_build_processing: true
+  #   )
+  #   post_slack_notification_appstore
+  # else
+  #   deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
+  #   post_slack_notification_beta
+  # end
   commit_deploy if tag_release
 end
 
@@ -161,7 +161,7 @@ end
 private_lane :commit_deploy do |options|
   variant = ENV["ENVIRONMENT"].downcase
   tag = "ios/#{variant}/#{app_version_number}/#{app_build_number}"
-  add_git_tag(tag: tag, force: true) if tag_release
+  # add_git_tag(tag: tag, force: true) if tag_release
   push_to_git_remote if is_ci
 end
 
