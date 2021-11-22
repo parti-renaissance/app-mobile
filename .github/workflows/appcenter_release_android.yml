@@ -7,6 +7,14 @@ on:
         description: 'Define the environment (staging|production)'
         required: true
         default: 'staging'
+      bump_build_number:
+        description: 'Bump the build number'
+        required: true
+        default: 'true'
+      tag_release:
+        description: 'Tag commit and create the github release'
+        required: true
+        default: 'true'
       channel:
         description: 'Define the publishing channel (appcenter|playstore)'
         required: true
@@ -73,11 +81,18 @@ jobs:
 
       - name: Fastlane
         env:
+          GIT_COMMITTER_NAME: GHBot
+          GIT_AUTHOR_NAME: GHBot
+          GIT_AUTHOR_EMAIL: ${{ secrets.GH_BOT_EMAIL }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GH_BOT_EMAIL }}
           APP_CENTER_API_KEY: ${{ secrets.APP_CENTER_API_KEY }}
           SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
           ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}
           ANDROID_JSON_PLAYSTORE_KEY: ${{ secrets.ANDROID_JSON_PLAYSTORE_KEY }}
+          GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         run: |
           bundle exec fastlane deliver_app \
-            channel:${{ github.event.inputs.channel }}\
-            --env ${{ github.event.inputs.environment }}
+          channel:${{ github.event.inputs.channel }} \
+          bump_build_number:${{ github.event.inputs.bump_build_number }} \
+          tag_release:${{ github.event.inputs.tag_release }} \
+          --env ${{ github.event.inputs.environment }}
