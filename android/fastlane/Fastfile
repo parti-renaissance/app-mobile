@@ -115,8 +115,16 @@ end
 private_lane :commit_deploy do |options|
   variant = options[:variant].downcase
   tag = "android/#{variant}/#{get_version_name}/#{get_version_code}"
-  add_git_tag(tag: tag, force: true)
-  push_to_git_remote(tags: true, force: true) if is_ci
+  branch = git_branch()
+  set_github_release(
+    repository_name: "EnMarche/Je-Marche",
+    api_token: ENV["GH_BOT_TOKEN"],
+    name: tag,
+    tag_name: tag,
+    description: (File.read("changelog") rescue "No changelog provided"),
+    commitish: branch,
+    upload_assets: []
+  ) if is_ci
 end
 
 lane :get_version_code do
