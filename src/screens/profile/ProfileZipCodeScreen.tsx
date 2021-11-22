@@ -46,7 +46,9 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
     try {
       await new UpdateZipCodeInteractor().execute(zipCode, department)
     } catch (error) {
-      setErrorMessage(GenericErrorMapper.mapErrorMessage(error))
+      if (error instanceof Error) {
+        setErrorMessage(GenericErrorMapper.mapErrorMessage(error))
+      }
       return
     }
     updateTheme(department.region.theme)
