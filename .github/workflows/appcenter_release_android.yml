@@ -89,6 +89,7 @@ jobs:
           SLACK_INCOMING_WEBKOOK_URL: ${{ secrets.SLACK_INCOMING_WEBKOOK_URL }}
           ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}
           ANDROID_JSON_PLAYSTORE_KEY: ${{ secrets.ANDROID_JSON_PLAYSTORE_KEY }}
+          GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         run: |
           bundle exec fastlane deliver_app \
           channel:${{ github.event.inputs.channel }} \
