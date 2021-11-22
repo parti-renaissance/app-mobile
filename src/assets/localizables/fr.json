@@ -396,6 +396,21 @@
       "phoning": {
         "title": "Phoning"
       }
+    },
+    "doorToDoor": {
+      "title": "Porte-à-porte",
+      "ranking": {
+        "title": "Classements"
+      },
+      "location": {
+        "title": "Localisation nécessaire",
+        "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",
+        "cta": "Autoriser je m’engage à accéder à votre localisation"
+      },
+      "charter": {
+        "title": "Charte",
+        "accept": "J'ai lu et j'accepte"
+      }
     }
   }
 }

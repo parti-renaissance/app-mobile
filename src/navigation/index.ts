@@ -146,6 +146,11 @@ export type ActionsScreenProp = Readonly<{
   navigation: NavigationProp<ParamListBase>
 }>
 
+// Door to Door
+export type DoorToDoorScreenProp = Readonly<{
+  navigation: NavigationProp<ParamListBase>
+}>
+
 // Phoning charter
 export type PhoningCharterScreenProp = StackScreenProps<
   PhoningParamList,

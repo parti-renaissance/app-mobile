@@ -46,6 +46,7 @@ const OrangeTheme: Theme = {
     polls: () => require('../assets/images/orange/imagePolls.png'),
     doorToDoor: () => require('../assets/images/orange/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/orange/imagePhoningV2.png'),
+    locationPhone: () => require('../assets/images/orange/locationPhone.png'),
   },
 }
 

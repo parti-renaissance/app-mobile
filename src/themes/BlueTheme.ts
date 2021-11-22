@@ -44,6 +44,7 @@ const BlueTheme: Theme = {
     polls: () => require('../assets/images/blue/imagePolls.png'),
     doorToDoor: () => require('../assets/images/blue/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/blue/imagePhoningV2.png'),
+    locationPhone: () => require('../assets/images/blue/locationPhone.png'),
   },
 }
 

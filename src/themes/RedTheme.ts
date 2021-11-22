@@ -44,6 +44,7 @@ const RedTheme: Theme = {
     polls: () => require('../assets/images/red/imagePolls.png'),
     doorToDoor: () => require('../assets/images/red/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/red/imagePhoningV2.png'),
+    locationPhone: () => require('../assets/images/red/locationPhone.png'),
   },
 }
 
