@@ -161,8 +161,16 @@ end
 private_lane :commit_deploy do |options|
   variant = ENV["ENVIRONMENT"].downcase
   tag = "ios/#{variant}/#{app_version_number}/#{app_build_number}"
-  # add_git_tag(tag: tag, force: true) if tag_release
-  push_to_git_remote if is_ci
+  branch = git_branch()
+  set_github_release(
+    repository_name: "EnMarche/Je-Marche",
+    api_token: ENV["GH_BOT_TOKEN"],
+    name: tag,
+    tag_name: tag,
+    description: (File.read("changelog") rescue "No changelog provided"),
+    commitish: branch,
+    upload_assets: []
+  ) if is_ci
 end
 
 def app_version_number
