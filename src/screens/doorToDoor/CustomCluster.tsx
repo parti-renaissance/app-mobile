@@ -15,9 +15,7 @@ export const CustomCluster = memo((cluster: ClusterType) => (
   >
     <CardView backgroundColor={Colors.defaultBackground}>
       <View style={styles.cluster}>
-        <Text style={{ ...Typography.title, textAlign: 'center' }}>
-          {cluster.properties.point_count}
-        </Text>
+        <Text style={styles.count}>{cluster.properties.point_count}</Text>
       </View>
     </CardView>
   </Marker>
@@ -25,8 +23,12 @@ export const CustomCluster = memo((cluster: ClusterType) => (
 
 const styles = StyleSheet.create({
   cluster: {
-    justifyContent: 'center',
     height: 40,
+    justifyContent: 'center',
     width: 40,
+  },
+  count: {
+    ...Typography.title,
+    textAlign: 'center',
   },
 })

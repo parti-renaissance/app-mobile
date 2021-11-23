@@ -13,9 +13,7 @@ export const CustomMarker = memo((props: Props) => (
   <Marker coordinate={props.coordinate} onPress={props.onPress}>
     <CardView backgroundColor={Colors.defaultBackground}>
       <View style={styles.marker}>
-        <Image
-          source={require('../../assets/images/papToFinishIcon.png')}
-        ></Image>
+        <Image source={require('../../assets/images/papToFinishIcon.png')} />
       </View>
     </CardView>
   </Marker>
@@ -24,8 +22,8 @@ export const CustomMarker = memo((props: Props) => (
 const styles = StyleSheet.create({
   marker: {
     alignItems: 'center',
-    justifyContent: 'center',
     height: 40,
+    justifyContent: 'center',
     width: 40,
   },
 })

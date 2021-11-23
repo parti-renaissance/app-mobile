@@ -30,7 +30,11 @@ import { LocationManager } from '../../utils/LocationManager'
 import { Screen } from '../../navigation'
 import DoorToDoorMapView from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
-import { DisplayFilter, DisplayMode } from '../../core/entities/DoorToDoor'
+import {
+  AddressType,
+  DisplayFilter,
+  DisplayMode,
+} from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
 import DoorToDoorFilter from './DoorToDoorFilter'
 
@@ -38,6 +42,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
   const styles = useThemedStyles(stylesFactory)
+  const [addresses, setAddresses] = useState<AddressType[]>([])
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [displayMode, setDisplayMode] = useState<DisplayMode>('map')
@@ -49,12 +54,15 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const fetchCharterState = useCallback(() => {
     DoorToDoorRepository.getInstance()
       .getDoorToDoorCharterState()
-      .then((state) => {
-        setCharterState(state)
-      })
-      .catch(() => {
-        setCharterState(undefined)
-      })
+      .then((state) => setCharterState(state))
+      .catch(() => setCharterState(undefined))
+  }, [])
+
+  const fetchAddresses = useCallback(() => {
+    DoorToDoorRepository.getInstance()
+      .getAddresses(48.877018, 2.32154, 16)
+      .then((state) => setAddresses(state))
+      .catch(() => {})
   }, [])
 
   const getPermissionStatus = async () => {
@@ -69,6 +77,10 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     fetchCharterState()
     getPermissionStatus()
   }, [fetchCharterState])
+
+  useEffect(() => {
+    locationAuthorized && fetchAddresses()
+  }, [locationAuthorized])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -98,19 +110,23 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       </TouchablePlatform>
       <View style={styles.header}>
         <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
-        <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
+        {locationAuthorized && (
+          <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
+        )}
       </View>
 
-      <View style={{ height: 50, marginVertical: Spacing.unit }}>
-        <DoorToDoorFilter filter={filter} onPress={setFilter} />
-      </View>
+      {locationAuthorized && (
+        <View style={{ height: 50, marginVertical: Spacing.unit }}>
+          <DoorToDoorFilter filter={filter} onPress={setFilter} />
+        </View>
+      )}
 
       {locationAuthorized ? (
         <>
           {displayMode === 'map' ? (
-            <DoorToDoorMapView />
+            <DoorToDoorMapView data={addresses} />
           ) : (
-            <DoorToDoorListView />
+            <DoorToDoorListView data={addresses} />
           )}
         </>
       ) : (
