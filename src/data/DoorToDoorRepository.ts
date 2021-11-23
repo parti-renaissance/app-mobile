@@ -4,6 +4,7 @@ import {
   DoorToDoorCharterState,
 } from '../core/entities/DoorToDoorCharterState'
 import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
+import { AddressType } from '../core/entities/DoorToDoor'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -30,6 +31,19 @@ class DoorToDoorRepository {
   public async acceptDoorToDoorCharter(): Promise<void> {
     await this.apiService.acceptDoorToDoorCharter()
     this.cachedDoorToDoorCharterState = new DoorToDoorCharterAccepted()
+  }
+
+  public async getAddresses(
+    latitude: number,
+    longitude: number,
+    zoom: number,
+  ): Promise<AddressType[]> {
+    const restAddresses = await this.apiService.getAddresses(
+      latitude,
+      longitude,
+      zoom,
+    )
+    return restAddresses
   }
 }
 
