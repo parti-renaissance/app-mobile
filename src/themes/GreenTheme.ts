@@ -45,6 +45,7 @@ const GreenTheme: Theme = {
     doorToDoor: () => require('../assets/images/green/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/green/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/green/locationPhone.png'),
+    house: () => require('../assets/images/green/imageHouse.png'),
   },
 }
 

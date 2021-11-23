@@ -47,6 +47,7 @@ const PurpleTheme: Theme = {
     doorToDoor: () => require('../assets/images/purple/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/purple/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/purple/locationPhone.png'),
+    house: () => require('../assets/images/purple/imageHouse.png'),
   },
 }
 

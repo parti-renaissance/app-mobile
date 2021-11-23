@@ -45,6 +45,7 @@ const BlueTheme: Theme = {
     doorToDoor: () => require('../assets/images/blue/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/blue/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/blue/locationPhone.png'),
+    house: () => require('../assets/images/blue/imageHouse.png'),
   },
 }
 

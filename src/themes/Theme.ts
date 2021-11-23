@@ -26,6 +26,7 @@ interface ThemedImages {
   doorToDoor: () => ImageSourcePropType
   phoning: () => ImageSourcePropType
   locationPhone: () => ImageSourcePropType
+  house: () => ImageSourcePropType
 }
 
 export default interface Theme {
