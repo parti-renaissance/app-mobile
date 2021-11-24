@@ -66,7 +66,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
   return (
     <>
       <MapView
-        style={{ flex: 1 }}
+        style={styles.map}
         initialCamera={initialCamera}
         initialRegion={initialRegion}
         renderCluster={(cluster) => (
@@ -87,6 +87,9 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
 }
 
 const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
   popup: {
     marginBottom: Spacing.unit,
     width: Dimensions.get('window').width,

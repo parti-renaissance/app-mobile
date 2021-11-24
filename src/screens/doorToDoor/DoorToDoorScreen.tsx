@@ -123,7 +123,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       </View>
 
       {locationAuthorized && (
-        <View style={{ height: 52 }}>
+        <View style={styles.filter}>
           <DoorToDoorFilter filter={filter} onPress={setFilter} />
         </View>
       )}
@@ -153,6 +153,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  filter: {
+    height: 52,
   },
   header: {
     alignItems: 'center',

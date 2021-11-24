@@ -45,6 +45,11 @@ export const PoiAddressCard = ({ poi }: Props) => {
 }
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
+    building: {
+      height: 14,
+      marginBottom: Spacing.unit,
+      width: 14,
+    },
     card: {
       alignContent: 'center',
       alignItems: 'center',
@@ -63,6 +68,13 @@ const stylesFactory = (theme: Theme) => {
       flexDirection: 'row',
       padding: Spacing.margin,
     },
+    image: {
+      height: 35,
+      width: 35,
+    },
+    indicator: {
+      ...Typography.headline,
+    },
     subcontent: {
       flex: 1,
       justifyContent: 'space-between',
@@ -70,25 +82,13 @@ const stylesFactory = (theme: Theme) => {
     subtitle: {
       ...Typography.lightCallout,
     },
-    title: {
-      ...Typography.title2,
-    },
-    building: {
-      height: 14,
-      marginBottom: Spacing.unit,
-      width: 14,
-    },
-    image: {
-      height: 35,
-      width: 35,
-    },
     text: {
       ...Typography.lightCallout,
       marginVertical: Spacing.unit,
       textAlign: 'center',
     },
-    indicator: {
-      ...Typography.headline,
+    title: {
+      ...Typography.title2,
     },
   })
 }
