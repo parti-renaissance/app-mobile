@@ -9,7 +9,7 @@ export const CampaignCard = () => {
   const { theme } = useTheme()
 
   return (
-    <CardView backgroundColor={Colors.defaultBackground}>
+    <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
       <View style={styles.content}>
         <View style={styles.campaign}>
           <Text style={styles.title}>Campagne nationale</Text>
@@ -31,9 +31,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
+  card: {
+    marginHorizontal: Spacing.margin,
+  },
   content: {
-    padding: Spacing.margin,
     flexDirection: 'row',
+    padding: Spacing.margin,
   },
   date: {
     ...Typography.lightCallout,

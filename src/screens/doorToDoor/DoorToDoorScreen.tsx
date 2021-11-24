@@ -13,10 +13,8 @@ import {
   View,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useThemedStyles } from '../../themes'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import i18n from '../../utils/i18n'
-import Theme from '../../themes/Theme'
 import RankingModal from './RankingModal'
 import LocationAuthorization from './LocationAuthorization'
 import { DoorToDoorScreenProp } from '../../navigation'
@@ -37,11 +35,14 @@ import {
 } from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
 import DoorToDoorFilter from './DoorToDoorFilter'
+import { LatLng } from 'react-native-maps'
+
+const DEFAULT_ZOOM = 16
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
+  const [location, setLocation] = useState<LatLng>()
   const [addresses, setAddresses] = useState<AddressType[]>([])
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
@@ -58,11 +59,17 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       .catch(() => setCharterState(undefined))
   }, [])
 
-  const fetchAddresses = useCallback(() => {
-    DoorToDoorRepository.getInstance()
-      .getAddresses(48.877018, 2.32154, 16)
-      .then((state) => setAddresses(state))
-      .catch(() => {})
+  const fetchAddresses = useCallback(async () => {
+    const userLocation = await LocationManager.getLatestLocation()
+    if (userLocation) {
+      const { longitude, latitude } = userLocation
+
+      setLocation({ latitude, longitude })
+      DoorToDoorRepository.getInstance()
+        .getAddresses(latitude, longitude, DEFAULT_ZOOM)
+        .then((state) => setAddresses(state))
+        .catch(() => {})
+    }
   }, [])
 
   const getPermissionStatus = async () => {
@@ -80,7 +87,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   useEffect(() => {
     locationAuthorized && fetchAddresses()
-  }, [locationAuthorized])
+  }, [locationAuthorized, fetchAddresses])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -124,7 +131,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       {locationAuthorized ? (
         <>
           {displayMode === 'map' ? (
-            <DoorToDoorMapView data={addresses} />
+            <DoorToDoorMapView data={addresses} location={location!} />
           ) : (
             <DoorToDoorListView data={addresses} />
           )}
@@ -136,29 +143,27 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    classementIcon: {
-      margin: Spacing.margin,
-    },
-    classementIconContainer: {
-      alignSelf: 'flex-end',
-    },
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    header: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginRight: Spacing.margin,
-    },
-    title: {
-      ...Typography.title,
-      marginHorizontal: Spacing.margin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  classementIcon: {
+    margin: Spacing.margin,
+  },
+  classementIconContainer: {
+    alignSelf: 'flex-end',
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginRight: Spacing.margin,
+  },
+  title: {
+    ...Typography.title,
+    marginHorizontal: Spacing.margin,
+  },
+})
 
 export default DoorToDoorScreen

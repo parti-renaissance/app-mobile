@@ -19,7 +19,7 @@ export const PoiAddressCard = ({ poi }: Props) => {
       backgroundColor={Colors.defaultBackground}
     >
       <View style={styles.content}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+        <View style={styles.subcontent}>
           <View>
             <Image
               style={styles.building}
@@ -60,14 +60,18 @@ const stylesFactory = (theme: Theme) => {
       marginVertical: Spacing.unit,
     },
     content: {
-      padding: Spacing.margin,
       flexDirection: 'row',
+      padding: Spacing.margin,
     },
-    title: {
-      ...Typography.title2,
+    subcontent: {
+      flex: 1,
+      justifyContent: 'space-between',
     },
     subtitle: {
       ...Typography.lightCallout,
+    },
+    title: {
+      ...Typography.title2,
     },
     building: {
       height: 14,

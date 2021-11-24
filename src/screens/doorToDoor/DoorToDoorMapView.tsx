@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet } from 'react-native'
 import MapView from 'react-native-map-clustering'
+import { LatLng } from 'react-native-maps'
 import { AddressType } from '../../core/entities/DoorToDoor'
 import { Spacing } from '../../styles'
 import { CampaignCard } from './CampaignCard'
@@ -10,18 +11,24 @@ import { PoiAddressCard } from './PoiAddressCard'
 
 type Props = {
   data: AddressType[]
+  location: LatLng
 }
 
-const DoorToDoorMapView = ({ data }: Props) => {
-  const [popup, setPopup] = useState<{
-    visible: boolean
-    value?: AddressType
-  }>({
+type PopupProps = {
+  visible: boolean
+  value?: AddressType
+}
+
+const DoorToDoorMapView = ({ data, location }: Props) => {
+  const [popup, setPopup] = useState<PopupProps>({
     visible: false,
     value: undefined,
   })
 
-  const initialPosition = { latitude: 48.877018, longitude: 2.32154 } // Paris
+  const initialPosition = {
+    latitude: location.latitude,
+    longitude: location.longitude,
+  }
 
   const initialRegion = {
     ...initialPosition,
@@ -50,8 +57,7 @@ const DoorToDoorMapView = ({ data }: Props) => {
       onPress={() => setPopup({ visible: false })}
     >
       <Pressable style={styles.popup}>
-        <PoiAddressCard poi={popup.value} />
-        <View style={styles.separator} />
+        <PoiAddressCard poi={popup.value!} />
         <CampaignCard />
       </Pressable>
     </Pressable>
@@ -60,8 +66,6 @@ const DoorToDoorMapView = ({ data }: Props) => {
   return (
     <>
       <MapView
-        zoomEnabled
-        liteMode={true}
         style={{ flex: 1 }}
         initialCamera={initialCamera}
         initialRegion={initialRegion}
@@ -85,8 +89,7 @@ const DoorToDoorMapView = ({ data }: Props) => {
 const styles = StyleSheet.create({
   popup: {
     marginBottom: Spacing.unit,
-    width: Dimensions.get('window').width - Spacing.margin,
-    zIndex: 300,
+    width: Dimensions.get('window').width,
   },
   popupWrap: {
     alignItems: 'center',
@@ -95,9 +98,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
     width: Dimensions.get('window').width,
-  },
-  separator: {
-    height: Spacing.unit,
   },
 })
 

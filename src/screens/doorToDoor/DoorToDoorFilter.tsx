@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     margin: Spacing.small,
   },
   icon: {
-    marginRight: Spacing.small,
     height: 18,
+    marginRight: Spacing.small,
     width: 18,
   },
   inner: {
