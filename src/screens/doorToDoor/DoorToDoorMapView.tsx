@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dimensions, Image, Pressable, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-map-clustering'
 import { AddressType } from '../../core/entities/DoorToDoor'
 import { Spacing } from '../../styles'
@@ -13,8 +13,13 @@ type Props = {
 }
 
 const DoorToDoorMapView = ({ data }: Props) => {
-  const [showPopup, setShowPopup] = useState(false)
-  const [selectedPoi, setSelectedPoi] = useState<AddressType>()
+  const [popup, setPopup] = useState<{
+    visible: boolean
+    value?: AddressType
+  }>({
+    visible: false,
+    value: undefined,
+  })
 
   const initialPosition = { latitude: 48.877018, longitude: 2.32154 } // Paris
 
@@ -33,9 +38,24 @@ const DoorToDoorMapView = ({ data }: Props) => {
   }
 
   const onMarkerPress = (poi: AddressType) => {
-    setSelectedPoi(poi)
-    setShowPopup(true)
+    setPopup({
+      visible: true,
+      value: poi,
+    })
   }
+
+  const renderPopup = () => (
+    <Pressable
+      style={styles.popupWrap}
+      onPress={() => setPopup({ visible: false })}
+    >
+      <Pressable style={styles.popup}>
+        <PoiAddressCard poi={popup.value} />
+        <View style={styles.separator} />
+        <CampaignCard />
+      </Pressable>
+    </Pressable>
+  )
 
   return (
     <>
@@ -45,7 +65,9 @@ const DoorToDoorMapView = ({ data }: Props) => {
         style={{ flex: 1 }}
         initialCamera={initialCamera}
         initialRegion={initialRegion}
-        renderCluster={(cluster) => <CustomCluster {...cluster} />}
+        renderCluster={(cluster) => (
+          <CustomCluster key={cluster.id} {...cluster} />
+        )}
       >
         {data.map((marker) => (
           <CustomMarker
@@ -55,33 +77,28 @@ const DoorToDoorMapView = ({ data }: Props) => {
           />
         ))}
       </MapView>
-      {showPopup && selectedPoi && (
-        <Pressable
-          style={{
-            bottom: 0,
-            width: Dimensions.get('window').width,
-            height: '100%',
-            position: 'absolute',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}
-          onPress={() => setShowPopup(false)}
-        >
-          <Pressable
-            style={{
-              width: Dimensions.get('window').width - Spacing.margin,
-              marginBottom: Spacing.unit,
-              zIndex: 300,
-            }}
-          >
-            <PoiAddressCard poi={selectedPoi} />
-            <View style={{ height: Spacing.unit }} />
-            <CampaignCard />
-          </Pressable>
-        </Pressable>
-      )}
+      {popup.visible && renderPopup()}
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  popup: {
+    marginBottom: Spacing.unit,
+    width: Dimensions.get('window').width - Spacing.margin,
+    zIndex: 300,
+  },
+  popupWrap: {
+    alignItems: 'center',
+    bottom: 0,
+    height: '100%',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+  },
+  separator: {
+    height: Spacing.unit,
+  },
+})
 
 export default DoorToDoorMapView

@@ -6,16 +6,23 @@ type Props = Readonly<{
   children: any
   style?: StyleProp<ViewStyle>
   backgroundColor: string
+  borderRadius?: number
 }>
 
 const CardView: FunctionComponent<Props> = ({
   style,
   children,
   backgroundColor,
+  borderRadius = 8,
 }) => {
   return (
     <View style={[style, styles.shadow]}>
-      <View style={[{ backgroundColor: backgroundColor }, styles.card]}>
+      <View
+        style={[
+          { backgroundColor: backgroundColor, borderRadius: borderRadius },
+          styles.card,
+        ]}
+      >
         {children}
       </View>
     </View>
@@ -24,7 +31,6 @@ const CardView: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 8,
     elevation: 4,
     overflow: 'hidden',
   },

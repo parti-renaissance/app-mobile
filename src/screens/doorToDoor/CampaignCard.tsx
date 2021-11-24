@@ -25,6 +25,7 @@ export const CampaignCard = () => {
     </CardView>
   )
 }
+
 const styles = StyleSheet.create({
   campaign: {
     flex: 1,

@@ -14,7 +14,10 @@ export const PoiAddressCard = ({ poi }: Props) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
-    <CardView backgroundColor={Colors.defaultBackground}>
+    <CardView
+      style={styles.cardWrap}
+      backgroundColor={Colors.defaultBackground}
+    >
       <View style={styles.content}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
@@ -51,6 +54,10 @@ const stylesFactory = (theme: Theme) => {
       marginLeft: Spacing.unit,
       paddingVertical: Spacing.small,
       width: 100,
+    },
+    cardWrap: {
+      marginHorizontal: Spacing.margin,
+      marginVertical: Spacing.unit,
     },
     content: {
       padding: Spacing.margin,

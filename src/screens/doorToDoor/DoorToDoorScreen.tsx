@@ -116,7 +116,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       </View>
 
       {locationAuthorized && (
-        <View style={{ height: 50, marginVertical: Spacing.unit }}>
+        <View style={{ height: 52 }}>
           <DoorToDoorFilter filter={filter} onPress={setFilter} />
         </View>
       )}
