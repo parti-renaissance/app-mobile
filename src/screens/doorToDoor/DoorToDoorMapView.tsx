@@ -53,14 +53,14 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
     })
   }
 
-  const renderPopup = () => (
+  const Popup = () => (
     <Pressable
       style={styles.popupWrap}
       onPress={() => setPopup({ visible: false })}
     >
       <Pressable style={styles.popup}>
         <PoiAddressCard
-          viewModel={PoiAddressCardViewModelMapper.map(popup.value!)}
+          viewModel={PoiAddressCardViewModelMapper.map(popup.value)}
         />
         <DoorToDoorCampaignCard
           viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
@@ -87,7 +87,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
           />
         ))}
       </MapView>
-      {popup.visible && renderPopup()}
+      {popup.visible && <Popup />}
     </>
   )
 }

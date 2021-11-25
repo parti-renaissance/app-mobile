@@ -7,11 +7,13 @@ import CardView from '../shared/CardView'
 import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
 type Props = {
-  viewModel: PoiAddressCardViewModel
+  viewModel: PoiAddressCardViewModel | undefined
 }
 
 export const PoiAddressCard = ({ viewModel }: Props) => {
   const styles = useThemedStyles(stylesFactory)
+
+  if (!viewModel) return null
 
   return (
     <CardView

@@ -42,7 +42,7 @@ const DEFAULT_ZOOM = 16
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
-  const [location, setLocation] = useState<LatLng>()
+  const [location, setLocation] = useState<LatLng | null>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
@@ -122,13 +122,13 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
         )}
       </View>
 
-      {locationAuthorized ? (
+      {locationAuthorized && location ? (
         <>
           <View style={styles.filter}>
             <DoorToDoorFilter filter={filter} onPress={setFilter} />
           </View>
           {displayMode === 'map' ? (
-            <DoorToDoorMapView data={addresses} location={location!} />
+            <DoorToDoorMapView data={addresses} location={location} />
           ) : (
             <DoorToDoorListView data={addresses} />
           )}
