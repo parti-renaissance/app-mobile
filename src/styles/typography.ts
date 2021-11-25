@@ -7,12 +7,20 @@ const androidNavigationTitleFontSize = 20
 const title2FontSize = 16
 const headlineFontSize = 17
 const bodyFontSize = 14
+const footnoteFontSize = 13
 const calloutFontSize = 12
 const subheadFontSize = 14
 const captionFontSize = 8
 
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
+
+export const footnote: TextStyle = {
+  fontSize: footnoteFontSize,
+  fontFamily: robotoMedium,
+  color: Colors.lightText,
+  lineHeight: 18,
+}
 
 export const largeTitle: TextStyle = {
   fontSize: titleFontSize,

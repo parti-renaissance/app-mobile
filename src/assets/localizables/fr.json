@@ -390,7 +390,11 @@
         "todo": "A faire",
         "tocomplete": "A terminer"
       },
-      "stats": { "doorknocked": "Portes frappées" }
+      "stats": {
+        "doorknocked": "Portes frappées",
+        "encounteredelectors": "electeurs rencontrés",
+        "completedqiestionnaires": "questionnaires réalisés"
+      }
     }
   }
 }

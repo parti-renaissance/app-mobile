@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
-import { Colors } from '../../styles'
+import { Colors, Typography } from '../../styles'
+import { small, margin, unit } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
-import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
+import StatBlockView from './StatBlockView'
 
 type Props = Readonly<{
   viewModel: BuildingStatusViewModel
@@ -12,28 +13,16 @@ type Props = Readonly<{
 const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
   const styles = useThemedStyles(stylesFactory)
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.statusContainer}>
-        <Image source={viewModel.statusIcon} />
-        <Text>{viewModel.statusTile} </Text>
+        <Image style={styles.statusImage} source={viewModel.statusIcon} />
+        <Text style={styles.statusText}>{viewModel.statusTile} </Text>
       </View>
       <View style={styles.statBlockContainer}>
-        <StatBlockView />
-        <StatBlockView />
-        <StatBlockView />
+        <StatBlockView viewModel={viewModel.encounteredElectorsStatBlock} />
+        <StatBlockView viewModel={viewModel.doorKnockedStatBlock} />
+        <StatBlockView viewModel={viewModel.completedQuestionnairesStatBlock} />
       </View>
-    </View>
-  )
-}
-
-type StatBlockProps = Readonly<{}>
-
-const StatBlockView: FunctionComponent<StatBlockProps> = ({}) => {
-  const styles = useThemedStyles(stylesFactory)
-  return (
-    <View style={styles.statBlockView}>
-      <Text>{i18n.t('building.status.done')} </Text>
-      <Text>{i18n.t('building.status.done')} </Text>
     </View>
   )
 }
@@ -41,17 +30,32 @@ const StatBlockView: FunctionComponent<StatBlockProps> = ({}) => {
 const stylesFactory = () => {
   return StyleSheet.create({
     container: {
-      backgroundColor: Colors.defaultBackground,
+      alignContent: 'center',
+      backgroundColor: Colors.groupedListBackground,
+      borderRadius: 8,
       flex: 1,
+      margin: margin,
+      padding: margin,
     },
     statBlockContainer: {
+      backgroundColor: Colors.defaultBackground,
+      borderRadius: 8,
       flexDirection: 'row',
-    },
-    statBlockView: {
-      flex: 1,
+      marginBottom: margin,
+      padding: margin,
     },
     statusContainer: {
+      alignItems: 'center',
       flexDirection: 'row',
+      justifyContent: 'center',
+      margin: unit,
+    },
+    statusImage: {
+      paddingRight: small,
+    },
+    statusText: {
+      ...Typography.subheadline,
+      paddingLeft: small,
     },
   })
 }
