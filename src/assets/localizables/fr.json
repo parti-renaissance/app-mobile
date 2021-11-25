@@ -394,7 +394,8 @@
         "doorknocked": "Portes frappées",
         "encounteredelectors": "electeurs rencontrés",
         "completedqiestionnaires": "questionnaires réalisés"
-      }
+      },
+      "tabs": { "history": "Historique", "layout": "Bâtiment" }
     }
   }
 }
