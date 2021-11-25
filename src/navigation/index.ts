@@ -3,6 +3,8 @@ import {
   NavigatorScreenParams,
   CompositeNavigationProp,
   RouteProp,
+  NavigationProp,
+  ParamListBase,
 } from '@react-navigation/native'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
@@ -56,6 +58,7 @@ export type PhoningParamList = {
 
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
+  Actions: undefined
   Polls: undefined
   Tools: undefined
   EventNavigator: NavigatorScreenParams<EventParamList>
@@ -136,6 +139,16 @@ export type PhoningScreenNavigationProp = CompositeNavigationProp<
 >
 export type PhoningScreenProp = Readonly<{
   navigation: PhoningScreenNavigationProp
+}>
+
+// Actions
+export type ActionsScreenProp = Readonly<{
+  navigation: NavigationProp<ParamListBase>
+}>
+
+// Door to Door
+export type DoorToDoorScreenProp = Readonly<{
+  navigation: NavigationProp<ParamListBase>
 }>
 
 // Phoning charter

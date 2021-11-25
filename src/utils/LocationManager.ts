@@ -12,6 +12,10 @@ export const LocationManager = {
     }
     return RNLocation.getLatestLocation({ timeout: 1000 })
   },
+  permissionStatus: async (): Promise<boolean> =>
+    await RNLocation.checkPermission(locationPermissionsOption),
+  requestPermission: async (): Promise<boolean> =>
+    await RNLocation.requestPermission(locationPermissionsOption),
 }
 
 const locationPermissionsOption: RequestPermissionOptions = {

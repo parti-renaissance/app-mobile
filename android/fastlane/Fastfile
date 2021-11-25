@@ -12,6 +12,10 @@ end
 lane :deliver_app do |options|
   variant = ENV['BUILD_VARIANT']
   channel = options[:channel]
+  bump_build_number = options[:bump_build_number]
+  tag_release = options[:tag_release]
+
+  bump_version_code if bump_build_number
   case channel
   when 'appcenter'
     build_apk(variant: variant)
@@ -25,6 +29,7 @@ lane :deliver_app do |options|
   else
     UI.user_error! 'Unknown channel'
   end
+  commit_deploy(variant: variant) if tag_release
 end
 
 private_lane :build_apk do |options|
@@ -95,6 +100,31 @@ private_lane :post_slack_notification_playstore do |options|
     },
     slack_url: ENV['SLACK_INCOMING_WEBKOOK_URL']
   )
+end
+
+private_lane :bump_version_code do
+  gradle(task: "bumpVersionCode")
+  git_commit(path: "./config.gradle", message: "Bump version code")
+  ensure_git_status_clean(
+    show_diff: true,
+    show_uncommitted_changes: true
+  )
+  push_to_git_remote(tags: false) if is_ci
+end
+
+private_lane :commit_deploy do |options|
+  variant = options[:variant].downcase
+  tag = "android/#{variant}/#{get_version_name}/#{get_version_code}"
+  branch = git_branch()
+  set_github_release(
+    repository_name: "EnMarche/Je-Marche",
+    api_token: ENV["GH_BOT_TOKEN"],
+    name: tag,
+    tag_name: tag,
+    description: (File.read("changelog") rescue "No changelog provided"),
+    commitish: branch,
+    upload_assets: []
+  ) if is_ci
 end
 
 lane :get_version_code do

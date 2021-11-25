@@ -42,6 +42,10 @@ const PinkTheme: Theme = {
     phoningSessionFailure: () =>
       require('../assets/images/pink/phoningSessionFailure.png'),
     emptyCampaigns: () => require('../assets/images/pink/imagePhoning.png'),
+    polls: () => require('../assets/images/pink/imagePolls.png'),
+    doorToDoor: () => require('../assets/images/pink/imageDoorToDoor.png'),
+    phoning: () => require('../assets/images/pink/imagePhoningV2.png'),
+    locationPhone: () => require('../assets/images/pink/locationPhone.png'),
   },
 }
 

@@ -17,6 +17,10 @@ end
 lane :deploy do |options|
   match_type = options[:match_type]
   force_codesign = options[:force_codesign]
+  bump = options[:bump_build_number]
+  tag_release = options[:tag_release]
+
+  bump_build_number if bump
   download_codesigning(
     match_type: match_type,
     force_codesign: force_codesign
@@ -40,6 +44,7 @@ lane :deploy do |options|
     deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
     post_slack_notification_beta
   end
+  commit_deploy if tag_release
 end
 
 #####################################################
@@ -145,6 +150,27 @@ private_lane :post_slack_notification_appstore do |options|
     },
     slack_url: ENV['SLACK_INCOMING_WEBKOOK_URL']
   )
+end
+
+private_lane :bump_build_number do
+  increment_build_number
+  commit_version_bump(xcodeproj: XCODEPROJ)
+  push_to_git_remote if is_ci
+end
+
+private_lane :commit_deploy do |options|
+  variant = ENV["ENVIRONMENT"].downcase
+  tag = "ios/#{variant}/#{app_version_number}/#{app_build_number}"
+  branch = git_branch()
+  set_github_release(
+    repository_name: "EnMarche/Je-Marche",
+    api_token: ENV["GH_BOT_TOKEN"],
+    name: tag,
+    tag_name: tag,
+    description: (File.read("changelog") rescue "No changelog provided"),
+    commitish: branch,
+    upload_assets: []
+  ) if is_ci
 end
 
 def app_version_number
