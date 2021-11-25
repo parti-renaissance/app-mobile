@@ -2,21 +2,21 @@ import React, { useState } from 'react'
 import { Dimensions, Pressable, StyleSheet } from 'react-native'
 import MapView from 'react-native-map-clustering'
 import { LatLng } from 'react-native-maps'
-import { AddressType } from '../../core/entities/DoorToDoor'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Spacing } from '../../styles'
-import { CampaignCard } from './CampaignCard'
-import { CustomCluster } from './CustomCluster'
-import { CustomMarker } from './CustomMarker'
+import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
+import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
+import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 
 type Props = {
-  data: AddressType[]
+  data: DoorToDoorAddress[]
   location: LatLng
 }
 
 type PopupProps = {
   visible: boolean
-  value?: AddressType
+  value?: DoorToDoorAddress
 }
 
 const DoorToDoorMapView = ({ data, location }: Props) => {
@@ -44,7 +44,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
     center: initialPosition,
   }
 
-  const onMarkerPress = (poi: AddressType) => {
+  const onMarkerPress = (poi: DoorToDoorAddress) => {
     setPopup({
       visible: true,
       value: poi,
@@ -58,7 +58,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
     >
       <Pressable style={styles.popup}>
         <PoiAddressCard poi={popup.value!} />
-        <CampaignCard />
+        <DoorToDoorCampaignCard />
       </Pressable>
     </Pressable>
   )
@@ -70,12 +70,12 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
         initialCamera={initialCamera}
         initialRegion={initialRegion}
         renderCluster={(cluster) => (
-          <CustomCluster key={cluster.id} {...cluster} />
+          <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
       >
         {data.map((marker) => (
-          <CustomMarker
-            key={marker.uuid}
+          <DoorToDoorMapMarker
+            key={marker.id}
             coordinate={marker}
             onPress={() => onMarkerPress(marker)}
           />

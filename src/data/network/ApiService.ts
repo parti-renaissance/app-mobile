@@ -46,7 +46,7 @@ import {
   RestDoorToDoorCharterNotAccepted,
   RestDoorToDoorCharterResponse,
 } from '../restObjects/RestDoorToDoorCharter'
-import { RestAddress } from '../restObjects/RestAddress'
+import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
 
 class ApiService {
   private static instance: ApiService
@@ -397,12 +397,12 @@ class ApiService {
     latitude: number,
     longitude: number,
     zoom: number,
-  ): Promise<RestAddress[]> {
+  ): Promise<RestDoorToDoorAddress[]> {
     return this.httpClient
       .get(
         `api/v3/pap/address/near?latitude=${latitude}&longitude=${longitude}&zoom=${zoom}`,
       )
-      .json<RestAddress[]>()
+      .json<RestDoorToDoorAddress[]>()
       .catch(genericErrorMapping)
   }
 

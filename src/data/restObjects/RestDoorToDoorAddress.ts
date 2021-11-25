@@ -1,4 +1,4 @@
-export interface RestAddress {
+export interface RestDoorToDoorAddress {
   number: string
   address: string
   insee_code: string

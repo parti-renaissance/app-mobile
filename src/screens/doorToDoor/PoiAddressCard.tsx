@@ -1,13 +1,13 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { AddressType } from '../../core/entities/DoorToDoor'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
 
 type Props = {
-  poi: AddressType
+  poi: DoorToDoorAddress
 }
 
 export const PoiAddressCard = ({ poi }: Props) => {
@@ -23,11 +23,9 @@ export const PoiAddressCard = ({ poi }: Props) => {
           <View>
             <Image
               style={styles.building}
-              source={require('../../assets/images/papHomeIcon.png')} // papBuildingIcon
+              source={require('../../assets/images/papHomeIcon.png')}
             />
-            <Text style={styles.title}>
-              {poi.number} {poi.address}
-            </Text>
+            <Text style={styles.title}>{poi.formattedAddress}</Text>
           </View>
           <Text style={styles.subtitle}>Aucun passage</Text>
         </View>

@@ -1,5 +1,5 @@
 export const white = '#ffffff'
-export const springWood = '#f9f6f4'
+const springWood = '#f9f6f4'
 const springWood10Dark = '#fcfbfa'
 export const shipGray = '#413d45'
 const spunPearl = '#a9a5ae'
@@ -28,4 +28,4 @@ export const loadingOverlayBackground = '#00000033'
 export const inputTextErrorMessage = cinnarbar
 export const modalOverlayBackground = '#00000066'
 export const groupedListBackground = springWood
-export const separator = lightGrey
+export const activeItemBackground = springWood

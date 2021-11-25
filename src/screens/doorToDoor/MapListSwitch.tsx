@@ -1,11 +1,11 @@
 import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { DisplayMode } from '../../core/entities/DoorToDoor'
 import { Colors } from '../../styles'
+import { DoorToDoorDisplayMode } from './DoorToDoor'
 
 type Props = {
-  mode: DisplayMode
-  onPress: (mode: DisplayMode) => void
+  mode: DoorToDoorDisplayMode
+  onPress: (mode: DoorToDoorDisplayMode) => void
 }
 
 const MapListSwitch = ({ mode, onPress }: Props) => (

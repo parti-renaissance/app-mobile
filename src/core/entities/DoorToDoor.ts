@@ -1,6 +1,3 @@
-export type DisplayMode = 'map' | 'list'
-export type DisplayFilter = 'all' | 'todo' | 'tofinish' | 'finished'
-
 export type ClusterType = {
   id: number
   clusterColor: string
@@ -20,13 +17,14 @@ export type ClusterType = {
   type: string
 }
 
-export type AddressType = {
+export type DoorToDoorAddress = {
   number: string
   address: string
-  insee_code: string
-  city_name: string
+  inseeCode: string
+  cityName: string
   latitude: number
   longitude: number
   building: any
-  uuid: string
+  id: string
+  formattedAddress: string
 }

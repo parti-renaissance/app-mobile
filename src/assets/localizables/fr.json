@@ -406,6 +406,7 @@
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
+      "address": "{{number}} {{street}}",
       "ranking": {
         "title": "Classements"
       },

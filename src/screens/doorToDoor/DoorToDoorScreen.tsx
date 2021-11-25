@@ -28,14 +28,11 @@ import { LocationManager } from '../../utils/LocationManager'
 import { Screen } from '../../navigation'
 import DoorToDoorMapView from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
-import {
-  AddressType,
-  DisplayFilter,
-  DisplayMode,
-} from '../../core/entities/DoorToDoor'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
 import DoorToDoorFilter from './DoorToDoorFilter'
 import { LatLng } from 'react-native-maps'
+import { DoorToDoorDisplayFilter, DoorToDoorDisplayMode } from './DoorToDoor'
 
 const DEFAULT_ZOOM = 16
 
@@ -43,11 +40,11 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
   const [location, setLocation] = useState<LatLng>()
-  const [addresses, setAddresses] = useState<AddressType[]>([])
+  const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('map')
-  const [filter, setFilter] = useState<DisplayFilter>('all')
+  const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
+  const [filter, setFilter] = useState<DoorToDoorDisplayFilter>('all')
   const [charterState, setCharterState] = useState<
     DoorToDoorCharterState | undefined
   >()
@@ -122,14 +119,11 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
         )}
       </View>
 
-      {locationAuthorized && (
-        <View style={styles.filter}>
-          <DoorToDoorFilter filter={filter} onPress={setFilter} />
-        </View>
-      )}
-
       {locationAuthorized ? (
         <>
+          <View style={styles.filter}>
+            <DoorToDoorFilter filter={filter} onPress={setFilter} />
+          </View>
           {displayMode === 'map' ? (
             <DoorToDoorMapView data={addresses} location={location!} />
           ) : (

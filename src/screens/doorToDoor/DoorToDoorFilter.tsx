@@ -8,22 +8,22 @@ import {
   Text,
   View,
 } from 'react-native'
-import { DisplayFilter } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
+import { DoorToDoorDisplayFilter } from './DoorToDoor'
 
 type Props = {
-  filter: DisplayFilter
-  onPress: (mode: DisplayFilter) => void
+  filter: DoorToDoorDisplayFilter
+  onPress: (mode: DoorToDoorDisplayFilter) => void
 }
 
 type ItemProps = {
-  filter: DisplayFilter
+  filter: DoorToDoorDisplayFilter
   active: boolean
   title: string
   icon?: ImageSourcePropType
-  onPress: (mode: DisplayFilter) => void
+  onPress: (mode: DoorToDoorDisplayFilter) => void
 }
 
 const FilterItem = (props: ItemProps) => (
@@ -32,7 +32,7 @@ const FilterItem = (props: ItemProps) => (
       style={styles.card}
       borderRadius={30}
       backgroundColor={
-        props.active ? Colors.springWood : Colors.defaultBackground
+        props.active ? Colors.activeItemBackground : Colors.defaultBackground
       }
     >
       <View style={styles.inner}>
@@ -47,7 +47,7 @@ const DoorToDoorFilter = ({ filter, onPress }: Props) => {
   return (
     <ScrollView
       horizontal
-      style={{ paddingVertical: Spacing.small }}
+      style={styles.container}
       showsHorizontalScrollIndicator={false}
     >
       <FilterItem
@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
   card: {
     margin: Spacing.small,
   },
+  container: {
+    paddingVertical: Spacing.small,
+  },
   icon: {
     height: 18,
     marginRight: Spacing.small,
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     padding: Spacing.unit,
   },
   text: {
-    color: Colors.shipGray,
+    color: Colors.darkText,
   },
 })
 

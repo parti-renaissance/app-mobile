@@ -5,7 +5,7 @@ import { ClusterType } from '../../core/entities/DoorToDoor'
 import { Colors, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 
-export const CustomCluster = memo((cluster: ClusterType) => (
+export const DoorToDoorMapCluster = memo((cluster: ClusterType) => (
   <Marker
     coordinate={{
       longitude: cluster.geometry.coordinates[0],

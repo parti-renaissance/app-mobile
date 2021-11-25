@@ -5,7 +5,7 @@ import { useTheme } from '../../themes'
 import CardView from '../shared/CardView'
 import ProgressBar from '../shared/ProgressBar'
 
-export const CampaignCard = () => {
+export const DoorToDoorCampaignCard = () => {
   const { theme } = useTheme()
 
   return (

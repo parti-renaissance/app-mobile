@@ -1,18 +1,17 @@
 import React from 'react'
 import { FlatList } from 'react-native'
-import { AddressType } from '../../core/entities/DoorToDoor'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { PoiAddressCard } from './PoiAddressCard'
 
 type Props = {
-  data: AddressType[]
+  data: DoorToDoorAddress[]
 }
 
 const DoorToDoorListView = ({ data }: Props) => (
   <FlatList
     data={data}
     renderItem={({ item }) => <PoiAddressCard poi={item} />}
-    keyExtractor={(item) => item.uuid.toString()}
-    nestedScrollEnabled={true}
+    keyExtractor={(item) => item.id.toString()}
   />
 )
 
