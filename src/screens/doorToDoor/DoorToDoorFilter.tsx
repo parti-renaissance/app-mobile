@@ -1,47 +1,14 @@
 import React from 'react'
-import {
-  Image,
-  ImageSourcePropType,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import { Colors, Spacing } from '../../styles'
+import { ScrollView, StyleSheet } from 'react-native'
+import { Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
-import CardView from '../shared/CardView'
-import { DoorToDoorDisplayFilter } from './DoorToDoor'
+import { DoorToDoorDisplayFilterDisplay } from './DoorToDoor'
+import { DoorToDoorFilterItem } from './DoorToDoorFilterItem'
 
 type Props = {
-  filter: DoorToDoorDisplayFilter
-  onPress: (mode: DoorToDoorDisplayFilter) => void
+  filter: DoorToDoorDisplayFilterDisplay
+  onPress: (mode: DoorToDoorDisplayFilterDisplay) => void
 }
-
-type ItemProps = {
-  filter: DoorToDoorDisplayFilter
-  active: boolean
-  title: string
-  icon?: ImageSourcePropType
-  onPress: (mode: DoorToDoorDisplayFilter) => void
-}
-
-const FilterItem = (props: ItemProps) => (
-  <Pressable onPress={() => props.onPress(props.filter)}>
-    <CardView
-      style={styles.card}
-      borderRadius={30}
-      backgroundColor={
-        props.active ? Colors.activeItemBackground : Colors.defaultBackground
-      }
-    >
-      <View style={styles.inner}>
-        {props.icon && <Image style={styles.icon} source={props.icon} />}
-        <Text style={styles.text}>{props.title}</Text>
-      </View>
-    </CardView>
-  </Pressable>
-)
 
 const DoorToDoorFilter = ({ filter, onPress }: Props) => {
   return (
@@ -50,27 +17,27 @@ const DoorToDoorFilter = ({ filter, onPress }: Props) => {
       style={styles.container}
       showsHorizontalScrollIndicator={false}
     >
-      <FilterItem
+      <DoorToDoorFilterItem
         filter="all"
         title={i18n.t('doorToDoor.filter.all')}
         onPress={() => onPress('all')}
         active={filter === 'all'}
       />
-      <FilterItem
+      <DoorToDoorFilterItem
         filter="todo"
         icon={require('../../assets/images/papTodoIcon.png')}
         title={i18n.t('doorToDoor.filter.to_do')}
         onPress={() => onPress('todo')}
         active={filter === 'todo'}
       />
-      <FilterItem
+      <DoorToDoorFilterItem
         filter="tofinish"
         icon={require('../../assets/images/papToFinishIcon.png')}
         title={i18n.t('doorToDoor.filter.to_finish')}
         onPress={() => onPress('tofinish')}
         active={filter === 'tofinish'}
       />
-      <FilterItem
+      <DoorToDoorFilterItem
         filter="finished"
         icon={require('../../assets/images/papDoneIcon.png')}
         title={i18n.t('doorToDoor.filter.finished')}
@@ -82,24 +49,8 @@ const DoorToDoorFilter = ({ filter, onPress }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    margin: Spacing.small,
-  },
   container: {
     paddingVertical: Spacing.small,
-  },
-  icon: {
-    height: 18,
-    marginRight: Spacing.small,
-    width: 18,
-  },
-  inner: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: Spacing.unit,
-  },
-  text: {
-    color: Colors.darkText,
   },
 })
 

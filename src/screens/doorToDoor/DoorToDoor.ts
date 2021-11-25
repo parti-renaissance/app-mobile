@@ -1,5 +1,4 @@
 export type DoorToDoorDisplayMode = 'map' | 'list'
-export type DoorToDoorDisplayFilter = 'all' | 'todo' | 'tofinish' | 'finished'
 
 export type ClusterTypeViewModel = {
   id: number
@@ -11,3 +10,9 @@ export type ClusterTypeViewModel = {
     point_count: number
   }
 }
+
+export type DoorToDoorDisplayFilterDisplay =
+  | 'all'
+  | 'todo'
+  | 'tofinish'
+  | 'finished'

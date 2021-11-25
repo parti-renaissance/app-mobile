@@ -30,9 +30,12 @@ import DoorToDoorMapView from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
-import DoorToDoorFilter from './DoorToDoorFilter'
 import { LatLng } from 'react-native-maps'
-import { DoorToDoorDisplayFilter, DoorToDoorDisplayMode } from './DoorToDoor'
+import {
+  DoorToDoorDisplayFilterDisplay,
+  DoorToDoorDisplayMode,
+} from './DoorToDoor'
+import DoorToDoorFilter from './DoorToDoorFilter'
 
 const DEFAULT_ZOOM = 16
 
@@ -44,7 +47,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
-  const [filter, setFilter] = useState<DoorToDoorDisplayFilter>('all')
+  const [filter, setFilter] = useState<DoorToDoorDisplayFilterDisplay>('all')
   const [charterState, setCharterState] = useState<
     DoorToDoorCharterState | undefined
   >()
