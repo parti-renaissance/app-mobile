@@ -1,6 +1,5 @@
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
-import i18n from '../../utils/i18n'
 
 export const DoorToDoorMapper = {
   map: (restObject: RestDoorToDoorAddress): DoorToDoorAddress => {
@@ -13,10 +12,6 @@ export const DoorToDoorMapper = {
       longitude: restObject.longitude,
       address: restObject.address,
       building: restObject.building,
-      formattedAddress: i18n.t('doorToDoor.address', {
-        number: restObject.number,
-        street: restObject.address,
-      }),
     }
   },
 }

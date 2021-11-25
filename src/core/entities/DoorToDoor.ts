@@ -7,5 +7,4 @@ export type DoorToDoorAddress = {
   longitude: number
   building: any
   id: string
-  formattedAddress: string
 }

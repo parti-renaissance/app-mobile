@@ -39,12 +39,12 @@ class DoorToDoorRepository {
     longitude: number,
     zoom: number,
   ): Promise<DoorToDoorAddress[]> {
-    const restDoorToDoorAddress = await this.apiService.getAddresses(
+    const restDoorToDoorAddresses = await this.apiService.getAddresses(
       latitude,
       longitude,
       zoom,
     )
-    return restDoorToDoorAddress.map(DoorToDoorMapper.map)
+    return restDoorToDoorAddresses.map(DoorToDoorMapper.map)
   }
 }
 

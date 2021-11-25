@@ -2,22 +2,29 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
+import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import ProgressBar from '../shared/ProgressBar'
+import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 
-export const DoorToDoorCampaignCard = () => {
+type Props = {
+  viewModel: DoorToDoorCampaignCardViewModel
+}
+
+export const DoorToDoorCampaignCard = ({ viewModel }: Props) => {
   const { theme } = useTheme()
 
   return (
     <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
       <View style={styles.content}>
         <View style={styles.campaign}>
-          <Text style={styles.title}>Campagne nationale</Text>
-          <Text style={styles.date}>jusqu’au 3 jan. 2022</Text>
+          <Text style={styles.title}>{viewModel.name}</Text>
+          <Text style={styles.date}>{viewModel.date}</Text>
         </View>
         <View>
           <Text style={styles.goal}>
-            Mon objectif : <Text style={styles.indicator}>03/30</Text>
+            {i18n.t('doorToDoor.goal')}
+            <Text style={styles.indicator}>{viewModel.goal}</Text>
           </Text>
           <ProgressBar progress={0.3} color={theme.primaryColor} />
         </View>

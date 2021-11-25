@@ -5,6 +5,7 @@ import { LatLng } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Spacing } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
+import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
 import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
@@ -61,7 +62,9 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
         <PoiAddressCard
           viewModel={PoiAddressCardViewModelMapper.map(popup.value!)}
         />
-        <DoorToDoorCampaignCard />
+        <DoorToDoorCampaignCard
+          viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
+        />
       </Pressable>
     </Pressable>
   )
