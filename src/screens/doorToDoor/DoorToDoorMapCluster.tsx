@@ -1,11 +1,11 @@
 import React, { memo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Marker } from 'react-native-maps'
-import { ClusterType } from '../../core/entities/DoorToDoor'
 import { Colors, Typography } from '../../styles'
 import CardView from '../shared/CardView'
+import { ClusterTypeViewModel } from './DoorToDoor'
 
-export const DoorToDoorMapCluster = memo((cluster: ClusterType) => (
+export const DoorToDoorMapCluster = memo((cluster: ClusterTypeViewModel) => (
   <Marker
     coordinate={{
       longitude: cluster.geometry.coordinates[0],

@@ -1,16 +1,16 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
+import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
 type Props = {
-  poi: DoorToDoorAddress
+  viewModel: PoiAddressCardViewModel
 }
 
-export const PoiAddressCard = ({ poi }: Props) => {
+export const PoiAddressCard = ({ viewModel }: Props) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
@@ -21,21 +21,15 @@ export const PoiAddressCard = ({ poi }: Props) => {
       <View style={styles.content}>
         <View style={styles.subcontent}>
           <View>
-            <Image
-              style={styles.building}
-              source={require('../../assets/images/papHomeIcon.png')}
-            />
-            <Text style={styles.title}>{poi.formattedAddress}</Text>
+            <Image style={styles.building} source={viewModel.icon} />
+            <Text style={styles.title}>{viewModel.formattedAddress}</Text>
           </View>
-          <Text style={styles.subtitle}>Aucun passage</Text>
+          <Text style={styles.subtitle}>{viewModel.passage}</Text>
         </View>
         <View style={styles.card}>
-          <Image
-            style={styles.image}
-            source={require('../../assets/images/papDoneIcon.png')}
-          />
-          <Text style={styles.text}>PORTES FRAPPÉES</Text>
-          <Text style={styles.indicator}>10</Text>
+          <Image style={styles.image} source={viewModel.statusIcon} />
+          <Text style={styles.text}>{viewModel.note}</Text>
+          <Text style={styles.indicator}>{viewModel.indicator}</Text>
         </View>
       </View>
     </CardView>

@@ -28,4 +28,5 @@ export const loadingOverlayBackground = '#00000033'
 export const inputTextErrorMessage = cinnarbar
 export const modalOverlayBackground = '#00000066'
 export const groupedListBackground = springWood
+export const separator = lightGrey
 export const activeItemBackground = springWood

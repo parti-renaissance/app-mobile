@@ -8,6 +8,7 @@ import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
 import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
+import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 
 type Props = {
   data: DoorToDoorAddress[]
@@ -57,7 +58,9 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
       onPress={() => setPopup({ visible: false })}
     >
       <Pressable style={styles.popup}>
-        <PoiAddressCard poi={popup.value!} />
+        <PoiAddressCard
+          viewModel={PoiAddressCardViewModelMapper.map(popup.value!)}
+        />
         <DoorToDoorCampaignCard />
       </Pressable>
     </Pressable>
