@@ -48,6 +48,8 @@ const OrangeTheme: Theme = {
     phoning: () => require('../assets/images/orange/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/orange/locationPhone.png'),
     house: () => require('../assets/images/orange/imageHouse.png'),
+    appartementBuilding: () =>
+      require('../assets/images/orange/appartementBuilding.png'),
   },
 }
 

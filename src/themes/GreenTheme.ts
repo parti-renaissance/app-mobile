@@ -46,6 +46,8 @@ const GreenTheme: Theme = {
     phoning: () => require('../assets/images/green/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/green/locationPhone.png'),
     house: () => require('../assets/images/green/imageHouse.png'),
+    appartementBuilding: () =>
+      require('../assets/images/green/appartementBuilding.png'),
   },
 }
 

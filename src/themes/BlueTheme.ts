@@ -46,6 +46,8 @@ const BlueTheme: Theme = {
     phoning: () => require('../assets/images/blue/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/blue/locationPhone.png'),
     house: () => require('../assets/images/blue/imageHouse.png'),
+    appartementBuilding: () =>
+      require('../assets/images/blue/appartementBuilding.png'),
   },
 }
 

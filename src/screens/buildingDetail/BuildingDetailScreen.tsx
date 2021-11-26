@@ -12,15 +12,11 @@ import { useTheme, useThemedStyles } from '../../themes'
 import { BuildingDetailScreenProp } from '../../navigation'
 import i18n from '../../utils/i18n'
 import BuildingStatusView from './BuilidingStatusView'
-import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
-import { BuildingStatus } from '../../core/entities/BuildingStatus'
 import { margin, mediumMargin } from '../../styles/spacing'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import BuildingLayoutView from './BuildingLayoutView'
-import {
-  BuildingLayoutViewModelMapper,
-  BuildingType,
-} from './BuildingLayoutViewModelMapper'
+import { BuildingType } from './BuildingLayoutViewModelMapper'
+import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewModelMapper'
 
 const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) => {
   const styles = useThemedStyles(stylesFactory)
@@ -31,17 +27,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) =
     { key: 'layout', title: i18n.t('building.tabs.layout') },
   ])
   const initialLayout = { width: Dimensions.get('window').width }
+  const viewModel = BuildingDetailScreenViewModelMapper.map(
+    BuildingType.APPARTEMENT_BUILDING,
+    theme,
+  )
+
   const History = useCallback(() => <View />, [])
   const Layout = useCallback(
     () => (
       <BuildingLayoutView
-        viewModel={BuildingLayoutViewModelMapper.map(
-          BuildingType.APPARTEMENT_BUILDING,
-        )}
+        viewModel={viewModel.buildingLayout}
         onSelect={() => console.log('action selected')}
       />
     ),
-    [],
+    [viewModel.buildingLayout],
   )
 
   const renderScene = SceneMap({
@@ -68,12 +67,10 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) =
   return (
     <SafeAreaView style={styles.container}>
       <View />
-      <Image source={theme.image.house()} />
-      <Text style={styles.address}>{i18n.t('addresse.placeholder')}</Text>
-      <Text style={styles.lastVisit}>{i18n.t('lastVisit.placeholder')}</Text>
-      <BuildingStatusView
-        viewModel={BuildingStatusViewModelMapper.map(BuildingStatus.TOCOMPLETE)}
-      />
+      <Image source={viewModel.illustration} />
+      <Text style={styles.address}>{viewModel.address}</Text>
+      <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
+      <BuildingStatusView viewModel={viewModel.status} />
       {/* @ts-ignore https://github.com/satya164/react-native-tab-view/issues/1159 */}
       <TabView
         navigationState={{ index, routes }}

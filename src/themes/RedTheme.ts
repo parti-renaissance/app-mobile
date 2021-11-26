@@ -46,6 +46,8 @@ const RedTheme: Theme = {
     phoning: () => require('../assets/images/red/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/red/locationPhone.png'),
     house: () => require('../assets/images/red/imageHouse.png'),
+    appartementBuilding: () =>
+      require('../assets/images/red/appartementBuilding.png'),
   },
 }
 
