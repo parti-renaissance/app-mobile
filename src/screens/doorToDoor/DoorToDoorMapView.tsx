@@ -82,7 +82,10 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
-            coordinate={marker}
+            coordinate={{
+              longitude: marker.longitude,
+              latitude: marker.latitude,
+            }}
             onPress={() => onMarkerPress(marker)}
           />
         ))}

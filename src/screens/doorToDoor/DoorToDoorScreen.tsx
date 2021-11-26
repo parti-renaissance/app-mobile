@@ -44,6 +44,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 }) => {
   const [location, setLocation] = useState<LatLng | null>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
+  const [filteredAddresses, setFilteredAddresses] = useState<
+    DoorToDoorAddress[]
+  >([])
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
@@ -67,7 +70,10 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       setLocation({ latitude, longitude })
       DoorToDoorRepository.getInstance()
         .getAddresses(latitude, longitude, DEFAULT_ZOOM)
-        .then((state) => setAddresses(state))
+        .then((state) => {
+          setAddresses(state)
+          setFilteredAddresses(state)
+        })
         .catch(() => {})
     }
   }, [])
@@ -88,6 +94,18 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   useEffect(() => {
     locationAuthorized && fetchAddresses()
   }, [locationAuthorized, fetchAddresses])
+
+  useEffect(() => {
+    if (filter === 'all') {
+      setFilteredAddresses(addresses)
+    } else {
+      setFilteredAddresses(
+        addresses.filter(
+          (address) => address.building.campaignStatistics.status === filter,
+        ),
+      )
+    }
+  }, [filter])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -128,9 +146,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             <DoorToDoorFilter filter={filter} onPress={setFilter} />
           </View>
           {displayMode === 'map' ? (
-            <DoorToDoorMapView data={addresses} location={location} />
+            <DoorToDoorMapView data={filteredAddresses} location={location} />
           ) : (
-            <DoorToDoorListView data={addresses} />
+            <DoorToDoorListView data={filteredAddresses} />
           )}
         </>
       ) : (

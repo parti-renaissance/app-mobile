@@ -14,5 +14,5 @@ export type ClusterTypeViewModel = {
 export type DoorToDoorDisplayFilterDisplay =
   | 'all'
   | 'todo'
-  | 'tofinish'
-  | 'finished'
+  | 'ongoing'
+  | 'completed'

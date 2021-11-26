@@ -408,6 +408,11 @@
       "title": "Porte-à-porte",
       "address": "{{number}} {{street}}",
       "goal": "Mon objectif : ",
+      "lastPassage": "Dernier passage :",
+      "noPassage": "Aucun passage",
+      "electorsMet": "Électeurs rencontrés",
+      "doorKnocked": "Portes frappées",
+      "date_format": "D MMM YYYY",
       "ranking": {
         "title": "Classements"
       },
@@ -423,8 +428,8 @@
       "filter": {
         "all": "Tous",
         "to_do": "À faire",
-        "to_finish": "À terminer",
-        "finished": "Terminé"
+        "ongoing": "À terminer",
+        "completed": "Terminé"
       }
     }
   }

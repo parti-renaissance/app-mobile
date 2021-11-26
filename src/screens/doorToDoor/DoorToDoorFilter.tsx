@@ -31,18 +31,18 @@ const DoorToDoorFilter = ({ filter, onPress }: Props) => {
         active={filter === 'todo'}
       />
       <DoorToDoorFilterItem
-        filter="tofinish"
+        filter="ongoing"
         icon={require('../../assets/images/papToFinishIcon.png')}
-        title={i18n.t('doorToDoor.filter.to_finish')}
-        onPress={() => onPress('tofinish')}
-        active={filter === 'tofinish'}
+        title={i18n.t('doorToDoor.filter.ongoing')}
+        onPress={() => onPress('ongoing')}
+        active={filter === 'ongoing'}
       />
       <DoorToDoorFilterItem
-        filter="finished"
+        filter="completed"
         icon={require('../../assets/images/papDoneIcon.png')}
-        title={i18n.t('doorToDoor.filter.finished')}
-        onPress={() => onPress('finished')}
-        active={filter === 'finished'}
+        title={i18n.t('doorToDoor.filter.completed')}
+        onPress={() => onPress('completed')}
+        active={filter === 'completed'}
       />
     </ScrollView>
   )
