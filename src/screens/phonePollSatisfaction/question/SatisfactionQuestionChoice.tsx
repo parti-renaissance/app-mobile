@@ -43,7 +43,7 @@ const SatisfactionQuestionChoice: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   callout: {
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
     marginBottom: Spacing.margin,
   },
   container: {

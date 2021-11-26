@@ -397,7 +397,11 @@
       },
       "tabs": { "history": "Historique", "layout": "Bâtiment" },
       "layout": {
-        "buildingtype": { "house": "Maison", "appartementbuilding": "Bâtiment" }
+        "buildingtype": {
+          "house": "Maison",
+          "appartementbuilding": "Bâtiment"
+        },
+        "startaddress": "Commencer le porte à porte"
       }
     }
   }

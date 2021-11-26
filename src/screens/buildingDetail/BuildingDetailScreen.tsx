@@ -38,6 +38,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) =
         viewModel={BuildingLayoutViewModelMapper.map(
           BuildingType.APPARTEMENT_BUILDING,
         )}
+        onSelect={() => console.log('action selected')}
       />
     ),
     [],

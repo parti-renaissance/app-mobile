@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     padding: Spacing.small,
   },
   subtitle: {
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
     marginBottom: Spacing.small,
   },
   title: {

@@ -47,7 +47,7 @@ const stylesFactory = (theme: Theme) => {
       marginBottom: Spacing.extraExtraLargeMargin,
     },
     subtitle: {
-      ...Typography.lightCallout,
+      ...Typography.lightCaption1,
       padding: Spacing.margin,
       textAlign: 'center',
     },

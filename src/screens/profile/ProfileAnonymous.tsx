@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.mediumMargin,
     marginVertical: Spacing.largeMargin,
     textAlign: 'center',
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
   },
 })
 

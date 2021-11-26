@@ -1,13 +1,21 @@
 import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { Colors, Typography } from '../../styles'
-import { margin, small } from '../../styles/spacing'
+import { margin, small, unit } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
+import Theme from '../../themes/Theme'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { BuildingLayoutViewModel } from './BuildingLayoutViewModel'
 
-type Props = Readonly<{ viewModel: BuildingLayoutViewModel }>
+type Props = Readonly<{
+  viewModel: BuildingLayoutViewModel
+  onSelect: () => void
+}>
 
-const BuildingLayoutView: FunctionComponent<Props> = ({ viewModel }) => {
+const BuildingLayoutView: FunctionComponent<Props> = ({
+  viewModel,
+  onSelect,
+}) => {
   const styles = useThemedStyles(stylesFactory)
   return (
     <View style={styles.container}>
@@ -19,13 +27,39 @@ const BuildingLayoutView: FunctionComponent<Props> = ({ viewModel }) => {
           />
           <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
         </View>
+        <View style={styles.layoutContainer}>
+          <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
+          <TouchablePlatform
+            style={styles.arrowButton}
+            onPress={() => onSelect}
+            touchHighlight={Colors.touchHighlight}
+          >
+            <Image
+              style={styles.arrowImage}
+              source={require('../../assets/images/arrow.png')}
+            />
+          </TouchablePlatform>
+        </View>
       </View>
     </View>
   )
 }
 
-const stylesFactory = () => {
+const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
+    actionText: {
+      ...Typography.callout,
+      margin: margin,
+    },
+    arrowButton: {
+      backgroundColor: theme.primaryColor,
+      borderRadius: 22,
+      margin: margin,
+      padding: unit,
+    },
+    arrowImage: {
+      tintColor: Colors.defaultBackground,
+    },
     card: {
       backgroundColor: Colors.defaultBackground,
       borderRadius: 8,
@@ -39,6 +73,14 @@ const stylesFactory = () => {
     container: {
       backgroundColor: Colors.defaultBackground,
       padding: margin,
+    },
+    layoutContainer: {
+      alignItems: 'center',
+      backgroundColor: Colors.groupedListBackground,
+      borderRadius: 8,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      margin: margin,
     },
     statusContainer: {
       alignItems: 'center',

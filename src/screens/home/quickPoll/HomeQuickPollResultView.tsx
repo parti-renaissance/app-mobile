@@ -55,7 +55,7 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
 
 const styles = StyleSheet.create({
   choice: {
-    ...Typography.lightCalloutOnLightBackground,
+    ...Typography.lightCaption1OnLightBackground,
   },
   leadingText: {
     textAlign: 'right',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   votesCount: {
-    ...Typography.lightCalloutOnLightBackground,
+    ...Typography.lightCaption1OnLightBackground,
     marginTop: Spacing.margin,
   },
 })

@@ -9,9 +9,10 @@ const title3FontSize = 20
 const headlineFontSize = 17
 const bodyFontSize = 14
 const footnoteFontSize = 13
-const calloutFontSize = 12
+const calloutFontSize = 16
 const subheadFontSize = 14
-const captionFontSize = 8
+const caption1FontSize = 12
+const caption2FontSize = 8
 
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
@@ -77,26 +78,32 @@ export const body: TextStyle = {
   color: Colors.darkText,
 }
 
-export const caption1: TextStyle = {
+export const callout: TextStyle = {
   fontSize: calloutFontSize,
+  fontFamily: robotoMedium,
+  color: Colors.darkText,
+}
+
+export const caption1: TextStyle = {
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
   lineHeight: 16,
 }
 
-export const lightCallout: TextStyle = {
-  fontSize: calloutFontSize,
+export const lightCaption1: TextStyle = {
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
   color: Colors.lightText,
 }
 
-export const lightCalloutOnLightBackground: TextStyle = {
-  fontSize: calloutFontSize,
+export const lightCaption1OnLightBackground: TextStyle = {
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
   color: Colors.lightTextOnLightBackground,
 }
 
 export const tagCaption: TextStyle = {
-  fontSize: captionFontSize,
+  fontSize: caption2FontSize,
   fontFamily: robotoRegular,
   color: Colors.veryLightText,
   textTransform: 'uppercase',
@@ -116,13 +123,13 @@ export const spinner = {
 export const errorMessage: TextStyle = {
   color: Colors.inputTextErrorMessage,
   fontFamily: robotoRegular,
-  fontSize: calloutFontSize,
+  fontSize: caption1FontSize,
   lineHeight: 16,
 }
 
 export const tabLabel: TextStyle = {
   fontFamily: robotoRegular,
-  fontSize: calloutFontSize,
+  fontSize: caption1FontSize,
 }
 
 export const countryPicker: Theme = {
@@ -131,7 +138,7 @@ export const countryPicker: Theme = {
 }
 
 export const phoneNumberPicker: Theme = {
-  fontSize: calloutFontSize,
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
 }
 
