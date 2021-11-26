@@ -15,27 +15,34 @@ export const DoorToDoorMapper = {
       building: {
         type: restObject.building.type,
         id: restObject.building.uuid,
-        campaignStatistics: {
-          nbDoors: restObject.building.campaign_statistics.nb_doors,
-          nbSurveys: restObject.building.campaign_statistics.nb_surveys,
-          status: restObject.building.campaign_statistics.status,
-          id: restObject.building.campaign_statistics.uuid,
-          lastPassage: moment(
-            restObject.building.campaign_statistics.last_passage,
-          ),
-          campaignId: restObject.building.campaign_statistics.campaign.uuid,
-          lastPassageDoneBy: {
-            firstName:
-              restObject.building.campaign_statistics.last_passage_done_by
-                .first_name,
-            lastName:
-              restObject.building.campaign_statistics.last_passage_done_by
-                .last_name,
-            id:
-              restObject.building.campaign_statistics.last_passage_done_by.uuid,
-          },
-        },
+        campaignStatistics: restObject.building.campaign_statistics
+          ? {
+              nbDoors: restObject.building.campaign_statistics.nb_doors,
+              nbSurveys: restObject.building.campaign_statistics.nb_surveys,
+              status: restObject.building.campaign_statistics.status,
+              id: restObject.building.campaign_statistics.uuid,
+              lastPassage: mapLastPassage(
+                restObject.building.campaign_statistics.last_passage,
+              ),
+              campaignId: restObject.building.campaign_statistics.campaign.uuid,
+              lastPassageDoneBy: {
+                firstName:
+                  restObject.building.campaign_statistics.last_passage_done_by
+                    .first_name,
+                lastName:
+                  restObject.building.campaign_statistics.last_passage_done_by
+                    .last_name,
+                id:
+                  restObject.building.campaign_statistics.last_passage_done_by
+                    .uuid,
+              },
+            }
+          : null,
       },
     }
   },
+}
+
+function mapLastPassage(last_passage: string | null): moment.Moment | null {
+  return last_passage ? moment(last_passage) : null
 }

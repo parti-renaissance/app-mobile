@@ -6,6 +6,6 @@ export interface PoiAddressCardViewModel {
   icon: ImageSourcePropType
   passage: string
   statusIcon: ImageSourcePropType
-  note: string
+  label: string
   nbSurveys: number
 }

@@ -12,7 +12,7 @@ const DoorToDoorListView = ({ data }: Props) => (
   <FlatList
     data={data}
     renderItem={({ item }) => {
-      const viewModel = PoiAddressCardViewModelMapper.map(item)
+      const viewModel = PoiAddressCardViewModelMapper.map('list', item)
 
       return <PoiAddressCard viewModel={viewModel} />
     }}

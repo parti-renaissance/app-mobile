@@ -101,7 +101,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     } else {
       setFilteredAddresses(
         addresses.filter(
-          (address) => address.building.campaignStatistics.status === filter,
+          (address) =>
+            address.building.campaignStatistics &&
+            address.building.campaignStatistics.status === filter,
         ),
       )
     }

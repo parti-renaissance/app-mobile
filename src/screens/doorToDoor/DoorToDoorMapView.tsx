@@ -60,7 +60,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
     >
       <Pressable style={styles.popup}>
         <PoiAddressCard
-          viewModel={PoiAddressCardViewModelMapper.map(popup.value)}
+          viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
         />
         <DoorToDoorCampaignCard
           viewModel={DoorToDoorCampaignCardViewModelMapper.map()}

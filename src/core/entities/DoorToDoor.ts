@@ -10,21 +10,22 @@ export type DoorToDoorAddress = {
   longitude: number
   building: {
     id: string
-    type: 'building' | 'house'
-    campaignStatistics: {
-      id: string
-      nbDoors: number
-      nbSurveys: number
-      lastPassage: Moment
-      campaignId: string
-      status: DoorToDoorAddressStatus
-      lastPassageDoneBy: {
-        id: string
-        firstName: string
-        lastName: string
-      }
-    }
+    type: 'building' | 'house' | null
+    campaignStatistics: DoorToDoorAddressCampaign
   }
 }
+export type DoorToDoorAddressCampaign = {
+  id: string
+  nbDoors: number
+  nbSurveys: number
+  lastPassage: Moment | null
+  campaignId: string
+  status: DoorToDoorAddressStatus
+  lastPassageDoneBy: {
+    id: string
+    firstName: string
+    lastName: string
+  }
+} | null
 
 export type DoorToDoorAddressStatus = 'todo' | 'ongoing' | 'completed'

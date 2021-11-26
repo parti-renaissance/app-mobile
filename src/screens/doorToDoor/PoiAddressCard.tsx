@@ -30,7 +30,7 @@ export const PoiAddressCard = ({ viewModel }: Props) => {
         </View>
         <View style={styles.card}>
           <Image style={styles.image} source={viewModel.statusIcon} />
-          <Text style={styles.text}>{viewModel.note}</Text>
+          <Text style={styles.label}>{viewModel.label}</Text>
           <Text style={styles.indicator}>{viewModel.nbSurveys}</Text>
         </View>
       </View>
@@ -76,10 +76,11 @@ const stylesFactory = (theme: Theme) => {
     subtitle: {
       ...Typography.lightCallout,
     },
-    text: {
+    label: {
       ...Typography.lightCallout,
       marginVertical: Spacing.unit,
       textAlign: 'center',
+      textTransform: 'uppercase',
     },
     title: {
       ...Typography.title2,

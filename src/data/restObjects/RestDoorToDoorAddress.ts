@@ -6,13 +6,13 @@ export interface RestDoorToDoorAddress {
   latitude: number
   longitude: number
   building: {
-    type: 'building' | 'house'
+    type: 'building' | 'house' | null
     uuid: string
     campaign_statistics: {
       uuid: string
       nb_doors: number
       nb_surveys: number
-      last_passage: string
+      last_passage: string | null
       status: 'todo' | 'ongoing' | 'completed'
       last_passage_done_by: {
         first_name: string
@@ -22,7 +22,7 @@ export interface RestDoorToDoorAddress {
       campaign: {
         uuid: string
       }
-    }
+    } | null
   }
   uuid: string
 }
