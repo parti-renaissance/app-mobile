@@ -16,6 +16,11 @@ import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 import { BuildingStatus } from '../../core/entities/BuildingStatus'
 import { margin, mediumMargin } from '../../styles/spacing'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
+import BuildingLayoutView from './BuildingLayoutView'
+import {
+  BuildingLayoutViewModelMapper,
+  BuildingType,
+} from './BuildingLayoutViewModelMapper'
 
 const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) => {
   const styles = useThemedStyles(stylesFactory)
@@ -27,7 +32,16 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) =
   ])
   const initialLayout = { width: Dimensions.get('window').width }
   const History = useCallback(() => <View />, [])
-  const Layout = useCallback(() => <View />, [])
+  const Layout = useCallback(
+    () => (
+      <BuildingLayoutView
+        viewModel={BuildingLayoutViewModelMapper.map(
+          BuildingType.APPARTEMENT_BUILDING,
+        )}
+      />
+    ),
+    [],
+  )
 
   const renderScene = SceneMap({
     history: History,

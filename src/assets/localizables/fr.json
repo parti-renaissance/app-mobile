@@ -395,7 +395,10 @@
         "encounteredelectors": "electeurs rencontrés",
         "completedqiestionnaires": "questionnaires réalisés"
       },
-      "tabs": { "history": "Historique", "layout": "Bâtiment" }
+      "tabs": { "history": "Historique", "layout": "Bâtiment" },
+      "layout": {
+        "buildingtype": { "house": "Maison", "appartementbuilding": "Bâtiment" }
+      }
     }
   }
 }
