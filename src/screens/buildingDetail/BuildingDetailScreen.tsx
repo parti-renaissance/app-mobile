@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   Dimensions,
+  ScrollView,
 } from 'react-native'
 import { Colors, Typography } from '../../styles'
 import { useTheme, useThemedStyles } from '../../themes'
@@ -66,19 +67,21 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) =
   )
   return (
     <SafeAreaView style={styles.container}>
-      <View />
-      <Image source={viewModel.illustration} />
-      <Text style={styles.address}>{viewModel.address}</Text>
-      <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
-      <BuildingStatusView viewModel={viewModel.status} />
-      {/* @ts-ignore https://github.com/satya164/react-native-tab-view/issues/1159 */}
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={initialLayout}
-        renderTabBar={renderTabBar}
-      />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View />
+        <Image source={viewModel.illustration} />
+        <Text style={styles.address}>{viewModel.address}</Text>
+        <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
+        <BuildingStatusView viewModel={viewModel.status} />
+        {/* @ts-ignore https://github.com/satya164/react-native-tab-view/issues/1159 */}
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={initialLayout}
+          renderTabBar={renderTabBar}
+        />
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -98,6 +101,10 @@ const stylesFactory = () => {
       ...Typography.body,
       marginBottom: margin,
       textAlign: 'center',
+    },
+    /* https://github.com/satya164/react-native-tab-view/issues/938#issuecomment-567356156 */
+    scrollContainer: {
+      flex: 1,
     },
     tabStyle: {
       width: Dimensions.get('screen').width / 2,
