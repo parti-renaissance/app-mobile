@@ -33,7 +33,6 @@ const stylesFactory = () => {
       alignContent: 'center',
       backgroundColor: Colors.groupedListBackground,
       borderRadius: 8,
-      flex: 1,
       margin: margin,
       padding: margin,
     },
