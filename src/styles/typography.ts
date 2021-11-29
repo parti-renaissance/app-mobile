@@ -65,6 +65,14 @@ export const headline: TextStyle = {
   letterSpacing: 0.4,
 }
 
+export const thinHeadline: TextStyle = {
+  fontSize: headlineFontSize,
+  fontFamily: robotoRegular,
+  color: Colors.darkText,
+  lineHeight: 22,
+  letterSpacing: 0.4,
+}
+
 export const subheadline: TextStyle = {
   fontSize: subheadFontSize,
   fontFamily: robotoMedium,

@@ -1,92 +1,104 @@
-import React, { FunctionComponent, useCallback } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import {
   StyleSheet,
   SafeAreaView,
   View,
   Image,
   Text,
-  Dimensions,
   ScrollView,
 } from 'react-native'
 import { Colors, Typography } from '../../styles'
 import { useTheme, useThemedStyles } from '../../themes'
 import { BuildingDetailScreenProp } from '../../navigation'
-import i18n from '../../utils/i18n'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import BuildingLayoutView from './BuildingLayoutView'
 import { BuildingType } from './BuildingLayoutViewModelMapper'
 import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewModelMapper'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import Theme from '../../themes/Theme'
+import i18n from '../../utils/i18n'
+
+enum Tab {
+  HISTORY,
+  LAYOUT,
+}
 
 const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) => {
   const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
-  const [index, setIndex] = React.useState(0)
-  const [routes] = React.useState([
-    { key: 'history', title: i18n.t('building.tabs.history') },
-    { key: 'layout', title: i18n.t('building.tabs.layout') },
-  ])
-  const initialLayout = { width: Dimensions.get('window').width }
+  const [tab, setTab] = useState(Tab.LAYOUT)
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     BuildingType.APPARTEMENT_BUILDING,
     theme,
   )
 
-  const History = useCallback(() => <View />, [])
-  const Layout = useCallback(
-    () => (
-      <BuildingLayoutView
-        viewModel={viewModel.buildingLayout}
-        onSelect={() => console.log('action selected')}
-      />
-    ),
-    [viewModel.buildingLayout],
-  )
+  const showHistory = () => {
+    setTab(Tab.HISTORY)
+  }
 
-  const renderScene = SceneMap({
-    history: History,
-    layout: Layout,
-  })
-  const renderTabBar = (props: any) => (
-    <TabBar
-      {...props}
-      activeColor={Colors.darkText}
-      inactiveColor={Colors.darkText}
-      indicatorStyle={{ backgroundColor: theme.primaryColor }}
-      style={{
-        backgroundColor: Colors.defaultBackground,
-      }}
-      indicatorContainerStyle={{
-        width: Dimensions.get('screen').width,
-      }}
-      tabStyle={styles.tabStyle}
-      labelStyle={{ ...Typography.subheadline }}
-      getLabelText={({ route }) => route.title}
-    />
-  )
+  const showLayout = () => {
+    setTab(Tab.LAYOUT)
+  }
+
+  const renderTab = (currentTab: Tab) => {
+    switch (currentTab) {
+      case Tab.HISTORY:
+        return <View />
+      case Tab.LAYOUT:
+        return (
+          <BuildingLayoutView
+            viewModel={viewModel.buildingLayout}
+            onSelect={() => {}}
+          />
+        )
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View />
+      <ScrollView>
         <Image source={viewModel.illustration} />
         <Text style={styles.address}>{viewModel.address}</Text>
         <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
         <BuildingStatusView viewModel={viewModel.status} />
-        {/* @ts-ignore https://github.com/satya164/react-native-tab-view/issues/1159 */}
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={initialLayout}
-          renderTabBar={renderTabBar}
-        />
+        <View style={styles.tabbarContainer}>
+          <TouchablePlatform
+            touchHighlight={Colors.touchHighlight}
+            onPress={showHistory}
+          >
+            <View style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}>
+              <Text
+                style={
+                  tab === Tab.HISTORY ? styles.selectedTabText : styles.tabText
+                }
+              >
+                {i18n.t('building.tabs.history')}
+              </Text>
+            </View>
+          </TouchablePlatform>
+          <TouchablePlatform
+            touchHighlight={Colors.touchHighlight}
+            onPress={showLayout}
+          >
+            <View style={tab === Tab.LAYOUT ? styles.selectedTab : styles.tab}>
+              <Text
+                style={
+                  tab === Tab.LAYOUT ? styles.selectedTabText : styles.tabText
+                }
+              >
+                {i18n.t('building.tabs.layout')}
+              </Text>
+            </View>
+          </TouchablePlatform>
+        </View>
+        {renderTab(tab)}
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-const stylesFactory = () => {
+const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     address: {
       ...Typography.title2,
@@ -102,12 +114,26 @@ const stylesFactory = () => {
       marginBottom: margin,
       textAlign: 'center',
     },
-    /* https://github.com/satya164/react-native-tab-view/issues/938#issuecomment-567356156 */
-    scrollContainer: {
-      flex: 1,
+    selectedTab: {
+      borderBottomWidth: 2,
+      borderColor: theme.primaryColor,
+      margin: margin,
+      textAlign: 'center',
     },
-    tabStyle: {
-      width: Dimensions.get('screen').width / 2,
+    selectedTabText: {
+      ...Typography.headline,
+    },
+    tab: {
+      margin: margin,
+      textAlign: 'center',
+    },
+    tabText: {
+      ...Typography.thinHeadline,
+    },
+    tabbarContainer: {
+      ...Typography.callout,
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
   })
 }
