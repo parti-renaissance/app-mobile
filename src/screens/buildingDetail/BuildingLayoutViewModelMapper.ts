@@ -10,6 +10,7 @@ export const BuildingLayoutViewModelMapper = {
           buildingTypeIcon: require('../../assets/images/house.png'),
           layout: {
             actionTitle: i18n.t('building.layout.startaddress'),
+            actionSubtitle: '',
           },
         }
       case BuildingType.APPARTEMENT_BUILDING:
@@ -20,6 +21,7 @@ export const BuildingLayoutViewModelMapper = {
           buildingTypeIcon: require('../../assets/images/appartementBuilding.png'),
           layout: {
             actionTitle: i18n.t('building.layout.startaddress'),
+            actionSubtitle: '',
           },
         }
     }

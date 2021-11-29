@@ -17,6 +17,26 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onSelect,
 }) => {
   const styles = useThemedStyles(stylesFactory)
+
+  const renderActionTitle = () => {
+    if (viewModel.layout.actionSubtitle.length !== 0) {
+      return (
+        <View style={styles.actionContainer}>
+          <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
+          <Text style={styles.actionSubtitle}>
+            {viewModel.layout.actionSubtitle}
+          </Text>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.actionContainer}>
+          <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
+        </View>
+      )
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -28,7 +48,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
         </View>
         <View style={styles.layoutContainer}>
-          <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
+          <View style={styles.actionContainer}>{renderActionTitle()}</View>
           <TouchablePlatform
             style={styles.arrowButton}
             onPress={() => onSelect}
@@ -47,9 +67,14 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
+    actionContainer: {
+      margin: margin,
+    },
+    actionSubtitle: {
+      ...Typography.lightCaption1,
+    },
     actionText: {
       ...Typography.callout,
-      margin: margin,
     },
     arrowButton: {
       backgroundColor: theme.primaryColor,

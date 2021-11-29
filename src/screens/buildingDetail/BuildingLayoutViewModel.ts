@@ -8,4 +8,5 @@ export interface BuildingLayoutViewModel {
 
 export interface HouseLayoutViewModel {
   actionTitle: string
+  actionSubtitle: string
 }
