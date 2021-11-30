@@ -399,22 +399,16 @@
       "layout": {
         "buildingtype": {
           "house": "Maison",
-          "appartementbuilding": "Bâtiment"
+          "appartementbuilding": "Building"
         },
         "startaddress": "Commencer le porte à porte"
       }
     },
     "actions": {
       "title": "Actions",
-      "polls": {
-        "title": "Questionnaires"
-      },
-      "door_to_door": {
-        "title": "Porte-à-porte"
-      },
-      "phoning": {
-        "title": "Phoning"
-      }
+      "polls": { "title": "Questionnaires" },
+      "door_to_door": { "title": "Porte-à-porte" },
+      "phoning": { "title": "Phoning" }
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
@@ -428,18 +422,13 @@
       "date_format": "D MMM YYYY",
       "doorsSurveysCount": "{{numberOfSurveys}}/{{numberOfDoors}}",
       "votersCount": "{{votersCount}}",
-      "ranking": {
-        "title": "Classements"
-      },
+      "ranking": { "title": "Classements" },
       "location": {
         "title": "Localisation nécessaire",
         "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",
         "cta": "Autoriser je m’engage à accéder à votre localisation"
       },
-      "charter": {
-        "title": "Charte",
-        "accept": "J'ai lu et j'accepte"
-      },
+      "charter": { "title": "Charte", "accept": "J'ai lu et j'accepte" },
       "filter": {
         "all": "Tous",
         "to_do": "À faire",
