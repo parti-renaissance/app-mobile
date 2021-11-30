@@ -18,25 +18,6 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
-  const renderActionTitle = () => {
-    if (viewModel.layout.actionSubtitle.length !== 0) {
-      return (
-        <View style={styles.actionContainer}>
-          <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
-          <Text style={styles.actionSubtitle}>
-            {viewModel.layout.actionSubtitle}
-          </Text>
-        </View>
-      )
-    } else {
-      return (
-        <View style={styles.actionContainer}>
-          <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
-        </View>
-      )
-    }
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -48,7 +29,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
         </View>
         <View style={styles.layoutContainer}>
-          {renderActionTitle()}
+          <ActionTitle viewModel={viewModel} />
           <TouchablePlatform
             style={styles.arrowButton}
             onPress={() => onSelect}
@@ -63,6 +44,31 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
       </View>
     </View>
   )
+}
+
+type ActionTitleProps = Readonly<{
+  viewModel: BuildingLayoutViewModel
+}>
+
+const ActionTitle: FunctionComponent<ActionTitleProps> = ({ viewModel }) => {
+  const styles = useThemedStyles(stylesFactory)
+
+  if (viewModel.layout.actionSubtitle.length !== 0) {
+    return (
+      <View style={styles.actionContainer}>
+        <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
+        <Text style={styles.actionSubtitle}>
+          {viewModel.layout.actionSubtitle}
+        </Text>
+      </View>
+    )
+  } else {
+    return (
+      <View style={styles.actionContainer}>
+        <Text style={styles.actionText}>{viewModel.layout.actionTitle}</Text>
+      </View>
+    )
+  }
 }
 
 const stylesFactory = (theme: Theme) => {
