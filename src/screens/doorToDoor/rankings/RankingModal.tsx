@@ -3,7 +3,6 @@ import {
   FlatList,
   ListRenderItemInfo,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -32,34 +31,33 @@ const RankingModal: FC<Props> = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.headerContainer}>
-          <NavigationHeaderButton
-            source={require('../../../assets/images/navigationBarClose.png')}
-            onPress={props.onDismissModal}
-          />
-          <Text style={styles.headerTitle}>
-            {i18n.t('doorToDoor.ranking.title')}
-          </Text>
-        </View>
-        <RankingCampaignHeader
-          viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
+      <View style={styles.headerContainer}>
+        <NavigationHeaderButton
+          source={require('../../../assets/images/navigationBarClose.png')}
+          onPress={props.onDismissModal}
         />
-        <RankingTabsView tab={tab} onPress={setTab} />
-        <RankingHeaderView tab={tab} />
-        {/* TODO - To change with API data */}
-        <FlatList
-          data={[
-            RankingViewModelMapper.map(1),
-            RankingViewModelMapper.map(2),
-            RankingViewModelMapper.map(3),
-            RankingViewModelMapper.map(4),
-            RankingViewModelMapper.map(5),
-          ]}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
+        <Text style={styles.headerTitle}>
+          {i18n.t('doorToDoor.ranking.title')}
+        </Text>
+      </View>
+      <RankingCampaignHeader
+        viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
+      />
+      <RankingTabsView tab={tab} onPress={setTab} />
+
+      {/* TODO - To change with API data */}
+      <FlatList
+        ListHeaderComponent={() => <RankingHeaderView tab={tab} />}
+        data={[
+          RankingViewModelMapper.map(1),
+          RankingViewModelMapper.map(2),
+          RankingViewModelMapper.map(3),
+          RankingViewModelMapper.map(4),
+          RankingViewModelMapper.map(5),
+        ]}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
     </SafeAreaView>
   )
 }

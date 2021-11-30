@@ -35,12 +35,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   cellLarge: {
-    flex: 2,
+    flex: 1.5,
   },
   cellSmall: {
     flex: 1,
   },
   row: {
+    alignItems: 'center',
     flexDirection: 'row',
     paddingStart: Spacing.margin,
     paddingVertical: Spacing.margin,

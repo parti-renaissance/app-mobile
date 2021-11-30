@@ -70,17 +70,17 @@ const stylesFactory = (theme: Theme) => {
     selectedTabText: {
       ...Typography.headline,
     },
-    tabbarContainer: {
-      ...Typography.callout,
-      flexDirection: 'row',
-      justifyContent: 'center',
-    },
     tab: {
       margin: Spacing.margin,
       textAlign: 'center',
     },
     tabText: {
       ...Typography.thinHeadline,
+    },
+    tabbarContainer: {
+      ...Typography.callout,
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
   })
 }
