@@ -1,11 +1,12 @@
 import React, { memo } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native'
 import { LatLng, Marker } from 'react-native-maps'
 import { Colors } from '../../styles'
 import CardView from '../shared/CardView'
 
 type Props = {
   coordinate: LatLng
+  icon: ImageSourcePropType | undefined
   onPress?: () => void
 }
 
@@ -13,7 +14,7 @@ export const DoorToDoorMapMarker = memo((props: Props) => (
   <Marker coordinate={props.coordinate} onPress={props.onPress}>
     <CardView backgroundColor={Colors.defaultBackground}>
       <View style={styles.marker}>
-        <Image source={require('../../assets/images/papToFinishIcon.png')} />
+        {props.icon && <Image source={props.icon} />}
       </View>
     </CardView>
   </Marker>

@@ -82,6 +82,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
+            icon={PoiAddressCardViewModelMapper.map('map', marker)?.statusIcon}
             coordinate={{
               longitude: marker.longitude,
               latitude: marker.latitude,
