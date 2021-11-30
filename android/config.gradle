@@ -1,4 +1,4 @@
 ext.release = [
-    versionCode: 39,
-    versionName: "2.4.1",
+    versionCode: 40,
+    versionName: "3.0.0",
 ]
