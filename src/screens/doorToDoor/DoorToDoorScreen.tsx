@@ -31,18 +31,16 @@ import MapListSwitch from './MapListSwitch'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
 import { LatLng } from 'react-native-maps'
-import {
-  DoorToDoorDisplayFilterDisplay,
-  DoorToDoorDisplayMode,
-} from './DoorToDoor'
+import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
 import DoorToDoorFilter from './DoorToDoorFilter'
+import Geolocation from '@react-native-community/geolocation'
 
 const DEFAULT_ZOOM = 16
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
-  const [location, setLocation] = useState<LatLng | null>()
+  const [location, setLocation] = useState<LatLng>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
   const [filteredAddresses, setFilteredAddresses] = useState<
     DoorToDoorAddress[]
@@ -50,7 +48,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
-  const [filter, setFilter] = useState<DoorToDoorDisplayFilterDisplay>('all')
+  const [filter, setFilter] = useState<DoorToDoorFilterDisplay>('all')
   const [charterState, setCharterState] = useState<
     DoorToDoorCharterState | undefined
   >()
@@ -62,21 +60,38 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       .catch(() => setCharterState(undefined))
   }, [])
 
-  const fetchAddresses = useCallback(async () => {
-    const userLocation = await LocationManager.getLatestLocation()
-    if (userLocation) {
-      const { longitude, latitude } = userLocation
-
-      setLocation({ latitude, longitude })
-      DoorToDoorRepository.getInstance()
-        .getAddresses(latitude, longitude, DEFAULT_ZOOM)
-        .then((state) => {
-          setAddresses(state)
-          setFilteredAddresses(state)
+  const fetchPosition = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude,
         })
-        .catch(() => {})
-    }
-  }, [])
+        DoorToDoorRepository.getInstance()
+          .getAddresses(
+            position.coords.latitude,
+            position.coords.longitude,
+            DEFAULT_ZOOM,
+          )
+          .then((state) => {
+            setAddresses(state)
+            setFilteredAddresses(state)
+          })
+          .catch(() => {})
+      },
+      () => setLocationAuthorized(false),
+      { enableHighAccuracy: true },
+    )
+  }
+
+  useEffect(() => {
+    fetchCharterState()
+    getPermissionStatus()
+  }, [fetchCharterState])
+
+  useEffect(() => {
+    locationAuthorized && fetchPosition()
+  }, [locationAuthorized])
 
   const getPermissionStatus = async () => {
     setLocationAuthorized(await LocationManager.permissionStatus())
@@ -86,28 +101,20 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     setLocationAuthorized(await LocationManager.requestPermission())
   }
 
-  useEffect(() => {
-    fetchCharterState()
-    getPermissionStatus()
-  }, [fetchCharterState])
-
-  useEffect(() => {
-    locationAuthorized && fetchAddresses()
-  }, [locationAuthorized, fetchAddresses])
-
-  useEffect(() => {
-    if (filter === 'all') {
+  const onfilterChange = (mode: DoorToDoorFilterDisplay) => {
+    setFilter(mode)
+    if (mode === 'all') {
       setFilteredAddresses(addresses)
     } else {
       setFilteredAddresses(
         addresses.filter(
           (address) =>
             address.building.campaignStatistics &&
-            address.building.campaignStatistics.status === filter,
+            address.building.campaignStatistics.status === mode,
         ),
       )
     }
-  }, [filter])
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -145,7 +152,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       {locationAuthorized && location ? (
         <>
           <View style={styles.filter}>
-            <DoorToDoorFilter filter={filter} onPress={setFilter} />
+            <DoorToDoorFilter filter={filter} onPress={onfilterChange} />
           </View>
           {displayMode === 'map' ? (
             <DoorToDoorMapView data={filteredAddresses} location={location} />

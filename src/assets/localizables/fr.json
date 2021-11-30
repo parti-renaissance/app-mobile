@@ -410,6 +410,7 @@
       "goal": "Mon objectif : ",
       "lastPassage": "Dernier passage :",
       "noPassage": "Aucun passage",
+      "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
       "electorsMet": "Électeurs rencontrés",
       "doorKnocked": "Portes frappées",
       "date_format": "D MMM YYYY",

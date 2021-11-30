@@ -314,6 +314,8 @@ PODS:
     - React
   - react-native-custom-tabs (0.1.8):
     - React
+  - react-native-geolocation (2.0.2):
+    - React
   - react-native-location (2.5.0):
     - React
   - react-native-maps (0.29.4):
@@ -466,6 +468,7 @@ DEPENDENCIES:
   - react-native-add-calendar-event (from `../node_modules/react-native-add-calendar-event`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-custom-tabs (from `../node_modules/react-native-custom-tabs`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-location (from `../node_modules/react-native-location`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -563,6 +566,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-custom-tabs:
     :path: "../node_modules/react-native-custom-tabs"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-location:
     :path: "../node_modules/react-native-location"
   react-native-maps:
@@ -674,6 +679,7 @@ SPEC CHECKSUMS:
   react-native-add-calendar-event: d7744f983d6770cc9e4f004db22bc4d4b4575f17
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-custom-tabs: 526caf17f2a2c037d04d7e587e4a4c16830393b9
+  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-location: 5a40ec1cc6abf2f6d94df979f98ec76c3a415681
   react-native-maps: a421fe6aeb74279597c4ea9598f25796108e2d89
   react-native-pager-view: c1ec84a464024641ccb1102e9ec12be020d3d74c

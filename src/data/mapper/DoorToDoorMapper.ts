@@ -12,13 +12,16 @@ export const DoorToDoorMapper = {
       latitude: restObject.latitude,
       longitude: restObject.longitude,
       address: restObject.address,
+      votersCount: restObject.voters_count,
+      postalCodes: restObject.postal_codes,
       building: {
         type: restObject.building.type,
         id: restObject.building.uuid,
         campaignStatistics: restObject.building.campaign_statistics
           ? {
-              nbDoors: restObject.building.campaign_statistics.nb_doors,
-              nbSurveys: restObject.building.campaign_statistics.nb_surveys,
+              numberOfDoors: restObject.building.campaign_statistics.nb_doors,
+              numberOfSurveys:
+                restObject.building.campaign_statistics.nb_surveys,
               status: restObject.building.campaign_statistics.status,
               id: restObject.building.campaign_statistics.uuid,
               lastPassage: mapLastPassage(

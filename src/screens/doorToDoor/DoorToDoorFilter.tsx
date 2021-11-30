@@ -2,12 +2,12 @@ import React from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
-import { DoorToDoorDisplayFilterDisplay } from './DoorToDoor'
+import { DoorToDoorFilterDisplay } from './DoorToDoor'
 import { DoorToDoorFilterItem } from './DoorToDoorFilterItem'
 
 type Props = {
-  filter: DoorToDoorDisplayFilterDisplay
-  onPress: (mode: DoorToDoorDisplayFilterDisplay) => void
+  filter: DoorToDoorFilterDisplay
+  onPress: (mode: DoorToDoorFilterDisplay) => void
 }
 
 const DoorToDoorFilter = ({ filter, onPress }: Props) => {

@@ -26,8 +26,8 @@ export const PoiAddressCardViewModelMapper = {
               : require('../../assets/images/papBuildingIcon.png'),
           statusIcon: mapStatusIcon(poiAddress.building.campaignStatistics),
           passage: mapLastPassage(poiAddress.building.campaignStatistics),
-          nbSurveys: poiAddress.building.campaignStatistics
-            ? poiAddress.building.campaignStatistics.nbSurveys
+          numberOfSurveys: poiAddress.building.campaignStatistics
+            ? poiAddress.building.campaignStatistics.numberOfSurveys
             : 0,
           label:
             displayMode === 'map'

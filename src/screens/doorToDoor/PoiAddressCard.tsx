@@ -31,7 +31,7 @@ export const PoiAddressCard = ({ viewModel }: Props) => {
         <View style={styles.card}>
           <Image style={styles.image} source={viewModel.statusIcon} />
           <Text style={styles.label}>{viewModel.label}</Text>
-          <Text style={styles.indicator}>{viewModel.nbSurveys}</Text>
+          <Text style={styles.indicator}>{viewModel.numberOfSurveys}</Text>
         </View>
       </View>
     </CardView>
@@ -69,18 +69,18 @@ const stylesFactory = (theme: Theme) => {
     indicator: {
       ...Typography.headline,
     },
+    label: {
+      ...Typography.lightCallout,
+      marginVertical: Spacing.unit,
+      textAlign: 'center',
+      textTransform: 'uppercase',
+    },
     subcontent: {
       flex: 1,
       justifyContent: 'space-between',
     },
     subtitle: {
       ...Typography.lightCallout,
-    },
-    label: {
-      ...Typography.lightCallout,
-      marginVertical: Spacing.unit,
-      textAlign: 'center',
-      textTransform: 'uppercase',
     },
     title: {
       ...Typography.title2,

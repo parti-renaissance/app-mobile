@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from 'react-native'
+
 export type DoorToDoorDisplayMode = 'map' | 'list'
 
 export type ClusterTypeViewModel = {
@@ -11,8 +13,12 @@ export type ClusterTypeViewModel = {
   }
 }
 
-export type DoorToDoorDisplayFilterDisplay =
-  | 'all'
-  | 'todo'
-  | 'ongoing'
-  | 'completed'
+export type DoorToDoorFilterDisplay = 'all' | 'todo' | 'ongoing' | 'completed'
+
+export interface DoorToDoorFilterProps {
+  active: boolean
+  filter: DoorToDoorFilterDisplay
+  icon?: ImageSourcePropType
+  onPress: (mode: DoorToDoorFilterDisplay) => void
+  title: string
+}

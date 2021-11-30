@@ -2,10 +2,10 @@ import React, { memo } from 'react'
 import { Text, View, StyleSheet, Image, Pressable } from 'react-native'
 import { Colors, Spacing } from '../../styles'
 import CardView from '../shared/CardView'
-import { DoorToDoorFilterViewModel } from './DoorToDoorFilterViewModel'
+import { DoorToDoorFilterProps } from './DoorToDoor'
 
 export const DoorToDoorFilterItem = memo(
-  ({ active, onPress, filter, icon, title }: DoorToDoorFilterViewModel) => (
+  ({ active, onPress, filter, icon, title }: DoorToDoorFilterProps) => (
     <Pressable onPress={() => onPress(filter)}>
       <CardView
         style={styles.card}

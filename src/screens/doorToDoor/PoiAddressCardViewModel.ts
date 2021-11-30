@@ -7,5 +7,5 @@ export interface PoiAddressCardViewModel {
   passage: string
   statusIcon: ImageSourcePropType
   label: string
-  nbSurveys: number
+  numberOfSurveys: number
 }

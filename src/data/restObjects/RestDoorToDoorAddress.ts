@@ -5,6 +5,8 @@ export interface RestDoorToDoorAddress {
   city_name: string
   latitude: number
   longitude: number
+  voters_count: number
+  postal_codes: string[]
   building: {
     type: 'building' | 'house' | null
     uuid: string

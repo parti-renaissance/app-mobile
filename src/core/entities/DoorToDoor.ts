@@ -8,16 +8,19 @@ export type DoorToDoorAddress = {
   cityName: string
   latitude: number
   longitude: number
+  votersCount: number
+  postalCodes: string[]
   building: {
     id: string
     type: 'building' | 'house' | null
     campaignStatistics: DoorToDoorAddressCampaign
   }
 }
+
 export type DoorToDoorAddressCampaign = {
   id: string
-  nbDoors: number
-  nbSurveys: number
+  numberOfDoors: number
+  numberOfSurveys: number
   lastPassage: Moment | null
   campaignId: string
   status: DoorToDoorAddressStatus
