@@ -3,17 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { Colors, Spacing } from '../../../styles'
 import { useThemedStyles } from '../../../themes'
 import Theme from '../../../themes/Theme'
-import { Tab } from './Ranking'
-
-export interface RankingRowViewModel {
-  id: string
-  rang: string
-  militant: string
-  department: string
-  doorKnocked: string
-  pollsCompleted: string
-  position: number
-}
+import { RankingRowViewModel, Tab } from './Ranking'
 
 type Props = Readonly<{
   viewModel: RankingRowViewModel
@@ -43,11 +33,11 @@ const styleFactory = (theme: Theme) => {
   return StyleSheet.create({
     cell: {
       flex: 1,
-      justifyContent: 'center',
       textAlign: 'center',
     },
     cellLarge: {
       flex: 2,
+      textAlign: 'center',
     },
     row: {
       flexDirection: 'row',

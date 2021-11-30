@@ -2,30 +2,28 @@ import React, { FC, useState } from 'react'
 import {
   FlatList,
   ListRenderItemInfo,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../../styles'
-import { useThemedStyles } from '../../../themes'
-import Theme from '../../../themes/Theme'
+import { Colors, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { NavigationHeaderButton } from '../../shared/NavigationHeaderButton'
-import { TouchablePlatform } from '../../shared/TouchablePlatform'
 import { DoorToDoorCampaignCardViewModelMapper } from '../DoorToDoorCampaignCardViewModelMapper'
-import { Tab } from './Ranking'
+import { RankingRowViewModel, Tab } from './Ranking'
 import { RankingCampaignHeader } from './RankingCampaignHeader'
 import { RankingHeaderView } from './RankingHeaderView'
-import { RankingRowView, RankingRowViewModel } from './RankingRowView'
+import { RankingRowView } from './RankingRowView'
+import { RankingTabsView } from './RankingTabsView'
+import { RankingViewModelMapper } from './RankingViewModelMapper'
 
 type Props = Readonly<{
   onDismissModal: () => void
 }>
 
 const RankingModal: FC<Props> = (props) => {
-  const styles = useThemedStyles(stylesFactory)
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
 
   const renderItem = ({ item }: ListRenderItemInfo<RankingRowViewModel>) => (
@@ -47,47 +45,17 @@ const RankingModal: FC<Props> = (props) => {
         <RankingCampaignHeader
           viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
         />
-        <View style={styles.tabbarContainer}>
-          <TouchablePlatform
-            touchHighlight={Colors.touchHighlight}
-            onPress={() => setTab(Tab.INDIVIDUAL)}
-          >
-            <View
-              style={tab === Tab.INDIVIDUAL ? styles.selectedTab : styles.tab}
-            >
-              <Text
-                style={
-                  tab === Tab.INDIVIDUAL
-                    ? styles.selectedTabText
-                    : styles.tabText
-                }
-              >
-                {i18n.t('doorToDoor.ranking.tabs.individual')}
-              </Text>
-            </View>
-          </TouchablePlatform>
-          <TouchablePlatform
-            touchHighlight={Colors.touchHighlight}
-            onPress={() => setTab(Tab.DEPARTMENTAL)}
-          >
-            <View
-              style={tab === Tab.DEPARTMENTAL ? styles.selectedTab : styles.tab}
-            >
-              <Text
-                style={
-                  tab === Tab.DEPARTMENTAL
-                    ? styles.selectedTabText
-                    : styles.tabText
-                }
-              >
-                {i18n.t('doorToDoor.ranking.tabs.departmental')}
-              </Text>
-            </View>
-          </TouchablePlatform>
-        </View>
+        <RankingTabsView tab={tab} onPress={setTab} />
         <RankingHeaderView tab={tab} />
+        {/* TODO - To change with API data */}
         <FlatList
-          data={[]}
+          data={[
+            RankingViewModelMapper.map(1),
+            RankingViewModelMapper.map(2),
+            RankingViewModelMapper.map(3),
+            RankingViewModelMapper.map(4),
+            RankingViewModelMapper.map(5),
+          ]}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
@@ -96,42 +64,19 @@ const RankingModal: FC<Props> = (props) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    headerContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    headerTitle: {
-      ...Typography.title2,
-      textAlign: 'center',
-    },
-    tabbarContainer: {
-      ...Typography.callout,
-      flexDirection: 'row',
-      justifyContent: 'center',
-    },
-    selectedTab: {
-      borderBottomWidth: 2,
-      borderColor: theme.primaryColor,
-      margin: Spacing.margin,
-      textAlign: 'center',
-    },
-    selectedTabText: {
-      ...Typography.headline,
-    },
-    tab: {
-      margin: Spacing.margin,
-      textAlign: 'center',
-    },
-    tabText: {
-      ...Typography.thinHeadline,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  headerTitle: {
+    ...Typography.title2,
+    textAlign: 'center',
+  },
+})
 
 export default RankingModal
