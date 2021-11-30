@@ -26,8 +26,7 @@
       "item_profile": "Profil",
       "item_home": "Accueil",
       "item_events": "Événements",
-      "item_phoning": "Phoning",
-      "item_actions": "Actions"
+      "item_phoning": "Phoning"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -385,31 +384,24 @@
       "title": "Riposte",
       "execute": "Copier le texte et riposter"
     },
-    "actions": {
-      "title": "Actions",
-      "polls": {
-        "title": "Questionnaires"
+    "building": {
+      "status": {
+        "done": "Terminé",
+        "todo": "A faire",
+        "tocomplete": "A terminer"
       },
-      "door_to_door": {
-        "title": "Porte-à-porte"
+      "stats": {
+        "doorknocked": "Portes frappées",
+        "encounteredelectors": "electeurs rencontrés",
+        "completedqiestionnaires": "questionnaires réalisés"
       },
-      "phoning": {
-        "title": "Phoning"
-      }
-    },
-    "doorToDoor": {
-      "title": "Porte-à-porte",
-      "ranking": {
-        "title": "Classements"
-      },
-      "location": {
-        "title": "Localisation nécessaire",
-        "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",
-        "cta": "Autoriser je m’engage à accéder à votre localisation"
-      },
-      "charter": {
-        "title": "Charte",
-        "accept": "J'ai lu et j'accepte"
+      "tabs": { "history": "Historique", "layout": "Bâtiment" },
+      "layout": {
+        "buildingtype": {
+          "house": "Maison",
+          "appartementbuilding": "Bâtiment"
+        },
+        "startaddress": "Commencer le porte à porte"
       }
     }
   }

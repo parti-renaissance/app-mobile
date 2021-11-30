@@ -20,6 +20,7 @@ import {
 } from '../../core/entities/DoorToDoorCharterState'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { LocationManager } from '../../utils/LocationManager'
+import { Screen } from '../../navigation'
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -74,7 +75,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       <TouchablePlatform
         style={styles.classementIconContainer}
         touchHighlight={Colors.touchHighlight}
-        onPress={() => setModalVisible(true)}
+        onPress={() => navigation.navigate(Screen.buildingDetail)}
       >
         <Image
           style={styles.classementIcon}

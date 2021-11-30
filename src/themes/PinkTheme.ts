@@ -46,6 +46,9 @@ const PinkTheme: Theme = {
     doorToDoor: () => require('../assets/images/pink/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/pink/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/pink/locationPhone.png'),
+    house: () => require('../assets/images/pink/imageHouse.png'),
+    appartementBuilding: () =>
+      require('../assets/images/pink/appartementBuilding.png'),
   },
 }
 

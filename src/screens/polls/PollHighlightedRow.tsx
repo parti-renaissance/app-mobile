@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   subtitle: {
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
     marginRight: Spacing.small,
   },
   title: {

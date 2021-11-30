@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   date: {
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
     marginTop: Spacing.small,
   },
   description: {

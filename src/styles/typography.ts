@@ -5,14 +5,24 @@ import * as Colors from './colors'
 const titleFontSize = 24
 const androidNavigationTitleFontSize = 20
 const title2FontSize = 16
+const title3FontSize = 20
 const headlineFontSize = 17
 const bodyFontSize = 14
-const calloutFontSize = 12
+const footnoteFontSize = 13
+const calloutFontSize = 16
 const subheadFontSize = 14
-const captionFontSize = 8
+const caption1FontSize = 12
+const caption2FontSize = 8
 
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
+
+export const footnote: TextStyle = {
+  fontSize: footnoteFontSize,
+  fontFamily: robotoMedium,
+  color: Colors.lightText,
+  lineHeight: 18,
+}
 
 export const largeTitle: TextStyle = {
   fontSize: titleFontSize,
@@ -41,9 +51,23 @@ export const title2: TextStyle = {
   color: Colors.darkText,
 }
 
+export const title3: TextStyle = {
+  fontSize: title3FontSize,
+  fontFamily: robotoMedium,
+  color: Colors.darkText,
+}
+
 export const headline: TextStyle = {
   fontSize: headlineFontSize,
   fontFamily: robotoMedium,
+  color: Colors.darkText,
+  lineHeight: 22,
+  letterSpacing: 0.4,
+}
+
+export const thinHeadline: TextStyle = {
+  fontSize: headlineFontSize,
+  fontFamily: robotoRegular,
   color: Colors.darkText,
   lineHeight: 22,
   letterSpacing: 0.4,
@@ -62,26 +86,32 @@ export const body: TextStyle = {
   color: Colors.darkText,
 }
 
-export const caption1: TextStyle = {
+export const callout: TextStyle = {
   fontSize: calloutFontSize,
+  fontFamily: robotoMedium,
+  color: Colors.darkText,
+}
+
+export const caption1: TextStyle = {
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
   lineHeight: 16,
 }
 
-export const lightCallout: TextStyle = {
-  fontSize: calloutFontSize,
+export const lightCaption1: TextStyle = {
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
   color: Colors.lightText,
 }
 
-export const lightCalloutOnLightBackground: TextStyle = {
-  fontSize: calloutFontSize,
+export const lightCaption1OnLightBackground: TextStyle = {
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
   color: Colors.lightTextOnLightBackground,
 }
 
 export const tagCaption: TextStyle = {
-  fontSize: captionFontSize,
+  fontSize: caption2FontSize,
   fontFamily: robotoRegular,
   color: Colors.veryLightText,
   textTransform: 'uppercase',
@@ -101,13 +131,13 @@ export const spinner = {
 export const errorMessage: TextStyle = {
   color: Colors.inputTextErrorMessage,
   fontFamily: robotoRegular,
-  fontSize: calloutFontSize,
+  fontSize: caption1FontSize,
   lineHeight: 16,
 }
 
 export const tabLabel: TextStyle = {
   fontFamily: robotoRegular,
-  fontSize: calloutFontSize,
+  fontSize: caption1FontSize,
 }
 
 export const countryPicker: Theme = {
@@ -116,7 +146,7 @@ export const countryPicker: Theme = {
 }
 
 export const phoneNumberPicker: Theme = {
-  fontSize: calloutFontSize,
+  fontSize: caption1FontSize,
   fontFamily: robotoRegular,
 }
 

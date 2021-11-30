@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: Spacing.unit,
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
   },
 })
 

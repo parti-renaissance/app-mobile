@@ -49,7 +49,7 @@ const STAR_SIZE = 45
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
     callout: {
-      ...Typography.lightCallout,
+      ...Typography.lightCaption1,
       marginBottom: Spacing.margin,
     },
     ratingBar: {

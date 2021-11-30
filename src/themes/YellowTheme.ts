@@ -48,6 +48,9 @@ const YellowTheme: Theme = {
     doorToDoor: () => require('../assets/images/yellow/imageDoorToDoor.png'),
     phoning: () => require('../assets/images/yellow/imagePhoningV2.png'),
     locationPhone: () => require('../assets/images/yellow/locationPhone.png'),
+    house: () => require('../assets/images/yellow/imageHouse.png'),
+    appartementBuilding: () =>
+      require('../assets/images/yellow/appartementBuilding.png'),
   },
 }
 
