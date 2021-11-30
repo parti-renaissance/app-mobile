@@ -26,7 +26,7 @@
       "item_profile": "Profil",
       "item_home": "Accueil",
       "item_events": "Événements",
-      "item_phoning": "Phoning"
+      "item_actions": "Actions"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -402,6 +402,18 @@
           "appartementbuilding": "Bâtiment"
         },
         "startaddress": "Commencer le porte à porte"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "polls": {
+        "title": "Questionnaires"
+      },
+      "door_to_door": {
+        "title": "Porte-à-porte"
+      },
+      "phoning": {
+        "title": "Phoning"
       }
     },
     "doorToDoor": {
