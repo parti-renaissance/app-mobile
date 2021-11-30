@@ -21,9 +21,12 @@ export const BuildingDetailScreenViewModelMapper = {
     }
 
     return {
+      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
       address: 'address placeholder',
+      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
       lastVisit: 'address placeholder',
       illustration: illustration(),
+      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
       status: BuildingStatusViewModelMapper.map(BuildingStatus.DONE),
       buildingLayout: BuildingLayoutViewModelMapper.map(buildingType),
     }

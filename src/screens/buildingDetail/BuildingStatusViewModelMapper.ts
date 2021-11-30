@@ -7,14 +7,17 @@ export const BuildingStatusViewModelMapper = {
   map: (status: BuildingStatus): BuildingStatusViewModel => {
     let encounteredElectorsStatBlock: StatBlockViewModel = {
       title: i18n.t('building.stats.encounteredelectors'),
+      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
       stat: '12',
     }
     let doorKnockedStatBlock: StatBlockViewModel = {
       title: i18n.t('building.stats.doorknocked'),
+      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
       stat: '12',
     }
     let completedQuestionnairesStatBlock: StatBlockViewModel = {
       title: i18n.t('building.stats.completedqiestionnaires'),
+      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
       stat: '12',
     }
     switch (status) {
