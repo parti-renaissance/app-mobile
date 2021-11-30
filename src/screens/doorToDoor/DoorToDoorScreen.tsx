@@ -24,7 +24,6 @@ import {
 } from '../../core/entities/DoorToDoorCharterState'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { LocationManager } from '../../utils/LocationManager'
-import { Screen } from '../../navigation'
 import DoorToDoorMapView from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'

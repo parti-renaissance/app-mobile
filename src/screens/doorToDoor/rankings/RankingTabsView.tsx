@@ -61,11 +61,6 @@ export const RankingTabsView: FC<Props> = (props) => {
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
-    tabbarContainer: {
-      ...Typography.callout,
-      flexDirection: 'row',
-      justifyContent: 'center',
-    },
     selectedTab: {
       borderBottomWidth: 2,
       borderColor: theme.primaryColor,
@@ -74,6 +69,11 @@ const stylesFactory = (theme: Theme) => {
     },
     selectedTabText: {
       ...Typography.headline,
+    },
+    tabbarContainer: {
+      ...Typography.callout,
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
     tab: {
       margin: Spacing.margin,

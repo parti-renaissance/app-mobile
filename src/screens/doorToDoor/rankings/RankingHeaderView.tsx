@@ -34,11 +34,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
   },
-  cellSmall: {
-    flex: 1,
-  },
   cellLarge: {
     flex: 2,
+  },
+  cellSmall: {
+    flex: 1,
   },
   row: {
     flexDirection: 'row',
