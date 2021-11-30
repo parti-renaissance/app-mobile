@@ -26,7 +26,7 @@
       "item_profile": "Profil",
       "item_home": "Accueil",
       "item_events": "Événements",
-      "item_phoning": "Phoning"
+      "item_actions": "Actions"
     },
     "polls": {
       "question_count_format": "{{count}} question",
@@ -402,6 +402,49 @@
           "appartementbuilding": "Bâtiment"
         },
         "startaddress": "Commencer le porte à porte"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "polls": {
+        "title": "Questionnaires"
+      },
+      "door_to_door": {
+        "title": "Porte-à-porte"
+      },
+      "phoning": {
+        "title": "Phoning"
+      }
+    },
+    "doorToDoor": {
+      "title": "Porte-à-porte",
+      "address": "{{number}} {{street}}",
+      "goal": "Mon objectif : ",
+      "lastPassage": "Dernier passage :",
+      "noPassage": "Aucun passage",
+      "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
+      "electorsMet": "Électeurs rencontrés",
+      "doorKnocked": "Portes frappées",
+      "date_format": "D MMM YYYY",
+      "doorsSurveysCount": "{{numberOfSurveys}}/{{numberOfDoors}}",
+      "votersCount": "{{votersCount}}",
+      "ranking": {
+        "title": "Classements"
+      },
+      "location": {
+        "title": "Localisation nécessaire",
+        "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",
+        "cta": "Autoriser je m’engage à accéder à votre localisation"
+      },
+      "charter": {
+        "title": "Charte",
+        "accept": "J'ai lu et j'accepte"
+      },
+      "filter": {
+        "all": "Tous",
+        "to_do": "À faire",
+        "ongoing": "À terminer",
+        "completed": "Terminé"
       }
     }
   }
