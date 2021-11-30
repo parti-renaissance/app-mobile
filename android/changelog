@@ -1,0 +1,9 @@
+# v3.0.0-RC1
+
+Door to door :
+- charter screen
+- map screen (API key is not yet injected)
+- list screen
+
+Buidling Detail :
+- Status UI
