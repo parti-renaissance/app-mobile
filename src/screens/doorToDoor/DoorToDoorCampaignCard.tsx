@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
     padding: Spacing.margin,
   },
   date: {
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
     marginTop: Spacing.small,
   },
   goal: {
-    ...Typography.lightCallout,
+    ...Typography.lightCaption1,
     marginBottom: Spacing.unit,
   },
   indicator: {

@@ -70,7 +70,7 @@ const stylesFactory = (theme: Theme) => {
       ...Typography.headline,
     },
     label: {
-      ...Typography.lightCallout,
+      ...Typography.lightCaption1,
       marginVertical: Spacing.unit,
       textAlign: 'center',
       textTransform: 'uppercase',
@@ -80,7 +80,7 @@ const stylesFactory = (theme: Theme) => {
       justifyContent: 'space-between',
     },
     subtitle: {
-      ...Typography.lightCallout,
+      ...Typography.lightCaption1,
     },
     title: {
       ...Typography.title2,
