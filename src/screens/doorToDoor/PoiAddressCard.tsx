@@ -31,7 +31,7 @@ export const PoiAddressCard = ({ viewModel }: Props) => {
         <View style={styles.card}>
           <Image style={styles.image} source={viewModel.statusIcon} />
           <Text style={styles.label}>{viewModel.label}</Text>
-          <Text style={styles.indicator}>{viewModel.numberOfSurveys}</Text>
+          <Text style={styles.indicator}>{viewModel.doorsOrVotersLabel}</Text>
         </View>
       </View>
     </CardView>

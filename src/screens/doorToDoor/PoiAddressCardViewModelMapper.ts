@@ -26,9 +26,11 @@ export const PoiAddressCardViewModelMapper = {
               : require('../../assets/images/papBuildingIcon.png'),
           statusIcon: mapStatusIcon(poiAddress.building.campaignStatistics),
           passage: mapLastPassage(poiAddress.building.campaignStatistics),
-          numberOfSurveys: poiAddress.building.campaignStatistics
-            ? poiAddress.building.campaignStatistics.numberOfSurveys
-            : 0,
+          doorsOrVotersLabel: mapDoorsOrVolter(
+            displayMode,
+            poiAddress.building.campaignStatistics,
+            poiAddress.votersCount,
+          ),
           label:
             displayMode === 'map'
               ? i18n.t('doorToDoor.doorKnocked')
@@ -38,18 +40,29 @@ export const PoiAddressCardViewModelMapper = {
   },
 }
 
-function mapLastPassage(campaignStatistics: DoorToDoorAddressCampaign): string {
-  return campaignStatistics && campaignStatistics.lastPassage
+function mapLastPassage(campaign: DoorToDoorAddressCampaign): string {
+  return campaign && campaign.lastPassage
     ? i18n.t('doorToDoor.lastPassage') +
         '\n' +
         i18n.t('doorToDoor.lastPassageBy', {
-          firstname: campaignStatistics.lastPassageDoneBy.firstName,
-          lastname: campaignStatistics.lastPassageDoneBy.lastName
-            .charAt(0)
-            .toUpperCase(),
-          date: mapDate(campaignStatistics.lastPassage),
+          firstname: campaign.lastPassageDoneBy.firstName,
+          lastname: campaign.lastPassageDoneBy.lastName.charAt(0).toUpperCase(),
+          date: mapDate(campaign.lastPassage),
         })
     : i18n.t('doorToDoor.noPassage')
+}
+
+function mapDoorsOrVolter(
+  displayMode: DoorToDoorDisplayMode,
+  campaign: DoorToDoorAddressCampaign,
+  votersCount: number,
+): string {
+  return displayMode === 'map'
+    ? i18n.t('doorToDoor.doorsSurveysCount', {
+        numberOfSurveys: campaign?.numberOfSurveys,
+        numberOfDoors: campaign?.numberOfDoors,
+      })
+    : i18n.t('doorToDoor.votersCount', { votersCount })
 }
 
 function mapDate(lastPassage: Moment): string {
