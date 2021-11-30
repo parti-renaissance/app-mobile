@@ -47,6 +47,7 @@ import {
   RestDoorToDoorCharterResponse,
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
+import { RestDoorToDoorCampaign } from '../restObjects/RestDoorToDoorCampaign'
 
 class ApiService {
   private static instance: ApiService
@@ -403,6 +404,20 @@ class ApiService {
         `api/v3/pap/address/near?latitude=${latitude}&longitude=${longitude}&zoom=${zoom}`,
       )
       .json<RestDoorToDoorAddress[]>()
+      .catch(genericErrorMapping)
+  }
+
+  public getCampaign(campaignId: string): Promise<RestDoorToDoorCampaign> {
+    return this.httpClient
+      .get(`api/v3/pap_campaigns/${campaignId}`)
+      .json<RestDoorToDoorCampaign>()
+      .catch(genericErrorMapping)
+  }
+
+  public getCampaigns(): Promise<RestDoorToDoorCampaign[]> {
+    return this.httpClient
+      .get('api/v3/pap_campaigns')
+      .json<RestDoorToDoorCampaign[]>()
       .catch(genericErrorMapping)
   }
 

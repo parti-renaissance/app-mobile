@@ -6,6 +6,8 @@ import {
 import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
 import { DoorToDoorAddress } from '../core/entities/DoorToDoor'
 import { DoorToDoorMapper } from './mapper/DoorToDoorMapper'
+import { DoorToDoorCampaignMapper } from './mapper/DoorToDoorCampaignMapper'
+import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -45,6 +47,16 @@ class DoorToDoorRepository {
       zoom,
     )
     return restDoorToDoorAddresses.map(DoorToDoorMapper.map)
+  }
+
+  public async getCampaign(campaignId: string): Promise<DoorToDoorCampaign> {
+    const restDoorToDoorCampaign = await this.apiService.getCampaign(campaignId)
+    return DoorToDoorCampaignMapper.map(restDoorToDoorCampaign)
+  }
+
+  public async getCampaigns(): Promise<DoorToDoorCampaign[]> {
+    const restDoorToDoorCampaign = await this.apiService.getCampaigns()
+    return restDoorToDoorCampaign.map(DoorToDoorCampaignMapper.map)
   }
 }
 
