@@ -121,7 +121,7 @@ private_lane :commit_deploy do |options|
     api_token: ENV["GH_BOT_TOKEN"],
     name: tag,
     tag_name: tag,
-    description: (File.read("changelog") rescue "No changelog provided"),
+    description: (File.read("android/changelog") rescue "No changelog provided"),
     commitish: branch,
     upload_assets: []
   ) if is_ci
