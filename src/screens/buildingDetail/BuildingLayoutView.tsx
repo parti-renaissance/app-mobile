@@ -48,7 +48,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
         </View>
         <View style={styles.layoutContainer}>
-          <View style={styles.actionContainer}>{renderActionTitle()}</View>
+          {renderActionTitle()}
           <TouchablePlatform
             style={styles.arrowButton}
             onPress={() => onSelect}
