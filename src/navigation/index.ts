@@ -105,6 +105,7 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
   News: undefined
+  DoorToDoorTunnelModal: undefined
 }
 
 export type UnauthenticatedStackParamList = {
@@ -164,6 +165,19 @@ export type BuildingDetailScreenRouteProp = RouteProp<
 
 export type BuildingDetailScreenProp = Readonly<{
   route: BuildingDetailScreenRouteProp
+  navigation: NavigationProp<ParamListBase>
+}>
+
+// Door to Door Tutorial
+export type DoorToDoorTutorialScreenProp = Readonly<{
+  navigation: NavigationProp<ParamListBase>
+}>
+
+export type DoorToDoorTunnelStartScreenProp = Readonly<{
+  navigation: NavigationProp<ParamListBase>
+}>
+
+export type TunnelDoorOpeningScreenScreenProp = StackScreenProps<{
   navigation: NavigationProp<ParamListBase>
 }>
 

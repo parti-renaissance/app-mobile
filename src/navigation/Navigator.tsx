@@ -20,6 +20,7 @@ import PushRepository from '../data/PushRepository'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
 import ProfileModal from '../screens/profile/ProfileModal'
 import PhoningSessionModal from '../screens/phoningSessionNavigator/PhoningSessionModal'
+import DoorToDoorTunnelModal from '../screens/doorToDoor/tunnel/DoorToDoorTunnelModal'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -78,6 +79,11 @@ const Navigator: FunctionComponent = () => {
         <RootStack.Screen
           name={Screen.profileModal}
           component={ProfileModal}
+          options={{ gestureEnabled: false }}
+        />
+        <RootStack.Screen
+          name={Screen.doorToDootTunnelModal}
+          component={DoorToDoorTunnelModal}
           options={{ gestureEnabled: false }}
         />
       </RootStack.Navigator>

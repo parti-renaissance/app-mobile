@@ -451,6 +451,22 @@
         "ongoing": "À terminer",
         "completed": "Terminé"
       }
+    },
+    "tunnel": {
+      "exit": "Quitter",
+      "tutorial": {
+        "title": "Brief",
+        "action": "C’est parti !"
+      },
+      "start": {
+        "doorknocked": "J’ai frappé à la porte",
+        "floorFinished": "Étage terminé"
+      },
+      "opening": {
+        "title": "La porte s’ouvre t’elle ?",
+        "yes": "Oui",
+        "no": "Non"
+      }
     }
   }
 }
