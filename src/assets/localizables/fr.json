@@ -422,7 +422,20 @@
       "date_format": "D MMM YYYY",
       "doorsSurveysCount": "{{numberOfSurveys}}/{{numberOfDoors}}",
       "votersCount": "{{votersCount}}",
-      "ranking": { "title": "Classements" },
+      "ranking": {
+        "title": "Classements",
+        "tabs": {
+          "individual": "Individuel",
+          "departmental": "Départemental"
+        },
+        "rows": {
+          "rang": "rang",
+          "militant": "militant",
+          "doorKnocked": "Portes frappées",
+          "pollsCompleted": "Questionnaires remplis",
+          "department": "Département"
+        }
+      },
       "location": {
         "title": "Localisation nécessaire",
         "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",

@@ -15,7 +15,6 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import i18n from '../../utils/i18n'
-import RankingModal from './RankingModal'
 import LocationAuthorization from './LocationAuthorization'
 import { DoorToDoorScreenProp } from '../../navigation'
 import DoorToDoorCharterModal from './DoorToDoorCharterModal'
@@ -25,7 +24,6 @@ import {
 } from '../../core/entities/DoorToDoorCharterState'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { LocationManager } from '../../utils/LocationManager'
-import { Screen } from '../../navigation'
 import DoorToDoorMapView from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
@@ -34,6 +32,7 @@ import { LatLng } from 'react-native-maps'
 import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
 import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from '@react-native-community/geolocation'
+import RankingModal from './rankings/RankingModal'
 
 const DEFAULT_ZOOM = 16
 
@@ -135,7 +134,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       <TouchablePlatform
         style={styles.classementIconContainer}
         touchHighlight={Colors.touchHighlight}
-        onPress={() => navigation.navigate(Screen.buildingDetail)}
+        onPress={() => setModalVisible(true)}
       >
         <Image
           style={styles.classementIcon}
