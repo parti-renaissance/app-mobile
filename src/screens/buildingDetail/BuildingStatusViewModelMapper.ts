@@ -67,7 +67,9 @@ function encounteredElectorsStatBlock(
 ): StatBlockViewModel {
   return {
     title: i18n.t('building.stats.encounteredelectors'),
-    stat: campaignAddress?.numberOfDoors.toString() ?? '-',
+    stat:
+      campaignAddress?.numberOfDoors.toString() ??
+      i18n.t('common.noDataPlaceholder'),
   }
 }
 
@@ -76,7 +78,9 @@ function doorKnockedStatBlock(
 ): StatBlockViewModel {
   return {
     title: i18n.t('building.stats.doorknocked'),
-    stat: campaignAddress?.numberOfDoors.toString() ?? '-',
+    stat:
+      campaignAddress?.numberOfDoors.toString() ??
+      i18n.t('common.noDataPlaceholder'),
   }
 }
 
@@ -85,6 +89,8 @@ function completedQuestionnairesStatBlock(
 ): StatBlockViewModel {
   return {
     title: i18n.t('building.stats.completedqiestionnaires'),
-    stat: campaignAddress?.numberOfSurveys.toString() ?? '-',
+    stat:
+      campaignAddress?.numberOfSurveys.toString() ??
+      i18n.t('common.noDataPlaceholder'),
   }
 }
