@@ -57,7 +57,7 @@ export type PhoningParamList = {
   PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
 }
 export type DoorToDoorParamList = {
-  address: DoorToDoorAddress
+  BuildingDetail: { address: DoorToDoorAddress }
 }
 
 export type AuthenticatedHomeParamList = {
@@ -156,8 +156,15 @@ export type DoorToDoorScreenProp = Readonly<{
 }>
 
 // BuildingDetail
+
+export type BuildingDetailScreenRouteProp = RouteProp<
+  DoorToDoorParamList,
+  typeof Screen.buildingDetail
+>
+
 export type BuildingDetailScreenProp = Readonly<{
-  navigation: NavigationProp<DoorToDoorParamList>
+  route: BuildingDetailScreenRouteProp
+  navigation: NavigationProp<ParamListBase>
 }>
 
 // Phoning charter
