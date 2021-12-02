@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Dimensions, Pressable, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Dimensions, Image, Pressable, StyleSheet } from 'react-native'
 import MapView from 'react-native-map-clustering'
-import { LatLng } from 'react-native-maps'
+import { LatLng, Marker } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Spacing } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
@@ -10,6 +10,7 @@ import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
 import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
+import Geolocation from '@react-native-community/geolocation'
 
 type Props = {
   data: DoorToDoorAddress[]
@@ -22,10 +23,12 @@ type PopupProps = {
 }
 
 const DoorToDoorMapView = ({ data, location }: Props) => {
+  const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
   const [popup, setPopup] = useState<PopupProps>({
     visible: false,
     value: undefined,
   })
+  const markerExtraProps = { cluster: false }
 
   const initialPosition = {
     latitude: location.latitude,
@@ -45,6 +48,19 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
     altitude: 2000,
     center: initialPosition,
   }
+
+  useEffect(() => {
+    const watchID = Geolocation.watchPosition((position) => {
+      setCurrentPosition({
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+      })
+    })
+
+    return () => {
+      watchID != null && Geolocation.clearWatch(watchID)
+    }
+  }, [])
 
   const onMarkerPress = (poi: DoorToDoorAddress) => {
     setPopup({
@@ -79,6 +95,9 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
       >
+        <Marker coordinate={currentPosition} {...markerExtraProps}>
+          <Image source={require('../../assets/images/papPositionIcon.png')} />
+        </Marker>
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
