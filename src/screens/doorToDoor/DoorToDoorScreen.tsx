@@ -157,8 +157,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             <DoorToDoorMapView
               data={filteredAddresses}
               location={location}
-              onAddressPress={() => {
-                navigation.navigate(Screen.buildingDetail)
+              onAddressPress={(id) => {
+                const address = addresses.find((item) => item.id === id)
+                console.log(address)
+                navigation.navigate(Screen.buildingDetail, {
+                  address: address,
+                })
               }}
             />
           ) : (

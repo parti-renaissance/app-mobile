@@ -12,10 +12,13 @@ export type DoorToDoorAddress = {
   postalCodes: string[]
   building: {
     id: string
-    type: 'building' | 'house' | null
+    type: BuildingType
     campaignStatistics: DoorToDoorAddressCampaign
   }
 }
+
+// TODO 2021/12/2 (Denis Poifol) null does not make sense here
+export type BuildingType = 'building' | 'house' | null
 
 export type DoorToDoorAddressCampaign = {
   id: string

@@ -1,34 +1,34 @@
 import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 import { ImageSourcePropType } from 'react-native'
-import { BuildingType } from './BuildingLayoutViewModelMapper'
 import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
 import Theme from '../../themes/Theme'
-import { BuildingStatus } from '../../core/entities/BuildingStatus'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 
 export const BuildingDetailScreenViewModelMapper = {
   map: (
-    buildingType: BuildingType,
+    address: DoorToDoorAddress,
     theme: Theme,
   ): BuildingDetailScreenViewModel => {
     const illustration = (): ImageSourcePropType => {
-      switch (buildingType) {
-        case BuildingType.HOUSE:
+      switch (address.building.type) {
+        case 'house':
           return theme.image.house()
-        case BuildingType.APPARTEMENT_BUILDING:
+        case 'building':
+          return theme.image.appartementBuilding()
+        case null:
           return theme.image.appartementBuilding()
       }
     }
-
     return {
-      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
-      address: 'address placeholder',
-      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
-      lastVisit: 'address placeholder',
+      address: address.address,
+      lastVisit:
+        address.building.campaignStatistics?.lastPassage?.toString() ?? '-',
       illustration: illustration(),
-      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
-      status: BuildingStatusViewModelMapper.map(BuildingStatus.DONE),
-      buildingLayout: BuildingLayoutViewModelMapper.map(buildingType),
+      status: BuildingStatusViewModelMapper.map(
+        address.building.campaignStatistics,
+      ),
+      buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type),
     }
   },
 }
