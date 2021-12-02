@@ -1,7 +1,9 @@
+import { Campaign } from './../../core/entities/Campaign'
 import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
 import { StatBlockViewModel } from './StatBlockViewModel'
 import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
+import NumberFormatter from '../../utils/NumerFormatter'
 
 export const BuildingStatusViewModelMapper = {
   map: (
@@ -61,9 +63,7 @@ function estimatedDoorsStatBlock(
     title: i18n.t('building.stats.estimatedDoors', {
       count: campaignAddress?.numberOfDoors ?? 0,
     }),
-    stat:
-      campaignAddress?.numberOfDoors.toString() ??
-      i18n.t('common.noDataPlaceholder'),
+    stat: dataOrPlaceholder(campaignAddress?.numberOfDoors),
   }
 }
 
@@ -74,9 +74,7 @@ function doorKnockedStatBlock(
     title: i18n.t('building.stats.doorKnocked', {
       count: campaignAddress?.numberOfDoors ?? 0,
     }),
-    stat:
-      campaignAddress?.numberOfDoors.toString() ??
-      i18n.t('common.noDataPlaceholder'),
+    stat: dataOrPlaceholder(campaignAddress?.numberOfDoors),
   }
 }
 
@@ -87,8 +85,12 @@ function completedQuestionnairesStatBlock(
     title: i18n.t('building.stats.completedQuestionnaires', {
       count: campaignAddress?.numberOfSurveys ?? 0,
     }),
-    stat:
-      campaignAddress?.numberOfSurveys.toString() ??
-      i18n.t('common.noDataPlaceholder'),
+    stat: dataOrPlaceholder(campaignAddress?.numberOfDoors),
   }
+}
+
+function dataOrPlaceholder(data: number | undefined): string {
+  return data != null
+    ? NumberFormatter.formatDecimal(data)
+    : i18n.t('common.noDataPlaceholder')
 }
