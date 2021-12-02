@@ -6,15 +6,16 @@ import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 
 type Props = {
   data: DoorToDoorAddress[]
+  onAddressPress: (id: string) => void
 }
 
-const DoorToDoorListView = ({ data }: Props) => (
+const DoorToDoorListView = ({ data, onAddressPress }: Props) => (
   <FlatList
     data={data}
     renderItem={({ item }) => {
       const viewModel = PoiAddressCardViewModelMapper.map('list', item)
 
-      return <PoiAddressCard viewModel={viewModel} />
+      return <PoiAddressCard viewModel={viewModel} onPress={onAddressPress} />
     }}
     keyExtractor={(item) => item.id.toString()}
   />

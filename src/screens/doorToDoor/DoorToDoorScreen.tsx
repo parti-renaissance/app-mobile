@@ -33,6 +33,7 @@ import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
 import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from '@react-native-community/geolocation'
 import RankingModal from './rankings/RankingModal'
+import { Screen } from '../../navigation'
 
 const DEFAULT_ZOOM = 16
 
@@ -115,6 +116,14 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     }
   }
 
+  const navigateToBuildingDetail = (id: string) => {
+    const address = addresses.find((item) => item.id === id)
+    console.log(address)
+    navigation.navigate(Screen.buildingDetail, {
+      address: address,
+    })
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={modalVisible} animationType="slide">
@@ -157,16 +166,13 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             <DoorToDoorMapView
               data={filteredAddresses}
               location={location}
-              onAddressPress={(id) => {
-                const address = addresses.find((item) => item.id === id)
-                console.log(address)
-                navigation.navigate(Screen.buildingDetail, {
-                  address: address,
-                })
-              }}
+              onAddressPress={navigateToBuildingDetail}
             />
           ) : (
-            <DoorToDoorListView data={filteredAddresses} />
+            <DoorToDoorListView
+              data={filteredAddresses}
+              onAddressPress={navigateToBuildingDetail}
+            />
           )}
         </>
       ) : (
