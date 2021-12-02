@@ -11,9 +11,7 @@ export const BuildingStatusViewModelMapper = {
       return {
         statusTile: i18n.t('building.status.done'),
         statusIcon: require('../../assets/images/buildingStatusDoneIcon.png'),
-        encounteredElectorsStatBlock: encounteredElectorsStatBlock(
-          campaignAddress,
-        ),
+        estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
         doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
         completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
           campaignAddress,
@@ -25,9 +23,7 @@ export const BuildingStatusViewModelMapper = {
           return {
             statusTile: i18n.t('building.status.done'),
             statusIcon: require('../../assets/images/buildingStatusDoneIcon.png'),
-            encounteredElectorsStatBlock: encounteredElectorsStatBlock(
-              campaignAddress,
-            ),
+            estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
             doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
             completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
               campaignAddress,
@@ -37,9 +33,7 @@ export const BuildingStatusViewModelMapper = {
           return {
             statusTile: i18n.t('building.status.todo'),
             statusIcon: require('../../assets/images/buildingStatusToDoIcon.png'),
-            encounteredElectorsStatBlock: encounteredElectorsStatBlock(
-              campaignAddress,
-            ),
+            estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
             doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
             completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
               campaignAddress,
@@ -49,9 +43,7 @@ export const BuildingStatusViewModelMapper = {
           return {
             statusTile: i18n.t('building.status.tocomplete'),
             statusIcon: require('../../assets/images/buildingStatusToCompleteIcon.png'),
-            encounteredElectorsStatBlock: encounteredElectorsStatBlock(
-              campaignAddress,
-            ),
+            estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
             doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
             completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
               campaignAddress,
@@ -62,12 +54,13 @@ export const BuildingStatusViewModelMapper = {
   },
 }
 
-function encounteredElectorsStatBlock(
+function estimatedDoorsStatBlock(
   campaignAddress: DoorToDoorAddressCampaign,
 ): StatBlockViewModel {
   return {
-    // TODO 2021/12/02 (Denis Poifol) Handle plurals
-    title: i18n.t('building.stats.encounteredelectors'),
+    title: i18n.t('building.stats.estimatedDoors', {
+      count: campaignAddress?.numberOfDoors ?? 0,
+    }),
     stat:
       campaignAddress?.numberOfDoors.toString() ??
       i18n.t('common.noDataPlaceholder'),
@@ -78,8 +71,9 @@ function doorKnockedStatBlock(
   campaignAddress: DoorToDoorAddressCampaign,
 ): StatBlockViewModel {
   return {
-    // TODO 2021/12/02 (Denis Poifol) Handle plurals
-    title: i18n.t('building.stats.doorknocked'),
+    title: i18n.t('building.stats.doorKnocked', {
+      count: campaignAddress?.numberOfDoors ?? 0,
+    }),
     stat:
       campaignAddress?.numberOfDoors.toString() ??
       i18n.t('common.noDataPlaceholder'),
@@ -90,8 +84,9 @@ function completedQuestionnairesStatBlock(
   campaignAddress: DoorToDoorAddressCampaign,
 ): StatBlockViewModel {
   return {
-    // TODO 2021/12/02 (Denis Poifol) Handle plurals
-    title: i18n.t('building.stats.completedqiestionnaires'),
+    title: i18n.t('building.stats.completedQuestionnaires', {
+      count: campaignAddress?.numberOfSurveys ?? 0,
+    }),
     stat:
       campaignAddress?.numberOfSurveys.toString() ??
       i18n.t('common.noDataPlaceholder'),

@@ -24,7 +24,10 @@ export const BuildingDetailScreenViewModelMapper = {
       }
     }
     return {
-      address: address.address,
+      address: i18n.t('doorToDoor.address', {
+        number: address.number,
+        street: address.address,
+      }),
       lastVisit:
         lastVisit(address.building.campaignStatistics) ??
         i18n.t('common.noDataPlaceholder'),

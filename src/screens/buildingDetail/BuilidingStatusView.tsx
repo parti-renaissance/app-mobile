@@ -19,7 +19,7 @@ const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
         <Text style={styles.statusText}>{viewModel.statusTile} </Text>
       </View>
       <View style={styles.statBlockContainer}>
-        <StatBlockView viewModel={viewModel.encounteredElectorsStatBlock} />
+        <StatBlockView viewModel={viewModel.estimatedDoorsStatBlock} />
         <StatBlockView viewModel={viewModel.doorKnockedStatBlock} />
         <StatBlockView viewModel={viewModel.completedQuestionnairesStatBlock} />
       </View>

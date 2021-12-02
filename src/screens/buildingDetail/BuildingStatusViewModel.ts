@@ -4,7 +4,7 @@ import { StatBlockViewModel } from './StatBlockViewModel'
 export interface BuildingStatusViewModel {
   statusTile: string
   statusIcon: ImageSourcePropType
-  encounteredElectorsStatBlock: StatBlockViewModel
+  estimatedDoorsStatBlock: StatBlockViewModel
   doorKnockedStatBlock: StatBlockViewModel
   completedQuestionnairesStatBlock: StatBlockViewModel
 }
