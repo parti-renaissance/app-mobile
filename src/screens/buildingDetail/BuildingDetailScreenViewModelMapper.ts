@@ -1,9 +1,12 @@
+import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
 import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 import { ImageSourcePropType } from 'react-native'
 import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
 import Theme from '../../themes/Theme'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
+import i18n from '../../utils/i18n'
+import { Moment } from 'moment-timezone'
 
 export const BuildingDetailScreenViewModelMapper = {
   map: (
@@ -22,8 +25,7 @@ export const BuildingDetailScreenViewModelMapper = {
     }
     return {
       address: address.address,
-      lastVisit:
-        address.building.campaignStatistics?.lastPassage?.toString() ?? '-',
+      lastVisit: lastVisit(address.building.campaignStatistics) ?? '-',
       illustration: illustration(),
       status: BuildingStatusViewModelMapper.map(
         address.building.campaignStatistics,
@@ -31,4 +33,14 @@ export const BuildingDetailScreenViewModelMapper = {
       buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type),
     }
   },
+}
+
+function lastVisit(campaign: DoorToDoorAddressCampaign): string {
+  return campaign && campaign.lastPassage
+    ? i18n.t('doorToDoor.lastPassage') + ' ' + mapDate(campaign.lastPassage)
+    : i18n.t('doorToDoor.noPassage')
+}
+
+function mapDate(lastPassage: Moment): string {
+  return lastPassage.format(i18n.t('doorToDoor.date_format'))
 }

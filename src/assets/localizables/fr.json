@@ -18,7 +18,8 @@
       "cancel": "Annuler",
       "confirm": "Confirmer",
       "search": "Rechercher",
-      "ok": "OK"
+      "ok": "OK",
+      "noDataPlaceholder": "-"
     },
     "tab": {
       "item_polls": "Questionnaires",
@@ -391,9 +392,12 @@
         "tocomplete": "A terminer"
       },
       "stats": {
-        "doorknocked": "Portes frappées",
-        "encounteredelectors": "electeurs rencontrés",
-        "completedqiestionnaires": "questionnaires réalisés"
+        "doorKnocked": "Porte frappées",
+        "doorKnocked_plural": "Portes frappées",
+        "estimatedDoors": "Porte estimée",
+        "estimatedDoors_plural": "Portes estimées",
+        "completedQuestionnaires": "Questionnaire réalisé",
+        "completedQuestionnaires_plural": "Questionnaires réalisés"
       },
       "tabs": { "history": "Historique", "layout": "Bâtiment" },
       "layout": {
@@ -416,6 +420,7 @@
       "goal": "Mon objectif : ",
       "lastPassage": "Dernier passage :",
       "noPassage": "Aucun passage",
+      "passageOn": "le {{date}}",
       "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
       "electorsMet": "Électeurs rencontrés",
       "doorKnocked": "Portes frappées",
@@ -424,13 +429,10 @@
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",
-        "tabs": {
-          "individual": "Individuel",
-          "departmental": "Départemental"
-        },
+        "tabs": { "individual": "Individuel", "departmental": "Départemental" },
         "rows": {
-          "rang": "rang",
-          "militant": "militant",
+          "rang": "Rang",
+          "militant": "Militant",
           "doorKnocked": "Portes frappées",
           "pollsCompleted": "Questionnaires remplis",
           "department": "Département"
