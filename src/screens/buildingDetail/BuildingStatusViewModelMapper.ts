@@ -1,4 +1,3 @@
-import { Campaign } from './../../core/entities/Campaign'
 import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
 import { StatBlockViewModel } from './StatBlockViewModel'
 import i18n from '../../utils/i18n'
