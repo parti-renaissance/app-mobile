@@ -66,6 +66,7 @@ function encounteredElectorsStatBlock(
   campaignAddress: DoorToDoorAddressCampaign,
 ): StatBlockViewModel {
   return {
+    // TODO 2021/12/02 (Denis Poifol) Handle plurals
     title: i18n.t('building.stats.encounteredelectors'),
     stat:
       campaignAddress?.numberOfDoors.toString() ??
@@ -77,6 +78,7 @@ function doorKnockedStatBlock(
   campaignAddress: DoorToDoorAddressCampaign,
 ): StatBlockViewModel {
   return {
+    // TODO 2021/12/02 (Denis Poifol) Handle plurals
     title: i18n.t('building.stats.doorknocked'),
     stat:
       campaignAddress?.numberOfDoors.toString() ??
@@ -88,6 +90,7 @@ function completedQuestionnairesStatBlock(
   campaignAddress: DoorToDoorAddressCampaign,
 ): StatBlockViewModel {
   return {
+    // TODO 2021/12/02 (Denis Poifol) Handle plurals
     title: i18n.t('building.stats.completedqiestionnaires'),
     stat:
       campaignAddress?.numberOfSurveys.toString() ??
