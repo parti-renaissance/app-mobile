@@ -154,7 +154,13 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             <DoorToDoorFilter filter={filter} onPress={onfilterChange} />
           </View>
           {displayMode === 'map' ? (
-            <DoorToDoorMapView data={filteredAddresses} location={location} />
+            <DoorToDoorMapView
+              data={filteredAddresses}
+              location={location}
+              onAddressPress={() => {
+                navigation.navigate(Screen.buildingDetail)
+              }}
+            />
           ) : (
             <DoorToDoorListView data={filteredAddresses} />
           )}
