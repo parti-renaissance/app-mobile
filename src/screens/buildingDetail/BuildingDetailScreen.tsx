@@ -13,7 +13,6 @@ import { BuildingDetailScreenProp } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
 import BuildingLayoutView from './BuildingLayoutView'
-import { BuildingType } from './BuildingLayoutViewModelMapper'
 import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewModelMapper'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import Theme from '../../themes/Theme'
@@ -24,12 +23,14 @@ enum Tab {
   LAYOUT,
 }
 
-const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({}) => {
+const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
+  route,
+}) => {
   const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const viewModel = BuildingDetailScreenViewModelMapper.map(
-    BuildingType.APPARTEMENT_BUILDING,
+    route.params.address,
     theme,
   )
 

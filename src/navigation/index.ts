@@ -1,3 +1,4 @@
+import { DoorToDoorAddress } from './../core/entities/DoorToDoor'
 import { Retaliation } from './../core/entities/Retaliation'
 import {
   NavigatorScreenParams,
@@ -54,6 +55,9 @@ export type PhoningParamList = {
   PhoningTutorial: undefined
   PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
   PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
+}
+export type DoorToDoorParamList = {
+  BuildingDetail: { address: DoorToDoorAddress }
 }
 
 export type AuthenticatedHomeParamList = {
@@ -152,7 +156,14 @@ export type DoorToDoorScreenProp = Readonly<{
 }>
 
 // BuildingDetail
+
+export type BuildingDetailScreenRouteProp = RouteProp<
+  DoorToDoorParamList,
+  typeof Screen.buildingDetail
+>
+
 export type BuildingDetailScreenProp = Readonly<{
+  route: BuildingDetailScreenRouteProp
   navigation: NavigationProp<ParamListBase>
 }>
 

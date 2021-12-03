@@ -12,10 +12,12 @@ export type DoorToDoorAddress = {
   postalCodes: string[]
   building: {
     id: string
-    type: 'building' | 'house' | null
+    type: BuildingType
     campaignStatistics: DoorToDoorAddressCampaign
   }
 }
+
+export type BuildingType = 'building' | 'house'
 
 export type DoorToDoorAddressCampaign = {
   id: string
@@ -29,6 +31,6 @@ export type DoorToDoorAddressCampaign = {
     firstName: string
     lastName: string
   }
-} | null
+}
 
 export type DoorToDoorAddressStatus = 'todo' | 'ongoing' | 'completed'

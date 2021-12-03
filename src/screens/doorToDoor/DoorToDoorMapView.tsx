@@ -15,6 +15,7 @@ import Geolocation from '@react-native-community/geolocation'
 type Props = {
   data: DoorToDoorAddress[]
   location: LatLng
+  onAddressPress: (id: string) => void
 }
 
 type PopupProps = {
@@ -22,7 +23,7 @@ type PopupProps = {
   value?: DoorToDoorAddress
 }
 
-const DoorToDoorMapView = ({ data, location }: Props) => {
+const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
   const [popup, setPopup] = useState<PopupProps>({
     visible: false,
@@ -76,6 +77,7 @@ const DoorToDoorMapView = ({ data, location }: Props) => {
     >
       <Pressable style={styles.popup}>
         <PoiAddressCard
+          onPress={onAddressPress}
           viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
         />
         <DoorToDoorCampaignCard

@@ -1,34 +1,49 @@
+import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
 import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 import { ImageSourcePropType } from 'react-native'
-import { BuildingType } from './BuildingLayoutViewModelMapper'
 import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
 import Theme from '../../themes/Theme'
-import { BuildingStatus } from '../../core/entities/BuildingStatus'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
+import i18n from '../../utils/i18n'
+import { Moment } from 'moment-timezone'
 
 export const BuildingDetailScreenViewModelMapper = {
   map: (
-    buildingType: BuildingType,
+    address: DoorToDoorAddress,
     theme: Theme,
   ): BuildingDetailScreenViewModel => {
     const illustration = (): ImageSourcePropType => {
-      switch (buildingType) {
-        case BuildingType.HOUSE:
+      switch (address.building.type) {
+        case 'house':
           return theme.image.house()
-        case BuildingType.APPARTEMENT_BUILDING:
+        case 'building':
           return theme.image.appartementBuilding()
       }
     }
-
     return {
-      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
-      address: 'address placeholder',
-      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
-      lastVisit: 'address placeholder',
+      address: i18n.t('doorToDoor.address', {
+        number: address.number,
+        street: address.address,
+      }),
+      lastVisit:
+        lastVisit(address.building.campaignStatistics) ??
+        i18n.t('common.noDataPlaceholder'),
       illustration: illustration(),
-      // TODO 30/11/21 (Denis Poifol) Replace stub values with actual data
-      status: BuildingStatusViewModelMapper.map(BuildingStatus.DONE),
-      buildingLayout: BuildingLayoutViewModelMapper.map(buildingType),
+      status: BuildingStatusViewModelMapper.map(
+        address.building.campaignStatistics,
+      ),
+      buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type),
     }
   },
+}
+
+function lastVisit(campaign: DoorToDoorAddressCampaign): string {
+  return campaign && campaign.lastPassage
+    ? i18n.t('doorToDoor.lastPassage') + ' ' + mapDate(campaign.lastPassage)
+    : i18n.t('doorToDoor.noPassage')
+}
+
+function mapDate(lastPassage: Moment): string {
+  return lastPassage.format(i18n.t('doorToDoor.date_format'))
 }

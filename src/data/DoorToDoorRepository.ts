@@ -44,8 +44,12 @@ class DoorToDoorRepository {
       longitude,
       zoom,
     )
-    return restDoorToDoorAddresses.map(DoorToDoorMapper.map)
+    return restDoorToDoorAddresses.map(DoorToDoorMapper.map).filter(notEmpty)
   }
+}
+
+function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+  return value !== null && value !== undefined
 }
 
 export default DoorToDoorRepository

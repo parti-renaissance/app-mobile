@@ -1,4 +1,5 @@
 import { Profile } from '../../core/entities/Profile'
+import i18n from '../../utils/i18n'
 import { ProfilePollsCompletedViewModel } from './ProfilePollsCompletedViewModel'
 
 export const ProfilePollsCompletedViewModelMapper = {
@@ -9,6 +10,9 @@ export const ProfilePollsCompletedViewModelMapper = {
     }
   },
   empty: (): ProfilePollsCompletedViewModel => {
-    return { completedThisMonth: '-', completed: '-' }
+    return {
+      completedThisMonth: i18n.t('common.noDataPlaceholder'),
+      completed: i18n.t('common.noDataPlaceholder'),
+    }
   },
 }

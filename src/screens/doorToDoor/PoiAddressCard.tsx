@@ -4,13 +4,15 @@ import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
 type Props = {
+  onPress: (id: string) => void
   viewModel: PoiAddressCardViewModel | undefined
 }
 
-export const PoiAddressCard = ({ viewModel }: Props) => {
+export const PoiAddressCard = ({ onPress, viewModel }: Props) => {
   const styles = useThemedStyles(stylesFactory)
 
   if (!viewModel) return null
@@ -20,20 +22,27 @@ export const PoiAddressCard = ({ viewModel }: Props) => {
       style={styles.cardWrap}
       backgroundColor={Colors.defaultBackground}
     >
-      <View style={styles.content}>
-        <View style={styles.subcontent}>
-          <View>
-            <Image style={styles.building} source={viewModel.icon} />
-            <Text style={styles.title}>{viewModel.formattedAddress}</Text>
+      <TouchablePlatform
+        onPress={() => {
+          onPress(viewModel.id)
+        }}
+        touchHighlight={Colors.touchHighlight}
+      >
+        <View style={styles.content}>
+          <View style={styles.subcontent}>
+            <View>
+              <Image style={styles.building} source={viewModel.icon} />
+              <Text style={styles.title}>{viewModel.formattedAddress}</Text>
+            </View>
+            <Text style={styles.subtitle}>{viewModel.passage}</Text>
           </View>
-          <Text style={styles.subtitle}>{viewModel.passage}</Text>
+          <View style={styles.card}>
+            <Image style={styles.image} source={viewModel.statusIcon} />
+            <Text style={styles.label}>{viewModel.label}</Text>
+            <Text style={styles.indicator}>{viewModel.doorsOrVotersLabel}</Text>
+          </View>
         </View>
-        <View style={styles.card}>
-          <Image style={styles.image} source={viewModel.statusIcon} />
-          <Text style={styles.label}>{viewModel.label}</Text>
-          <Text style={styles.indicator}>{viewModel.doorsOrVotersLabel}</Text>
-        </View>
-      </View>
+      </TouchablePlatform>
     </CardView>
   )
 }
