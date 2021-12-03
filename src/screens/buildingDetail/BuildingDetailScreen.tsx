@@ -17,6 +17,7 @@ import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewM
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
+import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
 
 enum Tab {
   HISTORY,
@@ -45,7 +46,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const renderTab = (currentTab: Tab) => {
     switch (currentTab) {
       case Tab.HISTORY:
-        return <View />
+        return <BuildingVisitsHistoryView />
       case Tab.LAYOUT:
         return (
           <BuildingLayoutView
