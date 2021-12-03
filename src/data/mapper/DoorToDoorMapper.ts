@@ -1,47 +1,44 @@
+import { DoorToDoorAddress } from './../../core/entities/DoorToDoor'
 import moment from 'moment-timezone'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
-import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 
 export const DoorToDoorMapper = {
-  map: (restObject: RestDoorToDoorAddress): DoorToDoorAddress => {
-    return {
-      id: restObject.uuid,
-      inseeCode: restObject.insee_code,
-      number: restObject.number,
-      cityName: restObject.city_name,
-      latitude: restObject.latitude,
-      longitude: restObject.longitude,
-      address: restObject.address,
-      votersCount: restObject.voters_count,
-      postalCodes: restObject.postal_codes,
-      building: {
-        type: restObject.building.type,
+  map: (restObject: RestDoorToDoorAddress): DoorToDoorAddress | null => {
+    const rest_campaign = restObject.building.campaign_statistics
+    const buildingType = restObject.building.type
+    if (rest_campaign !== null && buildingType !== null) {
+      const campaign = {
+        numberOfDoors: rest_campaign.nb_doors,
+        numberOfSurveys: rest_campaign.nb_surveys,
+        status: rest_campaign.status,
+        id: rest_campaign.uuid,
+        lastPassage: mapLastPassage(rest_campaign.last_passage),
+        campaignId: rest_campaign.campaign.uuid,
+        lastPassageDoneBy: {
+          firstName: rest_campaign.last_passage_done_by.first_name,
+          lastName: rest_campaign.last_passage_done_by.last_name,
+          id: rest_campaign.last_passage_done_by.uuid,
+        },
+      }
+      const building = {
+        type: buildingType,
         id: restObject.building.uuid,
-        campaignStatistics: restObject.building.campaign_statistics
-          ? {
-              numberOfDoors: restObject.building.campaign_statistics.nb_doors,
-              numberOfSurveys:
-                restObject.building.campaign_statistics.nb_surveys,
-              status: restObject.building.campaign_statistics.status,
-              id: restObject.building.campaign_statistics.uuid,
-              lastPassage: mapLastPassage(
-                restObject.building.campaign_statistics.last_passage,
-              ),
-              campaignId: restObject.building.campaign_statistics.campaign.uuid,
-              lastPassageDoneBy: {
-                firstName:
-                  restObject.building.campaign_statistics.last_passage_done_by
-                    .first_name,
-                lastName:
-                  restObject.building.campaign_statistics.last_passage_done_by
-                    .last_name,
-                id:
-                  restObject.building.campaign_statistics.last_passage_done_by
-                    .uuid,
-              },
-            }
-          : null,
-      },
+        campaignStatistics: campaign,
+      }
+      return {
+        id: restObject.uuid,
+        inseeCode: restObject.insee_code,
+        number: restObject.number,
+        cityName: restObject.city_name,
+        latitude: restObject.latitude,
+        longitude: restObject.longitude,
+        address: restObject.address,
+        votersCount: restObject.voters_count,
+        postalCodes: restObject.postal_codes,
+        building: building,
+      }
+    } else {
+      return null
     }
   },
 }

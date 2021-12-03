@@ -19,8 +19,6 @@ export const BuildingDetailScreenViewModelMapper = {
           return theme.image.house()
         case 'building':
           return theme.image.appartementBuilding()
-        case null:
-          return theme.image.appartementBuilding()
       }
     }
     return {

@@ -17,8 +17,7 @@ export type DoorToDoorAddress = {
   }
 }
 
-// TODO 2021/12/2 (Denis Poifol) null does not make sense here
-export type BuildingType = 'building' | 'house' | null
+export type BuildingType = 'building' | 'house'
 
 export type DoorToDoorAddressCampaign = {
   id: string
@@ -32,6 +31,6 @@ export type DoorToDoorAddressCampaign = {
     firstName: string
     lastName: string
   }
-} | null
+}
 
 export type DoorToDoorAddressStatus = 'todo' | 'ongoing' | 'completed'
