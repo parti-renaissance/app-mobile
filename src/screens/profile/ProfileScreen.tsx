@@ -96,7 +96,6 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
             setStatefulState(new ViewState.Content(result))
           })
           .catch((error) => {
-            console.error(error)
             const isNetworkError = error instanceof ServerTimeoutError
             if (isNetworkError && cacheJustLoaded) {
               return

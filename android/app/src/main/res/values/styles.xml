@@ -7,6 +7,8 @@
         <item name="colorControlActivated">@color/blue_ribbon</item>
         <item name="android:colorEdgeEffect">@color/spunPearl</item>
         <item name="android:textColorHighlight">#D3E3FF</item>
+        <!-- Fix https://github.com/facebook/react-native/issues/17530#issuecomment-896743065 -->
+        <item name="android:editTextBackground">@drawable/edit_text</item>
     </style>
 
     <style name="SplashTheme">

@@ -23,20 +23,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import ThemeManager from './src/themes/ThemeManager'
 import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
-import * as Sentry from '@sentry/react-native'
-import { ENVIRONMENT, SENTRY_DSN } from './src/Config'
+import { ErrorMonitor } from './src/utils/ErrorMonitor'
 
 declare var global: { HermesInternal: null | {} }
 
 // Must be outside component lifecycle
 PushNotification.setUp()
 
-if (!__DEV__ && SENTRY_DSN) {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    environment: ENVIRONMENT,
-  })
-}
+ErrorMonitor.configure()
 
 const App = () => {
   const setStatusBarStyle = () => {
@@ -94,4 +88,4 @@ const App = () => {
   )
 }
 
-export default App
+export default ErrorMonitor.wrap(App)

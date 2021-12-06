@@ -1,5 +1,5 @@
 import { LoginError } from './../../core/errors/index'
-import ky from 'ky'
+import { HTTPError } from 'ky'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
   EventSubscriptionError,
@@ -16,7 +16,7 @@ import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest
 import { genericErrorMapping } from './utils'
 
 export const mapLoginError = async (error: any) => {
-  if (error instanceof ky.HTTPError && error.response.status === 400) {
+  if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
 
     const parsedError = errorResponse as RestLoginErrorResponse
@@ -26,7 +26,7 @@ export const mapLoginError = async (error: any) => {
 }
 
 export const mapProfileFormError = async (error: any) => {
-  if (error instanceof ky.HTTPError && error.response.status === 400) {
+  if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
 
     const parsedError = errorResponse as RestUpdateErrorResponse
@@ -42,7 +42,7 @@ export const mapProfileFormError = async (error: any) => {
 }
 
 export const mapSubscriptionError = async (error: any) => {
-  if (error instanceof ky.HTTPError && error.response.status === 400) {
+  if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
 
     const parsedError = errorResponse as RestSubscriptionErrorResponse
@@ -64,7 +64,7 @@ export const mapSubscriptionError = async (error: any) => {
 }
 
 export const mapAssociatedToken = async (error: any) => {
-  if (error instanceof ky.HTTPError && error.response.status === 400) {
+  if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
 
     const parsedError = errorResponse as RestUpdateErrorResponse
@@ -85,7 +85,7 @@ export const mapAssociatedToken = async (error: any) => {
 }
 
 export const mapPhoningSessionError = async (error: any) => {
-  if (error instanceof ky.HTTPError && error.response.status === 400) {
+  if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
     const parsedError = errorResponse as RestPhoningSessionErrorResponse
     switch (parsedError.code) {
@@ -99,7 +99,7 @@ export const mapPhoningSessionError = async (error: any) => {
 }
 
 export const mapPhonePollError = async (error: any) => {
-  if (error instanceof ky.HTTPError && error.response.status === 400) {
+  if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
     const parsedError = errorResponse as RestPhoningSessionErrorResponse
     switch (parsedError.code) {

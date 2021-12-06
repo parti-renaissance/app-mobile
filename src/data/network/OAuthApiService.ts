@@ -1,10 +1,11 @@
 import _oauthHttpClient from './OAuthHttpClient'
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../Config'
 import { RestLoginResponse } from '../restObjects/RestLoginResponse'
-import ky from 'ky'
+import { HTTPError } from 'ky'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
 import { genericErrorMapping } from './utils'
 import { mapLoginError } from './errorMappers'
+import { logHttpError } from './NetworkLogger'
 
 class OAuthApiService {
   private static instance: OAuthApiService
@@ -61,9 +62,10 @@ class OAuthApiService {
       .json<RestLoginResponse>()
       .catch((error) => {
         if (
-          error instanceof ky.HTTPError &&
+          error instanceof HTTPError &&
           error.response.status === INVALID_REFRESH_TOKEN_HTTP_STATUS
         ) {
+          logHttpError(error, '[RefreshToken] Failed to refresh token')
           throw new RefreshTokenPermanentlyInvalidatedError()
         } else {
           throw error

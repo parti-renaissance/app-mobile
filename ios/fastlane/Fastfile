@@ -7,7 +7,10 @@ TEMP_KEYCHAIN_PASSWORD = "temppassword"
 skip_docs
 
 before_all do
-  ensure_git_status_clean
+  ensure_git_status_clean(
+    show_diff: true,
+    show_uncommitted_changes: true
+  ) if is_ci
 end
 
 lane :build do
