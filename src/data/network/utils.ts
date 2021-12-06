@@ -1,4 +1,4 @@
-import ky from 'ky'
+import { HTTPError, TimeoutError } from 'ky'
 import {
   BadRequestError,
   ForbiddenError,
@@ -14,9 +14,9 @@ const genericErrorMapping = (error: Error) => {
     error.message === 'Network request failed'
   ) {
     throw new ServerTimeoutError(error.message)
-  } else if (error instanceof ky.TimeoutError) {
+  } else if (error instanceof TimeoutError) {
     throw new ServerTimeoutError(error.message)
-  } else if (error instanceof ky.HTTPError) {
+  } else if (error instanceof HTTPError) {
     switch (error.response.status) {
       case 400:
         throw new BadRequestError(error.message)

@@ -1,7 +1,7 @@
 import _oauthHttpClient from './OAuthHttpClient'
 import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../Config'
 import { RestLoginResponse } from '../restObjects/RestLoginResponse'
-import ky from 'ky'
+import { HTTPError } from 'ky'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
 import { genericErrorMapping } from './utils'
 import { mapLoginError } from './errorMappers'
@@ -61,7 +61,7 @@ class OAuthApiService {
       .json<RestLoginResponse>()
       .catch((error) => {
         if (
-          error instanceof ky.HTTPError &&
+          error instanceof HTTPError &&
           error.response.status === INVALID_REFRESH_TOKEN_HTTP_STATUS
         ) {
           throw new RefreshTokenPermanentlyInvalidatedError()
