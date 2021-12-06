@@ -5,6 +5,7 @@ import { HTTPError } from 'ky'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
 import { genericErrorMapping } from './utils'
 import { mapLoginError } from './errorMappers'
+import { logHttpError } from './NetworkLogger'
 
 class OAuthApiService {
   private static instance: OAuthApiService
@@ -64,6 +65,7 @@ class OAuthApiService {
           error instanceof HTTPError &&
           error.response.status === INVALID_REFRESH_TOKEN_HTTP_STATUS
         ) {
+          logHttpError(error, '[RefreshToken] Failed to refresh token')
           throw new RefreshTokenPermanentlyInvalidatedError()
         } else {
           throw error
