@@ -58,7 +58,7 @@
     "moment-timezone": "0.5.33",
     "promise.allsettled": "1.0.2",
     "react": "17.0.2",
-    "react-i18next": "11.7.3",
+    "react-i18next": "11.14.2",
     "react-native": "0.66.2",
     "react-native-add-calendar-event": "4.0.0",
     "react-native-cache": "2.0.1",
