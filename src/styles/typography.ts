@@ -24,6 +24,13 @@ export const footnote: TextStyle = {
   lineHeight: 18,
 }
 
+export const footnoteLight: TextStyle = {
+  fontSize: footnoteFontSize,
+  fontFamily: robotoRegular,
+  color: Colors.lightText,
+  lineHeight: 18,
+}
+
 export const largeTitle: TextStyle = {
   fontSize: titleFontSize,
   fontFamily: robotoMedium,
@@ -84,6 +91,13 @@ export const body: TextStyle = {
   fontFamily: robotoRegular,
   lineHeight: 19,
   color: Colors.darkText,
+}
+
+export const lightBody: TextStyle = {
+  fontSize: bodyFontSize,
+  fontFamily: robotoRegular,
+  lineHeight: 19,
+  color: Colors.lightText,
 }
 
 export const callout: TextStyle = {
