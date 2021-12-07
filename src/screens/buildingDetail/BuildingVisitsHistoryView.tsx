@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, ViewStyle } from 'react-native'
 import { FunctionComponent } from 'react'
 import { useThemedStyles } from '../../themes'
 import { margin, unit } from '../../styles/spacing'
@@ -53,7 +53,10 @@ const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProp
   return (
     <View style={styles.dateRecordsContainer}>
       <DateView viewModel={viewModel.date} />
-      <VisitRecordsView viewModel={viewModel.visitRecords} />
+      <VisitRecordsView
+        containerStyle={styles.visitRecords}
+        viewModel={viewModel.visitRecords}
+      />
     </View>
   )
 }
@@ -72,15 +75,18 @@ const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
   )
 }
 
-type VisitRecordsViewProps = Readonly<{ viewModel: VisitRecordsViewModel }>
+type VisitRecordsViewProps = Readonly<{
+  containerStyle: ViewStyle
+  viewModel: VisitRecordsViewModel
+}>
 const VisitRecordsView: FunctionComponent<VisitRecordsViewProps> = ({
+  containerStyle,
   viewModel,
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
-    <View style={{ flex: 1 }}>
+    <View style={containerStyle}>
       <View style={styles.visitRecordsList}>
         {viewModel.doorVisit.map((doorVisitViewModel, index) => {
           return (
@@ -157,6 +163,9 @@ const stylesFactory = () => {
     visitRecordStatusText: {
       ...Typography.lightBody,
       margin: unit,
+    },
+    visitRecords: {
+      flex: 1,
     },
     visitRecordsCellWithSeparator: {
       alignSelf: 'stretch',
