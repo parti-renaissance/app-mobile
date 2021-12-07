@@ -11,6 +11,7 @@ import {
   DateViewModel,
   VisitRecordsViewModel,
 } from './BuildingVisitsHistoryViewModel'
+import KeyValueCell from './KeyValueCell'
 
 type Props = Readonly<{ viewModel: BuildingHistoryViewModel }>
 
@@ -90,20 +91,10 @@ const VisitRecordsView: FunctionComponent<VisitRecordsViewProps> = ({
       <View style={styles.visitRecordsList}>
         {viewModel.doorVisit.map((doorVisitViewModel, index) => {
           return (
-            <View
-              style={
-                index === viewModel.doorVisit.length - 1
-                  ? styles.visitRecordCell
-                  : styles.visitRecordsCellWithSeparator
-              }
-            >
-              <Text style={styles.visitRecordDoorText}>
-                {doorVisitViewModel.door}
-              </Text>
-              <Text style={styles.visitRecordStatusText}>
-                {doorVisitViewModel.status}
-              </Text>
-            </View>
+            <KeyValueCell
+              viewModel={doorVisitViewModel}
+              bottomSeparator={index === viewModel.doorVisit.length - 1}
+            />
           )
         })}
       </View>
@@ -147,32 +138,12 @@ const stylesFactory = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    visitRecordCell: {
-      alignSelf: 'stretch',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    visitRecordDoorText: {
-      ...Typography.body,
-      margin: unit,
-    },
     visitRecordListFootnote: {
       ...Typography.footnoteLight,
       marginVertical: unit,
     },
-    visitRecordStatusText: {
-      ...Typography.lightBody,
-      margin: unit,
-    },
     visitRecords: {
       flex: 1,
-    },
-    visitRecordsCellWithSeparator: {
-      alignSelf: 'stretch',
-      borderBottomColor: Colors.separator,
-      borderBottomWidth: 2,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
     },
     visitRecordsList: {
       backgroundColor: Colors.groupedListBackground,

@@ -4,60 +4,60 @@ import {
   BuildingVisitsHistoryViewModel,
   DateViewModel,
   VisitRecordsViewModel,
-  VisitRecordViewModel,
 } from './BuildingVisitsHistoryViewModel'
+import { KeyValueCellViewModel } from './KeyValueCell'
 
 export const BuildingVisitsHistoryViewModelMapper = {
   map: (): BuildingHistoryViewModel => {
     // 2021/12/07 (Denis Poifol) Replace stubs with actual data
-    const doorVisit: VisitRecordViewModel[] = [
+    const doorVisit: KeyValueCellViewModel[] = [
       {
-        door: 'Etage 1 - Porte 1',
-        status: 'Absent',
+        key: 'Etage 1 - Porte 1',
+        value: 'Absent',
       },
       {
-        door: 'Etage 1 - Porte 2',
-        status: 'Indisponible',
+        key: 'Etage 1 - Porte 2',
+        value: 'Indisponible',
       },
       {
-        door: 'Etage 1 - Porte 3',
-        status: 'Interrogé',
+        key: 'Etage 1 - Porte 3',
+        value: 'Interrogé',
       },
       {
-        door: 'Etage 1 - Porte 4',
-        status: 'Absent',
+        key: 'Etage 1 - Porte 4',
+        value: 'Absent',
       },
       {
-        door: 'Etage 1 - Porte 5',
-        status: 'Refus',
+        key: 'Etage 1 - Porte 5',
+        value: 'Refus',
       },
       {
-        door: 'Etage 1 - Porte 6',
-        status: 'Refus',
+        key: 'Etage 1 - Porte 6',
+        value: 'Refus',
       },
       {
-        door: 'Etage 2 - Porte 1',
-        status: 'Absent',
+        key: 'Etage 2 - Porte 1',
+        value: 'Absent',
       },
       {
-        door: 'Etage 2 - Porte 2',
-        status: 'Refus',
+        key: 'Etage 2 - Porte 2',
+        value: 'Refus',
       },
       {
-        door: 'Etage 2 - Porte 3',
-        status: 'Interrogé',
+        key: 'Etage 2 - Porte 3',
+        value: 'Interrogé',
       },
       {
-        door: 'Etage 2 - Porte 4',
-        status: 'Refus',
+        key: 'Etage 2 - Porte 4',
+        value: 'Refus',
       },
       {
-        door: 'Etage 2 - Porte 5',
-        status: 'Absent',
+        key: 'Etage 2 - Porte 5',
+        value: 'Absent',
       },
       {
-        door: 'Etage 2 - Porte 6',
-        status: 'Indisponible',
+        key: 'Etage 2 - Porte 6',
+        value: 'Indisponible',
       },
     ]
     const visitRecords: VisitRecordsViewModel = {
