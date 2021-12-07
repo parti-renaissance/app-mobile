@@ -110,16 +110,8 @@ const stylesFactory = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    visitRecordListFootnote: {
-      ...Typography.footnoteLight,
-      marginVertical: unit,
-    },
     visitRecords: {
       flex: 1,
-    },
-    visitRecordsList: {
-      backgroundColor: Colors.groupedListBackground,
-      borderRadius: unit,
     },
   })
 }
