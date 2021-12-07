@@ -1,4 +1,4 @@
-import { KeyValueCellViewModel } from './KeyValueCell'
+import { KeyValueListViewModel } from './KeyValueListView'
 export interface BuildingHistoryViewModel {
   buildings: BuildingVisitsHistoryViewModel[]
 }
@@ -10,15 +10,10 @@ export interface BuildingVisitsHistoryViewModel {
 
 export interface BuildingVisitsDateRecordsViewModel {
   date: DateViewModel
-  visitRecords: VisitRecordsViewModel
+  visitRecords: KeyValueListViewModel
 }
 
 export interface DateViewModel {
   dayNumber: string
   dateContext: string
-}
-
-export interface VisitRecordsViewModel {
-  doorVisit: KeyValueCellViewModel[]
-  visitors: string
 }

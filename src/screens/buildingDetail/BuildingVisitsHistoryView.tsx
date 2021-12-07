@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, ViewStyle } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { FunctionComponent } from 'react'
 import { useThemedStyles } from '../../themes'
 import { margin, unit } from '../../styles/spacing'
@@ -9,9 +9,8 @@ import {
   BuildingVisitsDateRecordsViewModel,
   BuildingVisitsHistoryViewModel,
   DateViewModel,
-  VisitRecordsViewModel,
 } from './BuildingVisitsHistoryViewModel'
-import KeyValueCell from './KeyValueCell'
+import KeyValueListView from './KeyValueListView'
 
 type Props = Readonly<{ viewModel: BuildingHistoryViewModel }>
 
@@ -54,7 +53,7 @@ const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProp
   return (
     <View style={styles.dateRecordsContainer}>
       <DateView viewModel={viewModel.date} />
-      <VisitRecordsView
+      <KeyValueListView
         containerStyle={styles.visitRecords}
         viewModel={viewModel.visitRecords}
       />
@@ -72,33 +71,6 @@ const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
         <Text style={styles.dateNumber}>{viewModel.dayNumber}</Text>
       </View>
       <Text style={styles.dateMonthAndYear}>{viewModel.dateContext}</Text>
-    </View>
-  )
-}
-
-type VisitRecordsViewProps = Readonly<{
-  containerStyle: ViewStyle
-  viewModel: VisitRecordsViewModel
-}>
-const VisitRecordsView: FunctionComponent<VisitRecordsViewProps> = ({
-  containerStyle,
-  viewModel,
-}) => {
-  const styles = useThemedStyles(stylesFactory)
-
-  return (
-    <View style={containerStyle}>
-      <View style={styles.visitRecordsList}>
-        {viewModel.doorVisit.map((doorVisitViewModel, index) => {
-          return (
-            <KeyValueCell
-              viewModel={doorVisitViewModel}
-              bottomSeparator={index === viewModel.doorVisit.length - 1}
-            />
-          )
-        })}
-      </View>
-      <Text style={styles.visitRecordListFootnote}>{viewModel.visitors}</Text>
     </View>
   )
 }

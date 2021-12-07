@@ -1,9 +1,9 @@
+import { KeyValueListViewModel } from './KeyValueListView'
 import {
   BuildingHistoryViewModel,
   BuildingVisitsDateRecordsViewModel,
   BuildingVisitsHistoryViewModel,
   DateViewModel,
-  VisitRecordsViewModel,
 } from './BuildingVisitsHistoryViewModel'
 import { KeyValueCellViewModel } from './KeyValueCell'
 
@@ -60,9 +60,9 @@ export const BuildingVisitsHistoryViewModelMapper = {
         value: 'Indisponible',
       },
     ]
-    const visitRecords: VisitRecordsViewModel = {
-      doorVisit: doorVisit,
-      visitors: 'Effectué par Donald P. et Alxandre M.',
+    const visitRecords: KeyValueListViewModel = {
+      cells: doorVisit,
+      footnote: 'Effectué par Donald P. et Alxandre M.',
     }
     const date: DateViewModel = {
       dayNumber: '23',
