@@ -73,8 +73,16 @@ export const BuildingVisitsHistoryViewModelMapper = {
         date: date,
         visitRecords: visitRecords,
       },
+      {
+        date: date,
+        visitRecords: visitRecords,
+      },
     ]
     const buildings: BuildingVisitsHistoryViewModel[] = [
+      {
+        buildingName: 'Bâtiment A',
+        dateRecords: dateRecords,
+      },
       {
         buildingName: 'Bâtiment A',
         dateRecords: dateRecords,

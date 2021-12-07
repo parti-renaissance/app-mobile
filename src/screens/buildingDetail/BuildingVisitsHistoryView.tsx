@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Dimensions } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { FunctionComponent } from 'react'
 import { useThemedStyles } from '../../themes'
 import { margin, unit } from '../../styles/spacing'
@@ -63,7 +63,7 @@ const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
-    <View>
+    <View style={styles.dateContainer}>
       <View style={styles.dateNumberContainer}>
         <Text style={styles.dateNumber}>{viewModel.dayNumber}</Text>
       </View>
@@ -79,7 +79,8 @@ const VisitRecordsView: FunctionComponent<VisitRecordsViewProps> = ({
   const styles = useThemedStyles(stylesFactory)
 
   return (
-    <View>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <View style={{ flex: 1 }}>
       <View style={styles.visitRecordsList}>
         {viewModel.doorVisit.map((doorVisitViewModel, index) => {
           return (
@@ -115,6 +116,10 @@ const stylesFactory = () => {
       paddingHorizontal: margin,
       paddingVertical: unit,
     },
+    dateContainer: {
+      marginRight: unit,
+      width: 32,
+    },
     dateMonthAndYear: {
       ...Typography.caption1,
       textAlign: 'center',
@@ -134,12 +139,12 @@ const stylesFactory = () => {
     },
     dateRecordsContainer: {
       flexDirection: 'row',
-      flex: 1,
       justifyContent: 'space-between',
-      maxWidth: Dimensions.get('window').width,
     },
     visitRecordCell: {
+      alignSelf: 'stretch',
       flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     visitRecordDoorText: {
       ...Typography.body,
@@ -154,14 +159,15 @@ const stylesFactory = () => {
       margin: unit,
     },
     visitRecordsCellWithSeparator: {
+      alignSelf: 'stretch',
       borderBottomColor: Colors.separator,
       borderBottomWidth: 2,
       flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     visitRecordsList: {
       backgroundColor: Colors.groupedListBackground,
       borderRadius: unit,
-      flexShrink: 1,
     },
   })
 }
