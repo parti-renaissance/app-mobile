@@ -4,88 +4,97 @@ import { FunctionComponent } from 'react'
 import { useThemedStyles } from '../../themes'
 import { margin, unit } from '../../styles/spacing'
 import { Colors, Typography } from '../../styles'
+import {
+  BuildingHistoryViewModel,
+  BuildingVisitsDateRecordsViewModel,
+  BuildingVisitsHistoryViewModel,
+  DateViewModel,
+  VisitRecordsViewModel,
+} from './BuildingVisitsHistoryViewModel'
 
-type Props = Readonly<{}>
+type Props = Readonly<{ viewModel: BuildingHistoryViewModel }>
 
-const BuildingVisitsHistoryView: FunctionComponent<Props> = ({}) => {
+const BuildingVisitsHistoryView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
     <View>
-      <BuildingVisitsHistory />
-      <BuildingVisitsHistory />
-      <BuildingVisitsHistory />
-      <BuildingVisitsHistory />
-      <BuildingVisitsHistory />
+      {viewModel.buildings.map((buildingViewModel) => {
+        return <BuildingVisitsHistory viewModel={buildingViewModel} />
+      })}
     </View>
   )
 }
 
-const BuildingVisitsHistory: FunctionComponent<Props> = ({}) => {
+type BuildingVisitsHistoryProps = Readonly<{
+  viewModel: BuildingVisitsHistoryViewModel
+}>
+const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({
+  viewModel,
+}) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
     <View style={styles.container}>
-      {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-      <Text style={styles.buildingTitle}>{'Batiment A'}</Text>
-      <BuildingVisitsDateRecords />
-      <BuildingVisitsDateRecords />
-      <BuildingVisitsDateRecords />
+      <Text style={styles.buildingTitle}>{viewModel.buildingName}</Text>
+      {viewModel.dateRecords.map((dateRecordsViewModel) => {
+        return <BuildingVisitsDateRecords viewModel={dateRecordsViewModel} />
+      })}
     </View>
   )
 }
 
-const BuildingVisitsDateRecords: FunctionComponent<Props> = ({}) => {
+type BuildingVisitsDateRecordsProps = Readonly<{
+  viewModel: BuildingVisitsDateRecordsViewModel
+}>
+const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProps> = ({
+  viewModel,
+}) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
     <View style={styles.dateRecordsContainer}>
-      <DateView />
-      <VisitRecordsView />
+      <DateView viewModel={viewModel.date} />
+      <VisitRecordsView viewModel={viewModel.visitRecords} />
     </View>
   )
 }
 
-const DateView: FunctionComponent<Props> = ({}) => {
+type DateViewProps = Readonly<{ viewModel: DateViewModel }>
+const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
     <View>
       <View style={styles.dateNumberContainer}>
-        {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-        <Text style={styles.dateNumber}>{'12'}</Text>
+        <Text style={styles.dateNumber}>{viewModel.dayNumber}</Text>
       </View>
-      {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-      <Text style={styles.dateMonthAndYear}>{'oct\n2021'}</Text>
+      <Text style={styles.dateMonthAndYear}>{viewModel.dateContext}</Text>
     </View>
   )
 }
 
-const VisitRecordsView: FunctionComponent<Props> = ({}) => {
+type VisitRecordsViewProps = Readonly<{ viewModel: VisitRecordsViewModel }>
+const VisitRecordsView: FunctionComponent<VisitRecordsViewProps> = ({
+  viewModel,
+}) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
     <View>
       <View style={styles.visitRecordsList}>
-        <View style={styles.visitRecordsCellWithSeparator}>
-          {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-          <Text style={styles.visitRecordDoorText}>{'ooizadnapzodn'}</Text>
-          {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-          <Text style={styles.visitRecordStatusText}>
-            {'oazndâzdâzdâzdâp^o'}
-          </Text>
-        </View>
-        <View style={styles.visitRecordCell}>
-          {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-          <Text style={styles.visitRecordDoorText}>{'ooizadnapzodn'}</Text>
-          {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-          <Text style={styles.visitRecordStatusText}>
-            {'oazndâzdâzdâzdâp^o'}
-          </Text>
-        </View>
+        {viewModel.doorVisit.map((doorVisitViewModel) => {
+          return (
+            <View style={styles.visitRecordsCellWithSeparator}>
+              <Text style={styles.visitRecordDoorText}>
+                {doorVisitViewModel.door}
+              </Text>
+              <Text style={styles.visitRecordStatusText}>
+                {doorVisitViewModel.status}
+              </Text>
+            </View>
+          )
+        })}
       </View>
-      <Text style={styles.visitRecordListFootnote}>
-        {/*  2021/12/6 (Denis Poifol) stub value use a viewModel  */}
-        {'Effectué par PierreD. & Rapphaelle E.'}
-      </Text>
+      <Text style={styles.visitRecordListFootnote}>{viewModel.visitors}</Text>
     </View>
   )
 }
