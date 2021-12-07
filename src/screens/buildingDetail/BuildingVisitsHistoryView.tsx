@@ -81,9 +81,15 @@ const VisitRecordsView: FunctionComponent<VisitRecordsViewProps> = ({
   return (
     <View>
       <View style={styles.visitRecordsList}>
-        {viewModel.doorVisit.map((doorVisitViewModel) => {
+        {viewModel.doorVisit.map((doorVisitViewModel, index) => {
           return (
-            <View style={styles.visitRecordsCellWithSeparator}>
+            <View
+              style={
+                index === viewModel.doorVisit.length - 1
+                  ? styles.visitRecordCell
+                  : styles.visitRecordsCellWithSeparator
+              }
+            >
               <Text style={styles.visitRecordDoorText}>
                 {doorVisitViewModel.door}
               </Text>
