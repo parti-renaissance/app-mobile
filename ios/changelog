@@ -1,5 +1,9 @@
-# v3.0.0-RC2
+# v3.0.0-RC3
 
-Classement
+Sentry :
+
+- Log netork errors
+
 Buidling Detail :
-- UI et gestion reste à faire onglets Historique et Batiment
+
+- History UI
