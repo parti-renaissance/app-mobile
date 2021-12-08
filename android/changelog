@@ -1,9 +1,5 @@
-# v3.0.0-RC1
+# v3.0.0-RC2
 
-Door to door :
-- charter screen
-- map screen (API key is not yet injected)
-- list screen
-
+Classement
 Buidling Detail :
-- Status UI
+- UI et gestion reste à faire onglets Historique et Batiment
