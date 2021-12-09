@@ -8,6 +8,7 @@ import {
   DepartmentNotFoundError,
   EventSubscriptionError,
 } from '../../core/errors'
+import { ErrorMonitor } from '../../utils/ErrorMonitor'
 import i18n from '../../utils/i18n'
 
 export const GenericErrorMapper = {
@@ -29,8 +30,10 @@ export const GenericErrorMapper = {
     } else if (error instanceof EventSubscriptionError) {
       return error.message
     } else if (error instanceof TypeError) {
+      ErrorMonitor.log('[UI] Bad format', { error: error.message })
       return i18n.t('common.error.parsing')
     } else {
+      ErrorMonitor.log('[UI] Unhandled error', { error: error.message })
       return i18n.t('common.error.generic')
     }
   },
