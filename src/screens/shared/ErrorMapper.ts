@@ -6,6 +6,7 @@ import {
   ForbiddenError,
   NotFoundError,
   DepartmentNotFoundError,
+  EventSubscriptionError,
 } from '../../core/errors'
 import i18n from '../../utils/i18n'
 
@@ -25,6 +26,8 @@ export const GenericErrorMapper = {
       return i18n.t('common.error.not_found')
     } else if (error instanceof DepartmentNotFoundError) {
       return i18n.t('anonymousloginzipcode.invalid_code')
+    } else if (error instanceof EventSubscriptionError) {
+      return error.message
     } else {
       return i18n.t('common.error.generic')
     }

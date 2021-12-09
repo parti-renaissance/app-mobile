@@ -4,7 +4,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react'
-import { View, StyleSheet, Alert } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -16,13 +16,13 @@ import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import i18n from '../../utils/i18n'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { useBackHandler } from '../shared/useBackHandler.hook'
 import {
   GetPhonePollDetailResourcesInteractor,
   PhonePollDetailResources,
 } from '../../core/interactor/GetPhonePollDetailResourcesInteractor'
+import { AlertUtils } from '../shared/AlertUtils'
 
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
@@ -85,31 +85,15 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
     theme,
   ])
 
-  const displayError = (error: string, statusCode: string) => {
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: () => sendInterruptionStatusAndLeave(statusCode),
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
-
   const sendInterruptionStatusAndLeave = (statusCode: string) => {
     setLoading(true)
     PhoningCampaignRepository.getInstance()
       .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
       .then(() => navigation.pop())
       .catch((error) =>
-        displayError(GenericErrorMapper.mapErrorMessage(error), statusCode),
+        AlertUtils.showNetworkAlert(error, () =>
+          sendInterruptionStatusAndLeave(statusCode),
+        ),
       )
       .finally(() => setLoading(false))
   }

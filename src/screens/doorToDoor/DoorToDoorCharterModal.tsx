@@ -1,12 +1,12 @@
 import React, { FC } from 'react'
-import { Alert, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
+import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 
 type Props = {
@@ -21,22 +21,8 @@ const DoorToDoorCharterModal: FC<Props> = (props) => {
       .acceptDoorToDoorCharter()
       .then(() => props.onAcceptCharter())
       .catch((error: Error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
+        AlertUtils.showNetworkAlert(error, acceptCharter)
       })
-  }
-
-  const displayError = (error: string) => {
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.ok'),
-          style: 'default',
-        },
-      ],
-      { cancelable: false },
-    )
   }
 
   const markdownStyle = { body: styles.chartContainer }

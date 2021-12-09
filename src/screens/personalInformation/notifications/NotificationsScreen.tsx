@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
-  Alert,
   SectionList,
   SectionListRenderItemInfo,
   StyleSheet,
@@ -17,6 +16,7 @@ import PersonalInformationRepository from '../../../data/PersonalInformationRepo
 import { NotificationsScreenProps } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
+import { AlertUtils } from '../../shared/AlertUtils'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import LoadingOverlay from '../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
@@ -36,20 +36,6 @@ const NotificationsContent = (
     content.notificationsEnabled,
   )
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const displayError = (error: string) => {
-    console.log('Displaying error ', error)
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.ok'),
-          style: 'default',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
   const onNotificationChanged = (id: string, isSelected: boolean) => {
     if (id === ID_PUSH) {
       setIsLoading(true)
@@ -57,7 +43,7 @@ const NotificationsContent = (
         .execute(category, isSelected)
         .then(() => refetchData())
         .catch((error) => {
-          displayError(GenericErrorMapper.mapErrorMessage(error))
+          AlertUtils.showNetworkAlert(error, undefined)
         })
         .finally(() => {
           setIsLoading(false)
@@ -81,7 +67,7 @@ const NotificationsContent = (
         .updateSubscriptions(content.userUuid, newSubscriptions)
         .then(() => refetchData())
         .catch((error) => {
-          displayError(GenericErrorMapper.mapErrorMessage(error))
+          AlertUtils.showNetworkAlert(error, undefined)
         })
         .finally(() => {
           setIsLoading(false)

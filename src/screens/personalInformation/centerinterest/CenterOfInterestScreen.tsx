@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
-  Alert,
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
@@ -24,6 +23,7 @@ import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMa
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
 } from '../../shared/SelectableIconLabelView'
+import { AlertUtils } from '../../shared/AlertUtils'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -43,23 +43,6 @@ const CenterOfInterestContent = (
   }
 
   const submit = useCallback(() => {
-    const displayError = (error: string) => {
-      Alert.alert(
-        i18n.t('common.error_title'),
-        error,
-        [
-          {
-            text: i18n.t('common.error_retry'),
-            onPress: submit,
-          },
-          {
-            text: i18n.t('common.cancel'),
-            style: 'cancel',
-          },
-        ],
-        { cancelable: false },
-      )
-    }
     setIsLoading(true)
     PersonalInformationRepository.getInstance()
       .updateCentersOfInterest(
@@ -69,7 +52,7 @@ const CenterOfInterestContent = (
           .map((interest) => interest.code),
       )
       .then(onSumitSuccessful)
-      .catch((error) => displayError(GenericErrorMapper.mapErrorMessage(error)))
+      .catch((error) => AlertUtils.showNetworkAlert(error, submit))
       .finally(() => setIsLoading(false))
   }, [content, viewModel, onSumitSuccessful])
 

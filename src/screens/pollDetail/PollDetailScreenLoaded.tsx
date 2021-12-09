@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, Alert, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import PollDetailProgressBar from './PollDetailProgressBar'
 import { Colors, Spacing } from '../../styles'
@@ -16,15 +16,14 @@ import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarVie
 import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
 import PollsRepository from '../../data/PollsRepository'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import i18n from '../../utils/i18n'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { PollDetailModalParamList, Screen } from '../../navigation'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { LocationManager } from '../../utils/LocationManager'
 import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
 import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
 import { PollResult } from '../../core/entities/PollResult'
+import { AlertUtils } from '../shared/AlertUtils'
 
 type Props = Readonly<{
   poll: Poll
@@ -77,25 +76,6 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
     })
   }, [currentStep])
 
-  const displayError = (error: string) => {
-    console.log('Displaying error ', error)
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: postAnswers,
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
-
   const postAnswers = async () => {
     setIsLoading(true)
 
@@ -109,7 +89,7 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({
         })
       })
       .catch((error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
+        AlertUtils.showNetworkAlert(error, postAnswers)
       })
       .finally(() => setIsLoading(false))
   }
