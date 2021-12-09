@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
-  Alert,
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
@@ -17,13 +16,14 @@ import { CentersOfInterestScreenProps } from '../../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton } from '../../shared/Buttons'
-import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import LoadingOverlay from '../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
 } from '../../shared/SelectableIconLabelView'
+import { AlertUtils } from '../../shared/AlertUtils'
+import { ViewStateUtils } from '../../shared/ViewStateUtils'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -43,23 +43,6 @@ const CenterOfInterestContent = (
   }
 
   const submit = useCallback(() => {
-    const displayError = (error: string) => {
-      Alert.alert(
-        i18n.t('common.error_title'),
-        error,
-        [
-          {
-            text: i18n.t('common.error_retry'),
-            onPress: submit,
-          },
-          {
-            text: i18n.t('common.cancel'),
-            style: 'cancel',
-          },
-        ],
-        { cancelable: false },
-      )
-    }
     setIsLoading(true)
     PersonalInformationRepository.getInstance()
       .updateCentersOfInterest(
@@ -69,7 +52,7 @@ const CenterOfInterestContent = (
           .map((interest) => interest.code),
       )
       .then(onSumitSuccessful)
-      .catch((error) => displayError(GenericErrorMapper.mapErrorMessage(error)))
+      .catch((error) => AlertUtils.showNetworkAlert(error, submit))
       .finally(() => setIsLoading(false))
   }, [content, viewModel, onSumitSuccessful])
 
@@ -126,7 +109,7 @@ const CenterOfInterestScreen = ({
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             fetchData()
           }),

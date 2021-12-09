@@ -5,13 +5,13 @@ import { Tool } from '../../core/entities/Tool'
 import ToolsRepository from '../../data/ToolsRepository'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { ToolRow } from './ToolRow'
 import { ToolRowViewModel } from './ToolRowViewModel'
 import { ToolRowViewModelMapper } from './ToolRowViewModelMapper'
 import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const ToolsScreen = () => {
   const [statefulState, setStatefulState] = useState<
@@ -33,9 +33,7 @@ const ToolsScreen = () => {
         setStatefulState(new ViewState.Content(toolsViewModel))
       })
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), fetch),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetch))
       })
   }
 

@@ -10,7 +10,6 @@ import {
   ListRenderItemInfo,
   FlatList,
   View,
-  Alert,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
@@ -21,12 +20,13 @@ import i18n from '../../utils/i18n'
 import { PhonePollDetailCallStatusViewModelMapper } from '../phonePollDetail/PhonePollDetailCallStatusViewModelMapper'
 import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
 import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
+import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreenProps> = ({
   navigation,
@@ -48,11 +48,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
         setStatefulState(new ViewState.Content(callStatuses)),
       )
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            fetchCallStatuses()
-          }),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetchCallStatuses))
       })
   }, [route.params.data.sessionId])
 
@@ -78,24 +74,6 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
     )
   }
 
-  const displayError = (error: string, statusCode: string) => {
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: () => sendStatusCodeAndLeave(statusCode),
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
-
   const sendStatusCodeAndLeave = (statusCode: string) => {
     setLoading(true)
     PhoningCampaignRepository.getInstance()
@@ -106,7 +84,9 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
         })
       })
       .catch((error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error), statusCode)
+        AlertUtils.showNetworkAlert(error, () =>
+          sendStatusCodeAndLeave(statusCode),
+        )
       })
       .finally(() => setLoading(true))
   }

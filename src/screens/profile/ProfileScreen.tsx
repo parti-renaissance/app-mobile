@@ -8,7 +8,6 @@ import { StatefulView, ViewState } from '../shared/StatefulView'
 import ProfileAnonymous from './ProfileAnonymous'
 import { Screen } from '../../navigation'
 import ProfileAuthenticated from './ProfileAuthenticated'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import {
   GetUserProfileInteractor,
   GetUserProfileInteractorResult,
@@ -18,6 +17,7 @@ import {
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 import { ServerTimeoutError } from '../../core/errors'
 import { CloseButton } from '../shared/NavigationHeaderButton'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
@@ -100,9 +100,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
             if (isNetworkError && cacheJustLoaded) {
               return
             }
-            setStatefulState(
-              new ViewState.Error(GenericErrorMapper.mapErrorMessage(error)),
-            )
+            setStatefulState(ViewStateUtils.networkError(error))
           })
       }
 

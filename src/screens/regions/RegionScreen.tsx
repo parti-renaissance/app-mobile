@@ -6,12 +6,12 @@ import RegionsRepository from '../../data/RegionsRepository'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { RegionViewModel } from './RegionViewModel'
 import { RegionViewModelMapper } from './RegionViewModelMapper'
 import { RegionScreenProps } from '../../navigation'
 import { ExternalLink } from '../shared/ExternalLink'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type Props = Readonly<RegionScreenProps>
 
@@ -31,18 +31,15 @@ const RegionScreen: FC<Props> = ({ route }) => {
           )
           setStatefulState(new ViewState.Content(viewModel))
         } else {
+          // This is a fatal error, should not happen
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(
-                new Error('No campaign for region.'),
-              ),
-            ),
+            ViewStateUtils.networkError(new Error('No campaign for region.')),
           )
         }
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             fetchData()
           }),

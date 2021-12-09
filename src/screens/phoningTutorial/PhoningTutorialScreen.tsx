@@ -11,9 +11,9 @@ import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { Colors, Spacing } from '../../styles'
 import { PhoningTutorialScreenProp } from '../../navigation'
 import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 export interface TutorialResources {
   content: string
@@ -41,11 +41,7 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
         setStatefulState(new ViewState.Content({ content: markdown }))
       })
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            fetchData()
-          }),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetchData))
       })
   }, [])
 

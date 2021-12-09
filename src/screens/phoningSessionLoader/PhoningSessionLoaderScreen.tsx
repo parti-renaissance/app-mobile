@@ -11,11 +11,11 @@ import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { PhoningSessionLoaderScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenProps> = ({
   navigation,
@@ -81,14 +81,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
                 <CloseButton onPress={() => navigation.pop()} />
               ),
             })
-            setStatefulState(
-              new ViewState.Error(
-                GenericErrorMapper.mapErrorMessage(error),
-                () => {
-                  loadSession()
-                },
-              ),
-            )
+            setStatefulState(ViewStateUtils.networkError(error, loadSession))
           }
         })
     }

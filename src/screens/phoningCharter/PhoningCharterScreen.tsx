@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { Alert, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { PhoningCharterScreenProp, Screen } from '../../navigation'
 import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
+import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 
 const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProp> = ({
   route,
@@ -28,22 +28,8 @@ const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProp> = ({
         })
       })
       .catch((error: Error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
+        AlertUtils.showNetworkAlert(error, undefined)
       })
-  }
-
-  const displayError = (error: string) => {
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.ok'),
-          style: 'default',
-        },
-      ],
-      { cancelable: false },
-    )
   }
 
   const markdownStyle = { body: styles.chartContainer }

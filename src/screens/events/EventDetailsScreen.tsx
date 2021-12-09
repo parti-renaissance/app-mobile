@@ -5,9 +5,9 @@ import {
   Image,
   View,
   Text,
-  Alert,
   Share,
   useWindowDimensions,
+  Alert,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps, Screen } from '../../navigation'
@@ -31,11 +31,12 @@ import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import EventRepository from '../../data/EventRepository'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import HTML from 'react-native-render-html'
-import { EventSubscriptionError, ForbiddenError } from '../../core/errors'
+import { ForbiddenError } from '../../core/errors'
+import { AlertUtils } from '../shared/AlertUtils'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -70,47 +71,24 @@ const EventDetailsContent = (
       .subscribeToEvent(viewModel.id)
       .then(() => refetchData())
       .catch((error) => {
-        if (error instanceof EventSubscriptionError) {
-          displayError(error.message)
-        } else if (error instanceof ForbiddenError) {
-          displayError(i18n.t('eventdetails.connect_to_subscribe'))
-        } else {
-          displayError(GenericErrorMapper.mapErrorMessage(error))
+        let message: string | undefined
+        if (error instanceof ForbiddenError) {
+          message = i18n.t('eventdetails.connect_to_subscribe')
         }
+        AlertUtils.showNetworkAlert(error, subscribe, { message })
       })
       .finally(() => {
         setIsLoading(false)
       })
   }
-  const displayError = (error: string) => {
-    console.log('Displaying error ', error)
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: subscribe,
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
+
   const performUnsubscription = () => {
     setIsLoading(true)
     EventRepository.getInstance()
       .unsubscribeFromEvent(viewModel.id)
       .then(() => refetchData())
       .catch((error) => {
-        if (error instanceof EventSubscriptionError) {
-          displayError(error.message)
-        } else {
-          displayError(GenericErrorMapper.mapErrorMessage(error))
-        }
+        AlertUtils.showNetworkAlert(error, performUnsubscription)
       })
       .finally(() => {
         setIsLoading(false)
@@ -331,11 +309,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
         setStatefulState(new ViewState.Content(viewModel))
       })
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            refetchData()
-          }),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, refetchData))
       })
   }
 

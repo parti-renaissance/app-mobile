@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Alert, Image, StyleSheet, Text } from 'react-native'
+import { Image, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Department } from '../../core/entities/Department'
 import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginInteractor'
@@ -8,10 +8,11 @@ import { ZipCodeConfirmationScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
+import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../shared/StatefulView'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type ContentProps = Readonly<{
   department: string
@@ -25,29 +26,11 @@ const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const { theme } = useTheme()
 
-  const displayError = (error: string) => {
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: authenticate,
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
-
   const authenticate = () => {
     setIsLoading(true)
     new AnonymousLoginInteractor()
       .login(zipCode)
-      .catch((error) => displayError(GenericErrorMapper.mapErrorMessage(error)))
+      .catch((error) => AlertUtils.showNetworkAlert(error, authenticate))
       .finally(() => setIsLoading(false))
   }
 
@@ -88,13 +71,10 @@ const ZipCodeConfirmationScreen = ({
         })
         .catch((error) => {
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              () => {
-                setStatefulState(new ViewState.Loading())
-                fetchData()
-              },
-            ),
+            ViewStateUtils.networkError(error, () => {
+              setStatefulState(new ViewState.Loading())
+              fetchData()
+            }),
           )
         })
     }

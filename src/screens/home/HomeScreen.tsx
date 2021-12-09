@@ -15,7 +15,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { HomeScreenProps, Screen } from '../../navigation'
 import { Colors } from '../../styles'
 import { useTheme } from '../../themes'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
@@ -41,6 +40,7 @@ import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { RetaliationService } from '../../data/RetaliationService'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const { theme, setTheme } = useTheme()
@@ -101,13 +101,10 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
             return
           }
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              () => {
-                setStatefulState(new ViewState.Loading())
-                fetchData()
-              },
-            ),
+            ViewStateUtils.networkError(error, () => {
+              setStatefulState(new ViewState.Loading())
+              fetchData()
+            }),
           )
         })
         .finally(() => {

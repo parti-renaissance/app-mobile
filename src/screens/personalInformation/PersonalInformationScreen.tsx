@@ -6,7 +6,6 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -28,7 +27,6 @@ import {
   FormViolation,
 } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { Gender } from '../../core/entities/UserProfile'
 import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
@@ -38,6 +36,8 @@ import { useThemedStyles } from '../../themes'
 import Theme from '../../themes/Theme'
 import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
+import { AlertUtils } from '../shared/AlertUtils'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type ContentProps = Readonly<{
   profileUuid: string
@@ -74,24 +74,6 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   }
 
   const submit = useCallback(() => {
-    const displayError = (error: string) => {
-      console.log('Displaying error ', error)
-      Alert.alert(
-        i18n.t('common.error_title'),
-        error,
-        [
-          {
-            text: i18n.t('common.error_retry'),
-            onPress: submit,
-          },
-          {
-            text: i18n.t('common.cancel'),
-            style: 'cancel',
-          },
-        ],
-        { cancelable: false },
-      )
-    }
     setIsLoading(true)
     setErrors([])
     ProfileRepository.getInstance()
@@ -101,7 +83,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
         if (error instanceof ProfileFormError) {
           setErrors(error.violations)
         } else {
-          displayError(GenericErrorMapper.mapErrorMessage(error))
+          AlertUtils.showNetworkAlert(error, submit)
         }
       })
       .finally(() => setIsLoading(false))
@@ -320,13 +302,10 @@ const PersonalInformationScreen = ({
         })
         .catch((error) => {
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              () => {
-                setStatefulState(new ViewState.Loading())
-                fetchData()
-              },
-            ),
+            ViewStateUtils.networkError(error, () => {
+              setStatefulState(new ViewState.Loading())
+              fetchData()
+            }),
           )
         })
     }

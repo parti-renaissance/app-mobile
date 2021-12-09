@@ -7,7 +7,6 @@ import PollsRepository from '../../data/PollsRepository'
 import { Poll } from '../../core/entities/Poll'
 import PollDetailScreenLoaded from './PollDetailScreenLoaded'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import {
   CloseButton,
   NavigationHeaderButton,
@@ -16,6 +15,7 @@ import ModalOverlay from '../shared/ModalOverlay'
 import PollDetailTools from './PollDetailTools'
 import { useTheme } from '../../themes'
 import { useBackHandler } from '../shared/useBackHandler.hook'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
   const { theme } = useTheme()
@@ -71,12 +71,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
       })
       .catch((error) => {
         console.error(error)
-        setStatefulState(
-          new ViewState.Error(
-            GenericErrorMapper.mapErrorMessage(error),
-            fetchPoll,
-          ),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetchPoll))
       })
   }
 

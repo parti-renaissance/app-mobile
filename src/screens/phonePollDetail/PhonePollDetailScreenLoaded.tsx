@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, FlatList, Alert } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing } from '../../styles'
 import PollDetailNavigationButtons from '../pollDetail/PollDetailNavigationButtons'
@@ -26,9 +26,8 @@ import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/Com
 import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
 import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
 import { PhonePollResult } from '../../core/entities/PhonePollResult'
-import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
+import { AlertUtils } from '../shared/AlertUtils'
 
 type Props = Readonly<{
   poll: Poll
@@ -85,25 +84,6 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
     })
   }, [currentStep])
 
-  const displayError = (error: string) => {
-    console.log('Displaying error ', error)
-    Alert.alert(
-      i18n.t('common.error_title'),
-      error,
-      [
-        {
-          text: i18n.t('common.error_retry'),
-          onPress: postAnswers,
-        },
-        {
-          text: i18n.t('common.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }
-
   const postAnswers = () => {
     setIsLoading(true)
     new SendPhonePollAnswersInteractor()
@@ -115,7 +95,7 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
         })
       })
       .catch((error) => {
-        displayError(GenericErrorMapper.mapErrorMessage(error))
+        AlertUtils.showNetworkAlert(error, postAnswers)
       })
       .finally(() => setIsLoading(false))
   }

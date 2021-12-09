@@ -5,7 +5,6 @@ import { Action } from '../../core/entities/Action'
 import ActionsRepository from '../../data/ActionsRepository'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
@@ -14,6 +13,7 @@ import { useTheme } from '../../themes'
 import { GetPhoningStateInteractor } from '../../core/interactor/GetPhoningStateInteractor'
 import { PhoningState } from '../../core/entities/PhoningState'
 import { ActionsScreenProp } from '../../navigation'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const [statefulState, setStatefulState] = useState<
@@ -38,9 +38,7 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
         })
         .catch((error) => {
           setStatefulState(
-            new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () =>
-              fetch(enablePhoning),
-            ),
+            ViewStateUtils.networkError(error, () => fetch(enablePhoning)),
           )
         })
     },

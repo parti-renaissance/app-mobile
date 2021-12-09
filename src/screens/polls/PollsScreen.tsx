@@ -17,12 +17,12 @@ import { PollRowViewModel } from './PollRowViewModel'
 import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
 import { PollsScreenProps, Screen } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { useTheme } from '../../themes'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
 import { ServerTimeoutError } from '../../core/errors'
 import { useFocusEffect } from '@react-navigation/native'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PollsScreen = ({ navigation }: PollsScreenProps) => {
   const { theme } = useTheme()
@@ -47,13 +47,10 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
             return
           }
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              () => {
-                setStatefulState(new ViewState.Loading())
-                fetchData()
-              },
-            ),
+            ViewStateUtils.networkError(error, () => {
+              setStatefulState(new ViewState.Loading())
+              fetchData()
+            }),
           )
         })
         .finally(() => setRefreshing(false))

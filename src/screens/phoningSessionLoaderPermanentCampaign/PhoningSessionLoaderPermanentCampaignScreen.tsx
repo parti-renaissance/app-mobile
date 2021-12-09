@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Text, StyleSheet, Alert } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
@@ -19,7 +19,7 @@ import { CloseButton } from '../shared/NavigationHeaderButton'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
+import { AlertUtils } from '../shared/AlertUtils'
 
 const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProp> = ({
   navigation,
@@ -51,21 +51,7 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
         setIsLoading(false)
       })
       .catch((error) => {
-        Alert.alert(
-          i18n.t('common.error_title'),
-          GenericErrorMapper.mapErrorMessage(error),
-          [
-            {
-              text: i18n.t('common.error_retry'),
-              onPress: loadSession,
-            },
-            {
-              text: i18n.t('common.cancel'),
-              style: 'cancel',
-            },
-          ],
-          { cancelable: false },
-        )
+        AlertUtils.showNetworkAlert(error, loadSession)
       })
   }, [route.params.campaignId, handleSession])
 
