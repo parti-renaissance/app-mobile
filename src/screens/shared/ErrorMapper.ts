@@ -28,6 +28,8 @@ export const GenericErrorMapper = {
       return i18n.t('anonymousloginzipcode.invalid_code')
     } else if (error instanceof EventSubscriptionError) {
       return error.message
+    } else if (error instanceof TypeError) {
+      return i18n.t('common.error.parsing')
     } else {
       return i18n.t('common.error.generic')
     }

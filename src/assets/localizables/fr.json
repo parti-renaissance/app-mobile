@@ -10,6 +10,7 @@
         "unauthorized": "Vous ne disposez pas des autorisations suffisantes pour effectuer cette demande.\n(code 401)",
         "forbidden": "Cette demande n'est pas autorisée.\n(code 403)",
         "not_found": "La ressource que vous essayez de récupérer ne semble pas exister.\n(code 404)",
+        "parsing": "Le format de la réponse n'est pas lisible. Veuillez réessayer ultérieurement. ",
         "generic": "Une erreur est survenue"
       },
       "error_reload": "Rechargez la page",
