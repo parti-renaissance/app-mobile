@@ -21,13 +21,13 @@ import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhoningCallContactRow from './callContact/CallContactRow'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import PhoningCampaignRow from './campaign/PhoningCampaignRow'
 import {
   PhoningCharterNotAccepted,
   PhoningCharterState,
 } from '../../core/entities/PhoningCharterState'
 import i18n from '../../utils/i18n'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 export interface PhoningResources {
   campaigns: PhoningCampaign[]
@@ -59,7 +59,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             fetchData()
           }),

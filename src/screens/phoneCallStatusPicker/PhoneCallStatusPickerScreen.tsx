@@ -22,11 +22,11 @@ import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
 import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreenProps> = ({
   navigation,
@@ -48,11 +48,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
         setStatefulState(new ViewState.Content(callStatuses)),
       )
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            fetchCallStatuses()
-          }),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetchCallStatuses))
       })
   }, [route.params.data.sessionId])
 

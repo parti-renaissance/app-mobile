@@ -27,7 +27,6 @@ import {
   FormViolation,
 } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { Gender } from '../../core/entities/UserProfile'
 import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
@@ -38,6 +37,7 @@ import Theme from '../../themes/Theme'
 import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
 import { AlertUtils } from '../shared/AlertUtils'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type ContentProps = Readonly<{
   profileUuid: string
@@ -302,13 +302,10 @@ const PersonalInformationScreen = ({
         })
         .catch((error) => {
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              () => {
-                setStatefulState(new ViewState.Loading())
-                fetchData()
-              },
-            ),
+            ViewStateUtils.networkError(error, () => {
+              setStatefulState(new ViewState.Loading())
+              fetchData()
+            }),
           )
         })
     }

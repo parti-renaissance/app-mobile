@@ -10,9 +10,9 @@ import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../shared/StatefulView'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type ContentProps = Readonly<{
   department: string
@@ -71,13 +71,10 @@ const ZipCodeConfirmationScreen = ({
         })
         .catch((error) => {
           setStatefulState(
-            new ViewState.Error(
-              GenericErrorMapper.mapErrorMessage(error),
-              () => {
-                setStatefulState(new ViewState.Loading())
-                fetchData()
-              },
-            ),
+            ViewStateUtils.networkError(error, () => {
+              setStatefulState(new ViewState.Loading())
+              fetchData()
+            }),
           )
         })
     }

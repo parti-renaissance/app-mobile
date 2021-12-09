@@ -7,7 +7,6 @@ import React, {
 import { View, StyleSheet } from 'react-native'
 
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
 import { useTheme } from '../../themes'
@@ -23,6 +22,7 @@ import {
   PhonePollDetailResources,
 } from '../../core/interactor/GetPhonePollDetailResourcesInteractor'
 import { AlertUtils } from '../shared/AlertUtils'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
@@ -69,12 +69,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
       })
       .catch((error) => {
         console.error(error)
-        setStatefulState(
-          new ViewState.Error(
-            GenericErrorMapper.mapErrorMessage(error),
-            fetchResources,
-          ),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetchResources))
       })
   }
 

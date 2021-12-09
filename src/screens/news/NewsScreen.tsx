@@ -12,10 +12,10 @@ import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { Colors, Spacing } from '../../styles'
 import { useTheme } from '../../themes'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { ExternalLink } from '../shared/ExternalLink'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView, ViewState } from '../shared/StatefulView'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 import NewsContentViewModel from './NewsContentViewModel'
 import { NewsContentViewModelMapper } from './NewsContentViewModelMapper'
 import NewsRow from './NewsRow'
@@ -46,7 +46,7 @@ const NewsScreen = () => {
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             loadFirstPage()
           }),

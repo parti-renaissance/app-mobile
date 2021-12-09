@@ -4,9 +4,9 @@ import { Tool } from '../../core/entities/Tool'
 import ToolsRepository from '../../data/ToolsRepository'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { ExternalLink } from '../shared/ExternalLink'
 import { StatefulView, ViewState } from '../shared/StatefulView'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 import PollDetailToolRow from './PollDetailToolRow'
 
 const Separator = () => {
@@ -26,9 +26,7 @@ const PollDetailTools = () => {
         setStatefulState(new ViewState.Content(tools))
       })
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), fetch),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, fetch))
       })
   }
 

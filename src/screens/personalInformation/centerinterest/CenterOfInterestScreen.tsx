@@ -16,7 +16,6 @@ import { CentersOfInterestScreenProps } from '../../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton } from '../../shared/Buttons'
-import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import LoadingOverlay from '../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
@@ -24,6 +23,7 @@ import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
 } from '../../shared/SelectableIconLabelView'
 import { AlertUtils } from '../../shared/AlertUtils'
+import { ViewStateUtils } from '../../shared/ViewStateUtils'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -109,7 +109,7 @@ const CenterOfInterestScreen = ({
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             fetchData()
           }),

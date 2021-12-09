@@ -17,9 +17,9 @@ import { NotificationsScreenProps } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { AlertUtils } from '../../shared/AlertUtils'
-import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import LoadingOverlay from '../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
+import { ViewStateUtils } from '../../shared/ViewStateUtils'
 import NotificationRowView from './NotificationRowView'
 import { ID_PUSH, NotificationRowViewModel } from './NotificationViewModel'
 import { NotificationViewModelMapper } from './NotificationViewModelMapper'
@@ -116,7 +116,7 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             fetchData()
           }),

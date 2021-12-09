@@ -31,12 +31,12 @@ import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import EventRepository from '../../data/EventRepository'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import HTML from 'react-native-render-html'
 import { ForbiddenError } from '../../core/errors'
 import { AlertUtils } from '../shared/AlertUtils'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -309,11 +309,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
         setStatefulState(new ViewState.Content(viewModel))
       })
       .catch((error) => {
-        setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-            refetchData()
-          }),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, refetchData))
       })
   }
 

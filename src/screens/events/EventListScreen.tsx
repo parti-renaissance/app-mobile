@@ -16,7 +16,6 @@ import { Spacing, Typography } from '../../styles'
 import { useTheme } from '../../themes'
 import { DateProvider } from '../../utils/DateProvider'
 import i18n from '../../utils/i18n'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import EventGridItem from './EventGridItem'
@@ -29,6 +28,7 @@ import {
 import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInteractor'
 import { useFocusEffect } from '@react-navigation/core'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -70,7 +70,7 @@ const EventListScreen: FC<Props> = (props) => {
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
             setStatefulState(new ViewState.Loading())
             loadFirstPage()
           }),
