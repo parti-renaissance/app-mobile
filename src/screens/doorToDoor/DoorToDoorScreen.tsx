@@ -31,7 +31,7 @@ import DoorToDoorListView from './DoorToDoorListView'
 import { LatLng } from 'react-native-maps'
 import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
 import DoorToDoorFilter from './DoorToDoorFilter'
-import Geolocation from '@react-native-community/geolocation'
+import Geolocation from 'react-native-geolocation-service'
 import RankingModal from './rankings/RankingModal'
 import { Screen } from '../../navigation'
 

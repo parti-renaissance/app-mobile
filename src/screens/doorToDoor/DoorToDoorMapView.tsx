@@ -10,7 +10,7 @@ import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
 import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
-import Geolocation from '@react-native-community/geolocation'
+import Geolocation from 'react-native-geolocation-service'
 
 type Props = {
   data: DoorToDoorAddress[]
