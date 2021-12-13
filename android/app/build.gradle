@@ -3,6 +3,8 @@ apply plugin: "com.google.gms.google-services"
 apply from: '../config.gradle'
 import com.android.build.OutputFile
 
+def androidMapAPIKeyValue = localProperties.get("GOOGLE_MAPS_API_KEY")
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -136,6 +138,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode release.versionCode
         versionName release.versionName
+        manifestPlaceholders = [androidMapAPIKey:"$androidMapAPIKeyValue"]
 
         proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     }
