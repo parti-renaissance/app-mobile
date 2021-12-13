@@ -52,7 +52,15 @@
             />
         <meta-data
             android:name="google_analytics_automatic_screen_reporting_enabled"
-            android:value="false" />
+            android:value="false"
+            />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${androidMapAPIKey}"
+            />
+
+        <!-- Used for react-native-maps -->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
 
 </manifest>

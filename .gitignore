@@ -28,6 +28,7 @@ build/
 .idea
 .gradle
 local.properties
+local.secret.properties
 *.iml
 
 # Visual Studio Code
