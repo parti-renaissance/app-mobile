@@ -33,7 +33,7 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
           title={i18n.t('phoning.brief.call')}
           onPress={() =>
             navigation.navigate(Screen.phoningSessionModal, {
-              screen: Screen.phoningSessionLoader,
+              screen: Screen.phoningSessionLoader, 
               params: {
                 campaignId: route.params.data.id,
                 campaignTitle: route.params.data.title,

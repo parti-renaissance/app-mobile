@@ -9,6 +9,7 @@ import { CloseButton } from '../../shared/NavigationHeaderButton'
 
 const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreenProp> = ({
   navigation,
+  route,
 }) => {
   useEffect(() => {
     navigation.setOptions({
@@ -16,6 +17,8 @@ const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreen
       title: 'Bat 1 - RdC - P1',
     })
   }, [navigation])
+
+  const { campaignId, campaignTitle } = route.params
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,7 +32,12 @@ const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreen
       <View style={styles.bottomContainer}>
         <PrimaryButton
           title={i18n.t('tunnel.start.doorknocked')}
-          onPress={() => navigation.navigate(Screen.tunnelDoorOpening)}
+          onPress={() =>
+            navigation.navigate(Screen.tunnelDoorOpening, {
+              campaignId,
+              campaignTitle,
+            })
+          }
         />
         <SecondaryButton
           title={i18n.t('tunnel.start.floorFinished')}

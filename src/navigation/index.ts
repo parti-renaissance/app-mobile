@@ -168,18 +168,38 @@ export type BuildingDetailScreenProp = Readonly<{
   navigation: NavigationProp<ParamListBase>
 }>
 
-// Door to Door Tutorial
-export type DoorToDoorTutorialScreenProp = Readonly<{
-  navigation: NavigationProp<ParamListBase>
-}>
+// DoorToDoorTunnelModal
+export type DoorToDoorTunnelModalParamList = {
+  DoorToDoorBriefScreen: {
+    campaignId: string
+    campaignTitle: string
+    campaignBrief: string
+  }
+  DoorToDoorTunnelStartScreen: {
+    campaignId: string
+    campaignTitle: string
+  }
+  TunnelDoorOpeningScreen: {
+    campaignId: string
+    campaignTitle: string
+  }
+}
 
-export type DoorToDoorTunnelStartScreenProp = Readonly<{
-  navigation: NavigationProp<ParamListBase>
-}>
+// Door to Door Brief
+export type DoorToDoorBriefScreenProp = StackScreenProps<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.doorToDoorBrief
+>
 
-export type TunnelDoorOpeningScreenScreenProp = StackScreenProps<{
-  navigation: NavigationProp<ParamListBase>
-}>
+export type DoorToDoorTunnelStartScreenProp = StackScreenProps<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.doorToDoorTunnelStart
+>
+
+export type TunnelDoorOpeningScreenScreenProp = StackScreenProps<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.tunnelDoorOpening
+>
 
 // Phoning charter
 export type PhoningCharterScreenProp = StackScreenProps<

@@ -11,7 +11,7 @@ import i18n from '../../../utils/i18n'
 import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
-import { DoorToDoorTutorialScreenProp, Screen } from '../../../navigation'
+import { DoorToDoorBriefScreenProp, Screen } from '../../../navigation'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../shared/Buttons'
 import { CloseButton } from '../../shared/NavigationHeaderButton'
@@ -20,12 +20,15 @@ export interface TutorialResources {
   content: string
 }
 
-const DoorToDoorTutorialScreen: FunctionComponent<DoorToDoorTutorialScreenProp> = ({
+const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   navigation,
+  route,
 }) => {
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<TutorialResources>
   >(new ViewState.Loading())
+
+  const { campaignId, campaignTitle, campaignBrief } = route.params
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -63,7 +66,12 @@ const DoorToDoorTutorialScreen: FunctionComponent<DoorToDoorTutorialScreenProp> 
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('tunnel.tutorial.action')}
-            onPress={() => navigation.navigate(Screen.doorToDoorTunnelStart)}
+            onPress={() =>
+              navigation.navigate(Screen.doorToDoorTunnelStart, {
+                campaignId,
+                campaignTitle,
+              })
+            }
           />
         </View>
       </>
@@ -95,4 +103,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DoorToDoorTutorialScreen
+export default DoorToDoorBriefScreen

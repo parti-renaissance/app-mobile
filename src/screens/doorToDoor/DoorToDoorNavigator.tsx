@@ -4,7 +4,7 @@ import { Screen } from '../../navigation'
 import { headerBlank } from '../../styles/navigationAppearance'
 import DoorToDoorScreen from './DoorToDoorScreen'
 import BuildingDetailScreen from '../buildingDetail/BuildingDetailScreen'
-import DoorToDoorTutorialScreen from './tunnel/DoorToDoorTutorialScreen'
+import DoorToDoorBriefScreen from './tunnel/DoorToDoorBriefScreen'
 
 const DoorToDoorStack = createStackNavigator()
 
@@ -21,8 +21,8 @@ const DoorToDoorNavigator: FunctionComponent = () => (
       options={{ headerShown: false }}
     />
     <DoorToDoorStack.Screen
-      name={Screen.doorToDoorTutorial}
-      component={DoorToDoorTutorialScreen}
+      name={Screen.doorToDoorBrief}
+      component={DoorToDoorBriefScreen}
     />
   </DoorToDoorStack.Navigator>
 )

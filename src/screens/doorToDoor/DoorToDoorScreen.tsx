@@ -143,7 +143,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       <TouchablePlatform
         style={styles.classementIconContainer}
         touchHighlight={Colors.touchHighlight}
-        onPress={() => navigation.navigate(Screen.doorToDootTunnelModal)}
+        onPress={() => navigation.navigate(Screen.doorToDootTunnelModal, {})}
       >
         <Image
           style={styles.classementIcon}
