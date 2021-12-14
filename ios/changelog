@@ -1,9 +1,7 @@
-# v3.0.0-RC3
+# v3.0.0-RC4
 
 Sentry :
 
-- Log netork errors
-
-Buidling Detail :
-
-- History UI
+- Create AlertUtils.showNetworkAlert and ViewStateUtils.networkError to centralize error handling.
+- Add an user friendly message for TypeError
+- Log unhandled errors to Sentry to help future debugging
