@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   StyleSheet,
   SafeAreaView,
@@ -19,6 +19,7 @@ import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
 import { BuildingVisitsHistoryViewModelMapper } from './BuildingVisitsHistoryViewModelMapper'
+import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 
 enum Tab {
   HISTORY,
@@ -35,6 +36,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     route.params.address,
     theme,
   )
+
+  const fetchHistory = () => {
+    DoorToDoorRepository.getInstance()
+      .buildingHistory(
+        route.params.address.building.id,
+        route.params.address.building.campaignStatistics.campaignId,
+      )
+      .catch(() => {})
+  }
+
+  useEffect(() => {
+    fetchHistory()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const showHistory = () => {
     setTab(Tab.HISTORY)
