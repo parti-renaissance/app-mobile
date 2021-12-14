@@ -167,6 +167,22 @@ export type BuildingDetailScreenProp = Readonly<{
   navigation: NavigationProp<ParamListBase>
 }>
 
+// DoorToDoorTunnelModal
+export type DoorToDoorTunnelModalParamList = {
+  TunnelDoorInterlocutorScreen: {
+    campaignId: string
+  }
+}
+
+export type TunnelDoorInterlocutorScreenRouteProp = RouteProp<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.tunnelDoorInterlocutor
+>
+export type TunnelDoorInterlocutorScreenProp = Readonly<{
+  route: TunnelDoorInterlocutorScreenRouteProp
+  navigation: NavigationProp<ParamListBase>
+}>
+
 // Phoning charter
 export type PhoningCharterScreenProp = StackScreenProps<
   PhoningParamList,
