@@ -48,6 +48,7 @@ import {
   RestDoorToDoorCharterResponse,
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
+import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
 
 class ApiService {
   private static instance: ApiService
@@ -416,6 +417,15 @@ class ApiService {
         `api/v3/pap/address/near?latitude=${latitude}&longitude=${longitude}&zoom=${zoom}`,
       )
       .json<RestDoorToDoorAddress[]>()
+      .catch(genericErrorMapping)
+  }
+
+  public getDoorToDoorPollConfig(
+    campaignId: string,
+  ): Promise<RestDoorToDoorPollConfig> {
+    return this.httpClient
+      .get(`api/v3/pap_campaigns/${campaignId}/survey-config`)
+      .json<RestDoorToDoorPollConfig>()
       .catch(genericErrorMapping)
   }
 
