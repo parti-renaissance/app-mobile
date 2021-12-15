@@ -429,6 +429,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getDoorToDoorCampaignPoll(campaignId: string): Promise<Poll> {
+    return this.httpClient
+      .get(`api/v3/pap_campaigns/${campaignId}/survey`)
+      .json<Poll>()
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()
