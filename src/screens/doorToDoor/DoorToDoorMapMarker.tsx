@@ -11,7 +11,11 @@ type Props = {
 }
 
 export const DoorToDoorMapMarker = memo((props: Props) => (
-  <Marker coordinate={props.coordinate} onPress={props.onPress}>
+  <Marker
+    tracksViewChanges={false}
+    coordinate={props.coordinate}
+    onPress={props.onPress}
+  >
     <CardView backgroundColor={Colors.defaultBackground}>
       <View style={styles.marker}>
         {props.icon && <Image source={props.icon} />}

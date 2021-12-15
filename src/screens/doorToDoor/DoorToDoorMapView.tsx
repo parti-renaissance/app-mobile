@@ -97,7 +97,11 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
       >
-        <Marker coordinate={currentPosition} {...markerExtraProps}>
+        <Marker
+          coordinate={currentPosition}
+          tracksViewChanges={false}
+          {...markerExtraProps}
+        >
           <Image source={require('../../assets/images/papPositionIcon.png')} />
         </Marker>
         {data.map((marker) => (
