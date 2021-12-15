@@ -1,28 +1,16 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
-import { TunnelDoorInterlocutorScreenProp } from '../../../navigation'
-import {
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { Screen, TunnelDoorInterlocutorScreenProp } from '../../../navigation'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
 import Theme from '../../../themes/Theme'
 import { useThemedStyles } from '../../../themes'
 import { ScrollView } from 'react-native-gesture-handler'
 import { TouchablePlatform } from '../../shared/TouchablePlatform'
 import i18n from '../../../utils/i18n'
-import { useBackHandler } from '../../shared/useBackHandler.hook'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import { DoorToDoorPollConfigResponseStatus } from '../../../core/entities/DoorToDoorPollConfig'
+import { useDoorToDoorTunnelNavigationOptions } from './DoorToDoorTunnelNavigationHook'
 
 const ANSWER_CODE_ACCEPT = 'accept_to_answer'
 
@@ -35,41 +23,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
     ViewState.Type<Array<DoorToDoorPollConfigResponseStatus>>
   >(new ViewState.Loading())
 
-  const askConfirmationBeforeLeaving = useCallback(() => {
-    Alert.alert(
-      i18n.t('doorToDoor.tunnel.leave_alert.title'),
-      i18n.t('doorToDoor.tunnel.leave_alert.message'),
-      [
-        {
-          text: i18n.t('doorToDoor.tunnel.leave_alert.action'),
-          onPress: () => navigation.goBack(),
-          style: 'destructive',
-        },
-        {
-          text: i18n.t('doorToDoor.tunnel.leave_alert.cancel'),
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
-  }, [navigation])
-
-  useBackHandler(askConfirmationBeforeLeaving)
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={styles.navigation}
-          onPress={() => {
-            askConfirmationBeforeLeaving()
-          }}
-        >
-          <Text style={styles.navigationText}>{i18n.t('tunnel.exit')}</Text>
-        </TouchableOpacity>
-      ),
-    })
-  }, [askConfirmationBeforeLeaving, navigation, styles])
+  useDoorToDoorTunnelNavigationOptions(navigation)
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()
@@ -166,13 +120,6 @@ const stylesFactory = (theme: Theme) => {
     itemText: {
       ...Typography.title2,
       textAlign: 'center',
-    },
-    navigation: {
-      paddingHorizontal: Spacing.margin,
-    },
-    navigationText: {
-      ...Typography.callout,
-      color: theme.primaryColor,
     },
     separator: {
       height: Spacing.margin,
