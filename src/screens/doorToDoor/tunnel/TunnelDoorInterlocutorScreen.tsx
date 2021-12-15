@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Screen, TunnelDoorInterlocutorScreenProp } from '../../../navigation'
+import { TunnelDoorInterlocutorScreenProp } from '../../../navigation'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
 import Theme from '../../../themes/Theme'
@@ -97,7 +97,6 @@ const stylesFactory = (theme: Theme) => {
     content: {
       flex: 1,
       marginHorizontal: Spacing.margin,
-      paddingTop: Spacing.largeMargin,
     },
     exit: {
       color: theme.primaryColor,
