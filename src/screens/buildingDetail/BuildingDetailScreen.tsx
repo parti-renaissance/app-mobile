@@ -49,7 +49,9 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         .then((value) => {
           setHistory(value)
         })
-        .catch(() => {})
+        .catch(() => {
+          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
+        })
     }
 
     fetchHistory()
