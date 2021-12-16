@@ -39,22 +39,24 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     theme,
   )
 
-  const fetchHistory = () => {
-    DoorToDoorRepository.getInstance()
-      .buildingHistory(
-        route.params.address.building.id,
-        route.params.address.building.campaignStatistics.campaignId,
-      )
-      .then((value) => {
-        setHistory(value)
-      })
-      .catch(() => {})
-  }
-
   useEffect(() => {
+    const fetchHistory = () => {
+      DoorToDoorRepository.getInstance()
+        .buildingHistory(
+          route.params.address.building.id,
+          route.params.address.building.campaignStatistics.campaignId,
+        )
+        .then((value) => {
+          setHistory(value)
+        })
+        .catch(() => {})
+    }
+
     fetchHistory()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [
+    route.params.address.building.campaignStatistics.campaignId,
+    route.params.address.building.id,
+  ])
 
   const showHistory = () => {
     setTab(Tab.HISTORY)
