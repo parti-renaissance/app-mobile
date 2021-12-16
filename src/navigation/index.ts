@@ -105,6 +105,7 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
   News: undefined
+  DoorToDoorTunnelModal: undefined
 }
 
 export type UnauthenticatedStackParamList = {

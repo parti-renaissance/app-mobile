@@ -32,7 +32,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           <ActionTitle viewModel={viewModel} />
           <TouchablePlatform
             style={styles.arrowButton}
-            onPress={() => onSelect}
+            onPress={onSelect}
             touchHighlight={Colors.touchHighlight}
           >
             <Image

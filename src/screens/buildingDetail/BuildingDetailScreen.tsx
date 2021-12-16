@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { Colors, Typography } from '../../styles'
 import { useTheme, useThemedStyles } from '../../themes'
-import { BuildingDetailScreenProp } from '../../navigation'
+import { BuildingDetailScreenProp, Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
 import BuildingLayoutView from './BuildingLayoutView'
@@ -27,6 +27,7 @@ enum Tab {
 }
 
 const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
+  navigation,
   route,
 }) => {
   const styles = useThemedStyles(stylesFactory)
@@ -76,7 +77,14 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            onSelect={() => {}}
+            onSelect={() => {
+              navigation.navigate(Screen.doorToDoorTunnelModal, {
+                screen: Screen.tunnelDoorInterlocutor,
+                params: {
+                  campaignId: viewModel.campaignId,
+                },
+              })
+            }}
           />
         )
     }
