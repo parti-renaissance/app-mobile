@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { TunnelDoorInterlocutorScreenProp } from '../../../navigation'
+import { Screen, TunnelDoorInterlocutorScreenProp } from '../../../navigation'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
 import Theme from '../../../themes/Theme'
@@ -37,7 +37,9 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   const onChoice = (code: string) => {
     // TODO store choice somewhere
     if (code === ANSWER_CODE_ACCEPT) {
-      // TODO navigate to survey
+      navigation.navigate(Screen.tunnelDoorPoll, {
+        campaignId: route.params.campaignId,
+      })
     } else {
       navigation.goBack()
     }

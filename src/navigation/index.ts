@@ -172,6 +172,9 @@ export type DoorToDoorTunnelModalParamList = {
   TunnelDoorInterlocutorScreen: {
     campaignId: string
   }
+  TunnelDoorPollScreen: {
+    campaignId: string
+  }
 }
 
 export type TunnelDoorInterlocutorScreenRouteProp = RouteProp<
@@ -180,6 +183,15 @@ export type TunnelDoorInterlocutorScreenRouteProp = RouteProp<
 >
 export type TunnelDoorInterlocutorScreenProp = Readonly<{
   route: TunnelDoorInterlocutorScreenRouteProp
+  navigation: NavigationProp<ParamListBase>
+}>
+
+export type TunnelDoorPollScreenRouteProp = RouteProp<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.tunnelDoorPoll
+>
+export type TunnelDoorPollScreenProp = Readonly<{
+  route: TunnelDoorPollScreenRouteProp
   navigation: NavigationProp<ParamListBase>
 }>
 
