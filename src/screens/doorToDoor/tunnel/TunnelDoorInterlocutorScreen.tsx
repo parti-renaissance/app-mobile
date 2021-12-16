@@ -74,7 +74,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   ) => (
     <ScrollView contentContainerStyle={styles.content}>
       <Text style={styles.title} key={'title'}>
-        {i18n.t('doorToDoor.interlocutor.title')}
+        {i18n.t('doorToDoor.tunnel.interlocutor.title')}
       </Text>
       {renderContentItems(items)}
     </ScrollView>

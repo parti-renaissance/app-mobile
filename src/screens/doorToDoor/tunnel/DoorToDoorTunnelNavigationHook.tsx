@@ -45,7 +45,9 @@ export function useDoorToDoorTunnelNavigationOptions(
             askConfirmationBeforeLeaving()
           }}
         >
-          <Text style={styles.navigationText}>{i18n.t('tunnel.exit')}</Text>
+          <Text style={styles.navigationText}>
+            {i18n.t('doorToDoor.tunnel.exit')}
+          </Text>
         </TouchableOpacity>
       ),
     })

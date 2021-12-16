@@ -458,14 +458,15 @@
         "ongoing": "À terminer",
         "completed": "Terminé"
       },
-      "interlocutor": { "title": "Votre interlocuteur" },
       "tunnel": {
+        "interlocutor": { "title": "Votre interlocuteur" },
         "leave_alert": {
           "title": "Quitter le questionnaire",
           "message": "Êtes-vous sur de vouloir quitter le questionnaire ?",
           "cancel": "Annuler",
           "action": "Quitter"
-        }
+        },
+        "exit": "Quitter"
       }
     }
   }
