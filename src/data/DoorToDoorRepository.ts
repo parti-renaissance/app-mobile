@@ -73,7 +73,7 @@ class DoorToDoorRepository {
   }
 
   public async getDoorToDoorPoll(campaignId: string): Promise<Poll> {
-    return await this.apiService.getDoorToDoorCampaignPoll(campaignId)
+    return this.apiService.getDoorToDoorCampaignPoll(campaignId)
   }
 }
 
