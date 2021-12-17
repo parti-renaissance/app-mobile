@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Colors } from '../../styles'
-import { margin } from '../../styles/spacing'
+import { margin, unit } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
-import BuildingLayoutBuildingCardView, {
-  BuildingLayoutBuildingCardViewModel,
-} from './BuildingLayoutBuildingCardView'
+import BuildingLayoutBlockCardView, {
+  BuildingLayoutBlockCardViewModel,
+} from './BuildingLayoutBlockCardView'
 
 export interface BuildingLayoutViewModel {
-  buildings: BuildingLayoutBuildingCardViewModel[]
+  buildings: BuildingLayoutBlockCardViewModel[]
 }
 
 type Props = Readonly<{
@@ -26,8 +26,9 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
     <View style={styles.container}>
       {viewModel.buildings.map((buildingViewModel) => {
         return (
-          <BuildingLayoutBuildingCardView
+          <BuildingLayoutBlockCardView
             viewModel={buildingViewModel}
+            style={styles.blockCard}
             onSelect={onSelect}
           />
         )
@@ -38,6 +39,9 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
 
 const stylesFactory = () => {
   return StyleSheet.create({
+    blockCard: {
+      marginVertical: unit,
+    },
     container: {
       backgroundColor: Colors.defaultBackground,
       padding: margin,

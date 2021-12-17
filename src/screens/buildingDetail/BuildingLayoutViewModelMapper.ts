@@ -2,7 +2,7 @@ import { BuildingBlock } from './../../core/entities/BuildingBlock'
 import { BuildingLayoutViewModel } from './BuildingLayoutView'
 import { BuildingType } from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
-import { BuildingLayoutBuildingCardViewModel } from './BuildingLayoutBuildingCardView'
+import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
 
 export const BuildingLayoutViewModelMapper = {
   map: (
@@ -20,7 +20,7 @@ export const BuildingLayoutViewModelMapper = {
 function blockCardViewModel(
   block: BuildingBlock,
   type: BuildingType,
-): BuildingLayoutBuildingCardViewModel {
+): BuildingLayoutBlockCardViewModel {
   switch (type) {
     case 'house':
       return {

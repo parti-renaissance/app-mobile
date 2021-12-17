@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   ImageSourcePropType,
+  ViewStyle,
 } from 'react-native'
 import { Colors, Typography } from '../../styles'
 import { margin, small, unit } from '../../styles/spacing'
@@ -15,25 +16,27 @@ import BuildingActionTitleView, {
   BuildingActionTitleViewModel,
 } from './BuildingActionTitleView'
 
-export interface BuildingLayoutBuildingCardViewModel {
+export interface BuildingLayoutBlockCardViewModel {
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
   action: BuildingActionTitleViewModel
 }
 
 type Props = Readonly<{
-  viewModel: BuildingLayoutBuildingCardViewModel
+  viewModel: BuildingLayoutBlockCardViewModel
+  style: ViewStyle
   onSelect: () => void
 }>
 
-const BuildingLayoutBuildingCardView: FunctionComponent<Props> = ({
+const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   viewModel,
+  style,
   onSelect,
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, style]}>
       <View style={styles.statusContainer}>
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
@@ -71,7 +74,7 @@ const stylesFactory = (theme: Theme) => {
       borderRadius: 8,
       shadowColor: Colors.loadingOverlayBackground,
       shadowOffset: {
-        width: 4,
+        width: 2,
         height: 10,
       },
       shadowOpacity: 10,
@@ -100,4 +103,4 @@ const stylesFactory = (theme: Theme) => {
   })
 }
 
-export default BuildingLayoutBuildingCardView
+export default BuildingLayoutBlockCardView
