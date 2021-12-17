@@ -7,7 +7,7 @@ import {
   Image,
   Text,
 } from 'react-native'
-import { Colors, Typography } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
 import BuildingLayoutFloorCell, {
@@ -40,14 +40,27 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
       </View>
       <View style={styles.layoutContainer}>
-        {viewModel.floors.map((floorViewModel) => {
-          return (
-            <BuildingLayoutFloorCell
-              viewModel={floorViewModel}
-              style={{}}
-              onSelect={onSelect}
-            />
-          )
+        {viewModel.floors.map((floorViewModel, index) => {
+          if (index !== viewModel.floors.length - 1) {
+            return (
+              <>
+                <BuildingLayoutFloorCell
+                  viewModel={floorViewModel}
+                  style={{}}
+                  onSelect={onSelect}
+                />
+                <View style={styles.separator} />
+              </>
+            )
+          } else {
+            return (
+              <BuildingLayoutFloorCell
+                viewModel={floorViewModel}
+                style={{}}
+                onSelect={onSelect}
+              />
+            )
+          }
         })}
       </View>
     </View>
@@ -70,6 +83,10 @@ const stylesFactory = () => {
       backgroundColor: Colors.groupedListBackground,
       borderRadius: 8,
       margin: margin,
+    },
+    separator: {
+      backgroundColor: Colors.separator,
+      height: Spacing.separatorHeight,
     },
     statusContainer: {
       alignItems: 'center',
