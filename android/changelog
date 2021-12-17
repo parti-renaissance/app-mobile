@@ -1,11 +1,7 @@
-# v3.0.0-RC4
+# v3.0.0-RC5
 
-Sentry :
+Door To Door :
 
-- Create AlertUtils.showNetworkAlert and ViewStateUtils.networkError to centralize error handling.
-- Add an user friendly message for TypeError
-- Log unhandled errors to Sentry to help future debugging
-
-Door to Door :
-
-- Inject Map API Token
+- adress detail building block detail UI
+- adress detail building block detail WS
+- Handle survey config
