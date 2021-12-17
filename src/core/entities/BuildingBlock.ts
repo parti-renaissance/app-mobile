@@ -9,6 +9,8 @@ export type BuildingBlockFloor = {
   number: number
   id: string
   status: BuildingBlocFloorStatus
+  nbSurveys: number
+  visitedDoors: string[]
 }
 
 export type BuildingBlockStatus = 'todo' | 'ongoing' | 'completed'

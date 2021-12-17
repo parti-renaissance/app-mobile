@@ -10,7 +10,9 @@ export const BuildingLayoutMapper = {
           return {
             number: restFloor.number,
             id: restFloor.uuid,
-            status: restFloor.status,
+            status: restFloor.campaign_statistics.status,
+            nbSurveys: restFloor.campaign_statistics.nb_surveys,
+            visitedDoors: restFloor.campaign_statistics.visited_doors,
           }
         }),
         id: restBlock.uuid,
