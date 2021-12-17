@@ -34,6 +34,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
+  const [layout, setLayout] = useState<void>()
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
     history,
@@ -55,7 +56,22 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         })
     }
 
+    const fetchLayout = () => {
+      DoorToDoorRepository.getInstance()
+        .buildingBlocks(
+          route.params.address.building.id,
+          route.params.address.building.campaignStatistics.campaignId,
+        )
+        .then((value) => {
+          setLayout(value)
+        })
+        .catch(() => {
+          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
+        })
+    }
+
     fetchHistory()
+    fetchLayout()
   }, [
     route.params.address.building.campaignStatistics.campaignId,
     route.params.address.building.id,
