@@ -35,10 +35,11 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
-  const [layout, setLayout] = useState<BuildingBlock[]>()
+  const [layout, setLayout] = useState<BuildingBlock[]>([])
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
     history,
+    layout,
     theme,
   )
 

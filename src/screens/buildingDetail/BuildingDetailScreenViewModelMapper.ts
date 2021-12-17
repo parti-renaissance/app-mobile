@@ -1,3 +1,4 @@
+import { BuildingBlock } from './../../core/entities/BuildingBlock'
 import { BuildingHistoryViewModelMapper } from './BuildingHistoryViewModelMapper'
 import { BuildingHistoryPoint } from './../../core/entities/BuildingHistory'
 import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
@@ -14,6 +15,7 @@ export const BuildingDetailScreenViewModelMapper = {
   map: (
     address: DoorToDoorAddress,
     history: BuildingHistoryPoint[],
+    layout: BuildingBlock[],
     theme: Theme,
   ): BuildingDetailScreenViewModel => {
     const illustration = (): ImageSourcePropType => {
@@ -37,7 +39,10 @@ export const BuildingDetailScreenViewModelMapper = {
         address.building.campaignStatistics,
       ),
       history: BuildingHistoryViewModelMapper.map(history),
-      buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type),
+      buildingLayout: BuildingLayoutViewModelMapper.map(
+        address.building.type,
+        layout,
+      ),
       campaignId: address.building.campaignStatistics.campaignId,
     }
   },

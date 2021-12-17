@@ -404,7 +404,7 @@
       "layout": {
         "buildingtype": {
           "house": "Maison",
-          "appartementbuilding": "Building"
+          "appartementbuilding": "Bâtiment {{buildingName}}"
         },
         "startaddress": "Commencer le porte à porte"
       },
