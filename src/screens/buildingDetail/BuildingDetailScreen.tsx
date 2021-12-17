@@ -20,6 +20,7 @@ import i18n from '../../utils/i18n'
 import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
+import { BuildingBlock } from '../../core/entities/BuildingBlock'
 
 enum Tab {
   HISTORY,
@@ -34,7 +35,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
-  const [layout, setLayout] = useState<void>()
+  const [layout, setLayout] = useState<BuildingBlock[]>()
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
     history,

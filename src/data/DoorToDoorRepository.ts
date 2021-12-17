@@ -1,3 +1,5 @@
+import { BuildingLayoutMapper } from './restObjects/BuildingLayoutMapper'
+import { BuildingBlock } from './../core/entities/BuildingBlock'
 import { BuildingHistoryMapper } from './restObjects/BuildingHistoryMapper'
 import ApiService from './network/ApiService'
 import {
@@ -42,8 +44,12 @@ class DoorToDoorRepository {
   public async buildingBlocks(
     buidlingId: string,
     campaignId: string,
-  ): Promise<void> {
-    await this.apiService.buildingBlocks(buidlingId, campaignId)
+  ): Promise<BuildingBlock[]> {
+    const restLayout = await this.apiService.buildingBlocks(
+      buidlingId,
+      campaignId,
+    )
+    return BuildingLayoutMapper.map(restLayout)
   }
 
   public async buildingHistory(
