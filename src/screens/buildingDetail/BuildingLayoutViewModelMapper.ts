@@ -49,6 +49,20 @@ function floorCellViewModel(
 ): BuildingLayoutFloorCellViewModel {
   return {
     title: i18n.t('building.layout.floorTitle', { floorNumber: floor.number }),
-    subtitle: floor.status,
+    subtitle: floorCellSubtitle(floor),
+  }
+}
+
+function floorCellSubtitle(floor: BuildingBlockFloor): string {
+  switch (floor.status) {
+    case 'completed':
+      return i18n.t('building.layout.floor.completedSubtitle')
+    case 'ongoing':
+      return i18n.t('building.layout.floor.subtitle.ongoing', {
+        doorKnocked: floor.visitedDoors.length,
+        sruveysCount: floor.nbSurveys,
+      })
+    case 'todo':
+      return i18n.t('building.layout.floor.subtitle.todo')
   }
 }
