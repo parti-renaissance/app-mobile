@@ -20,6 +20,7 @@ import i18n from '../../utils/i18n'
 import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
+import { BuildingBlock } from '../../core/entities/BuildingBlock'
 
 enum Tab {
   HISTORY,
@@ -34,9 +35,11 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
+  const [layout, setLayout] = useState<BuildingBlock[]>([])
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
     history,
+    layout,
     theme,
   )
 
@@ -55,7 +58,22 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         })
     }
 
+    const fetchLayout = () => {
+      DoorToDoorRepository.getInstance()
+        .buildingBlocks(
+          route.params.address.building.id,
+          route.params.address.building.campaignStatistics.campaignId,
+        )
+        .then((value) => {
+          setLayout(value)
+        })
+        .catch(() => {
+          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
+        })
+    }
+
     fetchHistory()
+    fetchLayout()
   }, [
     route.params.address.building.campaignStatistics.campaignId,
     route.params.address.building.id,
@@ -77,7 +95,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            onSelect={() => {
+            onSelect={(_floorId: string) => {
+              // TODO 2021/12/17 (Denis Poifol) pass floor informations through navigation
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorInterlocutor,
                 params: {

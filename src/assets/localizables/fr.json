@@ -404,9 +404,17 @@
       "layout": {
         "buildingtype": {
           "house": "Maison",
-          "appartementbuilding": "Building"
+          "appartementbuilding": "Bâtiment {{buildingName}}"
         },
-        "startaddress": "Commencer le porte à porte"
+        "startaddress": "Commencer le porte à porte",
+        "floorTitle": "Étage {{floorNumber}}",
+        "floor": {
+          "subtitle": {
+            "completed": "Terminé",
+            "ongoing": "{{doorKnocked}} portes frappées, {{sruveysCount}} questionnaires remplis",
+            "todo": "Aucun passage"
+          }
+        }
       },
       "history": {
         "buldingblockFormat": "Bâtiment {{buildingName}}",

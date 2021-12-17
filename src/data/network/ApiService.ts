@@ -1,3 +1,4 @@
+import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
 import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
 import { RestMarkdown } from './../restObjects/RestMarkdown'
 import _httpClient from './HttpClient'
@@ -392,6 +393,18 @@ class ApiService {
     return this.httpClient
       .put('api/v3/profile/charter/pap_campaign/accept')
       .json<void>()
+      .catch(genericErrorMapping)
+  }
+
+  public buildingBlocks(
+    buildingId: string,
+    campaignId: string,
+  ): Promise<RestBuildingBlock[]> {
+    return this.httpClient
+      .get(
+        `api/v3/pap/buildings/${buildingId}/building_blocks?campaign_uuid=${campaignId}`,
+      )
+      .json<RestBuildingBlock[]>()
       .catch(genericErrorMapping)
   }
 

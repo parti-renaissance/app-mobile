@@ -1,5 +1,5 @@
+import { BuildingLayoutViewModel } from './BuildingLayoutView'
 import { BuildingHistoryViewModel } from './BuildingVisitsHistoryViewModel'
-import { BuildingLayoutViewModel } from './BuildingLayoutViewModel'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import { ImageSourcePropType } from 'react-native'
 
