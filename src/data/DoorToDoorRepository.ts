@@ -1,3 +1,4 @@
+import { BuildingHistoryMapper } from './restObjects/BuildingHistoryMapper'
 import ApiService from './network/ApiService'
 import {
   DoorToDoorCharterAccepted,
@@ -6,6 +7,7 @@ import {
 import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
 import { DoorToDoorAddress } from '../core/entities/DoorToDoor'
 import { DoorToDoorMapper } from './mapper/DoorToDoorMapper'
+import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -32,6 +34,17 @@ class DoorToDoorRepository {
   public async acceptDoorToDoorCharter(): Promise<void> {
     await this.apiService.acceptDoorToDoorCharter()
     this.cachedDoorToDoorCharterState = new DoorToDoorCharterAccepted()
+  }
+
+  public async buildingHistory(
+    buidlingId: string,
+    campaignId: string,
+  ): Promise<BuildingHistoryPoint[]> {
+    const restHistory = await this.apiService.buildingHistory(
+      buidlingId,
+      campaignId,
+    )
+    return restHistory.map(BuildingHistoryMapper.map)
   }
 
   public async getAddresses(

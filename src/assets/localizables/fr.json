@@ -407,6 +407,13 @@
           "appartementbuilding": "Building"
         },
         "startaddress": "Commencer le porte à porte"
+      },
+      "history": {
+        "buldingblockFormat": "Bâtiment {{buildingName}}",
+        "questionersFormat": "Effectué par {{questioners}}",
+        "questionersListSeparator": ", ",
+        "questionersListLastSeparator": " \u0026 ",
+        "visitFormat": "Etage {{floor}} - Porte {{door}}"
       }
     },
     "actions": {
@@ -450,6 +457,15 @@
         "to_do": "À faire",
         "ongoing": "À terminer",
         "completed": "Terminé"
+      },
+      "interlocutor": { "title": "Votre interlocuteur" },
+      "tunnel": {
+        "leave_alert": {
+          "title": "Quitter le questionnaire",
+          "message": "Êtes-vous sur de vouloir quitter le questionnaire ?",
+          "cancel": "Annuler",
+          "action": "Quitter"
+        }
       }
     }
   }

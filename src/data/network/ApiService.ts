@@ -1,3 +1,4 @@
+import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
 import { RestMarkdown } from './../restObjects/RestMarkdown'
 import _httpClient from './HttpClient'
 import { Poll } from '../../core/entities/Poll'
@@ -390,6 +391,18 @@ class ApiService {
     return this.httpClient
       .put('api/v3/profile/charter/pap_campaign/accept')
       .json<void>()
+      .catch(genericErrorMapping)
+  }
+
+  public buildingHistory(
+    buildingId: string,
+    campaignId: string,
+  ): Promise<RestBuildingHistoryPoint[]> {
+    return this.httpClient
+      .get(
+        `api/v3/pap/buildings/${buildingId}/history?campaign_uuid=${campaignId}`,
+      )
+      .json<RestBuildingHistoryPoint[]>()
       .catch(genericErrorMapping)
   }
 

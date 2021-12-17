@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   StyleSheet,
   SafeAreaView,
@@ -18,7 +18,8 @@ import { TouchablePlatform } from '../shared/TouchablePlatform'
 import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
-import { BuildingVisitsHistoryViewModelMapper } from './BuildingVisitsHistoryViewModelMapper'
+import DoorToDoorRepository from '../../data/DoorToDoorRepository'
+import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
 
 enum Tab {
   HISTORY,
@@ -31,10 +32,33 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
+  const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
+    history,
     theme,
   )
+
+  useEffect(() => {
+    const fetchHistory = () => {
+      DoorToDoorRepository.getInstance()
+        .buildingHistory(
+          route.params.address.building.id,
+          route.params.address.building.campaignStatistics.campaignId,
+        )
+        .then((value) => {
+          setHistory(value)
+        })
+        .catch(() => {
+          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
+        })
+    }
+
+    fetchHistory()
+  }, [
+    route.params.address.building.campaignStatistics.campaignId,
+    route.params.address.building.id,
+  ])
 
   const showHistory = () => {
     setTab(Tab.HISTORY)
@@ -47,11 +71,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const renderTab = (currentTab: Tab) => {
     switch (currentTab) {
       case Tab.HISTORY:
-        return (
-          <BuildingVisitsHistoryView
-            viewModel={BuildingVisitsHistoryViewModelMapper.map()}
-          />
-        )
+        return <BuildingVisitsHistoryView viewModel={viewModel.history} />
       case Tab.LAYOUT:
         return (
           <BuildingLayoutView

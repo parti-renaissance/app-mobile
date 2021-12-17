@@ -1,3 +1,5 @@
+import { BuildingHistoryViewModelMapper } from './BuildingHistoryViewModelMapper'
+import { BuildingHistoryPoint } from './../../core/entities/BuildingHistory'
 import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
 import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 import { ImageSourcePropType } from 'react-native'
@@ -11,6 +13,7 @@ import { Moment } from 'moment-timezone'
 export const BuildingDetailScreenViewModelMapper = {
   map: (
     address: DoorToDoorAddress,
+    history: BuildingHistoryPoint[],
     theme: Theme,
   ): BuildingDetailScreenViewModel => {
     const illustration = (): ImageSourcePropType => {
@@ -33,6 +36,7 @@ export const BuildingDetailScreenViewModelMapper = {
       status: BuildingStatusViewModelMapper.map(
         address.building.campaignStatistics,
       ),
+      history: BuildingHistoryViewModelMapper.map(history),
       buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type),
     }
   },
