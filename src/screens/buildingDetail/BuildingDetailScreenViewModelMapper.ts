@@ -38,6 +38,7 @@ export const BuildingDetailScreenViewModelMapper = {
       ),
       history: BuildingHistoryViewModelMapper.map(history),
       buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type),
+      campaignId: address.building.campaignStatistics.campaignId,
     }
   },
 }

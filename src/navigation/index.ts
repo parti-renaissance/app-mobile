@@ -105,6 +105,7 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<ProfileParamList>
   TermsOfUse: undefined
   News: undefined
+  DoorToDoorTunnelModal: undefined
 }
 
 export type UnauthenticatedStackParamList = {
@@ -164,6 +165,34 @@ export type BuildingDetailScreenRouteProp = RouteProp<
 
 export type BuildingDetailScreenProp = Readonly<{
   route: BuildingDetailScreenRouteProp
+  navigation: NavigationProp<ParamListBase>
+}>
+
+// DoorToDoorTunnelModal
+export type DoorToDoorTunnelModalParamList = {
+  TunnelDoorInterlocutorScreen: {
+    campaignId: string
+  }
+  TunnelDoorPollScreen: {
+    campaignId: string
+  }
+}
+
+export type TunnelDoorInterlocutorScreenRouteProp = RouteProp<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.tunnelDoorInterlocutor
+>
+export type TunnelDoorInterlocutorScreenProp = Readonly<{
+  route: TunnelDoorInterlocutorScreenRouteProp
+  navigation: NavigationProp<ParamListBase>
+}>
+
+export type TunnelDoorPollScreenRouteProp = RouteProp<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.tunnelDoorPoll
+>
+export type TunnelDoorPollScreenProp = Readonly<{
+  route: TunnelDoorPollScreenRouteProp
   navigation: NavigationProp<ParamListBase>
 }>
 

@@ -8,6 +8,9 @@ import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
 import { DoorToDoorAddress } from '../core/entities/DoorToDoor'
 import { DoorToDoorMapper } from './mapper/DoorToDoorMapper'
 import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
+import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
+import { DoorToDoorPollConfigMapper } from './mapper/DoorToDoorPollConfigMapper'
+import { Poll } from '../core/entities/Poll'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -58,6 +61,19 @@ class DoorToDoorRepository {
       zoom,
     )
     return restDoorToDoorAddresses.map(DoorToDoorMapper.map).filter(notEmpty)
+  }
+
+  public async getDoorToDoorPollConfig(
+    campaignId: string,
+  ): Promise<DoorToDoorPollConfig> {
+    const restConfiguration = await this.apiService.getDoorToDoorPollConfig(
+      campaignId,
+    )
+    return DoorToDoorPollConfigMapper.map(restConfiguration)
+  }
+
+  public async getDoorToDoorPoll(campaignId: string): Promise<Poll> {
+    return this.apiService.getDoorToDoorCampaignPoll(campaignId)
   }
 }
 

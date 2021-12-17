@@ -10,4 +10,5 @@ export interface BuildingDetailScreenViewModel {
   status: BuildingStatusViewModel
   history: BuildingHistoryViewModel
   buildingLayout: BuildingLayoutViewModel
+  campaignId: string
 }
