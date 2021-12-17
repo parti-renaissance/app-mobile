@@ -95,7 +95,9 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            onSelect={() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            onSelect={(floorId: string) => {
+              // TODO 2021/12/17 (Denis Poifol) pass floor informations through navigation
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorInterlocutor,
                 params: {

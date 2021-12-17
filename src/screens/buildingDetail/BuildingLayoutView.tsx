@@ -13,7 +13,7 @@ export interface BuildingLayoutViewModel {
 
 type Props = Readonly<{
   viewModel: BuildingLayoutViewModel
-  onSelect: () => void
+  onSelect: (floorId: string) => void
 }>
 
 const BuildingLayoutView: FunctionComponent<Props> = ({
