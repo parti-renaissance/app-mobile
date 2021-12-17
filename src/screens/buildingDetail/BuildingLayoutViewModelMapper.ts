@@ -48,8 +48,10 @@ function floorCellViewModel(
   floor: BuildingBlockFloor,
 ): BuildingLayoutFloorCellViewModel {
   return {
+    id: floor.id,
     title: i18n.t('building.layout.floorTitle', { floorNumber: floor.number }),
     subtitle: floorCellSubtitle(floor),
+    isCompleted: floor.status === 'completed',
   }
 }
 
