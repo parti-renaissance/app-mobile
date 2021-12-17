@@ -395,6 +395,15 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public buildingBlocks(buildingId: string, campaignId: string): Promise<void> {
+    return this.httpClient
+      .get(
+        `api/v3/pap/buildings/${buildingId}/building_blocks?campaign_uuid=${campaignId}`,
+      )
+      .json<void>()
+      .catch(genericErrorMapping)
+  }
+
   public buildingHistory(
     buildingId: string,
     campaignId: string,

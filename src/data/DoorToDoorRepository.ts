@@ -39,6 +39,13 @@ class DoorToDoorRepository {
     this.cachedDoorToDoorCharterState = new DoorToDoorCharterAccepted()
   }
 
+  public async buildingBlocks(
+    buidlingId: string,
+    campaignId: string,
+  ): Promise<void> {
+    await this.apiService.buildingBlocks(buidlingId, campaignId)
+  }
+
   public async buildingHistory(
     buidlingId: string,
     campaignId: string,
