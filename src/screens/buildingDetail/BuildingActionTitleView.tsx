@@ -37,6 +37,8 @@ const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
 const stylesFactory = () => {
   return StyleSheet.create({
     actionContainer: {
+      flex: 1,
+      flexWrap: 'nowrap',
       margin: margin,
     },
     actionSubtitle: {

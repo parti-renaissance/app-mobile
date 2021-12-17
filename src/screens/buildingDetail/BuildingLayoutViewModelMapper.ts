@@ -1,4 +1,8 @@
-import { BuildingBlock } from './../../core/entities/BuildingBlock'
+import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
+import {
+  BuildingBlock,
+  BuildingBlockFloor,
+} from './../../core/entities/BuildingBlock'
 import { BuildingLayoutViewModel } from './BuildingLayoutView'
 import { BuildingType } from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
@@ -26,10 +30,7 @@ function blockCardViewModel(
       return {
         buildingTypeName: i18n.t('building.layout.buildingtype.house'),
         buildingTypeIcon: require('../../assets/images/house.png'),
-        action: {
-          title: i18n.t('building.layout.startaddress'),
-          subtitle: '',
-        },
+        floors: block.floors.map(floorCellViewModel),
       }
     case 'building':
       return {
@@ -38,10 +39,16 @@ function blockCardViewModel(
           { buildingName: block.name },
         ),
         buildingTypeIcon: require('../../assets/images/appartementBuilding.png'),
-        action: {
-          title: i18n.t('building.layout.startaddress'),
-          subtitle: '',
-        },
+        floors: block.floors.map(floorCellViewModel),
       }
+  }
+}
+
+function floorCellViewModel(
+  floor: BuildingBlockFloor,
+): BuildingLayoutFloorCellViewModel {
+  return {
+    title: i18n.t('building.layout.floorTitle', { floorNumber: floor.number }),
+    subtitle: floor.status,
   }
 }

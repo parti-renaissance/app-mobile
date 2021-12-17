@@ -1,25 +1,23 @@
 import React, { FunctionComponent } from 'react'
 import {
   View,
-  Text,
   StyleSheet,
-  Image,
   ImageSourcePropType,
   ViewStyle,
+  Image,
+  Text,
 } from 'react-native'
 import { Colors, Typography } from '../../styles'
-import { margin, small, unit } from '../../styles/spacing'
+import { margin, small } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import BuildingActionTitleView, {
-  BuildingActionTitleViewModel,
-} from './BuildingActionTitleView'
+import BuildingLayoutFloorCell, {
+  BuildingLayoutFloorCellViewModel,
+} from './BuildingLayoutFloorCell'
 
 export interface BuildingLayoutBlockCardViewModel {
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
-  action: BuildingActionTitleViewModel
+  floors: BuildingLayoutFloorCellViewModel[]
 }
 
 type Props = Readonly<{
@@ -42,33 +40,22 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
       </View>
       <View style={styles.layoutContainer}>
-        <BuildingActionTitleView viewModel={viewModel.action} />
-        <TouchablePlatform
-          style={styles.arrowButton}
-          onPress={() => onSelect}
-          touchHighlight={Colors.touchHighlight}
-        >
-          <Image
-            style={styles.arrowImage}
-            source={require('../../assets/images/arrow.png')}
-          />
-        </TouchablePlatform>
+        {viewModel.floors.map((floorViewModel) => {
+          return (
+            <BuildingLayoutFloorCell
+              viewModel={floorViewModel}
+              style={{}}
+              onSelect={onSelect}
+            />
+          )
+        })}
       </View>
     </View>
   )
 }
 
-const stylesFactory = (theme: Theme) => {
+const stylesFactory = () => {
   return StyleSheet.create({
-    arrowButton: {
-      backgroundColor: theme.primaryColor,
-      borderRadius: 22,
-      margin: margin,
-      padding: unit,
-    },
-    arrowImage: {
-      tintColor: Colors.defaultBackground,
-    },
     card: {
       backgroundColor: Colors.defaultBackground,
       borderRadius: 8,
@@ -80,11 +67,8 @@ const stylesFactory = (theme: Theme) => {
       shadowOpacity: 10,
     },
     layoutContainer: {
-      alignItems: 'center',
       backgroundColor: Colors.groupedListBackground,
       borderRadius: 8,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
       margin: margin,
     },
     statusContainer: {

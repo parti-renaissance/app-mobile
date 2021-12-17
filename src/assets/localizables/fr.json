@@ -406,7 +406,8 @@
           "house": "Maison",
           "appartementbuilding": "Bâtiment {{buildingName}}"
         },
-        "startaddress": "Commencer le porte à porte"
+        "startaddress": "Commencer le porte à porte",
+        "floorTitle": "Étage {{floorNumber}}"
       },
       "history": {
         "buldingblockFormat": "Bâtiment {{buildingName}}",
