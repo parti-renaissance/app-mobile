@@ -37,7 +37,6 @@ import HTML from 'react-native-render-html'
 import { ForbiddenError } from '../../core/errors'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { separatorHeight } from '../../styles/spacing'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -380,6 +379,12 @@ const styles = StyleSheet.create({
   },
   rowItemTitle: {
     ...Typography.eventItemTitle,
+  },
+  separator: {
+    backgroundColor: Colors.separator,
+    height: Spacing.separatorHeight,
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.margin,
   },
   subtitle: {
     ...Typography.eventItemTitle,
