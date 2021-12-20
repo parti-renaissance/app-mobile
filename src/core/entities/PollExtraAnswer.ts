@@ -16,9 +16,24 @@ export interface PollExtraCompoundAnswer {
 
 export interface PollExtraAnswer {
   questionId: string
-  answer:
-    | PollExtraTextAnswer
-    | PollExtraSingleChoiceAnswer
-    | PollExtraMultipleChoicesAnswer
-    | PollExtraCompoundAnswer
+  answer: PollExtraAnswerType
+}
+
+export type PollExtraAnswerType =
+  | PollExtraTextAnswer
+  | PollExtraSingleChoiceAnswer
+  | PollExtraMultipleChoicesAnswer
+  | PollExtraCompoundAnswer
+
+// Custom TypeGuards
+export function isPollExtraSingleChoiceAnswer(
+  obj: PollExtraAnswerType,
+): obj is PollExtraSingleChoiceAnswer {
+  return (obj as PollExtraSingleChoiceAnswer).choiceId !== undefined
+}
+
+export function isPollExtraMultipleChoicesAnswer(
+  obj: PollExtraAnswerType,
+): obj is PollExtraMultipleChoicesAnswer {
+  return (obj as PollExtraMultipleChoicesAnswer).choiceIds !== undefined
 }

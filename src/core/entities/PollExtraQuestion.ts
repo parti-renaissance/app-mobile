@@ -14,7 +14,7 @@ export interface PollExtraQuestion {
 
 export interface PollExtraQuestionDependency {
   question: string
-  choices: Array<string | boolean>
+  choices: Array<string>
 }
 
 export interface PollExtraQuestionChoiceOptions {

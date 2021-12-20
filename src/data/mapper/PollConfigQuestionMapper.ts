@@ -35,7 +35,15 @@ export const PollConfigQuestionMapper = {
       const dependency = question.dependency
         ? {
             question: question.dependency.question,
-            choices: question.dependency.choices.map((choice) => choice),
+            choices: question.dependency.choices.map((choice) => {
+              let value: string = ''
+              if (typeof choice === 'boolean') {
+                value = choice ? YES_ID : NO_ID
+              } else if (typeof choice === 'string') {
+                value = choice
+              }
+              return value
+            }),
           }
         : undefined
 

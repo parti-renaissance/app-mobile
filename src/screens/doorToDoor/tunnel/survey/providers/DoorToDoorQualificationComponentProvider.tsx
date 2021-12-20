@@ -2,6 +2,8 @@ import React from 'react'
 import { ListRenderItem, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import {
+  isPollExtraMultipleChoicesAnswer,
+  isPollExtraSingleChoiceAnswer,
   PollExtraAnswer,
   PollExtraCompoundAnswer,
   PollExtraMultipleChoicesAnswer,
@@ -42,7 +44,7 @@ export class DoorToDoorQualificationComponentProvider
     return (
       <FlatList
         contentContainerStyle={styles.container}
-        data={page.questions}
+        data={this.filterQuestionsUsingDependencies(page)}
         renderItem={this.renderItem}
         ListHeaderComponent={() => this.renderHeader(page.description)}
         ItemSeparatorComponent={this.renderSeparator}
@@ -53,6 +55,7 @@ export class DoorToDoorQualificationComponentProvider
   private renderHeader = (description: string | null) => {
     return description ? (
       <QualificationDescription
+        key="page_description"
         style={styles.header}
         description={description}
       />
@@ -144,6 +147,7 @@ export class DoorToDoorQualificationComponentProvider
   ): JSX.Element {
     return (
       <PollDetailQuestionChoice
+        key={question.code}
         viewModel={PollExtraQuestionMapper.mapMultipleChoice(question, answer)}
         toggleChoice={(choiceId) => {
           const choiceIds: Array<string> = answer?.choiceIds.includes(choiceId)
@@ -170,6 +174,7 @@ export class DoorToDoorQualificationComponentProvider
     const viewModel = PollExtraQuestionMapper.mapInput(question, answer)
     return (
       <PollDetailQuestionInput
+        key={question.code}
         viewModel={viewModel}
         onChangeText={(text) => {
           if (text === '') {
@@ -191,6 +196,7 @@ export class DoorToDoorQualificationComponentProvider
   ): JSX.Element {
     return (
       <QualificationFormUserData
+        key={question.code}
         viewModel={PollExtraQuestionMapper.mapCompound(
           question,
           answer ?? { values: new Map<string, string>() },
@@ -221,6 +227,36 @@ export class DoorToDoorQualificationComponentProvider
   private removeAnswer(questionId: string) {
     this.storage.delete(questionId)
     this.onUpdate()
+  }
+
+  private filterQuestionsUsingDependencies = (
+    page: PollExtraQuestionPage,
+  ): Array<PollExtraQuestion> => {
+    return page.questions.filter((question) => {
+      const dependency = question.dependency
+      if (dependency) {
+        const storedAnswer = this.storage.get(dependency.question)
+        if (
+          storedAnswer &&
+          isPollExtraSingleChoiceAnswer(storedAnswer.answer)
+        ) {
+          const choice = (storedAnswer.answer as PollExtraSingleChoiceAnswer)
+            .choiceId
+          return dependency.choices.some((condition) => choice === condition)
+        } else if (
+          storedAnswer &&
+          isPollExtraMultipleChoicesAnswer(storedAnswer.answer)
+        ) {
+          const choices = (storedAnswer.answer as PollExtraMultipleChoicesAnswer)
+            .choiceIds
+          return dependency.choices.some((choice) => choices.includes(choice))
+        } else {
+          // Compound and TextInput cannot be in a dependency
+          return false
+        }
+      }
+      return true
+    })
   }
 }
 
