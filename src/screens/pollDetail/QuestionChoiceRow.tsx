@@ -39,7 +39,11 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
 
   return (
     <View style={[styles.row, rowStyle, style]}>
-      <TouchablePlatform onPress={onPress} touchHighlight={touchHighlight}>
+      <TouchablePlatform
+        style={styles.touchContainer}
+        onPress={onPress}
+        touchHighlight={touchHighlight}
+      >
         <View style={styles.container}>
           <Text style={[styles.text, textStyle]}>{viewModel.title}</Text>
           {viewModel.isSelected ? (
@@ -93,6 +97,9 @@ const stylesFactory = (theme: Theme) => {
     textUnselected: {
       color: Colors.secondaryButtonText,
       paddingStart: 0,
+    },
+    touchContainer: {
+      flex: 1,
     },
   })
 }
