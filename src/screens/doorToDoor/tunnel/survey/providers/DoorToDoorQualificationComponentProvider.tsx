@@ -13,6 +13,7 @@ import {
 import {
   PollExtraQuestion,
   PollExtraQuestionChoiceOptions,
+  PollExtraQuestionCompoundOptions,
   PollExtraQuestionPage,
 } from '../../../../../core/entities/PollExtraQuestion'
 import { StepType } from '../../../../../core/entities/StepType'
@@ -70,8 +71,38 @@ export class DoorToDoorQualificationComponentProvider
     return this.numberOfSteps
   }
 
-  public isDataComplete(_step: number): boolean {
-    return true
+  public isDataComplete(step: number): boolean {
+    // eslint-disable-next-line security/detect-object-injection
+    const page = this.pages[step]
+    return this.filterQuestionsUsingDependencies(page).reduce(
+      (previous: boolean, current: PollExtraQuestion): boolean => {
+        if (current.options.required) {
+          let nestedQUestionsComplete = true
+          if (current.type === 'compound') {
+            nestedQUestionsComplete = this.isCompoundDataComplete(current)
+          }
+          return (
+            previous &&
+            this.storage.has(current.code) &&
+            nestedQUestionsComplete
+          )
+        } else {
+          return previous
+        }
+      },
+      true,
+    )
+  }
+
+  private isCompoundDataComplete = (compoundQuestion: PollExtraQuestion) => {
+    const children = (compoundQuestion.options as PollExtraQuestionCompoundOptions)
+      .children
+    const answer = this.storage.get(compoundQuestion.code)?.answer as
+      | PollExtraCompoundAnswer
+      | undefined
+    return children.reduce((p: boolean, c: PollExtraQuestion): boolean => {
+      return p && answer?.values?.has(c.code) === true
+    }, true)
   }
 
   public getResult(): QualificationResult {
@@ -204,6 +235,10 @@ export class DoorToDoorQualificationComponentProvider
         onValueChange={(id: string, value: string) => {
           if (value === '') {
             answer.values.delete(id)
+            if (answer.values.size === 0) {
+              this.removeAnswer(question.code)
+              return
+            }
           } else {
             answer.values.set(id, value)
           }
