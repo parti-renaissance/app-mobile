@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { Poll } from '../../../../core/entities/Poll'
-import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
+import {
+  DoorToDoorCompletePoll,
+  GetDoorToDoorCompletePollInteractor,
+} from '../../../../core/interactor/GetDoorToDoorCompletePollInteractor'
 import { TunnelDoorPollScreenProp } from '../../../../navigation'
 import { Colors } from '../../../../styles'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
@@ -12,20 +14,21 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
   navigation,
   route,
 }) => {
-  const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
-    new ViewState.Loading(),
-  )
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<DoorToDoorCompletePoll>
+  >(new ViewState.Loading())
 
   useDoorToDoorTunnelNavigationOptions(navigation)
 
   useEffect(() => {
-    DoorToDoorRepository.getInstance()
-      .getDoorToDoorPoll(route.params.campaignId)
-      .then((poll) => {
-        setStatefulState(new ViewState.Content(poll))
+    new GetDoorToDoorCompletePollInteractor()
+      .execute(route.params.campaignId)
+      .then((result) => {
+        setStatefulState(new ViewState.Content(result))
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
+        // TODO show error state
       })
   }, [route.params.campaignId])
 
@@ -33,11 +36,12 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
     <SafeAreaView style={styles.container}>
       <StatefulView
         state={statefulState}
-        contentComponent={(currentPoll) => (
+        contentComponent={(completePoll) => (
           <DoorToDoorPollDetailScreenLoaded
-            poll={currentPoll}
+            poll={completePoll.poll}
             route={route}
             navigation={navigation}
+            qualification={completePoll.config.after}
           />
         )}
       />
