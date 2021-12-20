@@ -36,7 +36,6 @@ const PollDetailNavigationButtons: FunctionComponent<Props> = ({
           style={styles.nextButton}
         />
       </View>
-      <View style={styles.right} />
     </View>
   )
 }
@@ -48,13 +47,11 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.margin,
   },
   center: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    flexGrow: 1,
+    marginHorizontal: Spacing.margin,
   },
   left: {
-    alignItems: 'flex-start',
-    flex: 1,
-    justifyContent: 'center',
+    marginStart: Spacing.unit,
   },
   nextButton: {
     minWidth: Spacing.minWidthButton,
