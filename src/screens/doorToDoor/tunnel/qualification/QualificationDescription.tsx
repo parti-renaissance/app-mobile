@@ -1,7 +1,7 @@
 import React from 'react'
 import { FunctionComponent } from 'react'
 import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
-import { Typography } from '../../../../styles'
+import { Spacing, Typography } from '../../../../styles'
 
 export type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -18,6 +18,7 @@ const QualificationDescription: FunctionComponent<Props & Props> = ({
 const styles = StyleSheet.create({
   description: {
     ...Typography.body,
+    marginHorizontal: Spacing.unit,
   },
 })
 
