@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
 } from 'react-native'
-import { Spacing, Typography } from '../../../../styles'
+import { Colors, Spacing, Typography } from '../../../../styles'
 import { QuestionTextInputRowViewModel } from '../../../pollDetailUserData/PollDetailQuestionUserDataViewModel'
 import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
 import LabelTextInput from '../../../shared/LabelTextInput'
@@ -37,6 +37,8 @@ const QualificationFormUserData: FunctionComponent<Props> = ({
         label={item.title}
         textInputProps={{
           value: item.value,
+          placeholder: item.placeholder,
+          placeholderTextColor: Colors.lightText,
           autoCapitalize: item.autocapitalize,
           keyboardType: item.keyboardType,
           maxLength: item.maxLength,
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    marginHorizontal: Spacing.unit,
+    marginHorizontal: Spacing.margin,
   },
   listContainer: {
     paddingHorizontal: Spacing.margin,

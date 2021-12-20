@@ -78,6 +78,7 @@ export const PollExtraQuestionMapper = {
         return {
           id: textSubQuestion.code,
           title: subQuestyionOptions.label,
+          placeholder: subQuestyionOptions.placeholder,
           value: answer.values.get(textSubQuestion.code) ?? '',
           autocapitalize: 'none',
           keyboardType: 'default',
