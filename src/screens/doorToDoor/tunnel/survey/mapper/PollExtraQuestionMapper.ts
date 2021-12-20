@@ -1,3 +1,4 @@
+import { ImageProps } from 'react-native'
 import {
   PollExtraCompoundAnswer,
   PollExtraMultipleChoicesAnswer,
@@ -6,6 +7,7 @@ import {
 } from '../../../../../core/entities/PollExtraAnswer'
 import {
   PollExtraQuestion,
+  PollExtraQuestionChoice,
   PollExtraQuestionChoiceOptions,
   PollExtraQuestionCompoundOptions,
   PollExtraQuestionTextOptions,
@@ -13,6 +15,8 @@ import {
 import { PollDetailQuestionChoiceViewModel } from '../../../../pollDetail/PollDetailQuestionChoiceViewModel'
 import { PollDetailQuestionInputViewModel } from '../../../../pollDetail/PollDetailQuestionInputViewModel'
 import { QualificationFormUserDataViewModel } from '../../qualification/QualificationFormUserDataViewModel'
+
+export const QUESTION_CODE_GENDER = 'gender'
 
 export const PollExtraQuestionMapper = {
   mapInput: (
@@ -33,6 +37,20 @@ export const PollExtraQuestionMapper = {
     answer: PollExtraSingleChoiceAnswer | undefined,
   ): PollDetailQuestionChoiceViewModel => {
     const options = question.options as PollExtraQuestionChoiceOptions
+    const mapImage = (
+      questionCode: string,
+      choice: PollExtraQuestionChoice,
+    ): ImageProps | undefined => {
+      if (questionCode === QUESTION_CODE_GENDER) {
+        switch (choice.code) {
+          case 'female':
+            return require('../../../../../assets/images/genderFemale.png')
+          case 'male':
+            return require('../../../../../assets/images/genderMale.png')
+        }
+      }
+      return undefined
+    }
     return {
       title: options.title,
       subtitle: options.subtitle,
@@ -41,6 +59,7 @@ export const PollExtraQuestionMapper = {
           id: choice.code,
           title: choice.label,
           isSelected: answer?.choiceId === choice.code,
+          image: mapImage(question.code, choice),
         }
       }),
     }

@@ -24,7 +24,10 @@ import { PollDetailComponentProvider } from '../../../../pollDetail/providers/Po
 import QualificationDescription from '../../qualification/QualificationDescription'
 import QualificationFormUserData from '../../qualification/QualificationFormUserData'
 import { QualificationResult } from '../DoorToDoorQuestionResult'
-import { PollExtraQuestionMapper } from '../mapper/PollExtraQuestionMapper'
+import {
+  PollExtraQuestionMapper,
+  QUESTION_CODE_GENDER,
+} from '../mapper/PollExtraQuestionMapper'
 
 export class DoorToDoorQualificationComponentProvider
   implements PollDetailComponentProvider<QualificationResult> {
@@ -168,6 +171,9 @@ export class DoorToDoorQualificationComponentProvider
           }
         }}
         columns={options.columns}
+        choiceRadius={
+          question.code === QUESTION_CODE_GENDER ? Spacing.unit : undefined
+        }
       />
     )
   }

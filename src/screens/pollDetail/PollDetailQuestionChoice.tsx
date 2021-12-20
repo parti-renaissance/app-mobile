@@ -9,14 +9,16 @@ type Props = Readonly<{
   viewModel: PollDetailQuestionChoiceViewModel
   toggleChoice?: (choiceId: string) => void
   columns?: number
+  choiceRadius?: number
 }>
 
 const PollDetailQuestionChoice: FunctionComponent<Props> = ({
   viewModel,
   toggleChoice,
   columns = 1,
+  choiceRadius = 40,
 }) => {
-  const styles = stylesFactory(columns)
+  const styles = stylesFactory(columns, choiceRadius)
 
   const renderItem = ({
     item,
@@ -55,7 +57,7 @@ const PollDetailQuestionChoice: FunctionComponent<Props> = ({
   )
 }
 
-const stylesFactory = (columns: number) => {
+const stylesFactory = (columns: number, choiceRadius: number) => {
   return StyleSheet.create({
     callout: {
       ...Typography.lightCaption1,
@@ -63,6 +65,7 @@ const stylesFactory = (columns: number) => {
       marginHorizontal: Spacing.margin,
     },
     choice: {
+      borderRadius: choiceRadius,
       flex: 1 / columns, // for FlatList last item width
       marginHorizontal: Spacing.unit,
     },
