@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen, TunnelDoorSuccessScreenProp } from '../../../navigation'
+import { Screen, DoorToDoorTunnelSuccessScreenProp } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
@@ -18,7 +18,7 @@ import { RankingRowView } from '../rankings/RankingRowView'
 import { RankingTabsView } from '../rankings/RankingTabsView'
 import { RankingViewModelMapper } from '../rankings/RankingViewModelMapper'
 
-const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProp> = ({
+const DoorToDoorTunnelSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenProp> = ({
   navigation,
 }) => {
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
@@ -44,7 +44,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProp> = 
       />
 
       <RankingTabsView tab={tab} onPress={setTab} />
-      {/* TODO - To change with API data */}
+      {/* TODO (Chawki 21.12.2021) - To change with API data */}
       <FlatList
         ListHeaderComponent={() => <RankingHeaderView tab={tab} />}
         data={[
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TunnelDoorSuccessScreen
+export default DoorToDoorTunnelSuccessScreen

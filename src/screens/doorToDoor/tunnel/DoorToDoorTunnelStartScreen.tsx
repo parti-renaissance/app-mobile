@@ -12,7 +12,7 @@ const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreen
   navigation,
   route,
 }) => {
-  // TODO - check the liste of campaign structure
+  // TODO (Chawki 21.12.2021) - check the liste of campaign structure
   const { campaignId, campaignTitle } = route.params
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreen
   return (
     <SafeAreaView style={styles.container}>
       <Swiper showsButtons={true} showsPagination={false}>
-        {/* TODO - Check array structure to map the list of Swiper */}
+        {/* TODO (Chawki 21.12.2021) - Check array structure to map the list of Swiper */}
         <View style={styles.contentContainer}>
           <Image source={require('../../../assets/images/papDoorIcon.png')} />
           <Text style={styles.title}>{campaignTitle}</Text>

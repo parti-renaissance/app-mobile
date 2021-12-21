@@ -189,7 +189,7 @@ export type DoorToDoorTunnelModalParamList = {
     campaignId: string
     campaignTitle: string
   }
-  TunnelDoorOpeningScreen: {
+  DoorToDoorTunnelOpeningScreen: {
     campaignId: string
     campaignTitle: string
   }
@@ -205,12 +205,12 @@ export type DoorToDoorTunnelStartScreenProp = StackScreenProps<
   typeof Screen.doorToDoorTunnelStart
 >
 
-export type TunnelDoorOpeningScreenProp = StackScreenProps<
+export type DoorToDoorTunnelOpeningScreenProp = StackScreenProps<
   DoorToDoorTunnelModalParamList,
   typeof Screen.tunnelDoorOpening
 >
 
-export type TunnelDoorSuccessScreenProp = Readonly<{
+export type DoorToDoorTunnelSuccessScreenProp = Readonly<{
   navigation: NavigationProp<ParamListBase>
 }>
 

@@ -8,13 +8,13 @@ import { SafeAreaView, StyleSheet, ScrollView, Text, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
-import { GenericErrorMapper } from '../../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
 import { DoorToDoorBriefScreenProp, Screen } from '../../../navigation'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../shared/Buttons'
 import { CloseButton } from '../../shared/NavigationHeaderButton'
+import { ViewStateUtils } from '../../shared/ViewStateUtils'
 
 export interface TutorialResources {
   content: string
@@ -33,8 +33,6 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-      // TODO - to check is title on header on not
-      // title: i18n.t('doorToDoor.tunnel.tutorial.title'),
     })
   }, [navigation])
 
@@ -47,7 +45,8 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
       })
       .catch((error) => {
         setStatefulState(
-          new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
+          ViewStateUtils.networkError(error, () => {
+            setStatefulState(new ViewState.Loading())
             fetchData()
           }),
         )

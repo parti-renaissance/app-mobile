@@ -6,8 +6,8 @@ import TunnelDoorInterlocutorScreen from './interlocutor/TunnelDoorInterlocutorS
 import TunnelDoorPollScreen from './survey/TunnelDoorPollScreen'
 import DoorToDoorBriefScreen from './DoorToDoorBriefScreen'
 import DoorToDoorTunnelStartScreen from './DoorToDoorTunnelStartScreen'
-import TunnelDoorOpeningScreen from './TunnelDoorOpeningScreen'
-import TunnelDoorSuccessScreen from './TunnelDoorSuccessScreen'
+import DoorToDoorTunnelOpeningScreen from './DoorToDoorTunnelOpeningScreen'
+import DoorToDoorTunnelSuccessScreen from './DoorToDoorTunnelSuccessScreen'
 import i18n from '../../../utils/i18n'
 
 const Stack = createStackNavigator()
@@ -27,7 +27,7 @@ const DoorToDoorTunnelModal: FunctionComponent = () => {
       />
       <Stack.Screen
         name={Screen.tunnelDoorOpening}
-        component={TunnelDoorOpeningScreen}
+        component={DoorToDoorTunnelOpeningScreen}
         options={{
           title: '',
           headerBackTitleVisible: false,
@@ -43,7 +43,7 @@ const DoorToDoorTunnelModal: FunctionComponent = () => {
       />
       <Stack.Screen
         name={Screen.tunnelDoorSuccess}
-        component={TunnelDoorSuccessScreen}
+        component={DoorToDoorTunnelSuccessScreen}
         options={{
           title: i18n.t('doorToDoor.tunnel.success.wellDone'),
           headerBackTitleVisible: false,

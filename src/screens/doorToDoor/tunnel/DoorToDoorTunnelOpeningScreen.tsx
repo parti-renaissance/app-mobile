@@ -1,7 +1,13 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { Image, StyleSheet, View, Text } from 'react-native'
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  ImageSourcePropType,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { TunnelDoorOpeningScreenProp } from '../../../navigation'
+import { DoorToDoorTunnelOpeningScreenProp } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import { useThemedStyles } from '../../../themes'
 import Theme from '../../../themes/Theme'
@@ -9,7 +15,13 @@ import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
 import { TouchablePlatform } from '../../shared/TouchablePlatform'
 
-const TunnelDoorOpeningScreen: FunctionComponent<TunnelDoorOpeningScreenProp> = ({
+type CardItemProps = {
+  onPress: () => void
+  title: string
+  image: ImageSourcePropType
+}
+
+const DoorToDoorTunnelOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProp> = ({
   navigation,
 }) => {
   const styles = useThemedStyles(stylesFactory)
@@ -26,41 +38,35 @@ const TunnelDoorOpeningScreen: FunctionComponent<TunnelDoorOpeningScreenProp> = 
     })
   }, [navigation, styles.exit])
 
+  const CardItem = ({ onPress, title, image }: CardItemProps) => (
+    <View style={styles.card}>
+      <TouchablePlatform
+        onPress={onPress}
+        touchHighlight={Colors.touchHighlight}
+      >
+        <View style={styles.button}>
+          <Text style={styles.buttonTitle}>{title}</Text>
+          <Image source={image} />
+        </View>
+      </TouchablePlatform>
+    </View>
+  )
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>
         {i18n.t('doorToDoor.tunnel.opening.title')}
       </Text>
-      <View style={styles.card}>
-        <TouchablePlatform
-          onPress={() => {}}
-          touchHighlight={Colors.touchHighlight}
-        >
-          <View style={styles.button}>
-            <Text style={styles.buttonTitle}>
-              {i18n.t('doorToDoor.tunnel.opening.yes')}
-            </Text>
-            <Image
-              source={require('../../../assets/images/papDoorOpening.png')}
-            />
-          </View>
-        </TouchablePlatform>
-      </View>
-      <View style={styles.card}>
-        <TouchablePlatform
-          onPress={() => {}}
-          touchHighlight={Colors.touchHighlight}
-        >
-          <View style={styles.button}>
-            <Text style={styles.buttonTitle}>
-              {i18n.t('doorToDoor.tunnel.opening.no')}
-            </Text>
-            <Image
-              source={require('../../../assets/images/papDoorOpening.png')}
-            />
-          </View>
-        </TouchablePlatform>
-      </View>
+      <CardItem
+        onPress={() => {}}
+        title={i18n.t('doorToDoor.tunnel.opening.yes')}
+        image={require('../../../assets/images/papDoorOpening.png')}
+      />
+      <CardItem
+        onPress={() => {}}
+        title={i18n.t('doorToDoor.tunnel.opening.no')}
+        image={require('../../../assets/images/papDoorNotOpening.png')}
+      />
     </SafeAreaView>
   )
 }
@@ -100,4 +106,4 @@ const stylesFactory = (theme: Theme) => {
   })
 }
 
-export default TunnelDoorOpeningScreen
+export default DoorToDoorTunnelOpeningScreen
