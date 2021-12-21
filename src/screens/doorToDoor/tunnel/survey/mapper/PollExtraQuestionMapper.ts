@@ -10,10 +10,16 @@ import {
   PollExtraQuestionChoice,
   PollExtraQuestionChoiceOptions,
   PollExtraQuestionCompoundOptions,
+  PollExtraQuestionDualChoiceOptions,
   PollExtraQuestionTextOptions,
 } from '../../../../../core/entities/PollExtraQuestion'
+import i18n from '../../../../../utils/i18n'
 import { PollDetailQuestionChoiceViewModel } from '../../../../pollDetail/PollDetailQuestionChoiceViewModel'
 import { PollDetailQuestionInputViewModel } from '../../../../pollDetail/PollDetailQuestionInputViewModel'
+import {
+  NO_ID,
+  YES_ID,
+} from '../../../../pollDetailUserData/PollDetailQuestionUserDataViewModelMapper'
 import { QualificationFormUserDataViewModel } from '../../qualification/QualificationFormUserDataViewModel'
 
 export const QUESTION_CODE_GENDER = 'gender'
@@ -62,6 +68,28 @@ export const PollExtraQuestionMapper = {
           image: mapImage(question.code, choice),
         }
       }),
+    }
+  },
+  mapDualChoice: (
+    question: PollExtraQuestion,
+    answer: PollExtraSingleChoiceAnswer | undefined,
+  ): PollDetailQuestionChoiceViewModel => {
+    const options = question.options as PollExtraQuestionDualChoiceOptions
+    return {
+      title: options.title,
+      subtitle: options.subtitle,
+      answers: [
+        {
+          id: YES_ID,
+          title: i18n.t('polldetail.user_form.positive_choice'),
+          isSelected: answer?.choiceId === YES_ID,
+        },
+        {
+          id: NO_ID,
+          title: i18n.t('polldetail.user_form.negative_choice'),
+          isSelected: answer?.choiceId === NO_ID,
+        },
+      ],
     }
   },
   mapMultipleChoice: (

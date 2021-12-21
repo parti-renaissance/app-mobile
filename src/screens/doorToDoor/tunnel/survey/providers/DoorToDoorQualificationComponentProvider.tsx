@@ -19,6 +19,7 @@ import {
 import { StepType } from '../../../../../core/entities/StepType'
 import { Spacing } from '../../../../../styles'
 import PollDetailQuestionChoice from '../../../../pollDetail/PollDetailQuestionChoice'
+import { PollDetailQuestionChoiceViewModel } from '../../../../pollDetail/PollDetailQuestionChoiceViewModel'
 import PollDetailQuestionInput from '../../../../pollDetail/PollDetailQuestionInput'
 import { PollDetailComponentProvider } from '../../../../pollDetail/providers/PollDetailComponentProvider'
 import QualificationDescription from '../../qualification/QualificationDescription'
@@ -28,6 +29,8 @@ import {
   PollExtraQuestionMapper,
   QUESTION_CODE_GENDER,
 } from '../mapper/PollExtraQuestionMapper'
+
+const DUAL_CHOICE_COLUMNS = 2
 
 export class DoorToDoorQualificationComponentProvider
   implements PollDetailComponentProvider<QualificationResult> {
@@ -120,6 +123,17 @@ export class DoorToDoorQualificationComponentProvider
   private renderItem: ListRenderItem<PollExtraQuestion> = ({ item }) => {
     const answer = this.storage.get(item.code)
     switch (item.type) {
+      case 'dualChoice':
+        const dualChoiceAnswer = (answer?.answer as PollExtraSingleChoiceAnswer) ?? {
+          choiceId: '',
+        }
+        // Dual choice question is mapped to a single choice question with 2 columns
+        return this.getSingleChoiceComponent(
+          item.code,
+          dualChoiceAnswer,
+          PollExtraQuestionMapper.mapDualChoice(item, dualChoiceAnswer),
+          DUAL_CHOICE_COLUMNS,
+        )
       case 'choice':
         return this.getChoiceComponent(item, answer)
       case 'compound':
@@ -148,34 +162,40 @@ export class DoorToDoorQualificationComponentProvider
         (answer?.answer as PollExtraMultipleChoicesAnswer) ?? { choiceIds: [] },
       )
     } else {
+      const singleChoiceAnswer = (answer?.answer as PollExtraSingleChoiceAnswer) ?? {
+        choiceId: '',
+      }
       return this.getSingleChoiceComponent(
-        item,
-        (answer?.answer as PollExtraSingleChoiceAnswer) ?? { choiceId: '' },
+        item.code,
+        singleChoiceAnswer,
+        PollExtraQuestionMapper.mapSingleChoice(item, singleChoiceAnswer),
+        (item.options as PollExtraQuestionChoiceOptions).columns,
       )
     }
   }
 
   private getSingleChoiceComponent(
-    question: PollExtraQuestion,
+    questionCode: string,
     answer: PollExtraSingleChoiceAnswer,
+    viewModel: PollDetailQuestionChoiceViewModel,
+    columns: number,
   ): JSX.Element {
-    const options = question.options as PollExtraQuestionChoiceOptions
     return (
       <PollDetailQuestionChoice
-        viewModel={PollExtraQuestionMapper.mapSingleChoice(question, answer)}
+        viewModel={viewModel}
         toggleChoice={(choiceId: string) => {
           if (answer.choiceId === choiceId) {
-            this.removeAnswer(question.code)
+            this.removeAnswer(questionCode)
           } else {
             this.saveAnswer({
-              questionId: question.code,
+              questionId: questionCode,
               answer: { choiceId: choiceId },
             })
           }
         }}
-        columns={options.columns}
+        columns={columns}
         choiceRadius={
-          question.code === QUESTION_CODE_GENDER ? Spacing.unit : undefined
+          questionCode === QUESTION_CODE_GENDER ? Spacing.unit : undefined
         }
       />
     )

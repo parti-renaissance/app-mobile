@@ -8,7 +8,6 @@ import {
   NO_ID,
   YES_ID,
 } from '../../screens/pollDetailUserData/PollDetailQuestionUserDataViewModelMapper'
-import i18n from '../../utils/i18n'
 import {
   RestPollConfigQuestion,
   RestPollConfigQuestionBooleanOptions,
@@ -50,6 +49,8 @@ export const PollConfigQuestionMapper = {
       let type: string
       switch (question.type) {
         case 'boolean':
+          type = 'dualChoice'
+          break
         case 'choice':
           type = 'choice'
           break
@@ -86,18 +87,6 @@ export const PollConfigQuestionOptionsMapper = {
           title: booleanOptions.label,
           subtitle: booleanOptions.help,
           required: booleanOptions.required,
-          columns: 2,
-          multiple: false,
-          choices: [
-            {
-              code: YES_ID,
-              label: i18n.t('polldetail.user_form.positive_choice'),
-            },
-            {
-              code: NO_ID,
-              label: i18n.t('polldetail.user_form.negative_choice'),
-            },
-          ],
         }
       case 'choice':
         const choiceOptions = restObject as RestPollConfigQuestionChoiceOptions

@@ -3,7 +3,11 @@ export interface PollExtraQuestionPage {
   questions: Array<PollExtraQuestion>
 }
 
-export type PollExtraQuestionType = 'choice' | 'text' | 'compound'
+export type PollExtraQuestionType =
+  | 'choice'
+  | 'text'
+  | 'compound'
+  | 'dualChoice'
 
 export interface PollExtraQuestion {
   code: string
@@ -24,6 +28,12 @@ export interface PollExtraQuestionChoiceOptions {
   columns: number
   multiple: boolean
   choices: Array<PollExtraQuestionChoice>
+}
+
+export interface PollExtraQuestionDualChoiceOptions {
+  title: string
+  subtitle?: string
+  required: boolean
 }
 
 export interface PollExtraQuestionChoice {
@@ -47,3 +57,4 @@ export type PollExtraQuestionOptions =
   | PollExtraQuestionChoiceOptions
   | PollExtraQuestionTextOptions
   | PollExtraQuestionCompoundOptions
+  | PollExtraQuestionDualChoiceOptions
