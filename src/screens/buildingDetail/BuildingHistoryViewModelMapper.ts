@@ -59,6 +59,7 @@ function dateRecordsViewModel(
     footnote: footnote(history),
   }
   return {
+    key: date.toISOString(),
     date: dateViewModel(date),
     visitRecords: visitRecords,
   }
@@ -90,6 +91,7 @@ function doorVisitViewModel(
   historyPoint: BuildingHistoryPoint,
 ): KeyValueCellViewModel {
   return {
+    id: historyPoint.createdAt.toISOString(),
     key: i18n.t('building.history.visitFormat', {
       floor: historyPoint.floor,
       door: historyPoint.door,

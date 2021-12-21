@@ -15,6 +15,7 @@ import BuildingLayoutFloorCell, {
 } from './BuildingLayoutFloorCell'
 
 export interface BuildingLayoutBlockCardViewModel {
+  id: string
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
@@ -43,18 +44,19 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         {viewModel.floors.map((floorViewModel, index) => {
           if (index !== viewModel.floors.length - 1) {
             return (
-              <>
+              <View key={floorViewModel.id}>
                 <BuildingLayoutFloorCell
                   viewModel={floorViewModel}
                   style={{}}
                   onSelect={onSelect}
                 />
                 <View style={styles.separator} />
-              </>
+              </View>
             )
           } else {
             return (
               <BuildingLayoutFloorCell
+                key={floorViewModel.id}
                 viewModel={floorViewModel}
                 style={{}}
                 onSelect={onSelect}

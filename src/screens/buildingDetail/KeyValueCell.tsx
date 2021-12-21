@@ -13,6 +13,7 @@ type Props = Readonly<{
 }>
 
 export interface KeyValueCellViewModel {
+  id: string
   key: string
   value: string
 }

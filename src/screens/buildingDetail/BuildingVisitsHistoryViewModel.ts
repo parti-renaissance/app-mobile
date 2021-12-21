@@ -9,6 +9,7 @@ export interface BuildingVisitsHistoryViewModel {
 }
 
 export interface BuildingVisitsDateRecordsViewModel {
+  key: string
   date: DateViewModel
   visitRecords: KeyValueListViewModel
 }

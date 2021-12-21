@@ -32,6 +32,7 @@ const KeyValueListView: FunctionComponent<Props> = ({
         {viewModel.cells.map((cellViewModel, index) => {
           return (
             <KeyValueCell
+              key={cellViewModel.id}
               viewModel={cellViewModel}
               bottomSeparator={index === viewModel.cells.length - 1}
               keyStyle={keyStyle}

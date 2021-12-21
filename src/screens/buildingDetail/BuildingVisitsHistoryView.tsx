@@ -18,7 +18,12 @@ const BuildingVisitsHistoryView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
     <View>
       {viewModel.buildings.map((buildingViewModel) => {
-        return <BuildingVisitsHistory viewModel={buildingViewModel} />
+        return (
+          <BuildingVisitsHistory
+            key={buildingViewModel.buildingName}
+            viewModel={buildingViewModel}
+          />
+        )
       })}
     </View>
   )
@@ -34,9 +39,16 @@ const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.buildingTitle}>{viewModel.buildingName}</Text>
+      <Text key={viewModel.buildingName} style={styles.buildingTitle}>
+        {viewModel.buildingName}
+      </Text>
       {viewModel.dateRecords.map((dateRecordsViewModel) => {
-        return <BuildingVisitsDateRecords viewModel={dateRecordsViewModel} />
+        return (
+          <BuildingVisitsDateRecords
+            key={dateRecordsViewModel.key}
+            viewModel={dateRecordsViewModel}
+          />
+        )
       })}
     </View>
   )

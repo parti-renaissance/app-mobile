@@ -28,6 +28,7 @@ function blockCardViewModel(
   switch (type) {
     case 'house':
       return {
+        id: block.id,
         buildingTypeName: i18n.t('building.layout.buildingtype.house'),
         buildingTypeIcon: require('../../assets/images/house.png'),
         floors: block.floors.map((floor) =>
@@ -36,6 +37,7 @@ function blockCardViewModel(
       }
     case 'building':
       return {
+        id: block.id,
         buildingTypeName: i18n.t(
           'building.layout.buildingtype.appartementbuilding',
           { buildingName: block.name },

@@ -27,6 +27,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
       {viewModel.buildings.map((buildingViewModel) => {
         return (
           <BuildingLayoutBlockCardView
+            key={buildingViewModel.id}
             viewModel={buildingViewModel}
             style={styles.blockCard}
             onSelect={onSelect}
