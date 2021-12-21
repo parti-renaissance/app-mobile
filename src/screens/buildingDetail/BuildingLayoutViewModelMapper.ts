@@ -30,7 +30,9 @@ function blockCardViewModel(
       return {
         buildingTypeName: i18n.t('building.layout.buildingtype.house'),
         buildingTypeIcon: require('../../assets/images/house.png'),
-        floors: block.floors.map(floorCellViewModel),
+        floors: block.floors.map((floor) =>
+          floorCellViewModel(block.name, floor),
+        ),
       }
     case 'building':
       return {
@@ -39,16 +41,21 @@ function blockCardViewModel(
           { buildingName: block.name },
         ),
         buildingTypeIcon: require('../../assets/images/appartementBuilding.png'),
-        floors: block.floors.map(floorCellViewModel),
+        floors: block.floors.map((floor) =>
+          floorCellViewModel(block.name, floor),
+        ),
       }
   }
 }
 
 function floorCellViewModel(
+  buildingBlock: string,
   floor: BuildingBlockFloor,
 ): BuildingLayoutFloorCellViewModel {
   return {
     id: floor.id,
+    floorNumber: floor.number,
+    buildingBlock: buildingBlock,
     title: i18n.t('building.layout.floorTitle', { floorNumber: floor.number }),
     subtitle: floorCellSubtitle(floor),
     isCompleted: floor.status === 'completed',

@@ -13,6 +13,8 @@ import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
 import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
 import { DoorToDoorPollConfigMapper } from './mapper/DoorToDoorPollConfigMapper'
 import { Poll } from '../core/entities/Poll'
+import { DoorToDoorPollResult } from '../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
+import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -87,6 +89,13 @@ class DoorToDoorRepository {
 
   public async getDoorToDoorPoll(campaignId: string): Promise<Poll> {
     return this.apiService.getDoorToDoorCampaignPoll(campaignId)
+  }
+
+  public async sendDoorToDoorPoll(
+    pollParams: DoorToDoorPollParams,
+    pollResult: DoorToDoorPollResult,
+  ) {
+    // noop
   }
 }
 

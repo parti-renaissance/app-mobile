@@ -95,12 +95,17 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            onSelect={(_floorId: string) => {
-              // TODO 2021/12/17 (Denis Poifol) pass floor informations through navigation
+            onSelect={(buildingBlock: string, floor: number) => {
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorInterlocutor,
                 params: {
                   campaignId: viewModel.campaignId,
+                  buildingParams: {
+                    id: route.params.address.building.id,
+                    block: buildingBlock,
+                    floor: floor,
+                    door: 1, // when door selection screen is available, update the value with the real door number
+                  },
                 },
               })
             }}

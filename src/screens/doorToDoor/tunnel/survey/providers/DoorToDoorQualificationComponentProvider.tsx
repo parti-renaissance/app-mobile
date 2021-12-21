@@ -116,7 +116,7 @@ export class DoorToDoorQualificationComponentProvider
 
   public getResult(): QualificationResult {
     return {
-      answers: Array.from(this.storage.values()),
+      qualificationAnswers: Array.from(this.storage.values()),
     }
   }
 

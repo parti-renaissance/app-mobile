@@ -10,6 +10,7 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Poll } from '../../../../core/entities/Poll'
 import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
+import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { TunnelDoorPollScreenRouteProp } from '../../../../navigation'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
@@ -33,6 +34,7 @@ type Props = Readonly<{
 const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   qualification,
   poll,
+  route,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
@@ -77,7 +79,15 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
 
   const postAnswers = () => {
     setIsLoading(true)
-    // TODO send answers to back
+    const result = provider.getResult()
+    DoorToDoorRepository.getInstance().sendDoorToDoorPoll(
+      {
+        campaignId: route.params.campaignId,
+        buildingId: route.params.buildingParams.id,
+        interlocutorStatus: route.params.interlocutorStatus,
+      },
+      result,
+    )
   }
 
   return (

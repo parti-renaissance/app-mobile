@@ -48,6 +48,8 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
     if (code === ANSWER_CODE_ACCEPT) {
       navigation.navigate(Screen.tunnelDoorPoll, {
         campaignId: route.params.campaignId,
+        interlocutorStatus: code,
+        buildingParams: route.params.buildingParams,
       })
     } else {
       navigation.goBack()
