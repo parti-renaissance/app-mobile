@@ -127,20 +127,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         <View style={styles.tabbarContainer}>
           <TouchablePlatform
             touchHighlight={Colors.touchHighlight}
-            onPress={showHistory}
-          >
-            <View style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}>
-              <Text
-                style={
-                  tab === Tab.HISTORY ? styles.selectedTabText : styles.tabText
-                }
-              >
-                {i18n.t('building.tabs.history')}
-              </Text>
-            </View>
-          </TouchablePlatform>
-          <TouchablePlatform
-            touchHighlight={Colors.touchHighlight}
             onPress={showLayout}
           >
             <View style={tab === Tab.LAYOUT ? styles.selectedTab : styles.tab}>
@@ -150,6 +136,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                 }
               >
                 {i18n.t('building.tabs.layout')}
+              </Text>
+            </View>
+          </TouchablePlatform>
+          <TouchablePlatform
+            touchHighlight={Colors.touchHighlight}
+            onPress={showHistory}
+          >
+            <View style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}>
+              <Text
+                style={
+                  tab === Tab.HISTORY ? styles.selectedTabText : styles.tabText
+                }
+              >
+                {i18n.t('building.tabs.history')}
               </Text>
             </View>
           </TouchablePlatform>
