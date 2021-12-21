@@ -28,7 +28,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
     ViewState.Type<TutorialResources>
   >(new ViewState.Loading())
 
-  const { campaignId, campaignTitle, campaignBrief } = route.params
+  const { campaignId, campaignTitle } = route.params
 
   useLayoutEffect(() => {
     navigation.setOptions({

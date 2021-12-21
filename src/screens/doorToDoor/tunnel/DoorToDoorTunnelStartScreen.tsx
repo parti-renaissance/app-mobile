@@ -6,29 +6,36 @@ import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
 import { CloseButton } from '../../shared/NavigationHeaderButton'
+import Swiper from 'react-native-swiper'
 
 const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreenProp> = ({
   navigation,
   route,
 }) => {
+  // TODO - check the liste of campaign structure
+  const { campaignId, campaignTitle } = route.params
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-      title: 'Bat 1 - RdC - P1',
+      title: campaignTitle,
     })
   }, [navigation])
 
-  const { campaignId, campaignTitle } = route.params
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.contentContainer}>
-        <Image source={require('../../../assets/images/papDoorIcon.png')} />
-        <Text style={styles.title}>Bâtiment 1 - RdC</Text>
-        <Text style={styles.body}>
-          Rendez-vous à la 1ère porte en partant de la gauche.
-        </Text>
-      </View>
+      <Swiper showsButtons={true} showsPagination={false}>
+        {/* TODO - Check array structure to map the list of Swiper */}
+        <View style={styles.contentContainer}>
+          <Image source={require('../../../assets/images/papDoorIcon.png')} />
+          <Text style={styles.title}>{campaignTitle}</Text>
+          <Text style={styles.body}>{i18n.t('tunnel.start.rdvFirstDoor')}</Text>
+          <Text style={styles.note}>{i18n.t('tunnel.start.doorFinished')}</Text>
+          <Text style={styles.note}>
+            {i18n.t('tunnel.start.buildingFinished')}
+          </Text>
+        </View>
+      </Swiper>
       <View style={styles.bottomContainer}>
         <PrimaryButton
           title={i18n.t('tunnel.start.doorknocked')}
@@ -72,6 +79,12 @@ const styles = StyleSheet.create({
   },
   finished: {
     marginTop: Spacing.unit,
+  },
+  note: {
+    ...Typography.footnoteLight,
+    marginVertical: Spacing.margin,
+    paddingHorizontal: Spacing.margin,
+    textAlign: 'center',
   },
   title: {
     ...Typography.title3,

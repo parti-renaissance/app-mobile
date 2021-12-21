@@ -460,7 +460,10 @@
       },
       "start": {
         "doorknocked": "J’ai frappé à la porte",
-        "floorFinished": "Étage terminé"
+        "floorFinished": "Étage terminé",
+        "rdvFirstDoor": "Rendez-vous à la 1ère porte en partant de la gauche.",
+        "doorFinished": "S’il n’y a plus de portes sur l’étage, clôturé l’étage en tapant sur “étage terminé”.",
+        "buildingFinished": "Si le bâtiment est terminé quittez cette page en cliquant sur la croix en haut à gauche de votre écran puis, clôturez le."
       },
       "opening": {
         "title": "La porte s’ouvre t’elle ?",
