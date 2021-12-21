@@ -486,6 +486,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getDoorToDoorTutorial(): Promise<RestMarkdown> {
+    return this.httpClient
+      .get('api/v3/pap_campaigns/tutorial')
+      .json<RestMarkdown>()
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()

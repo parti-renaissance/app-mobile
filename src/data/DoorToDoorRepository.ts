@@ -135,6 +135,11 @@ class DoorToDoorRepository {
       campaign: campaignId,
     })
   }
+
+  public async getDoorToDoorTutorial(): Promise<string> {
+    const restMarkdown = await this.apiService.getDoorToDoorTutorial()
+    return restMarkdown.content
+  }
 }
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
