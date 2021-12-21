@@ -68,6 +68,8 @@ export class PollDetailUserInformationsComponentProvider
         return this.isConsentDataComplete()
       case 'phoneSatisfaction':
         return true
+      case 'doorToDoorQualification':
+        return true
     }
   }
 

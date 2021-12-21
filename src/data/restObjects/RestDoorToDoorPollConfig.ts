@@ -1,5 +1,8 @@
+import { RestPollConfigQuestionPage } from './RestPollConfigQuestion'
+
 export interface RestDoorToDoorPollConfig {
   before_survey: RestDoorToDoorPollConfigBefore
+  after_survey: Array<RestPollConfigQuestionPage>
 }
 
 export interface RestDoorToDoorPollConfigBefore {

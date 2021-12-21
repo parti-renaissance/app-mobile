@@ -12,6 +12,8 @@ const formattedStepType = (stepType: StepType): string | undefined => {
       return i18n.t('polldetail.consent_data_progress')
     case 'phoneSatisfaction':
       return i18n.t('phonepolldetail.phone_satisfaction')
+    case 'doorToDoorQualification':
+      return i18n.t('doorToDoor.tunnel.qualification.title')
   }
 }
 

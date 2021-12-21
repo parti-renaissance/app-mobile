@@ -9,32 +9,42 @@ import React, {
 import { StyleSheet, View, FlatList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Poll } from '../../../../core/entities/Poll'
-import { PollRemoteQuestionResult } from '../../../../core/entities/PollResult'
+import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
 import { TunnelDoorPollScreenRouteProp } from '../../../../navigation'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
 import { PollDetailNavigationButtonsViewModelMapper } from '../../../pollDetail/PollDetailNavigationButtonsViewModelMapper'
 import PollDetailProgressBar from '../../../pollDetail/PollDetailProgressBar'
 import { PollDetailProgressBarViewModelMapper } from '../../../pollDetail/PollDetailProgressBarViewModelMapper'
+import { CompoundPollDetailComponentProvider } from '../../../pollDetail/providers/CompoundPollDetailComponentProvider'
 import { PollDetailComponentProvider } from '../../../pollDetail/providers/PollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from '../../../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
+import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
+import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
 
 type Props = Readonly<{
   poll: Poll
+  qualification: Array<PollExtraQuestionPage>
   route: TunnelDoorPollScreenRouteProp
   navigation: NavigationProp<ParamListBase>
 }>
 
 const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
+  qualification,
   poll,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
   const [provider] = useState<
-    PollDetailComponentProvider<PollRemoteQuestionResult>
-  >(new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate))
+    PollDetailComponentProvider<DoorToDoorPollResult>
+  >(
+    new CompoundPollDetailComponentProvider(
+      new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
+      new DoorToDoorQualificationComponentProvider(qualification, forceUpdate),
+    ),
+  )
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -86,6 +96,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
         >
           <FlatList
             ref={flatListViewRef}
+            style={styles.questionList}
             scrollEnabled={false}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -131,6 +142,9 @@ const styles = StyleSheet.create({
   },
   questionContainer: {
     flexGrow: 1,
+  },
+  questionList: {
+    flex: 1,
   },
   viewPager: {
     flex: 1,

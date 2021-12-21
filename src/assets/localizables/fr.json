@@ -474,7 +474,8 @@
           "cancel": "Annuler",
           "action": "Quitter"
         },
-        "exit": "Quitter"
+        "exit": "Quitter",
+        "qualification": { "title": "Qualification" }
       }
     }
   }

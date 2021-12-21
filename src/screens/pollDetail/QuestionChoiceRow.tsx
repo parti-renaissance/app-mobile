@@ -30,6 +30,9 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
   const rowStyle = viewModel.isSelected
     ? styles.rowSelected
     : styles.rowUnselected
+  const imageStyle = viewModel.isSelected
+    ? styles.imageSelected
+    : styles.imageUnselected
   const textStyle = viewModel.isSelected
     ? styles.textSelected
     : styles.textUnselected
@@ -39,9 +42,21 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
 
   return (
     <View style={[styles.row, rowStyle, style]}>
-      <TouchablePlatform onPress={onPress} touchHighlight={touchHighlight}>
+      <TouchablePlatform
+        style={styles.touchContainer}
+        onPress={onPress}
+        touchHighlight={touchHighlight}
+      >
         <View style={styles.container}>
-          <Text style={[styles.text, textStyle]}>{viewModel.title}</Text>
+          <View style={styles.contentContainer}>
+            {viewModel.image ? (
+              <Image
+                style={[styles.image, imageStyle]}
+                source={viewModel.image}
+              />
+            ) : null}
+            <Text style={[styles.text, textStyle]}>{viewModel.title}</Text>
+          </View>
           {viewModel.isSelected ? (
             <Image
               style={styles.icon}
@@ -63,12 +78,26 @@ const stylesFactory = (theme: Theme) => {
       paddingHorizontal: Spacing.mediumMargin,
       paddingVertical: 10,
     },
+    contentContainer: {
+      flex: 1,
+    },
     icon: {
       tintColor: theme.primaryButtonTextColor,
     },
+    image: {
+      alignSelf: 'center',
+      flex: 1,
+    },
+    imageSelected: {
+      marginStart: 24, // width of checkIcon
+      tintColor: theme.primaryButtonTextColor,
+    },
+    imageUnselected: {
+      marginStart: 0,
+      tintColor: Colors.secondaryButtonText,
+    },
     row: {
       backgroundColor: Colors.secondaryButtonBackground,
-      borderRadius: 100,
       flex: 1,
       marginBottom: Spacing.unit,
       overflow: 'hidden',
@@ -93,6 +122,9 @@ const stylesFactory = (theme: Theme) => {
     textUnselected: {
       color: Colors.secondaryButtonText,
       paddingStart: 0,
+    },
+    touchContainer: {
+      flex: 1,
     },
   })
 }

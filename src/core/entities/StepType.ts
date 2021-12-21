@@ -3,3 +3,4 @@ export type StepType =
   | 'userProfile'
   | 'consentData'
   | 'phoneSatisfaction'
+  | 'doorToDoorQualification'

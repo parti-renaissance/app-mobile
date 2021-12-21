@@ -1,5 +1,6 @@
 import { DoorToDoorPollConfig } from '../../core/entities/DoorToDoorPollConfig'
 import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
+import { PollConfigQuestionPageMapper } from './PollConfigQuestionMapper'
 
 export const DoorToDoorPollConfigMapper = {
   map: (restObject: RestDoorToDoorPollConfig): DoorToDoorPollConfig => {
@@ -22,6 +23,9 @@ export const DoorToDoorPollConfigMapper = {
             }
           }),
       },
+      after: restObject.after_survey.map((page) =>
+        PollConfigQuestionPageMapper.map(page),
+      ),
     }
   },
 }

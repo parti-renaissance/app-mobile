@@ -5,6 +5,7 @@ import { QuestionTextLinkRowViewModel } from './QuestionTextLinkRowViewModel'
 export interface QuestionTextInputRowViewModel {
   id: string
   title: string
+  placeholder?: string
   value: string
   autocapitalize: TextInputProps['autoCapitalize']
   keyboardType: TextInputProps['keyboardType']

@@ -1,5 +1,8 @@
+import { PollExtraQuestionPage } from './PollExtraQuestion'
+
 export interface DoorToDoorPollConfig {
   before: DoorToDoorPollConfigBefore
+  after: Array<PollExtraQuestionPage>
 }
 
 export interface DoorToDoorPollConfigBefore {
