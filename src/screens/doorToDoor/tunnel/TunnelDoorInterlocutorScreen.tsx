@@ -11,6 +11,7 @@ import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
 import { StatefulView, ViewState } from '../../shared/StatefulView'
 import { DoorToDoorPollConfigResponseStatus } from '../../../core/entities/DoorToDoorPollConfig'
 import { useDoorToDoorTunnelNavigationOptions } from './DoorToDoorTunnelNavigationHook'
+import { ViewStateUtils } from '../../shared/ViewStateUtils'
 
 const ANSWER_CODE_ACCEPT = 'accept_to_answer'
 
@@ -26,12 +27,17 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   useDoorToDoorTunnelNavigationOptions(navigation)
 
   useEffect(() => {
-    DoorToDoorRepository.getInstance()
-      .getDoorToDoorPollConfig(route.params.campaignId)
-      .then((result) => {
-        setStatefulState(new ViewState.Content(result.before.responseStatus))
-      })
-      .catch((error) => console.log(error))
+    const fetchData = () => {
+      DoorToDoorRepository.getInstance()
+        .getDoorToDoorPollConfig(route.params.campaignId)
+        .then((result) => {
+          setStatefulState(new ViewState.Content(result.before.responseStatus))
+        })
+        .catch((error) =>
+          setStatefulState(ViewStateUtils.networkError(error, fetchData)),
+        )
+    }
+    fetchData()
   }, [route.params.campaignId])
 
   const onChoice = (code: string) => {

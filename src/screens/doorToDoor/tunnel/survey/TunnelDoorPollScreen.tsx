@@ -6,8 +6,8 @@ import {
 } from '../../../../core/interactor/GetDoorToDoorCompletePollInteractor'
 import { TunnelDoorPollScreenProp } from '../../../../navigation'
 import { Colors } from '../../../../styles'
-import { GenericErrorMapper } from '../../../shared/ErrorMapper'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
+import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'
 
@@ -22,23 +22,17 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
   useDoorToDoorTunnelNavigationOptions(navigation)
 
   useEffect(() => {
-    const fetchData = (campaignId: string) => {
+    const fetchData = () => {
       new GetDoorToDoorCompletePollInteractor()
-        .execute(campaignId)
+        .execute(route.params.campaignId)
         .then((result) => {
           setStatefulState(new ViewState.Content(result))
         })
-        .catch((error) => handleError(error))
+        .catch((error) =>
+          setStatefulState(ViewStateUtils.networkError(error, fetchData)),
+        )
     }
-    const handleError = (error: Error) => {
-      console.error(error)
-      setStatefulState(
-        new ViewState.Error(GenericErrorMapper.mapErrorMessage(error), () => {
-          fetchData(route.params.campaignId)
-        }),
-      )
-    }
-    fetchData(route.params.campaignId)
+    fetchData()
   }, [route.params.campaignId])
 
   return (
