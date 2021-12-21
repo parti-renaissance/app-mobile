@@ -103,9 +103,12 @@ export class DoorToDoorQualificationComponentProvider
     const answer = this.storage.get(compoundQuestion.code)?.answer as
       | PollExtraCompoundAnswer
       | undefined
-    return children.reduce((p: boolean, c: PollExtraQuestion): boolean => {
-      return p && answer?.values?.has(c.code) === true
-    }, true)
+    return children.reduce(
+      (previous: boolean, current: PollExtraQuestion): boolean => {
+        return previous && answer?.values?.has(current.code) === true
+      },
+      true,
+    )
   }
 
   public getResult(): QualificationResult {

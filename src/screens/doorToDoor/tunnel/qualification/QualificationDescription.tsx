@@ -8,7 +8,7 @@ export type Props = Readonly<{
   description: string
 }>
 
-const QualificationDescription: FunctionComponent<Props & Props> = ({
+const QualificationDescription: FunctionComponent<Props> = ({
   description,
   style,
 }) => {
