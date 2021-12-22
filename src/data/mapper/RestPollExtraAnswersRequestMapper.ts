@@ -31,14 +31,13 @@ export const RestPollExtraAnswersRequestMapper = {
       } else if (isPollExtraMultipleChoicesAnswer(obj.answer)) {
         result[
           obj.questionId
-        ] = (obj.answer as PollExtraMultipleChoicesAnswer).choiceIds.join('|')
+        ] = (obj.answer as PollExtraMultipleChoicesAnswer).choiceIds.join()
       } else if (isPollExtraCompoundAnswer(obj.answer)) {
-        const compoundValues = (obj.answer as PollExtraCompoundAnswer)
-          .values as any
-        for (let key in compoundValues) {
+        const compoundValues = (obj.answer as PollExtraCompoundAnswer).values
+        compoundValues.forEach((value, key) => {
           // eslint-disable-next-line security/detect-object-injection
-          result[key] = compoundValues[key]
-        }
+          result[key] = value
+        })
       }
       return result
     }, {})
