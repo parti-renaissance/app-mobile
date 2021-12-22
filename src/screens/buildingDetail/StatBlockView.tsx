@@ -14,7 +14,9 @@ const StatBlockView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
     <View style={styles.statBlockView}>
       <Text>{viewModel.stat} </Text>
-      <Text style={styles.title}>{viewModel.title} </Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{viewModel.title} </Text>
+      </View>
     </View>
   )
 }
@@ -33,6 +35,10 @@ const stylesFactory = () => {
     title: {
       ...Typography.footnote,
       textAlign: 'center',
+    },
+    titleContainer: {
+      flex: 1,
+      justifyContent: 'center',
     },
   })
 }

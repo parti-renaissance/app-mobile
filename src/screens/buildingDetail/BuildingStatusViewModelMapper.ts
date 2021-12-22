@@ -3,54 +3,40 @@ import { StatBlockViewModel } from './StatBlockViewModel'
 import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import NumberFormatter from '../../utils/NumerFormatter'
+import { ImageProps } from 'react-native'
 
 export const BuildingStatusViewModelMapper = {
   map: (
     campaignAddress: DoorToDoorAddressCampaign,
   ): BuildingStatusViewModel => {
-    if (campaignAddress == null) {
-      return {
-        statusTile: i18n.t('building.status.done'),
-        statusIcon: require('../../assets/images/buildingStatusDoneIcon.png'),
-        estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
-        doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
-        completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
-          campaignAddress,
-        ),
-      }
-    } else {
-      switch (campaignAddress.status) {
-        case 'completed':
-          return {
-            statusTile: i18n.t('building.status.done'),
-            statusIcon: require('../../assets/images/buildingStatusDoneIcon.png'),
-            estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
-            doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
-            completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
-              campaignAddress,
-            ),
-          }
-        case 'todo':
-          return {
-            statusTile: i18n.t('building.status.todo'),
-            statusIcon: require('../../assets/images/buildingStatusToDoIcon.png'),
-            estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
-            doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
-            completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
-              campaignAddress,
-            ),
-          }
-        case 'ongoing':
-          return {
-            statusTile: i18n.t('building.status.tocomplete'),
-            statusIcon: require('../../assets/images/buildingStatusToCompleteIcon.png'),
-            estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
-            doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
-            completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
-              campaignAddress,
-            ),
-          }
-      }
+    let statusTile: string
+    let statusIcon: ImageProps
+    switch (campaignAddress?.status) {
+      case 'completed':
+        statusTile = i18n.t('building.status.done')
+        statusIcon = require('../../assets/images/buildingStatusDoneIcon.png')
+        break
+      case 'todo':
+        statusTile = i18n.t('building.status.todo')
+        statusIcon = require('../../assets/images/buildingStatusToDoIcon.png')
+        break
+      case 'ongoing':
+        statusTile = i18n.t('building.status.tocomplete')
+        statusIcon = require('../../assets/images/buildingStatusToCompleteIcon.png')
+        break
+      default:
+        statusTile = i18n.t('building.status.done')
+        statusIcon = require('../../assets/images/buildingStatusDoneIcon.png')
+        break
+    }
+    return {
+      statusTile: statusTile,
+      statusIcon: statusIcon,
+      estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
+      doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
+      completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
+        campaignAddress,
+      ),
     }
   },
 }
@@ -62,7 +48,7 @@ function estimatedDoorsStatBlock(
     title: i18n.t('building.stats.estimatedDoors', {
       count: campaignAddress?.numberOfDoors ?? 0,
     }),
-    stat: dataOrPlaceholder(campaignAddress?.numberOfDoors),
+    stat: dataOrPlaceholder(undefined), // TODO update when data is available on server
   }
 }
 
@@ -84,7 +70,7 @@ function completedQuestionnairesStatBlock(
     title: i18n.t('building.stats.completedQuestionnaires', {
       count: campaignAddress?.numberOfSurveys ?? 0,
     }),
-    stat: dataOrPlaceholder(campaignAddress?.numberOfDoors),
+    stat: dataOrPlaceholder(campaignAddress?.numberOfSurveys),
   }
 }
 
