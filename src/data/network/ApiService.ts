@@ -50,7 +50,10 @@ import {
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
 import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
-import { RestDoorToDoorCampaignHistoryResponse, RestDoorToDoorSurveyReplyResponse } from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
+import {
+  RestDoorToDoorCampaignHistoryResponse,
+  RestDoorToDoorSurveyReplyResponse,
+} from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
 
 class ApiService {

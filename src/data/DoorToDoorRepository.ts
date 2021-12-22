@@ -14,8 +14,6 @@ import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
 import { DoorToDoorPollConfigMapper } from './mapper/DoorToDoorPollConfigMapper'
 import { Poll } from '../core/entities/Poll'
 import { DoorToDoorPollResult } from '../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
-import { RestPollExtraAnswersRequestMapper } from './mapper/RestPollExtraAnswersRequestMapper'
-import { RestPollResultAnswerMapper } from './mapper/RestPollResultAnswerMapper'
 import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
 import { RestDoorToDoorPollRequestMapper } from './mapper/RestDoorToDoorPollRequestMapper'
 
