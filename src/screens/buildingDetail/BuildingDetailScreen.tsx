@@ -104,7 +104,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                     id: route.params.address.building.id,
                     block: buildingBlock,
                     floor: floor,
-                    door: 1, // when door selection screen is available, update the value with the real door number
+                    door: 1, // TODO: (Romain GF) when door selection screen is available, update the value with the real door number
                   },
                 },
               })
