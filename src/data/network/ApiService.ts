@@ -50,6 +50,11 @@ import {
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
 import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
+import {
+  RestDoorToDoorCampaignHistoryResponse,
+  RestDoorToDoorSurveyReplyResponse,
+} from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
+import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
 
 class ApiService {
   private static instance: ApiService
@@ -446,6 +451,27 @@ class ApiService {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}/survey`)
       .json<Poll>()
+      .catch(genericErrorMapping)
+  }
+
+  public createDoorToDoorCampaignHistory(
+    request: any, // object with dynamic keys
+  ): Promise<RestDoorToDoorCampaignHistoryResponse> {
+    return this.httpClient
+      .post('api/v3/pap_campaign_histories', { json: request })
+      .json<RestDoorToDoorCampaignHistoryResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public replyToDoorToDoorCampaignHistory(
+    campaignHistoryId: string,
+    request: RestDoorToDoorPollResultRequest,
+  ): Promise<RestDoorToDoorSurveyReplyResponse> {
+    return this.httpClient
+      .post(`api/v3/pap_campaign_histories/${campaignHistoryId}/reply`, {
+        json: request,
+      })
+      .json<RestDoorToDoorSurveyReplyResponse>()
       .catch(genericErrorMapping)
   }
 

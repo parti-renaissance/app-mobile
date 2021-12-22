@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { headerOptions } from '../../../styles/navigationAppearance'
 import { Screen } from '../../../navigation'
-import TunnelDoorInterlocutorScreen from './TunnelDoorInterlocutorScreen'
+import TunnelDoorInterlocutorScreen from './interlocutor/TunnelDoorInterlocutorScreen'
 import TunnelDoorPollScreen from './survey/TunnelDoorPollScreen'
 
 const Stack = createStackNavigator()

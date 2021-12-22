@@ -9,6 +9,8 @@ import BuildingActionTitleView from './BuildingActionTitleView'
 
 export interface BuildingLayoutFloorCellViewModel {
   id: string
+  floorNumber: number
+  buildingBlock: string
   title: string
   subtitle: string
   isCompleted: boolean
@@ -17,7 +19,7 @@ export interface BuildingLayoutFloorCellViewModel {
 type Props = Readonly<{
   viewModel: BuildingLayoutFloorCellViewModel
   style: ViewStyle
-  onSelect: (floorId: string) => void
+  onSelect: (buildingBlock: string, floor: number) => void
 }>
 
 const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
@@ -33,7 +35,7 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
         <TouchablePlatform
           style={styles.button}
           onPress={() => {
-            onSelect(viewModel.id)
+            onSelect(viewModel.buildingBlock, viewModel.floorNumber)
           }}
           touchHighlight={Colors.touchHighlight}
         >

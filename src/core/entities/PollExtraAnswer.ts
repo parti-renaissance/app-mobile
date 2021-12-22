@@ -26,6 +26,12 @@ export type PollExtraAnswerType =
   | PollExtraCompoundAnswer
 
 // Custom TypeGuards
+export function isPollExtraTextAnswer(
+  obj: PollExtraAnswerType,
+): obj is PollExtraTextAnswer {
+  return (obj as PollExtraTextAnswer).value !== undefined
+}
+
 export function isPollExtraSingleChoiceAnswer(
   obj: PollExtraAnswerType,
 ): obj is PollExtraSingleChoiceAnswer {
@@ -36,4 +42,10 @@ export function isPollExtraMultipleChoicesAnswer(
   obj: PollExtraAnswerType,
 ): obj is PollExtraMultipleChoicesAnswer {
   return (obj as PollExtraMultipleChoicesAnswer).choiceIds !== undefined
+}
+
+export function isPollExtraCompoundAnswer(
+  obj: PollExtraAnswerType,
+): obj is PollExtraCompoundAnswer {
+  return (obj as PollExtraCompoundAnswer).values !== undefined
 }

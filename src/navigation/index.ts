@@ -19,6 +19,7 @@ import {
 import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
 import { PhoningCharterNavigationData } from '../screens/phoningCharter/PhoningCharterNavigationData'
+import { BuildingSelectedNavigationParams } from '../screens/doorToDoor/tunnel/BuildingSelectedNavigationParams'
 
 export const Screen = _Screen
 
@@ -172,9 +173,12 @@ export type BuildingDetailScreenProp = Readonly<{
 export type DoorToDoorTunnelModalParamList = {
   TunnelDoorInterlocutorScreen: {
     campaignId: string
+    buildingParams: BuildingSelectedNavigationParams
   }
   TunnelDoorPollScreen: {
     campaignId: string
+    interlocutorStatus: string
+    buildingParams: BuildingSelectedNavigationParams
   }
 }
 
