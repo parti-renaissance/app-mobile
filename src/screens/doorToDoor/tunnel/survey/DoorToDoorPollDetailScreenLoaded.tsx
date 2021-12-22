@@ -34,6 +34,7 @@ type Props = Readonly<{
 const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   qualification,
   poll,
+  navigation,
   route,
 }) => {
   const [currentStep, setStep] = useState<number>(0)
@@ -80,14 +81,21 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   const postAnswers = () => {
     setIsLoading(true)
     const result = provider.getResult()
-    DoorToDoorRepository.getInstance().sendDoorToDoorPoll(
-      {
-        campaignId: route.params.campaignId,
-        buildingId: route.params.buildingParams.id,
-        interlocutorStatus: route.params.interlocutorStatus,
-      },
-      result,
-    )
+    DoorToDoorRepository.getInstance()
+      .sendDoorToDoorPoll(
+        {
+          campaignId: route.params.campaignId,
+          buildingId: route.params.buildingParams.id,
+          interlocutorStatus: route.params.interlocutorStatus,
+          block: route.params.buildingParams.block,
+          floor: route.params.buildingParams.floor,
+          door: route.params.buildingParams.door,
+        },
+        result,
+      )
+      .then(() => {
+        navigation.dangerouslyGetParent()?.goBack()
+      })
   }
 
   return (

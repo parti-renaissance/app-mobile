@@ -14,7 +14,10 @@ import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
 import { DoorToDoorPollConfigMapper } from './mapper/DoorToDoorPollConfigMapper'
 import { Poll } from '../core/entities/Poll'
 import { DoorToDoorPollResult } from '../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
+import { RestPollExtraAnswersRequestMapper } from './mapper/RestPollExtraAnswersRequestMapper'
+import { RestPollResultAnswerMapper } from './mapper/RestPollResultAnswerMapper'
 import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
+import { RestDoorToDoorPollRequestMapper } from './mapper/RestDoorToDoorPollRequestMapper'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -95,7 +98,18 @@ class DoorToDoorRepository {
     pollParams: DoorToDoorPollParams,
     pollResult: DoorToDoorPollResult,
   ) {
-    // noop
+    const campaignHistoryPayload = RestDoorToDoorPollRequestMapper.mapHistoryRequest(
+      pollParams,
+      pollResult,
+    )
+    const response = await this.apiService.createDoorToDoorCampaignHistory(
+      campaignHistoryPayload,
+    )
+    const answers = RestDoorToDoorPollRequestMapper.mapAnswers(pollResult)
+    await this.apiService.replyToDoorToDoorCampaignHistory(
+      response.uuid,
+      answers,
+    )
   }
 }
 
