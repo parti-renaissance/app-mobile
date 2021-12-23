@@ -17,7 +17,7 @@ export const BuildingLayoutMapper = {
           }
         }),
         id: restBlock.uuid,
-        status: restBlock.status,
+        status: restBlock.campaign_statistics.status,
         local: false,
       }
     })

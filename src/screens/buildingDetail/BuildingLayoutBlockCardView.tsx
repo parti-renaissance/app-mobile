@@ -24,6 +24,7 @@ export interface BuildingLayoutBlockCardViewModel {
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
   local: boolean
+  statusAction: string
 }
 
 type Props = Readonly<{
@@ -33,6 +34,7 @@ type Props = Readonly<{
   onAddBuildingFloor: (buildingBlockId: string) => void
   onRemoveBuildingBlock: (buildingBlockId: string) => void
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
+  onBuildingAction: (buildingBlockId: string) => void
   editMode: boolean
 }>
 
@@ -43,6 +45,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   onAddBuildingFloor,
   onRemoveBuildingBlock,
   onRemoveBuildingFloor,
+  onBuildingAction,
   editMode,
 }) => {
   const styles = useThemedStyles(stylesFactory)
@@ -64,6 +67,18 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         ) : null}
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
+        {editMode ? (
+          <View>
+            <TouchablePlatform
+              touchHighlight={Colors.touchHighlight}
+              onPress={() => onBuildingAction(viewModel.id)}
+            >
+              <Text style={styles.buildingActionText}>
+                {viewModel.statusAction}
+              </Text>
+            </TouchablePlatform>
+          </View>
+        ) : null}
       </View>
       <View style={styles.layoutContainer}>
         {viewModel.floors.map((floorViewModel, index) => {
@@ -141,6 +156,10 @@ const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
 
 const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
+    buildingActionText: {
+      ...Typography.callout,
+      color: theme.primaryColor,
+    },
     layoutContainer: {
       backgroundColor: Colors.groupedListBackground,
       borderRadius: 8,
@@ -186,6 +205,7 @@ const stylesFactory = (theme: Theme) => {
     },
     statusText: {
       ...Typography.title3,
+      flex: 1,
       paddingLeft: small,
     },
   })

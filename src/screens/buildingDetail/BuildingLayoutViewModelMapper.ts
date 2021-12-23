@@ -25,6 +25,12 @@ function blockCardViewModel(
   block: BuildingBlock,
   type: BuildingType,
 ): BuildingLayoutBlockCardViewModel {
+  let statusAction: string
+  if (block.status === 'completed') {
+    statusAction = i18n.t('building.layout.open_building')
+  } else {
+    statusAction = i18n.t('building.layout.close_building')
+  }
   switch (type) {
     case 'house':
       return {
@@ -35,6 +41,7 @@ function blockCardViewModel(
           floorCellViewModel(block.name, floor),
         ),
         local: block.local,
+        statusAction: statusAction,
       }
     case 'building':
       return {
@@ -48,6 +55,7 @@ function blockCardViewModel(
           floorCellViewModel(block.name, floor),
         ),
         local: block.local,
+        statusAction: statusAction,
       }
   }
 }

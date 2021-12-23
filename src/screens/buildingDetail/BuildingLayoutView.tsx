@@ -23,6 +23,7 @@ type Props = Readonly<{
   onAddBuildingFloor: (buildingBlockId: string) => void
   onRemoveBuildingBlock: (buildingBlockId: string) => void
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
+  onBuildingAction: (buildingBlockId: string) => void
   editMode: boolean
 }>
 
@@ -33,6 +34,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onAddBuildingFloor,
   onRemoveBuildingBlock,
   onRemoveBuildingFloor,
+  onBuildingAction,
   editMode,
 }) => {
   const styles = useThemedStyles(stylesFactory)
@@ -49,6 +51,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
             onAddBuildingFloor={onAddBuildingFloor}
             onRemoveBuildingBlock={onRemoveBuildingBlock}
             onRemoveBuildingFloor={onRemoveBuildingFloor}
+            onBuildingAction={onBuildingAction}
             editMode={editMode}
           />
         )

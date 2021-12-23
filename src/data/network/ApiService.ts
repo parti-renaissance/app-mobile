@@ -55,6 +55,7 @@ import {
   RestDoorToDoorSurveyReplyResponse,
 } from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
+import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 
 class ApiService {
   private static instance: ApiService
@@ -472,6 +473,16 @@ class ApiService {
         json: request,
       })
       .json<RestDoorToDoorSurveyReplyResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public sendBuildingEvent(
+    buildingId: string,
+    event: RestBuildingEventRequest,
+  ): Promise<void> {
+    return this.httpClient
+      .post(`api/v3/pap/buildings/${buildingId}/events`, { json: event })
+      .json<void>()
       .catch(genericErrorMapping)
   }
 

@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import {
   StyleSheet,
   SafeAreaView,
@@ -50,6 +55,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     theme,
   )
 
+  const fetchLayout = useCallback(() => {
+    DoorToDoorRepository.getInstance()
+      .buildingBlocks(
+        route.params.address.building.id,
+        route.params.address.building.campaignStatistics.campaignId,
+      )
+      .then((value) => {
+        setLayout(value)
+      })
+  }, [
+    route.params.address.building.id,
+    route.params.address.building.campaignStatistics.campaignId,
+  ])
+
   useEffect(() => {
     const fetchHistory = () => {
       DoorToDoorRepository.getInstance()
@@ -65,25 +84,12 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         })
     }
 
-    const fetchLayout = () => {
-      DoorToDoorRepository.getInstance()
-        .buildingBlocks(
-          route.params.address.building.id,
-          route.params.address.building.campaignStatistics.campaignId,
-        )
-        .then((value) => {
-          setLayout(value)
-        })
-        .catch(() => {
-          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
-        })
-    }
-
     fetchHistory()
     fetchLayout()
   }, [
     route.params.address.building.campaignStatistics.campaignId,
     route.params.address.building.id,
+    fetchLayout,
   ])
 
   const showHistory = () => {
@@ -161,6 +167,28 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     }
   }
 
+  const handleBuildingAction = (buildingBlockId: string) => {
+    const block = layout.find((item) => item.id === buildingBlockId)
+    if (!block) return
+    if (block.status === 'completed') {
+      DoorToDoorRepository.getInstance()
+        .openBuildingBlock(
+          route.params.address.building.campaignStatistics.campaignId,
+          route.params.address.building.id,
+          block.name,
+        )
+        .then(() => fetchLayout())
+    } else {
+      DoorToDoorRepository.getInstance()
+        .closeBuildingBlock(
+          route.params.address.building.campaignStatistics.campaignId,
+          route.params.address.building.id,
+          block.name,
+        )
+        .then(() => fetchLayout())
+    }
+  }
+
   const renderTab = (currentTab: Tab) => {
     switch (currentTab) {
       case Tab.HISTORY:
@@ -193,6 +221,9 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             }}
             onRemoveBuildingFloor={(buildingBlockId: string, floor: number) => {
               removeBuildingFloor(buildingBlockId, floor)
+            }}
+            onBuildingAction={(buildingBlockId: string) => {
+              handleBuildingAction(buildingBlockId)
             }}
           />
         )
