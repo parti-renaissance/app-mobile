@@ -23,6 +23,7 @@ export interface BuildingLayoutBlockCardViewModel {
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
+  local: boolean
 }
 
 type Props = Readonly<{
@@ -30,6 +31,8 @@ type Props = Readonly<{
   style: ViewStyle
   onSelect: (buildingBlock: string, floor: number) => void
   onAddBuildingFloor: (buildingBlockId: string) => void
+  onRemoveBuildingBlock: (buildingBlockId: string) => void
+  onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
   editMode: boolean
 }>
 
@@ -38,6 +41,8 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   style,
   onSelect,
   onAddBuildingFloor,
+  onRemoveBuildingBlock,
+  onRemoveBuildingFloor,
   editMode,
 }) => {
   const styles = useThemedStyles(stylesFactory)
@@ -45,6 +50,18 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   return (
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <View style={styles.statusContainer}>
+        {editMode && viewModel.local ? (
+          <View style={styles.removeContainer}>
+            <TouchablePlatform
+              touchHighlight={Colors.touchHighlight}
+              onPress={() => onRemoveBuildingBlock(viewModel.id)}
+            >
+              <Image
+                source={require('../../assets/images/iconCircledCross.png')}
+              />
+            </TouchablePlatform>
+          </View>
+        ) : null}
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
       </View>
@@ -57,6 +74,10 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                   viewModel={floorViewModel}
                   style={{}}
                   onSelect={onSelect}
+                  canRemove={editMode && floorViewModel.local}
+                  onRemoveBuildingFloor={(floor: number) => {
+                    onRemoveBuildingFloor(viewModel.id, floor)
+                  }}
                 />
                 <View style={styles.separator} />
               </View>
@@ -68,6 +89,10 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                 viewModel={floorViewModel}
                 style={{}}
                 onSelect={onSelect}
+                canRemove={editMode && floorViewModel.local}
+                onRemoveBuildingFloor={(floor: number) => {
+                  onRemoveBuildingFloor(viewModel.id, floor)
+                }}
               />
             )
           }
@@ -140,6 +165,11 @@ const stylesFactory = (theme: Theme) => {
     },
     newFloorText: {
       ...Typography.callout,
+    },
+    removeContainer: {
+      borderRadius: 32,
+      marginEnd: Spacing.unit,
+      overflow: 'hidden',
     },
     separator: {
       backgroundColor: Colors.separator,

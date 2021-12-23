@@ -34,6 +34,7 @@ function blockCardViewModel(
         floors: block.floors.map((floor) =>
           floorCellViewModel(block.name, floor),
         ),
+        local: block.local,
       }
     case 'building':
       return {
@@ -46,6 +47,7 @@ function blockCardViewModel(
         floors: block.floors.map((floor) =>
           floorCellViewModel(block.name, floor),
         ),
+        local: block.local,
       }
   }
 }
@@ -65,6 +67,7 @@ function floorCellViewModel(
     }),
     subtitle: floorCellSubtitle(floor),
     isCompleted: floor.status === 'completed',
+    local: floor.local,
   }
 }
 

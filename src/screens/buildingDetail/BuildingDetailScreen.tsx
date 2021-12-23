@@ -101,6 +101,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       status: 'todo',
       nbSurveys: 0,
       visitedDoors: [],
+      local: true,
     }
   }
 
@@ -110,6 +111,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       floors: [createEmptyFloor(0)],
       id: uuid.v4() as string,
       status: 'todo',
+      local: true,
     }
   }
 
@@ -126,11 +128,35 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setLayout([...layout])
   }
 
-  const addNewBuildingFloor = (buildingBlock: string) => {
-    const block = layout.find((item) => item.id === buildingBlock)
+  const addNewBuildingFloor = (buildingBlockId: string) => {
+    const block = layout.find((item) => item.id === buildingBlockId)
     if (block) {
       const nextFloor = block.floors.length
       block.floors.push(createEmptyFloor(nextFloor))
+      setLayout([...layout])
+    }
+  }
+
+  const removeBuildingBlock = (buildingBlockId: string) => {
+    const block = layout.find((item) => item.id === buildingBlockId)
+    if (block) {
+      const index = layout.indexOf(block, 0)
+      if (index > -1) {
+        layout.splice(index, 1)
+        setLayout([...layout])
+      }
+    }
+  }
+
+  const removeBuildingFloor = (
+    buildingBlockId: string,
+    floorNumber: number,
+  ) => {
+    const block = layout.find((item) => item.id === buildingBlockId)
+    const floor = block?.floors?.find((item) => item.number === floorNumber)
+    if (block && floor) {
+      const index = block.floors.indexOf(floor, 0)
+      block.floors.splice(index, 1)
       setLayout([...layout])
     }
   }
@@ -162,6 +188,12 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             onAddBuildingFloor={(buildingBlockId: string) =>
               addNewBuildingFloor(buildingBlockId)
             }
+            onRemoveBuildingBlock={(buildingBlockId: string) => {
+              removeBuildingBlock(buildingBlockId)
+            }}
+            onRemoveBuildingFloor={(buildingBlockId: string, floor: number) => {
+              removeBuildingFloor(buildingBlockId, floor)
+            }}
           />
         )
     }

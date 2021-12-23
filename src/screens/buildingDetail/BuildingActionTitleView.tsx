@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Typography } from '../../styles'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
 import { margin } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 export interface BuildingActionTitleViewModel {
   title: string
@@ -11,18 +12,36 @@ export interface BuildingActionTitleViewModel {
 
 type ActionTitleProps = Readonly<{
   viewModel: BuildingActionTitleViewModel
+  canRemove: boolean
+  onRemoveBuildingFloor: () => void
 }>
 
 const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
   viewModel,
+  canRemove,
+  onRemoveBuildingFloor,
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
   if (viewModel.subtitle.length !== 0) {
     return (
-      <View style={styles.actionContainer}>
-        <Text style={styles.actionText}>{viewModel.title}</Text>
-        <Text style={styles.actionSubtitle}>{viewModel.subtitle}</Text>
+      <View style={styles.container}>
+        {canRemove ? (
+          <View style={styles.removeContainer}>
+            <TouchablePlatform
+              touchHighlight={Colors.touchHighlight}
+              onPress={onRemoveBuildingFloor}
+            >
+              <Image
+                source={require('../../assets/images/iconCircledCross.png')}
+              />
+            </TouchablePlatform>
+          </View>
+        ) : null}
+        <View style={styles.actionContainer}>
+          <Text style={styles.actionText}>{viewModel.title}</Text>
+          <Text style={styles.actionSubtitle}>{viewModel.subtitle}</Text>
+        </View>
       </View>
     )
   } else {
@@ -46,6 +65,16 @@ const stylesFactory = () => {
     },
     actionText: {
       ...Typography.callout,
+    },
+    container: {
+      alignItems: 'center',
+      flex: 1,
+      flexDirection: 'row',
+    },
+    removeContainer: {
+      borderRadius: 32,
+      marginStart: Spacing.unit,
+      overflow: 'hidden',
     },
   })
 }

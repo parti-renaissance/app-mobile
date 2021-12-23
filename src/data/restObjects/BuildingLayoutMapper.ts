@@ -13,10 +13,12 @@ export const BuildingLayoutMapper = {
             status: restFloor.campaign_statistics.status,
             nbSurveys: restFloor.campaign_statistics.nb_surveys,
             visitedDoors: restFloor.campaign_statistics.visited_doors,
+            local: false,
           }
         }),
         id: restBlock.uuid,
         status: restBlock.status,
+        local: false,
       }
     })
   },
