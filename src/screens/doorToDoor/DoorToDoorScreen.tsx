@@ -28,8 +28,7 @@ import Geolocation from 'react-native-geolocation-service'
 import RankingModal from './rankings/RankingModal'
 import { Screen } from '../../navigation'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
-
-const DEFAULT_ZOOM = 16
+import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -61,17 +60,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
         })
-        DoorToDoorRepository.getInstance()
-          .getAddresses(
-            position.coords.latitude,
-            position.coords.longitude,
-            DEFAULT_ZOOM,
-          )
-          .then((state) => {
-            setAddresses(state)
-            setFilteredAddresses(state)
+        new GetDoorToDoorAddressesInteractor()
+          .execute(position.coords.latitude, position.coords.longitude)
+          .then((newAddresses) => {
+            setAddresses(newAddresses)
+            setFilteredAddresses(newAddresses)
           })
-          .catch(() => {})
       },
       () => setLocationAuthorized(false),
       { enableHighAccuracy: true },
