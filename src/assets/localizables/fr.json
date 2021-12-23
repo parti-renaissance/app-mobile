@@ -407,13 +407,24 @@
           "appartementbuilding": "Bâtiment {{buildingName}}"
         },
         "startaddress": "Commencer le porte à porte",
-        "floorTitle": "Étage {{floorNumber}}",
+        "floor_title_0": "RdC",
+        "floor_title": "Étage {{floorNumber}}",
         "floor": {
           "subtitle": {
             "completed": "Terminé",
             "ongoing": "{{doorKnocked}} portes frappées, {{sruveysCount}} questionnaires remplis",
             "todo": "Aucun passage"
           }
+        },
+        "add_building": "Ajouter un bâtiment",
+        "add_floor": "Ajouter un étage supplémentaire",
+        "close_building": "Clôturer",
+        "open_building": "Réouvrir",
+        "close_building_alert": {
+          "title": "Clôturer un bâtiment",
+          "message": "Etes vous certain d’avoir tocqué à toutes les portes du bâtiment ?",
+          "action": "Oui",
+          "cancel": "Non"
         }
       },
       "history": {

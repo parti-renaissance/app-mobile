@@ -25,17 +25,27 @@ function blockCardViewModel(
   block: BuildingBlock,
   type: BuildingType,
 ): BuildingLayoutBlockCardViewModel {
+  let statusAction: string
+  if (block.status === 'completed') {
+    statusAction = i18n.t('building.layout.open_building')
+  } else {
+    statusAction = i18n.t('building.layout.close_building')
+  }
   switch (type) {
     case 'house':
       return {
+        id: block.id,
         buildingTypeName: i18n.t('building.layout.buildingtype.house'),
         buildingTypeIcon: require('../../assets/images/house.png'),
         floors: block.floors.map((floor) =>
           floorCellViewModel(block.name, floor),
         ),
+        local: block.local,
+        statusAction: statusAction,
       }
     case 'building':
       return {
+        id: block.id,
         buildingTypeName: i18n.t(
           'building.layout.buildingtype.appartementbuilding',
           { buildingName: block.name },
@@ -44,6 +54,8 @@ function blockCardViewModel(
         floors: block.floors.map((floor) =>
           floorCellViewModel(block.name, floor),
         ),
+        local: block.local,
+        statusAction: statusAction,
       }
   }
 }
@@ -56,9 +68,14 @@ function floorCellViewModel(
     id: floor.id,
     floorNumber: floor.number,
     buildingBlock: buildingBlock,
-    title: i18n.t('building.layout.floorTitle', { floorNumber: floor.number }),
+    title: i18n.t('building.layout.floor_title', {
+      count: floor.number,
+      floorNumber: floor.number,
+      context: floor.number,
+    }),
     subtitle: floorCellSubtitle(floor),
     isCompleted: floor.status === 'completed',
+    local: floor.local,
   }
 }
 

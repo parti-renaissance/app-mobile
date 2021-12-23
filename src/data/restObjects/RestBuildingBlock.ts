@@ -2,6 +2,10 @@ export interface RestBuildingBlock {
   name: string
   floors: RestBuildingBlockFloor[]
   uuid: string
+  campaign_statistics: RestBuildingBlockCampaignStatistics
+}
+
+export interface RestBuildingBlockCampaignStatistics {
   status: 'todo' | 'ongoing' | 'completed'
 }
 

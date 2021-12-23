@@ -3,6 +3,7 @@ export interface BuildingBlock {
   floors: BuildingBlockFloor[]
   id: string
   status: BuildingBlockStatus
+  local: boolean
 }
 
 export type BuildingBlockFloor = {
@@ -11,6 +12,7 @@ export type BuildingBlockFloor = {
   status: BuildingBlocFloorStatus
   nbSurveys: number
   visitedDoors: string[]
+  local: boolean
 }
 
 export type BuildingBlockStatus = 'todo' | 'ongoing' | 'completed'

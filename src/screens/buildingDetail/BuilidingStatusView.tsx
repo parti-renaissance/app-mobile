@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
-import { Colors, Typography } from '../../styles'
-import { small, margin, unit } from '../../styles/spacing'
+import { Colors, Spacing, Typography } from '../../styles'
 import { useThemedStyles } from '../../themes'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import StatBlockView from './StatBlockView'
@@ -33,28 +32,28 @@ const stylesFactory = () => {
       alignContent: 'center',
       backgroundColor: Colors.groupedListBackground,
       borderRadius: 8,
-      margin: margin,
-      padding: margin,
+      margin: Spacing.margin,
+      padding: Spacing.margin,
     },
     statBlockContainer: {
       backgroundColor: Colors.defaultBackground,
       borderRadius: 8,
       flexDirection: 'row',
-      marginBottom: margin,
-      padding: margin,
+      padding: Spacing.margin,
     },
     statusContainer: {
       alignItems: 'center',
       flexDirection: 'row',
       justifyContent: 'center',
-      margin: unit,
+      marginBottom: Spacing.unit,
+      marginHorizontal: Spacing.unit,
     },
     statusImage: {
-      paddingRight: small,
+      paddingRight: Spacing.small,
     },
     statusText: {
       ...Typography.subheadline,
-      paddingLeft: small,
+      paddingLeft: Spacing.small,
     },
   })
 }

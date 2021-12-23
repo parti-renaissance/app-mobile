@@ -14,18 +14,23 @@ export interface BuildingLayoutFloorCellViewModel {
   title: string
   subtitle: string
   isCompleted: boolean
+  local: boolean
 }
 
 type Props = Readonly<{
   viewModel: BuildingLayoutFloorCellViewModel
   style: ViewStyle
+  canRemove: boolean
   onSelect: (buildingBlock: string, floor: number) => void
+  onRemoveBuildingFloor: (floor: number) => void
 }>
 
 const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
   viewModel,
   style,
+  canRemove,
   onSelect,
+  onRemoveBuildingFloor,
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
@@ -61,6 +66,10 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
     <View style={[styles.layoutContainer, style]}>
       <BuildingActionTitleView
         viewModel={{ title: viewModel.title, subtitle: viewModel.subtitle }}
+        canRemove={canRemove}
+        onRemoveBuildingFloor={() => {
+          onRemoveBuildingFloor(viewModel.floorNumber)
+        }}
       />
       {icon()}
     </View>

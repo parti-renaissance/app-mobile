@@ -109,6 +109,32 @@ class DoorToDoorRepository {
       answers,
     )
   }
+
+  public async openBuildingBlock(
+    campaignId: string,
+    buildingId: string,
+    name: string,
+  ) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'open',
+      type: 'building_block',
+      identifier: name,
+      campaign: campaignId,
+    })
+  }
+
+  public async closeBuildingBlock(
+    campaignId: string,
+    buildingId: string,
+    name: string,
+  ) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'close',
+      type: 'building_block',
+      identifier: name,
+      campaign: campaignId,
+    })
+  }
 }
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
