@@ -7,7 +7,7 @@ import {
   Text,
   ScrollView,
 } from 'react-native'
-import { Colors, Typography } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import { useTheme, useThemedStyles } from '../../themes'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
@@ -20,7 +20,13 @@ import i18n from '../../utils/i18n'
 import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
-import { BuildingBlock } from '../../core/entities/BuildingBlock'
+import {
+  BuildingBlock,
+  BuildingBlockFloor,
+} from '../../core/entities/BuildingBlock'
+import AlphabetHelper from '../../utils/AlphabetHelper'
+import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
+import uuid from 'react-native-uuid'
 
 enum Tab {
   HISTORY,
@@ -34,6 +40,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
+  const [editMode, setEditMode] = useState(false)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
   const viewModel = BuildingDetailScreenViewModelMapper.map(
@@ -87,6 +94,47 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setTab(Tab.LAYOUT)
   }
 
+  const createEmptyFloor = (name: number): BuildingBlockFloor => {
+    return {
+      number: name,
+      id: uuid.v4() as string,
+      status: 'todo',
+      nbSurveys: 0,
+      visitedDoors: [],
+    }
+  }
+
+  const createEmptyBlock = (name: string): BuildingBlock => {
+    return {
+      name: name,
+      floors: [createEmptyFloor(0)],
+      id: uuid.v4() as string,
+      status: 'todo',
+    }
+  }
+
+  const addNewBuildingBlock = () => {
+    let nextBuildingBlock: string
+    if (layout.length > 0) {
+      nextBuildingBlock = AlphabetHelper.nextLetterInAlphabet(
+        layout[layout.length - 1].name,
+      )
+    } else {
+      nextBuildingBlock = 'A'
+    }
+    layout.push(createEmptyBlock(nextBuildingBlock))
+    setLayout([...layout])
+  }
+
+  const addNewBuildingFloor = (buildingBlock: string) => {
+    const block = layout.find((item) => item.id === buildingBlock)
+    if (block) {
+      const nextFloor = block.floors.length
+      block.floors.push(createEmptyFloor(nextFloor))
+      setLayout([...layout])
+    }
+  }
+
   const renderTab = (currentTab: Tab) => {
     switch (currentTab) {
       case Tab.HISTORY:
@@ -95,6 +143,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
+            editMode={editMode}
             onSelect={(buildingBlock: string, floor: number) => {
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorInterlocutor,
@@ -109,53 +158,81 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                 },
               })
             }}
+            onAddBuildingBlock={() => addNewBuildingBlock()}
+            onAddBuildingFloor={(buildingBlockId: string) =>
+              addNewBuildingFloor(buildingBlockId)
+            }
           />
         )
     }
   }
 
+  const shouldDisplayEdit = route.params.address.building.type === 'building'
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Image source={viewModel.illustration} />
-        <Text style={styles.address}>{viewModel.address}</Text>
-        <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
-        <BuildingStatusView viewModel={viewModel.status} />
+      <>
+        {/* TODO: (Romain GF) when navigation is fixed, move icon in navigation headerRight */}
+        {shouldDisplayEdit ? (
+          <NavigationHeaderButton
+            source={require('../../assets/images/edit.png')}
+            onPress={() => {
+              setEditMode(!editMode)
+            }}
+            style={styles.edit}
+          />
+        ) : null}
+        <ScrollView>
+          <Image source={viewModel.illustration} />
+          <Text style={styles.address}>{viewModel.address}</Text>
+          <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
+          <BuildingStatusView viewModel={viewModel.status} />
+          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
         {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
-            because we need to be able to scroll through the content of the tabs and react-native-tab-view
-            does not provide us with a way to do it. */}
-        <View style={styles.tabbarContainer}>
-          <TouchablePlatform
-            touchHighlight={Colors.touchHighlight}
-            onPress={showLayout}
-          >
-            <View style={tab === Tab.LAYOUT ? styles.selectedTab : styles.tab}>
-              <Text
-                style={
-                  tab === Tab.LAYOUT ? styles.selectedTabText : styles.tabText
-                }
+          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
+        {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
+          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
+              because we need to be able to scroll through the content of the tabs and react-native-tab-view
+              does not provide us with a way to do it. */}
+          <View style={styles.tabbarContainer}>
+            <TouchablePlatform
+              touchHighlight={Colors.touchHighlight}
+              onPress={showLayout}
+            >
+              <View
+                style={tab === Tab.LAYOUT ? styles.selectedTab : styles.tab}
               >
-                {i18n.t('building.tabs.layout')}
-              </Text>
-            </View>
-          </TouchablePlatform>
-          <TouchablePlatform
-            touchHighlight={Colors.touchHighlight}
-            onPress={showHistory}
-          >
-            <View style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}>
-              <Text
-                style={
-                  tab === Tab.HISTORY ? styles.selectedTabText : styles.tabText
-                }
+                <Text
+                  style={
+                    tab === Tab.LAYOUT ? styles.selectedTabText : styles.tabText
+                  }
+                >
+                  {i18n.t('building.tabs.layout')}
+                </Text>
+              </View>
+            </TouchablePlatform>
+            <TouchablePlatform
+              touchHighlight={Colors.touchHighlight}
+              onPress={showHistory}
+            >
+              <View
+                style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}
               >
-                {i18n.t('building.tabs.history')}
-              </Text>
-            </View>
-          </TouchablePlatform>
-        </View>
-        {renderTab(tab)}
-      </ScrollView>
+                <Text
+                  style={
+                    tab === Tab.HISTORY
+                      ? styles.selectedTabText
+                      : styles.tabText
+                  }
+                >
+                  {i18n.t('building.tabs.history')}
+                </Text>
+              </View>
+            </TouchablePlatform>
+          </View>
+          {renderTab(tab)}
+        </ScrollView>
+      </>
     </SafeAreaView>
   )
 }
@@ -170,6 +247,10 @@ const stylesFactory = (theme: Theme) => {
     container: {
       backgroundColor: Colors.defaultBackground,
       flex: 1,
+    },
+    edit: {
+      alignSelf: 'flex-end',
+      marginEnd: Spacing.unit,
     },
     lastVisit: {
       ...Typography.body,

@@ -10,6 +10,10 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import { useThemedStyles } from '../../themes'
+import Theme from '../../themes/Theme'
+import i18n from '../../utils/i18n'
+import CardView from '../shared/CardView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingLayoutFloorCell, {
   BuildingLayoutFloorCellViewModel,
 } from './BuildingLayoutFloorCell'
@@ -25,17 +29,21 @@ type Props = Readonly<{
   viewModel: BuildingLayoutBlockCardViewModel
   style: ViewStyle
   onSelect: (buildingBlock: string, floor: number) => void
+  onAddBuildingFloor: (buildingBlockId: string) => void
+  editMode: boolean
 }>
 
 const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   viewModel,
   style,
   onSelect,
+  onAddBuildingFloor,
+  editMode,
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
   return (
-    <View style={[styles.card, style]}>
+    <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <View style={styles.statusContainer}>
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
@@ -64,27 +72,74 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
             )
           }
         })}
+        {editMode ? (
+          <AddBuildingFloorCard
+            onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
+          />
+        ) : null}
+      </View>
+    </CardView>
+  )
+}
+
+type AddBuildingFloorCardProps = Readonly<{
+  onAddBuildingFloor: () => void
+}>
+
+const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
+  onAddBuildingFloor,
+}) => {
+  const styles = useThemedStyles(stylesFactory)
+
+  return (
+    <View>
+      <View style={styles.separator} />
+      <View style={styles.newFloorCard}>
+        <TouchablePlatform
+          touchHighlight={Colors.touchHighlight}
+          onPress={() => onAddBuildingFloor()}
+        >
+          <View style={styles.newFloorContainer}>
+            <Image
+              source={require('../../assets/images/iconMore.png')}
+              style={styles.newFloorIcon}
+            />
+            <Text style={styles.newFloorText}>
+              {i18n.t('building.layout.add_floor')}
+            </Text>
+          </View>
+        </TouchablePlatform>
       </View>
     </View>
   )
 }
 
-const stylesFactory = () => {
+const stylesFactory = (theme: Theme) => {
   return StyleSheet.create({
-    card: {
-      backgroundColor: Colors.defaultBackground,
-      borderRadius: 8,
-      shadowColor: Colors.loadingOverlayBackground,
-      shadowOffset: {
-        width: 2,
-        height: 10,
-      },
-      shadowOpacity: 10,
-    },
     layoutContainer: {
       backgroundColor: Colors.groupedListBackground,
       borderRadius: 8,
       margin: margin,
+    },
+    newFloorCard: {
+      backgroundColor: Colors.secondaryButtonBackground,
+      borderBottomEndRadius: 8,
+      borderBottomStartRadius: 8,
+      overflow: 'hidden',
+    },
+    newFloorContainer: {
+      alignItems: 'center',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      padding: Spacing.margin,
+    },
+    newFloorIcon: {
+      marginHorizontal: Spacing.unit,
+      tintColor: theme.primaryColor,
+    },
+    newFloorText: {
+      ...Typography.callout,
     },
     separator: {
       backgroundColor: Colors.separator,
