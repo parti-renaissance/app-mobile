@@ -200,7 +200,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             editMode={editMode}
             onSelect={(buildingBlock: string, floor: number) => {
               navigation.navigate(Screen.doorToDoorTunnelModal, {
-                screen: Screen.tunnelDoorInterlocutor,
+                screen: Screen.tunnelDoorBrief,
                 params: {
                   campaignId: viewModel.campaignId,
                   buildingParams: {
@@ -250,10 +250,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
           <BuildingStatusView viewModel={viewModel.status} />
-          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
-        {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
-          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
-        {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
           {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
               because we need to be able to scroll through the content of the tabs and react-native-tab-view
               does not provide us with a way to do it. */}

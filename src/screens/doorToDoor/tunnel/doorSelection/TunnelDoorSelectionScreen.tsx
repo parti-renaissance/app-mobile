@@ -1,34 +1,28 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 import { Image, StyleSheet, View, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { DoorToDoorTunnelStartScreenProp, Screen } from '../../../navigation'
-import { Colors, Spacing, Typography } from '../../../styles'
-import i18n from '../../../utils/i18n'
-import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
-import { CloseButton } from '../../shared/NavigationHeaderButton'
+import { DoorToDoorTunnelStartScreenProp, Screen } from '../../../../navigation'
+import { Colors, Spacing, Typography } from '../../../../styles'
+import i18n from '../../../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../../../shared/Buttons'
 import Swiper from 'react-native-swiper'
 
-const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreenProp> = ({
+const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenProp> = ({
   navigation,
   route,
 }) => {
   // TODO (Chawki 21.12.2021) - check the liste of campaign structure
-  const { campaignId, campaignTitle } = route.params
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-      title: campaignTitle,
-    })
-  }, [navigation, campaignTitle])
+  const campaignId = route.params.campaignId
 
   return (
     <SafeAreaView style={styles.container}>
       <Swiper showsButtons={true} showsPagination={false}>
         {/* TODO (Chawki 21.12.2021) - Check array structure to map the list of Swiper */}
         <View style={styles.contentContainer}>
-          <Image source={require('../../../assets/images/papDoorIcon.png')} />
-          <Text style={styles.title}>{campaignTitle}</Text>
+          <Image
+            source={require('../../../../assets/images/papDoorIcon.png')}
+          />
+          <Text style={styles.title}>__TITLE__</Text>
           <Text style={styles.body}>
             {i18n.t('doorToDoor.tunnel.start.rdvFirstDoor')}
           </Text>
@@ -45,8 +39,8 @@ const DoorToDoorTunnelStartScreen: FunctionComponent<DoorToDoorTunnelStartScreen
           title={i18n.t('doorToDoor.tunnel.start.doorknocked')}
           onPress={() =>
             navigation.navigate(Screen.tunnelDoorOpening, {
-              campaignId,
-              campaignTitle,
+              campaignId: campaignId,
+              buildingParams: route.params.buildingParams,
             })
           }
         />
@@ -97,4 +91,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DoorToDoorTunnelStartScreen
+export default TunnelDoorSelectionScreen

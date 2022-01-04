@@ -6,15 +6,15 @@ import React, {
 } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, Text, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
-import { Colors, Spacing, Typography } from '../../../styles'
-import i18n from '../../../utils/i18n'
-import { StatefulView, ViewState } from '../../shared/StatefulView'
+import { Colors, Spacing, Typography } from '../../../../styles'
+import i18n from '../../../../utils/i18n'
+import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
-import { DoorToDoorBriefScreenProp, Screen } from '../../../navigation'
-import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
-import { PrimaryButton } from '../../shared/Buttons'
-import { CloseButton } from '../../shared/NavigationHeaderButton'
-import { ViewStateUtils } from '../../shared/ViewStateUtils'
+import { DoorToDoorBriefScreenProp, Screen } from '../../../../navigation'
+import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
+import { PrimaryButton } from '../../../shared/Buttons'
+import { CloseButton } from '../../../shared/NavigationHeaderButton'
+import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 
 export interface TutorialResources {
   content: string
@@ -28,7 +28,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
     ViewState.Type<TutorialResources>
   >(new ViewState.Loading())
 
-  const { campaignId, campaignTitle } = route.params
+  const campaignId = route.params.campaignId
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,9 +68,9 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
           <PrimaryButton
             title={i18n.t('doorToDoor.tunnel.tutorial.action')}
             onPress={() =>
-              navigation.navigate(Screen.doorToDoorTunnelStart, {
-                campaignId,
-                campaignTitle,
+              navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+                campaignId: campaignId,
+                buildingParams: route.params.buildingParams,
               })
             }
           />
