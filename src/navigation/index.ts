@@ -192,6 +192,10 @@ export type DoorToDoorTunnelModalParamList = {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
   }
+  TunnelDoorSuccessScreen: {
+    campaignId: string
+    buildingParams: BuildingSelectedNavigationParams
+  }
 }
 
 export type DoorToDoorBriefScreenProp = StackScreenProps<
@@ -209,9 +213,10 @@ export type DoorToDoorTunnelOpeningScreenProp = StackScreenProps<
   typeof Screen.tunnelDoorOpening
 >
 
-export type DoorToDoorTunnelSuccessScreenProp = Readonly<{
-  navigation: NavigationProp<ParamListBase>
-}>
+export type DoorToDoorTunnelSuccessScreenProp = StackScreenProps<
+  DoorToDoorTunnelModalParamList,
+  typeof Screen.tunnelDoorSuccess
+>
 
 export type TunnelDoorInterlocutorScreenRouteProp = RouteProp<
   DoorToDoorTunnelModalParamList,

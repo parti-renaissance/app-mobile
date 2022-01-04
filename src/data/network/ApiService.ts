@@ -56,6 +56,7 @@ import {
 } from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
+import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
 
 class ApiService {
   private static instance: ApiService
@@ -490,6 +491,15 @@ class ApiService {
     return this.httpClient
       .get('api/v3/pap_campaigns/tutorial')
       .json<RestMarkdown>()
+      .catch(genericErrorMapping)
+  }
+
+  public getDoorToDoorCampaignRanking(
+    campaignId: string,
+  ): Promise<Array<RestDoorToDoorCampaignRanking>> {
+    return this.httpClient
+      .get(`api/v3/pap_campaigns/${campaignId}/ranking`)
+      .json<Array<RestDoorToDoorCampaignRanking>>()
       .catch(genericErrorMapping)
   }
 

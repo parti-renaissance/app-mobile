@@ -3,14 +3,13 @@ import { View, Text, StyleSheet } from 'react-native'
 import { Colors, Spacing } from '../../../styles'
 import { useThemedStyles } from '../../../themes'
 import Theme from '../../../themes/Theme'
-import { RankingRowViewModel, Tab } from './Ranking'
+import { RankingRowViewModel } from './Ranking'
 
 type Props = Readonly<{
   viewModel: RankingRowViewModel
-  tab: Tab
 }>
 
-export const RankingRowView = ({ viewModel, tab }: Props) => {
+export const RankingRowView = ({ viewModel }: Props) => {
   const styles = useThemedStyles(styleFactory)
   const rowStyle =
     viewModel.position % 2 === 0
@@ -19,10 +18,8 @@ export const RankingRowView = ({ viewModel, tab }: Props) => {
 
   return (
     <View style={rowStyle}>
-      <Text style={styles.cell}>{viewModel.rang}</Text>
-      <Text style={styles.cell}>
-        {tab === Tab.INDIVIDUAL ? viewModel.militant : viewModel.department}
-      </Text>
+      <Text style={styles.cell}>{viewModel.rank}</Text>
+      <Text style={styles.cellLarge}>{viewModel.name}</Text>
       <Text style={styles.cell}>{viewModel.doorKnocked}</Text>
       <Text style={styles.cellLarge}>{viewModel.pollsCompleted}</Text>
     </View>

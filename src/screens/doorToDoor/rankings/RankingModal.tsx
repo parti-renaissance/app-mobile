@@ -16,7 +16,6 @@ import { RankingCampaignHeader } from './RankingCampaignHeader'
 import { RankingHeaderView } from './RankingHeaderView'
 import { RankingRowView } from './RankingRowView'
 import { RankingTabsView } from './RankingTabsView'
-import { RankingViewModelMapper } from './RankingViewModelMapper'
 
 type Props = Readonly<{
   onDismissModal: () => void
@@ -26,7 +25,7 @@ const RankingModal: FC<Props> = (props) => {
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
 
   const renderItem = ({ item }: ListRenderItemInfo<RankingRowViewModel>) => (
-    <RankingRowView viewModel={item} tab={tab} />
+    <RankingRowView viewModel={item} />
   )
 
   return (
@@ -48,15 +47,9 @@ const RankingModal: FC<Props> = (props) => {
       {/* TODO - To change with API data */}
       <FlatList
         ListHeaderComponent={() => <RankingHeaderView tab={tab} />}
-        data={[
-          RankingViewModelMapper.map(1),
-          RankingViewModelMapper.map(2),
-          RankingViewModelMapper.map(3),
-          RankingViewModelMapper.map(4),
-          RankingViewModelMapper.map(5),
-        ]}
+        data={[]}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.rank}
       />
     </SafeAreaView>
   )

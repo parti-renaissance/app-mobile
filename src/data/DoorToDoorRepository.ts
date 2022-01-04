@@ -16,6 +16,8 @@ import { Poll } from '../core/entities/Poll'
 import { DoorToDoorPollResult } from '../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
 import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
 import { RestDoorToDoorPollRequestMapper } from './mapper/RestDoorToDoorPollRequestMapper'
+import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRankingMapper'
+import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -134,6 +136,15 @@ class DoorToDoorRepository {
       identifier: name,
       campaign: campaignId,
     })
+  }
+
+  public async getDoorToDoorCampaignRanking(
+    campaignId: string,
+  ): Promise<DoorToDoorCampaignRanking> {
+    const restRanking = await this.apiService.getDoorToDoorCampaignRanking(
+      campaignId,
+    )
+    return DoorToDoorCampaignRankingMapper.map(restRanking)
   }
 
   public async getDoorToDoorTutorial(): Promise<string> {

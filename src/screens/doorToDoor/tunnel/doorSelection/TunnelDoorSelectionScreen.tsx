@@ -11,7 +11,9 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
   navigation,
   route,
 }) => {
-  const [selectedDoor, setSelectedDoor] = useState(1)
+  const [selectedDoor, setSelectedDoor] = useState(
+    route.params.buildingParams.door,
+  )
 
   useEffect(() => {
     navigation.setOptions({
@@ -24,6 +26,10 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
       }),
     })
   }, [navigation, route.params, selectedDoor])
+
+  useEffect(() => {
+    setSelectedDoor(route.params.buildingParams.door)
+  }, [route.params.buildingParams.door])
 
   const updateSelectedDoor = (newSelectedDoor: number) => {
     if (newSelectedDoor >= 1) {

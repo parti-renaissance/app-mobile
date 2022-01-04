@@ -1,16 +1,23 @@
-import { RankingRowViewModel } from './Ranking'
+import { DoorToDoorCampaignRanking } from '../../../core/entities/DoorToDoorCampaignRanking'
+import { RankingRowViewModel, Tab } from './Ranking'
 
 export const RankingViewModelMapper = {
-  // TODO - Change static with Api returned data
-  map: (i: number): RankingRowViewModel => {
-    return {
-      id: i.toString(),
-      rang: i.toString(),
-      militant: 'Angèle C.',
-      department: 'Paris 15',
-      doorKnocked: '61',
-      pollsCompleted: '45',
-      position: i,
-    }
+  map: (
+    ranking: DoorToDoorCampaignRanking | undefined,
+    tab: Tab,
+  ): Array<RankingRowViewModel> => {
+    const toMap =
+      tab === Tab.INDIVIDUAL
+        ? ranking?.individual ?? []
+        : ranking?.departemental ?? []
+    return toMap.map((item) => {
+      return {
+        rank: item.rank.toString(),
+        name: item.name,
+        doorKnocked: item.visitedDoors.toString(),
+        pollsCompleted: item.surveys.toString(),
+        position: item.rank,
+      }
+    })
   },
 }
