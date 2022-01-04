@@ -188,7 +188,7 @@ export type DoorToDoorTunnelModalParamList = {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
   }
-  DoorToDoorTunnelOpeningScreen: {
+  TunnelDoorOpeningScreen: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
   }

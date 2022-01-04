@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Image,
   StyleSheet,
@@ -7,12 +7,19 @@ import {
   ImageSourcePropType,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { DoorToDoorTunnelOpeningScreenProp } from '../../../../navigation'
+import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
+import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
+import {
+  DoorToDoorTunnelOpeningScreenProp,
+  Screen,
+} from '../../../../navigation'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import { useThemedStyles } from '../../../../themes'
 import Theme from '../../../../themes/Theme'
 import i18n from '../../../../utils/i18n'
+import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
+import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 
 type CardItemProps = {
@@ -23,14 +30,42 @@ type CardItemProps = {
 
 const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProp> = ({
   navigation,
+  route,
 }) => {
   const styles = useThemedStyles(stylesFactory)
 
+  const [statefulState, setStatefulState] = useState<
+    ViewState.Type<DoorToDoorPollConfigDoorStatus[]>
+  >(new ViewState.Loading())
+
   useDoorToDoorTunnelNavigationOptions(navigation)
+
+  useEffect(() => {
+    DoorToDoorRepository.getInstance()
+      .getDoorToDoorPollConfig(route.params.campaignId)
+      .then((pollConfig) => {
+        setStatefulState(new ViewState.Content(pollConfig.before.doorStatus))
+      })
+      .catch((error) => {
+        setStatefulState(ViewStateUtils.networkError(error))
+      })
+  }, [route.params, setStatefulState])
+
+  const onChoice = (success: boolean) => {
+    if (success) {
+      navigation.navigate(Screen.tunnelDoorInterlocutor, {
+        campaignId: route.params.campaignId,
+        buildingParams: route.params.buildingParams,
+      })
+    } else {
+      navigation.goBack()
+    }
+  }
 
   const CardItem = ({ onPress, title, image }: CardItemProps) => (
     <View style={styles.card}>
       <TouchablePlatform
+        style={styles.cardContent}
         onPress={onPress}
         touchHighlight={Colors.touchHighlight}
       >
@@ -42,21 +77,34 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
     </View>
   )
 
+  const ContentComponent = (status: DoorToDoorPollConfigDoorStatus[]) => {
+    return (
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>
+          {i18n.t('doorToDoor.tunnel.opening.title')}
+        </Text>
+        {status.map((item) => {
+          const image = item.success
+            ? require('../../../../assets/images/papDoorOpening.png')
+            : require('../../../../assets/images/papDoorNotOpening.png')
+          return (
+            <CardItem
+              key={item.code}
+              onPress={() => {
+                onChoice(item.success)
+              }}
+              title={item.label}
+              image={image}
+            />
+          )
+        })}
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>
-        {i18n.t('doorToDoor.tunnel.opening.title')}
-      </Text>
-      <CardItem
-        onPress={() => {}}
-        title={i18n.t('doorToDoor.tunnel.opening.yes')}
-        image={require('../../../../assets/images/papDoorOpening.png')}
-      />
-      <CardItem
-        onPress={() => {}}
-        title={i18n.t('doorToDoor.tunnel.opening.no')}
-        image={require('../../../../assets/images/papDoorNotOpening.png')}
-      />
+      <StatefulView state={statefulState} contentComponent={ContentComponent} />
     </SafeAreaView>
   )
 }
@@ -66,7 +114,6 @@ const stylesFactory = (theme: Theme) => {
     button: {
       alignItems: 'center',
       flexDirection: 'row',
-      paddingRight: Spacing.margin,
     },
     buttonTitle: {
       ...Typography.title2,
@@ -80,15 +127,23 @@ const stylesFactory = (theme: Theme) => {
       flex: 1,
       justifyContent: 'center',
       marginBottom: Spacing.unit,
+      overflow: 'hidden',
+    },
+    cardContent: {
+      flexGrow: 1,
+      justifyContent: 'center',
     },
     container: {
       backgroundColor: Colors.defaultBackground,
+      flex: 1,
+    },
+    contentContainer: {
       flex: 1,
       padding: Spacing.margin,
     },
     title: {
       ...Typography.title3,
-      marginBottom: Spacing.unit,
+      marginBottom: Spacing.margin,
     },
   })
 }

@@ -13,6 +13,7 @@ export interface DoorToDoorPollConfigBefore {
 export interface DoorToDoorPollConfigDoorStatus {
   code: string
   label: string
+  success: boolean
 }
 
 export interface DoorToDoorPollConfigResponseStatus {

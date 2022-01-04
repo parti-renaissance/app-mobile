@@ -12,6 +12,7 @@ export const DoorToDoorPollConfigMapper = {
             return {
               code: item.code,
               label: item.label,
+              success: item.success_status,
             }
           }),
         responseStatus: restObject.before_survey.response_status
