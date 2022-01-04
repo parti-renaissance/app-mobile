@@ -491,17 +491,17 @@
           "title": "Brief",
           "action": "C’est parti !"
         },
-        "start": {
+        "door": {
           "doorknocked": "J’ai frappé à la porte",
           "floorFinished": "Étage terminé",
-          "rdvFirstDoor": "Rendez-vous à la 1ère porte en partant de la gauche.",
+          "rdvDoor_one": "Rendez-vous à la 1ère porte en partant de la gauche.",
+          "rdvDoor_other": "Rendez-vous à la {{door}}ème porte en partant de la gauche.",
           "doorFinished": "S’il n’y a plus de portes sur l’étage, clôturé l’étage en tapant sur “étage terminé”.",
-          "buildingFinished": "Si le bâtiment est terminé quittez cette page en cliquant sur la croix en haut à gauche de votre écran puis, clôturez le."
-        },
-        "opening": {
-          "title": "La porte s’ouvre t’elle ?",
-          "yes": "Oui",
-          "no": "Non"
+          "buildingFinished": "Si le bâtiment est terminé quittez cette page en cliquant sur la croix en haut à gauche de votre écran puis, clôturez le.",
+          "title_0": "Bâtiment {{buildingName}} - RdC",
+          "title": "Bâtiment {{buildingName}} - Étage {{floorName}}", 
+          "shortTitle_0": "Bât {{buildingName}} - RdC - P{{door}}",
+          "shortTitle": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}"
         },
         "success": {
           "wellDone": "Bravo !",
@@ -509,7 +509,10 @@
           "recap": "Tu as réalisé un total de 1 porte frappée et récolté 1 questionnaire. Merci pour votre engagement !",
           "knockNewDoor": "Frapper à une nouvelle porte",
           "stop": "Arreter le porte-à-porte"
-        }
+        },
+        "opening": {
+          "title": "La porte s’ouvre t’elle ?"
+        },
       }
     }
   }
