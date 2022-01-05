@@ -6,34 +6,33 @@ class ActionsRepository {
   private static instance: ActionsRepository
   private constructor() {}
 
-  private actions: Array<Action> = [
-    {
-      id: 1,
-      image: ActionImage.POLLS,
-      title: i18n.t('actions.polls.title'),
-      screen: Screen.polls,
-    },
-    {
+  public getDefaultActions(): Array<Action> {
+    return [
+      {
+        id: 1,
+        image: ActionImage.POLLS,
+        title: i18n.t('actions.polls.title'),
+        screen: Screen.polls,
+      },
+    ]
+  }
+
+  public getDoorToDoorAction(): Action {
+    return {
       id: 2,
       image: ActionImage.DOORTODOOR,
       title: i18n.t('actions.door_to_door.title'),
       screen: Screen.doorToDoor,
-    },
-  ]
-
-  private phoningAction = {
-    id: 3,
-    image: ActionImage.PHONING,
-    title: i18n.t('actions.phoning.title'),
-    screen: Screen.phoning,
+    }
   }
 
-  public getActions(enablePhoning: boolean): Promise<Array<Action>> {
-    return new Promise((resolve) => {
-      resolve(
-        enablePhoning ? [...this.actions, this.phoningAction] : this.actions,
-      )
-    })
+  public getPhoningAction(): Action {
+    return {
+      id: 3,
+      image: ActionImage.PHONING,
+      title: i18n.t('actions.phoning.title'),
+      screen: Screen.phoning,
+    }
   }
 
   public static getInstance(): ActionsRepository {

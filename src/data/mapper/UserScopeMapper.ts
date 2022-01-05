@@ -9,6 +9,7 @@ export const UserScopeMapper = {
           case 'phoning':
           case 'national':
           case 'deputy':
+          case 'pap':
             return true
           default:
             return false
@@ -22,6 +23,8 @@ export const UserScopeMapper = {
             return { code: UserScopeCode.NATIONAL }
           case 'deputy':
             return { code: UserScopeCode.DEPUTY }
+          case 'pap':
+            return { code: UserScopeCode.DOOR_TO_DOOR }
         }
       })
   },
