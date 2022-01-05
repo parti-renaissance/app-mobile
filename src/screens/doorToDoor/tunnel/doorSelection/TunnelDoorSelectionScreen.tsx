@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Image, StyleSheet, View, Text } from 'react-native'
+import { Image, StyleSheet, View, Text, Alert } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelStartScreenProp, Screen } from '../../../../navigation'
@@ -33,6 +33,25 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
   useEffect(() => {
     setSelectedDoor(route.params.buildingParams.door)
   }, [route.params.buildingParams.door])
+
+  const askConfirmationBeforeCloseFloor = () => {
+    Alert.alert(
+      i18n.t('doorToDoor.tunnel.door.close_floor_alert.title'),
+      i18n.t('doorToDoor.tunnel.door.close_floor_alert.message'),
+      [
+        {
+          text: i18n.t('doorToDoor.tunnel.door.close_floor_alert.action'),
+          onPress: () => closeFloor(),
+          style: 'destructive',
+        },
+        {
+          text: i18n.t('doorToDoor.tunnel.door.close_floor_alert.cancel'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
+  }
 
   const updateSelectedDoor = (newSelectedDoor: number) => {
     if (newSelectedDoor >= 1) {
@@ -126,7 +145,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
         <SecondaryButton
           title={i18n.t('doorToDoor.tunnel.door.floorFinished')}
           style={styles.finished}
-          onPress={closeFloor}
+          onPress={askConfirmationBeforeCloseFloor}
         />
       </View>
     </SafeAreaView>

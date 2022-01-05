@@ -501,7 +501,13 @@
           "title_0": "Bâtiment {{buildingName}} - RdC",
           "title": "Bâtiment {{buildingName}} - Étage {{floorName}}", 
           "shortTitle_0": "Bât {{buildingName}} - RdC - P{{door}}",
-          "shortTitle": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}"
+          "shortTitle": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}",
+          "close_floor_alert": {
+            "title": "Clôturer l'étage",
+            "message": "Etes vous certain d’avoir tocqué à toutes les portes de l'étage ?",
+            "action": "Oui",
+            "cancel": "Non"
+          }
         },
         "success": {
           "wellDone": "Bravo !",
@@ -512,7 +518,7 @@
         },
         "opening": {
           "title": "La porte s’ouvre t’elle ?"
-        },
+        }
       }
     }
   }
