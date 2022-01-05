@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -9,7 +8,6 @@ const offwhite = '#F8FFF8'
 const fringyFlower = '#c9ebc9'
 
 const GreenTheme: Theme = {
-  id: RegionTheme.GREEN,
   primaryColor: chateauGreen,
   lightBackground: offwhite,
   primaryButtonBackgroundDisabled: chateauGreen80Light,

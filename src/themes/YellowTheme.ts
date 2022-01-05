@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -10,7 +9,6 @@ const corn = '#ecae03'
 const creamBrulee = '#ffe495'
 
 const YellowTheme: Theme = {
-  id: RegionTheme.YELLOW,
   primaryColor: dandelion,
   lightBackground: islandSpice,
   primaryButtonBackgroundDisabled: dandelion80Light,

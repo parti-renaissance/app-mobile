@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -9,7 +8,6 @@ const chablis = '#fff5f5'
 const cornflowerLilac = '#ffadac'
 
 const RedTheme: Theme = {
-  id: RegionTheme.RED,
   primaryColor: punch,
   lightBackground: chablis,
   primaryButtonBackgroundDisabled: punch80Light,

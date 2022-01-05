@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -10,7 +9,6 @@ const wildWatermelon = '#fe596a'
 const cinderella = '#fdd7d7'
 
 const PinkTheme: Theme = {
-  id: RegionTheme.PINK,
   primaryColor: cupid,
   lightBackground: chablis,
   primaryButtonBackgroundDisabled: cupid80Light,

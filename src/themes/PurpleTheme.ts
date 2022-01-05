@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -9,7 +8,6 @@ const magnolia = '#faf6ff'
 const moonRaker = '#bfc6f2'
 
 const PurpleTheme: Theme = {
-  id: RegionTheme.PURPLE,
   primaryColor: moodyBlue,
   lightBackground: magnolia,
   primaryButtonBackgroundDisabled: moodyBlue80Light,

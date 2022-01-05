@@ -1,6 +1,5 @@
 import React, { createContext } from 'react'
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
-import RegionTheme from '../core/entities/RegionTheme'
 import BlueTheme from './BlueTheme'
 import Theme from './Theme'
 
@@ -14,14 +13,10 @@ export const DefaultTheme = BlueTheme
 
 export interface ThemeHolder {
   theme: Theme
-  setTheme: (theme: RegionTheme) => void
 }
 
 export const ThemeContext = createContext<ThemeHolder>({
   theme: DefaultTheme,
-  setTheme: () => {
-    // no-op
-  },
 })
 
 export const useTheme = () => React.useContext(ThemeContext)

@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -9,7 +8,6 @@ const soapstone = '#fff9f6'
 const macaroniAndCheese = '#fec183'
 
 const OrangeTheme: Theme = {
-  id: RegionTheme.ORANGE,
   primaryColor: pizazz,
   lightBackground: soapstone,
   primaryButtonBackgroundDisabled: pizazz80Light,

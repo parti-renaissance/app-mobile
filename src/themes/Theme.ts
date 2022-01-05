@@ -1,5 +1,4 @@
 import { ImageSourcePropType } from 'react-native'
-import RegionTheme from '../core/entities/RegionTheme'
 
 interface ThemedImages {
   near: () => ImageSourcePropType
@@ -31,7 +30,6 @@ interface ThemedImages {
 }
 
 export default interface Theme {
-  id: RegionTheme
   primaryColor: string
   lightBackground: string
   primaryButtonBackgroundDisabled: string

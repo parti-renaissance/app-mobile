@@ -1,4 +1,3 @@
-import RegionTheme from '../core/entities/RegionTheme'
 import { Colors } from '../styles'
 import Theme from './Theme'
 
@@ -9,7 +8,6 @@ const iceBlue = '#f5faff'
 const anakiwa = '#b1d8ff'
 
 const BlueTheme: Theme = {
-  id: RegionTheme.BLUE,
   primaryColor: blueRibbon,
   lightBackground: iceBlue,
   primaryButtonBackgroundDisabled: blueRibbon80Light,
