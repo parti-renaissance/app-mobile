@@ -10,7 +10,7 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Poll } from '../../../../core/entities/Poll'
 import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
-import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
+import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import { Screen, TunnelDoorPollScreenRouteProp } from '../../../../navigation'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
@@ -23,6 +23,7 @@ import { PollDetailRemoteQuestionComponentProvider } from '../../../pollDetail/p
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
 import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
+import { AlertUtils } from '../../../shared/AlertUtils'
 
 type Props = Readonly<{
   poll: Poll
@@ -81,16 +82,11 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   const postAnswers = () => {
     setIsLoading(true)
     const result = provider.getResult()
-    DoorToDoorRepository.getInstance()
-      .sendDoorToDoorPoll(
-        {
-          campaignId: route.params.campaignId,
-          buildingId: route.params.buildingParams.id,
-          interlocutorStatus: route.params.interlocutorStatus,
-          block: route.params.buildingParams.block,
-          floor: route.params.buildingParams.floor,
-          door: route.params.buildingParams.door,
-        },
+    new SendDoorPollAnswersInteractor()
+      .execute(
+        route.params.campaignId,
+        route.params.interlocutorStatus,
+        route.params.buildingParams,
         result,
       )
       .then(() => {
@@ -99,6 +95,10 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
           buildingParams: route.params.buildingParams,
         })
       })
+      .catch((error) => {
+        AlertUtils.showNetworkAlert(error, postAnswers)
+      })
+      .finally(() => setIsLoading(false))
   }
 
   return (

@@ -15,8 +15,11 @@ import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { DoorToDoorPollConfigResponseStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
-
-const ANSWER_CODE_ACCEPT = 'accept_to_answer'
+import LoadingOverlay from '../../../shared/LoadingOverlay'
+import {
+  INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE,
+  SendDoorPollAnswersInteractor,
+} from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 
 const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProp> = ({
   route,
@@ -26,6 +29,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<Array<DoorToDoorPollConfigResponseStatus>>
   >(new ViewState.Loading())
+  const [isSendingChoice, setIsSendingChoice] = useState(false)
 
   useDoorToDoorTunnelNavigationOptions(navigation)
 
@@ -44,15 +48,21 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   }, [route.params.campaignId])
 
   const onChoice = (code: string) => {
-    // TODO store choice somewhere
-    if (code === ANSWER_CODE_ACCEPT) {
+    if (code === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE) {
       navigation.navigate(Screen.tunnelDoorPoll, {
         campaignId: route.params.campaignId,
         interlocutorStatus: code,
         buildingParams: route.params.buildingParams,
       })
     } else {
-      navigation.goBack()
+      setIsSendingChoice(true)
+      new SendDoorPollAnswersInteractor()
+        .execute(route.params.campaignId, code, route.params.buildingParams, {
+          answers: [],
+          qualificationAnswers: [],
+        })
+        .then(() => navigation.goBack())
+        .finally(() => setIsSendingChoice(false))
     }
   }
 
@@ -93,6 +103,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
 
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isSendingChoice} />
       <StatefulView
         state={statefulState}
         contentComponent={(content) => renderContentComponent(content)}
