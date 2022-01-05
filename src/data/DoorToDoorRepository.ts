@@ -138,6 +138,20 @@ class DoorToDoorRepository {
     })
   }
 
+  public async closeBuildingBlockFloor(
+    campaignId: string,
+    buildingId: string,
+    name: string,
+    floor: number,
+  ) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'close',
+      type: 'floor',
+      identifier: `${name}-${floor.toString()}`,
+      campaign: campaignId,
+    })
+  }
+
   public async getDoorToDoorCampaignRanking(
     campaignId: string,
   ): Promise<DoorToDoorCampaignRanking> {

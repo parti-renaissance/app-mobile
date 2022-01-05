@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Image, StyleSheet, View, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelStartScreenProp, Screen } from '../../../../navigation'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../../shared/Buttons'
+import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 
 const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenProp> = ({
@@ -14,6 +16,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
   const [selectedDoor, setSelectedDoor] = useState(
     route.params.buildingParams.door,
   )
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     navigation.setOptions({
@@ -37,8 +40,28 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
     }
   }
 
+  const closeFloor = () => {
+    const building = route.params.buildingParams
+    setIsLoading(true)
+    DoorToDoorRepository.getInstance()
+      .closeBuildingBlockFloor(
+        route.params.campaignId,
+        building.id,
+        building.block,
+        building.floor,
+      )
+      .then(() => {
+        setIsLoading(false)
+        navigation.dangerouslyGetParent()?.goBack()
+      })
+      .catch(() => {
+        setIsLoading(false)
+      })
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isLoading} />
       <View style={styles.contentContainer}>
         <View style={styles.doorImageContainer}>
           <TouchablePlatform
@@ -103,7 +126,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
         <SecondaryButton
           title={i18n.t('doorToDoor.tunnel.door.floorFinished')}
           style={styles.finished}
-          onPress={() => {}}
+          onPress={closeFloor}
         />
       </View>
     </SafeAreaView>
