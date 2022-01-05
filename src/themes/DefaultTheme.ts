@@ -7,7 +7,7 @@ const blueRibbon50Light = '#86b2ff'
 const iceBlue = '#f5faff'
 const anakiwa = '#b1d8ff'
 
-const BlueTheme: Theme = {
+export const DefaultTheme: Theme = {
   primaryColor: blueRibbon,
   lightBackground: iceBlue,
   primaryButtonBackgroundDisabled: blueRibbon80Light,
@@ -48,5 +48,3 @@ const BlueTheme: Theme = {
       require('../assets/images/blue/appartementBuilding.png'),
   },
 }
-
-export default BlueTheme

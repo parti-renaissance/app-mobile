@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
-import BlueTheme from './BlueTheme'
+import { DefaultTheme } from './DefaultTheme'
 import Theme from './Theme'
 
 // Repackaging of "NamedStyles" used in the StyleSheet namespace (it's not exported)
@@ -9,7 +9,7 @@ type StyleSheetFactory<T extends NamedStyles<T> | NamedStyles<any>> = (
   theme: Theme,
 ) => T
 
-export const DefaultTheme = BlueTheme
+export * from './DefaultTheme'
 
 export interface ThemeHolder {
   theme: Theme
