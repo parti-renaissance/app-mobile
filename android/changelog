@@ -1,7 +1,8 @@
-# v3.0.0-RC5
+# v3.0.0-RC6
 
 Door To Door :
 
-- adress detail building block detail UI
-- adress detail building block detail WS
-- Handle survey config
+- Address detail building block actions (open/close block, add/remove block)
+- Address detail building floors actions (add/remove floors)
+- Qualification screens (questions provided by server)
+- WS & UI to send survey answers
