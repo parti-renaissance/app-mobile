@@ -19,8 +19,6 @@ import InputAccessoryClose from '../shared/InputAccessoryClose'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { useValidateZipCode } from '../shared/useValidateZipCode'
 import { Department } from '../../core/entities/Department'
-import RegionTheme from '../../core/entities/RegionTheme'
-import ThemeRepository from '../../data/ThemeRepository'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { UpdateZipCodeInteractor } from '../../core/interactor/UpdateZipCodeInteractor'
 
@@ -28,7 +26,7 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   navigation,
   route,
 }) => {
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
   const [zipCode, setZipCode] = useState(route.params.zipCode)
   const [buttonDisabled, setButtonDisabled] = useState(zipCode.length !== 5)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
@@ -36,11 +34,6 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   )
   const inputRef = useRef<TextInput>(null)
   const inputAccessoryViewId = 'profileZipCodeInputAccessory'
-
-  const updateTheme = (newTheme: RegionTheme) => {
-    setTheme(newTheme)
-    ThemeRepository.getInstance().saveRegionTheme(newTheme)
-  }
 
   const onSuccessZipCode = async (department: Department) => {
     try {
@@ -51,7 +44,6 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
       }
       return
     }
-    updateTheme(department.region.theme)
     navigation.navigate(Screen.profile)
   }
   const onErrorZipCode = (error: Error) => {

@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import Theme from './Theme'
 import { DefaultTheme, ThemeContext } from '.'
-import ThemeRepository from '../data/ThemeRepository'
 import RegionTheme from '../core/entities/RegionTheme'
 import BlueTheme from './BlueTheme'
 import YellowTheme from './YellowTheme'
@@ -19,14 +18,6 @@ const ThemeManager: FunctionComponent<Props> = ({ children }) => {
     const theme = getTheme(mode)
     setThemeState(theme)
   }
-
-  useEffect(() => {
-    ThemeRepository.getInstance()
-      .getRegionTheme()
-      .then((regionTheme) => {
-        setMode(regionTheme)
-      })
-  }, [])
 
   return (
     <ThemeContext.Provider value={{ theme: themeState, setTheme: setMode }}>
