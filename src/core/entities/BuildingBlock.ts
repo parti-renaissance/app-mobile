@@ -32,10 +32,13 @@ export class BuildingBlockHelper {
     }
   }
 
-  public createLocalBlock(name: string): BuildingBlock {
+  public createLocalBlock(name: string, floorsCount: number): BuildingBlock {
+    const floors = Array.from({ length: floorsCount }, (_, i) =>
+      this.createLocalFloor(i),
+    )
     return {
       name: name,
-      floors: [this.createLocalFloor(0)],
+      floors: floors,
       id: uuid.v4() as string,
       status: 'todo',
       local: true,

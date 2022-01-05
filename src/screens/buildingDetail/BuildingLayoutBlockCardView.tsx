@@ -7,6 +7,7 @@ import {
   Image,
   Text,
 } from 'react-native'
+import { BuildingType } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
@@ -18,6 +19,7 @@ import BuildingLayoutFloorCell, {
 
 export interface BuildingLayoutBlockCardViewModel {
   id: string
+  buildingType: BuildingType
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
@@ -95,9 +97,11 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
             </View>
           )
         })}
-        <AddBuildingFloorCard
-          onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
-        />
+        {viewModel.buildingType === 'building' ? (
+          <AddBuildingFloorCard
+            onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
+          />
+        ) : null}
       </View>
     </CardView>
   )

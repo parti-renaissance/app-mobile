@@ -119,7 +119,12 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     } else {
       nextBuildingBlock = 'A'
     }
-    layout.push(buildingBlockHelper.createLocalBlock(nextBuildingBlock))
+    layout.push(
+      buildingBlockHelper.createLocalBlock(
+        nextBuildingBlock,
+        route.params.address.building.type === 'building' ? 2 : 1,
+      ),
+    )
     setLayout([...layout])
   }
 

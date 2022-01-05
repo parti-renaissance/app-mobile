@@ -67,6 +67,7 @@ function blockCardViewModel(
 
   return {
     id: block.id,
+    buildingType: type,
     buildingTypeName: buildingTypeName,
     buildingTypeIcon: buildingTypeIcon,
     floors: floors.map((floor) => floorCellViewModel(block.name, floor)),
