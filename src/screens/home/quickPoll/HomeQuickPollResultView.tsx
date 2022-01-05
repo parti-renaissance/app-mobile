@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
-import { useTheme } from '../../../themes'
 import { HomeQuickPollRowAnswerViewModel } from './HomeQuickPollRowAnswerViewModel'
 import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
 
@@ -24,7 +23,6 @@ const TextContainer: FunctionComponent<
 type Props = Readonly<{ viewModel: HomeQuickPollRowContainerViewModel }>
 
 const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
-  const { theme } = useTheme()
   return (
     <View>
       <View style={styles.progressContainer}>

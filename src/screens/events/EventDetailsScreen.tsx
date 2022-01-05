@@ -12,7 +12,6 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import {
   BorderlessButton,
@@ -44,7 +43,6 @@ const EventDetailsContent = (
   refetchData: () => void,
 ) => {
   const contentWidth = useWindowDimensions().width
-  const { theme } = useTheme()
   const [descriptionViewModel, setDescriptionViewModel] = useState(
     initDescription(viewModel),
   )

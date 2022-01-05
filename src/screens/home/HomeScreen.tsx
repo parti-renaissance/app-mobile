@@ -14,7 +14,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 
 import { HomeScreenProps, Screen } from '../../navigation'
 import { Colors } from '../../styles'
-import { useTheme } from '../../themes'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
@@ -41,7 +40,6 @@ import { RetaliationService } from '../../data/RetaliationService'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
-  const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<HomeResources>
   >(new ViewState.Loading())
@@ -64,7 +62,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       return
     }
     const viewModel = HomeViewModelMapper.map(
-      theme,
       currentResources.profile,
       currentResources.region,
       currentResources.news,
@@ -75,7 +72,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.retaliations,
     )
     setStatefulState(new ViewState.Content(viewModel))
-  }, [theme, currentResources])
+  }, [currentResources])
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
     setRefreshing(true)

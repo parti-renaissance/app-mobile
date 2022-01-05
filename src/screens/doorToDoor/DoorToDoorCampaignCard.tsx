@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import ProgressBar from '../shared/ProgressBar'
@@ -12,8 +11,6 @@ type Props = {
 }
 
 export const DoorToDoorCampaignCard = ({ viewModel }: Props) => {
-  const { theme } = useTheme()
-
   return (
     <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
       <View style={styles.content}>

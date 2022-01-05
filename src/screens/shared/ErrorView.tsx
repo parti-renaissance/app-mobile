@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from './Buttons'
 import { ViewState } from './StatefulView'
@@ -12,10 +11,12 @@ type Props = Readonly<{
 
 const ErrorView: FunctionComponent<Props> = (props) => {
   const currentState = props.state
-  const { theme } = useTheme()
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={theme.image.error()} />
+      <Image
+        style={styles.image}
+        source={require('../../assets/images/blue/imageErreur.png')}
+      />
       <Text style={styles.title}>{i18n.t('common.error_title')}</Text>
       <Text style={styles.text}>{currentState.errorMessage}</Text>
       {currentState.onRetry !== undefined ? (

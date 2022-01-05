@@ -12,8 +12,6 @@ import {
   ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
-import Theme from '../../themes/Theme'
 import { TouchablePlatform } from './TouchablePlatform'
 
 type ButtonProps = Readonly<{
@@ -23,7 +21,6 @@ type ButtonProps = Readonly<{
   onPress?: () => void
   title: string
   disabled?: boolean
-  theme?: Theme
   shape?: ButtonShape
 }>
 
@@ -42,12 +39,10 @@ type IconProps = Readonly<{
 }>
 
 export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
-  const { theme } = useTheme()
-  const currentTheme = props.theme ? props.theme : theme
   const opacity = props.disabled ? 0.5 : 1.0
   const background = props.disabled
-    ? currentColors.primaryButtonBackgroundDisabled
-    : currentColors.primaryColor
+    ? Colors.primaryButtonBackgroundDisabled
+    : Colors.primaryColor
   const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
 
   return (
@@ -56,14 +51,14 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
     >
       <TouchablePlatform
         onPress={props.onPress}
-        touchHighlight={currentColors.primaryButtonBackgroundHighlight}
+        touchHighlight={Colors.primaryButtonBackgroundHighlight}
         disabled={props.disabled}
         style={[styles.buttonTouchable, props.buttonStyle]}
       >
         <Text
           style={[
             styles.appButtonText,
-            { opacity: opacity, color: currentColors.primaryButtonTextColor },
+            { opacity: opacity, color: Colors.primaryButtonTextColor },
             props.textStyle,
           ]}
         >
@@ -123,7 +118,6 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
   props,
 ) => {
   const opacity = props.disabled ? 0.5 : 1.0
-  const { theme } = useTheme()
   const containerStyle = props.noShadow
     ? [props.style]
     : [

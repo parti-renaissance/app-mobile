@@ -11,7 +11,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 
 import { PhoningScreenProp, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PhoningRowViewModel } from './PhoningRowViewModel'
 import { PhoningViewModel } from './PhoningViewModel'
@@ -36,7 +35,6 @@ export interface PhoningResources {
 const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
   navigation,
 }) => {
-  const { theme } = useTheme()
   const [isRefreshing, setRefreshing] = useState(false)
   const [currentResources, setResources] = useState<PhoningResources>({
     campaigns: [],
@@ -183,7 +181,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
               {i18n.t('phoning.subtitle_no_campaigns')}
             </Text>
             <Image
-              source={theme.image.emptyCampaigns()}
+              source={require('../../assets/images/blue/imagePhoning.png')}
               style={styles.emptyImage}
             />
           </View>

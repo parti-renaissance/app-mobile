@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography, Colors } from '../../../styles'
 import CardView from '../../shared/CardView'
-import { useTheme } from '../../../themes'
 import ProgressBar from '../../shared/ProgressBar'
 import { PrimaryButton } from '../../shared/Buttons'
 import i18n from '../../../utils/i18n'
@@ -30,7 +29,6 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
   onCallButtonPressed,
   onRankButtonPressed,
 }) => {
-  const { theme } = useTheme()
   return (
     <CardView
       style={styles.cardView}

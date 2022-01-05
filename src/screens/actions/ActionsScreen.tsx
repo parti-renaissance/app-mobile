@@ -8,7 +8,6 @@ import { StatefulView, ViewState } from '../shared/StatefulView'
 import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
-import { useTheme } from '../../themes'
 import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
 import { ActionsScreenProp } from '../../navigation'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -18,7 +17,6 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
     ViewState.Type<ReadonlyArray<ActionRowViewModel>>
   >(new ViewState.Loading())
 
-  const { theme } = useTheme()
   const [fetchedActions] = useState(new Map<number, Action>())
 
   const fetch = useCallback(() => {
@@ -30,13 +28,13 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
         actions.forEach((action) => {
           fetchedActions.set(action.id, action)
         })
-        const actionsViewModel = ActionRowViewModelMapper.map(theme, actions)
+        const actionsViewModel = ActionRowViewModelMapper.map(actions)
         setStatefulState(new ViewState.Content(actionsViewModel))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, () => fetch()))
       })
-  }, [fetchedActions, theme])
+  }, [fetchedActions])
 
   useEffect(() => {
     fetch()

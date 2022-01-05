@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
 import { Colors, Spacing, Styles } from '../../../styles'
-import { useTheme } from '../../../themes'
 import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
 import CardView from '../../shared/CardView'
@@ -23,13 +22,15 @@ const HomeNewsRowContainer: FunctionComponent<Props> = ({
   onNewsSelected,
   onMorePressed,
 }) => {
-  const { theme } = useTheme()
   return (
     <CardView
       style={styles.cardView}
       backgroundColor={Colors.defaultBackground}
     >
-      <Image style={styles.image} source={theme.image.homeNews()} />
+      <Image
+        style={styles.image}
+        source={require('../../../assets/images/blue/imageActualite.png')}
+      />
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {

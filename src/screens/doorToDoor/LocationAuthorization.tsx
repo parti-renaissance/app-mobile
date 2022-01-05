@@ -1,7 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { BorderlessButton } from '../shared/Buttons'
 
@@ -10,11 +9,12 @@ type Props = {
 }
 
 const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
-  const { theme } = useTheme()
-
   return (
     <View style={styles.container}>
-      <Image style={styles.phone} source={theme.image.locationPhone()} />
+      <Image
+        style={styles.phone}
+        source={require('../../assets/images/blue/locationPhone.png')}
+      />
       <Text style={styles.title}>{i18n.t('doorToDoor.location.title')}</Text>
       <Text style={styles.subtitle}>
         {i18n.t('doorToDoor.location.subtitle')}

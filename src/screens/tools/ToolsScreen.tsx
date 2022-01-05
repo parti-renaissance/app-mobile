@@ -9,7 +9,6 @@ import { StatefulView, ViewState } from '../shared/StatefulView'
 import { ToolRow } from './ToolRow'
 import { ToolRowViewModel } from './ToolRowViewModel'
 import { ToolRowViewModelMapper } from './ToolRowViewModelMapper'
-import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
@@ -18,7 +17,6 @@ const ToolsScreen = () => {
     ViewState.Type<ReadonlyArray<ToolRowViewModel>>
   >(new ViewState.Loading())
 
-  const { theme } = useTheme()
   const [fetchedTools] = useState(new Map<number, Tool>())
   const fetch = () => {
     setStatefulState(new ViewState.Loading())
@@ -29,7 +27,7 @@ const ToolsScreen = () => {
         tools.forEach((tool) => {
           fetchedTools.set(tool.id, tool)
         })
-        const toolsViewModel = ToolRowViewModelMapper.map(theme, tools)
+        const toolsViewModel = ToolRowViewModelMapper.map(tools)
         setStatefulState(new ViewState.Content(toolsViewModel))
       })
       .catch((error) => {
@@ -37,7 +35,7 @@ const ToolsScreen = () => {
       })
   }
 
-  useEffect(fetch, [theme])
+  useEffect(fetch, [])
 
   const renderItem = ({ item }: ListRenderItemInfo<ToolRowViewModel>) => {
     return <ToolRow viewModel={item} onPress={onToolSelected} />

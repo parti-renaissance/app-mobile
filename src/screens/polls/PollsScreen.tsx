@@ -18,51 +18,46 @@ import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
 import { PollsScreenProps, Screen } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
-import { useTheme } from '../../themes'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
 import { ServerTimeoutError } from '../../core/errors'
 import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PollsScreen = ({ navigation }: PollsScreenProps) => {
-  const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<PollsScreenViewModel>
   >(new ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
 
-  const fetchData = useCallback(
-    (cacheJustLoaded: boolean = false) => {
-      setRefreshing(true)
-      return new GetPollsInteractor()
-        .execute('remote')
-        .then((polls) => {
-          const viewModel = PollsScreenViewModelMapper.map(theme, polls)
-          setStatefulState(new ViewState.Content(viewModel))
-        })
-        .catch((error) => {
-          const isNetworkError = error instanceof ServerTimeoutError
-          if (isNetworkError && cacheJustLoaded) {
-            return
-          }
-          setStatefulState(
-            ViewStateUtils.networkError(error, () => {
-              setStatefulState(new ViewState.Loading())
-              fetchData()
-            }),
-          )
-        })
-        .finally(() => setRefreshing(false))
-    },
-    [theme],
-  )
+  const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
+    setRefreshing(true)
+    return new GetPollsInteractor()
+      .execute('remote')
+      .then((polls) => {
+        const viewModel = PollsScreenViewModelMapper.map(polls)
+        setStatefulState(new ViewState.Content(viewModel))
+      })
+      .catch((error) => {
+        const isNetworkError = error instanceof ServerTimeoutError
+        if (isNetworkError && cacheJustLoaded) {
+          return
+        }
+        setStatefulState(
+          ViewStateUtils.networkError(error, () => {
+            setStatefulState(new ViewState.Loading())
+            fetchData()
+          }),
+        )
+      })
+      .finally(() => setRefreshing(false))
+  }, [])
 
   const firstDataFetch = useCallback(() => {
     new GetPollsInteractor()
       .execute('cache')
       .then((cachedPolls) => {
-        const viewModel = PollsScreenViewModelMapper.map(theme, cachedPolls)
+        const viewModel = PollsScreenViewModelMapper.map(cachedPolls)
         setStatefulState(new ViewState.Content(viewModel))
         if (!initialFetchDone) {
           fetchData(true)
@@ -72,7 +67,7 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
       .catch(() => {
         fetchData()
       })
-  }, [fetchData, theme, initialFetchDone])
+  }, [fetchData, initialFetchDone])
 
   const navigationToPollDetail = (viewModelId: string) => {
     const pollId = parseInt(viewModelId, 10)
@@ -116,7 +111,10 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Image source={theme.image.emptyPoll()} style={styles.emptyImage} />
+            <Image
+              source={require('../../assets/images/blue/imageSondage.png')}
+              style={styles.emptyImage}
+            />
           </View>
         }
         contentContainerStyle={styles.contentContainer}

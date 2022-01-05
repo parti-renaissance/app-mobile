@@ -4,17 +4,18 @@ import { Text, View, StyleSheet, ImageBackground } from 'react-native'
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
 import { ProfilePollsCompletedViewModel } from './ProfilePollsCompletedViewModel'
-import { useTheme } from '../../themes'
 
 type Props = Readonly<{
   viewModel: ProfilePollsCompletedViewModel
 }>
 
 const ProfilePollsCompleted: FC<Props> = ({ viewModel }) => {
-  const { theme } = useTheme()
   return (
     <View style={styles.container}>
-      <ImageBackground source={theme.image.profilePoll()} style={styles.image}>
+      <ImageBackground
+        source={require('../../assets/images/blue/imageSondageProfil.png')}
+        style={styles.image}
+      >
         <Text style={styles.title}>{i18n.t('profile.polls_accomplished')}</Text>
       </ImageBackground>
       <View style={styles.counters}>

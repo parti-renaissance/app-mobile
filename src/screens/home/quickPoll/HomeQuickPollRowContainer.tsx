@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Spacing, Typography } from '../../../styles'
+import { Colors, Spacing, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
 import HomeQuickPollChoicesView from './HomeQuickPollChoicesView'
 import HomeQuickPollResultView from './HomeQuickPollResultView'
 import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
-import { useTheme } from '../../../themes'
 
 type Props = Readonly<{
   viewModel: HomeQuickPollRowContainerViewModel
@@ -16,7 +15,6 @@ const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
   viewModel,
   onAnswerSelected,
 }) => {
-  const { theme } = useTheme()
   return (
     <CardView style={styles.cardView} backgroundColor={Colors.lightBackground}>
       <View style={styles.container}>

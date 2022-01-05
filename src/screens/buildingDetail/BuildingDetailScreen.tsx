@@ -13,7 +13,6 @@ import {
   ScrollView,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
@@ -41,7 +40,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
 }) => {
-  const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [editMode, setEditMode] = useState(false)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
@@ -50,7 +48,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     route.params.address,
     history,
     layout,
-    theme,
   )
 
   const fetchLayout = useCallback(() => {

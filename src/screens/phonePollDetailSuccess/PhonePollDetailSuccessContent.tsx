@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Image, View } from 'react-native'
 import { Spacing } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
@@ -19,7 +18,6 @@ export const PhonePollDetailSuccessContent: FunctionComponent<Props> = ({
   onNewCall,
   onFinish,
 }) => {
-  const { theme } = useTheme()
   return (
     <>
       <View style={styles.content}>
@@ -28,7 +26,7 @@ export const PhonePollDetailSuccessContent: FunctionComponent<Props> = ({
       <VerticalSpacer spacing={Spacing.margin} />
       <Image
         style={styles.image}
-        source={theme.image.pollSuccess()}
+        source={require('../../assets/images/blue/imageMerci.png')}
         resizeMode="cover"
       />
       <View style={styles.content}>

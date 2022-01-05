@@ -7,15 +7,12 @@ import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
-import { useTheme } from '../../themes'
 
 const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
   navigation,
   route,
 }) => {
   usePreventGoingBack()
-
-  const { theme } = useTheme()
 
   const phoneNumberUrl = (phoneNumber: string): string => {
     const whitespaceRegex = /\s/g

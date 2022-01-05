@@ -6,7 +6,6 @@ import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 import { ImageSourcePropType } from 'react-native'
 import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
-import Theme from '../../themes/Theme'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
 import { Moment } from 'moment-timezone'
@@ -16,14 +15,13 @@ export const BuildingDetailScreenViewModelMapper = {
     address: DoorToDoorAddress,
     history: BuildingHistoryPoint[],
     layout: BuildingBlock[],
-    theme: Theme,
   ): BuildingDetailScreenViewModel => {
     const illustration = (): ImageSourcePropType => {
       switch (address.building.type) {
         case 'house':
-          return theme.image.house()
+          return require('../../assets/images/blue/imageHouse.png')
         case 'building':
-          return theme.image.appartementBuilding()
+          return require('../../assets/images/blue/appartementBuilding.png')
       }
     }
     return {

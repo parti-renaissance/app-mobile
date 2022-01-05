@@ -11,7 +11,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { Colors, Spacing } from '../../styles'
-import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -26,7 +25,6 @@ const Separator = () => {
 }
 
 const NewsScreen = () => {
-  const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<NewsContentViewModel>
   >(new ViewState.Loading())
@@ -81,7 +79,7 @@ const NewsScreen = () => {
     }
   }
 
-  useEffect(loadFirstPage, [theme])
+  useEffect(loadFirstPage, [])
 
   const renderItem = ({ item }: ListRenderItemInfo<NewsRowViewModel>) => {
     return (
@@ -101,7 +99,10 @@ const NewsScreen = () => {
         renderItem={renderItem}
         ListHeaderComponent={
           <View style={styles.imageContainer}>
-            <Image style={styles.image} source={theme.image.homeNews()} />
+            <Image
+              style={styles.image}
+              source={require('../../assets/images/blue/imageActualite.png')}
+            />
           </View>
         }
         ListFooterComponent={

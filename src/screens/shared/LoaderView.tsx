@@ -1,13 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { ActivityIndicator, Platform, StyleProp, ViewStyle } from 'react-native'
-import { useTheme } from '../../themes'
+import { Colors } from '../../styles'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
 }>
 
 const LoaderView: FunctionComponent<Props> = ({ style }) => {
-  const { theme } = useTheme()
   return (
     <ActivityIndicator
       style={style}

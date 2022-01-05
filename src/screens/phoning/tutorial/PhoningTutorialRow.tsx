@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Spacing, Typography, Styles } from '../../../styles'
+import { Spacing, Typography, Styles, Colors } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
 

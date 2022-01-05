@@ -14,7 +14,6 @@ import { Screen } from '../../navigation'
 import { PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import i18n from '../../utils/i18n'
-import { useTheme } from '../../themes'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
 import { useValidateZipCode } from '../shared/useValidateZipCode'
@@ -26,7 +25,6 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   navigation,
   route,
 }) => {
-  const { theme } = useTheme()
   const [zipCode, setZipCode] = useState(route.params.zipCode)
   const [buttonDisabled, setButtonDisabled] = useState(zipCode.length !== 5)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
@@ -62,7 +60,9 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.imageWrap}>
-        <Image source={theme.image.zipCode()} />
+        <Image
+          source={require('../../assets/images/blue/imageCodePostal.png')}
+        />
       </View>
       <Text style={styles.title}>{i18n.t('profileZipCode.label')}</Text>
       <LabelTextInput

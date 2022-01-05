@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native'
-import { Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
+import { Colors, Spacing, Typography } from '../../styles'
 
 import ProgressBar from '../shared/ProgressBar'
 import { PollDetailProgressBarViewModel } from './PollDetailProgressBarViewModel'
@@ -15,7 +14,6 @@ const PollDetailProgressBar: FunctionComponent<Props> = ({
   viewModel,
   style,
 }) => {
-  const { theme } = useTheme()
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.text}>{viewModel.title}</Text>
