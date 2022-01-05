@@ -20,6 +20,7 @@ export interface RestDoorToDoorPollConfigAddress {
 export interface RestDoorToDoorPollConfigDoorStatus {
   code: string
   label: string
+  success_status: boolean
 }
 
 export interface RestDoorToDoorPollConfigResponseStatus {

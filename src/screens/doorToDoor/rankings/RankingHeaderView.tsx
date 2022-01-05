@@ -13,7 +13,7 @@ export const RankingHeaderView = ({ tab }: Props) => (
     <Text style={[styles.cell, styles.cellSmall]}>
       {i18n.t('doorToDoor.ranking.rows.rang')}
     </Text>
-    <Text style={[styles.cell, styles.cellSmall]}>
+    <Text style={[styles.cell, styles.cellLarge]}>
       {tab === Tab.INDIVIDUAL
         ? i18n.t('doorToDoor.ranking.rows.militant')
         : i18n.t('doorToDoor.ranking.rows.department')}
@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   cellLarge: {
-    flex: 1.5,
+    flex: 2,
+    textAlign: 'center',
   },
   cellSmall: {
     flex: 1,

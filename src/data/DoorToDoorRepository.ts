@@ -16,6 +16,8 @@ import { Poll } from '../core/entities/Poll'
 import { DoorToDoorPollResult } from '../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
 import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
 import { RestDoorToDoorPollRequestMapper } from './mapper/RestDoorToDoorPollRequestMapper'
+import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRankingMapper'
+import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -134,6 +136,34 @@ class DoorToDoorRepository {
       identifier: name,
       campaign: campaignId,
     })
+  }
+
+  public async closeBuildingBlockFloor(
+    campaignId: string,
+    buildingId: string,
+    name: string,
+    floor: number,
+  ) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'close',
+      type: 'floor',
+      identifier: `${name}-${floor.toString()}`,
+      campaign: campaignId,
+    })
+  }
+
+  public async getDoorToDoorCampaignRanking(
+    campaignId: string,
+  ): Promise<DoorToDoorCampaignRanking> {
+    const restRanking = await this.apiService.getDoorToDoorCampaignRanking(
+      campaignId,
+    )
+    return DoorToDoorCampaignRankingMapper.map(restRanking)
+  }
+
+  public async getDoorToDoorTutorial(): Promise<string> {
+    const restMarkdown = await this.apiService.getDoorToDoorTutorial()
+    return restMarkdown.content
   }
 }
 
