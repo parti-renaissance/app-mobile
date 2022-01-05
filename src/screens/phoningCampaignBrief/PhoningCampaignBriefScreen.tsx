@@ -4,8 +4,6 @@ import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningCampaignBriefScreenProp, Screen } from '../../navigation'
 import { Colors, Spacing, Styles } from '../../styles'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 
@@ -13,13 +11,11 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
   navigation,
   route,
 }) => {
-  const styles = useThemedStyles(styleFactory)
-
   useEffect(() => {
     navigation.setOptions({
       title: route.params.data.title,
     })
-  }, [navigation, styles, route.params.data.title])
+  }, [navigation, route.params.data.title])
 
   const markdownStyle = { body: styles.contentContainer }
 
@@ -61,26 +57,24 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
   )
 }
 
-const styleFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    bottomContainer: {
-      ...Styles.topElevatedContainerStyle,
-      backgroundColor: Colors.defaultBackground,
-      paddingHorizontal: Spacing.margin,
-      paddingTop: Spacing.margin,
-    },
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    contentContainer: {
-      padding: Spacing.margin,
-    },
-    linkText: {
-      ...Styles.eventSeeMoreButtonTextStyle(theme),
-      color: theme.primaryColor,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  bottomContainer: {
+    ...Styles.topElevatedContainerStyle,
+    backgroundColor: Colors.defaultBackground,
+    paddingHorizontal: Spacing.margin,
+    paddingTop: Spacing.margin,
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  contentContainer: {
+    padding: Spacing.margin,
+  },
+  linkText: {
+    ...Styles.eventSeeMoreButtonTextStyle,
+    color: Colors.primaryColor,
+  },
+})
 
 export default PhoningCampaignBriefScreen

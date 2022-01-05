@@ -46,7 +46,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
       <View style={styles.imageContainer}>
         <View style={styles.imageCircle}>
           <Image
-            style={{ tintColor: theme.primaryColor }}
+            style={{ tintColor: Colors.primaryColor }}
             source={require('../../assets/images/phoneIcon.png')}
             resizeMode="center"
           />

@@ -32,8 +32,6 @@ import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ProfileFormError } from '../../core/errors'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
 import { AlertUtils } from '../shared/AlertUtils'
@@ -62,7 +60,6 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
   const linkedInRef = useRef<TextInput>(null)
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
-  const styles = useThemedStyles(stylesFactory)
 
   const getError = (violations: Array<FormViolation>, path: string): string => {
     return violations
@@ -108,7 +105,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
       ),
       headerTitleStyle: styles.title,
     })
-  }, [navigation, submit, styles])
+  }, [navigation, submit])
 
   const genderListener = (value: Gender) => {
     updateForm({ ...form, gender: value })
@@ -332,37 +329,35 @@ const PersonalInformationScreen = ({
     />
   )
 }
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    certifiedContainer: {},
-    container: {
-      flex: 1,
-      padding: Spacing.margin,
-    },
-    countryPickerContainerButton: {
-      alignSelf: 'flex-end',
-    },
-    headerButtonText: {
-      ...Typography.headline,
-      fontSize: 14,
-      paddingHorizontal: Spacing.margin,
-    },
-    headerSubmit: {
-      color: theme.primaryColor,
-    },
-    mainContainer: {
-      backgroundColor: Colors.defaultBackground,
-    },
-    section: {
-      ...Typography.caption1,
-      color: Colors.lightText,
-      marginTop: Spacing.margin,
-    },
-    title: {
-      ...Typography.title2,
-      paddingHorizontal: Spacing.mediumMargin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  certifiedContainer: {},
+  container: {
+    flex: 1,
+    padding: Spacing.margin,
+  },
+  countryPickerContainerButton: {
+    alignSelf: 'flex-end',
+  },
+  headerButtonText: {
+    ...Typography.headline,
+    fontSize: 14,
+    paddingHorizontal: Spacing.margin,
+  },
+  headerSubmit: {
+    color: Colors.primaryColor,
+  },
+  mainContainer: {
+    backgroundColor: Colors.defaultBackground,
+  },
+  section: {
+    ...Typography.caption1,
+    color: Colors.lightText,
+    marginTop: Spacing.margin,
+  },
+  title: {
+    ...Typography.title2,
+    paddingHorizontal: Spacing.mediumMargin,
+  },
+})
 
 export default PersonalInformationScreen

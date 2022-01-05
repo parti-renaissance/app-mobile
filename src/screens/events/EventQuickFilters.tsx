@@ -5,8 +5,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import SafeAreaView from 'react-native-safe-area-view'
 import { SectionGrid } from 'react-native-super-grid'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
@@ -23,7 +21,6 @@ type Props = Readonly<{
 }>
 
 const EventQuickFilters: FC<Props> = (props) => {
-  const styles = useThemedStyles(stylesFactory)
   const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
     props.initialEventMode,
   )
@@ -104,41 +101,39 @@ const EventQuickFilters: FC<Props> = (props) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    bottomContainer: {
-      ...Styles.topElevatedContainerStyle,
-      backgroundColor: Colors.defaultBackground,
-      padding: Spacing.margin,
-    },
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    headerClearFilters: {
-      ...Typography.title2,
-      color: theme.primaryColor,
-      marginHorizontal: Spacing.margin,
-      textAlign: 'center',
-      textAlignVertical: 'center',
-    },
-    headerContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    headerTitle: {
-      ...Typography.title2,
-      marginStart: 44,
-      textAlign: 'center',
-      textAlignVertical: 'center',
-    },
-    section: {
-      ...Typography.headline,
-      marginHorizontal: Spacing.margin,
-      marginVertical: Spacing.unit,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  bottomContainer: {
+    ...Styles.topElevatedContainerStyle,
+    backgroundColor: Colors.defaultBackground,
+    padding: Spacing.margin,
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  headerClearFilters: {
+    ...Typography.title2,
+    color: Colors.primaryColor,
+    marginHorizontal: Spacing.margin,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  headerContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  headerTitle: {
+    ...Typography.title2,
+    marginStart: 44,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  section: {
+    ...Typography.headline,
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.unit,
+  },
+})
 
 export default EventQuickFilters

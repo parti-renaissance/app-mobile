@@ -19,7 +19,7 @@ const PollDetailProgressBar: FunctionComponent<Props> = ({
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.text}>{viewModel.title}</Text>
-      <ProgressBar progress={viewModel.progress} color={theme.primaryColor} />
+      <ProgressBar progress={viewModel.progress} color={Colors.primaryColor} />
     </View>
   )
 }

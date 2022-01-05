@@ -11,19 +11,15 @@ import {
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
 import { EventScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme, useThemedStyles } from '../../themes'
 import i18n from '../../utils/i18n'
 import EventListScreen from './EventListScreen'
 import { useDebounce } from 'use-debounce'
 import EventQuickFilters from './EventQuickFilters'
-import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventMode } from '../../core/entities/Event'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
-  const { theme } = useTheme()
-
   const [index, setIndex] = React.useState(0)
   const [routes] = React.useState([
     { key: 'home', title: i18n.t('events.tab_home') },
@@ -52,7 +48,6 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const dismissModal = () => {
     setModalVisible(false)
   }
-  const styles = useThemedStyles(stylesFactory)
   const Home = useCallback(
     () => (
       <EventListScreen
@@ -95,7 +90,7 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: theme.primaryColor }}
+      indicatorStyle={{ backgroundColor: Colors.primaryColor }}
       style={{
         backgroundColor: Colors.defaultBackground,
       }}
@@ -145,41 +140,40 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
     </SafeAreaView>
   )
 }
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    filterIcon: {
-      margin: Spacing.margin,
-      tintColor: theme.primaryColor,
-    },
-    filterIconContainer: {
-      alignSelf: 'flex-end',
-    },
-    scene: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    search: {
-      ...Typography.inputText,
-      flex: 1,
-      paddingHorizontal: Spacing.small,
-      paddingVertical: Spacing.unit,
-    },
-    searchContainer: {
-      alignItems: 'center',
-      backgroundColor: Colors.groupedListBackground,
-      borderRadius: 8,
-      flexDirection: 'row',
-      marginHorizontal: Spacing.margin,
-      paddingHorizontal: Spacing.small,
-    },
-    tabStyle: { width: 'auto' },
-    title: {
-      ...Typography.title,
-      marginBottom: Spacing.margin,
-      marginHorizontal: Spacing.margin,
-    },
-  })
-}
+
+const styles = StyleSheet.create({
+  filterIcon: {
+    margin: Spacing.margin,
+    tintColor: Colors.primaryColor,
+  },
+  filterIconContainer: {
+    alignSelf: 'flex-end',
+  },
+  scene: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  search: {
+    ...Typography.inputText,
+    flex: 1,
+    paddingHorizontal: Spacing.small,
+    paddingVertical: Spacing.unit,
+  },
+  searchContainer: {
+    alignItems: 'center',
+    backgroundColor: Colors.groupedListBackground,
+    borderRadius: 8,
+    flexDirection: 'row',
+    marginHorizontal: Spacing.margin,
+    paddingHorizontal: Spacing.small,
+  },
+  tabStyle: { width: 'auto' },
+  title: {
+    ...Typography.title,
+    marginBottom: Spacing.margin,
+    marginHorizontal: Spacing.margin,
+  },
+})
 
 const DEBOUNCE_TIMEOUT_MILLIS = 350
 

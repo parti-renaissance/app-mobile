@@ -1,6 +1,5 @@
 import { TextStyle, ViewStyle } from 'react-native'
 import { Spacing, Typography } from '.'
-import Theme from '../themes/Theme'
 import * as Colors from './colors'
 
 export const topElevatedContainerStyle: ViewStyle = {
@@ -37,22 +36,16 @@ export const cardViewContainerStyle: ViewStyle = {
   shadowOpacity: 0.2,
 }
 
-export const homeSeeMoreButtonTextStyle = (theme: Theme) => {
-  const style: TextStyle = {
-    color: theme.coloredText,
-    textAlign: 'left',
-  }
-  return style
+export const homeSeeMoreButtonTextStyle: TextStyle = {
+  color: Colors.coloredText,
+  textAlign: 'left',
 }
 
-export const eventSeeMoreButtonTextStyle = (theme: Theme) => {
-  const style: TextStyle = {
-    ...Typography.body,
-    color: theme.coloredText,
-    textAlign: 'left',
-    lineHeight: 19,
-  }
-  return style
+export const eventSeeMoreButtonTextStyle: TextStyle = {
+  ...Typography.body,
+  color: Colors.coloredText,
+  textAlign: 'left',
+  lineHeight: 19,
 }
 
 export const homeSeeMoreButtonContainer: ViewStyle = {

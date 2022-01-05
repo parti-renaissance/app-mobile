@@ -1,20 +1,6 @@
-import { Colors } from '../styles'
 import Theme from './Theme'
 
-const blueRibbon = '#0d65ff'
-const blueRibbon80Light = '#4387ff'
-const blueRibbon50Light = '#86b2ff'
-const iceBlue = '#f5faff'
-const anakiwa = '#b1d8ff'
-
 export const DefaultTheme: Theme = {
-  primaryColor: blueRibbon,
-  lightBackground: iceBlue,
-  primaryButtonBackgroundDisabled: blueRibbon80Light,
-  primaryButtonBackgroundHighlight: blueRibbon50Light,
-  primaryButtonTextColor: Colors.white,
-  coloredText: blueRibbon,
-  quickPollProgress: anakiwa,
   image: {
     near: () => require('../assets/images/blue/imageProche.png'),
     reforms: () => require('../assets/images/blue/imageReformes.png'),

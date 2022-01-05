@@ -46,8 +46,8 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   const currentTheme = props.theme ? props.theme : theme
   const opacity = props.disabled ? 0.5 : 1.0
   const background = props.disabled
-    ? currentTheme.primaryButtonBackgroundDisabled
-    : currentTheme.primaryColor
+    ? currentColors.primaryButtonBackgroundDisabled
+    : currentColors.primaryColor
   const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
 
   return (
@@ -56,14 +56,14 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
     >
       <TouchablePlatform
         onPress={props.onPress}
-        touchHighlight={currentTheme.primaryButtonBackgroundHighlight}
+        touchHighlight={currentColors.primaryButtonBackgroundHighlight}
         disabled={props.disabled}
         style={[styles.buttonTouchable, props.buttonStyle]}
       >
         <Text
           style={[
             styles.appButtonText,
-            { opacity: opacity, color: currentTheme.primaryButtonTextColor },
+            { opacity: opacity, color: currentColors.primaryButtonTextColor },
             props.textStyle,
           ]}
         >
@@ -150,7 +150,7 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
           <Text
             style={[
               styles.appButtonText,
-              { opacity: opacity, color: theme.coloredText },
+              { opacity: opacity, color: Colors.coloredText },
               props.textStyle,
             ]}
           >

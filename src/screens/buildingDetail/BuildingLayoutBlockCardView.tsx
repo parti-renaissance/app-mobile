@@ -9,8 +9,6 @@ import {
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
@@ -48,8 +46,6 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   onBuildingAction,
   editMode,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <View style={styles.statusContainer}>
@@ -129,8 +125,6 @@ type AddBuildingFloorCardProps = Readonly<{
 const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
   onAddBuildingFloor,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View>
       <View style={styles.separator} />
@@ -154,61 +148,59 @@ const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    buildingActionText: {
-      ...Typography.callout,
-      color: theme.primaryColor,
-    },
-    layoutContainer: {
-      backgroundColor: Colors.groupedListBackground,
-      borderRadius: 8,
-      margin: margin,
-    },
-    newFloorCard: {
-      backgroundColor: Colors.secondaryButtonBackground,
-      borderBottomEndRadius: 8,
-      borderBottomStartRadius: 8,
-      overflow: 'hidden',
-    },
-    newFloorContainer: {
-      alignItems: 'center',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      padding: Spacing.margin,
-    },
-    newFloorIcon: {
-      marginHorizontal: Spacing.unit,
-      tintColor: theme.primaryColor,
-    },
-    newFloorText: {
-      ...Typography.callout,
-    },
-    removeContainer: {
-      borderRadius: 32,
-      marginEnd: Spacing.unit,
-      overflow: 'hidden',
-    },
-    separator: {
-      backgroundColor: Colors.separator,
-      height: Spacing.separatorHeight,
-    },
-    statusContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      margin: margin,
-    },
-    statusImage: {
-      paddingRight: small,
-    },
-    statusText: {
-      ...Typography.title3,
-      flex: 1,
-      paddingLeft: small,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  buildingActionText: {
+    ...Typography.callout,
+    color: Colors.primaryColor,
+  },
+  layoutContainer: {
+    backgroundColor: Colors.groupedListBackground,
+    borderRadius: 8,
+    margin: margin,
+  },
+  newFloorCard: {
+    backgroundColor: Colors.secondaryButtonBackground,
+    borderBottomEndRadius: 8,
+    borderBottomStartRadius: 8,
+    overflow: 'hidden',
+  },
+  newFloorContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: Spacing.margin,
+  },
+  newFloorIcon: {
+    marginHorizontal: Spacing.unit,
+    tintColor: Colors.primaryColor,
+  },
+  newFloorText: {
+    ...Typography.callout,
+  },
+  removeContainer: {
+    borderRadius: 32,
+    marginEnd: Spacing.unit,
+    overflow: 'hidden',
+  },
+  separator: {
+    backgroundColor: Colors.separator,
+    height: Spacing.separatorHeight,
+  },
+  statusContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    margin: margin,
+  },
+  statusImage: {
+    paddingRight: small,
+  },
+  statusText: {
+    ...Typography.title3,
+    flex: 1,
+    paddingLeft: small,
+  },
+})
 
 export default BuildingLayoutBlockCardView

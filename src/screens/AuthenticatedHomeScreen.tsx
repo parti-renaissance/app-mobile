@@ -8,7 +8,6 @@ import { Colors, Spacing, Typography } from '../styles'
 import ToolsScreen from './tools/ToolsScreen'
 import i18n from '../utils/i18n'
 import { Screen } from '../navigation'
-import { useTheme } from '../themes'
 import HomeNavigator from './home/HomeNavigator'
 import EventNavigator from './events/EventNavigator'
 import ActionsNavigator from './actions/ActionsNavigator'
@@ -41,12 +40,11 @@ const getTabBarIcon = (route: any, focused: boolean) => {
 }
 
 const AuthenticatedHomeScreenAndroid = () => {
-  const { theme } = useTheme()
   return (
     <TabAndroid.Navigator
       initialRouteName={Screen.homeNavigator}
       backBehavior="initialRoute"
-      activeColor={theme.coloredText}
+      activeColor={Colors.coloredText}
       inactiveColor={Colors.tab}
       shifting={false}
       barStyle={{ backgroundColor: Colors.defaultBackground }}
@@ -86,11 +84,10 @@ const AuthenticatedHomeScreenAndroid = () => {
 }
 
 const AuthenticatedHomeScreenIos = () => {
-  const { theme } = useTheme()
   return (
     <TabIos.Navigator
       tabBarOptions={{
-        activeTintColor: theme.coloredText,
+        activeTintColor: Colors.coloredText,
         inactiveTintColor: Colors.tab,
         labelStyle: {
           ...Typography.tabLabel,

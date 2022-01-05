@@ -1,8 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Spacing, Typography } from '../../styles'
-import { useTheme, useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
+import { Colors, Spacing, Typography } from '../../styles'
+import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { BorderlessButton } from '../shared/Buttons'
 
@@ -11,7 +10,6 @@ type Props = {
 }
 
 const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
-  const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
 
   return (
@@ -30,32 +28,30 @@ const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    authorise: {
-      ...Typography.title2,
-      color: theme.primaryColor,
-      marginTop: Spacing.margin,
-      textAlign: 'center',
-    },
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-    },
-    phone: {
-      alignSelf: 'center',
-      marginBottom: Spacing.extraExtraLargeMargin,
-    },
-    subtitle: {
-      ...Typography.lightCaption1,
-      padding: Spacing.margin,
-      textAlign: 'center',
-    },
-    title: {
-      ...Typography.title2,
-      textAlign: 'center',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  authorise: {
+    ...Typography.title2,
+    color: Colors.primaryColor,
+    marginTop: Spacing.margin,
+    textAlign: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  phone: {
+    alignSelf: 'center',
+    marginBottom: Spacing.extraExtraLargeMargin,
+  },
+  subtitle: {
+    ...Typography.lightCaption1,
+    padding: Spacing.margin,
+    textAlign: 'center',
+  },
+  title: {
+    ...Typography.title2,
+    textAlign: 'center',
+  },
+})
 
 export default LocationAuthorization

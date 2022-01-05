@@ -113,7 +113,7 @@ const NewsScreen = () => {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={loadFirstPage}
-            colors={[theme.primaryColor]}
+            colors={[Colors.primaryColor]}
           />
         }
         onEndReachedThreshold={0.8}

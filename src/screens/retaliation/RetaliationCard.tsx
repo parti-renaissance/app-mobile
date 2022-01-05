@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
-import { useThemedStyles } from '../../themes'
 import { RetaliationCardViewModel } from './RetaliationCardViewModel'
 
 type Props = Readonly<{
@@ -10,7 +9,6 @@ type Props = Readonly<{
 }>
 
 const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
-  const styles = useThemedStyles(stylesFactory)
   return (
     <CardView
       style={styles.cardView}
@@ -30,32 +28,30 @@ const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
   )
 }
 
-const stylesFactory = () => {
-  return StyleSheet.create({
-    body: {
-      ...Typography.body,
-      marginBottom: Spacing.margin,
-    },
-    cardView: {
-      marginVertical: Spacing.margin,
-    },
-    container: {
-      padding: Spacing.margin,
-    },
-    image: {
-      aspectRatio: 258 / 145,
-      resizeMode: 'cover',
-      width: '100%',
-    },
-    title: {
-      ...Typography.title2,
-      marginBottom: Spacing.margin,
-      marginLeft: Spacing.margin,
-    },
-    titleContainer: {
-      flexDirection: 'row',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  body: {
+    ...Typography.body,
+    marginBottom: Spacing.margin,
+  },
+  cardView: {
+    marginVertical: Spacing.margin,
+  },
+  container: {
+    padding: Spacing.margin,
+  },
+  image: {
+    aspectRatio: 258 / 145,
+    resizeMode: 'cover',
+    width: '100%',
+  },
+  title: {
+    ...Typography.title2,
+    marginBottom: Spacing.margin,
+    marginLeft: Spacing.margin,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+  },
+})
 
 export default RetaliationCard

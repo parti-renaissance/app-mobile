@@ -2,17 +2,13 @@ import { NavigationProp } from '@react-navigation/native'
 import React from 'react'
 import { useCallback, useEffect } from 'react'
 import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { Spacing, Typography } from '../../../styles'
-import { useThemedStyles } from '../../../themes'
-import Theme from '../../../themes/Theme'
+import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { useBackHandler } from '../../shared/useBackHandler.hook'
 
 export function useDoorToDoorTunnelNavigationOptions(
   navigation: NavigationProp<any>,
 ) {
-  const styles = useThemedStyles(stylesFactory)
-
   const askConfirmationBeforeLeaving = useCallback(() => {
     Alert.alert(
       i18n.t('doorToDoor.tunnel.leave_alert.title'),
@@ -51,17 +47,15 @@ export function useDoorToDoorTunnelNavigationOptions(
         </TouchableOpacity>
       ),
     })
-  }, [askConfirmationBeforeLeaving, navigation, styles])
+  }, [askConfirmationBeforeLeaving, navigation])
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    navigation: {
-      paddingHorizontal: Spacing.margin,
-    },
-    navigationText: {
-      ...Typography.callout,
-      color: theme.primaryColor,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  navigation: {
+    paddingHorizontal: Spacing.margin,
+  },
+  navigationText: {
+    ...Typography.callout,
+    color: Colors.primaryColor,
+  },
+})

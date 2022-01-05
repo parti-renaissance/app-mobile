@@ -124,7 +124,7 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={fetchData}
-            colors={[theme.primaryColor]}
+            colors={[Colors.primaryColor]}
           />
         }
       />

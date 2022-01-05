@@ -13,14 +13,13 @@ import {
   ScrollView,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme, useThemedStyles } from '../../themes'
+import { useTheme } from '../../themes'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
 import BuildingLayoutView from './BuildingLayoutView'
 import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewModelMapper'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
-import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
@@ -42,7 +41,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
   const { theme } = useTheme()
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [editMode, setEditMode] = useState(false)
@@ -250,7 +248,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
           <BuildingStatusView viewModel={viewModel.status} />
-          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view 
+          {/* The tabbar is simulated here and we are not using TabView from react-native-tab-view
               because we need to be able to scroll through the content of the tabs and react-native-tab-view
               does not provide us with a way to do it. */}
           <View style={styles.tabbarContainer}>
@@ -296,48 +294,46 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    address: {
-      ...Typography.title2,
-      marginTop: mediumMargin,
-      textAlign: 'center',
-    },
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    edit: {
-      alignSelf: 'flex-end',
-      marginEnd: Spacing.unit,
-    },
-    lastVisit: {
-      ...Typography.body,
-      marginBottom: margin,
-      textAlign: 'center',
-    },
-    selectedTab: {
-      borderBottomWidth: 2,
-      borderColor: theme.primaryColor,
-      margin: margin,
-      textAlign: 'center',
-    },
-    selectedTabText: {
-      ...Typography.headline,
-    },
-    tab: {
-      margin: margin,
-      textAlign: 'center',
-    },
-    tabText: {
-      ...Typography.thinHeadline,
-    },
-    tabbarContainer: {
-      ...Typography.callout,
-      flexDirection: 'row',
-      justifyContent: 'center',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  address: {
+    ...Typography.title2,
+    marginTop: mediumMargin,
+    textAlign: 'center',
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  edit: {
+    alignSelf: 'flex-end',
+    marginEnd: Spacing.unit,
+  },
+  lastVisit: {
+    ...Typography.body,
+    marginBottom: margin,
+    textAlign: 'center',
+  },
+  selectedTab: {
+    borderBottomWidth: 2,
+    borderColor: Colors.primaryColor,
+    margin: margin,
+    textAlign: 'center',
+  },
+  selectedTabText: {
+    ...Typography.headline,
+  },
+  tab: {
+    margin: margin,
+    textAlign: 'center',
+  },
+  tabText: {
+    ...Typography.thinHeadline,
+  },
+  tabbarContainer: {
+    ...Typography.callout,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+})
 
 export default BuildingDetailScreen

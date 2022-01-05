@@ -18,7 +18,7 @@ const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
 }) => {
   const { theme } = useTheme()
   return (
-    <CardView style={styles.cardView} backgroundColor={theme.lightBackground}>
+    <CardView style={styles.cardView} backgroundColor={Colors.lightBackground}>
       <View style={styles.container}>
         <Text style={styles.title}>{viewModel.title}</Text>
         {viewModel.type === 'question' ? (

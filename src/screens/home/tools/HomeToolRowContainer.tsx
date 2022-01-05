@@ -43,7 +43,7 @@ const HomeToolRowContainer: FunctionComponent<Props> = ({
       </View>
       <BorderlessButton
         title={i18n.t('home.tools_more')}
-        textStyle={Styles.homeSeeMoreButtonTextStyle(theme)}
+        textStyle={Styles.homeSeeMoreButtonTextStyle}
         style={Styles.homeSeeMoreButtonContainer}
         onPress={onMorePressed}
       />

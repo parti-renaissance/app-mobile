@@ -12,7 +12,7 @@ const LoaderView: FunctionComponent<Props> = ({ style }) => {
     <ActivityIndicator
       style={style}
       size={Platform.OS === 'android' ? 'large' : 'small'}
-      color={Platform.OS === 'android' ? theme.primaryColor : undefined}
+      color={Platform.OS === 'android' ? Colors.primaryColor : undefined}
     />
   )
 }

@@ -273,7 +273,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={fetchData}
-              colors={[theme.primaryColor]}
+              colors={[Colors.primaryColor]}
             />
           }
           keyExtractor={(item, index) => item.type + index}

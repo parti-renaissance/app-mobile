@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useThemedStyles } from '../../themes'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import StatBlockView from './StatBlockView'
 
@@ -10,7 +9,6 @@ type Props = Readonly<{
 }>
 
 const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
-  const styles = useThemedStyles(stylesFactory)
   return (
     <View style={styles.container}>
       <View style={styles.statusContainer}>
@@ -26,36 +24,34 @@ const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
   )
 }
 
-const stylesFactory = () => {
-  return StyleSheet.create({
-    container: {
-      alignContent: 'center',
-      backgroundColor: Colors.groupedListBackground,
-      borderRadius: 8,
-      margin: Spacing.margin,
-      padding: Spacing.margin,
-    },
-    statBlockContainer: {
-      backgroundColor: Colors.defaultBackground,
-      borderRadius: 8,
-      flexDirection: 'row',
-      padding: Spacing.margin,
-    },
-    statusContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      marginBottom: Spacing.unit,
-      marginHorizontal: Spacing.unit,
-    },
-    statusImage: {
-      paddingRight: Spacing.small,
-    },
-    statusText: {
-      ...Typography.subheadline,
-      paddingLeft: Spacing.small,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  container: {
+    alignContent: 'center',
+    backgroundColor: Colors.groupedListBackground,
+    borderRadius: 8,
+    margin: Spacing.margin,
+    padding: Spacing.margin,
+  },
+  statBlockContainer: {
+    backgroundColor: Colors.defaultBackground,
+    borderRadius: 8,
+    flexDirection: 'row',
+    padding: Spacing.margin,
+  },
+  statusContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: Spacing.unit,
+    marginHorizontal: Spacing.unit,
+  },
+  statusImage: {
+    paddingRight: Spacing.small,
+  },
+  statusText: {
+    ...Typography.subheadline,
+    paddingLeft: Spacing.small,
+  },
+})
 
 export default BuildingStatusView

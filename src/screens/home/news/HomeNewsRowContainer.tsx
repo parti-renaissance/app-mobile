@@ -41,7 +41,7 @@ const HomeNewsRowContainer: FunctionComponent<Props> = ({
       />
       <BorderlessButton
         title={i18n.t('home.news.more')}
-        textStyle={Styles.homeSeeMoreButtonTextStyle(theme)}
+        textStyle={Styles.homeSeeMoreButtonTextStyle}
         style={Styles.homeSeeMoreButtonContainer}
         onPress={onMorePressed}
       />

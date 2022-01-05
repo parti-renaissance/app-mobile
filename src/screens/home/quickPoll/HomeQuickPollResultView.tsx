@@ -37,7 +37,7 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
             style={[
               styles.progress,
               {
-                backgroundColor: theme.quickPollProgress,
+                backgroundColor: Colors.quickPollProgress,
                 width: viewModel.leadingAnswerViewModel.percentage + '%',
               },
             ]}

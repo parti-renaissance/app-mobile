@@ -26,7 +26,7 @@ export const DoorToDoorCampaignCard = ({ viewModel }: Props) => {
             {i18n.t('doorToDoor.goal')}
             <Text style={styles.indicator}>{viewModel.goal}</Text>
           </Text>
-          <ProgressBar progress={0.3} color={theme.primaryColor} />
+          <ProgressBar progress={0.3} color={Colors.primaryColor} />
         </View>
       </View>
     </CardView>

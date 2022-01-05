@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text, TextStyle, ViewStyle } from 'react-native'
 import { FunctionComponent } from 'react'
-import { useThemedStyles } from '../../themes'
 import { unit } from '../../styles/spacing'
 import { Colors, Typography } from '../../styles'
 import KeyValueCell, { KeyValueCellViewModel } from './KeyValueCell'
@@ -24,8 +23,6 @@ const KeyValueListView: FunctionComponent<Props> = ({
   keyStyle,
   valueStyle,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={containerStyle}>
       <View style={styles.listBackground}>
@@ -57,20 +54,18 @@ KeyValueCell.defaultProps = {
   },
 }
 
-const stylesFactory = () => {
-  return StyleSheet.create({
-    listBackground: {
-      backgroundColor: Colors.groupedListBackground,
-      borderRadius: unit,
-    },
-    listFootnote: {
-      ...Typography.footnoteLight,
-      marginVertical: unit,
-    },
-    visitRecords: {
-      flex: 1,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  listBackground: {
+    backgroundColor: Colors.groupedListBackground,
+    borderRadius: unit,
+  },
+  listFootnote: {
+    ...Typography.footnoteLight,
+    marginVertical: unit,
+  },
+  visitRecords: {
+    flex: 1,
+  },
+})
 
 export default KeyValueListView

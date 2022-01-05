@@ -45,7 +45,7 @@ const HomePollRowContainer: FunctionComponent<Props> = ({
       />
       <BorderlessButton
         title={i18n.t('home.polls_more')}
-        textStyle={Styles.homeSeeMoreButtonTextStyle(theme)}
+        textStyle={Styles.homeSeeMoreButtonTextStyle}
         style={Styles.homeSeeMoreButtonContainer}
         onPress={onMorePressed}
       />

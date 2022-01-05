@@ -193,7 +193,7 @@ const EventListScreen: FC<Props> = (props) => {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={refreshData}
-            colors={[theme.primaryColor]}
+            colors={[Colors.primaryColor]}
           />
         }
         contentContainerStyle={styles.contentContainerStyle}

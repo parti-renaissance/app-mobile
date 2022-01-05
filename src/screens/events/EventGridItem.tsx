@@ -8,8 +8,6 @@ import {
   ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
@@ -22,7 +20,6 @@ type Props = Readonly<{
 }>
 
 const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
-  const styles = useThemedStyles(stylesFactory)
   return (
     <CardView
       style={[styles.card, style]}
@@ -71,69 +68,67 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    card: {
-      marginHorizontal: Spacing.margin,
-      marginVertical: Spacing.unit,
-      width: 170,
-    },
-    checkIcon: {
-      tintColor: theme.primaryColor,
-    },
-    container: {
-      flexDirection: 'column',
-      minHeight: 212,
-    },
-    date: {
-      ...Typography.body,
-      color: Colors.lightText,
-      flexGrow: 1,
-      flexShrink: 1,
-      marginBottom: Spacing.unit,
-      marginStart: Spacing.unit,
-      marginTop: Spacing.unit,
-    },
-    footer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      flexGrow: 1,
-    },
-    image: {
-      height: 86,
-    },
-    imagePlaceholder: {
-      backgroundColor: Colors.groupedListBackground,
-    },
-    leftColumn: {
-      alignItems: 'flex-start',
-      flexGrow: 1,
-      flexShrink: 1,
-    },
-    rightColumn: {
-      alignItems: 'flex-end',
-    },
-    subscribed: {
-      marginEnd: Spacing.unit,
-      marginVertical: Spacing.unit,
-      ...Typography.caption1,
-      color: theme.primaryColor,
-    },
-    title: {
-      ...Typography.eventItemTitle,
-      marginHorizontal: Spacing.unit,
-      marginTop: Spacing.unit,
-    },
-    webcamIcon: {
-      borderRadius: 2,
-      height: 16,
-      resizeMode: 'contain',
-      width: 24,
-    },
-    webcamIconContainer: {
-      paddingRight: Spacing.unit,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  card: {
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.unit,
+    width: 170,
+  },
+  checkIcon: {
+    tintColor: Colors.primaryColor,
+  },
+  container: {
+    flexDirection: 'column',
+    minHeight: 212,
+  },
+  date: {
+    ...Typography.body,
+    color: Colors.lightText,
+    flexGrow: 1,
+    flexShrink: 1,
+    marginBottom: Spacing.unit,
+    marginStart: Spacing.unit,
+    marginTop: Spacing.unit,
+  },
+  footer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexGrow: 1,
+  },
+  image: {
+    height: 86,
+  },
+  imagePlaceholder: {
+    backgroundColor: Colors.groupedListBackground,
+  },
+  leftColumn: {
+    alignItems: 'flex-start',
+    flexGrow: 1,
+    flexShrink: 1,
+  },
+  rightColumn: {
+    alignItems: 'flex-end',
+  },
+  subscribed: {
+    marginEnd: Spacing.unit,
+    marginVertical: Spacing.unit,
+    ...Typography.caption1,
+    color: Colors.primaryColor,
+  },
+  title: {
+    ...Typography.eventItemTitle,
+    marginHorizontal: Spacing.unit,
+    marginTop: Spacing.unit,
+  },
+  webcamIcon: {
+    borderRadius: 2,
+    height: 16,
+    resizeMode: 'contain',
+    width: 24,
+  },
+  webcamIconContainer: {
+    paddingRight: Spacing.unit,
+  },
+})
 
 export default EventGridItem

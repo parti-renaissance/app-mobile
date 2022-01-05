@@ -31,7 +31,7 @@ export const PhonePollDetailSuccessProgressContent: FunctionComponent<Props> = (
       <VerticalSpacer spacing={Spacing.unit} />
       <ProgressBar
         progress={viewModel.progress / viewModel.total}
-        color={theme.primaryColor}
+        color={Colors.primaryColor}
       />
     </>
   )

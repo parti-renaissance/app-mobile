@@ -1,8 +1,6 @@
 import React, { FC } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
-import { useThemedStyles } from '../../../themes'
-import Theme from '../../../themes/Theme'
 import i18n from '../../../utils/i18n'
 import { TouchablePlatform } from '../../shared/TouchablePlatform'
 import { Tab } from './Ranking'
@@ -13,8 +11,6 @@ type Props = Readonly<{
 }>
 
 export const RankingTabsView: FC<Props> = (props) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={styles.tabbarContainer}>
       <TouchablePlatform
@@ -59,28 +55,26 @@ export const RankingTabsView: FC<Props> = (props) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    selectedTab: {
-      borderBottomWidth: 2,
-      borderColor: theme.primaryColor,
-      margin: Spacing.margin,
-      textAlign: 'center',
-    },
-    selectedTabText: {
-      ...Typography.headline,
-    },
-    tab: {
-      margin: Spacing.margin,
-      textAlign: 'center',
-    },
-    tabText: {
-      ...Typography.thinHeadline,
-    },
-    tabbarContainer: {
-      ...Typography.callout,
-      flexDirection: 'row',
-      justifyContent: 'center',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  selectedTab: {
+    borderBottomWidth: 2,
+    borderColor: Colors.primaryColor,
+    margin: Spacing.margin,
+    textAlign: 'center',
+  },
+  selectedTabText: {
+    ...Typography.headline,
+  },
+  tab: {
+    margin: Spacing.margin,
+    textAlign: 'center',
+  },
+  tabText: {
+    ...Typography.thinHeadline,
+  },
+  tabbarContainer: {
+    ...Typography.callout,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+})

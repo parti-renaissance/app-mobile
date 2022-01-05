@@ -30,12 +30,5 @@ interface ThemedImages {
 }
 
 export default interface Theme {
-  primaryColor: string
-  lightBackground: string
-  primaryButtonBackgroundDisabled: string
-  primaryButtonBackgroundHighlight: string
-  primaryButtonTextColor: string
-  coloredText: string
-  quickPollProgress: string
   image: ThemedImages
 }
