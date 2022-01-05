@@ -61,7 +61,15 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
           answers: [],
           qualificationAnswers: [],
         })
-        .then(() => navigation.goBack())
+        .then(() => {
+          navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+            campaignId: route.params.campaignId,
+            buildingParams: {
+              ...route.params.buildingParams,
+              door: route.params.buildingParams.door + 1,
+            },
+          })
+        })
         .finally(() => setIsSendingChoice(false))
     }
   }
