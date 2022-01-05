@@ -33,7 +33,6 @@ type Props = Readonly<{
   onRemoveBuildingBlock: (buildingBlockId: string) => void
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
   onBuildingAction: (buildingBlockId: string) => void
-  editMode: boolean
 }>
 
 const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
@@ -44,12 +43,11 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   onRemoveBuildingBlock,
   onRemoveBuildingFloor,
   onBuildingAction,
-  editMode,
 }) => {
   return (
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <View style={styles.statusContainer}>
-        {editMode && viewModel.local ? (
+        {viewModel.local ? (
           <View style={styles.removeContainer}>
             <TouchablePlatform
               touchHighlight={Colors.touchHighlight}
@@ -63,18 +61,16 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         ) : null}
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
-        {editMode ? (
-          <View>
-            <TouchablePlatform
-              touchHighlight={Colors.touchHighlight}
-              onPress={() => onBuildingAction(viewModel.id)}
-            >
-              <Text style={styles.buildingActionText}>
-                {viewModel.statusAction}
-              </Text>
-            </TouchablePlatform>
-          </View>
-        ) : null}
+        <View>
+          <TouchablePlatform
+            touchHighlight={Colors.touchHighlight}
+            onPress={() => onBuildingAction(viewModel.id)}
+          >
+            <Text style={styles.buildingActionText}>
+              {viewModel.statusAction}
+            </Text>
+          </TouchablePlatform>
+        </View>
       </View>
       <View style={styles.layoutContainer}>
         {viewModel.floors.map((floorViewModel, index) => {
@@ -85,7 +81,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                   viewModel={floorViewModel}
                   style={{}}
                   onSelect={onSelect}
-                  canRemove={editMode && floorViewModel.local}
+                  canRemove={floorViewModel.local}
                   onRemoveBuildingFloor={(floor: number) => {
                     onRemoveBuildingFloor(viewModel.id, floor)
                   }}
@@ -100,7 +96,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                 viewModel={floorViewModel}
                 style={{}}
                 onSelect={onSelect}
-                canRemove={editMode && floorViewModel.local}
+                canRemove={floorViewModel.local}
                 onRemoveBuildingFloor={(floor: number) => {
                   onRemoveBuildingFloor(viewModel.id, floor)
                 }}
@@ -108,11 +104,9 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
             )
           }
         })}
-        {editMode ? (
-          <AddBuildingFloorCard
-            onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
-          />
-        ) : null}
+        <AddBuildingFloorCard
+          onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
+        />
       </View>
     </CardView>
   )

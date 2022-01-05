@@ -22,7 +22,6 @@ type Props = Readonly<{
   onRemoveBuildingBlock: (buildingBlockId: string) => void
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
   onBuildingAction: (buildingBlockId: string) => void
-  editMode: boolean
 }>
 
 const BuildingLayoutView: FunctionComponent<Props> = ({
@@ -33,7 +32,6 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onRemoveBuildingBlock,
   onRemoveBuildingFloor,
   onBuildingAction,
-  editMode,
 }) => {
   return (
     <View style={styles.container}>
@@ -48,13 +46,10 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
             onRemoveBuildingBlock={onRemoveBuildingBlock}
             onRemoveBuildingFloor={onRemoveBuildingFloor}
             onBuildingAction={onBuildingAction}
-            editMode={editMode}
           />
         )
       })}
-      {editMode ? (
-        <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
-      ) : null}
+      <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
     </View>
   )
 }

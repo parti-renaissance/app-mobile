@@ -433,6 +433,15 @@
         "questionersListSeparator": ", ",
         "questionersListLastSeparator": " \u0026 ",
         "visitFormat": "Etage {{floor}} - Porte {{door}}"
+      },
+      "change_type_alert": {
+        "title": "Modifier",
+        "message": {
+          "house": "Cette adresse est actuellement renseignée comme une maison.\n\nS'il s'agit d'une erreur, vous pouvez la modifier en tant qu'immeuble.",
+          "building":	"Cette adresse est actuellement renseignée comme un immeuble.\n\nS'il s'agit d'une erreur, vous pouvez la modifier en tant que maison."
+        },
+        "action":	"Modifier",
+        "cancel":	"Annuler"
       }
     },
     "actions": {

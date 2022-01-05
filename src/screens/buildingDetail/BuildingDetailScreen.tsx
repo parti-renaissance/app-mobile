@@ -31,6 +31,7 @@ import {
 import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import uuid from 'react-native-uuid'
+import { AlertUtils } from '../shared/AlertUtils'
 
 enum Tab {
   HISTORY,
@@ -42,7 +43,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   route,
 }) => {
   const [tab, setTab] = useState(Tab.LAYOUT)
-  const [editMode, setEditMode] = useState(false)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
   const viewModel = BuildingDetailScreenViewModelMapper.map(
@@ -56,9 +56,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       headerRight: () => (
         <NavigationHeaderButton
           source={require('../../assets/images/edit.png')}
-          onPress={() => {
-            setEditMode(!editMode)
-          }}
+          onPress={changeBuildingType}
           style={styles.edit}
         />
       ),
@@ -199,6 +197,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     }
   }
 
+  const changeBuildingType = () => {
+    AlertUtils.showSimpleAlert(
+      i18n.t('building.change_type_alert.title'),
+      route.params.address.building.type === 'building'
+        ? i18n.t('building.change_type_alert.message.building')
+        : i18n.t('building.change_type_alert.message.house'),
+      i18n.t('building.change_type_alert.action'),
+      i18n.t('building.change_type_alert.cancel'),
+      () => {
+        // TODO (Romain GF): when webservice is ready, change building type
+      },
+    )
+  }
+
   const renderTab = (currentTab: Tab) => {
     switch (currentTab) {
       case Tab.HISTORY:
@@ -207,7 +219,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            editMode={editMode}
             onSelect={(buildingBlock: string, floor: number) => {
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorBrief,
