@@ -26,11 +26,10 @@ import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
 import {
   BuildingBlock,
-  BuildingBlockFloor,
+  BuildingBlockHelper,
 } from '../../core/entities/BuildingBlock'
 import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
-import uuid from 'react-native-uuid'
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
 
@@ -52,6 +51,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     history,
     layout,
   )
+  const buildingBlockHelper = new BuildingBlockHelper()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -110,27 +110,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setTab(Tab.LAYOUT)
   }
 
-  const createEmptyFloor = (name: number): BuildingBlockFloor => {
-    return {
-      number: name,
-      id: uuid.v4() as string,
-      status: 'todo',
-      nbSurveys: 0,
-      visitedDoors: [],
-      local: true,
-    }
-  }
-
-  const createEmptyBlock = (name: string): BuildingBlock => {
-    return {
-      name: name,
-      floors: [createEmptyFloor(0)],
-      id: uuid.v4() as string,
-      status: 'todo',
-      local: true,
-    }
-  }
-
   const addNewBuildingBlock = () => {
     let nextBuildingBlock: string
     if (layout.length > 0) {
@@ -140,15 +119,15 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     } else {
       nextBuildingBlock = 'A'
     }
-    layout.push(createEmptyBlock(nextBuildingBlock))
+    layout.push(buildingBlockHelper.createLocalBlock(nextBuildingBlock))
     setLayout([...layout])
   }
 
   const addNewBuildingFloor = (buildingBlockId: string) => {
     const block = layout.find((item) => item.id === buildingBlockId)
     if (block) {
-      const nextFloor = block.floors.length
-      block.floors.push(createEmptyFloor(nextFloor))
+      const nextFloor = (block.floors[block.floors.length - 1]?.number ?? 0) + 1
+      block.floors.push(buildingBlockHelper.createLocalFloor(nextFloor))
       setLayout([...layout])
     }
   }

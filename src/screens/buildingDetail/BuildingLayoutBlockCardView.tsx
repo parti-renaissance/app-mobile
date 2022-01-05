@@ -74,35 +74,26 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
       </View>
       <View style={styles.layoutContainer}>
         {viewModel.floors.map((floorViewModel, index) => {
-          if (index !== viewModel.floors.length - 1) {
-            return (
-              <View key={floorViewModel.id}>
-                <BuildingLayoutFloorCell
-                  viewModel={floorViewModel}
-                  style={{}}
-                  onSelect={onSelect}
-                  canRemove={floorViewModel.local}
-                  onRemoveBuildingFloor={(floor: number) => {
-                    onRemoveBuildingFloor(viewModel.id, floor)
-                  }}
-                />
-                <View style={styles.separator} />
-              </View>
-            )
-          } else {
-            return (
+          return (
+            <View key={floorViewModel.id}>
               <BuildingLayoutFloorCell
-                key={floorViewModel.id}
                 viewModel={floorViewModel}
                 style={{}}
                 onSelect={onSelect}
-                canRemove={floorViewModel.local}
+                canRemove={
+                  floorViewModel.local &&
+                  index !== 0 &&
+                  index === viewModel.floors.length - 1
+                }
                 onRemoveBuildingFloor={(floor: number) => {
                   onRemoveBuildingFloor(viewModel.id, floor)
                 }}
               />
-            )
-          }
+              {index !== viewModel.floors.length - 1 ? (
+                <View style={styles.separator} />
+              ) : null}
+            </View>
+          )
         })}
         <AddBuildingFloorCard
           onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
