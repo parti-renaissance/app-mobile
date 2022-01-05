@@ -82,7 +82,7 @@ function floorCellViewModel(
 function floorCellSubtitle(floor: BuildingBlockFloor): string {
   switch (floor.status) {
     case 'completed':
-      return i18n.t('building.layout.floor.completedSubtitle')
+      return i18n.t('building.layout.floor.subtitle.completed')
     case 'ongoing':
       return i18n.t('building.layout.floor.subtitle.ongoing', {
         doorKnocked: floor.visitedDoors.length,

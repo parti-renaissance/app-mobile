@@ -32,6 +32,7 @@ import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import uuid from 'react-native-uuid'
 import { AlertUtils } from '../shared/AlertUtils'
+import LoadingOverlay from '../shared/LoadingOverlay'
 
 enum Tab {
   HISTORY,
@@ -42,6 +43,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
 }) => {
+  const [isLoading, setIsloading] = useState(false)
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
@@ -179,6 +181,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     const block = layout.find((item) => item.id === buildingBlockId)
     if (!block) return
     if (block.status === 'completed') {
+      setIsloading(true)
       DoorToDoorRepository.getInstance()
         .openBuildingBlock(
           route.params.address.building.campaignStatistics.campaignId,
@@ -186,14 +189,25 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           block.name,
         )
         .then(() => fetchLayout())
+        .finally(() => setIsloading(false))
     } else {
-      DoorToDoorRepository.getInstance()
-        .closeBuildingBlock(
-          route.params.address.building.campaignStatistics.campaignId,
-          route.params.address.building.id,
-          block.name,
-        )
-        .then(() => fetchLayout())
+      AlertUtils.showSimpleAlert(
+        i18n.t('building.layout.close_building_alert.title'),
+        i18n.t('building.layout.close_building_alert.message'),
+        i18n.t('building.layout.close_building_alert.action'),
+        i18n.t('building.layout.close_building_alert.cancel'),
+        () => {
+          setIsloading(true)
+          DoorToDoorRepository.getInstance()
+            .closeBuildingBlock(
+              route.params.address.building.campaignStatistics.campaignId,
+              route.params.address.building.id,
+              block.name,
+            )
+            .then(() => fetchLayout())
+            .finally(() => setIsloading(false))
+        },
+      )
     }
   }
 
@@ -253,6 +267,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
 
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isLoading} />
       <>
         <ScrollView>
           <Image source={viewModel.illustration} />
