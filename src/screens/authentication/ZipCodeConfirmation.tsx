@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Image, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Department } from '../../core/entities/Department'
 import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginInteractor'
@@ -9,6 +9,7 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
+import CircularIcon from '../shared/CircularIcon'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -35,9 +36,9 @@ const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
-      <Image
-        style={styles.logo}
-        source={require('../../assets/images/blue/imageRegion.png')}
+      <CircularIcon
+        style={styles.icon}
+        source={require('../../assets/images/zipCodeConfirmationIcon.png')}
       />
       <Text style={styles.title}>
         {i18n.t('zipcodeconfirmation.title', { department: department })}
@@ -112,11 +113,10 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },
-  logo: {
+  icon: {
     alignSelf: 'center',
-    height: 180,
+    marginBottom: Spacing.margin,
     marginTop: Spacing.unit,
-    width: 320,
   },
   title: {
     ...Typography.largeTitle,
