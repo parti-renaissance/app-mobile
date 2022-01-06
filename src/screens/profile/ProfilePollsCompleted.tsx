@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Text, View, StyleSheet, ImageBackground } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -12,12 +12,7 @@ type Props = Readonly<{
 const ProfilePollsCompleted: FC<Props> = ({ viewModel }) => {
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../../assets/images/blue/imageSondageProfil.png')}
-        style={styles.image}
-      >
-        <Text style={styles.title}>{i18n.t('profile.polls_accomplished')}</Text>
-      </ImageBackground>
+      <Text style={styles.title}>{i18n.t('profile.polls_accomplished')}</Text>
       <View style={styles.counters}>
         <View style={styles.counter}>
           <Text style={styles.counterNumber}>
@@ -60,15 +55,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginBottom: Spacing.unit,
   },
-  image: {
-    flexDirection: 'column-reverse',
-    height: 62,
-    resizeMode: 'contain',
-    width: '100%',
-  },
   title: {
     ...Typography.headline,
     marginBottom: Spacing.unit,
+    marginTop: Spacing.margin,
   },
 })
 

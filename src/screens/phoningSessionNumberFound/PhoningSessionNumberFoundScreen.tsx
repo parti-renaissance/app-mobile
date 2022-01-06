@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react'
-import { Text, StyleSheet, Linking, View, Image } from 'react-native'
+import { Text, StyleSheet, Linking, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -7,6 +7,7 @@ import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
+import CircularIcon from '../shared/CircularIcon'
 
 const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
   navigation,
@@ -41,13 +42,9 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
         {i18n.t('phoningsession.number_found.description')}
       </Text>
       <View style={styles.imageContainer}>
-        <View style={styles.imageCircle}>
-          <Image
-            style={{ tintColor: Colors.primaryColor }}
-            source={require('../../assets/images/phoneIcon.png')}
-            resizeMode="center"
-          />
-        </View>
+        <CircularIcon
+          source={require('../../assets/images/phoneNumberFoundIcon.png')}
+        />
       </View>
       <SecondaryButton
         title={i18n.t('phoningsession.number_found.recall')}
@@ -67,8 +64,6 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
   )
 }
 
-const IMAGE_SIZE = 140
-
 const styles = StyleSheet.create({
   body: {
     ...Typography.body,
@@ -77,14 +72,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
     paddingHorizontal: Spacing.margin,
-  },
-  imageCircle: {
-    alignItems: 'center',
-    backgroundColor: Colors.secondaryButtonBackground,
-    borderRadius: IMAGE_SIZE / 2,
-    height: IMAGE_SIZE,
-    justifyContent: 'center',
-    width: IMAGE_SIZE,
   },
   imageContainer: {
     alignItems: 'center',
