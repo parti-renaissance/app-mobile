@@ -1,3 +1,3 @@
 export interface PollsHeaderViewModel {
-  subtitle: string
+  subtitle?: string
 }

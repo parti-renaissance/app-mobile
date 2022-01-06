@@ -14,7 +14,9 @@ const PollsHeader: FunctionComponent<Props> = (props) => {
   return (
     <View style={[props.style, styles.container]}>
       <Text style={styles.title}>{i18n.t('polls.title')}</Text>
-      <Text style={styles.content}>{props.viewModel.subtitle}</Text>
+      {props.viewModel.subtitle !== undefined && (
+        <Text style={styles.content}>{props.viewModel.subtitle}</Text>
+      )}
     </View>
   )
 }

@@ -6,9 +6,9 @@ export const PollsHeaderViewModelMapper = {
   map: (polls: Array<Poll>): PollsHeaderViewModel => {
     return {
       subtitle:
-        polls.length === 0
-          ? i18n.t('polls.subtitle_no_polls')
-          : i18n.t('polls.subtitle', { count: polls.length }),
+        polls.length > 0
+          ? i18n.t('polls.subtitle', { count: polls.length })
+          : undefined,
     }
   },
 }

@@ -4,11 +4,11 @@ import {
   FlatList,
   ListRenderItemInfo,
   View,
-  Image,
   RefreshControl,
+  Text,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Spacing } from '../../styles'
+import { Spacing, Typography } from '../../styles'
 import PollRow from './PollRow'
 import PollHighlightedRow from './PollHighlightedRow'
 import PollsHeader from './PollsHeader'
@@ -22,6 +22,8 @@ import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
 import { ServerTimeoutError } from '../../core/errors'
 import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import CircularIcon from '../shared/CircularIcon'
+import i18n from '../../utils/i18n'
 
 const PollsScreen = ({ navigation }: PollsScreenProps) => {
   const [statefulState, setStatefulState] = useState<
@@ -111,10 +113,13 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Image
-              source={require('../../assets/images/blue/imageSondage.png')}
-              style={styles.emptyImage}
+            <CircularIcon
+              style={styles.emptyIcon}
+              source={require('../../assets/images/emptyPollIcon.png')}
             />
+            <Text style={styles.emptyText}>
+              {i18n.t('polls.subtitle_no_polls')}
+            </Text>
           </View>
         }
         contentContainerStyle={styles.contentContainer}
@@ -148,12 +153,15 @@ const styles = StyleSheet.create({
   emptyContainer: {
     flex: 1,
     flexGrow: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    padding: Spacing.margin,
   },
-  emptyImage: {
-    height: 166,
-    width: 141,
+  emptyIcon: {
+    marginBottom: Spacing.margin,
+  },
+  emptyText: {
+    ...Typography.body,
+    textAlign: 'center',
   },
   header: {
     marginBottom: Spacing.margin,
