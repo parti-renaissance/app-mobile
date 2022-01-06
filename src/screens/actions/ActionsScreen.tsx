@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Action } from '../../core/entities/Action'
-import ActionsRepository from '../../data/ActionsRepository'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -10,8 +9,7 @@ import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
 import { useTheme } from '../../themes'
-import { GetPhoningStateInteractor } from '../../core/interactor/GetPhoningStateInteractor'
-import { PhoningState } from '../../core/entities/PhoningState'
+import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
 import { ActionsScreenProp } from '../../navigation'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
@@ -23,34 +21,26 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const { theme } = useTheme()
   const [fetchedActions] = useState(new Map<number, Action>())
 
-  const fetch = useCallback(
-    (enablePhoning: boolean) => {
-      setStatefulState(new ViewState.Loading())
-      ActionsRepository.getInstance()
-        .getActions(enablePhoning)
-        .then((actions) => {
-          fetchedActions.clear()
-          actions.forEach((action) => {
-            fetchedActions.set(action.id, action)
-          })
-          const actionsViewModel = ActionRowViewModelMapper.map(theme, actions)
-          setStatefulState(new ViewState.Content(actionsViewModel))
+  const fetch = useCallback(() => {
+    setStatefulState(new ViewState.Loading())
+    new GetActionsInteractor()
+      .execute()
+      .then((actions) => {
+        fetchedActions.clear()
+        actions.forEach((action) => {
+          fetchedActions.set(action.id, action)
         })
-        .catch((error) => {
-          setStatefulState(
-            ViewStateUtils.networkError(error, () => fetch(enablePhoning)),
-          )
-        })
-    },
-    [fetchedActions, theme],
-  )
+        const actionsViewModel = ActionRowViewModelMapper.map(theme, actions)
+        setStatefulState(new ViewState.Content(actionsViewModel))
+      })
+      .catch((error) => {
+        setStatefulState(ViewStateUtils.networkError(error, () => fetch()))
+      })
+  }, [fetchedActions, theme])
 
   useEffect(() => {
-    new GetPhoningStateInteractor()
-      .execute()
-      .then((state) => fetch(state === PhoningState.ENABLED))
-      .catch(() => fetch(false))
-  }, [theme, fetch])
+    fetch()
+  }, [fetch])
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (
