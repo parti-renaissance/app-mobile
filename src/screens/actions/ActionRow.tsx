@@ -14,10 +14,16 @@ export const ActionRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
     <View style={styles.card}>
       <TouchablePlatform
         onPress={() => onPress(viewModel.id)}
-        touchHighlight={Colors.touchHighlight}
+        touchHighlight={Colors.actionCardHighlight}
       >
         <View style={styles.container}>
-          <Image source={viewModel.image} />
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={viewModel.image}
+              resizeMode="contain"
+            />
+          </View>
           <Text style={styles.title}>{viewModel.title}</Text>
         </View>
       </TouchablePlatform>
@@ -25,9 +31,12 @@ export const ActionRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
   )
 }
 
+const IMAGE_CONTAINER_SIZE = 52
+const IMAGE_SIZE = 24
+
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.lightBackground,
+    backgroundColor: Colors.actionCardBackground,
     borderRadius: 8,
     marginBottom: Spacing.unit,
     overflow: 'hidden',
@@ -36,10 +45,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    paddingRight: Spacing.margin,
+    padding: Spacing.margin,
+  },
+  image: {
+    height: IMAGE_SIZE,
+    width: IMAGE_SIZE,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    backgroundColor: Colors.accent,
+    borderRadius: IMAGE_CONTAINER_SIZE / 2,
+    height: IMAGE_CONTAINER_SIZE,
+    justifyContent: 'center',
+    width: IMAGE_CONTAINER_SIZE,
   },
   title: {
     ...Typography.title2,
+    color: Colors.veryLightText,
     marginLeft: Spacing.margin,
   },
 })

@@ -53,3 +53,5 @@ export const primaryButtonBackgroundHighlight = shakespeare50Light
 export const primaryButtonTextColor = white
 export const coloredText = shakespeare
 export const quickPollProgress = anakiwa
+export const actionCardBackground = portGore
+export const actionCardHighlight = pickledBluewood
