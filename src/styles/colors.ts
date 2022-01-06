@@ -1,6 +1,5 @@
 export const white = '#ffffff'
 const springWood = '#f9f6f4'
-const springWood10Dark = '#fcfbfa'
 
 export const shipGray = '#413d45'
 const ebony = '#10152F'
@@ -19,6 +18,8 @@ const monza = '#CC0613'
 const portGore = '#1D214F'
 const comet = '#616481'
 const pickledBluewood = '#383b64'
+const selago = '#F2F5FE'
+const selago50Light = 'fbfcfe'
 
 export const darkText = ebony
 export const lightText = boulder
@@ -30,8 +31,8 @@ export const touchHighlight = '#dddddd'
 export const navigationBackground = white
 export const navigationTint = shakespeare
 export const secondaryButtonText = shipGray
-export const secondaryButtonBackground = springWood
-export const secondaryButtonDisabled = springWood10Dark
+export const secondaryButtonBackground = selago
+export const secondaryButtonDisabled = selago50Light
 export const tertiaryButtonBackground = white
 export const progressBackground = cararra
 export const inputTextBorder = '#eaeaea'
