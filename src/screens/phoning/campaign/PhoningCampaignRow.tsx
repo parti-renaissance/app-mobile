@@ -51,7 +51,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
           </Text>
           <ProgressBar
             progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
-            color={Colors.primaryColor}
+            color={Colors.accent}
           />
           <VerticalSpacer spacing={Spacing.unit} />
         </View>

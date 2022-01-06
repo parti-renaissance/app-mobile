@@ -42,7 +42,7 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({
         </Text>
         <ProgressBar
           progress={viewModel.calledCount / viewModel.numberOfPersonToCall}
-          color={Colors.primaryColor}
+          color={Colors.accent}
         />
         <VerticalSpacer spacing={Spacing.margin} />
         <HorizontalSeparator />

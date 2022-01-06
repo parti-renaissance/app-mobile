@@ -90,7 +90,7 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: Colors.primaryColor }}
+      indicatorStyle={{ backgroundColor: Colors.accent }}
       style={{
         backgroundColor: Colors.defaultBackground,
       }}

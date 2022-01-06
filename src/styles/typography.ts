@@ -42,7 +42,7 @@ export const largeTitle: TextStyle = {
 export const title: TextStyle = {
   fontSize: titleFontSize,
   fontFamily: robotoMedium,
-  color: Colors.darkText,
+  color: Colors.accent,
 }
 
 export const androidNavigationTitle: TextStyle = {
@@ -127,7 +127,7 @@ export const lightCaption1OnLightBackground: TextStyle = {
 export const tagCaption: TextStyle = {
   fontSize: caption2FontSize,
   fontFamily: robotoRegular,
-  color: Colors.veryLightText,
+  color: Colors.darkText,
   textTransform: 'uppercase',
 }
 
