@@ -16,12 +16,14 @@ type NavigationHeaderButtonProps = Readonly<{
   style?: StyleProp<ViewStyle>
   onPress?: () => void
   source: ImageSourcePropType
+  tintColor?: string
 }>
 
 export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonProps> = ({
   style,
   onPress,
   source,
+  tintColor,
 }) => {
   if (Platform.OS === 'android') {
     return (
@@ -31,14 +33,14 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
           onPress={onPress}
           android_ripple={{ color: Colors.touchHighlight }}
         >
-          <Image source={source} />
+          <Image source={source} style={{ tintColor: tintColor }} />
         </Pressable>
       </View>
     )
   } else {
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-        <Image source={source} />
+        <Image source={source} style={{ tintColor: tintColor }} />
       </TouchableOpacity>
     )
   }
@@ -68,6 +70,7 @@ export const CloseButton: FunctionComponent<ButtonProps> = (props) => {
     <NavigationHeaderButton
       {...props}
       source={require('../../assets/images/navigationBarClose.png')}
+      tintColor={Colors.navigationTint}
     />
   )
 }
