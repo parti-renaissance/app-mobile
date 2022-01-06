@@ -14,8 +14,6 @@ import {
   Screen,
 } from '../../../../navigation'
 import { Colors, Spacing, Typography } from '../../../../styles'
-import { useThemedStyles } from '../../../../themes'
-import Theme from '../../../../themes/Theme'
 import i18n from '../../../../utils/i18n'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
@@ -32,8 +30,6 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
   navigation,
   route,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<DoorToDoorPollConfigDoorStatus[]>
   >(new ViewState.Loading())
@@ -109,43 +105,41 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    button: {
-      alignItems: 'center',
-      flexDirection: 'row',
-    },
-    buttonTitle: {
-      ...Typography.title2,
-      flex: 1,
-      marginLeft: Spacing.margin,
-      textAlign: 'center',
-    },
-    card: {
-      backgroundColor: theme.lightBackground,
-      borderRadius: 8,
-      flex: 1,
-      justifyContent: 'center',
-      marginBottom: Spacing.unit,
-      overflow: 'hidden',
-    },
-    cardContent: {
-      flexGrow: 1,
-      justifyContent: 'center',
-    },
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    contentContainer: {
-      flex: 1,
-      padding: Spacing.margin,
-    },
-    title: {
-      ...Typography.title3,
-      marginBottom: Spacing.margin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  buttonTitle: {
+    ...Typography.title2,
+    flex: 1,
+    marginLeft: Spacing.margin,
+    textAlign: 'center',
+  },
+  card: {
+    backgroundColor: Colors.lightBackground,
+    borderRadius: 8,
+    flex: 1,
+    justifyContent: 'center',
+    marginBottom: Spacing.unit,
+    overflow: 'hidden',
+  },
+  cardContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    padding: Spacing.margin,
+  },
+  title: {
+    ...Typography.title3,
+    marginBottom: Spacing.margin,
+  },
+})
 
 export default TunnelDoorOpeningScreen
