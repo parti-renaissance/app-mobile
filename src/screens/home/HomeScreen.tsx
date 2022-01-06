@@ -14,7 +14,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 
 import { HomeScreenProps, Screen } from '../../navigation'
 import { Colors } from '../../styles'
-import { useTheme } from '../../themes'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
@@ -30,8 +29,6 @@ import {
   HomeResources,
 } from '../../core/interactor/GetHomeResourcesInteractor'
 import { useFocusEffect } from '@react-navigation/native'
-import { Region } from '../../core/entities/Region'
-import ThemeRepository from '../../data/ThemeRepository'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ServerTimeoutError } from '../../core/errors'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
@@ -43,7 +40,6 @@ import { RetaliationService } from '../../data/RetaliationService'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
-  const { theme, setTheme } = useTheme()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<HomeResources>
   >(new ViewState.Loading())
@@ -66,7 +62,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       return
     }
     const viewModel = HomeViewModelMapper.map(
-      theme,
       currentResources.profile,
       currentResources.region,
       currentResources.news,
@@ -77,42 +72,31 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.retaliations,
     )
     setStatefulState(new ViewState.Content(viewModel))
-  }, [theme, currentResources])
+  }, [currentResources])
 
-  const fetchData = useCallback(
-    (cacheJustLoaded: boolean = false) => {
-      const updateTheme = (region: Region | undefined) => {
-        if (region) {
-          setTheme(region.theme)
-          ThemeRepository.getInstance().saveRegionTheme(region.theme)
+  const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
+    setRefreshing(true)
+    new GetHomeResourcesInteractor()
+      .execute('remote')
+      .then((resources) => {
+        setResources(resources)
+      })
+      .catch((error) => {
+        const isNetworkError = error instanceof ServerTimeoutError
+        if (isNetworkError && cacheJustLoaded) {
+          return
         }
-      }
-
-      setRefreshing(true)
-      new GetHomeResourcesInteractor()
-        .execute('remote')
-        .then((resources) => {
-          setResources(resources)
-          updateTheme(resources.region)
-        })
-        .catch((error) => {
-          const isNetworkError = error instanceof ServerTimeoutError
-          if (isNetworkError && cacheJustLoaded) {
-            return
-          }
-          setStatefulState(
-            ViewStateUtils.networkError(error, () => {
-              setStatefulState(new ViewState.Loading())
-              fetchData()
-            }),
-          )
-        })
-        .finally(() => {
-          setRefreshing(false)
-        })
-    },
-    [setTheme],
-  )
+        setStatefulState(
+          ViewStateUtils.networkError(error, () => {
+            setStatefulState(new ViewState.Loading())
+            fetchData()
+          }),
+        )
+      })
+      .finally(() => {
+        setRefreshing(false)
+      })
+  }, [])
 
   const firstDataFetch = useCallback(() => {
     new GetHomeResourcesInteractor()
@@ -286,7 +270,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={fetchData}
-              colors={[theme.primaryColor]}
+              colors={[Colors.primaryColor]}
             />
           }
           keyExtractor={(item, index) => item.type + index}

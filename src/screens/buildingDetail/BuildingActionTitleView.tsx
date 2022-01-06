@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin } from '../../styles/spacing'
-import { useThemedStyles } from '../../themes'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 export interface BuildingActionTitleViewModel {
@@ -21,8 +20,6 @@ const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
   canRemove,
   onRemoveBuildingFloor,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   if (viewModel.subtitle.length !== 0) {
     return (
       <View style={styles.container}>
@@ -53,30 +50,28 @@ const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
   }
 }
 
-const stylesFactory = () => {
-  return StyleSheet.create({
-    actionContainer: {
-      flex: 1,
-      flexWrap: 'nowrap',
-      margin: margin,
-    },
-    actionSubtitle: {
-      ...Typography.lightCaption1,
-    },
-    actionText: {
-      ...Typography.callout,
-    },
-    container: {
-      alignItems: 'center',
-      flex: 1,
-      flexDirection: 'row',
-    },
-    removeContainer: {
-      borderRadius: 32,
-      marginStart: Spacing.unit,
-      overflow: 'hidden',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  actionContainer: {
+    flex: 1,
+    flexWrap: 'nowrap',
+    margin: margin,
+  },
+  actionSubtitle: {
+    ...Typography.lightCaption1,
+  },
+  actionText: {
+    ...Typography.callout,
+  },
+  container: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  removeContainer: {
+    borderRadius: 32,
+    marginStart: Spacing.unit,
+    overflow: 'hidden',
+  },
+})
 
 export default BuildingActionTitleView

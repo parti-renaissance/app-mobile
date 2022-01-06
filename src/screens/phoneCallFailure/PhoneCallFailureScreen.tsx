@@ -3,7 +3,6 @@ import { Text, StyleSheet, Image } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoneCallFailureScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
@@ -25,8 +24,6 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
     updateNavigationHeader()
   }, [navigation])
 
-  const { theme } = useTheme()
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{i18n.t('phoningsession.failure.title')}</Text>
@@ -37,7 +34,7 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
       <VerticalSpacer spacing={Spacing.mediumMargin} />
       <Image
         style={styles.image}
-        source={theme.image.phoningSessionFailure()}
+        source={require('../../assets/images/blue/phoningSessionFailure.png')}
         resizeMode="cover"
       />
       <VerticalSpacer spacing={Spacing.largeMargin} />

@@ -8,8 +8,6 @@ import {
   View,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme, useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { QuestionChoiceRowViewModel } from './QuestionChoiceRowViewModel'
 
@@ -24,9 +22,6 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
   onPress,
   style,
 }) => {
-  const { theme } = useTheme()
-  const styles = useThemedStyles(stylesFactory)
-
   const rowStyle = viewModel.isSelected
     ? styles.rowSelected
     : styles.rowUnselected
@@ -37,7 +32,7 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
     ? styles.textSelected
     : styles.textUnselected
   const touchHighlight = viewModel.isSelected
-    ? theme.primaryButtonBackgroundHighlight
+    ? Colors.primaryButtonBackgroundHighlight
     : rowStyle.backgroundColor
 
   return (
@@ -69,64 +64,62 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    container: {
-      alignItems: 'center',
-      flex: 1,
-      flexDirection: 'row',
-      paddingHorizontal: Spacing.mediumMargin,
-      paddingVertical: 10,
-    },
-    contentContainer: {
-      flex: 1,
-    },
-    icon: {
-      tintColor: theme.primaryButtonTextColor,
-    },
-    image: {
-      alignSelf: 'center',
-      flex: 1,
-    },
-    imageSelected: {
-      marginStart: 24, // width of checkIcon
-      tintColor: theme.primaryButtonTextColor,
-    },
-    imageUnselected: {
-      marginStart: 0,
-      tintColor: Colors.secondaryButtonText,
-    },
-    row: {
-      backgroundColor: Colors.secondaryButtonBackground,
-      flex: 1,
-      marginBottom: Spacing.unit,
-      overflow: 'hidden',
-    },
-    rowSelected: {
-      backgroundColor: theme.primaryColor,
-    },
-    rowUnselected: {
-      backgroundColor: Colors.secondaryButtonBackground,
-    },
-    text: {
-      ...Typography.subheadline,
-      flex: 1,
-      lineHeight: 24,
-      minHeight: 24, // height of checkIcon
-      textAlign: 'center',
-    },
-    textSelected: {
-      color: theme.primaryButtonTextColor,
-      paddingStart: 24, // width of checkIcon
-    },
-    textUnselected: {
-      color: Colors.secondaryButtonText,
-      paddingStart: 0,
-    },
-    touchContainer: {
-      flex: 1,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: Spacing.mediumMargin,
+    paddingVertical: 10,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  icon: {
+    tintColor: Colors.primaryButtonTextColor,
+  },
+  image: {
+    alignSelf: 'center',
+    flex: 1,
+  },
+  imageSelected: {
+    marginStart: 24, // width of checkIcon
+    tintColor: Colors.primaryButtonTextColor,
+  },
+  imageUnselected: {
+    marginStart: 0,
+    tintColor: Colors.secondaryButtonText,
+  },
+  row: {
+    backgroundColor: Colors.secondaryButtonBackground,
+    flex: 1,
+    marginBottom: Spacing.unit,
+    overflow: 'hidden',
+  },
+  rowSelected: {
+    backgroundColor: Colors.primaryColor,
+  },
+  rowUnselected: {
+    backgroundColor: Colors.secondaryButtonBackground,
+  },
+  text: {
+    ...Typography.subheadline,
+    flex: 1,
+    lineHeight: 24,
+    minHeight: 24, // height of checkIcon
+    textAlign: 'center',
+  },
+  textSelected: {
+    color: Colors.primaryButtonTextColor,
+    paddingStart: 24, // width of checkIcon
+  },
+  textUnselected: {
+    color: Colors.secondaryButtonText,
+    paddingStart: 0,
+  },
+  touchContainer: {
+    flex: 1,
+  },
+})
 
 export default QuestionChoiceRow

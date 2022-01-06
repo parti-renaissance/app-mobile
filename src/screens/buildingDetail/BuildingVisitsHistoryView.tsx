@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { FunctionComponent } from 'react'
-import { useThemedStyles } from '../../themes'
 import { margin, unit } from '../../styles/spacing'
 import { Colors, Typography } from '../../styles'
 import {
@@ -35,8 +34,6 @@ type BuildingVisitsHistoryProps = Readonly<{
 const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({
   viewModel,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={styles.container}>
       <Text key={viewModel.buildingName} style={styles.buildingTitle}>
@@ -60,8 +57,6 @@ type BuildingVisitsDateRecordsProps = Readonly<{
 const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProps> = ({
   viewModel,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={styles.dateRecordsContainer}>
       <DateView viewModel={viewModel.date} />
@@ -75,8 +70,6 @@ const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProp
 
 type DateViewProps = Readonly<{ viewModel: DateViewModel }>
 const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={styles.dateContainer}>
       <View style={styles.dateNumberContainer}>
@@ -87,45 +80,43 @@ const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
   )
 }
 
-const stylesFactory = () => {
-  return StyleSheet.create({
-    buildingTitle: {
-      ...Typography.headline,
-      marginBottom: unit,
-    },
-    container: {
-      paddingHorizontal: margin,
-      paddingVertical: unit,
-    },
-    dateContainer: {
-      marginRight: unit,
-      width: 32,
-    },
-    dateMonthAndYear: {
-      ...Typography.caption1,
-      textAlign: 'center',
-    },
-    dateNumber: {
-      ...Typography.caption1,
-      textAlign: 'center',
-    },
-    dateNumberContainer: {
-      ...Typography.caption1,
-      alignContent: 'center',
-      backgroundColor: Colors.groupedListBackground,
-      borderRadius: 16,
-      height: 32,
-      justifyContent: 'center',
-      width: 32,
-    },
-    dateRecordsContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    visitRecords: {
-      flex: 1,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  buildingTitle: {
+    ...Typography.headline,
+    marginBottom: unit,
+  },
+  container: {
+    paddingHorizontal: margin,
+    paddingVertical: unit,
+  },
+  dateContainer: {
+    marginRight: unit,
+    width: 32,
+  },
+  dateMonthAndYear: {
+    ...Typography.caption1,
+    textAlign: 'center',
+  },
+  dateNumber: {
+    ...Typography.caption1,
+    textAlign: 'center',
+  },
+  dateNumberContainer: {
+    ...Typography.caption1,
+    alignContent: 'center',
+    backgroundColor: Colors.groupedListBackground,
+    borderRadius: 16,
+    height: 32,
+    justifyContent: 'center',
+    width: 32,
+  },
+  dateRecordsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  visitRecords: {
+    flex: 1,
+  },
+})
 
 export default BuildingVisitsHistoryView

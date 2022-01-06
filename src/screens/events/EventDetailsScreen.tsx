@@ -12,7 +12,6 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { EventDetailsScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import {
   BorderlessButton,
@@ -44,7 +43,6 @@ const EventDetailsContent = (
   refetchData: () => void,
 ) => {
   const contentWidth = useWindowDimensions().width
-  const { theme } = useTheme()
   const [descriptionViewModel, setDescriptionViewModel] = useState(
     initDescription(viewModel),
   )
@@ -156,7 +154,7 @@ const EventDetailsContent = (
             </Text>
             <BorderlessButton
               title={i18n.t('eventdetails.add_calendar')}
-              textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+              textStyle={Styles.eventSeeMoreButtonTextStyle}
               style={Styles.eventSeeMoreButtonContainer}
               onPress={addCalendarEvent}
             />
@@ -172,7 +170,7 @@ const EventDetailsContent = (
               </Text>
               <BorderlessButton
                 title={i18n.t('eventdetails.access_online_event')}
-                textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+                textStyle={Styles.eventSeeMoreButtonTextStyle}
                 style={Styles.eventSeeMoreButtonContainer}
                 onPress={openOnlineUrl}
               />
@@ -221,7 +219,7 @@ const EventDetailsContent = (
             </Text>
             <BorderlessButton
               title={i18n.t('eventdetails.share_event')}
-              textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+              textStyle={Styles.eventSeeMoreButtonTextStyle}
               style={Styles.eventSeeMoreButtonContainer}
               onPress={shareEvent}
             />
@@ -239,7 +237,7 @@ const EventDetailsContent = (
         {descriptionViewModel.canSeeMore ? (
           <BorderlessButton
             title={i18n.t('eventdetails.see_more')}
-            textStyle={Styles.eventSeeMoreButtonTextStyle(theme)}
+            textStyle={Styles.eventSeeMoreButtonTextStyle}
             style={[
               styles.descriptionSeeMore,
               Styles.eventSeeMoreButtonContainer,
@@ -267,7 +265,7 @@ const EventDetailsContent = (
           <SecondaryButton
             icon={require('../../assets/images/checkIcon.png')}
             title={i18n.t('eventdetails.registered')}
-            iconTint={theme.primaryColor}
+            iconTint={Colors.primaryColor}
             iconPadding={Spacing.unit}
             onPress={unsubscribe}
           />

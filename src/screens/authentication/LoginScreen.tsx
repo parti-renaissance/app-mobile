@@ -9,8 +9,6 @@ import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
-import RegionTheme from '../../core/entities/RegionTheme'
-import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
 
 type Props = Readonly<{
@@ -29,7 +27,6 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
     string | undefined
   >(undefined)
   const passwordInputRef = useRef<TextInput>(null)
-  const { setTheme } = useTheme()
 
   const isLoginEnabled = (): boolean => {
     return email.length > 0 && password.length > 0
@@ -41,8 +38,7 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
     setPasswordErrorMessage(undefined)
     new LoginInteractor()
       .login(email, password)
-      .then((theme: RegionTheme) => {
-        setTheme(theme)
+      .then(() => {
         onSuccess?.()
       })
       .catch((exception) => {

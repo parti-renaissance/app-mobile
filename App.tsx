@@ -20,7 +20,6 @@ import Navigator from './src/navigation/Navigator'
 import { Platform, StatusBar } from 'react-native'
 import { Colors } from './src/styles'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import ThemeManager from './src/themes/ThemeManager'
 import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import { ErrorMonitor } from './src/utils/ErrorMonitor'
@@ -54,37 +53,33 @@ const App = () => {
   const navigationRef = React.useRef<NavigationContainerRef>()
 
   return (
-    <ThemeManager>
-      <SafeAreaProvider>
-        <NavigationContainer
-          ref={navigationRef}
-          onReady={() => {
-            const initialScreen = navigationRef?.current?.getCurrentRoute()
-              ?.name
-            if (initialScreen !== undefined) {
-              routeNameRef.current = initialScreen
-              Analytics.logScreen(initialScreen)
-            }
-          }}
-          onStateChange={async () => {
-            const previousRouteName = routeNameRef.current
-            const currentRouteName = navigationRef.current.getCurrentRoute()
-              .name
+    <SafeAreaProvider>
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={() => {
+          const initialScreen = navigationRef?.current?.getCurrentRoute()?.name
+          if (initialScreen !== undefined) {
+            routeNameRef.current = initialScreen
+            Analytics.logScreen(initialScreen)
+          }
+        }}
+        onStateChange={async () => {
+          const previousRouteName = routeNameRef.current
+          const currentRouteName = navigationRef.current.getCurrentRoute().name
 
-            if (previousRouteName !== currentRouteName) {
-              Analytics.logScreen(currentRouteName)
-            }
+          if (previousRouteName !== currentRouteName) {
+            Analytics.logScreen(currentRouteName)
+          }
 
-            // Save the current route name for later comparision
-            routeNameRef.current = currentRouteName
-          }}
-        >
-          <I18nextProvider i18n={i18n}>
-            <Navigator />
-          </I18nextProvider>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </ThemeManager>
+          // Save the current route name for later comparision
+          routeNameRef.current = currentRouteName
+        }}
+      >
+        <I18nextProvider i18n={i18n}>
+          <Navigator />
+        </I18nextProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   )
 }
 

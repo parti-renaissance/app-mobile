@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import { Colors, Spacing, Styles } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import PollRow from '../polls/PollRow'
 import { BorderlessButton } from '../shared/Buttons'
@@ -19,7 +18,6 @@ const HomePollRowContainer: FunctionComponent<Props> = ({
   onPollSelected,
   onMorePressed,
 }) => {
-  const { theme } = useTheme()
   const navigationToPollDetail = (viewModelId: string) => {
     const pollId = parseInt(viewModelId, 10)
     onPollSelected(pollId)
@@ -45,7 +43,7 @@ const HomePollRowContainer: FunctionComponent<Props> = ({
       />
       <BorderlessButton
         title={i18n.t('home.polls_more')}
-        textStyle={Styles.homeSeeMoreButtonTextStyle(theme)}
+        textStyle={Styles.homeSeeMoreButtonTextStyle}
         style={Styles.homeSeeMoreButtonContainer}
         onPress={onMorePressed}
       />

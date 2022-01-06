@@ -5,8 +5,6 @@ import {
 } from '../../../../navigation'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../../styles'
-import Theme from '../../../../themes/Theme'
-import { useThemedStyles } from '../../../../themes'
 import { ScrollView } from 'react-native-gesture-handler'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 import i18n from '../../../../utils/i18n'
@@ -25,7 +23,6 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   route,
   navigation,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<Array<DoorToDoorPollConfigResponseStatus>>
   >(new ViewState.Loading())
@@ -120,46 +117,44 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      flex: 1,
-    },
-    content: {
-      flex: 1,
-      marginHorizontal: Spacing.margin,
-    },
-    exit: {
-      color: theme.primaryColor,
-    },
-    itemContainer: {
-      backgroundColor: Colors.secondaryButtonBackground,
-      borderRadius: 40,
-      marginBottom: Spacing.margin,
-      overflow: 'hidden',
-    },
-    itemContainerExpanded: {
-      flexGrow: 1,
-      flex: 1,
-    },
-    itemContent: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      padding: Spacing.margin,
-    },
-    itemText: {
-      ...Typography.title2,
-      textAlign: 'center',
-    },
-    separator: {
-      height: Spacing.margin,
-    },
-    title: {
-      ...Typography.title2,
-      marginVertical: Spacing.margin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    marginHorizontal: Spacing.margin,
+  },
+  exit: {
+    color: Colors.primaryColor,
+  },
+  itemContainer: {
+    backgroundColor: Colors.secondaryButtonBackground,
+    borderRadius: 40,
+    marginBottom: Spacing.margin,
+    overflow: 'hidden',
+  },
+  itemContainerExpanded: {
+    flexGrow: 1,
+    flex: 1,
+  },
+  itemContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: Spacing.margin,
+  },
+  itemText: {
+    ...Typography.title2,
+    textAlign: 'center',
+  },
+  separator: {
+    height: Spacing.margin,
+  },
+  title: {
+    ...Typography.title2,
+    marginVertical: Spacing.margin,
+  },
+})
 
 export default TunnelDoorInterlocutorScreen

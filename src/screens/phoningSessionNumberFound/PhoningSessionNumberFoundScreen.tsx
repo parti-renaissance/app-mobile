@@ -7,15 +7,12 @@ import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
-import { useTheme } from '../../themes'
 
 const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
   navigation,
   route,
 }) => {
   usePreventGoingBack()
-
-  const { theme } = useTheme()
 
   const phoneNumberUrl = (phoneNumber: string): string => {
     const whitespaceRegex = /\s/g
@@ -46,7 +43,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
       <View style={styles.imageContainer}>
         <View style={styles.imageCircle}>
           <Image
-            style={{ tintColor: theme.primaryColor }}
+            style={{ tintColor: Colors.primaryColor }}
             source={require('../../assets/images/phoneIcon.png')}
             resizeMode="center"
           />

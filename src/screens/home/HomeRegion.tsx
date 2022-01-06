@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { BorderlessButton } from '../shared/Buttons'
@@ -14,7 +13,6 @@ type Props = Readonly<{
 }>
 
 const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
-  const { theme } = useTheme()
   return (
     <CardView
       style={styles.cardView}
@@ -53,7 +51,7 @@ const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
           </View>
           <BorderlessButton
             title={i18n.t('home.region_more')}
-            textStyle={Styles.homeSeeMoreButtonTextStyle(theme)}
+            textStyle={Styles.homeSeeMoreButtonTextStyle}
             style={Styles.homeSeeMoreButtonContainer}
             onPress={onMorePressed}
           />

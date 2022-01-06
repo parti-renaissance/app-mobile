@@ -12,8 +12,7 @@ import { FlatList } from 'react-native-gesture-handler'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
-import { Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
+import { Colors, Spacing, Typography } from '../../styles'
 import { DateProvider } from '../../utils/DateProvider'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
@@ -122,7 +121,6 @@ const EventListScreen: FC<Props> = (props) => {
   )
 
   const EventListContent = (events: Array<EventSectionViewModel>) => {
-    const { theme } = useTheme()
     const renderItemHorizontal = (
       info: ListRenderItemInfo<EventRowViewModel>,
       totalItemCount: number,
@@ -193,7 +191,7 @@ const EventListScreen: FC<Props> = (props) => {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={refreshData}
-            colors={[theme.primaryColor]}
+            colors={[Colors.primaryColor]}
           />
         }
         contentContainerStyle={styles.contentContainerStyle}

@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text, TextStyle } from 'react-native'
 import { FunctionComponent } from 'react'
-import { useThemedStyles } from '../../themes'
 import { unit } from '../../styles/spacing'
 import { Colors, Typography } from '../../styles'
 
@@ -24,8 +23,6 @@ const KeyValueCell: FunctionComponent<Props> = ({
   valueStyle,
   bottomSeparator,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={bottomSeparator ? styles.cell : styles.cellSelected}>
       <Text style={keyStyle}>{viewModel.key}</Text>
@@ -45,21 +42,19 @@ KeyValueCell.defaultProps = {
   },
 }
 
-const stylesFactory = () => {
-  return StyleSheet.create({
-    cell: {
-      alignSelf: 'stretch',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    cellSelected: {
-      alignSelf: 'stretch',
-      borderBottomColor: Colors.separator,
-      borderBottomWidth: 2,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  cell: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cellSelected: {
+    alignSelf: 'stretch',
+    borderBottomColor: Colors.separator,
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+})
 
 export default KeyValueCell

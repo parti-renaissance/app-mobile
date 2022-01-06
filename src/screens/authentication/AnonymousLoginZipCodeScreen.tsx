@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Department } from '../../core/entities/Department'
-import RegionTheme from '../../core/entities/RegionTheme'
 import ProfileRepository from '../../data/ProfileRepository'
-import ThemeRepository from '../../data/ThemeRepository'
-
 import { AnonymousLoginZipCodeScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -25,16 +20,8 @@ const AnonymousLoginZipCodeScreen = ({
     undefined,
   )
 
-  const { setTheme } = useTheme()
-
-  const updateTheme = (theme: RegionTheme) => {
-    setTheme(theme)
-    ThemeRepository.getInstance().saveRegionTheme(theme)
-  }
-
-  const onSuccessZipCode = (department: Department) => {
+  const onSuccessZipCode = () => {
     ProfileRepository.getInstance().saveZipCode(zipCode)
-    updateTheme(department.region.theme)
     navigation.navigate(Screen.zipCodeConfirmation, {
       zipCode: zipCode,
     })

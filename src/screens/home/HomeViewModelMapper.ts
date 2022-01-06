@@ -6,7 +6,6 @@ import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
 import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import { Tool } from '../../core/entities/Tool'
-import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
@@ -24,7 +23,6 @@ const MAX_TOOLS = 2
 
 export const HomeViewModelMapper = {
   map: (
-    theme: Theme,
     profile: Profile | undefined,
     region: Region | undefined,
     news: Array<News>,
@@ -41,7 +39,7 @@ export const HomeViewModelMapper = {
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
     appendNews(news, rows)
-    appendPolls(polls, rows, theme)
+    appendPolls(polls, rows)
     appendTools(tools, rows)
 
     return {
@@ -187,11 +185,7 @@ function appendNews(news: News[], rows: HomeSectionViewModel[]) {
   }
 }
 
-function appendPolls(
-  polls: Poll[],
-  rows: HomeSectionViewModel[],
-  theme: Theme,
-) {
+function appendPolls(polls: Poll[], rows: HomeSectionViewModel[]) {
   if (polls.length !== 0) {
     const subPolls = polls.slice(0, MAX_POLLS)
     rows.push({
@@ -202,7 +196,7 @@ function appendPolls(
           type: 'polls',
           value: {
             polls: subPolls.map((poll) => {
-              return PollRowViewModelMapper.map(theme, poll)
+              return PollRowViewModelMapper.map(poll)
             }),
           },
         },

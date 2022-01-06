@@ -10,8 +10,6 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { QuestionGenderButtonViewModel } from './QuestionGenderButtonViewModel'
-import { useTheme, useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -24,8 +22,6 @@ const QuestionGenderButton: FunctionComponent<Props> = ({
   onPress,
   style,
 }) => {
-  const { theme } = useTheme()
-  const styles = useThemedStyles(stylesFactory)
   const buttonStyle = viewModel.isSelected
     ? styles.buttonSelected
     : styles.buttonUnselected
@@ -36,7 +32,7 @@ const QuestionGenderButton: FunctionComponent<Props> = ({
     ? styles.imageSelected
     : styles.imageUnselected
   const touchHighlight = viewModel.isSelected
-    ? theme.primaryButtonBackgroundHighlight
+    ? Colors.primaryButtonBackgroundHighlight
     : buttonStyle.backgroundColor
 
   return (
@@ -55,46 +51,44 @@ const QuestionGenderButton: FunctionComponent<Props> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    button: {
-      backgroundColor: Colors.secondaryButtonBackground,
-      borderRadius: 8,
-      flex: 1,
-      overflow: 'hidden',
-    },
-    buttonSelected: {
-      backgroundColor: theme.primaryColor,
-    },
-    buttonUnselected: {
-      backgroundColor: Colors.secondaryButtonBackground,
-    },
-    container: {
-      alignItems: 'center',
-      flex: 1,
-      justifyContent: 'center',
-      paddingVertical: Spacing.unit,
-    },
-    image: {
-      height: 42,
-      width: 42,
-    },
-    imageSelected: {
-      tintColor: theme.primaryButtonTextColor,
-    },
-    imageUnselected: {
-      tintColor: Colors.secondaryButtonText,
-    },
-    text: {
-      ...Typography.subheadline,
-    },
-    textSelected: {
-      color: theme.primaryButtonTextColor,
-    },
-    textUnselected: {
-      color: Colors.secondaryButtonText,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: Colors.secondaryButtonBackground,
+    borderRadius: 8,
+    flex: 1,
+    overflow: 'hidden',
+  },
+  buttonSelected: {
+    backgroundColor: Colors.primaryColor,
+  },
+  buttonUnselected: {
+    backgroundColor: Colors.secondaryButtonBackground,
+  },
+  container: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    paddingVertical: Spacing.unit,
+  },
+  image: {
+    height: 42,
+    width: 42,
+  },
+  imageSelected: {
+    tintColor: Colors.primaryButtonTextColor,
+  },
+  imageUnselected: {
+    tintColor: Colors.secondaryButtonText,
+  },
+  text: {
+    ...Typography.subheadline,
+  },
+  textSelected: {
+    color: Colors.primaryButtonTextColor,
+  },
+  textUnselected: {
+    color: Colors.secondaryButtonText,
+  },
+})
 
 export default QuestionGenderButton

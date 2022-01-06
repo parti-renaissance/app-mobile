@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text } from 'react-native'
-import { Spacing, Typography } from '../../styles'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
+import { Colors, Spacing, Typography } from '../../styles'
 import { QuestionTextLinkRowViewModel } from './QuestionTextLinkRowViewModel'
 
 type Props = Readonly<{
@@ -14,7 +12,6 @@ const QuestionTextLinkRow: FunctionComponent<Props> = ({
   viewModel,
   onLinkPress,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
   return (
     <Text style={styles.text}>
       <Text>{viewModel.content}</Text>
@@ -25,17 +22,15 @@ const QuestionTextLinkRow: FunctionComponent<Props> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    link: {
-      color: theme.coloredText,
-      textDecorationLine: 'underline',
-    },
-    text: {
-      ...Typography.body,
-      marginBottom: Spacing.margin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  link: {
+    color: Colors.coloredText,
+    textDecorationLine: 'underline',
+  },
+  text: {
+    ...Typography.body,
+    marginBottom: Spacing.margin,
+  },
+})
 
 export default QuestionTextLinkRow

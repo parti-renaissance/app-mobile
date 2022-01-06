@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Spacing, Typography, Styles } from '../../../styles'
-import { useThemedStyles } from '../../../themes'
-import Theme from '../../../themes/Theme'
+import { Spacing, Typography, Styles, Colors } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
 
@@ -15,7 +13,6 @@ export interface PhoningTutorialRowViewModel {
 }
 
 export const PhoningTutorialRow: FunctionComponent<Props> = ({ onPress }) => {
-  const styles = useThemedStyles(stylesFactory)
   return (
     <View style={styles.card}>
       <View style={styles.container}>
@@ -31,35 +28,34 @@ export const PhoningTutorialRow: FunctionComponent<Props> = ({ onPress }) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    card: {
-      backgroundColor: theme.lightBackground,
-      borderRadius: 8,
-      marginBottom: Spacing.unit,
-      overflow: 'hidden',
-    },
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      paddingRight: 8 * Spacing.unit,
-    },
-    linkButton: {
-      alignSelf: 'flex-start',
-      flexShrink: 1,
-      textAlign: 'left',
-    },
-    linkText: {
-      ...Styles.eventSeeMoreButtonTextStyle(theme),
-      color: theme.primaryColor,
-    },
-    title: {
-      ...Typography.headline,
-      flexShrink: 1,
-      padding: Spacing.margin,
-      paddingBottom: Spacing.small,
-      alignSelf: 'flex-start',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: Colors.lightBackground,
+    borderRadius: 8,
+    marginBottom: Spacing.unit,
+    overflow: 'hidden',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingRight: 8 * Spacing.unit,
+  },
+  linkButton: {
+    alignSelf: 'flex-start',
+    flexShrink: 1,
+    textAlign: 'left',
+  },
+  linkText: {
+    ...Styles.eventSeeMoreButtonTextStyle,
+    color: Colors.primaryColor,
+  },
+  title: {
+    ...Typography.headline,
+    flexShrink: 1,
+    padding: Spacing.margin,
+    paddingBottom: Spacing.small,
+    alignSelf: 'flex-start',
+  },
+})
+
 export default PhoningTutorialRow

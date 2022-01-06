@@ -1,28 +1,27 @@
 import { ImageSourcePropType } from 'react-native'
 import { Action, ActionImage } from '../../core/entities/Action'
-import Theme from '../../themes/Theme'
 import { ActionRowViewModel } from './ActionRowViewModel'
 
 export const ActionRowViewModelMapper = {
-  map: (theme: Theme, actions: Array<Action>): Array<ActionRowViewModel> => {
+  map: (actions: Array<Action>): Array<ActionRowViewModel> => {
     return actions.map(({ id, title, image, screen }) => {
       return {
         id,
         title,
         screen,
-        image: mapImage(theme, image),
+        image: mapImage(image),
       }
     })
   },
 }
 
-function mapImage(theme: Theme, image: ActionImage): ImageSourcePropType {
+function mapImage(image: ActionImage): ImageSourcePropType {
   switch (image) {
     case ActionImage.POLLS:
-      return theme.image.polls()
+      return require('../../assets/images/blue/imagePolls.png')
     case ActionImage.DOORTODOOR:
-      return theme.image.doorToDoor()
+      return require('../../assets/images/blue/imageDoorToDoor.png')
     case ActionImage.PHONING:
-      return theme.image.phoning()
+      return require('../../assets/images/blue/imagePhoningV2.png')
   }
 }

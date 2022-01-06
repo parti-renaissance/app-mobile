@@ -6,7 +6,6 @@ import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginIn
 import RegionsRepository from '../../data/RegionsRepository'
 import { ZipCodeConfirmationScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
@@ -24,7 +23,6 @@ const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
   zipCode,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const { theme } = useTheme()
 
   const authenticate = () => {
     setIsLoading(true)
@@ -37,7 +35,10 @@ const ZipCodeConfirmationContent: FunctionComponent<ContentProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
-      <Image style={styles.logo} source={theme.image.region()} />
+      <Image
+        style={styles.logo}
+        source={require('../../assets/images/blue/imageRegion.png')}
+      />
       <Text style={styles.title}>
         {i18n.t('zipcodeconfirmation.title', { department: department })}
       </Text>

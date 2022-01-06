@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
 import { Colors, Spacing, Styles } from '../../../styles'
-import { useTheme } from '../../../themes'
 import i18n from '../../../utils/i18n'
 import { BorderlessButton } from '../../shared/Buttons'
 import CardView from '../../shared/CardView'
@@ -23,13 +22,15 @@ const HomeToolRowContainer: FunctionComponent<Props> = ({
   onToolSelected,
   onMorePressed,
 }) => {
-  const { theme } = useTheme()
   return (
     <CardView
       style={styles.cardView}
       backgroundColor={Colors.defaultBackground}
     >
-      <Image style={styles.image} source={theme.image.homeTools()} />
+      <Image
+        style={styles.image}
+        source={require('../../../assets/images/blue/imageOutilsprofil.png')}
+      />
       <View style={styles.contentContainerStyle}>
         <FlatList
           keyExtractor={(item) => item.id.toString()}
@@ -43,7 +44,7 @@ const HomeToolRowContainer: FunctionComponent<Props> = ({
       </View>
       <BorderlessButton
         title={i18n.t('home.tools_more')}
-        textStyle={Styles.homeSeeMoreButtonTextStyle(theme)}
+        textStyle={Styles.homeSeeMoreButtonTextStyle}
         style={Styles.homeSeeMoreButtonContainer}
         onPress={onMorePressed}
       />

@@ -10,7 +10,6 @@ import { PrimaryButton } from '../shared/Buttons'
 import i18n from '../../utils/i18n'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { versionLabel } from './version'
-import { useTheme } from '../../themes'
 import { ExternalLink } from '../shared/ExternalLink'
 import ProfileSettingsCard from './ProfileSettingsCard'
 
@@ -29,7 +28,6 @@ const ProfileAuthenticated: FC<Props> = ({
   openNotificationMenu,
   viewModel,
 }) => {
-  const { theme } = useTheme()
   const logout = () => {
     Alert.alert(
       i18n.t('profile.alert.logout.title'),
@@ -52,7 +50,7 @@ const ProfileAuthenticated: FC<Props> = ({
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.avatar}>
-          <Image source={theme.image.profile()} />
+          <Image source={require('../../assets/images/blue/imageProfil.png')} />
           {viewModel.isCertified ? (
             <Image
               source={require('../../assets/images/certified.png')}

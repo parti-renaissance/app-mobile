@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import ProgressBar from '../shared/ProgressBar'
@@ -12,8 +11,6 @@ type Props = {
 }
 
 export const DoorToDoorCampaignCard = ({ viewModel }: Props) => {
-  const { theme } = useTheme()
-
   return (
     <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
       <View style={styles.content}>
@@ -26,7 +23,7 @@ export const DoorToDoorCampaignCard = ({ viewModel }: Props) => {
             {i18n.t('doorToDoor.goal')}
             <Text style={styles.indicator}>{viewModel.goal}</Text>
           </Text>
-          <ProgressBar progress={0.3} color={theme.primaryColor} />
+          <ProgressBar progress={0.3} color={Colors.primaryColor} />
         </View>
       </View>
     </CardView>

@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import ProgressBar from '../shared/ProgressBar'
 import { VerticalSpacer } from '../shared/Spacer'
@@ -14,8 +13,6 @@ type Props = Readonly<{
 export const PhonePollDetailSuccessProgressContent: FunctionComponent<Props> = ({
   viewModel,
 }) => {
-  const { theme } = useTheme()
-
   if (!viewModel.isProgressDisplayed) {
     return null
   }
@@ -31,7 +28,7 @@ export const PhonePollDetailSuccessProgressContent: FunctionComponent<Props> = (
       <VerticalSpacer spacing={Spacing.unit} />
       <ProgressBar
         progress={viewModel.progress / viewModel.total}
-        color={theme.primaryColor}
+        color={Colors.primaryColor}
       />
     </>
   )

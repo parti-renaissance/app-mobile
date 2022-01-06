@@ -3,8 +3,6 @@ import { View, StyleSheet, Image } from 'react-native'
 import { Text } from 'react-native-paper'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, unit } from '../../styles/spacing'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
@@ -37,8 +35,6 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onBuildingAction,
   editMode,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <View style={styles.container}>
       {viewModel.buildings.map((buildingViewModel) => {
@@ -70,8 +66,6 @@ type AddBuildingCardProps = Readonly<{
 const AddBuildingCard: FunctionComponent<AddBuildingCardProps> = ({
   onAddBuildingBlock,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   return (
     <CardView
       backgroundColor={Colors.defaultBackground}
@@ -95,34 +89,32 @@ const AddBuildingCard: FunctionComponent<AddBuildingCardProps> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    blockCard: {
-      marginVertical: unit,
-    },
-    container: {
-      backgroundColor: Colors.defaultBackground,
-      padding: margin,
-    },
-    newBuildingCard: {
-      marginVertical: Spacing.unit,
-    },
-    newBuildingContainer: {
-      alignItems: 'center',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      padding: Spacing.margin,
-    },
-    newBuildingIcon: {
-      marginHorizontal: Spacing.unit,
-      tintColor: theme.primaryColor,
-    },
-    newBuildingText: {
-      ...Typography.callout,
-      color: theme.primaryColor,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  blockCard: {
+    marginVertical: unit,
+  },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    padding: margin,
+  },
+  newBuildingCard: {
+    marginVertical: Spacing.unit,
+  },
+  newBuildingContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: Spacing.margin,
+  },
+  newBuildingIcon: {
+    marginHorizontal: Spacing.unit,
+    tintColor: Colors.primaryColor,
+  },
+  newBuildingText: {
+    ...Typography.callout,
+    color: Colors.primaryColor,
+  },
+})
 
 export default BuildingLayoutView

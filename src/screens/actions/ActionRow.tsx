@@ -1,9 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Text, View, StyleSheet, Image } from 'react-native'
-
 import { Colors, Spacing, Typography } from '../../styles'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { ActionRowViewModel } from './ActionRowViewModel'
 
@@ -13,7 +10,6 @@ type Props = Readonly<{
 }>
 
 export const ActionRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
-  const styles = useThemedStyles(stylesFactory)
   return (
     <View style={styles.card}>
       <TouchablePlatform
@@ -29,23 +25,21 @@ export const ActionRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    card: {
-      backgroundColor: theme.lightBackground,
-      borderRadius: 8,
-      marginBottom: Spacing.unit,
-      overflow: 'hidden',
-    },
-    container: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      flex: 1,
-      paddingRight: Spacing.margin,
-    },
-    title: {
-      ...Typography.title2,
-      marginLeft: Spacing.margin,
-    },
-  })
-}
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: Colors.lightBackground,
+    borderRadius: 8,
+    marginBottom: Spacing.unit,
+    overflow: 'hidden',
+  },
+  container: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+    paddingRight: Spacing.margin,
+  },
+  title: {
+    ...Typography.title2,
+    marginLeft: Spacing.margin,
+  },
+})

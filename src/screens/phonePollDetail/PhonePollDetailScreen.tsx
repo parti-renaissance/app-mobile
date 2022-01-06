@@ -9,7 +9,6 @@ import { View, StyleSheet } from 'react-native'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
-import { useTheme } from '../../themes'
 import { PhonePollDetailScreenProps } from '../../navigation'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
@@ -28,7 +27,6 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<PhonePollDetailResources>
   >(new ViewState.Loading())
@@ -77,7 +75,6 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
     route.params.data.campaignId,
     route.params.data.sessionId,
     navigation,
-    theme,
   ])
 
   const sendInterruptionStatusAndLeave = (statusCode: string) => {

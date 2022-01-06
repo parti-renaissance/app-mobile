@@ -30,10 +30,6 @@ class LocalStore {
     await this.storeUserPreference({ zipCode: zipCode })
   }
 
-  async storeThemeId(themeId: string): Promise<void> {
-    await this.storeUserPreference({ themeId: themeId })
-  }
-
   getUserPreferences(): Promise<UserPreferences | null> {
     return AsyncStorage.getItem(USER_PREFERENCES).then(this.parseJSON)
   }

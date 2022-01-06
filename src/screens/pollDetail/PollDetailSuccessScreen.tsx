@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, BackHandler } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { PollDetailSuccessScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
-import { useTheme } from '../../themes'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 
@@ -11,7 +10,6 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { theme } = useTheme()
   React.useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
@@ -34,7 +32,7 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={theme.image.pollSuccess()}
+          source={require('../../assets/images/blue/imageMerci.png')}
           resizeMode="cover"
         />
         <View style={styles.content}>

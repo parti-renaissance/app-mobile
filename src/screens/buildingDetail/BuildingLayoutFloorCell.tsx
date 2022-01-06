@@ -2,8 +2,6 @@ import React, { FunctionComponent } from 'react'
 import { View, StyleSheet, Image, ViewStyle } from 'react-native'
 import { Colors } from '../../styles'
 import { margin } from '../../styles/spacing'
-import { useThemedStyles } from '../../themes'
-import Theme from '../../themes/Theme'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingActionTitleView from './BuildingActionTitleView'
 
@@ -32,8 +30,6 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
   onSelect,
   onRemoveBuildingFloor,
 }) => {
-  const styles = useThemedStyles(stylesFactory)
-
   function icon(): JSX.Element {
     if (!viewModel.isCompleted) {
       return (
@@ -76,38 +72,36 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
   )
 }
 
-const stylesFactory = (theme: Theme) => {
-  return StyleSheet.create({
-    button: {
-      alignItems: 'center',
-      backgroundColor: theme.primaryColor,
-      borderRadius: 16,
-      height: 32,
-      justifyContent: 'center',
-      margin: margin,
-      width: 32,
-    },
-    buttonInvertedColors: {
-      alignItems: 'center',
-      backgroundColor: Colors.defaultBackground,
-      borderRadius: 16,
-      height: 32,
-      justifyContent: 'center',
-      margin: margin,
-      width: 32,
-    },
-    icon: {
-      tintColor: Colors.defaultBackground,
-    },
-    iconInvertedColors: {
-      tintColor: theme.primaryColor,
-    },
-    layoutContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-  })
-}
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    backgroundColor: Colors.primaryColor,
+    borderRadius: 16,
+    height: 32,
+    justifyContent: 'center',
+    margin: margin,
+    width: 32,
+  },
+  buttonInvertedColors: {
+    alignItems: 'center',
+    backgroundColor: Colors.defaultBackground,
+    borderRadius: 16,
+    height: 32,
+    justifyContent: 'center',
+    margin: margin,
+    width: 32,
+  },
+  icon: {
+    tintColor: Colors.defaultBackground,
+  },
+  iconInvertedColors: {
+    tintColor: Colors.primaryColor,
+  },
+  layoutContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+})
 
 export default BuildingLayoutFloorCell

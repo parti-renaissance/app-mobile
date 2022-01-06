@@ -13,12 +13,10 @@ import {
 } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
 import PollDetailTools from './PollDetailTools'
-import { useTheme } from '../../themes'
 import { useBackHandler } from '../shared/useBackHandler.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
-  const { theme } = useTheme()
   const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
     new ViewState.Loading(),
   )
@@ -63,7 +61,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
           headerRight: () => (
             <NavigationHeaderButton
               onPress={() => setModalVisible(true)}
-              source={theme.image.pollTools()}
+              source={require('../../assets/images/blue/navigationBarLeftAccessoriesOutils.png')}
             />
           ),
         })
@@ -75,7 +73,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
       })
   }
 
-  useEffect(fetchPoll, [route.params.pollId, navigation, theme])
+  useEffect(fetchPoll, [route.params.pollId, navigation])
   return (
     <View style={styles.container}>
       <ModalOverlay
