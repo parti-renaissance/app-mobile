@@ -12,7 +12,7 @@ class ActionsRepository {
         id: 1,
         image: ActionImage.POLLS,
         title: i18n.t('actions.polls.title'),
-        screen: Screen.polls,
+        screen: Screen.pollsNavigator,
       },
     ]
   }
@@ -22,7 +22,7 @@ class ActionsRepository {
       id: 2,
       image: ActionImage.DOORTODOOR,
       title: i18n.t('actions.door_to_door.title'),
-      screen: Screen.doorToDoor,
+      screen: Screen.doorToDoorNavigator,
     }
   }
 
@@ -31,7 +31,7 @@ class ActionsRepository {
       id: 3,
       image: ActionImage.PHONING,
       title: i18n.t('actions.phoning.title'),
-      screen: Screen.phoning,
+      screen: Screen.phoningNavigator,
     }
   }
 

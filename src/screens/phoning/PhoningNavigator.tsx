@@ -8,34 +8,33 @@ import PhoningCampaignBriefScreen from '../phoningCampaignBrief/PhoningCampaignB
 import PhoningCampaignScoreboardScreen from '../phoningCampaignScoreboard/PhoningCampaignScoreboardScreen'
 import PhoningCharterScreen from '../phoningCharter/PhoningCharterScreen'
 
-const Stack = createStackNavigator<PhoningParamList>()
+const PhoningStack = createStackNavigator<PhoningParamList>()
 
 const PhoningNavigator: FunctionComponent = () => {
   return (
-    <Stack.Navigator screenOptions={headerBlank}>
-      <Stack.Screen
+    <PhoningStack.Navigator screenOptions={headerBlank}>
+      <PhoningStack.Screen
         name={Screen.phoning}
         component={PhoningScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
-      <Stack.Screen
+      <PhoningStack.Screen
         name={Screen.phoningCharter}
         component={PhoningCharterScreen}
       />
-      <Stack.Screen
+      <PhoningStack.Screen
         name={Screen.phoningTutorial}
         component={PhoningTutorialScreen}
-        options={{ headerTransparent: false }}
       />
-      <Stack.Screen
+      <PhoningStack.Screen
         name={Screen.phoningCampaignBrief}
         component={PhoningCampaignBriefScreen}
       />
-      <Stack.Screen
+      <PhoningStack.Screen
         name={Screen.phoningCampaignScoreboard}
         component={PhoningCampaignScoreboardScreen}
       />
-    </Stack.Navigator>
+    </PhoningStack.Navigator>
   )
 }
 
