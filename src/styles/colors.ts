@@ -55,4 +55,6 @@ export const coloredText = shakespeare
 export const quickPollProgress = anakiwa
 export const actionCardBackground = portGore
 export const actionCardHighlight = pickledBluewood
+export const accountCardBackground = selago
+export const toolsCardBackground = selago
 export const circularIconBackground = selago

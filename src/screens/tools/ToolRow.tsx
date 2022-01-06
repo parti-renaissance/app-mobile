@@ -19,8 +19,11 @@ export const ToolRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
         touchHighlight={Colors.touchHighlight}
       >
         <View style={styles.container}>
-          <Image source={viewModel.image} />
           <Text style={styles.title}>{viewModel.title}</Text>
+          <Image
+            style={styles.disclosureIcon}
+            source={require('../../assets/images/disclosureIndicator.png')}
+          />
         </View>
       </TouchablePlatform>
     </View>
@@ -29,7 +32,7 @@ export const ToolRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.lightBackground,
+    backgroundColor: Colors.toolsCardBackground,
     borderRadius: 8,
     marginBottom: Spacing.unit,
     overflow: 'hidden',
@@ -38,10 +41,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: 8 * Spacing.unit,
+    paddingHorizontal: Spacing.margin,
+    paddingVertical: Spacing.mediumMargin,
   },
+  disclosureIcon: {},
   title: {
     ...Typography.title2,
-    flexShrink: 1,
+    flex: 1,
   },
 })
