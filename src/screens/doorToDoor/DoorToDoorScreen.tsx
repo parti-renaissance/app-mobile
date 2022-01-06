@@ -2,18 +2,11 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useState,
 } from 'react'
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-} from 'react-native'
+import { Modal, StyleSheet, Text, SafeAreaView, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
 import i18n from '../../utils/i18n'
 import LocationAuthorization from './LocationAuthorization'
 import { DoorToDoorScreenProp } from '../../navigation'
@@ -34,6 +27,7 @@ import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from 'react-native-geolocation-service'
 import RankingModal from './rankings/RankingModal'
 import { Screen } from '../../navigation'
+import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 
 const DEFAULT_ZOOM = 16
 
@@ -93,6 +87,17 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     locationAuthorized && fetchPosition()
   }, [locationAuthorized])
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <NavigationHeaderButton
+          onPress={() => setModalVisible(true)}
+          source={require('../../assets/images/iconClassement.png')}
+        />
+      ),
+    })
+  })
+
   const getPermissionStatus = async () => {
     setLocationAuthorized(await LocationManager.permissionStatus())
   }
@@ -140,16 +145,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
         </Modal>
       )}
 
-      <TouchablePlatform
-        style={styles.classementIconContainer}
-        touchHighlight={Colors.touchHighlight}
-        onPress={() => setModalVisible(true)}
-      >
-        <Image
-          style={styles.classementIcon}
-          source={require('../../assets/images/iconClassement.png')}
-        />
-      </TouchablePlatform>
       <View style={styles.header}>
         <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
         {locationAuthorized && (
@@ -183,12 +178,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 }
 
 const styles = StyleSheet.create({
-  classementIcon: {
-    margin: Spacing.margin,
-  },
-  classementIconContainer: {
-    alignSelf: 'flex-end',
-  },
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
@@ -201,6 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginRight: Spacing.margin,
+    marginTop: Spacing.unit,
   },
   title: {
     ...Typography.title,

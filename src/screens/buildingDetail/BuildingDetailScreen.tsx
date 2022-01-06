@@ -2,6 +2,7 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useState,
 } from 'react'
 import {
@@ -49,6 +50,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     history,
     layout,
   )
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <NavigationHeaderButton
+          source={require('../../assets/images/edit.png')}
+          onPress={() => {
+            setEditMode(!editMode)
+          }}
+          style={styles.edit}
+        />
+      ),
+    })
+  })
 
   const fetchLayout = useCallback(() => {
     DoorToDoorRepository.getInstance()
@@ -225,21 +240,9 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     }
   }
 
-  const shouldDisplayEdit = route.params.address.building.type === 'building'
-
   return (
     <SafeAreaView style={styles.container}>
       <>
-        {/* TODO: (Romain GF) when navigation is fixed, move icon in navigation headerRight */}
-        {shouldDisplayEdit ? (
-          <NavigationHeaderButton
-            source={require('../../assets/images/edit.png')}
-            onPress={() => {
-              setEditMode(!editMode)
-            }}
-            style={styles.edit}
-          />
-        ) : null}
         <ScrollView>
           <Image source={viewModel.illustration} />
           <Text style={styles.address}>{viewModel.address}</Text>
