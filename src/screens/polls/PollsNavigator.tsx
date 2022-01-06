@@ -11,7 +11,8 @@ const PollsNavigator: FunctionComponent = () => (
     <PollsStack.Screen
       name={Screen.polls}
       component={PollsScreen}
-      options={{ headerTransparent: true }} />
+      options={{ headerTransparent: true }}
+    />
   </PollsStack.Navigator>
 )
 
