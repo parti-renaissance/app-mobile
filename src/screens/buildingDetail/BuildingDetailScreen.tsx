@@ -34,6 +34,7 @@ import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { PrimaryButton } from '../shared/Buttons'
 import {
+  BuildingType,
   DoorToDoorAddress,
   DoorToDoorAddressStatus,
 } from '../../core/entities/DoorToDoor'
@@ -210,7 +211,27 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       i18n.t('building.change_type_alert.action'),
       i18n.t('building.change_type_alert.cancel'),
       () => {
-        // TODO (Romain GF): when webservice is ready, change building type
+        setIsloading(true)
+        let newBuildingType: BuildingType
+        if (route.params.address.building.type === 'house') {
+          newBuildingType = 'building'
+        } else {
+          newBuildingType = 'house'
+        }
+        DoorToDoorRepository.getInstance()
+          .updateBuildingType(route.params.address.building.id, newBuildingType)
+          .then(() => {
+            navigation.setParams({
+              address: {
+                ...route.params.address,
+                building: {
+                  ...route.params.address.building,
+                  type: newBuildingType,
+                },
+              },
+            })
+          })
+          .finally(() => setIsloading(false))
       },
     )
   }

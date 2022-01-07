@@ -7,7 +7,7 @@ import {
   DoorToDoorCharterState,
 } from '../core/entities/DoorToDoorCharterState'
 import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
-import { DoorToDoorAddress } from '../core/entities/DoorToDoor'
+import { BuildingType, DoorToDoorAddress } from '../core/entities/DoorToDoor'
 import { DoorToDoorMapper } from './mapper/DoorToDoorMapper'
 import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
 import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
@@ -20,6 +20,7 @@ import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRank
 import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
 import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { DataSource } from './DataSource'
+import { RestBuildingTypeRequest } from './restObjects/RestBuildingTypeRequest'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -214,6 +215,15 @@ class DoorToDoorRepository {
     const restMarkdown = await this.apiService.getDoorToDoorTutorial()
     this.pollTutorialCache = restMarkdown.content
     return restMarkdown.content
+  }
+
+  public async updateBuildingType(
+    buildingId: string,
+    buildingType: BuildingType,
+  ): Promise<void> {
+    await this.apiService.updateBuildingType(buildingId, {
+      type: buildingType,
+    })
   }
 }
 
