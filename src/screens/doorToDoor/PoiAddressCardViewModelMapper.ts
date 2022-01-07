@@ -1,5 +1,5 @@
 import { Moment } from 'moment-timezone'
-import { ImageRequireSource, ImageSourcePropType } from 'react-native'
+import { ImageRequireSource } from 'react-native'
 import {
   DoorToDoorAddress,
   DoorToDoorAddressCampaign,
