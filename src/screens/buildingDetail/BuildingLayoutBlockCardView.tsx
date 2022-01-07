@@ -7,9 +7,11 @@ import {
   Image,
   Text,
 } from 'react-native'
+import { BuildingType } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
+import { BorderlessButton } from '../shared/Buttons'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingLayoutFloorCell, {
@@ -18,11 +20,13 @@ import BuildingLayoutFloorCell, {
 
 export interface BuildingLayoutBlockCardViewModel {
   id: string
+  buildingType: BuildingType
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
   local: boolean
   statusAction: string
+  editable: boolean
 }
 
 type Props = Readonly<{
@@ -33,7 +37,6 @@ type Props = Readonly<{
   onRemoveBuildingBlock: (buildingBlockId: string) => void
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
   onBuildingAction: (buildingBlockId: string) => void
-  editMode: boolean
 }>
 
 const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
@@ -44,12 +47,11 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   onRemoveBuildingBlock,
   onRemoveBuildingFloor,
   onBuildingAction,
-  editMode,
 }) => {
   return (
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <View style={styles.statusContainer}>
-        {editMode && viewModel.local ? (
+        {viewModel.local && viewModel.editable ? (
           <View style={styles.removeContainer}>
             <TouchablePlatform
               touchHighlight={Colors.touchHighlight}
@@ -63,52 +65,41 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         ) : null}
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
-        {editMode ? (
-          <View>
-            <TouchablePlatform
-              touchHighlight={Colors.touchHighlight}
-              onPress={() => onBuildingAction(viewModel.id)}
-            >
-              <Text style={styles.buildingActionText}>
-                {viewModel.statusAction}
-              </Text>
-            </TouchablePlatform>
-          </View>
-        ) : null}
+        <View>
+          <BorderlessButton
+            title={viewModel.statusAction}
+            onPress={() => onBuildingAction(viewModel.id)}
+            disabled={!viewModel.editable}
+            textStyle={styles.buildingActionText}
+            style={styles.buildingAction}
+          />
+        </View>
       </View>
       <View style={styles.layoutContainer}>
         {viewModel.floors.map((floorViewModel, index) => {
-          if (index !== viewModel.floors.length - 1) {
-            return (
-              <View key={floorViewModel.id}>
-                <BuildingLayoutFloorCell
-                  viewModel={floorViewModel}
-                  style={{}}
-                  onSelect={onSelect}
-                  canRemove={editMode && floorViewModel.local}
-                  onRemoveBuildingFloor={(floor: number) => {
-                    onRemoveBuildingFloor(viewModel.id, floor)
-                  }}
-                />
-                <View style={styles.separator} />
-              </View>
-            )
-          } else {
-            return (
+          return (
+            <View key={floorViewModel.id}>
               <BuildingLayoutFloorCell
-                key={floorViewModel.id}
                 viewModel={floorViewModel}
                 style={{}}
                 onSelect={onSelect}
-                canRemove={editMode && floorViewModel.local}
+                canRemove={
+                  floorViewModel.local &&
+                  viewModel.editable &&
+                  index !== 0 &&
+                  index === viewModel.floors.length - 1
+                }
                 onRemoveBuildingFloor={(floor: number) => {
                   onRemoveBuildingFloor(viewModel.id, floor)
                 }}
               />
-            )
-          }
+              {index !== viewModel.floors.length - 1 ? (
+                <View style={styles.separator} />
+              ) : null}
+            </View>
+          )
         })}
-        {editMode ? (
+        {viewModel.buildingType === 'building' && viewModel.editable ? (
           <AddBuildingFloorCard
             onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
           />
@@ -149,6 +140,9 @@ const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
 }
 
 const styles = StyleSheet.create({
+  buildingAction: {
+    paddingVertical: Spacing.unit,
+  },
   buildingActionText: {
     ...Typography.callout,
     color: Colors.primaryColor,
@@ -191,7 +185,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    margin: margin,
+    marginHorizontal: margin,
+    marginTop: margin,
   },
   statusImage: {
     paddingRight: small,

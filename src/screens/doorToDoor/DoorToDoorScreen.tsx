@@ -28,8 +28,9 @@ import Geolocation from 'react-native-geolocation-service'
 import RankingModal from './rankings/RankingModal'
 import { Screen } from '../../navigation'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
+import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
 
-const DEFAULT_ZOOM = 16
+const SHOW_RANKING = false // TODO (Romain GF): When endpoint is ready we will show again the ranking
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -61,17 +62,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
         })
-        DoorToDoorRepository.getInstance()
-          .getAddresses(
-            position.coords.latitude,
-            position.coords.longitude,
-            DEFAULT_ZOOM,
-          )
-          .then((state) => {
-            setAddresses(state)
-            setFilteredAddresses(state)
+        new GetDoorToDoorAddressesInteractor()
+          .execute(position.coords.latitude, position.coords.longitude)
+          .then((newAddresses) => {
+            setAddresses(newAddresses)
+            setFilteredAddresses(newAddresses)
           })
-          .catch(() => {})
       },
       () => setLocationAuthorized(false),
       { enableHighAccuracy: true },
@@ -89,12 +85,14 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <NavigationHeaderButton
-          onPress={() => setModalVisible(true)}
-          source={require('../../assets/images/iconClassement.png')}
-        />
-      ),
+      headerRight: () => {
+        return SHOW_RANKING ? (
+          <NavigationHeaderButton
+            onPress={() => setModalVisible(true)}
+            source={require('../../assets/images/iconClassement.png')}
+          />
+        ) : null
+      },
     })
   })
 
@@ -123,7 +121,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   const navigateToBuildingDetail = (id: string) => {
     const address = addresses.find((item) => item.id === id)
-    console.log(address)
     navigation.navigate(Screen.buildingDetail, {
       address: address,
     })

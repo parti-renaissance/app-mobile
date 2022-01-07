@@ -59,8 +59,8 @@ function mapDoorsOrVolter(
 ): string {
   return displayMode === 'map'
     ? i18n.t('doorToDoor.doorsSurveysCount', {
-        numberOfSurveys: campaign?.numberOfSurveys,
-        numberOfDoors: campaign?.numberOfDoors,
+        numberOfSurveys: campaign?.numberOfSurveys ?? 0,
+        numberOfDoors: campaign?.numberOfDoors ?? 0,
       })
     : i18n.t('doorToDoor.votersCount', { votersCount })
 }

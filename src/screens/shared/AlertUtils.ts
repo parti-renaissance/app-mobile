@@ -41,4 +41,27 @@ export const AlertUtils = {
       { cancelable: false },
     )
   },
+  showSimpleAlert: (
+    title: string,
+    message: string,
+    action: string,
+    cancel: string,
+    onAction: () => void,
+  ) => {
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: action,
+          onPress: onAction,
+        },
+        {
+          text: cancel,
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    )
+  },
 }

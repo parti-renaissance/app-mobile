@@ -26,11 +26,18 @@ import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
 import {
   BuildingBlock,
-  BuildingBlockFloor,
+  BuildingBlockHelper,
 } from '../../core/entities/BuildingBlock'
 import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
-import uuid from 'react-native-uuid'
+import { AlertUtils } from '../shared/AlertUtils'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { PrimaryButton } from '../shared/Buttons'
+import {
+  BuildingType,
+  DoorToDoorAddress,
+  DoorToDoorAddressStatus,
+} from '../../core/entities/DoorToDoor'
 
 enum Tab {
   HISTORY,
@@ -41,8 +48,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
 }) => {
+  const [isLoading, setIsloading] = useState(false)
   const [tab, setTab] = useState(Tab.LAYOUT)
-  const [editMode, setEditMode] = useState(false)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
   const viewModel = BuildingDetailScreenViewModelMapper.map(
@@ -50,15 +57,15 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     history,
     layout,
   )
+  const buildingBlockHelper = new BuildingBlockHelper()
+  const buildingStatus = route.params.address.building.campaignStatistics.status
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <NavigationHeaderButton
           source={require('../../assets/images/edit.png')}
-          onPress={() => {
-            setEditMode(!editMode)
-          }}
+          onPress={changeBuildingType}
           style={styles.edit}
         />
       ),
@@ -110,27 +117,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setTab(Tab.LAYOUT)
   }
 
-  const createEmptyFloor = (name: number): BuildingBlockFloor => {
-    return {
-      number: name,
-      id: uuid.v4() as string,
-      status: 'todo',
-      nbSurveys: 0,
-      visitedDoors: [],
-      local: true,
-    }
-  }
-
-  const createEmptyBlock = (name: string): BuildingBlock => {
-    return {
-      name: name,
-      floors: [createEmptyFloor(0)],
-      id: uuid.v4() as string,
-      status: 'todo',
-      local: true,
-    }
-  }
-
   const addNewBuildingBlock = () => {
     let nextBuildingBlock: string
     if (layout.length > 0) {
@@ -140,15 +126,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     } else {
       nextBuildingBlock = 'A'
     }
-    layout.push(createEmptyBlock(nextBuildingBlock))
+    layout.push(
+      buildingBlockHelper.createLocalBlock(
+        nextBuildingBlock,
+        route.params.address.building.type === 'building' ? 2 : 1,
+      ),
+    )
     setLayout([...layout])
   }
 
   const addNewBuildingFloor = (buildingBlockId: string) => {
     const block = layout.find((item) => item.id === buildingBlockId)
     if (block) {
-      const nextFloor = block.floors.length
-      block.floors.push(createEmptyFloor(nextFloor))
+      const nextFloor = (block.floors[block.floors.length - 1]?.number ?? 0) + 1
+      block.floors.push(buildingBlockHelper.createLocalFloor(nextFloor))
       setLayout([...layout])
     }
   }
@@ -181,6 +172,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     const block = layout.find((item) => item.id === buildingBlockId)
     if (!block) return
     if (block.status === 'completed') {
+      setIsloading(true)
       DoorToDoorRepository.getInstance()
         .openBuildingBlock(
           route.params.address.building.campaignStatistics.campaignId,
@@ -188,15 +180,122 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           block.name,
         )
         .then(() => fetchLayout())
+        .finally(() => setIsloading(false))
     } else {
-      DoorToDoorRepository.getInstance()
-        .closeBuildingBlock(
-          route.params.address.building.campaignStatistics.campaignId,
-          route.params.address.building.id,
-          block.name,
-        )
-        .then(() => fetchLayout())
+      AlertUtils.showSimpleAlert(
+        i18n.t('building.layout.close_building_alert.title'),
+        i18n.t('building.layout.close_building_alert.message'),
+        i18n.t('building.layout.close_building_alert.action'),
+        i18n.t('building.layout.close_building_alert.cancel'),
+        () => {
+          setIsloading(true)
+          DoorToDoorRepository.getInstance()
+            .closeBuildingBlock(
+              route.params.address.building.campaignStatistics.campaignId,
+              route.params.address.building.id,
+              block.name,
+            )
+            .then(() => fetchLayout())
+            .finally(() => setIsloading(false))
+        },
+      )
     }
+  }
+
+  const changeBuildingType = () => {
+    AlertUtils.showSimpleAlert(
+      i18n.t('building.change_type_alert.title'),
+      route.params.address.building.type === 'building'
+        ? i18n.t('building.change_type_alert.message.building')
+        : i18n.t('building.change_type_alert.message.house'),
+      i18n.t('building.change_type_alert.action'),
+      i18n.t('building.change_type_alert.cancel'),
+      () => {
+        setIsloading(true)
+        let newBuildingType: BuildingType
+        if (route.params.address.building.type === 'house') {
+          newBuildingType = 'building'
+        } else {
+          newBuildingType = 'house'
+        }
+        DoorToDoorRepository.getInstance()
+          .updateBuildingType(route.params.address.building.id, newBuildingType)
+          .then(() => {
+            navigation.setParams({
+              address: {
+                ...route.params.address,
+                building: {
+                  ...route.params.address.building,
+                  type: newBuildingType,
+                },
+              },
+            })
+          })
+          .finally(() => setIsloading(false))
+      },
+    )
+  }
+
+  const updateAddressStatus = (
+    address: DoorToDoorAddress,
+    newStatus: DoorToDoorAddressStatus,
+  ): DoorToDoorAddress => {
+    return {
+      ...address,
+      building: {
+        ...address.building,
+        campaignStatistics: {
+          ...address.building.campaignStatistics,
+          status: newStatus,
+        },
+      },
+    }
+  }
+
+  const closeAddress = () => {
+    AlertUtils.showSimpleAlert(
+      i18n.t('building.close_address.alert.title'),
+      i18n.t('building.close_address.alert.message'),
+      i18n.t('building.close_address.alert.action'),
+      i18n.t('building.close_address.alert.cancel'),
+      () => {
+        setIsloading(true)
+        DoorToDoorRepository.getInstance()
+          .closeBuilding(
+            route.params.address.building.campaignStatistics.campaignId,
+            route.params.address.building.id,
+          )
+          .then(() => {
+            navigation.setParams({
+              address: updateAddressStatus(route.params.address, 'completed'),
+            })
+          })
+          .finally(() => setIsloading(false))
+      },
+    )
+  }
+
+  const openAddress = () => {
+    AlertUtils.showSimpleAlert(
+      i18n.t('building.open_address.alert.title'),
+      i18n.t('building.open_address.alert.message'),
+      i18n.t('building.open_address.alert.action'),
+      i18n.t('building.open_address.alert.cancel'),
+      () => {
+        setIsloading(true)
+        DoorToDoorRepository.getInstance()
+          .openBuilding(
+            route.params.address.building.campaignStatistics.campaignId,
+            route.params.address.building.id,
+          )
+          .then(() => {
+            navigation.setParams({
+              address: updateAddressStatus(route.params.address, 'ongoing'),
+            })
+          })
+          .finally(() => setIsloading(false))
+      },
+    )
   }
 
   const renderTab = (currentTab: Tab) => {
@@ -207,7 +306,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            editMode={editMode}
             onSelect={(buildingBlock: string, floor: number) => {
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorBrief,
@@ -235,6 +333,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             onBuildingAction={(buildingBlockId: string) => {
               handleBuildingAction(buildingBlockId)
             }}
+            onOpenAddress={openAddress}
           />
         )
     }
@@ -242,6 +341,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
 
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isLoading} />
       <>
         <ScrollView>
           <Image source={viewModel.illustration} />
@@ -289,6 +389,13 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           </View>
           {renderTab(tab)}
         </ScrollView>
+        {buildingStatus !== 'completed' ? (
+          <PrimaryButton
+            style={styles.closeAddress}
+            onPress={closeAddress}
+            title={i18n.t('building.close_address.action')}
+          />
+        ) : null}
       </>
     </SafeAreaView>
   )
@@ -299,6 +406,14 @@ const styles = StyleSheet.create({
     ...Typography.title2,
     marginTop: mediumMargin,
     textAlign: 'center',
+  },
+  closeAddress: {
+    bottom: 0,
+    left: 0,
+    marginBottom: Spacing.margin,
+    marginHorizontal: Spacing.margin,
+    position: 'absolute',
+    right: 0,
   },
   container: {
     backgroundColor: Colors.defaultBackground,

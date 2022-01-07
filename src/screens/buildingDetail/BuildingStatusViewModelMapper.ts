@@ -1,4 +1,7 @@
-import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
+import {
+  DoorToDoorAddress,
+  DoorToDoorAddressCampaign,
+} from './../../core/entities/DoorToDoor'
 import { StatBlockViewModel } from './StatBlockViewModel'
 import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
@@ -6,9 +9,8 @@ import NumberFormatter from '../../utils/NumerFormatter'
 import { ImageProps } from 'react-native'
 
 export const BuildingStatusViewModelMapper = {
-  map: (
-    campaignAddress: DoorToDoorAddressCampaign,
-  ): BuildingStatusViewModel => {
+  map: (address: DoorToDoorAddress): BuildingStatusViewModel => {
+    const campaignAddress = address.building.campaignStatistics
     let statusTile: string
     let statusIcon: ImageProps
     switch (campaignAddress?.status) {
@@ -32,7 +34,7 @@ export const BuildingStatusViewModelMapper = {
     return {
       statusTile: statusTile,
       statusIcon: statusIcon,
-      estimatedDoorsStatBlock: estimatedDoorsStatBlock(campaignAddress),
+      estimatedDoorsStatBlock: estimatedDoorsStatBlock(address.votersCount),
       doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
       completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
         campaignAddress,
@@ -41,14 +43,12 @@ export const BuildingStatusViewModelMapper = {
   },
 }
 
-function estimatedDoorsStatBlock(
-  campaignAddress: DoorToDoorAddressCampaign,
-): StatBlockViewModel {
+function estimatedDoorsStatBlock(votersCount: number): StatBlockViewModel {
   return {
     title: i18n.t('building.stats.estimatedDoors', {
-      count: campaignAddress?.numberOfDoors ?? 0,
+      count: votersCount ?? 0,
     }),
-    stat: dataOrPlaceholder(undefined), // TODO update when data is available on server
+    stat: dataOrPlaceholder(votersCount),
   }
 }
 

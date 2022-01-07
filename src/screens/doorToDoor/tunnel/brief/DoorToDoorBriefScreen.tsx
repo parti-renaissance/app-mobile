@@ -60,13 +60,13 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
       <>
         <ScrollView style={styles.contentContainer}>
           <Text style={styles.title}>
-            {i18n.t('doorToDoor.tunnel.tutorial.title')}
+            {i18n.t('doorToDoor.tunnel.door.tutorial.title')}
           </Text>
           <Markdown>{resources.content}</Markdown>
         </ScrollView>
         <View style={styles.bottomContainer}>
           <PrimaryButton
-            title={i18n.t('doorToDoor.tunnel.tutorial.action')}
+            title={i18n.t('doorToDoor.tunnel.door.tutorial.action')}
             onPress={() =>
               navigation.navigate(Screen.tunnelDoorSelectionScreen, {
                 campaignId: campaignId,

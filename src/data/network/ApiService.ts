@@ -57,6 +57,7 @@ import {
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
+import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 
 class ApiService {
   private static instance: ApiService
@@ -499,6 +500,16 @@ class ApiService {
   ): Promise<Array<RestDoorToDoorCampaignRanking>> {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}/ranking`)
+      .json<Array<RestDoorToDoorCampaignRanking>>()
+      .catch(genericErrorMapping)
+  }
+
+  public updateBuildingType(
+    buildingId: string,
+    request: RestBuildingTypeRequest,
+  ): Promise<Array<RestDoorToDoorCampaignRanking>> {
+    return this.httpClient
+      .put(`api/v3/pap/buildings/${buildingId}`, { json: request })
       .json<Array<RestDoorToDoorCampaignRanking>>()
       .catch(genericErrorMapping)
   }

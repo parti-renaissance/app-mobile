@@ -2,21 +2,28 @@ import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
 import {
   BuildingBlock,
   BuildingBlockFloor,
+  BuildingBlockHelper,
 } from './../../core/entities/BuildingBlock'
 import { BuildingLayoutViewModel } from './BuildingLayoutView'
-import { BuildingType } from '../../core/entities/DoorToDoor'
+import {
+  BuildingType,
+  DoorToDoorAddressStatus,
+} from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
 import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
+import { ImageSourcePropType } from 'react-native'
 
 export const BuildingLayoutViewModelMapper = {
   map: (
     type: BuildingType,
+    status: DoorToDoorAddressStatus,
     blocks: BuildingBlock[],
   ): BuildingLayoutViewModel => {
     return {
       buildings: blocks.map((block) => {
-        return blockCardViewModel(block, type)
+        return blockCardViewModel(block, type, status)
       }),
+      buildingStatus: status,
     }
   },
 }
@@ -24,6 +31,7 @@ export const BuildingLayoutViewModelMapper = {
 function blockCardViewModel(
   block: BuildingBlock,
   type: BuildingType,
+  status: DoorToDoorAddressStatus,
 ): BuildingLayoutBlockCardViewModel {
   let statusAction: string
   if (block.status === 'completed') {
@@ -31,32 +39,47 @@ function blockCardViewModel(
   } else {
     statusAction = i18n.t('building.layout.close_building')
   }
+
+  let buildingTypeName: string
+  let buildingTypeIcon: ImageSourcePropType
   switch (type) {
     case 'house':
-      return {
-        id: block.id,
-        buildingTypeName: i18n.t('building.layout.buildingtype.house'),
-        buildingTypeIcon: require('../../assets/images/house.png'),
-        floors: block.floors.map((floor) =>
-          floorCellViewModel(block.name, floor),
-        ),
-        local: block.local,
-        statusAction: statusAction,
-      }
+      buildingTypeName = i18n.t('building.layout.buildingtype.house')
+      buildingTypeIcon = require('../../assets/images/house.png')
+      break
     case 'building':
-      return {
-        id: block.id,
-        buildingTypeName: i18n.t(
-          'building.layout.buildingtype.appartementbuilding',
-          { buildingName: block.name },
-        ),
-        buildingTypeIcon: require('../../assets/images/appartementBuilding.png'),
-        floors: block.floors.map((floor) =>
-          floorCellViewModel(block.name, floor),
-        ),
-        local: block.local,
-        statusAction: statusAction,
+      buildingTypeName = i18n.t(
+        'building.layout.buildingtype.appartementbuilding',
+        { buildingName: block.name },
+      )
+      buildingTypeIcon = require('../../assets/images/appartementBuilding.png')
+  }
+
+  // Create missing floors if necessary
+  const floors: Array<BuildingBlockFloor> = []
+  let index = 0
+  block.floors
+    .sort((floor) => floor.number)
+    .forEach((floor) => {
+      while (floor.number > index) {
+        floors.push(new BuildingBlockHelper().createLocalFloor(index))
+        index++
       }
+      floors.push(floor)
+      index = floor.number + 1
+    })
+
+  console.log(JSON.stringify(floors, null, 2))
+
+  return {
+    id: block.id,
+    buildingType: type,
+    buildingTypeName: buildingTypeName,
+    buildingTypeIcon: buildingTypeIcon,
+    floors: floors.map((floor) => floorCellViewModel(block.name, floor)),
+    local: block.local,
+    statusAction: statusAction,
+    editable: status !== 'completed',
   }
 }
 
@@ -82,7 +105,7 @@ function floorCellViewModel(
 function floorCellSubtitle(floor: BuildingBlockFloor): string {
   switch (floor.status) {
     case 'completed':
-      return i18n.t('building.layout.floor.completedSubtitle')
+      return i18n.t('building.layout.floor.subtitle.completed')
     case 'ongoing':
       return i18n.t('building.layout.floor.subtitle.ongoing', {
         doorKnocked: floor.visitedDoors.length,
