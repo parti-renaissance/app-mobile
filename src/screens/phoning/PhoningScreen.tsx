@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     ...Typography.body,
   },
   title: {
-    ...Typography.title,
+    ...Typography.highlightedTitle,
     marginBottom: Spacing.mediumMargin,
     marginTop: Spacing.margin,
   },
