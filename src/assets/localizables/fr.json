@@ -31,11 +31,11 @@
       "item_actions": "Actions"
     },
     "polls": {
-      "question_count_format": "{{count}} question",
-      "question_count_format_plural": "{{count}} questions",
+      "question_count_format_one": "{{count}} question",
+      "question_count_format_other": "{{count}} questions",
       "title": "Questionnaires",
-      "subtitle": "Un questionnaire est disponible.\nOrganisez des actions terrains pour récolter des avis.",
-      "subtitle_plural": "Des questionnaire sont disponibles.\r\nOrganisez des actions terrains pour récolter des avis.",
+      "subtitle_one": "Un questionnaire est disponible.\nOrganisez des actions terrains pour récolter des avis.",
+      "subtitle_other": "Des questionnaire sont disponibles.\r\nOrganisez des actions terrains pour récolter des avis.",
       "subtitle_no_polls": "Aucun questionnaire n'est actuellement disponible pour votre territoire"
     },
     "polldetail": {
@@ -199,8 +199,8 @@
       },
       "section_quick_poll": "La question du jour",
       "quick_poll": {
-        "votes_count": "{{format}} votant",
-        "votes_count_plural": "{{format}} votants"
+        "votes_count_one": "{{format}} votant",
+        "votes_count_other": "{{format}} votants"
       },
       "event": { "section": "Prochain évènement" },
       "retaliation": {
@@ -328,12 +328,12 @@
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
         "callbuttontitle": "Appeler un de mes contact",
-        "progressformat_plural": "{{done}} questionnaires remplis sur {{total}}",
-        "progressformat": "{{done}} questionnaire rempli sur {{total}}"
+        "progressformat_other": "{{done}} questionnaires remplis sur {{total}}",
+        "progressformat_one": "{{done}} questionnaire rempli sur {{total}}"
       },
       "campaign": {
-        "remainingdays_plural": "Il vous reste {{remainingdays}} jours pour atteindre votre objectif.",
-        "remainingdays": "Il vous reste {{remainingdays}} jour pour atteindre votre objectif.",
+        "remainingdays_other": "Il vous reste {{remainingdays}} jours pour atteindre votre objectif.",
+        "remainingdays_one": "Il vous reste {{remainingdays}} jour pour atteindre votre objectif.",
         "permanent": {
           "subtitle": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron"
         },
@@ -350,9 +350,12 @@
         "header_calls_completed": "Complétés",
         "name": "{{position}}. {{name}}"
       },
-      "position": "{{position}}er au classement",
-      "position_plural": "{{position}}ème au classement",
-      "charter": { "title": "Charte", "accept": "Accepter" }
+      "position_one": "{{position}}er au classement",
+      "position_other": "{{position}}ème au classement",
+      "charter": {
+        "title": "Charte",
+        "accept": "Accepter"
+      }
     },
     "phoningcontacttutorial": {
       "title": "Appeler un de mes contacts",
@@ -387,20 +390,41 @@
       "execute": "Copier le texte et riposter"
     },
     "building": {
+      "open_address": {
+        "action": "Réouvrir l'adresse",
+        "alert": {
+          "title": "Réouvrir l'adresse",
+          "message": "Voulez-vous indiquer cette adresse comme ouverte ?",
+          "action": "Oui",
+          "cancel": "Non"
+        }
+      },
+      "close_address": {
+        "action": "Adresse terminée",
+        "alert": {
+          "title": "Adresse terminée",
+          "message": "Voulez-vous indiquer cette adresse comme terminée ?",
+          "action": "Oui",
+          "cancel": "Non"
+        }
+      },
       "status": {
         "done": "Terminé",
         "todo": "A faire",
         "tocomplete": "A terminer"
       },
       "stats": {
-        "doorKnocked": "Porte frappées",
-        "doorKnocked_plural": "Portes frappées",
-        "estimatedDoors": "Porte estimée",
-        "estimatedDoors_plural": "Portes estimées",
-        "completedQuestionnaires": "Questionnaire réalisé",
-        "completedQuestionnaires_plural": "Questionnaires réalisés"
+        "doorKnocked_one": "Porte frappées",
+        "doorKnocked_other": "Portes frappées",
+        "estimatedDoors_one": "Porte estimée",
+        "estimatedDoors_other": "Portes estimées",
+        "completedQuestionnaires_one": "Questionnaire réalisé",
+        "completedQuestionnaires_other": "Questionnaires réalisés"
       },
-      "tabs": { "history": "Historique", "layout": "Bâtiment" },
+      "tabs": {
+        "history": "Historique",
+        "layout": "Bâtiment"
+      },
       "layout": {
         "buildingtype": {
           "house": "Maison",
@@ -438,10 +462,10 @@
         "title": "Modifier",
         "message": {
           "house": "Cette adresse est actuellement renseignée comme une maison.\n\nS'il s'agit d'une erreur, vous pouvez la modifier en tant qu'immeuble.",
-          "building":	"Cette adresse est actuellement renseignée comme un immeuble.\n\nS'il s'agit d'une erreur, vous pouvez la modifier en tant que maison."
+          "building": "Cette adresse est actuellement renseignée comme un immeuble.\n\nS'il s'agit d'une erreur, vous pouvez la modifier en tant que maison."
         },
-        "action":	"Modifier",
-        "cancel":	"Annuler"
+        "action": "Modifier",
+        "cancel": "Annuler"
       }
     },
     "actions": {
@@ -465,7 +489,10 @@
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",
-        "tabs": { "individual": "Individuel", "departmental": "Départemental" },
+        "tabs": {
+          "individual": "Individuel",
+          "departmental": "Départemental"
+        },
         "rows": {
           "rang": "Rang",
           "militant": "Militant",
@@ -479,7 +506,10 @@
         "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",
         "cta": "Autoriser je m’engage à accéder à votre localisation"
       },
-      "charter": { "title": "Charte", "accept": "J'ai lu et j'accepte" },
+      "charter": {
+        "title": "Charte",
+        "accept": "J'ai lu et j'accepte"
+      },
       "filter": {
         "all": "Tous",
         "to_do": "À faire",
@@ -495,12 +525,12 @@
           "action": "Quitter"
         },
         "exit": "Quitter",
-        "qualification": { "title": "Qualification" },
-        "tutorial": {
-          "title": "Brief",
-          "action": "C’est parti !"
-        },
         "door": {
+          "qualification": { "title": "Qualification" },
+          "tutorial": {
+            "title": "Brief",
+            "action": "C'est parti !"
+          },
           "doorknocked": "J’ai frappé à la porte",
           "floorFinished": "Étage terminé",
           "rdvDoor_one": "Rendez-vous à la 1ère porte en partant de la gauche.",
@@ -508,7 +538,7 @@
           "doorFinished": "S’il n’y a plus de portes sur l’étage, clôturé l’étage en tapant sur “étage terminé”.",
           "buildingFinished": "Si le bâtiment est terminé quittez cette page en cliquant sur la croix en haut à gauche de votre écran puis, clôturez le.",
           "title_0": "Bâtiment {{buildingName}} - RdC",
-          "title": "Bâtiment {{buildingName}} - Étage {{floorName}}", 
+          "title": "Bâtiment {{buildingName}} - Étage {{floorName}}",
           "shortTitle_0": "Bât {{buildingName}} - RdC - P{{door}}",
           "shortTitle": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}",
           "close_floor_alert": {
@@ -518,15 +548,13 @@
             "cancel": "Non"
           }
         },
+        "opening": { "title": "La porte s’ouvre t’elle ?" },
         "success": {
           "wellDone": "Bravo !",
           "newDoor": "Une porte de plus !",
-          "recap": "Tu as réalisé un total de 1 porte frappée et récolté 1 questionnaire. Merci pour votre engagement !",
+          "recap": "Tu as réalisé un total de {{doorsCount}} porte frappée et récolté {{pollsCount}} questionnaire. Merci pour ton engagement !",
           "knockNewDoor": "Frapper à une nouvelle porte",
-          "stop": "Arreter le porte-à-porte"
-        },
-        "opening": {
-          "title": "La porte s’ouvre t’elle ?"
+          "stop": "Arrêter le porte-à-porte"
         }
       }
     }
