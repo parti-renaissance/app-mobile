@@ -16,6 +16,7 @@ const caption2FontSize = 8
 
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
+const maaxMedium = 'Maax-Medium'
 
 export const footnote: TextStyle = {
   fontSize: footnoteFontSize,

@@ -16,6 +16,7 @@
 		21BB8E2925815465001831DB /* dataprotection.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 21BB8E2825815465001831DB /* dataprotection.pdf */; };
 		337778839660A7D27BC680BC /* libPods-JeMarche.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */; };
 		4357DD720478FB7E4ECC1373 /* libPods-JeMarche-JeMarcheTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C07EDF216C5BAB0CE5E9DC0 /* libPods-JeMarche-JeMarcheTests.a */; };
+		4959DC6B278849F7008C0C36 /* Maax-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4959DC6A278844DD008C0C36 /* Maax-Medium.ttf */; };
 		49B934592567DE5C0072A28F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49B934582567DE5C0072A28F /* GoogleService-Info.plist */; };
 		794BADE3CB9540AD9E901E92 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */; };
 		92BF777B2722EFC2000A3406 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF777A2722EFC2000A3406 /* Void.swift */; };
@@ -50,6 +51,7 @@
 		21BB8E24258151F9001831DB /* cgu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = cgu.pdf; path = ../android/app/src/main/assets/cgu.pdf; sourceTree = "<group>"; };
 		21BB8E2825815465001831DB /* dataprotection.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = dataprotection.pdf; path = ../android/app/src/main/assets/dataprotection.pdf; sourceTree = "<group>"; };
 		38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JeMarche.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4959DC6A278844DD008C0C36 /* Maax-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Maax-Medium.ttf"; path = "../src/assets/fonts/Maax-Medium.ttf"; sourceTree = "<group>"; };
 		49B934582567DE5C0072A28F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		49B934E22567FF560072A28F /* JeMarche.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = JeMarche.entitlements; path = JeMarche/JeMarche.entitlements; sourceTree = "<group>"; };
 		49E199DE256D1A7800C181EE /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				49B934582567DE5C0072A28F /* GoogleService-Info.plist */,
 				AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */,
 				06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */,
+				4959DC6A278844DD008C0C36 /* Maax-Medium.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4959DC6B278849F7008C0C36 /* Maax-Medium.ttf in Resources */,
 				21BB8E25258151F9001831DB /* cgu.pdf in Resources */,
 				21BB8E2925815465001831DB /* dataprotection.pdf in Resources */,
 				2179FAA9261231F900FD532C /* LaunchScreen.storyboard in Resources */,
