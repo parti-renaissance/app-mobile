@@ -50,7 +50,7 @@ const ProfileAuthenticated: FC<Props> = ({
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.avatar}>
-          <Image source={require('../../assets/images/blue/imageProfil.png')} />
+          <Image source={require('../../assets/images/imageProfil.png')} />
           {viewModel.isCertified ? (
             <Image
               source={require('../../assets/images/certified.png')}

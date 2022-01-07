@@ -5,7 +5,6 @@ import {
   FlatList,
   ListRenderItemInfo,
   View,
-  Image,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -180,10 +179,6 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
             <Text style={styles.emptySubtitle}>
               {i18n.t('phoning.subtitle_no_campaigns')}
             </Text>
-            <Image
-              source={require('../../assets/images/blue/imagePhoning.png')}
-              style={styles.emptyImage}
-            />
           </View>
         }
         contentContainerStyle={styles.contentContainer}

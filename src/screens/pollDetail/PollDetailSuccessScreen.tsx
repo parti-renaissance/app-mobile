@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, Image, BackHandler } from 'react-native'
+import { View, Text, StyleSheet, BackHandler } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import SafeAreaView from 'react-native-safe-area-view'
 import { PollDetailSuccessScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import CircularIcon from '../shared/CircularIcon'
+import { FlexibleVerticalSpacer } from '../shared/Spacer'
 
 const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
   route,
@@ -28,18 +31,18 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
   }, [navigation, route.params.title])
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Image
+        <CircularIcon
           style={styles.image}
-          source={require('../../assets/images/blue/imageMerci.png')}
-          resizeMode="cover"
+          source={require('../../assets/images/imageMerci.png')}
         />
         <View style={styles.content}>
           <Text style={styles.title}>{i18n.t('polldetail.success.title')}</Text>
           <Text style={styles.text}>
             {i18n.t('polldetail.success.message')}
           </Text>
+          <FlexibleVerticalSpacer />
           <PrimaryButton
             style={styles.primaryButton}
             title={i18n.t('polldetail.success.restart')}
@@ -55,37 +58,42 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
           />
         </View>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.defaultBackground,
     flex: 1,
     marginBottom: Spacing.margin,
   },
   content: {
+    flex: 1,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },
   image: {
-    aspectRatio: 395 / 283,
-    height: undefined,
-    width: '100%',
+    alignSelf: 'center',
+    marginBottom: Spacing.margin,
+    marginTop: Spacing.margin,
   },
   primaryButton: {
     marginBottom: Spacing.unit,
   },
-  scrollView: {
+  safeArea: {
     backgroundColor: Colors.defaultBackground,
+    flex: 1,
   },
   text: {
     ...Typography.body,
     marginBottom: Spacing.mediumMargin,
+    textAlign: 'center',
   },
   title: {
     ...Typography.largeTitle,
     marginBottom: Spacing.unit,
+    textAlign: 'center',
   },
 })
 

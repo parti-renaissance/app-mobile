@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
-import { Text, StyleSheet, Image } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoneCallFailureScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -31,12 +31,6 @@ const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = (
       <Text style={styles.body}>
         {i18n.t('phoningsession.failure.new_call_description')}
       </Text>
-      <VerticalSpacer spacing={Spacing.mediumMargin} />
-      <Image
-        style={styles.image}
-        source={require('../../assets/images/blue/phoningSessionFailure.png')}
-        resizeMode="cover"
-      />
       <VerticalSpacer spacing={Spacing.largeMargin} />
       <PrimaryButton
         title={i18n.t('phoningsession.new_call')}
@@ -60,11 +54,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
     paddingHorizontal: Spacing.margin,
-  },
-  image: {
-    aspectRatio: 320 / 194,
-    height: undefined,
-    width: '100%',
   },
   title: {
     ...Typography.title,

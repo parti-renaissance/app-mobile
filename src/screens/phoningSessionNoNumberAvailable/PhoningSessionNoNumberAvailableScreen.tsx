@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, Image, View } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionNoNumberAvailableScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -7,6 +7,7 @@ import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { TertiaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
+import CircularIcon from '../shared/CircularIcon'
 
 const PhoningSessionNoNumberAvailableScreen: FunctionComponent<PhoningSessionNoNumberAvailableScreenProps> = ({
   navigation,
@@ -23,12 +24,9 @@ const PhoningSessionNoNumberAvailableScreen: FunctionComponent<PhoningSessionNoN
       <Text style={styles.body}>{route.params.message}</Text>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
       <View style={styles.imageContainer}>
-        <View style={styles.imageCircle}>
-          <Image
-            source={require('../../assets/images/noPhoneNumber.png')}
-            resizeMode="center"
-          />
-        </View>
+        <CircularIcon
+          source={require('../../assets/images/noPhoneNumber.png')}
+        />
       </View>
       <TertiaryButton
         title={i18n.t('phoningsession.end_session')}
@@ -37,8 +35,6 @@ const PhoningSessionNoNumberAvailableScreen: FunctionComponent<PhoningSessionNoN
     </SafeAreaView>
   )
 }
-
-const IMAGE_SIZE = 140
 
 const styles = StyleSheet.create({
   body: {
@@ -49,14 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: Spacing.margin,
     paddingHorizontal: Spacing.margin,
-  },
-  imageCircle: {
-    alignItems: 'center',
-    backgroundColor: Colors.secondaryButtonBackground,
-    borderRadius: IMAGE_SIZE / 2,
-    height: IMAGE_SIZE,
-    justifyContent: 'center',
-    width: IMAGE_SIZE,
   },
   imageContainer: {
     alignItems: 'center',

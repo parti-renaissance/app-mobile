@@ -20,6 +20,7 @@ import { useValidateZipCode } from '../shared/useValidateZipCode'
 import { Department } from '../../core/entities/Department'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { UpdateZipCodeInteractor } from '../../core/interactor/UpdateZipCodeInteractor'
+import CircularIcon from '../shared/CircularIcon'
 
 const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   navigation,
@@ -60,9 +61,7 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.imageWrap}>
-        <Image
-          source={require('../../assets/images/blue/imageCodePostal.png')}
-        />
+        <CircularIcon source={require('../../assets/images/mapIcon.png')} />
       </View>
       <Text style={styles.title}>{i18n.t('profileZipCode.label')}</Text>
       <LabelTextInput
