@@ -205,7 +205,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingHorizontal: Spacing.margin,
-    paddingTop: Spacing.largeMargin,
   },
   emptyContainer: {
     flex: 1,

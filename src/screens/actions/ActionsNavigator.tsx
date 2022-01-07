@@ -1,34 +1,33 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Screen } from '../../navigation'
-import { headerBlank } from '../../styles/navigationAppearance'
 import ActionsScreen from './ActionsScreen'
-import PollsScreen from '../polls/PollsScreen'
 import PhoningNavigator from '../phoning/PhoningNavigator'
 import DoorToDoorNavigator from '../doorToDoor/DoorToDoorNavigator'
+import PollsNavigator from '../polls/PollsNavigator'
 
 const ActionsStack = createStackNavigator()
 
 const ActionsNavigator: FunctionComponent = () => {
   return (
-    <ActionsStack.Navigator screenOptions={headerBlank}>
+    <ActionsStack.Navigator headerMode="none">
       <ActionsStack.Screen
         name={Screen.actions}
         component={ActionsScreen}
         options={{ headerShown: false }}
       />
       <ActionsStack.Screen
-        name={Screen.polls}
-        component={PollsScreen}
+        name={Screen.pollsNavigator}
+        component={PollsNavigator}
         options={{ headerTransparent: true }}
       />
       <ActionsStack.Screen
-        name={Screen.phoning}
+        name={Screen.phoningNavigator}
         component={PhoningNavigator}
         options={{ headerTransparent: true }}
       />
       <ActionsStack.Screen
-        name={Screen.doorToDoor}
+        name={Screen.doorToDoorNavigator}
         component={DoorToDoorNavigator}
         options={{ headerTransparent: true }}
       />

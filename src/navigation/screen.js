@@ -1,6 +1,7 @@
 export const authenticatedHome = 'AuthenticatedHome'
 export const buildingDetail = 'BuildingDetail'
 export const polls = 'Polls'
+export const pollsNavigator = 'PollsNavigator'
 export const homeNavigator = 'HomeNavigator'
 export const eventNavigator = 'EventNavigator'
 export const events = 'Events'

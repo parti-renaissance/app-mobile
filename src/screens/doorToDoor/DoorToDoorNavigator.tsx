@@ -12,12 +12,12 @@ const DoorToDoorNavigator: FunctionComponent = () => (
     <DoorToDoorStack.Screen
       name={Screen.events}
       component={DoorToDoorScreen}
-      options={{ headerShown: false }}
+      options={{ headerShown: true }}
     />
     <DoorToDoorStack.Screen
       name={Screen.buildingDetail}
       component={BuildingDetailScreen}
-      options={{ headerShown: false }}
+      options={{ headerShown: true }}
     />
   </DoorToDoorStack.Navigator>
 )
