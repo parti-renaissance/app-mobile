@@ -157,6 +157,22 @@ class DoorToDoorRepository {
     })
   }
 
+  public async closeBuilding(campaignId: string, buildingId: string) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'close',
+      type: 'building',
+      campaign: campaignId,
+    })
+  }
+
+  public async openBuilding(campaignId: string, buildingId: string) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'open',
+      type: 'building',
+      campaign: campaignId,
+    })
+  }
+
   public async closeBuildingBlock(
     campaignId: string,
     buildingId: string,
