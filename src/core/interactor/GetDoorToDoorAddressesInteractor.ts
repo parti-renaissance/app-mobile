@@ -21,6 +21,7 @@ export class GetDoorToDoorAddressesInteractor {
     )
     campaignIds.forEach(async (id) => {
       await this.repository.getCampaign(id, 'remote')
+      await this.repository.getDoorToDoorCampaignRanking(id, 'remote')
       await this.repository.getDoorToDoorPollConfig(id, 'remote')
       await this.repository.getDoorToDoorPoll(id, 'remote')
     })

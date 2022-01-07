@@ -14,6 +14,8 @@ import {
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
+import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
+import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 
 type Props = {
   data: DoorToDoorAddress[]
@@ -65,22 +67,37 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
     })
   }
 
-  const Popup = () => (
-    <Pressable
-      style={styles.popupWrap}
-      onPress={() => setPopup({ visible: false })}
-    >
-      <Pressable style={styles.popup}>
-        <PoiAddressCard
-          onPress={onAddressPress}
-          viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
-        />
-        <DoorToDoorCampaignCard
-          viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
-        />
+  const Popup = () => {
+    const [
+      viewModel,
+      setViewModel,
+    ] = useState<DoorToDoorCampaignCardViewModel>()
+
+    useEffect(() => {
+      if (popup.value) {
+        new GetDoorToDoorCampaignPopupInteractor()
+          .execute(popup.value?.building.campaignStatistics.campaignId)
+          .then((result) => {
+            setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
+          })
+      }
+    }, [])
+
+    return (
+      <Pressable
+        style={styles.popupWrap}
+        onPress={() => setPopup({ visible: false })}
+      >
+        <Pressable style={styles.popup}>
+          <PoiAddressCard
+            onPress={onAddressPress}
+            viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
+          />
+          {viewModel ? <DoorToDoorCampaignCard viewModel={viewModel} /> : null}
+        </Pressable>
       </Pressable>
-    </Pressable>
-  )
+    )
+  }
 
   return (
     <>

@@ -30,6 +30,7 @@ class DoorToDoorRepository {
   private pollCache = new Map<string, Poll>()
   private pollTutorialCache: string | undefined
   private campaignCache = new Map<string, DoorToDoorCampaign>()
+  private campaignRankingCache = new Map<string, DoorToDoorCampaignRanking>()
 
   public static getInstance(): DoorToDoorRepository {
     if (!DoorToDoorRepository.instance) {
@@ -204,11 +205,23 @@ class DoorToDoorRepository {
 
   public async getDoorToDoorCampaignRanking(
     campaignId: string,
+    preferedDataSource: DataSource = 'cache',
   ): Promise<DoorToDoorCampaignRanking> {
-    const restRanking = await this.apiService.getDoorToDoorCampaignRanking(
+    if (
+      preferedDataSource === 'cache' &&
+      this.campaignRankingCache.has(campaignId)
+    ) {
+      const ranking = this.campaignRankingCache.get(campaignId)
+      if (ranking) return ranking
+    }
+    const fetchedCampaignRanking = await this.apiService.getDoorToDoorCampaignRanking(
       campaignId,
     )
-    return DoorToDoorCampaignRankingMapper.map(restRanking)
+    const campaignRanking = DoorToDoorCampaignRankingMapper.map(
+      fetchedCampaignRanking,
+    )
+    this.campaignRankingCache.set(campaignId, campaignRanking)
+    return campaignRanking
   }
 
   public async getDoorToDoorTutorial(): Promise<string> {
