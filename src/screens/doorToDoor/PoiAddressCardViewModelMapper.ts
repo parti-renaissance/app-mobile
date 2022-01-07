@@ -1,5 +1,5 @@
 import { Moment } from 'moment-timezone'
-import { ImageSourcePropType } from 'react-native'
+import { ImageRequireSource, ImageSourcePropType } from 'react-native'
 import {
   DoorToDoorAddress,
   DoorToDoorAddressCampaign,
@@ -71,7 +71,7 @@ function mapDate(lastPassage: Moment): string {
 
 function mapStatusIcon(
   campaignStatistics: DoorToDoorAddressCampaign,
-): ImageSourcePropType {
+): ImageRequireSource {
   switch (campaignStatistics.status) {
     case 'todo':
       return require('../../assets/images/papTodoCard.png')

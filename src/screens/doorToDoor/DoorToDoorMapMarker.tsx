@@ -1,34 +1,37 @@
 import React, { memo } from 'react'
-import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native'
+import { Image, ImageRequireSource, Platform } from 'react-native'
 import { LatLng, Marker } from 'react-native-maps'
-import { Colors } from '../../styles'
-import CardView from '../shared/CardView'
 
 type Props = {
   coordinate: LatLng
-  icon: ImageSourcePropType | undefined
+  icon: ImageRequireSource | undefined
   onPress?: () => void
 }
 
-export const DoorToDoorMapMarker = memo((props: Props) => (
-  <Marker
-    tracksViewChanges={false}
-    coordinate={props.coordinate}
-    onPress={props.onPress}
-  >
-    <CardView backgroundColor={Colors.defaultBackground}>
-      <View style={styles.marker}>
-        {props.icon && <Image source={props.icon} />}
-      </View>
-    </CardView>
-  </Marker>
-))
+export const MARKER_DEFAULT_ANCHOR = { x: 0.5, y: 0.5 }
 
-const styles = StyleSheet.create({
-  marker: {
-    alignItems: 'center',
-    height: 40,
-    justifyContent: 'center',
-    width: 40,
-  },
+export const DoorToDoorMapMarker = memo((props: Props) => {
+  if (!props.icon) return null
+  if (Platform.OS === 'android') {
+    return (
+      <Marker
+        tracksViewChanges={false}
+        coordinate={props.coordinate}
+        onPress={props.onPress}
+        anchor={MARKER_DEFAULT_ANCHOR}
+        icon={props.icon} // icon is Android only
+      />
+    )
+  } else {
+    return (
+      <Marker
+        tracksViewChanges={false}
+        coordinate={props.coordinate}
+        onPress={props.onPress}
+        anchor={MARKER_DEFAULT_ANCHOR}
+      >
+        <Image source={props.icon} />
+      </Marker>
+    )
+  }
 })
