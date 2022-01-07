@@ -39,9 +39,9 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   const fetchData = useCallback(() => {
     setStatefulState(new ViewState.Loading())
     DoorToDoorRepository.getInstance()
-      .getDoorToDoorTutorial()
-      .then((markdown) => {
-        setStatefulState(new ViewState.Content({ content: markdown }))
+      .getCampaign(route.params.campaignId)
+      .then((campaign) => {
+        setStatefulState(new ViewState.Content({ content: campaign.brief }))
       })
       .catch((error) => {
         setStatefulState(
@@ -51,7 +51,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
           }),
         )
       })
-  }, [])
+  }, [route.params.campaignId])
 
   useFocusEffect(fetchData)
 
