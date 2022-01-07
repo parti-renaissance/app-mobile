@@ -30,6 +30,8 @@ import { Screen } from '../../navigation'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
 
+const SHOW_RANKING = false // TODO (Romain GF): When endpoint is ready we will show again the ranking
+
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
@@ -83,12 +85,13 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <NavigationHeaderButton
-          onPress={() => setModalVisible(true)}
-          source={require('../../assets/images/iconClassement.png')}
-        />
-      ),
+      headerRight: () => {SHOW_RANKING ? (
+          <NavigationHeaderButton
+            onPress={() => setModalVisible(true)}
+            source={require('../../assets/images/iconClassement.png')}
+          />
+        ) : null
+      },
     })
   })
 
