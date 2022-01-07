@@ -7,7 +7,10 @@ import { Spacing } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
-import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
+import {
+  DoorToDoorMapMarker,
+  MARKER_DEFAULT_ANCHOR,
+} from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
@@ -101,6 +104,7 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
           coordinate={currentPosition}
           tracksViewChanges={false}
           {...markerExtraProps}
+          anchor={MARKER_DEFAULT_ANCHOR}
         >
           <Image source={require('../../assets/images/papPositionIcon.png')} />
         </Marker>

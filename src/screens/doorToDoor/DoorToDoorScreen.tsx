@@ -186,12 +186,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginRight: Spacing.margin,
+    marginRight: Spacing.unit,
     marginTop: Spacing.unit,
   },
   title: {
     ...Typography.highlightedTitle,
-    marginHorizontal: Spacing.margin,
+    marginHorizontal: Spacing.unit,
   },
 })
 
