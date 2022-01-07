@@ -2,7 +2,6 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useState,
 } from 'react'
 import { Modal, StyleSheet, Text, SafeAreaView, View } from 'react-native'
@@ -25,12 +24,8 @@ import { LatLng } from 'react-native-maps'
 import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
 import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from 'react-native-geolocation-service'
-import RankingModal from './rankings/RankingModal'
 import { Screen } from '../../navigation'
-import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
-
-const SHOW_RANKING = false // TODO (Romain GF): When endpoint is ready we will show again the ranking
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -40,7 +35,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [filteredAddresses, setFilteredAddresses] = useState<
     DoorToDoorAddress[]
   >([])
-  const [modalVisible, setModalVisible] = useState(false)
   const [locationAuthorized, setLocationAuthorized] = useState(false)
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
   const [filter, setFilter] = useState<DoorToDoorFilterDisplay>('all')
@@ -83,19 +77,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     locationAuthorized && fetchPosition()
   }, [locationAuthorized])
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return SHOW_RANKING ? (
-          <NavigationHeaderButton
-            onPress={() => setModalVisible(true)}
-            source={require('../../assets/images/iconClassement.png')}
-          />
-        ) : null
-      },
-    })
-  })
-
   const getPermissionStatus = async () => {
     setLocationAuthorized(await LocationManager.permissionStatus())
   }
@@ -128,10 +109,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <Modal visible={modalVisible} animationType="slide">
-        <RankingModal onDismissModal={() => setModalVisible(false)} />
-      </Modal>
-
       {charterState instanceof DoorToDoorCharterNotAccepted && (
         <Modal visible={true} animationType="slide">
           <DoorToDoorCharterModal
