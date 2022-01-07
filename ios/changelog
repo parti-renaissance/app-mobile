@@ -1,8 +1,8 @@
-# v3.0.0-RC6
+# v3.0.0-RC7
 
 Door To Door :
 
-- Address detail building block actions (open/close block, add/remove block)
-- Address detail building floors actions (add/remove floors)
-- Qualification screens (questions provided by server)
-- WS & UI to send survey answers
+- Brief screen
+- Door selection screen
+- Door opening screen
+- Ranking screen
