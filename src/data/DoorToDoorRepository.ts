@@ -20,7 +20,6 @@ import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRank
 import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
 import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { DataSource } from './DataSource'
-import { RestBuildingTypeRequest } from './restObjects/RestBuildingTypeRequest'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository

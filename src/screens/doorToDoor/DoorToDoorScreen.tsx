@@ -85,7 +85,8 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => {SHOW_RANKING ? (
+      headerRight: () => {
+        return SHOW_RANKING ? (
           <NavigationHeaderButton
             onPress={() => setModalVisible(true)}
             source={require('../../assets/images/iconClassement.png')}
