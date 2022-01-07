@@ -7,7 +7,7 @@ import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
-import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
+import { CloseButton } from '../shared/NavigationHeaderButton'
 
 type Props = {
   charter: string
@@ -30,10 +30,7 @@ const DoorToDoorCharterModal: FC<Props> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <NavigationHeaderButton
-          source={require('../../assets/images/navigationBarClose.png')}
-          onPress={props.onDismissModal}
-        />
+        <CloseButton onPress={props.onDismissModal} />
       </View>
       <ScrollView>
         <Markdown style={markdownStyle}>{props.charter}</Markdown>

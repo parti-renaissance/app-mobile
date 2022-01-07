@@ -38,7 +38,9 @@ const ProfileSettingsCard: FC<Props> = (props) => {
             </Text>
           </View>
           {props.viewModel.image ? (
-            <Image source={props.viewModel.image} style={styles.image} />
+            <View style={styles.imageContainer}>
+              <Image source={props.viewModel.image} />
+            </View>
           ) : null}
         </View>
       </TouchablePlatform>
@@ -46,8 +48,11 @@ const ProfileSettingsCard: FC<Props> = (props) => {
   )
 }
 
+const IMAGE_CONTAINER_SIZE = 44
+
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     flexDirection: 'row',
   },
   description: {
@@ -55,10 +60,14 @@ const styles = StyleSheet.create({
     color: Colors.lightText,
     marginTop: Spacing.small,
   },
-  image: {
-    alignSelf: 'center',
-    height: 80,
-    width: 80,
+  imageContainer: {
+    alignItems: 'center',
+    backgroundColor: Colors.defaultBackground,
+    borderRadius: IMAGE_CONTAINER_SIZE / 2,
+    height: IMAGE_CONTAINER_SIZE,
+    justifyContent: 'center',
+    marginRight: Spacing.margin,
+    width: IMAGE_CONTAINER_SIZE,
   },
   leftSide: {
     flexGrow: 1,
@@ -69,7 +78,7 @@ const styles = StyleSheet.create({
     ...Typography.headline,
   },
   touchableArea: {
-    backgroundColor: Colors.groupedListBackground,
+    backgroundColor: Colors.accountCardBackground,
     borderRadius: 8,
     overflow: 'hidden',
   },

@@ -1,10 +1,11 @@
 import React from 'react'
-import { Image, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { NotificationMenuScreenProps, Screen } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import ProfileSettingsItem from '../../profile/ProfileSettingsItem'
+import CircularIcon from '../../shared/CircularIcon'
 
 const NotificationMenuScreen = (props: NotificationMenuScreenProps) => {
   const onLocal = () => {
@@ -15,9 +16,9 @@ const NotificationMenuScreen = (props: NotificationMenuScreenProps) => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('../../../assets/images/blue/imageNotification.png')}
+      <CircularIcon
+        style={styles.icon}
+        source={require('../../../assets/images/notificationIcon.png')}
       />
       <Text style={styles.description}>
         {i18n.t('notificationmenu.description')}
@@ -44,8 +45,9 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
     marginVertical: Spacing.margin,
   },
-  logo: {
+  icon: {
     alignSelf: 'center',
+    margin: Spacing.margin,
   },
 })
 

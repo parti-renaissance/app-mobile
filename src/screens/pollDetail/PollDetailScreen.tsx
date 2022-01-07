@@ -61,7 +61,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
           headerRight: () => (
             <NavigationHeaderButton
               onPress={() => setModalVisible(true)}
-              source={require('../../assets/images/blue/navigationBarLeftAccessoriesOutils.png')}
+              source={require('../../assets/images/navigationBarLeftAccessoriesOutils.png')}
             />
           ),
         })

@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { View, StyleSheet, Text, Image } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from './Buttons'
+import CircularIcon from './CircularIcon'
 import { ViewState } from './StatefulView'
 
 type Props = Readonly<{
@@ -13,9 +14,9 @@ const ErrorView: FunctionComponent<Props> = (props) => {
   const currentState = props.state
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require('../../assets/images/blue/imageErreur.png')}
+      <CircularIcon
+        style={styles.icon}
+        source={require('../../assets/images/networkErrorIcon.png')}
       />
       <Text style={styles.title}>{i18n.t('common.error_title')}</Text>
       <Text style={styles.text}>{currentState.errorMessage}</Text>
@@ -37,11 +38,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.defaultBackground,
   },
-  image: {
+  icon: {
     alignSelf: 'center',
-    height: 165,
     marginHorizontal: Spacing.margin,
-    width: 221,
   },
   retryButton: {
     marginHorizontal: Spacing.margin,

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { BorderlessButton } from '../shared/Buttons'
+import CircularIcon from '../shared/CircularIcon'
 
 type Props = {
   onAuthorizationRequest: () => void
@@ -11,9 +12,9 @@ type Props = {
 const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
   return (
     <View style={styles.container}>
-      <Image
+      <CircularIcon
         style={styles.phone}
-        source={require('../../assets/images/blue/locationPhone.png')}
+        source={require('../../assets/images/mapIcon.png')}
       />
       <Text style={styles.title}>{i18n.t('doorToDoor.location.title')}</Text>
       <Text style={styles.subtitle}>

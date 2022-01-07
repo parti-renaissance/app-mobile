@@ -2,7 +2,7 @@ import { TextStyle } from 'react-native'
 import { Theme } from 'react-native-country-picker-modal/lib/CountryTheme'
 import * as Colors from './colors'
 
-const titleFontSize = 24
+const titleFontSize = 45
 const androidNavigationTitleFontSize = 20
 const title2FontSize = 16
 const title3FontSize = 20
@@ -16,6 +16,7 @@ const caption2FontSize = 8
 
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
+const maaxMedium = 'Maax-Medium'
 
 export const footnote: TextStyle = {
   fontSize: footnoteFontSize,
@@ -41,8 +42,14 @@ export const largeTitle: TextStyle = {
 
 export const title: TextStyle = {
   fontSize: titleFontSize,
-  fontFamily: robotoMedium,
+  fontFamily: maaxMedium,
   color: Colors.darkText,
+}
+
+export const highlightedTitle: TextStyle = {
+  fontSize: titleFontSize,
+  fontFamily: maaxMedium,
+  color: Colors.accent,
 }
 
 export const androidNavigationTitle: TextStyle = {
@@ -127,7 +134,7 @@ export const lightCaption1OnLightBackground: TextStyle = {
 export const tagCaption: TextStyle = {
   fontSize: caption2FontSize,
   fontFamily: robotoRegular,
-  color: Colors.veryLightText,
+  color: Colors.darkText,
   textTransform: 'uppercase',
 }
 

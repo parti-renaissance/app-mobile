@@ -1,9 +1,6 @@
 import React from 'react'
-import { Image, Platform } from 'react-native'
-
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { Image, Pressable, View, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
 import { Colors, Spacing, Typography } from '../styles'
 import ToolsScreen from './tools/ToolsScreen'
 import i18n from '../utils/i18n'
@@ -11,9 +8,9 @@ import { Screen } from '../navigation'
 import HomeNavigator from './home/HomeNavigator'
 import EventNavigator from './events/EventNavigator'
 import ActionsNavigator from './actions/ActionsNavigator'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-const TabAndroid = createMaterialBottomTabNavigator()
-const TabIos = createBottomTabNavigator()
+const Tab = createBottomTabNavigator()
 
 const getTabBarIcon = (route: any, focused: boolean) => {
   if (route.name === Screen.actions) {
@@ -39,101 +36,94 @@ const getTabBarIcon = (route: any, focused: boolean) => {
   }
 }
 
-const AuthenticatedHomeScreenAndroid = () => {
-  return (
-    <TabAndroid.Navigator
-      initialRouteName={Screen.homeNavigator}
-      backBehavior="initialRoute"
-      activeColor={Colors.coloredText}
-      inactiveColor={Colors.tab}
-      shifting={false}
-      barStyle={{ backgroundColor: Colors.defaultBackground }}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, focused }) => {
-          return (
-            <Image
-              source={getTabBarIcon(route, focused)}
-              style={{ tintColor: color }}
-            />
-          )
-        },
-      })}
-    >
-      <TabAndroid.Screen
-        name={Screen.homeNavigator}
-        component={HomeNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_home') }}
-      />
-      <TabAndroid.Screen
-        name={Screen.actions}
-        component={ActionsNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_actions') }}
-      />
-      <TabAndroid.Screen
-        name={Screen.eventNavigator}
-        component={EventNavigator}
-        options={{ tabBarLabel: i18n.t('tab.item_events') }}
-      />
-      <TabAndroid.Screen
-        name={Screen.tools}
-        component={ToolsScreen}
-        options={{ tabBarLabel: i18n.t('tab.item_tools') }}
-      />
-    </TabAndroid.Navigator>
-  )
-}
+const TAB_BAR_HEIGTH = 60
+const HIGHLIGHTED_TAB_BACKGROUND_SIZE = 36
 
-const AuthenticatedHomeScreenIos = () => {
+const AuthenticatedHomeScreen = () => {
+  const insets = useSafeAreaInsets()
   return (
-    <TabIos.Navigator
+    <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: Colors.coloredText,
-        inactiveTintColor: Colors.tab,
+        activeTintColor: Colors.tabBarActiveTint,
+        inactiveTintColor: Colors.tabBarInactiveTint,
         labelStyle: {
           ...Typography.tabLabel,
+          marginTop: Spacing.margin,
           marginBottom: Spacing.small,
+        },
+        style: {
+          backgroundColor: Colors.tabBarBackground,
+          height: TAB_BAR_HEIGTH + insets.bottom,
         },
       }}
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, focused }) => {
+        tabBarButton: (props) => {
           return (
-            <Image
-              source={getTabBarIcon(route, focused)}
-              style={{ tintColor: color }}
+            <Pressable
+              android_ripple={{ color: Colors.tabBarRipple }}
+              {...props}
             />
+          )
+        },
+        tabBarIcon: ({ color, focused }) => {
+          const isHighlighted = route.name === Screen.actions
+          return (
+            <View
+              style={[
+                styles.iconContainer,
+                isHighlighted ? styles.highlightedIconContainer : undefined,
+              ]}
+            >
+              <Image
+                source={getTabBarIcon(route, focused)}
+                style={{
+                  tintColor: isHighlighted
+                    ? Colors.activeItemBackground
+                    : color,
+                }}
+              />
+            </View>
           )
         },
       })}
     >
-      <TabIos.Screen
+      <Tab.Screen
         name={Screen.homeNavigator}
         component={HomeNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
       />
-      <TabIos.Screen
+      <Tab.Screen
         name={Screen.actions}
         component={ActionsNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_actions') }}
       />
-      <TabIos.Screen
+      <Tab.Screen
         name={Screen.eventNavigator}
         component={EventNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_events') }}
       />
-      <TabIos.Screen
+      <Tab.Screen
         name={Screen.tools}
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
       />
-    </TabIos.Navigator>
+    </Tab.Navigator>
   )
 }
 
-const AuthenticatedHomeScreen = () =>
-  Platform.OS === 'android' ? (
-    <AuthenticatedHomeScreenAndroid />
-  ) : (
-    <AuthenticatedHomeScreenIos />
-  )
+const styles = StyleSheet.create({
+  highlightedIconContainer: {
+    alignItems: 'center',
+    backgroundColor: Colors.accent,
+    borderRadius: 8,
+    height: HIGHLIGHTED_TAB_BACKGROUND_SIZE,
+    justifyContent: 'center',
+    padding: 8,
+    width: HIGHLIGHTED_TAB_BACKGROUND_SIZE,
+  },
+  iconContainer: {
+    marginTop: Spacing.margin + Spacing.small,
+  },
+})
 
 export default AuthenticatedHomeScreen

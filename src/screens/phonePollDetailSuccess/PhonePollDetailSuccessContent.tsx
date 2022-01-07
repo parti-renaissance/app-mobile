@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Image, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import CircularIcon from '../shared/CircularIcon'
 import { VerticalSpacer } from '../shared/Spacer'
 import { PhonePollDetailSuccessProgressContent } from './PhonePollDetailSuccessProgressContent'
 import { PhonePollDetailSuccessRowSuccessViewModel } from './PhonePollDetailSuccessViewModel'
@@ -24,10 +25,9 @@ export const PhonePollDetailSuccessContent: FunctionComponent<Props> = ({
         <PhonePollDetailSuccessProgressContent viewModel={viewModel} />
       </View>
       <VerticalSpacer spacing={Spacing.margin} />
-      <Image
+      <CircularIcon
         style={styles.image}
-        source={require('../../assets/images/blue/imageMerci.png')}
-        resizeMode="cover"
+        source={require('../../assets/images/imageMerci.png')}
       />
       <View style={styles.content}>
         <VerticalSpacer spacing={Spacing.margin} />
@@ -50,8 +50,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.margin,
   },
   image: {
-    aspectRatio: 395 / 283,
-    height: undefined,
-    width: '100%',
+    marginBottom: Spacing.margin,
+    marginTop: Spacing.margin,
   },
 })

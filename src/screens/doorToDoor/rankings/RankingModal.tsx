@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { Colors, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
-import { NavigationHeaderButton } from '../../shared/NavigationHeaderButton'
+import { CloseButton } from '../../shared/NavigationHeaderButton'
 import { DoorToDoorCampaignCardViewModelMapper } from '../DoorToDoorCampaignCardViewModelMapper'
 import { RankingRowViewModel, Tab } from './Ranking'
 import { RankingCampaignHeader } from './RankingCampaignHeader'
@@ -31,10 +31,7 @@ const RankingModal: FC<Props> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <NavigationHeaderButton
-          source={require('../../../assets/images/navigationBarClose.png')}
-          onPress={props.onDismissModal}
-        />
+        <CloseButton onPress={props.onDismissModal} />
         <Text style={styles.headerTitle}>
           {i18n.t('doorToDoor.ranking.title')}
         </Text>

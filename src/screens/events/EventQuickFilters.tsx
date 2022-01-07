@@ -10,7 +10,7 @@ import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
 } from '../shared/SelectableIconLabelView'
 import { PrimaryButton } from '../shared/Buttons'
-import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
+import { CloseButton } from '../shared/NavigationHeaderButton'
 import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMapper'
 import { EventMode } from '../../core/entities/Event'
 
@@ -70,10 +70,7 @@ const EventQuickFilters: FC<Props> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <NavigationHeaderButton
-          source={require('../../assets/images/navigationBarClose.png')}
-          onPress={props.onDismissModal}
-        />
+        <CloseButton onPress={props.onDismissModal} />
         <Text style={styles.headerTitle}>{i18n.t('events.filters.title')}</Text>
         <TouchableOpacity onPress={clear}>
           <Text style={styles.headerClearFilters}>

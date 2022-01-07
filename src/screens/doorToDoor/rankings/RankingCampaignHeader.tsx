@@ -23,7 +23,7 @@ export const RankingCampaignHeader = ({ viewModel }: Props) => {
             {viewModel.goal} questionnaires remplis
           </Text>
         </View>
-        <ProgressBar progress={0.3} color={Colors.primaryColor} />
+        <ProgressBar progress={0.3} color={Colors.accent} />
       </View>
     </View>
   )
