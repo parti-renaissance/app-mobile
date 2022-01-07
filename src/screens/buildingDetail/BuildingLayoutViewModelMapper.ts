@@ -5,7 +5,10 @@ import {
   BuildingBlockHelper,
 } from './../../core/entities/BuildingBlock'
 import { BuildingLayoutViewModel } from './BuildingLayoutView'
-import { BuildingType } from '../../core/entities/DoorToDoor'
+import {
+  BuildingType,
+  DoorToDoorAddressStatus,
+} from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
 import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
 import { ImageSourcePropType } from 'react-native'
@@ -13,12 +16,14 @@ import { ImageSourcePropType } from 'react-native'
 export const BuildingLayoutViewModelMapper = {
   map: (
     type: BuildingType,
+    status: DoorToDoorAddressStatus,
     blocks: BuildingBlock[],
   ): BuildingLayoutViewModel => {
     return {
       buildings: blocks.map((block) => {
-        return blockCardViewModel(block, type)
+        return blockCardViewModel(block, type, status)
       }),
+      buildingStatus: status,
     }
   },
 }
@@ -26,6 +31,7 @@ export const BuildingLayoutViewModelMapper = {
 function blockCardViewModel(
   block: BuildingBlock,
   type: BuildingType,
+  status: DoorToDoorAddressStatus,
 ): BuildingLayoutBlockCardViewModel {
   let statusAction: string
   if (block.status === 'completed') {
@@ -73,6 +79,7 @@ function blockCardViewModel(
     floors: floors.map((floor) => floorCellViewModel(block.name, floor)),
     local: block.local,
     statusAction: statusAction,
+    editable: status !== 'completed',
   }
 }
 

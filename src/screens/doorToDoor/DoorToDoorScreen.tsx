@@ -117,7 +117,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   const navigateToBuildingDetail = (id: string) => {
     const address = addresses.find((item) => item.id === id)
-    console.log(address)
     navigation.navigate(Screen.buildingDetail, {
       address: address,
     })

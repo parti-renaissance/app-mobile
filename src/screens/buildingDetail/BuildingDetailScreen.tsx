@@ -32,6 +32,11 @@ import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
+import { PrimaryButton } from '../shared/Buttons'
+import {
+  DoorToDoorAddress,
+  DoorToDoorAddressStatus,
+} from '../../core/entities/DoorToDoor'
 
 enum Tab {
   HISTORY,
@@ -52,6 +57,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     layout,
   )
   const buildingBlockHelper = new BuildingBlockHelper()
+  const buildingStatus = route.params.address.building.campaignStatistics.status
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -209,6 +215,68 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     )
   }
 
+  const updateAddressStatus = (
+    address: DoorToDoorAddress,
+    newStatus: DoorToDoorAddressStatus,
+  ): DoorToDoorAddress => {
+    return {
+      ...address,
+      building: {
+        ...address.building,
+        campaignStatistics: {
+          ...address.building.campaignStatistics,
+          status: newStatus,
+        },
+      },
+    }
+  }
+
+  const closeAddress = () => {
+    AlertUtils.showSimpleAlert(
+      i18n.t('building.close_address.alert.title'),
+      i18n.t('building.close_address.alert.message'),
+      i18n.t('building.close_address.alert.action'),
+      i18n.t('building.close_address.alert.cancel'),
+      () => {
+        setIsloading(true)
+        DoorToDoorRepository.getInstance()
+          .closeBuilding(
+            route.params.address.building.campaignStatistics.campaignId,
+            route.params.address.building.id,
+          )
+          .then(() => {
+            navigation.setParams({
+              address: updateAddressStatus(route.params.address, 'completed'),
+            })
+          })
+          .finally(() => setIsloading(false))
+      },
+    )
+  }
+
+  const openAddress = () => {
+    AlertUtils.showSimpleAlert(
+      i18n.t('building.open_address.alert.title'),
+      i18n.t('building.open_address.alert.message'),
+      i18n.t('building.open_address.alert.action'),
+      i18n.t('building.open_address.alert.cancel'),
+      () => {
+        setIsloading(true)
+        DoorToDoorRepository.getInstance()
+          .openBuilding(
+            route.params.address.building.campaignStatistics.campaignId,
+            route.params.address.building.id,
+          )
+          .then(() => {
+            navigation.setParams({
+              address: updateAddressStatus(route.params.address, 'ongoing'),
+            })
+          })
+          .finally(() => setIsloading(false))
+      },
+    )
+  }
+
   const renderTab = (currentTab: Tab) => {
     switch (currentTab) {
       case Tab.HISTORY:
@@ -244,6 +312,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             onBuildingAction={(buildingBlockId: string) => {
               handleBuildingAction(buildingBlockId)
             }}
+            onOpenAddress={openAddress}
           />
         )
     }
@@ -299,6 +368,13 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           </View>
           {renderTab(tab)}
         </ScrollView>
+        {buildingStatus !== 'completed' ? (
+          <PrimaryButton
+            style={styles.closeAddress}
+            onPress={closeAddress}
+            title={i18n.t('building.close_address.action')}
+          />
+        ) : null}
       </>
     </SafeAreaView>
   )
@@ -309,6 +385,14 @@ const styles = StyleSheet.create({
     ...Typography.title2,
     marginTop: mediumMargin,
     textAlign: 'center',
+  },
+  closeAddress: {
+    bottom: 0,
+    left: 0,
+    marginBottom: Spacing.margin,
+    marginHorizontal: Spacing.margin,
+    position: 'absolute',
+    right: 0,
   },
   container: {
     backgroundColor: Colors.defaultBackground,

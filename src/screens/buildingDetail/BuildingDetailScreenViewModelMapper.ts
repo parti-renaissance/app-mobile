@@ -37,6 +37,7 @@ export const BuildingDetailScreenViewModelMapper = {
       history: BuildingHistoryViewModelMapper.map(history),
       buildingLayout: BuildingLayoutViewModelMapper.map(
         address.building.type,
+        address.building.campaignStatistics.status,
         layout,
       ),
       campaignId: address.building.campaignStatistics.campaignId,

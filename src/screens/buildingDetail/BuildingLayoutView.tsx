@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 import { Text } from 'react-native-paper'
+import { DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, unit } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
+import { BorderlessButton } from '../shared/Buttons'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingLayoutBlockCardView, {
@@ -12,6 +14,7 @@ import BuildingLayoutBlockCardView, {
 
 export interface BuildingLayoutViewModel {
   buildings: BuildingLayoutBlockCardViewModel[]
+  buildingStatus: DoorToDoorAddressStatus
 }
 
 type Props = Readonly<{
@@ -22,6 +25,7 @@ type Props = Readonly<{
   onRemoveBuildingBlock: (buildingBlockId: string) => void
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
   onBuildingAction: (buildingBlockId: string) => void
+  onOpenAddress: () => void
 }>
 
 const BuildingLayoutView: FunctionComponent<Props> = ({
@@ -32,6 +36,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onRemoveBuildingBlock,
   onRemoveBuildingFloor,
   onBuildingAction,
+  onOpenAddress,
 }) => {
   return (
     <View style={styles.container}>
@@ -49,7 +54,15 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           />
         )
       })}
-      <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
+      {viewModel.buildingStatus === 'completed' ? (
+        <BorderlessButton
+          textStyle={styles.openAddress}
+          title={i18n.t('building.open_address.action')}
+          onPress={onOpenAddress}
+        />
+      ) : (
+        <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
+      )}
     </View>
   )
 }
@@ -93,7 +106,8 @@ const styles = StyleSheet.create({
     padding: margin,
   },
   newBuildingCard: {
-    marginVertical: Spacing.unit,
+    marginBottom: Spacing.extraExtraLargeMargin,
+    marginTop: Spacing.unit,
   },
   newBuildingContainer: {
     alignItems: 'center',
@@ -107,6 +121,10 @@ const styles = StyleSheet.create({
     tintColor: Colors.primaryColor,
   },
   newBuildingText: {
+    ...Typography.callout,
+    color: Colors.primaryColor,
+  },
+  openAddress: {
     ...Typography.callout,
     color: Colors.primaryColor,
   },
