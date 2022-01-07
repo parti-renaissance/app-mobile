@@ -41,16 +41,8 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
 
   const initialRegion = {
     ...initialPosition,
-    latitudeDelta: 0.1,
-    longitudeDelta: 0.1,
-  }
-
-  const initialCamera = {
-    zoom: 12,
-    pitch: 0,
-    heading: 0,
-    altitude: 2000,
-    center: initialPosition,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
   }
 
   useEffect(() => {
@@ -94,11 +86,26 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
     <>
       <MapView
         style={styles.map}
-        initialCamera={initialCamera}
         initialRegion={initialRegion}
+        rotateEnabled={false}
+        showsPointsOfInterest={true}
+        showsCompass={false}
+        showsBuildings={true}
+        showsIndoors={false}
+        pitchEnabled={false}
+        loadingEnabled={true}
+        maxZoomLevel={20}
+        minZoomLevel={10}
         renderCluster={(cluster) => (
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
+        // Android only
+        toolbarEnabled={false}
+        // iOS only
+        showsScale={true}
+        // Clustering
+        minPoints={3}
+        nodeSize={8} // performance optimization
       >
         <Marker
           coordinate={currentPosition}
