@@ -16,7 +16,7 @@ export interface RestDoorToDoorAddress {
       nb_surveys: number
       last_passage: string | null
       status: 'todo' | 'ongoing' | 'completed'
-      last_passage_done_by: {
+      last_passage_done_by?: {
         first_name: string
         last_name: string
         uuid: string

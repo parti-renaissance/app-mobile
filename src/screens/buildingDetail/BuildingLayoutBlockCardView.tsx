@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     color: Colors.primaryColor,
   },
   layoutContainer: {
-    backgroundColor: Colors.groupedListBackground,
+    backgroundColor: Colors.secondaryButtonBackground,
     borderRadius: 8,
     margin: margin,
   },

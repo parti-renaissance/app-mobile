@@ -13,8 +13,10 @@ export const RankingRowView = ({ viewModel }: Props) => {
       ? [styles.row, styles.rowEven]
       : [styles.row, styles.rowOdd]
 
+  const rowHighlightedStyle = viewModel.highlight ? styles.rowHighlighted : null
+
   return (
-    <View style={rowStyle}>
+    <View style={[rowStyle, rowHighlightedStyle]}>
       <Text style={styles.cell}>{viewModel.rank}</Text>
       <Text style={styles.cellLarge}>{viewModel.name}</Text>
       <Text style={styles.cell}>{viewModel.doorKnocked}</Text>
@@ -34,11 +36,16 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    marginHorizontal: Spacing.unit,
     paddingStart: Spacing.margin,
     paddingVertical: Spacing.margin,
   },
   rowEven: {
     backgroundColor: Colors.defaultBackground,
+  },
+  rowHighlighted: {
+    borderColor: Colors.primaryColor,
+    borderWidth: 1,
   },
   rowOdd: {
     backgroundColor: Colors.lightBackground,

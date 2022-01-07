@@ -478,6 +478,8 @@
       "title": "Porte-à-porte",
       "address": "{{number}} {{street}}",
       "goal": "Mon objectif : ",
+      "goal_format": "{{current}}/{{goal}}",
+      "campaign_deadline": "jusqu’au {{date}}",
       "lastPassage": "Dernier passage :",
       "noPassage": "Aucun passage",
       "passageOn": "le {{date}}",

@@ -7,10 +7,15 @@ import { Spacing } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
-import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
+import {
+  DoorToDoorMapMarker,
+  MARKER_DEFAULT_ANCHOR,
+} from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
+import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
+import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 
 type Props = {
   data: DoorToDoorAddress[]
@@ -38,16 +43,8 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
 
   const initialRegion = {
     ...initialPosition,
-    latitudeDelta: 0.1,
-    longitudeDelta: 0.1,
-  }
-
-  const initialCamera = {
-    zoom: 12,
-    pitch: 0,
-    heading: 0,
-    altitude: 2000,
-    center: initialPosition,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
   }
 
   useEffect(() => {
@@ -70,37 +67,68 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
     })
   }
 
-  const Popup = () => (
-    <Pressable
-      style={styles.popupWrap}
-      onPress={() => setPopup({ visible: false })}
-    >
-      <Pressable style={styles.popup}>
-        <PoiAddressCard
-          onPress={onAddressPress}
-          viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
-        />
-        <DoorToDoorCampaignCard
-          viewModel={DoorToDoorCampaignCardViewModelMapper.map()}
-        />
+  const Popup = () => {
+    const [
+      viewModel,
+      setViewModel,
+    ] = useState<DoorToDoorCampaignCardViewModel>()
+
+    useEffect(() => {
+      if (popup.value) {
+        new GetDoorToDoorCampaignPopupInteractor()
+          .execute(popup.value?.building.campaignStatistics.campaignId)
+          .then((result) => {
+            setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
+          })
+      }
+    }, [])
+
+    return (
+      <Pressable
+        style={styles.popupWrap}
+        onPress={() => setPopup({ visible: false })}
+      >
+        <Pressable style={styles.popup}>
+          <PoiAddressCard
+            onPress={onAddressPress}
+            viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
+          />
+          {viewModel ? <DoorToDoorCampaignCard viewModel={viewModel} /> : null}
+        </Pressable>
       </Pressable>
-    </Pressable>
-  )
+    )
+  }
 
   return (
     <>
       <MapView
         style={styles.map}
-        initialCamera={initialCamera}
         initialRegion={initialRegion}
+        rotateEnabled={false}
+        showsPointsOfInterest={true}
+        showsCompass={false}
+        showsBuildings={true}
+        showsIndoors={false}
+        pitchEnabled={false}
+        loadingEnabled={true}
+        maxZoomLevel={20}
+        minZoomLevel={10}
         renderCluster={(cluster) => (
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
+        // Android only
+        toolbarEnabled={false}
+        // iOS only
+        showsScale={true}
+        // Clustering
+        minPoints={3}
+        nodeSize={8} // performance optimization
       >
         <Marker
           coordinate={currentPosition}
           tracksViewChanges={false}
           {...markerExtraProps}
+          anchor={MARKER_DEFAULT_ANCHOR}
         >
           <Image source={require('../../assets/images/papPositionIcon.png')} />
         </Marker>

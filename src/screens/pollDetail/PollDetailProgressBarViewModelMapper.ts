@@ -13,7 +13,7 @@ const formattedStepType = (stepType: StepType): string | undefined => {
     case 'phoneSatisfaction':
       return i18n.t('phonepolldetail.phone_satisfaction')
     case 'doorToDoorQualification':
-      return i18n.t('doorToDoor.tunnel.qualification.title')
+      return i18n.t('doorToDoor.tunnel.door.qualification.title')
   }
 }
 

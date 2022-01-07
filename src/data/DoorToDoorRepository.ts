@@ -20,6 +20,7 @@ import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRank
 import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
 import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { DataSource } from './DataSource'
+import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -28,6 +29,8 @@ class DoorToDoorRepository {
   private pollConfigCache = new Map<string, DoorToDoorPollConfig>()
   private pollCache = new Map<string, Poll>()
   private pollTutorialCache: string | undefined
+  private campaignCache = new Map<string, DoorToDoorCampaign>()
+  private campaignRankingCache = new Map<string, DoorToDoorCampaignRanking>()
 
   public static getInstance(): DoorToDoorRepository {
     if (!DoorToDoorRepository.instance) {
@@ -202,11 +205,23 @@ class DoorToDoorRepository {
 
   public async getDoorToDoorCampaignRanking(
     campaignId: string,
+    preferedDataSource: DataSource = 'cache',
   ): Promise<DoorToDoorCampaignRanking> {
-    const restRanking = await this.apiService.getDoorToDoorCampaignRanking(
+    if (
+      preferedDataSource === 'cache' &&
+      this.campaignRankingCache.has(campaignId)
+    ) {
+      const ranking = this.campaignRankingCache.get(campaignId)
+      if (ranking) return ranking
+    }
+    const fetchedCampaignRanking = await this.apiService.getDoorToDoorCampaignRanking(
       campaignId,
     )
-    return DoorToDoorCampaignRankingMapper.map(restRanking)
+    const campaignRanking = DoorToDoorCampaignRankingMapper.map(
+      fetchedCampaignRanking,
+    )
+    this.campaignRankingCache.set(campaignId, campaignRanking)
+    return campaignRanking
   }
 
   public async getDoorToDoorTutorial(): Promise<string> {
@@ -223,6 +238,21 @@ class DoorToDoorRepository {
     await this.apiService.updateBuildingType(buildingId, {
       type: buildingType,
     })
+  }
+
+  public async getCampaign(
+    campaignId: string,
+    preferedDataSource: DataSource = 'cache',
+  ): Promise<DoorToDoorCampaign> {
+    if (preferedDataSource === 'cache' && this.campaignCache.has(campaignId)) {
+      const campaign = this.campaignCache.get(campaignId)
+      if (campaign) return campaign
+    }
+    const fetchedCampaign = await this.apiService.getDoorToDoorCampaign(
+      campaignId,
+    )
+    this.campaignCache.set(campaignId, fetchedCampaign)
+    return fetchedCampaign
   }
 }
 

@@ -27,7 +27,7 @@ const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
 const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
-    backgroundColor: Colors.groupedListBackground,
+    backgroundColor: Colors.secondaryButtonBackground,
     borderRadius: 8,
     margin: Spacing.margin,
     padding: Spacing.margin,

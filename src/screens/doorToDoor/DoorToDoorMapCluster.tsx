@@ -4,6 +4,7 @@ import { Marker } from 'react-native-maps'
 import { Colors, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import { ClusterTypeViewModel } from './DoorToDoor'
+import { MARKER_DEFAULT_ANCHOR } from './DoorToDoorMapMarker'
 
 export const DoorToDoorMapCluster = memo((cluster: ClusterTypeViewModel) => (
   <Marker
@@ -12,6 +13,7 @@ export const DoorToDoorMapCluster = memo((cluster: ClusterTypeViewModel) => (
       latitude: cluster.geometry.coordinates[1],
     }}
     onPress={cluster.onPress}
+    anchor={MARKER_DEFAULT_ANCHOR}
   >
     <CardView backgroundColor={Colors.defaultBackground}>
       <View style={styles.cluster}>
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
     width: 40,
   },
   count: {
-    ...Typography.title,
+    ...Typography.title3,
     textAlign: 'center',
   },
 })

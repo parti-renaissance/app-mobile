@@ -9,4 +9,5 @@ export interface RankingRowViewModel {
   doorKnocked: string
   pollsCompleted: string
   position: number
+  highlight: boolean
 }

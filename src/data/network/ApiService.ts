@@ -58,6 +58,7 @@ import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPo
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
+import { DoorToDoorCampaign } from '../../core/entities/DoorToDoorCampaign'
 
 class ApiService {
   private static instance: ApiService
@@ -438,6 +439,15 @@ class ApiService {
         `api/v3/pap/address/near?latitude=${latitude}&longitude=${longitude}&zoom=${zoom}`,
       )
       .json<RestDoorToDoorAddress[]>()
+      .catch(genericErrorMapping)
+  }
+
+  public getDoorToDoorCampaign(
+    campaignId: string,
+  ): Promise<DoorToDoorCampaign> {
+    return this.httpClient
+      .get(`api/v3/pap_campaigns/${campaignId}`)
+      .json<DoorToDoorCampaign>()
       .catch(genericErrorMapping)
   }
 

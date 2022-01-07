@@ -15,12 +15,13 @@ export class GetDoorToDoorAddressesInteractor {
       longitude,
       MAP_DEFAULT_ZOOM,
     )
-    await this.repository.getDoorToDoorTutorial()
     const campaignIds = new Set<string>()
     addresses.forEach((address) =>
       campaignIds.add(address.building.campaignStatistics.campaignId),
     )
     campaignIds.forEach(async (id) => {
+      await this.repository.getCampaign(id, 'remote')
+      await this.repository.getDoorToDoorCampaignRanking(id, 'remote')
       await this.repository.getDoorToDoorPollConfig(id, 'remote')
       await this.repository.getDoorToDoorPoll(id, 'remote')
     })

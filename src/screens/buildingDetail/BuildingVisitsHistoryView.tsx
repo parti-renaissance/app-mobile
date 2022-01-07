@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { FunctionComponent } from 'react'
 import { margin, unit } from '../../styles/spacing'
-import { Colors, Typography } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import {
   BuildingHistoryViewModel,
   BuildingVisitsDateRecordsViewModel,
@@ -86,8 +86,9 @@ const styles = StyleSheet.create({
     marginBottom: unit,
   },
   container: {
+    paddingBottom: Spacing.extraExtraLargeMargin,
     paddingHorizontal: margin,
-    paddingVertical: unit,
+    paddingTop: Spacing.unit,
   },
   dateContainer: {
     marginRight: unit,

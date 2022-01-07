@@ -109,7 +109,7 @@ export const lightBody: TextStyle = {
 
 export const callout: TextStyle = {
   fontSize: calloutFontSize,
-  fontFamily: robotoMedium,
+  fontFamily: maaxMedium,
   color: Colors.darkText,
 }
 
