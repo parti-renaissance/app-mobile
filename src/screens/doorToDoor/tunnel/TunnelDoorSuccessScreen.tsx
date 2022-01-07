@@ -8,7 +8,10 @@ import {
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { DoorToDoorCampaignRanking } from '../../../core/entities/DoorToDoorCampaignRanking'
+import {
+  DoorToDoorCampaignRanking,
+  DoorToDoorCampaignRankingItem,
+} from '../../../core/entities/DoorToDoorCampaignRanking'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
 import { Screen, DoorToDoorTunnelSuccessScreenProp } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
@@ -26,11 +29,13 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
 }) => {
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
   const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
+  const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>()
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()
       .getDoorToDoorCampaignRanking(route.params.campaignId)
       .then((result) => {
+        setUserStats(result.individual.find((item) => item.current))
         setRanking(result)
       })
   }, [route.params, setRanking])
@@ -47,7 +52,10 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
           {i18n.t('doorToDoor.tunnel.success.newDoor')}
         </Text>
         <Text style={styles.note}>
-          {i18n.t('doorToDoor.tunnel.success.recap')}
+          {i18n.t('doorToDoor.tunnel.success.recap', {
+            doorsCount: userStats?.visitedDoors ?? 0,
+            pollsCount: userStats?.surveys ?? 0,
+          })}
         </Text>
 
         <SecondaryButton

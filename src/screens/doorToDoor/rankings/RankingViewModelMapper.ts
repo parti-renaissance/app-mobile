@@ -17,6 +17,7 @@ export const RankingViewModelMapper = {
         doorKnocked: item.visitedDoors.toString(),
         pollsCompleted: item.surveys.toString(),
         position: item.rank,
+        highlight: item.current,
       }
     })
   },
