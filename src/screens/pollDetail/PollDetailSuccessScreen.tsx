@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, BackHandler } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PollDetailSuccessScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
