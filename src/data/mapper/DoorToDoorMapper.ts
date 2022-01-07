@@ -15,9 +15,9 @@ export const DoorToDoorMapper = {
         lastPassage: mapLastPassage(rest_campaign.last_passage),
         campaignId: rest_campaign.campaign.uuid,
         lastPassageDoneBy: {
-          firstName: rest_campaign.last_passage_done_by.first_name,
-          lastName: rest_campaign.last_passage_done_by.last_name,
-          id: rest_campaign.last_passage_done_by.uuid,
+          firstName: rest_campaign.last_passage_done_by?.first_name ?? '',
+          lastName: rest_campaign.last_passage_done_by?.last_name ?? '',
+          id: rest_campaign.last_passage_done_by?.uuid ?? '',
         },
       }
       const building = {
