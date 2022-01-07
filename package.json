@@ -37,7 +37,7 @@
     "@react-native-firebase/iid": "11.5.0",
     "@react-native-firebase/messaging": "11.5.0",
     "@react-native-picker/picker": "1.9.11",
-    "@react-navigation/bottom-tabs": "5.10.6",
+    "@react-navigation/bottom-tabs": "5.11.15",
     "@react-navigation/native": "5.8.6",
     "@react-navigation/stack": "5.12.3",
     "@sentry/react-native": "3.2.4",
