@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   },
   row: {
     backgroundColor: Colors.secondaryButtonBackground,
+    borderRadius: 32,
     flex: 1,
     marginBottom: Spacing.unit,
     overflow: 'hidden',
