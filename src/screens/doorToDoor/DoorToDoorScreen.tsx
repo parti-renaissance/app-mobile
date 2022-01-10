@@ -4,15 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  ImageSourcePropType,
-} from 'react-native'
+import { Modal, StyleSheet, Text, SafeAreaView, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LocationAuthorization from './LocationAuthorization'
@@ -34,9 +26,6 @@ import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from 'react-native-geolocation-service'
 import { Screen } from '../../navigation'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
-import { HorizontalSpacer } from '../shared/Spacer'
-
-const DEFAULT_ZOOM = 16
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
@@ -156,20 +145,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
               data={filteredAddresses}
               location={location}
               onAddressPress={navigateToBuildingDetail}
-            >
-              <View style={styles.mapButtonListContainer}>
-                <MapButton
-                  onPress={() => {}}
-                  text="Rechercher dans la zone"
-                  image={require('./../../assets/images/loopArrow.png')}
-                />
-                <HorizontalSpacer spacing={Spacing.margin} />
-                <MapButton
-                  onPress={() => {}}
-                  image={require('./../../assets/images/gpsPosition.png')}
-                />
-              </View>
-            </DoorToDoorMapView>
+            />
           ) : (
             <DoorToDoorListView
               data={filteredAddresses}
@@ -181,27 +157,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
         <LocationAuthorization onAuthorizationRequest={requestPermission} />
       )}
     </SafeAreaView>
-  )
-}
-
-type Props = {
-  onPress: () => void
-  text?: string
-  image: ImageSourcePropType
-}
-
-const MapButton: FunctionComponent<Props> = ({ onPress, text, image }) => {
-  return (
-    <TouchablePlatform
-      style={styles.searchHereButton}
-      onPress={onPress}
-      touchHighlight={Colors.touchHighlight}
-    >
-      <View style={styles.searchHereButtonContainer}>
-        <Image style={styles.mapButtonIcon} source={image} />
-        {text !== null && <Text style={styles.mapButtonText}>{text}</Text>}
-      </View>
-    </TouchablePlatform>
   )
 }
 
@@ -219,35 +174,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginRight: Spacing.unit,
     marginTop: Spacing.unit,
-  },
-  mapButtonIcon: {
-    alignSelf: 'center',
-    backgroundColor: 'red',
-    height: 16,
-    marginRight: Spacing.small,
-    width: 16,
-  },
-  mapButtonListContainer: {
-    backgroundColor: 'yellow',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    margin: Spacing.margin,
-  },
-  mapButtonText: {
-    ...Typography.callout,
-    backgroundColor: 'green',
-    textAlign: 'center',
-  },
-  searchHereButton: {
-    backgroundColor: 'blue',
-    flex: 0,
-  },
-  searchHereButtonContainer: {
-    backgroundColor: Colors.defaultBackground,
-    borderRadius: 20,
-    flexDirection: 'row',
-    height: 40,
-    padding: Spacing.unit,
   },
   title: {
     ...Typography.highlightedTitle,

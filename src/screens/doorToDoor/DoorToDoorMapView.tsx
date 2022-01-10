@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, Pressable, StyleSheet } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-map-clustering'
 import { LatLng, Marker } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
-import { Spacing } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
@@ -16,9 +16,10 @@ import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
 import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
+import MapButton from './DoorToDoorMapButton'
+import { HorizontalSpacer } from '../shared/Spacer'
 
 type Props = {
-  children: JSX.Element
   data: DoorToDoorAddress[]
   location: LatLng
   onAddressPress: (id: string) => void
@@ -29,12 +30,8 @@ type PopupProps = {
   value?: DoorToDoorAddress
 }
 
-const DoorToDoorMapView = ({
-  data,
-  location,
-  onAddressPress,
-  children,
-}: Props) => {
+const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
+  const mapRef = useRef<Map>()
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
   const [popup, setPopup] = useState<PopupProps>({
     visible: false,
@@ -51,6 +48,16 @@ const DoorToDoorMapView = ({
     ...initialPosition,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
+  }
+
+  const moveToCurrentPositionRegion = () => {
+    let region = {
+      latitude: currentPosition.latitude,
+      longitude: currentPosition.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    }
+    mapRef.current.animateToRegion(region, 2000)
   }
 
   useEffect(() => {
@@ -106,8 +113,9 @@ const DoorToDoorMapView = ({
   }
 
   return (
-    <>
+    <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={initialRegion}
         rotateEnabled={false}
@@ -130,7 +138,6 @@ const DoorToDoorMapView = ({
         minPoints={3}
         nodeSize={8} // performance optimization
       >
-        {children}
         <Marker
           coordinate={currentPosition}
           tracksViewChanges={false}
@@ -151,14 +158,54 @@ const DoorToDoorMapView = ({
           />
         ))}
       </MapView>
+      <View style={styles.childContainer}>
+        <View style={styles.mapButtonListContainer}>
+          <MapButton
+            onPress={() => {}}
+            text="Rechercher dans la zone"
+            image={require('./../../assets/images/loopArrow.png')}
+          />
+          <HorizontalSpacer spacing={Spacing.margin} />
+          <MapButton
+            onPress={() => {
+              moveToCurrentPositionRegion()
+            }}
+            image={require('./../../assets/images/gpsPosition.png')}
+          />
+        </View>
+      </View>
       {popup.visible && <Popup />}
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  childContainer: {
+    position: 'absolute',
+    width: '100%',
+  },
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+  },
   map: {
     flex: 1,
+  },
+  mapButtonIcon: {
+    alignSelf: 'center',
+    height: 16,
+    width: 16,
+  },
+  mapButtonListContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    margin: Spacing.margin,
+  },
+  mapButtonText: {
+    ...Typography.callout,
+    alignSelf: 'center',
+    marginLeft: Spacing.small,
+    textAlign: 'center',
   },
   popup: {
     marginBottom: Spacing.unit,
@@ -171,6 +218,19 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
     width: Dimensions.get('window').width,
+  },
+  searchHereButton: {
+    borderRadius: 20,
+    flex: 0,
+    overflow: 'hidden',
+  },
+  searchHereButtonContainer: {
+    backgroundColor: Colors.defaultBackground,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    minHeight: 40,
+    minWidth: 40,
+    padding: Spacing.unit,
   },
 })
 
