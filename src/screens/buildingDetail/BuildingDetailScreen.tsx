@@ -38,19 +38,19 @@ import {
   DoorToDoorAddress,
   DoorToDoorAddressStatus,
 } from '../../core/entities/DoorToDoor'
+import { useIsFocused } from '@react-navigation/native'
+import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
 
 enum Tab {
   HISTORY,
   LAYOUT,
 }
 
-const HOUSE_DEFAULT_FLOOR_COUNT = 1
-const BUILDING_DEFAULT_FLOOR_COUNT = 3
-
 const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
 }) => {
+  const isFocused = useIsFocused()
   const [isLoading, setIsloading] = useState(false)
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
@@ -76,48 +76,33 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   })
 
   const fetchLayout = useCallback(() => {
+    new UpdateBuildingLayoutInteractor()
+      .execute(
+        route.params.address.building.id,
+        route.params.address.building.campaignStatistics.campaignId,
+        route.params.address.building.type,
+        layout,
+      )
+      .then((blocks) => setLayout(blocks))
+  }, [route.params.address.building, layout])
+
+  const fetchHistory = useCallback(() => {
     DoorToDoorRepository.getInstance()
-      .buildingBlocks(
+      .buildingHistory(
         route.params.address.building.id,
         route.params.address.building.campaignStatistics.campaignId,
       )
-      .then((blocks) => {
-        if (blocks.length === 0) {
-          blocks.push(
-            new BuildingBlockHelper().createLocalBlock(
-              AlphabetHelper.firstLetterInAlphabet,
-              route.params.address.building.type === 'building'
-                ? BUILDING_DEFAULT_FLOOR_COUNT
-                : HOUSE_DEFAULT_FLOOR_COUNT,
-            ),
-          )
-        }
-        setLayout(blocks)
+      .then((value) => {
+        setHistory(value)
       })
   }, [route.params.address.building])
 
   useEffect(() => {
-    const fetchHistory = () => {
-      DoorToDoorRepository.getInstance()
-        .buildingHistory(
-          route.params.address.building.id,
-          route.params.address.building.campaignStatistics.campaignId,
-        )
-        .then((value) => {
-          setHistory(value)
-        })
-        .catch(() => {
-          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
-        })
+    if (isFocused) {
+      fetchHistory()
+      fetchLayout()
     }
-
-    fetchHistory()
-    fetchLayout()
-  }, [
-    route.params.address.building.campaignStatistics.campaignId,
-    route.params.address.building.id,
-    fetchLayout,
-  ])
+  }, [isFocused])
 
   const showHistory = () => {
     setTab(Tab.HISTORY)
@@ -139,9 +124,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     layout.push(
       buildingBlockHelper.createLocalBlock(
         nextBuildingBlock,
-        route.params.address.building.type === 'building'
-          ? BUILDING_DEFAULT_FLOOR_COUNT
-          : HOUSE_DEFAULT_FLOOR_COUNT,
+        route.params.address.building.type,
       ),
     )
     setLayout([...layout])

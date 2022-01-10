@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from 'react'
 import {
   FlatList,
   Image,
@@ -17,6 +17,7 @@ import { Screen, DoorToDoorTunnelSuccessScreenProp } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
+import { CloseButton } from '../../shared/NavigationHeaderButton'
 import { RankingRowViewModel, Tab } from '../rankings/Ranking'
 import { RankingHeaderView } from '../rankings/RankingHeaderView'
 import { RankingRowView } from '../rankings/RankingRowView'
@@ -30,6 +31,16 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
   const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
   const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <CloseButton
+          onPress={() => navigation.dangerouslyGetParent()?.goBack()}
+        />
+      ),
+    })
+  }, [navigation])
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()

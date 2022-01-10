@@ -1,4 +1,5 @@
 import uuid from 'react-native-uuid'
+import { BuildingType } from './DoorToDoor'
 
 export interface BuildingBlock {
   name: string
@@ -21,6 +22,9 @@ export type BuildingBlockStatus = 'todo' | 'ongoing' | 'completed'
 export type BuildingBlocFloorStatus = 'todo' | 'ongoing' | 'completed'
 
 export class BuildingBlockHelper {
+  private HOUSE_DEFAULT_FLOOR_COUNT = 1
+  private BUILDING_DEFAULT_FLOOR_COUNT = 3
+
   public createLocalFloor(name: number): BuildingBlockFloor {
     return {
       number: name,
@@ -32,7 +36,14 @@ export class BuildingBlockHelper {
     }
   }
 
-  public createLocalBlock(name: string, floorsCount: number): BuildingBlock {
+  public createLocalBlock(
+    name: string,
+    buildingType: BuildingType,
+  ): BuildingBlock {
+    const floorsCount =
+      buildingType === 'building'
+        ? this.BUILDING_DEFAULT_FLOOR_COUNT
+        : this.HOUSE_DEFAULT_FLOOR_COUNT
     const floors = Array.from({ length: floorsCount }, (_, i) =>
       this.createLocalFloor(i),
     )
