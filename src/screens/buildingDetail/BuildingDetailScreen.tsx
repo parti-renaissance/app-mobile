@@ -44,6 +44,9 @@ enum Tab {
   LAYOUT,
 }
 
+const HOUSE_DEFAULT_FLOOR_COUNT = 1
+const BUILDING_DEFAULT_FLOOR_COUNT = 3
+
 const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
@@ -78,13 +81,20 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         route.params.address.building.id,
         route.params.address.building.campaignStatistics.campaignId,
       )
-      .then((value) => {
-        setLayout(value)
+      .then((blocks) => {
+        if (blocks.length === 0) {
+          blocks.push(
+            new BuildingBlockHelper().createLocalBlock(
+              AlphabetHelper.firstLetterInAlphabet,
+              route.params.address.building.type === 'building'
+                ? BUILDING_DEFAULT_FLOOR_COUNT
+                : HOUSE_DEFAULT_FLOOR_COUNT,
+            ),
+          )
+        }
+        setLayout(blocks)
       })
-  }, [
-    route.params.address.building.id,
-    route.params.address.building.campaignStatistics.campaignId,
-  ])
+  }, [route.params.address.building])
 
   useEffect(() => {
     const fetchHistory = () => {
@@ -124,12 +134,14 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         layout[layout.length - 1].name,
       )
     } else {
-      nextBuildingBlock = 'A'
+      nextBuildingBlock = AlphabetHelper.firstLetterInAlphabet
     }
     layout.push(
       buildingBlockHelper.createLocalBlock(
         nextBuildingBlock,
-        route.params.address.building.type === 'building' ? 2 : 1,
+        route.params.address.building.type === 'building'
+          ? BUILDING_DEFAULT_FLOOR_COUNT
+          : HOUSE_DEFAULT_FLOOR_COUNT,
       ),
     )
     setLayout([...layout])
