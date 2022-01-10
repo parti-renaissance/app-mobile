@@ -38,7 +38,7 @@ const DoorToDoorMapView = ({
   onAddressPress,
   onSearchHerePressed,
 }: Props) => {
-  const mapRef = useRef<Map>()
+  const mapRef = useRef<Map | null>(null)
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
   const [popup, setPopup] = useState<PopupProps>({
     visible: false,
@@ -58,7 +58,7 @@ const DoorToDoorMapView = ({
   }
 
   const moveToCurrentPositionRegion = () => {
-    if (mapRef.current !== undefined) {
+    if (mapRef.current !== null) {
       let region = {
         latitude: currentPosition.latitude,
         longitude: currentPosition.longitude,
