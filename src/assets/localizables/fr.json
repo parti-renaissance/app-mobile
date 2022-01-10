@@ -105,9 +105,13 @@
       }
     },
     "unauthenticatedhome": {
+      "title": "Je m’engage\navec",
+      "title_rest": "la majorité présidentielle",
       "description": "Retrouvez rapidement nos outils, réalisez des questionnaires et restez informés de l’actualité de votre territoire.",
-      "login": "Connexion LaREM",
-      "skip": "Connexion Majorité Présidentielle",
+      "login": "Me connecter",
+      "signup": "Créer un compte",
+      "or": "- ou -",
+      "login_lrem": "Me connecter avec",
       "register_url": "https://en-marche.fr/adhesion"
     },
     "login": {
@@ -433,12 +437,12 @@
         "tocomplete": "A terminer"
       },
       "stats": {
-        "doorKnocked_one": "Porte frappée",
-        "doorKnocked_other": "Portes frappées",
-        "estimatedDoors_one": "Porte estimée",
-        "estimatedDoors_other": "Portes estimées",
-        "completedQuestionnaires_one": "Questionnaire réalisé",
-        "completedQuestionnaires_other": "Questionnaires réalisés"
+        "doorKnocked_one": "Porte\\nfrappée",
+        "doorKnocked_other": "Portes\\nfrappées",
+        "estimatedDoors_one": "Porte\\nestimée",
+        "estimatedDoors_other": "Portes\\nestimées",
+        "completedQuestionnaires_one": "Questionnaire\\nréalisé",
+        "completedQuestionnaires_other": "Questionnaires\\nréalisés"
       },
       "tabs": {
         "history": "Historique",

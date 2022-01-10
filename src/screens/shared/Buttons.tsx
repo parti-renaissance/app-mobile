@@ -108,6 +108,7 @@ export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
           ) : null}
 
           {props.title}
+          {props.children}
         </Text>
       </TouchablePlatform>
     </View>
