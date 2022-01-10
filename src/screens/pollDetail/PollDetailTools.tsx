@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
   },
   title: {
-    ...Typography.largeTitle,
+    ...Typography.title,
     marginBottom: Spacing.margin,
   },
 })

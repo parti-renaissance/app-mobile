@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    ...Typography.largeTitle,
+    ...Typography.title,
     alignSelf: 'center',
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.mediumMargin,

@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.unit,
   },
   title: {
-    ...Typography.largeTitle,
+    ...Typography.title,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
   },

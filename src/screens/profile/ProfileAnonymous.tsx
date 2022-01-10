@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.mediumMargin,
   },
   titleText: {
-    ...Typography.largeTitle,
+    ...Typography.title,
   },
   version: {
     marginTop: Spacing.mediumMargin,
