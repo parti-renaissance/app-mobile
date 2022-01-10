@@ -50,6 +50,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   }, [])
 
   const fetchPosition = () => {
+    Geolocation.watchPosition((position) => {
+      setLocation({
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+      })
+    })
     Geolocation.getCurrentPosition(
       (position) => {
         setLocation({
@@ -66,6 +72,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       () => setLocationAuthorized(false),
       { enableHighAccuracy: true },
     )
+    return () => {
+      Geolocation.stopObserving()
+    }
   }
 
   useEffect(() => {
@@ -136,6 +145,14 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
               data={filteredAddresses}
               location={location}
               onAddressPress={navigateToBuildingDetail}
+              onSearchHerePressed={(position) => {
+                new GetDoorToDoorAddressesInteractor()
+                  .execute(position.latitude, position.longitude)
+                  .then((newAddresses) => {
+                    setAddresses(newAddresses)
+                    setFilteredAddresses(newAddresses)
+                  })
+              }}
             />
           ) : (
             <DoorToDoorListView
