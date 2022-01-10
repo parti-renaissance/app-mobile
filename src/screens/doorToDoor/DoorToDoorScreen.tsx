@@ -62,7 +62,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
         })
-        fetchAddresses(position.coords)
+        new GetDoorToDoorAddressesInteractor()
+          .execute(position.coords.latitude, position.coords.longitude)
+          .then((newAddresses) => {
+            setAddresses(newAddresses)
+            setFilteredAddresses(newAddresses)
+          })
       },
       () => setLocationAuthorized(false),
       { enableHighAccuracy: true },
@@ -80,15 +85,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   useEffect(() => {
     locationAuthorized && fetchPosition()
   }, [locationAuthorized])
-
-  function fetchAddresses(position: LatLng): void {
-    new GetDoorToDoorAddressesInteractor()
-      .execute(position.latitude, position.longitude)
-      .then((newAddresses) => {
-        setAddresses(newAddresses)
-        setFilteredAddresses(newAddresses)
-      })
-  }
 
   const getPermissionStatus = async () => {
     setLocationAuthorized(await LocationManager.permissionStatus())
@@ -149,7 +145,14 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
               data={filteredAddresses}
               location={location}
               onAddressPress={navigateToBuildingDetail}
-              onSearchHerePressed={fetchAddresses}
+              onSearchHerePressed={(position) => {
+                new GetDoorToDoorAddressesInteractor()
+                  .execute(position.latitude, position.longitude)
+                  .then((newAddresses) => {
+                    setAddresses(newAddresses)
+                    setFilteredAddresses(newAddresses)
+                  })
+              }}
             />
           ) : (
             <DoorToDoorListView
