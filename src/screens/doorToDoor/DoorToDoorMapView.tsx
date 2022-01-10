@@ -18,11 +18,13 @@ import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetD
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import MapButton from './DoorToDoorMapButton'
 import { HorizontalSpacer } from '../shared/Spacer'
+import Map from 'react-native-maps'
 
 type Props = {
   data: DoorToDoorAddress[]
   location: LatLng
   onAddressPress: (id: string) => void
+  onSearchHerePressed: (location: LatLng) => void
 }
 
 type PopupProps = {
@@ -30,7 +32,12 @@ type PopupProps = {
   value?: DoorToDoorAddress
 }
 
-const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
+const DoorToDoorMapView = ({
+  data,
+  location,
+  onAddressPress,
+  onSearchHerePressed,
+}: Props) => {
   const mapRef = useRef<Map>()
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
   const [popup, setPopup] = useState<PopupProps>({
@@ -51,13 +58,15 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
   }
 
   const moveToCurrentPositionRegion = () => {
-    let region = {
-      latitude: currentPosition.latitude,
-      longitude: currentPosition.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
+    if (mapRef.current !== undefined) {
+      let region = {
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      }
+      mapRef.current.animateToRegion(region, 2000)
     }
-    mapRef.current.animateToRegion(region, 2000)
   }
 
   useEffect(() => {
@@ -161,15 +170,15 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
       <View style={styles.childContainer}>
         <View style={styles.mapButtonListContainer}>
           <MapButton
-            onPress={() => {}}
+            onPress={() => {
+              onSearchHerePressed(currentPosition)
+            }}
             text="Rechercher dans la zone"
             image={require('./../../assets/images/loopArrow.png')}
           />
           <HorizontalSpacer spacing={Spacing.margin} />
           <MapButton
-            onPress={() => {
-              moveToCurrentPositionRegion()
-            }}
+            onPress={moveToCurrentPositionRegion}
             image={require('./../../assets/images/gpsPosition.png')}
           />
         </View>
