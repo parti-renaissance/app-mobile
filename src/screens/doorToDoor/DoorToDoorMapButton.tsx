@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   mapButtonText: {
     ...Typography.callout,
     alignSelf: 'center',
-    marginLeft: Spacing.small,
+    marginHorizontal: Spacing.unit,
     textAlign: 'center',
   },
   searchHereButton: {
