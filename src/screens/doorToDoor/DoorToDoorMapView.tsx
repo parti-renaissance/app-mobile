@@ -20,6 +20,8 @@ import MapButton from './DoorToDoorMapButton'
 import { HorizontalSpacer } from '../shared/Spacer'
 import Map from 'react-native-maps'
 
+const DEFAULT_DELTA = 0.01
+
 type Props = {
   data: DoorToDoorAddress[]
   location: LatLng
@@ -53,8 +55,8 @@ const DoorToDoorMapView = ({
 
   const initialRegion = {
     ...initialPosition,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+    latitudeDelta: DEFAULT_DELTA,
+    longitudeDelta: DEFAULT_DELTA,
   }
 
   const moveToCurrentPositionRegion = () => {
@@ -62,8 +64,8 @@ const DoorToDoorMapView = ({
       let region = {
         latitude: currentPosition.latitude,
         longitude: currentPosition.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
+        latitudeDelta: DEFAULT_DELTA,
+        longitudeDelta: DEFAULT_DELTA,
       }
       mapRef.current.animateToRegion(region, 2000)
     }
