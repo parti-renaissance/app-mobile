@@ -18,6 +18,7 @@ import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetD
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 
 type Props = {
+  children: JSX.Element
   data: DoorToDoorAddress[]
   location: LatLng
   onAddressPress: (id: string) => void
@@ -28,7 +29,12 @@ type PopupProps = {
   value?: DoorToDoorAddress
 }
 
-const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
+const DoorToDoorMapView = ({
+  data,
+  location,
+  onAddressPress,
+  children,
+}: Props) => {
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
   const [popup, setPopup] = useState<PopupProps>({
     visible: false,
@@ -124,6 +130,7 @@ const DoorToDoorMapView = ({ data, location, onAddressPress }: Props) => {
         minPoints={3}
         nodeSize={8} // performance optimization
       >
+        {children}
         <Marker
           coordinate={currentPosition}
           tracksViewChanges={false}
