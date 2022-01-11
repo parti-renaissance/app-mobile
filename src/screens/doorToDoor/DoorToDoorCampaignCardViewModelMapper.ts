@@ -9,6 +9,7 @@ export const DoorToDoorCampaignCardViewModelMapper = {
     const surveys =
       data.ranking.individual.find((item) => item.current)?.surveys ?? 0
     return {
+      campaignId: data.campaign.uuid,
       name: data.campaign.title,
       date: i18n.t('doorToDoor.campaign_deadline', {
         date: date.format('DD MMM. YYYY'),

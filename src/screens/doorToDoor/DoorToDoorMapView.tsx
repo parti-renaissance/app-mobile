@@ -27,6 +27,7 @@ type Props = {
   location: LatLng
   onAddressPress: (id: string) => void
   onSearchHerePressed: (location: LatLng) => void
+  onCampaignRankingSelected: (campaignId: string) => void
 }
 
 type PopupProps = {
@@ -39,6 +40,7 @@ const DoorToDoorMapView = ({
   location,
   onAddressPress,
   onSearchHerePressed,
+  onCampaignRankingSelected,
 }: Props) => {
   const mapRef = useRef<Map | null>(null)
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
@@ -118,7 +120,14 @@ const DoorToDoorMapView = ({
             onPress={onAddressPress}
             viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
           />
-          {viewModel ? <DoorToDoorCampaignCard viewModel={viewModel} /> : null}
+          {viewModel ? (
+            <DoorToDoorCampaignCard
+              viewModel={viewModel}
+              onPress={(campaignId: string) => {
+                onCampaignRankingSelected(campaignId)
+              }}
+            />
+          ) : null}
         </Pressable>
       </Pressable>
     )

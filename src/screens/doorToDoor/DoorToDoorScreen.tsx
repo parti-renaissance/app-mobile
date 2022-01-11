@@ -26,10 +26,19 @@ import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from 'react-native-geolocation-service'
 import { Screen } from '../../navigation'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
+import RankingModal from './rankings/RankingModal'
+
+type RankingModalState = Readonly<{
+  visible: boolean
+  campaignId?: string
+}>
 
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
+  const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
+    { visible: false },
+  )
   const [location, setLocation] = useState<LatLng>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
   const [filteredAddresses, setFilteredAddresses] = useState<
@@ -118,6 +127,15 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   return (
     <SafeAreaView style={styles.container}>
+      <Modal visible={rankingModalState.visible} animationType="slide">
+        {rankingModalState.campaignId ? (
+          <RankingModal
+            onDismissModal={() => setRankingModalState({ visible: false })}
+            campaignId={rankingModalState.campaignId}
+          />
+        ) : null}
+      </Modal>
+
       {charterState instanceof DoorToDoorCharterNotAccepted && (
         <Modal visible={true} animationType="slide">
           <DoorToDoorCharterModal
@@ -152,6 +170,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
                     setAddresses(newAddresses)
                     setFilteredAddresses(newAddresses)
                   })
+              }}
+              onCampaignRankingSelected={(campaignId: string) => {
+                setRankingModalState({ visible: true, campaignId: campaignId })
               }}
             />
           ) : (
