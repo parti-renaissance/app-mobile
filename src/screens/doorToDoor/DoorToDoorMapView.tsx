@@ -7,10 +7,6 @@ import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
-import {
-  DoorToDoorMapMarker,
-  MARKER_DEFAULT_ANCHOR,
-} from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
@@ -19,6 +15,7 @@ import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewMod
 import MapButton from './DoorToDoorMapButton'
 import { HorizontalSpacer } from '../shared/Spacer'
 import Map from 'react-native-maps'
+import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 
 const DEFAULT_DELTA = 0.01
 
@@ -149,6 +146,7 @@ const DoorToDoorMapView = ({
         loadingEnabled={true}
         maxZoomLevel={20}
         minZoomLevel={10}
+        spiralEnabled={false}
         renderCluster={(cluster) => (
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
@@ -160,7 +158,7 @@ const DoorToDoorMapView = ({
         // iOS only
         showsScale={true}
         // Clustering
-        minPoints={3}
+        minPoints={5}
         nodeSize={8} // performance optimization
       >
         {data.map((marker) => (
