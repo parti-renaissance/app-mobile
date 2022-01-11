@@ -8,7 +8,7 @@ export const DoorToDoorMapper = {
     const buildingType = restObject.building.type
     if (rest_campaign !== null && buildingType !== null) {
       const campaign = {
-        numberOfDoors: rest_campaign.nb_doors,
+        numberOfDoors: rest_campaign.nb_visited_doors,
         numberOfSurveys: rest_campaign.nb_surveys,
         status: rest_campaign.status,
         id: rest_campaign.uuid,

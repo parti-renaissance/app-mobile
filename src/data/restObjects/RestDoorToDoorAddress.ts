@@ -12,7 +12,7 @@ export interface RestDoorToDoorAddress {
     uuid: string
     campaign_statistics: {
       uuid: string
-      nb_doors: number
+      nb_visited_doors: number
       nb_surveys: number
       last_passage: string | null
       status: 'todo' | 'ongoing' | 'completed'
