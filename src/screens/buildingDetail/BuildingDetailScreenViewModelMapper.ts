@@ -33,7 +33,7 @@ export const BuildingDetailScreenViewModelMapper = {
         lastVisit(address.building.campaignStatistics) ??
         i18n.t('common.noDataPlaceholder'),
       illustration: illustration(),
-      status: BuildingStatusViewModelMapper.map(address),
+      status: BuildingStatusViewModelMapper.map(address, layout),
       history: BuildingHistoryViewModelMapper.map(history),
       buildingLayout: BuildingLayoutViewModelMapper.map(
         address.building.type,

@@ -487,7 +487,7 @@
       "electorsMet": "Électeurs rencontrés",
       "doorKnocked": "Portes frappées",
       "date_format": "D MMM YYYY",
-      "doorsSurveysCount": "{{numberOfSurveys}}/{{numberOfDoors}}",
+      "doorsSurveysCount": "{{numberOfDoors}}/{{numberOfSurveys}}",
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",

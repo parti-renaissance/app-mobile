@@ -1,15 +1,24 @@
-import {
-  DoorToDoorAddress,
-  DoorToDoorAddressCampaign,
-} from './../../core/entities/DoorToDoor'
+import { DoorToDoorAddress } from './../../core/entities/DoorToDoor'
 import { StatBlockViewModel } from './StatBlockViewModel'
 import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { ImageProps } from 'react-native'
+import { BuildingBlock } from '../../core/entities/BuildingBlock'
 
 export const BuildingStatusViewModelMapper = {
-  map: (address: DoorToDoorAddress): BuildingStatusViewModel => {
+  map: (
+    address: DoorToDoorAddress,
+    layout: BuildingBlock[],
+  ): BuildingStatusViewModel => {
+    let visitedDoors = 0
+    let surveys = 0
+    layout.forEach((block) => {
+      block.floors.forEach((floor) => {
+        visitedDoors += floor.visitedDoors.length
+        surveys += floor.nbSurveys
+      })
+    })
     const campaignAddress = address.building.campaignStatistics
     let statusTile: string
     let statusIcon: ImageProps
@@ -35,9 +44,9 @@ export const BuildingStatusViewModelMapper = {
       statusTile: statusTile,
       statusIcon: statusIcon,
       estimatedDoorsStatBlock: estimatedDoorsStatBlock(address.votersCount),
-      doorKnockedStatBlock: doorKnockedStatBlock(campaignAddress),
+      doorKnockedStatBlock: doorKnockedStatBlock(visitedDoors),
       completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
-        campaignAddress,
+        surveys,
       ),
     }
   },
@@ -52,25 +61,21 @@ function estimatedDoorsStatBlock(votersCount: number): StatBlockViewModel {
   }
 }
 
-function doorKnockedStatBlock(
-  campaignAddress: DoorToDoorAddressCampaign,
-): StatBlockViewModel {
+function doorKnockedStatBlock(visitedDoors: number): StatBlockViewModel {
   return {
     title: i18n.t('building.stats.doorKnocked', {
-      count: campaignAddress?.numberOfDoors ?? 0,
+      count: visitedDoors,
     }),
-    stat: dataOrPlaceholder(campaignAddress?.numberOfDoors),
+    stat: dataOrPlaceholder(visitedDoors),
   }
 }
 
-function completedQuestionnairesStatBlock(
-  campaignAddress: DoorToDoorAddressCampaign,
-): StatBlockViewModel {
+function completedQuestionnairesStatBlock(surveys: number): StatBlockViewModel {
   return {
     title: i18n.t('building.stats.completedQuestionnaires', {
-      count: campaignAddress?.numberOfSurveys ?? 0,
+      count: surveys,
     }),
-    stat: dataOrPlaceholder(campaignAddress?.numberOfSurveys),
+    stat: dataOrPlaceholder(surveys),
   }
 }
 
