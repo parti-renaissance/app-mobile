@@ -140,6 +140,7 @@ const DoorToDoorMapView = ({
         style={styles.map}
         initialRegion={initialRegion}
         rotateEnabled={false}
+        showsUserLocation={true}
         showsPointsOfInterest={true}
         showsCompass={false}
         showsBuildings={true}
@@ -162,14 +163,6 @@ const DoorToDoorMapView = ({
         minPoints={3}
         nodeSize={8} // performance optimization
       >
-        <Marker
-          coordinate={currentPosition}
-          tracksViewChanges={false}
-          {...markerExtraProps}
-          anchor={MARKER_DEFAULT_ANCHOR}
-        >
-          <Image source={require('../../assets/images/papPositionIcon.png')} />
-        </Marker>
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
