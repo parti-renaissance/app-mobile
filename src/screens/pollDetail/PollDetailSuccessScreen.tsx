@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    ...Typography.largeTitle,
+    ...Typography.title,
     marginBottom: Spacing.unit,
     textAlign: 'center',
   },

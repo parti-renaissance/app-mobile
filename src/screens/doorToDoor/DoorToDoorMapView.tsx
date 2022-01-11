@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-map-clustering'
-import { LatLng, Marker } from 'react-native-maps'
+import { LatLng, Marker, Region } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
@@ -46,6 +46,7 @@ const DoorToDoorMapView = ({
     visible: false,
     value: undefined,
   })
+  const [currentRegion, setCurrentRegion] = useState<Region>()
   const markerExtraProps = { cluster: false }
 
   const initialPosition = {
@@ -141,6 +142,9 @@ const DoorToDoorMapView = ({
         renderCluster={(cluster) => (
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
+        onRegionChangeComplete={(region: Region) => {
+          setCurrentRegion(region)
+        }}
         // Android only
         toolbarEnabled={false}
         // iOS only
@@ -173,7 +177,12 @@ const DoorToDoorMapView = ({
         <View style={styles.mapButtonListContainer}>
           <MapButton
             onPress={() => {
-              onSearchHerePressed(currentPosition)
+              if (currentRegion) {
+                onSearchHerePressed({
+                  latitude: currentRegion.latitude,
+                  longitude: currentRegion.longitude,
+                })
+              }
             }}
             text="Rechercher dans la zone"
             image={require('./../../assets/images/loopArrow.png')}

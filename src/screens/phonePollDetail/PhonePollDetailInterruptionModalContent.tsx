@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.margin,
   },
   title: {
-    ...Typography.largeTitle,
-    marginBottom: Spacing.margin,
+    ...Typography.title,
+    paddingVertical: Spacing.margin,
   },
 })
 

@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
   inner: {
     alignItems: 'center',
     flexDirection: 'row',
-    padding: Spacing.unit,
+    paddingHorizontal: Spacing.unit + Spacing.small,
+    paddingVertical: Spacing.unit,
   },
   text: {
     color: Colors.darkText,

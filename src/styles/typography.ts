@@ -4,7 +4,7 @@ import * as Colors from './colors'
 
 const titleFontSize = 45
 const androidNavigationTitleFontSize = 20
-const title2FontSize = 16
+const title2FontSize = 22
 const title3FontSize = 20
 const headlineFontSize = 17
 const bodyFontSize = 14
@@ -61,7 +61,7 @@ export const androidNavigationTitle: TextStyle = {
 
 export const title2: TextStyle = {
   fontSize: title2FontSize,
-  fontFamily: robotoMedium,
+  fontFamily: maaxMedium,
   color: Colors.darkText,
 }
 

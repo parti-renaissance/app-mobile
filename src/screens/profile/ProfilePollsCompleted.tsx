@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     ...Typography.body,
   },
   counterNumber: {
-    ...Typography.largeTitle,
+    ...Typography.title2,
   },
   counters: {
     alignItems: 'center',

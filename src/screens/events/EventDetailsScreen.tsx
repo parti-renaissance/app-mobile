@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.margin,
   },
   title: {
-    ...Typography.largeTitle,
+    ...Typography.title,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },
