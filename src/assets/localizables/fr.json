@@ -484,7 +484,6 @@
       "noPassage": "Aucun passage",
       "passageOn": "le {{date}}",
       "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
-      "electorsMet": "Électeurs rencontrés",
       "doorKnocked": "Portes frappées",
       "date_format": "D MMM YYYY",
       "doorsSurveysCount": "{{numberOfDoors}}/{{numberOfSurveys}}",

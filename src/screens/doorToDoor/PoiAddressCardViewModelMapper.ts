@@ -30,12 +30,8 @@ export const PoiAddressCardViewModelMapper = {
           doorsOrVotersLabel: mapDoorsOrVolter(
             displayMode,
             poiAddress.building.campaignStatistics,
-            poiAddress.votersCount,
           ),
-          label:
-            displayMode === 'map'
-              ? i18n.t('doorToDoor.doorKnocked')
-              : i18n.t('doorToDoor.electorsMet'),
+          label: i18n.t('doorToDoor.doorKnocked'),
         }
       : undefined
   },
@@ -56,14 +52,13 @@ function mapLastPassage(campaign: DoorToDoorAddressCampaign): string {
 function mapDoorsOrVolter(
   displayMode: DoorToDoorDisplayMode,
   campaign: DoorToDoorAddressCampaign,
-  votersCount: number,
 ): string {
   return displayMode === 'map'
     ? i18n.t('doorToDoor.doorsSurveysCount', {
         numberOfSurveys: campaign?.numberOfSurveys ?? 0,
         numberOfDoors: campaign?.numberOfDoors ?? 0,
       })
-    : i18n.t('doorToDoor.votersCount', { votersCount })
+    : campaign?.numberOfDoors.toString() ?? '-'
 }
 
 function mapDate(lastPassage: Moment): string {
