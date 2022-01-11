@@ -1,6 +1,5 @@
 import React, {
   FunctionComponent,
-  useCallback,
   useEffect,
   useLayoutEffect,
   useState,
@@ -40,8 +39,8 @@ import {
 } from '../../core/entities/DoorToDoor'
 import { useIsFocused } from '@react-navigation/native'
 import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
-import { DoorToDoorCampaignCard, DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
-import { DoorToDoorCampaignInfo, GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
+import { DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
 
@@ -83,7 +82,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     })
   })
 
-  const fetchLayout = useCallback(() => {
+  const fetchLayout = () => {
     new UpdateBuildingLayoutInteractor()
       .execute(
         route.params.address.building.id,
@@ -92,9 +91,9 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         layout,
       )
       .then((blocks) => setLayout(blocks))
-  }, [route.params.address.building, layout])
+  }
 
-  const fetchHistory = useCallback(() => {
+  const fetchHistory = () => {
     DoorToDoorRepository.getInstance()
       .buildingHistory(
         route.params.address.building.id,
@@ -103,7 +102,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       .then((value) => {
         setHistory(value)
       })
-  }, [route.params.address.building])
+  }
 
   const fetchCampaignInfo = () => {
     new GetDoorToDoorCampaignInfoInteractor()
@@ -121,6 +120,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       fetchLayout()
       fetchCampaignInfo()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused])
 
   const showHistory = () => {

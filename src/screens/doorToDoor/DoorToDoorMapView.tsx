@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-map-clustering'
-import { LatLng, Marker, Region } from 'react-native-maps'
+import { LatLng, Region } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
@@ -46,7 +46,6 @@ const DoorToDoorMapView = ({
     value: undefined,
   })
   const [currentRegion, setCurrentRegion] = useState<Region>()
-  const markerExtraProps = { cluster: false }
 
   const initialPosition = {
     latitude: location.latitude,
