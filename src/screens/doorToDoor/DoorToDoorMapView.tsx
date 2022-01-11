@@ -10,7 +10,7 @@ import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
-import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import MapButton from './DoorToDoorMapButton'
 import { HorizontalSpacer } from '../shared/Spacer'
@@ -99,7 +99,7 @@ const DoorToDoorMapView = ({
 
     useEffect(() => {
       if (popup.value) {
-        new GetDoorToDoorCampaignPopupInteractor()
+        new GetDoorToDoorCampaignInfoInteractor()
           .execute(popup.value?.building.campaignStatistics.campaignId)
           .then((result) => {
             setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))

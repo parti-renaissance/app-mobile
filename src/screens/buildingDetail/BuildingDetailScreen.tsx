@@ -13,7 +13,7 @@ import {
   Text,
   ScrollView,
 } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
@@ -40,6 +40,10 @@ import {
 } from '../../core/entities/DoorToDoor'
 import { useIsFocused } from '@react-navigation/native'
 import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
+import { DoorToDoorCampaignCard, DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
+import { DoorToDoorCampaignInfo, GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
+import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
+import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
 
 enum Tab {
   HISTORY,
@@ -55,6 +59,10 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
+  const [
+    campaignCardViewModel,
+    setCampaignCardViewModel,
+  ] = useState<DoorToDoorCampaignCardViewModel>()
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
     history,
@@ -97,10 +105,21 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       })
   }, [route.params.address.building])
 
+  const fetchCampaignInfo = () => {
+    new GetDoorToDoorCampaignInfoInteractor()
+      .execute(route.params.address.building.campaignStatistics.campaignId)
+      .then((result) => {
+        setCampaignCardViewModel(
+          DoorToDoorCampaignCardViewModelMapper.map(result),
+        )
+      })
+  }
+
   useEffect(() => {
     if (isFocused) {
       fetchHistory()
       fetchLayout()
+      fetchCampaignInfo()
     }
   }, [isFocused])
 
@@ -391,6 +410,11 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             title={i18n.t('building.close_address.action')}
           />
         ) : null}
+        {campaignCardViewModel ? (
+          <View style={styles.bottomContainer}>
+            <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
+          </View>
+        ) : null}
       </>
     </SafeAreaView>
   )
@@ -402,8 +426,11 @@ const styles = StyleSheet.create({
     marginTop: mediumMargin,
     textAlign: 'center',
   },
+  bottomContainer: {
+    ...Styles.topElevatedContainerStyle,
+  },
   closeAddress: {
-    bottom: 0,
+    bottom: Spacing.extraExtraLargeMargin,
     left: 0,
     marginBottom: Spacing.margin,
     marginHorizontal: Spacing.margin,

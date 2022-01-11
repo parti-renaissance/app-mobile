@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native'
 import { DoorToDoorCampaignRanking } from '../../../core/entities/DoorToDoorCampaignRanking'
-import { GetDoorToDoorCampaignPopupInteractor } from '../../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { Colors, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { CloseButton } from '../../shared/NavigationHeaderButton'
@@ -32,7 +32,7 @@ const RankingModal: FC<Props> = (props) => {
   const [viewModel, setViewModel] = useState<DoorToDoorCampaignCardViewModel>()
 
   useEffect(() => {
-    new GetDoorToDoorCampaignPopupInteractor()
+    new GetDoorToDoorCampaignInfoInteractor()
       .execute(props.campaignId)
       .then((result) => {
         setRanking(result.ranking)

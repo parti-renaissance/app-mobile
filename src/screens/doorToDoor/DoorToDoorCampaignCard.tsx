@@ -19,21 +19,34 @@ export const DoorToDoorCampaignCard = ({ viewModel, onPress }: Props) => {
         onPress={() => onPress(viewModel.campaignId)}
         touchHighlight={Colors.touchHighlight}
       >
-        <View style={styles.content}>
-          <View style={styles.campaign}>
-            <Text style={styles.title}>{viewModel.name}</Text>
-            <Text style={styles.date}>{viewModel.date}</Text>
-          </View>
-          <View>
-            <Text style={styles.goal}>
-              {i18n.t('doorToDoor.goal')}
-              <Text style={styles.indicator}>{viewModel.goal}</Text>
-            </Text>
-            <ProgressBar progress={viewModel.progress} color={Colors.accent} />
-          </View>
-        </View>
+        <DoorToDoorCampaignInfoView viewModel={viewModel} />
       </TouchablePlatform>
     </CardView>
+  )
+}
+
+type ViewProps = {
+  viewModel: DoorToDoorCampaignCardViewModel
+}
+
+export const DoorToDoorCampaignInfoView = ({ viewModel }: ViewProps) => {
+  return (
+    <View style={styles.content}>
+      <View style={styles.campaign}>
+        <Text style={styles.title}>{viewModel.name}</Text>
+        <Text style={styles.date}>{viewModel.date}</Text>
+      </View>
+      <View>
+        <Text style={styles.goal}>
+          {i18n.t('doorToDoor.goal')}
+          <Text style={styles.indicator}>{viewModel.goal}</Text>
+        </Text>
+        <ProgressBar
+          progress={viewModel.progress}
+          color={Colors.primaryColor}
+        />
+      </View>
+    </View>
   )
 }
 
@@ -46,6 +59,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
   },
   content: {
+    backgroundColor: Colors.defaultBackground,
     flexDirection: 'row',
     padding: Spacing.margin,
   },
@@ -58,9 +72,9 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.unit,
   },
   indicator: {
-    ...Typography.headline,
+    ...Typography.body,
   },
   title: {
-    ...Typography.title2,
+    ...Typography.body,
   },
 })
