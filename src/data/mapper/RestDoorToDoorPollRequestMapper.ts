@@ -12,7 +12,7 @@ export const RestDoorToDoorPollRequestMapper = {
     return {
       ...RestPollExtraAnswersRequestMapper.map(pollResult.qualificationAnswers),
       campaign: pollParams.campaignId,
-      status: pollParams.interlocutorStatus,
+      status: pollParams.status,
       building: pollParams.buildingId,
       building_block: pollParams.block,
       floor: pollParams.floor,

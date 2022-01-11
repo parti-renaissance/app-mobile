@@ -54,10 +54,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
     } else {
       setIsSendingChoice(true)
       new SendDoorPollAnswersInteractor()
-        .execute(route.params.campaignId, code, route.params.buildingParams, {
-          answers: [],
-          qualificationAnswers: [],
-        })
+        .execute(route.params.campaignId, code, route.params.buildingParams)
         .then(() => {
           navigation.navigate(Screen.tunnelDoorSelectionScreen, {
             campaignId: route.params.campaignId,

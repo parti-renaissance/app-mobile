@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
+import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import {
   DoorToDoorTunnelOpeningScreenProp,
@@ -15,6 +16,7 @@ import {
 } from '../../../../navigation'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
+import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
@@ -33,6 +35,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<DoorToDoorPollConfigDoorStatus[]>
   >(new ViewState.Loading())
+  const [isSendingChoice, setIsSendingChoice] = useState(false)
 
   useDoorToDoorTunnelNavigationOptions(navigation)
 
@@ -47,14 +50,26 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
       })
   }, [route.params, setStatefulState])
 
-  const onChoice = (success: boolean) => {
+  const onChoice = (success: boolean, code: string) => {
     if (success) {
       navigation.navigate(Screen.tunnelDoorInterlocutor, {
         campaignId: route.params.campaignId,
         buildingParams: route.params.buildingParams,
       })
     } else {
-      navigation.goBack()
+      setIsSendingChoice(true)
+      new SendDoorPollAnswersInteractor()
+        .execute(route.params.campaignId, code, route.params.buildingParams)
+        .then(() => {
+          navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+            campaignId: route.params.campaignId,
+            buildingParams: {
+              ...route.params.buildingParams,
+              door: route.params.buildingParams.door + 1,
+            },
+          })
+        })
+        .finally(() => setIsSendingChoice(false))
     }
   }
 
@@ -87,7 +102,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
             <CardItem
               key={item.code}
               onPress={() => {
-                onChoice(item.success)
+                onChoice(item.success, item.code)
               }}
               title={item.label}
               image={image}
@@ -100,6 +115,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
 
   return (
     <SafeAreaView style={styles.container}>
+      <LoadingOverlay visible={isSendingChoice} />
       <StatefulView state={statefulState} contentComponent={ContentComponent} />
     </SafeAreaView>
   )

@@ -1,6 +1,6 @@
 export interface DoorToDoorPollParams {
   campaignId: string
-  interlocutorStatus: string
+  status: string
   buildingId: string
   block: string
   floor: number

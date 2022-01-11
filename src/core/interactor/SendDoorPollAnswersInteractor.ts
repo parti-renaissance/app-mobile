@@ -8,23 +8,23 @@ export class SendDoorPollAnswersInteractor {
 
   public async execute(
     campaignId: string,
-    interlocutorStatus: string,
+    status: string,
     buildingParams: BuildingSelectedParams,
-    pollResult: DoorToDoorPollResult,
+    pollResult?: DoorToDoorPollResult,
   ): Promise<void> {
     const pollParams = {
       campaignId: campaignId,
       buildingId: buildingParams.id,
-      interlocutorStatus: interlocutorStatus,
+      status: status,
       block: buildingParams.block,
       floor: buildingParams.floor,
       door: buildingParams.door,
     }
     const response = await this.repository.createDoorPollCampaignHistory(
       pollParams,
-      pollResult,
+      pollResult ?? { answers: [], qualificationAnswers: [] },
     )
-    if (interlocutorStatus === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE) {
+    if (status === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE && pollResult) {
       await this.repository.sendDoorToDoorPollAnswers(response.uuid, pollResult)
     }
   }
