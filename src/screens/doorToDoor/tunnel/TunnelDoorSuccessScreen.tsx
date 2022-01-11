@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from 'react'
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
 import {
   FlatList,
   Image,
@@ -44,7 +49,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()
-      .getDoorToDoorCampaignRanking(route.params.campaignId)
+      .getDoorToDoorCampaignRanking(route.params.campaignId, 'remote')
       .then((result) => {
         setUserStats(result.individual.find((item) => item.current))
         setRanking(result)
@@ -76,8 +81,15 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
           textStyle={styles.buttonTextStyle}
         />
 
-        <RankingTabsView tab={tab} onPress={setTab} />
-        <RankingHeaderView tab={tab} />
+        {ranking ? (
+          <>
+            <Text style={styles.title}>
+              {i18n.t('doorToDoor.tunnel.success.ranking')}
+            </Text>
+            <RankingTabsView tab={tab} onPress={setTab} />
+            <RankingHeaderView tab={tab} />
+          </>
+        ) : null}
       </>
     )
   }
