@@ -25,6 +25,7 @@ export const PoiAddressCardViewModelMapper = {
               ? require('../../assets/images/papHomeIcon.png')
               : require('../../assets/images/papBuildingIcon.png'),
           statusIcon: mapStatusIcon(poiAddress.building.campaignStatistics),
+          mapStatusIcon: mapMapStatusIcon(poiAddress.building.campaignStatistics),
           passage: mapLastPassage(poiAddress.building.campaignStatistics),
           doorsOrVotersLabel: mapDoorsOrVolter(
             displayMode,
@@ -70,6 +71,19 @@ function mapDate(lastPassage: Moment): string {
 }
 
 function mapStatusIcon(
+  campaignStatistics: DoorToDoorAddressCampaign,
+): ImageRequireSource {
+  switch (campaignStatistics.status) {
+    case 'todo':
+      return require('../../assets/images/papTodoIcon.png')
+    case 'ongoing':
+      return require('../../assets/images/papToFinishIcon.png')
+    case 'completed':
+      return require('../../assets/images/papDoneIcon.png')
+  }
+}
+
+function mapMapStatusIcon(
   campaignStatistics: DoorToDoorAddressCampaign,
 ): ImageRequireSource {
   switch (campaignStatistics.status) {
