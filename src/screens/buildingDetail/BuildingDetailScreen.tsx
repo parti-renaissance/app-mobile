@@ -367,7 +367,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       <LoadingOverlay visible={isLoading} />
       <>
         <ScrollView>
-          <Image source={viewModel.illustration} />
+          <Image source={viewModel.illustration} style={styles.illustration} />
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
           <BuildingStatusView viewModel={viewModel.status} />
@@ -453,6 +453,9 @@ const styles = StyleSheet.create({
   edit: {
     alignSelf: 'flex-end',
     marginEnd: Spacing.unit,
+  },
+  illustration: {
+    alignSelf: 'center',
   },
   lastVisit: {
     ...Typography.body,

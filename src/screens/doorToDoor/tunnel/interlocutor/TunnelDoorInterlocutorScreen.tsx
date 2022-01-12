@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     padding: Spacing.margin,
   },
   itemText: {
-    ...Typography.title2,
+    ...Typography.callout,
     textAlign: 'center',
   },
   separator: {

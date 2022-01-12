@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonTitle: {
-    ...Typography.title2,
+    ...Typography.callout,
     flex: 1,
     marginLeft: Spacing.margin,
     textAlign: 'center',

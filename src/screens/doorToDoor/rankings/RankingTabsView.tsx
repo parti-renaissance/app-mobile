@@ -58,7 +58,7 @@ export const RankingTabsView: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   selectedTab: {
     borderBottomWidth: 2,
-    borderColor: Colors.primaryColor,
+    borderColor: Colors.accent,
     margin: Spacing.margin,
     textAlign: 'center',
   },

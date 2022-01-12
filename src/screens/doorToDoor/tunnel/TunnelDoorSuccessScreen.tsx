@@ -63,7 +63,10 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
   const renderHeader = () => {
     return (
       <>
-        <Image source={require('../../../assets/images/papSuccess.png')} />
+        <Image
+          style={styles.image}
+          source={require('../../../assets/images/papSuccess.png')}
+        />
         <Text style={styles.title}>
           {i18n.t('doorToDoor.tunnel.success.newDoor')}
         </Text>
@@ -74,7 +77,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
           })}
         </Text>
 
-        <SecondaryButton
+        <PrimaryButton
           onPress={() => {}}
           title="Interroger une autre personne dans le même foyer"
           style={styles.button}
@@ -113,6 +116,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
                 ...route.params.buildingParams,
                 door: nextDoor,
               },
+              canCloseFloor: true,
             })
           }}
         />
@@ -145,6 +149,9 @@ const styles = StyleSheet.create({
   },
   finished: {
     marginTop: Spacing.unit,
+  },
+  image: {
+    marginVertical: Spacing.largeMargin,
   },
   note: {
     ...Typography.footnoteLight,
