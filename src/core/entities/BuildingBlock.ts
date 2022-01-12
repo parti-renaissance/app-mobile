@@ -1,3 +1,4 @@
+import { Moment } from 'moment-timezone'
 import uuid from 'react-native-uuid'
 import { BuildingType } from './DoorToDoor'
 
@@ -6,6 +7,8 @@ export interface BuildingBlock {
   floors: BuildingBlockFloor[]
   id: string
   status: BuildingBlockStatus
+  closedBy: string | undefined
+  closedAt: Moment | undefined
   local: boolean
 }
 

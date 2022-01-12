@@ -1,3 +1,4 @@
+import uuid from 'react-native-uuid'
 import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
 import {
   BuildingBlock,
@@ -71,13 +72,39 @@ function blockCardViewModel(
 
   return {
     id: block.id,
-    buildingType: type,
     buildingTypeName: buildingTypeName,
     buildingTypeIcon: buildingTypeIcon,
-    floors: floors.map((floor) => floorCellViewModel(block.name, floor)),
+    floors:
+      block.status === 'completed'
+        ? [floorCompletedCellViewModel(block)]
+        : floors.map((floor) => floorCellViewModel(block.name, floor)),
     local: block.local,
     statusAction: statusAction,
-    editable: status !== 'completed',
+    removable: status !== 'completed',
+    canAddNewFloor: type === 'building' && block.status !== 'completed',
+    canUpdateBuildingStatus:
+      block.status === 'completed' ||
+      block.floors.every((floor) => floor.status === 'completed'),
+  }
+}
+
+function floorCompletedCellViewModel(
+  block: BuildingBlock,
+): BuildingLayoutFloorCellViewModel {
+  return {
+    id: uuid.v4().toString(),
+    floorNumber: 0,
+    buildingBlock: block.name,
+    title: i18n.t('building.layout.floor.title_closed', {
+      count: block.floors.length,
+      floorsCount: block.floors.length,
+    }),
+    subtitle: i18n.t('building.layout.floor.subtitle.closed', {
+      name: block.closedBy,
+      date: block.closedAt?.format('DD MMM. YYYY'),
+    }),
+    isCompleted: true,
+    local: true,
   }
 }
 

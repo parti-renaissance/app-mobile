@@ -1,3 +1,4 @@
+import moment from 'moment-timezone'
 import { BuildingBlock } from './../../core/entities/BuildingBlock'
 import { RestBuildingBlock } from './RestBuildingBlock'
 
@@ -18,6 +19,8 @@ export const BuildingLayoutMapper = {
         }),
         id: restBlock.uuid,
         status: restBlock.campaign_statistics?.status ?? 'todo',
+        closedBy: restBlock.campaign_statistics?.closed_by ?? undefined,
+        closedAt: moment(restBlock.campaign_statistics?.closed_at) ?? undefined,
         local: false,
       }
     })

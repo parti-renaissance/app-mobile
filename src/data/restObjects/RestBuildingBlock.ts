@@ -7,6 +7,8 @@ export interface RestBuildingBlock {
 
 export interface RestBuildingBlockCampaignStatistics {
   status: 'todo' | 'ongoing' | 'completed'
+  closed_by: string | null
+  closed_at: string | null
 }
 
 export type RestBuildingBlockFloor = {
