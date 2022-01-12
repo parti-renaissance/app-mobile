@@ -18,6 +18,7 @@ import {
   INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE,
   SendDoorPollAnswersInteractor,
 } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
+import { AlertUtils } from '../../../shared/AlertUtils'
 
 const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProp> = ({
   route,
@@ -64,6 +65,11 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
             },
           })
         })
+        .catch((error) =>
+          AlertUtils.showNetworkAlert(error, () => {
+            onChoice(code)
+          }),
+        )
         .finally(() => setIsSendingChoice(false))
     }
   }
