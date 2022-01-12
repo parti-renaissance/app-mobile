@@ -13,6 +13,7 @@ import {
 import i18n from '../../utils/i18n'
 import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
 import { ImageSourcePropType } from 'react-native'
+import { format } from 'date-fns'
 
 export const BuildingLayoutViewModelMapper = {
   map: (
@@ -101,7 +102,7 @@ function floorCompletedCellViewModel(
     }),
     subtitle: i18n.t('building.layout.floor.subtitle.closed', {
       name: block.closedBy,
-      date: block.closedAt?.format('DD MMM. YYYY'),
+      date: block.closedAt ? format(block.closedAt, 'dd MMM. yyyy') : '',
     }),
     isCompleted: true,
     local: true,
@@ -134,7 +135,7 @@ function floorCellSubtitle(floor: BuildingBlockFloor): string {
   switch (floor.status) {
     case 'completed':
       return i18n.t('building.layout.floor.subtitle.completed', {
-        date: floor.closedAt?.format('DD MMM. YYYY'),
+        date: floor.closedAt ? format(floor.closedAt, 'dd MMM. yyyy') : '',
       })
     case 'ongoing':
       return i18n.t('building.layout.floor.subtitle.ongoing', {
