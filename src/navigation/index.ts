@@ -196,6 +196,7 @@ export type DoorToDoorTunnelModalParamList = {
   }
   TunnelDoorSuccessScreen: {
     campaignId: string
+    interlocutorStatus: string
     buildingParams: BuildingSelectedNavigationParams
   }
 }
@@ -236,7 +237,7 @@ export type TunnelDoorPollScreenRouteProp = RouteProp<
 
 export type TunnelDoorPollScreenProp = Readonly<{
   route: TunnelDoorPollScreenRouteProp
-  navigation: NavigationProp<ParamListBase>
+  navigation: StackNavigationProp<ParamListBase>
 }>
 
 // Phoning charter

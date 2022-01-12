@@ -78,7 +78,13 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
         </Text>
 
         <PrimaryButton
-          onPress={() => {}}
+          onPress={() => {
+            navigation.replace(Screen.tunnelDoorPoll, {
+              campaignId: route.params.campaignId,
+              buildingParams: route.params.buildingParams,
+              interlocutorStatus: route.params.interlocutorStatus,
+            })
+          }}
           title="Interroger une autre personne dans le même foyer"
           style={styles.button}
           textStyle={styles.buttonTextStyle}
