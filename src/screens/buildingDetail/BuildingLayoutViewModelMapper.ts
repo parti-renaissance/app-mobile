@@ -77,7 +77,7 @@ function blockCardViewModel(
     floors:
       block.status === 'completed'
         ? [floorCompletedCellViewModel(block)]
-        : floors.map((floor) => floorCellViewModel(block.name, floor)),
+        : floors.map((floor) => floorCellViewModel(block.name, floor, type)),
     local: block.local,
     statusAction: statusAction,
     removable: status !== 'completed',
@@ -111,15 +111,19 @@ function floorCompletedCellViewModel(
 function floorCellViewModel(
   buildingBlock: string,
   floor: BuildingBlockFloor,
+  type: BuildingType,
 ): BuildingLayoutFloorCellViewModel {
   return {
     id: floor.id,
     floorNumber: floor.number,
     buildingBlock: buildingBlock,
-    title: i18n.t('building.layout.floor.title', {
-      count: floor.number + 1,
-      floorNumber: floor.number,
-    }),
+    title:
+      type === 'building'
+        ? i18n.t('building.layout.floor.title', {
+            count: floor.number + 1,
+            floorNumber: floor.number,
+          })
+        : i18n.t('building.layout.startaddress'),
     subtitle: floorCellSubtitle(floor),
     isCompleted: floor.status === 'completed',
     local: floor.local,
