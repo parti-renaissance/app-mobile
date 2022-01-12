@@ -63,6 +63,9 @@ export class UpdateBuildingLayoutInteractor {
         ),
       )
     }
+    mergedBlocks.sort((block1, block2) =>
+      block1.name.localeCompare(block2.name),
+    )
 
     return mergedBlocks
   }
