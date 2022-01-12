@@ -16,6 +16,7 @@ import {
 } from '../../../../navigation'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
+import { AlertUtils } from '../../../shared/AlertUtils'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
@@ -70,6 +71,11 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
             canCloseFloor: true,
           })
         })
+        .catch((error) =>
+          AlertUtils.showNetworkAlert(error, () => {
+            onChoice(success, code)
+          }),
+        )
         .finally(() => setIsSendingChoice(false))
     }
   }
