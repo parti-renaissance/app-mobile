@@ -144,6 +144,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
           title={i18n.t('doorToDoor.tunnel.door.floorFinished')}
           style={styles.finished}
           onPress={askConfirmationBeforeCloseFloor}
+          disabled={!route.params.canCloseFloor}
         />
       </View>
     </SafeAreaView>

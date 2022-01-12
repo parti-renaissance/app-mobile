@@ -71,6 +71,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
               navigation.navigate(Screen.tunnelDoorSelectionScreen, {
                 campaignId: campaignId,
                 buildingParams: route.params.buildingParams,
+                canCloseFloor: route.params.canCloseFloor,
               })
             }
           />

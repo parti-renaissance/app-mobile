@@ -67,6 +67,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
               ...route.params.buildingParams,
               door: route.params.buildingParams.door + 1,
             },
+            canCloseFloor: true,
           })
         })
         .finally(() => setIsSendingChoice(false))

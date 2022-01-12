@@ -183,10 +183,12 @@ export type DoorToDoorTunnelModalParamList = {
   TunnelDoorBriefScreen: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
+    canCloseFloor: boolean
   }
   TunnelDoorSelectionScreen: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
+    canCloseFloor: boolean
   }
   TunnelDoorOpeningScreen: {
     campaignId: string
