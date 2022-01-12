@@ -89,10 +89,9 @@ function floorCellViewModel(
     id: floor.id,
     floorNumber: floor.number,
     buildingBlock: buildingBlock,
-    title: i18n.t('building.layout.floor_title', {
-      count: floor.number,
+    title: i18n.t('building.layout.floor.title', {
+      count: floor.number + 1,
       floorNumber: floor.number,
-      context: floor.number,
     }),
     subtitle: floorCellSubtitle(floor),
     isCompleted: floor.status === 'completed',
