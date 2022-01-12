@@ -2,7 +2,9 @@
   "fr": {
     "common": {
       "loading": "Chargement...",
-      "keyboard": { "done": "Ok" },
+      "keyboard": {
+        "done": "Ok"
+      },
       "error": {
         "network": "Une erreur réseau est survenue",
         "internal": "Désolé, une erreur interne est survenue. Nous vous invitons à réessayer ultérieurement. \n(code 500)",
@@ -53,7 +55,9 @@
       "question_unique_choice": "Une seule réponse possible",
       "question_multiple_choices": "Plusieurs réponses possibles",
       "question_rate": "Notez de 1 à 5",
-      "send_answers_error": { "title": "Envoi des réponses" },
+      "send_answers_error": {
+        "title": "Envoi des réponses"
+      },
       "user_profile_progress": "Profil du répondant",
       "consent_data_progress": "Données personnelles",
       "success": {
@@ -177,8 +181,12 @@
         "url": "https://5ansdeplus.fr"
       }
     },
-    "termsofuse": { "accept": "Accepter" },
-    "datacollect": { "accept": "Accepter" },
+    "termsofuse": {
+      "accept": "Accepter"
+    },
+    "datacollect": {
+      "accept": "Accepter"
+    },
     "home": {
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
@@ -202,19 +210,25 @@
         "votes_count_one": "{{format}} votant",
         "votes_count_other": "{{format}} votants"
       },
-      "event": { "section": "Prochain évènement" },
+      "event": {
+        "section": "Prochain évènement"
+      },
       "retaliation": {
         "retaliate_button": "Copier le texte et riposter",
         "see_more": "Détail de la riposte"
       }
     },
-    "regions": { "website": "Plus de détails" },
+    "regions": {
+      "website": "Plus de détails"
+    },
     "profileZipCode": {
       "title": "Code postal",
       "label": "Code postal",
       "validate": "Continuer"
     },
-    "news": { "title": "Actualités" },
+    "news": {
+      "title": "Actualités"
+    },
     "personalinformation": {
       "uncertified": {
         "text": "Votre compte n'est pas certifié",
@@ -371,7 +385,9 @@
       "no_number": {
         "title": "Je n'ai plus de numéro disponible pour le moment."
       },
-      "loader": { "title": "Je cherche un numéro à appeler..." },
+      "loader": {
+        "title": "Je cherche un numéro à appeler..."
+      },
       "other_device": {
         "title": "Appeler depuis un autre appareil",
         "description": "Entrez le numéro de téléphone suivant dans un autre appareil puis cliquez sur « j'ai lancé l'appel »."
@@ -382,8 +398,12 @@
         "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
         "recall": "Relancer l'appel"
       },
-      "status_picker": { "action": "Valider" },
-      "success": { "title": "Et un de plus, bravo ! " }
+      "status_picker": {
+        "action": "Valider"
+      },
+      "success": {
+        "title": "Et un de plus, bravo ! "
+      }
     },
     "retaliation": {
       "title": "Riposte",
@@ -414,7 +434,7 @@
         "tocomplete": "A terminer"
       },
       "stats": {
-        "doorKnocked_one": "Porte frappées",
+        "doorKnocked_one": "Porte frappée",
         "doorKnocked_other": "Portes frappées",
         "estimatedDoors_one": "Porte estimée",
         "estimatedDoors_other": "Portes estimées",
@@ -431,13 +451,16 @@
           "appartementbuilding": "Bâtiment {{buildingName}}"
         },
         "startaddress": "Commencer le porte à porte",
-        "floor_title_0": "RdC",
-        "floor_title": "Étage {{floorNumber}}",
         "floor": {
+          "title_one": "RdC",
+          "title_other": "Étage {{floorNumber}}",
+          "title_closed_one": "1 étage effectué",
+          "title_closed_other": "{{floorsCount}} étages effectués",
           "subtitle": {
             "completed": "Terminé",
             "ongoing": "{{doorKnocked}} portes frappées, {{sruveysCount}} questionnaires remplis",
-            "todo": "Aucun passage"
+            "todo": "Aucun passage",
+            "closed": "Cloturé par {{name}} le {{date}}"
           }
         },
         "add_building": "Ajouter un bâtiment",
@@ -470,9 +493,15 @@
     },
     "actions": {
       "title": "Actions",
-      "polls": { "title": "Questionnaires" },
-      "door_to_door": { "title": "Porte-à-porte" },
-      "phoning": { "title": "Phoning" }
+      "polls": {
+        "title": "Questionnaires"
+      },
+      "door_to_door": {
+        "title": "Porte-à-porte"
+      },
+      "phoning": {
+        "title": "Phoning"
+      }
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
@@ -518,7 +547,9 @@
         "completed": "Terminé"
       },
       "tunnel": {
-        "interlocutor": { "title": "Votre interlocuteur" },
+        "interlocutor": {
+          "title": "Votre interlocuteur"
+        },
         "leave_alert": {
           "title": "Quitter le questionnaire",
           "message": "Êtes-vous sur de vouloir quitter le questionnaire ?",
@@ -527,7 +558,9 @@
         },
         "exit": "Quitter",
         "door": {
-          "qualification": { "title": "Qualification" },
+          "qualification": {
+            "title": "Qualification"
+          },
           "tutorial": {
             "title": "Brief",
             "action": "C'est parti !"
@@ -538,10 +571,10 @@
           "rdvDoor_other": "Rendez-vous à la {{door}}ème porte en partant de la gauche.",
           "doorFinished": "S’il n’y a plus de portes sur l’étage, clôturé l’étage en tapant sur “étage terminé”.",
           "buildingFinished": "Si le bâtiment est terminé quittez cette page en cliquant sur la croix en haut à gauche de votre écran puis, clôturez le.",
-          "title_0": "Bâtiment {{buildingName}} - RdC",
-          "title": "Bâtiment {{buildingName}} - Étage {{floorName}}",
-          "shortTitle_0": "Bât {{buildingName}} - RdC - P{{door}}",
-          "shortTitle": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}",
+          "title_one": "Bâtiment {{buildingName}} - RdC",
+          "title_other": "Bâtiment {{buildingName}} - Étage {{floorName}}",
+          "shortTitle_one": "Bât {{buildingName}} - RdC - P{{door}}",
+          "shortTitle_other": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}",
           "close_floor_alert": {
             "title": "Clôturer l'étage",
             "message": "Etes vous certain d’avoir tocqué à toutes les portes de l'étage ?",
@@ -549,7 +582,9 @@
             "cancel": "Non"
           }
         },
-        "opening": { "title": "La porte s’ouvre t’elle ?" },
+        "opening": {
+          "title": "La porte s’ouvre t’elle ?"
+        },
         "success": {
           "wellDone": "Bravo !",
           "newDoor": "Une porte de plus !",
