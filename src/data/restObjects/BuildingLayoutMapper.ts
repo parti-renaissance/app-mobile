@@ -10,14 +10,14 @@ export const BuildingLayoutMapper = {
           return {
             number: restFloor.number,
             id: restFloor.uuid,
-            status: restFloor.campaign_statistics.status,
-            nbSurveys: restFloor.campaign_statistics.nb_surveys,
-            visitedDoors: restFloor.campaign_statistics.visited_doors,
+            status: restFloor.campaign_statistics?.status ?? 'todo',
+            nbSurveys: restFloor.campaign_statistics?.nb_surveys ?? 0,
+            visitedDoors: restFloor.campaign_statistics?.visited_doors ?? [],
             local: false,
           }
         }),
         id: restBlock.uuid,
-        status: restBlock.campaign_statistics.status,
+        status: restBlock.campaign_statistics?.status ?? 'todo',
         local: false,
       }
     })

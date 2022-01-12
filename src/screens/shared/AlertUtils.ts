@@ -21,7 +21,7 @@ export const AlertUtils = {
           onPress: onRetry,
         },
         {
-          text: i18n.t('shared.cancel'),
+          text: i18n.t('common.cancel'),
           style: 'cancel',
         },
       ]

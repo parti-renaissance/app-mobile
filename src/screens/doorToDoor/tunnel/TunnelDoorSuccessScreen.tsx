@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
 import {
   FlatList,
   Image,
@@ -17,6 +22,7 @@ import { Screen, DoorToDoorTunnelSuccessScreenProp } from '../../../navigation'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
+import { CloseButton } from '../../shared/NavigationHeaderButton'
 import { RankingRowViewModel, Tab } from '../rankings/Ranking'
 import { RankingHeaderView } from '../rankings/RankingHeaderView'
 import { RankingRowView } from '../rankings/RankingRowView'
@@ -31,9 +37,19 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
   const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
   const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>()
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <CloseButton
+          onPress={() => navigation.dangerouslyGetParent()?.goBack()}
+        />
+      ),
+    })
+  }, [navigation])
+
   useEffect(() => {
     DoorToDoorRepository.getInstance()
-      .getDoorToDoorCampaignRanking(route.params.campaignId)
+      .getDoorToDoorCampaignRanking(route.params.campaignId, 'remote')
       .then((result) => {
         setUserStats(result.individual.find((item) => item.current))
         setRanking(result)
@@ -65,8 +81,15 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
           textStyle={styles.buttonTextStyle}
         />
 
-        <RankingTabsView tab={tab} onPress={setTab} />
-        <RankingHeaderView tab={tab} />
+        {ranking ? (
+          <>
+            <Text style={styles.title}>
+              {i18n.t('doorToDoor.tunnel.success.ranking')}
+            </Text>
+            <RankingTabsView tab={tab} onPress={setTab} />
+            <RankingHeaderView tab={tab} />
+          </>
+        ) : null}
       </>
     )
   }

@@ -1,24 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, Image, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-map-clustering'
-import { LatLng, Marker, Region } from 'react-native-maps'
+import { LatLng, Region } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
-import {
-  DoorToDoorMapMarker,
-  MARKER_DEFAULT_ANCHOR,
-} from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 import Geolocation from 'react-native-geolocation-service'
-import { GetDoorToDoorCampaignPopupInteractor } from '../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import MapButton from './DoorToDoorMapButton'
 import { HorizontalSpacer } from '../shared/Spacer'
 import Map from 'react-native-maps'
+import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 
 const DEFAULT_DELTA = 0.01
 
@@ -27,6 +24,7 @@ type Props = {
   location: LatLng
   onAddressPress: (id: string) => void
   onSearchHerePressed: (location: LatLng) => void
+  onCampaignRankingSelected: (campaignId: string) => void
 }
 
 type PopupProps = {
@@ -39,6 +37,7 @@ const DoorToDoorMapView = ({
   location,
   onAddressPress,
   onSearchHerePressed,
+  onCampaignRankingSelected,
 }: Props) => {
   const mapRef = useRef<Map | null>(null)
   const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
@@ -47,7 +46,6 @@ const DoorToDoorMapView = ({
     value: undefined,
   })
   const [currentRegion, setCurrentRegion] = useState<Region>()
-  const markerExtraProps = { cluster: false }
 
   const initialPosition = {
     latitude: location.latitude,
@@ -100,7 +98,7 @@ const DoorToDoorMapView = ({
 
     useEffect(() => {
       if (popup.value) {
-        new GetDoorToDoorCampaignPopupInteractor()
+        new GetDoorToDoorCampaignInfoInteractor()
           .execute(popup.value?.building.campaignStatistics.campaignId)
           .then((result) => {
             setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
@@ -118,7 +116,14 @@ const DoorToDoorMapView = ({
             onPress={onAddressPress}
             viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
           />
-          {viewModel ? <DoorToDoorCampaignCard viewModel={viewModel} /> : null}
+          {viewModel ? (
+            <DoorToDoorCampaignCard
+              viewModel={viewModel}
+              onPress={(campaignId: string) => {
+                onCampaignRankingSelected(campaignId)
+              }}
+            />
+          ) : null}
         </Pressable>
       </Pressable>
     )
@@ -131,6 +136,7 @@ const DoorToDoorMapView = ({
         style={styles.map}
         initialRegion={initialRegion}
         rotateEnabled={false}
+        showsUserLocation={true}
         showsPointsOfInterest={true}
         showsCompass={false}
         showsBuildings={true}
@@ -139,6 +145,7 @@ const DoorToDoorMapView = ({
         loadingEnabled={true}
         maxZoomLevel={20}
         minZoomLevel={10}
+        spiralEnabled={false}
         renderCluster={(cluster) => (
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
         )}
@@ -150,21 +157,15 @@ const DoorToDoorMapView = ({
         // iOS only
         showsScale={true}
         // Clustering
-        minPoints={3}
+        minPoints={5}
         nodeSize={8} // performance optimization
       >
-        <Marker
-          coordinate={currentPosition}
-          tracksViewChanges={false}
-          {...markerExtraProps}
-          anchor={MARKER_DEFAULT_ANCHOR}
-        >
-          <Image source={require('../../assets/images/papPositionIcon.png')} />
-        </Marker>
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
-            icon={PoiAddressCardViewModelMapper.map('map', marker)?.statusIcon}
+            icon={
+              PoiAddressCardViewModelMapper.map('map', marker)?.mapStatusIcon
+            }
             coordinate={{
               longitude: marker.longitude,
               latitude: marker.latitude,

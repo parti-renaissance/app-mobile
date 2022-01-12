@@ -4,29 +4,49 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import ProgressBar from '../shared/ProgressBar'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 
 type Props = {
   viewModel: DoorToDoorCampaignCardViewModel
+  onPress: (campaignId: string) => void
 }
 
-export const DoorToDoorCampaignCard = ({ viewModel }: Props) => {
+export const DoorToDoorCampaignCard = ({ viewModel, onPress }: Props) => {
   return (
     <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
-      <View style={styles.content}>
-        <View style={styles.campaign}>
-          <Text style={styles.title}>{viewModel.name}</Text>
-          <Text style={styles.date}>{viewModel.date}</Text>
-        </View>
-        <View>
-          <Text style={styles.goal}>
-            {i18n.t('doorToDoor.goal')}
-            <Text style={styles.indicator}>{viewModel.goal}</Text>
-          </Text>
-          <ProgressBar progress={viewModel.progress} color={Colors.accent} />
-        </View>
-      </View>
+      <TouchablePlatform
+        onPress={() => onPress(viewModel.campaignId)}
+        touchHighlight={Colors.touchHighlight}
+      >
+        <DoorToDoorCampaignInfoView viewModel={viewModel} />
+      </TouchablePlatform>
     </CardView>
+  )
+}
+
+type ViewProps = {
+  viewModel: DoorToDoorCampaignCardViewModel
+}
+
+export const DoorToDoorCampaignInfoView = ({ viewModel }: ViewProps) => {
+  return (
+    <View style={styles.content}>
+      <View style={styles.campaign}>
+        <Text style={styles.title}>{viewModel.name}</Text>
+        <Text style={styles.date}>{viewModel.date}</Text>
+      </View>
+      <View>
+        <Text style={styles.goal}>
+          {i18n.t('doorToDoor.goal')}
+          <Text style={styles.indicator}>{viewModel.goal}</Text>
+        </Text>
+        <ProgressBar
+          progress={viewModel.progress}
+          color={Colors.primaryColor}
+        />
+      </View>
+    </View>
   )
 }
 
@@ -39,6 +59,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
   },
   content: {
+    backgroundColor: Colors.defaultBackground,
     flexDirection: 'row',
     padding: Spacing.margin,
   },
@@ -51,9 +72,9 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.unit,
   },
   indicator: {
-    ...Typography.headline,
+    ...Typography.body,
   },
   title: {
-    ...Typography.title2,
+    ...Typography.body,
   },
 })

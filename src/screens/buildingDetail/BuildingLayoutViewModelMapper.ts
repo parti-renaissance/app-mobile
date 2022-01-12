@@ -69,8 +69,6 @@ function blockCardViewModel(
       index = floor.number + 1
     })
 
-  console.log(JSON.stringify(floors, null, 2))
-
   return {
     id: block.id,
     buildingType: type,

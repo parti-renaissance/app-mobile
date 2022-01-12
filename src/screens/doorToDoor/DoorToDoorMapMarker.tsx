@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Image, ImageRequireSource, Platform } from 'react-native'
+import { ImageRequireSource, Platform } from 'react-native'
 import { LatLng, Marker } from 'react-native-maps'
 
 type Props = {
@@ -29,9 +29,8 @@ export const DoorToDoorMapMarker = memo((props: Props) => {
         coordinate={props.coordinate}
         onPress={props.onPress}
         anchor={MARKER_DEFAULT_ANCHOR}
-      >
-        <Image source={props.icon} />
-      </Marker>
+        image={props.icon}
+      />
     )
   }
 })

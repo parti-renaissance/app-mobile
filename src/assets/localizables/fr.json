@@ -484,10 +484,9 @@
       "noPassage": "Aucun passage",
       "passageOn": "le {{date}}",
       "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
-      "electorsMet": "Électeurs rencontrés",
       "doorKnocked": "Portes frappées",
       "date_format": "D MMM YYYY",
-      "doorsSurveysCount": "{{numberOfSurveys}}/{{numberOfDoors}}",
+      "doorsSurveysCount": "{{numberOfDoors}}/{{numberOfSurveys}}",
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",
@@ -556,7 +555,8 @@
           "newDoor": "Une porte de plus !",
           "recap": "Tu as réalisé un total de {{doorsCount}} porte frappée et récolté {{pollsCount}} questionnaire. Merci pour ton engagement !",
           "knockNewDoor": "Frapper à une nouvelle porte",
-          "stop": "Arrêter le porte-à-porte"
+          "stop": "Arrêter le porte-à-porte",
+          "ranking": "Classement"
         }
       }
     }

@@ -7,7 +7,8 @@ import {
   Text,
   View,
 } from 'react-native'
-import { GetDoorToDoorCampaignPopupInteractor } from '../../../core/interactor/GetDoorToDoorCampaignPopupInteractor'
+import { DoorToDoorCampaignRanking } from '../../../core/entities/DoorToDoorCampaignRanking'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { Colors, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { CloseButton } from '../../shared/NavigationHeaderButton'
@@ -18,6 +19,7 @@ import { RankingCampaignHeader } from './RankingCampaignHeader'
 import { RankingHeaderView } from './RankingHeaderView'
 import { RankingRowView } from './RankingRowView'
 import { RankingTabsView } from './RankingTabsView'
+import { RankingViewModelMapper } from './RankingViewModelMapper'
 
 type Props = Readonly<{
   onDismissModal: () => void
@@ -26,12 +28,14 @@ type Props = Readonly<{
 
 const RankingModal: FC<Props> = (props) => {
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
+  const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
   const [viewModel, setViewModel] = useState<DoorToDoorCampaignCardViewModel>()
 
   useEffect(() => {
-    new GetDoorToDoorCampaignPopupInteractor()
+    new GetDoorToDoorCampaignInfoInteractor()
       .execute(props.campaignId)
       .then((result) => {
+        setRanking(result.ranking)
         setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
       })
   }, [props.campaignId])
@@ -51,10 +55,9 @@ const RankingModal: FC<Props> = (props) => {
       {viewModel ? <RankingCampaignHeader viewModel={viewModel} /> : null}
       <RankingTabsView tab={tab} onPress={setTab} />
 
-      {/* TODO - To change with API data */}
       <FlatList
         ListHeaderComponent={() => <RankingHeaderView tab={tab} />}
-        data={[]}
+        data={RankingViewModelMapper.map(ranking, tab)}
         renderItem={renderItem}
         keyExtractor={(item) => item.rank}
       />

@@ -2,7 +2,7 @@ export interface RestBuildingBlock {
   name: string
   floors: RestBuildingBlockFloor[]
   uuid: string
-  campaign_statistics: RestBuildingBlockCampaignStatistics
+  campaign_statistics?: RestBuildingBlockCampaignStatistics
 }
 
 export interface RestBuildingBlockCampaignStatistics {
@@ -12,7 +12,7 @@ export interface RestBuildingBlockCampaignStatistics {
 export type RestBuildingBlockFloor = {
   number: number
   uuid: string
-  campaign_statistics: RestBuildingBlockFloorCampaignStatistics
+  campaign_statistics?: RestBuildingBlockFloorCampaignStatistics
 }
 
 export type RestBuildingBlockFloorCampaignStatistics = {

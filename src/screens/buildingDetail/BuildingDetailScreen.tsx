@@ -1,6 +1,5 @@
 import React, {
   FunctionComponent,
-  useCallback,
   useEffect,
   useLayoutEffect,
   useState,
@@ -13,7 +12,7 @@ import {
   Text,
   ScrollView,
 } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
@@ -38,6 +37,12 @@ import {
   DoorToDoorAddress,
   DoorToDoorAddressStatus,
 } from '../../core/entities/DoorToDoor'
+import { useIsFocused } from '@react-navigation/native'
+import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
+import { DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
+import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
+import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
 
 enum Tab {
   HISTORY,
@@ -48,10 +53,15 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   navigation,
   route,
 }) => {
+  const isFocused = useIsFocused()
   const [isLoading, setIsloading] = useState(false)
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
+  const [
+    campaignCardViewModel,
+    setCampaignCardViewModel,
+  ] = useState<DoorToDoorCampaignCardViewModel>()
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     route.params.address,
     history,
@@ -72,42 +82,46 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     })
   })
 
-  const fetchLayout = useCallback(() => {
+  const fetchLayout = () => {
+    new UpdateBuildingLayoutInteractor()
+      .execute(
+        route.params.address.building.id,
+        route.params.address.building.campaignStatistics.campaignId,
+        route.params.address.building.type,
+        layout,
+      )
+      .then((blocks) => setLayout(blocks))
+  }
+
+  const fetchHistory = () => {
     DoorToDoorRepository.getInstance()
-      .buildingBlocks(
+      .buildingHistory(
         route.params.address.building.id,
         route.params.address.building.campaignStatistics.campaignId,
       )
       .then((value) => {
-        setLayout(value)
+        setHistory(value)
       })
-  }, [
-    route.params.address.building.id,
-    route.params.address.building.campaignStatistics.campaignId,
-  ])
+  }
+
+  const fetchCampaignInfo = () => {
+    new GetDoorToDoorCampaignInfoInteractor()
+      .execute(route.params.address.building.campaignStatistics.campaignId)
+      .then((result) => {
+        setCampaignCardViewModel(
+          DoorToDoorCampaignCardViewModelMapper.map(result),
+        )
+      })
+  }
 
   useEffect(() => {
-    const fetchHistory = () => {
-      DoorToDoorRepository.getInstance()
-        .buildingHistory(
-          route.params.address.building.id,
-          route.params.address.building.campaignStatistics.campaignId,
-        )
-        .then((value) => {
-          setHistory(value)
-        })
-        .catch(() => {
-          // TODO (Denis Poifol) 2021/12/16 handle error and empty array returned from WS
-        })
+    if (isFocused) {
+      fetchHistory()
+      fetchLayout()
+      fetchCampaignInfo()
     }
-
-    fetchHistory()
-    fetchLayout()
-  }, [
-    route.params.address.building.campaignStatistics.campaignId,
-    route.params.address.building.id,
-    fetchLayout,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused])
 
   const showHistory = () => {
     setTab(Tab.HISTORY)
@@ -124,12 +138,12 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         layout[layout.length - 1].name,
       )
     } else {
-      nextBuildingBlock = 'A'
+      nextBuildingBlock = AlphabetHelper.firstLetterInAlphabet
     }
     layout.push(
       buildingBlockHelper.createLocalBlock(
         nextBuildingBlock,
-        route.params.address.building.type === 'building' ? 2 : 1,
+        route.params.address.building.type,
       ),
     )
     setLayout([...layout])
@@ -396,6 +410,11 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             title={i18n.t('building.close_address.action')}
           />
         ) : null}
+        {campaignCardViewModel ? (
+          <View style={styles.bottomContainer}>
+            <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
+          </View>
+        ) : null}
       </>
     </SafeAreaView>
   )
@@ -407,8 +426,11 @@ const styles = StyleSheet.create({
     marginTop: mediumMargin,
     textAlign: 'center',
   },
+  bottomContainer: {
+    ...Styles.topElevatedContainerStyle,
+  },
   closeAddress: {
-    bottom: 0,
+    bottom: Spacing.extraExtraLargeMargin,
     left: 0,
     marginBottom: Spacing.margin,
     marginHorizontal: Spacing.margin,
