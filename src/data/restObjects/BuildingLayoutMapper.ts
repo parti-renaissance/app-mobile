@@ -15,6 +15,8 @@ export const BuildingLayoutMapper = {
             nbSurveys: restFloor.campaign_statistics?.nb_surveys ?? 0,
             visitedDoors: restFloor.campaign_statistics?.visited_doors ?? [],
             local: false,
+            closedAt:
+              moment(restFloor.campaign_statistics?.closed_at) ?? undefined,
           }
         }),
         id: restBlock.uuid,

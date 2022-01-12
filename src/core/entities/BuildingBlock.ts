@@ -19,6 +19,7 @@ export type BuildingBlockFloor = {
   nbSurveys: number
   visitedDoors: string[]
   local: boolean
+  closedAt: Moment | undefined
 }
 
 export type BuildingBlockStatus = 'todo' | 'ongoing' | 'completed'
@@ -36,6 +37,7 @@ export class BuildingBlockHelper {
       nbSurveys: 0,
       visitedDoors: [],
       local: true,
+      closedAt: undefined,
     }
   }
 
@@ -56,6 +58,8 @@ export class BuildingBlockHelper {
       id: uuid.v4() as string,
       status: 'todo',
       local: true,
+      closedAt: undefined,
+      closedBy: undefined,
     }
   }
 }

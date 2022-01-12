@@ -457,7 +457,7 @@
           "title_closed_one": "1 étage effectué",
           "title_closed_other": "{{floorsCount}} étages effectués",
           "subtitle": {
-            "completed": "Terminé",
+            "completed": "Terminé le {{date}}",
             "ongoing": "{{doorKnocked}} portes frappées, {{sruveysCount}} questionnaires remplis",
             "todo": "Aucun passage",
             "closed": "Cloturé par {{name}} le {{date}}"

@@ -21,4 +21,5 @@ export type RestBuildingBlockFloorCampaignStatistics = {
   visited_doors: string[]
   nb_surveys: number
   status: 'todo' | 'ongoing' | 'completed'
+  closed_at: string | null
 }
