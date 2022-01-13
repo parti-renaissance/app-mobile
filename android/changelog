@@ -1,15 +1,5 @@
-# v3.0.0-RC8
-
-Theme:
-
-- Remove color management according to postal code
-- New design with colors and fonts for main components
+# v3.0.0-RC10
 
 Door To Door:
 
-- User scope PaP
-- Update Brief screen content
-- Building details local management of floors and blocks
-- UI fixes on Building screen and PaP tunnel screens
-- Improve map clustering
-- Fix navigation accross the app
+- Various UI fixes
