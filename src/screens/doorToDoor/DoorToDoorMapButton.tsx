@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native'
 import { Colors, Typography, Spacing } from '../../styles'
+import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 type Props = {
@@ -17,16 +18,20 @@ type Props = {
 
 const MapButton: FunctionComponent<Props> = ({ onPress, text, image }) => {
   return (
-    <TouchablePlatform
-      style={styles.searchHereButton}
-      onPress={onPress}
-      touchHighlight={Colors.touchHighlight}
-    >
-      <View style={styles.searchHereButtonContainer}>
-        <Image style={styles.mapButtonIcon} source={image} />
-        {text !== undefined && <Text style={styles.mapButtonText}>{text}</Text>}
-      </View>
-    </TouchablePlatform>
+    <CardView borderRadius={30} backgroundColor={Colors.defaultBackground}>
+      <TouchablePlatform
+        style={styles.searchHereButton}
+        onPress={onPress}
+        touchHighlight={Colors.touchHighlight}
+      >
+        <View style={styles.searchHereButtonContainer}>
+          <Image style={styles.mapButtonIcon} source={image} />
+          {text !== undefined && (
+            <Text style={styles.mapButtonText}>{text}</Text>
+          )}
+        </View>
+      </TouchablePlatform>
+    </CardView>
   )
 }
 
