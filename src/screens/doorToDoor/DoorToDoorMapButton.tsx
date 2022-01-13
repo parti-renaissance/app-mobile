@@ -5,6 +5,8 @@ import {
   Text,
   StyleSheet,
   Image,
+  StyleProp,
+  ViewStyle,
 } from 'react-native'
 import { Colors, Typography, Spacing } from '../../styles'
 import CardView from '../shared/CardView'
@@ -14,56 +16,67 @@ type Props = {
   onPress: () => void
   text?: string
   image: ImageSourcePropType
+  disabled?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
-const MapButton: FunctionComponent<Props> = ({ onPress, text, image }) => {
-  return (
-    <CardView borderRadius={30} backgroundColor={Colors.defaultBackground}>
-      <TouchablePlatform
-        style={styles.searchHereButton}
-        onPress={onPress}
-        touchHighlight={Colors.touchHighlight}
-      >
-        <View style={styles.searchHereButtonContainer}>
-          <Image style={styles.mapButtonIcon} source={image} />
-          {text !== undefined && (
-            <Text style={styles.mapButtonText}>{text}</Text>
-          )}
-        </View>
-      </TouchablePlatform>
-    </CardView>
-  )
-}
+const MapButton: FunctionComponent<Props> = ({
+  onPress,
+  text,
+  image,
+  style,
+  disabled = false,
+}) => (
+  <CardView
+    borderRadius={30}
+    backgroundColor={Colors.defaultBackground}
+    style={style}
+  >
+    <TouchablePlatform
+      onPress={onPress}
+      touchHighlight={Colors.touchHighlight}
+      disabled={disabled}
+    >
+      <View style={styles.content}>
+        <Image
+          style={[styles.mapButtonIcon, disabled ? styles.imageDisabled : null]}
+          source={image}
+        />
+        {text !== undefined && (
+          <Text
+            style={[styles.mapButtonText, disabled ? styles.disabled : null]}
+          >
+            {text}
+          </Text>
+        )}
+      </View>
+    </TouchablePlatform>
+  </CardView>
+)
 
 const styles = StyleSheet.create({
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: Spacing.unit,
+  },
+  disabled: {
+    color: Colors.lightText,
+  },
+  imageDisabled: {
+    tintColor: Colors.lightText,
+  },
   mapButtonIcon: {
     alignSelf: 'center',
     height: 16,
+    marginVertical: Spacing.small,
     width: 16,
-  },
-  mapButtonListContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    margin: Spacing.margin,
   },
   mapButtonText: {
     ...Typography.callout,
     alignSelf: 'center',
     marginHorizontal: Spacing.unit,
     textAlign: 'center',
-  },
-  searchHereButton: {
-    borderRadius: 20,
-    flex: 0,
-    overflow: 'hidden',
-  },
-  searchHereButtonContainer: {
-    backgroundColor: Colors.defaultBackground,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    minHeight: 40,
-    minWidth: 40,
-    padding: Spacing.unit,
   },
 })
 

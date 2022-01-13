@@ -37,6 +37,7 @@ type RankingModalState = Readonly<{
 const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   navigation,
 }) => {
+  const [loading, setLoading] = useState(false)
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
     { visible: false },
   )
@@ -62,6 +63,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   }, [])
 
   const fetchPosition = () => {
+    setLoading(true)
     Geolocation.watchPosition((position) => {
       setLocation({
         longitude: position.coords.longitude,
@@ -80,8 +82,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             setAddresses(newAddresses)
             setFilteredAddresses(newAddresses)
           })
+          .finally(() => setLoading(false))
       },
-      () => setLocationAuthorized(false),
+      () => {
+        setLocationAuthorized(false)
+        setLoading(false)
+      },
       { enableHighAccuracy: true },
     )
     return () => {
@@ -143,14 +149,17 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
         <DoorToDoorMapView
           data={filteredAddresses}
           location={currentLocation}
+          loading={loading}
           onAddressPress={navigateToBuildingDetail}
           onSearchHerePressed={(position) => {
+            setLoading(true)
             new GetDoorToDoorAddressesInteractor()
               .execute(position.latitude, position.longitude)
               .then((newAddresses) => {
                 setAddresses(newAddresses)
                 setFilteredAddresses(newAddresses)
               })
+              .finally(() => setLoading(false))
           }}
           onCampaignRankingSelected={(campaignId: string) => {
             setRankingModalState({ visible: true, campaignId: campaignId })
