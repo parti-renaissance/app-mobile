@@ -21,11 +21,10 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
   useEffect(() => {
     navigation.setOptions({
       title: i18n.t('doorToDoor.tunnel.door.shortTitle', {
-        count: route.params.buildingParams.floor,
+        count: route.params.buildingParams.floor + 1,
         buildingName: route.params.buildingParams.block,
         floorName: route.params.buildingParams.floor,
         door: selectedDoor,
-        context: route.params.buildingParams.floor,
       }),
     })
   }, [navigation, route.params, selectedDoor])
@@ -110,10 +109,9 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
         </View>
         <Text style={styles.title}>
           {i18n.t('doorToDoor.tunnel.door.title', {
-            count: route.params.buildingParams.floor,
+            count: route.params.buildingParams.floor + 1,
             buildingName: route.params.buildingParams.block,
             floorName: route.params.buildingParams.floor,
-            context: route.params.buildingParams.floor,
           })}
         </Text>
         <Text style={styles.body}>
@@ -146,6 +144,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
           title={i18n.t('doorToDoor.tunnel.door.floorFinished')}
           style={styles.finished}
           onPress={askConfirmationBeforeCloseFloor}
+          disabled={!route.params.canCloseFloor}
         />
       </View>
     </SafeAreaView>

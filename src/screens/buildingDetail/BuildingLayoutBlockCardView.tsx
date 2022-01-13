@@ -7,7 +7,6 @@ import {
   Image,
   Text,
 } from 'react-native'
-import { BuildingType } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
@@ -20,13 +19,14 @@ import BuildingLayoutFloorCell, {
 
 export interface BuildingLayoutBlockCardViewModel {
   id: string
-  buildingType: BuildingType
   buildingTypeName: string
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
   local: boolean
   statusAction: string
-  editable: boolean
+  removable: boolean
+  canUpdateBuildingStatus: boolean
+  canAddNewFloor: boolean
 }
 
 type Props = Readonly<{
@@ -51,7 +51,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   return (
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <View style={styles.statusContainer}>
-        {viewModel.local && viewModel.editable ? (
+        {viewModel.local && viewModel.removable ? (
           <View style={styles.removeContainer}>
             <TouchablePlatform
               touchHighlight={Colors.touchHighlight}
@@ -65,15 +65,14 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         ) : null}
         <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
-        <View>
+        {viewModel.canUpdateBuildingStatus ? (
           <BorderlessButton
             title={viewModel.statusAction}
             onPress={() => onBuildingAction(viewModel.id)}
-            disabled={!viewModel.editable}
             textStyle={styles.buildingActionText}
             style={styles.buildingAction}
           />
-        </View>
+        ) : null}
       </View>
       <View style={styles.layoutContainer}>
         {viewModel.floors.map((floorViewModel, index) => {
@@ -85,7 +84,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                 onSelect={onSelect}
                 canRemove={
                   floorViewModel.local &&
-                  viewModel.editable &&
+                  viewModel.removable &&
                   index !== 0 &&
                   index === viewModel.floors.length - 1
                 }
@@ -99,7 +98,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
             </View>
           )
         })}
-        {viewModel.buildingType === 'building' && viewModel.editable ? (
+        {viewModel.canAddNewFloor ? (
           <AddBuildingFloorCard
             onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
           />
@@ -194,7 +193,8 @@ const styles = StyleSheet.create({
   statusText: {
     ...Typography.title3,
     flex: 1,
-    paddingLeft: small,
+    marginVertical: Spacing.small,
+    paddingLeft: Spacing.small,
   },
 })
 

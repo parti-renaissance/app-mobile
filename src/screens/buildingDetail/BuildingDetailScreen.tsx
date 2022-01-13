@@ -320,7 +320,15 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
-            onSelect={(buildingBlock: string, floor: number) => {
+            onSelect={(buildingBlock: string, floorNumber: number) => {
+              const block = layout.find((item) => item.name === buildingBlock)
+              const floor = block?.floors?.find(
+                (item) => item.number === floorNumber,
+              )
+              let canCloseFloor = false
+              if (block && floor) {
+                canCloseFloor = floor.visitedDoors.length > 0
+              }
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorBrief,
                 params: {
@@ -328,9 +336,10 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                   buildingParams: {
                     id: route.params.address.building.id,
                     block: buildingBlock,
-                    floor: floor,
-                    door: 1, // TODO: (Romain GF) when door selection screen is available, update the value with the real door number
+                    floor: floorNumber,
+                    door: 1,
                   },
+                  canCloseFloor: canCloseFloor,
                 },
               })
             }}
@@ -358,7 +367,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       <LoadingOverlay visible={isLoading} />
       <>
         <ScrollView>
-          <Image source={viewModel.illustration} />
+          <Image source={viewModel.illustration} style={styles.illustration} />
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
           <BuildingStatusView viewModel={viewModel.status} />
@@ -444,6 +453,9 @@ const styles = StyleSheet.create({
   edit: {
     alignSelf: 'flex-end',
     marginEnd: Spacing.unit,
+  },
+  illustration: {
+    alignSelf: 'center',
   },
   lastVisit: {
     ...Typography.body,

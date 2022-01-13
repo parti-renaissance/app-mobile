@@ -16,6 +16,7 @@ const DoorToDoorFilter = ({ filter, onPress }: Props) => {
       horizontal
       style={styles.container}
       showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.contentContainer}
     >
       <DoorToDoorFilterItem
         filter="all"
@@ -51,6 +52,9 @@ const DoorToDoorFilter = ({ filter, onPress }: Props) => {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: Spacing.small,
+  },
+  contentContainer: {
+    paddingHorizontal: Spacing.margin,
   },
 })
 

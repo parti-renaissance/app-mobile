@@ -19,9 +19,9 @@ export const BuildingDetailScreenViewModelMapper = {
     const illustration = (): ImageSourcePropType => {
       switch (address.building.type) {
         case 'house':
-          return require('../../assets/images/blue/imageHouse.png')
+          return require('../../assets/images/imageHouse.png')
         case 'building':
-          return require('../../assets/images/blue/appartementBuilding.png')
+          return require('../../assets/images/imageBuilding.png')
       }
     }
     return {

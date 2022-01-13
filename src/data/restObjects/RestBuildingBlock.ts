@@ -7,6 +7,8 @@ export interface RestBuildingBlock {
 
 export interface RestBuildingBlockCampaignStatistics {
   status: 'todo' | 'ongoing' | 'completed'
+  closed_by: string | null
+  closed_at: string | null
 }
 
 export type RestBuildingBlockFloor = {
@@ -19,4 +21,5 @@ export type RestBuildingBlockFloorCampaignStatistics = {
   visited_doors: string[]
   nb_surveys: number
   status: 'todo' | 'ongoing' | 'completed'
+  closed_at: string | null
 }

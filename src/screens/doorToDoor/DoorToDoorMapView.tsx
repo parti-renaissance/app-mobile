@@ -143,8 +143,6 @@ const DoorToDoorMapView = ({
         showsIndoors={false}
         pitchEnabled={false}
         loadingEnabled={true}
-        maxZoomLevel={20}
-        minZoomLevel={10}
         spiralEnabled={false}
         renderCluster={(cluster) => (
           <DoorToDoorMapCluster key={cluster.id} {...cluster} />
@@ -157,7 +155,7 @@ const DoorToDoorMapView = ({
         // iOS only
         showsScale={true}
         // Clustering
-        minPoints={5}
+        minPoints={6}
         nodeSize={8} // performance optimization
       >
         {data.map((marker) => (

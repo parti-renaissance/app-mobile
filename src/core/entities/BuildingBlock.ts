@@ -6,6 +6,8 @@ export interface BuildingBlock {
   floors: BuildingBlockFloor[]
   id: string
   status: BuildingBlockStatus
+  closedBy: string | undefined
+  closedAt: Date | undefined
   local: boolean
 }
 
@@ -16,6 +18,7 @@ export type BuildingBlockFloor = {
   nbSurveys: number
   visitedDoors: string[]
   local: boolean
+  closedAt: Date | undefined
 }
 
 export type BuildingBlockStatus = 'todo' | 'ongoing' | 'completed'
@@ -33,6 +36,7 @@ export class BuildingBlockHelper {
       nbSurveys: 0,
       visitedDoors: [],
       local: true,
+      closedAt: undefined,
     }
   }
 
@@ -53,6 +57,8 @@ export class BuildingBlockHelper {
       id: uuid.v4() as string,
       status: 'todo',
       local: true,
+      closedAt: undefined,
+      closedBy: undefined,
     }
   }
 }

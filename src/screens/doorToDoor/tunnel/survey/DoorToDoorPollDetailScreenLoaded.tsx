@@ -1,4 +1,4 @@
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import { ParamListBase } from '@react-navigation/native'
 import React, {
   FunctionComponent,
   useCallback,
@@ -24,12 +24,13 @@ import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
 import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 type Props = Readonly<{
   poll: Poll
   qualification: Array<PollExtraQuestionPage>
   route: TunnelDoorPollScreenRouteProp
-  navigation: NavigationProp<ParamListBase>
+  navigation: StackNavigationProp<ParamListBase>
 }>
 
 const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
@@ -90,9 +91,10 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
         result,
       )
       .then(() => {
-        navigation.navigate(Screen.tunnelDoorSuccess, {
+        navigation.replace(Screen.tunnelDoorSuccess, {
           campaignId: route.params.campaignId,
           buildingParams: route.params.buildingParams,
+          interlocutorStatus: route.params.interlocutorStatus,
         })
       })
       .catch((error) => {

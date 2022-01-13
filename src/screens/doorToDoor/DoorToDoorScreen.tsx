@@ -147,7 +147,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       )}
 
       <View style={styles.header}>
-        <Text style={styles.title}>{i18n.t('doorToDoor.title')}</Text>
+        <Text style={styles.title} numberOfLines={1}>
+          {i18n.t('doorToDoor.title')}
+        </Text>
         {locationAuthorized && (
           <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
         )}
@@ -201,12 +203,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginRight: Spacing.unit,
+    marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
   },
   title: {
     ...Typography.highlightedTitle,
-    marginHorizontal: Spacing.unit,
+    flex: 1,
   },
 })
 
