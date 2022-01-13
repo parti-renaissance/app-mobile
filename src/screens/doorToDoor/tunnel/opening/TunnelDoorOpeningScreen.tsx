@@ -26,7 +26,6 @@ import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigat
 type CardItemProps = {
   onPress: () => void
   title: string
-  image: ImageSourcePropType
 }
 
 const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProp> = ({
@@ -80,7 +79,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
     }
   }
 
-  const CardItem = ({ onPress, title, image }: CardItemProps) => (
+  const CardItem = ({ onPress, title }: CardItemProps) => (
     <View style={styles.card}>
       <TouchablePlatform
         style={styles.cardContent}
@@ -89,7 +88,6 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
       >
         <View style={styles.button}>
           <Text style={styles.buttonTitle}>{title}</Text>
-          <Image source={image} />
         </View>
       </TouchablePlatform>
     </View>
@@ -102,9 +100,6 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
           {i18n.t('doorToDoor.tunnel.opening.title')}
         </Text>
         {status.map((item) => {
-          const image = item.success
-            ? require('../../../../assets/images/papDoorOpening.png')
-            : require('../../../../assets/images/papDoorNotOpening.png')
           return (
             <CardItem
               key={item.code}
@@ -112,7 +107,6 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
                 onChoice(item.success, item.code)
               }}
               title={item.label}
-              image={image}
             />
           )
         })}
@@ -134,7 +128,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonTitle: {
-    ...Typography.callout,
+    ...Typography.title2,
     flex: 1,
     marginLeft: Spacing.margin,
     textAlign: 'center',
