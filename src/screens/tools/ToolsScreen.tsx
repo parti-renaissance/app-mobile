@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.largeMargin,
   },
   title: {
-    ...Typography.title,
+    ...Typography.largeTitle,
     marginBottom: Spacing.mediumMargin,
   },
 })

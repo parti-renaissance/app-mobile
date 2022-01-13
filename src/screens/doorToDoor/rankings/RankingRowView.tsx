@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { Colors, Spacing } from '../../../styles'
+import { Colors, Spacing, Typography } from '../../../styles'
 import { RankingRowViewModel } from './Ranking'
 
 type Props = Readonly<{
@@ -14,13 +14,16 @@ export const RankingRowView = ({ viewModel }: Props) => {
       : [styles.row, styles.rowOdd]
 
   const rowHighlightedStyle = viewModel.highlight ? styles.rowHighlighted : null
+  const textStyle = viewModel.highlight ? styles.textHighlighted : styles.text
 
   return (
     <View style={[rowStyle, rowHighlightedStyle]}>
-      <Text style={styles.cell}>{viewModel.rank}</Text>
-      <Text style={styles.cellLarge}>{viewModel.name}</Text>
-      <Text style={styles.cell}>{viewModel.doorKnocked}</Text>
-      <Text style={styles.cellLarge}>{viewModel.pollsCompleted}</Text>
+      <Text style={[styles.cell, textStyle]}>{viewModel.rank}</Text>
+      <Text style={[styles.cellLarge, textStyle]}>{viewModel.name}</Text>
+      <Text style={[styles.cell, textStyle]}>{viewModel.doorKnocked}</Text>
+      <Text style={[styles.cellLarge, textStyle]}>
+        {viewModel.pollsCompleted}
+      </Text>
     </View>
   )
 }
@@ -49,5 +52,11 @@ const styles = StyleSheet.create({
   },
   rowOdd: {
     backgroundColor: Colors.lightBackground,
+  },
+  text: {
+    ...Typography.body,
+  },
+  textHighlighted: {
+    ...Typography.callout,
   },
 })

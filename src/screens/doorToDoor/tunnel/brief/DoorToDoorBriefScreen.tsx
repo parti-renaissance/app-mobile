@@ -62,7 +62,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
           <Text style={styles.title}>
             {i18n.t('doorToDoor.tunnel.door.tutorial.title')}
           </Text>
-          <Markdown>{resources.content}</Markdown>
+          <Markdown style={markdownStyle}>{resources.content}</Markdown>
         </ScrollView>
         <View style={styles.bottomContainer}>
           <PrimaryButton
@@ -87,6 +87,10 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   )
 }
 
+const markdownStyle = {
+  body: Typography.body,
+}
+
 const styles = StyleSheet.create({
   bottomContainer: {
     backgroundColor: Colors.defaultBackground,
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
     padding: Spacing.margin,
   },
   title: {
-    ...Typography.title,
+    ...Typography.largeTitle,
   },
 })
 

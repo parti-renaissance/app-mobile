@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   },
   selectedTab: {
     borderBottomWidth: 2,
-    borderColor: Colors.primaryColor,
+    borderColor: Colors.accent,
     margin: margin,
     textAlign: 'center',
   },

@@ -2,17 +2,18 @@ import { TextStyle } from 'react-native'
 import { Theme } from 'react-native-country-picker-modal/lib/CountryTheme'
 import * as Colors from './colors'
 
-const titleFontSize = 45
+const largeTitleFontSize = 45
+const titleFontSize = 28
 const androidNavigationTitleFontSize = 20
 const title2FontSize = 22
 const title3FontSize = 20
 const headlineFontSize = 17
-const bodyFontSize = 14
+const bodyFontSize = 16
 const footnoteFontSize = 13
 const calloutFontSize = 16
-const subheadFontSize = 14
+const subheadFontSize = 15
 const caption1FontSize = 12
-const caption2FontSize = 8
+const caption2FontSize = 11
 
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
@@ -20,7 +21,7 @@ const maaxMedium = 'Maax-Medium'
 
 export const footnote: TextStyle = {
   fontSize: footnoteFontSize,
-  fontFamily: robotoMedium,
+  fontFamily: robotoRegular,
   color: Colors.lightText,
   lineHeight: 18,
 }
@@ -33,11 +34,16 @@ export const footnoteLight: TextStyle = {
 }
 
 export const largeTitle: TextStyle = {
-  fontSize: titleFontSize,
-  fontFamily: robotoMedium,
+  fontSize: largeTitleFontSize,
+  fontFamily: maaxMedium,
   color: Colors.darkText,
-  lineHeight: 28,
+  lineHeight: 46,
   letterSpacing: 0.56,
+}
+
+export const highlightedLargeTitle: TextStyle = {
+  ...largeTitle,
+  color: Colors.accent,
 }
 
 export const title: TextStyle = {
@@ -63,20 +69,21 @@ export const title2: TextStyle = {
   fontSize: title2FontSize,
   fontFamily: maaxMedium,
   color: Colors.darkText,
+  lineHeight: 28,
 }
 
 export const title3: TextStyle = {
   fontSize: title3FontSize,
   fontFamily: robotoMedium,
   color: Colors.darkText,
+  lineHeight: 24,
 }
 
 export const headline: TextStyle = {
   fontSize: headlineFontSize,
-  fontFamily: robotoMedium,
+  fontFamily: maaxMedium,
   color: Colors.darkText,
   lineHeight: 22,
-  letterSpacing: 0.4,
 }
 
 export const thinHeadline: TextStyle = {
@@ -84,33 +91,32 @@ export const thinHeadline: TextStyle = {
   fontFamily: robotoRegular,
   color: Colors.darkText,
   lineHeight: 22,
-  letterSpacing: 0.4,
 }
 
 export const subheadline: TextStyle = {
   fontSize: subheadFontSize,
   fontFamily: robotoMedium,
   color: Colors.darkText,
+  lineHeight: 20,
 }
 
 export const body: TextStyle = {
   fontSize: bodyFontSize,
   fontFamily: robotoRegular,
-  lineHeight: 19,
+  lineHeight: 22,
   color: Colors.darkText,
 }
 
 export const lightBody: TextStyle = {
-  fontSize: bodyFontSize,
-  fontFamily: robotoRegular,
-  lineHeight: 19,
+  ...body,
   color: Colors.lightText,
 }
 
 export const callout: TextStyle = {
   fontSize: calloutFontSize,
-  fontFamily: maaxMedium,
+  fontFamily: robotoMedium,
   color: Colors.darkText,
+  lineHeight: 21,
 }
 
 export const caption1: TextStyle = {
@@ -136,6 +142,7 @@ export const tagCaption: TextStyle = {
   fontFamily: robotoRegular,
   color: Colors.darkText,
   textTransform: 'uppercase',
+  lineHeight: 13,
 }
 
 export const inputText: TextStyle = {
