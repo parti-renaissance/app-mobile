@@ -3,7 +3,6 @@ import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
 import {
   BuildingBlock,
   BuildingBlockFloor,
-  BuildingBlockHelper,
 } from './../../core/entities/BuildingBlock'
 import { BuildingLayoutViewModel } from './BuildingLayoutView'
 import {
@@ -57,20 +56,6 @@ function blockCardViewModel(
       buildingTypeIcon = require('../../assets/images/appartementBuilding.png')
   }
 
-  // Create missing floors if necessary
-  const floors: Array<BuildingBlockFloor> = []
-  let index = 0
-  block.floors
-    .sort((floor) => floor.number)
-    .forEach((floor) => {
-      while (floor.number > index) {
-        floors.push(new BuildingBlockHelper().createLocalFloor(index))
-        index++
-      }
-      floors.push(floor)
-      index = floor.number + 1
-    })
-
   return {
     id: block.id,
     buildingTypeName: buildingTypeName,
@@ -78,7 +63,9 @@ function blockCardViewModel(
     floors:
       block.status === 'completed'
         ? [floorCompletedCellViewModel(block)]
-        : floors.map((floor) => floorCellViewModel(block.name, floor, type)),
+        : block.floors.map((floor) =>
+            floorCellViewModel(block.name, floor, type),
+          ),
     local: block.local,
     statusAction: statusAction,
     removable: status !== 'completed',
