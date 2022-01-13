@@ -5,12 +5,10 @@ import {
   DoorToDoorAddressCampaign,
 } from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
-import { DoorToDoorDisplayMode } from './DoorToDoor'
 import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
 export const PoiAddressCardViewModelMapper = {
   map: (
-    displayMode: DoorToDoorDisplayMode,
     poiAddress?: DoorToDoorAddress,
   ): PoiAddressCardViewModel | undefined => {
     return poiAddress
@@ -29,11 +27,12 @@ export const PoiAddressCardViewModelMapper = {
             poiAddress.building.campaignStatistics,
           ),
           passage: mapLastPassage(poiAddress.building.campaignStatistics),
-          doorsOrVotersLabel: mapDoorsOrVolter(
-            displayMode,
-            poiAddress.building.campaignStatistics,
-          ),
-          label: i18n.t('doorToDoor.doorKnocked'),
+          doorsOrVotersLabel:
+            poiAddress.building.campaignStatistics?.numberOfDoors.toString() ??
+            '-',
+          label: i18n.t('doorToDoor.doorKnocked', {
+            count: poiAddress.building.campaignStatistics?.numberOfDoors,
+          }),
         }
       : undefined
   },
@@ -49,18 +48,6 @@ function mapLastPassage(campaign: DoorToDoorAddressCampaign): string {
           date: mapDate(campaign.lastPassage),
         })
     : i18n.t('doorToDoor.noPassage')
-}
-
-function mapDoorsOrVolter(
-  displayMode: DoorToDoorDisplayMode,
-  campaign: DoorToDoorAddressCampaign,
-): string {
-  return displayMode === 'map'
-    ? i18n.t('doorToDoor.doorsSurveysCount', {
-        numberOfSurveys: campaign?.numberOfSurveys ?? 0,
-        numberOfDoors: campaign?.numberOfDoors ?? 0,
-      })
-    : campaign?.numberOfDoors.toString() ?? '-'
 }
 
 function mapDate(lastPassage: Moment): string {

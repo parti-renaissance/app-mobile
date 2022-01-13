@@ -114,7 +114,7 @@ const DoorToDoorMapView = ({
         <Pressable style={styles.popup}>
           <PoiAddressCard
             onPress={onAddressPress}
-            viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
+            viewModel={PoiAddressCardViewModelMapper.map(popup.value)}
           />
           {viewModel ? (
             <DoorToDoorCampaignCard
@@ -137,6 +137,7 @@ const DoorToDoorMapView = ({
         initialRegion={initialRegion}
         rotateEnabled={false}
         showsUserLocation={true}
+        showsMyLocationButton={false}
         showsPointsOfInterest={true}
         showsCompass={false}
         showsBuildings={true}
@@ -161,9 +162,7 @@ const DoorToDoorMapView = ({
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
-            icon={
-              PoiAddressCardViewModelMapper.map('map', marker)?.mapStatusIcon
-            }
+            icon={PoiAddressCardViewModelMapper.map(marker)?.mapStatusIcon}
             coordinate={{
               longitude: marker.longitude,
               latitude: marker.latitude,
