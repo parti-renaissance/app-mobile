@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    tintColor: Colors.primaryButtonTextColor,
+    tintColor: Colors.primaryColor,
   },
   image: {
     alignSelf: 'center',
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
   },
   imageSelected: {
     marginStart: 24, // width of checkIcon
-    tintColor: Colors.primaryButtonTextColor,
   },
   imageUnselected: {
     marginStart: 0,
@@ -98,7 +97,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   rowSelected: {
-    backgroundColor: Colors.primaryColor,
+    borderColor: Colors.primaryColor,
+    borderWidth: 2,
   },
   rowUnselected: {
     backgroundColor: Colors.secondaryButtonBackground,
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textSelected: {
-    color: Colors.primaryButtonTextColor,
     paddingStart: 24, // width of checkIcon
   },
   textUnselected: {

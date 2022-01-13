@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
-import { BorderlessButton, TertiaryButton } from '../shared/Buttons'
+import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import { PollDetailNavigationButtonsViewModel } from './PollDetailNavigationButtonsViewModel'
 
 type Props = Readonly<{
@@ -29,7 +29,7 @@ const PollDetailNavigationButtons: FunctionComponent<Props> = ({
         ) : null}
       </View>
       <View style={styles.center}>
-        <TertiaryButton
+        <PrimaryButton
           disabled={!viewModel.mainButton.isEnabled}
           onPress={viewModel.mainButton.type === 'next' ? onNext : onSubmit}
           title={viewModel.mainButton.title}
