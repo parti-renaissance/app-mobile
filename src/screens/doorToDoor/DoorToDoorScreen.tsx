@@ -27,6 +27,7 @@ import Geolocation from 'react-native-geolocation-service'
 import { Screen } from '../../navigation'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
 import RankingModal from './rankings/RankingModal'
+import LoaderView from '../shared/LoaderView'
 
 type RankingModalState = Readonly<{
   visible: boolean
@@ -44,7 +45,9 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [filteredAddresses, setFilteredAddresses] = useState<
     DoorToDoorAddress[]
   >([])
-  const [locationAuthorized, setLocationAuthorized] = useState(false)
+  const [locationAuthorized, setLocationAuthorized] = useState<
+    boolean | undefined
+  >()
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
   const [filter, setFilter] = useState<DoorToDoorFilterDisplay>('all')
   const [charterState, setCharterState] = useState<
@@ -125,6 +128,57 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     })
   }
 
+  const renderLoading = () => <LoaderView style={styles.loading} />
+
+  const renderAskPersmission = () => (
+    <LocationAuthorization onAuthorizationRequest={requestPermission} />
+  )
+
+  const renderMap = (currentLocation: LatLng) => (
+    <>
+      <View style={styles.filter}>
+        <DoorToDoorFilter filter={filter} onPress={onfilterChange} />
+      </View>
+      {displayMode === 'map' ? (
+        <DoorToDoorMapView
+          data={filteredAddresses}
+          location={currentLocation}
+          onAddressPress={navigateToBuildingDetail}
+          onSearchHerePressed={(position) => {
+            new GetDoorToDoorAddressesInteractor()
+              .execute(position.latitude, position.longitude)
+              .then((newAddresses) => {
+                setAddresses(newAddresses)
+                setFilteredAddresses(newAddresses)
+              })
+          }}
+          onCampaignRankingSelected={(campaignId: string) => {
+            setRankingModalState({ visible: true, campaignId: campaignId })
+          }}
+        />
+      ) : (
+        <DoorToDoorListView
+          data={filteredAddresses}
+          onAddressPress={navigateToBuildingDetail}
+        />
+      )}
+    </>
+  )
+
+  const renderContent = () => {
+    if (typeof locationAuthorized === 'boolean') {
+      if (!locationAuthorized) {
+        return renderAskPersmission()
+      }
+      if (!location) {
+        return renderLoading()
+      }
+      return renderMap(location)
+    } else {
+      return renderLoading()
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={rankingModalState.visible} animationType="slide">
@@ -154,39 +208,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
           <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
         )}
       </View>
-
-      {locationAuthorized && location ? (
-        <>
-          <View style={styles.filter}>
-            <DoorToDoorFilter filter={filter} onPress={onfilterChange} />
-          </View>
-          {displayMode === 'map' ? (
-            <DoorToDoorMapView
-              data={filteredAddresses}
-              location={location}
-              onAddressPress={navigateToBuildingDetail}
-              onSearchHerePressed={(position) => {
-                new GetDoorToDoorAddressesInteractor()
-                  .execute(position.latitude, position.longitude)
-                  .then((newAddresses) => {
-                    setAddresses(newAddresses)
-                    setFilteredAddresses(newAddresses)
-                  })
-              }}
-              onCampaignRankingSelected={(campaignId: string) => {
-                setRankingModalState({ visible: true, campaignId: campaignId })
-              }}
-            />
-          ) : (
-            <DoorToDoorListView
-              data={filteredAddresses}
-              onAddressPress={navigateToBuildingDetail}
-            />
-          )}
-        </>
-      ) : (
-        <LocationAuthorization onAuthorizationRequest={requestPermission} />
-      )}
+      {renderContent()}
     </SafeAreaView>
   )
 }
@@ -205,6 +227,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
   },
   title: {
     ...Typography.highlightedLargeTitle,
