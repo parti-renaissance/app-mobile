@@ -1,11 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import {
-  Image,
-  StyleSheet,
-  View,
-  Text,
-  ImageSourcePropType,
-} from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'

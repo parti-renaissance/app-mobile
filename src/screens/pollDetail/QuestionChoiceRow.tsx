@@ -31,16 +31,13 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
   const textStyle = viewModel.isSelected
     ? styles.textSelected
     : styles.textUnselected
-  const touchHighlight = viewModel.isSelected
-    ? Colors.primaryButtonBackgroundHighlight
-    : rowStyle.backgroundColor
 
   return (
     <View style={[styles.row, rowStyle, style]}>
       <TouchablePlatform
         style={styles.touchContainer}
         onPress={onPress}
-        touchHighlight={touchHighlight}
+        touchHighlight={Colors.touchHighlight}
       >
         <View style={styles.container}>
           <View style={styles.contentContainer}>
