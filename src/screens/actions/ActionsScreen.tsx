@@ -11,12 +11,14 @@ import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
 import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
 import { ActionsScreenProp } from '../../navigation'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { useIsFocused } from '@react-navigation/native'
 
 const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<ReadonlyArray<ActionRowViewModel>>
   >(new ViewState.Loading())
 
+  const isFocused = useIsFocused()
   const [fetchedActions] = useState(new Map<number, Action>())
 
   const fetch = useCallback(() => {
@@ -37,8 +39,8 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   }, [fetchedActions])
 
   useEffect(() => {
-    fetch()
-  }, [fetch])
+    isFocused && fetch()
+  }, [fetch, isFocused])
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
     return (

@@ -7,7 +7,6 @@ export interface RestPollResultRequest {
   firstName?: string
   emailAddress?: string
   agreedToStayInContact: boolean
-  agreedToContactForJoin: boolean
   agreedToTreatPersonalData: boolean
   postalCode?: string
   profession?: string

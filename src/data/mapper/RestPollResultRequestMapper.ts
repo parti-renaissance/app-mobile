@@ -72,7 +72,6 @@ export const RestPollResultRequestMapper = {
       firstName: result.consentData?.firstName,
       emailAddress: result.consentData?.email,
       agreedToStayInContact: result.consentData?.isConsenting ?? false,
-      agreedToContactForJoin: result.consentData?.isWillingToJoin ?? false,
       agreedToTreatPersonalData: result.consentData?.isConsenting ?? false,
       postalCode: result.consentData?.zipCode,
       profession: restProfession(result.profile?.profession),

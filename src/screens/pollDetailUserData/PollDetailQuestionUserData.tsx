@@ -18,7 +18,6 @@ import {
 import {
   CONSENT_ITEM_ID,
   FORM_INPUT_ID,
-  INVITATION_ITEM_ID,
   YES_ID,
 } from './PollDetailQuestionUserDataViewModelMapper'
 import LabelTextInput from '../shared/LabelTextInput'
@@ -31,7 +30,6 @@ import i18n from '../../utils/i18n'
 type Props = Readonly<{
   viewModel: PollDetailQuestionUserDataViewModel
   onConsent?: (isConsenting: boolean) => void
-  onInvitation?: (isWillingToJoin: boolean) => void
   onFirstNameChange?: (firstName: string) => void
   onLastNameChange?: (lastName: string) => void
   onEmailChange?: (email: string) => void
@@ -46,7 +44,6 @@ const booleanValue = (id: string): boolean => {
 const PollDetailQuestionUserData: FunctionComponent<Props> = ({
   viewModel,
   onConsent,
-  onInvitation,
   onFirstNameChange,
   onLastNameChange,
   onEmailChange,
@@ -64,8 +61,6 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
         onPress={(choiceId) => {
           if (dualChoiceViewModel.id === CONSENT_ITEM_ID) {
             onConsent?.(booleanValue(choiceId))
-          } else if (dualChoiceViewModel.id === INVITATION_ITEM_ID) {
-            onInvitation?.(booleanValue(choiceId))
           }
         }}
       />

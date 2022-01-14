@@ -16,7 +16,7 @@ export type BuildingBlockFloor = {
   id: string
   status: BuildingBlocFloorStatus
   nbSurveys: number
-  visitedDoors: string[]
+  visitedDoors: number[]
   local: boolean
   closedAt: Date | undefined
 }

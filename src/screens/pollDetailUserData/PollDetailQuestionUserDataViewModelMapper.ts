@@ -106,33 +106,6 @@ const formSection = (
   }
 }
 
-const invitationSection = (
-  data: UserConsentData,
-): PollDetailQuestionUserDataSectionViewModel => {
-  return {
-    id: 'invitation',
-    title: i18n.t('polldetail.user_form.invitation_title'),
-    data: [
-      {
-        type: 'dualChoice',
-        value: {
-          id: INVITATION_ITEM_ID,
-          first: {
-            id: YES_ID,
-            title: i18n.t('polldetail.user_form.positive_choice'),
-            isSelected: data.isWillingToJoin === true,
-          },
-          second: {
-            id: NO_ID,
-            title: i18n.t('polldetail.user_form.negative_choice'),
-            isSelected: data.isWillingToJoin === false,
-          },
-        },
-      },
-    ],
-  }
-}
-
 export const PollDetailQuestionUserDataViewModelMapper = {
   map: (data: UserConsentData): PollDetailQuestionUserDataViewModel => {
     var sections: Array<PollDetailQuestionUserDataSectionViewModel> = [
@@ -140,7 +113,6 @@ export const PollDetailQuestionUserDataViewModelMapper = {
     ]
     if (data.isConsenting) {
       sections.push(formSection(data))
-      sections.push(invitationSection(data))
     }
     return { sections: sections }
   },

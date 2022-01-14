@@ -4,5 +4,4 @@ export interface UserConsentData {
   lastName?: string
   email?: string
   zipCode?: string
-  isWillingToJoin?: boolean
 }

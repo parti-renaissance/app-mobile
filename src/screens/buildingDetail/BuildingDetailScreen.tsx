@@ -326,8 +326,17 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                 (item) => item.number === floorNumber,
               )
               let canCloseFloor = false
+              let door = 1
               if (block && floor) {
                 canCloseFloor = floor.visitedDoors.length > 0
+                if (floor.visitedDoors.length === 0) {
+                  door = 1
+                } else {
+                  door =
+                    floor.visitedDoors.sort((door1, door2) => door1 - door2)[
+                      floor.visitedDoors.length - 1
+                    ] + 1
+                }
               }
               navigation.navigate(Screen.doorToDoorTunnelModal, {
                 screen: Screen.tunnelDoorBrief,
@@ -335,9 +344,10 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                   campaignId: viewModel.campaignId,
                   buildingParams: {
                     id: route.params.address.building.id,
+                    type: route.params.address.building.type,
                     block: buildingBlock,
                     floor: floorNumber,
-                    door: 1,
+                    door: door,
                   },
                   canCloseFloor: canCloseFloor,
                 },

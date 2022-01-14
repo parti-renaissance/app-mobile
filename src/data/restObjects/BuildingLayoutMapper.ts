@@ -12,7 +12,10 @@ export const BuildingLayoutMapper = {
             id: restFloor.uuid,
             status: restFloor.campaign_statistics?.status ?? 'todo',
             nbSurveys: restFloor.campaign_statistics?.nb_surveys ?? 0,
-            visitedDoors: restFloor.campaign_statistics?.visited_doors ?? [],
+            visitedDoors:
+              restFloor.campaign_statistics?.visited_doors?.map((door) =>
+                Number(door),
+              ) ?? [],
             local: false,
             closedAt: restFloor.campaign_statistics?.closed_at
               ? new Date(restFloor.campaign_statistics?.closed_at)

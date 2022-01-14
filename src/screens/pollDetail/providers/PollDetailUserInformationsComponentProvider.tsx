@@ -31,7 +31,6 @@ export class PollDetailUserInformationsComponentProvider
     lastName: undefined,
     email: undefined,
     zipCode: undefined,
-    isWillingToJoin: undefined,
   }
 
   constructor(onUpdate: () => void) {
@@ -89,8 +88,7 @@ export class PollDetailUserInformationsComponentProvider
         (this.consentData.firstName?.length ?? 0) > 0 &&
         (this.consentData.lastName?.length ?? 0) > 0 &&
         (this.consentData.email?.length ?? 0) > 0 &&
-        (this.consentData.zipCode?.length ?? 0) > 0 &&
-        this.consentData.isWillingToJoin !== undefined
+        (this.consentData.zipCode?.length ?? 0) > 0
       )
     }
     return true
@@ -138,10 +136,6 @@ export class PollDetailUserInformationsComponentProvider
         }}
         onConsent={(isConsenting) => {
           this.consentData.isConsenting = isConsenting
-          this.onUpdate()
-        }}
-        onInvitation={(isWillingToJoin) => {
-          this.consentData.isWillingToJoin = isWillingToJoin
           this.onUpdate()
         }}
         onFirstNameChange={(firstName) => {

@@ -20,10 +20,10 @@ const DEFAULT_DELTA = 0.01
 
 type Props = {
   data: DoorToDoorAddress[]
-  location: LatLng
+  initialLocation: LatLng
   loading: boolean
   onAddressPress: (id: string) => void
-  onSearchHerePressed: (location: LatLng) => void
+  onSearchNearby: (location: LatLng) => void
   onCampaignRankingSelected: (campaignId: string) => void
 }
 
@@ -34,40 +34,38 @@ type PopupProps = {
 
 const DoorToDoorMapView = ({
   data,
-  location,
+  initialLocation,
   loading,
   onAddressPress,
-  onSearchHerePressed,
+  onSearchNearby,
   onCampaignRankingSelected,
 }: Props) => {
   const mapRef = useRef<Map | null>(null)
-  const [currentPosition, setCurrentPosition] = useState<LatLng>(location)
+  const [currentPosition, setCurrentPosition] = useState<LatLng>()
   const [popup, setPopup] = useState<PopupProps>({
     visible: false,
     value: undefined,
   })
   const [currentRegion, setCurrentRegion] = useState<Region>()
 
-  const initialPosition = {
-    latitude: location.latitude,
-    longitude: location.longitude,
-  }
-
-  const initialRegion = {
-    ...initialPosition,
-    latitudeDelta: DEFAULT_DELTA,
-    longitudeDelta: DEFAULT_DELTA,
+  const getRegionFromLatLng = (location: LatLng) => {
+    return {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: DEFAULT_DELTA,
+      longitudeDelta: DEFAULT_DELTA,
+    }
   }
 
   const moveToCurrentPositionRegion = () => {
-    if (mapRef.current !== null) {
-      let region = {
-        latitude: currentPosition.latitude,
-        longitude: currentPosition.longitude,
-        latitudeDelta: DEFAULT_DELTA,
-        longitudeDelta: DEFAULT_DELTA,
-      }
-      mapRef.current.animateToRegion(region, 2000)
+    if (mapRef.current !== null && currentPosition) {
+      mapRef.current?.animateToRegion(
+        getRegionFromLatLng({
+          longitude: currentPosition.longitude,
+          latitude: currentPosition.latitude,
+        }),
+        1000,
+      )
     }
   }
 
@@ -135,7 +133,7 @@ const DoorToDoorMapView = ({
       <MapView
         ref={mapRef}
         style={styles.map}
-        initialRegion={initialRegion}
+        initialRegion={getRegionFromLatLng(initialLocation)}
         rotateEnabled={false}
         showsUserLocation={true}
         showsMyLocationButton={false}
@@ -178,7 +176,7 @@ const DoorToDoorMapView = ({
           <MapButton
             onPress={() => {
               if (currentRegion) {
-                onSearchHerePressed({
+                onSearchNearby({
                   latitude: currentRegion.latitude,
                   longitude: currentRegion.longitude,
                 })
