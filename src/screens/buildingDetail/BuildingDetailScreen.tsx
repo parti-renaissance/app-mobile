@@ -344,6 +344,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                   campaignId: viewModel.campaignId,
                   buildingParams: {
                     id: route.params.address.building.id,
+                    type: route.params.address.building.type,
                     block: buildingBlock,
                     floor: floorNumber,
                     door: door,

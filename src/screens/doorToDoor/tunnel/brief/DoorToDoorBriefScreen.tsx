@@ -67,13 +67,20 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('doorToDoor.tunnel.door.tutorial.action')}
-            onPress={() =>
-              navigation.navigate(Screen.tunnelDoorSelectionScreen, {
-                campaignId: campaignId,
-                buildingParams: route.params.buildingParams,
-                canCloseFloor: route.params.canCloseFloor,
-              })
-            }
+            onPress={() => {
+              if (route.params.buildingParams.type === 'house') {
+                navigation.navigate(Screen.tunnelDoorOpening, {
+                  campaignId: campaignId,
+                  buildingParams: route.params.buildingParams,
+                })
+              } else {
+                navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+                  campaignId: campaignId,
+                  buildingParams: route.params.buildingParams,
+                  canCloseFloor: route.params.canCloseFloor,
+                })
+              }
+            }}
           />
         </View>
       </>
