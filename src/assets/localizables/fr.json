@@ -513,9 +513,9 @@
       "noPassage": "Aucun passage",
       "passageOn": "le {{date}}",
       "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
-      "doorKnocked": "Portes frappées",
+      "doorKnocked_one": "Porte frappée",
+      "doorKnocked_other": "Portes frappées",
       "date_format": "D MMM YYYY",
-      "doorsSurveysCount": "{{numberOfDoors}}/{{numberOfSurveys}}",
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",

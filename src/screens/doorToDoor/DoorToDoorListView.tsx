@@ -13,9 +13,12 @@ const DoorToDoorListView = ({ data, onAddressPress }: Props) => (
   <FlatList
     data={data}
     renderItem={({ item }) => {
-      const viewModel = PoiAddressCardViewModelMapper.map('list', item)
-
-      return <PoiAddressCard viewModel={viewModel} onPress={onAddressPress} />
+      return (
+        <PoiAddressCard
+          viewModel={PoiAddressCardViewModelMapper.map(item)}
+          onPress={onAddressPress}
+        />
+      )
     }}
     keyExtractor={(item) => item.id.toString()}
   />

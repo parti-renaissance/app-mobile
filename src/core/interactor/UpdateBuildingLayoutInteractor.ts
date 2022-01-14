@@ -46,7 +46,9 @@ export class UpdateBuildingLayoutInteractor {
             }
           })
 
-          currentBlock.floors = Array.from(floorsMap.values())
+          currentBlock.floors = Array.from(floorsMap.values()).sort(
+            (floor1, floor2) => floor1.number - floor2.number, // ascending order
+          )
         }
       } else {
         // Add missing local building block
@@ -55,6 +57,22 @@ export class UpdateBuildingLayoutInteractor {
     })
 
     const mergedBlocks = Array.from(blocksMap.values())
+
+    mergedBlocks.forEach((block) => {
+      // Create missing floors if necessary
+      const floors: Array<BuildingBlockFloor> = []
+      let index = 0
+      block.floors.forEach((floor) => {
+        while (floor.number > index) {
+          floors.push(new BuildingBlockHelper().createLocalFloor(index))
+          index++
+        }
+        floors.push(floor)
+        index = floor.number + 1
+      })
+      block.floors = floors
+    })
+
     if (mergedBlocks.length === 0) {
       mergedBlocks.push(
         this.buildingBlockHelper.createLocalBlock(

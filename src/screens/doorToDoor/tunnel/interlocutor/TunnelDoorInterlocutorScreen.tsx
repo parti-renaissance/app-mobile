@@ -63,6 +63,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
               ...route.params.buildingParams,
               door: route.params.buildingParams.door + 1,
             },
+            canCloseFloor: true,
           })
         })
         .catch((error) =>

@@ -13,7 +13,6 @@ import Geolocation from 'react-native-geolocation-service'
 import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import MapButton from './DoorToDoorMapButton'
-import { HorizontalSpacer } from '../shared/Spacer'
 import Map from 'react-native-maps'
 import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 
@@ -22,6 +21,7 @@ const DEFAULT_DELTA = 0.01
 type Props = {
   data: DoorToDoorAddress[]
   location: LatLng
+  loading: boolean
   onAddressPress: (id: string) => void
   onSearchHerePressed: (location: LatLng) => void
   onCampaignRankingSelected: (campaignId: string) => void
@@ -35,6 +35,7 @@ type PopupProps = {
 const DoorToDoorMapView = ({
   data,
   location,
+  loading,
   onAddressPress,
   onSearchHerePressed,
   onCampaignRankingSelected,
@@ -114,7 +115,7 @@ const DoorToDoorMapView = ({
         <Pressable style={styles.popup}>
           <PoiAddressCard
             onPress={onAddressPress}
-            viewModel={PoiAddressCardViewModelMapper.map('map', popup.value)}
+            viewModel={PoiAddressCardViewModelMapper.map(popup.value)}
           />
           {viewModel ? (
             <DoorToDoorCampaignCard
@@ -137,6 +138,7 @@ const DoorToDoorMapView = ({
         initialRegion={initialRegion}
         rotateEnabled={false}
         showsUserLocation={true}
+        showsMyLocationButton={false}
         showsPointsOfInterest={true}
         showsCompass={false}
         showsBuildings={true}
@@ -161,9 +163,7 @@ const DoorToDoorMapView = ({
         {data.map((marker) => (
           <DoorToDoorMapMarker
             key={marker.id}
-            icon={
-              PoiAddressCardViewModelMapper.map('map', marker)?.mapStatusIcon
-            }
+            icon={PoiAddressCardViewModelMapper.map(marker)?.mapStatusIcon}
             coordinate={{
               longitude: marker.longitude,
               latitude: marker.latitude,
@@ -174,6 +174,7 @@ const DoorToDoorMapView = ({
       </MapView>
       <View style={styles.childContainer}>
         <View style={styles.mapButtonListContainer}>
+          <View style={styles.mapButtonSideContainer} />
           <MapButton
             onPress={() => {
               if (currentRegion) {
@@ -185,12 +186,15 @@ const DoorToDoorMapView = ({
             }}
             text="Rechercher dans la zone"
             image={require('./../../assets/images/loopArrow.png')}
+            disabled={loading}
           />
-          <HorizontalSpacer spacing={Spacing.margin} />
-          <MapButton
-            onPress={moveToCurrentPositionRegion}
-            image={require('./../../assets/images/gpsPosition.png')}
-          />
+          <View style={styles.mapButtonSideContainer}>
+            <MapButton
+              style={styles.mapButtonLocation}
+              onPress={moveToCurrentPositionRegion}
+              image={require('./../../assets/images/gpsPosition.png')}
+            />
+          </View>
         </View>
       </View>
       {popup.visible && <Popup />}
@@ -219,6 +223,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     margin: Spacing.margin,
+  },
+  mapButtonLocation: {
+    alignSelf: 'flex-end',
+    height: 40,
+    width: 40,
+  },
+  mapButtonSideContainer: {
+    flex: 1,
   },
   mapButtonText: {
     ...Typography.callout,

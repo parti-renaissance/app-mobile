@@ -73,10 +73,11 @@ const styles = StyleSheet.create({
   },
   indicator: {
     ...Typography.headline,
+    marginBottom: Spacing.small,
   },
   label: {
     ...Typography.lightCaption1,
-    marginVertical: Spacing.unit,
+    marginVertical: Spacing.small,
     textAlign: 'center',
     textTransform: 'uppercase',
   },
