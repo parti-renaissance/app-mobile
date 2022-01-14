@@ -64,6 +64,8 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         label={i18n.t('login.email')}
         errorMessage={emailErrorMessage}
         textInputProps={{
+          placeholder: i18n.t('login.email_placeholder'),
+          placeholderTextColor: Colors.lightText,
           keyboardType: 'email-address',
           textContentType: 'emailAddress',
           autoCapitalize: 'none',
@@ -85,6 +87,8 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         label={i18n.t('login.password')}
         errorMessage={passwordErrorMessage}
         textInputProps={{
+          placeholder: i18n.t('login.password_placeholder'),
+          placeholderTextColor: Colors.lightText,
           textContentType: 'password',
           autoCapitalize: 'none',
           autoCorrect: false,
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.mediumMargin,
   },
   title: {
-    ...Typography.title,
+    ...Typography.largeTitle,
     marginBottom: Spacing.mediumMargin,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,

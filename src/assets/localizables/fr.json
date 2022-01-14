@@ -117,10 +117,11 @@
     "login": {
       "title": "Connexion",
       "email": "Adresse e-mail",
+      "email_placeholder": "Entrez votre adresse e-mail",
       "password": "Mot de passe",
-      "login": "Connexion LaREM",
+      "password_placeholder": "Entrez votre mot de passe",
+      "login": "Se connecter",
       "password_lost": "Mot de passe oublié ?",
-      "password_lost_url": "https://en-marche.fr/mot-de-passe-oublie",
       "credentials_error": "Email/mot de passe invalide"
     },
     "profile": {
