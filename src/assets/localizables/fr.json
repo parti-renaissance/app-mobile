@@ -101,7 +101,6 @@
         "last_name": "Nom",
         "email": "Adresse email",
         "zip_code": "Code postal",
-        "invitation_title": "Souhaite-il être invité à adhérer à La République En Marche ?",
         "submit": "Soumettre"
       }
     },
