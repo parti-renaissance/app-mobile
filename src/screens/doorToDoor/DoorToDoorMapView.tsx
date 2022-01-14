@@ -13,7 +13,6 @@ import Geolocation from 'react-native-geolocation-service'
 import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import MapButton from './DoorToDoorMapButton'
-import { HorizontalSpacer } from '../shared/Spacer'
 import Map from 'react-native-maps'
 import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 
