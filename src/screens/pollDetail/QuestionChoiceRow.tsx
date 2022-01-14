@@ -31,16 +31,13 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
   const textStyle = viewModel.isSelected
     ? styles.textSelected
     : styles.textUnselected
-  const touchHighlight = viewModel.isSelected
-    ? Colors.primaryButtonBackgroundHighlight
-    : rowStyle.backgroundColor
 
   return (
     <View style={[styles.row, rowStyle, style]}>
       <TouchablePlatform
         style={styles.touchContainer}
         onPress={onPress}
-        touchHighlight={touchHighlight}
+        touchHighlight={Colors.touchHighlight}
       >
         <View style={styles.container}>
           <View style={styles.contentContainer}>
@@ -76,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    tintColor: Colors.primaryButtonTextColor,
+    tintColor: Colors.primaryColor,
   },
   image: {
     alignSelf: 'center',
@@ -84,7 +81,6 @@ const styles = StyleSheet.create({
   },
   imageSelected: {
     marginStart: 24, // width of checkIcon
-    tintColor: Colors.primaryButtonTextColor,
   },
   imageUnselected: {
     marginStart: 0,
@@ -98,7 +94,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   rowSelected: {
-    backgroundColor: Colors.primaryColor,
+    borderColor: Colors.primaryColor,
+    borderWidth: 2,
   },
   rowUnselected: {
     backgroundColor: Colors.secondaryButtonBackground,
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textSelected: {
-    color: Colors.primaryButtonTextColor,
     paddingStart: 24, // width of checkIcon
   },
   textUnselected: {

@@ -169,9 +169,10 @@ const styles = StyleSheet.create({
   },
   tabStyle: { width: 'auto' },
   title: {
-    ...Typography.title,
+    ...Typography.largeTitle,
     marginBottom: Spacing.margin,
     marginHorizontal: Spacing.margin,
+    paddingTop: Spacing.small,
   },
 })
 

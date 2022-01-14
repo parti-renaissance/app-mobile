@@ -25,26 +25,20 @@ const QuestionGenderButton: FunctionComponent<Props> = ({
   const buttonStyle = viewModel.isSelected
     ? styles.buttonSelected
     : styles.buttonUnselected
-  const textStyle = viewModel.isSelected
-    ? styles.textSelected
-    : styles.textUnselected
-  const imageStyle = viewModel.isSelected
-    ? styles.imageSelected
-    : styles.imageUnselected
-  const touchHighlight = viewModel.isSelected
-    ? Colors.primaryButtonBackgroundHighlight
-    : buttonStyle.backgroundColor
 
   return (
     <View style={[styles.button, buttonStyle, style]}>
-      <TouchablePlatform touchHighlight={touchHighlight} onPress={onPress}>
+      <TouchablePlatform
+        touchHighlight={Colors.touchHighlight}
+        onPress={onPress}
+      >
         <View style={styles.container}>
           <Image
             resizeMode="center"
-            style={[styles.image, imageStyle]}
+            style={styles.image}
             source={viewModel.image}
           />
-          <Text style={[styles.text, textStyle]}>{viewModel.title}</Text>
+          <Text style={styles.text}>{viewModel.title}</Text>
         </View>
       </TouchablePlatform>
     </View>
@@ -59,7 +53,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   buttonSelected: {
-    backgroundColor: Colors.primaryColor,
+    borderColor: Colors.primaryColor,
+    borderWidth: 2,
   },
   buttonUnselected: {
     backgroundColor: Colors.secondaryButtonBackground,
@@ -74,20 +69,8 @@ const styles = StyleSheet.create({
     height: 42,
     width: 42,
   },
-  imageSelected: {
-    tintColor: Colors.primaryButtonTextColor,
-  },
-  imageUnselected: {
-    tintColor: Colors.secondaryButtonText,
-  },
   text: {
     ...Typography.subheadline,
-  },
-  textSelected: {
-    color: Colors.primaryButtonTextColor,
-  },
-  textUnselected: {
-    color: Colors.secondaryButtonText,
   },
 })
 

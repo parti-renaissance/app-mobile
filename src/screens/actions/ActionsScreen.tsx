@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.largeMargin,
   },
   title: {
-    ...Typography.highlightedTitle,
+    ...Typography.highlightedLargeTitle,
     marginBottom: Spacing.mediumMargin,
   },
 })

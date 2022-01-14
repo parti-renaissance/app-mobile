@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.margin,
   },
   list: {
-    backgroundColor: Colors.groupedListBackground,
+    backgroundColor: Colors.lightBackground,
     borderRadius: 8,
   },
   separator: {

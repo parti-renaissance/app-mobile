@@ -11,7 +11,7 @@ type Props = Readonly<{
 const StatBlockView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
     <View style={styles.statBlockView}>
-      <Text>{viewModel.stat} </Text>
+      <Text style={styles.stat}>{viewModel.stat} </Text>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{viewModel.title} </Text>
       </View>

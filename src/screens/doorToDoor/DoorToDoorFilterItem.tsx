@@ -1,31 +1,41 @@
 import React, { memo } from 'react'
-import { Text, View, StyleSheet, Image, Pressable } from 'react-native'
-import { Colors, Spacing } from '../../styles'
-import CardView from '../shared/CardView'
+import { Text, View, StyleSheet, Image } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { DoorToDoorFilterProps } from './DoorToDoor'
 
 export const DoorToDoorFilterItem = memo(
-  ({ active, onPress, filter, icon, title }: DoorToDoorFilterProps) => (
-    <Pressable onPress={() => onPress(filter)}>
-      <CardView
-        style={styles.card}
-        borderRadius={30}
-        backgroundColor={
-          active ? Colors.activeItemBackground : Colors.defaultBackground
-        }
-      >
-        <View style={styles.inner}>
-          {icon && <Image style={styles.icon} source={icon} />}
-          <Text style={styles.text}>{title}</Text>
-        </View>
-      </CardView>
-    </Pressable>
-  ),
+  ({ active, onPress, filter, icon, title }: DoorToDoorFilterProps) => {
+    const backgroundStyle = active ? styles.cardActive : styles.cardInactive
+    return (
+      <View style={[styles.card, backgroundStyle]}>
+        <TouchablePlatform
+          onPress={() => onPress(filter)}
+          touchHighlight={Colors.touchHighlight}
+        >
+          <View style={styles.inner}>
+            {icon && <Image style={styles.icon} source={icon} />}
+            <Text style={styles.text}>{title}</Text>
+          </View>
+        </TouchablePlatform>
+      </View>
+    )
+  },
 )
 
 const styles = StyleSheet.create({
   card: {
+    borderColor: Colors.inputTextBorder,
+    borderRadius: 24,
+    borderWidth: 1,
     margin: Spacing.small,
+    overflow: 'hidden',
+  },
+  cardActive: {
+    backgroundColor: Colors.activeItemBackground,
+  },
+  cardInactive: {
+    backgroundColor: Colors.defaultBackground,
   },
   icon: {
     height: 18,
@@ -39,6 +49,6 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.unit,
   },
   text: {
-    color: Colors.darkText,
+    ...Typography.caption1,
   },
 })

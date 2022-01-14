@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.unit,
   },
   title: {
-    ...Typography.highlightedTitle,
+    ...Typography.highlightedLargeTitle,
     flex: 1,
   },
 })

@@ -28,14 +28,14 @@ const TagView: FC<Props> = ({ style, viewModel }) => {
 
 const styles = StyleSheet.create({
   tag: {
-    ...Typography.body,
-    borderRadius: Spacing.unit,
-    fontSize: 8,
-    lineHeight: 16,
+    ...Typography.tagCaption,
+    borderRadius: 11,
     marginStart: Spacing.unit,
     marginTop: Spacing.unit,
     overflow: 'hidden',
     paddingHorizontal: Spacing.unit,
+    paddingVertical: Spacing.small,
+    textTransform: 'uppercase',
   },
 })
 
