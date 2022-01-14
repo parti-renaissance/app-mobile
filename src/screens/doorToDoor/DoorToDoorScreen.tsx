@@ -28,6 +28,7 @@ import { Screen } from '../../navigation'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
 import RankingModal from './rankings/RankingModal'
 import LoaderView from '../shared/LoaderView'
+import { useFocusEffect } from '@react-navigation/native'
 
 type RankingModalState = Readonly<{
   visible: boolean
@@ -41,7 +42,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
     { visible: false },
   )
-  const [location, setLocation] = useState<LatLng>()
+  const [currentSearchLocation, setCurrentSearchLocation] = useState<LatLng>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
   const [filteredAddresses, setFilteredAddresses] = useState<
     DoorToDoorAddress[]
@@ -62,47 +63,57 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       .catch(() => setCharterState(undefined))
   }, [])
 
-  const fetchPosition = () => {
+  const fetchAddresses = (latLng: LatLng) => {
     setLoading(true)
-    Geolocation.watchPosition((position) => {
-      setLocation({
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
+    new GetDoorToDoorAddressesInteractor()
+      .execute(latLng.latitude, latLng.longitude)
+      .then((newAddresses) => {
+        setAddresses(newAddresses)
+        setFilteredAddresses(newAddresses)
       })
-    })
-    Geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude,
-        })
-        new GetDoorToDoorAddressesInteractor()
-          .execute(position.coords.latitude, position.coords.longitude)
-          .then((newAddresses) => {
-            setAddresses(newAddresses)
-            setFilteredAddresses(newAddresses)
-          })
-          .finally(() => setLoading(false))
-      },
-      () => {
-        setLocationAuthorized(false)
-        setLoading(false)
-      },
-      { enableHighAccuracy: true },
-    )
-    return () => {
-      Geolocation.stopObserving()
-    }
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
+    // Check door to door chart acceptance & localization permission
     fetchCharterState()
     getPermissionStatus()
   }, [fetchCharterState])
 
   useEffect(() => {
-    locationAuthorized && fetchPosition()
+    /* MapView and addresses fetch needs an initial location,
+     * so when localization permission is granted,
+     * we retrieve location to initalize with it.
+     */
+    if (locationAuthorized) {
+      setLoading(true)
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const latLng = {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+          }
+          setCurrentSearchLocation(latLng)
+        },
+        () => {
+          setLocationAuthorized(false)
+          setLoading(false)
+        },
+        { enableHighAccuracy: true },
+      )
+    }
   }, [locationAuthorized])
+
+  useFocusEffect(
+    useCallback(() => {
+      /* When screen is focused and current location change,
+       * fetch addresses near current search location.
+       */
+      if (currentSearchLocation) {
+        fetchAddresses(currentSearchLocation)
+      }
+    }, [currentSearchLocation]),
+  )
 
   const getPermissionStatus = async () => {
     setLocationAuthorized(await LocationManager.permissionStatus())
@@ -140,7 +151,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     <LocationAuthorization onAuthorizationRequest={requestPermission} />
   )
 
-  const renderMap = (currentLocation: LatLng) => (
+  const renderMap = (initalLocation: LatLng) => (
     <>
       <View style={styles.filter}>
         <DoorToDoorFilter filter={filter} onPress={onfilterChange} />
@@ -148,18 +159,11 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       {displayMode === 'map' ? (
         <DoorToDoorMapView
           data={filteredAddresses}
-          location={currentLocation}
+          initialLocation={initalLocation}
           loading={loading}
           onAddressPress={navigateToBuildingDetail}
-          onSearchHerePressed={(position) => {
-            setLoading(true)
-            new GetDoorToDoorAddressesInteractor()
-              .execute(position.latitude, position.longitude)
-              .then((newAddresses) => {
-                setAddresses(newAddresses)
-                setFilteredAddresses(newAddresses)
-              })
-              .finally(() => setLoading(false))
+          onSearchNearby={(location) => {
+            setCurrentSearchLocation(location)
           }}
           onCampaignRankingSelected={(campaignId: string) => {
             setRankingModalState({ visible: true, campaignId: campaignId })
@@ -179,10 +183,10 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       if (!locationAuthorized) {
         return renderAskPersmission()
       }
-      if (!location) {
+      if (!currentSearchLocation) {
         return renderLoading()
       }
-      return renderMap(location)
+      return renderMap(currentSearchLocation)
     } else {
       return renderLoading()
     }
