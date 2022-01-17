@@ -17,6 +17,11 @@ class PersonalInformationRepository {
     return PersonalInformationRepository.instance
   }
 
+  public async resetPassword(email: string): Promise<void> {
+    const request = { email_address: email }
+    await this.apiService.resetPassword(request)
+  }
+
   public async getAvailableCentersOfInterest(): Promise<Array<Interest>> {
     const configurations = await this.apiService.getProfileAvailableConfiguration()
     return configurations.interests.map(ConfigurationMapper.mapInterest)

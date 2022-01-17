@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useLayoutEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import AuthenticationRepository from '../../data/AuthenticationRepository'
+import PersonalInformationRepository from '../../data/PersonalInformationRepository'
 import { ForgottenPasswordScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -32,7 +32,14 @@ const ForgottenPasswordScreen: FunctionComponent<ForgottenPasswordScreenProps> =
   }
 
   const onSubmit = () => {
-    // TODO
+    setIsLoading(true)
+    PersonalInformationRepository.getInstance()
+      .resetPassword(email)
+      .then(() => {
+        navigation.goBack()
+      })
+      .catch((error) => AlertUtils.showNetworkAlert(error, onSubmit))
+      .finally(() => setIsLoading(false))
   }
 
   return (

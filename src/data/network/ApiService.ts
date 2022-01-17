@@ -59,11 +59,21 @@ import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventReques
 import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { DoorToDoorCampaign } from '../../core/entities/DoorToDoorCampaign'
+import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 
 class ApiService {
   private static instance: ApiService
   private httpClient = _httpClient
   private constructor() {}
+
+  public async resetPassword(request: RestResetPasswordRequest): Promise<void> {
+    return this.httpClient
+      .post('api/membership/forgot-password?source=jemengage', {
+        json: request,
+      })
+      .then(() => {})
+      .catch(genericErrorMapping)
+  }
 
   public getPolls(zipCode?: string): Promise<Array<Poll>> {
     const options: Options | undefined = zipCode
