@@ -598,6 +598,13 @@
           "ranking": "Classement"
         }
       }
+    },
+    "forgot_password": {
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Saisissez l’adresse e-mail associé à votre compte et nous vous enverrons un lien par e-mail pour réinitialiser votre mot de passe.",
+      "mail": "Adresse e-mail",
+      "mail_placeholder": "Entrez votre adresse e-mail",
+      "action": "Recevoir mon lien de réinitialisation"
     }
   }
 }

@@ -112,6 +112,7 @@ export type RootStackParamList = {
 export type UnauthenticatedStackParamList = {
   UnauthenticatedHome: undefined
   Login: undefined
+  ForgottenPassword: { email?: string }
   AnonymousLoginZipCode: undefined
   ZipCodeConfirmation: { zipCode: string }
   DataCollect: undefined
@@ -389,10 +390,21 @@ export type UnauthenticatedHomeScreenProps = StackScreenProps<
 >
 
 // Login
-export type LoginScreenProps = StackScreenProps<
+export type LoginScreenProps = Readonly<{
+  onSuccess?: () => void
+  navigation: NavigationProp<ParamListBase>
+}>
+
+// Forgotten Password
+export type ForgottenPasswordRouteProp = RouteProp<
   UnauthenticatedStackParamList,
-  typeof Screen.login
+  typeof Screen.forgottenPassword
 >
+export type ForgottenPasswordScreenProps = Readonly<{
+  route: ForgottenPasswordRouteProp
+  navigation: NavigationProp<ParamListBase>
+}>
+
 
 // AnonymousLoginZipCode
 export type AnonymousLoginZipCodeScreenProps = StackScreenProps<
