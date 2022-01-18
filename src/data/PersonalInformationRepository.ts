@@ -1,6 +1,8 @@
 import { Interest } from '../core/entities/Interest'
 import { Notification } from '../core/entities/Notification'
+import { SignUpFormData } from '../core/entities/SignUpFormData'
 import { ConfigurationMapper } from './mapper/ConfigurationMapper'
+import { RestSignUpRequestMapper } from './mapper/RestSignUpRequestMapper'
 import ApiService from './network/ApiService'
 import {
   RestUpdateCentersOfInterestRequest,
@@ -15,6 +17,11 @@ class PersonalInformationRepository {
       PersonalInformationRepository.instance = new PersonalInformationRepository()
     }
     return PersonalInformationRepository.instance
+  }
+
+  public async signUp(formData: SignUpFormData): Promise<void> {
+    const request = RestSignUpRequestMapper.map(formData)
+    await this.apiService.signUp(request)
   }
 
   public async resetPassword(email: string): Promise<void> {

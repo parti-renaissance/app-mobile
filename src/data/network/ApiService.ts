@@ -28,6 +28,7 @@ import {
   mapPhonePollError,
   mapPhoningSessionError,
   mapProfileFormError,
+  mapSignUpFormError,
   mapSubscriptionError,
 } from './errorMappers'
 import { RestUserScope } from '../restObjects/RestUserScope'
@@ -59,12 +60,22 @@ import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventReques
 import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { DoorToDoorCampaign } from '../../core/entities/DoorToDoorCampaign'
+import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 
 class ApiService {
   private static instance: ApiService
   private httpClient = _httpClient
   private constructor() {}
+
+  public async signUp(request: RestSignUpRequest): Promise<void> {
+    return this.httpClient
+      .post('api/membership?source=jemengage', {
+        json: request,
+      })
+      .then(() => {})
+      .catch(mapSignUpFormError)
+  }
 
   public async resetPassword(request: RestResetPasswordRequest): Promise<void> {
     return this.httpClient
