@@ -1,5 +1,5 @@
 import CheckBox from '@react-native-community/checkbox'
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Alert,
   KeyboardTypeOptions,
@@ -28,6 +28,7 @@ import { Gender } from '../../core/entities/UserProfile'
 import { AlertUtils } from '../shared/AlertUtils'
 import PersonalInformationRepository from '../../data/PersonalInformationRepository'
 import { SignUpFormError } from '../../core/errors'
+import LegalRepository from '../../data/LegalRepository'
 
 const getError = (violations: Array<FormViolation>, path: string): string => {
   return violations
@@ -37,11 +38,11 @@ const getError = (violations: Array<FormViolation>, path: string): string => {
       return previous + current + '\n'
     }, '')
 }
-const GCU = `Maecenas varius auctor ultricies. Maecenas dolor erat, tempus efficitur quam dapibus, porta iaculis leo. In semper neque eget ipsum ullamcorper auctor non a massa. Nunc iaculis euismod mollis.`
 
 const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
+  const [gdpr, setGdpr] = useState<string>('')
   const [signUpFormData, setSignUpFormData] = useState<SignUpFormData>({
     firstName: '',
     lastName: '',
@@ -58,6 +59,12 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
     address: undefined,
     gcuAccepted: false,
   })
+
+  useEffect(() => {
+    LegalRepository.getInstance()
+      .getGdrp()
+      .then((newGdpr) => setGdpr(newGdpr.content))
+  }, [])
 
   const isActionEnabled = (form: SignUpFormData): boolean => {
     return (
@@ -312,7 +319,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           {renderSectionAccount()}
           {renderSectionPersonalData()}
           {renderSectionNotifications()}
-          {renderSectionGcu(GCU)}
+          {renderSectionGcu(gdpr)}
         </ScrollView>
       </KeyboardOffsetView>
       <View style={styles.bottomContainer}>
