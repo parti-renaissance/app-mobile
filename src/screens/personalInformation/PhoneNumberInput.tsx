@@ -16,6 +16,7 @@ import LabelInputContainer from './LabelInputContainer'
 type Props = Readonly<{
   labelStyle?: StyleProp<ViewStyle>
   label: string
+  placeholder: string
   nextInput?: React.RefObject<TextInput>
   isLastInput?: boolean
   defaultValue?: PhoneNumber | undefined
@@ -70,7 +71,7 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
         <TextInput
           ref={ref}
           style={[styles.textInput, textInputStyle]}
-          placeholder={i18n.t('personalinformation.placeholder')}
+          placeholder={props.placeholder}
           placeholderTextColor={Colors.lightText}
           returnKeyType={returnKeyType}
           onSubmitEditing={submitEditing}

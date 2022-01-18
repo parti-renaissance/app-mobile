@@ -58,6 +58,7 @@ const ForgottenPasswordScreen: FunctionComponent<ForgottenPasswordScreenProps> =
             autoCapitalize: 'none',
             keyboardType: 'default',
             returnKeyType: 'next',
+            autoFocus: true,
             onChangeText: (text: string) => {
               setEmail(text)
             },

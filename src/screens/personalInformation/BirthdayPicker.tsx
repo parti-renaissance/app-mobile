@@ -13,6 +13,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker'
 
 type Props = Readonly<{
   date: Date | undefined
+  placeholder: string
   onDateChange: (formattedDate: string, date: Date) => void
   disabled?: boolean
   style?: StyleProp<ViewStyle>
@@ -36,7 +37,7 @@ const BirthdayPicker: FC<Props> = (props) => {
       format="DD/MM/YYYY"
       confirmBtnText={i18n.t('common.confirm')}
       cancelBtnText={i18n.t('common.cancel')}
-      placeholder={i18n.t('personalinformation.placeholder')}
+      placeholder={props.placeholder}
       customStyles={{
         // @ts-ignore: Placeholder attributes
         placeholderText: {

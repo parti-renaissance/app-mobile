@@ -102,12 +102,13 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
     placeholder: string,
     onChangeText: (text: string) => void,
     keyboardType: KeyboardTypeOptions = 'default',
+    autoCapitalize: TextInputProps['autoCapitalize'] = 'sentences',
   ): TextInputProps => {
     return {
       value: value,
       placeholder: placeholder,
       placeholderTextColor: Colors.lightTextOnLightBackground,
-      autoCapitalize: 'sentences',
+      autoCapitalize: autoCapitalize,
       keyboardType: keyboardType,
       returnKeyType: 'next',
       onChangeText: onChangeText,
@@ -177,6 +178,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
             })
           },
           'email-address',
+          'none',
         )}
       />
       <View style={[styles.checkboxContainer, styles.gcuContainer]}>
@@ -215,6 +217,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
         >
           <BirthdayPicker
             date={signUpFormData.birthDate}
+            placeholder={i18n.t('sign_up.personal_data.birth_date_placeholder')}
             onDateChange={(_, date) => {
               setSignUpFormData({
                 ...signUpFormData,
@@ -231,6 +234,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           labelStyle={styles.fieldTitle}
           defaultValue={signUpFormData.phone}
           label={i18n.t('sign_up.personal_data.phone')}
+          placeholder={i18n.t('sign_up.personal_data.phone_placeholder')}
           onValueChange={(value) => {
             if (value) {
               setSignUpFormData({
