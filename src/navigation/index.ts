@@ -405,6 +405,10 @@ export type ForgottenPasswordScreenProps = Readonly<{
   navigation: NavigationProp<ParamListBase>
 }>
 
+// Sign Up
+export type SignUpScreenProps = Readonly<{
+  navigation: NavigationProp<ParamListBase>
+}>
 
 // AnonymousLoginZipCode
 export type AnonymousLoginZipCodeScreenProps = StackScreenProps<

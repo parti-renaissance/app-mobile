@@ -22,6 +22,7 @@ import ProfileModal from '../screens/profile/ProfileModal'
 import PhoningSessionModal from '../screens/phoningSessionNavigator/PhoningSessionModal'
 import DoorToDoorTunnelModal from '../screens/doorToDoor/tunnel/DoorToDoorTunnelModal'
 import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
+import SignUpScreen from '../screens/authentication/SignUpScreen'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -117,6 +118,10 @@ const Navigator: FunctionComponent = () => {
         <UnauthenticatedStack.Screen
           name={Screen.termsOfUse}
           component={TermsOfUseScreen}
+        />
+        <UnauthenticatedStack.Screen
+          name={Screen.signUp}
+          component={SignUpScreen}
         />
       </UnauthenticatedStack.Navigator>
     )

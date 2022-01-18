@@ -8,7 +8,7 @@ export interface SignUpFormData {
   mail: string
   notificationMail: boolean
   notificationSms: boolean
-  birthDate: Date
+  birthDate: Date | undefined
   phone: PhoneNumber
   address: Address | undefined
   gcuAccepted: boolean

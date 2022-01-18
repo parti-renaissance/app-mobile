@@ -47,6 +47,7 @@ const UnauthenticatedHomeScreen = ({
             title={i18n.t('unauthenticatedhome.signup')}
             onPress={() => {
               // TODO
+              navigation.navigate(Screen.signUp)
             }}
           />
           <Text style={styles.separator}>
@@ -58,6 +59,7 @@ const UnauthenticatedHomeScreen = ({
             title={i18n.t('unauthenticatedhome.login_lrem')}
             onPress={() => {
               // TODO
+              navigation.navigate(Screen.login)
             }}
           >
             <View style={styles.buttonImageContainer}>

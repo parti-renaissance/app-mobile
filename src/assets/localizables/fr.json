@@ -599,6 +599,39 @@
         }
       }
     },
+    "sign_up": {
+      "title": "Inscription",
+      "account": {
+        "title": "Créer votre compte",
+        "first_name": "Prénom",
+        "first_name_placeholder": "Indiquez votre prénom",
+        "name": "Nom",
+        "name_placeholder": "Indiquez votre nom",
+        "mail": "Adresse e-mail",
+        "mail_placeholder": "Indiquez votre adresse e-mail",
+        "gcu": "Oui, j'adhère aux \u003ca href='https://ensemblecitoyens.fr/'\u003econditions générales d'utilisation\u003c/a\u003e et à la \u003ca href='https://ensemblecitoyens.fr/'\u003epolitique de protection des données à caractère personnel.\u003c/a\u003e"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "mail": "Je souhaite recevoir des notifications par email.",
+        "sms": "Je souhaite recevoir des notifications par sms."
+      },
+      "personal_data": {
+        "title": "Informations personnelles",
+        "birth_date": "Date de naissance",
+        "birth_date_placeholder": "Indiquez votre date de naissance",
+        "phone": "Numéro de téléphone",
+        "phone_placeholder": "Indiquez votre numéro de téléphone",
+        "address": "Adresse",
+        "address_placeholder": "Indiquez votre adresse"
+      },
+      "success_alert": {
+        "title": "Félicitations ! ",
+        "message": "Afin de terminer votre inscription, veuillez valider votre adresse email en cliquant sur le lien reçu par mail. Vous pourrez ensuite vous connecter dans l'application.",
+        "action": "Continuer"
+      },
+      "action": "S'inscrire"
+    },
     "forgot_password": {
       "title": "Mot de passe oublié ?",
       "subtitle": "Saisissez l’adresse e-mail associé à votre compte et nous vous enverrons un lien par e-mail pour réinitialiser votre mot de passe.",
