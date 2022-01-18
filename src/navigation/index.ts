@@ -113,6 +113,7 @@ export type UnauthenticatedStackParamList = {
   UnauthenticatedHome: undefined
   Login: undefined
   ForgottenPassword: { email?: string }
+  SignUp: undefined
   AnonymousLoginZipCode: undefined
   ZipCodeConfirmation: { zipCode: string }
   DataCollect: undefined

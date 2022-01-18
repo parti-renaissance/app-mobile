@@ -1,5 +1,12 @@
 import React from 'react'
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import {
+  Image,
+  ImageBackground,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -23,6 +30,11 @@ const UnauthenticatedHomeScreen = ({
         style={styles.background}
       >
         <SafeAreaView style={styles.content}>
+          <StatusBar
+            translucent
+            backgroundColor="transparent"
+            barStyle="light-content"
+          />
           <Text style={styles.title}>
             {i18n.t('unauthenticatedhome.title')}
           </Text>
@@ -46,7 +58,6 @@ const UnauthenticatedHomeScreen = ({
             textStyle={styles.buttonText}
             title={i18n.t('unauthenticatedhome.signup')}
             onPress={() => {
-              // TODO
               navigation.navigate(Screen.signUp)
             }}
           />
