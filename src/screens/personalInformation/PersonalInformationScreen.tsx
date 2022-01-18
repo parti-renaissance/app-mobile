@@ -216,6 +216,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
           >
             <LocationPicker
               address={form.address}
+              placeholder={i18n.t('personalinformation.placeholder')}
               onAddressSelected={(pickedAddress) => {
                 updateForm({ ...form, address: pickedAddress })
               }}

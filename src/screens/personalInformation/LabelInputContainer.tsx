@@ -1,11 +1,13 @@
 import React, { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 
 type Props = Readonly<{
   label: string
   errorMessage?: string
   disabled?: boolean
+  labelStyle?: StyleProp<ViewStyle>
+  multiLine?: boolean
   children: any
 }>
 
@@ -15,13 +17,20 @@ const LabelInputContainer: FC<Props> = (props) => {
   const borderColor = hasErrorMessage
     ? Colors.inputTextErrorMessage
     : Colors.separator
-  const labelStyle =
+  const labelStyle = props.labelStyle ? props.labelStyle : styles.label
+  const labelStateStyle =
     props.disabled === true ? styles.labelDisabled : styles.labelEnabled
+  const containerStyle = props.multiLine ? null : styles.containerSingleLine
+
   return (
     <View>
-      <View style={styles.container}>
-        <Text style={[styles.label, labelStyle]}>{props.label}</Text>
-        <View style={styles.input}>{props.children}</View>
+      <View style={containerStyle}>
+        <Text style={[labelStyle, labelStateStyle]}>{props.label}</Text>
+        <View
+          style={[styles.input, props.multiLine ? styles.inputMultiLine : null]}
+        >
+          {props.children}
+        </View>
       </View>
       <View style={[styles.separator, { backgroundColor: borderColor }]} />
       {hasErrorMessage ? (
@@ -32,7 +41,7 @@ const LabelInputContainer: FC<Props> = (props) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerSingleLine: {
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: Spacing.unit,
@@ -43,6 +52,9 @@ const styles = StyleSheet.create({
   },
   input: {
     flexGrow: 1,
+  },
+  inputMultiLine: {
+    paddingTop: Spacing.unit,
   },
   label: {
     ...Typography.body,
