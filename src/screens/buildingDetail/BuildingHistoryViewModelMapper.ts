@@ -93,6 +93,7 @@ function doorVisitViewModel(
   return {
     id: historyPoint.createdAt.toISOString(),
     key: i18n.t('building.history.visitFormat', {
+      count: historyPoint.floor + 1,
       floor: historyPoint.floor,
       door: historyPoint.door,
     }),

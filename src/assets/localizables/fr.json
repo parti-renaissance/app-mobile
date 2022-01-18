@@ -1,21 +1,21 @@
 {
   "fr": {
     "common": {
-      "loading": "Chargement...",
+      "loading": "Chargement",
       "keyboard": {
         "done": "Ok"
       },
       "error": {
-        "network": "Une erreur réseau est survenue",
+        "network": "Une erreur réseau est survenue. ",
         "internal": "Désolé, une erreur interne est survenue. Nous vous invitons à réessayer ultérieurement. \n(code 500)",
         "bad_request": "Mauvaise requête. Une erreur technique est survenue. Veuillez réessayer ultérieurement.\n(code 400)",
         "unauthorized": "Vous ne disposez pas des autorisations suffisantes pour effectuer cette demande.\n(code 401)",
         "forbidden": "Cette demande n'est pas autorisée.\n(code 403)",
         "not_found": "La ressource que vous essayez de récupérer ne semble pas exister.\n(code 404)",
         "parsing": "Le format de la réponse n'est pas lisible. Veuillez réessayer ultérieurement. ",
-        "generic": "Une erreur est survenue"
+        "generic": "Une erreur est survenue, veuillez réessayer. "
       },
-      "error_reload": "Rechargez la page",
+      "error_reload": "Rechargez la page. ",
       "error_title": "Oups !",
       "error_retry": "Réessayer",
       "cancel": "Annuler",
@@ -36,9 +36,9 @@
       "question_count_format_one": "{{count}} question",
       "question_count_format_other": "{{count}} questions",
       "title": "Questionnaires",
-      "subtitle_one": "Un questionnaire est disponible.\nOrganisez des actions terrains pour récolter des avis.",
-      "subtitle_other": "Des questionnaire sont disponibles.\r\nOrganisez des actions terrains pour récolter des avis.",
-      "subtitle_no_polls": "Aucun questionnaire n'est actuellement disponible pour votre territoire"
+      "subtitle_one": "Un questionnaire est disponible.\nOrganisez des actions terrain pour récolter des réponses.",
+      "subtitle_other": "Des questionnaires sont disponibles.\nOrganisez des actions terrain pour récolter des réponses.",
+      "subtitle_no_polls": "Aucun questionnaire n'est actuellement disponible pour votre territoire."
     },
     "polldetail": {
       "next": "Suivant",
@@ -62,12 +62,12 @@
       "consent_data_progress": "Données personnelles",
       "success": {
         "title": "Bravo !",
-        "message": "Un sondage de plus de rempli.\nMerci pour votre engagement !",
+        "message": "Un sondage de plus réalisé. \nMerci pour votre engagement !",
         "restart": "Recommencer",
         "finish": "Terminer"
       },
       "profile": {
-        "header": "Afin d’améliorer l’analyse des réponses à ce sondage vous pouvez renseigner le profil de votre interlocuteur. Toutes ces informations sont facultatives.",
+        "header": "Afin d’améliorer l’analyse des réponses, vous pouvez renseigner le profil de votre interlocuteur. Toutes ces informations sont facultatives.",
         "gender_section": "Quel est son genre ?",
         "gender_male": "Masculin",
         "gender_female": "Féminin",
@@ -90,9 +90,9 @@
         "profession_student": "Étudiant"
       },
       "user_form": {
-        "consent_title": "Souhaite-t-il être au courant des résultats de cette consultation via \ne-mail ?",
-        "consent_subtitle": "En cochant OUI, vous certifiez que la personne consultée consent à ce que ses données personnelles soient traitées par la République en Marche dans le cadre de ce sondage et qu'il est informé qu'il dispose d'un droit d'accès, de rectification, d'effacement de ses données ainsi que du droit de s'opposer et de limiter le traitement de ses données ; qu'il peut exercer ses droits via ",
-        "consent_subtitle_suffix": "la politique de données de LaREM.",
+        "consent_title": "Souhaite-t-il être tenu au courant des résultats de ce sondage par e-mail ?",
+        "consent_subtitle": "En cochant \"oui\", vous certifiez que la personne consultée consent à ce que ses données personnelles soient traitées par la République en Marche dans le cadre de ce sondage. Vous l'avez informé de ses droits concernant ses informations personnelles (Accès, rectification, effacement, s'opposer ou limiter le traitement de ses données). ",
+        "consent_subtitle_suffix": "La politique de données de LaREM.",
         "consent_url": "https://en-marche.fr/politique-protection-donnees",
         "positive_choice": "Oui",
         "negative_choice": "Non",
@@ -114,10 +114,10 @@
       "title": "Connexion",
       "email": "Adresse e-mail",
       "password": "Mot de passe",
-      "login": "Connexion LaREM",
+      "login": "Connexion",
       "password_lost": "Mot de passe oublié ?",
       "password_lost_url": "https://en-marche.fr/mot-de-passe-oublie",
-      "credentials_error": "Email/mot de passe invalide"
+      "credentials_error": "Il semble que votre adresse e-mail ou votre mot de passe soient incorrects. "
     },
     "profile": {
       "version": "VERSION {{version}}",
@@ -131,7 +131,7 @@
         "dataprotection": "Données à caractère personnel",
         "application": "Application",
         "notifications": "Notifications",
-        "notifications_description": "Paramétrez vos préférences de notifications",
+        "notifications_description": "Paramétrez vos préférences de notifications.",
         "postal_code": "Code postal",
         "postal_code_description": "Modifiez votre localisation",
         "personal_information_url": "https://en-marche.fr/parametres/mon-compte/modifier",
@@ -158,7 +158,7 @@
     "anonymousloginzipcode": {
       "title": "Quel est votre code postal ?",
       "continue": "Continuer",
-      "invalid_code": "Code postal invalide"
+      "invalid_code": "Code postal invalide."
     },
     "zipcodeconfirmation": {
       "title": "Vous êtes désormais localisé dans le département {{department}}",
@@ -210,7 +210,7 @@
         "votes_count_other": "{{format}} votants"
       },
       "event": {
-        "section": "Prochain évènement"
+        "section": "Prochain événement"
       },
       "retaliation": {
         "retaliate_button": "Copier le texte et riposter",
@@ -270,7 +270,7 @@
       "tab_calendar": "Calendrier",
       "tab_mine": "Mes événements",
       "subscribed": "Inscrit",
-      "empty": "Vous n’avez aucun évènement à venir.",
+      "empty": "Vous n’avez aucun événement à venir.",
       "section_date_format": "dddd D MMMM YYYY",
       "section_date_today": "Aujourd'hui",
       "event_date_format": "D MMMM YYYY",
@@ -298,7 +298,7 @@
       "registered": "Inscrit",
       "unsubscribe": {
         "title": "Annuler mon inscription",
-        "content": "Vous êtes sur le point d’annuler votre inscription à l’évènement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
+        "content": "Vous êtes sur le point d’annuler votre inscription à l’événement : « {{title}} »\nÊtes-vous certain de vouloir continuer ?",
         "confirm": "Oui"
       },
       "attendees": "{{attendees}} inscrits",
@@ -312,7 +312,7 @@
     },
     "notificationmenu": {
       "title": "Notifications",
-      "description": "Activez les notifications pour profiter au mieux de Je m'engage !",
+      "description": "Activez les notifications pour ne rien manquer sur Je m'engage ! ",
       "local": "Locales",
       "national": "Nationales"
     },
@@ -320,8 +320,8 @@
       "section_push": "Pushs",
       "section_emails": "E-mails",
       "section_sms": "SMS/MMS",
-      "push_description_local": "Recevoir des notifications pour ne manquer aucune action locale",
-      "push_description_national": "Recevoir des notifications pour ne manquer aucun grands rendez-vous nationaux"
+      "push_description_local": "Recevez des notifications pour ne manquer aucune action ou information locale.",
+      "push_description_national": "Recevez des notifications pour ne manquer aucune information nationale."
     },
     "phonepolldetail": {
       "phone_satisfaction": "Satisfaction",
@@ -340,7 +340,7 @@
       "callcontact": {
         "title": "Appeler un contact de mon téléphone",
         "body": "Vous pouvez appeler un de vos contacts pour le convaincre de voter Emmanuel Macron.",
-        "callbuttontitle": "Appeler un de mes contact",
+        "callbuttontitle": "Appeler un de mes contacts",
         "progressformat_other": "{{done}} questionnaires remplis sur {{total}}",
         "progressformat_one": "{{done}} questionnaire rempli sur {{total}}"
       },
@@ -410,9 +410,9 @@
     },
     "building": {
       "open_address": {
-        "action": "Réouvrir l'adresse",
+        "action": "Rouvrir l'adresse",
         "alert": {
-          "title": "Réouvrir l'adresse",
+          "title": "Rouvrir l'adresse",
           "message": "Voulez-vous indiquer cette adresse comme ouverte ?",
           "action": "Oui",
           "cancel": "Non"
@@ -429,16 +429,16 @@
       },
       "status": {
         "done": "Terminé",
-        "todo": "A faire",
-        "tocomplete": "A terminer"
+        "todo": "À faire",
+        "tocomplete": "À terminer"
       },
       "stats": {
-        "doorKnocked_one": "Porte frappée",
-        "doorKnocked_other": "Portes frappées",
-        "estimatedDoors_one": "Porte estimée",
-        "estimatedDoors_other": "Portes estimées",
-        "completedQuestionnaires_one": "Questionnaire réalisé",
-        "completedQuestionnaires_other": "Questionnaires réalisés"
+        "doorKnocked_one": "Porte\\nfrappée",
+        "doorKnocked_other": "Portes\\nfrappées",
+        "estimatedDoors_one": "Porte\\nestimée",
+        "estimatedDoors_other": "Portes\\nestimées",
+        "completedQuestionnaires_one": "Questionnaire\\nréalisé",
+        "completedQuestionnaires_other": "Questionnaires\\nréalisés"
       },
       "tabs": {
         "history": "Historique",
@@ -449,7 +449,7 @@
           "house": "Maison",
           "appartementbuilding": "Bâtiment {{buildingName}}"
         },
-        "startaddress": "Commencer le porte à porte",
+        "startaddress": "Commencer le porte-à-porte",
         "floor": {
           "title_one": "RdC",
           "title_other": "Étage {{floorNumber}}",
@@ -465,10 +465,10 @@
         "add_building": "Ajouter un bâtiment",
         "add_floor": "Ajouter un étage supplémentaire",
         "close_building": "Clôturer",
-        "open_building": "Réouvrir",
+        "open_building": "Rouvrir",
         "close_building_alert": {
           "title": "Clôturer un bâtiment",
-          "message": "Etes vous certain d’avoir tocqué à toutes les portes du bâtiment ?",
+          "message": "Êtes-vous certain d’avoir frappé à toutes les portes du bâtiment ?",
           "action": "Oui",
           "cancel": "Non"
         }
@@ -478,7 +478,8 @@
         "questionersFormat": "Effectué par {{questioners}}",
         "questionersListSeparator": ", ",
         "questionersListLastSeparator": " \u0026 ",
-        "visitFormat": "Etage {{floor}} - Porte {{door}}"
+        "visitFormat_one": "RDC - Porte {{door}}",
+        "visitFormat_other": "Étage {{floor}} - Porte {{door}}"
       },
       "change_type_alert": {
         "title": "Modifier",
@@ -532,8 +533,8 @@
       },
       "location": {
         "title": "Localisation nécessaire",
-        "subtitle": "Afin de vous montrer les adresses autour de vous qui nécéssitent un passage, votre localisation est nécessaire.",
-        "cta": "Autoriser je m’engage à accéder à votre localisation"
+        "subtitle": "Activez votre localisation pour voir les adresses qui nécessitent un passage. ",
+        "cta": "Autoriser Je m’engage à accéder à votre localisation. "
       },
       "charter": {
         "title": "Charte",
@@ -551,7 +552,7 @@
         },
         "leave_alert": {
           "title": "Quitter le questionnaire",
-          "message": "Êtes-vous sur de vouloir quitter le questionnaire ?",
+          "message": "Êtes-vous sûr de vouloir quitter le questionnaire ?",
           "cancel": "Annuler",
           "action": "Quitter"
         },
@@ -568,28 +569,28 @@
           "floorFinished": "Étage terminé",
           "rdvDoor_one": "Rendez-vous à la 1ère porte en partant de la gauche.",
           "rdvDoor_other": "Rendez-vous à la {{door}}ème porte en partant de la gauche.",
-          "doorFinished": "S’il n’y a plus de portes sur l’étage, clôturé l’étage en tapant sur “étage terminé”.",
-          "buildingFinished": "Si le bâtiment est terminé quittez cette page en cliquant sur la croix en haut à gauche de votre écran puis, clôturez le.",
+          "doorFinished": "S’il n’y a plus de portes à cet étage, clôturez-le en cliquant sur “étage terminé”.",
+          "buildingFinished": "Si le bâtiment est terminé, cliquez sur \"étage terminé\", quittez cette page et clôturez le bâtiment. ",
           "title_one": "Bâtiment {{buildingName}} - RdC",
           "title_other": "Bâtiment {{buildingName}} - Étage {{floorName}}",
           "shortTitle_one": "Bât {{buildingName}} - RdC - P{{door}}",
           "shortTitle_other": "Bât {{buildingName}} - Étage {{floorName}} - P{{door}}",
           "close_floor_alert": {
             "title": "Clôturer l'étage",
-            "message": "Etes vous certain d’avoir tocqué à toutes les portes de l'étage ?",
+            "message": "Êtes-vous certain d’avoir frappé à toutes les portes de l'étage ?",
             "action": "Oui",
             "cancel": "Non"
           }
         },
         "opening": {
-          "title": "La porte s’ouvre t’elle ?"
+          "title": "La porte s’ouvre-t-elle ?"
         },
         "success": {
           "wellDone": "Bravo !",
           "newDoor": "Une porte de plus !",
-          "recap": "Tu as réalisé un total de {{doorsCount}} porte frappée et récolté {{pollsCount}} questionnaire. Merci pour ton engagement !",
+          "recap": "Vous avez frappé à {{doorsCount}} portes et récolté {{pollsCount}} questionnaires. Merci pour votre engagement !",
           "knockNewDoor": "Frapper à une nouvelle porte",
-          "stop": "Arrêter le porte-à-porte",
+          "stop": "Revenir au bâtiment",
           "ranking": "Classement"
         }
       }
