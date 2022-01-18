@@ -319,7 +319,10 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <LoadingOverlay visible={isLoading} />
       <Text style={styles.title}>{i18n.t('sign_up.title')}</Text>
       <KeyboardOffsetView>
-        <ScrollView contentContainerStyle={styles.content}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="always"
+        >
           {renderSectionAccount()}
           {renderSectionPersonalData()}
           {renderSectionNotifications()}

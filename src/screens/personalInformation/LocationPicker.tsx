@@ -155,6 +155,7 @@ const LocationPicker: FC<Props> = (props) => {
             </Text>
           </View>
           <GooglePlacesAutocomplete
+            listViewDisplayed={false}
             placeholder={i18n.t('common.search')}
             fetchDetails={true}
             onPress={(_, details) => {
