@@ -66,18 +66,20 @@ const UnauthenticatedHomeScreen = ({
           </Text>
           <SecondaryButton
             style={styles.button}
-            textStyle={styles.buttonText}
-            title={i18n.t('unauthenticatedhome.login_lrem')}
             onPress={() => {
-              // TODO
               navigation.navigate(Screen.login)
             }}
           >
-            <View style={styles.buttonImageContainer}>
-              <Image
-                source={require('../../assets/images/iconEM.png')}
-                style={styles.buttonImage}
-              />
+            <View style={styles.row}>
+              <Text style={styles.buttonText}>
+                {i18n.t('unauthenticatedhome.login_lrem')}
+              </Text>
+              <View style={styles.buttonImageContainer}>
+                <Image
+                  source={require('../../assets/images/iconEM.png')}
+                  style={styles.buttonImage}
+                />
+              </View>
             </View>
           </SecondaryButton>
         </SafeAreaView>
@@ -123,6 +125,11 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.largeMargin,
     marginVertical: Spacing.mediumMargin,
     textAlign: 'center',
+  },
+  row: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   separator: {
     ...Typography.body,
