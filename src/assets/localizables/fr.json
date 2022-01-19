@@ -105,18 +105,23 @@
       }
     },
     "unauthenticatedhome": {
+      "title": "Je m’engage\navec",
+      "title_rest": "la majorité présidentielle",
       "description": "Retrouvez rapidement nos outils, réalisez des questionnaires et restez informés de l’actualité de votre territoire.",
-      "login": "Connexion LaREM",
-      "skip": "Connexion Majorité Présidentielle",
+      "login": "Me connecter",
+      "signup": "Créer un compte",
+      "or": "- ou -",
+      "login_lrem": "Me connecter avec",
       "register_url": "https://en-marche.fr/adhesion"
     },
     "login": {
       "title": "Connexion",
       "email": "Adresse e-mail",
+      "email_placeholder": "Entrez votre adresse e-mail",
       "password": "Mot de passe",
-      "login": "Connexion LaREM",
+      "password_placeholder": "Entrez votre mot de passe",
+      "login": "Se connecter",
       "password_lost": "Mot de passe oublié ?",
-      "password_lost_url": "https://en-marche.fr/mot-de-passe-oublie",
       "credentials_error": "Email/mot de passe invalide"
     },
     "profile": {
@@ -433,12 +438,12 @@
         "tocomplete": "A terminer"
       },
       "stats": {
-        "doorKnocked_one": "Porte frappée",
-        "doorKnocked_other": "Portes frappées",
-        "estimatedDoors_one": "Porte estimée",
-        "estimatedDoors_other": "Portes estimées",
-        "completedQuestionnaires_one": "Questionnaire réalisé",
-        "completedQuestionnaires_other": "Questionnaires réalisés"
+        "doorKnocked_one": "Porte\\nfrappée",
+        "doorKnocked_other": "Portes\\nfrappées",
+        "estimatedDoors_one": "Porte\\nestimée",
+        "estimatedDoors_other": "Portes\\nestimées",
+        "completedQuestionnaires_one": "Questionnaire\\nréalisé",
+        "completedQuestionnaires_other": "Questionnaires\\nréalisés"
       },
       "tabs": {
         "history": "Historique",
@@ -593,6 +598,46 @@
           "ranking": "Classement"
         }
       }
+    },
+    "sign_up": {
+      "title": "Inscription",
+      "account": {
+        "title": "Créer votre compte",
+        "first_name": "Prénom",
+        "first_name_placeholder": "Indiquez votre prénom",
+        "name": "Nom",
+        "name_placeholder": "Indiquez votre nom",
+        "mail": "Adresse e-mail",
+        "mail_placeholder": "Indiquez votre adresse e-mail",
+        "gcu": "Oui, j'adhère aux \u003ca href='https://je-mengage.fr/mentions-legales'\u003econditions générales d'utilisation\u003c/a\u003e et à la \u003ca href='https://je-mengage.fr/politique-protection-donnees'\u003epolitique de protection des données à caractère personnel.\u003c/a\u003e"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "mail": "Je souhaite recevoir des notifications par email.",
+        "sms": "Je souhaite recevoir des notifications par sms."
+      },
+      "personal_data": {
+        "title": "Informations personnelles",
+        "birth_date": "Date de naissance",
+        "birth_date_placeholder": "Indiquez votre date de naissance",
+        "phone": "Numéro de téléphone",
+        "phone_placeholder": "Indiquez votre numéro de téléphone",
+        "address": "Adresse",
+        "address_placeholder": "Indiquez votre adresse"
+      },
+      "success_alert": {
+        "title": "Félicitations ! ",
+        "message": "Afin de terminer votre inscription, veuillez valider votre adresse email en cliquant sur le lien reçu par mail. Vous pourrez ensuite vous connecter dans l'application.",
+        "action": "Continuer"
+      },
+      "action": "S'inscrire"
+    },
+    "forgot_password": {
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Saisissez l’adresse e-mail associé à votre compte et nous vous enverrons un lien par e-mail pour réinitialiser votre mot de passe.",
+      "mail": "Adresse e-mail",
+      "mail_placeholder": "Entrez votre adresse e-mail",
+      "action": "Recevoir mon lien de réinitialisation"
     }
   }
 }

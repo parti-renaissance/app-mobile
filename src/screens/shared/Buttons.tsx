@@ -19,7 +19,7 @@ type ButtonProps = Readonly<{
   buttonStyle?: StyleProp<ViewStyle>
   textStyle?: StyleProp<TextStyle>
   onPress?: () => void
-  title: string
+  title?: string
   disabled?: boolean
   shape?: ButtonShape
 }>
@@ -88,27 +88,31 @@ export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
         style={styles.buttonTouchable}
         touchHighlight={background}
       >
-        <Text
-          style={[
-            styles.appButtonText,
-            styles.appButtonTextSecondary,
-            { opacity: opacity },
-            props.textStyle,
-          ]}
-        >
-          {props.icon ? (
-            <View style={{ paddingRight: props.iconPadding }}>
-              <Image
-                style={{
-                  tintColor: props.iconTint,
-                }}
-                source={props.icon}
-              />
-            </View>
-          ) : null}
+        {props.children ? (
+          props.children
+        ) : (
+          <Text
+            style={[
+              styles.appButtonText,
+              styles.appButtonTextSecondary,
+              { opacity: opacity },
+              props.textStyle,
+            ]}
+          >
+            {props.icon ? (
+              <View style={{ paddingRight: props.iconPadding }}>
+                <Image
+                  style={{
+                    tintColor: props.iconTint,
+                  }}
+                  source={props.icon}
+                />
+              </View>
+            ) : null}
 
-          {props.title}
-        </Text>
+            {props.title}
+          </Text>
+        )}
       </TouchablePlatform>
     </View>
   )

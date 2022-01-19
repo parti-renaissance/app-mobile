@@ -20,10 +20,9 @@ type Props = Readonly<{
 const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
   const hasErrorMessage =
     props.errorMessage !== undefined && props.errorMessage !== ''
-  const borderColor =
-    props.errorMessage !== undefined
-      ? Colors.inputTextErrorMessage
-      : Colors.inputTextBorder
+  const borderColor = hasErrorMessage
+    ? Colors.inputTextErrorMessage
+    : Colors.inputTextBorder
 
   return (
     <View style={props.style}>

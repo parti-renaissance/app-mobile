@@ -175,6 +175,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
           >
             <BirthdayPicker
               date={form.birthdate}
+              placeholder={i18n.t('personalinformation.placeholder')}
               onDateChange={onDateChange}
               disabled={isCertified}
             />
@@ -216,6 +217,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
           >
             <LocationPicker
               address={form.address}
+              placeholder={i18n.t('personalinformation.placeholder')}
               onAddressSelected={(pickedAddress) => {
                 updateForm({ ...form, address: pickedAddress })
               }}
@@ -236,6 +238,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
           <PhoneNumberInput
             defaultValue={initialForm.phoneNumber}
             label={i18n.t('personalinformation.phone')}
+            placeholder={i18n.t('personalinformation.placeholder')}
             nextInput={facebookRef}
             onValueChange={(value) =>
               updateForm({ ...form, phoneNumber: value })

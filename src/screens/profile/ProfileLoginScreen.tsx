@@ -11,6 +11,7 @@ const ProfilLoginScreen: FC<Props> = ({ navigation }) => {
       onSuccess={() => {
         navigation.navigate(Screen.profile)
       }}
+      navigation={navigation}
     />
   )
 }
