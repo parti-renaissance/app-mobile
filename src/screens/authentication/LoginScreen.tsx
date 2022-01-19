@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { StyleSheet, Text, TextInput } from 'react-native'
+import { StatusBar, StyleSheet, Text, TextInput } from 'react-native'
 import i18n from '../../utils/i18n'
 import { LoginError } from '../../core/errors'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -53,6 +53,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation, onSuccess }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <LoadingOverlay visible={isLoading} />
       <Text style={styles.title}>{i18n.t('login.title')}</Text>
       <LabelTextInput

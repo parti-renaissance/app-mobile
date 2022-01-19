@@ -4,6 +4,7 @@ import {
   Alert,
   KeyboardTypeOptions,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInputProps,
@@ -316,6 +317,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <LoadingOverlay visible={isLoading} />
       <Text style={styles.title}>{i18n.t('sign_up.title')}</Text>
       <KeyboardOffsetView>
