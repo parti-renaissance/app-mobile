@@ -62,7 +62,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     LegalRepository.getInstance()
-      .getGdrp()
+      .getDataProtectionRegulation()
       .then((newGdpr) => setGdpr(newGdpr.content))
   }, [])
 

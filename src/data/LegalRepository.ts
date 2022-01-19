@@ -1,15 +1,15 @@
 import ApiService from './network/ApiService'
-import { Gdpr } from '../core/entities/Gdpr'
-import { GdprMapper } from './mapper/GdprMapper'
+import { DataProtectionRegulation } from '../core/entities/DataProtectionRegulation'
+import { DataProtectionRegulationMapper } from './mapper/DataProtectionRegulationMapper'
 
 class LegalRepository {
   private static instance: LegalRepository
   private apiService = ApiService.getInstance()
   private constructor() {}
 
-  public async getGdrp(): Promise<Gdpr> {
-    const restGdpr = await this.apiService.getGdpr()
-    return GdprMapper.map(restGdpr)
+  public async getDataProtectionRegulation(): Promise<DataProtectionRegulation> {
+    const restDataProtectionRegulation = await this.apiService.getGdpr()
+    return DataProtectionRegulationMapper.map(restDataProtectionRegulation)
   }
 
   public static getInstance(): LegalRepository {

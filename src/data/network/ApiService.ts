@@ -62,7 +62,7 @@ import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { DoorToDoorCampaign } from '../../core/entities/DoorToDoorCampaign'
 import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
-import { RestGdpr } from '../restObjects/RestGdpr'
+import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
 
 class ApiService {
   private static instance: ApiService
@@ -78,10 +78,10 @@ class ApiService {
       .catch(mapSignUpFormError)
   }
 
-  public async getGdpr(): Promise<RestGdpr> {
+  public async getGdpr(): Promise<RestDataProtectionRegulation> {
     return this.httpClient
       .get('api/je-mengage/rgpd')
-      .json<RestGdpr>()
+      .json<RestDataProtectionRegulation>()
       .catch(mapSignUpFormError)
   }
 
