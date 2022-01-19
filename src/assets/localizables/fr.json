@@ -433,12 +433,12 @@
         "tocomplete": "À terminer"
       },
       "stats": {
-        "doorKnocked_one": "Porte\\nfrappée",
-        "doorKnocked_other": "Portes\\nfrappées",
-        "estimatedDoors_one": "Porte\\nestimée",
-        "estimatedDoors_other": "Portes\\nestimées",
-        "completedQuestionnaires_one": "Questionnaire\\nréalisé",
-        "completedQuestionnaires_other": "Questionnaires\\nréalisés"
+        "doorKnocked_one": "Porte\nfrappée",
+        "doorKnocked_other": "Portes\nfrappées",
+        "estimatedDoors_one": "Porte\nestimée",
+        "estimatedDoors_other": "Portes\nestimées",
+        "completedQuestionnaires_one": "Questionnaire\nréalisé",
+        "completedQuestionnaires_other": "Questionnaires\nréalisés"
       },
       "tabs": {
         "history": "Historique",
