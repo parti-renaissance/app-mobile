@@ -69,7 +69,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation, onSuccess }) => {
           autoCorrect: false,
           returnKeyType: 'next',
           autoFocus: true,
-          autoCompleteType: 'email',
+          autoComplete: 'email',
           onChangeText: (text) => {
             setEmail(text)
           },
