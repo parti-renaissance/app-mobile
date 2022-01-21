@@ -28,7 +28,7 @@ const ForgottenPasswordScreen: FunctionComponent<ForgottenPasswordScreenProps> =
   })
 
   const isSubmitEnabled = (): boolean => {
-    return email.length > 0 && isValidEmail(email)
+    return email.length > 0
   }
 
   const onSubmit = () => {
@@ -73,13 +73,6 @@ const ForgottenPasswordScreen: FunctionComponent<ForgottenPasswordScreenProps> =
       </ScrollView>
     </SafeAreaView>
   )
-}
-
-function isValidEmail(mail: string): boolean {
-  if (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(mail)) {
-    return true
-  }
-  return false
 }
 
 const styles = StyleSheet.create({
