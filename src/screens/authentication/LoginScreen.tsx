@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { StyleSheet, Text, TextInput } from 'react-native'
+import { StatusBar, StyleSheet, Text, TextInput } from 'react-native'
 import i18n from '../../utils/i18n'
 import { LoginError } from '../../core/errors'
 import { GenericErrorMapper } from '../shared/ErrorMapper'
@@ -9,13 +9,9 @@ import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
-import { ExternalLink } from '../shared/ExternalLink'
+import { LoginScreenProps, Screen } from '../../navigation'
 
-type Props = Readonly<{
-  onSuccess?: () => void
-}>
-
-const LoginScreen: FC<Props> = ({ onSuccess }) => {
+const LoginScreen: FC<LoginScreenProps> = ({ navigation, onSuccess }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -57,6 +53,7 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <LoadingOverlay visible={isLoading} />
       <Text style={styles.title}>{i18n.t('login.title')}</Text>
       <LabelTextInput
@@ -64,13 +61,15 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         label={i18n.t('login.email')}
         errorMessage={emailErrorMessage}
         textInputProps={{
+          placeholder: i18n.t('login.email_placeholder'),
+          placeholderTextColor: Colors.lightText,
           keyboardType: 'email-address',
           textContentType: 'emailAddress',
           autoCapitalize: 'none',
           autoCorrect: false,
           returnKeyType: 'next',
           autoFocus: true,
-          autoCompleteType: 'email',
+          autoComplete: 'email',
           onChangeText: (text) => {
             setEmail(text)
           },
@@ -85,6 +84,8 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         label={i18n.t('login.password')}
         errorMessage={passwordErrorMessage}
         textInputProps={{
+          placeholder: i18n.t('login.password_placeholder'),
+          placeholderTextColor: Colors.lightText,
           textContentType: 'password',
           autoCapitalize: 'none',
           autoCorrect: false,
@@ -105,7 +106,7 @@ const LoginScreen: FC<Props> = ({ onSuccess }) => {
         style={styles.passwordLostButton}
         title={i18n.t('login.password_lost')}
         onPress={() => {
-          ExternalLink.openUrl(i18n.t('login.password_lost_url'))
+          navigation.navigate(Screen.forgottenPassword, { email: email })
         }}
       />
     </SafeAreaView>
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.mediumMargin,
   },
   title: {
-    ...Typography.title,
+    ...Typography.largeTitle,
     marginBottom: Spacing.mediumMargin,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,

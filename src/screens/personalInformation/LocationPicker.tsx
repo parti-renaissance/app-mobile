@@ -1,22 +1,32 @@
 import React, { FC, useState } from 'react'
-import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import {
+  Modal,
+  SafeAreaView,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+} from 'react-native'
 import {
   AddressComponent,
   GooglePlaceDetail,
   GooglePlacesAutocomplete,
   PlaceType,
 } from 'react-native-google-places-autocomplete'
-import { TouchableRipple } from 'react-native-paper'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { GOOGLE_PLACES_API_KEY } from '../../Config'
 import { Address } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 type Props = Readonly<{
   address: Address | undefined
+  placeholder: string
   onAddressSelected: (address: Address) => void
+  textStyle?: StyleProp<TextStyle>
 }>
 
 const extractComponent = (
@@ -111,7 +121,8 @@ const LocationPicker: FC<Props> = (props) => {
 
   return (
     <View>
-      <TouchableRipple
+      <TouchablePlatform
+        touchHighlight={Colors.touchHighlight}
         onPress={() => {
           setModalVisible(true)
         }}
@@ -119,14 +130,13 @@ const LocationPicker: FC<Props> = (props) => {
         <Text
           style={[
             styles.commonText,
+            props.textStyle,
             props.address ? styles.selectedAddress : styles.placeholder,
           ]}
         >
-          {props.address
-            ? stringifyAddress(props.address)
-            : i18n.t('personalinformation.placeholder')}
+          {props.address ? stringifyAddress(props.address) : props.placeholder}
         </Text>
-      </TouchableRipple>
+      </TouchablePlatform>
       <Modal
         animationType="slide"
         transparent={true}
@@ -146,6 +156,7 @@ const LocationPicker: FC<Props> = (props) => {
             </Text>
           </View>
           <GooglePlacesAutocomplete
+            listViewDisplayed={false}
             placeholder={i18n.t('common.search')}
             fetchDetails={true}
             onPress={(_, details) => {

@@ -18,6 +18,7 @@ const caption2FontSize = 11
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
 const maaxMedium = 'Maax-Medium'
+const maaxBold = 'Maax-Bold'
 
 export const footnote: TextStyle = {
   fontSize: footnoteFontSize,
@@ -44,6 +45,11 @@ export const largeTitle: TextStyle = {
 export const highlightedLargeTitle: TextStyle = {
   ...largeTitle,
   color: Colors.accent,
+}
+
+export const largeTitleBold: TextStyle = {
+  ...largeTitle,
+  fontFamily: maaxBold,
 }
 
 export const title: TextStyle = {

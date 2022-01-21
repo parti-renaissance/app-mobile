@@ -22,3 +22,10 @@ export class TokenCannotBeSubscribedError extends Error {}
 export class PhoningSessionNoNumberError extends Error {}
 export class PhoningSessionFinishedCampaignError extends Error {}
 export class PhonePollAlreadyAnsweredError extends Error {}
+export class SignUpFormError extends Error {
+  violations: Array<FormViolation>
+  constructor(violations: Array<FormViolation>) {
+    super()
+    this.violations = violations
+  }
+}

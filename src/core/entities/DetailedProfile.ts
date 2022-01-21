@@ -30,6 +30,7 @@ export interface Address {
 
 export interface PhoneNumber {
   countryCode: CountryCode
+  callingCode: string
   number: string
 }
 

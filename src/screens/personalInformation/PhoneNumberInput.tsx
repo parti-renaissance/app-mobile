@@ -14,13 +14,15 @@ import i18n from '../../utils/i18n'
 import LabelInputContainer from './LabelInputContainer'
 
 type Props = Readonly<{
-  style?: StyleProp<ViewStyle>
+  labelStyle?: StyleProp<ViewStyle>
   label: string
+  placeholder: string
   nextInput?: React.RefObject<TextInput>
   isLastInput?: boolean
   defaultValue?: PhoneNumber | undefined
   onValueChange: (value: PhoneNumber | undefined) => void
   errorMessage?: string
+  multiLine?: boolean
 }>
 
 const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -34,11 +36,15 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
     props.defaultValue?.countryCode ??
       i18n.t('personalinformation.default_country_code'),
   )
+  const [callingCode, setCallingCode] = useState<string>(
+    props.defaultValue?.callingCode ?? '',
+  )
   const [number, setNumber] = useState<string | undefined>(
     props.defaultValue?.number,
   )
   const dispatchNewPhoneNumber = (
     newCountryCode: CountryCode,
+    newCallingCode: string,
     newNumber: string | undefined,
   ) => {
     if (newNumber === undefined || newNumber.length === 0) {
@@ -46,18 +52,26 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
     } else {
       props.onValueChange({
         countryCode: newCountryCode,
+        callingCode: newCallingCode,
         number: newNumber,
       })
     }
   }
 
+  const textInputStyle = props.multiLine ? styles.expanded : styles.collapsed
+
   return (
-    <LabelInputContainer label={props.label} errorMessage={props.errorMessage}>
+    <LabelInputContainer
+      labelStyle={props.labelStyle}
+      label={props.label}
+      errorMessage={props.errorMessage}
+      multiLine={props.multiLine}
+    >
       <View style={styles.container}>
         <TextInput
           ref={ref}
-          style={styles.textInput}
-          placeholder={i18n.t('personalinformation.placeholder')}
+          style={[styles.textInput, textInputStyle]}
+          placeholder={props.placeholder}
           placeholderTextColor={Colors.lightText}
           returnKeyType={returnKeyType}
           onSubmitEditing={submitEditing}
@@ -68,7 +82,7 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
           autoCorrect={false}
           onChangeText={(value) => {
             setNumber(value)
-            dispatchNewPhoneNumber(countryCode, value)
+            dispatchNewPhoneNumber(countryCode, callingCode, value)
           }}
         />
         <CountryPicker
@@ -94,7 +108,8 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
           theme={{ ...Typography.phoneNumberPicker, itemHeight: 44 }}
           onSelect={(country) => {
             setCountryCode(country.cca2)
-            dispatchNewPhoneNumber(country.cca2, number)
+            setCallingCode(country.callingCode[0])
+            dispatchNewPhoneNumber(country.cca2, country.callingCode[0], number)
           }}
         />
       </View>
@@ -103,16 +118,23 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
 })
 
 const styles = StyleSheet.create({
+  collapsed: {
+    minWidth: 115,
+    textAlign: 'right',
+  },
   container: {
     alignItems: Platform.OS === 'android' ? 'center' : 'baseline',
     flexDirection: 'row-reverse',
+  },
+  expanded: {
+    flexGrow: 1,
+    marginStart: Spacing.margin,
+    textAlign: 'left',
   },
   textInput: {
     ...Typography.body,
     color: Colors.darkText,
     paddingVertical: 0,
-    textAlign: 'right',
-    width: 115,
   },
 })
 

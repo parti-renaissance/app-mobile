@@ -21,6 +21,7 @@
 		794BADE3CB9540AD9E901E92 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */; };
 		92BF777B2722EFC2000A3406 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF777A2722EFC2000A3406 /* Void.swift */; };
 		FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */; };
+		E7E4711B638944C0A1590710 /* Maax-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC5F0FC8501474E2F25F6624 /* Pods-JeMarche.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche.debug.xcconfig"; path = "Target Support Files/Pods-JeMarche/Pods-JeMarche.debug.xcconfig"; sourceTree = "<group>"; };
+		4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */ = {isa = PBXFileReference; name = "Maax-Bold.ttf"; path = "../src/assets/fonts/Maax-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */,
 				06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */,
 				4959DC6A278844DD008C0C36 /* Maax-Medium.ttf */,
+				4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */,
 				794BADE3CB9540AD9E901E92 /* Roboto-Regular.ttf in Resources */,
 				49B934592567DE5C0072A28F /* GoogleService-Info.plist in Resources */,
+				E7E4711B638944C0A1590710 /* Maax-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

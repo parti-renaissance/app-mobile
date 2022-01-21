@@ -21,9 +21,12 @@ import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgr
 import ProfileModal from '../screens/profile/ProfileModal'
 import PhoningSessionModal from '../screens/phoningSessionNavigator/PhoningSessionModal'
 import DoorToDoorTunnelModal from '../screens/doorToDoor/tunnel/DoorToDoorTunnelModal'
+import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
+import SignUpScreen from '../screens/authentication/SignUpScreen'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
+const UnauthenticatedModalsStack = createStackNavigator()
 const authenticationRepository = AuthenticationRepository.getInstance()
 
 const Navigator: FunctionComponent = () => {
@@ -89,7 +92,7 @@ const Navigator: FunctionComponent = () => {
       </RootStack.Navigator>
     )
   } else {
-    return (
+    const UnauthenticatedNavigator: FunctionComponent = () => (
       <UnauthenticatedStack.Navigator screenOptions={headerBlank}>
         <UnauthenticatedStack.Screen
           name={Screen.unauthenticatedHome}
@@ -116,7 +119,28 @@ const Navigator: FunctionComponent = () => {
           name={Screen.termsOfUse}
           component={TermsOfUseScreen}
         />
+        <UnauthenticatedStack.Screen
+          name={Screen.signUp}
+          component={SignUpScreen}
+        />
       </UnauthenticatedStack.Navigator>
+    )
+    return (
+      <UnauthenticatedModalsStack.Navigator
+        screenOptions={headerBlank}
+        mode="modal"
+      >
+        <UnauthenticatedStack.Screen
+          name={Screen.unauthenticatedModals}
+          component={UnauthenticatedNavigator}
+          options={{ headerShown: false }}
+        />
+        <UnauthenticatedStack.Screen
+          name={Screen.forgottenPassword}
+          component={ForgottenPasswordScreen}
+          options={{ headerShown: true }}
+        />
+      </UnauthenticatedModalsStack.Navigator>
     )
   }
 }

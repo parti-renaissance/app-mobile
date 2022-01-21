@@ -83,6 +83,7 @@ const phoneNumber = (
   }
   return {
     countryCode: countryCode,
+    callingCode: '',
     number: restPhoneNumber.number,
   }
 }
