@@ -2,6 +2,7 @@ import CheckBox from '@react-native-community/checkbox'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Alert,
+  Keyboard,
   KeyboardTypeOptions,
   ScrollView,
   StatusBar,
@@ -30,6 +31,7 @@ import { AlertUtils } from '../shared/AlertUtils'
 import PersonalInformationRepository from '../../data/PersonalInformationRepository'
 import { SignUpFormError } from '../../core/errors'
 import LegalRepository from '../../data/LegalRepository'
+import InputAccessoryClose from '../shared/InputAccessoryClose'
 
 const getError = (violations: Array<FormViolation>, path: string): string => {
   return violations
@@ -41,6 +43,7 @@ const getError = (violations: Array<FormViolation>, path: string): string => {
 }
 
 const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
+  const inputAccessoryId = 'signUpInputAccessory'
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
   const [gdpr, setGdpr] = useState<string>('')
@@ -113,6 +116,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       keyboardType: keyboardType,
       returnKeyType: 'next',
       onChangeText: onChangeText,
+      inputAccessoryViewID: inputAccessoryId,
     }
   }
 
@@ -323,13 +327,20 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <KeyboardOffsetView>
         <ScrollView
           contentContainerStyle={styles.content}
-          keyboardShouldPersistTaps="always"
+          keyboardShouldPersistTaps="handled"
         >
           {renderSectionAccount()}
           {renderSectionPersonalData()}
           {renderSectionNotifications()}
           {renderSectionGcu(gdpr)}
         </ScrollView>
+        <InputAccessoryClose
+          id={inputAccessoryId}
+          title={i18n.t('common.keyboard.done')}
+          onPress={() => {
+            Keyboard.dismiss()
+          }}
+        />
       </KeyboardOffsetView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
