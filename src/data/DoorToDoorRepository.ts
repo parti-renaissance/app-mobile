@@ -89,6 +89,13 @@ class DoorToDoorRepository {
     return restDoorToDoorAddresses.map(DoorToDoorMapper.map).filter(notEmpty)
   }
 
+  public async getAddress(
+    addressId: string,
+  ): Promise<DoorToDoorAddress | null> {
+    const restDoorToDoorAddress = await this.apiService.getAddress(addressId)
+    return DoorToDoorMapper.map(restDoorToDoorAddress)
+  }
+
   public async getDoorToDoorPollConfig(
     campaignId: string,
     preferedDataSource: DataSource = 'cache',

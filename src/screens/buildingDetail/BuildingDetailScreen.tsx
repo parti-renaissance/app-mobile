@@ -62,13 +62,14 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     campaignCardViewModel,
     setCampaignCardViewModel,
   ] = useState<DoorToDoorCampaignCardViewModel>()
+  const [address, setAddress] = useState(route.params.address)
   const viewModel = BuildingDetailScreenViewModelMapper.map(
-    route.params.address,
+    address,
     history,
     layout,
   )
   const buildingBlockHelper = new BuildingBlockHelper()
-  const buildingStatus = route.params.address.building.campaignStatistics.status
+  const buildingStatus = address.building.campaignStatistics.status
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -106,7 +107,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
 
   const fetchCampaignInfo = () => {
     new GetDoorToDoorCampaignInfoInteractor()
-      .execute(route.params.address.building.campaignStatistics.campaignId)
+      .execute(address.building.campaignStatistics.campaignId)
       .then((result) => {
         setCampaignCardViewModel(
           DoorToDoorCampaignCardViewModelMapper.map(result),
@@ -114,10 +115,21 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       })
   }
 
+  const fetchAddress = () => {
+    DoorToDoorRepository.getInstance()
+      .getAddress(address.id)
+      .then((newAddress) => {
+        if (newAddress) {
+          setAddress(newAddress)
+        }
+      })
+  }
+
   useEffect(() => {
     if (isFocused) {
-      fetchHistory()
       fetchLayout()
+      fetchAddress()
+      fetchHistory()
       fetchCampaignInfo()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,7 +155,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     layout.push(
       buildingBlockHelper.createLocalBlock(
         nextBuildingBlock,
-        route.params.address.building.type,
+        address.building.type,
       ),
     )
     setLayout([...layout])
@@ -189,8 +201,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       setIsloading(true)
       DoorToDoorRepository.getInstance()
         .openBuildingBlock(
-          route.params.address.building.campaignStatistics.campaignId,
-          route.params.address.building.id,
+          address.building.campaignStatistics.campaignId,
+          address.building.id,
           block.name,
         )
         .then(() => fetchLayout())
@@ -205,8 +217,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           setIsloading(true)
           DoorToDoorRepository.getInstance()
             .closeBuildingBlock(
-              route.params.address.building.campaignStatistics.campaignId,
-              route.params.address.building.id,
+              address.building.campaignStatistics.campaignId,
+              address.building.id,
               block.name,
             )
             .then(() => fetchLayout())
@@ -219,7 +231,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const changeBuildingType = () => {
     AlertUtils.showSimpleAlert(
       i18n.t('building.change_type_alert.title'),
-      route.params.address.building.type === 'building'
+      address.building.type === 'building'
         ? i18n.t('building.change_type_alert.message.building')
         : i18n.t('building.change_type_alert.message.house'),
       i18n.t('building.change_type_alert.action'),
@@ -227,19 +239,19 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       () => {
         setIsloading(true)
         let newBuildingType: BuildingType
-        if (route.params.address.building.type === 'house') {
+        if (address.building.type === 'house') {
           newBuildingType = 'building'
         } else {
           newBuildingType = 'house'
         }
         DoorToDoorRepository.getInstance()
-          .updateBuildingType(route.params.address.building.id, newBuildingType)
+          .updateBuildingType(address.building.id, newBuildingType)
           .then(() => {
             navigation.setParams({
               address: {
-                ...route.params.address,
+                ...address,
                 building: {
-                  ...route.params.address.building,
+                  ...address.building,
                   type: newBuildingType,
                 },
               },
@@ -251,15 +263,15 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   }
 
   const updateAddressStatus = (
-    address: DoorToDoorAddress,
+    doorToDoorAddress: DoorToDoorAddress,
     newStatus: DoorToDoorAddressStatus,
   ): DoorToDoorAddress => {
     return {
-      ...address,
+      ...doorToDoorAddress,
       building: {
-        ...address.building,
+        ...doorToDoorAddress.building,
         campaignStatistics: {
-          ...address.building.campaignStatistics,
+          ...doorToDoorAddress.building.campaignStatistics,
           status: newStatus,
         },
       },
@@ -276,12 +288,12 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         setIsloading(true)
         DoorToDoorRepository.getInstance()
           .closeBuilding(
-            route.params.address.building.campaignStatistics.campaignId,
-            route.params.address.building.id,
+            address.building.campaignStatistics.campaignId,
+            address.building.id,
           )
           .then(() => {
             navigation.setParams({
-              address: updateAddressStatus(route.params.address, 'completed'),
+              address: updateAddressStatus(address, 'completed'),
             })
           })
           .finally(() => setIsloading(false))
@@ -299,12 +311,12 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         setIsloading(true)
         DoorToDoorRepository.getInstance()
           .openBuilding(
-            route.params.address.building.campaignStatistics.campaignId,
-            route.params.address.building.id,
+            address.building.campaignStatistics.campaignId,
+            address.building.id,
           )
           .then(() => {
             navigation.setParams({
-              address: updateAddressStatus(route.params.address, 'ongoing'),
+              address: updateAddressStatus(address, 'ongoing'),
             })
           })
           .finally(() => setIsloading(false))
@@ -343,8 +355,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
                 params: {
                   campaignId: viewModel.campaignId,
                   buildingParams: {
-                    id: route.params.address.building.id,
-                    type: route.params.address.building.type,
+                    id: address.building.id,
+                    type: address.building.type,
                     block: buildingBlock,
                     floor: floorNumber,
                     door: door,
