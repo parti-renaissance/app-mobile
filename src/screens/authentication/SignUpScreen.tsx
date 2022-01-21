@@ -361,10 +361,6 @@ const styles = StyleSheet.create({
     ...Styles.topElevatedContainerStyle,
     padding: Spacing.margin,
   },
-  checkbox: {
-    height: 20,
-    width: 20,
-  },
   checkboxContainer: {
     flexDirection: 'row',
     marginBottom: Spacing.margin,
