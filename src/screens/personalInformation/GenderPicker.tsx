@@ -11,24 +11,29 @@ type Props = Readonly<{
   defaultValue?: Gender
   errorMessage?: string
   disabled?: boolean
+  multiline?: boolean
 }>
 
 const GenderPicker: FC<Props> = (props) => {
   const textStyle = props.disabled ? styles.textDisabled : styles.textEnabled
+  const textAlignStyle = props.multiline ? styles.textLeft : styles.textRight
   return (
     <LabelInputContainer
       label={i18n.t('personalinformation.gender')}
       errorMessage={props.errorMessage}
       disabled={props.disabled}
+      multiLine={props.multiline}
     >
       <RNPickerSelect
         style={{
           inputAndroid: {
             ...styles.genderPickerAndroid,
+            ...textAlignStyle,
             ...textStyle,
           },
           inputIOS: {
             ...styles.genderPickerIOS,
+            ...textAlignStyle,
             ...textStyle,
           },
           placeholder: {
@@ -42,12 +47,12 @@ const GenderPicker: FC<Props> = (props) => {
         onValueChange={props.onValueChange}
         items={[
           {
-            label: i18n.t('personalinformation.gender_male'),
-            value: Gender.Male,
-          },
-          {
             label: i18n.t('personalinformation.gender_female'),
             value: Gender.Female,
+          },
+          {
+            label: i18n.t('personalinformation.gender_male'),
+            value: Gender.Male,
           },
           {
             label: i18n.t('personalinformation.gender_unknown'),
@@ -64,11 +69,9 @@ const styles = StyleSheet.create({
   genderPickerAndroid: {
     ...Typography.body,
     paddingVertical: 0,
-    textAlign: 'right',
   },
   genderPickerIOS: {
     ...Typography.body,
-    textAlign: 'right',
   },
   icon: { height: 1, width: 1 },
   placeholder: {
@@ -79,6 +82,12 @@ const styles = StyleSheet.create({
   },
   textEnabled: {
     color: Colors.darkText,
+  },
+  textLeft: {
+    textAlign: 'left',
+  },
+  textRight: {
+    textAlign: 'right',
   },
 })
 

@@ -32,6 +32,7 @@ import PersonalInformationRepository from '../../data/PersonalInformationReposit
 import { SignUpFormError } from '../../core/errors'
 import LegalRepository from '../../data/LegalRepository'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
+import GenderPicker from '../personalInformation/GenderPicker'
 
 const getError = (violations: Array<FormViolation>, path: string): string => {
   return violations
@@ -213,6 +214,18 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <Text style={styles.subtitle}>
         {i18n.t('sign_up.personal_data.title')}
       </Text>
+      <View style={styles.field}>
+        <GenderPicker
+          multiline={true}
+          onValueChange={(value: Gender) => {
+            setSignUpFormData({
+              ...signUpFormData,
+              gender: value,
+            })
+          }}
+          errorMessage={getError(errors, 'gender')}
+        />
+      </View>
       <View style={styles.field}>
         <LabelInputContainer
           label={i18n.t('sign_up.personal_data.birth_date')}
