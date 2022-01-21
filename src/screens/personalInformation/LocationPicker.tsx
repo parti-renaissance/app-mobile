@@ -166,13 +166,15 @@ const LocationPicker: FC<Props> = (props) => {
               key: GOOGLE_PLACES_API_KEY,
               language: i18n.t('personalinformation.gmaps_language'),
             }}
+            textInputProps={{
+              placeholderTextColor: Colors.lightText,
+            }}
             styles={{
               textInputContainer: {
                 paddingTop: Spacing.unit,
                 paddingHorizontal: Spacing.margin,
               },
               textInput: {
-                color: Colors.darkText,
                 backgroundColor: Colors.separator,
               },
             }}

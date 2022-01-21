@@ -7,6 +7,7 @@ import {
   Platform,
   StyleProp,
   StyleSheet,
+  useColorScheme,
   ViewStyle,
 } from 'react-native'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
@@ -21,6 +22,7 @@ type Props = Readonly<{
 }>
 
 const BirthdayPicker: FC<Props> = (props) => {
+  const isDarkMode = useColorScheme() === 'dark'
   const dateTextStyle = props.disabled
     ? styles.textDisabled
     : styles.textEnabled
@@ -32,6 +34,7 @@ const BirthdayPicker: FC<Props> = (props) => {
         <RNDateTimePicker
           {...iosProps}
           display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          style={isDarkMode ? styles.dark : styles.light}
         />
       )}
       format="DD/MM/YYYY"
@@ -63,6 +66,12 @@ const BirthdayPicker: FC<Props> = (props) => {
 }
 
 const styles = StyleSheet.create({
+  dark: {
+    backgroundColor: Colors.black,
+  },
+  light: {
+    backgroundColor: Colors.white,
+  },
   picker: { alignSelf: 'flex-end' },
   textDisabled: {
     color: Colors.lightText,
