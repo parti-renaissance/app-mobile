@@ -263,6 +263,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           }}
           errorMessage={getError(errors, 'phone')}
           multiLine={true}
+          inputAccessoryViewID={inputAccessoryId}
         />
       </View>
       <View style={styles.field}>

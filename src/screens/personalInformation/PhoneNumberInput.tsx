@@ -23,6 +23,7 @@ type Props = Readonly<{
   onValueChange: (value: PhoneNumber | undefined) => void
   errorMessage?: string
   multiLine?: boolean
+  inputAccessoryViewID?: string
 }>
 
 const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -84,6 +85,7 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
             setNumber(value)
             dispatchNewPhoneNumber(countryCode, callingCode, value)
           }}
+          inputAccessoryViewID={props.inputAccessoryViewID}
         />
         <CountryPicker
           countryCode={countryCode}
