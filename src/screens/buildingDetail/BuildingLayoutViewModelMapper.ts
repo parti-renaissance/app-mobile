@@ -21,8 +21,8 @@ export const BuildingLayoutViewModelMapper = {
     blocks: BuildingBlock[],
   ): BuildingLayoutViewModel => {
     return {
-      buildings: blocks.map((block) => {
-        return blockCardViewModel(block, type, status)
+      buildings: blocks.map((block, index) => {
+        return blockCardViewModel(block, type, status, index)
       }),
       buildingStatus: status,
     }
@@ -32,7 +32,8 @@ export const BuildingLayoutViewModelMapper = {
 function blockCardViewModel(
   block: BuildingBlock,
   type: BuildingType,
-  status: DoorToDoorAddressStatus,
+  addressStatus: DoorToDoorAddressStatus,
+  blockIndex: number,
 ): BuildingLayoutBlockCardViewModel {
   let statusAction: string
   if (block.status === 'completed') {
@@ -63,16 +64,26 @@ function blockCardViewModel(
     floors:
       block.status === 'completed'
         ? [floorCompletedCellViewModel(block)]
-        : block.floors.map((floor) =>
-            floorCellViewModel(block.name, floor, type),
-          ),
+        : block.floors.map((floor, index) => {
+            const canRemoveFloor =
+              floor.local &&
+              index > 0 &&
+              index === block.floors.length - 1 &&
+              block.status !== 'completed' &&
+              addressStatus !== 'completed'
+            return floorCellViewModel(block.name, floor, type, canRemoveFloor)
+          }),
     local: block.local,
     statusAction: statusAction,
-    removable: status !== 'completed',
-    canAddNewFloor: type === 'building' && block.status !== 'completed',
+    removable: addressStatus !== 'completed' && blockIndex > 0,
+    canAddNewFloor:
+      type === 'building' &&
+      block.status !== 'completed' &&
+      addressStatus !== 'completed',
     canUpdateBuildingStatus:
-      block.status === 'completed' ||
-      block.floors.every((floor) => floor.status === 'completed'),
+      addressStatus !== 'completed' &&
+      (block.status === 'completed' ||
+        block.floors.every((floor) => floor.status === 'completed')),
   }
 }
 
@@ -92,7 +103,7 @@ function floorCompletedCellViewModel(
       date: block.closedAt ? format(block.closedAt, 'dd MMM. yyyy') : '',
     }),
     isCompleted: true,
-    local: true,
+    removable: false,
   }
 }
 
@@ -100,6 +111,7 @@ function floorCellViewModel(
   buildingBlock: string,
   floor: BuildingBlockFloor,
   type: BuildingType,
+  removable: boolean,
 ): BuildingLayoutFloorCellViewModel {
   return {
     id: floor.id,
@@ -114,7 +126,7 @@ function floorCellViewModel(
         : i18n.t('building.layout.startaddress'),
     subtitle: floorCellSubtitle(floor),
     isCompleted: floor.status === 'completed',
-    local: floor.local,
+    removable: removable,
   }
 }
 

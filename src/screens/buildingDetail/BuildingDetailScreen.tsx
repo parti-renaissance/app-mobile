@@ -439,6 +439,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             style={styles.closeAddress}
             onPress={closeAddress}
             title={i18n.t('building.close_address.action')}
+            disabled={layout.some((block) => block.status !== 'completed')}
           />
         ) : null}
         {campaignCardViewModel ? (
