@@ -1,4 +1,5 @@
 export const white = '#ffffff'
+export const black = '#000000'
 const springWood = '#f9f6f4'
 
 export const shipGray = '#413d45'
