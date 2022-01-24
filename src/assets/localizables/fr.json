@@ -234,14 +234,6 @@
       "title": "Actualités"
     },
     "personalinformation": {
-      "uncertified": {
-        "text": "Votre compte n'est pas certifié",
-        "button": "Certifier mon compte",
-        "url": "https://en-marche.fr/espace-adherent/mon-compte/certification"
-      },
-      "certified": {
-        "text": "Votre profil est certifié, vous ne pouvez donc plus modifier votre genre, nom, prénom et date de naissance."
-      },
       "title": "Informations personnelles",
       "section_identity": "Votre identité",
       "section_coordinates": "Vos coordonnées",
