@@ -244,6 +244,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
             }}
             style={styles.birthdayPicker}
             inputAlign="flex-start"
+            maximumDate={new Date()}
           />
         </LabelInputContainer>
       </View>
