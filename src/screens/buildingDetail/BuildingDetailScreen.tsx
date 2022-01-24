@@ -32,11 +32,7 @@ import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { PrimaryButton } from '../shared/Buttons'
-import {
-  BuildingType,
-  DoorToDoorAddress,
-  DoorToDoorAddressStatus,
-} from '../../core/entities/DoorToDoor'
+import { BuildingType } from '../../core/entities/DoorToDoor'
 import { useIsFocused } from '@react-navigation/native'
 import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
 import { DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
@@ -125,12 +121,16 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       })
   }
 
+  const refreshData = () => {
+    fetchLayout()
+    fetchAddress()
+    fetchHistory()
+    fetchCampaignInfo()
+  }
+
   useEffect(() => {
     if (isFocused) {
-      fetchLayout()
-      fetchAddress()
-      fetchHistory()
-      fetchCampaignInfo()
+      refreshData()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused])
@@ -205,7 +205,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           address.building.id,
           block.name,
         )
-        .then(() => fetchLayout())
+        .then(() => refreshData())
         .finally(() => setIsloading(false))
     } else {
       AlertUtils.showSimpleAlert(
@@ -221,7 +221,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
               address.building.id,
               block.name,
             )
-            .then(() => fetchLayout())
+            .then(() => refreshData())
             .finally(() => setIsloading(false))
         },
       )
@@ -262,22 +262,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     )
   }
 
-  const updateAddressStatus = (
-    doorToDoorAddress: DoorToDoorAddress,
-    newStatus: DoorToDoorAddressStatus,
-  ): DoorToDoorAddress => {
-    return {
-      ...doorToDoorAddress,
-      building: {
-        ...doorToDoorAddress.building,
-        campaignStatistics: {
-          ...doorToDoorAddress.building.campaignStatistics,
-          status: newStatus,
-        },
-      },
-    }
-  }
-
   const closeAddress = () => {
     AlertUtils.showSimpleAlert(
       i18n.t('building.close_address.alert.title'),
@@ -292,9 +276,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             address.building.id,
           )
           .then(() => {
-            navigation.setParams({
-              address: updateAddressStatus(address, 'completed'),
-            })
+            refreshData()
           })
           .finally(() => setIsloading(false))
       },
@@ -315,9 +297,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             address.building.id,
           )
           .then(() => {
-            navigation.setParams({
-              address: updateAddressStatus(address, 'ongoing'),
-            })
+            refreshData()
           })
           .finally(() => setIsloading(false))
       },
