@@ -94,6 +94,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             latitude: position.coords.latitude,
           }
           setCurrentSearchLocation(latLng)
+          setLoading(false)
         },
         () => {
           setLocationAuthorized(false)
@@ -116,11 +117,17 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   )
 
   const getPermissionStatus = async () => {
-    setLocationAuthorized(await LocationManager.permissionStatus())
+    // Fix LocationManager returning [0;1] instead of boolean
+    setLocationAuthorized(
+      Boolean(await LocationManager.permissionStatus()).valueOf(),
+    )
   }
 
   const requestPermission = async () => {
-    setLocationAuthorized(await LocationManager.requestPermission())
+    // Fix LocationManager returning [0;1] instead of boolean
+    setLocationAuthorized(
+      Boolean(await LocationManager.requestPermission()).valueOf(),
+    )
   }
 
   const onfilterChange = (mode: DoorToDoorFilterDisplay) => {

@@ -471,6 +471,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getAddress(addressId: string): Promise<RestDoorToDoorAddress> {
+    return this.httpClient
+      .get(`api/v3/pap/address/${addressId}`)
+      .json<RestDoorToDoorAddress>()
+      .catch(genericErrorMapping)
+  }
+
   public getDoorToDoorCampaign(
     campaignId: string,
   ): Promise<DoorToDoorCampaign> {

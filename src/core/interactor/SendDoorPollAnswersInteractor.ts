@@ -1,5 +1,6 @@
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
+import { BuildingType } from '../entities/DoorToDoor'
 
 export const INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE = 'accept_to_answer'
 
@@ -24,6 +25,14 @@ export class SendDoorPollAnswersInteractor {
       pollParams,
       pollResult ?? { answers: [], qualificationAnswers: [] },
     )
+    if (buildingParams.type === 'house') {
+      await DoorToDoorRepository.getInstance().closeBuildingBlockFloor(
+        campaignId,
+        buildingParams.id,
+        buildingParams.block,
+        buildingParams.floor,
+      )
+    }
     if (status === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE && pollResult) {
       await this.repository.sendDoorToDoorPollAnswers(response.uuid, pollResult)
     }
@@ -35,4 +44,5 @@ export interface BuildingSelectedParams {
   block: string
   floor: number
   door: number
+  type: BuildingType
 }

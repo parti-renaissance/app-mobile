@@ -112,23 +112,25 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
         keyExtractor={(item) => item.rank}
       />
       <View style={styles.bottomContainer}>
-        <PrimaryButton
-          title={i18n.t('doorToDoor.tunnel.success.knockNewDoor')}
-          onPress={() => {
-            const nextDoor = route.params.buildingParams.door + 1
-            navigation.navigate(Screen.tunnelDoorSelectionScreen, {
-              campaignId: route.params.campaignId,
-              buildingParams: {
-                ...route.params.buildingParams,
-                door: nextDoor,
-              },
-              canCloseFloor: true,
-            })
-          }}
-        />
+        {route.params.buildingParams.type !== 'house' ? (
+          <PrimaryButton
+            title={i18n.t('doorToDoor.tunnel.success.knockNewDoor')}
+            style={styles.newDoor}
+            onPress={() => {
+              const nextDoor = route.params.buildingParams.door + 1
+              navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+                campaignId: route.params.campaignId,
+                buildingParams: {
+                  ...route.params.buildingParams,
+                  door: nextDoor,
+                },
+                canCloseFloor: true,
+              })
+            }}
+          />
+        ) : null}
         <SecondaryButton
           title={i18n.t('doorToDoor.tunnel.success.stop')}
-          style={styles.finished}
           onPress={() => navigation.dangerouslyGetParent()?.goBack()}
         />
       </View>
@@ -153,11 +155,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
-  finished: {
-    marginTop: Spacing.unit,
-  },
   image: {
     marginVertical: Spacing.largeMargin,
+  },
+  newDoor: {
+    marginBottom: Spacing.unit,
   },
   note: {
     ...Typography.footnoteLight,

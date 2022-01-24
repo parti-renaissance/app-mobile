@@ -55,14 +55,18 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
       new SendDoorPollAnswersInteractor()
         .execute(route.params.campaignId, code, route.params.buildingParams)
         .then(() => {
-          navigation.navigate(Screen.tunnelDoorSelectionScreen, {
-            campaignId: route.params.campaignId,
-            buildingParams: {
-              ...route.params.buildingParams,
-              door: route.params.buildingParams.door + 1,
-            },
-            canCloseFloor: true,
-          })
+          if (route.params.buildingParams.type === 'house') {
+            navigation.dangerouslyGetParent()?.goBack()
+          } else {
+            navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+              campaignId: route.params.campaignId,
+              buildingParams: {
+                ...route.params.buildingParams,
+                door: route.params.buildingParams.door + 1,
+              },
+              canCloseFloor: true,
+            })
+          }
         })
         .catch((error) =>
           AlertUtils.showNetworkAlert(error, () => {

@@ -12,7 +12,7 @@ export interface BuildingLayoutFloorCellViewModel {
   title: string
   subtitle: string
   isCompleted: boolean
-  local: boolean
+  removable: boolean
 }
 
 type Props = Readonly<{

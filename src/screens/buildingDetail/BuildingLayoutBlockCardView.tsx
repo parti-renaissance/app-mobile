@@ -82,12 +82,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                 viewModel={floorViewModel}
                 style={{}}
                 onSelect={onSelect}
-                canRemove={
-                  floorViewModel.local &&
-                  viewModel.removable &&
-                  index !== 0 &&
-                  index === viewModel.floors.length - 1
-                }
+                canRemove={floorViewModel.removable}
                 onRemoveBuildingFloor={(floor: number) => {
                   onRemoveBuildingFloor(viewModel.id, floor)
                 }}
