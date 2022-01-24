@@ -4224,10 +4224,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hermes-engine@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/hermes-engine/-/hermes-engine-0.8.0.tgz#d8e507fbfda66f6bd604f79503b45fded1163296"
-  integrity sha512-bFxAnIjE8M3cco1uh4HlHME8qmOsPcVS75bQoo/fM3wUzMYxZBL0s1IfePUO+R9IUKoO+pfIpjV2I9ay8w7mqw==
+hermes-engine@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/hermes-engine/-/hermes-engine-0.10.0.tgz#3a8eca6bbde31e0a2881f265f7c3216ae44c4015"
+  integrity sha512-SiBo9rvuWetTIQGPPYwRHP0Omo/Iw/yd0sujWR0bW08+syIO0qDpo/fgx7GrY5PEy8wLcVz8v7adET2i5DOmJg==
 
 hermes-engine@~0.9.0:
   version "0.9.0"
