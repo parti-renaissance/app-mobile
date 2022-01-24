@@ -107,9 +107,9 @@
     "unauthenticatedhome": {
       "title": "Je m’engage\navec",
       "title_rest": "la majorité présidentielle",
-      "description": "Retrouvez rapidement nos outils, réalisez des questionnaires et restez informés de l’actualité de votre territoire.",
+      "description": "Agissez près de chez vous pour la réussite de notre projet et restez informés de l'actualité locale et nationale",
       "login": "Me connecter",
-      "signup": "Créer un compte",
+      "signup": "Créer un compte Je m'engage",
       "or": "- ou -",
       "login_lrem": "Me connecter avec",
       "register_url": "https://en-marche.fr/adhesion"
@@ -120,9 +120,9 @@
       "email_placeholder": "Entrez votre adresse e-mail",
       "password": "Mot de passe",
       "password_placeholder": "Entrez votre mot de passe",
-      "login": "Se connecter",
+      "login": "Connexion",
       "password_lost": "Mot de passe oublié ?",
-      "credentials_error": "Email/mot de passe invalide"
+      "credentials_error": "Il semble que votre adresse e-mail ou votre mot de passe soient incorrects. "
     },
     "profile": {
       "version": "VERSION {{version}}",
@@ -416,9 +416,9 @@
         }
       },
       "close_address": {
-        "action": "Adresse terminée",
+        "action": "Clôturer l'adresse",
         "alert": {
-          "title": "Adresse terminée",
+          "title": "Clôturer l'adresse",
           "message": "Voulez-vous indiquer cette adresse comme terminée ?",
           "action": "Oui",
           "cancel": "Non"
@@ -595,14 +595,14 @@
     "sign_up": {
       "title": "Inscription",
       "account": {
-        "title": "Créer votre compte",
-        "first_name": "Prénom",
+        "title": "Créer votre compte ",
+        "first_name": "Prénom*",
         "first_name_placeholder": "Indiquez votre prénom",
-        "name": "Nom",
+        "name": "Nom*",
         "name_placeholder": "Indiquez votre nom",
-        "mail": "Adresse e-mail",
+        "mail": "Adresse e-mail*",
         "mail_placeholder": "Indiquez votre adresse e-mail",
-        "gcu": "Oui, j'adhère aux \u003ca href='https://je-mengage.fr/mentions-legales'\u003econditions générales d'utilisation\u003c/a\u003e et à la \u003ca href='https://je-mengage.fr/politique-protection-donnees'\u003epolitique de protection des données à caractère personnel.\u003c/a\u003e"
+        "gcu": "Je reconnais avoir lu et accepte les termes de la \u003ca href='https://je-mengage.fr/politique-protection-donnees'\u003e Politique de protection des données à caractère personnelle « Je m’engage ». \n"
       },
       "notifications": {
         "title": "Notifications",
@@ -611,23 +611,23 @@
       },
       "personal_data": {
         "title": "Informations personnelles",
-        "birth_date": "Date de naissance",
+        "birth_date": "Date de naissance*",
         "birth_date_placeholder": "Indiquez votre date de naissance",
-        "phone": "Numéro de téléphone",
+        "phone": "Numéro de téléphone*",
         "phone_placeholder": "Indiquez votre numéro de téléphone",
-        "address": "Adresse",
+        "address": "Adresse*",
         "address_placeholder": "Indiquez votre adresse"
       },
       "success_alert": {
         "title": "Félicitations ! ",
-        "message": "Afin de terminer votre inscription, veuillez valider votre adresse email en cliquant sur le lien reçu par mail. Vous pourrez ensuite vous connecter dans l'application.",
+        "message": "Vous êtes bien inscrit.\nVous avez reçu un email pour valider votre compte et créer votre mot-de-passe.",
         "action": "Continuer"
       },
       "action": "S'inscrire"
     },
     "forgot_password": {
       "title": "Mot de passe oublié ?",
-      "subtitle": "Saisissez l’adresse e-mail associé à votre compte et nous vous enverrons un lien par e-mail pour réinitialiser votre mot de passe.",
+      "subtitle": "Saisissez l’adresse e-mail associée à votre compte et nous vous enverrons un lien par e-mail pour réinitialiser votre mot de passe.",
       "mail": "Adresse e-mail",
       "mail_placeholder": "Entrez votre adresse e-mail",
       "action": "Recevoir mon lien de réinitialisation"
