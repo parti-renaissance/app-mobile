@@ -23,7 +23,6 @@ export const ProfileMapper = {
       zipCode: result.postal_code,
       totalSurveys: result.surveys.total,
       totalSurveysLastMonth: result.surveys.last_month,
-      isCertified: result.certified,
     }
   },
   mapDetailedProfile: (
@@ -51,7 +50,6 @@ export const ProfileMapper = {
       twitter: result.twitter_page_url ?? undefined,
       telegram: result.telegram_page_url ?? undefined,
       phone: phoneNumber(result.phone),
-      isCertified: result.certified,
       interests: result.interests.map((interest) => interest.code),
       subscriptions: result.subscription_types.map(
         (subscription) => subscription.code,

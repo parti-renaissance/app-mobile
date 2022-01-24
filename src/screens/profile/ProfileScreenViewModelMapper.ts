@@ -19,7 +19,6 @@ export const ProfileScreenViewModelMapper = {
         lastName: profile.lastName,
       }),
       polls: ProfilePollsCompletedViewModelMapper.map(profile),
-      isCertified: profile.isCertified,
     }
   },
   mapFromDepartment: (department: Department): ProfileScreenViewModel => {
@@ -32,7 +31,6 @@ export const ProfileScreenViewModelMapper = {
         postalCode: department.code,
       }),
       polls: ProfilePollsCompletedViewModelMapper.empty(),
-      isCertified: false,
     }
   },
 }

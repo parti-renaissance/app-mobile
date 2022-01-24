@@ -25,6 +25,7 @@ import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
 import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
 import { StackNavigationProp } from '@react-navigation/stack'
+import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
 
 type Props = Readonly<{
   poll: Poll
@@ -117,28 +118,31 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
             setPageWidth(event.nativeEvent.layout.width)
           }}
         >
-          <FlatList
-            ref={flatListViewRef}
-            style={styles.questionList}
-            scrollEnabled={false}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={[...Array(provider.getNumberOfSteps()).keys()]}
-            renderItem={({ item }) => {
-              return (
-                <View key={item} style={{ width: pageWidth }}>
-                  {provider.getStepComponent(item)}
-                </View>
-              )
-            }}
-            extraData={provider}
-            getItemLayout={(_data, index) => {
-              return { length: pageWidth, offset: pageWidth * index, index }
-            }}
-            snapToInterval={pageWidth}
-            keyExtractor={(item) => item.toString()}
-            windowSize={5}
-          />
+          <KeyboardOffsetView>
+            <FlatList
+              ref={flatListViewRef}
+              style={styles.questionList}
+              scrollEnabled={false}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={[...Array(provider.getNumberOfSteps()).keys()]}
+              renderItem={({ item }) => {
+                return (
+                  <View key={item} style={{ width: pageWidth }}>
+                    {provider.getStepComponent(item)}
+                  </View>
+                )
+              }}
+              extraData={provider}
+              getItemLayout={(_data, index) => {
+                return { length: pageWidth, offset: pageWidth * index, index }
+              }}
+              snapToInterval={pageWidth}
+              keyExtractor={(item) => item.toString()}
+              windowSize={5}
+              keyboardShouldPersistTaps="handled"
+            />
+          </KeyboardOffsetView>
         </View>
         <PollDetailNavigationButtons
           viewModel={navigationViewModel}

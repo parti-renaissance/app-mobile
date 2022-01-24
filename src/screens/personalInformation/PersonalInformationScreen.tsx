@@ -10,7 +10,6 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
-import CertifiedProfileView from './CertifiedProfileView'
 import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
@@ -39,14 +38,12 @@ import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type ContentProps = Readonly<{
   profileUuid: string
-  isCertified: boolean
   initialForm: PersonalInformationsForm
   navigation: StackNavigationProp<ProfileParamList, 'PersonalInformation'>
 }>
 
 const PersonalInformationScreenContent: FC<ContentProps> = ({
   profileUuid,
-  isCertified,
   initialForm,
   navigation,
 }) => {
@@ -121,10 +118,6 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
       >
         <LoadingOverlay visible={isLoading} />
         <View style={styles.container}>
-          <CertifiedProfileView
-            style={styles.certifiedContainer}
-            isCertified={isCertified}
-          />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_identity')}
           </Text>
@@ -138,7 +131,6 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             defaultValue={initialForm.firstName}
             onValueChange={(value) => updateForm({ ...form, firstName: value })}
             errorMessage={getError(errors, 'first_name')}
-            disabled={isCertified}
           />
           <LabelTextInput
             ref={lastNameRef}
@@ -149,13 +141,11 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
             defaultValue={initialForm.lastName}
             onValueChange={(value) => updateForm({ ...form, lastName: value })}
             errorMessage={getError(errors, 'last_name')}
-            disabled={isCertified}
           />
           <GenderPicker
             onValueChange={genderListener}
             defaultValue={form.gender}
             errorMessage={getError(errors, 'gender')}
-            disabled={isCertified}
           />
           {form.gender === Gender.Other ? (
             <LabelTextInput
@@ -165,19 +155,16 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
               onValueChange={(value) =>
                 updateForm({ ...form, customGender: value })
               }
-              disabled={isCertified}
             />
           ) : null}
           <LabelInputContainer
             label={i18n.t('personalinformation.birthdate')}
             errorMessage={getError(errors, 'birthdate')}
-            disabled={isCertified}
           >
             <BirthdayPicker
               date={form.birthdate}
               placeholder={i18n.t('personalinformation.placeholder')}
               onDateChange={onDateChange}
-              disabled={isCertified}
             />
           </LabelInputContainer>
           <LabelInputContainer
@@ -323,7 +310,6 @@ const PersonalInformationScreen = ({
         return (
           <PersonalInformationScreenContent
             profileUuid={detailedProfile.uuid}
-            isCertified={detailedProfile.isCertified}
             navigation={navigation}
             initialForm={form}
           />
@@ -333,7 +319,6 @@ const PersonalInformationScreen = ({
   )
 }
 const styles = StyleSheet.create({
-  certifiedContainer: {},
   container: {
     flex: 1,
     padding: Spacing.margin,

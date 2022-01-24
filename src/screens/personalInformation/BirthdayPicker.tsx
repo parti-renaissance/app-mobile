@@ -14,6 +14,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker'
 
 type Props = Readonly<{
   date: Date | undefined
+  maximumDate?: Date
   placeholder: string
   onDateChange: (formattedDate: string, date: Date) => void
   disabled?: boolean
@@ -41,6 +42,7 @@ const BirthdayPicker: FC<Props> = (props) => {
       confirmBtnText={i18n.t('common.confirm')}
       cancelBtnText={i18n.t('common.cancel')}
       placeholder={props.placeholder}
+      maxDate={props.maximumDate}
       customStyles={{
         // @ts-ignore: Placeholder attributes
         placeholderText: {
@@ -56,6 +58,7 @@ const BirthdayPicker: FC<Props> = (props) => {
         btnTextConfirm: { color: Colors.darkText },
         dateText: dateTextStyle,
         disabled: { backgroundColor: Colors.defaultBackground },
+        datePickerCon: isDarkMode ? styles.dark : styles.light,
       }}
       style={props.style ? props.style : styles.picker}
       date={props.date}

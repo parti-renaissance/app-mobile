@@ -69,7 +69,6 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       .execute(latLng.latitude, latLng.longitude)
       .then((newAddresses) => {
         setAddresses(newAddresses)
-        setFilteredAddresses(newAddresses)
       })
       .finally(() => setLoading(false))
   }
@@ -116,6 +115,18 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     }, [currentSearchLocation]),
   )
 
+  useEffect(() => {
+    let result: Array<DoorToDoorAddress> = addresses
+    if (filter !== 'all') {
+      result = addresses.filter(
+        (address) =>
+          address.building.campaignStatistics &&
+          address.building.campaignStatistics.status === filter,
+      )
+    }
+    setFilteredAddresses(result)
+  }, [addresses, filter])
+
   const getPermissionStatus = async () => {
     // Fix LocationManager returning [0;1] instead of boolean
     setLocationAuthorized(
@@ -130,19 +141,8 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
     )
   }
 
-  const onfilterChange = (mode: DoorToDoorFilterDisplay) => {
+  const onFilterChange = (mode: DoorToDoorFilterDisplay) => {
     setFilter(mode)
-    if (mode === 'all') {
-      setFilteredAddresses(addresses)
-    } else {
-      setFilteredAddresses(
-        addresses.filter(
-          (address) =>
-            address.building.campaignStatistics &&
-            address.building.campaignStatistics.status === mode,
-        ),
-      )
-    }
   }
 
   const navigateToBuildingDetail = (id: string) => {
@@ -161,7 +161,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const renderMap = (initalLocation: LatLng) => (
     <>
       <View style={styles.filter}>
-        <DoorToDoorFilter filter={filter} onPress={onfilterChange} />
+        <DoorToDoorFilter filter={filter} onPress={onFilterChange} />
       </View>
       {displayMode === 'map' ? (
         <DoorToDoorMapView

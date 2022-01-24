@@ -5,5 +5,4 @@ export interface Profile {
   zipCode: string
   totalSurveys: number
   totalSurveysLastMonth: number
-  isCertified: boolean
 }
