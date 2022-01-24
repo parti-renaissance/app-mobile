@@ -20,8 +20,8 @@ export const RestSignUpRequestMapper = {
         postal_code: data?.address?.postalCode ?? '',
       },
       cgu_accepted: data.gcuAccepted,
-      allow_mobile_notifications: data.notificationMail,
-      allow_email_notifications: data.notificationSms,
+      allow_mobile_notifications: data.notificationSms,
+      allow_email_notifications: data.notificationMail,
     }
   },
 }
