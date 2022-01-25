@@ -15,7 +15,7 @@ type Props = Readonly<{ viewModel: BuildingHistoryViewModel }>
 
 const BuildingVisitsHistoryView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
-    <View>
+    <View style={styles.container}>
       {viewModel.buildings.map((buildingViewModel) => {
         return (
           <BuildingVisitsHistory
@@ -35,7 +35,7 @@ const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({
   viewModel,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.rowContainer}>
       <Text key={viewModel.buildingName} style={styles.buildingTitle}>
         {viewModel.buildingName}
       </Text>
@@ -114,6 +114,9 @@ const styles = StyleSheet.create({
   dateRecordsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  rowContainer: {
+    paddingBottom: Spacing.unit,
   },
   visitRecords: {
     flex: 1,
