@@ -53,7 +53,11 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
     } else {
       setIsSendingChoice(true)
       new SendDoorPollAnswersInteractor()
-        .execute(route.params.campaignId, code, route.params.buildingParams)
+        .execute({
+          campaignId: route.params.campaignId,
+          doorStatus: code,
+          buildingParams: route.params.buildingParams,
+        })
         .then(() => {
           if (route.params.buildingParams.type === 'house') {
             navigation.dangerouslyGetParent()?.goBack()
