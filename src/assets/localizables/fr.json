@@ -111,8 +111,7 @@
       "login": "Me connecter",
       "signup": "Créer un compte Je m'engage",
       "or": "- ou -",
-      "login_lrem": "Me connecter avec",
-      "register_url": "https://en-marche.fr/adhesion"
+      "login_lrem": "Me connecter avec"
     },
     "login": {
       "title": "Connexion",
@@ -131,7 +130,7 @@
       "polls_month": "ce mois-ci",
       "polls_accomplished": "Questionnaires effectués",
       "menu": {
-        "termsofuse_url": "https://en-marche.fr/mentions-legales",
+        "termsofuse_url": "https://je-mengage.fr/mentions-legales-mobile",
         "termsofuse": "Conditions générales",
         "dataprotection": "Données à caractère personnel",
         "application": "Application",
