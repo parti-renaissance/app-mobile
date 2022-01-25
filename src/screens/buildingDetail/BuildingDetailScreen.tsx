@@ -116,7 +116,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     const freshHistory = await fetchHistory()
     const freshCampaignInfo = await fetchCampaignInfo()
     setLayout(newBlocks)
-    setIsRefreshing(false)
     if (freshAddress) {
       setAddress(freshAddress)
     }
@@ -124,6 +123,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setCampaignCardViewModel(
       DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
     )
+    setIsRefreshing(false)
   }
 
   useEffect(() => {
@@ -359,7 +359,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         <ScrollView
           refreshControl={
             <RefreshControl
-              refreshing={isRefreshing}
+              refreshing={isRefreshing && !isLoading}
               onRefresh={refreshData}
               colors={[Colors.primaryColor]}
             />
