@@ -11,6 +11,7 @@ import {
   Image,
   Text,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
@@ -32,11 +33,14 @@ import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { PrimaryButton } from '../shared/Buttons'
-import { BuildingType } from '../../core/entities/DoorToDoor'
+import { BuildingType, DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { useIsFocused } from '@react-navigation/native'
 import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
 import { DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
-import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
+import {
+  DoorToDoorCampaignInfo,
+  GetDoorToDoorCampaignInfoInteractor,
+} from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
 
@@ -51,6 +55,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
 }) => {
   const isFocused = useIsFocused()
   const [isLoading, setIsloading] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
@@ -79,53 +84,46 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     })
   })
 
-  const fetchLayout = () => {
-    new UpdateBuildingLayoutInteractor()
-      .execute(
-        route.params.address.building.id,
-        route.params.address.building.campaignStatistics.campaignId,
-        route.params.address.building.type,
-        layout,
-      )
-      .then((blocks) => setLayout(blocks))
+  const fetchLayout = async (): Promise<Array<BuildingBlock>> => {
+    return await new UpdateBuildingLayoutInteractor().execute(
+      route.params.address.building.id,
+      route.params.address.building.campaignStatistics.campaignId,
+      route.params.address.building.type,
+      layout,
+    )
   }
 
-  const fetchHistory = () => {
-    DoorToDoorRepository.getInstance()
-      .buildingHistory(
-        route.params.address.building.id,
-        route.params.address.building.campaignStatistics.campaignId,
-      )
-      .then((value) => {
-        setHistory(value)
-      })
+  const fetchHistory = async (): Promise<Array<BuildingHistoryPoint>> => {
+    return await DoorToDoorRepository.getInstance().buildingHistory(
+      route.params.address.building.id,
+      route.params.address.building.campaignStatistics.campaignId,
+    )
   }
 
-  const fetchCampaignInfo = () => {
-    new GetDoorToDoorCampaignInfoInteractor()
-      .execute(address.building.campaignStatistics.campaignId)
-      .then((result) => {
-        setCampaignCardViewModel(
-          DoorToDoorCampaignCardViewModelMapper.map(result),
-        )
-      })
+  const fetchCampaignInfo = async (): Promise<DoorToDoorCampaignInfo> => {
+    return await new GetDoorToDoorCampaignInfoInteractor().execute(
+      address.building.campaignStatistics.campaignId,
+    )
   }
 
-  const fetchAddress = () => {
-    DoorToDoorRepository.getInstance()
-      .getAddress(address.id)
-      .then((newAddress) => {
-        if (newAddress) {
-          setAddress(newAddress)
-        }
-      })
-  }
+  const fetchAddress = async (): Promise<DoorToDoorAddress | null> =>
+    await DoorToDoorRepository.getInstance().getAddress(address.id)
 
-  const refreshData = () => {
-    fetchLayout()
-    fetchAddress()
-    fetchHistory()
-    fetchCampaignInfo()
+  const refreshData = async () => {
+    setIsRefreshing(true)
+    const newBlocks = await fetchLayout()
+    const freshAddress = await fetchAddress()
+    const freshHistory = await fetchHistory()
+    const freshCampaignInfo = await fetchCampaignInfo()
+    setLayout(newBlocks)
+    setIsRefreshing(false)
+    if (freshAddress) {
+      setAddress(freshAddress)
+    }
+    setHistory(freshHistory)
+    setCampaignCardViewModel(
+      DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
+    )
   }
 
   useEffect(() => {
@@ -358,7 +356,15 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={refreshData}
+              colors={[Colors.primaryColor]}
+            />
+          }
+        >
           <Image source={viewModel.illustration} style={styles.illustration} />
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
