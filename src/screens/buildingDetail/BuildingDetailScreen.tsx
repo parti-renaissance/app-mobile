@@ -246,17 +246,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         }
         DoorToDoorRepository.getInstance()
           .updateBuildingType(address.building.id, newBuildingType)
-          .then(() => {
-            navigation.setParams({
-              address: {
-                ...address,
-                building: {
-                  ...address.building,
-                  type: newBuildingType,
-                },
-              },
-            })
-          })
+          .then(refreshData)
           .finally(() => setIsloading(false))
       },
     )
