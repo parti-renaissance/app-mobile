@@ -17,7 +17,7 @@ export class SendDoorPollAnswersInteractor {
     params: SendDoorToDoorPollAnswersJobQueueItem,
   ): Promise<void> {
     const networkState = await NetInfo.fetch()
-    if (networkState.isConnected) {
+    if (networkState.isInternetReachable) {
       const pollParams = {
         campaignId: params.campaignId,
         buildingId: params.buildingParams.id,
