@@ -134,7 +134,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate(Screen.news)
   }
   const onPollsMorePressed = () => {
-    navigation.navigate(Screen.polls)
+    navigation.navigate(Screen.pollsNavigator)
   }
   const onToolsMorePressed = () => {
     navigation.navigate(Screen.tools)

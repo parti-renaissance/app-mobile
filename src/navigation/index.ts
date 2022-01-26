@@ -31,7 +31,7 @@ export type HomeParamList = {
   News: undefined
   EventDetails: { eventId: string }
   RetaliationDetailScreen: { retaliation: Retaliation }
-  Polls: undefined
+  PollsNavigator: undefined
 }
 
 export type ProfileParamList = {
