@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     marginBottom: unit,
   },
   container: {
-    paddingBottom: Spacing.extraExtraLargeMargin,
+    paddingBottom: 150,
     paddingHorizontal: margin,
     paddingTop: Spacing.unit,
   },
