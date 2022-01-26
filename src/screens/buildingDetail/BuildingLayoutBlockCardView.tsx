@@ -7,6 +7,7 @@ import {
   Image,
   Text,
 } from 'react-native'
+import { BuildingBlockStatus } from '../../core/entities/BuildingBlock'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
@@ -23,6 +24,7 @@ export interface BuildingLayoutBlockCardViewModel {
   buildingTypeIcon: ImageSourcePropType
   floors: BuildingLayoutFloorCellViewModel[]
   local: boolean
+  status: BuildingBlockStatus
   statusAction: string
   removable: boolean
   canUpdateBuildingStatus: boolean

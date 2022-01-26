@@ -74,6 +74,7 @@ function blockCardViewModel(
             return floorCellViewModel(block.name, floor, type, canRemoveFloor)
           }),
     local: block.local,
+    status: block.status,
     statusAction: statusAction,
     removable: addressStatus !== 'completed' && blockIndex > 0,
     canAddNewFloor:

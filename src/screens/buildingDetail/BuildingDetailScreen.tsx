@@ -33,7 +33,6 @@ import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { PrimaryButton } from '../shared/Buttons'
 import { BuildingType, DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { useIsFocused } from '@react-navigation/native'
 import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
@@ -77,7 +76,6 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     layout,
   )
   const buildingBlockHelper = new BuildingBlockHelper()
-  const buildingStatus = address.building.campaignStatistics.status
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -359,6 +357,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
               handleBuildingAction(buildingBlockId)
             }}
             onOpenAddress={openAddress}
+            onCloseAddress={closeAddress}
           />
         )
     }
@@ -430,35 +429,23 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           </View>
           {renderTab(tab)}
         </ScrollView>
-        <View style={styles.bottomContainer}>
-          {buildingStatus !== 'completed' ? (
-            <PrimaryButton
-              style={styles.closeAddress}
-              onPress={closeAddress}
-              title={i18n.t('building.close_address.action')}
-              disabled={layout.some((block) => block.status !== 'completed')}
-            />
-          ) : null}
-          {campaignCardViewModel ? (
-            <View style={styles.bottomContainer}>
-              <CardView backgroundColor={Colors.defaultBackground}>
-                <TouchablePlatform
-                  onPress={() =>
-                    setRankingModalState({
-                      visible: true,
-                      campaignId: campaignCardViewModel.campaignId,
-                    })
-                  }
-                  touchHighlight={Colors.touchHighlight}
-                >
-                  <DoorToDoorCampaignInfoView
-                    viewModel={campaignCardViewModel}
-                  />
-                </TouchablePlatform>
-              </CardView>
-            </View>
-          ) : null}
-        </View>
+        {campaignCardViewModel ? (
+          <View style={styles.bottomContainer}>
+            <CardView backgroundColor={Colors.defaultBackground}>
+              <TouchablePlatform
+                onPress={() =>
+                  setRankingModalState({
+                    visible: true,
+                    campaignId: campaignCardViewModel.campaignId,
+                  })
+                }
+                touchHighlight={Colors.touchHighlight}
+              >
+                <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
+              </TouchablePlatform>
+            </CardView>
+          </View>
+        ) : null}
       </>
     </SafeAreaView>
   )
@@ -475,10 +462,6 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-  },
-  closeAddress: {
-    marginBottom: Spacing.margin,
-    marginHorizontal: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,
