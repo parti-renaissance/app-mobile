@@ -37,15 +37,15 @@ export const BuildingDetailScreenViewModelMapper = {
       history: BuildingHistoryViewModelMapper.map(history),
       buildingLayout: BuildingLayoutViewModelMapper.map(
         address.building.type,
-        address.building.campaignStatistics.status,
+        address.building.campaignStatistics?.status ?? 'todo',
         layout,
       ),
-      campaignId: address.building.campaignStatistics.campaignId,
+      campaignId: address.building.campaignStatistics?.campaignId ?? '',
     }
   },
 }
 
-function lastVisit(campaign: DoorToDoorAddressCampaign): string {
+function lastVisit(campaign: DoorToDoorAddressCampaign | null): string {
   return campaign && campaign.lastPassage
     ? i18n.t('doorToDoor.lastPassage') + ' ' + mapDate(campaign.lastPassage)
     : i18n.t('doorToDoor.noPassage')

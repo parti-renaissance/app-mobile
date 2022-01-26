@@ -100,7 +100,7 @@ const DoorToDoorMapView = ({
     ] = useState<DoorToDoorCampaignCardViewModel>()
 
     useEffect(() => {
-      if (address) {
+      if (address && address.building.campaignStatistics) {
         new GetDoorToDoorCampaignInfoInteractor()
           .execute(address.building.campaignStatistics.campaignId)
           .then((result) => {

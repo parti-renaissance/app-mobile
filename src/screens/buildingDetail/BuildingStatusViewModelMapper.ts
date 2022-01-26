@@ -19,25 +19,20 @@ export const BuildingStatusViewModelMapper = {
         surveys += floor.nbSurveys
       })
     })
-    const campaignAddress = address.building.campaignStatistics
     let statusTile: string
     let statusIcon: ImageProps
-    switch (campaignAddress?.status) {
+    switch (address.building.campaignStatistics?.status) {
       case 'completed':
         statusTile = i18n.t('building.status.done')
         statusIcon = require('../../assets/images/buildingStatusDoneIcon.png')
-        break
-      case 'todo':
-        statusTile = i18n.t('building.status.todo')
-        statusIcon = require('../../assets/images/buildingStatusToDoIcon.png')
         break
       case 'ongoing':
         statusTile = i18n.t('building.status.tocomplete')
         statusIcon = require('../../assets/images/buildingStatusToCompleteIcon.png')
         break
       default:
-        statusTile = i18n.t('building.status.done')
-        statusIcon = require('../../assets/images/buildingStatusDoneIcon.png')
+        statusTile = i18n.t('building.status.todo')
+        statusIcon = require('../../assets/images/buildingStatusToDoIcon.png')
         break
     }
     return {

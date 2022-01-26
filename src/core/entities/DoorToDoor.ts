@@ -11,7 +11,7 @@ export type DoorToDoorAddress = {
   building: {
     id: string
     type: BuildingType
-    campaignStatistics: DoorToDoorAddressCampaign
+    campaignStatistics: DoorToDoorAddressCampaign | null
   }
 }
 

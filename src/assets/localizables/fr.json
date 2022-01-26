@@ -509,6 +509,7 @@
       "noPassage": "Aucun passage",
       "passageOn": "le {{date}}",
       "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
+      "noCampaign": "Pas de campagne en cours",
       "doorKnocked_one": "Porte frappée",
       "doorKnocked_other": "Portes frappées",
       "date_format": "dd MMM yyyy",

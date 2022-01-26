@@ -76,6 +76,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     layout,
   )
   const buildingBlockHelper = new BuildingBlockHelper()
+  const campaignStatistics = address.building.campaignStatistics!!
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -92,7 +93,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const fetchLayout = async (): Promise<Array<BuildingBlock>> => {
     return await new UpdateBuildingLayoutInteractor().execute(
       route.params.address.building.id,
-      route.params.address.building.campaignStatistics.campaignId,
+      campaignStatistics.campaignId,
       route.params.address.building.type,
       layout,
     )
@@ -101,13 +102,13 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const fetchHistory = async (): Promise<Array<BuildingHistoryPoint>> => {
     return await DoorToDoorRepository.getInstance().buildingHistory(
       route.params.address.building.id,
-      route.params.address.building.campaignStatistics.campaignId,
+      campaignStatistics.campaignId,
     )
   }
 
   const fetchCampaignInfo = async (): Promise<DoorToDoorCampaignInfo> => {
     return await new GetDoorToDoorCampaignInfoInteractor().execute(
-      address.building.campaignStatistics.campaignId,
+      campaignStatistics.campaignId,
     )
   }
 
@@ -209,7 +210,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       setIsloading(true)
       DoorToDoorRepository.getInstance()
         .openBuildingBlock(
-          address.building.campaignStatistics.campaignId,
+          campaignStatistics.campaignId,
           address.building.id,
           block.name,
         )
@@ -225,7 +226,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           setIsloading(true)
           DoorToDoorRepository.getInstance()
             .closeBuildingBlock(
-              address.building.campaignStatistics.campaignId,
+              campaignStatistics.campaignId,
               address.building.id,
               block.name,
             )
@@ -269,10 +270,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       () => {
         setIsloading(true)
         DoorToDoorRepository.getInstance()
-          .closeBuilding(
-            address.building.campaignStatistics.campaignId,
-            address.building.id,
-          )
+          .closeBuilding(campaignStatistics.campaignId, address.building.id)
           .then(() => {
             refreshData()
           })
@@ -290,10 +288,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       () => {
         setIsloading(true)
         DoorToDoorRepository.getInstance()
-          .openBuilding(
-            address.building.campaignStatistics.campaignId,
-            address.building.id,
-          )
+          .openBuilding(campaignStatistics.campaignId, address.building.id)
           .then(() => {
             refreshData()
           })
