@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, TextStyle, ViewStyle } from 'react-native'
+import { StyleSheet, View, Text, ViewStyle } from 'react-native'
 import { FunctionComponent } from 'react'
 import { unit } from '../../styles/spacing'
 import { Colors, Typography } from '../../styles'
@@ -8,8 +8,6 @@ import KeyValueCell, { KeyValueCellViewModel } from './KeyValueCell'
 type Props = Readonly<{
   viewModel: KeyValueListViewModel
   containerStyle: ViewStyle
-  keyStyle?: TextStyle
-  valueStyle?: TextStyle
 }>
 
 export interface KeyValueListViewModel {
@@ -20,8 +18,6 @@ export interface KeyValueListViewModel {
 const KeyValueListView: FunctionComponent<Props> = ({
   viewModel,
   containerStyle,
-  keyStyle,
-  valueStyle,
 }) => {
   return (
     <View style={containerStyle}>
@@ -32,8 +28,6 @@ const KeyValueListView: FunctionComponent<Props> = ({
               key={cellViewModel.id}
               viewModel={cellViewModel}
               bottomSeparator={index === viewModel.cells.length - 1}
-              keyStyle={keyStyle}
-              valueStyle={valueStyle}
             />
           )
         })}
@@ -41,17 +35,6 @@ const KeyValueListView: FunctionComponent<Props> = ({
       <Text style={styles.listFootnote}>{viewModel.footnote}</Text>
     </View>
   )
-}
-
-KeyValueCell.defaultProps = {
-  keyStyle: {
-    ...Typography.body,
-    margin: unit,
-  },
-  valueStyle: {
-    ...Typography.lightBody,
-    margin: unit,
-  },
 }
 
 const styles = StyleSheet.create({

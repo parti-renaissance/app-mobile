@@ -43,7 +43,11 @@ const HomeNavigator: FunctionComponent = () => {
         component={RetaliationDetailScreen}
       />
 
-      <HomeStack.Screen name={Screen.polls} component={PollsScreen} />
+      <HomeStack.Screen
+        name={Screen.pollsNavigator}
+        component={PollsScreen}
+        options={{ headerTransparent: true }}
+      />
     </HomeStack.Navigator>
   )
 }

@@ -1,13 +1,11 @@
 import React from 'react'
-import { StyleSheet, View, Text, TextStyle } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { FunctionComponent } from 'react'
 import { unit } from '../../styles/spacing'
 import { Colors, Typography } from '../../styles'
 
 type Props = Readonly<{
   viewModel: KeyValueCellViewModel
-  keyStyle?: TextStyle
-  valueStyle?: TextStyle
   bottomSeparator: boolean
 }>
 
@@ -19,27 +17,16 @@ export interface KeyValueCellViewModel {
 
 const KeyValueCell: FunctionComponent<Props> = ({
   viewModel,
-  keyStyle,
-  valueStyle,
   bottomSeparator,
 }) => {
   return (
     <View style={bottomSeparator ? styles.cell : styles.cellSelected}>
-      <Text style={keyStyle}>{viewModel.key}</Text>
-      <Text style={valueStyle}>{viewModel.value}</Text>
+      <Text style={styles.keyStyle}>{viewModel.key}</Text>
+      <Text style={styles.valueStyle} ellipsizeMode="tail" numberOfLines={1}>
+        {viewModel.value}
+      </Text>
     </View>
   )
-}
-
-KeyValueCell.defaultProps = {
-  keyStyle: {
-    ...Typography.body,
-    margin: unit,
-  },
-  valueStyle: {
-    ...Typography.lightBody,
-    margin: unit,
-  },
 }
 
 const styles = StyleSheet.create({
@@ -54,6 +41,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  keyStyle: {
+    ...Typography.body,
+    margin: unit,
+  },
+  valueStyle: {
+    ...Typography.lightBody,
+    flex: 1,
+    margin: unit,
+    textAlign: 'right',
   },
 })
 
