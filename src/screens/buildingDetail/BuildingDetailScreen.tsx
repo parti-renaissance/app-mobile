@@ -12,6 +12,7 @@ import {
   Text,
   ScrollView,
   RefreshControl,
+  Modal,
 } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
@@ -43,6 +44,9 @@ import {
 } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
+import RankingModal from '../doorToDoor/rankings/RankingModal'
+import { RankingModalState } from '../doorToDoor/DoorToDoorScreen'
+import CardView from '../shared/CardView'
 
 enum Tab {
   HISTORY,
@@ -64,6 +68,9 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setCampaignCardViewModel,
   ] = useState<DoorToDoorCampaignCardViewModel>()
   const [address, setAddress] = useState(route.params.address)
+  const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
+    { visible: false },
+  )
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     address,
     history,
@@ -360,6 +367,14 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
+      <Modal visible={rankingModalState.visible} animationType="slide">
+        {rankingModalState.campaignId ? (
+          <RankingModal
+            onDismissModal={() => setRankingModalState({ visible: false })}
+            campaignId={rankingModalState.campaignId}
+          />
+        ) : null}
+      </Modal>
       <>
         <ScrollView
           refreshControl={
@@ -425,8 +440,22 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
             />
           ) : null}
           {campaignCardViewModel ? (
-            <View style={styles.elevatedContainer}>
-              <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
+            <View style={styles.bottomContainer}>
+              <CardView backgroundColor={Colors.defaultBackground}>
+                <TouchablePlatform
+                  onPress={() =>
+                    setRankingModalState({
+                      visible: true,
+                      campaignId: campaignCardViewModel.campaignId,
+                    })
+                  }
+                  touchHighlight={Colors.touchHighlight}
+                >
+                  <DoorToDoorCampaignInfoView
+                    viewModel={campaignCardViewModel}
+                  />
+                </TouchablePlatform>
+              </CardView>
             </View>
           ) : null}
         </View>

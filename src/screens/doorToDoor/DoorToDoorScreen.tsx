@@ -30,7 +30,7 @@ import RankingModal from './rankings/RankingModal'
 import LoaderView from '../shared/LoaderView'
 import { useFocusEffect } from '@react-navigation/native'
 
-type RankingModalState = Readonly<{
+export type RankingModalState = Readonly<{
   visible: boolean
   campaignId?: string
 }>
