@@ -111,19 +111,24 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
 
   const refreshData = async () => {
     setIsRefreshing(true)
-    const newBlocks = await fetchLayout()
-    const freshAddress = await fetchAddress()
-    const freshHistory = await fetchHistory()
-    const freshCampaignInfo = await fetchCampaignInfo()
-    setLayout(newBlocks)
-    if (freshAddress) {
-      setAddress(freshAddress)
+    try {
+      const newBlocks = await fetchLayout()
+      setLayout(newBlocks)
+      const freshAddress = await fetchAddress()
+      if (freshAddress) {
+        setAddress(freshAddress)
+      }
+      const freshHistory = await fetchHistory()
+      setHistory(freshHistory)
+      const freshCampaignInfo = await fetchCampaignInfo()
+      setCampaignCardViewModel(
+        DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
+      )
+    } catch (error) {
+      // noop
+    } finally {
+      setIsRefreshing(false)
     }
-    setHistory(freshHistory)
-    setCampaignCardViewModel(
-      DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
-    )
-    setIsRefreshing(false)
   }
 
   useEffect(() => {
