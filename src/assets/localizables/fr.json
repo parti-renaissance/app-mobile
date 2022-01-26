@@ -511,7 +511,7 @@
       "lastPassageBy": "{{firstname}} {{lastname}}., le {{date}}",
       "doorKnocked_one": "Porte frappée",
       "doorKnocked_other": "Portes frappées",
-      "date_format": "D MMM YYYY",
+      "date_format": "dd MMM yyyy",
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",

@@ -43,6 +43,6 @@ export const DoorToDoorMapper = {
   },
 }
 
-function mapLastPassage(last_passage: string | null): moment.Moment | null {
-  return last_passage ? moment(last_passage) : null
+function mapLastPassage(last_passage: string | null): Date | null {
+  return last_passage ? new Date(last_passage) : null
 }

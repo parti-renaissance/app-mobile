@@ -1,9 +1,9 @@
-import { Moment } from 'moment-timezone'
 import { ImageRequireSource } from 'react-native'
 import {
   DoorToDoorAddress,
   DoorToDoorAddressCampaign,
 } from '../../core/entities/DoorToDoor'
+import { formatLocalizedDate } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
@@ -45,13 +45,12 @@ function mapLastPassage(campaign: DoorToDoorAddressCampaign): string {
         i18n.t('doorToDoor.lastPassageBy', {
           firstname: campaign.lastPassageDoneBy.firstName,
           lastname: campaign.lastPassageDoneBy.lastName.charAt(0).toUpperCase(),
-          date: mapDate(campaign.lastPassage),
+          date: formatLocalizedDate(
+            campaign.lastPassage,
+            i18n.t('doorToDoor.date_format'),
+          ),
         })
     : i18n.t('doorToDoor.noPassage')
-}
-
-function mapDate(lastPassage: Moment): string {
-  return lastPassage.format(i18n.t('doorToDoor.date_format'))
 }
 
 function mapStatusIcon(
