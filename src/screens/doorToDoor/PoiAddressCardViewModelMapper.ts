@@ -14,7 +14,7 @@ export const PoiAddressCardViewModelMapper = {
     return poiAddress
       ? {
           id: poiAddress.id,
-          interactable: poiAddress?.building?.campaignStatistics !== null,
+          interactable: poiAddress.building.campaignStatistics !== null,
           formattedAddress: i18n.t('doorToDoor.address', {
             number: poiAddress.number,
             street: poiAddress.address,
