@@ -85,12 +85,12 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
     setIsLoading(true)
     const result = provider.getResult()
     new SendDoorPollAnswersInteractor()
-      .execute(
-        route.params.campaignId,
-        route.params.interlocutorStatus,
-        route.params.buildingParams,
-        result,
-      )
+      .execute({
+        campaignId: route.params.campaignId,
+        doorStatus: route.params.interlocutorStatus,
+        buildingParams: route.params.buildingParams,
+        pollResult: result,
+      })
       .then(() => {
         navigation.replace(Screen.tunnelDoorSuccess, {
           campaignId: route.params.campaignId,

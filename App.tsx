@@ -23,6 +23,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import { ErrorMonitor } from './src/utils/ErrorMonitor'
+import { SendDoorToDoorPollAnswersJobWorker } from './src/workers/SendDoorToDoorPollAnswsersJobWorker'
 
 declare var global: { HermesInternal: null | {} }
 
@@ -47,6 +48,14 @@ const App = () => {
 
   useEffect(() => {
     setStatusBarStyle()
+  }, [])
+
+  useEffect(() => {
+    async function startPollAnswerJobWorker() {
+      const worker = await SendDoorToDoorPollAnswersJobWorker.getInstance()
+      worker.start()
+    }
+    startPollAnswerJobWorker()
   }, [])
 
   const routeNameRef = React.useRef<string>()
