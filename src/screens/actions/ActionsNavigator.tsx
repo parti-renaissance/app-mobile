@@ -10,7 +10,7 @@ const ActionsStack = createStackNavigator()
 
 const ActionsNavigator: FunctionComponent = () => {
   return (
-    <ActionsStack.Navigator headerMode="none">
+    <ActionsStack.Navigator screenOptions={{ headerShown: false }}>
       <ActionsStack.Screen
         name={Screen.actions}
         component={ActionsScreen}

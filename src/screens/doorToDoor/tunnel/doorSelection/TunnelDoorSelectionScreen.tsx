@@ -70,7 +70,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<DoorToDoorTunnelStartScreenPr
       )
       .then(() => {
         setIsLoading(false)
-        navigation.dangerouslyGetParent()?.goBack()
+        navigation.getParent()?.goBack()
       })
       .catch(() => {
         setIsLoading(false)

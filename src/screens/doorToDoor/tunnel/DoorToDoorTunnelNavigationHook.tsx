@@ -16,7 +16,7 @@ export function useDoorToDoorTunnelNavigationOptions(
       [
         {
           text: i18n.t('doorToDoor.tunnel.leave_alert.action'),
-          onPress: () => navigation.dangerouslyGetParent()?.goBack(),
+          onPress: () => navigation.getParent()?.goBack(),
           style: 'destructive',
         },
         {
