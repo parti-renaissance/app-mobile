@@ -89,6 +89,10 @@ class AuthenticationRepository {
     return iid().get()
   }
 
+  public async removeAccount(): Promise<void> {
+    // TODO call back when ready
+  }
+
   private mapCredentials(result: RestLoginResponse): Credentials {
     return {
       accessToken: result.access_token,

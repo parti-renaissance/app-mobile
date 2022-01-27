@@ -6,12 +6,13 @@ import ProfilePollsCompleted from './ProfilePollsCompleted'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
-import { PrimaryButton } from '../shared/Buttons'
+import { BorderlessButton, SecondaryButton } from '../shared/Buttons'
 import i18n from '../../utils/i18n'
 import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import { versionLabel } from './version'
 import { ExternalLink } from '../shared/ExternalLink'
 import ProfileSettingsCard from './ProfileSettingsCard'
+import { RemoveAccountInteractor } from '../../core/interactor/RemoveAccountInteractor'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
@@ -40,6 +41,24 @@ const ProfileAuthenticated: FC<Props> = ({
         {
           text: i18n.t('profile.alert.logout.confirm'),
           onPress: () => AuthenticationRepository.getInstance().logout(),
+          style: 'destructive',
+        },
+      ],
+    )
+  }
+
+  const removeAccount = () => {
+    Alert.alert(
+      i18n.t('profile.alert.remove_account.title'),
+      i18n.t('profile.alert.remove_account.text'),
+      [
+        {
+          text: i18n.t('profile.alert.remove_account.cancel'),
+          style: 'cancel',
+        },
+        {
+          text: i18n.t('profile.alert.remove_account.confirm'),
+          onPress: () => new RemoveAccountInteractor().execute(),
           style: 'destructive',
         },
       ],
@@ -101,10 +120,16 @@ const ProfileAuthenticated: FC<Props> = ({
         }}
       />
       <View style={styles.container}>
-        <PrimaryButton
-          style={styles.logout}
-          title={i18n.t('profile.logout')}
+        <SecondaryButton
           onPress={logout}
+          style={styles.logout}
+          textStyle={styles.logoutText}
+          title={i18n.t('profile.logout')}
+        />
+        <BorderlessButton
+          onPress={removeAccount}
+          textStyle={styles.removeAccountText}
+          title={i18n.t('profile.remove_account')}
         />
         <Text style={styles.version}>{versionLabel}</Text>
       </View>
@@ -124,11 +149,18 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.unit,
   },
   logout: {
-    marginTop: Spacing.mediumMargin,
+    marginBottom: Spacing.unit,
+    marginTop: Spacing.margin,
+  },
+  logoutText: {
+    ...Typography.callout,
+  },
+  removeAccountText: {
+    ...Typography.callout,
   },
   settingsCard: {
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.small,
+    marginVertical: Spacing.small,
   },
   subtitle: {
     ...Typography.subheadline,

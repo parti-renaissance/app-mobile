@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 77,
     justifyContent: 'space-around',
-    marginBottom: Spacing.unit,
   },
   title: {
     ...Typography.headline,
