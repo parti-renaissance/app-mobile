@@ -53,7 +53,7 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
           />
           <SecondaryButton
             title={i18n.t('polldetail.success.finish')}
-            onPress={() => navigation.navigate(Screen.polls)}
+            onPress={() => navigation.goBack()}
           />
         </View>
       </View>

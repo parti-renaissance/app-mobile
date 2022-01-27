@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: Colors.defaultBackground,
-    padding: margin,
+    paddingBottom: 96,
+    paddingHorizontal: margin,
   },
   newBuildingCard: {
     marginBottom: Spacing.extraExtraLargeMargin,

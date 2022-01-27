@@ -111,19 +111,24 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
 
   const refreshData = async () => {
     setIsRefreshing(true)
-    const newBlocks = await fetchLayout()
-    const freshAddress = await fetchAddress()
-    const freshHistory = await fetchHistory()
-    const freshCampaignInfo = await fetchCampaignInfo()
-    setLayout(newBlocks)
-    if (freshAddress) {
-      setAddress(freshAddress)
+    try {
+      const newBlocks = await fetchLayout()
+      setLayout(newBlocks)
+      const freshAddress = await fetchAddress()
+      if (freshAddress) {
+        setAddress(freshAddress)
+      }
+      const freshHistory = await fetchHistory()
+      setHistory(freshHistory)
+      const freshCampaignInfo = await fetchCampaignInfo()
+      setCampaignCardViewModel(
+        DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
+      )
+    } catch (error) {
+      // noop
+    } finally {
+      setIsRefreshing(false)
     }
-    setHistory(freshHistory)
-    setCampaignCardViewModel(
-      DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
-    )
-    setIsRefreshing(false)
   }
 
   useEffect(() => {
@@ -410,19 +415,21 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           </View>
           {renderTab(tab)}
         </ScrollView>
-        {buildingStatus !== 'completed' ? (
-          <PrimaryButton
-            style={styles.closeAddress}
-            onPress={closeAddress}
-            title={i18n.t('building.close_address.action')}
-            disabled={layout.some((block) => block.status !== 'completed')}
-          />
-        ) : null}
-        {campaignCardViewModel ? (
-          <View style={styles.bottomContainer}>
-            <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
-          </View>
-        ) : null}
+        <View style={styles.bottomContainer}>
+          {buildingStatus !== 'completed' ? (
+            <PrimaryButton
+              style={styles.closeAddress}
+              onPress={closeAddress}
+              title={i18n.t('building.close_address.action')}
+              disabled={layout.some((block) => block.status !== 'completed')}
+            />
+          ) : null}
+          {campaignCardViewModel ? (
+            <View style={styles.elevatedContainer}>
+              <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
+            </View>
+          ) : null}
+        </View>
       </>
     </SafeAreaView>
   )
@@ -435,15 +442,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   bottomContainer: {
-    ...Styles.topElevatedContainerStyle,
-  },
-  closeAddress: {
-    bottom: Spacing.extraExtraLargeMargin,
+    bottom: 0,
     left: 0,
-    marginBottom: Spacing.margin,
-    marginHorizontal: Spacing.margin,
     position: 'absolute',
     right: 0,
+  },
+  closeAddress: {
+    marginBottom: Spacing.margin,
+    marginHorizontal: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,
@@ -452,6 +458,9 @@ const styles = StyleSheet.create({
   edit: {
     alignSelf: 'flex-end',
     marginEnd: Spacing.unit,
+  },
+  elevatedContainer: {
+    ...Styles.topElevatedContainerStyle,
   },
   illustration: {
     alignSelf: 'center',
