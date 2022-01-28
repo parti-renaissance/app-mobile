@@ -1,5 +1,3 @@
-import { Moment } from 'moment-timezone'
-
 export type DoorToDoorAddress = {
   id: string
   number: string
@@ -13,7 +11,7 @@ export type DoorToDoorAddress = {
   building: {
     id: string
     type: BuildingType
-    campaignStatistics: DoorToDoorAddressCampaign
+    campaignStatistics: DoorToDoorAddressCampaign | null
   }
 }
 
@@ -23,7 +21,7 @@ export type DoorToDoorAddressCampaign = {
   id: string
   numberOfDoors: number
   numberOfSurveys: number
-  lastPassage: Moment | null
+  lastPassage: Date | null
   campaignId: string
   status: DoorToDoorAddressStatus
   lastPassageDoneBy: {

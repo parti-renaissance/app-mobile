@@ -5,7 +5,7 @@ import { DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, unit } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
-import { BorderlessButton } from '../shared/Buttons'
+import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingLayoutBlockCardView, {
@@ -26,6 +26,7 @@ type Props = Readonly<{
   onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
   onBuildingAction: (buildingBlockId: string) => void
   onOpenAddress: () => void
+  onCloseAddress: () => void
 }>
 
 const BuildingLayoutView: FunctionComponent<Props> = ({
@@ -37,6 +38,7 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onRemoveBuildingFloor,
   onBuildingAction,
   onOpenAddress,
+  onCloseAddress,
 }) => {
   return (
     <View style={styles.container}>
@@ -61,7 +63,17 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           onPress={onOpenAddress}
         />
       ) : (
-        <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
+        <>
+          <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
+          <PrimaryButton
+            style={styles.closeAddress}
+            onPress={onCloseAddress}
+            title={i18n.t('building.close_address.action')}
+            disabled={viewModel.buildings.some(
+              (block) => block.status !== 'completed',
+            )}
+          />
+        </>
       )}
     </View>
   )
@@ -101,14 +113,16 @@ const styles = StyleSheet.create({
   blockCard: {
     marginVertical: unit,
   },
+  closeAddress: {
+    marginVertical: Spacing.margin,
+  },
   container: {
     backgroundColor: Colors.defaultBackground,
     paddingBottom: 96,
     paddingHorizontal: margin,
   },
   newBuildingCard: {
-    marginBottom: Spacing.extraExtraLargeMargin,
-    marginTop: Spacing.unit,
+    marginVertical: Spacing.unit,
   },
   newBuildingContainer: {
     alignItems: 'center',

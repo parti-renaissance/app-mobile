@@ -22,6 +22,7 @@ export const PoiAddressCard = ({ onPress, viewModel }: Props) => {
         onPress={() => {
           onPress(viewModel.id)
         }}
+        disabled={!viewModel.interactable}
         touchHighlight={Colors.touchHighlight}
       >
         <View style={styles.content}>

@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
   },
   content: {
-    backgroundColor: Colors.defaultBackground,
     flexDirection: 'row',
     padding: Spacing.margin,
   },

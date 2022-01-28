@@ -1,9 +1,9 @@
-import { Moment } from 'moment-timezone'
 import { ImageRequireSource } from 'react-native'
 import {
   DoorToDoorAddress,
   DoorToDoorAddressCampaign,
 } from '../../core/entities/DoorToDoor'
+import { formatLocalizedDate } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
@@ -14,6 +14,7 @@ export const PoiAddressCardViewModelMapper = {
     return poiAddress
       ? {
           id: poiAddress.id,
+          interactable: poiAddress.building.campaignStatistics !== null,
           formattedAddress: i18n.t('doorToDoor.address', {
             number: poiAddress.number,
             street: poiAddress.address,
@@ -31,51 +32,51 @@ export const PoiAddressCardViewModelMapper = {
             poiAddress.building.campaignStatistics?.numberOfDoors.toString() ??
             '-',
           label: i18n.t('doorToDoor.doorKnocked', {
-            count: poiAddress.building.campaignStatistics?.numberOfDoors,
+            count: poiAddress.building.campaignStatistics?.numberOfDoors ?? 0,
           }),
         }
       : undefined
   },
 }
 
-function mapLastPassage(campaign: DoorToDoorAddressCampaign): string {
-  return campaign && campaign.lastPassage
+function mapLastPassage(campaign: DoorToDoorAddressCampaign | null): string {
+  if (campaign === null) return i18n.t('doorToDoor.noCampaign')
+  return campaign.lastPassage
     ? i18n.t('doorToDoor.lastPassage') +
         '\n' +
         i18n.t('doorToDoor.lastPassageBy', {
           firstname: campaign.lastPassageDoneBy.firstName,
           lastname: campaign.lastPassageDoneBy.lastName.charAt(0).toUpperCase(),
-          date: mapDate(campaign.lastPassage),
+          date: formatLocalizedDate(
+            campaign.lastPassage,
+            i18n.t('doorToDoor.date_format'),
+          ),
         })
     : i18n.t('doorToDoor.noPassage')
 }
 
-function mapDate(lastPassage: Moment): string {
-  return lastPassage.format(i18n.t('doorToDoor.date_format'))
-}
-
 function mapStatusIcon(
-  campaignStatistics: DoorToDoorAddressCampaign,
+  campaignStatistics: DoorToDoorAddressCampaign | null,
 ): ImageRequireSource {
-  switch (campaignStatistics.status) {
-    case 'todo':
-      return require('../../assets/images/papTodoIcon.png')
+  switch (campaignStatistics?.status) {
     case 'ongoing':
       return require('../../assets/images/papToFinishIcon.png')
     case 'completed':
       return require('../../assets/images/papDoneIcon.png')
+    default:
+      return require('../../assets/images/papTodoIcon.png')
   }
 }
 
 function mapMapStatusIcon(
-  campaignStatistics: DoorToDoorAddressCampaign,
+  campaignStatistics: DoorToDoorAddressCampaign | null,
 ): ImageRequireSource {
-  switch (campaignStatistics.status) {
-    case 'todo':
-      return require('../../assets/images/papTodoCard.png')
+  switch (campaignStatistics?.status) {
     case 'ongoing':
       return require('../../assets/images/papToFinishCard.png')
     case 'completed':
       return require('../../assets/images/papDoneCard.png')
+    default:
+      return require('../../assets/images/papTodoCard.png')
   }
 }

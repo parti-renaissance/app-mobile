@@ -30,7 +30,7 @@ import RankingModal from './rankings/RankingModal'
 import LoaderView from '../shared/LoaderView'
 import { useFocusEffect } from '@react-navigation/native'
 
-type RankingModalState = Readonly<{
+export type RankingModalState = Readonly<{
   visible: boolean
   campaignId?: string
 }>
@@ -147,9 +147,11 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
 
   const navigateToBuildingDetail = (id: string) => {
     const address = addresses.find((item) => item.id === id)
-    navigation.navigate(Screen.buildingDetail, {
-      address: address,
-    })
+    if (address?.building.campaignStatistics) {
+      navigation.navigate(Screen.buildingDetail, {
+        address: address,
+      })
+    }
   }
 
   const renderLoading = () => <LoaderView style={styles.loading} />

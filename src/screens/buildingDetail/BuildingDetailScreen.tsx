@@ -12,6 +12,7 @@ import {
   Text,
   ScrollView,
   RefreshControl,
+  Modal,
 } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { BuildingDetailScreenProp, Screen } from '../../navigation'
@@ -32,7 +33,6 @@ import AlphabetHelper from '../../utils/AlphabetHelper'
 import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { PrimaryButton } from '../shared/Buttons'
 import { BuildingType, DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import { useIsFocused } from '@react-navigation/native'
 import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
@@ -43,6 +43,9 @@ import {
 } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
 import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
+import RankingModal from '../doorToDoor/rankings/RankingModal'
+import { RankingModalState } from '../doorToDoor/DoorToDoorScreen'
+import CardView from '../shared/CardView'
 
 enum Tab {
   HISTORY,
@@ -64,13 +67,16 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
     setCampaignCardViewModel,
   ] = useState<DoorToDoorCampaignCardViewModel>()
   const [address, setAddress] = useState(route.params.address)
+  const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
+    { visible: false },
+  )
   const viewModel = BuildingDetailScreenViewModelMapper.map(
     address,
     history,
     layout,
   )
   const buildingBlockHelper = new BuildingBlockHelper()
-  const buildingStatus = address.building.campaignStatistics.status
+  const campaignStatistics = address.building.campaignStatistics!!
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -87,7 +93,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const fetchLayout = async (): Promise<Array<BuildingBlock>> => {
     return await new UpdateBuildingLayoutInteractor().execute(
       route.params.address.building.id,
-      route.params.address.building.campaignStatistics.campaignId,
+      campaignStatistics.campaignId,
       route.params.address.building.type,
       layout,
     )
@@ -96,13 +102,13 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   const fetchHistory = async (): Promise<Array<BuildingHistoryPoint>> => {
     return await DoorToDoorRepository.getInstance().buildingHistory(
       route.params.address.building.id,
-      route.params.address.building.campaignStatistics.campaignId,
+      campaignStatistics.campaignId,
     )
   }
 
   const fetchCampaignInfo = async (): Promise<DoorToDoorCampaignInfo> => {
     return await new GetDoorToDoorCampaignInfoInteractor().execute(
-      address.building.campaignStatistics.campaignId,
+      campaignStatistics.campaignId,
     )
   }
 
@@ -204,7 +210,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       setIsloading(true)
       DoorToDoorRepository.getInstance()
         .openBuildingBlock(
-          address.building.campaignStatistics.campaignId,
+          campaignStatistics.campaignId,
           address.building.id,
           block.name,
         )
@@ -220,7 +226,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           setIsloading(true)
           DoorToDoorRepository.getInstance()
             .closeBuildingBlock(
-              address.building.campaignStatistics.campaignId,
+              campaignStatistics.campaignId,
               address.building.id,
               block.name,
             )
@@ -264,10 +270,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       () => {
         setIsloading(true)
         DoorToDoorRepository.getInstance()
-          .closeBuilding(
-            address.building.campaignStatistics.campaignId,
-            address.building.id,
-          )
+          .closeBuilding(campaignStatistics.campaignId, address.building.id)
           .then(() => {
             refreshData()
           })
@@ -285,10 +288,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
       () => {
         setIsloading(true)
         DoorToDoorRepository.getInstance()
-          .openBuilding(
-            address.building.campaignStatistics.campaignId,
-            address.building.id,
-          )
+          .openBuilding(campaignStatistics.campaignId, address.building.id)
           .then(() => {
             refreshData()
           })
@@ -352,6 +352,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
               handleBuildingAction(buildingBlockId)
             }}
             onOpenAddress={openAddress}
+            onCloseAddress={closeAddress}
           />
         )
     }
@@ -360,6 +361,14 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
+      <Modal visible={rankingModalState.visible} animationType="slide">
+        {rankingModalState.campaignId ? (
+          <RankingModal
+            onDismissModal={() => setRankingModalState({ visible: false })}
+            campaignId={rankingModalState.campaignId}
+          />
+        ) : null}
+      </Modal>
       <>
         <ScrollView
           refreshControl={
@@ -415,21 +424,23 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
           </View>
           {renderTab(tab)}
         </ScrollView>
-        <View style={styles.bottomContainer}>
-          {buildingStatus !== 'completed' ? (
-            <PrimaryButton
-              style={styles.closeAddress}
-              onPress={closeAddress}
-              title={i18n.t('building.close_address.action')}
-              disabled={layout.some((block) => block.status !== 'completed')}
-            />
-          ) : null}
-          {campaignCardViewModel ? (
-            <View style={styles.elevatedContainer}>
-              <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
-            </View>
-          ) : null}
-        </View>
+        {campaignCardViewModel ? (
+          <View style={styles.bottomContainer}>
+            <CardView backgroundColor={Colors.defaultBackground}>
+              <TouchablePlatform
+                onPress={() =>
+                  setRankingModalState({
+                    visible: true,
+                    campaignId: campaignCardViewModel.campaignId,
+                  })
+                }
+                touchHighlight={Colors.touchHighlight}
+              >
+                <DoorToDoorCampaignInfoView viewModel={campaignCardViewModel} />
+              </TouchablePlatform>
+            </CardView>
+          </View>
+        ) : null}
       </>
     </SafeAreaView>
   )
@@ -446,10 +457,6 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-  },
-  closeAddress: {
-    marginBottom: Spacing.margin,
-    marginHorizontal: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,

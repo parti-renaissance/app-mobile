@@ -8,7 +8,7 @@ import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
-import { Moment } from 'moment-timezone'
+import { formatLocalizedDate } from '../../utils/DateFormatter'
 
 export const BuildingDetailScreenViewModelMapper = {
   map: (
@@ -37,20 +37,20 @@ export const BuildingDetailScreenViewModelMapper = {
       history: BuildingHistoryViewModelMapper.map(history),
       buildingLayout: BuildingLayoutViewModelMapper.map(
         address.building.type,
-        address.building.campaignStatistics.status,
+        address.building.campaignStatistics?.status ?? 'todo',
         layout,
       ),
-      campaignId: address.building.campaignStatistics.campaignId,
+      campaignId: address.building.campaignStatistics?.campaignId ?? '',
     }
   },
 }
 
-function lastVisit(campaign: DoorToDoorAddressCampaign): string {
+function lastVisit(campaign: DoorToDoorAddressCampaign | null): string {
   return campaign && campaign.lastPassage
     ? i18n.t('doorToDoor.lastPassage') + ' ' + mapDate(campaign.lastPassage)
     : i18n.t('doorToDoor.noPassage')
 }
 
-function mapDate(lastPassage: Moment): string {
-  return lastPassage.format(i18n.t('doorToDoor.date_format'))
+function mapDate(lastPassage: Date): string {
+  return formatLocalizedDate(lastPassage, i18n.t('doorToDoor.date_format'))
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
 import MapView from 'react-native-map-clustering'
 import { LatLng, Region } from 'react-native-maps'
@@ -27,10 +27,14 @@ type Props = {
   onCampaignRankingSelected: (campaignId: string) => void
 }
 
-type PopupProps = {
+type PopupState = {
   visible: boolean
-  value?: DoorToDoorAddress
+  addressId?: string
 }
+
+type PopupProps = Readonly<{
+  address?: DoorToDoorAddress
+}>
 
 const DoorToDoorMapView = ({
   data,
@@ -42,9 +46,9 @@ const DoorToDoorMapView = ({
 }: Props) => {
   const mapRef = useRef<Map | null>(null)
   const [currentPosition, setCurrentPosition] = useState<LatLng>()
-  const [popup, setPopup] = useState<PopupProps>({
+  const [popup, setPopup] = useState<PopupState>({
     visible: false,
-    value: undefined,
+    addressId: undefined,
   })
   const [currentRegion, setCurrentRegion] = useState<Region>()
 
@@ -82,28 +86,28 @@ const DoorToDoorMapView = ({
     }
   }, [])
 
-  const onMarkerPress = (poi: DoorToDoorAddress) => {
+  const onMarkerPress = (address: DoorToDoorAddress) => {
     setPopup({
       visible: true,
-      value: poi,
+      addressId: address.id,
     })
   }
 
-  const Popup = () => {
+  const Popup: FunctionComponent<PopupProps> = ({ address }) => {
     const [
       viewModel,
       setViewModel,
     ] = useState<DoorToDoorCampaignCardViewModel>()
 
     useEffect(() => {
-      if (popup.value) {
+      if (address && address.building.campaignStatistics) {
         new GetDoorToDoorCampaignInfoInteractor()
-          .execute(popup.value?.building.campaignStatistics.campaignId)
+          .execute(address.building.campaignStatistics.campaignId)
           .then((result) => {
             setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
           })
       }
-    }, [])
+    }, [address])
 
     return (
       <Pressable
@@ -113,7 +117,7 @@ const DoorToDoorMapView = ({
         <Pressable style={styles.popup}>
           <PoiAddressCard
             onPress={onAddressPress}
-            viewModel={PoiAddressCardViewModelMapper.map(popup.value)}
+            viewModel={PoiAddressCardViewModelMapper.map(address)}
           />
           {viewModel ? (
             <DoorToDoorCampaignCard
@@ -195,7 +199,15 @@ const DoorToDoorMapView = ({
           </View>
         </View>
       </View>
-      {popup.visible && <Popup />}
+      {popup.visible && (
+        <Popup
+          address={
+            popup.addressId
+              ? data.find((address) => address.id === popup.addressId)
+              : undefined
+          }
+        />
+      )}
     </View>
   )
 }

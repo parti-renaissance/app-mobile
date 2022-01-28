@@ -165,6 +165,7 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
               date={form.birthdate}
               placeholder={i18n.t('personalinformation.placeholder')}
               onDateChange={onDateChange}
+              maximumDate={new Date()}
             />
           </LabelInputContainer>
           <LabelInputContainer
