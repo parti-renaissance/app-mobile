@@ -1,19 +1,20 @@
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { DoorToDoorAddress } from '../entities/DoorToDoor'
 
-const MAP_DEFAULT_ZOOM = 16
-
 export class GetDoorToDoorAddressesInteractor {
   private repository = DoorToDoorRepository.getInstance()
 
   public async execute(
     latitude: number,
     longitude: number,
+    latitudeDelta: number,
+    longitudeDelta: number,
   ): Promise<Array<DoorToDoorAddress>> {
     const addresses = await this.repository.getAddresses(
       latitude,
       longitude,
-      MAP_DEFAULT_ZOOM,
+      latitudeDelta,
+      longitudeDelta,
     )
     const campaignIds = new Set<string>()
     addresses.forEach((address) => {

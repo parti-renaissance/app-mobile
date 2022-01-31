@@ -66,7 +66,12 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const fetchAddresses = (region: Region) => {
     setLoading(true)
     new GetDoorToDoorAddressesInteractor()
-      .execute(region.latitude, region.longitude)
+      .execute(
+        region.latitude,
+        region.longitude,
+        region.latitudeDelta,
+        region.longitudeDelta,
+      )
       .then((newAddresses) => {
         setAddresses(newAddresses)
       })

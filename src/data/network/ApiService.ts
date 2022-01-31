@@ -462,12 +462,18 @@ class ApiService {
   public getAddresses(
     latitude: number,
     longitude: number,
-    zoom: number,
+    latitudeDelta: number,
+    longitudeDelta: number,
   ): Promise<RestDoorToDoorAddress[]> {
     return this.httpClient
-      .get(
-        `api/v3/pap/address/near?latitude=${latitude}&longitude=${longitude}&zoom=${zoom}`,
-      )
+      .get('api/v3/pap/address/near', {
+        searchParams: {
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: latitudeDelta,
+          longitudeDelta: longitudeDelta,
+        },
+      })
       .json<RestDoorToDoorAddress[]>()
       .catch(genericErrorMapping)
   }

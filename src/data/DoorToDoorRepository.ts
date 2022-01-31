@@ -79,12 +79,14 @@ class DoorToDoorRepository {
   public async getAddresses(
     latitude: number,
     longitude: number,
-    zoom: number,
+    latitudeDelta: number,
+    longitudeDelta: number,
   ): Promise<DoorToDoorAddress[]> {
     const restDoorToDoorAddresses = await this.apiService.getAddresses(
       latitude,
       longitude,
-      zoom,
+      latitudeDelta,
+      longitudeDelta,
     )
     return restDoorToDoorAddresses.map(DoorToDoorMapper.map).filter(notEmpty)
   }
