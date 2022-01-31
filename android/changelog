@@ -1,7 +1,6 @@
-# v3.1.0-RC5
-
-- Update app icon
+# v3.7.0-RC1
 
 PaP:
 
-- Fixes on Door to Door screens
+- Store & Retry to send door to door polls if user is offline
+- Fixes minors bugs on Door to Door screens
