@@ -38,6 +38,7 @@ import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { RetaliationService } from '../../data/RetaliationService'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { Analytics } from '../../utils/Analytics'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
@@ -121,28 +122,30 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       params: { pollId: pollId },
     })
   }
-  const onNewsSelected = (newsUrl: string) => {
+  const onNewsSelected = async (newsUrl: string) => {
+    await Analytics.logHomeNewsOpen()
     ExternalLink.openUrl(newsUrl)
   }
-  const onToolSelected = (toolUrl: string) => {
+  const onToolSelected = async (toolUrl: string, toolName: string) => {
+    await Analytics.logHomeToolOpen(toolName)
     ExternalLink.openUrl(toolUrl)
   }
-  const onNewsMorePressed = () => {
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.news,
-    })
+  const onNewsMorePressed = async () => {
+    await Analytics.logHomeNewsMore()
     navigation.navigate(Screen.news)
   }
   const onPollsMorePressed = () => {
     navigation.navigate(Screen.pollsNavigator)
   }
-  const onToolsMorePressed = () => {
+  const onToolsMorePressed = async () => {
+    await Analytics.logHomeToolsMore()
     navigation.navigate(Screen.tools)
   }
-  const onRegionMorePressed = () => {
+  const onRegionMorePressed = async () => {
     if (!currentResources) {
       return
     }
+    await Analytics.logHomeRegionMore()
     navigation.navigate(Screen.homeNavigator, {
       screen: Screen.region,
       params: { zipCode: currentResources.zipCode },

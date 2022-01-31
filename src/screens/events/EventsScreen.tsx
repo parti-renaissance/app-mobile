@@ -18,6 +18,7 @@ import EventQuickFilters from './EventQuickFilters'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventMode } from '../../core/entities/Event'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Analytics } from '../../utils/Analytics'
 
 const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const [index, setIndex] = React.useState(0)
@@ -99,6 +100,9 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
       inactiveColor={Colors.darkText}
       labelStyle={{ ...Typography.subheadline }}
       getLabelText={({ route }) => route.title}
+      onTabPress={async (scene) => {
+        await Analytics.logEventTabSelected(scene.route.key)
+      }}
     />
   )
   return (

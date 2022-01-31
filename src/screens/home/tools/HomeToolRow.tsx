@@ -6,7 +6,7 @@ import { HomeToolRowViewModel } from './HomeToolRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeToolRowViewModel
-  onPress: (toolUrl: string) => void
+  onPress: (toolUrl: string, toolName: string) => void
 }>
 
 const HomeToolRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
@@ -14,7 +14,7 @@ const HomeToolRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
     <TouchablePlatform
       touchHighlight={Colors.touchHighlight}
       onPress={() => {
-        onPress(viewModel.url)
+        onPress(viewModel.url, viewModel.title)
       }}
     >
       <View style={styles.container}>
