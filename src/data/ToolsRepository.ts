@@ -9,7 +9,9 @@ class ToolsRepository {
   private apiService = ApiService.getInstance()
   private constructor() {}
 
-  public async getTools(page: number): Promise<PaginatedResult<Array<Tool>>> {
+  public async getTools(
+    page: number = 1,
+  ): Promise<PaginatedResult<Array<Tool>>> {
     const restTools = await this.apiService.getTools(page)
     const paginationInfo = RestMetadataMapper.map(restTools.metadata)
     const tools = restTools.items.map(RestToolMapper.map)

@@ -131,7 +131,7 @@ export class GetHomeResourcesInteractor {
                 this.getPollsInteractor.execute(pollsDataSource),
               [],
             ),
-      tools: toolsResult.status === 'fulfilled' ? toolsResult.value : [],
+      tools: toolsResult.status === 'fulfilled' ? toolsResult.value.result : [],
       quickPoll:
         quickPollsResult.status === 'fulfilled'
           ? quickPollsResult.value

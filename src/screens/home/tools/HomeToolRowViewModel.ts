@@ -1,5 +1,5 @@
 export interface HomeToolRowViewModel {
-  id: number
+  id: string
   title: string
   url: string
 }
