@@ -23,7 +23,7 @@ type Props = {
   initialLocation: LatLng
   loading: boolean
   onAddressPress: (id: string) => void
-  onSearchNearby: (location: LatLng) => void
+  onSearchNearby: (region: Region) => void
   onCampaignRankingSelected: (campaignId: string) => void
 }
 
@@ -35,6 +35,15 @@ type PopupState = {
 type PopupProps = Readonly<{
   address?: DoorToDoorAddress
 }>
+
+export function getRegionFromLatLng(location: LatLng): Region {
+  return {
+    latitude: location.latitude,
+    longitude: location.longitude,
+    latitudeDelta: DEFAULT_DELTA,
+    longitudeDelta: DEFAULT_DELTA,
+  }
+}
 
 const DoorToDoorMapView = ({
   data,
@@ -51,15 +60,6 @@ const DoorToDoorMapView = ({
     addressId: undefined,
   })
   const [currentRegion, setCurrentRegion] = useState<Region>()
-
-  const getRegionFromLatLng = (location: LatLng) => {
-    return {
-      latitude: location.latitude,
-      longitude: location.longitude,
-      latitudeDelta: DEFAULT_DELTA,
-      longitudeDelta: DEFAULT_DELTA,
-    }
-  }
 
   const moveToCurrentPositionRegion = () => {
     if (mapRef.current !== null && currentPosition) {
@@ -180,10 +180,7 @@ const DoorToDoorMapView = ({
           <MapButton
             onPress={() => {
               if (currentRegion) {
-                onSearchNearby({
-                  latitude: currentRegion.latitude,
-                  longitude: currentRegion.longitude,
-                })
+                onSearchNearby(currentRegion)
               }
             }}
             text="Rechercher dans la zone"
