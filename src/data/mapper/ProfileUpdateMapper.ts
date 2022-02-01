@@ -5,7 +5,7 @@ import {
   RestUpdateProfileRequest,
 } from '../restObjects/RestUpdateProfileRequest'
 import { GenderMapper } from './GenderMapper'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 export const ProfileUpdateMapper = {
   mapPersonalInformationForm: (
@@ -32,7 +32,7 @@ export const ProfileUpdateMapper = {
       address = null
     }
     const birthDate = profile.birthdate
-      ? moment(profile.birthdate).format('YYYY-MM-DD')
+      ? format(profile.birthdate, 'yyyy-MM-dd')
       : null
     return {
       first_name: profile.firstName,
