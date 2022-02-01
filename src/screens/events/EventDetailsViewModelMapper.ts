@@ -8,6 +8,8 @@ import {
 import { TagViewModelMapper } from './TagViewModelMapper'
 import { CreateOptions } from 'react-native-add-calendar-event'
 import { Platform } from 'react-native'
+import { formatLocalizedDate } from '../../utils/DateFormatter'
+import { format } from 'date-fns'
 
 export const EventDetailsViewModelMapper = {
   map: (event: DetailedEvent): EventDetailsViewModel => {
@@ -32,11 +34,14 @@ export const EventDetailsViewModelMapper = {
 }
 
 function mapDate(event: DetailedEvent): EventDateViewModel {
-  const title = event.dateStart.format(i18n.t('eventdetails.date_format'))
+  const title = formatLocalizedDate(
+    event.dateStart,
+    i18n.t('eventdetails.date_format'),
+  )
   const description =
-    event.dateStart.format(HOUR_MINUTE_FORMAT) +
+    formatLocalizedDate(event.dateStart, HOUR_MINUTE_FORMAT) +
     ' - ' +
-    event.dateEnd.format(HOUR_MINUTE_FORMAT)
+    formatLocalizedDate(event.dateEnd, HOUR_MINUTE_FORMAT)
   return {
     title: title,
     description: description,
@@ -72,8 +77,8 @@ function createCalendarEvent(event: DetailedEvent): CreateOptions {
     : undefined
   return {
     title: event.name,
-    startDate: event.dateStart.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    endDate: event.dateEnd.utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    startDate: event.dateStart.toISOString(),
+    endDate: event.dateEnd.toISOString(),
     url: event.visioUrl, // ios only
     location: address,
     notes: Platform.OS === 'android' ? event.visioUrl : undefined,
