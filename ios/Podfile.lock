@@ -403,8 +403,8 @@ PODS:
     - React-perflogger (= 0.66.2)
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNCAsyncStorage (1.13.2):
-    - React
+  - RNCAsyncStorage (1.15.17):
+    - React-Core
   - RNCCheckbox (0.5.9):
     - React-Core
   - RNCClipboard (1.5.1):
@@ -718,7 +718,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 393e26602c1b248683372051e34db63e359e3b01
   ReactCommon: c0263c1a41509aeb94be3214fa7bc3b71eae5ef6
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNCAsyncStorage: 05bae7ecfab1cbd5441993f1ca098f7c3b3f8d0e
+  RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
   RNCCheckbox: 6369808337432cdbd5025d62ceced2480b4c51df
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
