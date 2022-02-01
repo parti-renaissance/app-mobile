@@ -4,21 +4,9 @@ import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { ImageProps } from 'react-native'
-import { BuildingBlock } from '../../core/entities/BuildingBlock'
 
 export const BuildingStatusViewModelMapper = {
-  map: (
-    address: DoorToDoorAddress,
-    layout: BuildingBlock[],
-  ): BuildingStatusViewModel => {
-    let visitedDoors = 0
-    let surveys = 0
-    layout.forEach((block) => {
-      block.floors.forEach((floor) => {
-        visitedDoors += floor.visitedDoors.length
-        surveys += floor.nbSurveys
-      })
-    })
+  map: (address: DoorToDoorAddress): BuildingStatusViewModel => {
     let statusTile: string
     let statusIcon: ImageProps
     switch (address.building.campaignStatistics?.status) {
@@ -39,9 +27,11 @@ export const BuildingStatusViewModelMapper = {
       statusTile: statusTile,
       statusIcon: statusIcon,
       estimatedDoorsStatBlock: estimatedDoorsStatBlock(address.votersCount),
-      doorKnockedStatBlock: doorKnockedStatBlock(visitedDoors),
+      doorKnockedStatBlock: doorKnockedStatBlock(
+        address.building.campaignStatistics?.numberOfDoors ?? 0,
+      ),
       completedQuestionnairesStatBlock: completedQuestionnairesStatBlock(
-        surveys,
+        address.building.campaignStatistics?.numberOfSurveys ?? 0,
       ),
     }
   },
