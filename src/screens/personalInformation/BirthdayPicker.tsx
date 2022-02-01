@@ -55,7 +55,7 @@ const BirthdayPicker: FC<Props> = (props) => {
           alignItems: props.inputAlign ? props.inputAlign : 'flex-end',
           marginEnd: 4,
         },
-        btnTextConfirm: { color: Colors.darkText },
+        btnTextConfirm: { color: Colors.primaryColor },
         dateText: dateTextStyle,
         disabled: { backgroundColor: Colors.defaultBackground },
         datePickerCon: isDarkMode ? styles.dark : styles.light,
