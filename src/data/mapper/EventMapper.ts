@@ -1,4 +1,3 @@
-import moment from 'moment-timezone'
 import {
   Commitee,
   DetailedEvent,
@@ -16,7 +15,7 @@ import {
 export const EventMapper = {
   mapShortEvent: (restShortEvent: RestShortEvent): ShortEvent => {
     const userRegisteredAt = restShortEvent.user_registered_at
-      ? moment(restShortEvent.user_registered_at).tz(restShortEvent.time_zone)
+      ? new Date(restShortEvent.user_registered_at)
       : undefined
     return {
       uuid: restShortEvent.uuid,
@@ -25,15 +24,14 @@ export const EventMapper = {
       category: restShortEvent.category.event_group_category.slug,
       mode: mapMode(restShortEvent.mode),
       imageUrl: restShortEvent.image_url ?? undefined,
-      dateStart: moment(restShortEvent.begin_at).tz(restShortEvent.time_zone),
-      dateEnd: moment(restShortEvent.finish_at).tz(restShortEvent.time_zone),
+      dateStart: new Date(restShortEvent.begin_at),
+      dateEnd: new Date(restShortEvent.finish_at),
       userRegisteredAt: userRegisteredAt,
     }
   },
   mapDetailedEvent: (restDetailedEvent: RestDetailedEvent): DetailedEvent => {
-    const timeZone = restDetailedEvent.time_zone
     const userRegisteredAt = restDetailedEvent.user_registered_at
-      ? moment(restDetailedEvent.user_registered_at).tz(timeZone)
+      ? new Date(restDetailedEvent.user_registered_at)
       : undefined
     const address = mapAddress(restDetailedEvent.post_address)
     return {
@@ -43,8 +41,8 @@ export const EventMapper = {
       name: restDetailedEvent.name,
       mode: mapMode(restDetailedEvent.mode),
       imageUrl: restDetailedEvent.image_url ?? undefined,
-      dateStart: moment(restDetailedEvent.begin_at).tz(timeZone),
-      dateEnd: moment(restDetailedEvent.finish_at).tz(timeZone),
+      dateStart: new Date(restDetailedEvent.begin_at),
+      dateEnd: new Date(restDetailedEvent.finish_at),
       userRegisteredAt: userRegisteredAt,
       participantsCount: restDetailedEvent.participants_count,
       visioUrl: restDetailedEvent.visio_url ?? undefined,

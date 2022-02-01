@@ -1,15 +1,13 @@
-import { Moment } from 'moment-timezone'
-
 export interface ShortEvent {
   uuid: string
   name: string
   category: string
   tag: string
-  userRegisteredAt?: Moment
+  userRegisteredAt?: Date
   imageUrl?: string
   mode?: EventMode
-  dateStart: Moment
-  dateEnd: Moment
+  dateStart: Date
+  dateEnd: Date
 }
 
 export enum EventMode {
@@ -22,11 +20,11 @@ export interface DetailedEvent {
   name: string
   description: string
   tag: string
-  userRegisteredAt?: Moment
+  userRegisteredAt?: Date
   imageUrl?: string
   mode?: EventMode
-  dateStart: Moment
-  dateEnd: Moment
+  dateStart: Date
+  dateEnd: Date
   participantsCount: number
   visioUrl?: string
   address?: EventAddress

@@ -1,4 +1,5 @@
 import { EventMode, ShortEvent } from '../../core/entities/Event'
+import { formatLocalizedDate } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import { EventRowViewModel } from './EventViewModel'
 import { TagViewModelMapper } from './TagViewModelMapper'
@@ -18,7 +19,7 @@ export const EventRowViewModelMapper = {
       tag: TagViewModelMapper.map(event.tag),
       isSubscribed: event.userRegisteredAt !== undefined,
       date: mapDate(event, dateFormat),
-      dateTimestamp: event.dateStart.unix(),
+      dateTimestamp: event.dateStart.getTime(),
     }
   },
 }
@@ -26,12 +27,15 @@ export const EventRowViewModelMapper = {
 function mapDate(event: ShortEvent, dateFormat: EventDateFormat): string {
   let date = ''
   if (dateFormat === 'day_hour') {
-    date += event.dateStart.format(i18n.t('events.event_date_format'))
+    date += formatLocalizedDate(
+      event.dateStart,
+      i18n.t('events.event_date_format'),
+    )
     date += '\n'
   }
   date +=
-    event.dateStart.format(HOUR_MINUTE_FORMAT) +
+    formatLocalizedDate(event.dateStart, HOUR_MINUTE_FORMAT) +
     ' - ' +
-    event.dateEnd.format(HOUR_MINUTE_FORMAT)
+    formatLocalizedDate(event.dateEnd, HOUR_MINUTE_FORMAT)
   return date
 }

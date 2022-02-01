@@ -255,9 +255,9 @@
       "tab_mine": "Mes événements",
       "subscribed": "Inscrit",
       "empty": "Vous n’avez aucun événement à venir.",
-      "section_date_format": "dddd D MMMM YYYY",
+      "section_date_format": "EEEE dd MMMM yyyy",
       "section_date_today": "Aujourd'hui",
-      "event_date_format": "D MMMM YYYY",
+      "event_date_format": "d MMMM yyyy",
       "search_placeholder": "Rechercher un événement",
       "filters": {
         "title": "Filtres",
@@ -286,7 +286,7 @@
         "confirm": "Oui"
       },
       "attendees": "{{attendees}} inscrits",
-      "date_format": "dddd D MMMM YYYY",
+      "date_format": "EEEE d MMMM yyyy",
       "connect_to_subscribe": "Connectez-vous pour vous inscrire"
     },
     "centerofinterest": {

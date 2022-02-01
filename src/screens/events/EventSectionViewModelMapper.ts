@@ -7,10 +7,10 @@ import {
 import { ShortEvent } from '../../core/entities/Event'
 import { EventFilter } from './EventListScreen'
 import MultiMap from 'mnemonist/multi-map'
-import { Moment } from 'moment'
-import moment from 'moment'
 import i18n from '../../utils/i18n'
 import { EventRowViewModelMapper } from './EventRowViewModelMapper'
+import { format } from 'date-fns'
+import { formatLocalizedDate } from '../../utils/DateFormatter'
 
 export const EventSectionViewModelMapper = {
   map: (
@@ -88,19 +88,22 @@ function mapHome(events: ShortEvent[]): EventSectionViewModel[] {
   return result
 }
 
-function extractSectionKey(sectionTime: Moment): string {
-  return sectionTime.format('YYYYMMDD')
+function extractSectionKey(sectionTime: Date): string {
+  return format(sectionTime, 'yyyyMMdd')
 }
 
 function mapSection(
   key: string,
   firstEvent: ShortEvent,
 ): EventSectionRowViewModel {
-  const now = moment()
+  const now = new Date()
   const isToday = key === extractSectionKey(now)
   const name = isToday
     ? i18n.t('events.section_date_today')
-    : firstEvent.dateStart.format(i18n.t('events.section_date_format'))
+    : formatLocalizedDate(
+        firstEvent.dateStart,
+        i18n.t('events.section_date_format'),
+      )
   return {
     sectionName: name,
   }
