@@ -18,6 +18,8 @@ import EventQuickFilters from './EventQuickFilters'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventMode } from '../../core/entities/Event'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Analytics } from '../../utils/Analytics'
+import { EventRowViewModel } from './EventViewModel'
 
 const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const [index, setIndex] = React.useState(0)
@@ -28,9 +30,10 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   ])
   const initialLayout = { width: Dimensions.get('window').width }
   const onEventSelected = useCallback(
-    (eventId: string) => {
+    async (event: EventRowViewModel) => {
+      await Analytics.logEventSelected(event.title, event.category)
       navigation.navigate(Screen.eventDetails, {
-        eventId: eventId,
+        eventId: event.id,
       })
     },
     [navigation],
@@ -99,6 +102,9 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
       inactiveColor={Colors.darkText}
       labelStyle={{ ...Typography.subheadline }}
       getLabelText={({ route }) => route.title}
+      onTabPress={async (scene) => {
+        await Analytics.logEventTabSelected(scene.route.key)
+      }}
     />
   )
   return (

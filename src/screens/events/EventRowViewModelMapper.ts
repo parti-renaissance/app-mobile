@@ -12,6 +12,7 @@ export const EventRowViewModelMapper = {
     return {
       id: event.uuid,
       title: event.name,
+      category: event.category,
       isOnline: event.mode === EventMode.ONLINE,
       imageUrl: event.imageUrl,
       tag: TagViewModelMapper.map(event.tag),

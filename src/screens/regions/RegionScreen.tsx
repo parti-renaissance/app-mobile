@@ -12,6 +12,7 @@ import { RegionViewModelMapper } from './RegionViewModelMapper'
 import { RegionScreenProps } from '../../navigation'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { Analytics } from '../../utils/Analytics'
 
 type Props = Readonly<RegionScreenProps>
 
@@ -83,7 +84,8 @@ const RegionScreen: FC<Props> = ({ route }) => {
           <View style={styles.bottomContainer}>
             <PrimaryButton
               title={i18n.t('regions.website')}
-              onPress={() => {
+              onPress={async () => {
+                await Analytics.logRegionDetails()
                 ExternalLink.openUrl(regionViewModel.websiteUrl as string)
               }}
             />

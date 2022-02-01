@@ -9,9 +9,10 @@ import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
 import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
-import { ActionsScreenProp } from '../../navigation'
+import { ActionsScreenProp, Screen } from '../../navigation'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { useIsFocused } from '@react-navigation/native'
+import { Analytics } from '../../utils/Analytics'
 
 const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const [statefulState, setStatefulState] = useState<
@@ -46,7 +47,12 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
     return (
       <ActionRow
         viewModel={item}
-        onPress={() => navigation.navigate(item.screen)}
+        onPress={async () => {
+          if (item.screen === Screen.pollsNavigator) {
+            await Analytics.logActionsPolls()
+          }
+          navigation.navigate(item.screen)
+        }}
       />
     )
   }

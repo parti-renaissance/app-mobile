@@ -9,7 +9,7 @@ import HomeToolRow from './HomeToolRow'
 
 type Props = Readonly<{
   viewModel: HomeToolsRowContainerViewModel
-  onToolSelected: (toolUrl: string) => void
+  onToolSelected: (toolUrl: string, toolName: string) => void
   onMorePressed: () => void
 }>
 

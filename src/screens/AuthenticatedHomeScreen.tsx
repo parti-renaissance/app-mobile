@@ -9,6 +9,7 @@ import HomeNavigator from './home/HomeNavigator'
 import EventNavigator from './events/EventNavigator'
 import ActionsNavigator from './actions/ActionsNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Analytics } from '../utils/Analytics'
 
 const Tab = createBottomTabNavigator()
 
@@ -91,21 +92,41 @@ const AuthenticatedHomeScreen = () => {
         name={Screen.homeNavigator}
         component={HomeNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
+        listeners={{
+          tabPress: () => {
+            Analytics.logNavBarItemSelected('Accueil')
+          },
+        }}
       />
       <Tab.Screen
         name={Screen.actions}
         component={ActionsNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_actions') }}
+        listeners={{
+          tabPress: () => {
+            Analytics.logNavBarItemSelected('Actions')
+          },
+        }}
       />
       <Tab.Screen
         name={Screen.eventNavigator}
         component={EventNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_events') }}
+        listeners={{
+          tabPress: () => {
+            Analytics.logNavBarItemSelected('Événements')
+          },
+        }}
       />
       <Tab.Screen
         name={Screen.tools}
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
+        listeners={{
+          tabPress: () => {
+            Analytics.logNavBarItemSelected('Ressources')
+          },
+        }}
       />
     </Tab.Navigator>
   )

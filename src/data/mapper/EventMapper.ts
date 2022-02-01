@@ -22,6 +22,7 @@ export const EventMapper = {
       uuid: restShortEvent.uuid,
       tag: restShortEvent.category.event_group_category.name,
       name: restShortEvent.name,
+      category: restShortEvent.category.event_group_category.slug,
       mode: mapMode(restShortEvent.mode),
       imageUrl: restShortEvent.image_url ?? undefined,
       dateStart: moment(restShortEvent.begin_at).tz(restShortEvent.time_zone),

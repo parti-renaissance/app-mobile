@@ -9,7 +9,7 @@ import TagView from './TagView'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel
-  onEventSelected: (eventId: string) => void
+  onEventSelected: (event: EventRowViewModel) => void
 }>
 
 const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
@@ -17,7 +17,7 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
     <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel.id)}
+        onPress={() => onEventSelected(viewModel)}
       >
         <View style={styles.container}>
           <View style={styles.topRow}>

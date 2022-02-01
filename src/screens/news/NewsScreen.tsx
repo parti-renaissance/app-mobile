@@ -11,6 +11,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { Colors, Spacing } from '../../styles'
+import { Analytics } from '../../utils/Analytics'
 import { ExternalLink } from '../shared/ExternalLink'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView, ViewState } from '../shared/StatefulView'
@@ -85,7 +86,8 @@ const NewsScreen = () => {
     return (
       <NewsRow
         viewModel={item}
-        onPress={(url) => {
+        onPress={async (url) => {
+          await Analytics.logNewsOpen()
           ExternalLink.openUrl(url)
         }}
       />

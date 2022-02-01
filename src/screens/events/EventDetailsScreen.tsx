@@ -36,6 +36,7 @@ import HTML from 'react-native-render-html'
 import { ForbiddenError } from '../../core/errors'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { Analytics } from '../../utils/Analytics'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -52,7 +53,8 @@ const EventDetailsContent = (
     }
   }
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const shareEvent = () => {
+  const shareEvent = async () => {
+    await Analytics.logEventShare(viewModel.title)
     if (viewModel.eventUrl) {
       Share.share({
         message: viewModel.eventUrl,
@@ -60,11 +62,13 @@ const EventDetailsContent = (
       })
     }
   }
-  const addCalendarEvent = () => {
+  const addCalendarEvent = async () => {
+    await Analytics.logEventAddToCalendar(viewModel.title)
     AddCalendarEvent.presentEventCreatingDialog(viewModel.calendarEvent)
   }
-  const subscribe = () => {
+  const subscribe = async () => {
     setIsLoading(true)
+    await Analytics.logEventRegister(viewModel.title)
     EventRepository.getInstance()
       .subscribeToEvent(viewModel.id)
       .then(() => refetchData())

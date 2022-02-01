@@ -14,6 +14,7 @@ import { ToolsContentViewModelMapper } from './ToolsContentViewModelMapper'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import { Tool } from '../../core/entities/Tool'
 import LoaderView from '../shared/LoaderView'
+import { Analytics } from '../../utils/Analytics'
 
 const ToolsScreen = () => {
   const [statefulState, setStatefulState] = useState<
@@ -76,7 +77,8 @@ const ToolsScreen = () => {
     return <ToolRow viewModel={item} onPress={onToolSelected} />
   }
 
-  const onToolSelected = (tool: ToolRowViewModel) => {
+  const onToolSelected = async (tool: ToolRowViewModel) => {
+    await Analytics.logToolSelected(tool.title)
     ExternalLink.openUrl(tool.url)
   }
 
