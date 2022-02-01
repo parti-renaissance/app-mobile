@@ -1,32 +1,24 @@
+import PaginatedResult from '../core/entities/PaginatedResult'
 import { Tool } from '../core/entities/Tool'
-import i18n from '../utils/i18n'
+import { RestMetadataMapper } from './mapper/RestMetadataMapper'
+import { RestToolMapper } from './mapper/RestToolMapper'
+import ApiService from './network/ApiService'
 
 class ToolsRepository {
   private static instance: ToolsRepository
+  private apiService = ApiService.getInstance()
   private constructor() {}
 
-  private tools: Array<Tool> = [
-    {
-      id: 2,
-      title: i18n.t('tools.reforms.title'),
-      url: i18n.t('tools.reforms.url'),
-    },
-    {
-      id: 1,
-      title: i18n.t('tools.near.title'),
-      url: i18n.t('tools.near.url'),
-    },
-    {
-      id: 4,
-      title: i18n.t('tools.anothermandate.title'),
-      url: i18n.t('tools.anothermandate.url'),
-    },
-  ]
-
-  public getTools(): Promise<Array<Tool>> {
-    return new Promise((resolve) => {
-      resolve(this.tools)
-    })
+  public async getTools(
+    page: number = 1,
+  ): Promise<PaginatedResult<Array<Tool>>> {
+    const restTools = await this.apiService.getTools(page)
+    const paginationInfo = RestMetadataMapper.map(restTools.metadata)
+    const tools = restTools.items.map(RestToolMapper.map)
+    return {
+      paginationInfo: paginationInfo,
+      result: tools,
+    }
   }
 
   public static getInstance(): ToolsRepository {

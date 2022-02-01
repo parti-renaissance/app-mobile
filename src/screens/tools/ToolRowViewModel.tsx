@@ -1,4 +1,5 @@
 export interface ToolRowViewModel {
-  id: number
+  id: string
   title: string
+  url: string
 }

@@ -170,19 +170,7 @@
       "continue": "Continuer"
     },
     "tools": {
-      "title": "Ressources",
-      "reforms": {
-        "title": "On l'a dit, On le fait",
-        "url": "https://transformer.en-marche.fr/fr"
-      },
-      "near": {
-        "title": "Ce qui a changé près de chez vous",
-        "url": "https://chezvous.en-marche.fr/"
-      },
-      "anothermandate": {
-        "title": "5 ans de plus",
-        "url": "https://5ansdeplus.fr"
-      }
+      "title": "Ressources"
     },
     "termsofuse": {
       "accept": "Accepter"

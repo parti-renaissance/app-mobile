@@ -23,7 +23,8 @@ const PollDetailTools = () => {
     ToolsRepository.getInstance()
       .getTools()
       .then((tools) => {
-        setStatefulState(new ViewState.Content(tools))
+        console.log(tools)
+        setStatefulState(new ViewState.Content(tools.result))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, fetch))

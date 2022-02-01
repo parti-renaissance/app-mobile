@@ -63,6 +63,7 @@ import { DoorToDoorCampaign } from '../../core/entities/DoorToDoorCampaign'
 import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
+import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 
 class ApiService {
   private static instance: ApiService
@@ -557,6 +558,13 @@ class ApiService {
     return this.httpClient
       .put(`api/v3/pap/buildings/${buildingId}`, { json: request })
       .json<Array<RestDoorToDoorCampaignRanking>>()
+      .catch(genericErrorMapping)
+  }
+
+  public async getTools(page: number): Promise<RestToolsResponse> {
+    return this.httpClient
+      .get('api/v3/jecoute/resource-links', { searchParams: { page: page } })
+      .json<RestToolsResponse>()
       .catch(genericErrorMapping)
   }
 
