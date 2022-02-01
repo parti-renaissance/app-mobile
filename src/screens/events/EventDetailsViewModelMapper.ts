@@ -9,7 +9,6 @@ import { TagViewModelMapper } from './TagViewModelMapper'
 import { CreateOptions } from 'react-native-add-calendar-event'
 import { Platform } from 'react-native'
 import { formatLocalizedDate } from '../../utils/DateFormatter'
-import { format } from 'date-fns'
 
 export const EventDetailsViewModelMapper = {
   map: (event: DetailedEvent): EventDetailsViewModel => {
