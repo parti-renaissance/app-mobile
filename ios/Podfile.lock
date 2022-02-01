@@ -439,8 +439,9 @@ PODS:
     - React
   - RNLocalize (1.4.3):
     - React-Core
-  - RNScreens (2.13.0):
+  - RNScreens (3.10.2):
     - React-Core
+    - React-RCTImage
   - RNSentry (3.2.4):
     - React-Core
     - Sentry (= 7.5.4)
@@ -732,7 +733,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: c873e6c37f69d22de22cab134413030a9c6330a9
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNLocalize: 7c7aeda16c01db7a0918981c14875c0a53be9b79
-  RNScreens: 13f23e5498fb4aa749d19a5eda7f8792fbb9d01f
+  RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSentry: 29fb98c53edab5878ae299d6e68860dcbf070da3
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Sentry: 5c5dd4005f3b7b9765d5a8871232cddbd0d888b7
