@@ -39,6 +39,7 @@ import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowCon
 import { RetaliationService } from '../../data/RetaliationService'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { Analytics } from '../../utils/Analytics'
+import { EventRowViewModel } from '../events/EventViewModel'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
@@ -170,10 +171,11 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     }
     setResources(clone)
   }
-  const onEventSelected = (eventId: string) => {
+  const onEventSelected = async (event: EventRowViewModel) => {
+    await Analytics.logHomeEventOpen(event.title, event.category)
     navigation.navigate(Screen.homeNavigator, {
       screen: Screen.eventDetails,
-      params: { eventId: eventId },
+      params: { eventId: event.id },
     })
   }
   const onRetaliationSelected = (id: string) => {

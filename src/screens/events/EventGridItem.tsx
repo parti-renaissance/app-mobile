@@ -16,7 +16,7 @@ import TagView from './TagView'
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   viewModel: EventRowViewModel
-  onEventSelected: (eventId: string) => void
+  onEventSelected: (event: EventRowViewModel) => void
 }>
 
 const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
@@ -27,7 +27,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
     >
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel.id)}
+        onPress={() => onEventSelected(viewModel)}
       >
         <View style={styles.container}>
           {viewModel.imageUrl ? (

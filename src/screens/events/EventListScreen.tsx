@@ -33,7 +33,7 @@ type Props = Readonly<{
   eventFilter: EventFilter
   searchText?: string
   eventModeFilter?: EventMode
-  onEventSelected: (eventId: string) => void
+  onEventSelected: (event: EventRowViewModel) => void
 }>
 
 export type EventFilter = 'home' | 'calendar' | 'myEvents'

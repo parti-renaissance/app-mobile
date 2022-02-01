@@ -58,6 +58,13 @@ export const Analytics = {
       interaction: 'cta',
     })
   },
+  logHomeEventOpen: async (name: string, category: string) => {
+    await analytics().logEvent('heroe', {
+      button_type: name,
+      event_category: category,
+      interaction: 'cta',
+    })
+  },
   logRegionDetails: async () => {
     await analytics().logEvent('hero_article', {
       button_type: 'plus_de_detail',
@@ -114,9 +121,10 @@ export const Analytics = {
       interaction: 'menu',
     })
   },
-  logEventSelected: async (name: string) => {
+  logEventSelected: async (name: string, category: string) => {
     await analytics().logEvent('events', {
       button_type: `open_${name}`,
+      event_category: category,
       interaction: 'open',
     })
   },

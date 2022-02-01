@@ -3,6 +3,7 @@ import { Moment } from 'moment-timezone'
 export interface ShortEvent {
   uuid: string
   name: string
+  category: string
   tag: string
   userRegisteredAt?: Moment
   imageUrl?: string

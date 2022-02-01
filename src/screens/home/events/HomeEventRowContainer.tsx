@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import EventView from '../../events/EventView'
+import { EventRowViewModel } from '../../events/EventViewModel'
 import { HomeEventRowContainerViewModel } from '../HomeRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeEventRowContainerViewModel
-  onEventSelected: (eventId: string) => void
+  onEventSelected: (event: EventRowViewModel) => void
 }>
 
 export const HomeEventRowContainer: FunctionComponent<Props> = ({
