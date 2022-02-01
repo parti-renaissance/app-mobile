@@ -1,4 +1,3 @@
-import { Moment } from 'moment-timezone'
 import { BuildingHistoryPoint } from './../../core/entities/BuildingHistory'
 import { KeyValueListViewModel } from './KeyValueListView'
 import {
@@ -9,6 +8,7 @@ import {
 } from './BuildingVisitsHistoryViewModel'
 import { KeyValueCellViewModel } from './KeyValueCell'
 import i18n from '../../utils/i18n'
+import { format } from 'date-fns'
 
 export const BuildingHistoryViewModelMapper = {
   map: (history: BuildingHistoryPoint[]): BuildingHistoryViewModel => {
@@ -42,15 +42,15 @@ function buildingVisitsHistoryVieModel(
   }
 }
 
-function dateViewModel(date: Moment): DateViewModel {
+function dateViewModel(date: Date): DateViewModel {
   return {
-    dayNumber: date.format('DD'),
-    dateContext: date.format('MMM YYYY'),
+    dayNumber: format(date, 'dd'),
+    dateContext: format(date, 'MMM yyyy'),
   }
 }
 
 function dateRecordsViewModel(
-  date: Moment,
+  date: Date,
   history: BuildingHistoryPoint[],
 ): BuildingVisitsDateRecordsViewModel {
   const doorVisit = history.map(doorVisitViewModel)
@@ -118,7 +118,7 @@ function groupByDate(
 ): Map<string, BuildingHistoryPoint[]> {
   var buildingMap = new Map<string, BuildingHistoryPoint[]>()
   history.forEach((historyPoint) => {
-    const date = historyPoint.createdAt.format('YYYY-MM-DD')
+    const date = format(historyPoint.createdAt, 'yyyy-MM-dd')
     var pointsForBuilding = buildingMap.get(date) ?? []
     pointsForBuilding.push(historyPoint)
     buildingMap.set(date, pointsForBuilding)

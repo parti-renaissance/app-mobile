@@ -1,6 +1,6 @@
 import { BuildingLayoutMapper } from './restObjects/BuildingLayoutMapper'
 import { BuildingBlock } from './../core/entities/BuildingBlock'
-import { BuildingHistoryMapper } from './restObjects/BuildingHistoryMapper'
+import { BuildingHistoryPointMapper } from './restObjects/BuildingHistoryPointMapper'
 import ApiService from './network/ApiService'
 import {
   DoorToDoorCharterAccepted,
@@ -73,7 +73,7 @@ class DoorToDoorRepository {
       buidlingId,
       campaignId,
     )
-    return restHistory.map(BuildingHistoryMapper.map)
+    return restHistory.map(BuildingHistoryPointMapper.map)
   }
 
   public async getAddresses(
