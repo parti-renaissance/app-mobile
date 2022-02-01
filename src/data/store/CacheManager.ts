@@ -8,6 +8,7 @@ class CacheManager {
     namespace: 'lrem_data_cache',
     policy: {
       maxEntries: 5000,
+      stdTTL: 0,
     },
     backend: AsyncStorage,
   })

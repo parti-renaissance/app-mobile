@@ -56,7 +56,7 @@
     "react-i18next": "11.15.3",
     "react-native": "0.66.2",
     "react-native-add-calendar-event": "4.0.0",
-    "react-native-cache": "2.0.1",
+    "react-native-cache": "2.0.2",
     "react-native-country-picker-modal": "2.0.0",
     "react-native-custom-tabs": "https://github.com/adminphoeniixx/react-native-custom-tabs#7605cda",
     "react-native-datepicker": "https://github.com/codynguyen/react-native-datepicker.git#e5a8dd1ed4f45b55aff7ab6b30114d099c1dd780",
