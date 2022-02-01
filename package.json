@@ -9,6 +9,7 @@
     "jest": "jest",
     "open:android": "open -a \"/Applications/Android Studio.app\" android",
     "open:ios": "open \"ios/JeMarche.xcworkspace\"",
+    "pod:install": "cd ios && bundle exec pod install && cd ..",
     "preflight": "yarn tsc && yarn eslint",
     "run:android": "react-native run-android --variant=stagingDebug --appId fr.en_marche.jecoute.staging",
     "run:ios": "react-native run-ios --simulator \"iPhone Xs\"",
