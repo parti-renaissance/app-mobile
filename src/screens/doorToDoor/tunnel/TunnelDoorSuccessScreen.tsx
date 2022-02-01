@@ -40,9 +40,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <CloseButton
-          onPress={() => navigation.dangerouslyGetParent()?.goBack()}
-        />
+        <CloseButton onPress={() => navigation.getParent()?.goBack()} />
       ),
     })
   }, [navigation])
@@ -131,7 +129,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenPr
         ) : null}
         <SecondaryButton
           title={i18n.t('doorToDoor.tunnel.success.stop')}
-          onPress={() => navigation.dangerouslyGetParent()?.goBack()}
+          onPress={() => navigation.getParent()?.goBack()}
         />
       </View>
     </SafeAreaView>

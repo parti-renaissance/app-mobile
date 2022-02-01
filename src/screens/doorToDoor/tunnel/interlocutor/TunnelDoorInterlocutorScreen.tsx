@@ -62,7 +62,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
         })
         .then(() => {
           if (route.params.buildingParams.type === 'house') {
-            navigation.dangerouslyGetParent()?.goBack()
+            navigation.getParent()?.goBack()
           } else {
             navigation.navigate(Screen.tunnelDoorSelectionScreen, {
               campaignId: route.params.campaignId,

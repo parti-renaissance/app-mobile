@@ -62,7 +62,9 @@ const Navigator: FunctionComponent = () => {
     return null
   } else if (isLoggedIn) {
     return (
-      <RootStack.Navigator mode="modal" headerMode="none">
+      <RootStack.Navigator
+        screenOptions={{ presentation: 'modal', headerShown: false }}
+      >
         <RootStack.Screen
           name={Screen.authenticatedHome}
           component={AuthenticatedHomeScreen}
@@ -127,8 +129,7 @@ const Navigator: FunctionComponent = () => {
     )
     return (
       <UnauthenticatedModalsStack.Navigator
-        screenOptions={headerBlank}
-        mode="modal"
+        screenOptions={{ ...headerBlank, presentation: 'modal' }}
       >
         <UnauthenticatedStack.Screen
           name={Screen.unauthenticatedModals}

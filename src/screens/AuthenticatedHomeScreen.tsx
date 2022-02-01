@@ -14,7 +14,7 @@ import { Analytics } from '../utils/Analytics'
 const Tab = createBottomTabNavigator()
 
 const getTabBarIcon = (route: any, focused: boolean) => {
-  if (route.name === Screen.actions) {
+  if (route.name === Screen.actionsNavigator) {
     return focused
       ? require('../assets/images/tabBarIconsActOn.png')
       : require('../assets/images/tabBarIconsActOff.png')
@@ -44,20 +44,8 @@ const AuthenticatedHomeScreen = () => {
   const insets = useSafeAreaInsets()
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: Colors.tabBarActiveTint,
-        inactiveTintColor: Colors.tabBarInactiveTint,
-        labelStyle: {
-          ...Typography.tabLabel,
-          marginTop: Spacing.margin,
-          marginBottom: Spacing.small,
-        },
-        style: {
-          backgroundColor: Colors.tabBarBackground,
-          height: TAB_BAR_HEIGTH + insets.bottom,
-        },
-      }}
       screenOptions={({ route }) => ({
+        headerShown: false,
         tabBarButton: (props) => {
           return (
             <Pressable
@@ -67,7 +55,7 @@ const AuthenticatedHomeScreen = () => {
           )
         },
         tabBarIcon: ({ color, focused }) => {
-          const isHighlighted = route.name === Screen.actions
+          const isHighlighted = route.name === Screen.actionsNavigator
           return (
             <View
               style={[
@@ -86,6 +74,17 @@ const AuthenticatedHomeScreen = () => {
             </View>
           )
         },
+        tabBarActiveTintColor: Colors.tabBarActiveTint,
+        tabBarInactiveTintColor: Colors.tabBarInactiveTint,
+        tabBarLabelStyle: {
+          ...Typography.tabLabel,
+          marginTop: Spacing.margin,
+          marginBottom: Spacing.small,
+        },
+        tabBarStyle: {
+          backgroundColor: Colors.tabBarBackground,
+          height: TAB_BAR_HEIGTH + insets.bottom,
+        },
       })}
     >
       <Tab.Screen
@@ -99,7 +98,7 @@ const AuthenticatedHomeScreen = () => {
         }}
       />
       <Tab.Screen
-        name={Screen.actions}
+        name={Screen.actionsNavigator}
         component={ActionsNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_actions') }}
         listeners={{
