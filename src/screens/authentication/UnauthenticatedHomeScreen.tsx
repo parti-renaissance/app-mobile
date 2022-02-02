@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
@@ -47,7 +46,6 @@ const UnauthenticatedHomeScreen = ({
           </Text>
           <PrimaryButton
             style={styles.button}
-            textStyle={styles.buttonLoginText}
             title={i18n.t('unauthenticatedhome.login')}
             onPress={() => {
               navigation.navigate(Screen.login)
@@ -55,7 +53,6 @@ const UnauthenticatedHomeScreen = ({
           />
           <SecondaryButton
             style={styles.button}
-            textStyle={styles.buttonText}
             title={i18n.t('unauthenticatedhome.signup')}
             onPress={() => {
               navigation.navigate(Screen.signUp)
@@ -69,19 +66,10 @@ const UnauthenticatedHomeScreen = ({
             onPress={() => {
               navigation.navigate(Screen.login)
             }}
-          >
-            <View style={styles.row}>
-              <Text style={styles.buttonText}>
-                {i18n.t('unauthenticatedhome.login_lrem')}
-              </Text>
-              <View style={styles.buttonImageContainer}>
-                <Image
-                  source={require('../../assets/images/iconEM.png')}
-                  style={styles.buttonImage}
-                />
-              </View>
-            </View>
-          </SecondaryButton>
+            title={i18n.t('unauthenticatedhome.login_lrem')}
+            trailingIcon={require('../../assets/images/iconEM.png')}
+            iconPadding={Spacing.unit}
+          />
         </SafeAreaView>
       </LinearGradient>
     </ImageBackground>
@@ -95,21 +83,6 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     marginBottom: Spacing.margin,
-  },
-  buttonImage: {
-    height: 16,
-    resizeMode: 'contain',
-    width: 44,
-  },
-  buttonImageContainer: {
-    paddingHorizontal: Spacing.small,
-  },
-  buttonLoginText: {
-    ...Typography.callout,
-    color: Colors.primaryButtonTextColor,
-  },
-  buttonText: {
-    ...Typography.callout,
   },
   container: {
     flex: 1,
