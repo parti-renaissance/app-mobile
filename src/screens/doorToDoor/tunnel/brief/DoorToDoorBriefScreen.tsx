@@ -4,7 +4,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react'
-import { SafeAreaView, StyleSheet, ScrollView, Text, View } from 'react-native'
+import { StyleSheet, ScrollView, Text, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
@@ -15,6 +15,7 @@ import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export interface TutorialResources {
   content: string
@@ -88,7 +89,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <StatefulView contentComponent={TutorialContent} state={statefulState} />
     </SafeAreaView>
   )
