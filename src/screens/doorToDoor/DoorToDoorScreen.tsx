@@ -16,11 +16,11 @@ import {
 } from '../../core/entities/DoorToDoorCharterState'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { LocationManager } from '../../utils/LocationManager'
-import DoorToDoorMapView from './DoorToDoorMapView'
+import DoorToDoorMapView, { getRegionFromLatLng } from './DoorToDoorMapView'
 import MapListSwitch from './MapListSwitch'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import DoorToDoorListView from './DoorToDoorListView'
-import { LatLng } from 'react-native-maps'
+import { LatLng, Region } from 'react-native-maps'
 import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
 import DoorToDoorFilter from './DoorToDoorFilter'
 import Geolocation from 'react-native-geolocation-service'
@@ -42,7 +42,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
     { visible: false },
   )
-  const [currentSearchLocation, setCurrentSearchLocation] = useState<LatLng>()
+  const [currentSearchRegion, setCurrentSearchRegion] = useState<Region>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
   const [filteredAddresses, setFilteredAddresses] = useState<
     DoorToDoorAddress[]
@@ -63,10 +63,15 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       .catch(() => setCharterState(undefined))
   }, [])
 
-  const fetchAddresses = (latLng: LatLng) => {
+  const fetchAddresses = (region: Region) => {
     setLoading(true)
     new GetDoorToDoorAddressesInteractor()
-      .execute(latLng.latitude, latLng.longitude)
+      .execute(
+        region.latitude,
+        region.longitude,
+        region.latitudeDelta,
+        region.longitudeDelta,
+      )
       .then((newAddresses) => {
         setAddresses(newAddresses)
       })
@@ -92,7 +97,7 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
             longitude: position.coords.longitude,
             latitude: position.coords.latitude,
           }
-          setCurrentSearchLocation(latLng)
+          setCurrentSearchRegion(getRegionFromLatLng(latLng))
           setLoading(false)
         },
         () => {
@@ -109,10 +114,10 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       /* When screen is focused and current location change,
        * fetch addresses near current search location.
        */
-      if (currentSearchLocation) {
-        fetchAddresses(currentSearchLocation)
+      if (currentSearchRegion) {
+        fetchAddresses(currentSearchRegion)
       }
-    }, [currentSearchLocation]),
+    }, [currentSearchRegion]),
   )
 
   useEffect(() => {
@@ -171,8 +176,8 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
           initialLocation={initalLocation}
           loading={loading}
           onAddressPress={navigateToBuildingDetail}
-          onSearchNearby={(location) => {
-            setCurrentSearchLocation(location)
+          onSearchNearby={(region) => {
+            setCurrentSearchRegion(region)
           }}
           onCampaignRankingSelected={(campaignId: string) => {
             setRankingModalState({ visible: true, campaignId: campaignId })
@@ -192,10 +197,10 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
       if (!locationAuthorized) {
         return renderAskPersmission()
       }
-      if (!currentSearchLocation) {
+      if (!currentSearchRegion) {
         return renderLoading()
       }
-      return renderMap(currentSearchLocation)
+      return renderMap(currentSearchRegion)
     } else {
       return renderLoading()
     }
