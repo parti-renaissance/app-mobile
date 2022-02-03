@@ -45,7 +45,7 @@ private_lane :deploy_apk_to_beta_system do |options|
     api_token: ENV['APP_CENTER_API_KEY'],
     owner_name: ENV['APP_CENTER_OWNER'],
     app_name: ENV['APP_CENTER_NAME'],
-    release_notes: "Uploaded via Fastlane on #{Time.new}",
+    release_notes: changelog,
     apk: options[:apk],
     destinations: "Public,Collaborators",
     destination_type: "group"
@@ -121,7 +121,7 @@ private_lane :commit_deploy do |options|
     api_token: ENV["GH_BOT_TOKEN"],
     name: tag,
     tag_name: tag,
-    description: (File.read("android/changelog") rescue "No changelog provided"),
+    description: changelog,
     commitish: branch,
     upload_assets: []
   ) if is_ci
@@ -138,4 +138,8 @@ lane :get_version_name do
   captures = v_code_output.match('version_name:\\s*((\\w+.?)+)').captures
   UI.message captures[0]
   captures[0]
+end
+
+def changelog
+  File.read("../CHANGELOG.md") rescue "No changelog provided"
 end
