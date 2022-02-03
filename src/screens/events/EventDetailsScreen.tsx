@@ -267,7 +267,7 @@ const EventDetailsContent = (
       <View style={styles.bottomContainer}>
         {viewModel.isSubscribed ? (
           <SecondaryButton
-            icon={require('../../assets/images/checkIcon.png')}
+            leadingIcon={require('../../assets/images/checkIcon.png')}
             title={i18n.t('eventdetails.registered')}
             iconTint={Colors.primaryColor}
             iconPadding={Spacing.unit}

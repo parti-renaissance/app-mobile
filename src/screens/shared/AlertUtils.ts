@@ -6,6 +6,32 @@ interface AlertOptions {
   message?: string
 }
 
+const showAlert = (
+  title: string,
+  message: string,
+  action: string,
+  cancel: string,
+  actionStyle: AlertButton['style'],
+  onAction: () => void,
+) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: action,
+        onPress: onAction,
+        style: actionStyle,
+      },
+      {
+        text: cancel,
+        style: 'cancel',
+      },
+    ],
+    { cancelable: false },
+  )
+}
+
 export const AlertUtils = {
   showNetworkAlert: (
     error: Error,
@@ -48,20 +74,15 @@ export const AlertUtils = {
     cancel: string,
     onAction: () => void,
   ) => {
-    Alert.alert(
-      title,
-      message,
-      [
-        {
-          text: action,
-          onPress: onAction,
-        },
-        {
-          text: cancel,
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false },
-    )
+    showAlert(title, message, action, cancel, 'default', onAction)
+  },
+  showDestructiveAlert: (
+    title: string,
+    message: string,
+    action: string,
+    cancel: string,
+    onAction: () => void,
+  ) => {
+    showAlert(title, message, action, cancel, 'destructive', onAction)
   },
 }

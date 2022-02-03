@@ -217,7 +217,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
         .then(() => refreshData())
         .finally(() => setIsloading(false))
     } else {
-      AlertUtils.showSimpleAlert(
+      AlertUtils.showDestructiveAlert(
         i18n.t('building.layout.close_building_alert.title'),
         i18n.t('building.layout.close_building_alert.message'),
         i18n.t('building.layout.close_building_alert.action'),
@@ -262,7 +262,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
   }
 
   const closeAddress = () => {
-    AlertUtils.showSimpleAlert(
+    AlertUtils.showDestructiveAlert(
       i18n.t('building.close_address.alert.title'),
       i18n.t('building.close_address.alert.message'),
       i18n.t('building.close_address.alert.action'),

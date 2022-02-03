@@ -69,9 +69,9 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
         <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
         {viewModel.canUpdateBuildingStatus ? (
           <BorderlessButton
+            type="primary"
             title={viewModel.statusAction}
             onPress={() => onBuildingAction(viewModel.id)}
-            textStyle={styles.buildingActionText}
             style={styles.buildingAction}
           />
         ) : null}
@@ -138,10 +138,6 @@ const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
 const styles = StyleSheet.create({
   buildingAction: {
     paddingVertical: Spacing.unit,
-  },
-  buildingActionText: {
-    ...Typography.callout,
-    color: Colors.primaryColor,
   },
   layoutContainer: {
     backgroundColor: Colors.secondaryButtonBackground,

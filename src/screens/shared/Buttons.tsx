@@ -11,7 +11,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
+import { Colors, ColorUtils, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from './TouchablePlatform'
 
 type ButtonProps = Readonly<{
@@ -33,60 +33,44 @@ type TertiaryButtonProps = ButtonProps &
   }>
 
 type IconProps = Readonly<{
-  icon?: ImageSourcePropType
+  leadingIcon?: ImageSourcePropType
+  trailingIcon?: ImageSourcePropType
   iconTint?: ColorValue
   iconPadding?: number
 }>
 
-export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
+type BaseButtonProps = Readonly<{
+  backgroundColor: string
+  textColor: string
+}>
+
+const BaseButton: FunctionComponent<
+  ButtonProps & BaseButtonProps & IconProps
+> = (props) => {
   const opacity = props.disabled ? 0.5 : 1.0
-  const background = props.disabled
-    ? Colors.primaryButtonBackgroundDisabled
-    : Colors.primaryColor
+  const defaultBackground = props.backgroundColor
+  const disabledBackground = ColorUtils.lighten(defaultBackground, 0.7)
+  const highlightedBackground = ColorUtils.lighten(defaultBackground, 0.5)
+
+  const computedBackground = props.disabled
+    ? disabledBackground
+    : defaultBackground
+
   const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
 
   return (
     <View
-      style={[baseButtonStyle, { backgroundColor: background }, props.style]}
+      style={[
+        baseButtonStyle,
+        { backgroundColor: computedBackground },
+        props.style,
+      ]}
     >
       <TouchablePlatform
         onPress={props.onPress}
-        touchHighlight={Colors.primaryButtonBackgroundHighlight}
+        touchHighlight={highlightedBackground}
         disabled={props.disabled}
         style={[styles.buttonTouchable, props.buttonStyle]}
-      >
-        <Text
-          style={[
-            styles.appButtonText,
-            { opacity: opacity, color: Colors.primaryButtonTextColor },
-            props.textStyle,
-          ]}
-        >
-          {props.title}
-        </Text>
-      </TouchablePlatform>
-    </View>
-  )
-}
-
-export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
-  props,
-) => {
-  const opacity = props.disabled ? 0.5 : 1.0
-  const background = props.disabled
-    ? Colors.secondaryButtonDisabled
-    : Colors.secondaryButtonBackground
-
-  const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
-  return (
-    <View
-      style={[baseButtonStyle, { backgroundColor: background }, props.style]}
-    >
-      <TouchablePlatform
-        onPress={props.onPress}
-        disabled={props.disabled}
-        style={styles.buttonTouchable}
-        touchHighlight={background}
       >
         {props.children ? (
           props.children
@@ -94,27 +78,57 @@ export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
           <Text
             style={[
               styles.appButtonText,
-              styles.appButtonTextSecondary,
-              { opacity: opacity },
+              { opacity: opacity, color: props.textColor },
               props.textStyle,
             ]}
           >
-            {props.icon ? (
+            {props.leadingIcon ? (
               <View style={{ paddingRight: props.iconPadding }}>
                 <Image
                   style={{
                     tintColor: props.iconTint,
                   }}
-                  source={props.icon}
+                  source={props.leadingIcon}
                 />
               </View>
             ) : null}
-
             {props.title}
+            {props.trailingIcon ? (
+              <View style={{ paddingLeft: props.iconPadding }}>
+                <Image
+                  style={{
+                    tintColor: props.iconTint,
+                  }}
+                  source={props.trailingIcon}
+                />
+              </View>
+            ) : null}
           </Text>
         )}
       </TouchablePlatform>
     </View>
+  )
+}
+
+export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
+  return (
+    <BaseButton
+      backgroundColor={Colors.primaryColor}
+      textColor={Colors.primaryButtonTextColor}
+      {...props}
+    />
+  )
+}
+
+export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
+  props,
+) => {
+  return (
+    <BaseButton
+      backgroundColor={Colors.secondaryButtonBackground}
+      textColor={Colors.secondaryButtonText}
+      {...props}
+    />
   )
 }
 
@@ -160,8 +174,23 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
   )
 }
 
-export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
+type BorderlessButtonType = 'regular' | 'primary'
+type BorderlessButtonProps = Readonly<{
+  type?: BorderlessButtonType
+}>
+
+export const BorderlessButton: FunctionComponent<
+  ButtonProps & BorderlessButtonProps
+> = (props) => {
   const opacity = props.disabled ? 0.5 : 1.0
+  const textColor = () => {
+    switch (props.type ?? 'regular') {
+      case 'regular':
+        return Colors.darkText
+      case 'primary':
+        return Colors.primaryColor
+    }
+  }
   return (
     <View style={{ opacity: opacity }}>
       <TouchableOpacity
@@ -172,7 +201,7 @@ export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
         <Text
           style={[
             styles.appButtonText,
-            styles.appButtonTextBorderless,
+            { color: textColor() },
             props.textStyle,
           ]}
         >
@@ -198,14 +227,9 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   appButtonText: {
-    ...Typography.subheadline,
+    ...Typography.callout,
+    textAlign: 'center',
     alignSelf: 'center',
-  },
-  appButtonTextBorderless: {
-    color: Colors.darkText,
-  },
-  appButtonTextSecondary: {
-    color: Colors.secondaryButtonText,
   },
   baseAppButtonContainerOval: {
     borderRadius: 100,
