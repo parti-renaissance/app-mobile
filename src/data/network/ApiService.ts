@@ -134,6 +134,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public removeProfile(): Promise<void> {
+    return this.httpClient
+      .post('api/v3/profile/unregister')
+      .json<void>()
+      .catch(genericErrorMapping)
+  }
+
   public getRetaliations(): Promise<Array<RestRetaliation>> {
     return this.httpClient
       .get('api/v3/ripostes')

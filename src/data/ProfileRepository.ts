@@ -87,6 +87,10 @@ class ProfileRepository {
     return UserScopeMapper.map(restScopes)
   }
 
+  public async removeAccount(): Promise<void> {
+    return this.apiService.removeProfile()
+  }
+
   public static getInstance(): ProfileRepository {
     if (!ProfileRepository.instance) {
       ProfileRepository.instance = new ProfileRepository()
