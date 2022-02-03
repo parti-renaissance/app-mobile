@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native'
 
 import { Spacing, Typography } from '../../styles'
 import ProfilePollsCompleted from './ProfilePollsCompleted'
@@ -34,20 +34,12 @@ const ProfileAuthenticated: FC<Props> = ({
   const [isLoadingVisible, setIsLoadingVisible] = useState(false)
 
   const logout = () => {
-    Alert.alert(
+    AlertUtils.showDestructiveAlert(
       i18n.t('profile.alert.logout.title'),
       i18n.t('profile.alert.logout.text'),
-      [
-        {
-          text: i18n.t('profile.alert.logout.cancel'),
-          style: 'cancel',
-        },
-        {
-          text: i18n.t('profile.alert.logout.confirm'),
-          onPress: () => AuthenticationRepository.getInstance().logout(),
-          style: 'destructive',
-        },
-      ],
+      i18n.t('profile.alert.logout.confirm'),
+      i18n.t('profile.alert.logout.cancel'),
+      () => AuthenticationRepository.getInstance().logout(),
     )
   }
 
@@ -62,20 +54,12 @@ const ProfileAuthenticated: FC<Props> = ({
   }
 
   const removeAccount = () => {
-    Alert.alert(
+    AlertUtils.showDestructiveAlert(
       i18n.t('profile.alert.remove_account.title'),
       i18n.t('profile.alert.remove_account.text'),
-      [
-        {
-          text: i18n.t('profile.alert.remove_account.cancel'),
-          style: 'cancel',
-        },
-        {
-          text: i18n.t('profile.alert.remove_account.confirm'),
-          onPress: onRemoveAccountConfirmed,
-          style: 'destructive',
-        },
-      ],
+      i18n.t('profile.alert.remove_account.confirm'),
+      i18n.t('profile.alert.remove_account.cancel'),
+      onRemoveAccountConfirmed,
     )
   }
 
