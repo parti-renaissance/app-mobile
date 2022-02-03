@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.caption1,
     color: Colors.lightText,
-    marginTop: Spacing.largeMargin,
+    marginTop: Spacing.margin,
     paddingHorizontal: Spacing.margin,
   },
 })

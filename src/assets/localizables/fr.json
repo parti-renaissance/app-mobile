@@ -91,9 +91,9 @@
       },
       "user_form": {
         "consent_title": "Souhaite-t-il être tenu au courant des résultats de ce sondage par e-mail ?",
-        "consent_subtitle": "En cochant \"oui\", vous certifiez que la personne consultée consent à ce que ses données personnelles soient traitées par la République en Marche dans le cadre de ce sondage. Vous l'avez informé de ses droits concernant ses informations personnelles (Accès, rectification, effacement, s'opposer ou limiter le traitement de ses données). ",
+        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par la République en Marche dans le cadre de cette consultation et conformément à la \u003ca href='https://je-mengage.fr/politique-protection-donnees'\u003e  politique de protection des données que vous pouvez consulter. \n",
         "consent_subtitle_suffix": "La politique de données de LaREM.",
-        "consent_url": "https://en-marche.fr/politique-protection-donnees",
+        "consent_url": "https://je-mengage.fr/politique-protection-donnees",
         "positive_choice": "Oui",
         "negative_choice": "Non",
         "form_title": "Informations personnelles",
@@ -152,11 +152,18 @@
           "cancel": "Annuler",
           "text": "Êtes-vous sûr de vouloir vous déconnecter ?",
           "title": "Déconnexion"
+        },
+        "remove_account": {
+          "confirm": "Supprimer",
+          "cancel": "Annuler",
+          "text": "En cliquant sur “Supprimer” votre compte et vos données seront supprimés. Il ne sera pas possible de les récupérer ultérieurement.\n\nSouhaitez-vous vraiment supprimer votre compte ?",
+          "title": "Supprimer mon compte"
         }
       },
       "localisation2": "{{area}}, {{postalCode}}",
       "localisation1": "{{region}},",
       "name": "{{firstName}} {{lastName}}",
+      "remove_account": "Supprimer mon compte",
       "logout": "Se déconnecter"
     },
     "anonymousloginzipcode": {
