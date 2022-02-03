@@ -141,5 +141,5 @@ lane :get_version_name do
 end
 
 def changelog
-  File.read("../changelog") rescue "No changelog provided"
+  File.read("../CHANGELOG.md") rescue "No changelog provided"
 end
