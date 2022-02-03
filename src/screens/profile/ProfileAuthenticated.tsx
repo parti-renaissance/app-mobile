@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native'
 
 import { Spacing, Typography } from '../../styles'
@@ -13,6 +13,8 @@ import { versionLabel } from './version'
 import { ExternalLink } from '../shared/ExternalLink'
 import ProfileSettingsCard from './ProfileSettingsCard'
 import { RemoveAccountInteractor } from '../../core/interactor/RemoveAccountInteractor'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { AlertUtils } from '../shared/AlertUtils'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
@@ -29,6 +31,8 @@ const ProfileAuthenticated: FC<Props> = ({
   openNotificationMenu,
   viewModel,
 }) => {
+  const [isLoadingVisible, setIsLoadingVisible] = useState(false)
+
   const logout = () => {
     Alert.alert(
       i18n.t('profile.alert.logout.title'),
@@ -47,6 +51,16 @@ const ProfileAuthenticated: FC<Props> = ({
     )
   }
 
+  const onRemoveAccountConfirmed = async () => {
+    setIsLoadingVisible(true)
+    await new RemoveAccountInteractor()
+      .execute()
+      .catch((error) =>
+        AlertUtils.showNetworkAlert(error, onRemoveAccountConfirmed),
+      )
+      .finally(() => setIsLoadingVisible(false))
+  }
+
   const removeAccount = () => {
     Alert.alert(
       i18n.t('profile.alert.remove_account.title'),
@@ -58,7 +72,7 @@ const ProfileAuthenticated: FC<Props> = ({
         },
         {
           text: i18n.t('profile.alert.remove_account.confirm'),
-          onPress: () => new RemoveAccountInteractor().execute(),
+          onPress: onRemoveAccountConfirmed,
           style: 'destructive',
         },
       ],
@@ -66,74 +80,79 @@ const ProfileAuthenticated: FC<Props> = ({
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.avatar}>
-          <Image source={require('../../assets/images/imageProfil.png')} />
+    <>
+      <LoadingOverlay visible={isLoadingVisible} />
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.avatar}>
+            <Image source={require('../../assets/images/imageProfil.png')} />
+          </View>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>{viewModel.name ?? ''}</Text>
+          </View>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.subtitle}>{viewModel.region}</Text>
+            <Text style={styles.subtitle}>{viewModel.area}</Text>
+          </View>
+          <ProfilePollsCompleted viewModel={viewModel.polls} />
         </View>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>{viewModel.name ?? ''}</Text>
-        </View>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.subtitle}>{viewModel.region}</Text>
-          <Text style={styles.subtitle}>{viewModel.area}</Text>
-        </View>
-        <ProfilePollsCompleted viewModel={viewModel.polls} />
-      </View>
-      <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
-      <ProfileSettingsCard
-        style={styles.settingsCard}
-        viewModel={{
-          title: i18n.t('profile.menu.center_interest'),
-          description: i18n.t('profile.menu.center_interest_description'),
-          image: require('../../assets/images/imageCenterInterest.png'),
-        }}
-        onPress={openCenterOfInterest}
-      />
-      <ProfileSettingsCard
-        style={styles.settingsCard}
-        viewModel={{
-          title: i18n.t('profile.menu.personal_information'),
-          description: i18n.t('profile.menu.personal_information_description'),
-          image: require('../../assets/images/imageProfileInformations.png'),
-        }}
-        onPress={openPersonalInformation}
-      />
-      <ProfileSettingsCard
-        style={styles.settingsCard}
-        viewModel={{
-          title: i18n.t('profile.menu.notifications'),
-          description: i18n.t('profile.menu.notifications_description'),
-          image: require('../../assets/images/imageProfileNotifications.png'),
-        }}
-        onPress={openNotificationMenu}
-      />
-      <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.settings')}
-        onPress={openApplicationSettings}
-      />
-      <ProfileSettingsItem
-        title={i18n.t('profile.menu.termsofuse')}
-        onPress={() => {
-          ExternalLink.openUrl(i18n.t('profile.menu.termsofuse_url'))
-        }}
-      />
-      <View style={styles.container}>
-        <SecondaryButton
-          onPress={logout}
-          style={styles.logout}
-          textStyle={styles.logoutText}
-          title={i18n.t('profile.logout')}
+        <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
+        <ProfileSettingsCard
+          style={styles.settingsCard}
+          viewModel={{
+            title: i18n.t('profile.menu.center_interest'),
+            description: i18n.t('profile.menu.center_interest_description'),
+            image: require('../../assets/images/imageCenterInterest.png'),
+          }}
+          onPress={openCenterOfInterest}
         />
-        <BorderlessButton
-          onPress={removeAccount}
-          textStyle={styles.removeAccountText}
-          title={i18n.t('profile.remove_account')}
+        <ProfileSettingsCard
+          style={styles.settingsCard}
+          viewModel={{
+            title: i18n.t('profile.menu.personal_information'),
+            description: i18n.t(
+              'profile.menu.personal_information_description',
+            ),
+            image: require('../../assets/images/imageProfileInformations.png'),
+          }}
+          onPress={openPersonalInformation}
         />
-        <Text style={styles.version}>{versionLabel}</Text>
-      </View>
-    </ScrollView>
+        <ProfileSettingsCard
+          style={styles.settingsCard}
+          viewModel={{
+            title: i18n.t('profile.menu.notifications'),
+            description: i18n.t('profile.menu.notifications_description'),
+            image: require('../../assets/images/imageProfileNotifications.png'),
+          }}
+          onPress={openNotificationMenu}
+        />
+        <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
+        <ProfileSettingsItem
+          title={i18n.t('profile.menu.settings')}
+          onPress={openApplicationSettings}
+        />
+        <ProfileSettingsItem
+          title={i18n.t('profile.menu.termsofuse')}
+          onPress={() => {
+            ExternalLink.openUrl(i18n.t('profile.menu.termsofuse_url'))
+          }}
+        />
+        <View style={styles.container}>
+          <SecondaryButton
+            onPress={logout}
+            style={styles.logout}
+            textStyle={styles.logoutText}
+            title={i18n.t('profile.logout')}
+          />
+          <BorderlessButton
+            onPress={removeAccount}
+            textStyle={styles.removeAccountText}
+            title={i18n.t('profile.remove_account')}
+          />
+          <Text style={styles.version}>{versionLabel}</Text>
+        </View>
+      </ScrollView>
+    </>
   )
 }
 
