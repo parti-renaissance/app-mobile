@@ -170,7 +170,7 @@ private_lane :commit_deploy do |options|
     api_token: ENV["GH_BOT_TOKEN"],
     name: tag,
     tag_name: tag,
-    description: (File.read("ios/changelog") rescue "No changelog provided"),
+    description: changelog,
     commitish: branch,
     upload_assets: []
   ) if is_ci
@@ -219,4 +219,8 @@ def export_method_from_match_type(match_type)
   else
     UI.user_error!("Invalid match type #{match_type}. Could not infer export method.")
   end
+end
+
+def changelog
+  File.read("../changelog") rescue "No changelog provided"
 end
