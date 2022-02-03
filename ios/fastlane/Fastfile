@@ -76,7 +76,8 @@ private_lane :deploy_to_appcenter do |options|
 	  app_name: ENV["APP_CENTER_NAME"],
 	  ipa: options[:ipa],
     destinations: "Public,Collaborators",
-    destination_type: "group"
+    destination_type: "group",
+    release_notes: changelog
 	)
 end
 
