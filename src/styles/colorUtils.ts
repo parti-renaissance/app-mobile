@@ -1,5 +1,6 @@
-import Color from 'color'
+import tinycolor from 'tinycolor2'
 
 export const lighten = (color: string, amount: number): string => {
-  return Color(color, 'hex').mix(Color('white'), amount).hex().toString()
+  const sanitizedAmount = amount < 1 ? amount * 100 : amount
+  return tinycolor.mix(color, 'white', sanitizedAmount).toHexString()
 }
