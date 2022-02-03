@@ -174,8 +174,23 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
   )
 }
 
-export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
+type BorderlessButtonType = 'regular' | 'primary'
+type BorderlessButtonProps = Readonly<{
+  type?: BorderlessButtonType
+}>
+
+export const BorderlessButton: FunctionComponent<
+  ButtonProps & BorderlessButtonProps
+> = (props) => {
   const opacity = props.disabled ? 0.5 : 1.0
+  const textColor = () => {
+    switch (props.type ?? 'regular') {
+      case 'regular':
+        return Colors.darkText
+      case 'primary':
+        return Colors.primaryColor
+    }
+  }
   return (
     <View style={{ opacity: opacity }}>
       <TouchableOpacity
@@ -186,7 +201,7 @@ export const BorderlessButton: FunctionComponent<ButtonProps> = (props) => {
         <Text
           style={[
             styles.appButtonText,
-            styles.appButtonTextBorderless,
+            { color: textColor() },
             props.textStyle,
           ]}
         >
@@ -215,9 +230,6 @@ const styles = StyleSheet.create({
     ...Typography.callout,
     textAlign: 'center',
     alignSelf: 'center',
-  },
-  appButtonTextBorderless: {
-    color: Colors.darkText,
   },
   baseAppButtonContainerOval: {
     borderRadius: 100,
