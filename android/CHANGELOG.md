@@ -1,18 +1,11 @@
-# v3.7.0-RC2
+# v3.7.0-RC3
 
-General
-- Remove moment library
-- Update dependencies
-- Update react navigation to v6
+## Added
 
-Events:
+- Temporary disable polls on Actions tab
+- Add button to delete account
 
-- First implementation of tagging plan
+## Updated
 
-Tools:
-
-- Fetch tools from remote
-
-PaP:
-
-- Fixes minors bugs on Door to Door screens
+- Refactor code on buttons
+- Use tinycolor2 to compute button colors on the fly
