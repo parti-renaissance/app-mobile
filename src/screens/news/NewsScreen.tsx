@@ -1,14 +1,15 @@
 import React from 'react'
 import {
   FlatList,
-  Image,
+  Text,
   ListRenderItemInfo,
   RefreshControl,
   StyleSheet,
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView } from '../shared/StatefulView'
 import NewsContentViewModel from './NewsContentViewModel'
@@ -37,15 +38,11 @@ const NewsScreen = () => {
   const NewsContent = (viewModel: NewsContentViewModel) => {
     return (
       <FlatList
+        contentContainerStyle={styles.contentContainer}
         data={viewModel.rows}
         renderItem={renderItem}
         ListHeaderComponent={
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={require('../../assets/images/blue/imageActualite.png')}
-            />
-          </View>
+          <Text style={styles.title}>{i18n.t('news.title')}</Text>
         }
         ListFooterComponent={
           isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
@@ -73,12 +70,20 @@ const NewsScreen = () => {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    ...Typography.largeTitle,
+    marginBottom: Spacing.mediumMargin,
+    marginHorizontal: Spacing.margin,
+  },
   bottomLoader: {
     margin: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  contentContainer: {
+    paddingTop: Spacing.largeMargin,
   },
   image: {
     aspectRatio: 288 / 103,

@@ -19,7 +19,6 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{viewModel.title}</Text>
-          <Text style={styles.description}>{viewModel.description}</Text>
           <Text style={styles.date}>{viewModel.date}</Text>
         </View>
         {viewModel.isEnabled ? (
@@ -44,8 +43,9 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   date: {
-    ...Typography.lightCaption1,
-    marginTop: Spacing.small,
+    ...Typography.body,
+    color: Colors.lightText,
+    marginTop: Spacing.unit,
   },
   description: {
     ...Typography.body,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     marginStart: Spacing.small,
   },
   title: {
-    ...Typography.subheadline,
+    ...Typography.title2,
   },
 })
 
