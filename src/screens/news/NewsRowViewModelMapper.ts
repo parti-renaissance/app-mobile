@@ -10,7 +10,7 @@ export const NewsRowViewModelMapper = {
       title: news.title,
       description: news.description,
       date: format(news.date, i18n.t('home.news.date_format')),
-      url: news.url,
+      isEnabled: news.url !== undefined,
     }
   },
 }

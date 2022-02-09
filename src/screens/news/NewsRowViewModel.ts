@@ -3,5 +3,5 @@ export interface NewsRowViewModel {
   title: string
   description: string
   date: string
-  url?: string
+  isEnabled: boolean
 }

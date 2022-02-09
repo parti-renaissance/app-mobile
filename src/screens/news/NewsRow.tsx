@@ -10,11 +10,10 @@ type Props = Readonly<{
 }>
 
 const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
-  const hasUrl = viewModel.url !== undefined
   return (
     <TouchablePlatform
       touchHighlight={Colors.touchHighlight}
-      disabled={!hasUrl}
+      disabled={!viewModel.isEnabled}
       onPress={onPress}
     >
       <View style={styles.container}>
@@ -23,7 +22,7 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
           <Text style={styles.description}>{viewModel.description}</Text>
           <Text style={styles.date}>{viewModel.date}</Text>
         </View>
-        {hasUrl ? (
+        {viewModel.isEnabled ? (
           <Image
             style={styles.disclosureIcon}
             source={require('../../assets/images/disclosureIndicator.png')}
