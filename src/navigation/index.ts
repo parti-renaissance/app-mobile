@@ -51,6 +51,14 @@ export type EventParamList = {
   EventDetails: { eventId: string }
 }
 
+export type NewsParamList = {
+  News: undefined
+}
+
+export type NewsDetailModalParamList = {
+  NewsDetail: { newsId: string }
+}
+
 export type PhoningParamList = {
   Phoning: undefined
   PhoningCharter: { data: PhoningCharterNavigationData }
@@ -64,6 +72,7 @@ export type DoorToDoorParamList = {
 
 export type AuthenticatedHomeParamList = {
   HomeNavigator: NavigatorScreenParams<HomeParamList>
+  NewsNavigator: NavigatorScreenParams<NewsParamList>
   Actions: undefined
   Polls: undefined
   Tools: undefined
@@ -108,6 +117,7 @@ export type RootStackParamList = {
   TermsOfUse: undefined
   News: undefined
   DoorToDoorTunnelModal: undefined
+  NewsDetailModal: NavigatorScreenParams<NewsDetailModalParamList>
 }
 
 export type UnauthenticatedStackParamList = {
@@ -476,6 +486,41 @@ export type EventScreenProps = StackScreenProps<
 export type EventDetailsScreenProps = StackScreenProps<
   EventParamList,
   typeof Screen.eventDetails
+>
+
+// News
+export type NewsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<NewsParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<
+      AuthenticatedHomeParamList,
+      typeof Screen.newsNavigator
+    >,
+    StackNavigationProp<RootStackParamList>
+  >
+>
+export type NewsScreenProps = Readonly<{
+  navigation: NewsScreenNavigationProp
+}>
+
+// News Detail Modal
+export type NewsDetailModalNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<NewsDetailModalParamList>,
+  StackNavigationProp<RootStackParamList>
+>
+export type NewsDetailModalRouteProp = RouteProp<
+  RootStackParamList,
+  typeof Screen.newsDetailModal
+>
+export type NewsDetailModalProps = Readonly<{
+  route: NewsDetailModalRouteProp
+  navigation: NewsDetailModalNavigationProp
+}>
+
+// News Detail
+export type NewsDetailScreenProps = StackScreenProps<
+  NewsDetailModalParamList,
+  typeof Screen.newsDetail
 >
 
 // Centers of interests

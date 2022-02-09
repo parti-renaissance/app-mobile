@@ -1,10 +1,10 @@
+import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { News } from '../../core/entities/News'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
-import { Analytics } from '../../utils/Analytics'
-import { ExternalLink } from '../shared/ExternalLink'
+import { NewsScreenProps, Screen } from '../../navigation'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import NewsContentViewModel from './NewsContentViewModel'
@@ -18,6 +18,7 @@ export const useNewsScreen = (): {
   loadMore: () => void
   onNewsSelected: (id: string) => void
 } => {
+  const navigation = useNavigation<NewsScreenProps['navigation']>()
   const [statefulState, setStatefulState] = useState<
     ViewState<PaginatedResult<Array<News>>>
   >(ViewState.Loading())
@@ -73,12 +74,10 @@ export const useNewsScreen = (): {
   }
 
   const onNewsSelected = (id: string) => {
-    const currentResult = ViewState.unwrap(statefulState)
-    const selectedNews = currentResult?.result.find((news) => news.id === id)
-    if (selectedNews?.url !== undefined) {
-      Analytics.logNewsOpen()
-      ExternalLink.openUrl(selectedNews.url)
-    }
+    navigation.navigate(Screen.newsDetailModal, {
+      screen: Screen.newsDetail,
+      params: { newsId: id },
+    })
   }
 
   useEffect(loadFirstPage, [])

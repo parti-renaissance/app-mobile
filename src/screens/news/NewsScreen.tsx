@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import {
   FlatList,
   Text,
@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { NewsScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
@@ -21,7 +22,7 @@ const Separator = () => {
   return <View style={styles.separator} />
 }
 
-const NewsScreen = () => {
+const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
   const {
     statefulState,
     isLoadingMore,
