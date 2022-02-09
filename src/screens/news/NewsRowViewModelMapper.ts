@@ -8,6 +8,10 @@ export const NewsRowViewModelMapper = {
     return {
       id: news.id,
       title: news.title,
+      author: i18n.t('news.author_format', {
+        // TODO: (Pierre Felgines) 2022/02/09 Update author
+        author: '[TODO]',
+      }),
       date: i18n.t('home.news.date_format', {
         date: DateFormatter.format(news.date, i18n.t('home.news.date_pattern')),
       }),

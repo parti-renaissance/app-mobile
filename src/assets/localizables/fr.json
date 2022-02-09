@@ -210,7 +210,7 @@
       "label": "Code postal",
       "validate": "Continuer"
     },
-    "news": { "title": "Actualités" },
+    "news": { "title": "Actualités", "author_format": "par {{ author }}" },
     "personalinformation": {
       "title": "Informations personnelles",
       "section_identity": "Votre identité",

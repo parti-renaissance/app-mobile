@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import { VerticalSpacer } from '../shared/Spacer'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { NewsRowViewModel } from './NewsRowViewModel'
 
@@ -19,7 +20,9 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{viewModel.title}</Text>
-          <Text style={styles.date}>{viewModel.date}</Text>
+          <VerticalSpacer spacing={Spacing.unit} />
+          <Text style={styles.caption}>{viewModel.author}</Text>
+          <Text style={styles.caption}>{viewModel.date}</Text>
         </View>
         {viewModel.isEnabled ? (
           <Image
@@ -42,10 +45,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
   },
-  date: {
+  caption: {
     ...Typography.body,
     color: Colors.lightText,
-    marginTop: Spacing.unit,
   },
   description: {
     ...Typography.body,
