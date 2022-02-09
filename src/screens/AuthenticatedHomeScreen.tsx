@@ -10,6 +10,7 @@ import EventNavigator from './events/EventNavigator'
 import ActionsNavigator from './actions/ActionsNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Analytics } from '../utils/Analytics'
+import NewsNavigator from './news/NewsNavigator'
 
 const Tab = createBottomTabNavigator()
 
@@ -30,10 +31,10 @@ const getTabBarIcon = (route: any, focused: boolean) => {
     return focused
       ? require('../assets/images/tabBarIconsToolsOn.png')
       : require('../assets/images/tabBarIconsToolsOff.png')
-  } else if (route.name === Screen.phoningNavigator) {
+  } else if (route.name === Screen.newsNavigator) {
     return focused
-      ? require('../assets/images/tabBarIconsPhoningOn.png')
-      : require('../assets/images/tabBarIconsPhoningOff.png')
+      ? require('../assets/images/tabBarIconsNewsOn.png')
+      : require('../assets/images/tabBarIconsNewsOff.png')
   }
 }
 
@@ -94,6 +95,18 @@ const AuthenticatedHomeScreen = () => {
         listeners={{
           tabPress: () => {
             Analytics.logNavBarItemSelected('Accueil')
+          },
+        }}
+      />
+      <Tab.Screen
+        name={Screen.newsNavigator}
+        component={NewsNavigator}
+        options={{
+          tabBarLabel: i18n.t('tab.item_news'),
+        }}
+        listeners={{
+          tabPress: () => {
+            Analytics.logNavBarItemSelected('Actualités')
           },
         }}
       />

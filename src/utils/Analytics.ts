@@ -2,6 +2,7 @@ import analytics from '@react-native-firebase/analytics'
 
 export type AnalyticsScreens =
   | 'Accueil'
+  | 'Actualités'
   | 'Actions'
   | 'Événements'
   | 'Ressources'
