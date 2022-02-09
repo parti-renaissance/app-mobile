@@ -8,7 +8,7 @@ import {
 import { TagViewModelMapper } from './TagViewModelMapper'
 import { CreateOptions } from 'react-native-add-calendar-event'
 import { Platform } from 'react-native'
-import { formatLocalizedDate } from '../../utils/DateFormatter'
+import { DateFormatter } from '../../utils/DateFormatter'
 
 export const EventDetailsViewModelMapper = {
   map: (event: DetailedEvent): EventDetailsViewModel => {
@@ -33,14 +33,14 @@ export const EventDetailsViewModelMapper = {
 }
 
 function mapDate(event: DetailedEvent): EventDateViewModel {
-  const title = formatLocalizedDate(
+  const title = DateFormatter.format(
     event.dateStart,
     i18n.t('eventdetails.date_format'),
   )
   const description =
-    formatLocalizedDate(event.dateStart, HOUR_MINUTE_FORMAT) +
+    DateFormatter.format(event.dateStart, HOUR_MINUTE_FORMAT) +
     ' - ' +
-    formatLocalizedDate(event.dateEnd, HOUR_MINUTE_FORMAT)
+    DateFormatter.format(event.dateEnd, HOUR_MINUTE_FORMAT)
   return {
     title: title,
     description: description,

@@ -8,7 +8,7 @@ import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import i18n from '../../utils/i18n'
-import { formatLocalizedDate } from '../../utils/DateFormatter'
+import { DateFormatter } from '../../utils/DateFormatter'
 
 export const BuildingDetailScreenViewModelMapper = {
   map: (
@@ -52,5 +52,5 @@ function lastVisit(campaign: DoorToDoorAddressCampaign | null): string {
 }
 
 function mapDate(lastPassage: Date): string {
-  return formatLocalizedDate(lastPassage, i18n.t('doorToDoor.date_format'))
+  return DateFormatter.format(lastPassage, i18n.t('doorToDoor.date_format'))
 }

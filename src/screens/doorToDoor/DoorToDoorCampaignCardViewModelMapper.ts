@@ -1,5 +1,5 @@
 import { DoorToDoorCampaignInfo } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
-import { formatLocalizedDate } from '../../utils/DateFormatter'
+import { DateFormatter } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 
@@ -12,7 +12,7 @@ export const DoorToDoorCampaignCardViewModelMapper = {
       campaignId: data.campaign.uuid,
       name: data.campaign.title,
       date: i18n.t('doorToDoor.campaign_deadline', {
-        date: formatLocalizedDate(date, i18n.t('doorToDoor.date_format')),
+        date: DateFormatter.format(date, i18n.t('doorToDoor.date_format')),
       }),
       goal: i18n.t('doorToDoor.goal_format', {
         current: surveys,

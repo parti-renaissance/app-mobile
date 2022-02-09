@@ -10,7 +10,7 @@ import MultiMap from 'mnemonist/multi-map'
 import i18n from '../../utils/i18n'
 import { EventRowViewModelMapper } from './EventRowViewModelMapper'
 import { format } from 'date-fns'
-import { formatLocalizedDate } from '../../utils/DateFormatter'
+import { DateFormatter } from '../../utils/DateFormatter'
 
 export const EventSectionViewModelMapper = {
   map: (
@@ -100,7 +100,7 @@ function mapSection(
   const isToday = key === extractSectionKey(now)
   const name = isToday
     ? i18n.t('events.section_date_today')
-    : formatLocalizedDate(
+    : DateFormatter.format(
         firstEvent.dateStart,
         i18n.t('events.section_date_format'),
       )
