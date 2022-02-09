@@ -31,7 +31,7 @@ const NewsScreen = () => {
   } = useNewsScreen()
 
   const renderItem = ({ item }: ListRenderItemInfo<NewsRowViewModel>) => {
-    return <NewsRow viewModel={item} onPress={() => onNewsSelected(item)} />
+    return <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
   }
 
   const NewsContent = (viewModel: NewsContentViewModel) => {

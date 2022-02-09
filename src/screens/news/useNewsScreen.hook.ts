@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { News } from '../../core/entities/News'
+import PaginatedResult from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { Analytics } from '../../utils/Analytics'
@@ -7,7 +9,6 @@ import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import NewsContentViewModel from './NewsContentViewModel'
 import { NewsContentViewModelMapper } from './NewsContentViewModelMapper'
-import { NewsRowViewModel } from './NewsRowViewModel'
 
 export const useNewsScreen = (): {
   statefulState: ViewState.Type<NewsContentViewModel>
@@ -15,10 +16,10 @@ export const useNewsScreen = (): {
   isRefreshing: boolean
   loadFirstPage: () => void
   loadMore: () => void
-  onNewsSelected: (viewModel: NewsRowViewModel) => void
+  onNewsSelected: (id: string) => void
 } => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<NewsContentViewModel>
+    ViewState.Type<PaginatedResult<Array<News>>>
   >(new ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [isLoadingMore, setLoadingMore] = useState(false)
@@ -31,8 +32,7 @@ export const useNewsScreen = (): {
     setRefreshing(true)
     fetchNews(1)
       .then((paginatedResult) => {
-        const content = NewsContentViewModelMapper.map(paginatedResult)
-        setStatefulState(new ViewState.Content(content))
+        setStatefulState(new ViewState.Content(paginatedResult))
       })
       .catch((error) => {
         setStatefulState(
@@ -46,42 +46,47 @@ export const useNewsScreen = (): {
   }
 
   const loadMore = () => {
-    const currentState = statefulState
-    if (currentState instanceof ViewState.Content) {
-      const content = currentState.content
-      const paginationInfo = content.paginationInfo
-      if (paginationInfo.currentPage === paginationInfo.lastPage) {
-        // last page reached : nothing to paginate
-        return
-      }
-      setLoadingMore(true)
-      fetchNews(paginationInfo.currentPage + 1)
-        .then((paginatedResult) => {
-          const newContent = NewsContentViewModelMapper.map(
-            paginatedResult,
-            content,
-          )
-          setStatefulState(new ViewState.Content(newContent))
-        })
-        .catch((error) => {
-          console.log(error)
-          // no-op: next page can be reloaded by reaching the end of the list again
-        })
-        .finally(() => setLoadingMore(false))
+    const currentResult = ViewState.unwrap(statefulState)
+    if (currentResult === undefined) {
+      return
     }
+
+    const paginationInfo = currentResult.paginationInfo
+    if (paginationInfo.currentPage === paginationInfo.lastPage) {
+      // last page reached : nothing to paginate
+      return
+    }
+    setLoadingMore(true)
+    fetchNews(paginationInfo.currentPage + 1)
+      .then((paginatedResult) => {
+        const newContent: PaginatedResult<Array<News>> = {
+          paginationInfo: paginatedResult.paginationInfo,
+          result: currentResult.result.concat(paginatedResult.result),
+        }
+        setStatefulState(new ViewState.Content(newContent))
+      })
+      .catch((error) => {
+        console.log(error)
+        // no-op: next page can be reloaded by reaching the end of the list again
+      })
+      .finally(() => setLoadingMore(false))
   }
 
-  const onNewsSelected = (viewModel: NewsRowViewModel) => {
-    if (viewModel.url !== undefined) {
+  const onNewsSelected = (id: string) => {
+    const currentResult = ViewState.unwrap(statefulState)
+    const selectedNews = currentResult?.result.find((news) => news.id === id)
+    if (selectedNews?.url !== undefined) {
       Analytics.logNewsOpen()
-      ExternalLink.openUrl(viewModel.url)
+      ExternalLink.openUrl(selectedNews.url)
     }
   }
 
   useEffect(loadFirstPage, [])
 
   return {
-    statefulState,
+    statefulState: ViewState.map(statefulState, (result) => {
+      return NewsContentViewModelMapper.map(result.result)
+    }),
     isLoadingMore,
     isRefreshing,
     loadFirstPage,
