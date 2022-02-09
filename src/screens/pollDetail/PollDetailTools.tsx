@@ -15,16 +15,16 @@ const Separator = () => {
 
 const PollDetailTools = () => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<ReadonlyArray<Tool>>
-  >(new ViewState.Loading())
+    ViewState<ReadonlyArray<Tool>>
+  >(ViewState.Loading())
 
   const fetch = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     ToolsRepository.getInstance()
       .getTools()
       .then((tools) => {
         console.log(tools)
-        setStatefulState(new ViewState.Content(tools.result))
+        setStatefulState(ViewState.Content(tools.result))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, fetch))

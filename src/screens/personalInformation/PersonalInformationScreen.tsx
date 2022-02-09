@@ -278,20 +278,20 @@ const PersonalInformationScreen = ({
   navigation,
 }: PersonalInformationScreenProps) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<DetailedProfile>
-  >(new ViewState.Loading())
+    ViewState<DetailedProfile>
+  >(ViewState.Loading())
 
   useEffect(() => {
     const fetchData = () => {
       ProfileRepository.getInstance()
         .getDetailedProfile()
         .then((detailedProfile) => {
-          setStatefulState(new ViewState.Content(detailedProfile))
+          setStatefulState(ViewState.Content(detailedProfile))
         })
         .catch((error) => {
           setStatefulState(
             ViewStateUtils.networkError(error, () => {
-              setStatefulState(new ViewState.Loading())
+              setStatefulState(ViewState.Loading())
               fetchData()
             }),
           )

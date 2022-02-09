@@ -16,14 +16,14 @@ import { Analytics } from '../../utils/Analytics'
 
 const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<ReadonlyArray<ActionRowViewModel>>
-  >(new ViewState.Loading())
+    ViewState<ReadonlyArray<ActionRowViewModel>>
+  >(ViewState.Loading())
 
   const isFocused = useIsFocused()
   const [fetchedActions] = useState(new Map<number, Action>())
 
   const fetch = useCallback(() => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     new GetActionsInteractor()
       .execute()
       .then((actions) => {
@@ -32,7 +32,7 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
           fetchedActions.set(action.id, action)
         })
         const actionsViewModel = ActionRowViewModelMapper.map(actions)
-        setStatefulState(new ViewState.Content(actionsViewModel))
+        setStatefulState(ViewState.Content(actionsViewModel))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, () => fetch()))

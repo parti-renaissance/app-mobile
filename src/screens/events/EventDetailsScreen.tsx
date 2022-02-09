@@ -289,8 +289,8 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
   navigation,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<EventDetailsViewModel>
-  >(new ViewState.Loading())
+    ViewState<EventDetailsViewModel>
+  >(ViewState.Loading())
   const eventId = route.params.eventId
   // TODO use EventId when webservices are available
   console.log(eventId)
@@ -308,7 +308,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
       .getEventDetails(eventId)
       .then((result) => {
         const viewModel = EventDetailsViewModelMapper.map(result)
-        setStatefulState(new ViewState.Content(viewModel))
+        setStatefulState(ViewState.Content(viewModel))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, refetchData))
@@ -318,7 +318,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
   useEffect(fetchData, [])
 
   const refetchData = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     fetchData()
   }
 

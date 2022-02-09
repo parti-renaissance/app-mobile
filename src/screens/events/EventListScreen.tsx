@@ -42,8 +42,8 @@ const EventListScreen: FC<Props> = (props) => {
   const [isRefreshing, setRefreshing] = useState(true)
   const [isLoadingMore, setLoadingMore] = useState(false)
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<PaginatedResult<Array<ShortEvent>>>
-  >(new ViewState.Loading())
+    ViewState<PaginatedResult<Array<ShortEvent>>>
+  >(ViewState.Loading())
 
   const fetchEvents = useCallback(
     (page: number) => {
@@ -65,12 +65,12 @@ const EventListScreen: FC<Props> = (props) => {
   const loadFirstPage = useCallback(() => {
     fetchEvents(1)
       .then((paginatedResult) => {
-        setStatefulState(new ViewState.Content(paginatedResult))
+        setStatefulState(ViewState.Content(paginatedResult))
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             loadFirstPage()
           }),
         )
@@ -85,7 +85,7 @@ const EventListScreen: FC<Props> = (props) => {
 
   const loadMore = useCallback(() => {
     const currentState = statefulState
-    if (currentState instanceof ViewState.Content) {
+    if (currentState.state === 'content') {
       const content = currentState.content
       const paginationInfo = content.paginationInfo
 
@@ -100,7 +100,7 @@ const EventListScreen: FC<Props> = (props) => {
             paginationInfo: paginatedResult.paginationInfo,
             result: content.result.concat(paginatedResult.result),
           }
-          setStatefulState(new ViewState.Content(newContent))
+          setStatefulState(ViewState.Content(newContent))
         })
         .catch((error) => {
           console.log(error)
@@ -115,7 +115,7 @@ const EventListScreen: FC<Props> = (props) => {
 
   useFocusEffect(
     useCallback(() => {
-      setStatefulState(new ViewState.Loading())
+      setStatefulState(ViewState.Loading())
       loadFirstPage()
     }, [loadFirstPage]),
   )

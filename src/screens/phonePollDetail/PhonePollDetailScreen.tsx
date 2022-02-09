@@ -28,8 +28,8 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   navigation,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<PhonePollDetailResources>
-  >(new ViewState.Loading())
+    ViewState<PhonePollDetailResources>
+  >(ViewState.Loading())
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
@@ -55,7 +55,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   useBackHandler(askConfirmationBeforeLeaving)
 
   const fetchResources = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
 
     new GetPhonePollDetailResourcesInteractor()
       .execute(route.params.data.campaignId, route.params.data.sessionId)
@@ -63,7 +63,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
         navigation.setOptions({
           title: resources.poll.name,
         })
-        setStatefulState(new ViewState.Content(resources))
+        setStatefulState(ViewState.Content(resources))
       })
       .catch((error) => {
         console.error(error)

@@ -11,7 +11,7 @@ import NewsContentViewModel from './NewsContentViewModel'
 import { NewsContentViewModelMapper } from './NewsContentViewModelMapper'
 
 export const useNewsScreen = (): {
-  statefulState: ViewState.Type<NewsContentViewModel>
+  statefulState: ViewState<NewsContentViewModel>
   isLoadingMore: boolean
   isRefreshing: boolean
   loadFirstPage: () => void
@@ -19,8 +19,8 @@ export const useNewsScreen = (): {
   onNewsSelected: (id: string) => void
 } => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<PaginatedResult<Array<News>>>
-  >(new ViewState.Loading())
+    ViewState<PaginatedResult<Array<News>>>
+  >(ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [isLoadingMore, setLoadingMore] = useState(false)
   const fetchNews = async (page: number) => {
@@ -32,12 +32,12 @@ export const useNewsScreen = (): {
     setRefreshing(true)
     fetchNews(1)
       .then((paginatedResult) => {
-        setStatefulState(new ViewState.Content(paginatedResult))
+        setStatefulState(ViewState.Content(paginatedResult))
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             loadFirstPage()
           }),
         )
@@ -63,7 +63,7 @@ export const useNewsScreen = (): {
           paginationInfo: paginatedResult.paginationInfo,
           result: currentResult.result.concat(paginatedResult.result),
         }
-        setStatefulState(new ViewState.Content(newContent))
+        setStatefulState(ViewState.Content(newContent))
       })
       .catch((error) => {
         console.log(error)

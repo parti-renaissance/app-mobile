@@ -104,20 +104,20 @@ const NotificationsContent = (
 
 const NotificationsScreen = (props: NotificationsScreenProps) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<GetNotificationsInteractorResult>
-  >(new ViewState.Loading())
+    ViewState<GetNotificationsInteractorResult>
+  >(ViewState.Loading())
   const category = props.route.params.category
 
   const fetchData = useCallback(() => {
     new GetNotificationsInteractor()
       .execute(category)
       .then((result) => {
-        setStatefulState(new ViewState.Content(result))
+        setStatefulState(ViewState.Content(result))
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )
@@ -131,7 +131,7 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
   }, [props, fetchData, category])
 
   const refetchData = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     fetchData()
   }
   return (

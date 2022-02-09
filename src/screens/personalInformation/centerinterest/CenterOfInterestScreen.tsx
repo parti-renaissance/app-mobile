@@ -98,19 +98,19 @@ const CenterOfInterestScreen = ({
   navigation,
 }: CentersOfInterestScreenProps) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<CentersOfInterestInteractorResult>
-  >(new ViewState.Loading())
+    ViewState<CentersOfInterestInteractorResult>
+  >(ViewState.Loading())
 
   const fetchData = useCallback(() => {
     new GetCentersOfInterestInteractor()
       .execute()
       .then((result) => {
-        setStatefulState(new ViewState.Content(result))
+        setStatefulState(ViewState.Content(result))
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )

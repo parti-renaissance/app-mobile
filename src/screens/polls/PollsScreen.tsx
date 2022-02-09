@@ -27,8 +27,8 @@ import i18n from '../../utils/i18n'
 
 const PollsScreen = ({ navigation }: PollsScreenProps) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<PollsScreenViewModel>
-  >(new ViewState.Loading())
+    ViewState<PollsScreenViewModel>
+  >(ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
 
@@ -38,7 +38,7 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
       .execute('remote')
       .then((polls) => {
         const viewModel = PollsScreenViewModelMapper.map(polls)
-        setStatefulState(new ViewState.Content(viewModel))
+        setStatefulState(ViewState.Content(viewModel))
       })
       .catch((error) => {
         const isNetworkError = error instanceof ServerTimeoutError
@@ -47,7 +47,7 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
         }
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )
@@ -60,7 +60,7 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
       .execute('cache')
       .then((cachedPolls) => {
         const viewModel = PollsScreenViewModelMapper.map(cachedPolls)
-        setStatefulState(new ViewState.Content(viewModel))
+        setStatefulState(ViewState.Content(viewModel))
         if (!initialFetchDone) {
           fetchData(true)
           setInitialFetchDone(true)

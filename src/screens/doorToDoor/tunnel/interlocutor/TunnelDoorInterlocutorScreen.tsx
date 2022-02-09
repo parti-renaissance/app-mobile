@@ -25,8 +25,8 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   navigation,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<Array<DoorToDoorPollConfigResponseStatus>>
-  >(new ViewState.Loading())
+    ViewState<Array<DoorToDoorPollConfigResponseStatus>>
+  >(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
 
   useDoorToDoorTunnelNavigationOptions(navigation)
@@ -36,7 +36,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
       DoorToDoorRepository.getInstance()
         .getDoorToDoorPollConfig(route.params.campaignId)
         .then((result) => {
-          setStatefulState(new ViewState.Content(result.before.responseStatus))
+          setStatefulState(ViewState.Content(result.before.responseStatus))
         })
         .catch((error) =>
           setStatefulState(ViewStateUtils.networkError(error, fetchData)),

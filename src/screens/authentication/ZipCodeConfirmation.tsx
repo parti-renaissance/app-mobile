@@ -60,21 +60,21 @@ const ZipCodeConfirmationScreen = ({
 }: ZipCodeConfirmationScreenProps) => {
   const zipCode = route.params.zipCode
 
-  const [statefulState, setStatefulState] = useState<
-    ViewState.Type<Department>
-  >(new ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<Department>>(
+    ViewState.Loading(),
+  )
 
   useEffect(() => {
     const fetchData = () => {
       RegionsRepository.getInstance()
         .getDepartment(zipCode, 'remote', 'Anonymous')
         .then((department) => {
-          setStatefulState(new ViewState.Content(department))
+          setStatefulState(ViewState.Content(department))
         })
         .catch((error) => {
           setStatefulState(
             ViewStateUtils.networkError(error, () => {
-              setStatefulState(new ViewState.Loading())
+              setStatefulState(ViewState.Loading())
               fetchData()
             }),
           )

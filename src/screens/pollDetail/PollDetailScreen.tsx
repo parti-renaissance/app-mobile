@@ -17,8 +17,8 @@ import { useBackHandler } from '../shared/useBackHandler.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
-  const [statefulState, setStatefulState] = useState<ViewState.Type<Poll>>(
-    new ViewState.Loading(),
+  const [statefulState, setStatefulState] = useState<ViewState<Poll>>(
+    ViewState.Loading(),
   )
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -52,7 +52,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
   }, [navigation, askConfirmationBeforeLeaving])
 
   const fetchPoll = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     PollsRepository.getInstance()
       .getPoll(route.params.pollId)
       .then((poll) => {
@@ -65,7 +65,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
             />
           ),
         })
-        setStatefulState(new ViewState.Content(poll))
+        setStatefulState(ViewState.Content(poll))
       })
       .catch((error) => {
         console.error(error)
