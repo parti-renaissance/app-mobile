@@ -189,7 +189,8 @@
       "region_more": "En savoir plus",
       "news": {
         "section": "Actualités",
-        "date_format": "dd/MM/yyyy",
+        "date_pattern": "dd MMMM yyyy",
+        "date_format": "le {{date}}",
         "more": "Voir toutes les actualités"
       },
       "section_quick_poll": "La question du jour",
