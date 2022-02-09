@@ -5,7 +5,6 @@ import {
   EventDetailsViewModel,
   EventOrganizerViewModel,
 } from './EventDetailsViewModel'
-import { TagViewModelMapper } from './TagViewModelMapper'
 import { CreateOptions } from 'react-native-add-calendar-event'
 import { Platform } from 'react-native'
 import { DateFormatter } from '../../utils/DateFormatter'
@@ -15,7 +14,7 @@ export const EventDetailsViewModelMapper = {
     return {
       id: event.uuid,
       title: event.name,
-      tag: TagViewModelMapper.map(event.tag),
+      tag: event.tag,
       attendeesNumber: i18n.t('eventdetails.attendees', {
         attendees: event.participantsCount,
       }),

@@ -59,17 +59,17 @@ export const eventSeeMoreButtonContainer: ViewStyle = {
   marginTop: Spacing.small,
 }
 
-export const eventTag1 = {
-  textColor: '#ffffff',
+export const eventTag1: TextStyle = {
+  color: Colors.veryLightText,
   backgroundColor: '#4489f7',
 }
 
-export const eventTag2 = {
-  textColor: '#ffffff',
+export const eventTag2: TextStyle = {
+  color: Colors.veryLightText,
   backgroundColor: '#1C00FF',
 }
 
-export const eventTag3 = {
-  textColor: '#413D45',
-  backgroundColor: '#B1D8FF',
+export const eventTag3: TextStyle = {
+  color: Colors.darkText,
+  backgroundColor: Colors.tagBackground,
 }

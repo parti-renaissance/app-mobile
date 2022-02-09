@@ -1,6 +1,7 @@
 export const unit = 8
 export const margin = 2 * unit
 export const small = unit / 2
+export const extraSmall = unit / 4
 export const largeMargin = 4 * unit
 export const extraLargeMargin = 6 * unit
 export const extraExtraLargeMargin = 8 * unit

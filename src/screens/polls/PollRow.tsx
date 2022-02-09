@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 
 import { Colors, Spacing, Typography } from '../../styles'
+import TagView from '../shared/TagView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { PollRowViewModel } from './PollRowViewModel'
-import Tag from './Tag'
 
 type Props = Readonly<{
   viewModel: PollRowViewModel
@@ -23,7 +23,7 @@ const PollRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
         <View style={styles.labelsContainer}>
           <Text style={styles.title}>{viewModel.title}</Text>
           <Text style={styles.subtitle}>{viewModel.subtitle}</Text>
-          <Tag label={viewModel.tag} />
+          <TagView size="small">{viewModel.tag}</TagView>
         </View>
       </View>
     </TouchablePlatform>

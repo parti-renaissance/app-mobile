@@ -24,7 +24,7 @@ import {
   EventDescriptionViewModel,
   EventDetailsViewModel,
 } from './EventDetailsViewModel'
-import TagView from './TagView'
+import TagView from '../shared/TagView'
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
@@ -37,6 +37,7 @@ import { ForbiddenError } from '../../core/errors'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { Analytics } from '../../utils/Analytics'
+import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -143,7 +144,11 @@ const EventDetailsContent = (
           ) : null}
         </View>
         <View style={styles.tagAttendeesContainer}>
-          <TagView style={styles.tag} viewModel={viewModel.tag} />
+          <TagView
+            style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
+          >
+            {viewModel.tag}
+          </TagView>
           <Text style={styles.attendees}>{viewModel.attendeesNumber}</Text>
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>
