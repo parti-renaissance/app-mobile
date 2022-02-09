@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
+import { Analytics } from '../../utils/Analytics'
+import { ExternalLink } from '../shared/ExternalLink'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import NewsContentViewModel from './NewsContentViewModel'
 import { NewsContentViewModelMapper } from './NewsContentViewModelMapper'
+import { NewsRowViewModel } from './NewsRowViewModel'
 
 export const useNewsScreen = (): {
   statefulState: ViewState.Type<NewsContentViewModel>
@@ -12,6 +15,7 @@ export const useNewsScreen = (): {
   isRefreshing: boolean
   loadFirstPage: () => void
   loadMore: () => void
+  onNewsSelected: (viewModel: NewsRowViewModel) => void
 } => {
   const [statefulState, setStatefulState] = useState<
     ViewState.Type<NewsContentViewModel>
@@ -67,6 +71,13 @@ export const useNewsScreen = (): {
     }
   }
 
+  const onNewsSelected = (viewModel: NewsRowViewModel) => {
+    if (viewModel.url !== undefined) {
+      Analytics.logNewsOpen()
+      ExternalLink.openUrl(viewModel.url)
+    }
+  }
+
   useEffect(loadFirstPage, [])
 
   return {
@@ -75,5 +86,6 @@ export const useNewsScreen = (): {
     isRefreshing,
     loadFirstPage,
     loadMore,
+    onNewsSelected,
   }
 }

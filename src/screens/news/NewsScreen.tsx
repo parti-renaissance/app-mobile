@@ -9,8 +9,6 @@ import {
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing } from '../../styles'
-import { Analytics } from '../../utils/Analytics'
-import { ExternalLink } from '../shared/ExternalLink'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView } from '../shared/StatefulView'
 import NewsContentViewModel from './NewsContentViewModel'
@@ -29,18 +27,11 @@ const NewsScreen = () => {
     isRefreshing,
     loadFirstPage,
     loadMore,
+    onNewsSelected,
   } = useNewsScreen()
 
   const renderItem = ({ item }: ListRenderItemInfo<NewsRowViewModel>) => {
-    return (
-      <NewsRow
-        viewModel={item}
-        onPress={async (url) => {
-          await Analytics.logNewsOpen()
-          ExternalLink.openUrl(url)
-        }}
-      />
-    )
+    return <NewsRow viewModel={item} onPress={() => onNewsSelected(item)} />
   }
 
   const NewsContent = (viewModel: NewsContentViewModel) => {

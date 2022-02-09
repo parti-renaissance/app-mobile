@@ -6,7 +6,7 @@ import { NewsRowViewModel } from './NewsRowViewModel'
 
 type Props = Readonly<{
   viewModel: NewsRowViewModel
-  onPress: (url: string) => void
+  onPress: () => void
 }>
 
 const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
@@ -15,11 +15,7 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
     <TouchablePlatform
       touchHighlight={Colors.touchHighlight}
       disabled={!hasUrl}
-      onPress={() => {
-        if (hasUrl) {
-          onPress(viewModel.url!)
-        }
-      }}
+      onPress={onPress}
     >
       <View style={styles.container}>
         <View style={styles.contentContainer}>
