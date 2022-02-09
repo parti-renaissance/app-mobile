@@ -17,6 +17,29 @@ export module ViewState {
     | ViewState.Error
     | ViewState.Content<T>
     | ViewState.Loading
+
+  export const unwrap = <T,>(state: ViewState.Type<T>): T | undefined => {
+    if (state instanceof ViewState.Content) {
+      return state.content
+    } else {
+      return undefined
+    }
+  }
+
+  export const map = <T, U>(
+    state: ViewState.Type<T>,
+    transform: (input: T) => U,
+  ): ViewState.Type<U> => {
+    if (state instanceof ViewState.Content) {
+      return new ViewState.Content(transform(state.content))
+    } else if (state instanceof ViewState.Error) {
+      return new ViewState.Error(state.errorMessage, state.onRetry)
+    } else if (state instanceof ViewState.Loading) {
+      return new ViewState.Loading()
+    } else {
+      throw 'Unreachable'
+    }
+  }
 }
 
 type Props<T> = Readonly<{
