@@ -143,7 +143,7 @@ const EventDetailsContent = (
           ) : null}
         </View>
         <View style={styles.tagAttendeesContainer}>
-          <TagView viewModel={viewModel.tag} />
+          <TagView style={styles.tag} viewModel={viewModel.tag} />
           <Text style={styles.attendees}>{viewModel.attendeesNumber}</Text>
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>
@@ -392,6 +392,10 @@ const styles = StyleSheet.create({
     ...Typography.eventItemTitle,
     fontSize: 14,
     marginHorizontal: Spacing.margin,
+  },
+  tag: {
+    marginStart: Spacing.unit,
+    marginTop: Spacing.unit,
   },
   tagAttendeesContainer: {
     flexDirection: 'row',

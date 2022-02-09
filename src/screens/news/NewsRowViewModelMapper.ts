@@ -7,6 +7,8 @@ export const NewsRowViewModelMapper = {
   map: (news: News): NewsRowViewModel => {
     return {
       id: news.id,
+      // TODO: (Pierre Felgines) 2022/02/09 Update tag
+      tag: '[TODO]',
       title: news.title,
       author: i18n.t('news.author_format', {
         // TODO: (Pierre Felgines) 2022/02/09 Update author

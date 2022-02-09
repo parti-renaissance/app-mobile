@@ -36,7 +36,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             <View style={[styles.image, styles.imagePlaceholder]} />
           )}
           <View style={styles.leftColumn}>
-            <TagView viewModel={viewModel.tag} />
+            <TagView style={styles.tag} viewModel={viewModel.tag} />
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.isOnline ? (
                 <View style={styles.webcamIconContainer}>
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.unit,
     ...Typography.caption1,
     color: Colors.primaryColor,
+  },
+  tag: {
+    marginStart: Spacing.unit,
+    marginTop: Spacing.unit,
   },
   title: {
     ...Typography.eventItemTitle,

@@ -30,8 +30,6 @@ const styles = StyleSheet.create({
   tag: {
     ...Typography.tagCaption,
     borderRadius: 11,
-    marginStart: Spacing.unit,
-    marginTop: Spacing.unit,
     overflow: 'hidden',
     paddingHorizontal: Spacing.unit,
     paddingVertical: Spacing.small,

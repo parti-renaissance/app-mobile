@@ -22,7 +22,7 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
         <View style={styles.container}>
           <View style={styles.topRow}>
             <View style={styles.leftColumn}>
-              <TagView style={styles.tag} viewModel={viewModel.tag} />
+              <TagView viewModel={viewModel.tag} />
               <Text style={styles.title}>
                 {viewModel.isOnline ? (
                   <View style={styles.webcamIconContainer}>
@@ -106,11 +106,6 @@ const styles = StyleSheet.create({
   subscribed: {
     ...Typography.caption1,
     color: Colors.primaryColor,
-  },
-  tag: {
-    marginStart: 0,
-    marginTop: 0,
-    textTransform: 'uppercase',
   },
   title: {
     ...Typography.eventItemTitle,
