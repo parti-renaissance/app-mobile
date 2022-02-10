@@ -7,7 +7,7 @@ import ProfileRepository from '../../data/ProfileRepository'
 import { NewsScreenProps, Screen } from '../../navigation'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import NewsContentViewModel from './NewsContentViewModel'
+import { NewsContentViewModel } from './NewsContentViewModel'
 import { NewsContentViewModelMapper } from './NewsContentViewModelMapper'
 
 export const useNewsScreen = (): {

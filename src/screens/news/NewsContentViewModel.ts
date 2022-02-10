@@ -1,5 +1,10 @@
 import { NewsRowViewModel } from './NewsRowViewModel'
 
-export default interface NewsContentViewModel {
-  rows: Array<NewsRowViewModel>
+export interface NewsContentSectionViewModel {
+  title: string
+  data: Array<NewsRowViewModel>
+}
+
+export interface NewsContentViewModel {
+  sections: Array<NewsContentSectionViewModel>
 }

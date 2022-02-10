@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import {
-  FlatList,
   Text,
-  ListRenderItemInfo,
   RefreshControl,
   StyleSheet,
   View,
+  SectionList,
+  SectionListRenderItemInfo,
+  SectionListData,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { NewsScreenProps } from '../../navigation'
@@ -13,9 +14,13 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView } from '../shared/StatefulView'
-import NewsContentViewModel from './NewsContentViewModel'
+import {
+  NewsContentSectionViewModel,
+  NewsContentViewModel,
+} from './NewsContentViewModel'
 import NewsRow from './NewsRow'
 import { NewsRowViewModel } from './NewsRowViewModel'
+import NewsSectionHeader from './NewsSectionHeader'
 import { useNewsScreen } from './useNewsScreen.hook'
 
 const Separator = () => {
@@ -32,16 +37,25 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
     onNewsSelected,
   } = useNewsScreen()
 
-  const renderItem = ({ item }: ListRenderItemInfo<NewsRowViewModel>) => {
+  const renderItem = ({
+    item,
+  }: SectionListRenderItemInfo<NewsRowViewModel>) => {
     return <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
+  }
+
+  const renderSectionHeader = (info: {
+    section: SectionListData<NewsRowViewModel, NewsContentSectionViewModel>
+  }) => {
+    return <NewsSectionHeader title={info.section.title} />
   }
 
   const NewsContent = (viewModel: NewsContentViewModel) => {
     return (
-      <FlatList
+      <SectionList
         contentContainerStyle={styles.contentContainer}
-        data={viewModel.rows}
+        sections={viewModel.sections}
         renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
         ListHeaderComponent={
           <Text style={styles.title}>{i18n.t('news.title')}</Text>
         }
@@ -59,6 +73,7 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
         }
         onEndReachedThreshold={0.8}
         onEndReached={loadMore}
+        stickySectionHeadersEnabled={false}
       />
     )
   }
@@ -85,14 +100,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: Spacing.largeMargin,
-  },
-  image: {
-    aspectRatio: 288 / 103,
-    height: undefined,
-    width: '100%',
-  },
-  imageContainer: {
-    paddingHorizontal: Spacing.margin,
   },
   separator: {
     backgroundColor: Colors.separator,
