@@ -22,6 +22,7 @@ export const darkText = ebony
 export const lightText = boulder
 export const veryLightText = white
 export const lightTextOnLightBackground = doveGray
+export const titleText = portGore
 export const tagBackground = anakiwa2
 export const defaultBackground = white
 export const touchHighlight = '#dddddd'
