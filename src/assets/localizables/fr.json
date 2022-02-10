@@ -213,7 +213,10 @@
     "news": {
       "title": "Actualités",
       "author_format": "par {{ author }}",
-      "section": { "latest": "Dernières actualités" },
+      "section": {
+        "latest": "Dernières actualités",
+        "highlighted": "À la une"
+      },
       "detail": { "caption_format": "par {{ author }} le {{ date }}" }
     },
     "personalinformation": {

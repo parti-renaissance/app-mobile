@@ -7,9 +7,16 @@ export const NewsContentViewModelMapper = {
   map: (news: Array<News>): NewsContentViewModel => {
     return {
       sections: [
+        // TODO: (Pierre Felgines) 2022/02/10 Get correct highlighted items
+        {
+          title: i18n.t('news.section.highlighted'),
+          data: news.slice(0, 2).map(NewsRowViewModelMapper.map),
+          isHighlighted: true,
+        },
         {
           title: i18n.t('news.section.latest'),
           data: news.map(NewsRowViewModelMapper.map),
+          isHighlighted: false,
         },
       ],
     }

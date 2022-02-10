@@ -14,6 +14,7 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView } from '../shared/StatefulView'
+import HighlightedNewsRow from './HighlightedNewsRow'
 import {
   NewsContentSectionViewModel,
   NewsContentViewModel,
@@ -38,9 +39,24 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
   } = useNewsScreen()
 
   const renderItem = ({
+    section,
     item,
-  }: SectionListRenderItemInfo<NewsRowViewModel>) => {
-    return <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
+  }: SectionListRenderItemInfo<
+    NewsRowViewModel,
+    NewsContentSectionViewModel
+  >) => {
+    if (section.isHighlighted) {
+      return (
+        <HighlightedNewsRow
+          viewModel={item}
+          onPress={() => onNewsSelected(item.id)}
+        />
+      )
+    } else {
+      return (
+        <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
+      )
+    }
   }
 
   const renderSectionHeader = (info: {
@@ -62,7 +78,11 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
         ListFooterComponent={
           isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
         }
-        ItemSeparatorComponent={Separator}
+        ItemSeparatorComponent={(props: {
+          section: NewsContentSectionViewModel
+        }) => {
+          return props.section.isHighlighted ? null : <Separator />
+        }}
         keyExtractor={(item) => item.id}
         refreshControl={
           <RefreshControl
