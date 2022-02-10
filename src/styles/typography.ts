@@ -18,6 +18,7 @@ const caption2FontSize = 11
 const robotoRegular = 'Roboto-Regular'
 const robotoMedium = 'Roboto-Medium'
 const maaxMedium = 'Maax-Medium'
+const maaxMediumItalic = 'Maax-Mediumitalic'
 const maaxBold = 'Maax-Bold'
 
 export const footnote: TextStyle = {
@@ -189,4 +190,15 @@ export const eventItemTitle: TextStyle = {
   fontFamily: robotoMedium,
   lineHeight: 20,
   color: Colors.darkText,
+}
+
+export const homeBannerTitle: TextStyle = {
+  fontSize: 45,
+  lineHeight: 41,
+  fontFamily: maaxMedium,
+}
+
+export const homeBannerTitleItalic: TextStyle = {
+  ...homeBannerTitle,
+  fontFamily: maaxMediumItalic,
 }

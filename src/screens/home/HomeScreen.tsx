@@ -4,6 +4,8 @@ import {
   SectionList,
   SectionListRenderItemInfo,
   RefreshControl,
+  View,
+  StatusBar,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -114,7 +116,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   const HomeContent = (homeViewModel: HomeViewModel) => {
     return (
-      <>
+      <View style={styles.contentContainer}>
         <SectionList
           stickySectionHeadersEnabled={false}
           ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
@@ -134,11 +136,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           }
           keyExtractor={(item, index) => item.type + index}
         />
-      </>
+      </View>
     )
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+      {/* We need the <StatusBar> component for Android */}
+      <StatusBar translucent backgroundColor="transparent" />
       <StatefulView contentComponent={HomeContent} state={statefulState} />
     </SafeAreaView>
   )
@@ -148,6 +152,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
   },
 })
 
