@@ -11,7 +11,8 @@ import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
-import TagView from './TagView'
+import TagView from '../shared/TagView'
+import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -36,7 +37,11 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             <View style={[styles.image, styles.imagePlaceholder]} />
           )}
           <View style={styles.leftColumn}>
-            <TagView viewModel={viewModel.tag} />
+            <TagView
+              style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
+            >
+              {viewModel.tag}
+            </TagView>
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.isOnline ? (
                 <View style={styles.webcamIconContainer}>
@@ -114,6 +119,10 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.unit,
     ...Typography.caption1,
     color: Colors.primaryColor,
+  },
+  tag: {
+    marginStart: Spacing.unit,
+    marginTop: Spacing.unit,
   },
   title: {
     ...Typography.eventItemTitle,

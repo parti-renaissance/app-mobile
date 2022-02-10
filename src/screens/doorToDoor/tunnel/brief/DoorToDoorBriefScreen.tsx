@@ -26,8 +26,8 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   route,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<TutorialResources>
-  >(new ViewState.Loading())
+    ViewState<TutorialResources>
+  >(ViewState.Loading())
 
   const campaignId = route.params.campaignId
 
@@ -38,16 +38,16 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
   }, [navigation])
 
   const fetchData = useCallback(() => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     DoorToDoorRepository.getInstance()
       .getCampaign(route.params.campaignId)
       .then((campaign) => {
-        setStatefulState(new ViewState.Content({ content: campaign.brief }))
+        setStatefulState(ViewState.Content({ content: campaign.brief }))
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )

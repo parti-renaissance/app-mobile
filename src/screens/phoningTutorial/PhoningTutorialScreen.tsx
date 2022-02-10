@@ -23,22 +23,22 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
   navigation,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<TutorialResources>
-  >(new ViewState.Loading())
+    ViewState<TutorialResources>
+  >(ViewState.Loading())
 
   useEffect(() => {
     navigation.setOptions({
       title: i18n.t('phoning.tutorial.title'),
     })
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
   }, [navigation])
 
   const fetchData = useCallback(() => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     PhoningCampaignRepository.getInstance()
       .getPhoningTutorial()
       .then((markdown) => {
-        setStatefulState(new ViewState.Content({ content: markdown }))
+        setStatefulState(ViewState.Content({ content: markdown }))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, fetchData))

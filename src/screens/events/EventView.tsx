@@ -5,7 +5,8 @@ import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
-import TagView from './TagView'
+import TagView from '../shared/TagView'
+import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel
@@ -22,7 +23,9 @@ const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
         <View style={styles.container}>
           <View style={styles.topRow}>
             <View style={styles.leftColumn}>
-              <TagView style={styles.tag} viewModel={viewModel.tag} />
+              <TagView style={TagViewEventStyleMapper.map(viewModel.tag)}>
+                {viewModel.tag}
+              </TagView>
               <Text style={styles.title}>
                 {viewModel.isOnline ? (
                   <View style={styles.webcamIconContainer}>
@@ -106,11 +109,6 @@ const styles = StyleSheet.create({
   subscribed: {
     ...Typography.caption1,
     color: Colors.primaryColor,
-  },
-  tag: {
-    marginStart: 0,
-    marginTop: 0,
-    textTransform: 'uppercase',
   },
   title: {
     ...Typography.eventItemTitle,

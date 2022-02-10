@@ -1,7 +1,7 @@
 import { News } from '../../../core/entities/News'
-import { format } from 'date-fns'
 import { HomeNewsRowViewModel } from './HomeNewsRowViewModel'
 import i18n from '../../../utils/i18n'
+import { DateFormatter } from '../../../utils/DateFormatter'
 
 export const HomeNewsRowViewModelMapper = {
   map: (news: News): HomeNewsRowViewModel => {
@@ -9,7 +9,9 @@ export const HomeNewsRowViewModelMapper = {
       id: news.id,
       title: news.title,
       description: news.description,
-      date: format(news.date, i18n.t('home.news.date_format')),
+      date: i18n.t('home.news.date_format', {
+        date: DateFormatter.format(news.date, i18n.t('home.news.date_pattern')),
+      }),
       url: news.url,
     }
   },

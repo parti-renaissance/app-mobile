@@ -16,8 +16,8 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
   route,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<DoorToDoorCompletePoll>
-  >(new ViewState.Loading())
+    ViewState<DoorToDoorCompletePoll>
+  >(ViewState.Loading())
 
   useDoorToDoorTunnelNavigationOptions(navigation)
 
@@ -26,7 +26,7 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
       new GetDoorToDoorCompletePollInteractor()
         .execute(route.params.campaignId)
         .then((result) => {
-          setStatefulState(new ViewState.Content(result))
+          setStatefulState(ViewState.Content(result))
         })
         .catch((error) =>
           setStatefulState(ViewStateUtils.networkError(error, fetchData)),

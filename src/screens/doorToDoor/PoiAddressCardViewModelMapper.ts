@@ -3,7 +3,7 @@ import {
   DoorToDoorAddress,
   DoorToDoorAddressCampaign,
 } from '../../core/entities/DoorToDoor'
-import { formatLocalizedDate } from '../../utils/DateFormatter'
+import { DateFormatter } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
@@ -47,7 +47,7 @@ function mapLastPassage(campaign: DoorToDoorAddressCampaign | null): string {
         i18n.t('doorToDoor.lastPassageBy', {
           firstname: campaign.lastPassageDoneBy.firstName,
           lastname: campaign.lastPassageDoneBy.lastName.charAt(0).toUpperCase(),
-          date: formatLocalizedDate(
+          date: DateFormatter.format(
             campaign.lastPassage,
             i18n.t('doorToDoor.date_format'),
           ),

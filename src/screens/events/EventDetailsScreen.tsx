@@ -24,7 +24,7 @@ import {
   EventDescriptionViewModel,
   EventDetailsViewModel,
 } from './EventDetailsViewModel'
-import TagView from './TagView'
+import TagView from '../shared/TagView'
 import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import CardView from '../shared/CardView'
 import PollRow from '../polls/PollRow'
@@ -37,6 +37,7 @@ import { ForbiddenError } from '../../core/errors'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { Analytics } from '../../utils/Analytics'
+import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
@@ -143,7 +144,11 @@ const EventDetailsContent = (
           ) : null}
         </View>
         <View style={styles.tagAttendeesContainer}>
-          <TagView viewModel={viewModel.tag} />
+          <TagView
+            style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
+          >
+            {viewModel.tag}
+          </TagView>
           <Text style={styles.attendees}>{viewModel.attendeesNumber}</Text>
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>
@@ -289,8 +294,8 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
   navigation,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<EventDetailsViewModel>
-  >(new ViewState.Loading())
+    ViewState<EventDetailsViewModel>
+  >(ViewState.Loading())
   const eventId = route.params.eventId
   // TODO use EventId when webservices are available
   console.log(eventId)
@@ -308,7 +313,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
       .getEventDetails(eventId)
       .then((result) => {
         const viewModel = EventDetailsViewModelMapper.map(result)
-        setStatefulState(new ViewState.Content(viewModel))
+        setStatefulState(ViewState.Content(viewModel))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, refetchData))
@@ -318,7 +323,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({
   useEffect(fetchData, [])
 
   const refetchData = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     fetchData()
   }
 
@@ -392,6 +397,10 @@ const styles = StyleSheet.create({
     ...Typography.eventItemTitle,
     fontSize: 14,
     marginHorizontal: Spacing.margin,
+  },
+  tag: {
+    marginStart: Spacing.unit,
+    marginTop: Spacing.unit,
   },
   tagAttendeesContainer: {
     flexDirection: 'row',

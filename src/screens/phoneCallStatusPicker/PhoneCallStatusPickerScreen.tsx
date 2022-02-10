@@ -33,8 +33,8 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
   route,
 }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<Array<PhoningSessionCallStatus>>
-  >(new ViewState.Loading())
+    ViewState<Array<PhoningSessionCallStatus>>
+  >(ViewState.Loading())
 
   const [selectedStatusCode, setSelectedStatusCode] = useState<string>()
   const [isLoading, setLoading] = useState(false)
@@ -44,9 +44,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
     PhoningCampaignRepository.getInstance()
       .getPhoningSessionConfiguration(sessionId)
       .then((configuration) => configuration.callStatus.finished)
-      .then((callStatuses) =>
-        setStatefulState(new ViewState.Content(callStatuses)),
-      )
+      .then((callStatuses) => setStatefulState(ViewState.Content(callStatuses)))
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error, fetchCallStatuses))
       })

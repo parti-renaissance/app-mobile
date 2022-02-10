@@ -23,8 +23,8 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
 }) => {
   usePreventGoingBack()
 
-  const [statefulState, setStatefulState] = useState<ViewState.Type<void>>(
-    new ViewState.Loading(),
+  const [statefulState, setStatefulState] = useState<ViewState<void>>(
+    ViewState.Loading(),
   )
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
 
     const loadSession = () => {
       navigation.setOptions({ headerLeft: () => null })
-      setStatefulState(new ViewState.Loading())
+      setStatefulState(ViewState.Loading())
       PhoningCampaignRepository.getInstance()
         .getPhoningCampaignSession(route.params.campaignId)
         .then((session) => {

@@ -1,33 +1,33 @@
 import React, { FunctionComponent } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import TagView from '../shared/TagView'
+import { VerticalSpacer } from '../shared/Spacer'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { NewsRowViewModel } from './NewsRowViewModel'
 
 type Props = Readonly<{
   viewModel: NewsRowViewModel
-  onPress: (url: string) => void
+  onPress: () => void
 }>
 
 const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
-  const hasUrl = viewModel.url !== undefined
   return (
     <TouchablePlatform
       touchHighlight={Colors.touchHighlight}
-      disabled={!hasUrl}
-      onPress={() => {
-        if (hasUrl) {
-          onPress(viewModel.url!)
-        }
-      }}
+      disabled={!viewModel.isEnabled}
+      onPress={onPress}
     >
       <View style={styles.container}>
         <View style={styles.contentContainer}>
+          <TagView>{viewModel.tag}</TagView>
+          <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.title}>{viewModel.title}</Text>
-          <Text style={styles.description}>{viewModel.description}</Text>
-          <Text style={styles.date}>{viewModel.date}</Text>
+          <VerticalSpacer spacing={Spacing.unit} />
+          <Text style={styles.caption}>{viewModel.author}</Text>
+          <Text style={styles.caption}>{viewModel.date}</Text>
         </View>
-        {hasUrl ? (
+        {viewModel.isEnabled ? (
           <Image
             style={styles.disclosureIcon}
             source={require('../../assets/images/disclosureIndicator.png')}
@@ -47,10 +47,11 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     flexShrink: 1,
+    alignItems: 'flex-start',
   },
-  date: {
-    ...Typography.lightCaption1,
-    marginTop: Spacing.small,
+  caption: {
+    ...Typography.body,
+    color: Colors.lightText,
   },
   description: {
     ...Typography.body,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     marginStart: Spacing.small,
   },
   title: {
-    ...Typography.subheadline,
+    ...Typography.title2,
   },
 })
 

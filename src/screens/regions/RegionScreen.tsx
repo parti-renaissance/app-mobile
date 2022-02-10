@@ -18,8 +18,8 @@ type Props = Readonly<RegionScreenProps>
 
 const RegionScreen: FC<Props> = ({ route }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<RegionViewModel>
-  >(new ViewState.Loading())
+    ViewState<RegionViewModel>
+  >(ViewState.Loading())
 
   const fetchData = () => {
     RegionsRepository.getInstance()
@@ -30,7 +30,7 @@ const RegionScreen: FC<Props> = ({ route }) => {
             result.name,
             result.campaign,
           )
-          setStatefulState(new ViewState.Content(viewModel))
+          setStatefulState(ViewState.Content(viewModel))
         } else {
           // This is a fatal error, should not happen
           setStatefulState(
@@ -41,7 +41,7 @@ const RegionScreen: FC<Props> = ({ route }) => {
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )

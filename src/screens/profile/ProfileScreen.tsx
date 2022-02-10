@@ -21,8 +21,8 @@ import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<GetUserProfileInteractorResult>
-  >(new ViewState.Loading())
+    ViewState<GetUserProfileInteractorResult>
+  >(ViewState.Loading())
 
   const ProfileDispatcher = (content: GetUserProfileInteractorResult) => {
     const openApplicationSettings = async () => {
@@ -93,7 +93,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
         getProfileInteractor
           .execute('remote')
           .then((result) => {
-            setStatefulState(new ViewState.Content(result))
+            setStatefulState(ViewState.Content(result))
           })
           .catch((error) => {
             const isNetworkError = error instanceof ServerTimeoutError
@@ -104,11 +104,11 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
           })
       }
 
-      setStatefulState(new ViewState.Loading())
+      setStatefulState(ViewState.Loading())
       getProfileInteractor
         .execute('cache')
         .then((cachedProfile) => {
-          setStatefulState(new ViewState.Content(cachedProfile))
+          setStatefulState(ViewState.Content(cachedProfile))
           remoteDataFetch(true)
         })
         .catch(() => {

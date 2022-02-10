@@ -4,10 +4,10 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from './Buttons'
 import CircularIcon from './CircularIcon'
-import { ViewState } from './StatefulView'
+import { ViewStateError } from './StatefulView'
 
 type Props = Readonly<{
-  state: ViewState.Error
+  state: ViewStateError
 }>
 
 const ErrorView: FunctionComponent<Props> = (props) => {

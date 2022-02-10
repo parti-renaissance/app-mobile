@@ -2,9 +2,7 @@
   "fr": {
     "common": {
       "loading": "Chargement",
-      "keyboard": {
-        "done": "Ok"
-      },
+      "keyboard": { "done": "Ok" },
       "error": {
         "network": "Une erreur réseau est survenue. ",
         "internal": "Désolé, une erreur interne est survenue. Nous vous invitons à réessayer ultérieurement. \n(code 500)",
@@ -25,9 +23,8 @@
       "noDataPlaceholder": "-"
     },
     "tab": {
-      "item_polls": "Questionnaires",
+      "item_news": "Actualités",
       "item_tools": "Ressources",
-      "item_profile": "Profil",
       "item_home": "Accueil",
       "item_events": "Événements",
       "item_actions": "Actions"
@@ -55,9 +52,7 @@
       "question_unique_choice": "Une seule réponse possible",
       "question_multiple_choices": "Plusieurs réponses possibles",
       "question_rate": "Notez de 1 à 5",
-      "send_answers_error": {
-        "title": "Envoi des réponses"
-      },
+      "send_answers_error": { "title": "Envoi des réponses" },
       "user_profile_progress": "Profil du répondant",
       "consent_data_progress": "Données personnelles",
       "success": {
@@ -176,15 +171,9 @@
       "description": "Vous pouvez à tout moment changer de code postal dans votre profil.",
       "continue": "Continuer"
     },
-    "tools": {
-      "title": "Ressources"
-    },
-    "termsofuse": {
-      "accept": "Accepter"
-    },
-    "datacollect": {
-      "accept": "Accepter"
-    },
+    "tools": { "title": "Ressources" },
+    "termsofuse": { "accept": "Accepter" },
+    "datacollect": { "accept": "Accepter" },
     "home": {
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
@@ -200,7 +189,8 @@
       "region_more": "En savoir plus",
       "news": {
         "section": "Actualités",
-        "date_format": "dd/MM/yyyy",
+        "date_pattern": "dd MMMM yyyy",
+        "date_format": "le {{date}}",
         "more": "Voir toutes les actualités"
       },
       "section_quick_poll": "La question du jour",
@@ -208,25 +198,19 @@
         "votes_count_one": "{{format}} votant",
         "votes_count_other": "{{format}} votants"
       },
-      "event": {
-        "section": "Prochain événement"
-      },
+      "event": { "section": "Prochain événement" },
       "retaliation": {
         "retaliate_button": "Copier le texte et riposter",
         "see_more": "Détail de la riposte"
       }
     },
-    "regions": {
-      "website": "Plus de détails"
-    },
+    "regions": { "website": "Plus de détails" },
     "profileZipCode": {
       "title": "Code postal",
       "label": "Code postal",
       "validate": "Continuer"
     },
-    "news": {
-      "title": "Actualités"
-    },
+    "news": { "title": "Actualités", "author_format": "par {{ author }}" },
     "personalinformation": {
       "title": "Informations personnelles",
       "section_identity": "Votre identité",
@@ -356,10 +340,7 @@
       },
       "position_one": "{{position}}er au classement",
       "position_other": "{{position}}ème au classement",
-      "charter": {
-        "title": "Charte",
-        "accept": "Accepter"
-      }
+      "charter": { "title": "Charte", "accept": "Accepter" }
     },
     "phoningcontacttutorial": {
       "title": "Appeler un de mes contacts",
@@ -375,9 +356,7 @@
       "no_number": {
         "title": "Je n'ai plus de numéro disponible pour le moment."
       },
-      "loader": {
-        "title": "Je cherche un numéro à appeler..."
-      },
+      "loader": { "title": "Je cherche un numéro à appeler..." },
       "other_device": {
         "title": "Appeler depuis un autre appareil",
         "description": "Entrez le numéro de téléphone suivant dans un autre appareil puis cliquez sur « j'ai lancé l'appel »."
@@ -388,12 +367,8 @@
         "description": "Un appel se lance automatiquement depuis votre téléphone. Revenez sur l’application pour répondre au questionnaire.",
         "recall": "Relancer l'appel"
       },
-      "status_picker": {
-        "action": "Valider"
-      },
-      "success": {
-        "title": "Et un de plus, bravo ! "
-      }
+      "status_picker": { "action": "Valider" },
+      "success": { "title": "Et un de plus, bravo ! " }
     },
     "retaliation": {
       "title": "Riposte",
@@ -431,10 +406,7 @@
         "completedQuestionnaires_one": "Questionnaire\nréalisé",
         "completedQuestionnaires_other": "Questionnaires\nréalisés"
       },
-      "tabs": {
-        "history": "Historique",
-        "layout": "Bâtiment"
-      },
+      "tabs": { "history": "Historique", "layout": "Bâtiment" },
       "layout": {
         "buildingtype": {
           "house": "Maison",
@@ -484,15 +456,9 @@
     },
     "actions": {
       "title": "Actions",
-      "polls": {
-        "title": "Questionnaires"
-      },
-      "door_to_door": {
-        "title": "Porte-à-porte"
-      },
-      "phoning": {
-        "title": "Phoning"
-      }
+      "polls": { "title": "Questionnaires" },
+      "door_to_door": { "title": "Porte-à-porte" },
+      "phoning": { "title": "Phoning" }
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
@@ -511,10 +477,7 @@
       "votersCount": "{{votersCount}}",
       "ranking": {
         "title": "Classements",
-        "tabs": {
-          "individual": "Individuel",
-          "departmental": "Départemental"
-        },
+        "tabs": { "individual": "Individuel", "departmental": "Départemental" },
         "rows": {
           "rang": "Rang",
           "militant": "Militant",
@@ -528,10 +491,7 @@
         "subtitle": "Activez votre localisation pour voir les adresses qui nécessitent un passage. ",
         "cta": "Autoriser Je m’engage à accéder à votre localisation. "
       },
-      "charter": {
-        "title": "Charte",
-        "accept": "J'ai lu et j'accepte"
-      },
+      "charter": { "title": "Charte", "accept": "J'ai lu et j'accepte" },
       "filter": {
         "all": "Tous",
         "to_do": "À faire",
@@ -539,9 +499,7 @@
         "completed": "Terminé"
       },
       "tunnel": {
-        "interlocutor": {
-          "title": "Votre interlocuteur"
-        },
+        "interlocutor": { "title": "Votre interlocuteur" },
         "leave_alert": {
           "title": "Quitter le questionnaire",
           "message": "Êtes-vous sûr de vouloir quitter le questionnaire ?",
@@ -550,13 +508,8 @@
         },
         "exit": "Quitter",
         "door": {
-          "qualification": {
-            "title": "Qualification"
-          },
-          "tutorial": {
-            "title": "Brief",
-            "action": "C'est parti !"
-          },
+          "qualification": { "title": "Qualification" },
+          "tutorial": { "title": "Brief", "action": "C'est parti !" },
           "doorknocked": "J’ai frappé à la porte",
           "floorFinished": "Étage terminé",
           "rdvDoor_one": "Rendez-vous à la 1ère porte en partant de la gauche.",
@@ -574,9 +527,7 @@
             "cancel": "Non"
           }
         },
-        "opening": {
-          "title": "La porte s’ouvre-t-elle ?"
-        },
+        "opening": { "title": "La porte s’ouvre-t-elle ?" },
         "success": {
           "wellDone": "Bravo !",
           "newDoor": "Une porte de plus !",

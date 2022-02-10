@@ -42,8 +42,8 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
     PhoningCharterState | undefined
   >()
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<PhoningResources>
-  >(new ViewState.Loading())
+    ViewState<PhoningViewModel>
+  >(ViewState.Loading())
 
   const fetchData = useCallback(() => {
     setRefreshing(true)
@@ -52,12 +52,12 @@ const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
       .then((campaigns) => {
         setResources({ campaigns: campaigns })
         const viewModel = PhoningViewModelMapper.map(campaigns)
-        setStatefulState(new ViewState.Content(viewModel))
+        setStatefulState(ViewState.Content(viewModel))
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )

@@ -18,8 +18,8 @@ import { Analytics } from '../../utils/Analytics'
 
 const ToolsScreen = () => {
   const [statefulState, setStatefulState] = useState<
-    ViewState.Type<ToolsContentViewModel>
-  >(new ViewState.Loading())
+    ViewState<ToolsContentViewModel>
+  >(ViewState.Loading())
   const [isLoadingMore, setLoadingMore] = useState(false)
   const fetchTools = async (
     page: number,
@@ -28,13 +28,11 @@ const ToolsScreen = () => {
   }
 
   const loadFirstPage = () => {
-    setStatefulState(new ViewState.Loading())
+    setStatefulState(ViewState.Loading())
     fetchTools(1)
       .then((paginatedResult) => {
         setStatefulState(
-          new ViewState.Content(
-            ToolsContentViewModelMapper.map(paginatedResult),
-          ),
+          ViewState.Content(ToolsContentViewModelMapper.map(paginatedResult)),
         )
       })
       .catch((error) => {
@@ -46,7 +44,7 @@ const ToolsScreen = () => {
 
   const loadMore = () => {
     const currentState = statefulState
-    if (currentState instanceof ViewState.Content) {
+    if (currentState.state === 'content') {
       const content = currentState.content
       const paginationInfo = content.paginationInfo
       if (paginationInfo.currentPage === paginationInfo.lastPage) {
@@ -57,7 +55,7 @@ const ToolsScreen = () => {
       fetchTools(paginationInfo.currentPage + 1)
         .then((paginatedResult) => {
           setStatefulState(
-            new ViewState.Content(
+            ViewState.Content(
               ToolsContentViewModelMapper.map(paginatedResult, content),
             ),
           )

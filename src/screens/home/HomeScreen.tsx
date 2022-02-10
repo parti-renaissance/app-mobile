@@ -42,9 +42,9 @@ import { Analytics } from '../../utils/Analytics'
 import { EventRowViewModel } from '../events/EventViewModel'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState.Type<HomeResources>
-  >(new ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
+    ViewState.Loading(),
+  )
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
@@ -73,7 +73,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       currentResources.nextEvent,
       currentResources.retaliations,
     )
-    setStatefulState(new ViewState.Content(viewModel))
+    setStatefulState(ViewState.Content(viewModel))
   }, [currentResources])
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
@@ -90,7 +90,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         }
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(new ViewState.Loading())
+            setStatefulState(ViewState.Loading())
             fetchData()
           }),
         )
