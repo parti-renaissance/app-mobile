@@ -54,3 +54,4 @@ export const actionCardHighlight = pickledBluewood
 export const accountCardBackground = selago
 export const toolsCardBackground = selago
 export const circularIconBackground = selago
+export const highlightedNewsBackground = selago

@@ -41,15 +41,18 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
   const renderItem = ({
     section,
     item,
+    index,
   }: SectionListRenderItemInfo<
     NewsRowViewModel,
     NewsContentSectionViewModel
   >) => {
     if (section.isHighlighted) {
+      const isLastItemInSection = index === section.data.length - 1
       return (
         <HighlightedNewsRow
           viewModel={item}
           onPress={() => onNewsSelected(item.id)}
+          style={isLastItemInSection && { paddingBottom: Spacing.margin }}
         />
       )
     } else {
@@ -62,7 +65,12 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
   const renderSectionHeader = (info: {
     section: SectionListData<NewsRowViewModel, NewsContentSectionViewModel>
   }) => {
-    return <NewsSectionHeader title={info.section.title} />
+    return (
+      <NewsSectionHeader
+        title={info.section.title}
+        isHighlighted={info.section.isHighlighted}
+      />
+    )
   }
 
   const NewsContent = (viewModel: NewsContentViewModel) => {

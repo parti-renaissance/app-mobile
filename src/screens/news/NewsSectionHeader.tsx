@@ -4,11 +4,17 @@ import { Colors, Spacing, Typography } from '../../styles'
 
 type Props = Readonly<{
   title: string
+  isHighlighted: boolean
 }>
 
-const NewsSectionHeader: FunctionComponent<Props> = ({ title }) => {
+const NewsSectionHeader: FunctionComponent<Props> = ({
+  title,
+  isHighlighted,
+}) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, isHighlighted && styles.highlightedContainer]}
+    >
       <Text style={styles.text}>{title}</Text>
     </View>
   )
@@ -19,6 +25,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.margin,
     paddingTop: Spacing.mediumMargin,
     paddingBottom: Spacing.unit,
+  },
+  highlightedContainer: {
+    backgroundColor: Colors.highlightedNewsBackground,
   },
   text: {
     ...Typography.title2,
