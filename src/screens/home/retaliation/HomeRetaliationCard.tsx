@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { Colors, Spacing, Styles, Typography } from '../../../styles'
+import { Colors, Spacing, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
-import { BorderlessButton, PrimaryButton } from '../../shared/Buttons'
+import { ActionButton, BorderlessButton } from '../../shared/Buttons'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
 import i18n from '../../../utils/i18n'
 import { HomeRetaliationCardViewModel } from './HomeRetaliationCardViewModel'
+import { VerticalSpacer } from '../../shared/Spacer'
 
 type Props = Readonly<{
   viewModel: HomeRetaliationCardViewModel
@@ -38,14 +39,16 @@ const HomeRetaliationCard: FunctionComponent<Props> = ({
         </View>
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}
-          textStyle={styles.linkText}
+          type="primary"
           style={styles.linkButton}
           onPress={() => {
             onRetaliationSelected(viewModel.id)
           }}
         />
+        <VerticalSpacer spacing={Spacing.margin} />
         <HorizontalSeparator />
-        <PrimaryButton
+        <VerticalSpacer spacing={Spacing.margin} />
+        <ActionButton
           shape={'rounded'}
           buttonStyle={styles.retaliateButton}
           title={i18n.t('home.retaliation.retaliate_button')}
@@ -72,16 +75,10 @@ const styles = StyleSheet.create({
   linkButton: {
     alignSelf: 'flex-start',
     paddingHorizontal: 0,
-    paddingVertical: Spacing.margin,
-    textAlign: 'left',
-  },
-  linkText: {
-    ...Styles.eventSeeMoreButtonTextStyle,
-    ...Typography.body,
-    color: Colors.primaryColor,
+    paddingVertical: 0,
   },
   retaliateButton: {
-    paddingVertical: Spacing.unit,
+    paddingVertical: Spacing.small,
   },
   textContainer: {
     height: 110,

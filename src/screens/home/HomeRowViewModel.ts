@@ -110,3 +110,7 @@ export type HomeRowViewModel =
       type: 'feedPoll'
       value: HomeFeedActionCampaignCardViewModel
     }
+  | {
+      type: 'feedRetaliation'
+      value: HomeRetaliationCardViewModel
+    }

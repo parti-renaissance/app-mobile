@@ -34,6 +34,7 @@ import { HomeFeedPollsRow } from './feed/HomeFeedPollsRow'
 import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
 import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
 import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
+import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -197,6 +198,14 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeFeedPollRow
           viewModel={item.value}
           onPollSelected={onFeedPollSelected}
+        />
+      )
+    } else if (item.type === 'feedRetaliation') {
+      return (
+        <HomeFeedRetaliationRow
+          viewModel={item.value}
+          onRetaliationSelected={onRetaliationSelected}
+          onRetaliateSelected={onRetaliateSelected}
         />
       )
     } else {
