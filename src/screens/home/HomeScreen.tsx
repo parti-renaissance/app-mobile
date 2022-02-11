@@ -70,8 +70,9 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   }
 
   const renderItem = ({
+    section,
     item,
-  }: SectionListRenderItemInfo<HomeRowViewModel>) => {
+  }: SectionListRenderItemInfo<HomeRowViewModel, HomeSectionViewModel>) => {
     if (item.type === 'news') {
       return (
         <HomeNewsRowContainer
@@ -111,9 +112,11 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         />
       )
     } else if (item.type === 'event') {
+      const isHighlighted = section.sectionViewModel?.isHighlighted ?? false
       return (
         <HomeEventRowContainer
           viewModel={item.value}
+          isHighlighted={isHighlighted}
           onEventSelected={onEventSelected}
         />
       )
