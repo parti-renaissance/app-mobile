@@ -31,6 +31,7 @@ export const useHomeScreen = (): {
   onEventSelected: (event: EventRowViewModel) => void
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
+  onFeedNewsSelected: (newsId: string) => void
 } => {
   const navigation = useNavigation<HomeScreenProps['navigation']>()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
@@ -121,6 +122,12 @@ export const useHomeScreen = (): {
     await Analytics.logHomeNewsMore()
     navigation.navigate(Screen.news)
   }
+  const onFeedNewsSelected = (newsId: string) => {
+    navigation.navigate(Screen.newsDetailModal, {
+      screen: Screen.newsDetail,
+      params: { newsId },
+    })
+  }
   const onPollsMorePressed = () => {
     navigation.navigate(Screen.pollsNavigator)
   }
@@ -198,5 +205,6 @@ export const useHomeScreen = (): {
     onEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
+    onFeedNewsSelected,
   }
 }

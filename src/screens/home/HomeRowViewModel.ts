@@ -1,4 +1,5 @@
 import { EventRowViewModel } from '../events/EventViewModel'
+import { NewsRowViewModel } from '../news/NewsRowViewModel'
 import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
@@ -78,4 +79,8 @@ export type HomeRowViewModel =
   | {
       type: 'feedEvent'
       value: HomeEventRowContainerViewModel
+    }
+  | {
+      type: 'feedNews'
+      value: NewsRowViewModel
     }

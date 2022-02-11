@@ -27,6 +27,7 @@ import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowCon
 import { useHomeScreen } from './useHomeScreen.hook'
 import HomeSectionHeader from './HomeSectionHeader'
 import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
+import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -44,6 +45,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
+    onFeedNewsSelected,
   } = useHomeScreen()
 
   useEffect(() => {
@@ -134,6 +136,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeFeedEventRow
           viewModel={item.value}
           onEventSelected={onEventSelected}
+        />
+      )
+    } else if (item.type === 'feedNews') {
+      return (
+        <HomeFeedNewsRow
+          viewModel={item.value}
+          onNewsSelected={onFeedNewsSelected}
         />
       )
     } else {
