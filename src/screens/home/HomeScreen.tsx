@@ -119,7 +119,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       <View style={styles.contentContainer}>
         <SectionList
           stickySectionHeadersEnabled={false}
-          ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
+          ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
           sections={homeViewModel.rows}
           renderItem={renderItem}
           renderSectionHeader={({ section: { sectionViewModel } }) => {

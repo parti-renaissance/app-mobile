@@ -9,38 +9,40 @@ import {
   useWindowDimensions,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
 import { VerticalSpacer } from '../shared/Spacer'
 import Flag from './Flag'
 
+export interface HomeHeaderViewModel {
+  imageUri: string
+  bannerHeading: string
+  bannerTitle: string
+  greeting: string
+}
+
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
-  title: string
+  viewModel: HomeHeaderViewModel
 }>
 
 const IMAGE_ASPECT_RATIO = 375 / 284
-// TODO: (Pierre Felgines) 2022/02/11 Update placeholder
-const IMAGE_PLACEHOLDER_URI = 'https://via.placeholder.com/700'
 
-const HomeHeader: FunctionComponent<Props> = (props) => {
+const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
   const { width: screenWidth } = useWindowDimensions()
   return (
-    <View style={props.style}>
+    <View style={style}>
       <ImageBackground
-        source={{ uri: IMAGE_PLACEHOLDER_URI }}
+        source={{ uri: viewModel.imageUri }}
         style={{ minHeight: screenWidth / IMAGE_ASPECT_RATIO }}
         resizeMode="cover"
       >
         <View style={styles.banner}>
-          <Text style={styles.bannerHeading}>
-            {i18n.t('home.banner.heading')}
-          </Text>
-          <Text style={styles.bannerTitle}>{i18n.t('home.banner.title')}</Text>
+          <Text style={styles.bannerHeading}>{viewModel.bannerHeading}</Text>
+          <Text style={styles.bannerTitle}>{viewModel.bannerTitle}</Text>
         </View>
       </ImageBackground>
       <Flag style={styles.flag} />
       <VerticalSpacer spacing={Spacing.mediumMargin} />
-      <Text style={styles.title}>{props.title}</Text>
+      <Text style={styles.title}>{viewModel.greeting}</Text>
     </View>
   )
 }

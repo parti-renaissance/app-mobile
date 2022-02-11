@@ -43,7 +43,12 @@ export const HomeViewModelMapper = {
     appendTools(tools, rows)
 
     return {
-      title: greeting(profile),
+      header: {
+        imageUri: 'https://via.placeholder.com/700',
+        bannerHeading: i18n.t('home.banner.heading'),
+        bannerTitle: i18n.t('home.banner.title'),
+        greeting: greeting(profile),
+      },
       rows: rows,
     }
   },
