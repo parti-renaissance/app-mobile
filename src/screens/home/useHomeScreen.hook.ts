@@ -35,6 +35,9 @@ export const useHomeScreen = (): {
   onFeedPhoningCampaignsSelected: () => void
   onFeedDoorToDoorCampaignsSelected: () => void
   onFeedPollsSelected: () => void
+  onFeedPhoningCampaignSelected: (campaignId: string) => void
+  onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
+  onFeedPollSelected: (pollId: string) => void
 } => {
   const navigation = useNavigation<HomeScreenProps['navigation']>()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
@@ -201,6 +204,18 @@ export const useHomeScreen = (): {
   const onFeedPollsSelected = () => {
     navigation.navigate(Screen.pollsNavigator)
   }
+  const onFeedPhoningCampaignSelected = (campaignId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    console.log('onFeedPhoningCampaignSelected', campaignId)
+  }
+  const onFeedDoorToDoorCampaignSelected = (campaignId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    console.log('onFeedDoorToDoorCampaignSelected', campaignId)
+  }
+  const onFeedPollSelected = (pollId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    console.log('onFeedPollSelected', pollId)
+  }
 
   return {
     statefulState,
@@ -221,5 +236,8 @@ export const useHomeScreen = (): {
     onFeedPhoningCampaignsSelected,
     onFeedDoorToDoorCampaignsSelected,
     onFeedPollsSelected,
+    onFeedPhoningCampaignSelected,
+    onFeedDoorToDoorCampaignSelected,
+    onFeedPollSelected,
   }
 }

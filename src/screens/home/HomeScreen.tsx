@@ -31,6 +31,9 @@ import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
 import { HomeFeedPhoningCampaignsRow } from './feed/HomeFeedPhoningCampaignsRow'
 import { HomeFeedDoorToDoorCampaignsRow } from './feed/HomeFeedDoorToDoorCampaignsRow'
 import { HomeFeedPollsRow } from './feed/HomeFeedPollsRow'
+import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
+import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
+import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -52,6 +55,9 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onFeedPhoningCampaignsSelected,
     onFeedDoorToDoorCampaignsSelected,
     onFeedPollsSelected,
+    onFeedPhoningCampaignSelected,
+    onFeedDoorToDoorCampaignSelected,
+    onFeedPollSelected,
   } = useHomeScreen()
 
   useEffect(() => {
@@ -170,6 +176,27 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeFeedPollsRow
           viewModel={item.value}
           onPollsSelected={onFeedPollsSelected}
+        />
+      )
+    } else if (item.type === 'feedPhoningCampaign') {
+      return (
+        <HomeFeedPhoningCampaignRow
+          viewModel={item.value}
+          onPhoningCampaignSelected={onFeedPhoningCampaignSelected}
+        />
+      )
+    } else if (item.type === 'feedDoorToDoorCampaign') {
+      return (
+        <HomeFeedDoorToDoorCampaignRow
+          viewModel={item.value}
+          onDoorToDoorCampaignSelected={onFeedDoorToDoorCampaignSelected}
+        />
+      )
+    } else if (item.type === 'feedPoll') {
+      return (
+        <HomeFeedPollRow
+          viewModel={item.value}
+          onPollSelected={onFeedPollSelected}
         />
       )
     } else {

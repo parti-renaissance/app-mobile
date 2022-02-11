@@ -215,7 +215,11 @@
         "doorToDoorCampaigns": "Campagne de porte-à-porte",
         "polls": "Questionnaire",
         "action": {
-          "campaigns": { "title": "Action !", "action": "J’agis maintenant" }
+          "campaigns": { "title": "Action !", "action": "J’agis maintenant" },
+          "campaign": {
+            "heading": "Une nouvelle campagne vient d'être lancée",
+            "action": "J’agis maintenant"
+          }
         }
       }
     },
