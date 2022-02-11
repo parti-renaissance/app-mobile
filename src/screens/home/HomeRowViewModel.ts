@@ -89,3 +89,11 @@ export type HomeRowViewModel =
       type: 'feedPhoningCampaigns'
       value: HomeFeedActionCampaignsCardViewModel
     }
+  | {
+      type: 'feedDoorToDoorCampaigns'
+      value: HomeFeedActionCampaignsCardViewModel
+    }
+  | {
+      type: 'feedPolls'
+      value: HomeFeedActionCampaignsCardViewModel
+    }

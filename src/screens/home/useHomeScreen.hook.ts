@@ -33,6 +33,8 @@ export const useHomeScreen = (): {
   onRetaliateSelected: (id: string) => void
   onFeedNewsSelected: (newsId: string) => void
   onFeedPhoningCampaignsSelected: () => void
+  onFeedDoorToDoorCampaignsSelected: () => void
+  onFeedPollsSelected: () => void
 } => {
   const navigation = useNavigation<HomeScreenProps['navigation']>()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
@@ -193,6 +195,12 @@ export const useHomeScreen = (): {
   const onFeedPhoningCampaignsSelected = () => {
     navigation.navigate(Screen.phoningNavigator, { screen: Screen.phoning })
   }
+  const onFeedDoorToDoorCampaignsSelected = () => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+  }
+  const onFeedPollsSelected = () => {
+    navigation.navigate(Screen.pollsNavigator)
+  }
 
   return {
     statefulState,
@@ -211,5 +219,7 @@ export const useHomeScreen = (): {
     onRetaliateSelected,
     onFeedNewsSelected,
     onFeedPhoningCampaignsSelected,
+    onFeedDoorToDoorCampaignsSelected,
+    onFeedPollsSelected,
   }
 }

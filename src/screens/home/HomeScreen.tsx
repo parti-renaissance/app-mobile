@@ -29,6 +29,8 @@ import HomeSectionHeader from './HomeSectionHeader'
 import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
 import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
 import { HomeFeedPhoningCampaignsRow } from './feed/HomeFeedPhoningCampaignsRow'
+import { HomeFeedDoorToDoorCampaignsRow } from './feed/HomeFeedDoorToDoorCampaignsRow'
+import { HomeFeedPollsRow } from './feed/HomeFeedPollsRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -48,6 +50,8 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onRetaliateSelected,
     onFeedNewsSelected,
     onFeedPhoningCampaignsSelected,
+    onFeedDoorToDoorCampaignsSelected,
+    onFeedPollsSelected,
   } = useHomeScreen()
 
   useEffect(() => {
@@ -152,6 +156,20 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeFeedPhoningCampaignsRow
           viewModel={item.value}
           onPhoningCampaignsSelected={onFeedPhoningCampaignsSelected}
+        />
+      )
+    } else if (item.type === 'feedDoorToDoorCampaigns') {
+      return (
+        <HomeFeedDoorToDoorCampaignsRow
+          viewModel={item.value}
+          onDoorToDoorCampaignsSelected={onFeedDoorToDoorCampaignsSelected}
+        />
+      )
+    } else if (item.type === 'feedPolls') {
+      return (
+        <HomeFeedPollsRow
+          viewModel={item.value}
+          onPollsSelected={onFeedPollsSelected}
         />
       )
     } else {

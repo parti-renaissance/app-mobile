@@ -212,6 +212,8 @@
         "event": "Évènement",
         "news": "Actualité",
         "phoningCampaigns": "Campagne d'appels",
+        "doorToDoorCampaigns": "Campagne de porte-à-porte",
+        "polls": "Questionnaire",
         "action": {
           "campaigns": { "title": "Action !", "action": "J’agis maintenant" }
         }
