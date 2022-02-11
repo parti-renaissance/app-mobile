@@ -6,6 +6,7 @@ import {
   RefreshControl,
   View,
   StatusBar,
+  SectionListData,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -15,8 +16,7 @@ import { StatefulView } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
-import { HomeRowViewModel } from './HomeRowViewModel'
-import HomeSectionRow from './HomeSectionRow'
+import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
 import HomeNewsRowContainer from './news/HomeNewsRowContainer'
@@ -25,6 +25,7 @@ import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { useHomeScreen } from './useHomeScreen.hook'
+import HomeSectionHeader from './HomeSectionHeader'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -52,6 +53,21 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       headerRight: () => <ProfileButton onPress={navigationToProfile} />,
     })
   }, [navigation])
+
+  const renderSectionHeader = (info: {
+    section: SectionListData<HomeRowViewModel, HomeSectionViewModel>
+  }) => {
+    const viewModel = info.section.sectionViewModel
+    if (viewModel === undefined) {
+      return null
+    }
+    return (
+      <HomeSectionHeader
+        title={viewModel.sectionName}
+        isHighlighted={viewModel?.isHighlighted}
+      />
+    )
+  }
 
   const renderItem = ({
     item,
@@ -122,11 +138,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
           sections={homeViewModel.rows}
           renderItem={renderItem}
-          renderSectionHeader={({ section: { sectionViewModel } }) => {
-            return sectionViewModel !== undefined ? (
-              <HomeSectionRow viewModel={sectionViewModel} />
-            ) : null
-          }}
+          renderSectionHeader={renderSectionHeader}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}

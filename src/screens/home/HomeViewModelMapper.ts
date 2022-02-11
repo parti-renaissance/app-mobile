@@ -75,7 +75,10 @@ function appendEvent(
   }
   rows.push({
     id: event.uuid,
-    sectionViewModel: { sectionName: i18n.t('home.event.section') },
+    sectionViewModel: {
+      sectionName: i18n.t('home.event.section'),
+      isHighlighted: true,
+    },
     data: [
       {
         type: 'event',
@@ -116,7 +119,10 @@ function appendQuickPoll(
   const trailingAnswer = quickPoll.result.answers[1]
   rows.push({
     id: quickPoll.id,
-    sectionViewModel: { sectionName: i18n.t('home.section_quick_poll') },
+    sectionViewModel: {
+      sectionName: i18n.t('home.section_quick_poll'),
+      isHighlighted: false,
+    },
     data: [
       {
         type: 'quick_poll',
@@ -159,7 +165,6 @@ function appendRegion(
   if (region !== undefined && region.campaign) {
     rows.push({
       id: 'region_content',
-      sectionViewModel: { sectionName: undefined },
       data: [
         {
           type: 'region',
@@ -175,7 +180,10 @@ function appendNews(news: News[], rows: HomeSectionViewModel[]) {
     const subNews = news.slice(0, MAX_NEWS)
     rows.push({
       id: 'news_content',
-      sectionViewModel: { sectionName: i18n.t('home.news.section') },
+      sectionViewModel: {
+        sectionName: i18n.t('home.news.section'),
+        isHighlighted: false,
+      },
       data: [
         {
           type: 'news',
@@ -195,7 +203,10 @@ function appendPolls(polls: Poll[], rows: HomeSectionViewModel[]) {
     const subPolls = polls.slice(0, MAX_POLLS)
     rows.push({
       id: 'polls_content',
-      sectionViewModel: { sectionName: i18n.t('home.section_polls') },
+      sectionViewModel: {
+        sectionName: i18n.t('home.section_polls'),
+        isHighlighted: false,
+      },
       data: [
         {
           type: 'polls',
@@ -215,7 +226,10 @@ function appendTools(tools: Tool[], rows: HomeSectionViewModel[]) {
     const subTools = tools.slice(0, MAX_TOOLS)
     rows.push({
       id: 'tools_content',
-      sectionViewModel: { sectionName: i18n.t('home.section_tools') },
+      sectionViewModel: {
+        sectionName: i18n.t('home.section_tools'),
+        isHighlighted: false,
+      },
       data: [
         {
           type: 'tools',

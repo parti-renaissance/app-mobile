@@ -7,7 +7,8 @@ import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardV
 import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
-  sectionName?: string
+  sectionName: string
+  isHighlighted: boolean
 }
 
 export interface HomeNewsRowContainerViewModel {
