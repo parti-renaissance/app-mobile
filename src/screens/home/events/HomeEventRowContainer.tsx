@@ -30,7 +30,9 @@ export const HomeEventRowContainer: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: Spacing.unit,
+    paddingHorizontal: Spacing.margin,
+    paddingTop: Spacing.unit,
+    paddingBottom: Spacing.margin,
   },
   highlightedContainer: {
     backgroundColor: Colors.highlightedNewsBackground,

@@ -1,5 +1,12 @@
 import React, { FC } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
@@ -10,12 +17,13 @@ import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel
+  style?: StyleProp<ViewStyle>
   onEventSelected: (event: EventRowViewModel) => void
 }>
 
-const EventView: FC<Props> = ({ viewModel, onEventSelected }) => {
+const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   return (
-    <CardView style={styles.card} backgroundColor={Colors.defaultBackground}>
+    <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
         onPress={() => onEventSelected(viewModel)}
@@ -76,10 +84,6 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
     flexDirection: 'row',
     marginTop: Spacing.unit,
-  },
-  card: {
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.unit,
   },
   checkIcon: {
     tintColor: Colors.primaryColor,
