@@ -32,6 +32,7 @@ export const useHomeScreen = (): {
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
   onFeedNewsSelected: (newsId: string) => void
+  onFeedPhoningCampaignsSelected: () => void
 } => {
   const navigation = useNavigation<HomeScreenProps['navigation']>()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
@@ -189,6 +190,9 @@ export const useHomeScreen = (): {
       RetaliationService.retaliate(retaliation)
     }
   }
+  const onFeedPhoningCampaignsSelected = () => {
+    navigation.navigate(Screen.phoningNavigator, { screen: Screen.phoning })
+  }
 
   return {
     statefulState,
@@ -206,5 +210,6 @@ export const useHomeScreen = (): {
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
+    onFeedPhoningCampaignsSelected,
   }
 }

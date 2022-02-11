@@ -28,6 +28,7 @@ import { useHomeScreen } from './useHomeScreen.hook'
 import HomeSectionHeader from './HomeSectionHeader'
 import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
 import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
+import { HomeFeedPhoningCampaignsRow } from './feed/HomeFeedPhoningCampaignsRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -46,6 +47,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
+    onFeedPhoningCampaignsSelected,
   } = useHomeScreen()
 
   useEffect(() => {
@@ -143,6 +145,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeFeedNewsRow
           viewModel={item.value}
           onNewsSelected={onFeedNewsSelected}
+        />
+      )
+    } else if (item.type === 'feedPhoningCampaigns') {
+      return (
+        <HomeFeedPhoningCampaignsRow
+          viewModel={item.value}
+          onPhoningCampaignsSelected={onFeedPhoningCampaignsSelected}
         />
       )
     } else {

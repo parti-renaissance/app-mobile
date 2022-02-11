@@ -210,7 +210,11 @@
       "feed": {
         "section": "Dernières nouveautés",
         "event": "Évènement",
-        "news": "Actualité"
+        "news": "Actualité",
+        "phoningCampaigns": "Campagne d'appels",
+        "action": {
+          "campaigns": { "title": "Action !", "action": "J’agis maintenant" }
+        }
       }
     },
     "regions": { "website": "Plus de détails" },

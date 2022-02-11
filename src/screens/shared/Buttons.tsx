@@ -120,6 +120,16 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   )
 }
 
+export const ActionButton: FunctionComponent<ButtonProps> = (props) => {
+  return (
+    <BaseButton
+      backgroundColor={Colors.accent}
+      textColor={Colors.primaryButtonTextColor}
+      {...props}
+    />
+  )
+}
+
 export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
   props,
 ) => {
