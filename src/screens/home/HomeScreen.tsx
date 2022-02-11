@@ -26,6 +26,7 @@ import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { useHomeScreen } from './useHomeScreen.hook'
 import HomeSectionHeader from './HomeSectionHeader'
+import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -126,6 +127,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           viewModel={item.value}
           onRetaliationSelected={onRetaliationSelected}
           onRetaliateSelected={onRetaliateSelected}
+        />
+      )
+    } else if (item.type === 'feedEvent') {
+      return (
+        <HomeFeedEventRow
+          viewModel={item.value}
+          onEventSelected={onEventSelected}
         />
       )
     } else {

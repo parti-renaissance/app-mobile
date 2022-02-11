@@ -59,3 +59,4 @@ export const frenchFlagBlue = portGore
 export const frenchFlagWhite = white
 export const frenchFlagRed = monza
 export const homeBannerOverlayBackground = 'rgba(0, 0, 0, 0.4)'
+export const homeFeedEventBackground = portGore

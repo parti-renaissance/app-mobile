@@ -206,7 +206,8 @@
       "retaliation": {
         "retaliate_button": "Copier le texte et riposter",
         "see_more": "Détail de la riposte"
-      }
+      },
+      "feed": { "section": "Dernières nouveautés", "event": "Évènement" }
     },
     "regions": { "website": "Plus de détails" },
     "profileZipCode": {

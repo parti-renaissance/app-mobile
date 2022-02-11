@@ -75,3 +75,7 @@ export type HomeRowViewModel =
       type: 'retaliation'
       value: HomeRetaliationRowContainerViewModel
     }
+  | {
+      type: 'feedEvent'
+      value: HomeEventRowContainerViewModel
+    }
