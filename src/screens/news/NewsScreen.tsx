@@ -1,27 +1,34 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import {
-  FlatList,
   Text,
-  ListRenderItemInfo,
   RefreshControl,
   StyleSheet,
   View,
+  SectionList,
+  SectionListRenderItemInfo,
+  SectionListData,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { NewsScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
 import { StatefulView } from '../shared/StatefulView'
-import NewsContentViewModel from './NewsContentViewModel'
+import HighlightedNewsRow from './HighlightedNewsRow'
+import {
+  NewsContentSectionViewModel,
+  NewsContentViewModel,
+} from './NewsContentViewModel'
 import NewsRow from './NewsRow'
 import { NewsRowViewModel } from './NewsRowViewModel'
+import NewsSectionHeader from './NewsSectionHeader'
 import { useNewsScreen } from './useNewsScreen.hook'
 
 const Separator = () => {
   return <View style={styles.separator} />
 }
 
-const NewsScreen = () => {
+const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
   const {
     statefulState,
     isLoadingMore,
@@ -31,23 +38,59 @@ const NewsScreen = () => {
     onNewsSelected,
   } = useNewsScreen()
 
-  const renderItem = ({ item }: ListRenderItemInfo<NewsRowViewModel>) => {
-    return <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
+  const renderItem = ({
+    section,
+    item,
+    index,
+  }: SectionListRenderItemInfo<
+    NewsRowViewModel,
+    NewsContentSectionViewModel
+  >) => {
+    if (section.isHighlighted) {
+      const isLastItemInSection = index === section.data.length - 1
+      return (
+        <HighlightedNewsRow
+          viewModel={item}
+          onPress={() => onNewsSelected(item.id)}
+          style={isLastItemInSection && { paddingBottom: Spacing.margin }}
+        />
+      )
+    } else {
+      return (
+        <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
+      )
+    }
+  }
+
+  const renderSectionHeader = (info: {
+    section: SectionListData<NewsRowViewModel, NewsContentSectionViewModel>
+  }) => {
+    return (
+      <NewsSectionHeader
+        title={info.section.title}
+        isHighlighted={info.section.isHighlighted}
+      />
+    )
   }
 
   const NewsContent = (viewModel: NewsContentViewModel) => {
     return (
-      <FlatList
+      <SectionList
         contentContainerStyle={styles.contentContainer}
-        data={viewModel.rows}
+        sections={viewModel.sections}
         renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
         ListHeaderComponent={
           <Text style={styles.title}>{i18n.t('news.title')}</Text>
         }
         ListFooterComponent={
           isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
         }
-        ItemSeparatorComponent={Separator}
+        ItemSeparatorComponent={(props: {
+          section: NewsContentSectionViewModel
+        }) => {
+          return props.section.isHighlighted ? null : <Separator />
+        }}
         keyExtractor={(item) => item.id}
         refreshControl={
           <RefreshControl
@@ -58,6 +101,7 @@ const NewsScreen = () => {
         }
         onEndReachedThreshold={0.8}
         onEndReached={loadMore}
+        stickySectionHeadersEnabled={false}
       />
     )
   }
@@ -84,14 +128,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: Spacing.largeMargin,
-  },
-  image: {
-    aspectRatio: 288 / 103,
-    height: undefined,
-    width: '100%',
-  },
-  imageContainer: {
-    paddingHorizontal: Spacing.margin,
   },
   separator: {
     backgroundColor: Colors.separator,

@@ -23,6 +23,7 @@ import PhoningSessionModal from '../screens/phoningSessionNavigator/PhoningSessi
 import DoorToDoorTunnelModal from '../screens/doorToDoor/tunnel/DoorToDoorTunnelModal'
 import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
 import SignUpScreen from '../screens/authentication/SignUpScreen'
+import NewsDetailModal from '../screens/newsDetail/NewsDetailModal'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -89,6 +90,11 @@ const Navigator: FunctionComponent = () => {
         <RootStack.Screen
           name={Screen.doorToDoorTunnelModal}
           component={DoorToDoorTunnelModal}
+          options={{ gestureEnabled: false }}
+        />
+        <RootStack.Screen
+          name={Screen.newsDetailModal}
+          component={NewsDetailModal}
           options={{ gestureEnabled: false }}
         />
       </RootStack.Navigator>
