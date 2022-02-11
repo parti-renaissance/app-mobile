@@ -43,6 +43,7 @@ const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
       <Flag style={styles.flag} />
       <VerticalSpacer spacing={Spacing.mediumMargin} />
       <Text style={styles.title}>{viewModel.greeting}</Text>
+      <VerticalSpacer spacing={Spacing.mediumMargin} />
     </View>
   )
 }
