@@ -74,6 +74,7 @@ export const useNewsScreen = (): {
   }
 
   const onNewsSelected = (id: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Check where to log analytics `Analytics.logNewsOpen()`
     navigation.navigate(Screen.newsDetailModal, {
       screen: Screen.newsDetail,
       params: { newsId: id },
