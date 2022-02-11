@@ -53,6 +53,7 @@
 		<string>Roboto-Regular.ttf</string>
 		<string>Maax-Medium.ttf</string>
 		<string>Maax-Bold.ttf</string>
+		<string>Maax-Mediumitalic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
