@@ -6,7 +6,7 @@ import { ActionRowViewModel } from './ActionRowViewModel'
 
 type Props = Readonly<{
   viewModel: ActionRowViewModel
-  onPress: (id: number) => void
+  onPress: (actionId: string) => void
 }>
 
 export const ActionRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {

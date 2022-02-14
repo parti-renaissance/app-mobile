@@ -20,7 +20,7 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
   >(ViewState.Loading())
 
   const isFocused = useIsFocused()
-  const [fetchedActions] = useState(new Map<number, Action>())
+  const [fetchedActions] = useState(new Map<string, Action>())
 
   const fetch = useCallback(() => {
     setStatefulState(ViewState.Loading())
@@ -47,11 +47,26 @@ const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
     return (
       <ActionRow
         viewModel={item}
-        onPress={async () => {
-          if (item.screen === Screen.pollsNavigator) {
-            await Analytics.logActionsPolls()
+        onPress={(actionId: string) => {
+          const action = fetchedActions.get(actionId)
+          if (action === undefined) {
+            return
           }
-          navigation.navigate(item.screen)
+          switch (action.type) {
+            case 'polls': {
+              Analytics.logActionsPolls()
+              navigation.navigate(Screen.pollsNavigator)
+              break
+            }
+            case 'phoning': {
+              navigation.navigate(Screen.phoningNavigator)
+              break
+            }
+            case 'doorToDoor': {
+              navigation.navigate(Screen.doorToDoorNavigator)
+              break
+            }
+          }
         }}
       />
     )

@@ -1,12 +1,12 @@
-export enum ActionImage {
-  DOORTODOOR,
-  PHONING,
-  POLLS,
-}
+export type ActionType = 'polls' | 'phoning' | 'doorToDoor'
 
 export interface Action {
-  id: number
-  image: ActionImage
-  screen: string
-  title: string
+  id: string
+  type: ActionType
+}
+
+export const Action = {
+  fromType: (type: ActionType): Action => {
+    return { id: type, type }
+  },
 }
