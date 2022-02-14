@@ -61,23 +61,25 @@ const EventQuickFilters: FC<Props> = (props) => {
         )}
         headerBackgroundContainerStyle={{ height: headerHeight }}
       />
-      <SectionGrid
-        sections={viewModel.sections}
-        itemDimension={100}
-        renderSectionHeader={({ section: { title } }) => {
-          return title !== undefined ? (
-            <View style={styles.sectionHeaderContainer}>
-              <Text style={styles.section}>{title}</Text>
-            </View>
-          ) : null
-        }}
-        renderItem={renderItem}
-      />
-      <View style={styles.bottomContainer}>
-        <PrimaryButton
-          title={i18n.t('centerofinterest.save')}
-          onPress={onSubmit}
+      <View style={styles.contentContainer}>
+        <SectionGrid
+          sections={viewModel.sections}
+          itemDimension={100}
+          renderSectionHeader={({ section: { title } }) => {
+            return title !== undefined ? (
+              <View style={styles.sectionHeaderContainer}>
+                <Text style={styles.section}>{title}</Text>
+              </View>
+            ) : null
+          }}
+          renderItem={renderItem}
         />
+        <View style={styles.bottomContainer}>
+          <PrimaryButton
+            title={i18n.t('centerofinterest.save')}
+            onPress={onSubmit}
+          />
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -92,6 +94,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
   },
   headerClearFilters: {
     ...Typography.callout,
