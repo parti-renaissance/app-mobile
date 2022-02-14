@@ -146,10 +146,7 @@ export const useHomeScreen = (): {
       return
     }
     await Analytics.logHomeRegionMore()
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.region,
-      params: { zipCode: currentResources.zipCode },
-    })
+    navigation.navigate(Screen.region, { zipCode: currentResources.zipCode })
   }
   const onQuickPollAnswerSelected = async (
     pollId: string,
@@ -172,10 +169,7 @@ export const useHomeScreen = (): {
   }
   const onEventSelected = async (event: EventRowViewModel) => {
     await Analytics.logHomeEventOpen(event.title, event.category)
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.eventDetails,
-      params: { eventId: event.id },
-    })
+    navigation.navigate(Screen.eventDetails, { eventId: event.id })
   }
   const onRetaliationSelected = (id: string) => {
     const retaliation = currentResources?.retaliations.find(
