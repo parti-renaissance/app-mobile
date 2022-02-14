@@ -175,6 +175,10 @@
     "termsofuse": { "accept": "Accepter" },
     "datacollect": { "accept": "Accepter" },
     "home": {
+      "banner": {
+        "heading": "Je m'engage\navec",
+        "title": "la majorité présidentielle"
+      },
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
       "section_polls": "Questionnaires",

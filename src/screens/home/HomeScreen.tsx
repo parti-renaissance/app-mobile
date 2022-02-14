@@ -1,20 +1,17 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import {
   StyleSheet,
   SectionList,
   SectionListRenderItemInfo,
   RefreshControl,
+  View,
+  StatusBar,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
 import { HomeScreenProps, Screen } from '../../navigation'
 import { Colors } from '../../styles'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
@@ -22,32 +19,30 @@ import { HomeRowViewModel } from './HomeRowViewModel'
 import HomeSectionRow from './HomeSectionRow'
 import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
-import { HomeViewModelMapper } from './HomeViewModelMapper'
 import HomeNewsRowContainer from './news/HomeNewsRowContainer'
-import {
-  GetHomeResourcesInteractor,
-  HomeResources,
-} from '../../core/interactor/GetHomeResourcesInteractor'
-import { useFocusEffect } from '@react-navigation/native'
-import { ExternalLink } from '../shared/ExternalLink'
-import { ServerTimeoutError } from '../../core/errors'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
-import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
-import { RetaliationService } from '../../data/RetaliationService'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { Analytics } from '../../utils/Analytics'
-import { EventRowViewModel } from '../events/EventViewModel'
+import { useHomeScreen } from './useHomeScreen.hook'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
-  const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
-    ViewState.Loading(),
-  )
-  const [isRefreshing, setRefreshing] = useState(true)
-  const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const [currentResources, setResources] = useState<HomeResources>()
+  const {
+    statefulState,
+    isRefreshing,
+    onRefresh,
+    onPollSelected,
+    onNewsSelected,
+    onToolSelected,
+    onNewsMorePressed,
+    onPollsMorePressed,
+    onToolsMorePressed,
+    onRegionMorePressed,
+    onQuickPollAnswerSelected,
+    onEventSelected,
+    onRetaliationSelected,
+    onRetaliateSelected,
+  } = useHomeScreen()
 
   useEffect(() => {
     const navigationToProfile = () => {
@@ -57,145 +52,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       headerRight: () => <ProfileButton onPress={navigationToProfile} />,
     })
   }, [navigation])
-
-  useEffect(() => {
-    // Reload view model (and view) when resources model changes
-    if (!currentResources) {
-      return
-    }
-    const viewModel = HomeViewModelMapper.map(
-      currentResources.profile,
-      currentResources.region,
-      currentResources.news,
-      currentResources.polls,
-      currentResources.tools,
-      currentResources.quickPoll,
-      currentResources.nextEvent,
-      currentResources.retaliations,
-    )
-    setStatefulState(ViewState.Content(viewModel))
-  }, [currentResources])
-
-  const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
-    setRefreshing(true)
-    new GetHomeResourcesInteractor()
-      .execute('remote')
-      .then((resources) => {
-        setResources(resources)
-      })
-      .catch((error) => {
-        const isNetworkError = error instanceof ServerTimeoutError
-        if (isNetworkError && cacheJustLoaded) {
-          return
-        }
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading())
-            fetchData()
-          }),
-        )
-      })
-      .finally(() => {
-        setRefreshing(false)
-      })
-  }, [])
-
-  const firstDataFetch = useCallback(() => {
-    new GetHomeResourcesInteractor()
-      .execute('cache')
-      .then((resources) => {
-        setResources(resources)
-        if (!initialFetchDone) {
-          setInitialFetchDone(true)
-          fetchData(true)
-        }
-      })
-      .catch(() => {
-        fetchData()
-      })
-  }, [fetchData, initialFetchDone])
-
-  useFocusEffect(firstDataFetch)
-
-  const onPollSelected = (pollId: number) => {
-    navigation.navigate(Screen.pollDetailModal, {
-      screen: Screen.pollDetail,
-      params: { pollId: pollId },
-    })
-  }
-  const onNewsSelected = async (newsUrl: string) => {
-    await Analytics.logHomeNewsOpen()
-    ExternalLink.openUrl(newsUrl)
-  }
-  const onToolSelected = async (toolUrl: string, toolName: string) => {
-    await Analytics.logHomeToolOpen(toolName)
-    ExternalLink.openUrl(toolUrl)
-  }
-  const onNewsMorePressed = async () => {
-    await Analytics.logHomeNewsMore()
-    navigation.navigate(Screen.news)
-  }
-  const onPollsMorePressed = () => {
-    navigation.navigate(Screen.pollsNavigator)
-  }
-  const onToolsMorePressed = async () => {
-    await Analytics.logHomeToolsMore()
-    navigation.navigate(Screen.tools)
-  }
-  const onRegionMorePressed = async () => {
-    if (!currentResources) {
-      return
-    }
-    await Analytics.logHomeRegionMore()
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.region,
-      params: { zipCode: currentResources.zipCode },
-    })
-  }
-  const onQuickPollAnswerSelected = async (
-    pollId: string,
-    answerId: string,
-  ) => {
-    if (!currentResources) {
-      return
-    }
-    const interactor = new SaveQuickPollAsAnsweredInteractor()
-    const updatedPoll = await interactor.execute({
-      quickPollId: pollId,
-      answerId: answerId,
-    })
-    // We must make a clone to update state
-    const clone: HomeResources = {
-      ...currentResources,
-      quickPoll: updatedPoll,
-    }
-    setResources(clone)
-  }
-  const onEventSelected = async (event: EventRowViewModel) => {
-    await Analytics.logHomeEventOpen(event.title, event.category)
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.eventDetails,
-      params: { eventId: event.id },
-    })
-  }
-  const onRetaliationSelected = (id: string) => {
-    const retaliation = currentResources?.retaliations.find(
-      (item) => item.id === id,
-    )
-    if (retaliation !== null && retaliation !== undefined) {
-      navigation.navigate(Screen.retaliationDetailScreen, {
-        retaliation: retaliation,
-      })
-    }
-  }
-  const onRetaliateSelected = (id: string) => {
-    const retaliation = currentResources?.retaliations.find(
-      (item) => item.id === id,
-    )
-    if (retaliation !== null && retaliation !== undefined) {
-      RetaliationService.retaliate(retaliation)
-    }
-  }
 
   const renderItem = ({
     item,
@@ -260,10 +116,10 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   const HomeContent = (homeViewModel: HomeViewModel) => {
     return (
-      <>
+      <View style={styles.contentContainer}>
         <SectionList
           stickySectionHeadersEnabled={false}
-          ListHeaderComponent={<HomeHeader title={homeViewModel.title} />}
+          ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
           sections={homeViewModel.rows}
           renderItem={renderItem}
           renderSectionHeader={({ section: { sectionViewModel } }) => {
@@ -274,17 +130,19 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
-              onRefresh={fetchData}
+              onRefresh={onRefresh}
               colors={[Colors.primaryColor]}
             />
           }
           keyExtractor={(item, index) => item.type + index}
         />
-      </>
+      </View>
     )
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+      {/* We need the <StatusBar> component for Android */}
+      <StatusBar translucent backgroundColor="transparent" />
       <StatefulView contentComponent={HomeContent} state={statefulState} />
     </SafeAreaView>
   )
@@ -294,6 +152,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
   },
 })
 

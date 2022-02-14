@@ -1,6 +1,7 @@
+import { HomeHeaderViewModel } from './HomeHeader'
 import { HomeSectionViewModel } from './HomeRowViewModel'
 
 export interface HomeViewModel {
-  title: string
+  header: HomeHeaderViewModel
   rows: ReadonlyArray<HomeSectionViewModel>
 }

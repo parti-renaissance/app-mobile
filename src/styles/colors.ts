@@ -55,3 +55,7 @@ export const accountCardBackground = selago
 export const toolsCardBackground = selago
 export const circularIconBackground = selago
 export const highlightedNewsBackground = selago
+export const frenchFlagBlue = portGore
+export const frenchFlagWhite = white
+export const frenchFlagRed = monza
+export const homeBannerOverlayBackground = 'rgba(0, 0, 0, 0.4)'

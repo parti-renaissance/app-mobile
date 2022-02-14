@@ -1,27 +1,76 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, ViewStyle, StyleProp } from 'react-native'
-import { Spacing, Typography } from '../../styles'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  StyleProp,
+  ImageBackground,
+  useWindowDimensions,
+} from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { VerticalSpacer } from '../shared/Spacer'
+import Flag from './Flag'
+
+export interface HomeHeaderViewModel {
+  imageUri: string
+  bannerHeading: string
+  bannerTitle: string
+  greeting: string
+}
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
-  title: string
+  viewModel: HomeHeaderViewModel
 }>
 
-const HomeHeader: FunctionComponent<Props> = (props) => {
+const IMAGE_ASPECT_RATIO = 375 / 284
+
+const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
+  const { width: screenWidth } = useWindowDimensions()
   return (
-    <View style={[props.style, styles.container]}>
-      <Text style={styles.title}>{props.title}</Text>
+    <View style={style}>
+      <ImageBackground
+        source={{ uri: viewModel.imageUri }}
+        style={{ minHeight: screenWidth / IMAGE_ASPECT_RATIO }}
+        resizeMode="cover"
+      >
+        <View style={styles.banner}>
+          <Text style={styles.bannerHeading}>{viewModel.bannerHeading}</Text>
+          <Text style={styles.bannerTitle}>{viewModel.bannerTitle}</Text>
+        </View>
+      </ImageBackground>
+      <Flag style={styles.flag} />
+      <VerticalSpacer spacing={Spacing.mediumMargin} />
+      <Text style={styles.title}>{viewModel.greeting}</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: Spacing.margin,
-    marginTop: Spacing.margin,
-  },
   title: {
     ...Typography.title,
+    color: Colors.darkText,
+    lineHeight: 34,
+    marginHorizontal: Spacing.margin,
+  },
+  banner: {
+    flex: 1,
+    backgroundColor: Colors.homeBannerOverlayBackground,
+    padding: Spacing.mediumMargin,
+    paddingTop: Spacing.extraLargeMargin,
+    justifyContent: 'flex-end',
+  },
+  bannerHeading: {
+    ...Typography.homeBannerTitleItalic,
+    color: Colors.veryLightText,
+  },
+  bannerTitle: {
+    ...Typography.homeBannerTitle,
+    color: Colors.veryLightText,
+  },
+  flag: {
+    height: 8,
   },
 })
 

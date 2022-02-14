@@ -14,6 +14,7 @@ import { Colors, Spacing } from '../../styles'
 
 type NavigationHeaderButtonProps = Readonly<{
   style?: StyleProp<ViewStyle>
+  buttonStyle?: StyleProp<ViewStyle>
   onPress?: () => void
   source: ImageSourcePropType
   tintColor?: string
@@ -27,9 +28,9 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
 }) => {
   if (Platform.OS === 'android') {
     return (
-      <View style={styles.rippleContainer}>
+      <View style={[styles.container, style]}>
         <Pressable
-          style={[styles.container, style]}
+          style={[styles.button]}
           onPress={onPress}
           android_ripple={{ color: Colors.touchHighlight }}
         >
@@ -39,31 +40,31 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
     )
   } else {
     return (
-      <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-        <Image source={source} style={{ tintColor: tintColor }} />
-      </TouchableOpacity>
+      <View style={[styles.container, style]}>
+        <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+          <Image source={source} style={{ tintColor: tintColor }} />
+        </TouchableOpacity>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  button: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: Spacing.small,
+  },
+  container: {
+    overflow: 'hidden',
     minHeight: 44,
     minWidth: 44,
-  },
-  rippleContainer: {
-    borderRadius: 100,
-    overflow: 'hidden',
+    borderRadius: 22,
+    margin: Spacing.small,
   },
 })
 
-type ButtonProps = Readonly<{
-  style?: StyleProp<ViewStyle>
-  onPress?: () => void
-}>
+type ButtonProps = Pick<NavigationHeaderButtonProps, 'style' | 'onPress'>
 
 export const CloseButton: FunctionComponent<ButtonProps> = (props) => {
   return (
@@ -79,6 +80,8 @@ export const ProfileButton: FunctionComponent<ButtonProps> = (props) => {
   return (
     <NavigationHeaderButton
       {...props}
+      style={[props.style, { backgroundColor: Colors.primaryColor }]}
+      tintColor={Colors.veryLightText}
       source={require('../../assets/images/profileIcon.png')}
     />
   )
