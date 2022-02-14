@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback, useLayoutEffect, useState } from 'react'
 import {
   Dimensions,
   Image,
@@ -9,17 +9,15 @@ import {
   View,
 } from 'react-native'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
-import { EventScreenProps, Screen } from '../../navigation'
+import { EventScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import EventListScreen from './EventListScreen'
-import { useDebounce } from 'use-debounce'
 import EventQuickFilters from './EventQuickFilters'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import { EventMode } from '../../core/entities/Event'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import SafeAreaView from 'react-native-safe-area-view'
 import { Analytics } from '../../utils/Analytics'
 import { useEventsScreen } from './useEventsScreen.hook'
+import { EventsFilterButton } from '../shared/NavigationHeaderButton'
 
 const ROUTES = [
   { key: 'home', title: i18n.t('events.tab_home') },
@@ -27,7 +25,7 @@ const ROUTES = [
   { key: 'myEvents', title: i18n.t('events.tab_mine') },
 ]
 
-const EventsScreen: FC<EventScreenProps> = () => {
+const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
   const initialLayout = { width: Dimensions.get('window').width }
   const [index, setIndex] = useState(0)
 
@@ -41,6 +39,15 @@ const EventsScreen: FC<EventScreenProps> = () => {
     onFiltersSelected,
     dismissModal,
   } = useEventsScreen()
+
+  useLayoutEffect(() => {
+    const updateNavigationHeader = () => {
+      navigation.setOptions({
+        headerRight: () => <EventsFilterButton onPress={onFiltersSelected} />,
+      })
+    }
+    updateNavigationHeader()
+  }, [navigation, onFiltersSelected])
 
   const Home = useCallback(
     () => (
@@ -98,6 +105,7 @@ const EventsScreen: FC<EventScreenProps> = () => {
       }}
     />
   )
+
   return (
     <SafeAreaView style={styles.scene}>
       <Modal visible={modalVisible} animationType="slide">
@@ -107,16 +115,6 @@ const EventsScreen: FC<EventScreenProps> = () => {
           onNewFilters={onNewFilters}
         />
       </Modal>
-      <TouchablePlatform
-        style={styles.filterIconContainer}
-        touchHighlight={Colors.touchHighlight}
-        onPress={onFiltersSelected}
-      >
-        <Image
-          style={styles.filterIcon}
-          source={require('../../assets/images/iconFilters.png')}
-        />
-      </TouchablePlatform>
       <Text style={styles.title}>{i18n.t('events.title')}</Text>
       <View style={styles.searchContainer}>
         <Image source={require('../../assets/images/iconSearch.png')} />
@@ -139,13 +137,6 @@ const EventsScreen: FC<EventScreenProps> = () => {
 }
 
 const styles = StyleSheet.create({
-  filterIcon: {
-    margin: Spacing.margin,
-    tintColor: Colors.primaryColor,
-  },
-  filterIconContainer: {
-    alignSelf: 'flex-end',
-  },
   scene: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
@@ -169,7 +160,7 @@ const styles = StyleSheet.create({
     ...Typography.largeTitle,
     marginBottom: Spacing.margin,
     marginHorizontal: Spacing.margin,
-    paddingTop: Spacing.small,
+    marginTop: Spacing.largeMargin,
   },
 })
 

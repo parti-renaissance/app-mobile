@@ -13,7 +13,7 @@ const EventNavigator: FunctionComponent = () => {
       <EventStack.Screen
         name={Screen.events}
         component={EventsScreen}
-        options={{ headerShown: false }}
+        options={{ headerTransparent: true }}
       />
       <EventStack.Screen
         name={Screen.eventDetails}

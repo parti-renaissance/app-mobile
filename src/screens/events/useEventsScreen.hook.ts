@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
-import { Dimensions } from 'react-native'
 import { useDebounce } from 'use-debounce/lib'
 import { EventMode } from '../../core/entities/Event'
 import { EventScreenProps, Screen } from '../../navigation'
@@ -46,9 +45,9 @@ export const useEventsScreen = (): {
     setModalVisible(false)
   }
 
-  const onFiltersSelected = () => {
+  const onFiltersSelected = useCallback(() => {
     setModalVisible(true)
-  }
+  }, [])
 
   return {
     searchText: searchTextDebounced,
