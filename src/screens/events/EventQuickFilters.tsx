@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { ListRenderItemInfo } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -11,8 +11,8 @@ import SelectableIconLabelView, {
 } from '../shared/SelectableIconLabelView'
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
-import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMapper'
 import { EventMode } from '../../core/entities/Event'
+import { useEventQuickFilters } from './useEventQuickFilters.hook'
 
 type Props = Readonly<{
   initialEventMode: EventMode | undefined
@@ -21,41 +21,12 @@ type Props = Readonly<{
 }>
 
 const EventQuickFilters: FC<Props> = (props) => {
-  const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
-    props.initialEventMode,
-  )
-  const [viewModel, setViewModel] = useState(
-    EventQuickFiltersViewModelMapper.map(props.initialEventMode),
-  )
-
-  const clear = () => {
-    setEventModeFilter(undefined)
-    updateViewModel(undefined)
-  }
-
-  const submit = () => {
-    props.onNewFilters(eventModeFilter)
-  }
-
-  const updateViewModel = (newEventTypeFilter: EventMode | undefined) => {
-    setViewModel(EventQuickFiltersViewModelMapper.map(newEventTypeFilter))
-  }
-
-  const onInterestSelected = (code: string) => {
-    if (code === EventMode.MEETING || code === EventMode.ONLINE) {
-      const previousSelection = eventModeFilter
-      let newSelection: EventMode | undefined
-      if (previousSelection === code) {
-        newSelection = undefined
-      } else {
-        newSelection = code
-      }
-      setEventModeFilter(newSelection)
-      updateViewModel(newSelection)
-    } else {
-      // categories not implemented yet
-    }
-  }
+  const {
+    viewModel,
+    onInterestSelected,
+    onClear,
+    onSubmit,
+  } = useEventQuickFilters(props.initialEventMode, props.onNewFilters)
 
   const renderItem = ({
     item,
@@ -67,12 +38,13 @@ const EventQuickFilters: FC<Props> = (props) => {
       />
     )
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <CloseButton onPress={props.onDismissModal} />
         <Text style={styles.headerTitle}>{i18n.t('events.filters.title')}</Text>
-        <TouchableOpacity onPress={clear}>
+        <TouchableOpacity onPress={onClear}>
           <Text style={styles.headerClearFilters}>
             {i18n.t('events.filters.clear')}
           </Text>
@@ -91,7 +63,7 @@ const EventQuickFilters: FC<Props> = (props) => {
       <View style={styles.bottomContainer}>
         <PrimaryButton
           title={i18n.t('centerofinterest.save')}
-          onPress={submit}
+          onPress={onSubmit}
         />
       </View>
     </SafeAreaView>
