@@ -10,11 +10,7 @@ const EventStack = createStackNavigator<EventParamList>()
 const EventNavigator: FunctionComponent = () => {
   return (
     <EventStack.Navigator screenOptions={headerBlank}>
-      <EventStack.Screen
-        name={Screen.events}
-        component={EventsScreen}
-        options={{ headerTransparent: true }}
-      />
+      <EventStack.Screen name={Screen.events} component={EventsScreen} />
       <EventStack.Screen
         name={Screen.eventDetails}
         component={EventDetailsScreen}

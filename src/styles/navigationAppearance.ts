@@ -32,7 +32,7 @@ export const headerOptions: StackNavigationOptions = {
 export const headerBlank: StackNavigationOptions = {
   title: '',
   headerBackTitle: ' ', // empty string does not remove the title
-  headerTintColor: Colors.navigationTint,
+  headerTintColor: Colors.titleText,
   headerStyle: {
     backgroundColor: Colors.navigationBackground,
     // hides navigationBar bottom line

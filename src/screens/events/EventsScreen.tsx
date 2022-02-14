@@ -160,7 +160,6 @@ const styles = StyleSheet.create({
     ...Typography.largeTitle,
     marginBottom: Spacing.margin,
     marginHorizontal: Spacing.margin,
-    marginTop: Spacing.largeMargin,
   },
 })
 

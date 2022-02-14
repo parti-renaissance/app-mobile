@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ListRenderItemInfo } from 'react-native'
+import { ListRenderItemInfo, Platform } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import SafeAreaView from 'react-native-safe-area-view'
@@ -13,6 +13,8 @@ import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { EventMode } from '../../core/entities/Event'
 import { useEventQuickFilters } from './useEventQuickFilters.hook'
+import { Header, useHeaderHeight } from '@react-navigation/elements'
+import { headerBlank } from '../../styles/navigationAppearance'
 
 type Props = Readonly<{
   initialEventMode: EventMode | undefined
@@ -39,23 +41,34 @@ const EventQuickFilters: FC<Props> = (props) => {
     )
   }
 
+  const headerHeight = useHeaderHeight()
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <CloseButton onPress={props.onDismissModal} />
-        <Text style={styles.headerTitle}>{i18n.t('events.filters.title')}</Text>
-        <TouchableOpacity onPress={onClear}>
-          <Text style={styles.headerClearFilters}>
-            {i18n.t('events.filters.clear')}
-          </Text>
-        </TouchableOpacity>
-      </View>
+    <SafeAreaView
+      style={styles.container}
+      forceInset={{ top: Platform.select({ android: 'never', ios: 'always' }) }}
+    >
+      <Header
+        {...headerBlank}
+        title={i18n.t('events.filters.title')}
+        headerLeft={() => <CloseButton onPress={props.onDismissModal} />}
+        headerRight={() => (
+          <TouchableOpacity onPress={onClear}>
+            <Text style={styles.headerClearFilters}>
+              {i18n.t('events.filters.clear')}
+            </Text>
+          </TouchableOpacity>
+        )}
+        headerBackgroundContainerStyle={{ height: headerHeight }}
+      />
       <SectionGrid
         sections={viewModel.sections}
         itemDimension={100}
         renderSectionHeader={({ section: { title } }) => {
           return title !== undefined ? (
-            <Text style={styles.section}>{title}</Text>
+            <View style={styles.sectionHeaderContainer}>
+              <Text style={styles.section}>{title}</Text>
+            </View>
           ) : null
         }}
         renderItem={renderItem}
@@ -81,27 +94,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerClearFilters: {
-    ...Typography.title2,
+    ...Typography.callout,
     color: Colors.primaryColor,
     marginHorizontal: Spacing.margin,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-  headerContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  headerTitle: {
-    ...Typography.title2,
-    marginStart: 44,
-    textAlign: 'center',
-    textAlignVertical: 'center',
+  sectionHeaderContainer: {
+    backgroundColor: Colors.defaultBackground,
+    padding: Spacing.margin,
   },
   section: {
-    ...Typography.headline,
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.unit,
+    ...Typography.title3,
+    color: Colors.titleText,
   },
 })
 
