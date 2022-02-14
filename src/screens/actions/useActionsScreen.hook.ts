@@ -50,15 +50,15 @@ export const useActionsScreen = (): {
     switch (action.type) {
       case 'polls': {
         Analytics.logActionsPolls()
-        navigation.navigate(Screen.pollsNavigator)
+        navigation.navigate(Screen.polls)
         break
       }
       case 'phoning': {
-        navigation.navigate(Screen.phoningNavigator)
+        navigation.navigate(Screen.phoning)
         break
       }
       case 'doorToDoor': {
-        navigation.navigate(Screen.doorToDoorNavigator)
+        navigation.navigate(Screen.doorToDoor)
         break
       }
     }

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { headerOptions } from '../../../styles/navigationAppearance'
-import { Screen } from '../../../navigation'
+import { DoorToDoorTunnelModalProps, Screen } from '../../../navigation'
 import TunnelDoorInterlocutorScreen from './interlocutor/TunnelDoorInterlocutorScreen'
 import TunnelDoorPollScreen from './survey/TunnelDoorPollScreen'
 import DoorToDoorBriefScreen from './brief/DoorToDoorBriefScreen'
@@ -12,7 +12,7 @@ import i18n from '../../../utils/i18n'
 
 const Stack = createStackNavigator()
 
-const DoorToDoorTunnelModal: FunctionComponent = () => {
+const DoorToDoorTunnelModal: FunctionComponent<DoorToDoorTunnelModalProps> = () => {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen

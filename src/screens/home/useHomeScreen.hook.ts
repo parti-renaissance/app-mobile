@@ -135,7 +135,7 @@ export const useHomeScreen = (): {
     })
   }
   const onPollsMorePressed = () => {
-    navigation.navigate(Screen.pollsNavigator)
+    // navigation.navigate(Screen.pollsNavigator)
   }
   const onToolsMorePressed = async () => {
     await Analytics.logHomeToolsMore()
@@ -190,13 +190,24 @@ export const useHomeScreen = (): {
     }
   }
   const onFeedPhoningCampaignsSelected = () => {
-    navigation.navigate(Screen.phoningNavigator, { screen: Screen.phoning })
+    navigation.navigate(Screen.actionsNavigator, { screen: Screen.actions })
+    setTimeout(() => {
+      navigation.navigate(Screen.actionsNavigator, { screen: Screen.phoning })
+    }, 300)
   }
   const onFeedDoorToDoorCampaignsSelected = () => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    navigation.navigate(Screen.actionsNavigator, { screen: Screen.actions })
+    setTimeout(() => {
+      navigation.navigate(Screen.actionsNavigator, {
+        screen: Screen.doorToDoor,
+      })
+    }, 300)
   }
   const onFeedPollsSelected = () => {
-    navigation.navigate(Screen.pollsNavigator)
+    navigation.navigate(Screen.actionsNavigator, { screen: Screen.actions })
+    setTimeout(() => {
+      navigation.navigate(Screen.actionsNavigator, { screen: Screen.polls })
+    }, 300)
   }
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
     // TODO: (Pierre Felgines) 2022/02/11 Fix navigation

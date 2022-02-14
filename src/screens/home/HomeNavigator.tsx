@@ -8,7 +8,6 @@ import RegionScreen from '../regions/RegionScreen'
 import NewsScreen from '../news/NewsScreen'
 import EventDetailsScreen from '../eventDetail/EventDetailsScreen'
 import RetaliationDetailScreen from '../retaliation/RetaliationDetailScreen'
-import PollsScreen from '../polls/PollsScreen'
 
 const HomeStack = createStackNavigator<HomeParamList>()
 
@@ -36,12 +35,6 @@ const HomeNavigator: FunctionComponent = () => {
       <HomeStack.Screen
         name={Screen.retaliationDetailScreen}
         component={RetaliationDetailScreen}
-      />
-
-      <HomeStack.Screen
-        name={Screen.pollsNavigator}
-        component={PollsScreen}
-        options={{ headerTransparent: true }}
       />
     </HomeStack.Navigator>
   )
