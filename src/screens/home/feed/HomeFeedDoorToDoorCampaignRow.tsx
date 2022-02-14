@@ -18,7 +18,7 @@ export const HomeFeedDoorToDoorCampaignRow: FunctionComponent<Props> = ({
 }) => {
   return (
     <HomeFeedTimelineItem
-      title={i18n.t('home.feed.phoningCampaigns')}
+      title={i18n.t('home.feed.doorToDoorCampaigns')}
       imageSource={require('../../../assets/images/homeFeedActionIcon.png')}
       tintColor={Colors.homeFeedActionBackground}
     >
