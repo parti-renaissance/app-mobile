@@ -19,70 +19,61 @@ import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventMode } from '../../core/entities/Event'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Analytics } from '../../utils/Analytics'
-import { EventRowViewModel } from './EventViewModel'
+import { useEventsScreen } from './useEventsScreen.hook'
 
-const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
-  const [index, setIndex] = React.useState(0)
-  const [routes] = React.useState([
-    { key: 'home', title: i18n.t('events.tab_home') },
-    { key: 'calendar', title: i18n.t('events.tab_calendar') },
-    { key: 'myEvents', title: i18n.t('events.tab_mine') },
-  ])
+const ROUTES = [
+  { key: 'home', title: i18n.t('events.tab_home') },
+  { key: 'calendar', title: i18n.t('events.tab_calendar') },
+  { key: 'myEvents', title: i18n.t('events.tab_mine') },
+]
+
+const EventsScreen: FC<EventScreenProps> = () => {
   const initialLayout = { width: Dimensions.get('window').width }
-  const onEventSelected = useCallback(
-    async (event: EventRowViewModel) => {
-      await Analytics.logEventSelected(event.title, event.category)
-      navigation.navigate(Screen.eventDetails, {
-        eventId: event.id,
-      })
-    },
-    [navigation],
-  )
-  const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
-    undefined,
-  )
-  const onNewFilters = (eventMode: EventMode | undefined) => {
-    setEventModeFilter(eventMode)
-    setModalVisible(false)
-  }
-  const [searchText, setSearchText] = useState('')
-  const [searchTextDebounced] = useDebounce(searchText, DEBOUNCE_TIMEOUT_MILLIS)
-  const [modalVisible, setModalVisible] = useState(false)
-  const dismissModal = () => {
-    setModalVisible(false)
-  }
+  const [index, setIndex] = useState(0)
+
+  const {
+    searchText,
+    eventModeFilter,
+    modalVisible,
+    onEventSelected,
+    onNewFilters,
+    onChangeText,
+    onFiltersSelected,
+    dismissModal,
+  } = useEventsScreen()
+
   const Home = useCallback(
     () => (
       <EventListScreen
         eventFilter="home"
-        searchText={searchTextDebounced}
+        searchText={searchText}
         eventModeFilter={eventModeFilter}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchTextDebounced, eventModeFilter],
+    [onEventSelected, searchText, eventModeFilter],
   )
   const Calendar = useCallback(
     () => (
       <EventListScreen
         eventFilter="calendar"
-        searchText={searchTextDebounced}
+        searchText={searchText}
         eventModeFilter={eventModeFilter}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchTextDebounced, eventModeFilter],
+    [onEventSelected, searchText, eventModeFilter],
   )
   const MyEvents = useCallback(
     () => (
       <EventListScreen
         eventFilter="myEvents"
-        searchText={searchTextDebounced}
+        searchText={searchText}
         eventModeFilter={eventModeFilter}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchTextDebounced, eventModeFilter],
+    [onEventSelected, searchText, eventModeFilter],
   )
 
   const renderScene = SceneMap({
@@ -119,7 +110,7 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
       <TouchablePlatform
         style={styles.filterIconContainer}
         touchHighlight={Colors.touchHighlight}
-        onPress={() => setModalVisible(true)}
+        onPress={onFiltersSelected}
       >
         <Image
           style={styles.filterIcon}
@@ -131,13 +122,13 @@ const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
         <Image source={require('../../assets/images/iconSearch.png')} />
         <TextInput
           style={styles.search}
-          onChangeText={setSearchText}
+          onChangeText={onChangeText}
           placeholder={i18n.t('events.search_placeholder')}
         />
       </View>
       {/* @ts-ignore https://github.com/satya164/react-native-tab-view/issues/1159 */}
       <TabView
-        navigationState={{ index, routes }}
+        navigationState={{ index, routes: ROUTES }}
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={initialLayout}
@@ -181,7 +172,5 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.small,
   },
 })
-
-const DEBOUNCE_TIMEOUT_MILLIS = 350
 
 export default EventsScreen
