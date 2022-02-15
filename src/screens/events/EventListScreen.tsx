@@ -241,7 +241,8 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.unit,
   },
   section: {
-    ...Typography.headline,
+    ...Typography.title3,
+    color: Colors.titleText,
     marginBottom: Spacing.unit,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.mediumMargin,
