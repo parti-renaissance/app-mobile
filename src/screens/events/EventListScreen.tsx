@@ -129,7 +129,7 @@ const EventListScreen: FC<Props> = (props) => {
       const marginEnd = isLastItem ? Spacing.margin : 0
       return (
         <EventGridItem
-          style={[styles.eventGridCell, { marginEnd: marginEnd }]}
+          style={[styles.eventGridCell, { marginEnd }]}
           viewModel={info.item}
           onEventSelected={props.onEventSelected}
         />
@@ -138,26 +138,25 @@ const EventListScreen: FC<Props> = (props) => {
     const renderItem = ({
       item,
     }: SectionListRenderItemInfo<EventRowContainerViewModel>) => {
-      if (item.type === 'grouped') {
-        return (
-          <FlatList
-            horizontal={true}
-            data={item.value.events}
-            renderItem={(info) =>
-              renderItemHorizontal(info, item.value.events.length)
-            }
-          />
-        )
-      } else if (item.type === 'event') {
-        return (
-          <EventView
-            style={styles.eventView}
-            viewModel={item.value}
-            onEventSelected={props.onEventSelected}
-          />
-        )
-      } else {
-        return null
+      switch (item.type) {
+        case 'grouped':
+          return (
+            <FlatList
+              horizontal={true}
+              data={item.value.events}
+              renderItem={(info) =>
+                renderItemHorizontal(info, item.value.events.length)
+              }
+            />
+          )
+        case 'event':
+          return (
+            <EventView
+              style={styles.eventView}
+              viewModel={item.value}
+              onEventSelected={props.onEventSelected}
+            />
+          )
       }
     }
     return (
