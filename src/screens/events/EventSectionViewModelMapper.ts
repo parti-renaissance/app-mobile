@@ -41,7 +41,7 @@ function mapCalendar(events: ShortEvent[]): EventSectionViewModel[] {
       (event) => {
         return {
           type: 'event',
-          value: EventRowViewModelMapper.map(event, 'hour'),
+          value: EventRowViewModelMapper.map(event),
         }
       },
     )
@@ -67,7 +67,7 @@ function mapHome(events: ShortEvent[]): EventSectionViewModel[] {
     const sectionViewModel = mapHomeSection(eventsOfSection[0])
     const eventViewModels: Array<EventRowViewModel> = eventsOfSection.map(
       (event) => {
-        return EventRowViewModelMapper.map(event, 'day_hour')
+        return EventRowViewModelMapper.map(event)
       },
     )
     eventViewModels.sort((event1, event2) => {

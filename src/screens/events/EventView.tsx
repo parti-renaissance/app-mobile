@@ -59,7 +59,8 @@ const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
           </View>
           <View style={styles.bottomRow}>
             <View style={styles.leftColumn}>
-              <Text style={styles.date}>{viewModel.date}</Text>
+              <Text style={styles.day}>{viewModel.day}</Text>
+              <Text style={styles.hour}>{viewModel.hour}</Text>
             </View>
             <View style={styles.rightColumn}>
               {viewModel.isSubscribed ? (
@@ -92,7 +93,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     margin: Spacing.margin,
   },
-  date: {
+  day: {
+    ...Typography.body,
+    color: Colors.darkText,
+  },
+  hour: {
     ...Typography.body,
     color: Colors.lightText,
   },
