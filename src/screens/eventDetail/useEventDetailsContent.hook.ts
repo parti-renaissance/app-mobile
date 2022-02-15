@@ -1,9 +1,7 @@
-import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { Alert, Share } from 'react-native'
 import { ForbiddenError } from '../../core/errors'
 import EventRepository from '../../data/EventRepository'
-import { EventDetailsScreenProps, Screen } from '../../navigation'
 import { Analytics } from '../../utils/Analytics'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
@@ -24,23 +22,12 @@ export const useEventDetailsContent = (
   openOnlineUrl: () => void
   openOrganizerUrl: () => void
   shareEvent: () => void
-  openSurvey: () => void
   unsubscribe: () => void
   subscribe: () => void
   onSeeMoreDescription: () => void
 } => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [canSeeMore, setCanSeeMore] = useState<boolean>(true)
-
-  const navigation = useNavigation<EventDetailsScreenProps['navigation']>()
-
-  const navigateToSurvey = (surveyId: number) => {
-    // @ts-ignore It works and this navigation is nightmare to declare in typescript
-    navigation.navigate(Screen.pollDetailModal, {
-      screen: Screen.pollDetail,
-      params: { pollId: surveyId },
-    })
-  }
 
   const openOnlineUrl = () => {
     if (detailedEvent.visioUrl) {
@@ -88,14 +75,6 @@ export const useEventDetailsContent = (
     }
   }
 
-  const openSurvey = () => {
-    if (viewModel.survey) {
-      const pollId = parseInt(viewModel.survey.id, 10)
-
-      navigateToSurvey(pollId)
-    }
-  }
-
   const onSeeMoreDescription = () => {
     setCanSeeMore(false)
   }
@@ -140,7 +119,6 @@ export const useEventDetailsContent = (
     openOnlineUrl,
     openOrganizerUrl,
     shareEvent,
-    openSurvey,
     unsubscribe,
     subscribe,
     onSeeMoreDescription,

@@ -1,5 +1,3 @@
-import { PollRowViewModel } from '../polls/PollRowViewModel'
-
 export interface EventDetailsViewModel {
   id: string
   title: string
@@ -14,7 +12,6 @@ export interface EventDetailsViewModel {
   eventUrl?: string
   description: string
   canSeeMore: boolean
-  survey?: PollRowViewModel
 }
 
 export interface EventDateViewModel {

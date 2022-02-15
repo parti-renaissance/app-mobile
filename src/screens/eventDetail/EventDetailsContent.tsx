@@ -12,13 +12,11 @@ import { DetailedEvent } from '../../core/entities/Event'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { TagViewEventStyleMapper } from '../events/TagViewEventStyleMapper'
-import PollRow from '../polls/PollRow'
 import {
   BorderlessButton,
   PrimaryButton,
   SecondaryButton,
 } from '../shared/Buttons'
-import CardView from '../shared/CardView'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import TagView from '../shared/TagView'
 import EventDetailsItemContainer from './EventDetailsItemContainer'
@@ -40,7 +38,6 @@ export const EventDetailsContent: FC<Props> = ({
     openOnlineUrl,
     openOrganizerUrl,
     shareEvent,
-    openSurvey,
     unsubscribe,
     subscribe,
     onSeeMoreDescription,
@@ -169,19 +166,6 @@ export const EventDetailsContent: FC<Props> = ({
           />
         ) : null}
         <View style={styles.separator} />
-        {viewModel.survey ? (
-          <>
-            <Text style={styles.subtitle}>
-              {i18n.t('eventdetails.associated_survey')}
-            </Text>
-            <CardView
-              style={styles.cardView}
-              backgroundColor={Colors.defaultBackground}
-            >
-              <PollRow viewModel={viewModel.survey} onPress={openSurvey} />
-            </CardView>
-          </>
-        ) : null}
       </ScrollView>
       <View style={styles.bottomContainer}>
         {viewModel.isSubscribed ? (
@@ -215,10 +199,6 @@ const styles = StyleSheet.create({
     ...Styles.elevatedContainerStyle,
     paddingHorizontal: Spacing.margin,
     paddingVertical: Spacing.margin,
-  },
-  cardView: {
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.margin,
   },
   date: {
     marginTop: Spacing.margin,
