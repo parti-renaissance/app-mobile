@@ -37,7 +37,7 @@ import { ForbiddenError } from '../../core/errors'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { Analytics } from '../../utils/Analytics'
-import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
+import { TagViewEventStyleMapper } from '../events/TagViewEventStyleMapper'
 
 const EventDetailsContent = (
   viewModel: EventDetailsViewModel,
