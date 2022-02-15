@@ -6,6 +6,7 @@ import {
   RefreshControl,
   View,
   StatusBar,
+  SectionListData,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -15,8 +16,7 @@ import { StatefulView } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
-import { HomeRowViewModel } from './HomeRowViewModel'
-import HomeSectionRow from './HomeSectionRow'
+import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
 import HomeNewsRowContainer from './news/HomeNewsRowContainer'
@@ -25,6 +25,16 @@ import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { useHomeScreen } from './useHomeScreen.hook'
+import HomeSectionHeader from './HomeSectionHeader'
+import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
+import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
+import { HomeFeedPhoningCampaignsRow } from './feed/HomeFeedPhoningCampaignsRow'
+import { HomeFeedDoorToDoorCampaignsRow } from './feed/HomeFeedDoorToDoorCampaignsRow'
+import { HomeFeedPollsRow } from './feed/HomeFeedPollsRow'
+import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
+import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
+import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
+import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -42,6 +52,13 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
+    onFeedNewsSelected,
+    onFeedPhoningCampaignsSelected,
+    onFeedDoorToDoorCampaignsSelected,
+    onFeedPollsSelected,
+    onFeedPhoningCampaignSelected,
+    onFeedDoorToDoorCampaignSelected,
+    onFeedPollSelected,
   } = useHomeScreen()
 
   useEffect(() => {
@@ -53,9 +70,25 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     })
   }, [navigation])
 
+  const renderSectionHeader = (info: {
+    section: SectionListData<HomeRowViewModel, HomeSectionViewModel>
+  }) => {
+    const viewModel = info.section.sectionViewModel
+    if (viewModel === undefined) {
+      return null
+    }
+    return (
+      <HomeSectionHeader
+        title={viewModel.sectionName}
+        isHighlighted={viewModel?.isHighlighted}
+      />
+    )
+  }
+
   const renderItem = ({
+    section,
     item,
-  }: SectionListRenderItemInfo<HomeRowViewModel>) => {
+  }: SectionListRenderItemInfo<HomeRowViewModel, HomeSectionViewModel>) => {
     if (item.type === 'news') {
       return (
         <HomeNewsRowContainer
@@ -95,15 +128,81 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         />
       )
     } else if (item.type === 'event') {
+      const isHighlighted = section.sectionViewModel?.isHighlighted ?? false
       return (
         <HomeEventRowContainer
           viewModel={item.value}
+          isHighlighted={isHighlighted}
           onEventSelected={onEventSelected}
         />
       )
     } else if (item.type === 'retaliation') {
       return (
         <HomeRetaliationRowContainer
+          viewModel={item.value}
+          onRetaliationSelected={onRetaliationSelected}
+          onRetaliateSelected={onRetaliateSelected}
+        />
+      )
+    } else if (item.type === 'feedEvent') {
+      return (
+        <HomeFeedEventRow
+          viewModel={item.value}
+          onEventSelected={onEventSelected}
+        />
+      )
+    } else if (item.type === 'feedNews') {
+      return (
+        <HomeFeedNewsRow
+          viewModel={item.value}
+          onNewsSelected={onFeedNewsSelected}
+        />
+      )
+    } else if (item.type === 'feedPhoningCampaigns') {
+      return (
+        <HomeFeedPhoningCampaignsRow
+          viewModel={item.value}
+          onPhoningCampaignsSelected={onFeedPhoningCampaignsSelected}
+        />
+      )
+    } else if (item.type === 'feedDoorToDoorCampaigns') {
+      return (
+        <HomeFeedDoorToDoorCampaignsRow
+          viewModel={item.value}
+          onDoorToDoorCampaignsSelected={onFeedDoorToDoorCampaignsSelected}
+        />
+      )
+    } else if (item.type === 'feedPolls') {
+      return (
+        <HomeFeedPollsRow
+          viewModel={item.value}
+          onPollsSelected={onFeedPollsSelected}
+        />
+      )
+    } else if (item.type === 'feedPhoningCampaign') {
+      return (
+        <HomeFeedPhoningCampaignRow
+          viewModel={item.value}
+          onPhoningCampaignSelected={onFeedPhoningCampaignSelected}
+        />
+      )
+    } else if (item.type === 'feedDoorToDoorCampaign') {
+      return (
+        <HomeFeedDoorToDoorCampaignRow
+          viewModel={item.value}
+          onDoorToDoorCampaignSelected={onFeedDoorToDoorCampaignSelected}
+        />
+      )
+    } else if (item.type === 'feedPoll') {
+      return (
+        <HomeFeedPollRow
+          viewModel={item.value}
+          onPollSelected={onFeedPollSelected}
+        />
+      )
+    } else if (item.type === 'feedRetaliation') {
+      return (
+        <HomeFeedRetaliationRow
           viewModel={item.value}
           onRetaliationSelected={onRetaliationSelected}
           onRetaliateSelected={onRetaliateSelected}
@@ -122,11 +221,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
           sections={homeViewModel.rows}
           renderItem={renderItem}
-          renderSectionHeader={({ section: { sectionViewModel } }) => {
-            return sectionViewModel !== undefined ? (
-              <HomeSectionRow viewModel={sectionViewModel} />
-            ) : null
-          }}
+          renderSectionHeader={renderSectionHeader}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}

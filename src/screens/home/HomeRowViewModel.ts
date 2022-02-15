@@ -1,13 +1,17 @@
 import { EventRowViewModel } from '../events/EventViewModel'
+import { NewsRowViewModel } from '../news/NewsRowViewModel'
 import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
+import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
+import { HomeFeedActionCampaignsCardViewModel } from './feed/HomeFeedActionCampaignsCard'
 import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
 import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
 import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
-  sectionName?: string
+  sectionName: string
+  isHighlighted: boolean
 }
 
 export interface HomeNewsRowContainerViewModel {
@@ -73,4 +77,40 @@ export type HomeRowViewModel =
   | {
       type: 'retaliation'
       value: HomeRetaliationRowContainerViewModel
+    }
+  | {
+      type: 'feedEvent'
+      value: HomeEventRowContainerViewModel
+    }
+  | {
+      type: 'feedNews'
+      value: NewsRowViewModel
+    }
+  | {
+      type: 'feedPhoningCampaigns'
+      value: HomeFeedActionCampaignsCardViewModel
+    }
+  | {
+      type: 'feedDoorToDoorCampaigns'
+      value: HomeFeedActionCampaignsCardViewModel
+    }
+  | {
+      type: 'feedPolls'
+      value: HomeFeedActionCampaignsCardViewModel
+    }
+  | {
+      type: 'feedPhoningCampaign'
+      value: HomeFeedActionCampaignCardViewModel
+    }
+  | {
+      type: 'feedDoorToDoorCampaign'
+      value: HomeFeedActionCampaignCardViewModel
+    }
+  | {
+      type: 'feedPoll'
+      value: HomeFeedActionCampaignCardViewModel
+    }
+  | {
+      type: 'feedRetaliation'
+      value: HomeRetaliationCardViewModel
     }

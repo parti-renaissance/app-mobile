@@ -31,6 +31,13 @@ export const useHomeScreen = (): {
   onEventSelected: (event: EventRowViewModel) => void
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
+  onFeedNewsSelected: (newsId: string) => void
+  onFeedPhoningCampaignsSelected: () => void
+  onFeedDoorToDoorCampaignsSelected: () => void
+  onFeedPollsSelected: () => void
+  onFeedPhoningCampaignSelected: (campaignId: string) => void
+  onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
+  onFeedPollSelected: (pollId: string) => void
 } => {
   const navigation = useNavigation<HomeScreenProps['navigation']>()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
@@ -121,6 +128,12 @@ export const useHomeScreen = (): {
     await Analytics.logHomeNewsMore()
     navigation.navigate(Screen.news)
   }
+  const onFeedNewsSelected = (newsId: string) => {
+    navigation.navigate(Screen.newsDetailModal, {
+      screen: Screen.newsDetail,
+      params: { newsId },
+    })
+  }
   const onPollsMorePressed = () => {
     navigation.navigate(Screen.pollsNavigator)
   }
@@ -182,6 +195,27 @@ export const useHomeScreen = (): {
       RetaliationService.retaliate(retaliation)
     }
   }
+  const onFeedPhoningCampaignsSelected = () => {
+    navigation.navigate(Screen.phoningNavigator, { screen: Screen.phoning })
+  }
+  const onFeedDoorToDoorCampaignsSelected = () => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+  }
+  const onFeedPollsSelected = () => {
+    navigation.navigate(Screen.pollsNavigator)
+  }
+  const onFeedPhoningCampaignSelected = (campaignId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    console.log('onFeedPhoningCampaignSelected', campaignId)
+  }
+  const onFeedDoorToDoorCampaignSelected = (campaignId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    console.log('onFeedDoorToDoorCampaignSelected', campaignId)
+  }
+  const onFeedPollSelected = (pollId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    console.log('onFeedPollSelected', pollId)
+  }
 
   return {
     statefulState,
@@ -198,5 +232,12 @@ export const useHomeScreen = (): {
     onEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
+    onFeedNewsSelected,
+    onFeedPhoningCampaignsSelected,
+    onFeedDoorToDoorCampaignsSelected,
+    onFeedPollsSelected,
+    onFeedPhoningCampaignSelected,
+    onFeedDoorToDoorCampaignSelected,
+    onFeedPollSelected,
   }
 }

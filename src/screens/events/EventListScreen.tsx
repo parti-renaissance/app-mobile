@@ -151,6 +151,7 @@ const EventListScreen: FC<Props> = (props) => {
       } else if (item.type === 'event') {
         return (
           <EventView
+            style={styles.eventView}
             viewModel={item.value}
             onEventSelected={props.onEventSelected}
           />
@@ -234,6 +235,10 @@ const styles = StyleSheet.create({
   eventGridCell: {
     marginStart: Spacing.margin,
     marginVertical: Spacing.margin,
+  },
+  eventView: {
+    marginHorizontal: Spacing.margin,
+    marginVertical: Spacing.unit,
   },
   section: {
     ...Typography.headline,
