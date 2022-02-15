@@ -259,7 +259,6 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
   },
   tag: {
-    marginStart: Spacing.unit,
     marginTop: Spacing.unit,
   },
   tagAttendeesContainer: {
