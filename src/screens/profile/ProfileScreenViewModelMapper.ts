@@ -21,16 +21,4 @@ export const ProfileScreenViewModelMapper = {
       polls: ProfilePollsCompletedViewModelMapper.map(profile),
     }
   },
-  mapFromDepartment: (department: Department): ProfileScreenViewModel => {
-    return {
-      region: i18n.t('profile.localisation1', {
-        region: department.region.name,
-      }),
-      area: i18n.t('profile.localisation2', {
-        area: department.name,
-        postalCode: department.code,
-      }),
-      polls: ProfilePollsCompletedViewModelMapper.empty(),
-    }
-  },
 }

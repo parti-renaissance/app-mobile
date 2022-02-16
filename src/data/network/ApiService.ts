@@ -9,7 +9,6 @@ import { genericErrorMapping } from './utils'
 import { RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
 import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
-import { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
   RestPostPushTokenRequest,

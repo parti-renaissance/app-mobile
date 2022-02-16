@@ -1,17 +1,8 @@
-import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { DataSource } from '../../data/DataSource'
 import ProfileRepository from '../../data/ProfileRepository'
 import RegionsRepository from '../../data/RegionsRepository'
-import { AuthenticationState } from '../entities/AuthenticationState'
 import { Department } from '../entities/Department'
 import { Profile } from '../entities/Profile'
-
-export class ProfileAnonymousResult {
-  public constructor(
-    readonly zipCode: string,
-    readonly department: Department,
-  ) {}
-}
 
 export class ProfileAuthenticatedResult {
   public constructor(
@@ -20,9 +11,7 @@ export class ProfileAuthenticatedResult {
   ) {}
 }
 
-export type GetUserProfileInteractorResult =
-  | ProfileAnonymousResult
-  | ProfileAuthenticatedResult
+export type GetUserProfileInteractorResult = ProfileAuthenticatedResult
 
 export class GetUserProfileInteractor {
   private profileRepository = ProfileRepository.getInstance()
