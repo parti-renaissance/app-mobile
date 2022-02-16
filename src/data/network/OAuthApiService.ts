@@ -34,22 +34,6 @@ class OAuthApiService {
       .catch(mapLoginError)
   }
 
-  public anonymousLogin(deviceId: string): Promise<RestLoginResponse> {
-    const formData = new FormData()
-    formData.append('client_id', OAUTH_CLIENT_ID)
-    formData.append('client_secret', OAUTH_CLIENT_SECRET)
-    formData.append('grant_type', 'client_credentials')
-    formData.append('scope[]', SCOPE_APP)
-    formData.append('scope[]', SCOPE_READ_PROFILE)
-    formData.append('scope[]', SCOPE_WRITE_PROFILE)
-    formData.append('device_id', deviceId)
-
-    return this.oauthHttpClient
-      .post('oauth/v2/token', { body: formData })
-      .json<RestLoginResponse>()
-      .catch(genericErrorMapping)
-  }
-
   public refreshToken(refreshToken: string): Promise<RestLoginResponse> {
     const formData = new FormData()
     formData.append('client_id', OAUTH_CLIENT_ID)

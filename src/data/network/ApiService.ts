@@ -95,12 +95,9 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public getPolls(zipCode?: string): Promise<Array<Poll>> {
-    const options: Options | undefined = zipCode
-      ? { searchParams: { postalCode: zipCode } }
-      : undefined
+  public getPolls(): Promise<Array<Poll>> {
     return this.httpClient
-      .get('api/jecoute/survey', options)
+      .get('api/jecoute/survey')
       .json<Array<Poll>>()
       .catch(genericErrorMapping)
   }

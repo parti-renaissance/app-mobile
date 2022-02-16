@@ -27,27 +27,15 @@ export type GetUserProfileInteractorResult =
 export class GetUserProfileInteractor {
   private profileRepository = ProfileRepository.getInstance()
   private regionRepository = RegionsRepository.getInstance()
-  private authenticationRepository = AuthenticationRepository.getInstance()
 
   public async execute(
     dataSource: DataSource,
   ): Promise<GetUserProfileInteractorResult> {
-    const authenticationState = await this.authenticationRepository.getAuthenticationState()
-    const isAnonymous = authenticationState === AuthenticationState.Anonymous
-    if (isAnonymous) {
-      const zipCode = await this.profileRepository.getZipCode()
-      const department = await this.regionRepository.getDepartment(
-        zipCode,
-        dataSource,
-      )
-      return new ProfileAnonymousResult(zipCode, department)
-    } else {
-      const profile = await this.profileRepository.getProfile(dataSource)
-      const department = await this.regionRepository.getDepartment(
-        profile.zipCode,
-        dataSource,
-      )
-      return new ProfileAuthenticatedResult(profile, department)
-    }
+    const profile = await this.profileRepository.getProfile(dataSource)
+    const department = await this.regionRepository.getDepartment(
+      profile.zipCode,
+      dataSource,
+    )
+    return new ProfileAuthenticatedResult(profile, department)
   }
 }

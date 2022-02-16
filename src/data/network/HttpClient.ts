@@ -22,7 +22,7 @@ const refreshToken = async (options: { request: Request }) => {
   const requestAccessToken = extractAccessToken(options.request)
   return refreshTokenMutex.runExclusive(async () => {
     const credentials = await LocalStore.getInstance().getCredentials()
-    if (credentials == null) {
+    if (credentials === null || !credentials.refreshToken) {
       return
     }
     const tokenHasBeenRefreshed = credentials.accessToken !== requestAccessToken
@@ -35,15 +35,10 @@ const refreshToken = async (options: { request: Request }) => {
     }
 
     const authenticationRepository = AuthenticationRepository.getInstance()
-    let newCredentials: Credentials
-    if (credentials.refreshToken) {
-      newCredentials = await authenticationRepository.refreshToken(
-        credentials.refreshToken,
-      )
-    } else {
-      const deviceId = await authenticationRepository.getDeviceId()
-      newCredentials = await authenticationRepository.anonymousLogin(deviceId)
-    }
+    let newCredentials: Credentials = await authenticationRepository.refreshToken(
+      credentials.refreshToken,
+    )
+
     options.request.headers.set(
       'Authorization',
       `Bearer ${newCredentials?.accessToken}`,

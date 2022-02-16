@@ -11,8 +11,6 @@ import CacheManager from './store/CacheManager'
 
 class RegionsRepository {
   private static instance: RegionsRepository
-  private oauthService = OAuthApiService.getInstance()
-  private authenticationRepository = AuthenticationRepository.getInstance()
   private apiService = ApiService.getInstance()
   private cacheManager = CacheManager.getInstance()
   private constructor() {}
@@ -20,31 +18,12 @@ class RegionsRepository {
   public async getDepartment(
     zipCode: string,
     dataSource: DataSource = 'remote',
-    mode: 'Anonymous' | 'Authenticated' = 'Authenticated',
   ): Promise<Department> {
     try {
-      let restDepartment: RestDepartmentResponse
-      switch (mode) {
-        case 'Anonymous':
-          if (dataSource !== 'remote') {
-            throw new Error(
-              'Unauthenticated department fetch must be done from a remote source',
-            )
-          }
-          const deviceId = await this.authenticationRepository.getDeviceId()
-          const credentials = await this.oauthService.anonymousLogin(deviceId)
-          restDepartment = await this.apiService.getDepartment(
-            zipCode,
-            credentials.access_token,
-          )
-          break
-        case 'Authenticated':
-          restDepartment = await this.getDepartmentAuthenticated(
-            zipCode,
-            dataSource,
-          )
-          break
-      }
+      const restDepartment: RestDepartmentResponse = await this.getDepartmentAuthenticated(
+        zipCode,
+        dataSource,
+      )
       return DepartmentMapper.map(restDepartment)
     } catch (error) {
       if (error instanceof NotFoundError) {

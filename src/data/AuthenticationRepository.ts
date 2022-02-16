@@ -20,14 +20,10 @@ class AuthenticationRepository {
 
   public getAuthenticationState(): Promise<AuthenticationState> {
     return this.localStore.getCredentials().then((credentials) => {
-      if (credentials == null) return AuthenticationState.Unauthenticated
-
-      // anonymous users don't retrieve a refresh token during authentication
-      if (credentials.refreshToken == null) {
-        return AuthenticationState.Anonymous
-      } else {
-        return AuthenticationState.Authenticated
+      if (credentials === null || credentials.refreshToken === null) {
+        return AuthenticationState.Unauthenticated
       }
+      return AuthenticationState.Authenticated
     })
   }
 
@@ -39,13 +35,6 @@ class AuthenticationRepository {
     // We want to remove preferences as we may have saved an anonymous zipcode before
     await this.localStore.clearPreferences()
     await this.localStore.storeCredentials(credentials)
-  }
-
-  public async anonymousLogin(deviceId: string): Promise<Credentials> {
-    const result = await this.apiService.anonymousLogin(deviceId)
-    const credentials = this.mapCredentials(result)
-    await this.localStore.storeCredentials(credentials)
-    return credentials
   }
 
   public async refreshToken(refreshToken: string): Promise<Credentials> {
