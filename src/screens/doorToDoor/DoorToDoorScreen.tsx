@@ -8,7 +8,6 @@ import { Modal, StyleSheet, Text, SafeAreaView, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LocationAuthorization from './LocationAuthorization'
-import { DoorToDoorScreenProp } from '../../navigation'
 import DoorToDoorCharterModal from './DoorToDoorCharterModal'
 import {
   DoorToDoorCharterNotAccepted,
@@ -29,13 +28,16 @@ import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorT
 import RankingModal from './rankings/RankingModal'
 import LoaderView from '../shared/LoaderView'
 import { useFocusEffect } from '@react-navigation/native'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+
+type DoorToDoorScreenProps = ActionsNavigatorScreenProps<'DoorToDoor'>
 
 export type RankingModalState = Readonly<{
   visible: boolean
   campaignId?: string
 }>
 
-const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProp> = ({
+const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProps> = ({
   navigation,
 }) => {
   const [loading, setLoading] = useState(false)

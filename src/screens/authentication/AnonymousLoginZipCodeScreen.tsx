@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import ProfileRepository from '../../data/ProfileRepository'
-import { AnonymousLoginZipCodeScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
@@ -10,6 +11,8 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { useValidateZipCode } from '../shared/useValidateZipCode'
+
+type AnonymousLoginZipCodeScreenProps = UnauthenticatedRootNavigatorScreenProps<'AnonymousLoginZipCode'>
 
 const AnonymousLoginZipCodeScreen = ({
   navigation,

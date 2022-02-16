@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PersonalInformationRepository from '../../data/PersonalInformationRepository'
-import { ForgottenPasswordScreenProps } from '../../navigation'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
@@ -11,6 +11,8 @@ import { PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { CloseButton } from '../shared/NavigationHeaderButton'
+
+type ForgottenPasswordScreenProps = UnauthenticatedRootNavigatorScreenProps<'ForgottenPassword'>
 
 const ForgottenPasswordScreen: FunctionComponent<ForgottenPasswordScreenProps> = ({
   route,

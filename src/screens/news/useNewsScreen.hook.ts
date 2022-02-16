@@ -4,7 +4,8 @@ import { News } from '../../core/entities/News'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
-import { NewsScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { NewsNavigatorScreenProps } from '../../navigation/NewsNavigator'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { NewsContentViewModel } from './NewsContentViewModel'
@@ -18,7 +19,9 @@ export const useNewsScreen = (): {
   loadMore: () => void
   onNewsSelected: (id: string) => void
 } => {
-  const navigation = useNavigation<NewsScreenProps['navigation']>()
+  const navigation = useNavigation<
+    NewsNavigatorScreenProps<'News'>['navigation']
+  >()
   const [statefulState, setStatefulState] = useState<
     ViewState<PaginatedResult<Array<News>>>
   >(ViewState.Loading())

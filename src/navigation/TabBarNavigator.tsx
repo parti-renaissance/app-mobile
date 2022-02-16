@@ -7,31 +7,25 @@ import {
 import { Colors, Spacing, Typography } from '../styles'
 import ToolsScreen from '../screens/tools/ToolsScreen'
 import i18n from '../utils/i18n'
-import {
-  ActionsParamList,
-  EventParamList,
-  HomeParamList,
-  NewsParamList,
-  Screen,
-} from '../navigation'
-import HomeNavigator from '../screens/home/HomeNavigator'
-import EventNavigator from '../screens/events/EventNavigator'
-import ActionsNavigator from '../screens/actions/ActionsNavigator'
+import { Screen } from '../navigation'
+import HomeNavigator, { HomeNavigatorParamList } from './HomeNavigator'
+import EventNavigator, { EventNavigatorParamList } from './EventNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Analytics } from '../utils/Analytics'
-import NewsNavigator from '../screens/news/NewsNavigator'
 import {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native'
 import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNavigator'
+import NewsNavigator, { NewsNavigatorParamList } from './NewsNavigator'
+import ActionsNavigator, { ActionsNavigatorParamList } from './ActionsNavigator'
 
 export type TabBarNavigatorParamList = {
-  HomeNavigator: NavigatorScreenParams<HomeParamList>
-  NewsNavigator: NavigatorScreenParams<NewsParamList>
-  ActionsNavigator: NavigatorScreenParams<ActionsParamList>
+  HomeNavigator: NavigatorScreenParams<HomeNavigatorParamList>
+  NewsNavigator: NavigatorScreenParams<NewsNavigatorParamList>
+  ActionsNavigator: NavigatorScreenParams<ActionsNavigatorParamList>
   Tools: undefined
-  EventNavigator: NavigatorScreenParams<EventParamList>
+  EventNavigator: NavigatorScreenParams<EventNavigatorParamList>
 }
 
 export type TabBarNavigatorScreenProps = CompositeScreenProps<

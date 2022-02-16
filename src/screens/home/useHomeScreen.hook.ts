@@ -4,7 +4,7 @@ import {
   GetHomeResourcesInteractor,
   HomeResources,
 } from '../../core/interactor/GetHomeResourcesInteractor'
-import { HomeScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
@@ -15,6 +15,7 @@ import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQui
 import { EventRowViewModel } from '../events/EventViewModel'
 import { RetaliationService } from '../../data/RetaliationService'
 import { ExternalLink } from '../shared/ExternalLink'
+import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -39,7 +40,9 @@ export const useHomeScreen = (): {
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
 } => {
-  const navigation = useNavigation<HomeScreenProps['navigation']>()
+  const navigation = useNavigation<
+    HomeNavigatorScreenProps<'Home'>['navigation']
+  >()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
     ViewState.Loading(),
   )

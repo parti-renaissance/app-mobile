@@ -3,9 +3,7 @@ import React, { FC } from 'react'
 import { Screen, ProfileLoginScreenProps } from '../../navigation'
 import LoginScreen from '../authentication/LoginScreen'
 
-type Props = Readonly<ProfileLoginScreenProps>
-
-const ProfilLoginScreen: FC<Props> = ({ navigation }) => {
+const ProfilLoginScreen: FC<ProfileLoginScreenProps> = ({ navigation }) => {
   return (
     <LoginScreen
       onSuccess={() => {

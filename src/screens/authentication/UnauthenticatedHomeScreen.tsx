@@ -10,8 +10,11 @@ import SafeAreaView from 'react-native-safe-area-view'
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
-import { Screen, UnauthenticatedHomeScreenProps } from '../../navigation'
+import { Screen } from '../../navigation'
 import LinearGradient from 'react-native-linear-gradient'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+
+type UnauthenticatedHomeScreenProps = UnauthenticatedRootNavigatorScreenProps<'UnauthenticatedHome'>
 
 const UnauthenticatedHomeScreen = ({
   navigation,

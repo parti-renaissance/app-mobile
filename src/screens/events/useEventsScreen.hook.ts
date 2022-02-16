@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
 import { useDebounce } from 'use-debounce/lib'
 import { EventMode } from '../../core/entities/Event'
-import { EventScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { EventNavigatorScreenProps } from '../../navigation/EventNavigator'
 import { Analytics } from '../../utils/Analytics'
 import { EventRowViewModel } from './EventViewModel'
 
@@ -18,7 +19,9 @@ export const useEventsScreen = (): {
   onFiltersSelected: () => void
   dismissModal: () => void
 } => {
-  const navigation = useNavigation<EventScreenProps['navigation']>()
+  const navigation = useNavigation<
+    EventNavigatorScreenProps<'Events'>['navigation']
+  >()
   const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
     undefined,
   )

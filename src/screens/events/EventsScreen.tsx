@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
-import { EventScreenProps } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import EventListScreen from './EventListScreen'
@@ -18,6 +17,9 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Analytics } from '../../utils/Analytics'
 import { useEventsScreen } from './useEventsScreen.hook'
 import { EventsFilterButton } from '../shared/NavigationHeaderButton'
+import { EventNavigatorScreenProps } from '../../navigation/EventNavigator'
+
+type EventsScreenProps = EventNavigatorScreenProps<'Events'>
 
 const ROUTES = [
   { key: 'home', title: i18n.t('events.tab_home') },
@@ -25,7 +27,7 @@ const ROUTES = [
   { key: 'myEvents', title: i18n.t('events.tab_mine') },
 ]
 
-const EventsScreen: FC<EventScreenProps> = ({ navigation }) => {
+const EventsScreen: FC<EventsScreenProps> = ({ navigation }) => {
   const initialLayout = { width: Dimensions.get('window').width }
   const [index, setIndex] = useState(0)
 

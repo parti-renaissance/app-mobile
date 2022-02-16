@@ -23,7 +23,9 @@ export type UnauthenticatedRootNavigatorParamList = {
   TermsOfUse: undefined
 }
 
-export type UnauthenticatedRootNavigatorScreenProps = StackScreenProps<UnauthenticatedRootNavigatorParamList>
+export type UnauthenticatedRootNavigatorScreenProps<
+  T extends keyof UnauthenticatedRootNavigatorParamList
+> = StackScreenProps<UnauthenticatedRootNavigatorParamList, T>
 
 const Stack = createStackNavigator()
 

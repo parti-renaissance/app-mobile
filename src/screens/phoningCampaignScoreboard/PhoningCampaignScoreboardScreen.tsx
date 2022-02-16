@@ -1,13 +1,15 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhoningCampaignScoreboardScreenProp } from '../../navigation'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 import { Colors, Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PhoningCampaignRankingView } from '../shared/PhoningCampaignRankingView'
 import { PhoningScoreboardRowViewModelMapper } from './PhoningScoreboardRowViewModelMapper'
 
-const PhoningCampaignScoreboardScreen: FunctionComponent<PhoningCampaignScoreboardScreenProp> = ({
+type PhoningCampaignScoreboardScreenProps = ActionsNavigatorScreenProps<'PhoningCampaignScoreboard'>
+
+const PhoningCampaignScoreboardScreen: FunctionComponent<PhoningCampaignScoreboardScreenProps> = ({
   navigation,
   route,
 }) => {

@@ -9,17 +9,19 @@ import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { Colors, Spacing } from '../../styles'
-import { PhoningTutorialScreenProp } from '../../navigation'
 import i18n from '../../utils/i18n'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+
+type PhoningTutorialScreenProps = ActionsNavigatorScreenProps<'PhoningTutorial'>
 
 export interface TutorialResources {
   content: string
 }
 
-const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProp> = ({
+const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProps> = ({
   navigation,
 }) => {
   const [statefulState, setStatefulState] = useState<

@@ -9,7 +9,7 @@ import {
   SectionListData,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { NewsScreenProps } from '../../navigation'
+import { NewsNavigatorScreenProps } from '../../navigation/NewsNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
@@ -23,6 +23,8 @@ import NewsRow from './NewsRow'
 import { NewsRowViewModel } from './NewsRowViewModel'
 import NewsSectionHeader from './NewsSectionHeader'
 import { useNewsScreen } from './useNewsScreen.hook'
+
+type NewsScreenProps = NewsNavigatorScreenProps<'News'>
 
 const Separator = () => {
   return <View style={styles.separator} />

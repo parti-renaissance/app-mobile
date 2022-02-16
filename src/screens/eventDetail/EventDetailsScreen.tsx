@@ -1,11 +1,13 @@
 import React, { FC } from 'react'
 import { StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { EventDetailsScreenProps } from '../../navigation'
 import { Colors } from '../../styles'
 import { StatefulView } from '../shared/StatefulView'
 import { useEventDetailsScreen } from './useEventDetailsScreen.hook'
 import { EventDetailsContent } from './EventDetailsContent'
+import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+
+type EventDetailsScreenProps = HomeNavigatorScreenProps<'EventDetails'>
 
 const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
   const { statefulState, onReloadEvent } = useEventDetailsScreen(

@@ -1,12 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { TermsOfUseScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
 import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import PdfView from '../shared/PdfView'
 import { ASSET_CGU } from '../../utils/Const'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+
+type TermsOfUseScreenProps = UnauthenticatedRootNavigatorScreenProps<'TermsOfUse'>
 
 const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
   navigation,

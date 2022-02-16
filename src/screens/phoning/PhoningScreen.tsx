@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 
-import { PhoningScreenProp, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PhoningRowViewModel } from './PhoningRowViewModel'
@@ -26,12 +26,15 @@ import {
 } from '../../core/entities/PhoningCharterState'
 import i18n from '../../utils/i18n'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+
+type PhoningScreenProps = ActionsNavigatorScreenProps<'Phoning'>
 
 export interface PhoningResources {
   campaigns: PhoningCampaign[]
 }
 
-const PhoningScreen: FunctionComponent<PhoningScreenProp> = ({
+const PhoningScreen: FunctionComponent<PhoningScreenProps> = ({
   navigation,
 }) => {
   const [isRefreshing, setRefreshing] = useState(false)

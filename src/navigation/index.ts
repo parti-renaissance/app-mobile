@@ -1,13 +1,9 @@
-import { DoorToDoorAddress } from './../core/entities/DoorToDoor'
-import { Retaliation } from './../core/entities/Retaliation'
 import {
-  NavigatorScreenParams,
   CompositeNavigationProp,
   RouteProp,
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native'
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import * as _Screen from './screen'
 import { NotificationCategory } from '../core/entities/Notification'
@@ -16,22 +12,13 @@ import {
   PhoningSessionNavigationData,
   PhoningSessionNavigationDataRequiredAdherent,
 } from '../screens/shared/PhoningSessionNavigationData'
-import { PhoningCampaignBriefNavigationData } from '../screens/phoningCampaignBrief/PhoningCampaignBriefNavigationData'
-import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampaignScoreboard/PhoningCampaignScoreboardNavigationData'
-import { PhoningCharterNavigationData } from '../screens/phoningCharter/PhoningCharterNavigationData'
 import { BuildingSelectedNavigationParams } from '../screens/doorToDoor/tunnel/BuildingSelectedNavigationParams'
+import { ActionsNavigatorParamList } from './ActionsNavigator'
+import { AuthenticatedRootNavigatorParamList } from './AuthenticatedRootNavigator'
 
 export const Screen = _Screen
 
 //----------- Param List -----------//
-
-export type HomeParamList = {
-  Home: undefined
-  Region: { zipCode: string }
-  News: undefined
-  EventDetails: { eventId: string }
-  RetaliationDetailScreen: { retaliation: Retaliation }
-}
 
 export type ProfileParamList = {
   Profile: undefined
@@ -45,37 +32,8 @@ export type ProfileParamList = {
   Notifications: { category: NotificationCategory }
 }
 
-export type EventParamList = {
-  Events: undefined
-  EventDetails: { eventId: string }
-}
-
-export type NewsParamList = {
-  News: undefined
-}
-
 export type NewsDetailModalParamList = {
   NewsDetail: { newsId: string }
-}
-
-export type ActionsParamList = {
-  Actions: undefined
-  Polls: undefined
-  Phoning: undefined
-  PhoningCharter: { data: PhoningCharterNavigationData }
-  PhoningTutorial: undefined
-  PhoningCampaignBrief: { data: PhoningCampaignBriefNavigationData }
-  PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
-  DoorToDoor: undefined
-  BuildingDetail: { address: DoorToDoorAddress }
-}
-
-export type AuthenticatedHomeParamList = {
-  HomeNavigator: NavigatorScreenParams<HomeParamList>
-  NewsNavigator: NavigatorScreenParams<NewsParamList>
-  ActionsNavigator: NavigatorScreenParams<ActionsParamList>
-  Tools: undefined
-  EventNavigator: NavigatorScreenParams<EventParamList>
 }
 
 export type PollDetailModalParamList = {
@@ -137,98 +95,16 @@ export type DoorToDoorTunnelModalParamList = {
   }
 }
 
-export type RootStackParamList = {
-  AuthenticatedHome: NavigatorScreenParams<AuthenticatedHomeParamList>
-  PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
-  PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalParamList>
-  ProfileModal: undefined
-  Login: NavigatorScreenParams<ProfileParamList>
-  TermsOfUse: undefined
-  News: undefined
-  DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalParamList>
-  NewsDetailModal: NavigatorScreenParams<NewsDetailModalParamList>
-}
-
-export type UnauthenticatedStackParamList = {
-  UnauthenticatedHome: undefined
-  Login: undefined
-  ForgottenPassword: { email?: string }
-  SignUp: undefined
-  AnonymousLoginZipCode: undefined
-  ZipCodeConfirmation: { zipCode: string }
-  DataCollect: undefined
-  TermsOfUse: undefined
-}
-
 //----------- Screen Props -----------//
-
-// Retaliation Detail
-export type RetaliationDetailScreenProp = StackScreenProps<
-  HomeParamList,
-  typeof Screen.retaliationDetailScreen
->
-
-// Phoning Tutorial
-export type PhoningTutorialScreenProp = StackScreenProps<
-  ActionsParamList,
-  typeof Screen.phoningTutorial
->
-
-// Phoning
-export type PhoningScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.actionsNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type PhoningScreenProp = Readonly<{
-  navigation: PhoningScreenNavigationProp
-}>
-
-// Actions
-export type ActionsScreenProp = StackScreenProps<
-  ActionsParamList,
-  typeof Screen.actions
->
-
-// Door to Door
-export type DoorToDoorScreenProp = StackScreenProps<
-  ActionsParamList,
-  typeof Screen.doorToDoor
->
-
-// BuildingDetail
-export type BuildingDetailScreenPropNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.actionsNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type BuildingDetailScreenPropRouteProp = RouteProp<
-  ActionsParamList,
-  typeof Screen.buildingDetail
->
-export type BuildingDetailScreenProp = {
-  navigation: BuildingDetailScreenPropNavigationProp
-  route: BuildingDetailScreenPropRouteProp
-}
 
 // DoorToDoorTunnelModal
 
 export type DoorToDoorTunnelModalNavigationProp = CompositeNavigationProp<
   StackNavigationProp<DoorToDoorTunnelModalParamList>,
-  StackNavigationProp<RootStackParamList>
+  StackNavigationProp<AuthenticatedRootNavigatorParamList>
 >
 export type DoorToDoorTunnelModalRouteProp = RouteProp<
-  RootStackParamList,
+  AuthenticatedRootNavigatorParamList,
   typeof Screen.doorToDoorTunnelModal
 >
 export type DoorToDoorTunnelModalProps = Readonly<{
@@ -275,73 +151,13 @@ export type TunnelDoorPollScreenProp = Readonly<{
   navigation: StackNavigationProp<ParamListBase>
 }>
 
-// Phoning charter
-export type PhoningCharterScreenProp = StackScreenProps<
-  ActionsParamList,
-  typeof Screen.phoningCharter
->
-
-// Phoning Campaign Brief
-export type PhoningCampaignBriefScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.actionsNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type PhoningCampaignBriefScreenRouteProp = RouteProp<
-  ActionsParamList,
-  typeof Screen.phoningCampaignBrief
->
-
-export type PhoningCampaignBriefScreenProp = Readonly<{
-  route: PhoningCampaignBriefScreenRouteProp
-  navigation: PhoningCampaignBriefScreenNavigationProp
-}>
-
-// Phoning Campaign Scoreboard
-export type PhoningCampaignScoreboardScreenProp = StackScreenProps<
-  ActionsParamList,
-  typeof Screen.phoningCampaignScoreboard
->
-
-// Polls
-export type PollsScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<
-    AuthenticatedHomeParamList,
-    typeof Screen.actionsNavigator
-  >,
-  StackNavigationProp<RootStackParamList>
->
-export type PollsScreenProps = Readonly<{
-  navigation: PollsScreenNavigationProp
-}>
-
-// Home
-export type HomeScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<HomeParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.homeNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type HomeScreenProps = Readonly<{
-  navigation: HomeScreenNavigationProp
-}>
-
 // PollDetailModal
 export type PollDetailModalNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PollDetailModalParamList>,
-  StackNavigationProp<RootStackParamList>
+  StackNavigationProp<AuthenticatedRootNavigatorParamList>
 >
 export type PollDetailModalRouteProp = RouteProp<
-  RootStackParamList,
+  AuthenticatedRootNavigatorParamList,
   typeof Screen.pollDetailModal
 >
 export type PollDetailModalProps = Readonly<{
@@ -358,10 +174,10 @@ export type PhoningSessionLoaderPermanentCampaignScreenProp = StackScreenProps<
 // ProfileModal
 export type ProfileModalNavigationProp = CompositeNavigationProp<
   StackNavigationProp<ProfileParamList>,
-  StackNavigationProp<RootStackParamList>
+  StackNavigationProp<AuthenticatedRootNavigatorParamList>
 >
 export type ProfileModalRouteProp = RouteProp<
-  RootStackParamList,
+  AuthenticatedRootNavigatorParamList,
   typeof Screen.profileModal
 >
 export type ProfileModalProps = Readonly<{
@@ -377,7 +193,7 @@ export type PollDetailScreenProps = StackScreenProps<
 
 // PhonePollDetail
 export type PhonePollDetailScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
+  StackNavigationProp<ActionsNavigatorParamList>,
   StackNavigationProp<PhoningSessionModalParamList>
 >
 export type PhonePollDetailScreenRouteProp = RouteProp<
@@ -392,7 +208,7 @@ export type PhonePollDetailScreenProps = Readonly<{
 // PollDetailSuccess
 export type PollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<PollDetailModalParamList>,
-  PollsScreenNavigationProp
+  StackNavigationProp<AuthenticatedRootNavigatorParamList>
 >
 export type PollDetailSuccessScreenRouteProp = RouteProp<
   PollDetailModalParamList,
@@ -405,10 +221,10 @@ export type PollDetailSuccessScreenProps = Readonly<{
 
 // PhonePollDetailSuccess
 export type PhonePollDetailSuccessScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
+  StackNavigationProp<ActionsNavigatorParamList>,
   CompositeNavigationProp<
     StackNavigationProp<PhoningSessionModalParamList>,
-    ActionsScreenProp['navigation']
+    StackNavigationProp<AuthenticatedRootNavigatorParamList>
   >
 >
 export type PhonePollDetailSuccessScreenRouteProp = RouteProp<
@@ -419,57 +235,6 @@ export type PhonePollDetailSuccessScreenProps = Readonly<{
   route: PhonePollDetailSuccessScreenRouteProp
   navigation: PhonePollDetailSuccessScreenNavigationProp
 }>
-
-// Unauthenticated
-export type UnauthenticatedHomeScreenProps = StackScreenProps<
-  UnauthenticatedStackParamList,
-  typeof Screen.unauthenticatedHome
->
-
-// Login
-export type LoginScreenProps = Readonly<{
-  onSuccess?: () => void
-  navigation: NavigationProp<ParamListBase>
-}>
-
-// Forgotten Password
-export type ForgottenPasswordRouteProp = RouteProp<
-  UnauthenticatedStackParamList,
-  typeof Screen.forgottenPassword
->
-export type ForgottenPasswordScreenProps = Readonly<{
-  route: ForgottenPasswordRouteProp
-  navigation: NavigationProp<ParamListBase>
-}>
-
-// Sign Up
-export type SignUpScreenProps = Readonly<{
-  navigation: NavigationProp<ParamListBase>
-}>
-
-// AnonymousLoginZipCode
-export type AnonymousLoginZipCodeScreenProps = StackScreenProps<
-  UnauthenticatedStackParamList,
-  typeof Screen.anonymousLoginZipCode
->
-
-// ZipCodeConfirmation
-export type ZipCodeConfirmationScreenProps = StackScreenProps<
-  UnauthenticatedStackParamList,
-  typeof Screen.zipCodeConfirmation
->
-
-// TermsOfUse
-export type TermsOfUseScreenProps = StackScreenProps<
-  UnauthenticatedStackParamList,
-  typeof Screen.termsOfUse
->
-
-// DataCollect
-export type DataCollectScreenProps = StackScreenProps<
-  UnauthenticatedStackParamList,
-  typeof Screen.dataCollect
->
 
 // Profile
 export type ProfileScreenProps = StackScreenProps<
@@ -489,52 +254,19 @@ export type ProfileLoginScreenProps = StackScreenProps<
   typeof Screen.profileLogin
 >
 
-// Region
-export type RegionScreenProps = StackScreenProps<
-  HomeParamList,
-  typeof Screen.region
->
-
 // PersonalInformation
 export type PersonalInformationScreenProps = StackScreenProps<
   ProfileParamList,
   typeof Screen.personalInformation
 >
 
-// Event
-export type EventScreenProps = StackScreenProps<
-  EventParamList,
-  typeof Screen.events
->
-
-// Event Detail
-export type EventDetailsScreenProps = StackScreenProps<
-  EventParamList,
-  typeof Screen.eventDetails
->
-
-// News
-export type NewsScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<NewsParamList>,
-  CompositeNavigationProp<
-    BottomTabNavigationProp<
-      AuthenticatedHomeParamList,
-      typeof Screen.newsNavigator
-    >,
-    StackNavigationProp<RootStackParamList>
-  >
->
-export type NewsScreenProps = Readonly<{
-  navigation: NewsScreenNavigationProp
-}>
-
 // News Detail Modal
 export type NewsDetailModalNavigationProp = CompositeNavigationProp<
   StackNavigationProp<NewsDetailModalParamList>,
-  StackNavigationProp<RootStackParamList>
+  StackNavigationProp<AuthenticatedRootNavigatorParamList>
 >
 export type NewsDetailModalRouteProp = RouteProp<
-  RootStackParamList,
+  AuthenticatedRootNavigatorParamList,
   typeof Screen.newsDetailModal
 >
 export type NewsDetailModalProps = Readonly<{
@@ -592,7 +324,7 @@ export type PhoneCallStatusPickerScreenProps = StackScreenProps<
 
 // Phone Call Failure
 export type PhoneCallFailureScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
+  StackNavigationProp<ActionsNavigatorParamList>,
   StackNavigationProp<PhoningSessionModalParamList>
 >
 export type PhoneCallFailureScreenRouteProp = RouteProp<
@@ -606,7 +338,7 @@ export type PhoneCallFailureScreenProps = Readonly<{
 
 // Phoning Session No Number Available
 export type PhoningSessionNoNumberAvailableScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<ActionsParamList>,
+  StackNavigationProp<ActionsNavigatorParamList>,
   StackNavigationProp<PhoningSessionModalParamList>
 >
 export type PhoningSessionNoNumberAvailableScreenRouteProp = RouteProp<

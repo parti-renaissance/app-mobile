@@ -4,7 +4,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Department } from '../../core/entities/Department'
 import { AnonymousLoginInteractor } from '../../core/interactor/AnonymousLoginInteractor'
 import RegionsRepository from '../../data/RegionsRepository'
-import { ZipCodeConfirmationScreenProps } from '../../navigation'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
@@ -13,6 +13,8 @@ import CircularIcon from '../shared/CircularIcon'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+
+type ZipCodeConfirmationScreenProps = UnauthenticatedRootNavigatorScreenProps<'ZipCodeConfirmation'>
 
 type ContentProps = Readonly<{
   department: string

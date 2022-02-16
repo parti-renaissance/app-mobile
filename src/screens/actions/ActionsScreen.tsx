@@ -6,10 +6,12 @@ import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
 import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
-import { ActionsScreenProp } from '../../navigation'
 import { useActionsScreen } from './useActionsScreen.hook'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 
-const ActionsScreen: FunctionComponent<ActionsScreenProp> = () => {
+type ActionsScreenProps = ActionsNavigatorScreenProps<'Actions'>
+
+const ActionsScreen: FunctionComponent<ActionsScreenProps> = () => {
   const { statefulState, onActionSelected } = useActionsScreen()
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {

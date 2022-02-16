@@ -2,7 +2,8 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useState } from 'react'
 import { Action } from '../../core/entities/Action'
 import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
-import { ActionsScreenProp, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 import { Analytics } from '../../utils/Analytics'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -17,7 +18,9 @@ export const useActionsScreen = (): {
     ViewState<ReadonlyArray<ActionRowViewModel>>
   >(ViewState.Loading())
 
-  const navigation = useNavigation<ActionsScreenProp['navigation']>()
+  const navigation = useNavigation<
+    ActionsNavigatorScreenProps<'Actions'>['navigation']
+  >()
   const isFocused = useIsFocused()
   const [fetchedActions] = useState(new Map<string, Action>())
 

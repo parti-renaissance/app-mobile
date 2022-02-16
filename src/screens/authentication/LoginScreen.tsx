@@ -9,9 +9,12 @@ import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
-import { LoginScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 
-const LoginScreen: FC<LoginScreenProps> = ({ navigation, onSuccess }) => {
+type LoginScreenProps = UnauthenticatedRootNavigatorScreenProps<'Login'>
+
+const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -35,7 +38,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation, onSuccess }) => {
     new LoginInteractor()
       .login(email, password)
       .then(() => {
-        onSuccess?.()
+        // no op
       })
       .catch((exception) => {
         if (exception instanceof LoginError) {

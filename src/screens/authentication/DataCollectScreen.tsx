@@ -1,12 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { DataCollectScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { Colors, Spacing, Styles } from '../../styles'
 import { ASSET_DATA_PROTECTION } from '../../utils/Const'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import PdfView from '../shared/PdfView'
+
+type DataCollectScreenProps = UnauthenticatedRootNavigatorScreenProps<'DataCollect'>
 
 const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
   navigation,

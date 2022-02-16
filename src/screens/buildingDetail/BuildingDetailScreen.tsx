@@ -15,7 +15,7 @@ import {
   Modal,
 } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { BuildingDetailScreenProp, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
 import BuildingLayoutView from './BuildingLayoutView'
@@ -46,13 +46,16 @@ import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaig
 import RankingModal from '../doorToDoor/rankings/RankingModal'
 import { RankingModalState } from '../doorToDoor/DoorToDoorScreen'
 import CardView from '../shared/CardView'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+
+type BuildingDetailScreenProps = ActionsNavigatorScreenProps<'BuildingDetail'>
 
 enum Tab {
   HISTORY,
   LAYOUT,
 }
 
-const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProp> = ({
+const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProps> = ({
   navigation,
   route,
 }) => {
