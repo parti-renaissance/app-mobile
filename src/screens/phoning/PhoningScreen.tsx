@@ -7,8 +7,6 @@ import {
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-
-import { Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PhoningRowViewModel } from './PhoningRowViewModel'
@@ -92,7 +90,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = ({
       brief: campaign.brief,
     }
     if (charterState instanceof PhoningCharterNotAccepted) {
-      navigation.navigate(Screen.phoningCharter, {
+      navigation.navigate('PhoningCharter', {
         data: {
           id: campaign.id,
           charter: charterState.charter,
@@ -100,7 +98,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = ({
         },
       })
     } else {
-      navigation.navigate(Screen.phoningCampaignBrief, { data: brief })
+      navigation.navigate('PhoningCampaignBrief', { data: brief })
     }
   }
 
@@ -109,7 +107,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = ({
       return (
         <PhoningTutorialRow
           onPress={() => {
-            navigation.navigate(Screen.phoningTutorial)
+            navigation.navigate('PhoningTutorial')
           }}
         />
       )
@@ -120,8 +118,8 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = ({
           onCallButtonPressed={() => {
             const campaign = findCampaignInCurrentResources(item.value.id)
             if (campaign?.permanent) {
-              navigation.navigate(Screen.phoningSessionModal, {
-                screen: Screen.phoningSessionLoaderPermanentCampaign,
+              navigation.navigate('PhoningSessionModal', {
+                screen: 'PhoningSessionLoaderPermanentCampaign',
                 params: {
                   campaignId: campaign.id,
                   campaignTitle: campaign.title,
@@ -148,7 +146,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = ({
               item.value.id,
             )
             if (selectedCampaign) {
-              navigation.navigate(Screen.phoningCampaignScoreboard, {
+              navigation.navigate('PhoningCampaignScoreboard', {
                 data: { scoreboard: selectedCampaign.scoreboard },
               })
             }

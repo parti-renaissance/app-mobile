@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen } from '../../navigation'
 import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -31,8 +30,8 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
         <PrimaryButton
           title={i18n.t('phoning.brief.call')}
           onPress={() =>
-            navigation.navigate(Screen.phoningSessionModal, {
-              screen: Screen.phoningSessionLoader,
+            navigation.navigate('PhoningSessionModal', {
+              screen: 'PhoningSessionLoader',
               params: {
                 campaignId: route.params.data.id,
                 campaignTitle: route.params.data.title,
@@ -45,8 +44,8 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
           title={i18n.t('phoning.brief.call_from_other_device')}
           textStyle={styles.linkText}
           onPress={() =>
-            navigation.navigate(Screen.phoningSessionModal, {
-              screen: Screen.phoningSessionLoader,
+            navigation.navigate('PhoningSessionModal', {
+              screen: 'PhoningSessionLoader',
               params: {
                 campaignId: route.params.data.id,
                 campaignTitle: route.params.data.title,

@@ -10,7 +10,6 @@ import { headerBlank } from '../styles/navigationAppearance'
 import DataCollectScreen from '../screens/authentication/DataCollectScreen'
 import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
 import SignUpScreen from '../screens/authentication/SignUpScreen'
-import { Screen } from '.'
 
 export type UnauthenticatedRootNavigatorParamList = {
   UnauthenticatedHome: undefined
@@ -27,33 +26,33 @@ export type UnauthenticatedRootNavigatorScreenProps<
   T extends keyof UnauthenticatedRootNavigatorParamList
 > = StackScreenProps<UnauthenticatedRootNavigatorParamList, T>
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<UnauthenticatedRootNavigatorParamList>()
 
 export const UnauthenticatedRootNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
       <Stack.Group>
         <Stack.Screen
-          name={Screen.unauthenticatedHome}
+          name={'UnauthenticatedHome'}
           component={UnauthenticatedHomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name={Screen.login} component={LoginScreen} />
+        <Stack.Screen name={'Login'} component={LoginScreen} />
         <Stack.Screen
-          name={Screen.anonymousLoginZipCode}
+          name={'AnonymousLoginZipCode'}
           component={AnonymousLoginZipCodeScreen}
         />
         <Stack.Screen
-          name={Screen.zipCodeConfirmation}
+          name={'ZipCodeConfirmation'}
           component={ZipCodeConfirmationScreen}
         />
-        <Stack.Screen name={Screen.dataCollect} component={DataCollectScreen} />
-        <Stack.Screen name={Screen.termsOfUse} component={TermsOfUseScreen} />
-        <Stack.Screen name={Screen.signUp} component={SignUpScreen} />
+        <Stack.Screen name={'DataCollect'} component={DataCollectScreen} />
+        <Stack.Screen name={'TermsOfUse'} component={TermsOfUseScreen} />
+        <Stack.Screen name={'SignUp'} component={SignUpScreen} />
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen
-          name={Screen.forgottenPassword}
+          name={'ForgottenPassword'}
           component={ForgottenPasswordScreen}
           options={{ headerShown: true }}
         />

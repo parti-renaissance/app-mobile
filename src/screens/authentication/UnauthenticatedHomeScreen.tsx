@@ -10,7 +10,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
-import { Screen } from '../../navigation'
 import LinearGradient from 'react-native-linear-gradient'
 import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 
@@ -51,14 +50,14 @@ const UnauthenticatedHomeScreen = ({
             style={styles.button}
             title={i18n.t('unauthenticatedhome.login')}
             onPress={() => {
-              navigation.navigate(Screen.login)
+              navigation.navigate('Login')
             }}
           />
           <SecondaryButton
             style={styles.button}
             title={i18n.t('unauthenticatedhome.signup')}
             onPress={() => {
-              navigation.navigate(Screen.signUp)
+              navigation.navigate('SignUp')
             }}
           />
           <Text style={styles.separator}>
@@ -67,7 +66,7 @@ const UnauthenticatedHomeScreen = ({
           <SecondaryButton
             style={styles.button}
             onPress={() => {
-              navigation.navigate(Screen.login)
+              navigation.navigate('Login')
             }}
             title={i18n.t('unauthenticatedhome.login_lrem')}
             trailingIcon={require('../../assets/images/iconEM.png')}

@@ -2,7 +2,6 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useState } from 'react'
 import { Action } from '../../core/entities/Action'
 import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
-import { Screen } from '../../navigation'
 import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 import { Analytics } from '../../utils/Analytics'
 import { ViewState } from '../shared/StatefulView'
@@ -53,15 +52,15 @@ export const useActionsScreen = (): {
     switch (action.type) {
       case 'polls': {
         Analytics.logActionsPolls()
-        navigation.navigate(Screen.polls)
+        navigation.navigate('Polls')
         break
       }
       case 'phoning': {
-        navigation.navigate(Screen.phoning)
+        navigation.navigate('Phoning')
         break
       }
       case 'doorToDoor': {
-        navigation.navigate(Screen.doorToDoor)
+        navigation.navigate('DoorToDoor')
         break
       }
     }

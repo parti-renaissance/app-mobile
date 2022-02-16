@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import { Screen } from '.'
 import PollDetailScreen from '../screens/pollDetail/PollDetailScreen'
 import PollDetailSuccessScreen from '../screens/pollDetail/PollDetailSuccessScreen'
 import { headerOptions } from '../styles/navigationAppearance'
@@ -19,18 +18,18 @@ export type PollDetailModalNavigatorScreenProps<
   AuthenticatedRootNavigatorScreenProps
 >
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<PollDetailModalNavigatorParamList>()
 
 const PollDetailModalNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
-        name={Screen.pollDetail}
+        name={'PollDetail'}
         component={PollDetailScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.pollDetailSuccess}
+        name={'PollDetailSuccess'}
         component={PollDetailSuccessScreen}
         options={{ headerLeft: () => null, title: '' }}
       />

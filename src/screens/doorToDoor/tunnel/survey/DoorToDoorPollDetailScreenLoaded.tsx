@@ -11,7 +11,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Poll } from '../../../../core/entities/Poll'
 import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
-import { Screen } from '../../../../navigation'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
 import { PollDetailNavigationButtonsViewModelMapper } from '../../../pollDetail/PollDetailNavigationButtonsViewModelMapper'
@@ -95,7 +94,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
         pollResult: result,
       })
       .then(() => {
-        navigation.replace(Screen.tunnelDoorSuccess, {
+        navigation.replace('TunnelDoorSuccessScreen', {
           campaignId: route.params.campaignId,
           buildingParams: route.params.buildingParams,
           interlocutorStatus: route.params.interlocutorStatus,

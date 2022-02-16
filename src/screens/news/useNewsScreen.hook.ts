@@ -4,7 +4,6 @@ import { News } from '../../core/entities/News'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
-import { Screen } from '../../navigation'
 import { NewsNavigatorScreenProps } from '../../navigation/NewsNavigator'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -78,8 +77,8 @@ export const useNewsScreen = (): {
 
   const onNewsSelected = (id: string) => {
     // TODO: (Pierre Felgines) 2022/02/11 Check where to log analytics `Analytics.logNewsOpen()`
-    navigation.navigate(Screen.newsDetailModal, {
-      screen: Screen.newsDetail,
+    navigation.navigate('NewsDetailModal', {
+      screen: 'NewsDetail',
       params: { newsId: id },
     })
   }

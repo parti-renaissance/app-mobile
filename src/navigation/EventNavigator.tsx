@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import { Screen } from '.'
 import EventDetailsScreen from '../screens/eventDetail/EventDetailsScreen'
 import { headerBlank } from '../styles/navigationAppearance'
 import EventsScreen from '../screens/events/EventsScreen'
@@ -24,9 +23,9 @@ const Stack = createStackNavigator<EventNavigatorParamList>()
 const EventNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
-      <Stack.Screen name={Screen.events} component={EventsScreen} />
+      <Stack.Screen name={'Events'} component={EventsScreen} />
       <Stack.Screen
-        name={Screen.eventDetails}
+        name={'EventDetails'}
         component={EventDetailsScreen}
         options={{ headerTransparent: true }}
       />

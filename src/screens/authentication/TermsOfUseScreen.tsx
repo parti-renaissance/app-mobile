@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen } from '../../navigation'
 import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
@@ -21,7 +20,7 @@ const TermsOfUseScreen: FunctionComponent<TermsOfUseScreenProps> = ({
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('termsofuse.accept')}
-            onPress={() => navigation.navigate(Screen.dataCollect)}
+            onPress={() => navigation.navigate('DataCollect')}
           />
         </View>
       </View>

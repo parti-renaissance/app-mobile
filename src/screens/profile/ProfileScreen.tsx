@@ -4,7 +4,6 @@ import { useFocusEffect } from '@react-navigation/native'
 import { Colors } from '../../styles'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import ProfileAnonymous from './ProfileAnonymous'
-import { Screen } from '../../navigation'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import {
   GetUserProfileInteractor,
@@ -30,23 +29,23 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      navigation.navigate(Screen.notificationMenu)
+      navigation.navigate('NotificationMenu')
     }
     if (content instanceof ProfileAnonymousResult) {
       const openZipCode = () => {
-        navigation.navigate(Screen.profileZipCode, {
+        navigation.navigate('ProfileZipCode', {
           zipCode: content.zipCode,
         })
       }
       const openTermsOfUse = () => {
-        navigation.navigate(Screen.profileTermsOfUse)
+        navigation.navigate('ProfileTermsOfUse')
       }
       const openDataProtection = () => {
-        navigation.navigate(Screen.profileDataProtection)
+        navigation.navigate('ProfileDataProtection')
       }
 
       const openLogin = () => {
-        navigation.navigate(Screen.profileLogin)
+        navigation.navigate('ProfileLogin')
       }
       const viewModel = ProfileScreenViewModelMapper.mapFromDepartment(
         content.department,
@@ -64,10 +63,10 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       )
     } else if (content instanceof ProfileAuthenticatedResult) {
       const openPersonalInformation = () => {
-        navigation.navigate(Screen.personalInformation)
+        navigation.navigate('PersonalInformation')
       }
       const openCenterOfInterest = () => {
-        navigation.navigate(Screen.centerOfInterest)
+        navigation.navigate('CenterOfInterest')
       }
       const viewModel = ProfileScreenViewModelMapper.map(
         content.profile,

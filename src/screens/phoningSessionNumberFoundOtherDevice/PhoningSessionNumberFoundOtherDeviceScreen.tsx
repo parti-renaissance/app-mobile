@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton } from '../shared/Buttons'
@@ -34,7 +33,7 @@ const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<PhoningSessi
       <PrimaryButton
         title={i18n.t('phoningsession.call_started')}
         onPress={() =>
-          navigation.replace(Screen.phoneCallStatusPicker, {
+          navigation.replace('PhoneCallStatusPicker', {
             data: route.params.data,
           })
         }

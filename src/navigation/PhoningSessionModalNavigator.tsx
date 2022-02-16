@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import { headerOptions } from '../styles/navigationAppearance'
-import { Screen } from '.'
 import PhonePollDetailScreen from '../screens/phonePollDetail/PhonePollDetailScreen'
 import PhonePollDetailSuccessScreen from '../screens/phonePollDetailSuccess/PhonePollDetailSuccessScreen'
 import PhoningSessionLoaderScreen from '../screens/phoningSessionLoader/PhoningSessionLoaderScreen'
@@ -55,47 +54,47 @@ const PhoningSessionModal: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
-        name={Screen.phonePollDetail}
+        name={'PhonePollDetail'}
         component={PhonePollDetailScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoningSessionLoaderPermanentCampaign}
+        name={'PhoningSessionLoaderPermanentCampaign'}
         component={PhoningSessionLoaderPermanentCampaignScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phonePollDetailSuccess}
+        name={'PhonePollDetailSuccess'}
         component={PhonePollDetailSuccessScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoningSessionLoader}
+        name={'PhoningSessionLoader'}
         component={PhoningSessionLoaderScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoningSessionNumberFound}
+        name={'PhoningSessionNumberFound'}
         component={PhoningSessionNumberFoundScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoningSessionNumberFoundOtherDevice}
+        name={'PhoningSessionNumberFoundOtherDevice'}
         component={PhoningSessionNumberFoundOtherDeviceScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoneCallStatusPicker}
+        name={'PhoneCallStatusPicker'}
         component={PhoneCallStatusPickerScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoneCallFailure}
+        name={'PhoneCallFailure'}
         component={PhoneCallFailureScreen}
         options={{ headerLeft: () => null, title: '' }}
       />
       <Stack.Screen
-        name={Screen.phoningSessionNoNumberAvailable}
+        name={'PhoningSessionNoNumberAvailable'}
         component={PhoningSessionNoNumberAvailableScreen}
         options={{ headerLeft: () => null, title: '' }}
       />

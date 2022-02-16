@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, BackHandler } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen } from '../../navigation'
 import { PollDetailModalNavigatorScreenProps } from '../../navigation/PollDetailModalNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -49,7 +48,7 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
             style={styles.primaryButton}
             title={i18n.t('polldetail.success.restart')}
             onPress={() =>
-              navigation.replace(Screen.pollDetail, {
+              navigation.replace('PollDetail', {
                 pollId: route.params.pollId,
               })
             }

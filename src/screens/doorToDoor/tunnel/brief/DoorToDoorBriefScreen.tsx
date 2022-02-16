@@ -10,7 +10,6 @@ import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
-import { Screen } from '../../../../navigation'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
@@ -73,12 +72,12 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
             title={i18n.t('doorToDoor.tunnel.door.tutorial.action')}
             onPress={() => {
               if (route.params.buildingParams.type === 'house') {
-                navigation.navigate(Screen.tunnelDoorOpening, {
+                navigation.navigate('TunnelDoorOpeningScreen', {
                   campaignId: campaignId,
                   buildingParams: route.params.buildingParams,
                 })
               } else {
-                navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+                navigation.navigate('TunnelDoorSelectionScreen', {
                   campaignId: campaignId,
                   buildingParams: route.params.buildingParams,
                   canCloseFloor: route.params.canCloseFloor,

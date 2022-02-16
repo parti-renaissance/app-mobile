@@ -1,6 +1,5 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { Screen } from '.'
 import { headerBlank } from '../styles/navigationAppearance'
 import i18n from '../utils/i18n'
 import CenterOfInterestScreen from '../screens/personalInformation/centerinterest/CenterOfInterestScreen'
@@ -40,39 +39,36 @@ const Stack = createStackNavigator<ProfileModalNavigatorParamList>()
 const ProfileModalNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
-      <Stack.Screen name={Screen.profile} component={ProfileScreen} />
-      <Stack.Screen name={Screen.profileLogin} component={ProfilLoginScreen} />
+      <Stack.Screen name={'Profile'} component={ProfileScreen} />
+      <Stack.Screen name={'ProfileLogin'} component={ProfilLoginScreen} />
       <Stack.Screen
-        name={Screen.profileTermsOfUse}
+        name={'ProfileTermsOfUse'}
         component={ProfileTermsOfUseScreen}
       />
       <Stack.Screen
-        name={Screen.profileDataProtection}
+        name={'ProfileDataProtection'}
         component={ProfileDataProtectionScreen}
       />
       <Stack.Screen
-        name={Screen.profileZipCode}
+        name={'ProfileZipCode'}
         component={ProfileZipCodeScreen}
         options={{ title: i18n.t('profileZipCode.title') }}
       />
       <Stack.Screen
-        name={Screen.personalInformation}
+        name={'PersonalInformation'}
         component={PersonalInformationScreen}
       />
       <Stack.Screen
-        name={Screen.centerOfInterest}
+        name={'CenterOfInterest'}
         component={CenterOfInterestScreen}
         options={{ title: i18n.t('centerofinterest.title') }}
       />
       <Stack.Screen
-        name={Screen.notificationMenu}
+        name={'NotificationMenu'}
         component={NotificationMenuScreen}
         options={{ title: i18n.t('notificationmenu.title') }}
       />
-      <Stack.Screen
-        name={Screen.notifications}
-        component={NotificationsScreen}
-      />
+      <Stack.Screen name={'Notifications'} component={NotificationsScreen} />
     </Stack.Navigator>
   )
 }

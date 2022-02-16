@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import { headerOptions } from '../styles/navigationAppearance'
-import { Screen } from '.'
 import TunnelDoorInterlocutorScreen from '../screens/doorToDoor/tunnel/interlocutor/TunnelDoorInterlocutorScreen'
 import TunnelDoorPollScreen from '../screens/doorToDoor/tunnel/survey/TunnelDoorPollScreen'
 import DoorToDoorBriefScreen from '../screens/doorToDoor/tunnel/brief/DoorToDoorBriefScreen'
@@ -57,17 +56,17 @@ const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
-        name={Screen.tunnelDoorBrief}
+        name={'TunnelDoorBriefScreen'}
         component={DoorToDoorBriefScreen}
         options={{ title: '' }}
       />
       <Stack.Screen
-        name={Screen.tunnelDoorSelectionScreen}
+        name={'TunnelDoorSelectionScreen'}
         component={TunnelDoorSelectionScreen}
         options={{ headerBackTitleVisible: false, title: '' }}
       />
       <Stack.Screen
-        name={Screen.tunnelDoorOpening}
+        name={'TunnelDoorOpeningScreen'}
         component={TunnelDoorOpeningScreen}
         options={{
           title: '',
@@ -75,15 +74,15 @@ const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
         }}
       />
       <Stack.Screen
-        name={Screen.tunnelDoorInterlocutor}
+        name={'TunnelDoorInterlocutorScreen'}
         component={TunnelDoorInterlocutorScreen}
       />
       <Stack.Screen
-        name={Screen.tunnelDoorPoll}
+        name={'TunnelDoorPollScreen'}
         component={TunnelDoorPollScreen}
       />
       <Stack.Screen
-        name={Screen.tunnelDoorSuccess}
+        name={'TunnelDoorSuccessScreen'}
         component={TunnelDoorSuccessScreen}
         options={{
           title: i18n.t('doorToDoor.tunnel.success.wellDone'),

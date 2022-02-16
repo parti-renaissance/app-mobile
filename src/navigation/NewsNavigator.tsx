@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import { Screen } from '.'
 import NewsScreen from '../screens/news/NewsScreen'
 import { TabBarNavigatorScreenProps } from './TabBarNavigator'
 import { CompositeScreenProps } from '@react-navigation/native'
@@ -21,7 +20,7 @@ const Stack = createStackNavigator<NewsNavigatorParamList>()
 const NewsNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={Screen.news} component={NewsScreen} />
+      <Stack.Screen name={'News'} component={NewsScreen} />
     </Stack.Navigator>
   )
 }

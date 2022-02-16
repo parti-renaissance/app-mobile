@@ -16,7 +16,6 @@ import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarVie
 import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
 import PollsRepository from '../../data/PollsRepository'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { Screen } from '../../navigation'
 import { LocationManager } from '../../utils/LocationManager'
 import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
@@ -80,7 +79,7 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
     PollsRepository.getInstance()
       .sendPollAnswers(poll, provider.getResult(), location)
       .then(() => {
-        navigation.replace(Screen.pollDetailSuccess, {
+        navigation.replace('PollDetailSuccess', {
           pollId: poll.id,
           title: poll.name,
         })

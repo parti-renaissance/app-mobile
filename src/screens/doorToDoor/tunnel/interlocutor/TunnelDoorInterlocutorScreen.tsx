@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Screen } from '../../../../navigation'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -47,7 +46,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
 
   const onChoice = (code: string) => {
     if (code === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE) {
-      navigation.navigate(Screen.tunnelDoorPoll, {
+      navigation.navigate('TunnelDoorPollScreen', {
         campaignId: route.params.campaignId,
         interlocutorStatus: code,
         buildingParams: route.params.buildingParams,
@@ -64,7 +63,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
           if (route.params.buildingParams.type === 'house') {
             navigation.getParent()?.goBack()
           } else {
-            navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+            navigation.navigate('TunnelDoorSelectionScreen', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,

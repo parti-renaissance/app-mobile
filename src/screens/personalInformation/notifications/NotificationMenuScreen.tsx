@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen } from '../../../navigation'
 import { ProfileModalNavigatorScreenProps } from '../../../navigation/ProfileModalNavigator'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
@@ -12,10 +11,10 @@ type NotificationMenuScreenProps = ProfileModalNavigatorScreenProps<'Notificatio
 
 const NotificationMenuScreen = (props: NotificationMenuScreenProps) => {
   const onLocal = () => {
-    props.navigation.navigate(Screen.notifications, { category: 'local' })
+    props.navigation.navigate('Notifications', { category: 'local' })
   }
   const onNational = () => {
-    props.navigation.navigate(Screen.notifications, { category: 'national' })
+    props.navigation.navigate('Notifications', { category: 'national' })
   }
   return (
     <SafeAreaView style={styles.container}>

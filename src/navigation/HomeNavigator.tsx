@@ -2,7 +2,6 @@ import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
 import HomeScreen from '../screens/home/HomeScreen'
-import { Screen } from '.'
 import { headerBlank } from '../styles/navigationAppearance'
 import RegionScreen from '../screens/regions/RegionScreen'
 import NewsScreen from '../screens/news/NewsScreen'
@@ -33,19 +32,19 @@ const HomeNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
       <Stack.Screen
-        name={Screen.home}
+        name={'Home'}
         component={HomeScreen}
         options={{ headerTransparent: true }}
       />
       <Stack.Screen
-        name={Screen.region}
+        name={'Region'}
         component={RegionScreen}
         options={{ headerTransparent: true }}
       />
-      <Stack.Screen name={Screen.news} component={NewsScreen} />
-      <Stack.Screen name={Screen.eventDetails} component={EventDetailsScreen} />
+      <Stack.Screen name={'News'} component={NewsScreen} />
+      <Stack.Screen name={'EventDetails'} component={EventDetailsScreen} />
       <Stack.Screen
-        name={Screen.retaliationDetailScreen}
+        name={'RetaliationDetailScreen'}
         component={RetaliationDetailScreen}
       />
     </Stack.Navigator>

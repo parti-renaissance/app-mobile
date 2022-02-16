@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
 import { useDebounce } from 'use-debounce/lib'
 import { EventMode } from '../../core/entities/Event'
-import { Screen } from '../../navigation'
 import { EventNavigatorScreenProps } from '../../navigation/EventNavigator'
 import { Analytics } from '../../utils/Analytics'
 import { EventRowViewModel } from './EventViewModel'
@@ -32,7 +31,7 @@ export const useEventsScreen = (): {
   const onEventSelected = useCallback(
     async (event: EventRowViewModel) => {
       await Analytics.logEventSelected(event.title, event.category)
-      navigation.navigate(Screen.eventDetails, {
+      navigation.navigate('EventDetails', {
         eventId: event.id,
       })
     },

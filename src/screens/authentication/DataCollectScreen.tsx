@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Screen } from '../../navigation'
 import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { Colors, Spacing, Styles } from '../../styles'
 import { ASSET_DATA_PROTECTION } from '../../utils/Const'
@@ -20,7 +19,7 @@ const DataCollectScreen: FunctionComponent<DataCollectScreenProps> = ({
       <View style={styles.bottomContainer}>
         <PrimaryButton
           title={i18n.t('datacollect.accept')}
-          onPress={() => navigation.navigate(Screen.anonymousLoginZipCode)}
+          onPress={() => navigation.navigate('AnonymousLoginZipCode')}
         />
       </View>
     </SafeAreaView>

@@ -8,7 +8,6 @@ import {
   PhoningSessionNoNumberError,
 } from '../../core/errors'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { Screen } from '../../navigation'
 import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -44,12 +43,12 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
       }
       switch (route.params.device) {
         case 'current':
-          navigation.replace(Screen.phoningSessionNumberFound, {
+          navigation.replace('PhoningSessionNumberFound', {
             data: navigationData,
           })
           break
         case 'external':
-          navigation.replace(Screen.phoningSessionNumberFoundOtherDevice, {
+          navigation.replace('PhoningSessionNumberFoundOtherDevice', {
             data: navigationData,
           })
           break
@@ -74,7 +73,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
             error instanceof PhoningSessionNoNumberError ||
             error instanceof PhoningSessionFinishedCampaignError
           ) {
-            navigation.replace(Screen.phoningSessionNoNumberAvailable, {
+            navigation.replace('PhoningSessionNoNumberAvailable', {
               message: error.message,
             })
           } else {

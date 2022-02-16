@@ -1,7 +1,6 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
-import { Screen } from '.'
 import PollDetailModalNavigator, {
   PollDetailModalNavigatorParamList,
 } from './PollDetailModalNavigator'
@@ -46,27 +45,27 @@ export const AuthenticatedRootNavigator: FunctionComponent = () => {
         {/* We need PollDetailScreen at this level because poll detail
           should be presented above the tab bar (i.e the HomeScreen) */}
         <Stack.Screen
-          name={Screen.pollDetailModal}
+          name={'PollDetailModal'}
           component={PollDetailModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
-          name={Screen.phoningSessionModal}
+          name={'PhoningSessionModal'}
           component={PhoningSessionModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
-          name={Screen.profileModal}
+          name={'ProfileModal'}
           component={ProfileModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
-          name={Screen.doorToDoorTunnelModal}
+          name={'DoorToDoorTunnelModal'}
           component={DoorToDoorTunnelModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
-          name={Screen.newsDetailModal}
+          name={'NewsDetailModal'}
           component={NewsDetailModalNavigator}
           options={{ gestureEnabled: false }}
         />

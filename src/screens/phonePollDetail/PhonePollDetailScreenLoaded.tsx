@@ -14,7 +14,6 @@ import { PollDetailComponentProvider } from '../pollDetail/providers/PollDetailC
 import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailProgressBarViewModelMapper'
 import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { Screen } from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
 import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
@@ -88,7 +87,7 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
     new SendPhonePollAnswersInteractor()
       .execute(poll, route.params.data.sessionId, provider.getResult())
       .then(() => {
-        navigation.replace(Screen.phonePollDetailSuccess, {
+        navigation.replace('PhonePollDetailSuccess', {
           title: poll.name,
           data: route.params.data,
         })

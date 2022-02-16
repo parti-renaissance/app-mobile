@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import ProfileRepository from '../../data/ProfileRepository'
-import { Screen } from '../../navigation'
 import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -25,7 +24,7 @@ const AnonymousLoginZipCodeScreen = ({
 
   const onSuccessZipCode = () => {
     ProfileRepository.getInstance().saveZipCode(zipCode)
-    navigation.navigate(Screen.zipCodeConfirmation, {
+    navigation.navigate('ZipCodeConfirmation', {
       zipCode: zipCode,
     })
   }

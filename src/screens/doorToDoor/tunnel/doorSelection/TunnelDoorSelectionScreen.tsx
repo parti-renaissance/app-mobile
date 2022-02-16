@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Image, StyleSheet, View, Text, Alert } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
-import { Screen } from '../../../../navigation'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
@@ -134,7 +133,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProp
         <PrimaryButton
           title={i18n.t('doorToDoor.tunnel.door.doorknocked')}
           onPress={() =>
-            navigation.navigate(Screen.tunnelDoorOpening, {
+            navigation.navigate('TunnelDoorOpeningScreen', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,

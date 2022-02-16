@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import { Screen } from '.'
 import ActionsScreen from '../screens/actions/ActionsScreen'
 import PollsScreen from '../screens/polls/PollsScreen'
 import { headerBlank } from '../styles/navigationAppearance'
@@ -43,46 +42,43 @@ const ActionsNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
       <Stack.Screen
-        name={Screen.actions}
+        name={'Actions'}
         component={ActionsScreen}
         options={{ headerShown: false }}
       />
       {/* Polls */}
       <Stack.Screen
-        name={Screen.polls}
+        name={'Polls'}
         component={PollsScreen}
         options={{ headerTransparent: true }}
       />
       {/* Phoning */}
       <Stack.Screen
-        name={Screen.phoning}
+        name={'Phoning'}
         component={PhoningScreen}
         options={{ headerShown: true }}
       />
+      <Stack.Screen name={'PhoningCharter'} component={PhoningCharterScreen} />
       <Stack.Screen
-        name={Screen.phoningCharter}
-        component={PhoningCharterScreen}
-      />
-      <Stack.Screen
-        name={Screen.phoningTutorial}
+        name={'PhoningTutorial'}
         component={PhoningTutorialScreen}
       />
       <Stack.Screen
-        name={Screen.phoningCampaignBrief}
+        name={'PhoningCampaignBrief'}
         component={PhoningCampaignBriefScreen}
       />
       <Stack.Screen
-        name={Screen.phoningCampaignScoreboard}
+        name={'PhoningCampaignScoreboard'}
         component={PhoningCampaignScoreboardScreen}
       />
       {/* DoorToDoor */}
       <Stack.Screen
-        name={Screen.doorToDoor}
+        name={'DoorToDoor'}
         component={DoorToDoorScreen}
         options={{ headerShown: true }}
       />
       <Stack.Screen
-        name={Screen.buildingDetail}
+        name={'BuildingDetail'}
         component={BuildingDetailScreen}
         options={{ headerShown: true }}
       />

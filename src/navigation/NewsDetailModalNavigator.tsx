@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import { Screen } from '.'
 import NewsDetailScreen from '../screens/newsDetail/NewsDetailScreen'
 import { headerBlank } from '../styles/navigationAppearance'
 import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNavigator'
@@ -22,7 +21,7 @@ const Stack = createStackNavigator<NewsDetailModalNavigatorParamList>()
 const NewsDetailModalNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
-      <Stack.Screen name={Screen.newsDetail} component={NewsDetailScreen} />
+      <Stack.Screen name={'NewsDetail'} component={NewsDetailScreen} />
     </Stack.Navigator>
   )
 }

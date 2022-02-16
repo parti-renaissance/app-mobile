@@ -1,8 +1,6 @@
 import React, { FC, useRef, useState } from 'react'
 import { StyleSheet, SafeAreaView, Text, View, TextInput } from 'react-native'
-
 import { Colors, Spacing, Typography } from '../../styles'
-import { Screen } from '../../navigation'
 import { PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import i18n from '../../utils/i18n'
@@ -38,7 +36,7 @@ const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
       }
       return
     }
-    navigation.navigate(Screen.profile)
+    navigation.navigate('Profile')
   }
   const onErrorZipCode = (error: Error) => {
     setErrorMessage(GenericErrorMapper.mapErrorMessage(error))

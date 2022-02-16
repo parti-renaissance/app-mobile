@@ -3,7 +3,6 @@ import { StyleSheet, SectionList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { Screen } from '../../navigation'
 import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing } from '../../styles'
 import { PhoningCampaignRankingHeaderView } from '../shared/PhoningCampaignRankingHeaderView'
@@ -54,14 +53,14 @@ const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScre
                   onNewCall={() => {
                     // If adherent is null in the param list it means we are in the permanent campaign and should navigate to phoningContactTutorial
                     if (route.params.data.adherent) {
-                      navigation.replace(Screen.phoningSessionLoader, {
+                      navigation.replace('PhoningSessionLoader', {
                         campaignId: route.params.data.campaignId,
                         campaignTitle: route.params.data.campaignTitle,
                         device: route.params.data.device,
                       })
                     } else {
                       navigation.replace(
-                        Screen.phoningSessionLoaderPermanentCampaign,
+                        'PhoningSessionLoaderPermanentCampaign',
                         {
                           campaignId: route.params.data.campaignId,
                           campaignTitle: route.params.data.campaignTitle,

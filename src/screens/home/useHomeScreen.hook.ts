@@ -4,7 +4,6 @@ import {
   GetHomeResourcesInteractor,
   HomeResources,
 } from '../../core/interactor/GetHomeResourcesInteractor'
-import { Screen } from '../../navigation'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
@@ -114,8 +113,8 @@ export const useHomeScreen = (): {
   }
 
   const onPollSelected = (pollId: number) => {
-    navigation.navigate(Screen.pollDetailModal, {
-      screen: Screen.pollDetail,
+    navigation.navigate('PollDetailModal', {
+      screen: 'PollDetail',
       params: { pollId: pollId },
     })
   }
@@ -129,11 +128,11 @@ export const useHomeScreen = (): {
   }
   const onNewsMorePressed = async () => {
     await Analytics.logHomeNewsMore()
-    navigation.navigate(Screen.news)
+    navigation.navigate('News')
   }
   const onFeedNewsSelected = (newsId: string) => {
-    navigation.navigate(Screen.newsDetailModal, {
-      screen: Screen.newsDetail,
+    navigation.navigate('NewsDetailModal', {
+      screen: 'NewsDetail',
       params: { newsId },
     })
   }
@@ -142,14 +141,14 @@ export const useHomeScreen = (): {
   }
   const onToolsMorePressed = async () => {
     await Analytics.logHomeToolsMore()
-    navigation.navigate(Screen.tools)
+    navigation.navigate('Tools')
   }
   const onRegionMorePressed = async () => {
     if (!currentResources) {
       return
     }
     await Analytics.logHomeRegionMore()
-    navigation.navigate(Screen.region, { zipCode: currentResources.zipCode })
+    navigation.navigate('Region', { zipCode: currentResources.zipCode })
   }
   const onQuickPollAnswerSelected = async (
     pollId: string,
@@ -172,14 +171,14 @@ export const useHomeScreen = (): {
   }
   const onEventSelected = async (event: EventRowViewModel) => {
     await Analytics.logHomeEventOpen(event.title, event.category)
-    navigation.navigate(Screen.eventDetails, { eventId: event.id })
+    navigation.navigate('EventDetails', { eventId: event.id })
   }
   const onRetaliationSelected = (id: string) => {
     const retaliation = currentResources?.retaliations.find(
       (item) => item.id === id,
     )
     if (retaliation !== null && retaliation !== undefined) {
-      navigation.navigate(Screen.retaliationDetailScreen, {
+      navigation.navigate('RetaliationDetailScreen', {
         retaliation: retaliation,
       })
     }
@@ -193,23 +192,23 @@ export const useHomeScreen = (): {
     }
   }
   const onFeedPhoningCampaignsSelected = () => {
-    navigation.navigate(Screen.actionsNavigator, { screen: Screen.actions })
+    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
     setTimeout(() => {
-      navigation.navigate(Screen.actionsNavigator, { screen: Screen.phoning })
+      navigation.navigate('ActionsNavigator', { screen: 'Phoning' })
     }, 300)
   }
   const onFeedDoorToDoorCampaignsSelected = () => {
-    navigation.navigate(Screen.actionsNavigator, { screen: Screen.actions })
+    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
     setTimeout(() => {
-      navigation.navigate(Screen.actionsNavigator, {
-        screen: Screen.doorToDoor,
+      navigation.navigate('ActionsNavigator', {
+        screen: 'DoorToDoor',
       })
     }, 300)
   }
   const onFeedPollsSelected = () => {
-    navigation.navigate(Screen.actionsNavigator, { screen: Screen.actions })
+    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
     setTimeout(() => {
-      navigation.navigate(Screen.actionsNavigator, { screen: Screen.polls })
+      navigation.navigate('ActionsNavigator', { screen: 'Polls' })
     }, 300)
   }
   const onFeedPhoningCampaignSelected = (campaignId: string) => {

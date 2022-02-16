@@ -15,7 +15,6 @@ import PollsHeader from './PollsHeader'
 import { Colors } from '../../styles'
 import { PollRowViewModel } from './PollRowViewModel'
 import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
-import { Screen } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
@@ -76,8 +75,8 @@ const PollsScreen: FC<PollsScreenProps> = ({ navigation }) => {
 
   const navigationToPollDetail = (viewModelId: string) => {
     const pollId = parseInt(viewModelId, 10)
-    navigation.navigate(Screen.pollDetailModal, {
-      screen: Screen.pollDetail,
+    navigation.navigate('PollDetailModal', {
+      screen: 'PollDetail',
       params: { pollId: pollId },
     })
   }

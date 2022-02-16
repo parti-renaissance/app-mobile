@@ -18,7 +18,6 @@ import {
   DoorToDoorCampaignRankingItem,
 } from '../../../core/entities/DoorToDoorCampaignRanking'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
-import { Screen } from '../../../navigation'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/DoorToDoorTunnelModalNavigator'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
@@ -80,7 +79,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
 
         <PrimaryButton
           onPress={() => {
-            navigation.replace(Screen.tunnelDoorPoll, {
+            navigation.replace('TunnelDoorPollScreen', {
               campaignId: route.params.campaignId,
               buildingParams: route.params.buildingParams,
               interlocutorStatus: route.params.interlocutorStatus,
@@ -119,7 +118,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
             style={styles.newDoor}
             onPress={() => {
               const nextDoor = route.params.buildingParams.door + 1
-              navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+              navigation.navigate('TunnelDoorSelectionScreen', {
                 campaignId: route.params.campaignId,
                 buildingParams: {
                   ...route.params.buildingParams,

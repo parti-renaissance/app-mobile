@@ -15,7 +15,6 @@ import {
   Modal,
 } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { Screen } from '../../navigation'
 import BuildingStatusView from './BuilidingStatusView'
 import { margin, mediumMargin } from '../../styles/spacing'
 import BuildingLayoutView from './BuildingLayoutView'
@@ -326,8 +325,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProps> = ({
                     ] + 1
                 }
               }
-              navigation.navigate(Screen.doorToDoorTunnelModal, {
-                screen: Screen.tunnelDoorBrief,
+              navigation.navigate('DoorToDoorTunnelModal', {
+                screen: 'TunnelDoorBriefScreen',
                 params: {
                   campaignId: viewModel.campaignId,
                   buildingParams: {

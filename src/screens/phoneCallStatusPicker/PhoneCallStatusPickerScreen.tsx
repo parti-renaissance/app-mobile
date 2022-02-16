@@ -14,7 +14,6 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { Screen } from '../../navigation'
 import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -80,7 +79,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
     PhoningCampaignRepository.getInstance()
       .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
       .then(() => {
-        navigation.replace(Screen.phoneCallFailure, {
+        navigation.replace('PhoneCallFailure', {
           data: route.params.data,
         })
       })
@@ -94,7 +93,7 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
 
   const onAction = (statusCode: string) => {
     if (statusCode === 'answered') {
-      navigation.replace(Screen.phonePollDetail, {
+      navigation.replace('PhonePollDetail', {
         data: route.params.data,
       })
     } else {
