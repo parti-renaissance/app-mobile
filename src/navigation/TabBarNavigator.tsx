@@ -1,16 +1,43 @@
 import React from 'react'
 import { Image, Pressable, View, StyleSheet } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import {
+  BottomTabScreenProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs'
 import { Colors, Spacing, Typography } from '../styles'
-import ToolsScreen from './tools/ToolsScreen'
+import ToolsScreen from '../screens/tools/ToolsScreen'
 import i18n from '../utils/i18n'
-import { Screen } from '../navigation'
-import HomeNavigator from './home/HomeNavigator'
-import EventNavigator from './events/EventNavigator'
-import ActionsNavigator from './actions/ActionsNavigator'
+import {
+  ActionsParamList,
+  EventParamList,
+  HomeParamList,
+  NewsParamList,
+  Screen,
+} from '../navigation'
+import HomeNavigator from '../screens/home/HomeNavigator'
+import EventNavigator from '../screens/events/EventNavigator'
+import ActionsNavigator from '../screens/actions/ActionsNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Analytics } from '../utils/Analytics'
-import NewsNavigator from './news/NewsNavigator'
+import NewsNavigator from '../screens/news/NewsNavigator'
+import {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+} from '@react-navigation/native'
+import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNavigator'
+
+export type TabBarNavigatorParamList = {
+  HomeNavigator: NavigatorScreenParams<HomeParamList>
+  NewsNavigator: NavigatorScreenParams<NewsParamList>
+  ActionsNavigator: NavigatorScreenParams<ActionsParamList>
+  Tools: undefined
+  EventNavigator: NavigatorScreenParams<EventParamList>
+}
+
+export type TabBarNavigatorScreenProps = CompositeScreenProps<
+  BottomTabScreenProps<TabBarNavigatorParamList>,
+  AuthenticatedRootNavigatorScreenProps
+>
 
 const Tab = createBottomTabNavigator()
 
@@ -41,7 +68,7 @@ const getTabBarIcon = (route: any, focused: boolean) => {
 const TAB_BAR_HEIGTH = 60
 const HIGHLIGHTED_TAB_BACKGROUND_SIZE = 36
 
-const AuthenticatedHomeScreen = () => {
+export const TabBarNavigator = () => {
   const insets = useSafeAreaInsets()
   return (
     <Tab.Navigator
@@ -158,5 +185,3 @@ const styles = StyleSheet.create({
     marginTop: Spacing.margin + Spacing.small,
   },
 })
-
-export default AuthenticatedHomeScreen
