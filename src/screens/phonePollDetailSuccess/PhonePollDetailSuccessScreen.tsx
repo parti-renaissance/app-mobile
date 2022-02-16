@@ -3,7 +3,8 @@ import { StyleSheet, SectionList } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhonePollDetailSuccessScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing } from '../../styles'
 import { PhoningCampaignRankingHeaderView } from '../shared/PhoningCampaignRankingHeaderView'
 import { PhoningCampaignRankingRow } from '../shared/PhoningCampaignRankingRow'
@@ -12,6 +13,8 @@ import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PhonePollDetailSuccessContent } from './PhonePollDetailSuccessContent'
 import { PhonePollDetailSuccessSectionHeader } from './PhonePollDetailSuccessSectionHeader'
 import { PhonePollDetailSuccessViewModelMapper } from './PhonePollDetailSuccessViewModelMapper'
+
+type PhonePollDetailSuccessScreenProps = PhoningSessionModalNavigatorScreenProps<'PhonePollDetailSuccess'>
 
 const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScreenProps> = ({
   navigation,

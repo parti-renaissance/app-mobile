@@ -16,27 +16,24 @@ import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarVie
 import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
 import PollsRepository from '../../data/PollsRepository'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { PollDetailModalParamList, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
 import { LocationManager } from '../../utils/LocationManager'
 import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
 import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
 import { PollResult } from '../../core/entities/PollResult'
 import { AlertUtils } from '../shared/AlertUtils'
+import { useNavigation } from '@react-navigation/native'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/PollDetailModalNavigator'
 
 type Props = Readonly<{
   poll: Poll
-  navigation: StackNavigationProp<
-    PollDetailModalParamList,
-    typeof Screen.pollDetail
-  >
 }>
 
-const PollDetailScreenLoaded: FunctionComponent<Props> = ({
-  poll,
-  navigation,
-}) => {
+const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
+  const navigation = useNavigation<
+    PollDetailModalNavigatorScreenProps<'PollDetail'>['navigation']
+  >()
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])

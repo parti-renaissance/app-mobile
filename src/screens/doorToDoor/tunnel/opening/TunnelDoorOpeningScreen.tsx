@@ -4,10 +4,8 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
-import {
-  DoorToDoorTunnelOpeningScreenProp,
-  Screen,
-} from '../../../../navigation'
+import { Screen } from '../../../../navigation'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
 import { AlertUtils } from '../../../shared/AlertUtils'
@@ -22,7 +20,9 @@ type CardItemProps = {
   title: string
 }
 
-const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProp> = ({
+type DoorToDoorTunnelOpeningScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpeningScreen'>
+
+const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProps> = ({
   navigation,
   route,
 }) => {

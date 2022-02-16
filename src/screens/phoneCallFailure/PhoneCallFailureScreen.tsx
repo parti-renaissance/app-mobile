@@ -1,13 +1,16 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhoneCallFailureScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+
+type PhoneCallFailureScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoneCallFailure'>
 
 const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = ({
   navigation,

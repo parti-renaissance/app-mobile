@@ -18,7 +18,8 @@ import {
   DoorToDoorCampaignRankingItem,
 } from '../../../core/entities/DoorToDoorCampaignRanking'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
-import { Screen, DoorToDoorTunnelSuccessScreenProp } from '../../../navigation'
+import { Screen } from '../../../navigation'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/DoorToDoorTunnelModalNavigator'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
@@ -29,7 +30,9 @@ import { RankingRowView } from '../rankings/RankingRowView'
 import { RankingTabsView } from '../rankings/RankingTabsView'
 import { RankingViewModelMapper } from '../rankings/RankingViewModelMapper'
 
-const TunnelDoorSuccessScreen: FunctionComponent<DoorToDoorTunnelSuccessScreenProp> = ({
+type TunnelDoorSuccessScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccessScreen'>
+
+const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> = ({
   navigation,
   route,
 }) => {

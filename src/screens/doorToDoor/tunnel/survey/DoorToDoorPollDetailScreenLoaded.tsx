@@ -1,4 +1,4 @@
-import { ParamListBase } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, {
   FunctionComponent,
   useCallback,
@@ -11,7 +11,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Poll } from '../../../../core/entities/Poll'
 import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
-import { Screen, TunnelDoorPollScreenRouteProp } from '../../../../navigation'
+import { Screen } from '../../../../navigation'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
 import { PollDetailNavigationButtonsViewModelMapper } from '../../../pollDetail/PollDetailNavigationButtonsViewModelMapper'
@@ -24,22 +24,25 @@ import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
 import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
-import { StackNavigationProp } from '@react-navigation/stack'
 import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 
 type Props = Readonly<{
   poll: Poll
   qualification: Array<PollExtraQuestionPage>
-  route: TunnelDoorPollScreenRouteProp
-  navigation: StackNavigationProp<ParamListBase>
 }>
 
 const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   qualification,
   poll,
-  navigation,
-  route,
 }) => {
+  const route = useRoute<
+    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPollScreen'>['route']
+  >()
+  const navigation = useNavigation<
+    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPollScreen'>['navigation']
+  >()
+
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])

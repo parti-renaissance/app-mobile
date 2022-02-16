@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Alert, View, StyleSheet } from 'react-native'
-
-import { PollDetailScreenProps } from '../../navigation'
 import i18n from '../../utils/i18n'
 import PollsRepository from '../../data/PollsRepository'
 import { Poll } from '../../core/entities/Poll'
@@ -15,6 +13,9 @@ import ModalOverlay from '../shared/ModalOverlay'
 import PollDetailTools from './PollDetailTools'
 import { useBackHandler } from '../shared/useBackHandler.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/PollDetailModalNavigator'
+
+type PollDetailScreenProps = PollDetailModalNavigatorScreenProps<'PollDetail'>
 
 const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
   const [statefulState, setStatefulState] = useState<ViewState<Poll>>(
@@ -84,9 +85,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
       </ModalOverlay>
       <StatefulView
         state={statefulState}
-        contentComponent={(poll) => (
-          <PollDetailScreenLoaded poll={poll} navigation={navigation} />
-        )}
+        contentComponent={(poll) => <PollDetailScreenLoaded poll={poll} />}
       />
     </View>
   )

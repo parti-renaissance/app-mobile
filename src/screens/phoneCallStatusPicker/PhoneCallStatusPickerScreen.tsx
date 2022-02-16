@@ -14,7 +14,8 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoneCallStatusPickerScreenProps, Screen } from '../../navigation'
+import { Screen } from '../../navigation'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PhonePollDetailCallStatusViewModelMapper } from '../phonePollDetail/PhonePollDetailCallStatusViewModelMapper'
@@ -27,6 +28,8 @@ import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+
+type PhoneCallStatusPickerScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoneCallStatusPicker'>
 
 const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreenProps> = ({
   navigation,

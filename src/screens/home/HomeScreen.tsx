@@ -66,7 +66,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     const navigationToProfile = () => {
-      navigation.navigate(Screen.profileModal)
+      navigation.navigate(Screen.profileModal, { screen: 'Profile' })
     }
     navigation.setOptions({
       headerRight: () => <ProfileButton onPress={navigationToProfile} />,

@@ -12,7 +12,6 @@ import {
   GetCentersOfInterestInteractor,
 } from '../../../core/interactor/GetCentersOfInterestInteractor'
 import PersonalInformationRepository from '../../../data/PersonalInformationRepository'
-import { CentersOfInterestScreenProps } from '../../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton } from '../../shared/Buttons'
@@ -24,6 +23,7 @@ import SelectableIconLabelView, {
 } from '../../shared/SelectableIconLabelView'
 import { AlertUtils } from '../../shared/AlertUtils'
 import { ViewStateUtils } from '../../shared/ViewStateUtils'
+import { ProfileModalNavigatorScreenProps } from '../../../navigation/ProfileModalNavigator'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -93,6 +93,8 @@ const CenterOfInterestContent = (
     </>
   )
 }
+
+type CentersOfInterestScreenProps = ProfileModalNavigatorScreenProps<'CenterOfInterest'>
 
 const CenterOfInterestScreen = ({
   navigation,

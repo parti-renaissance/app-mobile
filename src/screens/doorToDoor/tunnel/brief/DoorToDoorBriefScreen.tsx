@@ -10,18 +10,21 @@ import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
-import { DoorToDoorBriefScreenProp, Screen } from '../../../../navigation'
+import { Screen } from '../../../../navigation'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+
+type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBriefScreen'>
 
 export interface TutorialResources {
   content: string
 }
 
-const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProp> = ({
+const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
   navigation,
   route,
 }) => {

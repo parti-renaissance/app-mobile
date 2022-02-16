@@ -4,14 +4,16 @@ import {
   DoorToDoorCompletePoll,
   GetDoorToDoorCompletePollInteractor,
 } from '../../../../core/interactor/GetDoorToDoorCompletePollInteractor'
-import { TunnelDoorPollScreenProp } from '../../../../navigation'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 import { Colors } from '../../../../styles'
 import { StatefulView, ViewState } from '../../../shared/StatefulView'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'
 
-const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
+type TunnelDoorPollScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPollScreen'>
+
+const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProps> = ({
   navigation,
   route,
 }) => {
@@ -42,8 +44,6 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProp> = ({
         contentComponent={(completePoll) => (
           <DoorToDoorPollDetailScreenLoaded
             poll={completePoll.poll}
-            route={route}
-            navigation={navigation}
             qualification={completePoll.config.after}
           />
         )}

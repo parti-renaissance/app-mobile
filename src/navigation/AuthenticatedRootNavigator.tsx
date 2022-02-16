@@ -1,32 +1,35 @@
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
-import {
-  DoorToDoorTunnelModalParamList,
-  NewsDetailModalParamList,
-  PhoningSessionModalParamList,
-  PollDetailModalParamList,
-  ProfileParamList,
-  Screen,
-} from '.'
-import PollDetailModal from '../screens/pollDetail/PollDetailModal'
-import ProfileModal from '../screens/profile/ProfileModal'
-import PhoningSessionModal from '../screens/phoningSessionNavigator/PhoningSessionModal'
-import DoorToDoorTunnelModal from '../screens/doorToDoor/tunnel/DoorToDoorTunnelModal'
-import NewsDetailModal from '../screens/newsDetail/NewsDetailModal'
+import { Screen } from '.'
+import PollDetailModalNavigator, {
+  PollDetailModalNavigatorParamList,
+} from './PollDetailModalNavigator'
+import ProfileModalNavigator, {
+  ProfileModalNavigatorParamList,
+} from './ProfileModalNavigator'
+import PhoningSessionModalNavigator, {
+  PhoningSessionModalNavigatorParamList,
+} from './PhoningSessionModalNavigator'
+import DoorToDoorTunnelModalNavigator, {
+  DoorToDoorTunnelModalNavigatorParamList,
+} from './DoorToDoorTunnelModalNavigator'
 import { TabBarNavigator, TabBarNavigatorParamList } from './TabBarNavigator'
 import { NavigatorScreenParams } from '@react-navigation/native'
+import NewsDetailModalNavigator, {
+  NewsDetailModalNavigatorParamList,
+} from './NewsDetailModalNavigator'
 
 export type AuthenticatedRootNavigatorParamList = {
   TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>
-  PollDetailModal: NavigatorScreenParams<PollDetailModalParamList>
-  PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalParamList>
-  ProfileModal: undefined
-  Login: NavigatorScreenParams<ProfileParamList>
+  PollDetailModal: NavigatorScreenParams<PollDetailModalNavigatorParamList>
+  PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalNavigatorParamList>
+  ProfileModal: NavigatorScreenParams<ProfileModalNavigatorParamList>
+  Login: undefined
   TermsOfUse: undefined
   News: undefined
-  DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalParamList>
-  NewsDetailModal: NavigatorScreenParams<NewsDetailModalParamList>
+  DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalNavigatorParamList>
+  NewsDetailModal: NavigatorScreenParams<NewsDetailModalNavigatorParamList>
 }
 
 export type AuthenticatedRootNavigatorScreenProps = StackScreenProps<AuthenticatedRootNavigatorParamList>
@@ -44,27 +47,27 @@ export const AuthenticatedRootNavigator: FunctionComponent = () => {
           should be presented above the tab bar (i.e the HomeScreen) */}
         <Stack.Screen
           name={Screen.pollDetailModal}
-          component={PollDetailModal}
+          component={PollDetailModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name={Screen.phoningSessionModal}
-          component={PhoningSessionModal}
+          component={PhoningSessionModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name={Screen.profileModal}
-          component={ProfileModal}
+          component={ProfileModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name={Screen.doorToDoorTunnelModal}
-          component={DoorToDoorTunnelModal}
+          component={DoorToDoorTunnelModalNavigator}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name={Screen.newsDetailModal}
-          component={NewsDetailModal}
+          component={NewsDetailModalNavigator}
           options={{ gestureEnabled: false }}
         />
       </Stack.Group>

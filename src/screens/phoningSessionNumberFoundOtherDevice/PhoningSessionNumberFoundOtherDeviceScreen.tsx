@@ -1,15 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import {
-  PhoningSessionNumberFoundOtherDeviceScreenProps,
-  Screen,
-} from '../../navigation'
+import { Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+
+type PhoningSessionNumberFoundOtherDeviceScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFoundOtherDevice'>
 
 const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<PhoningSessionNumberFoundOtherDeviceScreenProps> = ({
   navigation,

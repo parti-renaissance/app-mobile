@@ -2,7 +2,6 @@ import React, { FC, useRef, useState } from 'react'
 import { StyleSheet, SafeAreaView, Text, View, TextInput } from 'react-native'
 
 import { Colors, Spacing, Typography } from '../../styles'
-import { ProfileZipCodeScreenProps } from '../../navigation'
 import { Screen } from '../../navigation'
 import { PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
@@ -14,6 +13,9 @@ import { Department } from '../../core/entities/Department'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { UpdateZipCodeInteractor } from '../../core/interactor/UpdateZipCodeInteractor'
 import CircularIcon from '../shared/CircularIcon'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
+
+type ProfileZipCodeScreenProps = ProfileModalNavigatorScreenProps<'ProfileZipCode'>
 
 const ProfileZipCodeScreen: FC<ProfileZipCodeScreenProps> = ({
   navigation,

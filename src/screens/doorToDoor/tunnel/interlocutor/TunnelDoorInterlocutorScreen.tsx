@@ -1,8 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import {
-  Screen,
-  TunnelDoorInterlocutorScreenProp,
-} from '../../../../navigation'
+import { Screen } from '../../../../navigation'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -19,8 +16,11 @@ import {
   SendDoorPollAnswersInteractor,
 } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import { AlertUtils } from '../../../shared/AlertUtils'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 
-const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProp> = ({
+type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutorScreen'>
+
+const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProps> = ({
   route,
   navigation,
 }) => {
