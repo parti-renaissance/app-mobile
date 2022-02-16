@@ -5,12 +5,12 @@ import {
   EventDetailsViewModel,
   EventOrganizerViewModel,
 } from './EventDetailsViewModel'
-import { CreateOptions } from 'react-native-add-calendar-event'
-import { Platform } from 'react-native'
 import { DateFormatter } from '../../utils/DateFormatter'
 
+const DESCRIPTION_MAX_CHAR = 500
+
 export const EventDetailsViewModelMapper = {
-  map: (event: DetailedEvent): EventDetailsViewModel => {
+  map: (event: DetailedEvent, canSeeMore: boolean): EventDetailsViewModel => {
     return {
       id: event.uuid,
       title: event.name,
@@ -25,10 +25,21 @@ export const EventDetailsViewModelMapper = {
       isSubscribed: event.userRegisteredAt !== undefined,
       date: mapDate(event),
       eventUrl: event.link,
-      description: event.description,
-      calendarEvent: createCalendarEvent(event),
+      description: mapDescription(event, canSeeMore),
+      canSeeMore: isDescriptionTooLarge(event.description),
     }
   },
+}
+
+const isDescriptionTooLarge = (description: string) => {
+  return description.length > DESCRIPTION_MAX_CHAR
+}
+
+function mapDescription(event: DetailedEvent, canSeeMore: boolean): string {
+  if (isDescriptionTooLarge(event.description) && canSeeMore) {
+    return event.description.substring(0, DESCRIPTION_MAX_CHAR) + '…'
+  }
+  return event.description
 }
 
 function mapDate(event: DetailedEvent): EventDateViewModel {
@@ -63,22 +74,5 @@ function mapOrganizer(event: DetailedEvent): EventOrganizerViewModel {
     title: fullName,
     description: event.commitee?.name,
     openUrl: event.commitee?.url,
-  }
-}
-function createCalendarEvent(event: DetailedEvent): CreateOptions {
-  const address = event.address
-    ? event.address.address +
-      ', ' +
-      event.address.postalCode +
-      ' ' +
-      event.address.city
-    : undefined
-  return {
-    title: event.name,
-    startDate: event.dateStart.toISOString(),
-    endDate: event.dateEnd.toISOString(),
-    url: event.visioUrl, // ios only
-    location: address,
-    notes: Platform.OS === 'android' ? event.visioUrl : undefined,
   }
 }

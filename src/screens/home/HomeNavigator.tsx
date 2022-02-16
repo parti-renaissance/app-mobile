@@ -6,7 +6,7 @@ import { HomeParamList, Screen } from '../../navigation'
 import { headerBlank } from '../../styles/navigationAppearance'
 import RegionScreen from '../regions/RegionScreen'
 import NewsScreen from '../news/NewsScreen'
-import EventDetailsScreen from '../events/EventDetailsScreen'
+import EventDetailsScreen from '../eventDetail/EventDetailsScreen'
 import RetaliationDetailScreen from '../retaliation/RetaliationDetailScreen'
 import PollsScreen from '../polls/PollsScreen'
 

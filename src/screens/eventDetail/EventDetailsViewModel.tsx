@@ -1,6 +1,3 @@
-import * as AddCalendarEvent from 'react-native-add-calendar-event'
-import { PollRowViewModel } from '../polls/PollRowViewModel'
-
 export interface EventDetailsViewModel {
   id: string
   title: string
@@ -14,8 +11,7 @@ export interface EventDetailsViewModel {
   date: EventDateViewModel
   eventUrl?: string
   description: string
-  calendarEvent: AddCalendarEvent.CreateOptions
-  survey?: PollRowViewModel
+  canSeeMore: boolean
 }
 
 export interface EventDateViewModel {
@@ -27,9 +23,4 @@ export interface EventOrganizerViewModel {
   title: string
   description?: string
   openUrl?: string
-}
-
-export interface EventDescriptionViewModel {
-  description: string
-  canSeeMore: boolean
 }

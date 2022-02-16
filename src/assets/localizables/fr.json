@@ -276,7 +276,8 @@
       "empty": "Vous n’avez aucun événement à venir.",
       "section_date_format": "EEEE dd MMMM yyyy",
       "section_date_today": "Aujourd'hui",
-      "event_date_format": "d MMMM yyyy",
+      "event_date_format": "EE d MMMM",
+      "duration_formation": "{{ start }} - {{ end }}",
       "search_placeholder": "Rechercher un événement",
       "filters": {
         "title": "Filtres",

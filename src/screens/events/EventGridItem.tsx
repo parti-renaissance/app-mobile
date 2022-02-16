@@ -13,6 +13,7 @@ import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
 import TagView from '../shared/TagView'
 import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
+import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
@@ -54,7 +55,14 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
               {viewModel.title}
             </Text>
             <View style={styles.footer}>
-              <Text style={styles.date}>{viewModel.date}</Text>
+              <View style={styles.dateContainer}>
+                <Text style={styles.day} numberOfLines={1}>
+                  {viewModel.day}
+                </Text>
+                <Text style={styles.hour} numberOfLines={1}>
+                  {viewModel.hour}
+                </Text>
+              </View>
               {viewModel.isSubscribed ? (
                 <Text style={styles.subscribed}>
                   <Image
@@ -62,7 +70,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
                     source={require('../../assets/images/checkIcon.png')}
                   />
                   {'\n'}
-                  Inscrit
+                  {i18n.t('events.subscribed')}
                 </Text>
               ) : null}
             </View>
@@ -86,19 +94,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     minHeight: 212,
   },
-  date: {
+  dateContainer: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+  day: {
+    ...Typography.body,
+    color: Colors.darkText,
+  },
+  hour: {
     ...Typography.body,
     color: Colors.lightText,
-    flexGrow: 1,
-    flexShrink: 1,
-    marginBottom: Spacing.unit,
-    marginStart: Spacing.unit,
-    marginTop: Spacing.unit,
   },
   footer: {
     alignItems: 'center',
     flexDirection: 'row',
     flexGrow: 1,
+    padding: Spacing.unit,
   },
   image: {
     height: 86,
@@ -115,8 +127,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   subscribed: {
-    marginEnd: Spacing.unit,
-    marginVertical: Spacing.unit,
     ...Typography.caption1,
     color: Colors.primaryColor,
   },

@@ -86,3 +86,14 @@ export const ProfileButton: FunctionComponent<ButtonProps> = (props) => {
     />
   )
 }
+
+export const EventsFilterButton: FunctionComponent<ButtonProps> = (props) => {
+  return (
+    <NavigationHeaderButton
+      {...props}
+      style={props.style}
+      tintColor={Colors.primaryColor}
+      source={require('../../assets/images/iconFilters.png')}
+    />
+  )
+}

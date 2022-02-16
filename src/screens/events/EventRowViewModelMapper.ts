@@ -5,10 +5,8 @@ import { EventRowViewModel } from './EventViewModel'
 
 const HOUR_MINUTE_FORMAT = 'HH:mm'
 
-type EventDateFormat = 'hour' | 'day_hour'
-
 export const EventRowViewModelMapper = {
-  map: (event: ShortEvent, dateFormat: EventDateFormat): EventRowViewModel => {
+  map: (event: ShortEvent): EventRowViewModel => {
     return {
       id: event.uuid,
       title: event.name,
@@ -17,24 +15,23 @@ export const EventRowViewModelMapper = {
       imageUrl: event.imageUrl,
       tag: event.tag,
       isSubscribed: event.userRegisteredAt !== undefined,
-      date: mapDate(event, dateFormat),
+      day: mapDay(event),
+      hour: mapHour(event),
       dateTimestamp: event.dateStart.getTime(),
     }
   },
 }
 
-function mapDate(event: ShortEvent, dateFormat: EventDateFormat): string {
-  let date = ''
-  if (dateFormat === 'day_hour') {
-    date += DateFormatter.format(
-      event.dateStart,
-      i18n.t('events.event_date_format'),
-    )
-    date += '\n'
-  }
-  date +=
-    DateFormatter.format(event.dateStart, HOUR_MINUTE_FORMAT) +
-    ' - ' +
-    DateFormatter.format(event.dateEnd, HOUR_MINUTE_FORMAT)
-  return date
+function mapDay(event: ShortEvent): string {
+  return DateFormatter.format(
+    event.dateStart,
+    i18n.t('events.event_date_format'),
+  )
+}
+
+function mapHour(event: ShortEvent): string {
+  return i18n.t('events.duration_formation', {
+    start: DateFormatter.format(event.dateStart, HOUR_MINUTE_FORMAT),
+    end: DateFormatter.format(event.dateEnd, HOUR_MINUTE_FORMAT),
+  })
 }

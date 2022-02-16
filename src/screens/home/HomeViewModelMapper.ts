@@ -82,7 +82,7 @@ function appendEvent(
     data: [
       {
         type: 'event',
-        value: { event: EventRowViewModelMapper.map(event, 'hour') },
+        value: { event: EventRowViewModelMapper.map(event) },
       },
     ],
   })

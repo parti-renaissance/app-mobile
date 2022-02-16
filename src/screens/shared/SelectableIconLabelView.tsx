@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     ...Typography.body,
     marginTop: Spacing.unit,
     textAlign: 'center',
-    tintColor: Colors.darkText,
+    color: Colors.darkText,
   },
   labelSelected: {
     color: Colors.primaryColor,

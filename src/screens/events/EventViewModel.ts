@@ -30,6 +30,7 @@ export interface EventRowViewModel {
   tag: string
   imageUrl?: string
   isSubscribed: boolean
-  date: string
+  day: string
+  hour: string
   dateTimestamp: number
 }

@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react'
-import { ListRenderItemInfo } from 'react-native'
+import React, { FC } from 'react'
+import { ListRenderItemInfo, Platform } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import SafeAreaView from 'react-native-safe-area-view'
@@ -11,8 +11,10 @@ import SelectableIconLabelView, {
 } from '../shared/SelectableIconLabelView'
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
-import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMapper'
 import { EventMode } from '../../core/entities/Event'
+import { useEventQuickFilters } from './useEventQuickFilters.hook'
+import { Header, useHeaderHeight } from '@react-navigation/elements'
+import { headerBlank } from '../../styles/navigationAppearance'
 
 type Props = Readonly<{
   initialEventMode: EventMode | undefined
@@ -21,41 +23,12 @@ type Props = Readonly<{
 }>
 
 const EventQuickFilters: FC<Props> = (props) => {
-  const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
-    props.initialEventMode,
-  )
-  const [viewModel, setViewModel] = useState(
-    EventQuickFiltersViewModelMapper.map(props.initialEventMode),
-  )
-
-  const clear = () => {
-    setEventModeFilter(undefined)
-    updateViewModel(undefined)
-  }
-
-  const submit = () => {
-    props.onNewFilters(eventModeFilter)
-  }
-
-  const updateViewModel = (newEventTypeFilter: EventMode | undefined) => {
-    setViewModel(EventQuickFiltersViewModelMapper.map(newEventTypeFilter))
-  }
-
-  const onInterestSelected = (code: string) => {
-    if (code === EventMode.MEETING || code === EventMode.ONLINE) {
-      const previousSelection = eventModeFilter
-      let newSelection: EventMode | undefined
-      if (previousSelection === code) {
-        newSelection = undefined
-      } else {
-        newSelection = code
-      }
-      setEventModeFilter(newSelection)
-      updateViewModel(newSelection)
-    } else {
-      // categories not implemented yet
-    }
-  }
+  const {
+    viewModel,
+    onInterestSelected,
+    onClear,
+    onSubmit,
+  } = useEventQuickFilters(props.initialEventMode, props.onNewFilters)
 
   const renderItem = ({
     item,
@@ -67,32 +40,46 @@ const EventQuickFilters: FC<Props> = (props) => {
       />
     )
   }
+
+  const headerHeight = useHeaderHeight()
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <CloseButton onPress={props.onDismissModal} />
-        <Text style={styles.headerTitle}>{i18n.t('events.filters.title')}</Text>
-        <TouchableOpacity onPress={clear}>
-          <Text style={styles.headerClearFilters}>
-            {i18n.t('events.filters.clear')}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <SectionGrid
-        sections={viewModel.sections}
-        itemDimension={100}
-        renderSectionHeader={({ section: { title } }) => {
-          return title !== undefined ? (
-            <Text style={styles.section}>{title}</Text>
-          ) : null
-        }}
-        renderItem={renderItem}
+    <SafeAreaView
+      style={styles.container}
+      forceInset={{ top: Platform.select({ android: 'never', ios: 'always' }) }}
+    >
+      <Header
+        {...headerBlank}
+        title={i18n.t('events.filters.title')}
+        headerLeft={() => <CloseButton onPress={props.onDismissModal} />}
+        headerRight={() => (
+          <TouchableOpacity onPress={onClear}>
+            <Text style={styles.headerClearFilters}>
+              {i18n.t('events.filters.clear')}
+            </Text>
+          </TouchableOpacity>
+        )}
+        headerBackgroundContainerStyle={{ height: headerHeight }}
       />
-      <View style={styles.bottomContainer}>
-        <PrimaryButton
-          title={i18n.t('centerofinterest.save')}
-          onPress={submit}
+      <View style={styles.contentContainer}>
+        <SectionGrid
+          sections={viewModel.sections}
+          itemDimension={100}
+          renderSectionHeader={({ section: { title } }) => {
+            return title !== undefined ? (
+              <View style={styles.sectionHeaderContainer}>
+                <Text style={styles.section}>{title}</Text>
+              </View>
+            ) : null
+          }}
+          renderItem={renderItem}
         />
+        <View style={styles.bottomContainer}>
+          <PrimaryButton
+            title={i18n.t('centerofinterest.save')}
+            onPress={onSubmit}
+          />
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -108,28 +95,24 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
+  },
   headerClearFilters: {
-    ...Typography.title2,
+    ...Typography.callout,
     color: Colors.primaryColor,
     marginHorizontal: Spacing.margin,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
-  headerContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  headerTitle: {
-    ...Typography.title2,
-    marginStart: 44,
-    textAlign: 'center',
-    textAlignVertical: 'center',
+  sectionHeaderContainer: {
+    backgroundColor: Colors.defaultBackground,
+    padding: Spacing.margin,
   },
   section: {
-    ...Typography.headline,
-    marginHorizontal: Spacing.margin,
-    marginVertical: Spacing.unit,
+    ...Typography.title3,
+    color: Colors.titleText,
   },
 })
 
