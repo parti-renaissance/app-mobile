@@ -3,6 +3,7 @@ export interface RestProfileResponse {
   last_name: string
   uuid: string
   postal_code: string
+  email_address: string
   surveys: {
     total: number
     last_month: number
