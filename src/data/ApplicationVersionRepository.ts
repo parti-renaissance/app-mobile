@@ -5,6 +5,8 @@ class ApplicationVersionRepository {
   private localStore = LocalStore.getInstance()
 
   public currentVersionCode(): number {
+    // TODO: (Pierre Felgines) 2022/02/17 May be a good idea to link
+    // this version code with native apps version code
     return 3
   }
 
