@@ -3,13 +3,15 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoningCharterScreenProp, Screen } from '../../navigation'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 import { Colors, Spacing, Styles } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
 
-const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProp> = ({
+type PhoningCharterScreenProps = ActionsNavigatorScreenProps<'PhoningCharter'>
+
+const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProps> = ({
   route,
   navigation,
 }) => {
@@ -23,7 +25,7 @@ const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProp> = ({
     PhoningCampaignRepository.getInstance()
       .acceptPhoningCharter()
       .then(() => {
-        navigation.replace(Screen.phoningCampaignBrief, {
+        navigation.replace('PhoningCampaignBrief', {
           data: route.params.data.brief,
         })
       })

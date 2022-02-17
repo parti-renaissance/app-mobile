@@ -1,13 +1,15 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react'
 import { Text, StyleSheet, Linking, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhoningSessionNumberFoundScreenProps, Screen } from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
 import CircularIcon from '../shared/CircularIcon'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+
+type PhoningSessionNumberFoundScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFound'>
 
 const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
   navigation,
@@ -54,7 +56,7 @@ const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFou
       <PrimaryButton
         title={i18n.t('phoningsession.call_started')}
         onPress={() =>
-          navigation.replace(Screen.phoneCallStatusPicker, {
+          navigation.replace('PhoneCallStatusPicker', {
             data: route.params.data,
           })
         }

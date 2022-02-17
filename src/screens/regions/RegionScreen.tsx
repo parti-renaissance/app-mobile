@@ -9,14 +9,14 @@ import { PrimaryButton } from '../shared/Buttons'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { RegionViewModel } from './RegionViewModel'
 import { RegionViewModelMapper } from './RegionViewModelMapper'
-import { RegionScreenProps } from '../../navigation'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { Analytics } from '../../utils/Analytics'
+import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 
-type Props = Readonly<RegionScreenProps>
+type RegionScreenProps = HomeNavigatorScreenProps<'Region'>
 
-const RegionScreen: FC<Props> = ({ route }) => {
+const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
   const [statefulState, setStatefulState] = useState<
     ViewState<RegionViewModel>
   >(ViewState.Loading())

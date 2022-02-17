@@ -1,6 +1,4 @@
-import { Action, ActionImage } from '../core/entities/Action'
-import i18n from '../utils/i18n'
-import { Screen } from '../navigation'
+import { Action } from '../core/entities/Action'
 
 class ActionsRepository {
   private static instance: ActionsRepository
@@ -11,34 +9,17 @@ class ActionsRepository {
     // do not exist in production yet (they are associated to phoning campaigns or Pap)
     // Once available, replace `return []` with the following lines:
     /// ```
-    // return [
-    //   {
-    //     id: 1,
-    //     image: ActionImage.POLLS,
-    //     title: i18n.t('actions.polls.title'),
-    //     screen: Screen.pollsNavigator,
-    //   },
-    // ]
+    // return [Action.fromType('polls')]
     // ```
     return []
   }
 
   public getDoorToDoorAction(): Action {
-    return {
-      id: 2,
-      image: ActionImage.DOORTODOOR,
-      title: i18n.t('actions.door_to_door.title'),
-      screen: Screen.doorToDoorNavigator,
-    }
+    return Action.fromType('doorToDoor')
   }
 
   public getPhoningAction(): Action {
-    return {
-      id: 3,
-      image: ActionImage.PHONING,
-      title: i18n.t('actions.phoning.title'),
-      screen: Screen.phoningNavigator,
-    }
+    return Action.fromType('phoning')
   }
 
   public static getInstance(): ActionsRepository {

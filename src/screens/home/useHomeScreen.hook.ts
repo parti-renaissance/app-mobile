@@ -4,7 +4,6 @@ import {
   GetHomeResourcesInteractor,
   HomeResources,
 } from '../../core/interactor/GetHomeResourcesInteractor'
-import { HomeScreenProps, Screen } from '../../navigation'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
@@ -15,6 +14,7 @@ import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQui
 import { EventRowViewModel } from '../events/EventViewModel'
 import { RetaliationService } from '../../data/RetaliationService'
 import { ExternalLink } from '../shared/ExternalLink'
+import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -39,7 +39,9 @@ export const useHomeScreen = (): {
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
 } => {
-  const navigation = useNavigation<HomeScreenProps['navigation']>()
+  const navigation = useNavigation<
+    HomeNavigatorScreenProps<'Home'>['navigation']
+  >()
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
     ViewState.Loading(),
   )
@@ -111,8 +113,8 @@ export const useHomeScreen = (): {
   }
 
   const onPollSelected = (pollId: number) => {
-    navigation.navigate(Screen.pollDetailModal, {
-      screen: Screen.pollDetail,
+    navigation.navigate('PollDetailModal', {
+      screen: 'PollDetail',
       params: { pollId: pollId },
     })
   }
@@ -126,30 +128,27 @@ export const useHomeScreen = (): {
   }
   const onNewsMorePressed = async () => {
     await Analytics.logHomeNewsMore()
-    navigation.navigate(Screen.news)
+    navigation.navigate('News')
   }
   const onFeedNewsSelected = (newsId: string) => {
-    navigation.navigate(Screen.newsDetailModal, {
-      screen: Screen.newsDetail,
+    navigation.navigate('NewsDetailModal', {
+      screen: 'NewsDetail',
       params: { newsId },
     })
   }
   const onPollsMorePressed = () => {
-    navigation.navigate(Screen.pollsNavigator)
+    // navigation.navigate(Screen.pollsNavigator)
   }
   const onToolsMorePressed = async () => {
     await Analytics.logHomeToolsMore()
-    navigation.navigate(Screen.tools)
+    navigation.navigate('Tools')
   }
   const onRegionMorePressed = async () => {
     if (!currentResources) {
       return
     }
     await Analytics.logHomeRegionMore()
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.region,
-      params: { zipCode: currentResources.zipCode },
-    })
+    navigation.navigate('Region', { zipCode: currentResources.zipCode })
   }
   const onQuickPollAnswerSelected = async (
     pollId: string,
@@ -172,17 +171,14 @@ export const useHomeScreen = (): {
   }
   const onEventSelected = async (event: EventRowViewModel) => {
     await Analytics.logHomeEventOpen(event.title, event.category)
-    navigation.navigate(Screen.homeNavigator, {
-      screen: Screen.eventDetails,
-      params: { eventId: event.id },
-    })
+    navigation.navigate('EventDetails', { eventId: event.id })
   }
   const onRetaliationSelected = (id: string) => {
     const retaliation = currentResources?.retaliations.find(
       (item) => item.id === id,
     )
     if (retaliation !== null && retaliation !== undefined) {
-      navigation.navigate(Screen.retaliationDetailScreen, {
+      navigation.navigate('RetaliationDetail', {
         retaliation: retaliation,
       })
     }
@@ -196,13 +192,24 @@ export const useHomeScreen = (): {
     }
   }
   const onFeedPhoningCampaignsSelected = () => {
-    navigation.navigate(Screen.phoningNavigator, { screen: Screen.phoning })
+    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
+    setTimeout(() => {
+      navigation.navigate('ActionsNavigator', { screen: 'Phoning' })
+    }, 300)
   }
   const onFeedDoorToDoorCampaignsSelected = () => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
+    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
+    setTimeout(() => {
+      navigation.navigate('ActionsNavigator', {
+        screen: 'DoorToDoor',
+      })
+    }, 300)
   }
   const onFeedPollsSelected = () => {
-    navigation.navigate(Screen.pollsNavigator)
+    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
+    setTimeout(() => {
+      navigation.navigate('ActionsNavigator', { screen: 'Polls' })
+    }, 300)
   }
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
     // TODO: (Pierre Felgines) 2022/02/11 Fix navigation

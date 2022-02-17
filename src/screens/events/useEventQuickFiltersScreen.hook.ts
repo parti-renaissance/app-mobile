@@ -1,22 +1,27 @@
+import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { EventMode } from '../../core/entities/Event'
+import { EventsFilterModalNavigatorScreenProps } from '../../navigation/EventsFilterModalNavigator'
 import { EventQuickFiltersViewModel } from './EventQuickFiltersViewModel'
 import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMapper'
 
-export const useEventQuickFilters = (
-  initialEventMode: EventMode | undefined,
-  onNewFilters: (eventMode: EventMode | undefined) => void,
+export const useEventQuickFiltersScreen = (
+  eventMode: EventMode | undefined,
 ): {
   viewModel: EventQuickFiltersViewModel
   onInterestSelected: (code: string) => void
   onClear: () => void
   onSubmit: () => void
+  onClose: () => void
 } => {
+  const navigation = useNavigation<
+    EventsFilterModalNavigatorScreenProps<'EventsFilter'>['navigation']
+  >()
   const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
-    initialEventMode,
+    eventMode,
   )
   const [viewModel, setViewModel] = useState(
-    EventQuickFiltersViewModelMapper.map(initialEventMode),
+    EventQuickFiltersViewModelMapper.map(eventMode),
   )
 
   const onClear = () => {
@@ -25,7 +30,7 @@ export const useEventQuickFilters = (
   }
 
   const onSubmit = () => {
-    onNewFilters(eventModeFilter)
+    navigation.navigate('Events', { eventMode: eventModeFilter })
   }
 
   const updateViewModel = (newEventTypeFilter: EventMode | undefined) => {
@@ -48,10 +53,15 @@ export const useEventQuickFilters = (
     }
   }
 
+  const onClose = () => {
+    navigation.goBack()
+  }
+
   return {
     viewModel,
     onInterestSelected,
     onClear,
     onSubmit,
+    onClose,
   }
 }

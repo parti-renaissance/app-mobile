@@ -9,8 +9,6 @@ import {
   SectionListData,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-
-import { HomeScreenProps, Screen } from '../../navigation'
 import { Colors } from '../../styles'
 import { StatefulView } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
@@ -35,6 +33,9 @@ import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
 import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
 import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
 import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
+import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+
+type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 
 const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
@@ -63,7 +64,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     const navigationToProfile = () => {
-      navigation.navigate(Screen.profileModal)
+      navigation.navigate('ProfileModal', { screen: 'Profile' })
     }
     navigation.setOptions({
       headerRight: () => <ProfileButton onPress={navigationToProfile} />,

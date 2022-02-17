@@ -1,8 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import {
-  Screen,
-  TunnelDoorInterlocutorScreenProp,
-} from '../../../../navigation'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -19,8 +15,11 @@ import {
   SendDoorPollAnswersInteractor,
 } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import { AlertUtils } from '../../../shared/AlertUtils'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 
-const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProp> = ({
+type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
+
+const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProps> = ({
   route,
   navigation,
 }) => {
@@ -47,7 +46,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
 
   const onChoice = (code: string) => {
     if (code === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE) {
-      navigation.navigate(Screen.tunnelDoorPoll, {
+      navigation.navigate('TunnelDoorPoll', {
         campaignId: route.params.campaignId,
         interlocutorStatus: code,
         buildingParams: route.params.buildingParams,
@@ -64,7 +63,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
           if (route.params.buildingParams.type === 'house') {
             navigation.getParent()?.goBack()
           } else {
-            navigation.navigate(Screen.tunnelDoorSelectionScreen, {
+            navigation.navigate('TunnelDoorSelection', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,

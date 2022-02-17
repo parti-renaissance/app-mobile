@@ -1,23 +1,20 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, Linking } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-
 import { Colors } from '../../styles'
-import { ProfileScreenProps } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
-import ProfileAnonymous from './ProfileAnonymous'
-import { Screen } from '../../navigation'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import {
   GetUserProfileInteractor,
   GetUserProfileInteractorResult,
-  ProfileAnonymousResult,
-  ProfileAuthenticatedResult,
 } from '../../core/interactor/GetUserProfileInteractor'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 import { ServerTimeoutError } from '../../core/errors'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
+
+type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
@@ -29,61 +26,27 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      navigation.navigate(Screen.notificationMenu)
+      navigation.navigate('NotificationMenu')
     }
-    if (content instanceof ProfileAnonymousResult) {
-      const openZipCode = () => {
-        navigation.navigate(Screen.profileZipCode, {
-          zipCode: content.zipCode,
-        })
-      }
-      const openTermsOfUse = () => {
-        navigation.navigate(Screen.profileTermsOfUse)
-      }
-      const openDataProtection = () => {
-        navigation.navigate(Screen.profileDataProtection)
-      }
-
-      const openLogin = () => {
-        navigation.navigate(Screen.profileLogin)
-      }
-      const viewModel = ProfileScreenViewModelMapper.mapFromDepartment(
-        content.department,
-      )
-      return (
-        <ProfileAnonymous
-          openTermsOfUse={openTermsOfUse}
-          openDataProtection={openDataProtection}
-          openLogin={openLogin}
-          openZipCode={openZipCode}
-          openApplicationSettings={openApplicationSettings}
-          openNotificationMenu={openNotificationMenu}
-          viewModel={viewModel}
-        />
-      )
-    } else if (content instanceof ProfileAuthenticatedResult) {
-      const openPersonalInformation = () => {
-        navigation.navigate(Screen.personalInformation)
-      }
-      const openCenterOfInterest = () => {
-        navigation.navigate(Screen.centerOfInterest)
-      }
-      const viewModel = ProfileScreenViewModelMapper.map(
-        content.profile,
-        content.department,
-      )
-      return (
-        <ProfileAuthenticated
-          openPersonalInformation={openPersonalInformation}
-          openCenterOfInterest={openCenterOfInterest}
-          openApplicationSettings={openApplicationSettings}
-          openNotificationMenu={openNotificationMenu}
-          viewModel={viewModel}
-        />
-      )
-    } else {
-      throw Error('unreachable')
+    const openPersonalInformation = () => {
+      navigation.navigate('PersonalInformation')
     }
+    const openCenterOfInterest = () => {
+      navigation.navigate('CenterOfInterest')
+    }
+    const viewModel = ProfileScreenViewModelMapper.map(
+      content.profile,
+      content.department,
+    )
+    return (
+      <ProfileAuthenticated
+        openPersonalInformation={openPersonalInformation}
+        openCenterOfInterest={openCenterOfInterest}
+        openApplicationSettings={openApplicationSettings}
+        openNotificationMenu={openNotificationMenu}
+        viewModel={viewModel}
+      />
+    )
   }
 
   useFocusEffect(

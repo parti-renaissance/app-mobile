@@ -9,7 +9,6 @@ import { genericErrorMapping } from './utils'
 import { RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
 import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
-import { Options } from 'ky'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import {
   RestPostPushTokenRequest,
@@ -95,12 +94,9 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public getPolls(zipCode?: string): Promise<Array<Poll>> {
-    const options: Options | undefined = zipCode
-      ? { searchParams: { postalCode: zipCode } }
-      : undefined
+  public getPolls(): Promise<Array<Poll>> {
     return this.httpClient
-      .get('api/jecoute/survey', options)
+      .get('api/jecoute/survey')
       .json<Array<Poll>>()
       .catch(genericErrorMapping)
   }

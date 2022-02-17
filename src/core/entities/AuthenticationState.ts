@@ -1,5 +1,5 @@
 export enum AuthenticationState {
   Unauthenticated,
   Authenticated,
-  Anonymous,
+  Anonymous, // we should keep it for legacy reasons
 }

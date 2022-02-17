@@ -16,10 +16,6 @@ import GenderPicker from './GenderPicker'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
-import {
-  PersonalInformationScreenProps,
-  ProfileParamList,
-} from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import {
   DetailedProfile,
@@ -29,17 +25,17 @@ import ProfileRepository from '../../data/ProfileRepository'
 import { Gender } from '../../core/entities/UserProfile'
 import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { StackNavigationProp } from '@react-navigation/stack'
 import { ProfileFormError } from '../../core/errors'
 import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
 
 type ContentProps = Readonly<{
   profileUuid: string
   initialForm: PersonalInformationsForm
-  navigation: StackNavigationProp<ProfileParamList, 'PersonalInformation'>
+  navigation: PersonalInformationScreenProps['navigation']
 }>
 
 const PersonalInformationScreenContent: FC<ContentProps> = ({
@@ -273,6 +269,8 @@ const PersonalInformationScreenContent: FC<ContentProps> = ({
     </KeyboardOffsetView>
   )
 }
+
+type PersonalInformationScreenProps = ProfileModalNavigatorScreenProps<'PersonalInformation'>
 
 const PersonalInformationScreen = ({
   navigation,

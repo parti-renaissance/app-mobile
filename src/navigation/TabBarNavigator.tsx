@@ -1,47 +1,72 @@
 import React from 'react'
 import { Image, Pressable, View, StyleSheet } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import {
+  BottomTabScreenProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs'
 import { Colors, Spacing, Typography } from '../styles'
-import ToolsScreen from './tools/ToolsScreen'
+import ToolsScreen from '../screens/tools/ToolsScreen'
 import i18n from '../utils/i18n'
-import { Screen } from '../navigation'
-import HomeNavigator from './home/HomeNavigator'
-import EventNavigator from './events/EventNavigator'
-import ActionsNavigator from './actions/ActionsNavigator'
+import HomeNavigator, { HomeNavigatorParamList } from './HomeNavigator'
+import EventNavigator, { EventNavigatorParamList } from './EventNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Analytics } from '../utils/Analytics'
-import NewsNavigator from './news/NewsNavigator'
+import {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+  RouteProp,
+} from '@react-navigation/native'
+import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNavigator'
+import NewsNavigator, { NewsNavigatorParamList } from './NewsNavigator'
+import ActionsNavigator, { ActionsNavigatorParamList } from './ActionsNavigator'
 
-const Tab = createBottomTabNavigator()
+export type TabBarNavigatorParamList = {
+  HomeNavigator: NavigatorScreenParams<HomeNavigatorParamList>
+  NewsNavigator: NavigatorScreenParams<NewsNavigatorParamList>
+  ActionsNavigator: NavigatorScreenParams<ActionsNavigatorParamList>
+  Tools: undefined
+  EventNavigator: NavigatorScreenParams<EventNavigatorParamList>
+}
 
-const getTabBarIcon = (route: any, focused: boolean) => {
-  if (route.name === Screen.actionsNavigator) {
-    return focused
-      ? require('../assets/images/tabBarIconsActOn.png')
-      : require('../assets/images/tabBarIconsActOff.png')
-  } else if (route.name === Screen.homeNavigator) {
-    return focused
-      ? require('../assets/images/tabBarIconsHomeOn.png')
-      : require('../assets/images/tabBarIconsHomeOff.png')
-  } else if (route.name === Screen.eventNavigator) {
-    return focused
-      ? require('../assets/images/tabBarIconsEventOn.png')
-      : require('../assets/images/tabBarIconsEventOff.png')
-  } else if (route.name === Screen.tools) {
-    return focused
-      ? require('../assets/images/tabBarIconsToolsOn.png')
-      : require('../assets/images/tabBarIconsToolsOff.png')
-  } else if (route.name === Screen.newsNavigator) {
-    return focused
-      ? require('../assets/images/tabBarIconsNewsOn.png')
-      : require('../assets/images/tabBarIconsNewsOff.png')
+export type TabBarNavigatorScreenProps = CompositeScreenProps<
+  BottomTabScreenProps<TabBarNavigatorParamList>,
+  AuthenticatedRootNavigatorScreenProps
+>
+
+const Tab = createBottomTabNavigator<TabBarNavigatorParamList>()
+
+const getTabBarIcon = (
+  route: RouteProp<TabBarNavigatorParamList, keyof TabBarNavigatorParamList>,
+  focused: boolean,
+) => {
+  switch (route.name) {
+    case 'HomeNavigator':
+      return focused
+        ? require('../assets/images/tabBarIconsHomeOn.png')
+        : require('../assets/images/tabBarIconsHomeOff.png')
+    case 'NewsNavigator':
+      return focused
+        ? require('../assets/images/tabBarIconsNewsOn.png')
+        : require('../assets/images/tabBarIconsNewsOff.png')
+    case 'ActionsNavigator':
+      return focused
+        ? require('../assets/images/tabBarIconsActOn.png')
+        : require('../assets/images/tabBarIconsActOff.png')
+    case 'EventNavigator':
+      return focused
+        ? require('../assets/images/tabBarIconsEventOn.png')
+        : require('../assets/images/tabBarIconsEventOff.png')
+    case 'Tools':
+      return focused
+        ? require('../assets/images/tabBarIconsToolsOn.png')
+        : require('../assets/images/tabBarIconsToolsOff.png')
   }
 }
 
 const TAB_BAR_HEIGTH = 60
 const HIGHLIGHTED_TAB_BACKGROUND_SIZE = 36
 
-const AuthenticatedHomeScreen = () => {
+export const TabBarNavigator = () => {
   const insets = useSafeAreaInsets()
   return (
     <Tab.Navigator
@@ -56,7 +81,7 @@ const AuthenticatedHomeScreen = () => {
           )
         },
         tabBarIcon: ({ color, focused }) => {
-          const isHighlighted = route.name === Screen.actionsNavigator
+          const isHighlighted = route.name === 'ActionsNavigator'
           return (
             <View
               style={[
@@ -89,7 +114,7 @@ const AuthenticatedHomeScreen = () => {
       })}
     >
       <Tab.Screen
-        name={Screen.homeNavigator}
+        name={'HomeNavigator'}
         component={HomeNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_home') }}
         listeners={{
@@ -99,7 +124,7 @@ const AuthenticatedHomeScreen = () => {
         }}
       />
       <Tab.Screen
-        name={Screen.newsNavigator}
+        name={'NewsNavigator'}
         component={NewsNavigator}
         options={{
           tabBarLabel: i18n.t('tab.item_news'),
@@ -111,7 +136,7 @@ const AuthenticatedHomeScreen = () => {
         }}
       />
       <Tab.Screen
-        name={Screen.actionsNavigator}
+        name={'ActionsNavigator'}
         component={ActionsNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_actions') }}
         listeners={{
@@ -121,7 +146,7 @@ const AuthenticatedHomeScreen = () => {
         }}
       />
       <Tab.Screen
-        name={Screen.eventNavigator}
+        name={'EventNavigator'}
         component={EventNavigator}
         options={{ tabBarLabel: i18n.t('tab.item_events') }}
         listeners={{
@@ -131,7 +156,7 @@ const AuthenticatedHomeScreen = () => {
         }}
       />
       <Tab.Screen
-        name={Screen.tools}
+        name={'Tools'}
         component={ToolsScreen}
         options={{ tabBarLabel: i18n.t('tab.item_tools') }}
         listeners={{
@@ -158,5 +183,3 @@ const styles = StyleSheet.create({
     marginTop: Spacing.margin + Spacing.small,
   },
 })
-
-export default AuthenticatedHomeScreen

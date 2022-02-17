@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import {
   StyleSheet,
   FlatList,
@@ -15,7 +15,6 @@ import PollsHeader from './PollsHeader'
 import { Colors } from '../../styles'
 import { PollRowViewModel } from './PollRowViewModel'
 import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
-import { PollsScreenProps, Screen } from '../../navigation'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
@@ -24,8 +23,11 @@ import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import CircularIcon from '../shared/CircularIcon'
 import i18n from '../../utils/i18n'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 
-const PollsScreen = ({ navigation }: PollsScreenProps) => {
+type PollsScreenProps = ActionsNavigatorScreenProps<'Polls'>
+
+const PollsScreen: FC<PollsScreenProps> = ({ navigation }) => {
   const [statefulState, setStatefulState] = useState<
     ViewState<PollsScreenViewModel>
   >(ViewState.Loading())
@@ -73,8 +75,8 @@ const PollsScreen = ({ navigation }: PollsScreenProps) => {
 
   const navigationToPollDetail = (viewModelId: string) => {
     const pollId = parseInt(viewModelId, 10)
-    navigation.navigate(Screen.pollDetailModal, {
-      screen: Screen.pollDetail,
+    navigation.navigate('PollDetailModal', {
+      screen: 'PollDetail',
       params: { pollId: pollId },
     })
   }

@@ -8,7 +8,7 @@ import {
   PhoningSessionNoNumberError,
 } from '../../core/errors'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoningSessionLoaderScreenProps, Screen } from '../../navigation'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'
@@ -16,6 +16,8 @@ import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+
+type PhoningSessionLoaderScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoader'>
 
 const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenProps> = ({
   navigation,
@@ -41,12 +43,12 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
       }
       switch (route.params.device) {
         case 'current':
-          navigation.replace(Screen.phoningSessionNumberFound, {
+          navigation.replace('PhoningSessionNumberFound', {
             data: navigationData,
           })
           break
         case 'external':
-          navigation.replace(Screen.phoningSessionNumberFoundOtherDevice, {
+          navigation.replace('PhoningSessionNumberFoundOtherDevice', {
             data: navigationData,
           })
           break
@@ -71,7 +73,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
             error instanceof PhoningSessionNoNumberError ||
             error instanceof PhoningSessionFinishedCampaignError
           ) {
-            navigation.replace(Screen.phoningSessionNoNumberAvailable, {
+            navigation.replace('PhoningSessionNoNumberAvailable', {
               message: error.message,
             })
           } else {

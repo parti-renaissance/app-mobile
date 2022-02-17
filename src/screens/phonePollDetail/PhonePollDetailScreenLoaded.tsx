@@ -14,12 +14,6 @@ import { PollDetailComponentProvider } from '../pollDetail/providers/PollDetailC
 import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailProgressBarViewModelMapper'
 import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
 import LoadingOverlay from '../shared/LoadingOverlay'
-
-import {
-  PhonePollDetailScreenNavigationProp,
-  PhonePollDetailScreenRouteProp,
-  Screen,
-} from '../../navigation'
 import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
 import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
@@ -28,20 +22,24 @@ import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionC
 import { PhonePollResult } from '../../core/entities/PhonePollResult'
 import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
 import { AlertUtils } from '../shared/AlertUtils'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 
 type Props = Readonly<{
   poll: Poll
   satisfactionQuestions: Array<PhoningSatisfactionQuestion>
-  route: PhonePollDetailScreenRouteProp
-  navigation: PhonePollDetailScreenNavigationProp
 }>
 
 const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
   satisfactionQuestions,
-  route,
-  navigation,
 }) => {
+  const navigation = useNavigation<
+    PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['navigation']
+  >()
+  const route = useRoute<
+    PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['route']
+  >()
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
@@ -89,7 +87,7 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
     new SendPhonePollAnswersInteractor()
       .execute(poll, route.params.data.sessionId, provider.getResult())
       .then(() => {
-        navigation.replace(Screen.phonePollDetailSuccess, {
+        navigation.replace('PhonePollDetailSuccess', {
           title: poll.name,
           data: route.params.data,
         })

@@ -14,17 +14,16 @@ class PollsRepository {
   private constructor() {}
 
   public async getPolls(
-    zipCode?: string,
     dataSource: DataSource = 'remote',
   ): Promise<Array<Poll>> {
-    const cacheKey = zipCode !== undefined ? 'polls_' + zipCode : 'polls'
+    const cacheKey = 'polls'
     switch (dataSource) {
       case 'cache':
         const cachedPolls = await this.cacheManager.getFromCache(cacheKey)
         this.memoryCachedPolls = cachedPolls
         return cachedPolls
       case 'remote':
-        const polls = await this.apiService.getPolls(zipCode)
+        const polls = await this.apiService.getPolls()
         await this.cacheManager.setInCache(cacheKey, polls)
         this.memoryCachedPolls = polls
         return polls

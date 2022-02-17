@@ -2,12 +2,14 @@ import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { Text, StyleSheet, ScrollView } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
-import { NewsDetailScreenProps } from '../../navigation'
+import { NewsDetailModalNavigatorScreenProps } from '../../navigation/NewsDetailModalNavigator'
 import { Colors, Spacing, Typography } from '../../styles'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView } from '../shared/StatefulView'
 import { useNewsDetailScreen } from './useNewsDetailScreen.hook'
+
+type NewsDetailScreenProps = NewsDetailModalNavigatorScreenProps<'NewsDetail'>
 
 const NewsDetailScreen: FunctionComponent<NewsDetailScreenProps> = ({
   navigation,

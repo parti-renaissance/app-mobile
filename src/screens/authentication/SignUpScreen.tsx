@@ -13,7 +13,6 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FormViolation } from '../../core/entities/DetailedProfile'
-import { SignUpScreenProps } from '../../navigation'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import BirthdayPicker from '../personalInformation/BirthdayPicker'
@@ -33,6 +32,9 @@ import { SignUpFormError } from '../../core/errors'
 import LegalRepository from '../../data/LegalRepository'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
 import GenderPicker from '../personalInformation/GenderPicker'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+
+type SignUpScreenProps = UnauthenticatedRootNavigatorScreenProps<'SignUp'>
 
 const getError = (violations: Array<FormViolation>, path: string): string => {
   return violations

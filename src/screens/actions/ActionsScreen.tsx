@@ -1,60 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Action } from '../../core/entities/Action'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
 import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
-import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
-import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
-import { ActionsScreenProp, Screen } from '../../navigation'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { useIsFocused } from '@react-navigation/native'
-import { Analytics } from '../../utils/Analytics'
+import { useActionsScreen } from './useActionsScreen.hook'
+import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
 
-const ActionsScreen = ({ navigation }: ActionsScreenProp) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<ReadonlyArray<ActionRowViewModel>>
-  >(ViewState.Loading())
+type ActionsScreenProps = ActionsNavigatorScreenProps<'Actions'>
 
-  const isFocused = useIsFocused()
-  const [fetchedActions] = useState(new Map<number, Action>())
-
-  const fetch = useCallback(() => {
-    setStatefulState(ViewState.Loading())
-    new GetActionsInteractor()
-      .execute()
-      .then((actions) => {
-        fetchedActions.clear()
-        actions.forEach((action) => {
-          fetchedActions.set(action.id, action)
-        })
-        const actionsViewModel = ActionRowViewModelMapper.map(actions)
-        setStatefulState(ViewState.Content(actionsViewModel))
-      })
-      .catch((error) => {
-        setStatefulState(ViewStateUtils.networkError(error, () => fetch()))
-      })
-  }, [fetchedActions])
-
-  useEffect(() => {
-    isFocused && fetch()
-  }, [fetch, isFocused])
+const ActionsScreen: FunctionComponent<ActionsScreenProps> = () => {
+  const { statefulState, onActionSelected } = useActionsScreen()
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {
-    return (
-      <ActionRow
-        viewModel={item}
-        onPress={async () => {
-          if (item.screen === Screen.pollsNavigator) {
-            await Analytics.logActionsPolls()
-          }
-          navigation.navigate(item.screen)
-        }}
-      />
-    )
+    return <ActionRow viewModel={item} onPress={onActionSelected} />
   }
 
   const ActionContent = (actions: ReadonlyArray<ActionRowViewModel>) => {

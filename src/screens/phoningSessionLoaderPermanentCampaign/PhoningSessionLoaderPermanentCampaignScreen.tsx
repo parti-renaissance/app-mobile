@@ -8,10 +8,6 @@ import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import {
-  PhoningSessionLoaderPermanentCampaignScreenProp,
-  Screen,
-} from '../../navigation'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
@@ -20,8 +16,11 @@ import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { AlertUtils } from '../shared/AlertUtils'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
 
-const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProp> = ({
+type PhoningSessionLoaderPermanentCampaignScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoaderPermanentCampaign'>
+
+const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProps> = ({
   navigation,
   route,
 }) => {
@@ -35,7 +34,7 @@ const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSess
         sessionId: session.id,
         device: 'current',
       }
-      navigation.replace(Screen.phonePollDetail, {
+      navigation.replace('PhonePollDetail', {
         data: navigationData,
       })
     },
