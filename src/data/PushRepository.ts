@@ -26,7 +26,10 @@ class PushRepository {
           console.log('pushToken dissociated with success')
         } catch (error) {
           // no-op
-          console.log(error)
+          console.log(
+            '[PushRepository](synchronizePushTokenAssociation) Error removing push token',
+            error,
+          )
         }
         try {
           await this.apiService.addPushToken({
