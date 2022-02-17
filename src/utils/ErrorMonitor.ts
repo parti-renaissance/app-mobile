@@ -12,12 +12,27 @@ export const ErrorMonitor = {
   },
   log: (message: string, payload?: Record<string, unknown>) => {
     if (__DEV__) {
-      console.warn(message, payload)
+      console.log('[ErrorMonitor]', message, payload)
     } else {
       Sentry.captureMessage(message, { extra: payload })
     }
   },
   wrap: <P>(RootComponent: React.ComponentType<P>): React.ComponentType<P> => {
     return Sentry.wrap(RootComponent)
+  },
+  setUser: (options: { id: string; email: string }) => {
+    const { id, email } = options
+    if (__DEV__) {
+      console.log('[ErrorMonitor] setUser', options)
+    } else {
+      Sentry.setUser({ id, email })
+    }
+  },
+  clearUser: () => {
+    if (__DEV__) {
+      console.log('[ErrorMonitor] clearUser')
+    } else {
+      Sentry.configureScope((scope) => scope.setUser(null))
+    }
   },
 }
