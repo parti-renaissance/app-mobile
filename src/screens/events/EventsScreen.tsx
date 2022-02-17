@@ -2,7 +2,6 @@ import React, { FC, useCallback, useLayoutEffect, useState } from 'react'
 import {
   Dimensions,
   Image,
-  Modal,
   StyleSheet,
   Text,
   TextInput,
@@ -12,7 +11,6 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import EventListScreen from './EventListScreen'
-import EventQuickFilters from './EventQuickFilters'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Analytics } from '../../utils/Analytics'
 import { useEventsScreen } from './useEventsScreen.hook'
@@ -27,20 +25,18 @@ const ROUTES = [
   { key: 'myEvents', title: i18n.t('events.tab_mine') },
 ]
 
-const EventsScreen: FC<EventsScreenProps> = ({ navigation }) => {
+const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
   const initialLayout = { width: Dimensions.get('window').width }
   const [index, setIndex] = useState(0)
 
+  const eventMode = route.params?.eventMode
+
   const {
     searchText,
-    eventModeFilter,
-    modalVisible,
     onEventSelected,
-    onNewFilters,
     onChangeText,
     onFiltersSelected,
-    dismissModal,
-  } = useEventsScreen()
+  } = useEventsScreen(eventMode)
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
@@ -56,33 +52,33 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation }) => {
       <EventListScreen
         eventFilter="home"
         searchText={searchText}
-        eventModeFilter={eventModeFilter}
+        eventModeFilter={eventMode}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchText, eventModeFilter],
+    [onEventSelected, searchText, eventMode],
   )
   const Calendar = useCallback(
     () => (
       <EventListScreen
         eventFilter="calendar"
         searchText={searchText}
-        eventModeFilter={eventModeFilter}
+        eventModeFilter={eventMode}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchText, eventModeFilter],
+    [onEventSelected, searchText, eventMode],
   )
   const MyEvents = useCallback(
     () => (
       <EventListScreen
         eventFilter="myEvents"
         searchText={searchText}
-        eventModeFilter={eventModeFilter}
+        eventModeFilter={eventMode}
         onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchText, eventModeFilter],
+    [onEventSelected, searchText, eventMode],
   )
 
   const renderScene = SceneMap({
@@ -101,7 +97,7 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation }) => {
       activeColor={Colors.darkText}
       inactiveColor={Colors.darkText}
       labelStyle={{ ...Typography.subheadline }}
-      getLabelText={({ route }) => route.title}
+      getLabelText={({ route: currentRoute }) => currentRoute.title}
       onTabPress={async (scene) => {
         await Analytics.logEventTabSelected(scene.route.key)
       }}
@@ -110,13 +106,6 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.scene}>
-      <Modal visible={modalVisible} animationType="slide">
-        <EventQuickFilters
-          initialEventMode={eventModeFilter}
-          onDismissModal={dismissModal}
-          onNewFilters={onNewFilters}
-        />
-      </Modal>
       <Text style={styles.title}>{i18n.t('events.title')}</Text>
       <View style={styles.searchContainer}>
         <Image source={require('../../assets/images/iconSearch.png')} />

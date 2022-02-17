@@ -18,6 +18,10 @@ import { NavigatorScreenParams } from '@react-navigation/native'
 import NewsDetailModalNavigator, {
   NewsDetailModalNavigatorParamList,
 } from './NewsDetailModalNavigator'
+import {
+  EventsFilterModalNavigator,
+  EventsFilterModalNavigatorParamList,
+} from './EventsFilterModalNavigator'
 
 export type AuthenticatedRootNavigatorParamList = {
   TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>
@@ -29,6 +33,7 @@ export type AuthenticatedRootNavigatorParamList = {
   News: undefined
   DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalNavigatorParamList>
   NewsDetailModal: NavigatorScreenParams<NewsDetailModalNavigatorParamList>
+  EventsFilterModal: NavigatorScreenParams<EventsFilterModalNavigatorParamList>
 }
 
 export type AuthenticatedRootNavigatorScreenProps = StackScreenProps<AuthenticatedRootNavigatorParamList>
@@ -67,6 +72,11 @@ export const AuthenticatedRootNavigator: FunctionComponent = () => {
         <Stack.Screen
           name={'NewsDetailModal'}
           component={NewsDetailModalNavigator}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="EventsFilterModal"
+          component={EventsFilterModalNavigator}
           options={{ gestureEnabled: false }}
         />
       </Stack.Group>

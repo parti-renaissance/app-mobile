@@ -5,9 +5,10 @@ import { headerBlank } from '../styles/navigationAppearance'
 import EventsScreen from '../screens/events/EventsScreen'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { TabBarNavigatorScreenProps } from './TabBarNavigator'
+import { EventMode } from '../core/entities/Event'
 
 export type EventNavigatorParamList = {
-  Events: undefined
+  Events: { eventMode?: EventMode } | undefined
   EventDetails: { eventId: string }
 }
 

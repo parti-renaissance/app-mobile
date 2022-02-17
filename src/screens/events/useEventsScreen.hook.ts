@@ -8,25 +8,19 @@ import { EventRowViewModel } from './EventViewModel'
 
 const DEBOUNCE_TIMEOUT_MILLIS = 350
 
-export const useEventsScreen = (): {
+export const useEventsScreen = (
+  eventMode: EventMode | undefined,
+): {
   searchText: string
-  eventModeFilter: EventMode | undefined
-  modalVisible: boolean
   onEventSelected: (event: EventRowViewModel) => void
-  onNewFilters: (eventMode: EventMode | undefined) => void
   onChangeText: (input: string) => void
   onFiltersSelected: () => void
-  dismissModal: () => void
 } => {
   const navigation = useNavigation<
     EventNavigatorScreenProps<'Events'>['navigation']
   >()
-  const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
-    undefined,
-  )
   const [searchText, setSearchText] = useState('')
   const [searchTextDebounced] = useDebounce(searchText, DEBOUNCE_TIMEOUT_MILLIS)
-  const [modalVisible, setModalVisible] = useState(false)
 
   const onEventSelected = useCallback(
     async (event: EventRowViewModel) => {
@@ -38,27 +32,17 @@ export const useEventsScreen = (): {
     [navigation],
   )
 
-  const onNewFilters = (eventMode: EventMode | undefined) => {
-    setEventModeFilter(eventMode)
-    setModalVisible(false)
-  }
-
-  const dismissModal = () => {
-    setModalVisible(false)
-  }
-
   const onFiltersSelected = useCallback(() => {
-    setModalVisible(true)
-  }, [])
+    navigation.navigate('EventsFilterModal', {
+      screen: 'EventsFilter',
+      params: { eventMode: eventMode },
+    })
+  }, [navigation, eventMode])
 
   return {
     searchText: searchTextDebounced,
-    modalVisible,
-    eventModeFilter,
     onEventSelected,
-    onNewFilters,
     onChangeText: setSearchText,
     onFiltersSelected,
-    dismissModal,
   }
 }

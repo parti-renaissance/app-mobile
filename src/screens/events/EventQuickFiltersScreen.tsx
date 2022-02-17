@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { ListRenderItemInfo, Platform } from 'react-native'
+import React, { FC, useLayoutEffect } from 'react'
+import { ListRenderItemInfo } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import SafeAreaView from 'react-native-safe-area-view'
@@ -11,24 +11,40 @@ import SelectableIconLabelView, {
 } from '../shared/SelectableIconLabelView'
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
-import { EventMode } from '../../core/entities/Event'
-import { useEventQuickFilters } from './useEventQuickFilters.hook'
-import { Header, useHeaderHeight } from '@react-navigation/elements'
-import { headerBlank } from '../../styles/navigationAppearance'
+import { useEventQuickFiltersScreen } from './useEventQuickFiltersScreen.hook'
+import { EventsFilterModalNavigatorScreenProps } from '../../navigation/EventsFilterModalNavigator'
 
-type Props = Readonly<{
-  initialEventMode: EventMode | undefined
-  onNewFilters: (eventMode: EventMode | undefined) => void
-  onDismissModal: () => void
-}>
+type EventQuickFiltersScreenProps = EventsFilterModalNavigatorScreenProps<'EventsFilter'>
 
-const EventQuickFilters: FC<Props> = (props) => {
+const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const { eventMode } = route.params
   const {
     viewModel,
     onInterestSelected,
     onClear,
     onSubmit,
-  } = useEventQuickFilters(props.initialEventMode, props.onNewFilters)
+    onClose,
+  } = useEventQuickFiltersScreen(eventMode)
+
+  useLayoutEffect(() => {
+    const updateNavigationHeader = () => {
+      navigation.setOptions({
+        title: i18n.t('events.filters.title'),
+        headerLeft: () => <CloseButton onPress={onClose} />,
+        headerRight: () => (
+          <TouchableOpacity onPress={onClear}>
+            <Text style={styles.headerClearFilters}>
+              {i18n.t('events.filters.clear')}
+            </Text>
+          </TouchableOpacity>
+        ),
+      })
+    }
+    updateNavigationHeader()
+  }, [navigation, onClear, onClose])
 
   const renderItem = ({
     item,
@@ -41,26 +57,8 @@ const EventQuickFilters: FC<Props> = (props) => {
     )
   }
 
-  const headerHeight = useHeaderHeight()
-
   return (
-    <SafeAreaView
-      style={styles.container}
-      forceInset={{ top: Platform.select({ android: 'never', ios: 'always' }) }}
-    >
-      <Header
-        {...headerBlank}
-        title={i18n.t('events.filters.title')}
-        headerLeft={() => <CloseButton onPress={props.onDismissModal} />}
-        headerRight={() => (
-          <TouchableOpacity onPress={onClear}>
-            <Text style={styles.headerClearFilters}>
-              {i18n.t('events.filters.clear')}
-            </Text>
-          </TouchableOpacity>
-        )}
-        headerBackgroundContainerStyle={{ height: headerHeight }}
-      />
+    <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
         <SectionGrid
           sections={viewModel.sections}
@@ -116,4 +114,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default EventQuickFilters
+export default EventQuickFiltersScreen
