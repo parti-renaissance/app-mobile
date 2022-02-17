@@ -4,7 +4,6 @@ import * as Colors from './colors'
 
 const largeTitleFontSize = 45
 const titleFontSize = 28
-const androidNavigationTitleFontSize = 20
 const title2FontSize = 22
 const title3FontSize = 20
 const headlineFontSize = 17
@@ -63,13 +62,6 @@ export const highlightedTitle: TextStyle = {
   fontSize: titleFontSize,
   fontFamily: maaxMedium,
   color: Colors.accent,
-}
-
-export const androidNavigationTitle: TextStyle = {
-  fontSize: androidNavigationTitleFontSize,
-  fontFamily: robotoMedium,
-  color: Colors.darkText,
-  textAlign: 'center',
 }
 
 export const title2: TextStyle = {

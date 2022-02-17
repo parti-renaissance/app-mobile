@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import { headerOptions } from '../styles/navigationAppearance'
+import { headerBlank } from '../styles/navigationAppearance'
 import TunnelDoorInterlocutorScreen from '../screens/doorToDoor/tunnel/interlocutor/TunnelDoorInterlocutorScreen'
 import TunnelDoorPollScreen from '../screens/doorToDoor/tunnel/survey/TunnelDoorPollScreen'
 import DoorToDoorBriefScreen from '../screens/doorToDoor/tunnel/brief/DoorToDoorBriefScreen'
@@ -54,22 +54,20 @@ const Stack = createStackNavigator<DoorToDoorTunnelModalNavigatorParamList>()
 
 const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
   return (
-    <Stack.Navigator screenOptions={headerOptions}>
+    <Stack.Navigator screenOptions={headerBlank}>
       <Stack.Screen
         name={'TunnelDoorBrief'}
         component={DoorToDoorBriefScreen}
-        options={{ title: '' }}
       />
       <Stack.Screen
         name={'TunnelDoorSelection'}
         component={TunnelDoorSelectionScreen}
-        options={{ headerBackTitleVisible: false, title: '' }}
+        options={{ headerBackTitleVisible: false }}
       />
       <Stack.Screen
         name={'TunnelDoorOpening'}
         component={TunnelDoorOpeningScreen}
         options={{
-          title: '',
           headerBackTitleVisible: false,
         }}
       />
