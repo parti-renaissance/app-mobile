@@ -5,7 +5,7 @@ class ApplicationVersionRepository {
   private localStore = LocalStore.getInstance()
 
   public currentVersionCode(): number {
-    return 2
+    return 3
   }
 
   public async previousVersionCode(): Promise<number> {
