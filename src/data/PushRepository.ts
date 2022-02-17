@@ -16,8 +16,8 @@ class PushRepository {
   private dissociatedTokenMutex = new Mutex()
   private constructor() {}
 
-  public async synchronizePushTokenAssociation(): Promise<void> {
-    this.syncrhonizePushTokenMutex.runExclusive(async () => {
+  public synchronizePushTokenAssociation(): Promise<void> {
+    return this.syncrhonizePushTokenMutex.runExclusive(async () => {
       const registrations = await this.localStore.getTopicsRegistration()
       const pushToken = await messaging().getToken()
       if (registrations?.pushTokenAssociated !== pushToken) {
@@ -48,8 +48,8 @@ class PushRepository {
     })
   }
 
-  public async dissociateToken() {
-    this.dissociatedTokenMutex.runExclusive(async () => {
+  public dissociateToken(): Promise<void> {
+    return this.dissociatedTokenMutex.runExclusive(async () => {
       const pushToken = await messaging().getToken()
       try {
         await this.apiService.removePushToken(pushToken)
