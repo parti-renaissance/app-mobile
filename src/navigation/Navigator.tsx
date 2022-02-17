@@ -22,6 +22,12 @@ const Navigator: FunctionComponent = () => {
     if (authenticationState === AuthenticationState.Unauthenticated) {
       Analytics.disable()
       setLoggedIn(false)
+    } else if (authenticationState === AuthenticationState.Anonymous) {
+      // Only useful for users that migrate from old version where they were
+      // logged in as anonymous users
+      Analytics.disable()
+      setLoggedIn(false)
+      authenticationRepository.logout()
     } else {
       PushNotification.requestPermission()
       Analytics.enable()
