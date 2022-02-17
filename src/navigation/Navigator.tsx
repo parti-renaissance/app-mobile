@@ -9,6 +9,7 @@ import PushRepository from '../data/PushRepository'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
 import { AuthenticatedRootNavigator } from './AuthenticatedRootNavigator'
 import { UnauthenticatedRootNavigator } from './UnauthenticatedRootNavigator'
+import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
 
 const authenticationRepository = AuthenticationRepository.getInstance()
 
@@ -31,6 +32,7 @@ const Navigator: FunctionComponent = () => {
     } else {
       PushNotification.requestPermission()
       Analytics.enable()
+      new IdentifyUserOnErrorMonitorInteractor().execute()
       PushRepository.getInstance()
         .synchronizeGeneralTopicSubscription()
         .catch((error) => {
