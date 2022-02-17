@@ -23,6 +23,7 @@ import PhoningSessionModal from '../screens/phoningSessionNavigator/PhoningSessi
 import DoorToDoorTunnelModal from '../screens/doorToDoor/tunnel/DoorToDoorTunnelModal'
 import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
 import SignUpScreen from '../screens/authentication/SignUpScreen'
+import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
 
 const RootStack = createStackNavigator<RootStackParamList>()
 const UnauthenticatedStack = createStackNavigator()
@@ -42,6 +43,7 @@ const Navigator: FunctionComponent = () => {
     } else {
       PushNotification.requestPermission()
       Analytics.enable()
+      new IdentifyUserOnErrorMonitorInteractor().execute()
       PushRepository.getInstance()
         .synchronizeGeneralTopicSubscription()
         .catch((error) => {

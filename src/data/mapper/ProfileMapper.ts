@@ -19,6 +19,7 @@ export const ProfileMapper = {
     return {
       firstName: result.first_name,
       lastName: result.last_name,
+      email: result.email_address,
       uuid: result.uuid,
       zipCode: result.postal_code,
       totalSurveys: result.surveys.total,
