@@ -11,7 +11,7 @@ import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'
 
-type TunnelDoorPollScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPollScreen'>
+type TunnelDoorPollScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>
 
 const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProps> = ({
   navigation,

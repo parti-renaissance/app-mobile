@@ -326,7 +326,7 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProps> = ({
                 }
               }
               navigation.navigate('DoorToDoorTunnelModal', {
-                screen: 'TunnelDoorBriefScreen',
+                screen: 'TunnelDoorBrief',
                 params: {
                   campaignId: viewModel.campaignId,
                   buildingParams: {

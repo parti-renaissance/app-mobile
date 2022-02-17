@@ -178,7 +178,7 @@ export const useHomeScreen = (): {
       (item) => item.id === id,
     )
     if (retaliation !== null && retaliation !== undefined) {
-      navigation.navigate('RetaliationDetailScreen', {
+      navigation.navigate('RetaliationDetail', {
         retaliation: retaliation,
       })
     }

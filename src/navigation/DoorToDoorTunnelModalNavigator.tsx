@@ -13,30 +13,30 @@ import { CompositeScreenProps } from '@react-navigation/native'
 import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNavigator'
 
 export type DoorToDoorTunnelModalNavigatorParamList = {
-  TunnelDoorInterlocutorScreen: {
+  TunnelDoorInterlocutor: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
   }
-  TunnelDoorPollScreen: {
+  TunnelDoorPoll: {
     campaignId: string
     interlocutorStatus: string
     buildingParams: BuildingSelectedNavigationParams
   }
-  TunnelDoorBriefScreen: {
+  TunnelDoorBrief: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
     canCloseFloor: boolean
   }
-  TunnelDoorSelectionScreen: {
+  TunnelDoorSelection: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
     canCloseFloor: boolean
   }
-  TunnelDoorOpeningScreen: {
+  TunnelDoorOpening: {
     campaignId: string
     buildingParams: BuildingSelectedNavigationParams
   }
-  TunnelDoorSuccessScreen: {
+  TunnelDoorSuccess: {
     campaignId: string
     interlocutorStatus: string
     buildingParams: BuildingSelectedNavigationParams
@@ -56,17 +56,17 @@ const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerOptions}>
       <Stack.Screen
-        name={'TunnelDoorBriefScreen'}
+        name={'TunnelDoorBrief'}
         component={DoorToDoorBriefScreen}
         options={{ title: '' }}
       />
       <Stack.Screen
-        name={'TunnelDoorSelectionScreen'}
+        name={'TunnelDoorSelection'}
         component={TunnelDoorSelectionScreen}
         options={{ headerBackTitleVisible: false, title: '' }}
       />
       <Stack.Screen
-        name={'TunnelDoorOpeningScreen'}
+        name={'TunnelDoorOpening'}
         component={TunnelDoorOpeningScreen}
         options={{
           title: '',
@@ -74,15 +74,12 @@ const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
         }}
       />
       <Stack.Screen
-        name={'TunnelDoorInterlocutorScreen'}
+        name={'TunnelDoorInterlocutor'}
         component={TunnelDoorInterlocutorScreen}
       />
+      <Stack.Screen name={'TunnelDoorPoll'} component={TunnelDoorPollScreen} />
       <Stack.Screen
-        name={'TunnelDoorPollScreen'}
-        component={TunnelDoorPollScreen}
-      />
-      <Stack.Screen
-        name={'TunnelDoorSuccessScreen'}
+        name={'TunnelDoorSuccess'}
         component={TunnelDoorSuccessScreen}
         options={{
           title: i18n.t('doorToDoor.tunnel.success.wellDone'),

@@ -17,7 +17,7 @@ import {
 import { AlertUtils } from '../../../shared/AlertUtils'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 
-type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutorScreen'>
+type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
 
 const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProps> = ({
   route,
@@ -46,7 +46,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
 
   const onChoice = (code: string) => {
     if (code === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE) {
-      navigation.navigate('TunnelDoorPollScreen', {
+      navigation.navigate('TunnelDoorPoll', {
         campaignId: route.params.campaignId,
         interlocutorStatus: code,
         buildingParams: route.params.buildingParams,
@@ -63,7 +63,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
           if (route.params.buildingParams.type === 'house') {
             navigation.getParent()?.goBack()
           } else {
-            navigation.navigate('TunnelDoorSelectionScreen', {
+            navigation.navigate('TunnelDoorSelection', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,

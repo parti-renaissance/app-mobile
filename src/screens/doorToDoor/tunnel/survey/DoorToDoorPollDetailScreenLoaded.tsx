@@ -36,10 +36,10 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
 }) => {
   const route = useRoute<
-    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPollScreen'>['route']
+    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['route']
   >()
   const navigation = useNavigation<
-    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPollScreen'>['navigation']
+    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['navigation']
   >()
 
   const [currentStep, setStep] = useState<number>(0)
@@ -94,7 +94,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
         pollResult: result,
       })
       .then(() => {
-        navigation.replace('TunnelDoorSuccessScreen', {
+        navigation.replace('TunnelDoorSuccess', {
           campaignId: route.params.campaignId,
           buildingParams: route.params.buildingParams,
           interlocutorStatus: route.params.interlocutorStatus,

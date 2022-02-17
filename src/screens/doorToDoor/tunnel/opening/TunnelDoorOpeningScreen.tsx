@@ -19,7 +19,7 @@ type CardItemProps = {
   title: string
 }
 
-type DoorToDoorTunnelOpeningScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpeningScreen'>
+type DoorToDoorTunnelOpeningScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>
 
 const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProps> = ({
   navigation,
@@ -45,7 +45,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
 
   const onChoice = (success: boolean, code: string) => {
     if (success) {
-      navigation.navigate('TunnelDoorInterlocutorScreen', {
+      navigation.navigate('TunnelDoorInterlocutor', {
         campaignId: route.params.campaignId,
         buildingParams: route.params.buildingParams,
       })
@@ -61,7 +61,7 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
           if (route.params.buildingParams.type === 'house') {
             navigation.getParent()?.goBack()
           } else {
-            navigation.navigate('TunnelDoorSelectionScreen', {
+            navigation.navigate('TunnelDoorSelection', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,

@@ -29,7 +29,7 @@ import { RankingRowView } from '../rankings/RankingRowView'
 import { RankingTabsView } from '../rankings/RankingTabsView'
 import { RankingViewModelMapper } from '../rankings/RankingViewModelMapper'
 
-type TunnelDoorSuccessScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccessScreen'>
+type TunnelDoorSuccessScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccess'>
 
 const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> = ({
   navigation,
@@ -79,7 +79,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
 
         <PrimaryButton
           onPress={() => {
-            navigation.replace('TunnelDoorPollScreen', {
+            navigation.replace('TunnelDoorPoll', {
               campaignId: route.params.campaignId,
               buildingParams: route.params.buildingParams,
               interlocutorStatus: route.params.interlocutorStatus,
@@ -118,7 +118,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
             style={styles.newDoor}
             onPress={() => {
               const nextDoor = route.params.buildingParams.door + 1
-              navigation.navigate('TunnelDoorSelectionScreen', {
+              navigation.navigate('TunnelDoorSelection', {
                 campaignId: route.params.campaignId,
                 buildingParams: {
                   ...route.params.buildingParams,

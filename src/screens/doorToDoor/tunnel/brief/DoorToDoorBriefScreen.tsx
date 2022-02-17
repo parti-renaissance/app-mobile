@@ -17,7 +17,7 @@ import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
 
-type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBriefScreen'>
+type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
 
 export interface TutorialResources {
   content: string
@@ -72,12 +72,12 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
             title={i18n.t('doorToDoor.tunnel.door.tutorial.action')}
             onPress={() => {
               if (route.params.buildingParams.type === 'house') {
-                navigation.navigate('TunnelDoorOpeningScreen', {
+                navigation.navigate('TunnelDoorOpening', {
                   campaignId: campaignId,
                   buildingParams: route.params.buildingParams,
                 })
               } else {
-                navigation.navigate('TunnelDoorSelectionScreen', {
+                navigation.navigate('TunnelDoorSelection', {
                   campaignId: campaignId,
                   buildingParams: route.params.buildingParams,
                   canCloseFloor: route.params.canCloseFloor,

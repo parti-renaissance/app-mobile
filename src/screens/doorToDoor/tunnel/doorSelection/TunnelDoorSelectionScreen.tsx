@@ -9,7 +9,7 @@ import { PrimaryButton, SecondaryButton } from '../../../shared/Buttons'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 
-type TunnelDoorSelectionScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSelectionScreen'>
+type TunnelDoorSelectionScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSelection'>
 
 const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProps> = ({
   navigation,
@@ -133,7 +133,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProp
         <PrimaryButton
           title={i18n.t('doorToDoor.tunnel.door.doorknocked')}
           onPress={() =>
-            navigation.navigate('TunnelDoorOpeningScreen', {
+            navigation.navigate('TunnelDoorOpening', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,

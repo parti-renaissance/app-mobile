@@ -28,9 +28,6 @@ export type AuthenticatedRootNavigatorParamList = {
   PollDetailModal: NavigatorScreenParams<PollDetailModalNavigatorParamList>
   PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalNavigatorParamList>
   ProfileModal: NavigatorScreenParams<ProfileModalNavigatorParamList>
-  Login: undefined
-  TermsOfUse: undefined
-  News: undefined
   DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalNavigatorParamList>
   NewsDetailModal: NavigatorScreenParams<NewsDetailModalNavigatorParamList>
   EventsFilterModal: NavigatorScreenParams<EventsFilterModalNavigatorParamList>

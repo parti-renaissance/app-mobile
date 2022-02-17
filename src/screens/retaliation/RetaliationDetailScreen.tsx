@@ -9,7 +9,7 @@ import { RetaliationCardViewModelMapper } from './RetaliationCardViewModelMapper
 import { RetaliationService } from '../../data/RetaliationService'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 
-type RetaliationDetailScreenProps = HomeNavigatorScreenProps<'RetaliationDetailScreen'>
+type RetaliationDetailScreenProps = HomeNavigatorScreenProps<'RetaliationDetail'>
 
 const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProps> = ({
   route,

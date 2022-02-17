@@ -16,7 +16,7 @@ export type HomeNavigatorParamList = {
   Region: { zipCode: string }
   News: undefined
   EventDetails: { eventId: string }
-  RetaliationDetailScreen: { retaliation: Retaliation }
+  RetaliationDetail: { retaliation: Retaliation }
 }
 
 export type HomeNavigatorScreenProps<
@@ -44,7 +44,7 @@ const HomeNavigator: FunctionComponent = () => {
       <Stack.Screen name={'News'} component={NewsScreen} />
       <Stack.Screen name={'EventDetails'} component={EventDetailsScreen} />
       <Stack.Screen
-        name={'RetaliationDetailScreen'}
+        name={'RetaliationDetail'}
         component={RetaliationDetailScreen}
       />
     </Stack.Navigator>
