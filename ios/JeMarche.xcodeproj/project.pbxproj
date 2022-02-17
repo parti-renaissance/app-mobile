@@ -12,17 +12,15 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2179FAA9261231F900FD532C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2179FAA8261231F900FD532C /* LaunchScreen.storyboard */; };
-		21BB8E25258151F9001831DB /* cgu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 21BB8E24258151F9001831DB /* cgu.pdf */; };
-		21BB8E2925815465001831DB /* dataprotection.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 21BB8E2825815465001831DB /* dataprotection.pdf */; };
 		337778839660A7D27BC680BC /* libPods-JeMarche.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */; };
+		3597E6FDDEE44B62BAAB7F8C /* Maax-Mediumitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95EB4F35191D44A882ACF1EF /* Maax-Mediumitalic.ttf */; };
 		4357DD720478FB7E4ECC1373 /* libPods-JeMarche-JeMarcheTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C07EDF216C5BAB0CE5E9DC0 /* libPods-JeMarche-JeMarcheTests.a */; };
 		4959DC6B278849F7008C0C36 /* Maax-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4959DC6A278844DD008C0C36 /* Maax-Medium.ttf */; };
 		49B934592567DE5C0072A28F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49B934582567DE5C0072A28F /* GoogleService-Info.plist */; };
 		794BADE3CB9540AD9E901E92 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */; };
 		92BF777B2722EFC2000A3406 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF777A2722EFC2000A3406 /* Void.swift */; };
-		FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */; };
 		E7E4711B638944C0A1590710 /* Maax-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */; };
-		3597E6FDDEE44B62BAAB7F8C /* Maax-Mediumitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95EB4F35191D44A882ACF1EF /* Maax-Mediumitalic.ttf */; };
+		FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,25 +48,23 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = JeMarche/main.m; sourceTree = "<group>"; };
 		1C07EDF216C5BAB0CE5E9DC0 /* libPods-JeMarche-JeMarcheTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JeMarche-JeMarcheTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2179FAA8261231F900FD532C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		21BB8E24258151F9001831DB /* cgu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = cgu.pdf; path = ../android/app/src/main/assets/cgu.pdf; sourceTree = "<group>"; };
-		21BB8E2825815465001831DB /* dataprotection.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = dataprotection.pdf; path = ../android/app/src/main/assets/dataprotection.pdf; sourceTree = "<group>"; };
 		38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JeMarche.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4959DC6A278844DD008C0C36 /* Maax-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Maax-Medium.ttf"; path = "../src/assets/fonts/Maax-Medium.ttf"; sourceTree = "<group>"; };
 		49B934582567DE5C0072A28F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		49B934E22567FF560072A28F /* JeMarche.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = JeMarche.entitlements; path = JeMarche/JeMarche.entitlements; sourceTree = "<group>"; };
 		49E199DE256D1A7800C181EE /* ConfigDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ConfigDebug.xcconfig; sourceTree = "<group>"; };
+		4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Maax-Bold.ttf"; path = "../src/assets/fonts/Maax-Bold.ttf"; sourceTree = "<group>"; };
 		67822E4FB7FA4380C59E7FDA /* Pods-JeMarche-JeMarcheTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche-JeMarcheTests.debug.xcconfig"; path = "Target Support Files/Pods-JeMarche-JeMarcheTests/Pods-JeMarche-JeMarcheTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B2CC1F1A2CD05387D86D773 /* Pods-JeMarche-JeMarcheTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche-JeMarcheTests.release.xcconfig"; path = "Target Support Files/Pods-JeMarche-JeMarcheTests/Pods-JeMarche-JeMarcheTests.release.xcconfig"; sourceTree = "<group>"; };
 		910E80E2D61779496565AF56 /* Pods-JeMarche.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche.release.xcconfig"; path = "Target Support Files/Pods-JeMarche/Pods-JeMarche.release.xcconfig"; sourceTree = "<group>"; };
 		92BF777A2722EFC2000A3406 /* Void.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Void.swift; sourceTree = "<group>"; };
+		95EB4F35191D44A882ACF1EF /* Maax-Mediumitalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Maax-Mediumitalic.ttf"; path = "../src/assets/fonts/Maax-Mediumitalic.ttf"; sourceTree = "<group>"; };
 		AC18FA1AAF1599D689BEBC58 /* Pods-JeMarcheTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarcheTests.debug.xcconfig"; path = "Target Support Files/Pods-JeMarcheTests/Pods-JeMarcheTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		C606647894720E57B500C9A8 /* Pods-JeMarcheTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarcheTests.release.xcconfig"; path = "Target Support Files/Pods-JeMarcheTests/Pods-JeMarcheTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC5F0FC8501474E2F25F6624 /* Pods-JeMarche.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche.debug.xcconfig"; path = "Target Support Files/Pods-JeMarche/Pods-JeMarche.debug.xcconfig"; sourceTree = "<group>"; };
-		4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */ = {isa = PBXFileReference; name = "Maax-Bold.ttf"; path = "../src/assets/fonts/Maax-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		95EB4F35191D44A882ACF1EF /* Maax-Mediumitalic.ttf */ = {isa = PBXFileReference; name = "Maax-Mediumitalic.ttf"; path = "../src/assets/fonts/Maax-Mediumitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +136,6 @@
 		5438455711BB4CFA8996F388 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				21BB8E24258151F9001831DB /* cgu.pdf */,
-				21BB8E2825815465001831DB /* dataprotection.pdf */,
 				49B934582567DE5C0072A28F /* GoogleService-Info.plist */,
 				AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */,
 				06ED0048D3ED407DBF009464 /* Roboto-Regular.ttf */,
@@ -294,8 +288,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4959DC6B278849F7008C0C36 /* Maax-Medium.ttf in Resources */,
-				21BB8E25258151F9001831DB /* cgu.pdf in Resources */,
-				21BB8E2925815465001831DB /* dataprotection.pdf in Resources */,
 				2179FAA9261231F900FD532C /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */,
