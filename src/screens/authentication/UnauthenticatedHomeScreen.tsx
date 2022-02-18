@@ -1,17 +1,12 @@
 import React from 'react'
-import {
-  ImageBackground,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { ImageBackground, StatusBar, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { Screen, UnauthenticatedHomeScreenProps } from '../../navigation'
 import LinearGradient from 'react-native-linear-gradient'
+import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 
 const UnauthenticatedHomeScreen = ({
   navigation,
@@ -34,16 +29,21 @@ const UnauthenticatedHomeScreen = ({
             backgroundColor="transparent"
             barStyle="light-content"
           />
-          <Text style={styles.title}>
+          <Text style={styles.title} numberOfLines={2} allowFontScaling={false}>
             {i18n.t('unauthenticatedhome.title')}
           </Text>
-          <Text style={styles.titleRest}>
+          <Text
+            style={styles.titleRest}
+            numberOfLines={2}
+            allowFontScaling={false}
+          >
             {i18n.t('unauthenticatedhome.title_rest')}
           </Text>
-          <View style={styles.spacer} />
+          <FlexibleVerticalSpacer minSpacing={Spacing.mediumMargin} />
           <Text style={styles.description}>
             {i18n.t('unauthenticatedhome.description')}
           </Text>
+          <VerticalSpacer spacing={Spacing.mediumMargin} />
           <PrimaryButton
             style={styles.button}
             title={i18n.t('unauthenticatedhome.login')}
@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
   description: {
     ...Typography.body,
     color: Colors.white,
-    marginHorizontal: Spacing.largeMargin,
-    marginVertical: Spacing.mediumMargin,
     textAlign: 'center',
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
   row: {
     alignItems: 'center',
@@ -109,9 +109,6 @@ const styles = StyleSheet.create({
     color: Colors.white,
     marginBottom: Spacing.margin,
     textAlign: 'center',
-  },
-  spacer: {
-    flexGrow: 1,
   },
   title: {
     ...Typography.largeTitle,
