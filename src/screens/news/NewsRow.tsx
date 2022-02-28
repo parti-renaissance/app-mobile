@@ -24,7 +24,9 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
           <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.title}>{viewModel.title}</Text>
           <VerticalSpacer spacing={Spacing.unit} />
-          <Text style={styles.caption}>{viewModel.author}</Text>
+          {viewModel.author !== undefined && (
+            <Text style={styles.caption}>{viewModel.author}</Text>
+          )}
           <Text style={styles.caption}>{viewModel.date}</Text>
         </View>
         {viewModel.isEnabled ? (

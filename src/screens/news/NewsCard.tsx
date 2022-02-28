@@ -39,7 +39,9 @@ const NewsCard: FunctionComponent<Props> = ({
           <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.title}>{viewModel.title}</Text>
           <VerticalSpacer spacing={Spacing.unit} />
-          <Text style={styles.caption}>{viewModel.author}</Text>
+          {viewModel.author && (
+            <Text style={styles.caption}>{viewModel.author}</Text>
+          )}
           <Text style={styles.caption}>{viewModel.date}</Text>
         </View>
       </TouchablePlatform>
