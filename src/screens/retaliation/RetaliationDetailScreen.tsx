@@ -5,35 +5,44 @@ import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import RetaliationCard from './RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
-import { RetaliationCardViewModelMapper } from './RetaliationCardViewModelMapper'
-import { RetaliationService } from '../../data/RetaliationService'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { useRetaliationDetailScreen } from './useRetaliationDetailScreen.hook'
+import { StatefulView } from '../shared/StatefulView'
 
 type RetaliationDetailScreenProps = HomeNavigatorScreenProps<'RetaliationDetail'>
 
 const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProps> = ({
   route,
 }) => {
-  const retaliation = route.params.retaliation
+  const { statefulState, onRetaliate } = useRetaliationDetailScreen(
+    route.params.retaliationId,
+  )
 
   return (
     <SafeAreaView style={styles.container}>
-      <>
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.title}>{retaliation.title}</Text>
-          <RetaliationCard
-            viewModel={RetaliationCardViewModelMapper.map(retaliation)}
-          />
-          <Text style={styles.subtitle}>{i18n.t('retaliation.title')}</Text>
-          <Text style={styles.retaliation}>{retaliation.body}</Text>
-        </ScrollView>
-        <View style={styles.bottomContainer}>
-          <PrimaryButton
-            title={i18n.t('retaliation.execute')}
-            onPress={() => RetaliationService.retaliate(retaliation)}
-          />
-        </View>
-      </>
+      <StatefulView
+        state={statefulState}
+        contentComponent={(viewModel) => {
+          return (
+            <>
+              <ScrollView contentContainerStyle={styles.contentContainer}>
+                <Text style={styles.title}>{viewModel.title}</Text>
+                <RetaliationCard viewModel={viewModel} />
+                <Text style={styles.subtitle}>
+                  {i18n.t('retaliation.title')}
+                </Text>
+                <Text style={styles.retaliation}>{viewModel.body}</Text>
+              </ScrollView>
+              <View style={styles.bottomContainer}>
+                <PrimaryButton
+                  title={i18n.t('retaliation.execute')}
+                  onPress={onRetaliate}
+                />
+              </View>
+            </>
+          )
+        }}
+      />
     </SafeAreaView>
   )
 }

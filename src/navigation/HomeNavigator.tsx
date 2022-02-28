@@ -7,7 +7,6 @@ import RegionScreen from '../screens/regions/RegionScreen'
 import NewsScreen from '../screens/news/NewsScreen'
 import EventDetailsScreen from '../screens/eventDetail/EventDetailsScreen'
 import RetaliationDetailScreen from '../screens/retaliation/RetaliationDetailScreen'
-import { Retaliation } from '../core/entities/Retaliation'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { TabBarNavigatorScreenProps } from './TabBarNavigator'
 
@@ -16,7 +15,7 @@ export type HomeNavigatorParamList = {
   Region: { zipCode: string }
   News: undefined
   EventDetails: { eventId: string }
-  RetaliationDetail: { retaliation: Retaliation }
+  RetaliationDetail: { retaliationId: string }
 }
 
 export type HomeNavigatorScreenProps<
