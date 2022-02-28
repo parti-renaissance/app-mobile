@@ -9,6 +9,9 @@ import EventDetailsScreen from '../screens/eventDetail/EventDetailsScreen'
 import RetaliationDetailScreen from '../screens/retaliation/RetaliationDetailScreen'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { TabBarNavigatorScreenProps } from './TabBarNavigator'
+import { DoorToDoorAddress } from '../core/entities/DoorToDoor'
+import DoorToDoorScreen from '../screens/doorToDoor/DoorToDoorScreen'
+import BuildingDetailScreen from '../screens/buildingDetail/BuildingDetailScreen'
 
 export type HomeNavigatorParamList = {
   Home: undefined
@@ -16,6 +19,8 @@ export type HomeNavigatorParamList = {
   News: undefined
   EventDetails: { eventId: string }
   RetaliationDetail: { retaliationId: string }
+  DoorToDoor: undefined
+  BuildingDetail: { address: DoorToDoorAddress }
 }
 
 export type HomeNavigatorScreenProps<
@@ -45,6 +50,17 @@ const HomeNavigator: FunctionComponent = () => {
       <Stack.Screen
         name={'RetaliationDetail'}
         component={RetaliationDetailScreen}
+      />
+      {/* DoorToDoor */}
+      <Stack.Screen
+        name={'DoorToDoor'}
+        component={DoorToDoorScreen}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name={'BuildingDetail'}
+        component={BuildingDetailScreen}
+        options={{ headerShown: true }}
       />
     </Stack.Navigator>
   )

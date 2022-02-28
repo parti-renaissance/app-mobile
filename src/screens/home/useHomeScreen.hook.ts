@@ -158,18 +158,18 @@ export const useHomeScreen = (): {
     await Analytics.logHomeEventOpen(event.title, event.category)
     navigation.navigate('EventDetails', { eventId: event.id })
   }
-  const onRetaliationSelected = (id: string) => {
-    // TODO: (Pierre Felgines) 2022/02/28 Find retaliation from feed
-    console.log(id)
-    // const retaliation = currentResources?.retaliations.find(
-    //   (item) => item.id === id,
-    // )
-    // if (retaliation !== null && retaliation !== undefined) {
-    //   navigation.navigate('RetaliationDetail', {
-    //     retaliation: retaliation,
-    //   })
-    // }
+
+  const findItemWithId = (id: string): TimelineFeedItem | undefined => {
+    const items = ViewState.unwrap(feedStatefulState) ?? []
+    return items.find((item) => item.uuid === id)
   }
+
+  const onRetaliationSelected = (id: string) => {
+    navigation.navigate('RetaliationDetail', {
+      retaliationId: id,
+    })
+  }
+
   const onRetaliateSelected = (id: string) => {
     // TODO: (Pierre Felgines) 2022/02/28 Find retaliation from feed
     console.log(id)
@@ -180,17 +180,37 @@ export const useHomeScreen = (): {
     //   RetaliationService.retaliate(retaliation)
     // }
   }
+
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
-    console.log('onFeedPhoningCampaignSelected', campaignId)
+    const item = findItemWithId(campaignId)
+    if (item === undefined) {
+      return
+    }
+    navigation.navigate('PhoningSessionModal', {
+      screen: 'PhoningSessionLoader',
+      params: {
+        campaignId: item.uuid,
+        campaignTitle: item.title,
+        device: 'current',
+      },
+    })
   }
-  const onFeedDoorToDoorCampaignSelected = (campaignId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
-    console.log('onFeedDoorToDoorCampaignSelected', campaignId)
+
+  const onFeedDoorToDoorCampaignSelected = () => {
+    navigation.navigate('DoorToDoor')
   }
+
   const onFeedPollSelected = (pollId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
-    console.log('onFeedPollSelected', pollId)
+    // TODO: (Pierre Felgines) 2022/02/28 Fix type of id attribute mismatch
+    console.log(pollId)
+    // const item = findItemWithId(campaignId)
+    // if (item === undefined) {
+    //   return
+    // }
+    // navigation.navigate('PollDetailModal', {
+    //   screen: 'PollDetail',
+    //   params: { pollId: item.uuid },
+    // })
   }
 
   return {
