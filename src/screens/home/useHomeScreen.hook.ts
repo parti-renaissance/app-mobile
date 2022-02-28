@@ -13,6 +13,8 @@ import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { EventRowViewModel } from '../events/EventViewModel'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
+import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -34,6 +36,9 @@ export const useHomeScreen = (): {
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
     ViewState.Loading(),
   )
+  const [feedStatefulState, setFeedStatefulState] = useState<
+    ViewState<Array<TimelineFeedItem>>
+  >(ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
@@ -48,9 +53,10 @@ export const useHomeScreen = (): {
       currentResources.region,
       currentResources.quickPoll,
       currentResources.nextEvent,
+      ViewState.unwrap(feedStatefulState) ?? [],
     )
     setStatefulState(ViewState.Content(viewModel))
-  }, [currentResources])
+  }, [currentResources, feedStatefulState])
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
     setRefreshing(true)
@@ -92,6 +98,22 @@ export const useHomeScreen = (): {
   }, [fetchData, initialFetchDone])
 
   useFocusEffect(firstDataFetch)
+
+  useEffect(() => {
+    const fetchTimelineFeed = () => {
+      new GetTimelineFeedInteractor()
+        .execute(0)
+        .then((response) => {
+          setFeedStatefulState(ViewState.Content(response.result))
+        })
+        .catch((error) => {
+          setFeedStatefulState(
+            ViewStateUtils.networkError(error, fetchTimelineFeed),
+          )
+        })
+    }
+    fetchTimelineFeed()
+  }, [])
 
   const onRefresh = () => {
     fetchData()

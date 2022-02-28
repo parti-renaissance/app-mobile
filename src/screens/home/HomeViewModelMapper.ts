@@ -4,10 +4,15 @@ import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
-import { HomeSectionViewModel } from './HomeRowViewModel'
+import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
 import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
+import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
+import { NewsRowViewModelFromTimelineNewsMapper } from './feed/mappers/NewsRowViewModelFromTimelineNewsMapper'
+import { EventRowViewModelFromTimelineEventMapper } from './feed/mappers/EventRowViewModelFromTimelineEventMapper'
+import { HomeRetaliationCardViewModelFromTimelineRetaliationMapper } from './feed/mappers/HomeRetaliationCardViewModelFromTimelineRetaliationMapper'
+import { HomeFeedActionCampaignCardViewModelFromTimelineItemMapper } from './feed/mappers/HomeFeedActionCampaignCardViewModelFromTimelineItemMapper'
 
 export const HomeViewModelMapper = {
   map: (
@@ -15,12 +20,14 @@ export const HomeViewModelMapper = {
     region: Region | undefined,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
+    timelineFeedItems: Array<TimelineFeedItem>,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
+    appendTimelineFeedItems(timelineFeedItems, rows)
 
     return {
       header: {
@@ -133,4 +140,60 @@ function appendRegion(
       ],
     })
   }
+}
+
+function appendTimelineFeedItems(
+  timelineFeedItems: Array<TimelineFeedItem>,
+  rows: HomeSectionViewModel[],
+) {
+  const data: HomeRowViewModel[] = timelineFeedItems.map((item) => {
+    switch (item.type) {
+      case 'news':
+        return {
+          type: 'feedNews',
+          value: NewsRowViewModelFromTimelineNewsMapper.map(item),
+        }
+      case 'event':
+        return {
+          type: 'feedEvent',
+          value: EventRowViewModelFromTimelineEventMapper.map(item),
+        }
+      case 'riposte':
+        return {
+          type: 'feedRetaliation',
+          value: HomeRetaliationCardViewModelFromTimelineRetaliationMapper.map(
+            item,
+          ),
+        }
+      case 'phoning-campaign':
+        return {
+          type: 'feedPhoningCampaign',
+          value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
+            item,
+          ),
+        }
+      case 'pap-campaign':
+        return {
+          type: 'feedDoorToDoorCampaign',
+          value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
+            item,
+          ),
+        }
+      case 'survey':
+        return {
+          type: 'feedPoll',
+          value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
+            item,
+          ),
+        }
+    }
+  })
+  rows.push({
+    id: 'feed',
+    sectionViewModel: {
+      sectionName: i18n.t('home.feed.section'),
+      isHighlighted: false,
+    },
+    data,
+  })
 }
