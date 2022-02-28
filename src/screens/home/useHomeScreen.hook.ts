@@ -13,7 +13,6 @@ import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { EventRowViewModel } from '../events/EventViewModel'
 import { RetaliationService } from '../../data/RetaliationService'
-import { ExternalLink } from '../shared/ExternalLink'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 
 export const useHomeScreen = (): {
@@ -21,9 +20,7 @@ export const useHomeScreen = (): {
   isRefreshing: boolean
   onRefresh: () => void
   onPollSelected: (pollId: number) => void
-  onToolSelected: (toolUrl: string, toolName: string) => void
   onPollsMorePressed: () => void
-  onToolsMorePressed: () => void
   onRegionMorePressed: () => void
   onQuickPollAnswerSelected: (pollId: string, answerId: string) => void
   onEventSelected: (event: EventRowViewModel) => void
@@ -56,7 +53,6 @@ export const useHomeScreen = (): {
       currentResources.profile,
       currentResources.region,
       currentResources.polls,
-      currentResources.tools,
       currentResources.quickPoll,
       currentResources.nextEvent,
       currentResources.retaliations,
@@ -115,10 +111,7 @@ export const useHomeScreen = (): {
       params: { pollId: pollId },
     })
   }
-  const onToolSelected = async (toolUrl: string, toolName: string) => {
-    await Analytics.logHomeToolOpen(toolName)
-    ExternalLink.openUrl(toolUrl)
-  }
+
   const onFeedNewsSelected = (newsId: string) => {
     // TODO: (Pierre Felgines) 2022/02/28 Update analytics
     Analytics.logHomeNewsOpen()
@@ -130,10 +123,7 @@ export const useHomeScreen = (): {
   const onPollsMorePressed = () => {
     // navigation.navigate(Screen.pollsNavigator)
   }
-  const onToolsMorePressed = async () => {
-    await Analytics.logHomeToolsMore()
-    navigation.navigate('Tools')
-  }
+
   const onRegionMorePressed = async () => {
     if (!currentResources) {
       return
@@ -220,9 +210,7 @@ export const useHomeScreen = (): {
     isRefreshing,
     onRefresh,
     onPollSelected,
-    onToolSelected,
     onPollsMorePressed,
-    onToolsMorePressed,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
     onEventSelected,

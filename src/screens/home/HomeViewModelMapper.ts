@@ -4,26 +4,22 @@ import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
 import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
-import { Tool } from '../../core/entities/Tool'
 import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
 import { HomeSectionViewModel } from './HomeRowViewModel'
-import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
 import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
 
 const MAX_POLLS = 2
-const MAX_TOOLS = 2
 
 export const HomeViewModelMapper = {
   map: (
     profile: Profile | undefined,
     region: Region | undefined,
     polls: Array<Poll>,
-    tools: Array<Tool>,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
     retaliations: Retaliation[],
@@ -35,7 +31,6 @@ export const HomeViewModelMapper = {
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
     appendPolls(polls, rows)
-    appendTools(tools, rows)
 
     return {
       header: {
@@ -187,25 +182,6 @@ function appendPolls(polls: Poll[], rows: HomeSectionViewModel[]) {
               return PollRowViewModelMapper.map(poll)
             }),
           },
-        },
-      ],
-    })
-  }
-}
-
-function appendTools(tools: Tool[], rows: HomeSectionViewModel[]) {
-  if (tools.length !== 0) {
-    const subTools = tools.slice(0, MAX_TOOLS)
-    rows.push({
-      id: 'tools_content',
-      sectionViewModel: {
-        sectionName: i18n.t('home.section_tools'),
-        isHighlighted: false,
-      },
-      data: [
-        {
-          type: 'tools',
-          value: { tools: subTools.map(HomeToolRowViewModelMapper.map) },
         },
       ],
     })

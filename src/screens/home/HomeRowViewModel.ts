@@ -6,7 +6,6 @@ import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampai
 import { HomeFeedActionCampaignsCardViewModel } from './feed/HomeFeedActionCampaignsCard'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
 import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
-import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
   sectionName: string
@@ -15,10 +14,6 @@ export interface HomeSectionRowViewModel {
 
 export interface HomePollsRowContainerViewModel {
   polls: Array<PollRowViewModel>
-}
-
-export interface HomeToolsRowContainerViewModel {
-  tools: Array<HomeToolRowViewModel>
 }
 
 export interface HomeQuickPollRowContainerViewModel {
@@ -52,10 +47,6 @@ export type HomeRowViewModel =
   | {
       type: 'polls'
       value: HomePollsRowContainerViewModel
-    }
-  | {
-      type: 'tools'
-      value: HomeToolsRowContainerViewModel
     }
   | {
       type: 'quick_poll'

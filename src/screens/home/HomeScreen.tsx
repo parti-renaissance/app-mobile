@@ -15,7 +15,6 @@ import HomeHeader from './HomeHeader'
 import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
 import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
-import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
@@ -42,9 +41,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     isRefreshing,
     onRefresh,
     onPollSelected,
-    onToolSelected,
     onPollsMorePressed,
-    onToolsMorePressed,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
     onEventSelected,
@@ -93,14 +90,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           viewModel={item.value}
           onPollSelected={onPollSelected}
           onMorePressed={onPollsMorePressed}
-        />
-      )
-    } else if (item.type === 'tools') {
-      return (
-        <HomeToolRowContainer
-          viewModel={item.value}
-          onMorePressed={onToolsMorePressed}
-          onToolSelected={onToolSelected}
         />
       )
     } else if (item.type === 'region') {

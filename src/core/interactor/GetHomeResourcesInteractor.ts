@@ -2,12 +2,10 @@ import { Retaliation } from './../entities/Retaliation'
 import { AuthenticationState } from '../entities/AuthenticationState'
 import { Poll } from '../entities/Poll'
 import { Region } from '../entities/Region'
-import { Tool } from '../entities/Tool'
 import { Profile } from '../entities/Profile'
 import allSettled from 'promise.allsettled'
 import ProfileRepository from '../../data/ProfileRepository'
 import RegionsRepository from '../../data/RegionsRepository'
-import ToolsRepository from '../../data/ToolsRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
@@ -23,7 +21,6 @@ export interface HomeResources {
   region?: Region
   profile?: Profile
   polls: Array<Poll>
-  tools: Array<Tool>
   quickPoll?: StatefulQuickPoll
   nextEvent?: ShortEvent
   retaliations: Array<Retaliation>
@@ -35,7 +32,6 @@ export class GetHomeResourcesInteractor {
   private regionsRepository = RegionsRepository.getInstance()
   private retaliationRepository = RetaliationRepository.getInstance()
   private getPollsInteractor = new GetPollsInteractor()
-  private toolsRepository = ToolsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
   private getQuickPollInteractor = new GetQuickPollInteractor()
   private getNextEventInteractor = new GetNextEventInteractor()
@@ -49,7 +45,6 @@ export class GetHomeResourcesInteractor {
       profileResult,
       departmentResult,
       pollsResult,
-      toolsResult,
       quickPollsResult,
       nextEventResult,
     ] = await allSettled([
@@ -59,7 +54,6 @@ export class GetHomeResourcesInteractor {
         : undefined,
       this.regionsRepository.getDepartment(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
-      this.toolsRepository.getTools(),
       this.getQuickPollInteractor.execute(zipCode, dataSource),
       this.getNextEventInteractor.execute(),
     ])
@@ -116,7 +110,6 @@ export class GetHomeResourcesInteractor {
                 this.getPollsInteractor.execute(pollsDataSource),
               [],
             ),
-      tools: toolsResult.status === 'fulfilled' ? toolsResult.value.result : [],
       quickPoll:
         quickPollsResult.status === 'fulfilled'
           ? quickPollsResult.value
