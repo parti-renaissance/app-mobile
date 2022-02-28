@@ -228,6 +228,7 @@
         "latest": "Dernières actualités",
         "highlighted": "À la une"
       },
+      "tag": { "local": "Local", "national": "National" },
       "detail": { "caption_format": "par {{ author }} le {{ date }}" }
     },
     "personalinformation": {

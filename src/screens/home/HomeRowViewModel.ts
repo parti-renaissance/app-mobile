@@ -52,7 +52,7 @@ export type HomeRowViewModel =
     }
   | {
       type: 'feedEvent'
-      value: HomeEventRowContainerViewModel
+      value: EventRowViewModel
     }
   | {
       type: 'feedNews'
