@@ -24,9 +24,6 @@ export const useHomeScreen = (): {
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
   onFeedNewsSelected: (newsId: string) => void
-  onFeedPhoningCampaignsSelected: () => void
-  onFeedDoorToDoorCampaignsSelected: () => void
-  onFeedPollsSelected: () => void
   onFeedPhoningCampaignSelected: (campaignId: string) => void
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
@@ -161,26 +158,6 @@ export const useHomeScreen = (): {
     //   RetaliationService.retaliate(retaliation)
     // }
   }
-  const onFeedPhoningCampaignsSelected = () => {
-    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
-    setTimeout(() => {
-      navigation.navigate('ActionsNavigator', { screen: 'Phoning' })
-    }, 300)
-  }
-  const onFeedDoorToDoorCampaignsSelected = () => {
-    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
-    setTimeout(() => {
-      navigation.navigate('ActionsNavigator', {
-        screen: 'DoorToDoor',
-      })
-    }, 300)
-  }
-  const onFeedPollsSelected = () => {
-    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
-    setTimeout(() => {
-      navigation.navigate('ActionsNavigator', { screen: 'Polls' })
-    }, 300)
-  }
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
     // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
     console.log('onFeedPhoningCampaignSelected', campaignId)
@@ -204,9 +181,6 @@ export const useHomeScreen = (): {
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
-    onFeedPhoningCampaignsSelected,
-    onFeedDoorToDoorCampaignsSelected,
-    onFeedPollsSelected,
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,

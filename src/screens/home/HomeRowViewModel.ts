@@ -2,7 +2,6 @@ import { EventRowViewModel } from '../events/EventViewModel'
 import { NewsRowViewModel } from '../news/NewsRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
-import { HomeFeedActionCampaignsCardViewModel } from './feed/HomeFeedActionCampaignsCard'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
 import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
 
@@ -58,18 +57,6 @@ export type HomeRowViewModel =
   | {
       type: 'feedNews'
       value: NewsRowViewModel
-    }
-  | {
-      type: 'feedPhoningCampaigns'
-      value: HomeFeedActionCampaignsCardViewModel
-    }
-  | {
-      type: 'feedDoorToDoorCampaigns'
-      value: HomeFeedActionCampaignsCardViewModel
-    }
-  | {
-      type: 'feedPolls'
-      value: HomeFeedActionCampaignsCardViewModel
     }
   | {
       type: 'feedPhoningCampaign'
