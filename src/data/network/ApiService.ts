@@ -63,6 +63,7 @@ import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
 import { RestToolsResponse } from '../restObjects/RestToolsResponse'
+import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
 
 class ApiService {
   private static instance: ApiService
@@ -574,6 +575,18 @@ class ApiService {
     return this.httpClient
       .get('api/v3/jecoute/resource-links', { searchParams: { page: page } })
       .json<RestToolsResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getTimelineFeed(
+    page: number,
+    zipCode: string,
+  ): Promise<RestTimelineFeedResponse> {
+    return this.httpClient
+      .get('api/v3/je-mengage/timeline_feeds', {
+        searchParams: { page, postal_code: zipCode },
+      })
+      .json<RestTimelineFeedResponse>()
       .catch(genericErrorMapping)
   }
 
