@@ -18,7 +18,6 @@ import { HomeViewModel } from './HomeViewModel'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
-import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { useHomeScreen } from './useHomeScreen.hook'
 import HomeSectionHeader from './HomeSectionHeader'
 import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
@@ -102,14 +101,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           viewModel={item.value}
           isHighlighted={isHighlighted}
           onEventSelected={onEventSelected}
-        />
-      )
-    } else if (item.type === 'retaliation') {
-      return (
-        <HomeRetaliationRowContainer
-          viewModel={item.value}
-          onRetaliationSelected={onRetaliationSelected}
-          onRetaliateSelected={onRetaliateSelected}
         />
       )
     } else if (item.type === 'feedEvent') {

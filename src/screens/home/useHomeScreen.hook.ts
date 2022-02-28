@@ -12,7 +12,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { EventRowViewModel } from '../events/EventViewModel'
-import { RetaliationService } from '../../data/RetaliationService'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 
 export const useHomeScreen = (): {
@@ -52,7 +51,6 @@ export const useHomeScreen = (): {
       currentResources.region,
       currentResources.quickPoll,
       currentResources.nextEvent,
-      currentResources.retaliations,
     )
     setStatefulState(ViewState.Content(viewModel))
   }, [currentResources])
@@ -142,22 +140,26 @@ export const useHomeScreen = (): {
     navigation.navigate('EventDetails', { eventId: event.id })
   }
   const onRetaliationSelected = (id: string) => {
-    const retaliation = currentResources?.retaliations.find(
-      (item) => item.id === id,
-    )
-    if (retaliation !== null && retaliation !== undefined) {
-      navigation.navigate('RetaliationDetail', {
-        retaliation: retaliation,
-      })
-    }
+    // TODO: (Pierre Felgines) 2022/02/28 Find retaliation from feed
+    console.log(id)
+    // const retaliation = currentResources?.retaliations.find(
+    //   (item) => item.id === id,
+    // )
+    // if (retaliation !== null && retaliation !== undefined) {
+    //   navigation.navigate('RetaliationDetail', {
+    //     retaliation: retaliation,
+    //   })
+    // }
   }
   const onRetaliateSelected = (id: string) => {
-    const retaliation = currentResources?.retaliations.find(
-      (item) => item.id === id,
-    )
-    if (retaliation !== null && retaliation !== undefined) {
-      RetaliationService.retaliate(retaliation)
-    }
+    // TODO: (Pierre Felgines) 2022/02/28 Find retaliation from feed
+    console.log(id)
+    // const retaliation = currentResources?.retaliations.find(
+    //   (item) => item.id === id,
+    // )
+    // if (retaliation !== null && retaliation !== undefined) {
+    //   RetaliationService.retaliate(retaliation)
+    // }
   }
   const onFeedPhoningCampaignsSelected = () => {
     navigation.navigate('ActionsNavigator', { screen: 'Actions' })

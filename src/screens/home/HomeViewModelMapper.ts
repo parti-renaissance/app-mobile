@@ -1,5 +1,3 @@
-import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
-import { Retaliation } from './../../core/entities/Retaliation'
 import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
 import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
@@ -17,11 +15,9 @@ export const HomeViewModelMapper = {
     region: Region | undefined,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
-    retaliations: Retaliation[],
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
-    appendRetaliation(retaliations, rows)
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
@@ -67,26 +63,6 @@ function appendEvent(
       {
         type: 'event',
         value: { event: EventRowViewModelMapper.map(event) },
-      },
-    ],
-  })
-}
-
-function appendRetaliation(
-  retaliations: Retaliation[],
-  rows: HomeSectionViewModel[],
-) {
-  const retaliationsViewModel = retaliations.map(
-    HomeRetaliationCardViewModelMapper.map,
-  )
-  rows.push({
-    id: 'retaliation',
-    data: [
-      {
-        type: 'retaliation',
-        value: {
-          retaliations: retaliationsViewModel,
-        },
       },
     ],
   })
