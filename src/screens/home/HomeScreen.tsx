@@ -12,7 +12,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Colors } from '../../styles'
 import { StatefulView } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
-import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
 import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeViewModel } from './HomeViewModel'
@@ -40,8 +39,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     statefulState,
     isRefreshing,
     onRefresh,
-    onPollSelected,
-    onPollsMorePressed,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
     onEventSelected,
@@ -84,15 +81,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     section,
     item,
   }: SectionListRenderItemInfo<HomeRowViewModel, HomeSectionViewModel>) => {
-    if (item.type === 'polls') {
-      return (
-        <HomePollRowContainer
-          viewModel={item.value}
-          onPollSelected={onPollSelected}
-          onMorePressed={onPollsMorePressed}
-        />
-      )
-    } else if (item.type === 'region') {
+    if (item.type === 'region') {
       return (
         <HomeRegion
           viewModel={item.value}

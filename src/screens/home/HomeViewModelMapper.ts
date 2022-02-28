@@ -1,25 +1,20 @@
 import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
 import { Retaliation } from './../../core/entities/Retaliation'
-import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
 import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
-import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
 import { HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
 import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
 
-const MAX_POLLS = 2
-
 export const HomeViewModelMapper = {
   map: (
     profile: Profile | undefined,
     region: Region | undefined,
-    polls: Array<Poll>,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
     retaliations: Retaliation[],
@@ -30,7 +25,6 @@ export const HomeViewModelMapper = {
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
-    appendPolls(polls, rows)
 
     return {
       header: {
@@ -159,29 +153,6 @@ function appendRegion(
         {
           type: 'region',
           value: RegionViewModelMapper.map(region.name, region.campaign),
-        },
-      ],
-    })
-  }
-}
-
-function appendPolls(polls: Poll[], rows: HomeSectionViewModel[]) {
-  if (polls.length !== 0) {
-    const subPolls = polls.slice(0, MAX_POLLS)
-    rows.push({
-      id: 'polls_content',
-      sectionViewModel: {
-        sectionName: i18n.t('home.section_polls'),
-        isHighlighted: false,
-      },
-      data: [
-        {
-          type: 'polls',
-          value: {
-            polls: subPolls.map((poll) => {
-              return PollRowViewModelMapper.map(poll)
-            }),
-          },
         },
       ],
     })

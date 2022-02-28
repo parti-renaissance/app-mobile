@@ -1,13 +1,11 @@
 import { Retaliation } from './../entities/Retaliation'
 import { AuthenticationState } from '../entities/AuthenticationState'
-import { Poll } from '../entities/Poll'
 import { Region } from '../entities/Region'
 import { Profile } from '../entities/Profile'
 import allSettled from 'promise.allsettled'
 import ProfileRepository from '../../data/ProfileRepository'
 import RegionsRepository from '../../data/RegionsRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
-import { GetPollsInteractor } from './GetPollsInteractor'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
 import { GetQuickPollInteractor } from './GetQuickPollInteractor'
@@ -20,7 +18,6 @@ export interface HomeResources {
   zipCode: string
   region?: Region
   profile?: Profile
-  polls: Array<Poll>
   quickPoll?: StatefulQuickPoll
   nextEvent?: ShortEvent
   retaliations: Array<Retaliation>
@@ -31,7 +28,6 @@ export class GetHomeResourcesInteractor {
   private profileRepository = ProfileRepository.getInstance()
   private regionsRepository = RegionsRepository.getInstance()
   private retaliationRepository = RetaliationRepository.getInstance()
-  private getPollsInteractor = new GetPollsInteractor()
   private pushRepository = PushRepository.getInstance()
   private getQuickPollInteractor = new GetQuickPollInteractor()
   private getNextEventInteractor = new GetNextEventInteractor()
@@ -44,7 +40,6 @@ export class GetHomeResourcesInteractor {
       retaliationsResult,
       profileResult,
       departmentResult,
-      pollsResult,
       quickPollsResult,
       nextEventResult,
     ] = await allSettled([
@@ -53,7 +48,6 @@ export class GetHomeResourcesInteractor {
         ? this.profileRepository.getProfile(dataSource)
         : undefined,
       this.regionsRepository.getDepartment(zipCode, dataSource),
-      this.getPollsInteractor.execute(dataSource),
       this.getQuickPollInteractor.execute(zipCode, dataSource),
       this.getNextEventInteractor.execute(),
     ])
@@ -100,15 +94,6 @@ export class GetHomeResourcesInteractor {
               (profileDataSource) =>
                 this.profileRepository.getProfile(profileDataSource),
               undefined,
-            ),
-      polls:
-        pollsResult.status === 'fulfilled'
-          ? pollsResult.value
-          : await this.getDefault(
-              dataSource,
-              (pollsDataSource) =>
-                this.getPollsInteractor.execute(pollsDataSource),
-              [],
             ),
       quickPoll:
         quickPollsResult.status === 'fulfilled'

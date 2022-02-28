@@ -19,8 +19,6 @@ export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
   isRefreshing: boolean
   onRefresh: () => void
-  onPollSelected: (pollId: number) => void
-  onPollsMorePressed: () => void
   onRegionMorePressed: () => void
   onQuickPollAnswerSelected: (pollId: string, answerId: string) => void
   onEventSelected: (event: EventRowViewModel) => void
@@ -52,7 +50,6 @@ export const useHomeScreen = (): {
     const viewModel = HomeViewModelMapper.map(
       currentResources.profile,
       currentResources.region,
-      currentResources.polls,
       currentResources.quickPoll,
       currentResources.nextEvent,
       currentResources.retaliations,
@@ -105,13 +102,6 @@ export const useHomeScreen = (): {
     fetchData()
   }
 
-  const onPollSelected = (pollId: number) => {
-    navigation.navigate('PollDetailModal', {
-      screen: 'PollDetail',
-      params: { pollId: pollId },
-    })
-  }
-
   const onFeedNewsSelected = (newsId: string) => {
     // TODO: (Pierre Felgines) 2022/02/28 Update analytics
     Analytics.logHomeNewsOpen()
@@ -119,9 +109,6 @@ export const useHomeScreen = (): {
       screen: 'NewsDetail',
       params: { newsId },
     })
-  }
-  const onPollsMorePressed = () => {
-    // navigation.navigate(Screen.pollsNavigator)
   }
 
   const onRegionMorePressed = async () => {
@@ -209,8 +196,6 @@ export const useHomeScreen = (): {
     statefulState,
     isRefreshing,
     onRefresh,
-    onPollSelected,
-    onPollsMorePressed,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
     onEventSelected,

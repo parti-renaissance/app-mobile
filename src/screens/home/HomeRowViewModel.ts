@@ -1,6 +1,5 @@
 import { EventRowViewModel } from '../events/EventViewModel'
 import { NewsRowViewModel } from '../news/NewsRowViewModel'
-import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
 import { HomeFeedActionCampaignsCardViewModel } from './feed/HomeFeedActionCampaignsCard'
@@ -10,10 +9,6 @@ import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardV
 export interface HomeSectionRowViewModel {
   sectionName: string
   isHighlighted: boolean
-}
-
-export interface HomePollsRowContainerViewModel {
-  polls: Array<PollRowViewModel>
 }
 
 export interface HomeQuickPollRowContainerViewModel {
@@ -43,10 +38,6 @@ export type HomeRowViewModel =
   | {
       type: 'region'
       value: RegionViewModel
-    }
-  | {
-      type: 'polls'
-      value: HomePollsRowContainerViewModel
     }
   | {
       type: 'quick_poll'
