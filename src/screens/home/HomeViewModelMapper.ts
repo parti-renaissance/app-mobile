@@ -1,6 +1,5 @@
 import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
 import { Retaliation } from './../../core/entities/Retaliation'
-import { News } from '../../core/entities/News'
 import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
@@ -10,14 +9,12 @@ import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
 import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
-import { HomeNewsRowViewModelMapper } from './news/HomeNewsRowViewModelMapper'
 import { HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
 import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
 
-const MAX_NEWS = 3
 const MAX_POLLS = 2
 const MAX_TOOLS = 2
 
@@ -25,7 +22,6 @@ export const HomeViewModelMapper = {
   map: (
     profile: Profile | undefined,
     region: Region | undefined,
-    news: Array<News>,
     polls: Array<Poll>,
     tools: Array<Tool>,
     quickPoll: StatefulQuickPoll | undefined,
@@ -38,7 +34,6 @@ export const HomeViewModelMapper = {
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
-    appendNews(news, rows)
     appendPolls(polls, rows)
     appendTools(tools, rows)
 
@@ -169,29 +164,6 @@ function appendRegion(
         {
           type: 'region',
           value: RegionViewModelMapper.map(region.name, region.campaign),
-        },
-      ],
-    })
-  }
-}
-
-function appendNews(news: News[], rows: HomeSectionViewModel[]) {
-  if (news.length !== 0) {
-    const subNews = news.slice(0, MAX_NEWS)
-    rows.push({
-      id: 'news_content',
-      sectionViewModel: {
-        sectionName: i18n.t('home.news.section'),
-        isHighlighted: false,
-      },
-      data: [
-        {
-          type: 'news',
-          value: {
-            news: subNews.map((newsItem) => {
-              return HomeNewsRowViewModelMapper.map(newsItem)
-            }),
-          },
         },
       ],
     })

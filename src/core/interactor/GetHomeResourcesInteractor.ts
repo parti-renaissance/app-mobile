@@ -1,13 +1,11 @@
 import { Retaliation } from './../entities/Retaliation'
 import { AuthenticationState } from '../entities/AuthenticationState'
-import { News } from '../entities/News'
 import { Poll } from '../entities/Poll'
 import { Region } from '../entities/Region'
 import { Tool } from '../entities/Tool'
 import { Profile } from '../entities/Profile'
 import allSettled from 'promise.allsettled'
 import ProfileRepository from '../../data/ProfileRepository'
-import NewsRepository from '../../data/NewsRepository'
 import RegionsRepository from '../../data/RegionsRepository'
 import ToolsRepository from '../../data/ToolsRepository'
 import AuthenticationRepository from '../../data/AuthenticationRepository'
@@ -24,7 +22,6 @@ export interface HomeResources {
   zipCode: string
   region?: Region
   profile?: Profile
-  news: Array<News>
   polls: Array<Poll>
   tools: Array<Tool>
   quickPoll?: StatefulQuickPoll
@@ -36,7 +33,6 @@ export class GetHomeResourcesInteractor {
   private authenticationRepository = AuthenticationRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
   private regionsRepository = RegionsRepository.getInstance()
-  private newsRepository = NewsRepository.getInstance()
   private retaliationRepository = RetaliationRepository.getInstance()
   private getPollsInteractor = new GetPollsInteractor()
   private toolsRepository = ToolsRepository.getInstance()
@@ -52,7 +48,6 @@ export class GetHomeResourcesInteractor {
       retaliationsResult,
       profileResult,
       departmentResult,
-      newsResult,
       pollsResult,
       toolsResult,
       quickPollsResult,
@@ -63,7 +58,6 @@ export class GetHomeResourcesInteractor {
         ? this.profileRepository.getProfile(dataSource)
         : undefined,
       this.regionsRepository.getDepartment(zipCode, dataSource),
-      this.newsRepository.getLatestNews(zipCode, dataSource),
       this.getPollsInteractor.execute(dataSource),
       this.toolsRepository.getTools(),
       this.getQuickPollInteractor.execute(zipCode, dataSource),
@@ -112,15 +106,6 @@ export class GetHomeResourcesInteractor {
               (profileDataSource) =>
                 this.profileRepository.getProfile(profileDataSource),
               undefined,
-            ),
-      news:
-        newsResult.status === 'fulfilled'
-          ? newsResult.value
-          : await this.getDefault(
-              dataSource,
-              (newsDataSource) =>
-                this.newsRepository.getLatestNews(zipCode, newsDataSource),
-              [],
             ),
       polls:
         pollsResult.status === 'fulfilled'

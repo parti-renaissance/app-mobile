@@ -21,9 +21,7 @@ export const useHomeScreen = (): {
   isRefreshing: boolean
   onRefresh: () => void
   onPollSelected: (pollId: number) => void
-  onNewsSelected: (newsUrl: string) => void
   onToolSelected: (toolUrl: string, toolName: string) => void
-  onNewsMorePressed: () => void
   onPollsMorePressed: () => void
   onToolsMorePressed: () => void
   onRegionMorePressed: () => void
@@ -57,7 +55,6 @@ export const useHomeScreen = (): {
     const viewModel = HomeViewModelMapper.map(
       currentResources.profile,
       currentResources.region,
-      currentResources.news,
       currentResources.polls,
       currentResources.tools,
       currentResources.quickPoll,
@@ -118,19 +115,13 @@ export const useHomeScreen = (): {
       params: { pollId: pollId },
     })
   }
-  const onNewsSelected = async (newsUrl: string) => {
-    await Analytics.logHomeNewsOpen()
-    ExternalLink.openUrl(newsUrl)
-  }
   const onToolSelected = async (toolUrl: string, toolName: string) => {
     await Analytics.logHomeToolOpen(toolName)
     ExternalLink.openUrl(toolUrl)
   }
-  const onNewsMorePressed = async () => {
-    await Analytics.logHomeNewsMore()
-    navigation.navigate('News')
-  }
   const onFeedNewsSelected = (newsId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/28 Update analytics
+    Analytics.logHomeNewsOpen()
     navigation.navigate('NewsDetailModal', {
       screen: 'NewsDetail',
       params: { newsId },
@@ -229,9 +220,7 @@ export const useHomeScreen = (): {
     isRefreshing,
     onRefresh,
     onPollSelected,
-    onNewsSelected,
     onToolSelected,
-    onNewsMorePressed,
     onPollsMorePressed,
     onToolsMorePressed,
     onRegionMorePressed,

@@ -17,7 +17,6 @@ import HomeRegion from './HomeRegion'
 import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
-import HomeNewsRowContainer from './news/HomeNewsRowContainer'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
@@ -43,9 +42,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     isRefreshing,
     onRefresh,
     onPollSelected,
-    onNewsSelected,
     onToolSelected,
-    onNewsMorePressed,
     onPollsMorePressed,
     onToolsMorePressed,
     onRegionMorePressed,
@@ -90,15 +87,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     section,
     item,
   }: SectionListRenderItemInfo<HomeRowViewModel, HomeSectionViewModel>) => {
-    if (item.type === 'news') {
-      return (
-        <HomeNewsRowContainer
-          viewModel={item.value}
-          onNewsSelected={onNewsSelected}
-          onMorePressed={onNewsMorePressed}
-        />
-      )
-    } else if (item.type === 'polls') {
+    if (item.type === 'polls') {
       return (
         <HomePollRowContainer
           viewModel={item.value}
