@@ -181,22 +181,13 @@
       },
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
-      "section_polls": "Questionnaires",
-      "section_tools": "Vos ressources",
       "footer": {
         "title": "En Marche !",
         "description": "Vous voulez contribuer à la transformation En Marche ? Rejoignez les plus de 400 000 adhérents de La République En Marche ! C'est facile, gratuit et 3 minutes suffiront.",
         "button": "Je m'engage"
       },
-      "polls_more": "Voir tous les questionnaires",
-      "tools_more": "Voir tous les outils",
       "region_more": "En savoir plus",
-      "news": {
-        "section": "Actualités",
-        "date_pattern": "dd MMMM yyyy",
-        "date_format": "le {{date}}",
-        "more": "Voir toutes les actualités"
-      },
+      "news": { "date_pattern": "dd MMMM yyyy", "date_format": "le {{date}}" },
       "section_quick_poll": "La question du jour",
       "quick_poll": {
         "votes_count_one": "{{format}} votant",
