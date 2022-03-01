@@ -7,13 +7,14 @@ import {
   StyleProp,
   ImageBackground,
   useWindowDimensions,
+  ImageSourcePropType,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { VerticalSpacer } from '../shared/Spacer'
 import Flag from './Flag'
 
 export interface HomeHeaderViewModel {
-  imageUri?: string
+  image: ImageSourcePropType
   bannerHeading: string
   bannerTitle: string
   greeting: string
@@ -31,7 +32,7 @@ const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
   return (
     <View style={style}>
       <ImageBackground
-        source={{ uri: viewModel.imageUri }}
+        source={viewModel.image}
         style={{ minHeight: screenWidth / IMAGE_ASPECT_RATIO }}
         resizeMode="cover"
       >

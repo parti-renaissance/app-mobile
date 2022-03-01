@@ -20,17 +20,21 @@ export const HomeHeaderViewModelMapper = {
     headerInfos: HeaderInfos | undefined,
     profile: Profile | undefined,
   ): HomeHeaderViewModel => {
+    const image =
+      headerInfos?.imageUri !== undefined
+        ? { uri: headerInfos.imageUri }
+        : require('../../assets/images/homeHeaderPlaceholder.jpg')
+
     if (headerInfos !== undefined) {
       return {
-        imageUri: headerInfos.imageUri,
+        image,
         bannerHeading: headerInfos.prefix,
         bannerTitle: headerInfos.slogan,
         greeting: headerInfos.content,
       }
     } else {
       return {
-        // TODO: (Pierre Felgines) 2022/03/01 Change image
-        imageUri: 'https://via.placeholder.com/700',
+        image,
         bannerHeading: i18n.t('home.banner.heading'),
         bannerTitle: i18n.t('home.banner.title'),
         greeting: greeting(profile),
