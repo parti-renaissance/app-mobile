@@ -33,37 +33,24 @@ export const useHomeScreen = (): {
   const navigation = useNavigation<
     HomeNavigatorScreenProps<'Home'>['navigation']
   >()
-  const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
+  const [statefulState, setStatefulState] = useState<ViewState<HomeResources>>(
     ViewState.Loading(),
   )
+  const [headerStatefulState, setHeaderStatefulState] = useState<
+    ViewState<HeaderInfos>
+  >(ViewState.Loading())
   const [feedStatefulState, setFeedStatefulState] = useState<
     ViewState<Array<TimelineFeedItem>>
   >(ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const [currentResources, setResources] = useState<HomeResources>()
-
-  useEffect(() => {
-    // Reload view model (and view) when resources model changes
-    if (!currentResources) {
-      return
-    }
-    const viewModel = HomeViewModelMapper.map(
-      currentResources.profile,
-      currentResources.region,
-      currentResources.quickPoll,
-      currentResources.nextEvent,
-      ViewState.unwrap(feedStatefulState) ?? [],
-    )
-    setStatefulState(ViewState.Content(viewModel))
-  }, [currentResources, feedStatefulState])
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
     setRefreshing(true)
     new GetHomeResourcesInteractor()
       .execute('remote')
       .then((resources) => {
-        setResources(resources)
+        setStatefulState(ViewState.Content(resources))
       })
       .catch((error) => {
         const isNetworkError = error instanceof ServerTimeoutError
@@ -86,7 +73,7 @@ export const useHomeScreen = (): {
     new GetHomeResourcesInteractor()
       .execute('cache')
       .then((resources) => {
-        setResources(resources)
+        setStatefulState(ViewState.Content(resources))
         if (!initialFetchDone) {
           setInitialFetchDone(true)
           fetchData(true)
@@ -129,16 +116,19 @@ export const useHomeScreen = (): {
   }
 
   const onRegionMorePressed = async () => {
-    if (!currentResources) {
+    const zipCode = ViewState.unwrap(statefulState)?.zipCode
+    if (zipCode === undefined) {
       return
     }
     await Analytics.logHomeRegionMore()
-    navigation.navigate('Region', { zipCode: currentResources.zipCode })
+    navigation.navigate('Region', { zipCode })
   }
+
   const onQuickPollAnswerSelected = async (
     pollId: string,
     answerId: string,
   ) => {
+    const currentResources = ViewState.unwrap(statefulState)
     if (!currentResources) {
       return
     }
@@ -152,8 +142,9 @@ export const useHomeScreen = (): {
       ...currentResources,
       quickPoll: updatedPoll,
     }
-    setResources(clone)
+    setStatefulState(ViewState.Content(clone))
   }
+
   const onEventSelected = async (event: EventRowViewModel) => {
     await Analytics.logHomeEventOpen(event.title, event.category)
     navigation.navigate('EventDetails', { eventId: event.id })
@@ -214,7 +205,15 @@ export const useHomeScreen = (): {
   }
 
   return {
-    statefulState,
+    statefulState: ViewState.map(statefulState, (currentResources) => {
+      return HomeViewModelMapper.map(
+        currentResources.profile,
+        currentResources.region,
+        currentResources.quickPoll,
+        currentResources.nextEvent,
+        ViewState.unwrap(feedStatefulState) ?? [],
+      )
+    }),
     isRefreshing,
     onRefresh,
     onRegionMorePressed,
