@@ -46,21 +46,25 @@ export const useHomeScreen = (): {
 
   useFocusEffect(useCallback(fetchHomeResources, []))
 
-  useEffect(() => {
-    const fetchTimelineFeed = () => {
-      new GetTimelineFeedInteractor()
-        .execute(0)
-        .then((response) => {
-          setFeedStatefulState(ViewState.Content(response))
-        })
-        .catch((error) => {
-          setFeedStatefulState(
-            ViewStateUtils.networkError(error, fetchTimelineFeed),
-          )
-        })
-    }
-    fetchTimelineFeed()
+  const fetchTimelineFeed = useCallback(() => {
+    setIsLoadingMore(true)
+    setFeedStatefulState(ViewState.Loading())
+    new GetTimelineFeedInteractor()
+      .execute(0)
+      .then((response) => {
+        setFeedStatefulState(ViewState.Content(response))
+      })
+      .catch((error) => {
+        setFeedStatefulState(
+          ViewStateUtils.networkError(error, fetchTimelineFeed),
+        )
+      })
+      .finally(() => setIsLoadingMore(false))
   }, [])
+
+  useEffect(() => {
+    fetchTimelineFeed()
+  }, [fetchTimelineFeed])
 
   const onLoadMore = useCallback(() => {
     const currentResult = ViewState.unwrap(feedStatefulState)
@@ -88,6 +92,7 @@ export const useHomeScreen = (): {
   }, [feedStatefulState, isLoadingMore])
 
   const onRefresh = () => {
+    fetchTimelineFeed()
     fetchHomeResources()
   }
 
@@ -182,7 +187,7 @@ export const useHomeScreen = (): {
         currentResources.region,
         currentResources.quickPoll,
         currentResources.nextEvent,
-        ViewState.unwrap(feedStatefulState)?.result ?? [],
+        ViewState.map(feedStatefulState, (state) => state.result),
       )
     }),
     isRefreshing,

@@ -15,6 +15,7 @@ import { HomeRetaliationCardViewModelFromTimelineRetaliationMapper } from './fee
 import { HomeFeedActionCampaignCardViewModelFromTimelineItemMapper } from './feed/mappers/HomeFeedActionCampaignCardViewModelFromTimelineItemMapper'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { HomeHeaderViewModelMapper } from './HomeHeaderViewModelMapper'
+import { ViewState, ViewStateError } from '../shared/StatefulView'
 
 export const HomeViewModelMapper = {
   map: (
@@ -23,14 +24,14 @@ export const HomeViewModelMapper = {
     region: Region | undefined,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
-    timelineFeedItems: Array<TimelineFeedItem>,
+    timelineFeedState: ViewState<Array<TimelineFeedItem>>,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
-    appendTimelineFeedItems(timelineFeedItems, rows)
+    appendTimelineFeed(timelineFeedState, rows)
 
     return {
       header: HomeHeaderViewModelMapper.map(headerInfos, profile),
@@ -126,6 +127,42 @@ function appendRegion(
       ],
     })
   }
+}
+
+function appendTimelineFeed(
+  timelineFeedState: ViewState<Array<TimelineFeedItem>>,
+  rows: HomeSectionViewModel[],
+) {
+  switch (timelineFeedState.state) {
+    case 'loading':
+      // no op
+      break
+    case 'error':
+      appendTimelineFeedError(timelineFeedState, rows)
+      break
+    case 'content':
+      appendTimelineFeedItems(timelineFeedState.content, rows)
+      break
+  }
+}
+
+function appendTimelineFeedError(
+  state: ViewStateError,
+  rows: HomeSectionViewModel[],
+) {
+  rows.push({
+    id: 'feed',
+    sectionViewModel: {
+      sectionName: i18n.t('home.feed.section'),
+      isHighlighted: false,
+    },
+    data: [
+      {
+        type: 'error',
+        value: state,
+      },
+    ],
+  })
 }
 
 function appendTimelineFeedItems(

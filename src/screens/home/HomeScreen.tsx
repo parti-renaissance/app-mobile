@@ -28,6 +28,7 @@ import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
 import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
+import { HomeFeedErrorRow } from './feed/HomeFeedErrorRow'
 
 type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 
@@ -143,6 +144,8 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           onRetaliateSelected={onRetaliateSelected}
         />
       )
+    } else if (item.type === 'error') {
+      return <HomeFeedErrorRow state={item.value} />
     } else {
       return null
     }
