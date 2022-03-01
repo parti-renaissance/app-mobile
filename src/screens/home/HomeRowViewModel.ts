@@ -1,29 +1,13 @@
 import { EventRowViewModel } from '../events/EventViewModel'
 import { NewsRowViewModel } from '../news/NewsRowViewModel'
-import { PollRowViewModel } from '../polls/PollRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
-import { HomeFeedActionCampaignsCardViewModel } from './feed/HomeFeedActionCampaignsCard'
-import { HomeNewsRowViewModel } from './news/HomeNewsRowViewModel'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
 import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
-import { HomeToolRowViewModel } from './tools/HomeToolRowViewModel'
 
 export interface HomeSectionRowViewModel {
   sectionName: string
   isHighlighted: boolean
-}
-
-export interface HomeNewsRowContainerViewModel {
-  news: Array<HomeNewsRowViewModel>
-}
-
-export interface HomePollsRowContainerViewModel {
-  polls: Array<PollRowViewModel>
-}
-
-export interface HomeToolsRowContainerViewModel {
-  tools: Array<HomeToolRowViewModel>
 }
 
 export interface HomeQuickPollRowContainerViewModel {
@@ -55,18 +39,6 @@ export type HomeRowViewModel =
       value: RegionViewModel
     }
   | {
-      type: 'news'
-      value: HomeNewsRowContainerViewModel
-    }
-  | {
-      type: 'polls'
-      value: HomePollsRowContainerViewModel
-    }
-  | {
-      type: 'tools'
-      value: HomeToolsRowContainerViewModel
-    }
-  | {
       type: 'quick_poll'
       value: HomeQuickPollRowContainerViewModel
     }
@@ -80,23 +52,11 @@ export type HomeRowViewModel =
     }
   | {
       type: 'feedEvent'
-      value: HomeEventRowContainerViewModel
+      value: EventRowViewModel
     }
   | {
       type: 'feedNews'
       value: NewsRowViewModel
-    }
-  | {
-      type: 'feedPhoningCampaigns'
-      value: HomeFeedActionCampaignsCardViewModel
-    }
-  | {
-      type: 'feedDoorToDoorCampaigns'
-      value: HomeFeedActionCampaignsCardViewModel
-    }
-  | {
-      type: 'feedPolls'
-      value: HomeFeedActionCampaignsCardViewModel
     }
   | {
       type: 'feedPhoningCampaign'

@@ -1,46 +1,33 @@
-import { HomeRetaliationCardViewModelMapper } from './retaliation/HomeRetaliationCardViewModelMapper'
-import { Retaliation } from './../../core/entities/Retaliation'
-import { News } from '../../core/entities/News'
-import { Poll } from '../../core/entities/Poll'
 import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
 import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
-import { Tool } from '../../core/entities/Tool'
 import i18n from '../../utils/i18n'
 import NumberFormatter from '../../utils/NumerFormatter'
-import { PollRowViewModelMapper } from '../polls/PollRowViewModelMapper'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
-import { HomeNewsRowViewModelMapper } from './news/HomeNewsRowViewModelMapper'
-import { HomeSectionViewModel } from './HomeRowViewModel'
-import { HomeToolRowViewModelMapper } from './tools/HomeToolRowViewModelMapper'
+import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeViewModel } from './HomeViewModel'
 import { ShortEvent } from '../../core/entities/Event'
 import { EventRowViewModelMapper } from '../events/EventRowViewModelMapper'
-
-const MAX_NEWS = 3
-const MAX_POLLS = 2
-const MAX_TOOLS = 2
+import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
+import { NewsRowViewModelFromTimelineNewsMapper } from './feed/mappers/NewsRowViewModelFromTimelineNewsMapper'
+import { EventRowViewModelFromTimelineEventMapper } from './feed/mappers/EventRowViewModelFromTimelineEventMapper'
+import { HomeRetaliationCardViewModelFromTimelineRetaliationMapper } from './feed/mappers/HomeRetaliationCardViewModelFromTimelineRetaliationMapper'
+import { HomeFeedActionCampaignCardViewModelFromTimelineItemMapper } from './feed/mappers/HomeFeedActionCampaignCardViewModelFromTimelineItemMapper'
 
 export const HomeViewModelMapper = {
   map: (
     profile: Profile | undefined,
     region: Region | undefined,
-    news: Array<News>,
-    polls: Array<Poll>,
-    tools: Array<Tool>,
     quickPoll: StatefulQuickPoll | undefined,
     event: ShortEvent | undefined,
-    retaliations: Retaliation[],
+    timelineFeedItems: Array<TimelineFeedItem>,
   ): HomeViewModel => {
     const rows: Array<HomeSectionViewModel> = []
 
-    appendRetaliation(retaliations, rows)
     appendEvent(event, rows)
     appendQuickPoll(quickPoll, rows)
     appendRegion(region, rows)
-    appendNews(news, rows)
-    appendPolls(polls, rows)
-    appendTools(tools, rows)
+    appendTimelineFeedItems(timelineFeedItems, rows)
 
     return {
       header: {
@@ -83,26 +70,6 @@ function appendEvent(
       {
         type: 'event',
         value: { event: EventRowViewModelMapper.map(event) },
-      },
-    ],
-  })
-}
-
-function appendRetaliation(
-  retaliations: Retaliation[],
-  rows: HomeSectionViewModel[],
-) {
-  const retaliationsViewModel = retaliations.map(
-    HomeRetaliationCardViewModelMapper.map,
-  )
-  rows.push({
-    id: 'retaliation',
-    data: [
-      {
-        type: 'retaliation',
-        value: {
-          retaliations: retaliationsViewModel,
-        },
       },
     ],
   })
@@ -175,67 +142,58 @@ function appendRegion(
   }
 }
 
-function appendNews(news: News[], rows: HomeSectionViewModel[]) {
-  if (news.length !== 0) {
-    const subNews = news.slice(0, MAX_NEWS)
-    rows.push({
-      id: 'news_content',
-      sectionViewModel: {
-        sectionName: i18n.t('home.news.section'),
-        isHighlighted: false,
-      },
-      data: [
-        {
-          type: 'news',
-          value: {
-            news: subNews.map((newsItem) => {
-              return HomeNewsRowViewModelMapper.map(newsItem)
-            }),
-          },
-        },
-      ],
-    })
-  }
-}
-
-function appendPolls(polls: Poll[], rows: HomeSectionViewModel[]) {
-  if (polls.length !== 0) {
-    const subPolls = polls.slice(0, MAX_POLLS)
-    rows.push({
-      id: 'polls_content',
-      sectionViewModel: {
-        sectionName: i18n.t('home.section_polls'),
-        isHighlighted: false,
-      },
-      data: [
-        {
-          type: 'polls',
-          value: {
-            polls: subPolls.map((poll) => {
-              return PollRowViewModelMapper.map(poll)
-            }),
-          },
-        },
-      ],
-    })
-  }
-}
-
-function appendTools(tools: Tool[], rows: HomeSectionViewModel[]) {
-  if (tools.length !== 0) {
-    const subTools = tools.slice(0, MAX_TOOLS)
-    rows.push({
-      id: 'tools_content',
-      sectionViewModel: {
-        sectionName: i18n.t('home.section_tools'),
-        isHighlighted: false,
-      },
-      data: [
-        {
-          type: 'tools',
-          value: { tools: subTools.map(HomeToolRowViewModelMapper.map) },
-        },
-      ],
-    })
-  }
+function appendTimelineFeedItems(
+  timelineFeedItems: Array<TimelineFeedItem>,
+  rows: HomeSectionViewModel[],
+) {
+  const data: HomeRowViewModel[] = timelineFeedItems.map((item) => {
+    switch (item.type) {
+      case 'news':
+        return {
+          type: 'feedNews',
+          value: NewsRowViewModelFromTimelineNewsMapper.map(item),
+        }
+      case 'event':
+        return {
+          type: 'feedEvent',
+          value: EventRowViewModelFromTimelineEventMapper.map(item),
+        }
+      case 'riposte':
+        return {
+          type: 'feedRetaliation',
+          value: HomeRetaliationCardViewModelFromTimelineRetaliationMapper.map(
+            item,
+          ),
+        }
+      case 'phoning-campaign':
+        return {
+          type: 'feedPhoningCampaign',
+          value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
+            item,
+          ),
+        }
+      case 'pap-campaign':
+        return {
+          type: 'feedDoorToDoorCampaign',
+          value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
+            item,
+          ),
+        }
+      case 'survey':
+        return {
+          type: 'feedPoll',
+          value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
+            item,
+          ),
+        }
+    }
+  })
+  rows.push({
+    id: 'feed',
+    sectionViewModel: {
+      sectionName: i18n.t('home.feed.section'),
+      isHighlighted: false,
+    },
+    data,
+  })
 }

@@ -12,23 +12,16 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Colors } from '../../styles'
 import { StatefulView } from '../shared/StatefulView'
 import HomeHeader from './HomeHeader'
-import HomePollRowContainer from './HomePollRowContainer'
 import HomeRegion from './HomeRegion'
 import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
-import HomeToolRowContainer from './tools/HomeToolRowContainer'
 import { HomeViewModel } from './HomeViewModel'
-import HomeNewsRowContainer from './news/HomeNewsRowContainer'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
-import { HomeRetaliationRowContainer } from './retaliation/HomeRetaliationRowContainer'
 import { useHomeScreen } from './useHomeScreen.hook'
 import HomeSectionHeader from './HomeSectionHeader'
 import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
 import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
-import { HomeFeedPhoningCampaignsRow } from './feed/HomeFeedPhoningCampaignsRow'
-import { HomeFeedDoorToDoorCampaignsRow } from './feed/HomeFeedDoorToDoorCampaignsRow'
-import { HomeFeedPollsRow } from './feed/HomeFeedPollsRow'
 import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
 import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
 import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
@@ -42,21 +35,12 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     statefulState,
     isRefreshing,
     onRefresh,
-    onPollSelected,
-    onNewsSelected,
-    onToolSelected,
-    onNewsMorePressed,
-    onPollsMorePressed,
-    onToolsMorePressed,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
     onEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
-    onFeedPhoningCampaignsSelected,
-    onFeedDoorToDoorCampaignsSelected,
-    onFeedPollsSelected,
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,
@@ -90,31 +74,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     section,
     item,
   }: SectionListRenderItemInfo<HomeRowViewModel, HomeSectionViewModel>) => {
-    if (item.type === 'news') {
-      return (
-        <HomeNewsRowContainer
-          viewModel={item.value}
-          onNewsSelected={onNewsSelected}
-          onMorePressed={onNewsMorePressed}
-        />
-      )
-    } else if (item.type === 'polls') {
-      return (
-        <HomePollRowContainer
-          viewModel={item.value}
-          onPollSelected={onPollSelected}
-          onMorePressed={onPollsMorePressed}
-        />
-      )
-    } else if (item.type === 'tools') {
-      return (
-        <HomeToolRowContainer
-          viewModel={item.value}
-          onMorePressed={onToolsMorePressed}
-          onToolSelected={onToolSelected}
-        />
-      )
-    } else if (item.type === 'region') {
+    if (item.type === 'region') {
       return (
         <HomeRegion
           viewModel={item.value}
@@ -137,14 +97,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
           onEventSelected={onEventSelected}
         />
       )
-    } else if (item.type === 'retaliation') {
-      return (
-        <HomeRetaliationRowContainer
-          viewModel={item.value}
-          onRetaliationSelected={onRetaliationSelected}
-          onRetaliateSelected={onRetaliateSelected}
-        />
-      )
     } else if (item.type === 'feedEvent') {
       return (
         <HomeFeedEventRow
@@ -157,27 +109,6 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeFeedNewsRow
           viewModel={item.value}
           onNewsSelected={onFeedNewsSelected}
-        />
-      )
-    } else if (item.type === 'feedPhoningCampaigns') {
-      return (
-        <HomeFeedPhoningCampaignsRow
-          viewModel={item.value}
-          onPhoningCampaignsSelected={onFeedPhoningCampaignsSelected}
-        />
-      )
-    } else if (item.type === 'feedDoorToDoorCampaigns') {
-      return (
-        <HomeFeedDoorToDoorCampaignsRow
-          viewModel={item.value}
-          onDoorToDoorCampaignsSelected={onFeedDoorToDoorCampaignsSelected}
-        />
-      )
-    } else if (item.type === 'feedPolls') {
-      return (
-        <HomeFeedPollsRow
-          viewModel={item.value}
-          onPollsSelected={onFeedPollsSelected}
         />
       )
     } else if (item.type === 'feedPhoningCampaign') {

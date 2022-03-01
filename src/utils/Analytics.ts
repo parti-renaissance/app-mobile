@@ -35,18 +35,21 @@ export const Analytics = {
       interaction: 'open',
     })
   },
+  // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeNewsMore: async () => {
     await analytics().logEvent('hero_news', {
       button_type: 'all_news',
       interaction: 'cta',
     })
   },
+  // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeToolOpen: async (name: string) => {
     await analytics().logEvent('hero_tool', {
       button_type: name,
       interaction: 'cta',
     })
   },
+  // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeToolsMore: async () => {
     await analytics().logEvent('hero_tool', {
       button_type: 'all_tools',

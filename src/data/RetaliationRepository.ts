@@ -13,6 +13,11 @@ class RetaliationRepository {
     return retaliations
   }
 
+  public async getRetaliation(id: string): Promise<Retaliation> {
+    const restRetaliation = await this.apiService.getRetaliation(id)
+    return RestRetaliationMapper.map(restRetaliation)
+  }
+
   public static getInstance(): RetaliationRepository {
     if (!RetaliationRepository.instance) {
       RetaliationRepository.instance = new RetaliationRepository()

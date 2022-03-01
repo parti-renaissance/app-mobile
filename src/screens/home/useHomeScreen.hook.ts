@@ -12,29 +12,20 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { EventRowViewModel } from '../events/EventViewModel'
-import { RetaliationService } from '../../data/RetaliationService'
-import { ExternalLink } from '../shared/ExternalLink'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
+import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
   isRefreshing: boolean
   onRefresh: () => void
-  onPollSelected: (pollId: number) => void
-  onNewsSelected: (newsUrl: string) => void
-  onToolSelected: (toolUrl: string, toolName: string) => void
-  onNewsMorePressed: () => void
-  onPollsMorePressed: () => void
-  onToolsMorePressed: () => void
   onRegionMorePressed: () => void
   onQuickPollAnswerSelected: (pollId: string, answerId: string) => void
   onEventSelected: (event: EventRowViewModel) => void
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
   onFeedNewsSelected: (newsId: string) => void
-  onFeedPhoningCampaignsSelected: () => void
-  onFeedDoorToDoorCampaignsSelected: () => void
-  onFeedPollsSelected: () => void
   onFeedPhoningCampaignSelected: (campaignId: string) => void
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
@@ -45,6 +36,9 @@ export const useHomeScreen = (): {
   const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
     ViewState.Loading(),
   )
+  const [feedStatefulState, setFeedStatefulState] = useState<
+    ViewState<Array<TimelineFeedItem>>
+  >(ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
   const [currentResources, setResources] = useState<HomeResources>()
@@ -57,15 +51,12 @@ export const useHomeScreen = (): {
     const viewModel = HomeViewModelMapper.map(
       currentResources.profile,
       currentResources.region,
-      currentResources.news,
-      currentResources.polls,
-      currentResources.tools,
       currentResources.quickPoll,
       currentResources.nextEvent,
-      currentResources.retaliations,
+      ViewState.unwrap(feedStatefulState) ?? [],
     )
     setStatefulState(ViewState.Content(viewModel))
-  }, [currentResources])
+  }, [currentResources, feedStatefulState])
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
     setRefreshing(true)
@@ -108,41 +99,35 @@ export const useHomeScreen = (): {
 
   useFocusEffect(firstDataFetch)
 
+  useEffect(() => {
+    const fetchTimelineFeed = () => {
+      new GetTimelineFeedInteractor()
+        .execute(0)
+        .then((response) => {
+          setFeedStatefulState(ViewState.Content(response.result))
+        })
+        .catch((error) => {
+          setFeedStatefulState(
+            ViewStateUtils.networkError(error, fetchTimelineFeed),
+          )
+        })
+    }
+    fetchTimelineFeed()
+  }, [])
+
   const onRefresh = () => {
     fetchData()
   }
 
-  const onPollSelected = (pollId: number) => {
-    navigation.navigate('PollDetailModal', {
-      screen: 'PollDetail',
-      params: { pollId: pollId },
-    })
-  }
-  const onNewsSelected = async (newsUrl: string) => {
-    await Analytics.logHomeNewsOpen()
-    ExternalLink.openUrl(newsUrl)
-  }
-  const onToolSelected = async (toolUrl: string, toolName: string) => {
-    await Analytics.logHomeToolOpen(toolName)
-    ExternalLink.openUrl(toolUrl)
-  }
-  const onNewsMorePressed = async () => {
-    await Analytics.logHomeNewsMore()
-    navigation.navigate('News')
-  }
   const onFeedNewsSelected = (newsId: string) => {
+    // TODO: (Pierre Felgines) 2022/02/28 Update analytics
+    Analytics.logHomeNewsOpen()
     navigation.navigate('NewsDetailModal', {
       screen: 'NewsDetail',
       params: { newsId },
     })
   }
-  const onPollsMorePressed = () => {
-    // navigation.navigate(Screen.pollsNavigator)
-  }
-  const onToolsMorePressed = async () => {
-    await Analytics.logHomeToolsMore()
-    navigation.navigate('Tools')
-  }
+
   const onRegionMorePressed = async () => {
     if (!currentResources) {
       return
@@ -173,76 +158,71 @@ export const useHomeScreen = (): {
     await Analytics.logHomeEventOpen(event.title, event.category)
     navigation.navigate('EventDetails', { eventId: event.id })
   }
+
+  const findItemWithId = (id: string): TimelineFeedItem | undefined => {
+    const items = ViewState.unwrap(feedStatefulState) ?? []
+    return items.find((item) => item.uuid === id)
+  }
+
   const onRetaliationSelected = (id: string) => {
-    const retaliation = currentResources?.retaliations.find(
-      (item) => item.id === id,
-    )
-    if (retaliation !== null && retaliation !== undefined) {
-      navigation.navigate('RetaliationDetail', {
-        retaliation: retaliation,
-      })
-    }
+    navigation.navigate('RetaliationDetail', {
+      retaliationId: id,
+    })
   }
+
   const onRetaliateSelected = (id: string) => {
-    const retaliation = currentResources?.retaliations.find(
-      (item) => item.id === id,
-    )
-    if (retaliation !== null && retaliation !== undefined) {
-      RetaliationService.retaliate(retaliation)
-    }
+    // TODO: (Pierre Felgines) 2022/02/28 Find retaliation from feed
+    console.log(id)
+    // const retaliation = currentResources?.retaliations.find(
+    //   (item) => item.id === id,
+    // )
+    // if (retaliation !== null && retaliation !== undefined) {
+    //   RetaliationService.retaliate(retaliation)
+    // }
   }
-  const onFeedPhoningCampaignsSelected = () => {
-    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
-    setTimeout(() => {
-      navigation.navigate('ActionsNavigator', { screen: 'Phoning' })
-    }, 300)
-  }
-  const onFeedDoorToDoorCampaignsSelected = () => {
-    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
-    setTimeout(() => {
-      navigation.navigate('ActionsNavigator', {
-        screen: 'DoorToDoor',
-      })
-    }, 300)
-  }
-  const onFeedPollsSelected = () => {
-    navigation.navigate('ActionsNavigator', { screen: 'Actions' })
-    setTimeout(() => {
-      navigation.navigate('ActionsNavigator', { screen: 'Polls' })
-    }, 300)
-  }
+
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
-    console.log('onFeedPhoningCampaignSelected', campaignId)
+    const item = findItemWithId(campaignId)
+    if (item === undefined) {
+      return
+    }
+    navigation.navigate('PhoningSessionModal', {
+      screen: 'PhoningSessionLoader',
+      params: {
+        campaignId: item.uuid,
+        campaignTitle: item.title,
+        device: 'current',
+      },
+    })
   }
-  const onFeedDoorToDoorCampaignSelected = (campaignId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
-    console.log('onFeedDoorToDoorCampaignSelected', campaignId)
+
+  const onFeedDoorToDoorCampaignSelected = () => {
+    navigation.navigate('DoorToDoor')
   }
+
   const onFeedPollSelected = (pollId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/11 Fix navigation
-    console.log('onFeedPollSelected', pollId)
+    // TODO: (Pierre Felgines) 2022/02/28 Fix type of id attribute mismatch
+    console.log(pollId)
+    // const item = findItemWithId(campaignId)
+    // if (item === undefined) {
+    //   return
+    // }
+    // navigation.navigate('PollDetailModal', {
+    //   screen: 'PollDetail',
+    //   params: { pollId: item.uuid },
+    // })
   }
 
   return {
     statefulState,
     isRefreshing,
     onRefresh,
-    onPollSelected,
-    onNewsSelected,
-    onToolSelected,
-    onNewsMorePressed,
-    onPollsMorePressed,
-    onToolsMorePressed,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
     onEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
-    onFeedPhoningCampaignsSelected,
-    onFeedDoorToDoorCampaignsSelected,
-    onFeedPollsSelected,
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,

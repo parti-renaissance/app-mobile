@@ -17,7 +17,7 @@ import { HorizontalSpacer, VerticalSpacer } from '../../shared/Spacer'
 
 export interface HomeFeedActionCampaignCardViewModel {
   id: string
-  imageUri: string
+  imageUri?: string
   title: string
   subtitle: string
 }
