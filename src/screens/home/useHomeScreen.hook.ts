@@ -1,9 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ServerTimeoutError } from '../../core/errors'
-import {
-  GetHomeResourcesInteractor,
-  HomeResources,
-} from '../../core/interactor/GetHomeResourcesInteractor'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
@@ -15,6 +10,7 @@ import { EventRowViewModel } from '../events/EventViewModel'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
+import { useFetchHomeResources } from './useFetchHomeResources.hook'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -33,55 +29,18 @@ export const useHomeScreen = (): {
   const navigation = useNavigation<
     HomeNavigatorScreenProps<'Home'>['navigation']
   >()
-  const [statefulState, setStatefulState] = useState<ViewState<HomeResources>>(
-    ViewState.Loading(),
-  )
   const [feedStatefulState, setFeedStatefulState] = useState<
     ViewState<Array<TimelineFeedItem>>
   >(ViewState.Loading())
-  const [isRefreshing, setRefreshing] = useState(true)
-  const [initialFetchDone, setInitialFetchDone] = useState(false)
 
-  const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
-    setRefreshing(true)
-    new GetHomeResourcesInteractor()
-      .execute('remote')
-      .then((resources) => {
-        setStatefulState(ViewState.Content(resources))
-      })
-      .catch((error) => {
-        const isNetworkError = error instanceof ServerTimeoutError
-        if (isNetworkError && cacheJustLoaded) {
-          return
-        }
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading())
-            fetchData()
-          }),
-        )
-      })
-      .finally(() => {
-        setRefreshing(false)
-      })
-  }, [])
+  const {
+    statefulState,
+    isRefreshing,
+    fetchHomeResources,
+    updateQuickPoll,
+  } = useFetchHomeResources()
 
-  const firstDataFetch = useCallback(() => {
-    new GetHomeResourcesInteractor()
-      .execute('cache')
-      .then((resources) => {
-        setStatefulState(ViewState.Content(resources))
-        if (!initialFetchDone) {
-          setInitialFetchDone(true)
-          fetchData(true)
-        }
-      })
-      .catch(() => {
-        fetchData()
-      })
-  }, [fetchData, initialFetchDone])
-
-  useFocusEffect(firstDataFetch)
+  useFocusEffect(useCallback(fetchHomeResources, []))
 
   useEffect(() => {
     const fetchTimelineFeed = () => {
@@ -100,7 +59,7 @@ export const useHomeScreen = (): {
   }, [])
 
   const onRefresh = () => {
-    fetchData()
+    fetchHomeResources()
   }
 
   const onFeedNewsSelected = (newsId: string) => {
@@ -125,21 +84,12 @@ export const useHomeScreen = (): {
     pollId: string,
     answerId: string,
   ) => {
-    const currentResources = ViewState.unwrap(statefulState)
-    if (!currentResources) {
-      return
-    }
     const interactor = new SaveQuickPollAsAnsweredInteractor()
     const updatedPoll = await interactor.execute({
       quickPollId: pollId,
       answerId: answerId,
     })
-    // We must make a clone to update state
-    const clone: HomeResources = {
-      ...currentResources,
-      quickPoll: updatedPoll,
-    }
-    setStatefulState(ViewState.Content(clone))
+    updateQuickPoll(updatedPoll)
   }
 
   const onEventSelected = async (event: EventRowViewModel) => {
