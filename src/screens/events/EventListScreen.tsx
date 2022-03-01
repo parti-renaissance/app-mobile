@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
-import PaginatedResult from '../../core/entities/PaginatedResult'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DateProvider } from '../../utils/DateProvider'
@@ -96,10 +96,7 @@ const EventListScreen: FC<Props> = (props) => {
       setLoadingMore(true)
       fetchEvents(paginationInfo.currentPage + 1)
         .then((paginatedResult) => {
-          const newContent = {
-            paginationInfo: paginatedResult.paginationInfo,
-            result: content.result.concat(paginatedResult.result),
-          }
+          const newContent = PaginatedResult.merge(content, paginatedResult)
           setStatefulState(ViewState.Content(newContent))
         })
         .catch((error) => {

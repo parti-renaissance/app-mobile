@@ -1,6 +1,6 @@
 import ProfileRepository from '../../data/ProfileRepository'
 import { HomeRepository } from '../../data/HomeRepository'
-import PaginatedResult from '../entities/PaginatedResult'
+import { PaginatedResult } from '../entities/PaginatedResult'
 import { TimelineFeedItem } from '../entities/TimelineFeedItem'
 
 export class GetTimelineFeedInteractor {

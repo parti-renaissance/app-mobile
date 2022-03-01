@@ -1,4 +1,4 @@
-import PaginatedResult from '../../core/entities/PaginatedResult'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { Tool } from '../../core/entities/Tool'
 import { ToolRowViewModelMapper } from './ToolRowViewModelMapper'
 import ToolsContentViewModel from './ToolsContentViewModel'

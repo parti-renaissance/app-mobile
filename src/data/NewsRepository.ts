@@ -1,7 +1,7 @@
 import { News } from '../core/entities/News'
 import ApiService from './network/ApiService'
 import { RestNewsMapper } from './mapper/RestNewsMapper'
-import PaginatedResult from '../core/entities/PaginatedResult'
+import { PaginatedResult } from '../core/entities/PaginatedResult'
 import { RestMetadataMapper } from './mapper/RestMetadataMapper'
 import CacheManager from './store/CacheManager'
 import { DataSource } from './DataSource'

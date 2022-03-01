@@ -1,7 +1,7 @@
 import EventRepository from '../../data/EventRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { EventFilters, ShortEvent } from '../entities/Event'
-import PaginatedResult from '../entities/PaginatedResult'
+import { PaginatedResult } from '../entities/PaginatedResult'
 
 export class GetEventsInteractor {
   private eventRepository = EventRepository.getInstance()

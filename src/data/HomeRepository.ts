@@ -1,5 +1,5 @@
 import { HeaderInfos } from '../core/entities/HeaderInfos'
-import PaginatedResult from '../core/entities/PaginatedResult'
+import { PaginatedResult } from '../core/entities/PaginatedResult'
 import { TimelineFeedItem } from '../core/entities/TimelineFeedItem'
 import { DataSource } from './DataSource'
 import { HeaderInfosMapper } from './mapper/HeaderInfosMapper'
