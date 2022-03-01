@@ -1,13 +1,17 @@
 import { HeaderInfos } from '../core/entities/HeaderInfos'
 import PaginatedResult from '../core/entities/PaginatedResult'
 import { TimelineFeedItem } from '../core/entities/TimelineFeedItem'
+import { DataSource } from './DataSource'
 import { HeaderInfosMapper } from './mapper/HeaderInfosMapper'
 import { TimelineFeedItemMapper } from './mapper/TimelineFeedItemMapper'
 import ApiService from './network/ApiService'
+import { RestHeaderInfos } from './restObjects/RestHeaderInfos'
+import CacheManager from './store/CacheManager'
 
 export class HomeRepository {
   private static instance: HomeRepository
   private apiService = ApiService.getInstance()
+  private cacheManager = CacheManager.getInstance()
   private constructor() {}
 
   public async getTimelineFeed(
@@ -28,9 +32,21 @@ export class HomeRepository {
     }
   }
 
-  public async getHomeHeader(): Promise<HeaderInfos> {
-    const restHeader = await this.apiService.getHomeHeader()
-    return HeaderInfosMapper.map(restHeader)
+  public async getHomeHeader(
+    dataSource: DataSource = 'remote',
+  ): Promise<HeaderInfos> {
+    const cacheKey = 'homeHeader'
+    let result: RestHeaderInfos
+    switch (dataSource) {
+      case 'cache':
+        result = await this.cacheManager.getFromCache(cacheKey)
+        break
+      case 'remote':
+        result = await await this.apiService.getHomeHeader()
+        await this.cacheManager.setInCache(cacheKey, result)
+        break
+    }
+    return HeaderInfosMapper.map(result)
   }
 
   public static getInstance(): HomeRepository {
