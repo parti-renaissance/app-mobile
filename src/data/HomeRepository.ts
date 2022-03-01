@@ -3,8 +3,8 @@ import { TimelineFeedItem } from '../core/entities/TimelineFeedItem'
 import { TimelineFeedItemMapper } from './mapper/TimelineFeedItemMapper'
 import ApiService from './network/ApiService'
 
-export class TimelineFeedRepository {
-  private static instance: TimelineFeedRepository
+export class HomeRepository {
+  private static instance: HomeRepository
   private apiService = ApiService.getInstance()
   private constructor() {}
 
@@ -26,10 +26,10 @@ export class TimelineFeedRepository {
     }
   }
 
-  public static getInstance(): TimelineFeedRepository {
-    if (!TimelineFeedRepository.instance) {
-      TimelineFeedRepository.instance = new TimelineFeedRepository()
+  public static getInstance(): HomeRepository {
+    if (!HomeRepository.instance) {
+      HomeRepository.instance = new HomeRepository()
     }
-    return TimelineFeedRepository.instance
+    return HomeRepository.instance
   }
 }

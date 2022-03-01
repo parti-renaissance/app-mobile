@@ -1,10 +1,10 @@
 import ProfileRepository from '../../data/ProfileRepository'
-import { TimelineFeedRepository } from '../../data/TimelineFeedRepository'
+import { HomeRepository } from '../../data/HomeRepository'
 import PaginatedResult from '../entities/PaginatedResult'
 import { TimelineFeedItem } from '../entities/TimelineFeedItem'
 
 export class GetTimelineFeedInteractor {
-  private timelineFeedRepository = TimelineFeedRepository.getInstance()
+  private timelineFeedRepository = HomeRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
 
   public async execute(
