@@ -1,10 +1,8 @@
-import { AuthenticationState } from '../entities/AuthenticationState'
 import { Region } from '../entities/Region'
 import { Profile } from '../entities/Profile'
 import allSettled from 'promise.allsettled'
 import ProfileRepository from '../../data/ProfileRepository'
 import RegionsRepository from '../../data/RegionsRepository'
-import AuthenticationRepository from '../../data/AuthenticationRepository'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
 import { GetQuickPollInteractor } from './GetQuickPollInteractor'
@@ -21,7 +19,6 @@ export interface HomeResources {
 }
 
 export class GetHomeResourcesInteractor {
-  private authenticationRepository = AuthenticationRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
   private regionsRepository = RegionsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
@@ -30,7 +27,6 @@ export class GetHomeResourcesInteractor {
 
   public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
-    const state = await this.authenticationRepository.getAuthenticationState()
 
     const [
       profileResult,
@@ -38,9 +34,7 @@ export class GetHomeResourcesInteractor {
       quickPollsResult,
       nextEventResult,
     ] = await allSettled([
-      state === AuthenticationState.Authenticated
-        ? this.profileRepository.getProfile(dataSource)
-        : undefined,
+      this.profileRepository.getProfile(dataSource),
       this.regionsRepository.getDepartment(zipCode, dataSource),
       this.getQuickPollInteractor.execute(zipCode, dataSource),
       this.getNextEventInteractor.execute(),
