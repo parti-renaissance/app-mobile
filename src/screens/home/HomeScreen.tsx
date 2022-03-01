@@ -27,6 +27,7 @@ import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaign
 import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
 import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { ListFooterLoader } from '../shared/ListFooterLoader'
 
 type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 
@@ -34,6 +35,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
   const {
     statefulState,
     isRefreshing,
+    isLoadingMore,
     onRefresh,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
@@ -44,6 +46,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,
+    onLoadMore,
   } = useHomeScreen()
 
   useEffect(() => {
@@ -151,6 +154,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <SectionList
           stickySectionHeadersEnabled={false}
           ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
+          ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
           sections={homeViewModel.rows}
           renderItem={renderItem}
           renderSectionHeader={renderSectionHeader}
@@ -162,6 +166,8 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
             />
           }
           keyExtractor={(item, index) => item.type + index}
+          onEndReachedThreshold={0.8}
+          onEndReached={onLoadMore}
         />
       </View>
     )

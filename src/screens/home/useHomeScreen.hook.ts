@@ -11,10 +11,12 @@ import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
   isRefreshing: boolean
+  isLoadingMore: boolean
   onRefresh: () => void
   onRegionMorePressed: () => void
   onQuickPollAnswerSelected: (pollId: string, answerId: string) => void
@@ -25,13 +27,15 @@ export const useHomeScreen = (): {
   onFeedPhoningCampaignSelected: (campaignId: string) => void
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
+  onLoadMore: () => void
 } => {
   const navigation = useNavigation<
     HomeNavigatorScreenProps<'Home'>['navigation']
   >()
   const [feedStatefulState, setFeedStatefulState] = useState<
-    ViewState<Array<TimelineFeedItem>>
+    ViewState<PaginatedResult<Array<TimelineFeedItem>>>
   >(ViewState.Loading())
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
 
   const {
     statefulState,
@@ -47,7 +51,7 @@ export const useHomeScreen = (): {
       new GetTimelineFeedInteractor()
         .execute(0)
         .then((response) => {
-          setFeedStatefulState(ViewState.Content(response.result))
+          setFeedStatefulState(ViewState.Content(response))
         })
         .catch((error) => {
           setFeedStatefulState(
@@ -57,6 +61,31 @@ export const useHomeScreen = (): {
     }
     fetchTimelineFeed()
   }, [])
+
+  const onLoadMore = useCallback(() => {
+    const currentResult = ViewState.unwrap(feedStatefulState)
+    if (currentResult === undefined || isLoadingMore) {
+      return
+    }
+
+    const paginationInfo = currentResult.paginationInfo
+    if (paginationInfo.currentPage === paginationInfo.lastPage) {
+      // last page reached : nothing to paginate
+      return
+    }
+
+    setIsLoadingMore(true)
+    new GetTimelineFeedInteractor()
+      .execute(paginationInfo.currentPage + 1)
+      .then((response) => {
+        const newContent = PaginatedResult.merge(currentResult, response)
+        setFeedStatefulState(ViewState.Content(newContent))
+      })
+      .catch(() => {
+        // no-op: next page can be reloaded by reaching the end of the list again
+      })
+      .finally(() => setIsLoadingMore(false))
+  }, [feedStatefulState, isLoadingMore])
 
   const onRefresh = () => {
     fetchHomeResources()
@@ -98,7 +127,7 @@ export const useHomeScreen = (): {
   }
 
   const findItemWithId = (id: string): TimelineFeedItem | undefined => {
-    const items = ViewState.unwrap(feedStatefulState) ?? []
+    const items = ViewState.unwrap(feedStatefulState)?.result ?? []
     return items.find((item) => item.uuid === id)
   }
 
@@ -159,10 +188,11 @@ export const useHomeScreen = (): {
         currentResources.region,
         currentResources.quickPoll,
         currentResources.nextEvent,
-        ViewState.unwrap(feedStatefulState) ?? [],
+        ViewState.unwrap(feedStatefulState)?.result ?? [],
       )
     }),
     isRefreshing,
+    isLoadingMore,
     onRefresh,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
@@ -173,5 +203,6 @@ export const useHomeScreen = (): {
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,
+    onLoadMore,
   }
 }
