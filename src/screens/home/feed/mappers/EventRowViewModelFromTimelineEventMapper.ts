@@ -2,14 +2,14 @@ import { TimelineFeedItem } from '../../../../core/entities/TimelineFeedItem'
 import { DateFormatter } from '../../../../utils/DateFormatter'
 import i18n from '../../../../utils/i18n'
 import { EventRowViewModel } from '../../../events/EventViewModel'
-import { logWaringsIfNeeded } from './logWarningsIfNeeded'
+import { logWarningsIfNeeded } from './logWarningsIfNeeded'
 
 export const EventRowViewModelFromTimelineEventMapper = {
   map: (item: TimelineFeedItem): EventRowViewModel => {
     const category = item.category ?? ''
     const beginAt = item.beginAt ?? new Date()
     const finishAt = item.finishAt ?? new Date()
-    logWaringsIfNeeded(item, ['category', 'beginAt', 'finishAt'])
+    logWarningsIfNeeded(item, ['category', 'beginAt', 'finishAt'])
 
     return {
       id: item.uuid,

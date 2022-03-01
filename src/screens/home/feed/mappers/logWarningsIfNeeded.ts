@@ -1,7 +1,7 @@
 import { TimelineFeedItem } from '../../../../core/entities/TimelineFeedItem'
 import { ErrorMonitor } from '../../../../utils/ErrorMonitor'
 
-export const logWaringsIfNeeded = (
+export const logWarningsIfNeeded = (
   item: TimelineFeedItem,
   keys: Array<keyof TimelineFeedItem>,
 ) => {
