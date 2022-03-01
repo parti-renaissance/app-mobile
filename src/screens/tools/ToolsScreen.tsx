@@ -13,8 +13,8 @@ import ToolsContentViewModel from './ToolsContentViewModel'
 import { ToolsContentViewModelMapper } from './ToolsContentViewModelMapper'
 import PaginatedResult from '../../core/entities/PaginatedResult'
 import { Tool } from '../../core/entities/Tool'
-import LoaderView from '../shared/LoaderView'
 import { Analytics } from '../../utils/Analytics'
+import { ListFooterLoader } from '../shared/ListFooterLoader'
 
 const ToolsScreen = () => {
   const [statefulState, setStatefulState] = useState<
@@ -89,9 +89,7 @@ const ToolsScreen = () => {
         ListHeaderComponent={
           <Text style={styles.title}>{i18n.t('tools.title')}</Text>
         }
-        ListFooterComponent={
-          isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
-        }
+        ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
         renderItem={renderItem}
         onEndReachedThreshold={0.8}
         onEndReached={loadMore}
@@ -107,9 +105,6 @@ const ToolsScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  bottomLoader: {
-    margin: Spacing.margin,
-  },
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
