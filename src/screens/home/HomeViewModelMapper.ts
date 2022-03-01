@@ -174,12 +174,14 @@ function appendTimelineFeedItems(
         }
     }
   })
-  rows.push({
-    id: 'feed',
-    sectionViewModel: {
-      sectionName: i18n.t('home.feed.section'),
-      isHighlighted: false,
-    },
-    data,
-  })
+  if (data.length > 0) {
+    rows.push({
+      id: 'feed',
+      sectionViewModel: {
+        sectionName: i18n.t('home.feed.section'),
+        isHighlighted: false,
+      },
+      data,
+    })
+  }
 }
