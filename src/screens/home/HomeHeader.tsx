@@ -13,7 +13,7 @@ import { VerticalSpacer } from '../shared/Spacer'
 import Flag from './Flag'
 
 export interface HomeHeaderViewModel {
-  imageUri: string
+  imageUri?: string
   bannerHeading: string
   bannerTitle: string
   greeting: string

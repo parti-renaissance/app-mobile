@@ -15,6 +15,8 @@ import { EventRowViewModel } from '../events/EventViewModel'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
+import { HomeRepository } from '../../data/HomeRepository'
+import { HeaderInfos } from '../../core/entities/HeaderInfos'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -99,6 +101,19 @@ export const useHomeScreen = (): {
           )
         })
     }
+    const fetchHeader = () => {
+      HomeRepository.getInstance()
+        .getHomeHeader()
+        .then((headerInfos) => {
+          setHeaderStatefulState(ViewState.Content(headerInfos))
+        })
+        .catch((error) => {
+          setHeaderStatefulState(
+            ViewStateUtils.networkError(error, fetchHeader),
+          )
+        })
+    }
+    fetchHeader()
     fetchTimelineFeed()
   }, [])
 
@@ -207,6 +222,7 @@ export const useHomeScreen = (): {
   return {
     statefulState: ViewState.map(statefulState, (currentResources) => {
       return HomeViewModelMapper.map(
+        ViewState.unwrap(headerStatefulState),
         currentResources.profile,
         currentResources.region,
         currentResources.quickPoll,

@@ -13,9 +13,12 @@ import { NewsRowViewModelFromTimelineNewsMapper } from './feed/mappers/NewsRowVi
 import { EventRowViewModelFromTimelineEventMapper } from './feed/mappers/EventRowViewModelFromTimelineEventMapper'
 import { HomeRetaliationCardViewModelFromTimelineRetaliationMapper } from './feed/mappers/HomeRetaliationCardViewModelFromTimelineRetaliationMapper'
 import { HomeFeedActionCampaignCardViewModelFromTimelineItemMapper } from './feed/mappers/HomeFeedActionCampaignCardViewModelFromTimelineItemMapper'
+import { HeaderInfos } from '../../core/entities/HeaderInfos'
+import { HomeHeaderViewModelMapper } from './HomeHeaderViewModelMapper'
 
 export const HomeViewModelMapper = {
   map: (
+    headerInfos: HeaderInfos | undefined,
     profile: Profile | undefined,
     region: Region | undefined,
     quickPoll: StatefulQuickPoll | undefined,
@@ -30,27 +33,10 @@ export const HomeViewModelMapper = {
     appendTimelineFeedItems(timelineFeedItems, rows)
 
     return {
-      header: {
-        imageUri: 'https://via.placeholder.com/700',
-        bannerHeading: i18n.t('home.banner.heading'),
-        bannerTitle: i18n.t('home.banner.title'),
-        greeting: greeting(profile),
-      },
+      header: HomeHeaderViewModelMapper.map(headerInfos, profile),
       rows: rows,
     }
   },
-}
-
-function greeting(profile?: Profile): string {
-  if (profile) {
-    const name = i18n.t('profile.name', {
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-    })
-    return i18n.t('home.greeting_name', { username: name })
-  } else {
-    return i18n.t('home.greeting')
-  }
 }
 
 function appendEvent(
