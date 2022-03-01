@@ -1,6 +1,7 @@
 import { EventRowViewModel } from '../events/EventViewModel'
 import { NewsRowViewModel } from '../news/NewsRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
+import { ViewStateError } from '../shared/StatefulView'
 import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
 import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
@@ -73,4 +74,8 @@ export type HomeRowViewModel =
   | {
       type: 'feedRetaliation'
       value: HomeRetaliationCardViewModel
+    }
+  | {
+      type: 'error'
+      value: ViewStateError
     }

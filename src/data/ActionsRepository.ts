@@ -5,13 +5,7 @@ class ActionsRepository {
   private constructor() {}
 
   public getDefaultActions(): Array<Action> {
-    // Note: (Pierre Felgines) 2022-02-03 We temporary disable polls as free polls
-    // do not exist in production yet (they are associated to phoning campaigns or Pap)
-    // Once available, replace `return []` with the following lines:
-    /// ```
-    // return [Action.fromType('polls')]
-    // ```
-    return []
+    return [Action.fromType('polls')]
   }
 
   public getDoorToDoorAction(): Action {

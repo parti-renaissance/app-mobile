@@ -10,12 +10,11 @@ import {
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
-import PaginatedResult from '../../core/entities/PaginatedResult'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DateProvider } from '../../utils/DateProvider'
 import i18n from '../../utils/i18n'
-import LoaderView from '../shared/LoaderView'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import EventGridItem from './EventGridItem'
 import EventView from './EventView'
@@ -28,6 +27,7 @@ import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInteractor'
 import { useFocusEffect } from '@react-navigation/core'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { ListFooterLoader } from '../shared/ListFooterLoader'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -96,10 +96,7 @@ const EventListScreen: FC<Props> = (props) => {
       setLoadingMore(true)
       fetchEvents(paginationInfo.currentPage + 1)
         .then((paginatedResult) => {
-          const newContent = {
-            paginationInfo: paginatedResult.paginationInfo,
-            result: content.result.concat(paginatedResult.result),
-          }
+          const newContent = PaginatedResult.merge(content, paginatedResult)
           setStatefulState(ViewState.Content(newContent))
         })
         .catch((error) => {
@@ -169,9 +166,7 @@ const EventListScreen: FC<Props> = (props) => {
             <Text style={styles.section}>{sectionViewModel.sectionName}</Text>
           ) : null
         }}
-        ListFooterComponent={
-          isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
-        }
+        ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
         keyExtractor={(item) => {
           switch (item.type) {
             case 'event':
@@ -216,9 +211,6 @@ const EventListScreen: FC<Props> = (props) => {
 }
 
 const styles = StyleSheet.create({
-  bottomLoader: {
-    margin: Spacing.margin,
-  },
   contentContainerStyle: {
     flexGrow: 1,
   },

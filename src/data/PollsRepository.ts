@@ -30,15 +30,17 @@ class PollsRepository {
     }
   }
 
-  public async getPoll(pollId: number): Promise<Poll> {
-    const cachedPoll = this.memoryCachedPolls.find((item) => item.id === pollId)
+  public async getPoll(pollId: string): Promise<Poll> {
+    const cachedPoll = this.memoryCachedPolls.find(
+      (item) => item.uuid === pollId,
+    )
     if (cachedPoll) {
       return cachedPoll
     }
 
     // If no cache, fetch again to find matching poll
     const polls = await this.getPolls()
-    const poll = polls.find((item_1) => item_1.id === pollId)
+    const poll = polls.find((item) => item.uuid === pollId)
     if (poll) {
       return poll
     } else {

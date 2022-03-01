@@ -1,4 +1,4 @@
-import PaginatedResult from '../core/entities/PaginatedResult'
+import { PaginatedResult } from '../core/entities/PaginatedResult'
 import { Tool } from '../core/entities/Tool'
 import { RestMetadataMapper } from './mapper/RestMetadataMapper'
 import { RestToolMapper } from './mapper/RestToolMapper'

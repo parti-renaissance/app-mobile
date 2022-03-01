@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { News } from '../../core/entities/News'
-import PaginatedResult from '../../core/entities/PaginatedResult'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { NewsNavigatorScreenProps } from '../../navigation/NewsNavigator'
@@ -62,10 +62,7 @@ export const useNewsScreen = (): {
     setLoadingMore(true)
     fetchNews(paginationInfo.currentPage + 1)
       .then((paginatedResult) => {
-        const newContent: PaginatedResult<Array<News>> = {
-          paginationInfo: paginatedResult.paginationInfo,
-          result: currentResult.result.concat(paginatedResult.result),
-        }
+        const newContent = PaginatedResult.merge(currentResult, paginatedResult)
         setStatefulState(ViewState.Content(newContent))
       })
       .catch((error) => {

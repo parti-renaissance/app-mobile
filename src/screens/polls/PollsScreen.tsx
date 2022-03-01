@@ -74,10 +74,10 @@ const PollsScreen: FC<PollsScreenProps> = ({ navigation }) => {
   }, [fetchData, initialFetchDone])
 
   const navigationToPollDetail = (viewModelId: string) => {
-    const pollId = parseInt(viewModelId, 10)
+    const pollId = viewModelId
     navigation.navigate('PollDetailModal', {
       screen: 'PollDetail',
-      params: { pollId: pollId },
+      params: { pollId },
     })
   }
 

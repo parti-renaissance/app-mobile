@@ -7,8 +7,8 @@ import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNaviga
 import { CompositeScreenProps } from '@react-navigation/native'
 
 export type PollDetailModalNavigatorParamList = {
-  PollDetail: { pollId: number }
-  PollDetailSuccess: { pollId: number; title: string }
+  PollDetail: { pollId: string }
+  PollDetailSuccess: { pollId: string; title: string }
 }
 
 export type PollDetailModalNavigatorScreenProps<

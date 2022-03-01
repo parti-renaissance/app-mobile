@@ -1,18 +1,19 @@
-import { AuthenticationState } from '../entities/AuthenticationState'
 import { Region } from '../entities/Region'
 import { Profile } from '../entities/Profile'
 import allSettled from 'promise.allsettled'
 import ProfileRepository from '../../data/ProfileRepository'
 import RegionsRepository from '../../data/RegionsRepository'
-import AuthenticationRepository from '../../data/AuthenticationRepository'
 import PushRepository from '../../data/PushRepository'
 import { DataSource } from '../../data/DataSource'
 import { GetQuickPollInteractor } from './GetQuickPollInteractor'
 import { StatefulQuickPoll } from '../entities/StatefulQuickPoll'
 import { GetNextEventInteractor } from './GetNextEventInteractor'
 import { ShortEvent } from '../entities/Event'
+import { HomeRepository } from '../../data/HomeRepository'
+import { HeaderInfos } from '../entities/HeaderInfos'
 
 export interface HomeResources {
+  headerInfos?: HeaderInfos
   zipCode: string
   region?: Region
   profile?: Profile
@@ -21,7 +22,7 @@ export interface HomeResources {
 }
 
 export class GetHomeResourcesInteractor {
-  private authenticationRepository = AuthenticationRepository.getInstance()
+  private homeRepository = HomeRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
   private regionsRepository = RegionsRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
@@ -30,17 +31,16 @@ export class GetHomeResourcesInteractor {
 
   public async execute(dataSource: DataSource): Promise<HomeResources> {
     const zipCode = await this.profileRepository.getZipCode()
-    const state = await this.authenticationRepository.getAuthenticationState()
 
     const [
+      headerInfosResult,
       profileResult,
       departmentResult,
       quickPollsResult,
       nextEventResult,
     ] = await allSettled([
-      state === AuthenticationState.Authenticated
-        ? this.profileRepository.getProfile(dataSource)
-        : undefined,
+      this.homeRepository.getHomeHeader(dataSource),
+      this.profileRepository.getProfile(dataSource),
       this.regionsRepository.getDepartment(zipCode, dataSource),
       this.getQuickPollInteractor.execute(zipCode, dataSource),
       this.getNextEventInteractor.execute(),
@@ -78,6 +78,15 @@ export class GetHomeResourcesInteractor {
       })
 
     return {
+      headerInfos:
+        headerInfosResult?.status === 'fulfilled'
+          ? headerInfosResult.value
+          : await this.getDefault(
+              dataSource,
+              (headerInfosDataSource) =>
+                this.homeRepository.getHomeHeader(headerInfosDataSource),
+              undefined,
+            ),
       zipCode: zipCode,
       region: department?.region,
       profile:

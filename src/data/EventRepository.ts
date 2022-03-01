@@ -1,5 +1,5 @@
 import { DetailedEvent, EventFilters, ShortEvent } from '../core/entities/Event'
-import PaginatedResult from '../core/entities/PaginatedResult'
+import { PaginatedResult } from '../core/entities/PaginatedResult'
 import { EventMapper } from './mapper/EventMapper'
 import { RestMetadataMapper } from './mapper/RestMetadataMapper'
 import ApiService from './network/ApiService'

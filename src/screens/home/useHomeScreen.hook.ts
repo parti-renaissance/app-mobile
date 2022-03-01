@@ -1,9 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ServerTimeoutError } from '../../core/errors'
-import {
-  GetHomeResourcesInteractor,
-  HomeResources,
-} from '../../core/interactor/GetHomeResourcesInteractor'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
@@ -15,10 +10,13 @@ import { EventRowViewModel } from '../events/EventViewModel'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
+import { useFetchHomeResources } from './useFetchHomeResources.hook'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
   isRefreshing: boolean
+  isLoadingMore: boolean
   onRefresh: () => void
   onRegionMorePressed: () => void
   onQuickPollAnswerSelected: (pollId: string, answerId: string) => void
@@ -29,94 +27,73 @@ export const useHomeScreen = (): {
   onFeedPhoningCampaignSelected: (campaignId: string) => void
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
+  onLoadMore: () => void
 } => {
   const navigation = useNavigation<
     HomeNavigatorScreenProps<'Home'>['navigation']
   >()
-  const [statefulState, setStatefulState] = useState<ViewState<HomeViewModel>>(
-    ViewState.Loading(),
-  )
   const [feedStatefulState, setFeedStatefulState] = useState<
-    ViewState<Array<TimelineFeedItem>>
+    ViewState<PaginatedResult<Array<TimelineFeedItem>>>
   >(ViewState.Loading())
-  const [isRefreshing, setRefreshing] = useState(true)
-  const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const [currentResources, setResources] = useState<HomeResources>()
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
 
-  useEffect(() => {
-    // Reload view model (and view) when resources model changes
-    if (!currentResources) {
-      return
-    }
-    const viewModel = HomeViewModelMapper.map(
-      currentResources.profile,
-      currentResources.region,
-      currentResources.quickPoll,
-      currentResources.nextEvent,
-      ViewState.unwrap(feedStatefulState) ?? [],
-    )
-    setStatefulState(ViewState.Content(viewModel))
-  }, [currentResources, feedStatefulState])
+  const {
+    statefulState,
+    isRefreshing,
+    fetchHomeResources,
+    updateQuickPoll,
+  } = useFetchHomeResources()
 
-  const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
-    setRefreshing(true)
-    new GetHomeResourcesInteractor()
-      .execute('remote')
-      .then((resources) => {
-        setResources(resources)
+  useFocusEffect(useCallback(fetchHomeResources, []))
+
+  const fetchTimelineFeed = useCallback(() => {
+    setIsLoadingMore(true)
+    setFeedStatefulState(ViewState.Loading())
+    new GetTimelineFeedInteractor()
+      .execute(0)
+      .then((response) => {
+        setFeedStatefulState(ViewState.Content(response))
       })
       .catch((error) => {
-        const isNetworkError = error instanceof ServerTimeoutError
-        if (isNetworkError && cacheJustLoaded) {
-          return
-        }
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading())
-            fetchData()
-          }),
+        setFeedStatefulState(
+          ViewStateUtils.networkError(error, fetchTimelineFeed),
         )
       })
-      .finally(() => {
-        setRefreshing(false)
-      })
+      .finally(() => setIsLoadingMore(false))
   }, [])
-
-  const firstDataFetch = useCallback(() => {
-    new GetHomeResourcesInteractor()
-      .execute('cache')
-      .then((resources) => {
-        setResources(resources)
-        if (!initialFetchDone) {
-          setInitialFetchDone(true)
-          fetchData(true)
-        }
-      })
-      .catch(() => {
-        fetchData()
-      })
-  }, [fetchData, initialFetchDone])
-
-  useFocusEffect(firstDataFetch)
 
   useEffect(() => {
-    const fetchTimelineFeed = () => {
-      new GetTimelineFeedInteractor()
-        .execute(0)
-        .then((response) => {
-          setFeedStatefulState(ViewState.Content(response.result))
-        })
-        .catch((error) => {
-          setFeedStatefulState(
-            ViewStateUtils.networkError(error, fetchTimelineFeed),
-          )
-        })
-    }
     fetchTimelineFeed()
-  }, [])
+  }, [fetchTimelineFeed])
+
+  const onLoadMore = useCallback(() => {
+    const currentResult = ViewState.unwrap(feedStatefulState)
+    if (currentResult === undefined || isLoadingMore) {
+      return
+    }
+
+    const paginationInfo = currentResult.paginationInfo
+    if (paginationInfo.currentPage === paginationInfo.lastPage) {
+      // last page reached : nothing to paginate
+      return
+    }
+
+    setIsLoadingMore(true)
+    new GetTimelineFeedInteractor()
+      .execute(paginationInfo.currentPage + 1)
+      .then((response) => {
+        const newContent = PaginatedResult.merge(currentResult, response)
+        setFeedStatefulState(ViewState.Content(newContent))
+      })
+      .catch(() => {
+        // no-op: next page can be reloaded by reaching the end of the list again
+      })
+      .finally(() => setIsLoadingMore(false))
+  }, [feedStatefulState, isLoadingMore])
 
   const onRefresh = () => {
-    fetchData()
+    fetchTimelineFeed()
+    fetchHomeResources()
   }
 
   const onFeedNewsSelected = (newsId: string) => {
@@ -129,38 +106,33 @@ export const useHomeScreen = (): {
   }
 
   const onRegionMorePressed = async () => {
-    if (!currentResources) {
+    const zipCode = ViewState.unwrap(statefulState)?.zipCode
+    if (zipCode === undefined) {
       return
     }
     await Analytics.logHomeRegionMore()
-    navigation.navigate('Region', { zipCode: currentResources.zipCode })
+    navigation.navigate('Region', { zipCode })
   }
+
   const onQuickPollAnswerSelected = async (
     pollId: string,
     answerId: string,
   ) => {
-    if (!currentResources) {
-      return
-    }
     const interactor = new SaveQuickPollAsAnsweredInteractor()
     const updatedPoll = await interactor.execute({
       quickPollId: pollId,
       answerId: answerId,
     })
-    // We must make a clone to update state
-    const clone: HomeResources = {
-      ...currentResources,
-      quickPoll: updatedPoll,
-    }
-    setResources(clone)
+    updateQuickPoll(updatedPoll)
   }
+
   const onEventSelected = async (event: EventRowViewModel) => {
     await Analytics.logHomeEventOpen(event.title, event.category)
     navigation.navigate('EventDetails', { eventId: event.id })
   }
 
   const findItemWithId = (id: string): TimelineFeedItem | undefined => {
-    const items = ViewState.unwrap(feedStatefulState) ?? []
+    const items = ViewState.unwrap(feedStatefulState)?.result ?? []
     return items.find((item) => item.uuid === id)
   }
 
@@ -201,21 +173,25 @@ export const useHomeScreen = (): {
   }
 
   const onFeedPollSelected = (pollId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/28 Fix type of id attribute mismatch
-    console.log(pollId)
-    // const item = findItemWithId(campaignId)
-    // if (item === undefined) {
-    //   return
-    // }
-    // navigation.navigate('PollDetailModal', {
-    //   screen: 'PollDetail',
-    //   params: { pollId: item.uuid },
-    // })
+    navigation.navigate('PollDetailModal', {
+      screen: 'PollDetail',
+      params: { pollId },
+    })
   }
 
   return {
-    statefulState,
+    statefulState: ViewState.map(statefulState, (currentResources) => {
+      return HomeViewModelMapper.map(
+        currentResources.headerInfos,
+        currentResources.profile,
+        currentResources.region,
+        currentResources.quickPoll,
+        currentResources.nextEvent,
+        ViewState.map(feedStatefulState, (state) => state.result),
+      )
+    }),
     isRefreshing,
+    isLoadingMore,
     onRefresh,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
@@ -226,5 +202,6 @@ export const useHomeScreen = (): {
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,
+    onLoadMore,
   }
 }
