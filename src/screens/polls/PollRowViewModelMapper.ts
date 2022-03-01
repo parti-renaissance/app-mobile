@@ -12,7 +12,7 @@ export const PollRowViewModelMapper = {
     ]
     const pollImage = pollImages[poll.id % pollImages.length]
     return {
-      id: poll.id.toString(),
+      id: poll.uuid,
       image: pollImage,
       title: poll.name,
       subtitle: i18n.t('polls.question_count_format', {

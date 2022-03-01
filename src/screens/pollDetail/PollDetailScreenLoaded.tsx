@@ -80,7 +80,7 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
       .sendPollAnswers(poll, provider.getResult(), location)
       .then(() => {
         navigation.replace('PollDetailSuccess', {
-          pollId: poll.id,
+          pollId: poll.uuid,
           title: poll.name,
         })
       })

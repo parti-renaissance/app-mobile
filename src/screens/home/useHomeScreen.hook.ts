@@ -168,16 +168,10 @@ export const useHomeScreen = (): {
   }
 
   const onFeedPollSelected = (pollId: string) => {
-    // TODO: (Pierre Felgines) 2022/02/28 Fix type of id attribute mismatch
-    console.log(pollId)
-    // const item = findItemWithId(campaignId)
-    // if (item === undefined) {
-    //   return
-    // }
-    // navigation.navigate('PollDetailModal', {
-    //   screen: 'PollDetail',
-    //   params: { pollId: item.uuid },
-    // })
+    navigation.navigate('PollDetailModal', {
+      screen: 'PollDetail',
+      params: { pollId },
+    })
   }
 
   return {
