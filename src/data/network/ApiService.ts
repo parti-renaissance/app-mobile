@@ -64,6 +64,7 @@ import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordReques
 import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
 import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
+import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
 
 class ApiService {
   private static instance: ApiService
@@ -587,6 +588,13 @@ class ApiService {
         searchParams: { page, postal_code: zipCode },
       })
       .json<RestTimelineFeedResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getHomeHeader(): Promise<RestHeaderInfos> {
+    return this.httpClient
+      .get('api/v3/je-mengage/headers/page-accueil')
+      .json<RestHeaderInfos>()
       .catch(genericErrorMapping)
   }
 

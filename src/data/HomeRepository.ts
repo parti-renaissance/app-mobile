@@ -1,5 +1,7 @@
+import { HeaderInfos } from '../core/entities/HeaderInfos'
 import PaginatedResult from '../core/entities/PaginatedResult'
 import { TimelineFeedItem } from '../core/entities/TimelineFeedItem'
+import { HeaderInfosMapper } from './mapper/HeaderInfosMapper'
 import { TimelineFeedItemMapper } from './mapper/TimelineFeedItemMapper'
 import ApiService from './network/ApiService'
 
@@ -24,6 +26,11 @@ export class HomeRepository {
       },
       result: items,
     }
+  }
+
+  public async getHomeHeader(): Promise<HeaderInfos> {
+    const restHeader = await this.apiService.getHomeHeader()
+    return HeaderInfosMapper.map(restHeader)
   }
 
   public static getInstance(): HomeRepository {
