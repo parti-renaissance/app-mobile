@@ -4,11 +4,26 @@ import i18n from '../../../../utils/i18n'
 import { EventRowViewModel } from '../../../events/EventViewModel'
 import { logWarningsIfNeeded } from './logWarningsIfNeeded'
 
+const formatDay = (date: Date | undefined): string => {
+  if (date === undefined) {
+    return ''
+  }
+  return DateFormatter.format(date, i18n.t('events.event_date_format'))
+}
+
+const formatHour = (start: Date | undefined, end: Date | undefined): string => {
+  if (start === undefined || end === undefined) {
+    return ''
+  }
+  return i18n.t('events.duration_formation', {
+    start: DateFormatter.format(start, HOUR_MINUTE_FORMAT),
+    end: DateFormatter.format(end, HOUR_MINUTE_FORMAT),
+  })
+}
+
 export const EventRowViewModelFromTimelineEventMapper = {
   map: (item: TimelineFeedItem): EventRowViewModel => {
     const category = item.category ?? ''
-    const beginAt = item.beginAt ?? new Date()
-    const finishAt = item.finishAt ?? new Date()
     logWarningsIfNeeded(item, ['category', 'beginAt', 'finishAt'])
 
     return {
@@ -19,12 +34,9 @@ export const EventRowViewModelFromTimelineEventMapper = {
       imageUrl: item.imageUri,
       tag: category,
       isSubscribed: false,
-      day: DateFormatter.format(beginAt, i18n.t('events.event_date_format')),
-      hour: i18n.t('events.duration_formation', {
-        start: DateFormatter.format(beginAt, HOUR_MINUTE_FORMAT),
-        end: DateFormatter.format(finishAt, HOUR_MINUTE_FORMAT),
-      }),
-      dateTimestamp: beginAt.getTime(),
+      day: formatDay(item.beginAt),
+      hour: formatHour(item.beginAt, item.finishAt),
+      dateTimestamp: item.beginAt?.getTime() ?? 0,
     }
   },
 }
