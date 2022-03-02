@@ -7,7 +7,7 @@ export interface RestNews {
   created_at: string
   external_link: string | null
   pinned: boolean
-  enriched: boolean
+  link_label: string | null
   visibility: 'national' | 'local'
   creator: string | null
 }

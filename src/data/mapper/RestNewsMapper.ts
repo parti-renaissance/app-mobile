@@ -11,7 +11,7 @@ export const RestNewsMapper = {
       date: new Date(restNews.created_at),
       url: urlSize > 0 ? restNews.external_link! : undefined,
       isPinned: restNews.pinned,
-      isMarkdown: restNews.enriched,
+      linkLabel: restNews.link_label !== null ? restNews.link_label : undefined,
       visibility: restNews.visibility,
       creator: restNews.creator !== null ? restNews.creator : undefined,
     }

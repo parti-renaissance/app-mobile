@@ -26,6 +26,7 @@ export const NewsDetailViewModelMapper = {
       title: news.title,
       caption: mapCaption(news),
       markdown: news.description,
+      externalAction: news.linkLabel,
     }
   },
 }

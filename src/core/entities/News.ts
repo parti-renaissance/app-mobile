@@ -5,7 +5,7 @@ export interface News {
   date: Date
   url?: string
   isPinned: boolean
-  isMarkdown: boolean
+  linkLabel?: string
   visibility: 'national' | 'local'
   creator?: string
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { News } from '../../core/entities/News'
 import NewsRepository from '../../data/NewsRepository'
+import { ExternalLink } from '../shared/ExternalLink'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { NewsDetailViewModel } from './NewsDetailViewModel'
@@ -10,6 +11,7 @@ export const useNewsDetailScreen = (
   newsId: string,
 ): {
   statefulState: ViewState<NewsDetailViewModel>
+  onLinkRedirect: () => void
 } => {
   const [statefulState, setStatefulState] = useState<ViewState<News>>(
     ViewState.Loading(),
@@ -25,7 +27,15 @@ export const useNewsDetailScreen = (
     fetchNews()
   }, [newsId])
 
+  const onLinkRedirect = () => {
+    const news = ViewState.unwrap(statefulState)
+    if (news?.url !== undefined) {
+      ExternalLink.openUrl(news.url)
+    }
+  }
+
   return {
     statefulState: ViewState.map(statefulState, NewsDetailViewModelMapper.map),
+    onLinkRedirect,
   }
 }
