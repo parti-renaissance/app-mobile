@@ -8,7 +8,7 @@ export interface RestTimelineFeedItem {
     | 'survey'
     | 'riposte'
   title: string
-  description: string | null
+  description: string
   author: string | null
   date: string
   begin_at: string | null

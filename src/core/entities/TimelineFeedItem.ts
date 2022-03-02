@@ -1,22 +1,33 @@
-export type TimelineFeedItemType =
-  | 'news'
-  | 'event'
-  | 'phoning-campaign'
-  | 'pap-campaign'
-  | 'survey'
-  | 'riposte'
-
-export interface TimelineFeedItem {
+export interface TimelineFeedBase {
   uuid: string
-  type: TimelineFeedItemType
   title: string
+  description: string
   date: Date
-  description?: string
+}
+
+export interface TimelineFeedItemNews extends TimelineFeedBase {
   author?: string
-  beginAt?: Date
-  finishAt?: Date
-  imageUri?: string
-  address?: string
-  category?: string
   isLocal: boolean
 }
+
+export interface TimelineFeedItemEvent extends TimelineFeedBase {
+  imageUri?: string
+  beginAt: Date
+  finishAt: Date
+  address?: string
+  category?: string
+}
+
+export interface TimelineFeedItemRetaliation extends TimelineFeedBase {}
+
+export interface TimelineFeedItemActionCampaign extends TimelineFeedBase {
+  imageUri?: string
+}
+
+export type TimelineFeedItem =
+  | { type: 'news'; value: TimelineFeedItemNews }
+  | { type: 'event'; value: TimelineFeedItemEvent }
+  | { type: 'retaliation'; value: TimelineFeedItemRetaliation }
+  | { type: 'survey'; value: TimelineFeedItemActionCampaign }
+  | { type: 'phoning'; value: TimelineFeedItemActionCampaign }
+  | { type: 'doorToDoor'; value: TimelineFeedItemActionCampaign }

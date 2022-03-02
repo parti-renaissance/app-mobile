@@ -8,7 +8,11 @@ import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
-import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
+import {
+  TimelineFeedItem,
+  TimelineFeedItemActionCampaign,
+  TimelineFeedItemEvent,
+} from '../../core/entities/TimelineFeedItem'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 
@@ -137,7 +141,7 @@ export const useHomeScreen = (): {
   }
 
   const onFeedEventSelected = (eventId: string) => {
-    const item = findItemWithId(eventId)
+    const item = findItemWithId<TimelineFeedItemEvent>(eventId, 'event')
     if (item === undefined) {
       return
     }
@@ -145,9 +149,13 @@ export const useHomeScreen = (): {
     navigation.navigate('EventDetails', { eventId: item.uuid })
   }
 
-  const findItemWithId = (id: string): TimelineFeedItem | undefined => {
+  const findItemWithId = <T extends TimelineFeedItem['value']>(
+    id: string,
+    type: TimelineFeedItem['type'],
+  ): T | undefined => {
     const items = ViewState.unwrap(feedStatefulState)?.result ?? []
-    return items.find((item) => item.uuid === id)
+    return items.find((item) => item.type === type && item.value.uuid === id)
+      ?.value as T
   }
 
   const onRetaliationSelected = (id: string) => {
@@ -168,7 +176,10 @@ export const useHomeScreen = (): {
   }
 
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
-    const item = findItemWithId(campaignId)
+    const item = findItemWithId<TimelineFeedItemActionCampaign>(
+      campaignId,
+      'phoning',
+    )
     if (item === undefined) {
       return
     }
