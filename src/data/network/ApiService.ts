@@ -6,7 +6,7 @@ import { Poll } from '../../core/entities/Poll'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
 import { RestProfileResponse } from '../restObjects/RestProfileResponse'
 import { genericErrorMapping } from './utils'
-import { RestNewsResponse } from '../restObjects/RestNewsResponse'
+import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
 import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
 import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
@@ -169,6 +169,13 @@ class ApiService {
         searchParams: { zipCode: zipCode, page: page },
       })
       .json<RestNewsResponse>()
+      .catch(genericErrorMapping)
+  }
+
+  public getNewsDetail(newsId: string): Promise<RestNews> {
+    return this.httpClient
+      .get('api/jecoute/news/' + newsId)
+      .json<RestNews>()
       .catch(genericErrorMapping)
   }
 
