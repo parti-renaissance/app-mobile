@@ -166,7 +166,7 @@ class ApiService {
   public getNews(zipCode: string, page: number): Promise<RestNewsResponse> {
     return this.httpClient
       .get('api/jecoute/news', {
-        searchParams: { zipCode: zipCode, page: page },
+        searchParams: { zipCode: zipCode, page: page, with_enriched: true },
       })
       .json<RestNewsResponse>()
       .catch(genericErrorMapping)
