@@ -6,6 +6,7 @@ import {
   Text,
   useWindowDimensions,
   StyleSheet,
+  TextStyle,
 } from 'react-native'
 import HTML from 'react-native-render-html'
 import { DetailedEvent } from '../../core/entities/Event'
@@ -101,18 +102,20 @@ export const EventDetailsContent: FC<Props> = ({
         ) : null}
         <View style={styles.separator} />
         <EventDetailsItemContainer
-          onPress={openOrganizerUrl}
+          onPress={
+            viewModel.organizer.isPressable ? openOrganizerUrl : undefined
+          }
           icon={require('../../assets/images/iconOrganizer.png')}
         >
           <View style={styles.organizerContainer}>
-            <Text style={styles.rowItemTitle}>
-              {viewModel.organizer?.title}
+            <Text style={styles.organizerTitle}>
+              {viewModel.organizer.title}
             </Text>
-            {viewModel.organizer?.description ? (
-              <Text style={styles.rowItemDescription}>
+            {viewModel.organizer?.description && (
+              <Text style={styles.organizerDescription}>
                 {viewModel.organizer?.description}
               </Text>
-            ) : null}
+            )}
           </View>
           {viewModel.organizer?.openUrl ? (
             <Image
@@ -120,33 +123,40 @@ export const EventDetailsContent: FC<Props> = ({
             />
           ) : null}
         </EventDetailsItemContainer>
-        <View style={styles.separator} />
-        <EventDetailsItemContainer
-          icon={require('../../assets/images/iconShare.png')}
-        >
-          <View style={styles.eventItemsContainer}>
-            <Text
-              style={styles.rowItemDescription}
-              numberOfLines={1}
-              ellipsizeMode="tail"
+        {viewModel.canShare && (
+          <>
+            <View style={styles.separator} />
+            <EventDetailsItemContainer
+              icon={require('../../assets/images/iconShare.png')}
             >
-              {viewModel.eventUrl}
-            </Text>
-            <BorderlessButton
-              title={i18n.t('eventdetails.share_event')}
-              textStyle={Styles.seeMoreButtonTextStyle}
-              style={styles.seeMoreButtonContainer}
-              onPress={shareEvent}
-            />
-          </View>
-        </EventDetailsItemContainer>
+              <View style={styles.eventItemsContainer}>
+                <Text
+                  style={styles.rowItemDescription}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {viewModel.eventUrl}
+                </Text>
+                <BorderlessButton
+                  title={i18n.t('eventdetails.share_event')}
+                  textStyle={Styles.seeMoreButtonTextStyle}
+                  style={styles.seeMoreButtonContainer}
+                  onPress={shareEvent}
+                />
+              </View>
+            </EventDetailsItemContainer>
+          </>
+        )}
         <View style={styles.separator} />
         <Text style={styles.subtitle}>
           {i18n.t('eventdetails.description')}
         </Text>
         <HTML
-          containerStyle={styles.description}
-          source={{ html: viewModel.description }}
+          containerStyle={styles.htmlContainer}
+          source={{
+            html: viewModel.description,
+          }}
+          tagsStyles={{ p: paragraphStyle }}
           contentWidth={contentWidth}
         />
         {viewModel.canSeeMore ? (
@@ -179,6 +189,12 @@ export const EventDetailsContent: FC<Props> = ({
   )
 }
 
+const paragraphStyle: TextStyle = {
+  ...Typography.body,
+  color: Colors.darkText,
+  marginBottom: Spacing.unit,
+}
+
 const styles = StyleSheet.create({
   attendees: {
     ...Typography.body,
@@ -206,11 +222,24 @@ const styles = StyleSheet.create({
   eventItemsContainer: {
     flex: 1,
   },
+  htmlContainer: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.unit,
+  },
   image: {
     height: 203,
   },
   organizerContainer: {
     flex: 1,
+  },
+  organizerTitle: {
+    ...Typography.body,
+    color: Colors.darkText,
+  },
+  organizerDescription: {
+    ...Typography.body,
+    color: Colors.lightText,
+    marginTop: Spacing.small,
   },
   rowItemDescription: {
     ...Typography.body,

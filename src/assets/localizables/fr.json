@@ -286,7 +286,6 @@
       "online_event": "Événement en ligne",
       "access_online_event": "Accéder à l'événement en ligne",
       "share_event": "Partager l'événement",
-      "share_message": "TODO: message partage",
       "description": "Description",
       "see_more": "Voir plus",
       "associated_survey": "Questionnaire lié",
@@ -299,7 +298,8 @@
       },
       "attendees": "{{attendees}} inscrits",
       "date_format": "EEEE d MMMM yyyy",
-      "connect_to_subscribe": "Connectez-vous pour vous inscrire"
+      "connect_to_subscribe": "Connectez-vous pour vous inscrire",
+      "organizer_format": "Organisé par {{ organizer }}"
     },
     "centerofinterest": {
       "title": "Centres d'intérêt",
