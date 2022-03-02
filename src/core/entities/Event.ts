@@ -8,6 +8,7 @@ export interface ShortEvent {
   mode?: EventMode
   dateStart: Date
   dateEnd: Date
+  address?: EventAddress
 }
 
 export enum EventMode {
