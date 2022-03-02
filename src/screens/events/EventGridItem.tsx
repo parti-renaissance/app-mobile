@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
     marginTop: Spacing.unit,
   },
   title: {
-    ...Typography.eventItemTitle,
+    ...Typography.headline,
+    color: Colors.darkText,
     marginHorizontal: Spacing.unit,
     marginTop: Spacing.unit,
   },

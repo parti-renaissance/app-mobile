@@ -69,8 +69,8 @@ export const EventDetailsContent: FC<Props> = ({
             </Text>
             <BorderlessButton
               title={i18n.t('eventdetails.add_calendar')}
-              textStyle={Styles.eventSeeMoreButtonTextStyle}
-              style={Styles.eventSeeMoreButtonContainer}
+              textStyle={Styles.seeMoreButtonTextStyle}
+              style={styles.seeMoreButtonContainer}
               onPress={addCalendarEvent}
             />
           </View>
@@ -85,8 +85,8 @@ export const EventDetailsContent: FC<Props> = ({
               </Text>
               <BorderlessButton
                 title={i18n.t('eventdetails.access_online_event')}
-                textStyle={Styles.eventSeeMoreButtonTextStyle}
-                style={Styles.eventSeeMoreButtonContainer}
+                textStyle={Styles.seeMoreButtonTextStyle}
+                style={styles.seeMoreButtonContainer}
                 onPress={openOnlineUrl}
               />
             </View>
@@ -134,8 +134,8 @@ export const EventDetailsContent: FC<Props> = ({
             </Text>
             <BorderlessButton
               title={i18n.t('eventdetails.share_event')}
-              textStyle={Styles.eventSeeMoreButtonTextStyle}
-              style={Styles.eventSeeMoreButtonContainer}
+              textStyle={Styles.seeMoreButtonTextStyle}
+              style={styles.seeMoreButtonContainer}
               onPress={shareEvent}
             />
           </View>
@@ -152,11 +152,8 @@ export const EventDetailsContent: FC<Props> = ({
         {viewModel.canSeeMore ? (
           <BorderlessButton
             title={i18n.t('eventdetails.see_more')}
-            textStyle={Styles.eventSeeMoreButtonTextStyle}
-            style={[
-              styles.descriptionSeeMore,
-              Styles.eventSeeMoreButtonContainer,
-            ]}
+            textStyle={Styles.seeMoreButtonTextStyle}
+            style={[styles.descriptionSeeMore, styles.seeMoreButtonContainer]}
             onPress={onSeeMoreDescription}
           />
         ) : null}
@@ -217,10 +214,18 @@ const styles = StyleSheet.create({
   },
   rowItemDescription: {
     ...Typography.body,
-    color: Colors.lightText,
+    color: Colors.darkText,
+    marginTop: Spacing.small,
   },
   rowItemTitle: {
-    ...Typography.eventItemTitle,
+    ...Typography.headline,
+    color: Colors.darkText,
+  },
+  seeMoreButtonContainer: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    marginTop: Spacing.unit,
   },
   separator: {
     backgroundColor: Colors.separator,
@@ -229,8 +234,8 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.margin,
   },
   subtitle: {
-    ...Typography.eventItemTitle,
-    fontSize: 14,
+    ...Typography.headline,
+    color: Colors.darkText,
     marginHorizontal: Spacing.margin,
   },
   tag: {
@@ -243,6 +248,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title,
+    color: Colors.titleText,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },

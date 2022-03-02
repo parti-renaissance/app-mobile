@@ -51,8 +51,8 @@ const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
           </View>
           <BorderlessButton
             title={i18n.t('home.region_more')}
-            textStyle={Styles.homeSeeMoreButtonTextStyle}
-            style={Styles.homeSeeMoreButtonContainer}
+            textStyle={Styles.seeMoreButtonTextStyle}
+            style={styles.seeMore}
             onPress={onMorePressed}
           />
         </View>
@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
   logo: {
     height: 80,
     width: 80,
+  },
+  seeMore: {
+    alignSelf: 'flex-start',
   },
   subtitle: {
     ...Typography.subheadline,
