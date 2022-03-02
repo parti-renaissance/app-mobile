@@ -229,7 +229,11 @@
         "highlighted": "À la une"
       },
       "tag": { "local": "Local", "national": "National" },
-      "detail": { "caption_format": "par {{ author }} le {{ date }}" }
+      "detail": {
+        "caption_date_format": "le {{ date }}",
+        "caption_author_format": "par {{ author }}",
+        "caption_format": "{{ author }} {{ date }}"
+      }
     },
     "personalinformation": {
       "title": "Informations personnelles",
