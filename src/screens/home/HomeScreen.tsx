@@ -40,10 +40,11 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onRefresh,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
-    onEventSelected,
+    onNextEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
+    onFeedEventSelected,
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,
@@ -98,14 +99,14 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
         <HomeEventRowContainer
           viewModel={item.value}
           isHighlighted={isHighlighted}
-          onEventSelected={onEventSelected}
+          onEventSelected={onNextEventSelected}
         />
       )
     } else if (item.type === 'feedEvent') {
       return (
         <HomeFeedEventRow
           viewModel={item.value}
-          onEventSelected={onEventSelected}
+          onEventSelected={onFeedEventSelected}
         />
       )
     } else if (item.type === 'feedNews') {

@@ -13,7 +13,6 @@ export const EventRowViewModelMapper = {
     return {
       id: event.uuid,
       title: event.name,
-      category: event.category,
       isOnline: event.mode === EventMode.ONLINE,
       formattedAddress:
         !isOnline && event.address // duplicate condition with isOnline, to ensure Typescript understands address is defined

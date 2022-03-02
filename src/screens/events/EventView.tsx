@@ -19,7 +19,7 @@ import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
 type Props = Readonly<{
   viewModel: EventRowViewModel
   style?: StyleProp<ViewStyle>
-  onEventSelected: (event: EventRowViewModel) => void
+  onEventSelected: (eventId: string) => void
 }>
 
 const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
@@ -27,7 +27,7 @@ const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel)}
+        onPress={() => onEventSelected(viewModel.id)}
       >
         <View style={styles.container}>
           <View style={styles.topRow}>

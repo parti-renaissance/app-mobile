@@ -27,7 +27,6 @@ export interface EventGroupedRowContainerViewModel {
 export interface EventRowViewModel {
   id: string
   title: string
-  category: string
   isOnline: boolean
   formattedAddress: string
   addressIcon: ImageSourcePropType

@@ -31,12 +31,9 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
 
   const eventMode = route.params?.eventMode
 
-  const {
-    searchText,
-    onEventSelected,
-    onChangeText,
-    onFiltersSelected,
-  } = useEventsScreen(eventMode)
+  const { searchText, onChangeText, onFiltersSelected } = useEventsScreen(
+    eventMode,
+  )
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
@@ -53,10 +50,9 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
         eventFilter="home"
         searchText={searchText}
         eventModeFilter={eventMode}
-        onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchText, eventMode],
+    [searchText, eventMode],
   )
   const Calendar = useCallback(
     () => (
@@ -64,10 +60,9 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
         eventFilter="calendar"
         searchText={searchText}
         eventModeFilter={eventMode}
-        onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchText, eventMode],
+    [searchText, eventMode],
   )
   const MyEvents = useCallback(
     () => (
@@ -75,10 +70,9 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
         eventFilter="myEvents"
         searchText={searchText}
         eventModeFilter={eventMode}
-        onEventSelected={onEventSelected}
       />
     ),
-    [onEventSelected, searchText, eventMode],
+    [searchText, eventMode],
   )
 
   const renderScene = SceneMap({

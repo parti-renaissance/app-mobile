@@ -6,7 +6,6 @@ import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
-import { EventRowViewModel } from '../events/EventViewModel'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import { TimelineFeedItem } from '../../core/entities/TimelineFeedItem'
@@ -20,10 +19,11 @@ export const useHomeScreen = (): {
   onRefresh: () => void
   onRegionMorePressed: () => void
   onQuickPollAnswerSelected: (pollId: string, answerId: string) => void
-  onEventSelected: (event: EventRowViewModel) => void
+  onNextEventSelected: (eventId: string) => void
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
   onFeedNewsSelected: (newsId: string) => void
+  onFeedEventSelected: (eventId: string) => void
   onFeedPhoningCampaignSelected: (campaignId: string) => void
   onFeedDoorToDoorCampaignSelected: (campaignId: string) => void
   onFeedPollSelected: (pollId: string) => void
@@ -126,9 +126,23 @@ export const useHomeScreen = (): {
     updateQuickPoll(updatedPoll)
   }
 
-  const onEventSelected = async (event: EventRowViewModel) => {
-    await Analytics.logHomeEventOpen(event.title, event.category)
-    navigation.navigate('EventDetails', { eventId: event.id })
+  const onNextEventSelected = (eventId: string) => {
+    const currentResources = ViewState.unwrap(statefulState)
+    const event = currentResources?.nextEvent
+    if (!event || event.uuid !== eventId) {
+      return
+    }
+    Analytics.logHomeEventOpen(event.name, event.category)
+    navigation.navigate('EventDetails', { eventId: event.uuid })
+  }
+
+  const onFeedEventSelected = (eventId: string) => {
+    const item = findItemWithId(eventId)
+    if (item === undefined) {
+      return
+    }
+    Analytics.logHomeEventOpen(item.title, item.category ?? '')
+    navigation.navigate('EventDetails', { eventId: item.uuid })
   }
 
   const findItemWithId = (id: string): TimelineFeedItem | undefined => {
@@ -195,10 +209,11 @@ export const useHomeScreen = (): {
     onRefresh,
     onRegionMorePressed,
     onQuickPollAnswerSelected,
-    onEventSelected,
+    onNextEventSelected,
     onRetaliationSelected,
     onRetaliateSelected,
     onFeedNewsSelected,
+    onFeedEventSelected,
     onFeedPhoningCampaignSelected,
     onFeedDoorToDoorCampaignSelected,
     onFeedPollSelected,

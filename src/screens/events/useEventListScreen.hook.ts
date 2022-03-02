@@ -1,8 +1,11 @@
+import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
 import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInteractor'
+import { EventNavigatorScreenProps } from '../../navigation/EventNavigator'
+import { Analytics } from '../../utils/Analytics'
 import { DateProvider } from '../../utils/DateProvider'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -20,12 +23,16 @@ export const useEventListScreen = (
   isRefreshing: boolean
   onRefresh: () => void
   onEndReached: (() => void) | undefined
+  onEventSelected: (eventId: string) => void
 } => {
   const [isRefreshing, setRefreshing] = useState(true)
   const [isLoadingMore, setLoadingMore] = useState(false)
   const [statefulState, setStatefulState] = useState<
     ViewState<PaginatedResult<Array<ShortEvent>>>
   >(ViewState.Loading())
+  const navigation = useNavigation<
+    EventNavigatorScreenProps<'Events'>['navigation']
+  >()
 
   const fetchEvents = useCallback(
     (page: number) => {
@@ -92,6 +99,21 @@ export const useEventListScreen = (
   // There is no pagination for the main home
   const onEndReached = eventFilter === 'home' ? undefined : onLoadMore
 
+  const onEventSelected = useCallback(
+    (eventId: string) => {
+      const events = ViewState.unwrap(statefulState)?.result ?? []
+      const event = events.find((e) => e.uuid === eventId)
+      if (event === undefined) {
+        return
+      }
+      Analytics.logEventSelected(event.name, event.category)
+      navigation.navigate('EventDetails', {
+        eventId: event.uuid,
+      })
+    },
+    [navigation, statefulState],
+  )
+
   return {
     statefulState: ViewState.map(statefulState, (result) => {
       return EventSectionViewModelMapper.map(result.result, eventFilter)
@@ -100,5 +122,6 @@ export const useEventListScreen = (
     isRefreshing,
     onRefresh,
     onEndReached,
+    onEventSelected,
   }
 }

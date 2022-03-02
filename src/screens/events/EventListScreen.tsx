@@ -28,7 +28,6 @@ type Props = Readonly<{
   eventFilter: EventFilter
   searchText?: string
   eventModeFilter?: EventMode
-  onEventSelected: (event: EventRowViewModel) => void
 }>
 
 export type EventFilter = 'home' | 'calendar' | 'myEvents'
@@ -37,7 +36,6 @@ const EventListScreen: FC<Props> = ({
   eventFilter,
   searchText,
   eventModeFilter,
-  onEventSelected,
 }) => {
   const {
     statefulState,
@@ -45,6 +43,7 @@ const EventListScreen: FC<Props> = ({
     isRefreshing,
     onRefresh,
     onEndReached,
+    onEventSelected,
   } = useEventListScreen(eventFilter, searchText, eventModeFilter)
 
   useFocusEffect(useCallback(onRefresh, []))

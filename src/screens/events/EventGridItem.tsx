@@ -17,7 +17,7 @@ import i18n from '../../utils/i18n'
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   viewModel: EventRowViewModel
-  onEventSelected: (event: EventRowViewModel) => void
+  onEventSelected: (eventId: string) => void
 }>
 
 const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
@@ -28,7 +28,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
     >
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel)}
+        onPress={() => onEventSelected(viewModel.id)}
       >
         <View style={styles.container}>
           {viewModel.imageUrl ? (

@@ -31,7 +31,6 @@ export const EventRowViewModelFromTimelineEventMapper = {
     return {
       id: item.uuid,
       title: item.title,
-      category: category,
       isOnline: isOnline,
       formattedAddress: !isOnline
         ? item.address ?? ''
