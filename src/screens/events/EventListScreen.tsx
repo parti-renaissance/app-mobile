@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC } from 'react'
 import {
   SectionList,
   StyleSheet,
@@ -20,9 +20,9 @@ import {
   EventRowContainerViewModel,
   EventRowViewModel,
 } from './EventViewModel'
-import { useFocusEffect } from '@react-navigation/core'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { useEventListScreen } from './useEventListScreen.hook'
+import { useOnFocus } from '../../utils/useOnFocus.hook'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -46,7 +46,7 @@ const EventListScreen: FC<Props> = ({
     onEventSelected,
   } = useEventListScreen(eventFilter, searchText, eventModeFilter)
 
-  useFocusEffect(useCallback(onRefresh, []))
+  useOnFocus(onRefresh)
 
   const EventListContent = (events: Array<EventSectionViewModel>) => {
     const renderItemHorizontal = (

@@ -3,7 +3,7 @@ import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
@@ -15,6 +15,7 @@ import {
 } from '../../core/entities/TimelineFeedItem'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
+import { useOnFocus } from '../../utils/useOnFocus.hook'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -48,7 +49,7 @@ export const useHomeScreen = (): {
     updateQuickPoll,
   } = useFetchHomeResources()
 
-  useFocusEffect(useCallback(fetchHomeResources, []))
+  useOnFocus(fetchHomeResources)
 
   const fetchTimelineFeed = useCallback(() => {
     setIsLoadingMore(true)
