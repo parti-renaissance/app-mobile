@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback } from 'react'
 import {
   SectionList,
   StyleSheet,
@@ -9,13 +9,10 @@ import {
   RefreshControl,
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
-import { PaginatedResult } from '../../core/entities/PaginatedResult'
-import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
+import { EventMode } from '../../core/entities/Event'
 import { Colors, Spacing, Typography } from '../../styles'
-import { DateProvider } from '../../utils/DateProvider'
 import i18n from '../../utils/i18n'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
 import EventGridItem from './EventGridItem'
 import EventView from './EventView'
 import {
@@ -23,11 +20,9 @@ import {
   EventRowContainerViewModel,
   EventRowViewModel,
 } from './EventViewModel'
-import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
-import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInteractor'
 import { useFocusEffect } from '@react-navigation/core'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
+import { useEventListScreen } from './useEventListScreen.hook'
 
 type Props = Readonly<{
   eventFilter: EventFilter
@@ -38,84 +33,21 @@ type Props = Readonly<{
 
 export type EventFilter = 'home' | 'calendar' | 'myEvents'
 
-const EventListScreen: FC<Props> = (props) => {
-  const [isRefreshing, setRefreshing] = useState(true)
-  const [isLoadingMore, setLoadingMore] = useState(false)
-  const [statefulState, setStatefulState] = useState<
-    ViewState<PaginatedResult<Array<ShortEvent>>>
-  >(ViewState.Loading())
+const EventListScreen: FC<Props> = ({
+  eventFilter,
+  searchText,
+  eventModeFilter,
+  onEventSelected,
+}) => {
+  const {
+    statefulState,
+    isLoadingMore,
+    isRefreshing,
+    onRefresh,
+    onEndReached,
+  } = useEventListScreen(eventFilter, searchText, eventModeFilter)
 
-  const fetchEvents = useCallback(
-    (page: number) => {
-      const subscribedOnly = props.eventFilter === 'myEvents' ? true : false
-      const filters: EventFilters = {
-        subscribedOnly: subscribedOnly,
-        finishAfter: DateProvider.now(),
-        searchText: props.searchText,
-        mode: props.eventModeFilter,
-      }
-      if (props.eventFilter === 'home') {
-        return new GetMainEventsInteractor().execute(filters)
-      } else {
-        return new GetEventsInteractor().execute(page, filters)
-      }
-    },
-    [props.eventFilter, props.searchText, props.eventModeFilter],
-  )
-  const loadFirstPage = useCallback(() => {
-    fetchEvents(1)
-      .then((paginatedResult) => {
-        setStatefulState(ViewState.Content(paginatedResult))
-      })
-      .catch((error) => {
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading())
-            loadFirstPage()
-          }),
-        )
-      })
-      .finally(() => setRefreshing(false))
-  }, [fetchEvents])
-
-  const refreshData = useCallback(() => {
-    setRefreshing(true)
-    loadFirstPage()
-  }, [loadFirstPage])
-
-  const loadMore = useCallback(() => {
-    const currentState = statefulState
-    if (currentState.state === 'content') {
-      const content = currentState.content
-      const paginationInfo = content.paginationInfo
-
-      if (paginationInfo.currentPage === paginationInfo.lastPage) {
-        // last page reached : nothing to paginate
-        return
-      }
-      setLoadingMore(true)
-      fetchEvents(paginationInfo.currentPage + 1)
-        .then((paginatedResult) => {
-          const newContent = PaginatedResult.merge(content, paginatedResult)
-          setStatefulState(ViewState.Content(newContent))
-        })
-        .catch((error) => {
-          console.log(error)
-          // no-op: next page can be reloaded by reaching the end of the list again
-        })
-        .finally(() => setLoadingMore(false))
-    }
-  }, [statefulState, fetchEvents])
-
-  // There is no pagination for the main home
-  const onEndReached = props.eventFilter === 'home' ? undefined : loadMore
-
-  useFocusEffect(
-    useCallback(() => {
-      setStatefulState(ViewState.Loading())
-      loadFirstPage()
-    }, [loadFirstPage]),
-  )
+  useFocusEffect(useCallback(onRefresh, []))
 
   const EventListContent = (events: Array<EventSectionViewModel>) => {
     const renderItemHorizontal = (
@@ -128,7 +60,7 @@ const EventListScreen: FC<Props> = (props) => {
         <EventGridItem
           style={[styles.eventGridCell, { marginEnd }]}
           viewModel={info.item}
-          onEventSelected={props.onEventSelected}
+          onEventSelected={onEventSelected}
         />
       )
     }
@@ -151,7 +83,7 @@ const EventListScreen: FC<Props> = (props) => {
             <EventView
               style={styles.eventView}
               viewModel={item.value}
-              onEventSelected={props.onEventSelected}
+              onEventSelected={onEventSelected}
             />
           )
       }
@@ -185,7 +117,7 @@ const EventListScreen: FC<Props> = (props) => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={refreshData}
+            onRefresh={onRefresh}
             colors={[Colors.primaryColor]}
           />
         }
@@ -199,11 +131,7 @@ const EventListScreen: FC<Props> = (props) => {
   return (
     <StatefulView
       state={statefulState}
-      contentComponent={(result) => {
-        const viewModel = EventSectionViewModelMapper.map(
-          result.result,
-          props.eventFilter,
-        )
+      contentComponent={(viewModel) => {
         return EventListContent(viewModel)
       }}
     />
