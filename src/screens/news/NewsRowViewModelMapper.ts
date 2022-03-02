@@ -27,7 +27,7 @@ export const NewsRowViewModelMapper = {
       date: i18n.t('home.news.date_format', {
         date: DateFormatter.format(news.date, i18n.t('home.news.date_pattern')),
       }),
-      isEnabled: news.url !== undefined,
+      excerpt: news.description,
     }
   },
 }

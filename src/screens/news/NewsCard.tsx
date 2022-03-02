@@ -28,7 +28,6 @@ const NewsCard: FunctionComponent<Props> = ({
     <CardView backgroundColor={Colors.defaultBackground}>
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
-        disabled={!viewModel.isEnabled}
         onPress={onPress}
       >
         <View style={styles.container}>
@@ -43,6 +42,10 @@ const NewsCard: FunctionComponent<Props> = ({
             <Text style={styles.caption}>{viewModel.author}</Text>
           )}
           <Text style={styles.caption}>{viewModel.date}</Text>
+          <VerticalSpacer spacing={Spacing.margin} />
+          <Text numberOfLines={3} style={styles.excerpt}>
+            {viewModel.excerpt}
+          </Text>
         </View>
       </TouchablePlatform>
     </CardView>
@@ -69,6 +72,10 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title,
     color: Colors.titleText,
+  },
+  excerpt: {
+    ...Typography.title3,
+    color: Colors.darkText,
   },
 })
 

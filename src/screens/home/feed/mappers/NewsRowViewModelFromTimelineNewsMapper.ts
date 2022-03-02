@@ -20,7 +20,7 @@ export const NewsRowViewModelFromTimelineNewsMapper = {
       date: i18n.t('home.news.date_format', {
         date: DateFormatter.format(item.date, i18n.t('home.news.date_pattern')),
       }),
-      isEnabled: true,
+      excerpt: item.description,
     }
   },
 }
