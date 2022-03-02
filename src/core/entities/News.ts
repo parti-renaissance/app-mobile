@@ -4,4 +4,8 @@ export interface News {
   description: string
   date: Date
   url?: string
+  isPinned: boolean
+  isMarkdown: boolean
+  visibility: 'national' | 'local'
+  creator?: string
 }

@@ -10,6 +10,10 @@ export const RestNewsMapper = {
       description: restNews.text,
       date: new Date(restNews.created_at),
       url: urlSize > 0 ? restNews.external_link! : undefined,
+      isPinned: restNews.pinned,
+      isMarkdown: restNews.enriched,
+      visibility: restNews.visibility,
+      creator: restNews.creator !== null ? restNews.creator : undefined,
     }
   },
 }
