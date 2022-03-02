@@ -11,7 +11,6 @@ import HTML from 'react-native-render-html'
 import { DetailedEvent } from '../../core/entities/Event'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { TagViewEventStyleMapper } from '../events/TagViewEventStyleMapper'
 import {
   BorderlessButton,
   PrimaryButton,
@@ -55,11 +54,7 @@ export const EventDetailsContent: FC<Props> = ({
           ) : null}
         </View>
         <View style={styles.tagAttendeesContainer}>
-          <TagView
-            style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
-          >
-            {viewModel.tag}
-          </TagView>
+          <TagView style={styles.tag}>{viewModel.tag}</TagView>
           <Text style={styles.attendees}>{viewModel.attendeesNumber}</Text>
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>

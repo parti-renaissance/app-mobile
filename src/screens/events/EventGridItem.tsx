@@ -12,7 +12,6 @@ import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
 import TagView from '../shared/TagView'
-import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
@@ -38,11 +37,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             <View style={[styles.image, styles.imagePlaceholder]} />
           )}
           <View style={styles.leftColumn}>
-            <TagView
-              style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
-            >
-              {viewModel.tag}
-            </TagView>
+            <TagView style={styles.tag}>{viewModel.tag}</TagView>
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.isOnline ? (
                 <View style={styles.webcamIconContainer}>

@@ -13,7 +13,6 @@ import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
 import TagView from '../shared/TagView'
-import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
 
@@ -33,9 +32,7 @@ const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
         <View style={styles.container}>
           <View style={styles.topRow}>
             <View style={styles.leftColumn}>
-              <TagView style={TagViewEventStyleMapper.map(viewModel.tag)}>
-                {viewModel.tag}
-              </TagView>
+              <TagView>{viewModel.tag}</TagView>
               <Text style={styles.title}>{viewModel.title}</Text>
             </View>
             <View style={styles.rightColumn}>
