@@ -5845,6 +5845,11 @@ localforage@^1.8.1:
   dependencies:
     lie "3.1.1"
 
+localized-address-format@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/localized-address-format/-/localized-address-format-1.1.0.tgz#ff7e2828f01bfdc7e2383eaad07ee8ad0455da7f"
+  integrity sha512-7Qkc68K0x/eRbKRDPOI24+2gj2fUm1yWRlC/vrMm5g/hiifZHXwFeJbiM9TQDYZs96ZHUhsn9fxESedt5I5xHw==
+
 locate-path@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-3.0.0.tgz"

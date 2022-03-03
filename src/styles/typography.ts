@@ -177,13 +177,6 @@ export const phoneNumberPicker: Theme = {
   fontFamily: robotoRegular,
 }
 
-export const eventItemTitle: TextStyle = {
-  fontSize: bodyFontSize,
-  fontFamily: robotoMedium,
-  lineHeight: 20,
-  color: Colors.darkText,
-}
-
 export const homeBannerTitle: TextStyle = {
   fontSize: 45,
   lineHeight: 41,

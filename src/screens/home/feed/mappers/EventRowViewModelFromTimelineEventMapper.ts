@@ -26,11 +26,18 @@ export const EventRowViewModelFromTimelineEventMapper = {
     const category = item.category ?? ''
     logWarningsIfNeeded(item, ['category', 'beginAt', 'finishAt'])
 
+    const isOnline = item.address === undefined
+
     return {
       id: item.uuid,
       title: item.title,
-      category: category,
-      isOnline: false, // TODO: (Pierre Felgines) 2022/02/28 Find this info in webservice
+      isOnline: isOnline,
+      formattedAddress: !isOnline
+        ? item.address ?? ''
+        : i18n.t('eventdetails.online_event'),
+      addressIcon: !isOnline
+        ? require('../../../../assets/images/eventAddressIcon.png')
+        : require('../../../../assets/images/eventOnlineIcon.png'),
       imageUrl: item.imageUri,
       tag: category,
       isSubscribed: false,

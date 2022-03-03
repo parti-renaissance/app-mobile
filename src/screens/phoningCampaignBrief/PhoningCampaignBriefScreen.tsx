@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
     padding: Spacing.margin,
   },
   linkText: {
-    ...Styles.eventSeeMoreButtonTextStyle,
-    color: Colors.primaryColor,
+    ...Styles.seeMoreButtonTextStyle,
   },
 })
 

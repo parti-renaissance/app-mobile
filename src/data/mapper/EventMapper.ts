@@ -17,6 +17,7 @@ export const EventMapper = {
     const userRegisteredAt = restShortEvent.user_registered_at
       ? new Date(restShortEvent.user_registered_at)
       : undefined
+    const address = mapAddress(restShortEvent.post_address)
     return {
       uuid: restShortEvent.uuid,
       tag: restShortEvent.category.event_group_category.name,
@@ -27,6 +28,7 @@ export const EventMapper = {
       dateStart: new Date(restShortEvent.begin_at),
       dateEnd: new Date(restShortEvent.finish_at),
       userRegisteredAt: userRegisteredAt,
+      address: address,
     }
   },
   mapDetailedEvent: (restDetailedEvent: RestDetailedEvent): DetailedEvent => {

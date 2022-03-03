@@ -24,6 +24,7 @@ export const EventDetailsViewModelMapper = {
       imageUrl: event.imageUrl,
       isSubscribed: event.userRegisteredAt !== undefined,
       date: mapDate(event),
+      canShare: event.link !== undefined,
       eventUrl: event.link,
       description: mapDescription(event, canSeeMore),
       canSeeMore: isDescriptionTooLarge(event.description),
@@ -71,8 +72,9 @@ function mapOrganizer(event: DetailedEvent): EventOrganizerViewModel {
     lastName: event.organizer.lastName,
   })
   return {
-    title: fullName,
+    title: i18n.t('eventdetails.organizer_format', { organizer: fullName }),
     description: event.commitee?.name,
     openUrl: event.commitee?.url,
+    isPressable: event.commitee?.url !== undefined,
   }
 }

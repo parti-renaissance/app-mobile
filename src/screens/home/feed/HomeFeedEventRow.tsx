@@ -7,7 +7,7 @@ import { HomeFeedTimelineItem } from './HomeFeedTimelineItem'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel
-  onEventSelected: (event: EventRowViewModel) => void
+  onEventSelected: (eventId: string) => void
 }>
 
 export const HomeFeedEventRow: FunctionComponent<Props> = ({

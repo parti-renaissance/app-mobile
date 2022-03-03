@@ -12,13 +12,12 @@ import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
 import TagView from '../shared/TagView'
-import { TagViewEventStyleMapper } from './TagViewEventStyleMapper'
 import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>
   viewModel: EventRowViewModel
-  onEventSelected: (event: EventRowViewModel) => void
+  onEventSelected: (eventId: string) => void
 }>
 
 const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
@@ -29,7 +28,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
     >
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel)}
+        onPress={() => onEventSelected(viewModel.id)}
       >
         <View style={styles.container}>
           {viewModel.imageUrl ? (
@@ -38,11 +37,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             <View style={[styles.image, styles.imagePlaceholder]} />
           )}
           <View style={styles.leftColumn}>
-            <TagView
-              style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
-            >
-              {viewModel.tag}
-            </TagView>
+            <TagView style={styles.tag}>{viewModel.tag}</TagView>
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.isOnline ? (
                 <View style={styles.webcamIconContainer}>
@@ -135,7 +130,8 @@ const styles = StyleSheet.create({
     marginTop: Spacing.unit,
   },
   title: {
-    ...Typography.eventItemTitle,
+    ...Typography.headline,
+    color: Colors.darkText,
     marginHorizontal: Spacing.unit,
     marginTop: Spacing.unit,
   },

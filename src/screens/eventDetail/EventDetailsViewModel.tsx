@@ -10,6 +10,7 @@ export interface EventDetailsViewModel {
   isSubscribed: boolean
   date: EventDateViewModel
   eventUrl?: string
+  canShare: boolean
   description: string
   canSeeMore: boolean
 }
@@ -23,4 +24,5 @@ export interface EventOrganizerViewModel {
   title: string
   description?: string
   openUrl?: string
+  isPressable: boolean
 }

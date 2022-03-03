@@ -6,12 +6,12 @@ import {
   Text,
   useWindowDimensions,
   StyleSheet,
+  TextStyle,
 } from 'react-native'
 import HTML from 'react-native-render-html'
 import { DetailedEvent } from '../../core/entities/Event'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { TagViewEventStyleMapper } from '../events/TagViewEventStyleMapper'
 import {
   BorderlessButton,
   PrimaryButton,
@@ -55,11 +55,7 @@ export const EventDetailsContent: FC<Props> = ({
           ) : null}
         </View>
         <View style={styles.tagAttendeesContainer}>
-          <TagView
-            style={[styles.tag, TagViewEventStyleMapper.map(viewModel.tag)]}
-          >
-            {viewModel.tag}
-          </TagView>
+          <TagView style={styles.tag}>{viewModel.tag}</TagView>
           <Text style={styles.attendees}>{viewModel.attendeesNumber}</Text>
         </View>
         <Text style={styles.title}>{viewModel.title}</Text>
@@ -74,8 +70,8 @@ export const EventDetailsContent: FC<Props> = ({
             </Text>
             <BorderlessButton
               title={i18n.t('eventdetails.add_calendar')}
-              textStyle={Styles.eventSeeMoreButtonTextStyle}
-              style={Styles.eventSeeMoreButtonContainer}
+              textStyle={Styles.seeMoreButtonTextStyle}
+              style={styles.seeMoreButtonContainer}
               onPress={addCalendarEvent}
             />
           </View>
@@ -90,8 +86,8 @@ export const EventDetailsContent: FC<Props> = ({
               </Text>
               <BorderlessButton
                 title={i18n.t('eventdetails.access_online_event')}
-                textStyle={Styles.eventSeeMoreButtonTextStyle}
-                style={Styles.eventSeeMoreButtonContainer}
+                textStyle={Styles.seeMoreButtonTextStyle}
+                style={styles.seeMoreButtonContainer}
                 onPress={openOnlineUrl}
               />
             </View>
@@ -106,18 +102,20 @@ export const EventDetailsContent: FC<Props> = ({
         ) : null}
         <View style={styles.separator} />
         <EventDetailsItemContainer
-          onPress={openOrganizerUrl}
+          onPress={
+            viewModel.organizer.isPressable ? openOrganizerUrl : undefined
+          }
           icon={require('../../assets/images/iconOrganizer.png')}
         >
           <View style={styles.organizerContainer}>
-            <Text style={styles.rowItemTitle}>
-              {viewModel.organizer?.title}
+            <Text style={styles.organizerTitle}>
+              {viewModel.organizer.title}
             </Text>
-            {viewModel.organizer?.description ? (
-              <Text style={styles.rowItemDescription}>
+            {viewModel.organizer?.description && (
+              <Text style={styles.organizerDescription}>
                 {viewModel.organizer?.description}
               </Text>
-            ) : null}
+            )}
           </View>
           {viewModel.organizer?.openUrl ? (
             <Image
@@ -125,43 +123,47 @@ export const EventDetailsContent: FC<Props> = ({
             />
           ) : null}
         </EventDetailsItemContainer>
-        <View style={styles.separator} />
-        <EventDetailsItemContainer
-          icon={require('../../assets/images/iconShare.png')}
-        >
-          <View style={styles.eventItemsContainer}>
-            <Text
-              style={styles.rowItemDescription}
-              numberOfLines={1}
-              ellipsizeMode="tail"
+        {viewModel.canShare && (
+          <>
+            <View style={styles.separator} />
+            <EventDetailsItemContainer
+              icon={require('../../assets/images/iconShare.png')}
             >
-              {viewModel.eventUrl}
-            </Text>
-            <BorderlessButton
-              title={i18n.t('eventdetails.share_event')}
-              textStyle={Styles.eventSeeMoreButtonTextStyle}
-              style={Styles.eventSeeMoreButtonContainer}
-              onPress={shareEvent}
-            />
-          </View>
-        </EventDetailsItemContainer>
+              <View style={styles.eventItemsContainer}>
+                <Text
+                  style={styles.rowItemDescription}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {viewModel.eventUrl}
+                </Text>
+                <BorderlessButton
+                  title={i18n.t('eventdetails.share_event')}
+                  textStyle={Styles.seeMoreButtonTextStyle}
+                  style={styles.seeMoreButtonContainer}
+                  onPress={shareEvent}
+                />
+              </View>
+            </EventDetailsItemContainer>
+          </>
+        )}
         <View style={styles.separator} />
         <Text style={styles.subtitle}>
           {i18n.t('eventdetails.description')}
         </Text>
         <HTML
-          containerStyle={styles.description}
-          source={{ html: viewModel.description }}
+          containerStyle={styles.htmlContainer}
+          source={{
+            html: viewModel.description,
+          }}
+          tagsStyles={{ p: paragraphStyle }}
           contentWidth={contentWidth}
         />
         {viewModel.canSeeMore ? (
           <BorderlessButton
             title={i18n.t('eventdetails.see_more')}
-            textStyle={Styles.eventSeeMoreButtonTextStyle}
-            style={[
-              styles.descriptionSeeMore,
-              Styles.eventSeeMoreButtonContainer,
-            ]}
+            textStyle={Styles.seeMoreButtonTextStyle}
+            style={[styles.descriptionSeeMore, styles.seeMoreButtonContainer]}
             onPress={onSeeMoreDescription}
           />
         ) : null}
@@ -185,6 +187,12 @@ export const EventDetailsContent: FC<Props> = ({
       </View>
     </>
   )
+}
+
+const paragraphStyle: TextStyle = {
+  ...Typography.body,
+  color: Colors.darkText,
+  marginBottom: Spacing.unit,
 }
 
 const styles = StyleSheet.create({
@@ -214,18 +222,39 @@ const styles = StyleSheet.create({
   eventItemsContainer: {
     flex: 1,
   },
+  htmlContainer: {
+    marginHorizontal: Spacing.margin,
+    marginTop: Spacing.unit,
+  },
   image: {
     height: 203,
   },
   organizerContainer: {
     flex: 1,
   },
-  rowItemDescription: {
+  organizerTitle: {
+    ...Typography.body,
+    color: Colors.darkText,
+  },
+  organizerDescription: {
     ...Typography.body,
     color: Colors.lightText,
+    marginTop: Spacing.small,
+  },
+  rowItemDescription: {
+    ...Typography.body,
+    color: Colors.darkText,
+    marginTop: Spacing.small,
   },
   rowItemTitle: {
-    ...Typography.eventItemTitle,
+    ...Typography.headline,
+    color: Colors.darkText,
+  },
+  seeMoreButtonContainer: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    marginTop: Spacing.unit,
   },
   separator: {
     backgroundColor: Colors.separator,
@@ -234,8 +263,8 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.margin,
   },
   subtitle: {
-    ...Typography.eventItemTitle,
-    fontSize: 14,
+    ...Typography.headline,
+    color: Colors.darkText,
     marginHorizontal: Spacing.margin,
   },
   tag: {
@@ -248,6 +277,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title,
+    color: Colors.titleText,
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },

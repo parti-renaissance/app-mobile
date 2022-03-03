@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from 'react-native'
+
 export type EventSectionViewModel = {
   id: string
   sectionViewModel?: EventSectionRowViewModel
@@ -25,8 +27,9 @@ export interface EventGroupedRowContainerViewModel {
 export interface EventRowViewModel {
   id: string
   title: string
-  category: string
   isOnline: boolean
+  formattedAddress: string
+  addressIcon: ImageSourcePropType
   tag: string
   imageUrl?: string
   isSubscribed: boolean

@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   linkText: {
-    ...Styles.eventSeeMoreButtonTextStyle,
-    color: Colors.primaryColor,
+    ...Styles.seeMoreButtonTextStyle,
   },
   title: {
     ...Typography.headline,

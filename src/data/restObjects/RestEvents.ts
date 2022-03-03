@@ -18,6 +18,7 @@ export interface RestShortEvent {
   local_finish_at: string
   image_url: string | null
   user_registered_at: string | null
+  post_address: RestEventAddress | null
 }
 
 export interface RestEventCategory {
