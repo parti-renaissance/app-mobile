@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { ImageBackground, StatusBar, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import i18n from '../../utils/i18n'
@@ -7,12 +7,12 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import LinearGradient from 'react-native-linear-gradient'
 import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
+import { useUnauthenticatedHomeScreen } from './useUnauthenticatedHomeScreen.hook'
 
 type UnauthenticatedHomeScreenProps = UnauthenticatedRootNavigatorScreenProps<'UnauthenticatedHome'>
 
-const UnauthenticatedHomeScreen = ({
-  navigation,
-}: UnauthenticatedHomeScreenProps) => {
+const UnauthenticatedHomeScreen: FC<UnauthenticatedHomeScreenProps> = () => {
+  const { onLogin, onSignUp, onLegacyLogin } = useUnauthenticatedHomeScreen()
   return (
     <ImageBackground
       source={require('../../assets/images/backgroundUnauthenticatedHome.png')}
@@ -49,25 +49,19 @@ const UnauthenticatedHomeScreen = ({
           <PrimaryButton
             style={styles.button}
             title={i18n.t('unauthenticatedhome.login')}
-            onPress={() => {
-              navigation.navigate('Login')
-            }}
+            onPress={onLogin}
           />
           <SecondaryButton
             style={styles.button}
             title={i18n.t('unauthenticatedhome.signup')}
-            onPress={() => {
-              navigation.navigate('SignUp')
-            }}
+            onPress={onSignUp}
           />
           <Text style={styles.separator}>
             {i18n.t('unauthenticatedhome.or')}
           </Text>
           <SecondaryButton
             style={styles.button}
-            onPress={() => {
-              navigation.navigate('Login')
-            }}
+            onPress={onLegacyLogin}
             title={i18n.t('unauthenticatedhome.login_lrem')}
             trailingIcon={require('../../assets/images/iconEM.png')}
             iconPadding={Spacing.unit}
