@@ -12,10 +12,12 @@ import {
   TimelineFeedItem,
   TimelineFeedItemActionCampaign,
   TimelineFeedItemEvent,
+  TimelineFeedItemRetaliation,
 } from '../../core/entities/TimelineFeedItem'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { useOnFocus } from '../../utils/useOnFocus.hook'
+import { RetaliationService } from '../../data/RetaliationService'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -166,14 +168,14 @@ export const useHomeScreen = (): {
   }
 
   const onRetaliateSelected = (id: string) => {
-    // TODO: (Pierre Felgines) 2022/02/28 Find retaliation from feed
-    console.log(id)
-    // const retaliation = currentResources?.retaliations.find(
-    //   (item) => item.id === id,
-    // )
-    // if (retaliation !== null && retaliation !== undefined) {
-    //   RetaliationService.retaliate(retaliation)
-    // }
+    const item = findItemWithId<TimelineFeedItemRetaliation>(id, 'retaliation')
+    if (item === undefined) {
+      return
+    }
+    RetaliationService.retaliate({
+      content: item.description,
+      url: item.url,
+    })
   }
 
   const onFeedPhoningCampaignSelected = (campaignId: string) => {

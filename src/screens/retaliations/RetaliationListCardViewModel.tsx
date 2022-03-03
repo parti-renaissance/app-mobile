@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from 'react-native'
 
-export interface HomeRetaliationCardViewModel {
+export interface RetaliationListCardViewModel {
   id: string
   socialIcon: ImageSourcePropType
   title: string

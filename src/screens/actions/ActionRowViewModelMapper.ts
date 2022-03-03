@@ -19,6 +19,9 @@ function mapImage(type: ActionType): ImageSourcePropType {
   switch (type) {
     case 'polls':
       return require('../../assets/images/imagePolls.png')
+    case 'retaliation':
+      // TODO: (Pierre Felgines) 2022/03/03 Change icon
+      return require('../../assets/images/imagePolls.png')
     case 'doorToDoor':
       return require('../../assets/images/imageDoorToDoor.png')
     case 'phoning':
@@ -30,6 +33,8 @@ function mapTitle(type: ActionType): string {
   switch (type) {
     case 'polls':
       return i18n.t('actions.polls.title')
+    case 'retaliation':
+      return i18n.t('actions.retaliation')
     case 'doorToDoor':
       return i18n.t('actions.door_to_door.title')
     case 'phoning':

@@ -1,4 +1,4 @@
-export type ActionType = 'polls' | 'phoning' | 'doorToDoor'
+export type ActionType = 'polls' | 'phoning' | 'doorToDoor' | 'retaliation'
 
 export interface Action {
   id: string

@@ -1,10 +1,14 @@
-import { Retaliation } from './../core/entities/Retaliation'
 import Clipboard from '@react-native-community/clipboard'
 import { Linking } from 'react-native'
 
+export interface RetaliationRequest {
+  content: string
+  url: string
+}
+
 export const RetaliationService = {
-  retaliate: (retaliation: Retaliation) => {
-    Clipboard.setString(retaliation.body)
-    Linking.openURL(retaliation.sourceUrl)
+  retaliate: (request: RetaliationRequest) => {
+    Clipboard.setString(request.content)
+    Linking.openURL(request.url)
   },
 }

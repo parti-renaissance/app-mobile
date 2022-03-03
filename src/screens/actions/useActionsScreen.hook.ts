@@ -63,6 +63,10 @@ export const useActionsScreen = (): {
         navigation.navigate('DoorToDoor')
         break
       }
+      case 'retaliation': {
+        navigation.navigate('Retaliations')
+        break
+      }
     }
   }
 

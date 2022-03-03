@@ -3,11 +3,12 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import RetaliationCard from './RetaliationCard'
 import { PrimaryButton } from '../shared/Buttons'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { useRetaliationDetailScreen } from './useRetaliationDetailScreen.hook'
 import { StatefulView } from '../shared/StatefulView'
+import { VerticalSpacer } from '../shared/Spacer'
+import RetaliationPostCard from './RetaliationPostCard'
 
 type RetaliationDetailScreenProps = HomeNavigatorScreenProps<'RetaliationDetail'>
 
@@ -27,7 +28,8 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProps> =
             <>
               <ScrollView contentContainerStyle={styles.contentContainer}>
                 <Text style={styles.title}>{viewModel.title}</Text>
-                <RetaliationCard viewModel={viewModel} />
+                <RetaliationPostCard viewModel={viewModel.card} />
+                <VerticalSpacer spacing={Spacing.mediumMargin} />
                 <Text style={styles.subtitle}>
                   {i18n.t('retaliation.title')}
                 </Text>
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title,
+    lineHeight: 34,
   },
 })
 
