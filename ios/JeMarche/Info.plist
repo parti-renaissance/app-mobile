@@ -54,6 +54,7 @@
 		<string>Maax-Medium.ttf</string>
 		<string>Maax-Bold.ttf</string>
 		<string>Maax-Mediumitalic.ttf</string>
+		<string>Roboto-Italic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

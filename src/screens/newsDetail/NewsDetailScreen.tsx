@@ -40,7 +40,8 @@ const NewsDetailScreen: FunctionComponent<NewsDetailScreenProps> = ({
               <Text style={styles.title}>{viewModel.title}</Text>
               <VerticalSpacer spacing={Spacing.unit} />
               <Text style={styles.caption}>{viewModel.caption}</Text>
-              <Markdown style={{ body: styles.markdown }}>
+              <VerticalSpacer spacing={Spacing.margin} />
+              <Markdown style={Typography.markdownStyle} mergeStyle={false}>
                 {viewModel.markdown}
               </Markdown>
             </ScrollView>
