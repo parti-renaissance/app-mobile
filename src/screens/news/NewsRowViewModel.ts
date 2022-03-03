@@ -4,5 +4,5 @@ export interface NewsRowViewModel {
   title: string
   author?: string
   date: string
-  isEnabled: boolean
+  excerpt: string
 }

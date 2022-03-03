@@ -8,7 +8,7 @@ import { StyleSheet, ScrollView } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { Colors, Spacing } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView, ViewState } from '../shared/StatefulView'
 import { useFocusEffect } from '@react-navigation/core'
@@ -51,8 +51,10 @@ const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProps> = ({
 
   const TutorialContent = (resources: TutorialResources) => {
     return (
-      <ScrollView style={styles.contentContainer}>
-        <Markdown>{resources.content}</Markdown>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Markdown style={Typography.markdownStyle} mergeStyle={false}>
+          {resources.content}
+        </Markdown>
       </ScrollView>
     )
   }

@@ -6,6 +6,10 @@ export interface RestNews {
   text: string
   created_at: string
   external_link: string | null
+  pinned: boolean
+  link_label: string | null
+  visibility: 'national' | 'local'
+  creator: string | null
 }
 
 export interface RestNewsResponse {

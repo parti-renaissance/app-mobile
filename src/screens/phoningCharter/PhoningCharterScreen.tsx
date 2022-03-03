@@ -4,7 +4,7 @@ import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
-import { Colors, Spacing, Styles } from '../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { PrimaryButton } from '../shared/Buttons'
@@ -34,12 +34,12 @@ const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProps> = ({
       })
   }
 
-  const markdownStyle = { body: styles.chartContainer }
-
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Markdown style={markdownStyle}>{route.params.data.charter}</Markdown>
+      <ScrollView contentContainerStyle={styles.markdownContainer}>
+        <Markdown style={Typography.markdownStyle} mergeStyle={false}>
+          {route.params.data.charter}
+        </Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
   },
-  chartContainer: {
-    margin: Spacing.margin,
+  markdownContainer: {
+    padding: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,

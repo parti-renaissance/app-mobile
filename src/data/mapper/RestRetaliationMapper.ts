@@ -1,12 +1,12 @@
 import {
   Retaliation,
   RetaliationOpenGraph,
-  RetaliationSiteType,
 } from './../../core/entities/Retaliation'
 import {
   RestRetaliation,
   RestRetaliationOpenGraph,
 } from '../restObjects/RestRetaliation'
+import { RetaliationSiteTypeMapper } from './RetaliationSiteTypeMapper'
 
 export const RestRetaliationMapper = {
   map: (restRetaliation: RestRetaliation): Retaliation => {
@@ -29,18 +29,9 @@ const RestRetaliationOpenGraphMapper = {
     if (restRetaliationOpenGraph === null) {
       return null
     }
-    let site: RetaliationSiteType
-    switch (restRetaliationOpenGraph.site_name) {
-      case 'Facebook':
-        site = 'facebook'
-        break
-      case 'Twitter':
-        site = 'twitter'
-        break
-      default:
-        site = 'others'
-        break
-    }
+    const site = RetaliationSiteTypeMapper.map(
+      restRetaliationOpenGraph.site_name,
+    )
     return {
       url: restRetaliationOpenGraph.url,
       type: restRetaliationOpenGraph.type,

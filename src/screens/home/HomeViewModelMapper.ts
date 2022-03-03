@@ -174,39 +174,39 @@ function appendTimelineFeedItems(
       case 'news':
         return {
           type: 'feedNews',
-          value: NewsRowViewModelFromTimelineNewsMapper.map(item),
+          value: NewsRowViewModelFromTimelineNewsMapper.map(item.value),
         }
       case 'event':
         return {
           type: 'feedEvent',
-          value: EventRowViewModelFromTimelineEventMapper.map(item),
+          value: EventRowViewModelFromTimelineEventMapper.map(item.value),
         }
-      case 'riposte':
+      case 'retaliation':
         return {
           type: 'feedRetaliation',
           value: HomeRetaliationCardViewModelFromTimelineRetaliationMapper.map(
-            item,
+            item.value,
           ),
         }
-      case 'phoning-campaign':
+      case 'phoning':
         return {
           type: 'feedPhoningCampaign',
           value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
-            item,
+            item.value,
           ),
         }
-      case 'pap-campaign':
+      case 'doorToDoor':
         return {
           type: 'feedDoorToDoorCampaign',
           value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
-            item,
+            item.value,
           ),
         }
       case 'survey':
         return {
           type: 'feedPoll',
           value: HomeFeedActionCampaignCardViewModelFromTimelineItemMapper.map(
-            item,
+            item.value,
           ),
         }
     }

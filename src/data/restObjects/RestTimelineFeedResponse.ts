@@ -8,7 +8,7 @@ export interface RestTimelineFeedItem {
     | 'survey'
     | 'riposte'
   title: string
-  description: string | null
+  description: string
   author: string | null
   date: string
   begin_at: string | null
@@ -17,6 +17,8 @@ export interface RestTimelineFeedItem {
   address: string | null
   category: string | null
   is_local: boolean | null
+  media_type: string | null
+  url: string | null
 }
 
 export interface RestTimelineFeedResponse {

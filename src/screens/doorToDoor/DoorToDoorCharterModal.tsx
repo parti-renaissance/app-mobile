@@ -25,15 +25,15 @@ const DoorToDoorCharterModal: FC<Props> = (props) => {
       })
   }
 
-  const markdownStyle = { body: styles.chartContainer }
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <CloseButton onPress={props.onDismissModal} />
       </View>
-      <ScrollView>
-        <Markdown style={markdownStyle}>{props.charter}</Markdown>
+      <ScrollView contentContainerStyle={styles.markdownContainer}>
+        <Markdown style={Typography.markdownStyle} mergeStyle={false}>
+          {props.charter}
+        </Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     padding: Spacing.margin,
   },
-  chartContainer: {
-    margin: Spacing.margin,
+  markdownContainer: {
+    padding: Spacing.margin,
   },
   container: {
     backgroundColor: Colors.defaultBackground,

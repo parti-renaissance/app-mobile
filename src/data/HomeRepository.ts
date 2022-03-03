@@ -22,7 +22,11 @@ export class HomeRepository {
       page,
       zipCode,
     )
-    const items = restTimelineFeed.hits.map(TimelineFeedItemMapper.map)
+    const items = restTimelineFeed.hits
+      .map(TimelineFeedItemMapper.map)
+      // trick to filter undefined values and keep Typescript happy
+      // https://www.benmvp.com/blog/filtering-undefined-elements-from-array-typescript/
+      .filter((item): item is TimelineFeedItem => item !== undefined)
     return {
       paginationInfo: {
         currentPage: restTimelineFeed.page,

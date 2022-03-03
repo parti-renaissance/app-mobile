@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import TagView from '../shared/TagView'
 import { VerticalSpacer } from '../shared/Spacer'
@@ -13,28 +13,16 @@ type Props = Readonly<{
 
 const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
   return (
-    <TouchablePlatform
-      touchHighlight={Colors.touchHighlight}
-      disabled={!viewModel.isEnabled}
-      onPress={onPress}
-    >
+    <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={onPress}>
       <View style={styles.container}>
-        <View style={styles.contentContainer}>
-          <TagView>{viewModel.tag}</TagView>
-          <VerticalSpacer spacing={Spacing.unit} />
-          <Text style={styles.title}>{viewModel.title}</Text>
-          <VerticalSpacer spacing={Spacing.unit} />
-          {viewModel.author !== undefined && (
-            <Text style={styles.caption}>{viewModel.author}</Text>
-          )}
-          <Text style={styles.caption}>{viewModel.date}</Text>
-        </View>
-        {viewModel.isEnabled ? (
-          <Image
-            style={styles.disclosureIcon}
-            source={require('../../assets/images/disclosureIndicator.png')}
-          />
-        ) : null}
+        <TagView>{viewModel.tag}</TagView>
+        <VerticalSpacer spacing={Spacing.unit} />
+        <Text style={styles.title}>{viewModel.title}</Text>
+        <VerticalSpacer spacing={Spacing.unit} />
+        {viewModel.author !== undefined && (
+          <Text style={styles.caption}>{viewModel.author}</Text>
+        )}
+        <Text style={styles.caption}>{viewModel.date}</Text>
       </View>
     </TouchablePlatform>
   )
@@ -43,12 +31,7 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
     padding: Spacing.margin,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    flexShrink: 1,
     alignItems: 'flex-start',
   },
   caption: {
@@ -59,12 +42,9 @@ const styles = StyleSheet.create({
     ...Typography.body,
     marginTop: Spacing.small,
   },
-  disclosureIcon: {
-    alignSelf: 'center',
-    marginStart: Spacing.small,
-  },
   title: {
     ...Typography.title2,
+    color: Colors.titleText,
   },
 })
 

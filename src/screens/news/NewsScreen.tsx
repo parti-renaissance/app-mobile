@@ -67,6 +67,9 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
   const renderSectionHeader = (info: {
     section: SectionListData<NewsRowViewModel, NewsContentSectionViewModel>
   }) => {
+    if (info.section.title === undefined) {
+      return null
+    }
     return (
       <NewsSectionHeader
         title={info.section.title}
