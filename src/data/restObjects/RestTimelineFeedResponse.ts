@@ -17,6 +17,8 @@ export interface RestTimelineFeedItem {
   address: string | null
   category: string | null
   is_local: boolean | null
+  media_type: string | null
+  url: string | null
 }
 
 export interface RestTimelineFeedResponse {

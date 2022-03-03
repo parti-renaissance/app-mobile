@@ -8,6 +8,7 @@ import {
 } from '../../core/entities/TimelineFeedItem'
 import { ErrorMonitor } from '../../utils/ErrorMonitor'
 import { RestTimelineFeedItem } from '../restObjects/RestTimelineFeedResponse'
+import { RetaliationSiteTypeMapper } from './RetaliationSiteTypeMapper'
 
 const mapNullToUndefined = <T, U>(
   input: T | null,
@@ -89,8 +90,17 @@ const mapEvent = (
 const mapRetaliation = (
   restItem: RestTimelineFeedItem,
 ): TimelineFeedItem | undefined => {
+  if (restItem.url === null) {
+    logWarning('url', 'critical', restItem)
+    return undefined
+  }
+  if (restItem.media_type === null) {
+    logWarning('media_type', 'warning', restItem)
+  }
   const value: TimelineFeedItemRetaliation = {
     ...mapBase(restItem),
+    mediaType: RetaliationSiteTypeMapper.map(restItem.media_type),
+    url: restItem.url,
   }
   return {
     type: 'retaliation',

@@ -1,3 +1,5 @@
+import { RetaliationSiteType } from './Retaliation'
+
 export interface TimelineFeedBase {
   uuid: string
   title: string
@@ -18,7 +20,10 @@ export interface TimelineFeedItemEvent extends TimelineFeedBase {
   category?: string
 }
 
-export interface TimelineFeedItemRetaliation extends TimelineFeedBase {}
+export interface TimelineFeedItemRetaliation extends TimelineFeedBase {
+  mediaType: RetaliationSiteType
+  url: string
+}
 
 export interface TimelineFeedItemActionCampaign extends TimelineFeedBase {
   imageUri?: string
