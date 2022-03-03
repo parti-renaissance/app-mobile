@@ -605,6 +605,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getLoginHeader(): Promise<RestHeaderInfos> {
+    return this.httpClient
+      .get('api/je-mengage/headers/page-connexion')
+      .json<RestHeaderInfos>()
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()
