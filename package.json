@@ -47,7 +47,7 @@
     "async-mutex": "0.2.4",
     "date-fns": "2.16.1",
     "hermes-engine": "0.10.0",
-    "i18next": "21.3.3",
+    "i18next": "21.6.13",
     "ky": "0.28.7",
     "localized-address-format": "1.1.0",
     "mnemonist": "0.39.0",
