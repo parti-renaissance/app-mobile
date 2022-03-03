@@ -49,7 +49,10 @@ export const useRetaliationsScreen = (): {
     if (retaliation === undefined) {
       return
     }
-    RetaliationService.retaliate(retaliation)
+    RetaliationService.retaliate({
+      content: retaliation.body,
+      url: retaliation.sourceUrl,
+    })
   }
 
   return {
