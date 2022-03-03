@@ -1,20 +1,20 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
-import CardView from '../../shared/CardView'
-import { ActionButton, BorderlessButton } from '../../shared/Buttons'
-import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
-import i18n from '../../../utils/i18n'
-import { HomeRetaliationCardViewModel } from './HomeRetaliationCardViewModel'
-import { VerticalSpacer } from '../../shared/Spacer'
+import { Colors, Spacing, Typography } from '../../styles'
+import CardView from '../shared/CardView'
+import { ActionButton, BorderlessButton } from '../shared/Buttons'
+import { HorizontalSeparator } from '../shared/HorizontalSeparator'
+import i18n from '../../utils/i18n'
+import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
+import { VerticalSpacer } from '../shared/Spacer'
 
 type Props = Readonly<{
-  viewModel: HomeRetaliationCardViewModel
+  viewModel: RetaliationListCardViewModel
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
 }>
 
-const HomeRetaliationCard: FunctionComponent<Props> = ({
+const RetaliationListCard: FunctionComponent<Props> = ({
   viewModel,
   onRetaliationSelected,
   onRetaliateSelected,
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeRetaliationCard
+export default RetaliationListCard

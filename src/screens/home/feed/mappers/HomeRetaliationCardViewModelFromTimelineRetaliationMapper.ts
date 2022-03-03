@@ -1,9 +1,9 @@
 import { TimelineFeedItemRetaliation } from '../../../../core/entities/TimelineFeedItem'
-import { HomeRetaliationCardViewModel } from '../../retaliation/HomeRetaliationCardViewModel'
-import { RetaliationSocialIconImageMapper } from '../../retaliation/RetaliationSocialIconImageMapper'
+import { RetaliationListCardViewModel } from '../../../retaliations/RetaliationListCardViewModel'
+import { RetaliationSocialIconImageMapper } from '../../../retaliations/RetaliationSocialIconImageMapper'
 
 export const HomeRetaliationCardViewModelFromTimelineRetaliationMapper = {
-  map: (item: TimelineFeedItemRetaliation): HomeRetaliationCardViewModel => {
+  map: (item: TimelineFeedItemRetaliation): RetaliationListCardViewModel => {
     return {
       id: item.uuid,
       title: item.title,

@@ -5,9 +5,9 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
 import { useRetaliationsScreen } from './useRetaliationsScreen.hook'
-import HomeRetaliationCard from '../home/retaliation/HomeRetaliationCard'
-import { HomeRetaliationCardViewModel } from '../home/retaliation/HomeRetaliationCardViewModel'
+import HomeRetaliationCard from './RetaliationListCard'
 import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
 
 type RetaliationsScreenProps = ActionsNavigatorScreenProps<'Retaliations'>
 
@@ -20,7 +20,7 @@ export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
 
   const renderItem = ({
     item,
-  }: ListRenderItemInfo<HomeRetaliationCardViewModel>) => {
+  }: ListRenderItemInfo<RetaliationListCardViewModel>) => {
     return (
       <HomeRetaliationCard
         viewModel={item}
@@ -31,7 +31,7 @@ export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
   }
 
   const RetaliationsContent = (
-    content: Array<HomeRetaliationCardViewModel>,
+    content: Array<RetaliationListCardViewModel>,
   ) => {
     return (
       <FlatList

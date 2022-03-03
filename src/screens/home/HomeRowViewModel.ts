@@ -1,10 +1,10 @@
 import { EventRowViewModel } from '../events/EventViewModel'
 import { NewsRowViewModel } from '../news/NewsRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
+import { RetaliationListCardViewModel } from '../retaliations/RetaliationListCardViewModel'
 import { ViewStateError } from '../shared/StatefulView'
 import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
-import { HomeRetaliationCardViewModel } from './retaliation/HomeRetaliationCardViewModel'
 
 export interface HomeSectionRowViewModel {
   sectionName: string
@@ -18,10 +18,6 @@ export interface HomeQuickPollRowContainerViewModel {
   leadingAnswerViewModel: HomeQuickPollRowAnswerViewModel
   trailingAnswerViewModel: HomeQuickPollRowAnswerViewModel
   totalVotes: string
-}
-
-export interface HomeRetaliationRowContainerViewModel {
-  retaliations: Array<HomeRetaliationCardViewModel>
 }
 
 export interface HomeEventRowContainerViewModel {
@@ -48,10 +44,6 @@ export type HomeRowViewModel =
       value: HomeEventRowContainerViewModel
     }
   | {
-      type: 'retaliation'
-      value: HomeRetaliationRowContainerViewModel
-    }
-  | {
       type: 'feedEvent'
       value: EventRowViewModel
     }
@@ -73,7 +65,7 @@ export type HomeRowViewModel =
     }
   | {
       type: 'feedRetaliation'
-      value: HomeRetaliationCardViewModel
+      value: RetaliationListCardViewModel
     }
   | {
       type: 'error'

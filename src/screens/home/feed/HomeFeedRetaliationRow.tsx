@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { Colors } from '../../../styles'
 import i18n from '../../../utils/i18n'
-import HomeRetaliationCard from '../retaliation/HomeRetaliationCard'
-import { HomeRetaliationCardViewModel } from '../retaliation/HomeRetaliationCardViewModel'
+import HomeRetaliationCard from '../../retaliations/RetaliationListCard'
+import { RetaliationListCardViewModel } from '../../retaliations/RetaliationListCardViewModel'
 import { HomeFeedTimelineItem } from './HomeFeedTimelineItem'
 
 type Props = Readonly<{
-  viewModel: HomeRetaliationCardViewModel
+  viewModel: RetaliationListCardViewModel
   onRetaliateSelected: (id: string) => void
   onRetaliationSelected: (id: string) => void
 }>
