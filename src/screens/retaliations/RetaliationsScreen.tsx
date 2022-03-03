@@ -1,5 +1,11 @@
 import React, { FC } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -14,6 +20,8 @@ type RetaliationsScreenProps = ActionsNavigatorScreenProps<'Retaliations'>
 export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
   const {
     statefulState,
+    isRefreshing,
+    onRefresh,
     onRetaliateSelected,
     onRetaliationSelected,
   } = useRetaliationsScreen()
@@ -45,6 +53,13 @@ export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
           <Text style={styles.empty}>{i18n.t('retaliations.empty')}</Text>
         }
         renderItem={renderItem}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            colors={[Colors.primaryColor]}
+          />
+        }
       />
     )
   }

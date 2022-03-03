@@ -1,5 +1,5 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { useCallback, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { useCallback, useEffect, useState } from 'react'
 import { Retaliation } from '../../core/entities/Retaliation'
 import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationService } from '../../data/RetaliationService'
@@ -11,6 +11,8 @@ import { RetaliationListCardViewModelMapper } from './RetaliationListCardViewMod
 
 export const useRetaliationsScreen = (): {
   statefulState: ViewState<Array<RetaliationListCardViewModel>>
+  isRefreshing: boolean
+  onRefresh: () => void
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
 } => {
@@ -20,24 +22,26 @@ export const useRetaliationsScreen = (): {
   const [statefulState, setStatefulState] = useState<
     ViewState<Array<Retaliation>>
   >(ViewState.Loading())
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
-  useFocusEffect(
-    useCallback(() => {
-      const fetchRetaliations = () => {
-        RetaliationRepository.getInstance()
-          .getRetaliations()
-          .then((retaliations) =>
-            setStatefulState(ViewState.Content(retaliations)),
-          )
-          .catch((error) => {
-            setStatefulState(
-              ViewStateUtils.networkError(error, fetchRetaliations),
-            )
-          })
-      }
-      fetchRetaliations()
-    }, []),
-  )
+  const fetchRetaliations = useCallback(() => {
+    if (statefulState.state === 'content') {
+      setIsRefreshing(true)
+    } else {
+      setStatefulState(ViewState.Loading())
+    }
+    RetaliationRepository.getInstance()
+      .getRetaliations()
+      .then((retaliations) => setStatefulState(ViewState.Content(retaliations)))
+      .catch((error) => {
+        setStatefulState(ViewStateUtils.networkError(error, fetchRetaliations))
+      })
+      .finally(() => setIsRefreshing(false))
+  }, [statefulState])
+
+  useEffect(() => {
+    fetchRetaliations()
+  }, [])
 
   const onRetaliationSelected = (id: string) => {
     navigation.navigate('RetaliationDetail', { retaliationId: id })
@@ -59,6 +63,8 @@ export const useRetaliationsScreen = (): {
     statefulState: ViewState.map(statefulState, (retaliations) =>
       retaliations.map(RetaliationListCardViewModelMapper.map),
     ),
+    isRefreshing,
+    onRefresh: fetchRetaliations,
     onRetaliationSelected,
     onRetaliateSelected,
   }
