@@ -99,7 +99,7 @@
     "@types/promise.allsettled": "1.0.3",
     "@types/react-native": "0.66.3",
     "@types/react-native-custom-tabs": "0.1.1",
-    "@types/react-native-datepicker": "1.7.0",
+    "@types/react-native-datepicker": "1.7.1",
     "@types/react-native-htmlview": "0.12.3",
     "@types/react-native-loading-spinner-overlay": "0.5.2",
     "@types/react-native-push-notification": "5.0.5",
