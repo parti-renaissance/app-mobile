@@ -1,9 +1,9 @@
 import { Retaliation } from '../../core/entities/Retaliation'
 import { RetaliationSocialIconImageMapper } from '../retaliations/RetaliationSocialIconImageMapper'
-import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import { RetaliationPostCardViewModel } from './RetaliationPostCardViewModel'
 
 export const RetaliationCardViewModelMapper = {
-  map: (retaliation: Retaliation): RetaliationCardViewModel => {
+  map: (retaliation: Retaliation): RetaliationPostCardViewModel => {
     return {
       id: retaliation.id,
       socialIcon: RetaliationSocialIconImageMapper.map(

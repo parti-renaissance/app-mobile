@@ -1,7 +1,7 @@
-import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import { RetaliationPostCardViewModel } from './RetaliationPostCardViewModel'
 
 export interface RetaliationDetailViewModel {
   title: string
   body: string
-  card: RetaliationCardViewModel
+  card: RetaliationPostCardViewModel
 }

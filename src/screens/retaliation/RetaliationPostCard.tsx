@@ -2,13 +2,13 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
-import { RetaliationCardViewModel } from './RetaliationCardViewModel'
+import { RetaliationPostCardViewModel } from './RetaliationPostCardViewModel'
 
 type Props = Readonly<{
-  viewModel: RetaliationCardViewModel
+  viewModel: RetaliationPostCardViewModel
 }>
 
-const RetaliationCard: FunctionComponent<Props> = ({ viewModel }) => {
+const RetaliationPostCard: FunctionComponent<Props> = ({ viewModel }) => {
   return (
     <CardView
       style={styles.cardView}
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default RetaliationCard
+export default RetaliationPostCard
