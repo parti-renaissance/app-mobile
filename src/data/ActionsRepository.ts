@@ -5,7 +5,7 @@ class ActionsRepository {
   private constructor() {}
 
   public getDefaultActions(): Array<Action> {
-    return [Action.fromType('polls')]
+    return [Action.fromType('polls'), Action.fromType('retaliation')]
   }
 
   public getDoorToDoorAction(): Action {

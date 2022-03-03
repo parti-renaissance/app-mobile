@@ -483,7 +483,8 @@
       "title": "Actions",
       "polls": { "title": "Questionnaires" },
       "door_to_door": { "title": "Porte-à-porte" },
-      "phoning": { "title": "Phoning" }
+      "phoning": { "title": "Phoning" },
+      "retaliation": "Ripostes"
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
