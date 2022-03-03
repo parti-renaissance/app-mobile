@@ -152,9 +152,6 @@ const styles = StyleSheet.create({
   questionContainer: {
     flexGrow: 1,
   },
-  viewPager: {
-    flex: 1,
-  },
 })
 
 export default PollDetailScreenLoaded

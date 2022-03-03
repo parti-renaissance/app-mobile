@@ -175,9 +175,6 @@ const styles = StyleSheet.create({
   questionList: {
     flex: 1,
   },
-  viewPager: {
-    flex: 1,
-  },
 })
 
 export default DoorToDoorPollDetailScreenLoaded
