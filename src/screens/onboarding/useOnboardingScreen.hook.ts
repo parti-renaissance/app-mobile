@@ -1,14 +1,23 @@
 import { useNavigation } from '@react-navigation/native'
+import { useEffect } from 'react'
+import { HomeRepository } from '../../data/HomeRepository'
 import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 
-export const useUnauthenticatedHomeScreen = (): {
+export const useOnboardingScreen = (): {
   onLogin: () => void
   onSignUp: () => void
   onLegacyLogin: () => void
 } => {
   const navigation = useNavigation<
-    UnauthenticatedRootNavigatorScreenProps<'UnauthenticatedHome'>['navigation']
+    UnauthenticatedRootNavigatorScreenProps<'Onboarding'>['navigation']
   >()
+
+  useEffect(() => {
+    HomeRepository.getInstance()
+      .getOnboardingHeader()
+      .then((headerInfos) => console.log('-->', headerInfos))
+      .catch((error) => console.log('ERROR', error))
+  })
 
   const onLogin = () => {
     navigation.navigate('Login')

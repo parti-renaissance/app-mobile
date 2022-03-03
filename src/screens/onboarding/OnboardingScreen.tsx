@@ -7,12 +7,12 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import LinearGradient from 'react-native-linear-gradient'
 import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
-import { useUnauthenticatedHomeScreen } from './useUnauthenticatedHomeScreen.hook'
+import { useOnboardingScreen } from './useOnboardingScreen.hook'
 
-type UnauthenticatedHomeScreenProps = UnauthenticatedRootNavigatorScreenProps<'UnauthenticatedHome'>
+type OnboardingScreenProps = UnauthenticatedRootNavigatorScreenProps<'Onboarding'>
 
-const UnauthenticatedHomeScreen: FC<UnauthenticatedHomeScreenProps> = () => {
-  const { onLogin, onSignUp, onLegacyLogin } = useUnauthenticatedHomeScreen()
+const OnboardingScreen: FC<OnboardingScreenProps> = () => {
+  const { onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()
   return (
     <ImageBackground
       source={require('../../assets/images/backgroundUnauthenticatedHome.png')}
@@ -32,37 +32,35 @@ const UnauthenticatedHomeScreen: FC<UnauthenticatedHomeScreenProps> = () => {
             barStyle="light-content"
           />
           <Text style={styles.title} numberOfLines={2} allowFontScaling={false}>
-            {i18n.t('unauthenticatedhome.title')}
+            {i18n.t('onboarding.title')}
           </Text>
           <Text
             style={styles.titleRest}
             numberOfLines={2}
             allowFontScaling={false}
           >
-            {i18n.t('unauthenticatedhome.title_rest')}
+            {i18n.t('onboarding.title_rest')}
           </Text>
           <FlexibleVerticalSpacer minSpacing={Spacing.mediumMargin} />
           <Text style={styles.description}>
-            {i18n.t('unauthenticatedhome.description')}
+            {i18n.t('onboarding.description')}
           </Text>
           <VerticalSpacer spacing={Spacing.mediumMargin} />
           <PrimaryButton
             style={styles.button}
-            title={i18n.t('unauthenticatedhome.login')}
+            title={i18n.t('onboarding.login')}
             onPress={onLogin}
           />
           <SecondaryButton
             style={styles.button}
-            title={i18n.t('unauthenticatedhome.signup')}
+            title={i18n.t('onboarding.signup')}
             onPress={onSignUp}
           />
-          <Text style={styles.separator}>
-            {i18n.t('unauthenticatedhome.or')}
-          </Text>
+          <Text style={styles.separator}>{i18n.t('onboarding.or')}</Text>
           <SecondaryButton
             style={styles.button}
             onPress={onLegacyLogin}
-            title={i18n.t('unauthenticatedhome.login_lrem')}
+            title={i18n.t('onboarding.login_lrem')}
             trailingIcon={require('../../assets/images/iconEM.png')}
             iconPadding={Spacing.unit}
           />
@@ -117,4 +115,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default UnauthenticatedHomeScreen
+export default OnboardingScreen
