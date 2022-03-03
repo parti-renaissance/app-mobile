@@ -12,10 +12,10 @@ import { useOnboardingScreen } from './useOnboardingScreen.hook'
 type OnboardingScreenProps = UnauthenticatedRootNavigatorScreenProps<'Onboarding'>
 
 const OnboardingScreen: FC<OnboardingScreenProps> = () => {
-  const { onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()
+  const { viewModel, onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()
   return (
     <ImageBackground
-      source={require('../../assets/images/backgroundUnauthenticatedHome.png')}
+      source={viewModel.image}
       resizeMode="cover"
       style={styles.container}
     >
@@ -32,14 +32,14 @@ const OnboardingScreen: FC<OnboardingScreenProps> = () => {
             barStyle="light-content"
           />
           <Text style={styles.title} numberOfLines={2} allowFontScaling={false}>
-            {i18n.t('onboarding.title')}
+            {viewModel.heading}
           </Text>
           <Text
             style={styles.titleRest}
             numberOfLines={2}
             allowFontScaling={false}
           >
-            {i18n.t('onboarding.title_rest')}
+            {viewModel.title}
           </Text>
           <FlexibleVerticalSpacer minSpacing={Spacing.mediumMargin} />
           <Text style={styles.description}>
