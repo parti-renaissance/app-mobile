@@ -4,13 +4,13 @@ import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationService } from '../../data/RetaliationService'
 import { ViewState } from '../shared/StatefulView'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { RetaliationCardViewModel } from './RetaliationCardViewModel'
-import { RetaliationCardViewModelMapper } from './RetaliationCardViewModelMapper'
+import { RetaliationDetailViewModel } from './RetaliationDetailViewModel'
+import { RetaliationDetailViewModelMapper } from './RetaliationDetailViewModelMapper'
 
 export const useRetaliationDetailScreen = (
   retaliationId: string,
 ): {
-  statefulState: ViewState<RetaliationCardViewModel>
+  statefulState: ViewState<RetaliationDetailViewModel>
   onRetaliate: () => void
 } => {
   const [statefulState, setStatefulState] = useState<ViewState<Retaliation>>(
@@ -45,7 +45,7 @@ export const useRetaliationDetailScreen = (
   return {
     statefulState: ViewState.map(
       statefulState,
-      RetaliationCardViewModelMapper.map,
+      RetaliationDetailViewModelMapper.map,
     ),
     onRetaliate,
   }

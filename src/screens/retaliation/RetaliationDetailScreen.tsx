@@ -8,6 +8,7 @@ import { PrimaryButton } from '../shared/Buttons'
 import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
 import { useRetaliationDetailScreen } from './useRetaliationDetailScreen.hook'
 import { StatefulView } from '../shared/StatefulView'
+import { VerticalSpacer } from '../shared/Spacer'
 
 type RetaliationDetailScreenProps = HomeNavigatorScreenProps<'RetaliationDetail'>
 
@@ -27,7 +28,8 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProps> =
             <>
               <ScrollView contentContainerStyle={styles.contentContainer}>
                 <Text style={styles.title}>{viewModel.title}</Text>
-                <RetaliationCard viewModel={viewModel} />
+                <RetaliationCard viewModel={viewModel.card} />
+                <VerticalSpacer spacing={Spacing.mediumMargin} />
                 <Text style={styles.subtitle}>
                   {i18n.t('retaliation.title')}
                 </Text>
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title,
+    lineHeight: 34,
   },
 })
 

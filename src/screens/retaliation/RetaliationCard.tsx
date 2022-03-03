@@ -46,11 +46,12 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title2,
-    marginBottom: Spacing.margin,
-    marginLeft: Spacing.margin,
+    marginLeft: Spacing.unit,
   },
   titleContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.margin,
   },
 })
 

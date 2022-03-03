@@ -6,5 +6,4 @@ export interface RetaliationCardViewModel {
   image: string
   title: string
   body: string
-  url: string
 }

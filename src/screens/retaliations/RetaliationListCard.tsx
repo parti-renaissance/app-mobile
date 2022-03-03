@@ -6,7 +6,7 @@ import { ActionButton, BorderlessButton } from '../shared/Buttons'
 import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import i18n from '../../utils/i18n'
 import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
-import { VerticalSpacer } from '../shared/Spacer'
+import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
 
 type Props = Readonly<{
   viewModel: RetaliationListCardViewModel
@@ -26,17 +26,19 @@ const RetaliationListCard: FunctionComponent<Props> = ({
       backgroundColor={Colors.defaultBackground}
     >
       <View style={styles.container}>
-        <View style={styles.textContainer}>
+        <View>
           <View style={styles.titleContainer}>
             <Image source={viewModel.socialIcon} />
+            <HorizontalSpacer spacing={Spacing.unit} />
             <Text style={styles.title} numberOfLines={2}>
               {viewModel.title}
             </Text>
           </View>
           <Text style={styles.body} numberOfLines={3}>
-            {viewModel.body + '\n\n\n'}
+            {viewModel.body}
           </Text>
         </View>
+        <VerticalSpacer spacing={Spacing.unit} />
         <BorderlessButton
           title={i18n.t('home.retaliation.see_more')}
           type="primary"
@@ -80,13 +82,10 @@ const styles = StyleSheet.create({
   retaliateButton: {
     paddingVertical: Spacing.small,
   },
-  textContainer: {
-    height: 110,
-  },
   title: {
     ...Typography.title2,
-    marginLeft: Spacing.margin,
-    marginRight: Spacing.margin,
+    flexWrap: 'wrap',
+    flexShrink: 1,
   },
   titleContainer: {
     alignItems: 'center',

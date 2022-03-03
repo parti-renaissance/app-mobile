@@ -12,7 +12,6 @@ export const RetaliationCardViewModelMapper = {
       image: retaliation.openGraph?.image ?? '',
       title: retaliation.openGraph?.title ?? '',
       body: retaliation.openGraph?.description ?? '',
-      url: retaliation.sourceUrl,
     }
   },
 }
