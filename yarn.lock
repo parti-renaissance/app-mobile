@@ -7323,10 +7323,10 @@ react-native-markdown-display@6.1.6:
     prop-types "^15.7.2"
     react-native-fit-image "^1.5.5"
 
-react-native-pager-view@5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.1.2.tgz#a6957afc81f5729cbb884fe963df3482e2f46877"
-  integrity sha512-UvPvjtuIkiI9Ti8NoMH+fiFj0ehfFv4WkNUGM46dOJfOxmE6Z/hoyJjymOHU//iLkQSMO+YNherZs0HcijdA2A==
+react-native-pager-view@5.4.11:
+  version "5.4.11"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.11.tgz#677540293c7b4e0e022efb45727ef9b4efa35409"
+  integrity sha512-4QlBL5W8yVjeYwrw89oCdABI7sDxIGapFQvIbukfB5mAj1Zn1IQPkBqROLblNFtQ8PbAeexXRgDT1ENWygiJ7A==
 
 react-native-paper@4.9.2:
   version "4.9.2"
