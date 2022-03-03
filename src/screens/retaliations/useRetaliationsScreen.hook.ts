@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Retaliation } from '../../core/entities/Retaliation'
 import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationService } from '../../data/RetaliationService'
@@ -22,10 +22,15 @@ export const useRetaliationsScreen = (): {
   const [statefulState, setStatefulState] = useState<
     ViewState<Array<Retaliation>>
   >(ViewState.Loading())
+  const stateRef = useRef(statefulState)
   const [isRefreshing, setIsRefreshing] = useState(false)
 
+  useEffect(() => {
+    stateRef.current = statefulState
+  }, [statefulState])
+
   const fetchRetaliations = useCallback(() => {
-    if (statefulState.state === 'content') {
+    if (stateRef.current.state === 'content') {
       setIsRefreshing(true)
     } else {
       setStatefulState(ViewState.Loading())
@@ -37,11 +42,9 @@ export const useRetaliationsScreen = (): {
         setStatefulState(ViewStateUtils.networkError(error, fetchRetaliations))
       })
       .finally(() => setIsRefreshing(false))
-  }, [statefulState])
-
-  useEffect(() => {
-    fetchRetaliations()
   }, [])
+
+  useEffect(fetchRetaliations, [])
 
   const onRetaliationSelected = (id: string) => {
     navigation.navigate('RetaliationDetail', { retaliationId: id })
