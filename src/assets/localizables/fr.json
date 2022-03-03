@@ -395,6 +395,10 @@
       "status_picker": { "action": "Valider" },
       "success": { "title": "Et un de plus, bravo ! " }
     },
+    "retaliations": {
+      "title": "Riposte active",
+      "empty": "Aucune riposte disponible actuellement"
+    },
     "retaliation": {
       "title": "Riposte",
       "execute": "Copier le texte et riposter"

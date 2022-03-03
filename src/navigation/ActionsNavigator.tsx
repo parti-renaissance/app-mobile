@@ -16,6 +16,8 @@ import { PhoningCampaignScoreboardNavigationData } from '../screens/phoningCampa
 import { DoorToDoorAddress } from '../core/entities/DoorToDoor'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { TabBarNavigatorScreenProps } from './TabBarNavigator'
+import { RetaliationsScreen } from '../screens/retaliations/RetaliationsScreen'
+import RetaliationDetailScreen from '../screens/retaliation/RetaliationDetailScreen'
 
 export type ActionsNavigatorParamList = {
   Actions: undefined
@@ -27,6 +29,8 @@ export type ActionsNavigatorParamList = {
   PhoningCampaignScoreboard: { data: PhoningCampaignScoreboardNavigationData }
   DoorToDoor: undefined
   BuildingDetail: { address: DoorToDoorAddress }
+  Retaliations: undefined
+  RetaliationDetail: { retaliationId: string }
 }
 
 export type ActionsNavigatorScreenProps<
@@ -81,6 +85,12 @@ const ActionsNavigator: FunctionComponent = () => {
         name={'BuildingDetail'}
         component={BuildingDetailScreen}
         options={{ headerShown: true }}
+      />
+      {/* Retaliation */}
+      <Stack.Screen name={'Retaliations'} component={RetaliationsScreen} />
+      <Stack.Screen
+        name={'RetaliationDetail'}
+        component={RetaliationDetailScreen}
       />
     </Stack.Navigator>
   )

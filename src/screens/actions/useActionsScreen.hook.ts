@@ -64,6 +64,7 @@ export const useActionsScreen = (): {
         break
       }
       case 'retaliation': {
+        navigation.navigate('Retaliations')
         break
       }
     }
