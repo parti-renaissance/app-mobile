@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
-import { Colors, Spacing, Styles } from '../../styles'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 
@@ -19,12 +19,12 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
     })
   }, [navigation, route.params.data.title])
 
-  const markdownStyle = { body: styles.contentContainer }
-
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Markdown style={markdownStyle}>{route.params.data.brief}</Markdown>
+      <ScrollView contentContainerStyle={styles.markdownContainer}>
+        <Markdown style={Typography.markdownStyle} mergeStyle={false}>
+          {route.params.data.brief}
+        </Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
-  contentContainer: {
+  markdownContainer: {
     padding: Spacing.margin,
   },
   linkText: {

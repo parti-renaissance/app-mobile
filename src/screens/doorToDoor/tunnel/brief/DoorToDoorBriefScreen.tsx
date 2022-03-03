@@ -65,7 +65,9 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
           <Text style={styles.title}>
             {i18n.t('doorToDoor.tunnel.door.tutorial.title')}
           </Text>
-          <Markdown style={markdownStyle}>{resources.content}</Markdown>
+          <Markdown style={Typography.markdownStyle} mergeStyle={false}>
+            {resources.content}
+          </Markdown>
         </ScrollView>
         <View style={styles.bottomContainer}>
           <PrimaryButton
@@ -95,10 +97,6 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
       <StatefulView contentComponent={TutorialContent} state={statefulState} />
     </SafeAreaView>
   )
-}
-
-const markdownStyle = {
-  body: Typography.body,
 }
 
 const styles = StyleSheet.create({

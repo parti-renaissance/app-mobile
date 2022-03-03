@@ -1,5 +1,6 @@
 import { TextStyle } from 'react-native'
 import { Theme } from 'react-native-country-picker-modal/lib/CountryTheme'
+import { Spacing } from '.'
 import * as Colors from './colors'
 
 const largeTitleFontSize = 45
@@ -198,16 +199,19 @@ export const markdownStyle = {
     fontFamily: title.fontFamily,
     fontSize: title.fontSize,
     color: Colors.titleText,
+    marginTop: Spacing.margin,
   },
   heading2: {
     fontFamily: title2.fontFamily,
     fontSize: title2.fontSize,
     color: Colors.titleText,
+    marginTop: Spacing.margin,
   },
   heading3: {
     fontFamily: title3.fontFamily,
     fontSize: title3.fontSize,
     color: Colors.titleText,
+    marginTop: Spacing.margin,
   },
   heading4: {
     fontFamily: headline.fontFamily,
