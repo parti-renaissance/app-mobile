@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
-import { useDebounce } from 'use-debounce/lib'
+import { useDebounce } from 'use-debounce'
 import { EventMode } from '../../core/entities/Event'
 import { EventNavigatorScreenProps } from '../../navigation/event/EventNavigatorScreenProps'
 
