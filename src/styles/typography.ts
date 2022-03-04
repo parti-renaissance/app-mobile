@@ -1,6 +1,6 @@
 import { TextStyle } from 'react-native'
 import { Theme } from 'react-native-country-picker-modal/lib/CountryTheme'
-import { Spacing } from '.'
+import * as Spacing from './spacing'
 import * as Colors from './colors'
 
 const largeTitleFontSize = 45
