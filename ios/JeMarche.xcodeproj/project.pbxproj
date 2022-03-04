@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1B0AB1C36B2F4FD2A4500D36 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FFB7110254D4BF4A641AE25 /* Roboto-Italic.ttf */; };
 		2179FAA9261231F900FD532C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2179FAA8261231F900FD532C /* LaunchScreen.storyboard */; };
 		337778839660A7D27BC680BC /* libPods-JeMarche.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A78AAA862A089F5CFCFD71 /* libPods-JeMarche.a */; };
 		3597E6FDDEE44B62BAAB7F8C /* Maax-Mediumitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95EB4F35191D44A882ACF1EF /* Maax-Mediumitalic.ttf */; };
@@ -21,7 +22,6 @@
 		92BF777B2722EFC2000A3406 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF777A2722EFC2000A3406 /* Void.swift */; };
 		E7E4711B638944C0A1590710 /* Maax-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */; };
 		FEE8D89F995F4EEAA189DE11 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEDE43C5443143318EEA97B8 /* Roboto-Medium.ttf */; };
-		1B0AB1C36B2F4FD2A4500D36 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FFB7110254D4BF4A641AE25 /* Roboto-Italic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +57,7 @@
 		4B1C2AF8674D44748D40E9AB /* Maax-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Maax-Bold.ttf"; path = "../src/assets/fonts/Maax-Bold.ttf"; sourceTree = "<group>"; };
 		67822E4FB7FA4380C59E7FDA /* Pods-JeMarche-JeMarcheTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche-JeMarcheTests.debug.xcconfig"; path = "Target Support Files/Pods-JeMarche-JeMarcheTests/Pods-JeMarche-JeMarcheTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B2CC1F1A2CD05387D86D773 /* Pods-JeMarche-JeMarcheTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche-JeMarcheTests.release.xcconfig"; path = "Target Support Files/Pods-JeMarche-JeMarcheTests/Pods-JeMarche-JeMarcheTests.release.xcconfig"; sourceTree = "<group>"; };
+		8FFB7110254D4BF4A641AE25 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		910E80E2D61779496565AF56 /* Pods-JeMarche.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche.release.xcconfig"; path = "Target Support Files/Pods-JeMarche/Pods-JeMarche.release.xcconfig"; sourceTree = "<group>"; };
 		92BF777A2722EFC2000A3406 /* Void.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Void.swift; sourceTree = "<group>"; };
 		95EB4F35191D44A882ACF1EF /* Maax-Mediumitalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Maax-Mediumitalic.ttf"; path = "../src/assets/fonts/Maax-Mediumitalic.ttf"; sourceTree = "<group>"; };
@@ -66,7 +67,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FC5F0FC8501474E2F25F6624 /* Pods-JeMarche.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JeMarche.debug.xcconfig"; path = "Target Support Files/Pods-JeMarche/Pods-JeMarche.debug.xcconfig"; sourceTree = "<group>"; };
-		8FFB7110254D4BF4A641AE25 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

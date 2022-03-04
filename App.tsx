@@ -11,19 +11,22 @@
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
 import {
+  LinkingOptions,
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './src/utils/i18n'
 import Navigator from './src/navigation/Navigator'
-import { Platform, StatusBar } from 'react-native'
+import { Linking, Platform, StatusBar } from 'react-native'
 import { Colors } from './src/styles'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import { ErrorMonitor } from './src/utils/ErrorMonitor'
 import { SendDoorToDoorPollAnswersJobWorker } from './src/workers/SendDoorToDoorPollAnswsersJobWorker'
+import { IncomingLinkHandler } from './src/screens/deeplink/IncomingLinkHandler'
+import { AuthenticatedRootNavigatorParamList } from './src/navigation/authenticatedRoot/AuthenticatedRootNavigatorParamList'
 
 declare var global: { HermesInternal: null | {} }
 
@@ -31,6 +34,8 @@ declare var global: { HermesInternal: null | {} }
 PushNotification.setUp()
 
 ErrorMonitor.configure()
+
+IncomingLinkHandler.setup()
 
 const App = () => {
   const setStatusBarStyle = () => {
@@ -61,6 +66,35 @@ const App = () => {
   const routeNameRef = React.useRef<string>()
   const navigationRef = React.useRef<NavigationContainerRef>()
 
+  const linking: LinkingOptions<AuthenticatedRootNavigatorParamList> = {
+    prefixes: ['jemengage://'],
+    config: {
+      screens: {
+        TabBarNavigator: {
+          screens: {
+            HomeNavigator: {
+              initialRouteName: 'Home',
+              screens: {
+                EventDetails: 'events/:eventId',
+              },
+            },
+            ActionsNavigator: {
+              initialRouteName: 'Actions',
+              screens: {
+                DoorToDoor: 'doorToDoor',
+              },
+            },
+          },
+        },
+        NewsDetailModal: {
+          screens: {
+            NewsDetail: 'news/:newsId',
+          },
+        },
+      },
+    },
+  }
+
   return (
     <SafeAreaProvider>
       <NavigationContainer
@@ -83,6 +117,7 @@ const App = () => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName
         }}
+        linking={linking}
       >
         <I18nextProvider i18n={i18n}>
           <Navigator />
