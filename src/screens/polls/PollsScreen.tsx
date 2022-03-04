@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-    paddingTop: Spacing.largeMargin,
   },
   emptyContainer: {
     flex: 1,
