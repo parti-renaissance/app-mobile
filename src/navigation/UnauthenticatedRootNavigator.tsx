@@ -2,13 +2,13 @@ import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
 import LoginScreen from '../screens/authentication/LoginScreen'
-import UnauthenticatedHomeScreen from '../screens/authentication/UnauthenticatedHomeScreen'
+import OnboardingScreen from '../screens/onboarding/OnboardingScreen'
 import { headerBlank } from '../styles/navigationAppearance'
 import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
 import SignUpScreen from '../screens/authentication/SignUpScreen'
 
 export type UnauthenticatedRootNavigatorParamList = {
-  UnauthenticatedHome: undefined
+  Onboarding: undefined
   Login: undefined
   ForgottenPassword: { email?: string }
   SignUp: undefined
@@ -25,8 +25,8 @@ export const UnauthenticatedRootNavigator: FunctionComponent = () => {
     <Stack.Navigator screenOptions={headerBlank}>
       <Stack.Group>
         <Stack.Screen
-          name={'UnauthenticatedHome'}
-          component={UnauthenticatedHomeScreen}
+          name={'Onboarding'}
+          component={OnboardingScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen name={'Login'} component={LoginScreen} />
