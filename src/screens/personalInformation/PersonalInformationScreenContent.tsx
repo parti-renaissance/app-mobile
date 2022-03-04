@@ -1,12 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
@@ -26,6 +19,7 @@ import { PersonalInformationsForm } from '../../core/entities/PersonalInformatio
 import { AlertUtils } from '../shared/AlertUtils'
 import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { useNavigation } from '@react-navigation/native'
+import { HeaderTextButton } from './HeaderTextButton'
 
 type Props = Readonly<{
   profileUuid: string
@@ -79,21 +73,19 @@ export const PersonalInformationScreenContent: FC<Props> = ({
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.headerButtonText}>
-            {i18n.t('personalinformation.cancel')}
-          </Text>
-        </TouchableOpacity>
+        <HeaderTextButton
+          title={i18n.t('personalinformation.cancel')}
+          onPress={() => navigation.goBack()}
+        />
       ),
       title: i18n.t('personalinformation.title'),
       headerRight: () => (
-        <TouchableOpacity onPress={submit}>
-          <Text style={[styles.headerButtonText, styles.headerSubmit]}>
-            {i18n.t('personalinformation.save')}
-          </Text>
-        </TouchableOpacity>
+        <HeaderTextButton
+          title={i18n.t('personalinformation.save')}
+          type="primary"
+          onPress={submit}
+        />
       ),
-      headerTitleStyle: styles.title,
     })
   }, [navigation, submit])
 
@@ -275,14 +267,6 @@ const styles = StyleSheet.create({
   countryPickerContainerButton: {
     alignSelf: 'flex-end',
   },
-  headerButtonText: {
-    ...Typography.headline,
-    fontSize: 14,
-    paddingHorizontal: Spacing.margin,
-  },
-  headerSubmit: {
-    color: Colors.primaryColor,
-  },
   mainContainer: {
     backgroundColor: Colors.defaultBackground,
   },
@@ -290,9 +274,5 @@ const styles = StyleSheet.create({
     ...Typography.caption1,
     color: Colors.lightText,
     marginTop: Spacing.margin,
-  },
-  title: {
-    ...Typography.title2,
-    paddingHorizontal: Spacing.mediumMargin,
   },
 })
