@@ -98,11 +98,12 @@ export const PersonalInformationScreenContent: FC<Props> = ({
   return (
     <KeyboardOffsetView>
       <ScrollView
-        style={styles.mainContainer}
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
         <LoadingOverlay visible={isLoading} />
-        <View style={styles.container}>
+        <View>
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_identity')}
           </Text>
@@ -262,17 +263,18 @@ export const PersonalInformationScreenContent: FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: Spacing.margin,
+    backgroundColor: Colors.defaultBackground,
+  },
+  contentContainer: {
+    paddingHorizontal: Spacing.margin,
+    paddingBottom: Spacing.margin,
   },
   countryPickerContainerButton: {
     alignSelf: 'flex-end',
   },
-  mainContainer: {
-    backgroundColor: Colors.defaultBackground,
-  },
   section: {
     ...Typography.caption1,
     color: Colors.lightText,
-    marginTop: Spacing.margin,
+    marginTop: Spacing.mediumMargin,
   },
 })
