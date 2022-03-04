@@ -97,7 +97,7 @@
     "@react-native-community/eslint-config": "1.1.0",
     "@types/jest": "27.0.2",
     "@types/promise.allsettled": "1.0.3",
-    "@types/react-native": "0.66.3",
+    "@types/react-native": "0.66.15",
     "@types/react-native-custom-tabs": "0.1.1",
     "@types/react-native-datepicker": "1.7.1",
     "@types/react-native-htmlview": "0.12.3",
