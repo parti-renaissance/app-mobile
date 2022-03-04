@@ -4,7 +4,8 @@ import i18n from '../../utils/i18n'
 import PollsRepository from '../../data/PollsRepository'
 import { Poll } from '../../core/entities/Poll'
 import PollDetailScreenLoaded from './PollDetailScreenLoaded'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import {
   CloseButton,
   NavigationHeaderButton,

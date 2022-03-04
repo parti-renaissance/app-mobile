@@ -7,7 +7,7 @@ import { GetMainEventsInteractor } from '../../core/interactor/GetMainEventsInte
 import { EventNavigatorScreenProps } from '../../navigation/EventNavigator'
 import { Analytics } from '../../utils/Analytics'
 import { DateProvider } from '../../utils/DateProvider'
-import { ViewState } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { EventFilter } from './EventListScreen'
 import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'

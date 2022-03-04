@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Spacing } from '../../../styles'
 import ErrorView from '../../shared/ErrorView'
-import { ViewStateError } from '../../shared/StatefulView'
+import { ViewStateError } from '../../shared/ViewState'
 
 type Props = Readonly<{
   state: ViewStateError

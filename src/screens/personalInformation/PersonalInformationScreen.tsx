@@ -16,7 +16,8 @@ import GenderPicker from './GenderPicker'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import {
   DetailedProfile,
   FormViolation,

@@ -5,7 +5,7 @@ import {
   GetHomeResourcesInteractor,
   HomeResources,
 } from '../../core/interactor/GetHomeResourcesInteractor'
-import { ViewState } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 export const useFetchHomeResources = (): {

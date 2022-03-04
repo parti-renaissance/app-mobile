@@ -6,7 +6,8 @@ import React, {
 } from 'react'
 import { View, StyleSheet } from 'react-native'
 
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import ModalOverlay from '../shared/ModalOverlay'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'

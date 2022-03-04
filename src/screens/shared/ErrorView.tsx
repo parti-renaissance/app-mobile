@@ -4,7 +4,7 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from './Buttons'
 import CircularIcon from './CircularIcon'
-import { ViewStateError } from './StatefulView'
+import { ViewStateError } from './ViewState'
 
 type Props = Readonly<{
   state: ViewStateError

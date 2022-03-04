@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import EventRepository from '../../data/EventRepository'
-import { ViewState } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { DetailedEvent } from '../../core/entities/Event'
 

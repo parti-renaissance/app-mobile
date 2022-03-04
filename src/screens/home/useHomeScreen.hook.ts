@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ViewState } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
