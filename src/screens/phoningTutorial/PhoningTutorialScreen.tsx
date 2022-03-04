@@ -12,7 +12,7 @@ import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
 import { ViewState } from '../shared/ViewState'
-import { useFocusEffect } from '@react-navigation/core'
+import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
