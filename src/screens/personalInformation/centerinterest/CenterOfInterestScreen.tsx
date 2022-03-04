@@ -69,10 +69,10 @@ const CenterOfInterestContent = (
   }
 
   return (
-    <>
+    <View style={styles.contentContainer}>
       <LoadingOverlay visible={isLoading} />
       <FlatList
-        style={styles.grid}
+        contentContainerStyle={styles.grid}
         data={viewModel.interests}
         keyExtractor={(item) => item.code}
         renderItem={renderItem}
@@ -91,7 +91,7 @@ const CenterOfInterestContent = (
           onPress={submit}
         />
       </View>
-    </>
+    </View>
   )
 }
 
@@ -144,10 +144,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
-    paddingTop: Spacing.margin,
+  },
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
   },
   grid: {
-    marginHorizontal: Spacing.unit,
+    paddingHorizontal: Spacing.unit,
   },
   title: {
     ...Typography.headline,
