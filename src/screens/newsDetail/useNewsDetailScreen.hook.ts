@@ -22,7 +22,9 @@ export const useNewsDetailScreen = (
       NewsRepository.getInstance()
         .getNewsDetail(newsId)
         .then((news) => setStatefulState(ViewState.Content(news)))
-        .catch((error) => ViewStateUtils.networkError(error, fetchNews))
+        .catch((error) =>
+          setStatefulState(ViewStateUtils.networkError(error, fetchNews)),
+        )
     }
     fetchNews()
   }, [newsId])
