@@ -9,7 +9,7 @@ import { Analytics } from '../../utils/Analytics'
 import { DateProvider } from '../../utils/DateProvider'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { EventFilter } from './EventListScreen'
+import { EventFilter } from './EventFilter'
 import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 import { EventSectionViewModel } from './EventViewModel'
 
