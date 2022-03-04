@@ -15,7 +15,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { Analytics } from '../../utils/Analytics'
 import { useEventsScreen } from './useEventsScreen.hook'
 import { EventsFilterButton } from '../shared/NavigationHeaderButton'
-import { EventNavigatorScreenProps } from '../../navigation/EventNavigator'
+import { EventNavigatorScreenProps } from '../../navigation/event/EventNavigatorScreenProps'
 
 type EventsScreenProps = EventNavigatorScreenProps<'Events'>
 

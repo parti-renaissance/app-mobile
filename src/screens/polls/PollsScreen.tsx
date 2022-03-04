@@ -24,7 +24,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import CircularIcon from '../shared/CircularIcon'
 import i18n from '../../utils/i18n'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type PollsScreenProps = ActionsNavigatorScreenProps<'Polls'>
 

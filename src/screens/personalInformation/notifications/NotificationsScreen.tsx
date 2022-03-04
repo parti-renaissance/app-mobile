@@ -13,7 +13,7 @@ import {
   GetNotificationsInteractorResult,
 } from '../../../core/interactor/GetNotificationsInteractor'
 import PersonalInformationRepository from '../../../data/PersonalInformationRepository'
-import { ProfileModalNavigatorScreenProps } from '../../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { AlertUtils } from '../../shared/AlertUtils'

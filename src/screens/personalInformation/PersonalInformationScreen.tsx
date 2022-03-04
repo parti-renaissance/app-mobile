@@ -31,7 +31,7 @@ import { PersonalInformationsForm } from '../../core/entities/PersonalInformatio
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 
 type ContentProps = Readonly<{
   profileUuid: string

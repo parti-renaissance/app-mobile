@@ -7,8 +7,8 @@ import { PushNotification } from '../utils/PushNotification'
 import { Analytics } from '../utils/Analytics'
 import PushRepository from '../data/PushRepository'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
-import { AuthenticatedRootNavigator } from './AuthenticatedRootNavigator'
-import { UnauthenticatedRootNavigator } from './UnauthenticatedRootNavigator'
+import { AuthenticatedRootNavigator } from './authenticatedRoot/AuthenticatedRootNavigator'
+import { UnauthenticatedRootNavigator } from './unauthenticatedRoot/UnauthenticatedRootNavigator'
 import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
 
 const authenticationRepository = AuthenticationRepository.getInstance()

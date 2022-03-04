@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { EventMode } from '../../core/entities/Event'
-import { EventsFilterModalNavigatorScreenProps } from '../../navigation/EventsFilterModalNavigator'
+import { EventsFilterModalNavigatorScreenProps } from '../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'
 import { EventQuickFiltersViewModel } from './EventQuickFiltersViewModel'
 import { EventQuickFiltersViewModelMapper } from './EventQuickFiltersViewModelMapper'
 

@@ -5,7 +5,7 @@ import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import LinearGradient from 'react-native-linear-gradient'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { useOnboardingScreen } from './useOnboardingScreen.hook'
 

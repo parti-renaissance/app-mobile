@@ -13,7 +13,7 @@ import { RegionViewModelMapper } from './RegionViewModelMapper'
 import { ExternalLink } from '../shared/ExternalLink'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { Analytics } from '../../utils/Analytics'
-import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 
 type RegionScreenProps = HomeNavigatorScreenProps<'Region'>
 

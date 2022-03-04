@@ -14,7 +14,7 @@ import {
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PhonePollDetailCallStatusViewModelMapper } from '../phonePollDetail/PhonePollDetailCallStatusViewModelMapper'

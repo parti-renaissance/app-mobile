@@ -23,7 +23,7 @@ import { PollDetailUserInformationsComponentProvider } from './providers/PollDet
 import { PollResult } from '../../core/entities/PollResult'
 import { AlertUtils } from '../shared/AlertUtils'
 import { useNavigation } from '@react-navigation/native'
-import { PollDetailModalNavigatorScreenProps } from '../../navigation/PollDetailModalNavigator'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
 
 type Props = Readonly<{
   poll: Poll

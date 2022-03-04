@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { Text, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'

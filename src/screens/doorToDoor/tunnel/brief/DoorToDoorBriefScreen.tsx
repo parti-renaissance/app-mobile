@@ -16,7 +16,7 @@ import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 
 type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
 

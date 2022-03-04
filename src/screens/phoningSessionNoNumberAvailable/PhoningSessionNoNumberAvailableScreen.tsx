@@ -7,7 +7,7 @@ import { TertiaryButton } from '../shared/Buttons'
 import { VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
 import CircularIcon from '../shared/CircularIcon'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 
 type PhoningSessionNoNumberAvailableScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNoNumberAvailable'>
 

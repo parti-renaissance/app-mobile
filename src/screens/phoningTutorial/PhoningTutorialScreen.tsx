@@ -14,7 +14,7 @@ import { StatefulView } from '../shared/StatefulView'
 import { ViewState } from '../shared/ViewState'
 import { useFocusEffect } from '@react-navigation/core'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type PhoningTutorialScreenProps = ActionsNavigatorScreenProps<'PhoningTutorial'>
 

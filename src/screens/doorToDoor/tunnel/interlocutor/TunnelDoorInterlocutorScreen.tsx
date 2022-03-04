@@ -16,7 +16,7 @@ import {
   SendDoorPollAnswersInteractor,
 } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import { AlertUtils } from '../../../shared/AlertUtils'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 
 type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
 

@@ -14,7 +14,7 @@ import ModalOverlay from '../shared/ModalOverlay'
 import PollDetailTools from './PollDetailTools'
 import { useBackHandler } from '../shared/useBackHandler.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { PollDetailModalNavigatorScreenProps } from '../../navigation/PollDetailModalNavigator'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
 
 type PollDetailScreenProps = PollDetailModalNavigatorScreenProps<'PollDetail'>
 

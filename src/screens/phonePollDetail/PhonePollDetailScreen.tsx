@@ -22,7 +22,7 @@ import {
 } from '../../core/interactor/GetPhonePollDetailResourcesInteractor'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 
 type PhonePollDetailScreenProps = PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>
 

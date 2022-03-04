@@ -23,7 +23,7 @@ import { PhonePollResult } from '../../core/entities/PhonePollResult'
 import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
 import { AlertUtils } from '../shared/AlertUtils'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 
 type Props = Readonly<{
   poll: Poll

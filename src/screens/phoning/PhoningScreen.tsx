@@ -25,7 +25,7 @@ import {
 } from '../../core/entities/PhoningCharterState'
 import i18n from '../../utils/i18n'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type PhoningScreenProps = ActionsNavigatorScreenProps<'Phoning'>
 

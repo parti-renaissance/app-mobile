@@ -8,7 +8,7 @@ import {
   PhoningSessionNoNumberError,
 } from '../../core/errors'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'

@@ -6,7 +6,7 @@ import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useNavigation } from '@react-navigation/native'
 import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
-import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import {
   TimelineFeedItem,

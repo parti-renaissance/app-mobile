@@ -24,7 +24,7 @@ import SelectableIconLabelView, {
 } from '../../shared/SelectableIconLabelView'
 import { AlertUtils } from '../../shared/AlertUtils'
 import { ViewStateUtils } from '../../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,

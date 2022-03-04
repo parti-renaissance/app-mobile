@@ -45,7 +45,7 @@ import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaig
 import RankingModal from '../doorToDoor/rankings/RankingModal'
 import { RankingModalState } from '../doorToDoor/DoorToDoorScreen'
 import CardView from '../shared/CardView'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type BuildingDetailScreenProps = ActionsNavigatorScreenProps<'BuildingDetail'>
 

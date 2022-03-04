@@ -13,7 +13,7 @@ import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 import { ServerTimeoutError } from '../../core/errors'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 
 type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 

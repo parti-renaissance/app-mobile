@@ -18,7 +18,7 @@ import {
   DoorToDoorCampaignRankingItem,
 } from '../../../core/entities/DoorToDoorCampaignRanking'
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'

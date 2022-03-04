@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
 import { OnboardingViewModel } from './OnboardingViewModel'
 import { OnboardingViewModelMapper } from './OnboardingViewModelMapper'
 
