@@ -5,11 +5,11 @@ import i18n from '../../utils/i18n'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import LinearGradient from 'react-native-linear-gradient'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { useOnboardingScreen } from './useOnboardingScreen.hook'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 
-type OnboardingScreenProps = UnauthenticatedRootNavigatorScreenProps<'Onboarding'>
+type OnboardingScreenProps = OnboardingNavigatorScreenProps<'Onboarding'>
 
 const OnboardingScreen: FC<OnboardingScreenProps> = () => {
   const { viewModel, onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()

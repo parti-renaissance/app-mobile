@@ -32,9 +32,9 @@ import { SignUpFormError } from '../../core/errors'
 import LegalRepository from '../../data/LegalRepository'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
 import GenderPicker from '../personalInformation/GenderPicker'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 
-type SignUpScreenProps = UnauthenticatedRootNavigatorScreenProps<'SignUp'>
+type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
 const getError = (violations: Array<FormViolation>, path: string): string => {
   return violations
@@ -102,6 +102,20 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
         }
       })
       .finally(() => setIsLoading(false))
+  }
+
+  const onLocationPickerPress = () => {
+    navigation.navigate('LocationPickerModal', {
+      screen: 'LocationPicker',
+      params: {
+        onAddressSelected: (address) => {
+          setSignUpFormData({
+            ...signUpFormData,
+            address,
+          })
+        },
+      },
+    })
   }
 
   const getTextInputProps = (
@@ -277,12 +291,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           <LocationPicker
             address={signUpFormData.address}
             placeholder={i18n.t('sign_up.personal_data.address_placeholder')}
-            onAddressSelected={(pickedAddress) => {
-              setSignUpFormData({
-                ...signUpFormData,
-                address: pickedAddress,
-              })
-            }}
+            onPress={onLocationPickerPress}
             textStyle={styles.textLeft}
           />
         </LabelInputContainer>

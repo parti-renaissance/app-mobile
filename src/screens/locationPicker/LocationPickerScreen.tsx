@@ -17,7 +17,7 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-      title: i18n.t('personalinformation.addresstitle'),
+      title: i18n.t('personalinformation.address'),
     })
   }, [navigation])
 
