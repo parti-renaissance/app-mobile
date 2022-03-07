@@ -17,9 +17,9 @@ import LoadingOverlay from '../shared/LoadingOverlay'
 import { ProfileFormError } from '../../core/errors'
 import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
 import { AlertUtils } from '../shared/AlertUtils'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { useNavigation } from '@react-navigation/native'
 import { HeaderTextButton } from './HeaderTextButton'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
 
 type Props = Readonly<{
   profileUuid: string
@@ -42,7 +42,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
   const telegramRef = useRef<TextInput>(null)
 
   const navigation = useNavigation<
-    ProfileModalNavigatorScreenProps<'PersonalInformation'>['navigation']
+    PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
   >()
 
   const getError = (violations: Array<FormViolation>, path: string): string => {
@@ -72,13 +72,6 @@ export const PersonalInformationScreenContent: FC<Props> = ({
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <HeaderTextButton
-          title={i18n.t('personalinformation.cancel')}
-          onPress={() => navigation.goBack()}
-        />
-      ),
-      title: i18n.t('personalinformation.title'),
       headerRight: () => (
         <HeaderTextButton
           title={i18n.t('personalinformation.save')}

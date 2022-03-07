@@ -1,17 +1,34 @@
-import React, { FC } from 'react'
+import React, { FC, useLayoutEffect } from 'react'
 import { StatefulView } from '../shared/StatefulView'
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { PersonalInformationScreenContent } from './PersonalInformationScreenContent'
 import { usePersonalInformationScreen } from './usePersonalInformationScreen.hook'
 import SafeAreaView from 'react-native-safe-area-view'
 import { StyleSheet } from 'react-native'
 import { Colors } from '../../styles'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import { HeaderTextButton } from './HeaderTextButton'
+import i18n from '../../utils/i18n'
 
-type PersonalInformationScreenProps = ProfileModalNavigatorScreenProps<'PersonalInformation'>
+type PersonalInformationScreenProps = PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>
 
-const PersonalInformationScreen: FC<PersonalInformationScreenProps> = () => {
+const PersonalInformationScreen: FC<PersonalInformationScreenProps> = ({
+  navigation,
+}) => {
   const { statefulState } = usePersonalInformationScreen()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderTextButton
+          title={i18n.t('personalinformation.cancel')}
+          onPress={() => navigation.goBack()}
+        />
+      ),
+      title: i18n.t('personalinformation.title'),
+    })
+  }, [navigation])
+
   return (
     <SafeAreaView style={styles.container}>
       <StatefulView

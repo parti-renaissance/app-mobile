@@ -30,7 +30,9 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       navigation.navigate('NotificationMenu')
     }
     const openPersonalInformation = () => {
-      navigation.navigate('PersonalInformation')
+      navigation.navigate('PersonalInformationModal', {
+        screen: 'PersonalInformation',
+      })
     }
     const openCenterOfInterest = () => {
       navigation.navigate('CenterOfInterest')

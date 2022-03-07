@@ -5,7 +5,6 @@ import i18n from '../../utils/i18n'
 import CenterOfInterestScreen from '../../screens/personalInformation/centerinterest/CenterOfInterestScreen'
 import NotificationMenuScreen from '../../screens/personalInformation/notifications/NotificationMenuScreen'
 import NotificationsScreen from '../../screens/personalInformation/notifications/NotificationsScreen'
-import PersonalInformationScreen from '../../screens/personalInformation/PersonalInformationScreen'
 import ProfileScreen from '../../screens/profile/ProfileScreen'
 import { ProfileModalNavigatorParamList } from './ProfileModalNavigatorParamList'
 
@@ -15,10 +14,6 @@ const ProfileModalNavigator: FunctionComponent = () => {
   return (
     <Stack.Navigator screenOptions={headerBlank}>
       <Stack.Screen name={'Profile'} component={ProfileScreen} />
-      <Stack.Screen
-        name={'PersonalInformation'}
-        component={PersonalInformationScreen}
-      />
       <Stack.Screen
         name={'CenterOfInterest'}
         component={CenterOfInterestScreen}

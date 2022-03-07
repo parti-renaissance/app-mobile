@@ -7,6 +7,7 @@ import { NewsDetailModalNavigatorParamList } from '../newsDetailModal/NewsDetail
 import { EventsFilterModalNavigatorParamList } from '../eventsFilterModal/EventsFilterModalNavigatorParamList'
 import { TabBarNavigatorParamList } from '../tabBar/TabBarNavigatorParamList'
 import { LocationPickerModalNavigatorParamList } from '../locationPickerModal/LocationPickerModalNavigatorParamList'
+import { PersonalInformationModalNavigatorParamList } from '../personalInformationModal/PersonalInformationModalNavigatorParamList'
 
 export type AuthenticatedRootNavigatorParamList = {
   TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>
@@ -17,4 +18,5 @@ export type AuthenticatedRootNavigatorParamList = {
   NewsDetailModal: NavigatorScreenParams<NewsDetailModalNavigatorParamList>
   EventsFilterModal: NavigatorScreenParams<EventsFilterModalNavigatorParamList>
   LocationPickerModal: NavigatorScreenParams<LocationPickerModalNavigatorParamList>
+  PersonalInformationModal: NavigatorScreenParams<PersonalInformationModalNavigatorParamList>
 }
