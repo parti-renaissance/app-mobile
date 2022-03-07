@@ -7,7 +7,6 @@ import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
 import BirthdayPicker from '../shared/BirthdayPicker'
-import CountryPicker from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
@@ -20,6 +19,10 @@ import { AlertUtils } from '../shared/AlertUtils'
 import { useNavigation } from '@react-navigation/native'
 import { HeaderTextButton } from './HeaderTextButton'
 import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import { CountryRepository } from '../../data/CountryRepository'
+import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
+import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
+import { NationalityPicker } from './NationalityPicker'
 
 type Props = Readonly<{
   profileUuid: string
@@ -100,6 +103,26 @@ export const PersonalInformationScreenContent: FC<Props> = ({
     })
   }
 
+  const onNationalityPress = () => {
+    const countries = CountryRepository.getInstance().getCountries()
+    navigation.navigate('ListPickerModal', {
+      screen: 'ListPicker',
+      params: {
+        title: i18n.t('personalinformation.nationality'),
+        items: NationalityListPikerViewModelMapper.map(countries),
+        selectedItemId: form.countryCode,
+        onItemSelected: (id) => {
+          const selectedCountry = countries.find((c) => c.code === id)
+          if (selectedCountry !== undefined) {
+            updateForm({ ...form, countryCode: selectedCountry.code })
+          }
+        },
+        displaySearch: true,
+        presentationType: 'modal',
+      },
+    })
+  }
+
   return (
     <KeyboardOffsetView>
       <ScrollView
@@ -164,28 +187,9 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             label={i18n.t('personalinformation.nationality')}
             errorMessage={getError(errors, 'nationality')}
           >
-            <CountryPicker
-              countryCode={form.countryCode}
-              preferredCountries={[
-                i18n.t('personalinformation.default_country_code'),
-              ]}
-              withFlagButton={false}
-              translation={i18n.t(
-                'personalinformation.country_picker_language',
-              )}
-              // @ts-ignore: Issue in the country picker typescript definition
-              closeButtonImage={require('../../assets/images/navigationBarBack.png')}
-              withCountryNameButton={true}
-              containerButtonStyle={styles.countryPickerContainerButton}
-              withFlag={false}
-              theme={Typography.countryPicker}
-              // @ts-ignore: Issue in the country picker typescript definition
-              flatListProps={{
-                contentContainerStyle: { paddingHorizontal: Spacing.margin },
-              }}
-              onSelect={(country) => {
-                updateForm({ ...form, countryCode: country.cca2 })
-              }}
+            <NationalityPicker
+              country={DisplayNameFormatter.formatRegion(form.countryCode)}
+              onPress={onNationalityPress}
             />
           </LabelInputContainer>
           <Text style={styles.section}>
