@@ -92,7 +92,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
   const genderListener = (value: Gender) => {
     updateForm({ ...form, gender: value })
   }
-  const onDateChange = (_: string, newDate: Date) => {
+  const onDateChange = (newDate: Date) => {
     updateForm({ ...form, birthdate: newDate })
   }
 
@@ -164,6 +164,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
               placeholder={i18n.t('personalinformation.placeholder')}
               onDateChange={onDateChange}
               maximumDate={new Date()}
+              textAlign="right"
             />
           </LabelInputContainer>
           <LabelInputContainer

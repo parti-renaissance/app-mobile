@@ -1,92 +1,85 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import DatePicker, { DatePickerProps } from 'react-native-datepicker'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {
-  FlexAlignType,
   Platform,
+  Text,
   StyleProp,
   StyleSheet,
-  useColorScheme,
+  View,
   ViewStyle,
+  TouchableWithoutFeedback,
+  TextStyle,
 } from 'react-native'
-import RNDateTimePicker from '@react-native-community/datetimepicker'
+import { IOSNativeProps } from '@react-native-community/datetimepicker'
+import { DateFormatter } from '../../utils/DateFormatter'
 
 type Props = Readonly<{
   date: Date | undefined
   maximumDate?: Date
   placeholder: string
-  onDateChange: (formattedDate: string, date: Date) => void
-  disabled?: boolean
+  onDateChange: (date: Date) => void
   style?: StyleProp<ViewStyle>
-  inputAlign?: FlexAlignType
+  textAlign?: TextStyle['textAlign']
 }>
 
 const BirthdayPicker: FC<Props> = (props) => {
-  const isDarkMode = useColorScheme() === 'dark'
-  const dateTextStyle = props.disabled
-    ? styles.textDisabled
-    : styles.textEnabled
+  const [isDatePickerModalVisible, setIsDatePickerModalVisible] = useState(
+    false,
+  )
+
+  const isPlaceholder = props.date === undefined
+  const formattedDate =
+    props.date !== undefined
+      ? DateFormatter.format(props.date, 'dd/MM/yyyy')
+      : props.placeholder
+
   return (
-    <DatePicker
-      showIcon={false}
-      iOSDatePickerComponent={(iosProps: DatePickerProps) => (
-        //@ts-ignore: unknown properties spread on RNDateTimePicker
-        <RNDateTimePicker
-          {...iosProps}
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          style={isDarkMode ? styles.dark : styles.light}
-        />
-      )}
-      format="DD/MM/YYYY"
-      confirmBtnText={i18n.t('common.confirm')}
-      cancelBtnText={i18n.t('common.cancel')}
-      placeholder={props.placeholder}
-      maxDate={props.maximumDate}
-      customStyles={{
-        // @ts-ignore: Placeholder attributes
-        placeholderText: {
-          ...Typography.body,
-          color: Colors.lightText,
-          textAlign: 'right',
-        },
-        dateInput: {
-          borderWidth: 0,
-          alignItems: props.inputAlign ? props.inputAlign : 'flex-end',
-          height: undefined,
-        },
-        dateTouchBody: {
-          height: undefined,
-        },
-        btnTextConfirm: { color: Colors.primaryColor },
-        dateText: dateTextStyle,
-        disabled: { backgroundColor: Colors.defaultBackground },
-        datePickerCon: isDarkMode ? styles.dark : styles.light,
-      }}
-      style={props.style ? props.style : styles.picker}
-      date={props.date}
-      onDateChange={props.onDateChange}
-      disabled={props.disabled}
-    />
+    <View style={props.style}>
+      <TouchableWithoutFeedback
+        onPress={() => setIsDatePickerModalVisible(true)}
+      >
+        <Text
+          suppressHighlighting={true}
+          style={[
+            styles.text,
+            { textAlign: props.textAlign },
+            isPlaceholder && styles.placeholder,
+          ]}
+        >
+          {formattedDate}
+        </Text>
+      </TouchableWithoutFeedback>
+      <DateTimePickerModal
+        isVisible={isDatePickerModalVisible}
+        date={props.date}
+        maximumDate={props.maximumDate}
+        mode="date"
+        display={Platform.select({
+          // Pierre Felgines: Don't know why `'inline'` is not recognized without the cast
+          ios: 'inline' as keyof IOSNativeProps['display'],
+          android: 'default',
+        })}
+        confirmTextIOS={i18n.t('common.confirm')}
+        cancelTextIOS={i18n.t('common.cancel')}
+        onConfirm={(date) => {
+          setIsDatePickerModalVisible(false)
+          props.onDateChange(date)
+        }}
+        onCancel={() => setIsDatePickerModalVisible(false)}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  dark: {
-    backgroundColor: Colors.black,
-  },
-  light: {
-    backgroundColor: Colors.white,
-  },
-  picker: {
-    alignSelf: 'flex-end',
-  },
-  textDisabled: {
-    color: Colors.lightText,
-  },
-  textEnabled: {
+  text: {
     ...Typography.body,
     color: Colors.darkText,
+  },
+  placeholder: {
+    color: Colors.lightText,
   },
 })
 

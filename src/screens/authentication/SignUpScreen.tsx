@@ -238,14 +238,12 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           <BirthdayPicker
             date={signUpFormData.birthDate}
             placeholder={i18n.t('sign_up.personal_data.birth_date_placeholder')}
-            onDateChange={(_, date) => {
+            onDateChange={(date) => {
               setSignUpFormData({
                 ...signUpFormData,
                 birthDate: date,
               })
             }}
-            style={styles.birthdayPicker}
-            inputAlign="flex-start"
             maximumDate={new Date()}
           />
         </LabelInputContainer>
@@ -371,9 +369,6 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  birthdayPicker: {
-    width: '100%',
-  },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
     padding: Spacing.margin,
