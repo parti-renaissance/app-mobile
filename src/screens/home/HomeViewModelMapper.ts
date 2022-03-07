@@ -15,7 +15,7 @@ import { HomeRetaliationCardViewModelFromTimelineRetaliationMapper } from './fee
 import { HomeFeedActionCampaignCardViewModelFromTimelineItemMapper } from './feed/mappers/HomeFeedActionCampaignCardViewModelFromTimelineItemMapper'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { HomeHeaderViewModelMapper } from './HomeHeaderViewModelMapper'
-import { ViewState, ViewStateError } from '../shared/StatefulView'
+import { ViewState, ViewStateError } from '../shared/ViewState'
 
 export const HomeViewModelMapper = {
   map: (

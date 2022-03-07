@@ -1,39 +1,14 @@
-import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
-import PollDetailModalNavigator, {
-  PollDetailModalNavigatorParamList,
-} from './PollDetailModalNavigator'
-import ProfileModalNavigator, {
-  ProfileModalNavigatorParamList,
-} from './ProfileModalNavigator'
-import PhoningSessionModalNavigator, {
-  PhoningSessionModalNavigatorParamList,
-} from './PhoningSessionModalNavigator'
-import DoorToDoorTunnelModalNavigator, {
-  DoorToDoorTunnelModalNavigatorParamList,
-} from './DoorToDoorTunnelModalNavigator'
-import { TabBarNavigator, TabBarNavigatorParamList } from './TabBarNavigator'
-import { NavigatorScreenParams } from '@react-navigation/native'
-import NewsDetailModalNavigator, {
-  NewsDetailModalNavigatorParamList,
-} from './NewsDetailModalNavigator'
-import {
-  EventsFilterModalNavigator,
-  EventsFilterModalNavigatorParamList,
-} from './EventsFilterModalNavigator'
-
-export type AuthenticatedRootNavigatorParamList = {
-  TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>
-  PollDetailModal: NavigatorScreenParams<PollDetailModalNavigatorParamList>
-  PhoningSessionModal: NavigatorScreenParams<PhoningSessionModalNavigatorParamList>
-  ProfileModal: NavigatorScreenParams<ProfileModalNavigatorParamList>
-  DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalNavigatorParamList>
-  NewsDetailModal: NavigatorScreenParams<NewsDetailModalNavigatorParamList>
-  EventsFilterModal: NavigatorScreenParams<EventsFilterModalNavigatorParamList>
-}
-
-export type AuthenticatedRootNavigatorScreenProps = StackScreenProps<AuthenticatedRootNavigatorParamList>
+import PollDetailModalNavigator from '../pollDetailModal/PollDetailModalNavigator'
+import ProfileModalNavigator from '../profileModal/ProfileModalNavigator'
+import PhoningSessionModalNavigator from '../phoningSessionModal/PhoningSessionModalNavigator'
+import DoorToDoorTunnelModalNavigator from '../doorToDoorTunnelModal/DoorToDoorTunnelModalNavigator'
+import { TabBarNavigator } from '../tabBar/TabBarNavigator'
+import NewsDetailModalNavigator from '../newsDetailModal/NewsDetailModalNavigator'
+import { EventsFilterModalNavigator } from '../eventsFilterModal/EventsFilterModalNavigator'
+import { AuthenticatedRootNavigatorParamList } from './AuthenticatedRootNavigatorParamList'
 
 const Stack = createStackNavigator<AuthenticatedRootNavigatorParamList>()
 

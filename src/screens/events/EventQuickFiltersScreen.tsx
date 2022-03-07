@@ -12,7 +12,7 @@ import SelectableIconLabelView, {
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { useEventQuickFiltersScreen } from './useEventQuickFiltersScreen.hook'
-import { EventsFilterModalNavigatorScreenProps } from '../../navigation/EventsFilterModalNavigator'
+import { EventsFilterModalNavigatorScreenProps } from '../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'
 
 type EventQuickFiltersScreenProps = EventsFilterModalNavigatorScreenProps<'EventsFilter'>
 

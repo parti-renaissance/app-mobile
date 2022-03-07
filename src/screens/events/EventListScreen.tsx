@@ -23,14 +23,13 @@ import {
 import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { useEventListScreen } from './useEventListScreen.hook'
 import { useOnFocus } from '../../utils/useOnFocus.hook'
+import { EventFilter } from './EventFilter'
 
 type Props = Readonly<{
   eventFilter: EventFilter
   searchText?: string
   eventModeFilter?: EventMode
 }>
-
-export type EventFilter = 'home' | 'calendar' | 'myEvents'
 
 const EventListScreen: FC<Props> = ({
   eventFilter,

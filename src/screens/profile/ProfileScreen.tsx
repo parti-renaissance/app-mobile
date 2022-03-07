@@ -2,7 +2,8 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, Linking } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { Colors } from '../../styles'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import {
   GetUserProfileInteractor,
@@ -12,7 +13,7 @@ import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 import { ServerTimeoutError } from '../../core/errors'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 
 type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 

@@ -5,7 +5,7 @@ import { Colors } from '../../styles'
 import { StatefulView } from '../shared/StatefulView'
 import { useEventDetailsScreen } from './useEventDetailsScreen.hook'
 import { EventDetailsContent } from './EventDetailsContent'
-import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 
 type EventDetailsScreenProps = HomeNavigatorScreenProps<'EventDetails'>
 

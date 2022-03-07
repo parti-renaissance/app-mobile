@@ -16,14 +16,15 @@ import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton } from '../../shared/Buttons'
 import LoadingOverlay from '../../shared/LoadingOverlay'
-import { StatefulView, ViewState } from '../../shared/StatefulView'
+import { StatefulView } from '../../shared/StatefulView'
+import { ViewState } from '../../shared/ViewState'
 import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
 } from '../../shared/SelectableIconLabelView'
 import { AlertUtils } from '../../shared/AlertUtils'
 import { ViewStateUtils } from '../../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,

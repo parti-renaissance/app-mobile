@@ -8,12 +8,13 @@ import {
   PhoningSessionNoNumberError,
 } from '../../core/errors'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 

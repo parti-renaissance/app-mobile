@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { View, Text, StyleSheet, BackHandler } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { PollDetailModalNavigatorScreenProps } from '../../navigation/PollDetailModalNavigator'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'

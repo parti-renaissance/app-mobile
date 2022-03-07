@@ -1,22 +1,12 @@
-import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
-import LoginScreen from '../screens/authentication/LoginScreen'
-import OnboardingScreen from '../screens/onboarding/OnboardingScreen'
-import { headerBlank } from '../styles/navigationAppearance'
-import ForgottenPasswordScreen from '../screens/authentication/ForgottenPasswordScreen'
-import SignUpScreen from '../screens/authentication/SignUpScreen'
-
-export type UnauthenticatedRootNavigatorParamList = {
-  Onboarding: undefined
-  Login: undefined
-  ForgottenPassword: { email?: string }
-  SignUp: undefined
-}
-
-export type UnauthenticatedRootNavigatorScreenProps<
-  T extends keyof UnauthenticatedRootNavigatorParamList
-> = StackScreenProps<UnauthenticatedRootNavigatorParamList, T>
+import LoginScreen from '../../screens/authentication/LoginScreen'
+import OnboardingScreen from '../../screens/onboarding/OnboardingScreen'
+import { headerBlank } from '../../styles/navigationAppearance'
+import ForgottenPasswordScreen from '../../screens/authentication/ForgottenPasswordScreen'
+import SignUpScreen from '../../screens/authentication/SignUpScreen'
+import { UnauthenticatedRootNavigatorParamList } from './UnauthenticatedRootNavigatorParamList'
 
 const Stack = createStackNavigator<UnauthenticatedRootNavigatorParamList>()
 

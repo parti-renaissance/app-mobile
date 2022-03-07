@@ -15,7 +15,8 @@ import PollsHeader from './PollsHeader'
 import { Colors } from '../../styles'
 import { PollRowViewModel } from './PollRowViewModel'
 import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
 import { ServerTimeoutError } from '../../core/errors'
@@ -23,7 +24,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import CircularIcon from '../shared/CircularIcon'
 import i18n from '../../utils/i18n'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type PollsScreenProps = ActionsNavigatorScreenProps<'Polls'>
 

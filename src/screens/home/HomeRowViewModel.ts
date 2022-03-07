@@ -2,7 +2,7 @@ import { EventRowViewModel } from '../events/EventViewModel'
 import { NewsRowViewModel } from '../news/NewsRowViewModel'
 import { RegionViewModel } from '../regions/RegionViewModel'
 import { RetaliationListCardViewModel } from '../retaliations/RetaliationListCardViewModel'
-import { ViewStateError } from '../shared/StatefulView'
+import { ViewStateError } from '../shared/ViewState'
 import { HomeFeedActionCampaignCardViewModel } from './feed/HomeFeedActionCampaignCard'
 import { HomeQuickPollRowAnswerViewModel } from './quickPoll/HomeQuickPollRowAnswerViewModel'
 

@@ -16,7 +16,7 @@ import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { AlertUtils } from '../shared/AlertUtils'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 
 type PhoningSessionLoaderPermanentCampaignScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoaderPermanentCampaign'>
 

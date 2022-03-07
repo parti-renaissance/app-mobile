@@ -8,14 +8,15 @@ import { StyleSheet, ScrollView, Text, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
-import { StatefulView, ViewState } from '../../../shared/StatefulView'
+import { StatefulView } from '../../../shared/StatefulView'
+import { ViewState } from '../../../shared/ViewState'
 import { useFocusEffect } from '@react-navigation/core'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 
 type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
 

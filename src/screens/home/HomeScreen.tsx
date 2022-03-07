@@ -26,7 +26,7 @@ import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
 import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
 import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
 import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
-import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { HomeFeedErrorRow } from './feed/HomeFeedErrorRow'
 

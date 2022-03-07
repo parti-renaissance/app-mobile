@@ -4,9 +4,10 @@ import {
   DoorToDoorCompletePoll,
   GetDoorToDoorCompletePollInteractor,
 } from '../../../../core/interactor/GetDoorToDoorCompletePollInteractor'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors } from '../../../../styles'
-import { StatefulView, ViewState } from '../../../shared/StatefulView'
+import { StatefulView } from '../../../shared/StatefulView'
+import { ViewState } from '../../../shared/ViewState'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'

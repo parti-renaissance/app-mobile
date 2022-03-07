@@ -5,7 +5,8 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 import i18n from '../../../../utils/i18n'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
-import { StatefulView, ViewState } from '../../../shared/StatefulView'
+import { StatefulView } from '../../../shared/StatefulView'
+import { ViewState } from '../../../shared/ViewState'
 import { DoorToDoorPollConfigResponseStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
@@ -15,7 +16,7 @@ import {
   SendDoorPollAnswersInteractor,
 } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import { AlertUtils } from '../../../shared/AlertUtils'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 
 type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
 

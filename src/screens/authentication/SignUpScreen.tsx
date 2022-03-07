@@ -32,7 +32,7 @@ import { SignUpFormError } from '../../core/errors'
 import LegalRepository from '../../data/LegalRepository'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
 import GenderPicker from '../personalInformation/GenderPicker'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
 
 type SignUpScreenProps = UnauthenticatedRootNavigatorScreenProps<'SignUp'>
 

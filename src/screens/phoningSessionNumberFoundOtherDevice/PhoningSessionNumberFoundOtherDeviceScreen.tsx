@@ -6,7 +6,7 @@ import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 import { PrimaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import i18n from '../../utils/i18n'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/PhoningSessionModalNavigator'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 
 type PhoningSessionNumberFoundOtherDeviceScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFoundOtherDevice'>
 

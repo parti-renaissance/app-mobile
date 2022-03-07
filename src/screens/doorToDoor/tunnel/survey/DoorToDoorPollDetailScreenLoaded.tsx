@@ -24,7 +24,7 @@ import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
 import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
 import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/DoorToDoorTunnelModalNavigator'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 
 type Props = Readonly<{
   poll: Poll

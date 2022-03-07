@@ -9,7 +9,7 @@ import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/UnauthenticatedRootNavigator'
+import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
 
 type LoginScreenProps = UnauthenticatedRootNavigatorScreenProps<'Login'>
 

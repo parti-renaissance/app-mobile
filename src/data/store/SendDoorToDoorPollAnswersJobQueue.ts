@@ -1,9 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Queue } from 'mnemonist'
-import { BuildingSelectedParams } from '../../core/interactor/SendDoorPollAnswersInteractor'
+import { BuildingType } from '../../core/entities/DoorToDoor'
 import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
 
 const STORAGE_KEY = '@door_to_door_poll_answers_queue_key'
+
+export interface BuildingSelectedParams {
+  id: string
+  block: string
+  floor: number
+  door: number
+  type: BuildingType
+}
 
 export interface SendDoorToDoorPollAnswersJobQueueItem {
   campaignId: string

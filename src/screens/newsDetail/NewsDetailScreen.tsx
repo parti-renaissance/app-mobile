@@ -3,7 +3,7 @@ import { Text, StyleSheet, ScrollView, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { NewsDetailModalNavigatorScreenProps } from '../../navigation/NewsDetailModalNavigator'
+import { NewsDetailModalNavigatorScreenProps } from '../../navigation/newsDetailModal/NewsDetailModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton } from '../shared/Buttons'
 import { CloseButton } from '../shared/NavigationHeaderButton'

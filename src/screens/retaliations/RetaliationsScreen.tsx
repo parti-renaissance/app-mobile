@@ -12,7 +12,7 @@ import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
 import { useRetaliationsScreen } from './useRetaliationsScreen.hook'
 import HomeRetaliationCard from './RetaliationListCard'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
 
 type RetaliationsScreenProps = ActionsNavigatorScreenProps<'Retaliations'>

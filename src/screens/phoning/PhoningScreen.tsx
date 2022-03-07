@@ -8,7 +8,8 @@ import {
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing, Typography } from '../../styles'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { PhoningRowViewModel } from './PhoningRowViewModel'
 import { PhoningViewModel } from './PhoningViewModel'
 import { PhoningViewModelMapper } from './PhoningViewModelMapper'
@@ -24,7 +25,7 @@ import {
 } from '../../core/entities/PhoningCharterState'
 import i18n from '../../utils/i18n'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ActionsNavigatorScreenProps } from '../../navigation/ActionsNavigator'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type PhoningScreenProps = ActionsNavigatorScreenProps<'Phoning'>
 

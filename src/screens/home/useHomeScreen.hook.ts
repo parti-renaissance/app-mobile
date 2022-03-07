@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ViewState } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useNavigation } from '@react-navigation/native'
 import { Analytics } from '../../utils/Analytics'
 import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
-import { HomeNavigatorScreenProps } from '../../navigation/HomeNavigator'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
 import {
   TimelineFeedItem,

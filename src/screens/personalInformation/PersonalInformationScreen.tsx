@@ -16,7 +16,8 @@ import GenderPicker from './GenderPicker'
 import BirthdayPicker from './BirthdayPicker'
 import CountryPicker from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
-import { StatefulView, ViewState } from '../shared/StatefulView'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
 import {
   DetailedProfile,
   FormViolation,
@@ -30,7 +31,7 @@ import { PersonalInformationsForm } from '../../core/entities/PersonalInformatio
 import { PersonalInformationsFormMapper } from '../../core/mapper/PersonalInformationsFormMapper'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/ProfileModalNavigator'
+import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 
 type ContentProps = Readonly<{
   profileUuid: string

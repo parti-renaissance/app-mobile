@@ -5,7 +5,7 @@ import {
   EventSectionViewModel,
 } from './EventViewModel'
 import { ShortEvent } from '../../core/entities/Event'
-import { EventFilter } from './EventListScreen'
+import { EventFilter } from './EventFilter'
 import MultiMap from 'mnemonist/multi-map'
 import i18n from '../../utils/i18n'
 import { EventRowViewModelMapper } from './EventRowViewModelMapper'

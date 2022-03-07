@@ -1,5 +1,5 @@
 import { GenericErrorMapper } from './ErrorMapper'
-import { ViewState } from './StatefulView'
+import { ViewState } from './ViewState'
 
 export const ViewStateUtils = {
   networkError: <T>(error: Error, onRetry?: () => void): ViewState<T> => {

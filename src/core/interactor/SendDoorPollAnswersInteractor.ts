@@ -1,6 +1,5 @@
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
-import { BuildingType } from '../entities/DoorToDoor'
 import { DoorToDoorPollParams } from '../entities/DoorToDoorPollParams'
 import {
   SendDoorToDoorPollAnswersJobQueue,
@@ -66,12 +65,4 @@ export class SendDoorPollAnswersInteractor {
     const queue = await SendDoorToDoorPollAnswersJobQueue.getInstance()
     await queue.enqueue(params)
   }
-}
-
-export interface BuildingSelectedParams {
-  id: string
-  block: string
-  floor: number
-  door: number
-  type: BuildingType
 }

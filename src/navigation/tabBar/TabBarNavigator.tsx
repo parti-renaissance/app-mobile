@@ -1,37 +1,17 @@
 import React from 'react'
 import { Image, Pressable, View, StyleSheet } from 'react-native'
-import {
-  BottomTabScreenProps,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs'
-import { Colors, Spacing, Typography } from '../styles'
-import ToolsScreen from '../screens/tools/ToolsScreen'
-import i18n from '../utils/i18n'
-import HomeNavigator, { HomeNavigatorParamList } from './HomeNavigator'
-import EventNavigator, { EventNavigatorParamList } from './EventNavigator'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Colors, Spacing, Typography } from '../../styles'
+import ToolsScreen from '../../screens/tools/ToolsScreen'
+import i18n from '../../utils/i18n'
+import HomeNavigator from '../home/HomeNavigator'
+import EventNavigator from '../event/EventNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Analytics } from '../utils/Analytics'
-import {
-  CompositeScreenProps,
-  NavigatorScreenParams,
-  RouteProp,
-} from '@react-navigation/native'
-import { AuthenticatedRootNavigatorScreenProps } from './AuthenticatedRootNavigator'
-import NewsNavigator, { NewsNavigatorParamList } from './NewsNavigator'
-import ActionsNavigator, { ActionsNavigatorParamList } from './ActionsNavigator'
-
-export type TabBarNavigatorParamList = {
-  HomeNavigator: NavigatorScreenParams<HomeNavigatorParamList>
-  NewsNavigator: NavigatorScreenParams<NewsNavigatorParamList>
-  ActionsNavigator: NavigatorScreenParams<ActionsNavigatorParamList>
-  Tools: undefined
-  EventNavigator: NavigatorScreenParams<EventNavigatorParamList>
-}
-
-export type TabBarNavigatorScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<TabBarNavigatorParamList>,
-  AuthenticatedRootNavigatorScreenProps
->
+import { Analytics } from '../../utils/Analytics'
+import { RouteProp } from '@react-navigation/native'
+import NewsNavigator from '../news/NewsNavigator'
+import ActionsNavigator from '../actions/ActionsNavigator'
+import { TabBarNavigatorParamList } from './TabBarNavigatorParamList'
 
 const Tab = createBottomTabNavigator<TabBarNavigatorParamList>()
 
@@ -42,24 +22,24 @@ const getTabBarIcon = (
   switch (route.name) {
     case 'HomeNavigator':
       return focused
-        ? require('../assets/images/tabBarIconsHomeOn.png')
-        : require('../assets/images/tabBarIconsHomeOff.png')
+        ? require('../../assets/images/tabBarIconsHomeOn.png')
+        : require('../../assets/images/tabBarIconsHomeOff.png')
     case 'NewsNavigator':
       return focused
-        ? require('../assets/images/tabBarIconsNewsOn.png')
-        : require('../assets/images/tabBarIconsNewsOff.png')
+        ? require('../../assets/images/tabBarIconsNewsOn.png')
+        : require('../../assets/images/tabBarIconsNewsOff.png')
     case 'ActionsNavigator':
       return focused
-        ? require('../assets/images/tabBarIconsActOn.png')
-        : require('../assets/images/tabBarIconsActOff.png')
+        ? require('../../assets/images/tabBarIconsActOn.png')
+        : require('../../assets/images/tabBarIconsActOff.png')
     case 'EventNavigator':
       return focused
-        ? require('../assets/images/tabBarIconsEventOn.png')
-        : require('../assets/images/tabBarIconsEventOff.png')
+        ? require('../../assets/images/tabBarIconsEventOn.png')
+        : require('../../assets/images/tabBarIconsEventOff.png')
     case 'Tools':
       return focused
-        ? require('../assets/images/tabBarIconsToolsOn.png')
-        : require('../assets/images/tabBarIconsToolsOff.png')
+        ? require('../../assets/images/tabBarIconsToolsOn.png')
+        : require('../../assets/images/tabBarIconsToolsOff.png')
   }
 }
 
