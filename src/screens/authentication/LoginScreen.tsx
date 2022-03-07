@@ -108,7 +108,10 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
         style={styles.passwordLostButton}
         title={i18n.t('login.password_lost')}
         onPress={() => {
-          navigation.navigate('ForgottenPassword', { email: email })
+          navigation.navigate('ForgottenPasswordModal', {
+            screen: 'ForgottenPassword',
+            params: { email },
+          })
         }}
       />
     </SafeAreaView>

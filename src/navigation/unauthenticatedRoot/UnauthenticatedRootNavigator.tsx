@@ -1,11 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { FunctionComponent } from 'react'
-import ForgottenPasswordScreen from '../../screens/authentication/ForgottenPasswordScreen'
 import { UnauthenticatedRootNavigatorParamList } from './UnauthenticatedRootNavigatorParamList'
 import { LocationPickerModalNavigator } from '../locationPickerModal/LocationPickerModalNavigator'
 import { OnboardingNavigator } from '../onboarding/OnboardingNavigator'
-import { headerBlank } from '../../styles/navigationAppearance'
+import { ForgottenPasswordModalNavigator } from '../forgottenPassword/ForgottenPasswordModalNavigator'
 
 const Stack = createStackNavigator<UnauthenticatedRootNavigatorParamList>()
 
@@ -20,9 +19,9 @@ export const UnauthenticatedRootNavigator: FunctionComponent = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen
-          name={'ForgottenPassword'}
-          component={ForgottenPasswordScreen}
-          options={{ ...headerBlank, headerShown: true }}
+          name={'ForgottenPasswordModal'}
+          component={ForgottenPasswordModalNavigator}
+          options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="LocationPickerModal"
