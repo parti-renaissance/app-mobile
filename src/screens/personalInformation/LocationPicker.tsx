@@ -19,12 +19,14 @@ const LocationPicker: FC<Props> = ({
   address,
 }) => {
   return (
-    <View>
-      <TouchablePlatform
-        touchHighlight={Colors.touchHighlight}
-        onPress={onPress}
-      >
+    <TouchablePlatform
+      style={styles.container}
+      touchHighlight={Colors.touchHighlight}
+      onPress={onPress}
+    >
+      <View style={styles.textContainer}>
         <Text
+          numberOfLines={1}
           style={[
             styles.commonText,
             textStyle,
@@ -35,12 +37,20 @@ const LocationPicker: FC<Props> = ({
             ? AddressFormatter.formatProfileAddress(address)
             : placeholder}
         </Text>
-      </TouchablePlatform>
-    </View>
+      </View>
+    </TouchablePlatform>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  textContainer: {
+    flex: 1,
+  },
   commonText: {
     ...Typography.body,
     paddingVertical: 4,

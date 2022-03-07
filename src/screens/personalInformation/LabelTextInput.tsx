@@ -57,6 +57,7 @@ const LabelTextInput = forwardRef<TextInput, Props>((props, ref) => {
 const styles = StyleSheet.create({
   textInput: {
     ...Typography.body,
+    lineHeight: undefined, // Do not take lineHeight from Typography.body
     flexGrow: 1,
     paddingVertical: 0,
     textAlign: 'right',

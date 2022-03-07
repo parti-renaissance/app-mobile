@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import { HorizontalSpacer } from '../shared/Spacer'
 
 type Props = Readonly<{
   label: string
@@ -24,8 +25,9 @@ const LabelInputContainer: FC<Props> = (props) => {
 
   return (
     <View>
-      <View style={containerStyle}>
+      <View style={[containerStyle]}>
         <Text style={[labelStyle, labelStateStyle]}>{props.label}</Text>
+        <HorizontalSpacer spacing={Spacing.unit} />
         <View
           style={[styles.input, props.multiLine ? styles.inputMultiLine : null]}
         >
