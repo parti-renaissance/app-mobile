@@ -95,6 +95,18 @@ export const PersonalInformationScreenContent: FC<Props> = ({
   const onDateChange = (_: string, newDate: Date) => {
     updateForm({ ...form, birthdate: newDate })
   }
+
+  const onLocationPickerPress = () => {
+    navigation.navigate('LocationPickerModal', {
+      screen: 'LocationPicker',
+      params: {
+        onAddressSelected: (pickedAddress) => {
+          updateForm({ ...form, address: pickedAddress })
+        },
+      },
+    })
+  }
+
   return (
     <KeyboardOffsetView>
       <ScrollView
@@ -192,9 +204,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             <LocationPicker
               address={form.address}
               placeholder={i18n.t('personalinformation.placeholder')}
-              onAddressSelected={(pickedAddress) => {
-                updateForm({ ...form, address: pickedAddress })
-              }}
+              onPress={onLocationPickerPress}
             />
           </LabelInputContainer>
           <LabelTextInput

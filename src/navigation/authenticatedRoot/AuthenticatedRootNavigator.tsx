@@ -9,6 +9,7 @@ import { TabBarNavigator } from '../tabBar/TabBarNavigator'
 import NewsDetailModalNavigator from '../newsDetailModal/NewsDetailModalNavigator'
 import { EventsFilterModalNavigator } from '../eventsFilterModal/EventsFilterModalNavigator'
 import { AuthenticatedRootNavigatorParamList } from './AuthenticatedRootNavigatorParamList'
+import { LocationPickerModalNavigator } from '../locationPickerModal/LocationPickerModalNavigator'
 
 const Stack = createStackNavigator<AuthenticatedRootNavigatorParamList>()
 
@@ -49,6 +50,11 @@ export const AuthenticatedRootNavigator: FunctionComponent = () => {
         <Stack.Screen
           name="EventsFilterModal"
           component={EventsFilterModalNavigator}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="LocationPickerModal"
+          component={LocationPickerModalNavigator}
           options={{ gestureEnabled: false }}
         />
       </Stack.Group>

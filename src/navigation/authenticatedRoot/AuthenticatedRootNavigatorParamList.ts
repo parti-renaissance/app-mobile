@@ -6,6 +6,7 @@ import { NavigatorScreenParams } from '@react-navigation/native'
 import { NewsDetailModalNavigatorParamList } from '../newsDetailModal/NewsDetailModalNavigatorParamList'
 import { EventsFilterModalNavigatorParamList } from '../eventsFilterModal/EventsFilterModalNavigatorParamList'
 import { TabBarNavigatorParamList } from '../tabBar/TabBarNavigatorParamList'
+import { LocationPickerModalNavigatorParamList } from '../locationPickerModal/LocationPickerModalNavigatorParamList'
 
 export type AuthenticatedRootNavigatorParamList = {
   TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>
@@ -15,4 +16,5 @@ export type AuthenticatedRootNavigatorParamList = {
   DoorToDoorTunnelModal: NavigatorScreenParams<DoorToDoorTunnelModalNavigatorParamList>
   NewsDetailModal: NavigatorScreenParams<NewsDetailModalNavigatorParamList>
   EventsFilterModal: NavigatorScreenParams<EventsFilterModalNavigatorParamList>
+  LocationPickerModal: NavigatorScreenParams<LocationPickerModalNavigatorParamList>
 }
