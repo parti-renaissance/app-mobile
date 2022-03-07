@@ -21,6 +21,7 @@ import { GOOGLE_PLACES_API_KEY } from '../../Config'
 import { Address } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { AddressFormatter } from '../../utils/AddressFormatter'
 
 type Props = Readonly<{
   address: Address | undefined
@@ -73,24 +74,6 @@ const extractAddress = (details: GooglePlaceDetail | null): Address => {
   }
 }
 
-const stringifyAddress = (address: Address | undefined): string => {
-  if (address === undefined) return ''
-  let addressStr = address.address ?? ''
-  if (addressStr !== '' && (address.postalCode || address.city)) {
-    addressStr += ', '
-  }
-  addressStr += address.postalCode ?? ''
-  if (address.postalCode) {
-    addressStr += ' '
-  }
-  addressStr += address.city ?? ''
-  if (addressStr !== '' && address.country) {
-    addressStr += ', '
-  }
-  addressStr += address.country ?? ''
-  return addressStr
-}
-
 const LocationPicker: FC<Props> = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const onAddressSelected = async (details: GooglePlaceDetail | null) => {
@@ -134,7 +117,9 @@ const LocationPicker: FC<Props> = (props) => {
             props.address ? styles.selectedAddress : styles.placeholder,
           ]}
         >
-          {props.address ? stringifyAddress(props.address) : props.placeholder}
+          {props.address
+            ? AddressFormatter.formatProfileAddress(props.address)
+            : props.placeholder}
         </Text>
       </TouchablePlatform>
       <Modal
