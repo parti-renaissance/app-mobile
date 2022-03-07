@@ -53,7 +53,10 @@ const BirthdayPicker: FC<Props> = (props) => {
         dateInput: {
           borderWidth: 0,
           alignItems: props.inputAlign ? props.inputAlign : 'flex-end',
-          marginEnd: 4,
+          height: undefined,
+        },
+        dateTouchBody: {
+          height: undefined,
         },
         btnTextConfirm: { color: Colors.primaryColor },
         dateText: dateTextStyle,
@@ -75,11 +78,16 @@ const styles = StyleSheet.create({
   light: {
     backgroundColor: Colors.white,
   },
-  picker: { alignSelf: 'flex-end' },
+  picker: {
+    alignSelf: 'flex-end',
+  },
   textDisabled: {
     color: Colors.lightText,
   },
-  textEnabled: { color: Colors.darkText },
+  textEnabled: {
+    ...Typography.body,
+    color: Colors.darkText,
+  },
 })
 
 export default BirthdayPicker
