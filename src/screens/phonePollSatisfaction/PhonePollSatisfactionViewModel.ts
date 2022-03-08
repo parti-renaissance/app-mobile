@@ -23,7 +23,6 @@ export type PhonePollSatisfactionSectionInputViewModel = {
   value: PollDetailQuestionInputContentViewModel
 }
 
-// TODO: (Pierre Felgines) Add union type with other types of content
 export type PhonePollSatisfactionSectionContentViewModel =
   | PhonePollSatisfactionSectionBooleanViewModel
   | PhonePollSatisfactionSectionRateViewModel
