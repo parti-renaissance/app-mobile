@@ -1,20 +1,25 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View, StyleProp, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 
-type Props = Readonly<{
+export type SectionHeaderProps = Readonly<{
   title: string
   isHighlighted: boolean
+  style?: StyleProp<ViewStyle>
 }>
 
-// TODO: (Pierre Felgines) 2022/02/11 Refactor this with NewsSectionHeader
-const HomeSectionHeader: FunctionComponent<Props> = ({
+export const SectionHeader: FunctionComponent<SectionHeaderProps> = ({
   title,
   isHighlighted,
+  style,
 }) => {
   return (
     <View
-      style={[styles.container, isHighlighted && styles.highlightedContainer]}
+      style={[
+        styles.container,
+        isHighlighted && styles.highlightedContainer,
+        style,
+      ]}
     >
       <Text style={styles.text}>{title}</Text>
     </View>
@@ -35,5 +40,3 @@ const styles = StyleSheet.create({
     color: Colors.darkText,
   },
 })
-
-export default HomeSectionHeader

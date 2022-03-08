@@ -13,6 +13,7 @@ import { NewsNavigatorScreenProps } from '../../navigation/news/NewsNavigatorScr
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from '../shared/LoaderView'
+import { SectionHeader } from '../shared/SectionHeader'
 import { StatefulView } from '../shared/StatefulView'
 import HighlightedNewsRow from './HighlightedNewsRow'
 import {
@@ -21,7 +22,6 @@ import {
 } from './NewsContentViewModel'
 import NewsRow from './NewsRow'
 import { NewsRowViewModel } from './NewsRowViewModel'
-import NewsSectionHeader from './NewsSectionHeader'
 import { useNewsScreen } from './useNewsScreen.hook'
 
 type NewsScreenProps = NewsNavigatorScreenProps<'News'>
@@ -71,7 +71,7 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
       return null
     }
     return (
-      <NewsSectionHeader
+      <SectionHeader
         title={info.section.title}
         isHighlighted={info.section.isHighlighted}
       />
