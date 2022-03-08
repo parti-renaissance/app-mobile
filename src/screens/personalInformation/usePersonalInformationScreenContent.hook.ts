@@ -141,7 +141,7 @@ export const usePersonalInformationScreenContent = (
       params: {
         title: i18n.t('personalinformation.calling_code'),
         items: CallingCodeListPikerViewModelMapper.map(countries),
-        selectedItemId: form.countryCode,
+        selectedItemId: form.phoneCountryCode,
         onItemSelected: (id) => {
           const selectedCountry = countries.find((c) => c.code === id)
           if (selectedCountry !== undefined) {
