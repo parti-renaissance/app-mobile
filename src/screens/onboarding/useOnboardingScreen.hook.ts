@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 import { OnboardingViewModel } from './OnboardingViewModel'
 import { OnboardingViewModelMapper } from './OnboardingViewModelMapper'
 
@@ -14,7 +14,7 @@ export const useOnboardingScreen = (): {
   onLegacyLogin: () => void
 } => {
   const navigation = useNavigation<
-    UnauthenticatedRootNavigatorScreenProps<'Onboarding'>['navigation']
+    OnboardingNavigatorScreenProps<'Onboarding'>['navigation']
   >()
   const [headerInfos, setHeaderInfos] = useState<HeaderInfos>()
 

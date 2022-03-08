@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC } from 'react'
 import {
   StyleSheet,
   FlatList,
@@ -14,73 +14,22 @@ import PollHighlightedRow from './PollHighlightedRow'
 import PollsHeader from './PollsHeader'
 import { Colors } from '../../styles'
 import { PollRowViewModel } from './PollRowViewModel'
-import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
 import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
-import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
-import { ServerTimeoutError } from '../../core/errors'
-import { useFocusEffect } from '@react-navigation/native'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
 import CircularIcon from '../shared/CircularIcon'
 import i18n from '../../utils/i18n'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import { usePollsScreen } from './usePollsScreen.hook'
 
 type PollsScreenProps = ActionsNavigatorScreenProps<'Polls'>
 
-const PollsScreen: FC<PollsScreenProps> = ({ navigation }) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<PollsScreenViewModel>
-  >(ViewState.Loading())
-  const [isRefreshing, setRefreshing] = useState(true)
-  const [initialFetchDone, setInitialFetchDone] = useState(false)
-
-  const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
-    setRefreshing(true)
-    return new GetPollsInteractor()
-      .execute('remote')
-      .then((polls) => {
-        const viewModel = PollsScreenViewModelMapper.map(polls)
-        setStatefulState(ViewState.Content(viewModel))
-      })
-      .catch((error) => {
-        const isNetworkError = error instanceof ServerTimeoutError
-        if (isNetworkError && cacheJustLoaded) {
-          return
-        }
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading())
-            fetchData()
-          }),
-        )
-      })
-      .finally(() => setRefreshing(false))
-  }, [])
-
-  const firstDataFetch = useCallback(() => {
-    new GetPollsInteractor()
-      .execute('cache')
-      .then((cachedPolls) => {
-        const viewModel = PollsScreenViewModelMapper.map(cachedPolls)
-        setStatefulState(ViewState.Content(viewModel))
-        if (!initialFetchDone) {
-          fetchData(true)
-          setInitialFetchDone(true)
-        }
-      })
-      .catch(() => {
-        fetchData()
-      })
-  }, [fetchData, initialFetchDone])
-
-  const navigationToPollDetail = (viewModelId: string) => {
-    const pollId = viewModelId
-    navigation.navigate('PollDetailModal', {
-      screen: 'PollDetail',
-      params: { pollId },
-    })
-  }
+const PollsScreen: FC<PollsScreenProps> = () => {
+  const {
+    statefulState,
+    isRefreshing,
+    onPollSelected,
+    onRefresh,
+  } = usePollsScreen()
 
   const renderItem = ({
     item,
@@ -90,20 +39,15 @@ const PollsScreen: FC<PollsScreenProps> = ({ navigation }) => {
       return (
         <PollHighlightedRow
           viewModel={item}
-          onPress={() => navigationToPollDetail(item.id)}
+          onPress={() => onPollSelected(item.id)}
         />
       )
     } else {
       return (
-        <PollRow
-          viewModel={item}
-          onPress={() => navigationToPollDetail(item.id)}
-        />
+        <PollRow viewModel={item} onPress={() => onPollSelected(item.id)} />
       )
     }
   }
-
-  useFocusEffect(firstDataFetch)
 
   const PollContent = (viewModel: PollsScreenViewModel) => {
     return (
@@ -129,7 +73,7 @@ const PollsScreen: FC<PollsScreenProps> = ({ navigation }) => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={fetchData}
+            onRefresh={onRefresh}
             colors={[Colors.primaryColor]}
           />
         }
@@ -151,7 +95,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-    paddingTop: Spacing.largeMargin,
   },
   emptyContainer: {
     flex: 1,

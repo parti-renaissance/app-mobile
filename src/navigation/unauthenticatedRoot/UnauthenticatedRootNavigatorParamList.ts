@@ -1,6 +1,9 @@
+import { NavigatorScreenParams } from '@react-navigation/native'
+import { ForgottenPasswordModalNavigatorParamList } from '../forgottenPassword/ForgottenPasswordModalNavigatorParamList'
+import { LocationPickerModalNavigatorParamList } from '../locationPickerModal/LocationPickerModalNavigatorParamList'
+
 export type UnauthenticatedRootNavigatorParamList = {
-  Onboarding: undefined
-  Login: undefined
-  ForgottenPassword: { email?: string }
-  SignUp: undefined
+  OnboardingNavigator: undefined
+  ForgottenPasswordModal: NavigatorScreenParams<ForgottenPasswordModalNavigatorParamList>
+  LocationPickerModal: NavigatorScreenParams<LocationPickerModalNavigatorParamList>
 }

@@ -86,7 +86,7 @@
       },
       "user_form": {
         "consent_title": "Souhaite-t-il être tenu au courant des résultats de ce sondage par e-mail ?",
-        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par la République en Marche dans le cadre de cette consultation et conformément à la \u003ca href='https://je-mengage.fr/politique-protection-donnees'\u003e  politique de protection des données que vous pouvez consulter. \n",
+        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par la République en Marche dans le cadre de cette consultation et conformément à la politique de protection des données que vous pouvez consulter. \n",
         "consent_subtitle_suffix": "La politique de données de LaREM.",
         "consent_url": "https://je-mengage.fr/politique-protection-donnees",
         "positive_choice": "Oui",

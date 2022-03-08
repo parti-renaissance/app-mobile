@@ -9,9 +9,9 @@ import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 
-type LoginScreenProps = UnauthenticatedRootNavigatorScreenProps<'Login'>
+type LoginScreenProps = OnboardingNavigatorScreenProps<'Login'>
 
 const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('')
@@ -108,7 +108,10 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
         style={styles.passwordLostButton}
         title={i18n.t('login.password_lost')}
         onPress={() => {
-          navigation.navigate('ForgottenPassword', { email: email })
+          navigation.navigate('ForgottenPasswordModal', {
+            screen: 'ForgottenPassword',
+            params: { email },
+          })
         }}
       />
     </SafeAreaView>

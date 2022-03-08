@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
@@ -34,6 +34,11 @@ export const useEventListScreen = (
     EventNavigatorScreenProps<'Events'>['navigation']
   >()
 
+  const stateRef = useRef(statefulState)
+  useEffect(() => {
+    stateRef.current = statefulState
+  }, [statefulState])
+
   const fetchEvents = useCallback(
     (page: number) => {
       const subscribedOnly = eventFilter === 'myEvents' ? true : false
@@ -53,7 +58,7 @@ export const useEventListScreen = (
   )
 
   const loadFirstPage = useCallback(() => {
-    if (statefulState.state === 'content') {
+    if (stateRef.current.state === 'content') {
       setRefreshing(true)
     } else {
       setStatefulState(ViewState.Loading())
@@ -66,16 +71,15 @@ export const useEventListScreen = (
         setStatefulState(ViewStateUtils.networkError(error, loadFirstPage))
       })
       .finally(() => setRefreshing(false))
-  }, [fetchEvents, statefulState])
+  }, [fetchEvents])
 
   const onRefresh = useCallback(() => {
     loadFirstPage()
   }, [loadFirstPage])
 
   const onLoadMore = useCallback(() => {
-    const currentState = statefulState
-    if (currentState.state === 'content') {
-      const content = currentState.content
+    if (stateRef.current.state === 'content') {
+      const content = stateRef.current.content
       const paginationInfo = content.paginationInfo
 
       if (paginationInfo.currentPage === paginationInfo.lastPage) {
@@ -94,7 +98,7 @@ export const useEventListScreen = (
         })
         .finally(() => setLoadingMore(false))
     }
-  }, [statefulState, fetchEvents])
+  }, [fetchEvents])
 
   // There is no pagination for the main home
   const onEndReached = eventFilter === 'home' ? undefined : onLoadMore

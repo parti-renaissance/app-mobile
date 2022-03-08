@@ -28,7 +28,7 @@ const ActionsNavigator: FunctionComponent = () => {
       <Stack.Screen
         name={'Polls'}
         component={PollsScreen}
-        options={{ headerTransparent: true }}
+        options={{ headerShown: true }}
       />
       {/* Phoning */}
       <Stack.Screen

@@ -12,18 +12,22 @@ const mapTag = (visibility: News['visibility']) => {
   }
 }
 
+const mapAuthor = (news: News): string | undefined => {
+  // We don't display the author if the news is national
+  const author = news.visibility === 'local' ? news.creator : undefined
+  if (author === undefined) {
+    return undefined
+  }
+  return i18n.t('news.author_format', { author })
+}
+
 export const NewsRowViewModelMapper = {
   map: (news: News): NewsRowViewModel => {
     return {
       id: news.id,
       tag: mapTag(news.visibility),
       title: news.title,
-      author:
-        news.creator !== undefined
-          ? i18n.t('news.author_format', {
-              author: news.creator,
-            })
-          : undefined,
+      author: mapAuthor(news),
       date: i18n.t('home.news.date_format', {
         date: DateFormatter.format(news.date, i18n.t('home.news.date_pattern')),
       }),

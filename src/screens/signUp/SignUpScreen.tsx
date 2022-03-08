@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import BirthdayPicker from '../personalInformation/BirthdayPicker'
+import BirthdayPicker from '../shared/BirthdayPicker'
 import LabelInputContainer from '../personalInformation/LabelInputContainer'
 import LocationPicker from '../personalInformation/LocationPicker'
 import PhoneNumberInput from '../personalInformation/PhoneNumberInput'
@@ -32,9 +32,9 @@ import { SignUpFormError } from '../../core/errors'
 import LegalRepository from '../../data/LegalRepository'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
 import GenderPicker from '../personalInformation/GenderPicker'
-import { UnauthenticatedRootNavigatorScreenProps } from '../../navigation/unauthenticatedRoot/UnauthenticatedRootNavigatorScreenProps'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 
-type SignUpScreenProps = UnauthenticatedRootNavigatorScreenProps<'SignUp'>
+type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
 const getError = (violations: Array<FormViolation>, path: string): string => {
   return violations
@@ -102,6 +102,20 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
         }
       })
       .finally(() => setIsLoading(false))
+  }
+
+  const onLocationPickerPress = () => {
+    navigation.navigate('LocationPickerModal', {
+      screen: 'LocationPicker',
+      params: {
+        onAddressSelected: (address) => {
+          setSignUpFormData({
+            ...signUpFormData,
+            address,
+          })
+        },
+      },
+    })
   }
 
   const getTextInputProps = (
@@ -238,14 +252,12 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           <BirthdayPicker
             date={signUpFormData.birthDate}
             placeholder={i18n.t('sign_up.personal_data.birth_date_placeholder')}
-            onDateChange={(_, date) => {
+            onDateChange={(date) => {
               setSignUpFormData({
                 ...signUpFormData,
                 birthDate: date,
               })
             }}
-            style={styles.birthdayPicker}
-            inputAlign="flex-start"
             maximumDate={new Date()}
           />
         </LabelInputContainer>
@@ -279,12 +291,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           <LocationPicker
             address={signUpFormData.address}
             placeholder={i18n.t('sign_up.personal_data.address_placeholder')}
-            onAddressSelected={(pickedAddress) => {
-              setSignUpFormData({
-                ...signUpFormData,
-                address: pickedAddress,
-              })
-            }}
+            onPress={onLocationPickerPress}
             textStyle={styles.textLeft}
           />
         </LabelInputContainer>
@@ -371,9 +378,6 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  birthdayPicker: {
-    width: '100%',
-  },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
     padding: Spacing.margin,

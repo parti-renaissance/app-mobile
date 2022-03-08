@@ -47,20 +47,20 @@ jobs:
           RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
         run: ./cli.js prepare staging
 
-      - name: Ruby cache
-        uses: actions/cache@v2.1.1
-        with:
-          path: /root/vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Gradle cache
-        uses: actions/cache@v2.1.1
-        with:
-          path: /root/.gradle
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle
+      # - name: Ruby cache
+      #   uses: actions/cache@v2.1.1
+      #   with:
+      #     path: /root/vendor/bundle
+      #     key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-gems-
+      # - name: Gradle cache
+      #   uses: actions/cache@v2.1.1
+      #   with:
+      #     path: /root/.gradle
+      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-gradle
       - name: Bundle install
         run: |
           bundle config path /root/vendor/bundle
