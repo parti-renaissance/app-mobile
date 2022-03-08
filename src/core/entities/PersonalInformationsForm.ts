@@ -1,4 +1,4 @@
-import { Address, PhoneNumber } from './DetailedProfile'
+import { Address } from './DetailedProfile'
 import { Gender } from './UserProfile'
 
 export interface PersonalInformationsForm {
@@ -10,7 +10,8 @@ export interface PersonalInformationsForm {
   birthdate: Date
   address: Address | undefined
   email: string
-  phoneNumber: PhoneNumber | undefined
+  phoneNumber: string
+  phoneCountryCode: string
   facebook: string | undefined
   twitter: string | undefined
   linkedin: string | undefined

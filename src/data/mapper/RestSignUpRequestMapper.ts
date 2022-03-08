@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
-import { PhoneNumber } from '../../core/entities/DetailedProfile'
 import { SignUpFormData } from '../../core/entities/SignUpFormData'
+import { CountryRepository } from '../CountryRepository'
 import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { GenderMapper } from './GenderMapper'
 
@@ -12,7 +12,10 @@ export const RestSignUpRequestMapper = {
       last_name: data.lastName,
       gender: GenderMapper.mapFromGender(data.gender),
       birthdate: data.birthDate ? format(data.birthDate, 'yyyy-MM-dd') : '',
-      phone: PhoneNumberMapper.mapToString(data.phone),
+      phone: PhoneNumberMapper.mapToString(
+        data.phoneNumber,
+        data.phoneCountryCode,
+      ),
       address: {
         address: data?.address?.address ?? '',
         city_name: data?.address?.city ?? '',
@@ -27,11 +30,14 @@ export const RestSignUpRequestMapper = {
 }
 
 export const PhoneNumberMapper = {
-  mapToString: (phoneNumber: PhoneNumber): string => {
-    if (phoneNumber.number.startsWith('0')) {
-      return phoneNumber.number
+  mapToString: (phoneNumber: string, countryCode: string): string => {
+    if (phoneNumber.startsWith('0')) {
+      return phoneNumber
     } else {
-      return phoneNumber.callingCode + phoneNumber.number
+      const callingCode = CountryRepository.getInstance().getCallingCodeForCountryCode(
+        countryCode,
+      )
+      return callingCode + phoneNumber
     }
   },
 }

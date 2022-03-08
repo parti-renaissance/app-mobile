@@ -40,6 +40,13 @@ export class CountryRepository {
     return countries
   }
 
+  public getCallingCodeForCountryCode(countryCode: string): string {
+    return (
+      this.getCountries().find((c) => c.code === countryCode)?.callingCode ??
+      '+33'
+    )
+  }
+
   public static getInstance(): CountryRepository {
     if (!CountryRepository.instance) {
       CountryRepository.instance = new CountryRepository()

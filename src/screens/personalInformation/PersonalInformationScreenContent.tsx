@@ -23,6 +23,7 @@ import { CountryRepository } from '../../data/CountryRepository'
 import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
 import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
 import { NationalityPicker } from './NationalityPicker'
+import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerViewModelMapper'
 
 type Props = Readonly<{
   profileUuid: string
@@ -115,6 +116,29 @@ export const PersonalInformationScreenContent: FC<Props> = ({
           const selectedCountry = countries.find((c) => c.code === id)
           if (selectedCountry !== undefined) {
             updateForm({ ...form, countryCode: selectedCountry.code })
+          }
+        },
+        displaySearch: true,
+        presentationType: 'modal',
+      },
+    })
+  }
+
+  const onCallingCodePress = () => {
+    const countries = CountryRepository.getInstance().getCountries()
+    navigation.navigate('ListPickerModal', {
+      screen: 'ListPicker',
+      params: {
+        title: i18n.t('personalinformation.calling_code'),
+        items: CallingCodeListPikerViewModelMapper.map(countries),
+        selectedItemId: form.countryCode,
+        onItemSelected: (id) => {
+          const selectedCountry = countries.find((c) => c.code === id)
+          if (selectedCountry !== undefined) {
+            updateForm({
+              ...form,
+              phoneCountryCode: selectedCountry.code,
+            })
           }
         },
         displaySearch: true,
@@ -218,13 +242,20 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             errorMessage={getError(errors, 'email_address')}
           />
           <PhoneNumberInput
-            defaultValue={initialForm.phoneNumber}
+            phoneNumber={initialForm.phoneNumber}
             label={i18n.t('personalinformation.phone')}
             placeholder={i18n.t('personalinformation.placeholder')}
             nextInput={facebookRef}
-            onValueChange={(value) =>
-              updateForm({ ...form, phoneNumber: value })
+            onPhoneNumberChange={(value) =>
+              updateForm({
+                ...form,
+                phoneNumber: value,
+              })
             }
+            onCallingCodePress={onCallingCodePress}
+            callingCode={CountryRepository.getInstance().getCallingCodeForCountryCode(
+              form.phoneCountryCode,
+            )}
             errorMessage={getError(errors, 'phone')}
           />
           <Text style={styles.section}>

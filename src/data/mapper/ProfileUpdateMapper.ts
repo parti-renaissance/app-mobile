@@ -12,10 +12,10 @@ export const ProfileUpdateMapper = {
     profile: PersonalInformationsForm,
   ): RestUpdateProfileRequest => {
     let phone: RestUpdatePhoneNumber | null
-    if (profile.phoneNumber) {
+    if (profile.phoneNumber.length > 0 && profile.phoneCountryCode.length > 0) {
       phone = {
-        country: profile.phoneNumber.countryCode,
-        number: profile.phoneNumber.number,
+        country: profile.phoneCountryCode,
+        number: profile.phoneNumber,
       }
     } else {
       phone = null

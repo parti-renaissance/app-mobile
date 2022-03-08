@@ -33,6 +33,8 @@ import LegalRepository from '../../data/LegalRepository'
 import InputAccessoryClose from '../shared/InputAccessoryClose'
 import GenderPicker from '../personalInformation/GenderPicker'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
+import { CountryRepository } from '../../data/CountryRepository'
+import { CallingCodeListPikerViewModelMapper } from '../personalInformation/CallingCodeListPickerViewModelMapper'
 
 type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
@@ -58,11 +60,8 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
     notificationMail: false,
     notificationSms: false,
     birthDate: undefined,
-    phone: {
-      countryCode: 'FR',
-      callingCode: '+33',
-      number: '',
-    },
+    phoneNumber: '',
+    phoneCountryCode: 'FR',
     address: undefined,
     gcuAccepted: false,
   })
@@ -83,7 +82,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       isNotEmpty(form.address.city) &&
       isNotEmpty(form.address.country) &&
       isValidPostalCode(form.address.postalCode) &&
-      isNotEmpty(signUpFormData.phone.number) &&
+      isNotEmpty(signUpFormData.phoneNumber) &&
       form.gcuAccepted
     )
   }
@@ -151,6 +150,29 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       ],
       { cancelable: false },
     )
+  }
+
+  const onCallingCodePress = () => {
+    const countries = CountryRepository.getInstance().getCountries()
+    navigation.navigate('ListPickerModal', {
+      screen: 'ListPicker',
+      params: {
+        title: i18n.t('personalinformation.calling_code'),
+        items: CallingCodeListPikerViewModelMapper.map(countries),
+        selectedItemId: signUpFormData.phoneCountryCode,
+        onItemSelected: (id) => {
+          const selectedCountry = countries.find((c) => c.code === id)
+          if (selectedCountry !== undefined) {
+            setSignUpFormData({
+              ...signUpFormData,
+              phoneCountryCode: selectedCountry.code,
+            })
+          }
+        },
+        displaySearch: true,
+        presentationType: 'modal',
+      },
+    })
   }
 
   const renderSectionAccount = () => (
@@ -265,17 +287,19 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <View style={styles.field}>
         <PhoneNumberInput
           labelStyle={styles.fieldTitle}
-          defaultValue={signUpFormData.phone}
+          phoneNumber={signUpFormData.phoneNumber}
+          callingCode={CountryRepository.getInstance().getCallingCodeForCountryCode(
+            signUpFormData.phoneCountryCode,
+          )}
           label={i18n.t('sign_up.personal_data.phone')}
           placeholder={i18n.t('sign_up.personal_data.phone_placeholder')}
-          onValueChange={(value) => {
-            if (value) {
-              setSignUpFormData({
-                ...signUpFormData,
-                phone: value,
-              })
-            }
+          onPhoneNumberChange={(value) => {
+            setSignUpFormData({
+              ...signUpFormData,
+              phoneNumber: value,
+            })
           }}
+          onCallingCodePress={onCallingCodePress}
           errorMessage={getError(errors, 'phone')}
           multiLine={true}
           inputAccessoryViewID={inputAccessoryId}
