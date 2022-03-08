@@ -17,7 +17,7 @@ export const HomeFeedNewsRow: FunctionComponent<Props> = ({
   return (
     <HomeFeedTimelineItem
       title={i18n.t('home.feed.news')}
-      imageSource={require('../../../assets/images/homeFeedEventIcon.png')}
+      imageSource={require('../../../assets/images/homeFeedNewsIcon.png')}
       tintColor={Colors.homeFeedEventBackground}
     >
       <NewsCard
