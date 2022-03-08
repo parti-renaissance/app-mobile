@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: /root/.gradle
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle
       - name: Bundle install
