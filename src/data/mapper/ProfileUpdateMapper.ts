@@ -1,4 +1,4 @@
-import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
+import { PersonalInformationsForm } from '../../screens/personalInformation/PersonalInformationsForm'
 import {
   RestUpdatePhoneNumber,
   RestUpdatePostAddress,

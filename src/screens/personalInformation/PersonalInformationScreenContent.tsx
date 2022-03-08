@@ -10,23 +10,19 @@ import BirthdayPicker from '../shared/BirthdayPicker'
 import LocationPicker from './LocationPicker'
 import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
 import { useNavigation } from '@react-navigation/native'
 import { HeaderTextButton } from './HeaderTextButton'
 import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
 import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
 import { NationalityPicker } from './NationalityPicker'
 import { usePersonalInformationScreenContent } from './usePersonalInformationScreenContent.hook'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
 
 type Props = Readonly<{
-  profileUuid: string
-  initialForm: PersonalInformationsForm
+  profile: DetailedProfile
 }>
 
-export const PersonalInformationScreenContent: FC<Props> = ({
-  profileUuid,
-  initialForm,
-}) => {
+export const PersonalInformationScreenContent: FC<Props> = ({ profile }) => {
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -56,7 +52,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
     onLinkedInChange,
     onTelegramChange,
     onSubmit,
-  } = usePersonalInformationScreenContent(profileUuid, initialForm)
+  } = usePersonalInformationScreenContent(profile)
 
   const navigation = useNavigation<
     PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
@@ -93,7 +89,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             textInputProps={{
               textContentType: 'givenName',
             }}
-            defaultValue={initialForm.firstName}
+            defaultValue={form.firstName}
             onValueChange={onFirstNameChange}
             errorMessage={getError('first_name')}
           />
@@ -103,7 +99,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             textInputProps={{
               textContentType: 'familyName',
             }}
-            defaultValue={initialForm.lastName}
+            defaultValue={form.lastName}
             onValueChange={onLastNameChange}
             errorMessage={getError('last_name')}
           />
@@ -116,7 +112,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             <LabelTextInput
               ref={genderOther}
               label={i18n.t('personalinformation.gender_other')}
-              defaultValue={initialForm.customGender}
+              defaultValue={form.customGender}
               onValueChange={onCustomGenderChange}
             />
           )}
@@ -162,12 +158,12 @@ export const PersonalInformationScreenContent: FC<Props> = ({
               autoCapitalize: 'none',
               autoCorrect: false,
             }}
-            defaultValue={initialForm.email}
+            defaultValue={form.email}
             onValueChange={onEmailChange}
             errorMessage={getError('email_address')}
           />
           <PhoneNumberInput
-            phoneNumber={initialForm.phoneNumber}
+            phoneNumber={form.phoneNumber}
             label={i18n.t('personalinformation.phone')}
             placeholder={i18n.t('personalinformation.placeholder')}
             nextInput={facebookRef}
@@ -183,7 +179,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             ref={facebookRef}
             nextInput={linkedInRef}
             label={i18n.t('personalinformation.facebook')}
-            defaultValue={initialForm.facebook}
+            defaultValue={form.facebook}
             onValueChange={onFacebookChange}
             errorMessage={getError('facebook_page_url')}
           />
@@ -191,7 +187,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             ref={linkedInRef}
             nextInput={twitterRef}
             label={i18n.t('personalinformation.linkedin')}
-            defaultValue={initialForm.linkedin}
+            defaultValue={form.linkedin}
             onValueChange={onLinkedInChange}
             errorMessage={getError('linkedin_page_url')}
           />
@@ -199,7 +195,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             ref={twitterRef}
             nextInput={telegramRef}
             label={i18n.t('personalinformation.twitter')}
-            defaultValue={initialForm.twitter}
+            defaultValue={form.twitter}
             onValueChange={onTwitterChange}
             errorMessage={getError('twitter_page_url')}
           />
@@ -207,7 +203,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             ref={telegramRef}
             isLastInput={true}
             label={i18n.t('personalinformation.telegram')}
-            defaultValue={initialForm.telegram}
+            defaultValue={form.telegram}
             onValueChange={onTelegramChange}
             errorMessage={getError('telegram_page_url')}
           />

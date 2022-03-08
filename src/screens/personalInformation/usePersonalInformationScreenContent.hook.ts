@@ -1,9 +1,13 @@
 import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
-import { FormViolation } from '../../core/entities/DetailedProfile'
-import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
+import {
+  DetailedProfile,
+  FormViolation,
+} from '../../core/entities/DetailedProfile'
+import { PersonalInformationsForm } from './PersonalInformationsForm'
 import { Gender } from '../../core/entities/UserProfile'
 import { ProfileFormError } from '../../core/errors'
+import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
 import { CountryRepository } from '../../data/CountryRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
@@ -13,8 +17,7 @@ import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerView
 import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
 
 export const usePersonalInformationScreenContent = (
-  profileUuid: string,
-  initialForm: PersonalInformationsForm,
+  profile: DetailedProfile,
 ): {
   form: PersonalInformationsForm
   isLoading: boolean
@@ -37,7 +40,9 @@ export const usePersonalInformationScreenContent = (
   onTelegramChange: (telegram: string) => void
   onSubmit: () => void
 } => {
-  const [form, updateForm] = useState<PersonalInformationsForm>(initialForm)
+  const [form, updateForm] = useState<PersonalInformationsForm>(
+    PersonalInformationsFormMapper.map(profile),
+  )
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
 
@@ -66,7 +71,7 @@ export const usePersonalInformationScreenContent = (
     setIsLoading(true)
     setErrors([])
     ProfileRepository.getInstance()
-      .updateDetailedProfile(profileUuid, form)
+      .updateDetailedProfile(profile.uuid, form)
       .then(() => navigation.goBack())
       .catch((error) => {
         if (error instanceof ProfileFormError) {
@@ -76,7 +81,7 @@ export const usePersonalInformationScreenContent = (
         }
       })
       .finally(() => setIsLoading(false))
-  }, [profileUuid, form, navigation])
+  }, [profile.uuid, form, navigation])
 
   const onGenderChange = (gender: Gender) => {
     updateForm({ ...form, gender })

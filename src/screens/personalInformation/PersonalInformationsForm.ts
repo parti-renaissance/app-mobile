@@ -1,5 +1,5 @@
-import { Address } from './DetailedProfile'
-import { Gender } from './UserProfile'
+import { Address } from '../../core/entities/DetailedProfile'
+import { Gender } from '../../core/entities/UserProfile'
 
 export interface PersonalInformationsForm {
   firstName: string

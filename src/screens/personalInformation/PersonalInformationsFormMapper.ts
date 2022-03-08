@@ -1,10 +1,8 @@
-import { DetailedProfile } from '../entities/DetailedProfile'
-import { PersonalInformationsForm } from '../entities/PersonalInformationsForm'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import { PersonalInformationsForm } from './PersonalInformationsForm'
 
 export const PersonalInformationsFormMapper = {
-  mapFromDetailedProfile: (
-    detailedProfile: DetailedProfile,
-  ): PersonalInformationsForm => {
+  map: (detailedProfile: DetailedProfile): PersonalInformationsForm => {
     return {
       firstName: detailedProfile.firstName,
       lastName: detailedProfile.lastName,
