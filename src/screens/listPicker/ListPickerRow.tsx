@@ -19,7 +19,7 @@ export const ListPickerRow: FunctionComponent<Props> = ({
   onPress,
 }) => {
   return (
-    <View>
+    <View style={styles.root}>
       <TouchablePlatform
         onPress={onPress}
         touchHighlight={Colors.touchHighlight}
@@ -39,6 +39,9 @@ export const ListPickerRow: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
+  root: {
+    backgroundColor: Colors.defaultBackground,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -46,7 +49,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.margin,
     paddingVertical: Spacing.unit,
     minHeight: 44,
-    backgroundColor: Colors.defaultBackground,
   },
   title: {
     ...Typography.body,
