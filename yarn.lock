@@ -1262,15 +1262,6 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@callstack/react-theme-provider@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.3.tgz"
-  integrity sha512-B+9JBK7zsND/AdVkjwHvbb4cR05fJofLFG30hOeoXke8WkKAWN36yFljauAhI8qwlXlGFGZMYE1wQvsqBSccrA==
-  dependencies:
-    "@types/hoist-non-react-statics" "^3.3.1"
-    deepmerge "^3.2.0"
-    hoist-non-react-statics "^3.3.0"
-
 "@callstack/react-theme-provider@^3.0.6":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.6.tgz#7dac483037e27e28676bdf1431ba87b88f21118f"
@@ -4619,11 +4610,6 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fuse.js@3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.4.5.tgz"
-  integrity sha512-s9PGTaQIkT69HaeoTVjwGsLfb8V8ScJLx5XGFcKHg0MqLUH/UZ4EKOtqtXX9k7AFqCGxD1aJmYb8Q5VYDibVRQ==
-
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
@@ -6329,11 +6315,6 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-lodash.toarray@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz"
-  integrity sha1-JMS/zWsvuji/0FlNsRedjptlZWE=
-
 lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
@@ -6836,13 +6817,6 @@ mnemonist@0.39.0:
   dependencies:
     obliterator "^2.0.1"
 
-modal-react-native-web@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/modal-react-native-web/-/modal-react-native-web-0.2.0.tgz"
-  integrity sha512-sC0/jL3ZL4bGtv1VS43TnrH7/FHUqgb7IU3VYWNDzuR223fYlpG5Gc974GsTP172Vi+lnnBL/G70xONmaggxeQ==
-  dependencies:
-    warning "^4.0.1"
-
 moment@>=2.14.0:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz"
@@ -6926,13 +6900,6 @@ node-dir@^0.1.17:
   integrity sha1-X1Zl2TNRM1yqvvjxxVRRbPXx5OU=
   dependencies:
     minimatch "^3.0.2"
-
-node-emoji@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/node-emoji/-/node-emoji-1.10.0.tgz"
-  integrity sha512-Yt3384If5H6BYGVHiHwTL+99OzJKHhgp82S8/dktEK73T26BazdgZ4JZh92xSVtGNJvz9UbXdNAc5hcrXV42vw==
-  dependencies:
-    lodash.toarray "^4.4.0"
 
 node-fetch@^1.0.1:
   version "1.7.3"
@@ -7510,7 +7477,7 @@ prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -7569,11 +7536,6 @@ react-addons-shallow-compare@15.6.2:
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
-
-react-async-hook@3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/react-async-hook/-/react-async-hook-3.6.1.tgz"
-  integrity sha512-YWBB2feVQF79t5u2raMPHlZ8975Jds+guCvkWVC4kRLDlSCouLsYpQm4DGSqPeHvoHYVVcDfqNayLZAXQmnxnw==
 
 react-devtools-core@^4.13.0:
   version "4.21.0"
@@ -7643,18 +7605,6 @@ react-native-codegen@^0.0.7:
     flow-parser "^0.121.0"
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
-
-react-native-country-picker-modal@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-country-picker-modal/-/react-native-country-picker-modal-2.0.0.tgz"
-  integrity sha512-p0wfkKx1mOCEkn3Qm2/FA8TrxSdUw/nqaCcT6KYvIGmPtPdia1Ce+iWh5G0j2hZcDs6yJSkYAx+7lrZ0HwixAw==
-  dependencies:
-    "@callstack/react-theme-provider" "3.0.3"
-    fuse.js "3.4.5"
-    modal-react-native-web "0.2.0"
-    node-emoji "1.10.0"
-    prop-types "15.7.2"
-    react-async-hook "3.6.1"
 
 "react-native-custom-tabs@https://github.com/adminphoeniixx/react-native-custom-tabs#7605cda":
   version "0.1.8"
@@ -9253,13 +9203,6 @@ warning@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.1.tgz#66ce376b7fbfe8a887c22bdf0e7349d73d397745"
   integrity sha512-rAVtTNZw+cQPjvGp1ox0XC5Q2IBFyqoqh+QII4J/oguyu83Bax1apbo2eqB8bHRS+fqYUBagys6lqUoVwKSmXQ==
-  dependencies:
-    loose-envify "^1.0.0"
-
-warning@^4.0.1:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz"
-  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
   dependencies:
     loose-envify "^1.0.0"
 

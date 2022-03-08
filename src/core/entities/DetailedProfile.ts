@@ -28,7 +28,6 @@ export interface Address {
 
 export interface PhoneNumber {
   countryCode: string
-  callingCode: string
   number: string
 }
 
