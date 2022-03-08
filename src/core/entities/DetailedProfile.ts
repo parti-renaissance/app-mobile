@@ -1,4 +1,3 @@
-import { CountryCode } from 'react-native-country-picker-modal'
 import { Gender } from './UserProfile'
 
 export interface DetailedProfile {
@@ -7,7 +6,7 @@ export interface DetailedProfile {
   lastName: string
   gender: Gender
   customGender: string | undefined
-  nationality: CountryCode
+  nationality: string
   birthDate: Date
   address: Address | undefined
   email: string
@@ -28,8 +27,7 @@ export interface Address {
 }
 
 export interface PhoneNumber {
-  countryCode: CountryCode
-  callingCode: string
+  countryCode: string
   number: string
 }
 

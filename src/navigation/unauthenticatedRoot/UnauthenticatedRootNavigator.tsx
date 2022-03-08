@@ -5,6 +5,7 @@ import { UnauthenticatedRootNavigatorParamList } from './UnauthenticatedRootNavi
 import { LocationPickerModalNavigator } from '../locationPickerModal/LocationPickerModalNavigator'
 import { OnboardingNavigator } from '../onboarding/OnboardingNavigator'
 import { ForgottenPasswordModalNavigator } from '../forgottenPassword/ForgottenPasswordModalNavigator'
+import { ListPickerModalNavigator } from '../listPickerModal/ListPickerModalNavigator'
 
 const Stack = createStackNavigator<UnauthenticatedRootNavigatorParamList>()
 
@@ -26,6 +27,11 @@ export const UnauthenticatedRootNavigator: FunctionComponent = () => {
         <Stack.Screen
           name="LocationPickerModal"
           component={LocationPickerModalNavigator}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="ListPickerModal"
+          component={ListPickerModalNavigator}
           options={{ gestureEnabled: false }}
         />
       </Stack.Group>

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -7,32 +7,22 @@ import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
 import GenderPicker from './GenderPicker'
 import BirthdayPicker from '../shared/BirthdayPicker'
-import CountryPicker from 'react-native-country-picker-modal'
 import LocationPicker from './LocationPicker'
-import { FormViolation } from '../../core/entities/DetailedProfile'
-import ProfileRepository from '../../data/ProfileRepository'
-import { Gender } from '../../core/entities/UserProfile'
 import PhoneNumberInput from './PhoneNumberInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { ProfileFormError } from '../../core/errors'
-import { PersonalInformationsForm } from '../../core/entities/PersonalInformationsForm'
-import { AlertUtils } from '../shared/AlertUtils'
 import { useNavigation } from '@react-navigation/native'
 import { HeaderTextButton } from './HeaderTextButton'
 import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
+import { NationalityPicker } from './NationalityPicker'
+import { usePersonalInformationScreenContent } from './usePersonalInformationScreenContent.hook'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
 
 type Props = Readonly<{
-  profileUuid: string
-  initialForm: PersonalInformationsForm
+  profile: DetailedProfile
 }>
 
-export const PersonalInformationScreenContent: FC<Props> = ({
-  profileUuid,
-  initialForm,
-}) => {
-  const [form, updateForm] = useState<PersonalInformationsForm>(initialForm)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [errors, setErrors] = useState<Array<FormViolation>>([])
+export const PersonalInformationScreenContent: FC<Props> = ({ profile }) => {
   const firstNameRef = useRef<TextInput>(null)
   const lastNameRef = useRef<TextInput>(null)
   const genderOther = useRef<TextInput>(null)
@@ -41,34 +31,32 @@ export const PersonalInformationScreenContent: FC<Props> = ({
   const twitterRef = useRef<TextInput>(null)
   const telegramRef = useRef<TextInput>(null)
 
+  const {
+    form,
+    isLoading,
+    callingCode,
+    displayCustomGender,
+    getError,
+    onFirstNameChange,
+    onLastNameChange,
+    onGenderChange,
+    onCustomGenderChange,
+    onBirthdateChange,
+    onNationalityPress,
+    onLocationPickerPress,
+    onEmailChange,
+    onPhoneNumberChange,
+    onCallingCodePress,
+    onFacebookChange,
+    onTwitterChange,
+    onLinkedInChange,
+    onTelegramChange,
+    onSubmit,
+  } = usePersonalInformationScreenContent(profile)
+
   const navigation = useNavigation<
     PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
   >()
-
-  const getError = (violations: Array<FormViolation>, path: string): string => {
-    return violations
-      .filter((error) => error.propertyPath.startsWith(path))
-      .map((value) => value.message)
-      .reduce((previous, current) => {
-        return previous + current + '\n'
-      }, '')
-  }
-
-  const submit = useCallback(() => {
-    setIsLoading(true)
-    setErrors([])
-    ProfileRepository.getInstance()
-      .updateDetailedProfile(profileUuid, form)
-      .then(() => navigation.goBack())
-      .catch((error) => {
-        if (error instanceof ProfileFormError) {
-          setErrors(error.violations)
-        } else {
-          AlertUtils.showNetworkAlert(error, submit)
-        }
-      })
-      .finally(() => setIsLoading(false))
-  }, [profileUuid, form, navigation])
 
   useEffect(() => {
     navigation.setOptions({
@@ -76,29 +64,11 @@ export const PersonalInformationScreenContent: FC<Props> = ({
         <HeaderTextButton
           title={i18n.t('personalinformation.save')}
           type="primary"
-          onPress={submit}
+          onPress={onSubmit}
         />
       ),
     })
-  }, [navigation, submit])
-
-  const genderListener = (value: Gender) => {
-    updateForm({ ...form, gender: value })
-  }
-  const onDateChange = (newDate: Date) => {
-    updateForm({ ...form, birthdate: newDate })
-  }
-
-  const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', {
-      screen: 'LocationPicker',
-      params: {
-        onAddressSelected: (pickedAddress) => {
-          updateForm({ ...form, address: pickedAddress })
-        },
-      },
-    })
-  }
+  }, [navigation, onSubmit])
 
   return (
     <KeyboardOffsetView>
@@ -119,9 +89,9 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             textInputProps={{
               textContentType: 'givenName',
             }}
-            defaultValue={initialForm.firstName}
-            onValueChange={(value) => updateForm({ ...form, firstName: value })}
-            errorMessage={getError(errors, 'first_name')}
+            defaultValue={form.firstName}
+            onValueChange={onFirstNameChange}
+            errorMessage={getError('first_name')}
           />
           <LabelTextInput
             ref={lastNameRef}
@@ -129,63 +99,42 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             textInputProps={{
               textContentType: 'familyName',
             }}
-            defaultValue={initialForm.lastName}
-            onValueChange={(value) => updateForm({ ...form, lastName: value })}
-            errorMessage={getError(errors, 'last_name')}
+            defaultValue={form.lastName}
+            onValueChange={onLastNameChange}
+            errorMessage={getError('last_name')}
           />
           <GenderPicker
-            onValueChange={genderListener}
+            onValueChange={onGenderChange}
             defaultValue={form.gender}
-            errorMessage={getError(errors, 'gender')}
+            errorMessage={getError('gender')}
           />
-          {form.gender === Gender.Other ? (
+          {displayCustomGender && (
             <LabelTextInput
               ref={genderOther}
               label={i18n.t('personalinformation.gender_other')}
-              defaultValue={initialForm.customGender}
-              onValueChange={(value) =>
-                updateForm({ ...form, customGender: value })
-              }
+              defaultValue={form.customGender}
+              onValueChange={onCustomGenderChange}
             />
-          ) : null}
+          )}
           <LabelInputContainer
             label={i18n.t('personalinformation.birthdate')}
-            errorMessage={getError(errors, 'birthdate')}
+            errorMessage={getError('birthdate')}
           >
             <BirthdayPicker
               date={form.birthdate}
               placeholder={i18n.t('personalinformation.placeholder')}
-              onDateChange={onDateChange}
+              onDateChange={onBirthdateChange}
               maximumDate={new Date()}
               textAlign="right"
             />
           </LabelInputContainer>
           <LabelInputContainer
             label={i18n.t('personalinformation.nationality')}
-            errorMessage={getError(errors, 'nationality')}
+            errorMessage={getError('nationality')}
           >
-            <CountryPicker
-              countryCode={form.countryCode}
-              preferredCountries={[
-                i18n.t('personalinformation.default_country_code'),
-              ]}
-              withFlagButton={false}
-              translation={i18n.t(
-                'personalinformation.country_picker_language',
-              )}
-              // @ts-ignore: Issue in the country picker typescript definition
-              closeButtonImage={require('../../assets/images/navigationBarBack.png')}
-              withCountryNameButton={true}
-              containerButtonStyle={styles.countryPickerContainerButton}
-              withFlag={false}
-              theme={Typography.countryPicker}
-              // @ts-ignore: Issue in the country picker typescript definition
-              flatListProps={{
-                contentContainerStyle: { paddingHorizontal: Spacing.margin },
-              }}
-              onSelect={(country) => {
-                updateForm({ ...form, countryCode: country.cca2 })
-              }}
+            <NationalityPicker
+              country={DisplayNameFormatter.formatRegion(form.countryCode)}
+              onPress={onNationalityPress}
             />
           </LabelInputContainer>
           <Text style={styles.section}>
@@ -193,7 +142,7 @@ export const PersonalInformationScreenContent: FC<Props> = ({
           </Text>
           <LabelInputContainer
             label={i18n.t('personalinformation.address')}
-            errorMessage={getError(errors, 'address')}
+            errorMessage={getError('address')}
           >
             <LocationPicker
               address={form.address}
@@ -209,19 +158,19 @@ export const PersonalInformationScreenContent: FC<Props> = ({
               autoCapitalize: 'none',
               autoCorrect: false,
             }}
-            defaultValue={initialForm.email}
-            onValueChange={(value) => updateForm({ ...form, email: value })}
-            errorMessage={getError(errors, 'email_address')}
+            defaultValue={form.email}
+            onValueChange={onEmailChange}
+            errorMessage={getError('email_address')}
           />
           <PhoneNumberInput
-            defaultValue={initialForm.phoneNumber}
+            phoneNumber={form.phoneNumber}
             label={i18n.t('personalinformation.phone')}
             placeholder={i18n.t('personalinformation.placeholder')}
             nextInput={facebookRef}
-            onValueChange={(value) =>
-              updateForm({ ...form, phoneNumber: value })
-            }
-            errorMessage={getError(errors, 'phone')}
+            onPhoneNumberChange={onPhoneNumberChange}
+            onCallingCodePress={onCallingCodePress}
+            callingCode={callingCode}
+            errorMessage={getError('phone')}
           />
           <Text style={styles.section}>
             {i18n.t('personalinformation.section_social')}
@@ -230,33 +179,33 @@ export const PersonalInformationScreenContent: FC<Props> = ({
             ref={facebookRef}
             nextInput={linkedInRef}
             label={i18n.t('personalinformation.facebook')}
-            defaultValue={initialForm.facebook}
-            onValueChange={(value) => updateForm({ ...form, facebook: value })}
-            errorMessage={getError(errors, 'facebook_page_url')}
+            defaultValue={form.facebook}
+            onValueChange={onFacebookChange}
+            errorMessage={getError('facebook_page_url')}
           />
           <LabelTextInput
             ref={linkedInRef}
             nextInput={twitterRef}
             label={i18n.t('personalinformation.linkedin')}
-            defaultValue={initialForm.linkedin}
-            onValueChange={(value) => updateForm({ ...form, linkedin: value })}
-            errorMessage={getError(errors, 'linkedin_page_url')}
+            defaultValue={form.linkedin}
+            onValueChange={onLinkedInChange}
+            errorMessage={getError('linkedin_page_url')}
           />
           <LabelTextInput
             ref={twitterRef}
             nextInput={telegramRef}
             label={i18n.t('personalinformation.twitter')}
-            defaultValue={initialForm.twitter}
-            onValueChange={(value) => updateForm({ ...form, twitter: value })}
-            errorMessage={getError(errors, 'twitter_page_url')}
+            defaultValue={form.twitter}
+            onValueChange={onTwitterChange}
+            errorMessage={getError('twitter_page_url')}
           />
           <LabelTextInput
             ref={telegramRef}
             isLastInput={true}
             label={i18n.t('personalinformation.telegram')}
-            defaultValue={initialForm.telegram}
-            onValueChange={(value) => updateForm({ ...form, telegram: value })}
-            errorMessage={getError(errors, 'telegram_page_url')}
+            defaultValue={form.telegram}
+            onValueChange={onTelegramChange}
+            errorMessage={getError('telegram_page_url')}
           />
         </View>
       </ScrollView>

@@ -2,8 +2,8 @@ import { DoorToDoorAddress } from './../../core/entities/DoorToDoor'
 import { StatBlockViewModel } from './StatBlockViewModel'
 import i18n from '../../utils/i18n'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
-import NumberFormatter from '../../utils/NumerFormatter'
 import { ImageProps } from 'react-native'
+import { NumberFormatter } from '../../utils/NumberFormatter'
 
 export const BuildingStatusViewModelMapper = {
   map: (address: DoorToDoorAddress): BuildingStatusViewModel => {

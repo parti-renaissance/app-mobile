@@ -11,6 +11,7 @@ import { EventsFilterModalNavigator } from '../eventsFilterModal/EventsFilterMod
 import { AuthenticatedRootNavigatorParamList } from './AuthenticatedRootNavigatorParamList'
 import { LocationPickerModalNavigator } from '../locationPickerModal/LocationPickerModalNavigator'
 import { PersonalInformationModalNavigator } from '../personalInformationModal/PersonalInformationModalNavigator'
+import { ListPickerModalNavigator } from '../listPickerModal/ListPickerModalNavigator'
 
 const Stack = createStackNavigator<AuthenticatedRootNavigatorParamList>()
 
@@ -61,6 +62,11 @@ export const AuthenticatedRootNavigator: FunctionComponent = () => {
         <Stack.Screen
           name="PersonalInformationModal"
           component={PersonalInformationModalNavigator}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="ListPickerModal"
+          component={ListPickerModalNavigator}
           options={{ gestureEnabled: false }}
         />
       </Stack.Group>

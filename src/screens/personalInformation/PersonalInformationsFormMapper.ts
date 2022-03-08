@@ -1,10 +1,8 @@
-import { DetailedProfile } from '../entities/DetailedProfile'
-import { PersonalInformationsForm } from '../entities/PersonalInformationsForm'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import { PersonalInformationsForm } from './PersonalInformationsForm'
 
 export const PersonalInformationsFormMapper = {
-  mapFromDetailedProfile: (
-    detailedProfile: DetailedProfile,
-  ): PersonalInformationsForm => {
+  map: (detailedProfile: DetailedProfile): PersonalInformationsForm => {
     return {
       firstName: detailedProfile.firstName,
       lastName: detailedProfile.lastName,
@@ -14,7 +12,8 @@ export const PersonalInformationsFormMapper = {
       birthdate: detailedProfile.birthDate,
       address: detailedProfile.address,
       email: detailedProfile.email,
-      phoneNumber: detailedProfile.phone,
+      phoneNumber: detailedProfile.phone?.number ?? '',
+      phoneCountryCode: detailedProfile.phone?.countryCode ?? 'FR',
       facebook: detailedProfile.facebook,
       twitter: detailedProfile.twitter,
       linkedin: detailedProfile.linkedin,

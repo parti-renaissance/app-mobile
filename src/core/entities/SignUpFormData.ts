@@ -1,4 +1,4 @@
-import { Address, PhoneNumber } from './DetailedProfile'
+import { Address } from './DetailedProfile'
 import { Gender } from './UserProfile'
 
 export interface SignUpFormData {
@@ -9,7 +9,8 @@ export interface SignUpFormData {
   notificationMail: boolean
   notificationSms: boolean
   birthDate: Date | undefined
-  phone: PhoneNumber
+  phoneNumber: string
+  phoneCountryCode: string
   address: Address | undefined
   gcuAccepted: boolean
 }

@@ -8,6 +8,7 @@ import { EventsFilterModalNavigatorParamList } from '../eventsFilterModal/Events
 import { TabBarNavigatorParamList } from '../tabBar/TabBarNavigatorParamList'
 import { LocationPickerModalNavigatorParamList } from '../locationPickerModal/LocationPickerModalNavigatorParamList'
 import { PersonalInformationModalNavigatorParamList } from '../personalInformationModal/PersonalInformationModalNavigatorParamList'
+import { ListPickerModalNavigatorParamList } from '../listPickerModal/ListPickerModalNavigatorParamList'
 
 export type AuthenticatedRootNavigatorParamList = {
   TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>
@@ -19,4 +20,5 @@ export type AuthenticatedRootNavigatorParamList = {
   EventsFilterModal: NavigatorScreenParams<EventsFilterModalNavigatorParamList>
   LocationPickerModal: NavigatorScreenParams<LocationPickerModalNavigatorParamList>
   PersonalInformationModal: NavigatorScreenParams<PersonalInformationModalNavigatorParamList>
+  ListPickerModal: NavigatorScreenParams<ListPickerModalNavigatorParamList>
 }

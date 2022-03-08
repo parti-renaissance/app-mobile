@@ -1,16 +1,14 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef } from 'react'
 import {
   StyleProp,
   StyleSheet,
   ViewStyle,
   TextInput,
   View,
-  Platform,
+  Text,
 } from 'react-native'
-import CountryPicker, { CountryCode } from 'react-native-country-picker-modal'
-import { PhoneNumber } from '../../core/entities/DetailedProfile'
 import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import LabelInputContainer from './LabelInputContainer'
 
 type Props = Readonly<{
@@ -19,11 +17,13 @@ type Props = Readonly<{
   placeholder: string
   nextInput?: React.RefObject<TextInput>
   isLastInput?: boolean
-  defaultValue?: PhoneNumber | undefined
-  onValueChange: (value: PhoneNumber | undefined) => void
+  phoneNumber: string
+  callingCode: string
   errorMessage?: string
   multiLine?: boolean
   inputAccessoryViewID?: string
+  onCallingCodePress?: () => void
+  onPhoneNumberChange: (value: string) => void
 }>
 
 const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
@@ -31,31 +31,6 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
   const submitEditing = () => {
     if (props.nextInput !== undefined) {
       props.nextInput?.current?.focus()
-    }
-  }
-  const [countryCode, setCountryCode] = useState<CountryCode>(
-    props.defaultValue?.countryCode ??
-      i18n.t('personalinformation.default_country_code'),
-  )
-  const [callingCode, setCallingCode] = useState<string>(
-    props.defaultValue?.callingCode ?? '',
-  )
-  const [number, setNumber] = useState<string | undefined>(
-    props.defaultValue?.number,
-  )
-  const dispatchNewPhoneNumber = (
-    newCountryCode: CountryCode,
-    newCallingCode: string,
-    newNumber: string | undefined,
-  ) => {
-    if (newNumber === undefined || newNumber.length === 0) {
-      props.onValueChange(undefined)
-    } else {
-      props.onValueChange({
-        countryCode: newCountryCode,
-        callingCode: newCallingCode,
-        number: newNumber,
-      })
     }
   }
 
@@ -69,6 +44,13 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
       multiLine={props.multiLine}
     >
       <View style={styles.container}>
+        <TouchablePlatform
+          style={styles.callingCodeContainer}
+          touchHighlight={Colors.touchHighlight}
+          onPress={props.onCallingCodePress}
+        >
+          <Text style={styles.callingCode}>{props.callingCode}</Text>
+        </TouchablePlatform>
         <TextInput
           ref={ref}
           style={[styles.textInput, textInputStyle]}
@@ -76,43 +58,15 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
           placeholderTextColor={Colors.lightText}
           returnKeyType={returnKeyType}
           onSubmitEditing={submitEditing}
-          defaultValue={props.defaultValue?.number}
+          defaultValue={props.phoneNumber}
           keyboardType="phone-pad"
           textContentType="telephoneNumber"
           autoCapitalize="none"
           autoCorrect={false}
           onChangeText={(value) => {
-            setNumber(value)
-            dispatchNewPhoneNumber(countryCode, callingCode, value)
+            props.onPhoneNumberChange(value)
           }}
           inputAccessoryViewID={props.inputAccessoryViewID}
-        />
-        <CountryPicker
-          countryCode={countryCode}
-          preferredCountries={[
-            i18n.t('personalinformation.default_country_code'),
-          ]}
-          withFlagButton={false}
-          translation={i18n.t('personalinformation.country_picker_language')}
-          // @ts-ignore: Issue in the country picker typescript definition
-          closeButtonImage={require('../../assets/images/navigationBarBack.png')}
-          withCallingCodeButton={true}
-          withCallingCode={true}
-          withFlag={false}
-          containerButtonStyle={{
-            backgroundColor: Colors.groupedListBackground,
-            padding: Spacing.small,
-          }}
-          // @ts-ignore: Issue in the country picker typescript definition
-          flatListProps={{
-            contentContainerStyle: { paddingHorizontal: Spacing.margin },
-          }}
-          theme={{ ...Typography.phoneNumberPicker, itemHeight: 44 }}
-          onSelect={(country) => {
-            setCountryCode(country.cca2)
-            setCallingCode(country.callingCode[0])
-            dispatchNewPhoneNumber(country.cca2, country.callingCode[0], number)
-          }}
         />
       </View>
     </LabelInputContainer>
@@ -125,8 +79,17 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   container: {
-    alignItems: Platform.OS === 'android' ? 'center' : 'baseline',
-    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  callingCodeContainer: {
+    backgroundColor: Colors.lightBackground,
+    paddingHorizontal: Spacing.small,
+  },
+  callingCode: {
+    ...Typography.body,
+    color: Colors.darkText,
   },
   expanded: {
     flexGrow: 1,
@@ -135,6 +98,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     ...Typography.body,
+    lineHeight: undefined,
     color: Colors.darkText,
     paddingVertical: 0,
   },
