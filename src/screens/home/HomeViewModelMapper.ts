@@ -2,7 +2,6 @@ import { Profile } from '../../core/entities/Profile'
 import { Region } from '../../core/entities/Region'
 import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
 import i18n from '../../utils/i18n'
-import NumberFormatter from '../../utils/NumerFormatter'
 import { RegionViewModelMapper } from '../regions/RegionViewModelMapper'
 import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeViewModel } from './HomeViewModel'
@@ -16,6 +15,7 @@ import { HomeFeedActionCampaignCardViewModelFromTimelineItemMapper } from './fee
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { HomeHeaderViewModelMapper } from './HomeHeaderViewModelMapper'
 import { ViewState, ViewStateError } from '../shared/ViewState'
+import { NumberFormatter } from '../../utils/NumberFormatter'
 
 export const HomeViewModelMapper = {
   map: (

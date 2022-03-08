@@ -12,9 +12,7 @@ const formatDecimal = (input: number): string => {
   )
 }
 
-const NumberFormatter = {
+export const NumberFormatter = {
   formatPercent,
   formatDecimal,
 }
-
-export default NumberFormatter
