@@ -18,14 +18,13 @@ export const ActionRowViewModelMapper = {
 function mapImage(type: ActionType): ImageSourcePropType {
   switch (type) {
     case 'polls':
-      return require('../../assets/images/imagePolls.png')
+      return require('../../assets/images/actionPolls.png')
     case 'retaliation':
-      // TODO: (Pierre Felgines) 2022/03/03 Change icon
-      return require('../../assets/images/imagePolls.png')
+      return require('../../assets/images/actionRetaliation.png')
     case 'doorToDoor':
-      return require('../../assets/images/imageDoorToDoor.png')
+      return require('../../assets/images/actionDoorToDoor.png')
     case 'phoning':
-      return require('../../assets/images/imagePhoningV2.png')
+      return require('../../assets/images/actionPhoningV2.png')
   }
 }
 
