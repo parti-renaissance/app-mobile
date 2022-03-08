@@ -19,7 +19,6 @@ import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
 import { HomeEventRowContainer } from './events/HomeEventRowContainer'
 import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { useHomeScreen } from './useHomeScreen.hook'
-import HomeSectionHeader from './HomeSectionHeader'
 import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
 import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
 import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
@@ -29,6 +28,7 @@ import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
 import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { HomeFeedErrorRow } from './feed/HomeFeedErrorRow'
+import { SectionHeader } from '../shared/SectionHeader'
 
 type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 
@@ -68,7 +68,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
       return null
     }
     return (
-      <HomeSectionHeader
+      <SectionHeader
         title={viewModel.sectionName}
         isHighlighted={viewModel?.isHighlighted}
       />
