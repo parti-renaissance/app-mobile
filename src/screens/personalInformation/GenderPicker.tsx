@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   },
   genderPickerIOS: {
     ...Typography.body,
+    lineHeight: undefined,
   },
   icon: { height: 1, width: 1 },
   placeholder: {
