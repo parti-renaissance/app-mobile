@@ -371,31 +371,33 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
     <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <LoadingOverlay visible={isLoading} />
-      <Text style={styles.title}>{i18n.t('sign_up.title')}</Text>
-      <KeyboardOffsetView>
-        <ScrollView
-          contentContainerStyle={styles.content}
-          keyboardShouldPersistTaps="handled"
-        >
-          {renderSectionAccount()}
-          {renderSectionPersonalData()}
-          {renderSectionNotifications()}
-          {renderSectionGcu(gdpr)}
-        </ScrollView>
-        <InputAccessoryClose
-          id={inputAccessoryId}
-          title={i18n.t('common.keyboard.done')}
-          onPress={() => {
-            Keyboard.dismiss()
-          }}
-        />
-      </KeyboardOffsetView>
-      <View style={styles.bottomContainer}>
-        <PrimaryButton
-          title={i18n.t('sign_up.action')}
-          onPress={submit}
-          disabled={!isActionEnabled(signUpFormData)}
-        />
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>{i18n.t('sign_up.title')}</Text>
+        <KeyboardOffsetView>
+          <ScrollView
+            contentContainerStyle={styles.content}
+            keyboardShouldPersistTaps="handled"
+          >
+            {renderSectionAccount()}
+            {renderSectionPersonalData()}
+            {renderSectionNotifications()}
+            {renderSectionGcu(gdpr)}
+          </ScrollView>
+          <InputAccessoryClose
+            id={inputAccessoryId}
+            title={i18n.t('common.keyboard.done')}
+            onPress={() => {
+              Keyboard.dismiss()
+            }}
+          />
+        </KeyboardOffsetView>
+        <View style={styles.bottomContainer}>
+          <PrimaryButton
+            title={i18n.t('sign_up.action')}
+            onPress={submit}
+            disabled={!isActionEnabled(signUpFormData)}
+          />
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -418,6 +420,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    overflow: 'hidden',
   },
   content: {
     padding: Spacing.margin,
