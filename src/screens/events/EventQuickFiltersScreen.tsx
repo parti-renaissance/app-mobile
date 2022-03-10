@@ -2,7 +2,7 @@ import React, { FC, useLayoutEffect } from 'react'
 import { ListRenderItemInfo } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { SectionGrid } from 'react-native-super-grid'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -58,7 +58,7 @@ const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.container}>
       <View style={styles.contentContainer}>
         <SectionGrid
           sections={viewModel.sections}
