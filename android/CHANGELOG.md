@@ -16,6 +16,7 @@
 - Refactoring on navigation
 - Re enable Polls on Actions menu
 - Update some dependencies
+- Update poll images
 
 ## Removed
 
