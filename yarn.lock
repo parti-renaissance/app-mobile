@@ -1874,12 +1874,12 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-7.1.7.tgz#10e96922c90a0ff9755dcfbfc92a9d83ec45cd87"
   integrity sha512-QCEuvbTAD7vyCsSsgbWedhTfXlClp4TVHVWYYMjnN7nz6xgZbSp+MI3oo7X5C4JlDHpRm/Q+63hsCgAqKt3WVA==
 
-"@react-native-community/progress-bar-android@1.0.4", "@react-native-community/progress-bar-android@^1.0.3":
+"@react-native-community/progress-bar-android@1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@react-native-community/progress-bar-android/-/progress-bar-android-1.0.4.tgz"
   integrity sha512-O7UCpXDXlpxIx2eusj6bc8noJ5KyXZjnad0NQig9myq6iV4D9uGVziSj6J2v46dTnMd9iTX60szBu1LvsUO6rg==
 
-"@react-native-community/progress-view@1.2.3", "@react-native-community/progress-view@^1.0.3":
+"@react-native-community/progress-view@1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@react-native-community/progress-view/-/progress-view-1.2.3.tgz"
   integrity sha512-CW7eOhxduIxA723aZlKMOnBEz1o5Cjo5ibMNsf81TcjNqtsamRHm8jFS98za7t5P7XdhM0MhzkbaS90cwOlN+Q==
@@ -2974,7 +2974,7 @@ base-64@0.1.0:
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz"
   integrity sha1-eAqZyE59YAJgNhURxId2E78k9rs=
 
-base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.1, base64-js@^1.5.1:
+base64-js@^1.1.2, base64-js@^1.3.1, base64-js@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -7343,16 +7343,7 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-plist@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.1.tgz"
-  integrity sha512-GpgvHHocGRyQm74b6FWEZZVRroHKE1I0/BTjAmySaohK+cUn+hZpbqXkc3KWgW3gQYkqcQej35FohcT0FRlkRQ==
-  dependencies:
-    base64-js "^1.2.3"
-    xmlbuilder "^9.0.7"
-    xmldom "0.1.x"
-
-plist@^3.0.2:
+plist@^3.0.1, plist@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.4.tgz#a62df837e3aed2bb3b735899d510c4f186019cbe"
   integrity sha512-ksrr8y9+nXOxQB2osVNqrgvX/XQPOXaU4BQMKjYq8PvaY1U18mo+fKgBSwzK+luSyinOuPae956lSVcBwxlAMg==
@@ -7720,15 +7711,12 @@ react-native-paper@4.9.2:
     color "^3.1.2"
     react-native-iphone-x-helper "^1.3.1"
 
-react-native-pdf@6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-6.2.2.tgz"
-  integrity sha512-ylRqbjf9BDSZpOV9eJpASZ+0FWZwEhEGyWJVhA6epr+HY8G2EOThr1HNXbf3nTIwL/t+Esfw4b60+w+2k614Pg==
+react-native-pdf@6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-6.4.0.tgz#e3aa583e3a2ccce0838dcc0ac5a29987774eea4f"
+  integrity sha512-pfrCvHg4dqAPzl2FtRmGGl/D2dHec4w8+wGAKv7L97wxz5oF/QNvQ6q0KdfXdFlIZ22sS+BOwsRMzbB2mHPs2w==
   dependencies:
-    "@react-native-community/progress-bar-android" "^1.0.3"
-    "@react-native-community/progress-view" "^1.0.3"
     crypto-js "^3.2.0"
-    prop-types "^15.7.2"
 
 react-native-picker-select@8.0.4:
   version "8.0.4"
@@ -9367,7 +9355,7 @@ xml-name-validator@^3.0.0:
 
 xmlbuilder@^9.0.7:
   version "9.0.7"
-  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
   integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
 
 xmlchars@^2.2.0:
@@ -9381,11 +9369,6 @@ xmldoc@^1.1.2:
   integrity sha512-ruPC/fyPNck2BD1dpz0AZZyrEwMOrWTO5lDdIXS91rs3wtm4j+T8Rp2o+zoOYkkAxJTZRPOSnOGei1egoRmKMQ==
   dependencies:
     sax "^1.2.1"
-
-xmldom@0.1.x:
-  version "0.1.31"
-  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz"
-  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
 
 xregexp@^4.3.0:
   version "4.4.1"
