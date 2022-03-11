@@ -1,120 +1,47 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { FunctionComponent } from 'react'
+import { SafeAreaView, StyleSheet, Text } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import { ScrollView } from 'react-native-gesture-handler'
-import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 import i18n from '../../../../utils/i18n'
-import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { StatefulView } from '../../../shared/StatefulView'
-import { ViewState } from '../../../shared/ViewState'
-import { DoorToDoorPollConfigResponseStatus } from '../../../../core/entities/DoorToDoorPollConfig'
-import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
-import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
-import {
-  INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE,
-  SendDoorPollAnswersInteractor,
-} from '../../../../core/interactor/SendDoorPollAnswersInteractor'
-import { AlertUtils } from '../../../shared/AlertUtils'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { useTunnelDoorInterlocutorScreen } from './useTunnelDoorInterlocutorScreen.hook'
+import { TunnelDoorInterlocutorChoiceCard } from './TunnelDoorInterlocutorChoiceCard'
+import { TunnelDoorInterlocutorChoiceCardViewModel } from './TunnelDoorInterlocutorChoiceCardViewModel'
 
 type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
 
 const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProps> = ({
   route,
-  navigation,
 }) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<Array<DoorToDoorPollConfigResponseStatus>>
-  >(ViewState.Loading())
-  const [isSendingChoice, setIsSendingChoice] = useState(false)
-
-  useDoorToDoorTunnelNavigationOptions(navigation)
-
-  useEffect(() => {
-    const fetchData = () => {
-      DoorToDoorRepository.getInstance()
-        .getDoorToDoorPollConfig(route.params.campaignId)
-        .then((result) => {
-          setStatefulState(ViewState.Content(result.before.responseStatus))
-        })
-        .catch((error) =>
-          setStatefulState(ViewStateUtils.networkError(error, fetchData)),
-        )
-    }
-    fetchData()
-  }, [route.params.campaignId])
-
-  const onChoice = (code: string) => {
-    if (code === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE) {
-      navigation.navigate('TunnelDoorPoll', {
-        campaignId: route.params.campaignId,
-        interlocutorStatus: code,
-        buildingParams: route.params.buildingParams,
-      })
-    } else {
-      setIsSendingChoice(true)
-      new SendDoorPollAnswersInteractor()
-        .execute({
-          campaignId: route.params.campaignId,
-          doorStatus: code,
-          buildingParams: route.params.buildingParams,
-        })
-        .then(() => {
-          if (route.params.buildingParams.type === 'house') {
-            navigation.getParent()?.goBack()
-          } else {
-            navigation.navigate('TunnelDoorSelection', {
-              campaignId: route.params.campaignId,
-              buildingParams: {
-                ...route.params.buildingParams,
-                door: route.params.buildingParams.door + 1,
-              },
-              canCloseFloor: true,
-            })
-          }
-        })
-        .catch((error) =>
-          AlertUtils.showNetworkAlert(error, () => {
-            onChoice(code)
-          }),
-        )
-        .finally(() => setIsSendingChoice(false))
-    }
-  }
-
-  const renderContentItems = (
-    items: Array<DoorToDoorPollConfigResponseStatus>,
-  ) => {
-    return items.map((item, index) => (
-      <View
-        key={item.code}
-        style={[
-          styles.itemContainer,
-          index === items.length - 1 ? styles.itemContainerExpanded : {},
-        ]}
-      >
-        <TouchablePlatform
-          style={styles.itemContent}
-          onPress={() => {
-            onChoice(item.code)
-          }}
-          touchHighlight={Colors.touchHighlight}
-        >
-          <Text style={styles.itemText}>{item.label}</Text>
-        </TouchablePlatform>
-      </View>
-    ))
-  }
+  const {
+    statefulState,
+    isSendingChoice,
+    onChoice,
+  } = useTunnelDoorInterlocutorScreen(
+    route.params.campaignId,
+    route.params.buildingParams,
+  )
 
   const renderContentComponent = (
-    items: Array<DoorToDoorPollConfigResponseStatus>,
+    items: Array<TunnelDoorInterlocutorChoiceCardViewModel>,
   ) => (
     <ScrollView contentContainerStyle={styles.content}>
       <Text style={styles.title} key={'title'}>
         {i18n.t('doorToDoor.tunnel.interlocutor.title')}
       </Text>
-      {renderContentItems(items)}
+      {items.map((viewModel, index) => (
+        <TunnelDoorInterlocutorChoiceCard
+          key={viewModel.id}
+          style={[
+            styles.card,
+            index === items.length - 1 && styles.cardExpanded,
+          ]}
+          viewModel={viewModel}
+          onPress={() => onChoice(viewModel.id)}
+        />
+      ))}
     </ScrollView>
   )
 
@@ -138,30 +65,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: Spacing.margin,
   },
-  exit: {
-    color: Colors.primaryColor,
-  },
-  itemContainer: {
-    backgroundColor: Colors.secondaryButtonBackground,
-    borderRadius: 40,
+  card: {
     marginBottom: Spacing.margin,
-    overflow: 'hidden',
   },
-  itemContainerExpanded: {
+  cardExpanded: {
     flexGrow: 1,
     flex: 1,
-  },
-  itemContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: Spacing.margin,
-  },
-  itemText: {
-    ...Typography.callout,
-    textAlign: 'center',
-  },
-  separator: {
-    height: Spacing.margin,
   },
   title: {
     ...Typography.title2,
