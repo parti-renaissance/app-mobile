@@ -18,7 +18,7 @@ const PollRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
         <Image
           style={styles.image}
           source={viewModel.image}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         <View style={styles.labelsContainer}>
           <Text style={styles.title}>{viewModel.title}</Text>
