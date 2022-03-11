@@ -1,4 +1,4 @@
-# v3.8.0-RC2
+# v3.8.0-RC3
 
 ## Added
 
@@ -6,6 +6,7 @@
 - Add Retaliation entry in Actions menu
 - Identify user on Sentry
 - Load slogan from webservices
+- Send visit starting date for door to door
 
 ## Updated
 
@@ -27,3 +28,4 @@
 - Fix Sentry issues
 - Fix crash on Android when restoring activity state
 - Fix layout issues on Personal Informations
+- Fix event category mapping
