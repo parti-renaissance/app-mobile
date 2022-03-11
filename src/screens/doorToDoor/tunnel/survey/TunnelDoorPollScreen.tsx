@@ -9,7 +9,7 @@ import { Colors } from '../../../../styles'
 import { StatefulView } from '../../../shared/StatefulView'
 import { ViewState } from '../../../shared/ViewState'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
-import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
+import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
 import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'
 
 type TunnelDoorPollScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>

@@ -13,7 +13,7 @@ import { StatefulView } from '../../../shared/StatefulView'
 import { ViewState } from '../../../shared/ViewState'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
-import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
+import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
 
 type CardItemProps = {
   onPress: () => void

@@ -8,7 +8,7 @@ import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { StatefulView } from '../../../shared/StatefulView'
 import { ViewState } from '../../../shared/ViewState'
 import { DoorToDoorPollConfigResponseStatus } from '../../../../core/entities/DoorToDoorPollConfig'
-import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
+import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import {
