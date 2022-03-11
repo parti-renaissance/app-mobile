@@ -21,6 +21,7 @@ import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRa
 import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { DataSource } from './DataSource'
 import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
+import { DoorToDoorCampaignMapper } from './mapper/DoorToDoorCampaignMapper'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -257,9 +258,8 @@ class DoorToDoorRepository {
       const campaign = this.campaignCache.get(campaignId)
       if (campaign) return campaign
     }
-    const fetchedCampaign = await this.apiService.getDoorToDoorCampaign(
-      campaignId,
-    )
+    const restCampaign = await this.apiService.getDoorToDoorCampaign(campaignId)
+    const fetchedCampaign = DoorToDoorCampaignMapper.map(restCampaign)
     this.campaignCache.set(campaignId, fetchedCampaign)
     return fetchedCampaign
   }

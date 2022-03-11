@@ -58,13 +58,13 @@ import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPo
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
-import { DoorToDoorCampaign } from '../../core/entities/DoorToDoorCampaign'
 import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
 import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
 import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
+import { RestDoorToDoorCampaign } from '../restObjects/RestDoorToDoorCampaign'
 
 class ApiService {
   private static instance: ApiService
@@ -499,10 +499,10 @@ class ApiService {
 
   public getDoorToDoorCampaign(
     campaignId: string,
-  ): Promise<DoorToDoorCampaign> {
+  ): Promise<RestDoorToDoorCampaign> {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}`)
-      .json<DoorToDoorCampaign>()
+      .json<RestDoorToDoorCampaign>()
       .catch(genericErrorMapping)
   }
 

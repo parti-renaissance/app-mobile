@@ -5,14 +5,16 @@ import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewMod
 
 export const DoorToDoorCampaignCardViewModelMapper = {
   map: (data: DoorToDoorCampaignInfo): DoorToDoorCampaignCardViewModel => {
-    const date = new Date(data.campaign.finish_at)
     const surveys =
       data.ranking.individual.find((item) => item.current)?.surveys ?? 0
     return {
       campaignId: data.campaign.uuid,
       name: data.campaign.title,
       date: i18n.t('doorToDoor.campaign_deadline', {
-        date: DateFormatter.format(date, i18n.t('doorToDoor.date_format')),
+        date: DateFormatter.format(
+          data.campaign.finishAt,
+          i18n.t('doorToDoor.date_format'),
+        ),
       }),
       goal: i18n.t('doorToDoor.goal_format', {
         current: surveys,
