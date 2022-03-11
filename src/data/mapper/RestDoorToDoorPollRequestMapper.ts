@@ -8,6 +8,7 @@ export const RestDoorToDoorPollRequestMapper = {
   mapHistoryRequest: (
     pollParams: DoorToDoorPollParams,
     pollResult: DoorToDoorPollResult,
+    visitStartDateISOString: string,
   ): any => {
     return {
       ...RestPollExtraAnswersRequestMapper.map(pollResult.qualificationAnswers),
@@ -17,6 +18,7 @@ export const RestDoorToDoorPollRequestMapper = {
       building_block: pollParams.block,
       floor: pollParams.floor,
       door: pollParams.door.toString(),
+      begin_at: visitStartDateISOString,
     }
   },
   mapAnswers: (

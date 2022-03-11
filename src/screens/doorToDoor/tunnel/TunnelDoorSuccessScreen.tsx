@@ -20,6 +20,7 @@ import {
 import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../styles'
+import { DateProvider } from '../../../utils/DateProvider'
 import i18n from '../../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
 import { CloseButton } from '../../shared/NavigationHeaderButton'
@@ -83,6 +84,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
               campaignId: route.params.campaignId,
               buildingParams: route.params.buildingParams,
               interlocutorStatus: route.params.interlocutorStatus,
+              visitStartDateISOString: DateProvider.now().toISOString(),
             })
           }}
           title="Interroger une autre personne dans le même foyer"

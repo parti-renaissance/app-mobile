@@ -136,10 +136,12 @@ class DoorToDoorRepository {
   public async createDoorPollCampaignHistory(
     pollParams: DoorToDoorPollParams,
     pollResult: DoorToDoorPollResult,
+    visitStartDateISOString: string,
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
     const campaignHistoryPayload = RestDoorToDoorPollRequestMapper.mapHistoryRequest(
       pollParams,
       pollResult,
+      visitStartDateISOString,
     )
     return this.apiService.createDoorToDoorCampaignHistory(
       campaignHistoryPayload,

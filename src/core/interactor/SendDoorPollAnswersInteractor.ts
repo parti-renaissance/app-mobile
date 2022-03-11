@@ -28,6 +28,7 @@ export class SendDoorPollAnswersInteractor {
         params.doorStatus,
         pollParams,
         params.pollResult ?? { answers: [], qualificationAnswers: [] },
+        params.visitStartDateISOString,
       )
     } catch (error) {
       if (error instanceof ServerTimeoutError) {
@@ -51,10 +52,12 @@ export class SendDoorPollAnswersInteractor {
     status: string,
     pollParams: DoorToDoorPollParams,
     pollResult: DoorToDoorPollResult,
+    visitStartDateISOString: string,
   ) {
     const response = await this.repository.createDoorPollCampaignHistory(
       pollParams,
       pollResult,
+      visitStartDateISOString,
     )
     if (status === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE && pollResult) {
       await this.repository.sendDoorToDoorPollAnswers(response.uuid, pollResult)

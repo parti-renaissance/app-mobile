@@ -4,6 +4,7 @@ import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorTo
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { DateProvider } from '../../../../utils/DateProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
 import { ViewState } from '../../../shared/ViewState'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
@@ -45,6 +46,7 @@ export const useTunnelDoorOpeningScreen = (
     navigation.navigate('TunnelDoorInterlocutor', {
       campaignId,
       buildingParams,
+      visitStartDateISOString: DateProvider.now().toISOString(),
     })
   }
 
@@ -55,6 +57,7 @@ export const useTunnelDoorOpeningScreen = (
         campaignId,
         doorStatus: status.code,
         buildingParams,
+        visitStartDateISOString: DateProvider.now().toISOString(),
       })
       .then(() => {
         switch (buildingParams.type) {

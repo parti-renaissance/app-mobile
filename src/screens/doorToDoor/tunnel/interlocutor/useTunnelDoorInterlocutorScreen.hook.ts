@@ -18,6 +18,7 @@ import { TunnelDoorInterlocutorChoiceCardViewModelMapper } from './TunnelDoorInt
 export const useTunnelDoorInterlocutorScreen = (
   campaignId: string,
   buildingParams: BuildingSelectedNavigationParams,
+  visitStartDateISOString: string,
 ): {
   statefulState: ViewState<TunnelDoorInterlocutorChoiceCardViewModel[]>
   isSendingChoice: boolean
@@ -53,6 +54,7 @@ export const useTunnelDoorInterlocutorScreen = (
       campaignId,
       buildingParams,
       interlocutorStatus: code,
+      visitStartDateISOString,
     })
   }
 
@@ -63,6 +65,7 @@ export const useTunnelDoorInterlocutorScreen = (
         campaignId,
         doorStatus: code,
         buildingParams,
+        visitStartDateISOString,
       })
       .then(() => {
         switch (buildingParams.type) {

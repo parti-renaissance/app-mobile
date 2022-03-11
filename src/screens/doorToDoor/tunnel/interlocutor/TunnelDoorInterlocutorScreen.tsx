@@ -22,6 +22,7 @@ const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScre
   } = useTunnelDoorInterlocutorScreen(
     route.params.campaignId,
     route.params.buildingParams,
+    route.params.visitStartDateISOString,
   )
 
   const renderContentComponent = (
