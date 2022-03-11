@@ -18,6 +18,7 @@ export interface SendDoorToDoorPollAnswersJobQueueItem {
   doorStatus: string
   buildingParams: BuildingSelectedParams
   pollResult?: DoorToDoorPollResult
+  visitStartDateISOString: string
 }
 
 export class SendDoorToDoorPollAnswersJobQueue {

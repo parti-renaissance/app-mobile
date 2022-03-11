@@ -20,7 +20,7 @@ export const EventMapper = {
     const address = mapAddress(restShortEvent.post_address)
     return {
       uuid: restShortEvent.uuid,
-      tag: restShortEvent.category.event_group_category.name,
+      tag: restShortEvent.category.name,
       name: restShortEvent.name,
       category: restShortEvent.category.event_group_category.slug,
       mode: mapMode(restShortEvent.mode),
@@ -38,7 +38,7 @@ export const EventMapper = {
     const address = mapAddress(restDetailedEvent.post_address)
     return {
       uuid: restDetailedEvent.uuid,
-      tag: restDetailedEvent.category.event_group_category.name,
+      tag: restDetailedEvent.category.name,
       description: restDetailedEvent.description,
       name: restDetailedEvent.name,
       mode: mapMode(restDetailedEvent.mode),

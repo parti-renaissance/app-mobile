@@ -92,6 +92,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
         doorStatus: route.params.interlocutorStatus,
         buildingParams: route.params.buildingParams,
         pollResult: result,
+        visitStartDateISOString: route.params.visitStartDateISOString,
       })
       .then(() => {
         navigation.replace('TunnelDoorSuccess', {

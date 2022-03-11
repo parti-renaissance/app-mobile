@@ -1,114 +1,44 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
-import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
-import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
-import { AlertUtils } from '../../../shared/AlertUtils'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { StatefulView } from '../../../shared/StatefulView'
-import { ViewState } from '../../../shared/ViewState'
-import { TouchablePlatform } from '../../../shared/TouchablePlatform'
-import { ViewStateUtils } from '../../../shared/ViewStateUtils'
-import { useDoorToDoorTunnelNavigationOptions } from '../DoorToDoorTunnelNavigationHook'
-
-type CardItemProps = {
-  onPress: () => void
-  title: string
-}
+import { TunnelDoorOpeningChoiceCard } from './TunnelDoorOpeningChoiceCard'
+import { TunnelDoorOpeningChoiceCardViewModel } from './TunnelDoorOpeningChoiceCardViewModel'
+import { useTunnelDoorOpeningScreen } from './useTunnelDoorOpeningScreen.hook'
 
 type DoorToDoorTunnelOpeningScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>
 
 const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProps> = ({
-  navigation,
   route,
 }) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<DoorToDoorPollConfigDoorStatus[]>
-  >(ViewState.Loading())
-  const [isSendingChoice, setIsSendingChoice] = useState(false)
-
-  useDoorToDoorTunnelNavigationOptions(navigation)
-
-  useEffect(() => {
-    DoorToDoorRepository.getInstance()
-      .getDoorToDoorPollConfig(route.params.campaignId)
-      .then((pollConfig) => {
-        setStatefulState(ViewState.Content(pollConfig.before.doorStatus))
-      })
-      .catch((error) => {
-        setStatefulState(ViewStateUtils.networkError(error))
-      })
-  }, [route.params, setStatefulState])
-
-  const onChoice = (success: boolean, code: string) => {
-    if (success) {
-      navigation.navigate('TunnelDoorInterlocutor', {
-        campaignId: route.params.campaignId,
-        buildingParams: route.params.buildingParams,
-      })
-    } else {
-      setIsSendingChoice(true)
-      new SendDoorPollAnswersInteractor()
-        .execute({
-          campaignId: route.params.campaignId,
-          doorStatus: code,
-          buildingParams: route.params.buildingParams,
-        })
-        .then(() => {
-          if (route.params.buildingParams.type === 'house') {
-            navigation.getParent()?.goBack()
-          } else {
-            navigation.navigate('TunnelDoorSelection', {
-              campaignId: route.params.campaignId,
-              buildingParams: {
-                ...route.params.buildingParams,
-                door: route.params.buildingParams.door + 1,
-              },
-              canCloseFloor: true,
-            })
-          }
-        })
-        .catch((error) =>
-          AlertUtils.showNetworkAlert(error, () => {
-            onChoice(success, code)
-          }),
-        )
-        .finally(() => setIsSendingChoice(false))
-    }
-  }
-
-  const CardItem = ({ onPress, title }: CardItemProps) => (
-    <View style={styles.card}>
-      <TouchablePlatform
-        style={styles.cardContent}
-        onPress={onPress}
-        touchHighlight={Colors.touchHighlight}
-      >
-        <View style={styles.button}>
-          <Text style={styles.buttonTitle}>{title}</Text>
-        </View>
-      </TouchablePlatform>
-    </View>
+  const {
+    statefulState,
+    isSendingChoice,
+    onStatusSelected,
+  } = useTunnelDoorOpeningScreen(
+    route.params.campaignId,
+    route.params.buildingParams,
   )
 
-  const ContentComponent = (status: DoorToDoorPollConfigDoorStatus[]) => {
+  const ContentComponent = (
+    viewModels: TunnelDoorOpeningChoiceCardViewModel[],
+  ) => {
     return (
       <View style={styles.contentContainer}>
         <Text style={styles.title}>
           {i18n.t('doorToDoor.tunnel.opening.title')}
         </Text>
-        {status.map((item) => {
+        {viewModels.map((viewModel) => {
           return (
-            <CardItem
-              key={item.code}
-              onPress={() => {
-                onChoice(item.success, item.code)
-              }}
-              title={item.label}
+            <TunnelDoorOpeningChoiceCard
+              key={viewModel.id}
+              style={styles.card}
+              viewModel={viewModel}
+              onPress={() => onStatusSelected(viewModel.id)}
             />
           )
         })}
@@ -125,28 +55,6 @@ const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenPr
 }
 
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  buttonTitle: {
-    ...Typography.title2,
-    flex: 1,
-    marginLeft: Spacing.margin,
-    textAlign: 'center',
-  },
-  card: {
-    backgroundColor: Colors.lightBackground,
-    borderRadius: 8,
-    flex: 1,
-    justifyContent: 'center',
-    marginBottom: Spacing.unit,
-    overflow: 'hidden',
-  },
-  cardContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
@@ -158,6 +66,9 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title3,
     marginBottom: Spacing.margin,
+  },
+  card: {
+    flex: 1,
   },
 })
 

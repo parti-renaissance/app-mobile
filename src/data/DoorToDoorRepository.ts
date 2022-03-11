@@ -21,6 +21,7 @@ import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRa
 import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
 import { DataSource } from './DataSource'
 import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
+import { DoorToDoorCampaignMapper } from './mapper/DoorToDoorCampaignMapper'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -135,10 +136,12 @@ class DoorToDoorRepository {
   public async createDoorPollCampaignHistory(
     pollParams: DoorToDoorPollParams,
     pollResult: DoorToDoorPollResult,
+    visitStartDateISOString: string,
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
     const campaignHistoryPayload = RestDoorToDoorPollRequestMapper.mapHistoryRequest(
       pollParams,
       pollResult,
+      visitStartDateISOString,
     )
     return this.apiService.createDoorToDoorCampaignHistory(
       campaignHistoryPayload,
@@ -257,9 +260,8 @@ class DoorToDoorRepository {
       const campaign = this.campaignCache.get(campaignId)
       if (campaign) return campaign
     }
-    const fetchedCampaign = await this.apiService.getDoorToDoorCampaign(
-      campaignId,
-    )
+    const restCampaign = await this.apiService.getDoorToDoorCampaign(campaignId)
+    const fetchedCampaign = DoorToDoorCampaignMapper.map(restCampaign)
     this.campaignCache.set(campaignId, fetchedCampaign)
     return fetchedCampaign
   }
