@@ -1,38 +1,27 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useLayoutEffect,
-  useState,
-} from 'react'
+import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
 import { StatefulView } from '../../../shared/StatefulView'
-import { ViewState } from '../../../shared/ViewState'
-import { useFocusEffect } from '@react-navigation/native'
-import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
-import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { useDoorToDoorBriefScreen } from './useDoorToDoorBriefScreen.hook'
+import { DoorToDoorBriefViewModel } from './DoorToDoorBriefViewModel'
 
 type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
-
-export interface TutorialResources {
-  content: string
-}
 
 const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
   navigation,
   route,
 }) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<TutorialResources>
-  >(ViewState.Loading())
-
-  const campaignId = route.params.campaignId
+  const { statefulState, onAction } = useDoorToDoorBriefScreen(
+    route.params.campaignId,
+    route.params.buildingParams,
+    route.params.canCloseFloor,
+  )
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,26 +29,7 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
     })
   }, [navigation])
 
-  const fetchData = useCallback(() => {
-    setStatefulState(ViewState.Loading())
-    DoorToDoorRepository.getInstance()
-      .getCampaign(route.params.campaignId)
-      .then((campaign) => {
-        setStatefulState(ViewState.Content({ content: campaign.brief }))
-      })
-      .catch((error) => {
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading())
-            fetchData()
-          }),
-        )
-      })
-  }, [route.params.campaignId])
-
-  useFocusEffect(fetchData)
-
-  const TutorialContent = (resources: TutorialResources) => {
+  const TutorialContent = (viewModel: DoorToDoorBriefViewModel) => {
     return (
       <>
         <ScrollView style={styles.contentContainer}>
@@ -67,26 +37,13 @@ const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
             {i18n.t('doorToDoor.tunnel.door.tutorial.title')}
           </Text>
           <Markdown style={Typography.markdownStyle} mergeStyle={false}>
-            {resources.content}
+            {viewModel.markdown}
           </Markdown>
         </ScrollView>
         <View style={styles.bottomContainer}>
           <PrimaryButton
             title={i18n.t('doorToDoor.tunnel.door.tutorial.action')}
-            onPress={() => {
-              if (route.params.buildingParams.type === 'house') {
-                navigation.navigate('TunnelDoorOpening', {
-                  campaignId: campaignId,
-                  buildingParams: route.params.buildingParams,
-                })
-              } else {
-                navigation.navigate('TunnelDoorSelection', {
-                  campaignId: campaignId,
-                  buildingParams: route.params.buildingParams,
-                  canCloseFloor: route.params.canCloseFloor,
-                })
-              }
-            }}
+            onPress={onAction}
           />
         </View>
       </>
