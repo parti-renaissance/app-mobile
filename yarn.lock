@@ -7777,10 +7777,10 @@ react-native-splash-screen@3.2.0:
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz"
   integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
 
-react-native-super-grid@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-4.1.1.tgz#54da8fe6d716edf1c87d158c5cc61cd449c20ab7"
-  integrity sha512-rJQI2zfnqZ409V7i/2MpdQjtfs52lfZ9lILFbIojYI428sP4XRgoqUcKjjL9sRr2w/X7eK4EjJ/RnCw/shVxxQ==
+react-native-super-grid@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-4.2.0.tgz#df07d88d58f232cb2e01e0752f5279cc3b366ca4"
+  integrity sha512-5GpdcXwnwizjWECY7APpyoMyGEAieRy0hxCJl8JQAodg2IigWYx10eDHrW/b1Rw1hsZVNyo4qSrAM3iOLW2XPw==
   dependencies:
     prop-types "^15.6.0"
 
