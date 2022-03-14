@@ -94,7 +94,7 @@
     "react-native-vector-icons": "7.1.0",
     "rn-fetch-blob": "0.12.0",
     "tinycolor2": "1.4.2",
-    "use-debounce": "6.0.1"
+    "use-debounce": "7.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.16.7",
