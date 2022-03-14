@@ -9,7 +9,7 @@ export interface RestDetailedProfileResponse {
   last_name: string
   gender: string
   custom_gender: string | null
-  nationality: string
+  nationality: string | null
   birthdate: string
   post_address: RestPostAddress | null
   email_address: string

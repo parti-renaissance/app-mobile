@@ -35,7 +35,7 @@ export const ProfileMapper = {
       gender: GenderMapper.mapToGender(result.gender),
       customGender: result.custom_gender ?? undefined,
       nationality:
-        result.nationality.length > 0
+        result.nationality !== null && result.nationality.length > 0
           ? result.nationality
           : i18n.t('personalinformation.default_country_code'),
       birthDate: new Date(result.birthdate),
