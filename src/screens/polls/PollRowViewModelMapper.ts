@@ -10,12 +10,6 @@ export const PollRowViewModelMapper = {
       require('../../assets/images/pollImage03.jpg'),
       require('../../assets/images/pollImage04.jpg'),
       require('../../assets/images/pollImage05.jpg'),
-      require('../../assets/images/pollImage06.jpg'),
-      require('../../assets/images/pollImage07.jpg'),
-      require('../../assets/images/pollImage08.jpg'),
-      require('../../assets/images/pollImage09.jpg'),
-      require('../../assets/images/pollImage10.jpg'),
-      require('../../assets/images/pollImage11.jpg'),
     ]
     const pollImage = pollImages[poll.id % pollImages.length]
     return {
