@@ -26,7 +26,7 @@ jobs:
       run:
         working-directory: ./android
     container:
-      image: docker://fabernovel/android:api-29-v1.3.0
+      image: docker://fabernovel/android:api-30-v1.5.0
       volumes:
         - /github/home/.ssh:/root/.ssh
     env:
