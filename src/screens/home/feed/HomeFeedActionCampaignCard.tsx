@@ -51,7 +51,7 @@ export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
         <View style={styles.row}>
           <Image style={styles.icon} source={icon} />
           <HorizontalSpacer spacing={Spacing.margin} />
-          <View>
+          <View style={styles.textContainer}>
             <Text style={styles.title}>{viewModel.title}</Text>
             <VerticalSpacer spacing={Spacing.small} />
             <Text style={styles.subtitle}>{viewModel.subtitle}</Text>
@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+  },
+  textContainer: {
+    flex: 1,
   },
   icon: {
     tintColor: Colors.titleText,
