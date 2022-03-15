@@ -99,7 +99,7 @@
   "devDependencies": {
     "@babel/core": "7.16.7",
     "@babel/runtime": "7.16.7",
-    "@react-native-community/eslint-config": "1.1.0",
+    "@react-native-community/eslint-config": "3.0.0",
     "@types/jest": "27.0.2",
     "@types/promise.allsettled": "1.0.3",
     "@types/react-native": "0.66.3",
