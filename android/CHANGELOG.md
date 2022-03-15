@@ -1,4 +1,4 @@
-# v3.8.0-RC3
+# v3.8.0-RC5
 
 ## Added
 
@@ -30,3 +30,4 @@
 - Fix crash on Android when restoring activity state
 - Fix layout issues on Personal Informations
 - Fix event category mapping
+- Display subscribed events that are in a different zipcode
