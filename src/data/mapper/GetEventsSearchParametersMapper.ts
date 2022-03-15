@@ -3,13 +3,24 @@ import { SearchParamsKeyValue } from '../network/SearchParams'
 import { format } from 'date-fns'
 
 export const GetEventsSearchParametersMapper = {
-  map: (filters: EventFilters | undefined): SearchParamsKeyValue => {
-    let searchParams: SearchParamsKeyValue = {}
+  map: (
+    page: number,
+    zipCode: string,
+    filters: EventFilters | undefined,
+    orderBySubscriptions: boolean | undefined,
+  ): SearchParamsKeyValue => {
+    let searchParams: SearchParamsKeyValue = { page }
     const subscribedOnly = filters?.subscribedOnly ? true : undefined
     if (subscribedOnly) {
       searchParams = {
         ...searchParams,
         subscribedOnly: true,
+      }
+    } else {
+      // We limit the events to the department of the users
+      searchParams = {
+        ...searchParams,
+        zipCode,
       }
     }
     if (filters?.finishAfter) {
@@ -31,6 +42,12 @@ export const GetEventsSearchParametersMapper = {
       searchParams = {
         ...searchParams,
         mode: eventMode,
+      }
+    }
+    if (orderBySubscriptions) {
+      searchParams = {
+        'order[subscriptions]': 'desc',
+        ...searchParams,
       }
     }
     return searchParams
