@@ -1,19 +1,22 @@
 import { News } from '../../core/entities/News'
 import { RestNews } from '../restObjects/RestNewsResponse'
 
+const ifNotEmpty = (value: string | null): string | undefined => {
+  return value !== null && value.length > 0 ? value : undefined
+}
+
 export const RestNewsMapper = {
   map: (restNews: RestNews): News => {
-    const urlSize = restNews.external_link?.length ?? 0
     return {
       id: restNews.uuid,
       title: restNews.title,
       description: restNews.text,
       date: new Date(restNews.created_at),
-      url: urlSize > 0 ? restNews.external_link! : undefined,
+      url: ifNotEmpty(restNews.external_link),
       isPinned: restNews.pinned,
-      linkLabel: restNews.link_label !== null ? restNews.link_label : undefined,
+      linkLabel: ifNotEmpty(restNews.link_label),
       visibility: restNews.visibility,
-      creator: restNews.creator !== null ? restNews.creator : undefined,
+      creator: ifNotEmpty(restNews.creator),
     }
   },
 }
