@@ -24,6 +24,7 @@ import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import { ErrorMonitor } from './src/utils/ErrorMonitor'
 import { SendDoorToDoorPollAnswersJobWorker } from './src/workers/SendDoorToDoorPollAnswsersJobWorker'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 declare var global: { HermesInternal: null | {} }
 
@@ -60,34 +61,39 @@ const App = () => {
 
   const routeNameRef = React.useRef<string>()
   const navigationRef = React.useRef<NavigationContainerRef>()
+  const queryClient = new QueryClient()
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer
-        ref={navigationRef}
-        onReady={() => {
-          const initialScreen = navigationRef?.current?.getCurrentRoute()?.name
-          if (initialScreen !== undefined) {
-            routeNameRef.current = initialScreen
-            Analytics.logScreen(initialScreen)
-          }
-        }}
-        onStateChange={async () => {
-          const previousRouteName = routeNameRef.current
-          const currentRouteName = navigationRef.current.getCurrentRoute().name
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => {
+            const initialScreen = navigationRef?.current?.getCurrentRoute()
+              ?.name
+            if (initialScreen !== undefined) {
+              routeNameRef.current = initialScreen
+              Analytics.logScreen(initialScreen)
+            }
+          }}
+          onStateChange={async () => {
+            const previousRouteName = routeNameRef.current
+            const currentRouteName = navigationRef.current.getCurrentRoute()
+              .name
 
-          if (previousRouteName !== currentRouteName) {
-            Analytics.logScreen(currentRouteName)
-          }
+            if (previousRouteName !== currentRouteName) {
+              Analytics.logScreen(currentRouteName)
+            }
 
-          // Save the current route name for later comparision
-          routeNameRef.current = currentRouteName
-        }}
-      >
-        <I18nextProvider i18n={i18n}>
-          <Navigator />
-        </I18nextProvider>
-      </NavigationContainer>
+            // Save the current route name for later comparision
+            routeNameRef.current = currentRouteName
+          }}
+        >
+          <I18nextProvider i18n={i18n}>
+            <Navigator />
+          </I18nextProvider>
+        </NavigationContainer>
+      </QueryClientProvider>
     </SafeAreaProvider>
   )
 }

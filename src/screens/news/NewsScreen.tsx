@@ -35,7 +35,7 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
     statefulState,
     isLoadingMore,
     isRefreshing,
-    loadFirstPage,
+    refetch,
     loadMore,
     onNewsSelected,
   } = useNewsScreen()
@@ -100,7 +100,7 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={loadFirstPage}
+            onRefresh={refetch}
             colors={[Colors.primaryColor]}
           />
         }

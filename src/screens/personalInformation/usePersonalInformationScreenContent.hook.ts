@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   DetailedProfile,
   FormViolation,
@@ -15,6 +15,7 @@ import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerViewModelMapper'
 import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
+import { useMutation, useQueryClient } from 'react-query'
 
 export const usePersonalInformationScreenContent = (
   profile: DetailedProfile,
@@ -67,21 +68,33 @@ export const usePersonalInformationScreenContent = (
     updateForm({ ...form, lastName })
   }
 
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation(
+    (params: { uuid: string; form: PersonalInformationsForm }) => {
+      return ProfileRepository.getInstance().updateDetailedProfile(
+        params.uuid,
+        params.form,
+      )
+    },
+  )
+
   const onSubmit = useCallback(() => {
-    setIsLoading(true)
     setErrors([])
-    ProfileRepository.getInstance()
-      .updateDetailedProfile(profile.uuid, form)
-      .then(() => navigation.goBack())
+    mutation
+      .mutateAsync({ uuid: profile.uuid, form })
+      .then(() => {
+        queryClient.invalidateQueries('user')
+        navigation.goBack()
+      })
       .catch((error) => {
         if (error instanceof ProfileFormError) {
           setErrors(error.violations)
         } else {
-          AlertUtils.showNetworkAlert(error, onSubmit)
+          AlertUtils.showNetworkAlert(error as Error, onSubmit)
         }
       })
-      .finally(() => setIsLoading(false))
-  }, [profile.uuid, form, navigation])
+  }, [profile.uuid, form, mutation, navigation, queryClient])
 
   const onGenderChange = (gender: Gender) => {
     updateForm({ ...form, gender })
@@ -175,7 +188,7 @@ export const usePersonalInformationScreenContent = (
 
   return {
     form,
-    isLoading,
+    isLoading: mutation.isLoading,
     callingCode: CountryRepository.getInstance().getCallingCodeForCountryCode(
       form.phoneCountryCode,
     ),

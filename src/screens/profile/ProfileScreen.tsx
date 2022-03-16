@@ -14,14 +14,12 @@ import { ServerTimeoutError } from '../../core/errors'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
+import { useStatefulQuery } from '../newsDetail/useStatefulQuery.hook'
+import { useProfileQuery } from './useProfileQuery.hook'
 
 type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 
 const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<GetUserProfileInteractorResult>
-  >(ViewState.Loading())
-
   const ProfileDispatcher = (content: GetUserProfileInteractorResult) => {
     const openApplicationSettings = async () => {
       await Linking.openSettings()
@@ -52,36 +50,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
     )
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      const getProfileInteractor = new GetUserProfileInteractor()
-      const remoteDataFetch = (cacheJustLoaded: boolean = false) => {
-        getProfileInteractor
-          .execute('remote')
-          .then((result) => {
-            setStatefulState(ViewState.Content(result))
-          })
-          .catch((error) => {
-            const isNetworkError = error instanceof ServerTimeoutError
-            if (isNetworkError && cacheJustLoaded) {
-              return
-            }
-            setStatefulState(ViewStateUtils.networkError(error))
-          })
-      }
-
-      setStatefulState(ViewState.Loading())
-      getProfileInteractor
-        .execute('cache')
-        .then((cachedProfile) => {
-          setStatefulState(ViewState.Content(cachedProfile))
-          remoteDataFetch(true)
-        })
-        .catch(() => {
-          remoteDataFetch()
-        })
-    }, []),
-  )
+  const { statefulState } = useProfileQuery()
 
   useEffect(() => {
     navigation.setOptions({
