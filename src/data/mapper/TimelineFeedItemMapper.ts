@@ -31,13 +31,10 @@ const mapBase = (restItem: RestTimelineFeedItem): TimelineFeedBase => {
 
 const logWarning = (
   property: keyof RestTimelineFeedItem,
-  severity: 'warning' | 'critical',
   item: RestTimelineFeedItem,
 ) => {
   ErrorMonitor.log(
-    `[TimelineFeed] ${
-      severity === 'warning' ? 'Warning' : 'Critical'
-    }, missing property ${property} for item ${item.type}`,
+    `[TimelineFeed] Critical, missing property ${property} for item ${item.type}`,
     { item },
   )
 }
@@ -45,9 +42,6 @@ const logWarning = (
 const mapNews = (
   restItem: RestTimelineFeedItem,
 ): TimelineFeedItem | undefined => {
-  if (restItem.is_local === null) {
-    logWarning('is_local', 'warning', restItem)
-  }
   const value: TimelineFeedItemNews = {
     ...mapBase(restItem),
     author: mapNullToUndefined(restItem.author, id),
@@ -63,15 +57,12 @@ const mapEvent = (
   restItem: RestTimelineFeedItem,
 ): TimelineFeedItem | undefined => {
   if (restItem.begin_at === null) {
-    logWarning('begin_at', 'critical', restItem)
+    logWarning('begin_at', restItem)
     return undefined
   }
   if (restItem.finish_at === null) {
-    logWarning('finish_at', 'critical', restItem)
+    logWarning('finish_at', restItem)
     return undefined
-  }
-  if (restItem.category === null) {
-    logWarning('category', 'warning', restItem)
   }
   const value: TimelineFeedItemEvent = {
     ...mapBase(restItem),
@@ -91,11 +82,8 @@ const mapRetaliation = (
   restItem: RestTimelineFeedItem,
 ): TimelineFeedItem | undefined => {
   if (restItem.url === null) {
-    logWarning('url', 'critical', restItem)
+    logWarning('url', restItem)
     return undefined
-  }
-  if (restItem.media_type === null) {
-    logWarning('media_type', 'warning', restItem)
   }
   const value: TimelineFeedItemRetaliation = {
     ...mapBase(restItem),
@@ -111,9 +99,6 @@ const mapRetaliation = (
 const mapActionCampaign = (
   restItem: RestTimelineFeedItem,
 ): TimelineFeedItemActionCampaign | undefined => {
-  if (restItem.category === null) {
-    logWarning('image', 'warning', restItem)
-  }
   return {
     ...mapBase(restItem),
     imageUri: mapNullToUndefined(restItem.image, id),
