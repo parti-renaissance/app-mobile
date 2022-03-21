@@ -3,6 +3,7 @@ import { LinkingOptions } from '@react-navigation/native'
 import { AuthenticatedRootNavigatorParamList } from '../authenticatedRoot/AuthenticatedRootNavigatorParamList'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { Linking } from 'react-native'
+import { BUNDLE_ID } from '../../Config'
 
 const PREFIX = 'https://avecvous.fr/app/'
 
@@ -41,7 +42,7 @@ const subscribe = (
 }
 
 export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> = {
-  prefixes: [PREFIX],
+  prefixes: [PREFIX, BUNDLE_ID + '://'],
   getInitialURL,
   subscribe,
   config: {
