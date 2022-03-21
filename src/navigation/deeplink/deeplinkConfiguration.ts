@@ -52,6 +52,11 @@ export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorPar
           NewsDetail: 'news/:newsId',
         },
       },
+      PhoningSessionModal: {
+        screens: {
+          PhoningSessionLoader: 'phoning-campaigns/:campaignId',
+        },
+      },
     },
   },
 }

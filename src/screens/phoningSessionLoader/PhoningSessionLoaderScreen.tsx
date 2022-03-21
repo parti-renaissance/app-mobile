@@ -26,6 +26,11 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
 }) => {
   usePreventGoingBack()
 
+  // (Pierre Felgines) 2022/03/21 We need to pass optional parameters because deeplink
+  // will redirect to this screen only with campaignId parameter
+  const campaignTitle = route.params.campaignTitle ?? ''
+  const device = route.params.device ?? 'current'
+
   const [statefulState, setStatefulState] = useState<ViewState<void>>(
     ViewState.Loading(),
   )
@@ -37,12 +42,12 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     ) => {
       const navigationData = {
         campaignId: route.params.campaignId,
-        campaignTitle: route.params.campaignTitle,
+        campaignTitle,
         sessionId: session.id,
         adherent: adherent,
-        device: route.params.device,
+        device,
       }
-      switch (route.params.device) {
+      switch (device) {
         case 'current':
           navigation.replace('PhoningSessionNumberFound', {
             data: navigationData,
@@ -90,12 +95,7 @@ const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenPr
     }
 
     loadSession()
-  }, [
-    route.params.campaignId,
-    route.params.campaignTitle,
-    route.params.device,
-    navigation,
-  ])
+  }, [route.params.campaignId, campaignTitle, device, navigation])
 
   return (
     <SafeAreaView style={styles.container}>
