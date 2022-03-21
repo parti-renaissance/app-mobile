@@ -195,8 +195,8 @@
       },
       "event": { "section": "Prochain événement" },
       "retaliation": {
-        "retaliate_button": "Copier le texte et riposter",
-        "see_more": "Détail de la riposte"
+        "retaliate_button": "Voir la publication",
+        "see_more": "Détail de l'action"
       },
       "feed": {
         "section": "Dernières nouveautés",
@@ -398,12 +398,12 @@
       "success": { "title": "Et un de plus, bravo ! " }
     },
     "retaliations": {
-      "title": "Riposte active",
-      "empty": "Aucune riposte disponible actuellement"
+      "title": "Actions numériques",
+      "empty": "Aucune action disponible actuellement"
     },
     "retaliation": {
-      "title": "Riposte",
-      "execute": "Copier le texte et riposter"
+      "title": "Action numérique",
+      "execute": "Voir la publication"
     },
     "building": {
       "open_address": {
@@ -490,7 +490,7 @@
       "polls": { "title": "Questionnaires" },
       "door_to_door": { "title": "Porte-à-porte" },
       "phoning": { "title": "Phoning" },
-      "retaliation": "Ripostes"
+      "retaliation": "Actions numériques"
     },
     "doorToDoor": {
       "title": "Porte-à-porte",
