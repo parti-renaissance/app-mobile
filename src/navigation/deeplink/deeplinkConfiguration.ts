@@ -47,6 +47,16 @@ export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorPar
   config: {
     initialRouteName: 'TabBarNavigator',
     screens: {
+      TabBarNavigator: {
+        screens: {
+          ActionsNavigator: {
+            initialRouteName: 'Actions',
+            screens: {
+              RetaliationDetail: 'ripostes/:retaliationId',
+            },
+          },
+        },
+      },
       NewsDetailModal: {
         screens: {
           NewsDetail: 'news/:newsId',
