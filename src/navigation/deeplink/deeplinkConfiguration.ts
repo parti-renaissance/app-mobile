@@ -54,6 +54,13 @@ export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorPar
             initialRouteName: 'Actions',
             screens: {
               RetaliationDetail: 'ripostes/:retaliationId',
+              DoorToDoor: 'pap-campaigns/:campaignId',
+            },
+          },
+          EventNavigator: {
+            initialRouteName: 'Events',
+            screens: {
+              EventDetails: 'events/:eventId',
             },
           },
         },
@@ -66,6 +73,11 @@ export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorPar
       PhoningSessionModal: {
         screens: {
           PhoningSessionLoader: 'phoning-campaigns/:campaignId',
+        },
+      },
+      PollDetailModal: {
+        screens: {
+          PollDetail: 'surveys/:pollId',
         },
       },
     },
