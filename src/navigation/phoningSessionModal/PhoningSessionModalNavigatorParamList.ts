@@ -7,8 +7,8 @@ import {
 export type PhoningSessionModalNavigatorParamList = {
   PhoningSessionLoader: {
     campaignId: string
-    campaignTitle: string
-    device: PhoningSessionDevice
+    campaignTitle?: string
+    device?: PhoningSessionDevice
   }
   PhoningSessionLoaderPermanentCampaign: {
     campaignId: string

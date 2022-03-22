@@ -24,6 +24,7 @@ import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import { ErrorMonitor } from './src/utils/ErrorMonitor'
 import { SendDoorToDoorPollAnswersJobWorker } from './src/workers/SendDoorToDoorPollAnswsersJobWorker'
+import { deeplinkConfiguration } from './src/navigation/deeplink/deeplinkConfiguration'
 
 declare var global: { HermesInternal: null | {} }
 
@@ -83,6 +84,7 @@ const App = () => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName
         }}
+        linking={deeplinkConfiguration}
       >
         <I18nextProvider i18n={i18n}>
           <Navigator />

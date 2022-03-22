@@ -1,0 +1,3 @@
+<resources>
+    <string name="firebase_dynamic_link_domain">{{{RN_FIREBASE_DYNAMIC_LINK_DOMAIN}}}</string>
+</resources>

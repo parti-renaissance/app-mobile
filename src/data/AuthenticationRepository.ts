@@ -4,7 +4,7 @@ import OAuthApiService from './network/OAuthApiService'
 import { RestLoginResponse } from './restObjects/RestLoginResponse'
 import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
-import iid from '@react-native-firebase/iid'
+import installations from '@react-native-firebase/installations'
 import PushRepository from './PushRepository'
 import CacheManager from './store/CacheManager'
 import { ErrorMonitor } from '../utils/ErrorMonitor'
@@ -83,8 +83,8 @@ class AuthenticationRepository {
     }
   }
 
-  public getDeviceId(): Promise<string> {
-    return iid().get()
+  public async getDeviceId(): Promise<string> {
+    return installations().getId()
   }
 
   private mapCredentials(result: RestLoginResponse): Credentials {
