@@ -122,6 +122,7 @@ function prepare(environment) {
   readEnv(environment)
   const env = getEnv()
   p(paths.configTemplate, paths.config, env)
+  prepareAndroidResource(env)
   prepareXCConfig(env)
 }
 
@@ -130,6 +131,10 @@ function prepareXCConfig(env) {
   appendEnv(env, paths.xcconfig)
   fs.outputFileSync(paths.xcconfigDebug, xcconfigInclude('debug'))
   appendEnv(env, paths.xcconfigDebug)
+}
+
+function prepareAndroidResource(env) {
+  p(paths.androidResourceTemplate, paths.androidResource, env)
 }
 
 function xcconfigInclude(configuration) {
