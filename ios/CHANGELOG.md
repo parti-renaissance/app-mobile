@@ -1,6 +1,9 @@
-# v3.8.1
+# v3.9.0-RC1
 
-## Fixed
+## Added
 
-- Small wording fixes
-- Remove verbose warnings on timeline feed
+- Add Firebase dynamic links
+
+## Updated
+
+- Bump firebase libraries

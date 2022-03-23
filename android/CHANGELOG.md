@@ -1,5 +1,9 @@
-# v3.8.1
+# v3.9.0-RC1
 
-## Fixed
+## Added
 
-- Small wording fixes
+- Add Firebase dynamic links
+
+## Updated
+
+- Bump firebase libraries
