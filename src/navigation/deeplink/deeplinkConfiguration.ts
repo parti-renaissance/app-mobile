@@ -4,6 +4,7 @@ import { AuthenticatedRootNavigatorParamList } from '../authenticatedRoot/Authen
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { Linking } from 'react-native'
 import { BUNDLE_ID } from '../../Config'
+import { PushNotification } from '../../utils/PushNotification'
 
 const PREFIX = 'https://avecvous.fr/app/'
 
@@ -16,6 +17,13 @@ const getInitialURL = async (): Promise<string | null | undefined> => {
       return initialLink.url
     }
   }
+
+  const pushUrl = await PushNotification.getInitialDeeplinkUrl()
+  if (pushUrl) {
+    console.log('[Deeplink] Get initial link  push', pushUrl)
+    return pushUrl
+  }
+
   const url = await Linking.getInitialURL()
   if (url) {
     console.log('[Deeplink] Get initial url', url)
@@ -35,8 +43,14 @@ const subscribe = (
     listener(url)
   })
 
+  const unsubscribeNotification = PushNotification.observeDeeplinkUrl((url) => {
+    console.log('[Deeplink] Got url from push notification', url)
+    listener(url)
+  })
+
   return () => {
     unsubscribeFirebase()
+    unsubscribeNotification()
     linkingSubscribption.remove()
   }
 }
