@@ -16,13 +16,15 @@ const registerMessageHandlers = () => {
   })
 }
 
-const createLocalNotificationInForegroundIfNeeded = (
+const createLocalNotificationInForegroundIfNeeded = async (
   message: FirebaseMessagingTypes.RemoteMessage,
 ) => {
+  const deeplinkUrl = await resolveDeeplinkUrlFromFCMMessage(message)
   // We need to present a local notification when we are in foreground
   LocalNotificationCenter.post({
     title: message.notification?.title,
     body: message.notification?.body ?? '',
+    deeplinkUrl,
   })
 }
 
@@ -67,11 +69,20 @@ export const PushNotification = {
     return await resolveDeeplinkUrlFromFCMMessage(message)
   },
   observeDeeplinkUrl: (observer: (url: string) => void): (() => void) => {
-    return messaging().onNotificationOpenedApp(async (message) => {
-      const url = await resolveDeeplinkUrlFromFCMMessage(message)
-      if (url) {
-        observer(url)
-      }
-    })
+    const unsubscribeBackgroundObserver = messaging().onNotificationOpenedApp(
+      async (message) => {
+        const url = await resolveDeeplinkUrlFromFCMMessage(message)
+        if (url) {
+          observer(url)
+        }
+      },
+    )
+    const unsubscribeForegroundObserver = LocalNotificationCenter.observeDeeplinkUrl(
+      observer,
+    )
+    return () => {
+      unsubscribeBackgroundObserver()
+      unsubscribeForegroundObserver()
+    }
   },
 }
