@@ -1748,10 +1748,10 @@
   dependencies:
     prop-types "^15.5.10"
 
-"@react-native-community/checkbox@0.5.9":
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.5.9.tgz#73e1fa91b0cbb4d1eaaa75a57844435a51c22290"
-  integrity sha512-2y/MW8zwXgzRN6fApZbYov3xKkR4vyWSOPo69OWSfa5emTbtKpSl7BY9xlKgu2pzGlLg5EyE8yogp0U7vFk+sQ==
+"@react-native-community/checkbox@0.5.11":
+  version "0.5.11"
+  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.5.11.tgz#58f0a840660c1638738dc59669b8fcdfb61debf2"
+  integrity sha512-VkZ6w+q3rIWUPTNw2yRlr/4Kz0EStVNXABs3ht9xKrDwt8jaglavo61JzAnjPEurCwV34nCfjIXNthMfAptnEQ==
 
 "@react-native-community/cli-debugger-ui@^6.0.0-rc.0":
   version "6.0.0-rc.0"
