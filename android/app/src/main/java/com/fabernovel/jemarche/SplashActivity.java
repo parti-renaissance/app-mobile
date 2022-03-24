@@ -13,6 +13,14 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = new Intent(this, MainActivity.class);
+
+        // Pass along FCM messages/notifications etc
+        // (cf https://github.com/invertase/react-native-firebase/issues/3469#issuecomment-614990736)
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
+
         startActivity(intent);
         finish();
     }

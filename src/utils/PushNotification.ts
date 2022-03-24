@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { LocalNotificationCenter } from '../data/LocalNotificationCenter'
 
 const registerMessageHandlers = () => {
@@ -25,6 +26,24 @@ const createLocalNotificationInForegroundIfNeeded = (
   })
 }
 
+const resolveDeeplinkUrlFromFCMMessage = async (
+  message: FirebaseMessagingTypes.RemoteMessage | null,
+): Promise<string | undefined> => {
+  if (message === null) {
+    return undefined
+  }
+  const notificationUrl: string | undefined = message?.data?.['deeplink']
+  if (notificationUrl) {
+    try {
+      const { url } = await dynamicLinks().resolveLink(notificationUrl)
+      return url
+    } catch (error) {
+      console.log('Failed to resolve dynamic link', notificationUrl, error)
+    }
+  }
+  return undefined
+}
+
 export const PushNotification = {
   requestPermission: async (): Promise<boolean> => {
     const authStatus = await messaging().requestPermission({
@@ -42,5 +61,17 @@ export const PushNotification = {
   },
   setUp: () => {
     registerMessageHandlers()
+  },
+  getInitialDeeplinkUrl: async (): Promise<string | undefined> => {
+    const message = await messaging().getInitialNotification()
+    return await resolveDeeplinkUrlFromFCMMessage(message)
+  },
+  observeDeeplinkUrl: (observer: (url: string) => void): (() => void) => {
+    return messaging().onNotificationOpenedApp(async (message) => {
+      const url = await resolveDeeplinkUrlFromFCMMessage(message)
+      if (url) {
+        observer(url)
+      }
+    })
   },
 }
