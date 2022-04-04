@@ -56,12 +56,6 @@ function prepareAndroidLocalFiles() {
       'android/fastlane/.env.production',
     )
   }
-  if (process.env.ANDROID_B64_GRADLE_PROPERTIES) {
-    copyBase64File(
-      process.env.ANDROID_B64_GRADLE_PROPERTIES,
-      'android/local.secret.properties',
-    )
-  }
 }
 
 function prepareIosLocalFiles() {

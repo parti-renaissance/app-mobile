@@ -1,10 +1,10 @@
 import React, { FC, useLayoutEffect } from 'react'
-import { SafeAreaView, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'
-import { GOOGLE_PLACES_API_KEY } from '../../Config'
+import { IOS_GOOGLE_API_KEY, ANDROID_GOOGLE_API_KEY } from '../../Config'
 import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
 import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
 
@@ -33,7 +33,10 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
         fetchDetails={true}
         onPress={(_, details) => onPlaceSelected(details)}
         query={{
-          key: GOOGLE_PLACES_API_KEY,
+          key: Platform.select({
+            ios: IOS_GOOGLE_API_KEY,
+            android: ANDROID_GOOGLE_API_KEY,
+          }),
           language: i18n.t('personalinformation.gmaps_language'),
         }}
         textInputProps={{

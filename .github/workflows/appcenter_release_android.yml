@@ -56,7 +56,6 @@ jobs:
           ANDROID_B64_RELEASE_KEYSTORE: ${{ secrets.ANDROID_B64_RELEASE_KEYSTORE }}
           ANDROID_B64_FASTFILE_ENV_STAGING: ${{ secrets.ANDROID_B64_FASTFILE_ENV_STAGING }}
           ANDROID_B64_FASTFILE_ENV_PRODUCTION: ${{ secrets.ANDROID_B64_FASTFILE_ENV_PRODUCTION }}
-          ANDROID_B64_GRADLE_PROPERTIES: ${{ secrets.ANDROID_B64_GRADLE_PROPERTIES }}
           RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
           RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
         run: ./cli.js prepare ${{ github.event.inputs.environment }}

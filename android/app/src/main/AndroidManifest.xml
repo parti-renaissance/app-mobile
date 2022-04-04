@@ -64,7 +64,7 @@
             />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${androidMapAPIKey}"
+            android:value="@string/mobile_google_api_key"
             />
 
         <!-- Used for react-native-maps -->
