@@ -134,7 +134,7 @@
     "shelljs": "0.8.5",
     "tmp": "0.2.1",
     "typescript": "4.5.4",
-    "yargs": "17.0.1"
+    "yargs": "17.4.0"
   },
   "jest": {
     "preset": "react-native",
