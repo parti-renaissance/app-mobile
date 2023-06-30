@@ -8080,10 +8080,12 @@ react-native-swiper@1.6.0:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-tab-view@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz#1f8d7a835ab4f5b1b1407ec8dddc1053b53fa3c6"
-  integrity sha512-M5pRN6utQfytKWoKlKVzg5NbkYu308qNoW1khGTtEOTs1k14p2dHJ/BWOJoJYHKbPVUyZldbG9MFT7gUl4YHnw==
+react-native-tab-view@3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.5.2.tgz#2789b8af6148b16835869566bf13dc3b0e6c1b46"
+  integrity sha512-nE5WqjbeEPsWQx4mtz81QGVvgHRhujTNIIZiMCx3Bj6CBFDafbk7XZp9ocmtzXUQaZ4bhtVS43R4FIiR4LboJw==
+  dependencies:
+    use-latest-callback "^0.1.5"
 
 react-native-uuid@2.0.1:
   version "2.0.1"
@@ -9415,6 +9417,11 @@ use-debounce@6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-6.0.1.tgz#ed1eb2b30189408fb9792ea2887f4c6c3cb401a3"
   integrity sha512-kpvIxpa0vOLz/2I2sfNJ72mUeaT2CMNCu5BT1f2HkV9qZK27UVSOFf1sSSu+wjJE4TcR2VTXS2SM569+m3TN7Q==
+
+use-latest-callback@^0.1.5:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/use-latest-callback/-/use-latest-callback-0.1.6.tgz#3fa6e7babbb5f9bfa24b5094b22939e1e92ebcf6"
+  integrity sha512-VO/P91A/PmKH9bcN9a7O3duSuxe6M14ZoYXgA6a8dab8doWNdhiIHzEkX/jFeTTRBsX0Ubk6nG4q2NIjNsj+bg==
 
 use-subscription@^1.0.0:
   version "1.5.1"
