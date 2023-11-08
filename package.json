@@ -13,7 +13,7 @@
     "pod:install": "cd ios && bundle exec pod install && cd ..",
     "preflight": "yarn tsc && yarn eslint && yarn deplint",
     "run:android": "react-native run-android --variant=stagingDebug --appId fr.en_marche.jecoute.staging",
-    "run:ios": "react-native run-ios --simulator \"iPhone Xs\"",
+    "run:ios": "react-native run-ios --simulator \"iPhone 14\"",
     "simulator": "open -a Simulator",
     "start": "react-native start",
     "tsc": "tsc --build",
