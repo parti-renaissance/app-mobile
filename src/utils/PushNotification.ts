@@ -34,7 +34,7 @@ const resolveDeeplinkUrlFromFCMMessage = async (
   if (message === null) {
     return undefined
   }
-  const notificationUrl: string | undefined = message?.data?.['deeplink']
+  const notificationUrl = message?.data?.['deeplink'] as string | undefined
   if (notificationUrl) {
     try {
       const { url } = await dynamicLinks().resolveLink(notificationUrl)
