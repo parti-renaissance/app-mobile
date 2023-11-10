@@ -82,6 +82,16 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    flavorDimensions "environment"
+    productFlavors {
+        staging {
+            dimension "environment"
+            applicationIdSuffix '.staging'
+        }
+        production {
+            dimension "environment"
+        }
+    }
     signingConfigs {
         debug {
             storeFile file('keystores/debug.keystore')
@@ -89,17 +99,42 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('keystores/release.keystore')
+            storePassword System.getenv('ANDROID_PASSWORD_RELEASE_KEYSTORE')
+            keyAlias 'enmarche'
+            keyPassword System.getenv('ANDROID_PASSWORD_RELEASE_KEYSTORE')
+        }
     }
+
     buildTypes {
-        debug {
+      debug {
+            signingConfig signingConfigs.debug
+        }
+        // We should name this "distrib", but the RN plugin is looking for the "release" keyword
+        // in order to package everything correctly.
+        // https://github.com/facebook/react-native/blob/e083f9a139b3f8c5552528f8f8018529ef3193b9/react.gradle#L79
+        releaseDistrib {
+            initWith release
+            matchingFallbacks = ['release']
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // https://developer.android.com/studio/build/configure-apk-splits.html
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def abi = output.getFilter(com.android.build.OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
+
         }
     }
 }
