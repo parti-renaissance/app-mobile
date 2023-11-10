@@ -7,6 +7,7 @@ import {
   View,
   Image,
 } from 'react-native'
+import ImageBackgroundFallback from '../../shared/ImageBackgroundFallback'
 import LinearGradient from 'react-native-linear-gradient'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
@@ -35,7 +36,7 @@ export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
 }) => {
   return (
     <CardView backgroundColor={Colors.defaultBackground}>
-      <ImageBackground source={{ uri: viewModel.imageUri }} resizeMode="cover">
+      <ImageBackgroundFallback source={{ uri: viewModel.imageUri }} resizeMode="cover">
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
@@ -46,7 +47,7 @@ export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
             {i18n.t('home.feed.action.campaign.heading')}
           </Text>
         </LinearGradient>
-      </ImageBackground>
+      </ImageBackgroundFallback>
       <View style={styles.bottomContainer}>
         <View style={styles.row}>
           <Image style={styles.icon} source={icon} />
