@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import Markdown from 'react-native-markdown-display'
+import Markdown from '@ronradtke/react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { Colors, Spacing, Styles, Typography } from '../../styles'

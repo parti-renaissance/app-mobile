@@ -5,7 +5,7 @@ import React, {
   useState,
 } from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
-import Markdown from 'react-native-markdown-display'
+import Markdown from '@ronradtke/react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { Colors, Spacing, Typography } from '../../styles'

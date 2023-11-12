@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
-import Markdown from 'react-native-markdown-display'
+import Markdown from '@ronradtke/react-native-markdown-display'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
 import { StatefulView } from '../../../shared/StatefulView'
