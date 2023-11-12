@@ -15,6 +15,12 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		957329AEE1461420DB13A933 /* Pods_JeMarche.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 241D42B4DA7E377C7D26F028 /* Pods_JeMarche.framework */; };
 		C86566312AFD570600EBDFAD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C86566302AFD570600EBDFAD /* GoogleService-Info.plist */; };
+		CAE736A2BCEF4110B97A9F79 /* Maax-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C78A3BA7FD74D34840CD5DA /* Maax-Bold.ttf */; };
+		34B6EC9AC3E042B7A1994C01 /* Maax-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9426F827AF46C3A8254402 /* Maax-Medium.ttf */; };
+		3A7AA76440AD4D5E9658E27B /* Maax-Mediumitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6FD5BF1DEEB84D64AAF46294 /* Maax-Mediumitalic.ttf */; };
+		33EE3977CE5542F3AF81D3E3 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B7373998D214BEC90332994 /* Roboto-Italic.ttf */; };
+		7AA74035708B419CA539C838 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA1DB504E183412095A86F3A /* Roboto-Medium.ttf */; };
+		D4A6C184E5D340FAA674CD81 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C05C7717681F4E7B864F2BC1 /* Roboto-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +53,12 @@
 		C86566302AFD570600EBDFAD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E30190C1F1F4F1CFC848C672 /* Pods_JeMarche_JeMarcheTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JeMarche_JeMarcheTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		8C78A3BA7FD74D34840CD5DA /* Maax-Bold.ttf */ = {isa = PBXFileReference; name = "Maax-Bold.ttf"; path = "../src/assets/fonts/Maax-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5F9426F827AF46C3A8254402 /* Maax-Medium.ttf */ = {isa = PBXFileReference; name = "Maax-Medium.ttf"; path = "../src/assets/fonts/Maax-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6FD5BF1DEEB84D64AAF46294 /* Maax-Mediumitalic.ttf */ = {isa = PBXFileReference; name = "Maax-Mediumitalic.ttf"; path = "../src/assets/fonts/Maax-Mediumitalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4B7373998D214BEC90332994 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AA1DB504E183412095A86F3A /* Roboto-Medium.ttf */ = {isa = PBXFileReference; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C05C7717681F4E7B864F2BC1 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../src/assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +139,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				D7D3637A1A944E058A220283 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -152,6 +165,20 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		D7D3637A1A944E058A220283 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				8C78A3BA7FD74D34840CD5DA /* Maax-Bold.ttf */,
+				5F9426F827AF46C3A8254402 /* Maax-Medium.ttf */,
+				6FD5BF1DEEB84D64AAF46294 /* Maax-Mediumitalic.ttf */,
+				4B7373998D214BEC90332994 /* Roboto-Italic.ttf */,
+				AA1DB504E183412095A86F3A /* Roboto-Medium.ttf */,
+				C05C7717681F4E7B864F2BC1 /* Roboto-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -251,6 +278,12 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C86566312AFD570600EBDFAD /* GoogleService-Info.plist in Resources */,
+				CAE736A2BCEF4110B97A9F79 /* Maax-Bold.ttf in Resources */,
+				34B6EC9AC3E042B7A1994C01 /* Maax-Medium.ttf in Resources */,
+				3A7AA76440AD4D5E9658E27B /* Maax-Mediumitalic.ttf in Resources */,
+				33EE3977CE5542F3AF81D3E3 /* Roboto-Italic.ttf in Resources */,
+				7AA74035708B419CA539C838 /* Roboto-Medium.ttf in Resources */,
+				D4A6C184E5D340FAA674CD81 /* Roboto-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,10 +665,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -713,10 +743,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
