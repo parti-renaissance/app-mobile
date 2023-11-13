@@ -63,6 +63,8 @@ export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorPar
       TabBarNavigator: {
         screens: {
           ActionsNavigator: {
+            // TODO: Fix type
+            // @ts-ignore
             initialRouteName: "Actions",
             screens: {
               RetaliationDetail: "ripostes/:retaliationId",
@@ -70,6 +72,8 @@ export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorPar
             },
           },
           EventNavigator: {
+            // TODO: Fix type
+            // @ts-ignore
             initialRouteName: "Events",
             screens: {
               EventDetails: "events/:eventId",
