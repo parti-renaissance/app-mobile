@@ -280,6 +280,7 @@ GEM
 
 PLATFORMS
   universal-darwin-22
+  x86_64-darwin-1
 
 DEPENDENCIES
   ccios (~> 4.0)
