@@ -42,9 +42,12 @@ type IconProps = Readonly<{
 type BaseButtonProps = Readonly<{
   backgroundColor: string;
   textColor: string;
+  children: React.ComponentProps<typeof TouchablePlatform>["children"];
 }>;
 
-const BaseButton: FunctionComponent<ButtonProps & BaseButtonProps & IconProps> = (props) => {
+const BaseButton: FunctionComponent<
+  ButtonProps & BaseButtonProps & IconProps & { children: any }
+> = (props) => {
   const opacity = props.disabled ? 0.5 : 1.0;
   const defaultBackground = props.backgroundColor;
   const disabledBackground = ColorUtils.lighten(defaultBackground, 0.7);
