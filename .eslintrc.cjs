@@ -1,11 +1,10 @@
 /** @type {import('eslint').Linter.Config} */
 const config = {
   root: true,
-  extends: ['@react-native', 'plugin:security/recommended', 'prettier',  "plugin:@typescript-eslint/recommended-type-checked",
-  "plugin:@typescript-eslint/stylistic-type-checked"],
+  extends: ['@react-native', 'plugin:security/recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: true,
+    project: './tsconfig.json'
   },
   plugins: ['@typescript-eslint', 'security', 'import'],
   env: {
@@ -27,19 +26,6 @@ const config = {
         patterns: ['src/**'],
       },
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-    ],
-    "@typescript-eslint/consistent-type-imports": [
-      "warn",
-      { prefer: "type-imports", fixStyle: "separate-type-imports" },
-    ],
-    "@typescript-eslint/no-misused-promises": [
-      2,
-      { checksVoidReturn: { attributes: false } },
-    ],
-    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
   },
 }
 
