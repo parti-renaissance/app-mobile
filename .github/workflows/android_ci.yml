@@ -13,6 +13,7 @@ jobs:
         working-directory: ./android
     container:
       image: docker://fabernovel/android:api-33-v1.7.0
+      options: --user 1001
       volumes:
         - /github/home/.ssh:/root/.ssh
     env:
