@@ -1,21 +1,14 @@
-import React, { FunctionComponent } from 'react'
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  ImageSourcePropType,
-  ColorValue,
-} from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
-import { VerticalSpacer } from '../../shared/Spacer'
+import React, { FunctionComponent } from "react";
+import { ColorValue, Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../../styles";
+import { VerticalSpacer } from "../../shared/Spacer";
 
 type Props = Readonly<{
-  children?: React.ReactNode
-  title: string
-  imageSource: ImageSourcePropType
-  tintColor: ColorValue
-}>
+  children?: React.ReactNode;
+  title: string;
+  imageSource: ImageSourcePropType;
+  tintColor: ColorValue;
+}>;
 
 export const HomeFeedTimelineItem: FunctionComponent<Props> = ({
   children,
@@ -37,15 +30,15 @@ export const HomeFeedTimelineItem: FunctionComponent<Props> = ({
         <View>{children}</View>
       </View>
     </View>
-  )
-}
+  );
+};
 
-const ICON_CONTAINER_SIZE = 36
-const LINE_WIDTH = 2
+const ICON_CONTAINER_SIZE = 36;
+const LINE_WIDTH = 2;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   title: {
     ...Typography.title3,
@@ -55,7 +48,7 @@ const styles = StyleSheet.create({
   verticalLine: {
     width: 2,
     backgroundColor: Colors.separator,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: Spacing.margin + ICON_CONTAINER_SIZE / 2 - LINE_WIDTH / 2,
@@ -65,12 +58,12 @@ const styles = StyleSheet.create({
     height: ICON_CONTAINER_SIZE,
     borderRadius: ICON_CONTAINER_SIZE / 2,
     marginStart: Spacing.margin,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   rightContainer: {
     flex: 1,
     paddingHorizontal: Spacing.margin,
     paddingBottom: Spacing.margin,
   },
-})
+});

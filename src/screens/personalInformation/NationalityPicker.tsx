@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
-import { StyleSheet, TouchableWithoutFeedback, Text } from 'react-native'
-import { Colors, Typography } from '../../styles'
+import React, { FC } from "react";
+import { StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import { Colors, Typography } from "../../styles";
 
 type Props = Readonly<{
-  onPress: () => void
-  country: string
-}>
+  onPress: () => void;
+  country: string;
+}>;
 
 export const NationalityPicker: FC<Props> = ({ country, onPress }) => {
   return (
@@ -14,13 +14,13 @@ export const NationalityPicker: FC<Props> = ({ country, onPress }) => {
         {country}
       </Text>
     </TouchableWithoutFeedback>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   text: {
-    textAlign: 'right',
+    textAlign: "right",
     ...Typography.body,
     color: Colors.darkText,
   },
-})
+});

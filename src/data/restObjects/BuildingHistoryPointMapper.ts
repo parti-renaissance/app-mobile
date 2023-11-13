@@ -1,5 +1,5 @@
-import { RestBuildingHistoryPoint } from './RestBuildingHistoryPoint'
-import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
+import { BuildingHistoryPoint } from "../../core/entities/BuildingHistory";
+import { RestBuildingHistoryPoint } from "./RestBuildingHistoryPoint";
 
 export const BuildingHistoryPointMapper = {
   map: (restObject: RestBuildingHistoryPoint): BuildingHistoryPoint => {
@@ -10,6 +10,6 @@ export const BuildingHistoryPointMapper = {
       door: restObject.door,
       createdAt: new Date(restObject.created_at),
       status: restObject.status_label,
-    }
+    };
   },
-}
+};

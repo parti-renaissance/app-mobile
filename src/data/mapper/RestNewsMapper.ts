@@ -1,9 +1,9 @@
-import { News } from '../../core/entities/News'
-import { RestNews } from '../restObjects/RestNewsResponse'
+import { News } from "../../core/entities/News";
+import { RestNews } from "../restObjects/RestNewsResponse";
 
 const ifNotEmpty = (value: string | null): string | undefined => {
-  return value !== null && value.length > 0 ? value : undefined
-}
+  return value !== null && value.length > 0 ? value : undefined;
+};
 
 export const RestNewsMapper = {
   map: (restNews: RestNews): News => {
@@ -17,6 +17,6 @@ export const RestNewsMapper = {
       linkLabel: ifNotEmpty(restNews.link_label),
       visibility: restNews.visibility,
       creator: ifNotEmpty(restNews.creator),
-    }
+    };
   },
-}
+};

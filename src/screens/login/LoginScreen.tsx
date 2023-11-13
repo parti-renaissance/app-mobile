@@ -1,39 +1,35 @@
-import React, { FC, useRef, useState } from 'react'
-import { StatusBar, StyleSheet, Text, TextInput } from 'react-native'
-import i18n from '../../utils/i18n'
-import { LoginError } from '../../core/errors'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
-import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
-import LabelTextInput from '../shared/LabelTextInput'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import { LoginInteractor } from '../../core/interactor/LoginInteractor'
-import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
+import React, { FC, useRef, useState } from "react";
+import { StatusBar, StyleSheet, Text, TextInput } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import { LoginError } from "../../core/errors";
+import { LoginInteractor } from "../../core/interactor/LoginInteractor";
+import { OnboardingNavigatorScreenProps } from "../../navigation/onboarding/OnboardingNavigatorScreenProps";
+import { Colors, Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { BorderlessButton, PrimaryButton } from "../shared/Buttons";
+import { GenericErrorMapper } from "../shared/ErrorMapper";
+import LabelTextInput from "../shared/LabelTextInput";
+import LoadingOverlay from "../shared/LoadingOverlay";
 
-type LoginScreenProps = OnboardingNavigatorScreenProps<'Login'>
+type LoginScreenProps = OnboardingNavigatorScreenProps<"Login">;
 
 const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [isLoading, setLoading] = useState(false)
-  const [emailErrorMessage, setEmailErrorMessage] = useState<
-    string | undefined
-  >(undefined)
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState<
-    string | undefined
-  >(undefined)
-  const passwordInputRef = useRef<TextInput>(null)
+  const [isLoading, setLoading] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string | undefined>(undefined);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string | undefined>(undefined);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const isLoginEnabled = (): boolean => {
-    return email.length > 0 && password.length > 0
-  }
+    return email.length > 0 && password.length > 0;
+  };
 
   const onFormSubmitted = () => {
-    setLoading(true)
-    setEmailErrorMessage(undefined)
-    setPasswordErrorMessage(undefined)
+    setLoading(true);
+    setEmailErrorMessage(undefined);
+    setPasswordErrorMessage(undefined);
     new LoginInteractor()
       .login(email, password)
       .then(() => {
@@ -41,82 +37,82 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
       })
       .catch((exception) => {
         if (exception instanceof LoginError) {
-          setPasswordErrorMessage(exception.message)
+          setPasswordErrorMessage(exception.message);
         } else {
-          setPasswordErrorMessage(GenericErrorMapper.mapErrorMessage(exception))
+          setPasswordErrorMessage(GenericErrorMapper.mapErrorMessage(exception));
         }
-        setEmailErrorMessage('')
-        console.log('user authentication failure')
+        setEmailErrorMessage("");
+        console.log("user authentication failure");
       })
       .finally(() => {
-        setLoading(false)
-      })
-  }
+        setLoading(false);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <LoadingOverlay visible={isLoading} />
-      <Text style={styles.title}>{i18n.t('login.title')}</Text>
+      <Text style={styles.title}>{i18n.t("login.title")}</Text>
       <LabelTextInput
         style={styles.input}
-        label={i18n.t('login.email')}
+        label={i18n.t("login.email")}
         errorMessage={emailErrorMessage}
         textInputProps={{
-          placeholder: i18n.t('login.email_placeholder'),
+          placeholder: i18n.t("login.email_placeholder"),
           placeholderTextColor: Colors.lightText,
-          keyboardType: 'email-address',
-          textContentType: 'emailAddress',
-          autoCapitalize: 'none',
+          keyboardType: "email-address",
+          textContentType: "emailAddress",
+          autoCapitalize: "none",
           autoCorrect: false,
-          returnKeyType: 'next',
+          returnKeyType: "next",
           autoFocus: true,
-          autoComplete: 'email',
+          autoComplete: "email",
           onChangeText: (text) => {
-            setEmail(text)
+            setEmail(text);
           },
           onSubmitEditing: () => {
-            passwordInputRef.current?.focus()
+            passwordInputRef.current?.focus();
           },
         }}
       />
       <LabelTextInput
         ref={passwordInputRef}
         style={styles.input}
-        label={i18n.t('login.password')}
+        label={i18n.t("login.password")}
         errorMessage={passwordErrorMessage}
         textInputProps={{
-          placeholder: i18n.t('login.password_placeholder'),
+          placeholder: i18n.t("login.password_placeholder"),
           placeholderTextColor: Colors.lightText,
-          textContentType: 'password',
-          autoCapitalize: 'none',
+          textContentType: "password",
+          autoCapitalize: "none",
           autoCorrect: false,
           secureTextEntry: true,
           onChangeText: (text) => {
-            setPassword(text)
+            setPassword(text);
           },
-          returnKeyType: 'done',
+          returnKeyType: "done",
         }}
       />
       <PrimaryButton
         disabled={!isLoginEnabled()}
         style={styles.submitButton}
-        title={i18n.t('login.login')}
+        title={i18n.t("login.login")}
         onPress={onFormSubmitted}
       />
       <BorderlessButton
         style={styles.passwordLostButton}
-        title={i18n.t('login.password_lost')}
+        title={i18n.t("login.password_lost")}
         onPress={() => {
-          navigation.navigate('ForgottenPasswordModal', {
-            screen: 'ForgottenPassword',
+          navigation.navigate("ForgottenPasswordModal", {
+            screen: "ForgottenPassword",
             params: { email },
-          })
+          });
         }}
       />
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -146,6 +142,6 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.unit,
   },
-})
+});
 
-export default LoginScreen
+export default LoginScreen;

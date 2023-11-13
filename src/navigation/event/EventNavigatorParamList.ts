@@ -1,6 +1,6 @@
-import { EventMode } from '../../core/entities/Event'
+import { EventMode } from "../../core/entities/Event";
 
 export type EventNavigatorParamList = {
-  Events: { eventMode?: EventMode } | undefined
-  EventDetails: { eventId: string }
-}
+  Events: { eventMode?: EventMode } | undefined;
+  EventDetails: { eventId: string };
+};

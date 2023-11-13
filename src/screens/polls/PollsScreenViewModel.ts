@@ -1,7 +1,7 @@
-import { PollRowViewModel } from './PollRowViewModel'
-import { PollsHeaderViewModel } from './PollsHeaderViewModel'
+import { PollRowViewModel } from "./PollRowViewModel";
+import { PollsHeaderViewModel } from "./PollsHeaderViewModel";
 
 export interface PollsScreenViewModel {
-  header: PollsHeaderViewModel
-  rows: Array<PollRowViewModel>
+  header: PollsHeaderViewModel;
+  rows: Array<PollRowViewModel>;
 }

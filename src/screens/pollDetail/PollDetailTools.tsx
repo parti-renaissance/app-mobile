@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
-import { Tool } from '../../core/entities/Tool'
-import ToolsRepository from '../../data/ToolsRepository'
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { ExternalLink } from '../shared/ExternalLink'
-import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import PollDetailToolRow from './PollDetailToolRow'
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Tool } from "../../core/entities/Tool";
+import ToolsRepository from "../../data/ToolsRepository";
+import { Colors, Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { ExternalLink } from "../shared/ExternalLink";
+import { StatefulView } from "../shared/StatefulView";
+import { ViewState } from "../shared/ViewState";
+import { ViewStateUtils } from "../shared/ViewStateUtils";
+import PollDetailToolRow from "./PollDetailToolRow";
 
 const Separator = () => {
-  return <View style={styles.separator} />
-}
+  return <View style={styles.separator} />;
+};
 
 const PollDetailTools = () => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<ReadonlyArray<Tool>>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<ReadonlyArray<Tool>>>(
+    ViewState.Loading(),
+  );
 
   const fetch = () => {
-    setStatefulState(ViewState.Loading())
+    setStatefulState(ViewState.Loading());
     ToolsRepository.getInstance()
       .getTools()
       .then((tools) => {
-        console.log(tools)
-        setStatefulState(ViewState.Content(tools.result))
+        console.log(tools);
+        setStatefulState(ViewState.Content(tools.result));
       })
       .catch((error) => {
-        setStatefulState(ViewStateUtils.networkError(error, fetch))
-      })
-  }
+        setStatefulState(ViewStateUtils.networkError(error, fetch));
+      });
+  };
 
-  useEffect(fetch, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(fetch, []);
 
   return (
     <StatefulView
@@ -40,7 +41,7 @@ const PollDetailTools = () => {
       contentComponent={(tools) => {
         return (
           <View style={styles.container}>
-            <Text style={styles.title}>{i18n.t('tools.title')}</Text>
+            <Text style={styles.title}>{i18n.t("tools.title")}</Text>
             <FlatList
               style={styles.list}
               bounces={false}
@@ -55,11 +56,11 @@ const PollDetailTools = () => {
               )}
             />
           </View>
-        )
+        );
       }}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -78,6 +79,6 @@ const styles = StyleSheet.create({
     ...Typography.title,
     marginBottom: Spacing.margin,
   },
-})
+});
 
-export default PollDetailTools
+export default PollDetailTools;

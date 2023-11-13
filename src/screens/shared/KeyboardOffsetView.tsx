@@ -1,47 +1,43 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import {
   InteractionManager,
   KeyboardAvoidingView,
   Platform,
+  StyleProp,
   StyleSheet,
   View,
-  StyleProp,
   ViewStyle,
-} from 'react-native'
+} from "react-native";
 
 type Props = Readonly<{
-  children: any
-  style?: StyleProp<ViewStyle>
-}>
+  children: any;
+  style?: StyleProp<ViewStyle>;
+}>;
 
 const KeyboardOffsetView: FunctionComponent<Props> = (props) => {
-  const containerViewRef = useRef<View>(null)
-  const [offset, setOffset] = useState(0)
+  const containerViewRef = useRef<View>(null);
+  const [offset, setOffset] = useState(0);
 
   const measureOffset = () => {
     if (offset > 0) {
-      return
+      return;
     }
     containerViewRef.current?.measure((_fx, _fy, _width, _height, _px, py) => {
-      setOffset(py)
-    })
-  }
+      setOffset(py);
+    });
+  };
 
   useEffect(() => {
-    if (Platform.OS === 'android') {
-      return
+    if (Platform.OS === "android") {
+      return;
     }
     // wait for modal animation to finish
-    InteractionManager.runAfterInteractions(measureOffset)
-  })
+    InteractionManager.runAfterInteractions(measureOffset);
+  });
 
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === "ios") {
     return (
-      <View
-        style={[styles.container, props.style]}
-        ref={containerViewRef}
-        collapsable={false}
-      >
+      <View style={[styles.container, props.style]} ref={containerViewRef} collapsable={false}>
         <KeyboardAvoidingView
           behavior="padding"
           keyboardVerticalOffset={offset}
@@ -50,7 +46,7 @@ const KeyboardOffsetView: FunctionComponent<Props> = (props) => {
           {props.children}
         </KeyboardAvoidingView>
       </View>
-    )
+    );
   } else {
     // (Pierre Felgines) 20/11/2020 On Android we do not need KeyboardAvoidingView as
     // the settings `android:windowSoftInputMode="adjustResize"` in AndroidManifest.xml
@@ -59,9 +55,9 @@ const KeyboardOffsetView: FunctionComponent<Props> = (props) => {
       <View style={[styles.container, props.style]} ref={containerViewRef}>
         {props.children}
       </View>
-    )
+    );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +66,6 @@ const styles = StyleSheet.create({
   keyboardAvoidingView: {
     flex: 1,
   },
-})
+});
 
-export default KeyboardOffsetView
+export default KeyboardOffsetView;

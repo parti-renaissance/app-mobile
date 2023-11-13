@@ -1,19 +1,16 @@
-import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import CardView from '../shared/CardView'
-import { RetaliationPostCardViewModel } from './RetaliationPostCardViewModel'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import CardView from "../shared/CardView";
+import { RetaliationPostCardViewModel } from "./RetaliationPostCardViewModel";
 
 type Props = Readonly<{
-  viewModel: RetaliationPostCardViewModel
-}>
+  viewModel: RetaliationPostCardViewModel;
+}>;
 
 const RetaliationPostCard: FunctionComponent<Props> = ({ viewModel }) => {
   return (
-    <CardView
-      style={styles.cardView}
-      backgroundColor={Colors.defaultBackground}
-    >
+    <CardView style={styles.cardView} backgroundColor={Colors.defaultBackground}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Image source={viewModel.socialIcon} />
@@ -25,8 +22,8 @@ const RetaliationPostCard: FunctionComponent<Props> = ({ viewModel }) => {
         ) : null}
       </View>
     </CardView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   body: {
@@ -41,18 +38,18 @@ const styles = StyleSheet.create({
   },
   image: {
     aspectRatio: 258 / 145,
-    resizeMode: 'cover',
-    width: '100%',
+    resizeMode: "cover",
+    width: "100%",
   },
   title: {
     ...Typography.title2,
     marginLeft: Spacing.unit,
   },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: Spacing.margin,
   },
-})
+});
 
-export default RetaliationPostCard
+export default RetaliationPostCard;

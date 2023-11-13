@@ -1,16 +1,16 @@
-import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
-import { Spacing, Typography } from '../../styles'
-import QuestionChoiceRow from './QuestionChoiceRow'
-import { PollDetailQuestionChoiceViewModel } from './PollDetailQuestionChoiceViewModel'
-import { QuestionChoiceRowViewModel } from './QuestionChoiceRowViewModel'
+import React, { FunctionComponent } from "react";
+import { FlatList, ListRenderItemInfo, StyleSheet, Text } from "react-native";
+import { Spacing, Typography } from "../../styles";
+import { PollDetailQuestionChoiceViewModel } from "./PollDetailQuestionChoiceViewModel";
+import QuestionChoiceRow from "./QuestionChoiceRow";
+import { QuestionChoiceRowViewModel } from "./QuestionChoiceRowViewModel";
 
 type Props = Readonly<{
-  viewModel: PollDetailQuestionChoiceViewModel
-  toggleChoice?: (choiceId: string) => void
-  columns?: number
-  choiceRadius?: number
-}>
+  viewModel: PollDetailQuestionChoiceViewModel;
+  toggleChoice?: (choiceId: string) => void;
+  columns?: number;
+  choiceRadius?: number;
+}>;
 
 const PollDetailQuestionChoice: FunctionComponent<Props> = ({
   viewModel,
@@ -18,30 +18,26 @@ const PollDetailQuestionChoice: FunctionComponent<Props> = ({
   columns = 1,
   choiceRadius = 40,
 }) => {
-  const styles = stylesFactory(columns, choiceRadius)
+  const styles = stylesFactory(columns, choiceRadius);
 
-  const renderItem = ({
-    item,
-  }: ListRenderItemInfo<QuestionChoiceRowViewModel>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<QuestionChoiceRowViewModel>) => {
     return (
       <QuestionChoiceRow
         style={styles.choice}
         viewModel={item}
         onPress={() => toggleChoice?.(item.id)}
       />
-    )
-  }
+    );
+  };
 
   const QuestionChoiceHeader = () => {
     return (
       <>
         <Text style={styles.title}>{viewModel.title}</Text>
-        {viewModel.subtitle ? (
-          <Text style={styles.callout}>{viewModel.subtitle}</Text>
-        ) : null}
+        {viewModel.subtitle ? <Text style={styles.callout}>{viewModel.subtitle}</Text> : null}
       </>
-    )
-  }
+    );
+  };
 
   return (
     <FlatList
@@ -54,8 +50,8 @@ const PollDetailQuestionChoice: FunctionComponent<Props> = ({
       ListHeaderComponent={<QuestionChoiceHeader />}
       numColumns={columns}
     />
-  )
-}
+  );
+};
 
 const stylesFactory = (columns: number, choiceRadius: number) => {
   return StyleSheet.create({
@@ -81,7 +77,7 @@ const stylesFactory = (columns: number, choiceRadius: number) => {
       marginBottom: Spacing.unit,
       marginHorizontal: Spacing.margin,
     },
-  })
-}
+  });
+};
 
-export default PollDetailQuestionChoice
+export default PollDetailQuestionChoice;

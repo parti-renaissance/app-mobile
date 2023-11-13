@@ -1,21 +1,21 @@
-import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, View, Platform } from 'react-native'
-import { Spacing, Typography } from '../../styles'
-import { PollDetailQuestionInputViewModel } from './PollDetailQuestionInputViewModel'
-import KeyboardOffsetView from '../shared/KeyboardOffsetView'
-import { ScrollView } from 'react-native-gesture-handler'
-import PollDetailQuestionInputContent from './PollDetailQuestionInputContent'
+import React, { FunctionComponent } from "react";
+import { Platform, StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { Spacing, Typography } from "../../styles";
+import KeyboardOffsetView from "../shared/KeyboardOffsetView";
+import PollDetailQuestionInputContent from "./PollDetailQuestionInputContent";
+import { PollDetailQuestionInputViewModel } from "./PollDetailQuestionInputViewModel";
 
 type PollDetailQuestionInputProps = Readonly<{
-  viewModel: PollDetailQuestionInputViewModel
-  onChangeText: (text: string) => void
-}>
+  viewModel: PollDetailQuestionInputViewModel;
+  onChangeText: (text: string) => void;
+}>;
 
 const PollDetailQuestionInput: FunctionComponent<PollDetailQuestionInputProps> = ({
   viewModel,
   onChangeText,
 }) => {
-  if (Platform.OS === 'android') {
+  if (Platform.OS === "android") {
     return (
       <KeyboardOffsetView>
         <ScrollView>
@@ -30,7 +30,7 @@ const PollDetailQuestionInput: FunctionComponent<PollDetailQuestionInputProps> =
           </View>
         </ScrollView>
       </KeyboardOffsetView>
-    )
+    );
   } else {
     return (
       <KeyboardOffsetView style={styles.container}>
@@ -42,9 +42,9 @@ const PollDetailQuestionInput: FunctionComponent<PollDetailQuestionInputProps> =
           />
         </>
       </KeyboardOffsetView>
-    )
+    );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     ...Typography.headline,
     marginBottom: Spacing.largeMargin,
   },
-})
+});
 
-export default PollDetailQuestionInput
+export default PollDetailQuestionInput;

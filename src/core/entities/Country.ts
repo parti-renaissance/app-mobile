@@ -1,4 +1,4 @@
 export interface Country {
-  code: string
-  callingCode: string
+  code: string;
+  callingCode: string;
 }

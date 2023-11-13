@@ -1,57 +1,38 @@
-import React, { FC } from 'react'
-import {
-  Text,
-  StyleSheet,
-  FlatList,
-  ListRenderItemInfo,
-  RefreshControl,
-} from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { StatefulView } from '../shared/StatefulView'
-import { useRetaliationsScreen } from './useRetaliationsScreen.hook'
-import HomeRetaliationCard from './RetaliationListCard'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
-import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
+import React, { FC } from "react";
+import { FlatList, ListRenderItemInfo, RefreshControl, StyleSheet, Text } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import { ActionsNavigatorScreenProps } from "../../navigation/actions/ActionsNavigatorScreenProps";
+import { Colors, Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { StatefulView } from "../shared/StatefulView";
+import HomeRetaliationCard from "./RetaliationListCard";
+import { RetaliationListCardViewModel } from "./RetaliationListCardViewModel";
+import { useRetaliationsScreen } from "./useRetaliationsScreen.hook";
 
-type RetaliationsScreenProps = ActionsNavigatorScreenProps<'Retaliations'>
+type RetaliationsScreenProps = ActionsNavigatorScreenProps<"Retaliations">;
 
 export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
-  const {
-    statefulState,
-    isRefreshing,
-    onRefresh,
-    onRetaliateSelected,
-    onRetaliationSelected,
-  } = useRetaliationsScreen()
+  const { statefulState, isRefreshing, onRefresh, onRetaliateSelected, onRetaliationSelected } =
+    useRetaliationsScreen();
 
-  const renderItem = ({
-    item,
-  }: ListRenderItemInfo<RetaliationListCardViewModel>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<RetaliationListCardViewModel>) => {
     return (
       <HomeRetaliationCard
         viewModel={item}
         onRetaliateSelected={onRetaliateSelected}
         onRetaliationSelected={onRetaliationSelected}
       />
-    )
-  }
+    );
+  };
 
-  const RetaliationsContent = (
-    content: Array<RetaliationListCardViewModel>,
-  ) => {
+  const RetaliationsContent = (content: Array<RetaliationListCardViewModel>) => {
     return (
       <FlatList
         contentContainerStyle={styles.contentContainer}
         data={content}
         keyExtractor={(item) => item.title}
-        ListHeaderComponent={
-          <Text style={styles.title}>{i18n.t('retaliations.title')}</Text>
-        }
-        ListEmptyComponent={
-          <Text style={styles.empty}>{i18n.t('retaliations.empty')}</Text>
-        }
+        ListHeaderComponent={<Text style={styles.title}>{i18n.t("retaliations.title")}</Text>}
+        ListEmptyComponent={<Text style={styles.empty}>{i18n.t("retaliations.empty")}</Text>}
         renderItem={renderItem}
         refreshControl={
           <RefreshControl
@@ -61,18 +42,15 @@ export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
           />
         }
       />
-    )
-  }
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatefulView
-        state={statefulState}
-        contentComponent={RetaliationsContent}
-      />
+      <StatefulView state={statefulState} contentComponent={RetaliationsContent} />
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -92,4 +70,4 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.mediumMargin,
     marginTop: Spacing.margin,
   },
-})
+});

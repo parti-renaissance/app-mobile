@@ -1,44 +1,42 @@
-import { Interest } from '../core/entities/Interest'
-import { Notification } from '../core/entities/Notification'
-import { SignUpFormData } from '../core/entities/SignUpFormData'
-import { ConfigurationMapper } from './mapper/ConfigurationMapper'
-import { RestSignUpRequestMapper } from './mapper/RestSignUpRequestMapper'
-import ApiService from './network/ApiService'
+import { Interest } from "../core/entities/Interest";
+import { Notification } from "../core/entities/Notification";
+import { SignUpFormData } from "../core/entities/SignUpFormData";
+import { ConfigurationMapper } from "./mapper/ConfigurationMapper";
+import { RestSignUpRequestMapper } from "./mapper/RestSignUpRequestMapper";
+import ApiService from "./network/ApiService";
 import {
   RestUpdateCentersOfInterestRequest,
   RestUpdateSubscriptionsRequest,
-} from './restObjects/RestUpdateProfileRequest'
+} from "./restObjects/RestUpdateProfileRequest";
 
 class PersonalInformationRepository {
-  private static instance: PersonalInformationRepository
-  private apiService = ApiService.getInstance()
+  private static instance: PersonalInformationRepository;
+  private apiService = ApiService.getInstance();
   public static getInstance(): PersonalInformationRepository {
     if (!PersonalInformationRepository.instance) {
-      PersonalInformationRepository.instance = new PersonalInformationRepository()
+      PersonalInformationRepository.instance = new PersonalInformationRepository();
     }
-    return PersonalInformationRepository.instance
+    return PersonalInformationRepository.instance;
   }
 
   public async signUp(formData: SignUpFormData): Promise<void> {
-    const request = RestSignUpRequestMapper.map(formData)
-    await this.apiService.signUp(request)
+    const request = RestSignUpRequestMapper.map(formData);
+    await this.apiService.signUp(request);
   }
 
   public async resetPassword(email: string): Promise<void> {
-    const request = { email_address: email }
-    await this.apiService.resetPassword(request)
+    const request = { email_address: email };
+    await this.apiService.resetPassword(request);
   }
 
   public async getAvailableCentersOfInterest(): Promise<Array<Interest>> {
-    const configurations = await this.apiService.getProfileAvailableConfiguration()
-    return configurations.interests.map(ConfigurationMapper.mapInterest)
+    const configurations = await this.apiService.getProfileAvailableConfiguration();
+    return configurations.interests.map(ConfigurationMapper.mapInterest);
   }
 
   public async getAvailableNotifications(): Promise<Array<Notification>> {
-    const configurations = await this.apiService.getProfileAvailableConfiguration()
-    return configurations.subscription_types.map(
-      ConfigurationMapper.mapSubscriptions,
-    )
+    const configurations = await this.apiService.getProfileAvailableConfiguration();
+    return configurations.subscription_types.map(ConfigurationMapper.mapSubscriptions);
   }
 
   public async updateCentersOfInterest(
@@ -47,8 +45,8 @@ class PersonalInformationRepository {
   ): Promise<void> {
     const request: RestUpdateCentersOfInterestRequest = {
       interests: interests,
-    }
-    await this.apiService.updateCentersOfInterest(profileUuid, request)
+    };
+    await this.apiService.updateCentersOfInterest(profileUuid, request);
   }
 
   public async updateSubscriptions(
@@ -57,9 +55,9 @@ class PersonalInformationRepository {
   ): Promise<void> {
     const request: RestUpdateSubscriptionsRequest = {
       subscription_types: subscriptions,
-    }
-    await this.apiService.updateSubscriptions(profileUuid, request)
+    };
+    await this.apiService.updateSubscriptions(profileUuid, request);
   }
 }
 
-export default PersonalInformationRepository
+export default PersonalInformationRepository;

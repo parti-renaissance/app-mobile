@@ -1,8 +1,8 @@
-import DoorToDoorRepository from '../../data/DoorToDoorRepository'
-import { DoorToDoorAddress } from '../entities/DoorToDoor'
+import DoorToDoorRepository from "../../data/DoorToDoorRepository";
+import { DoorToDoorAddress } from "../entities/DoorToDoor";
 
 export class GetDoorToDoorAddressesInteractor {
-  private repository = DoorToDoorRepository.getInstance()
+  private repository = DoorToDoorRepository.getInstance();
 
   public async execute(
     latitude: number,
@@ -15,20 +15,20 @@ export class GetDoorToDoorAddressesInteractor {
       longitude,
       latitudeDelta,
       longitudeDelta,
-    )
-    const campaignIds = new Set<string>()
+    );
+    const campaignIds = new Set<string>();
     addresses.forEach((address) => {
-      const campaign = address.building.campaignStatistics
+      const campaign = address.building.campaignStatistics;
       if (campaign) {
-        campaignIds.add(campaign.campaignId)
+        campaignIds.add(campaign.campaignId);
       }
-    })
+    });
     campaignIds.forEach(async (id) => {
-      await this.repository.getCampaign(id, 'remote')
-      await this.repository.getDoorToDoorCampaignRanking(id, 'remote')
-      await this.repository.getDoorToDoorPollConfig(id, 'remote')
-      await this.repository.getDoorToDoorPoll(id, 'remote')
-    })
-    return addresses
+      await this.repository.getCampaign(id, "remote");
+      await this.repository.getDoorToDoorCampaignRanking(id, "remote");
+      await this.repository.getDoorToDoorPollConfig(id, "remote");
+      await this.repository.getDoorToDoorPoll(id, "remote");
+    });
+    return addresses;
   }
 }

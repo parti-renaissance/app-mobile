@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import TagView from '../shared/TagView'
-import { VerticalSpacer } from '../shared/Spacer'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import { NewsRowViewModel } from './NewsRowViewModel'
+import React, { FunctionComponent } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import { VerticalSpacer } from "../shared/Spacer";
+import TagView from "../shared/TagView";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
+import { NewsRowViewModel } from "./NewsRowViewModel";
 
 type Props = Readonly<{
-  viewModel: NewsRowViewModel
-  onPress: () => void
-}>
+  viewModel: NewsRowViewModel;
+  onPress: () => void;
+}>;
 
 const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
   return (
@@ -19,20 +19,18 @@ const NewsRow: FunctionComponent<Props> = ({ viewModel, onPress }) => {
         <VerticalSpacer spacing={Spacing.unit} />
         <Text style={styles.title}>{viewModel.title}</Text>
         <VerticalSpacer spacing={Spacing.unit} />
-        {viewModel.author !== undefined && (
-          <Text style={styles.caption}>{viewModel.author}</Text>
-        )}
+        {viewModel.author !== undefined && <Text style={styles.caption}>{viewModel.author}</Text>}
         <Text style={styles.caption}>{viewModel.date}</Text>
       </View>
     </TouchablePlatform>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: Spacing.margin,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   caption: {
     ...Typography.body,
@@ -46,6 +44,6 @@ const styles = StyleSheet.create({
     ...Typography.title2,
     color: Colors.titleText,
   },
-})
+});
 
-export default NewsRow
+export default NewsRow;

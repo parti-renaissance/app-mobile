@@ -1,5 +1,5 @@
-import { HeaderInfos } from '../../core/entities/HeaderInfos'
-import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
+import { HeaderInfos } from "../../core/entities/HeaderInfos";
+import { RestHeaderInfos } from "../restObjects/RestHeaderInfos";
 
 export const HeaderInfosMapper = {
   map: (restHeader: RestHeaderInfos): HeaderInfos => {
@@ -7,8 +7,7 @@ export const HeaderInfosMapper = {
       prefix: restHeader.prefix,
       slogan: restHeader.slogan,
       content: restHeader.content,
-      imageUri:
-        restHeader.image_url !== null ? restHeader.image_url : undefined,
-    }
+      imageUri: restHeader.image_url !== null ? restHeader.image_url : undefined,
+    };
   },
-}
+};

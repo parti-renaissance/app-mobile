@@ -1,27 +1,27 @@
-import React, { FunctionComponent } from 'react'
-import { View, StyleSheet, Image, ViewStyle } from 'react-native'
-import { Colors } from '../../styles'
-import { margin } from '../../styles/spacing'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import BuildingActionTitleView from './BuildingActionTitleView'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, View, ViewStyle } from "react-native";
+import { Colors } from "../../styles";
+import { margin } from "../../styles/spacing";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
+import BuildingActionTitleView from "./BuildingActionTitleView";
 
 export interface BuildingLayoutFloorCellViewModel {
-  id: string
-  floorNumber: number
-  buildingBlock: string
-  title: string
-  subtitle: string
-  isCompleted: boolean
-  removable: boolean
+  id: string;
+  floorNumber: number;
+  buildingBlock: string;
+  title: string;
+  subtitle: string;
+  isCompleted: boolean;
+  removable: boolean;
 }
 
 type Props = Readonly<{
-  viewModel: BuildingLayoutFloorCellViewModel
-  style: ViewStyle
-  canRemove: boolean
-  onSelect: (buildingBlock: string, floor: number) => void
-  onRemoveBuildingFloor: (floor: number) => void
-}>
+  viewModel: BuildingLayoutFloorCellViewModel;
+  style: ViewStyle;
+  canRemove: boolean;
+  onSelect: (buildingBlock: string, floor: number) => void;
+  onRemoveBuildingFloor: (floor: number) => void;
+}>;
 
 const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
   viewModel,
@@ -36,25 +36,22 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
         <TouchablePlatform
           style={styles.button}
           onPress={() => {
-            onSelect(viewModel.buildingBlock, viewModel.floorNumber)
+            onSelect(viewModel.buildingBlock, viewModel.floorNumber);
           }}
           touchHighlight={Colors.touchHighlight}
         >
-          <Image
-            style={styles.icon}
-            source={require('../../assets/images/arrow.png')}
-          />
+          <Image style={styles.icon} source={require("../../assets/images/arrow.png")} />
         </TouchablePlatform>
-      )
+      );
     } else {
       return (
         <View style={styles.buttonInvertedColors}>
           <Image
             style={styles.iconInvertedColors}
-            source={require('../../assets/images/checkIcon.png')}
+            source={require("../../assets/images/checkIcon.png")}
           />
         </View>
-      )
+      );
     }
   }
 
@@ -64,30 +61,30 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
         viewModel={{ title: viewModel.title, subtitle: viewModel.subtitle }}
         canRemove={canRemove}
         onRemoveBuildingFloor={() => {
-          onRemoveBuildingFloor(viewModel.floorNumber)
+          onRemoveBuildingFloor(viewModel.floorNumber);
         }}
       />
       {icon()}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: Colors.primaryColor,
     borderRadius: 16,
     height: 32,
-    justifyContent: 'center',
+    justifyContent: "center",
     margin: margin,
     width: 32,
   },
   buttonInvertedColors: {
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: Colors.defaultBackground,
     borderRadius: 16,
     height: 32,
-    justifyContent: 'center',
+    justifyContent: "center",
     margin: margin,
     width: 32,
   },
@@ -98,10 +95,10 @@ const styles = StyleSheet.create({
     tintColor: Colors.primaryColor,
   },
   layoutContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-})
+});
 
-export default BuildingLayoutFloorCell
+export default BuildingLayoutFloorCell;

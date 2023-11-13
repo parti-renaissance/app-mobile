@@ -1,6 +1,6 @@
-import { Region } from '../../core/entities/Region'
-import { RestRegion } from '../restObjects/RestRegion'
-import { CampaignMapper } from './CampaignMapper'
+import { Region } from "../../core/entities/Region";
+import { RestRegion } from "../restObjects/RestRegion";
+import { CampaignMapper } from "./CampaignMapper";
 
 export const RegionMapper = {
   map: (restRegion: RestRegion): Region => {
@@ -8,9 +8,7 @@ export const RegionMapper = {
       id: restRegion.uuid,
       name: restRegion.name,
       code: restRegion.code,
-      campaign: restRegion.campaign
-        ? CampaignMapper.map(restRegion.campaign)
-        : null,
-    }
+      campaign: restRegion.campaign ? CampaignMapper.map(restRegion.campaign) : null,
+    };
   },
-}
+};

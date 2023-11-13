@@ -1,61 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import { FunctionComponent } from 'react'
-import SplashScreen from 'react-native-splash-screen'
-import { AuthenticationState } from '../core/entities/AuthenticationState'
-import AuthenticationRepository from '../data/AuthenticationRepository'
-import { PushNotification } from '../utils/PushNotification'
-import { Analytics } from '../utils/Analytics'
-import PushRepository from '../data/PushRepository'
-import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
-import { AuthenticatedRootNavigator } from './authenticatedRoot/AuthenticatedRootNavigator'
-import { UnauthenticatedRootNavigator } from './unauthenticatedRoot/UnauthenticatedRootNavigator'
-import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
+import React, { FunctionComponent, useEffect, useState } from "react";
+import SplashScreen from "react-native-splash-screen";
+import { AuthenticationState } from "../core/entities/AuthenticationState";
+import { ApplicationUpgradeInteractor } from "../core/interactor/ApplicationUpgradeInteractor";
+import { IdentifyUserOnErrorMonitorInteractor } from "../core/interactor/IdentifyUserOnErrorMonitorInteractor";
+import AuthenticationRepository from "../data/AuthenticationRepository";
+import PushRepository from "../data/PushRepository";
+import { Analytics } from "../utils/Analytics";
+import { PushNotification } from "../utils/PushNotification";
+import { AuthenticatedRootNavigator } from "./authenticatedRoot/AuthenticatedRootNavigator";
+import { UnauthenticatedRootNavigator } from "./unauthenticatedRoot/UnauthenticatedRootNavigator";
 
-const authenticationRepository = AuthenticationRepository.getInstance()
+const authenticationRepository = AuthenticationRepository.getInstance();
 
 const Navigator: FunctionComponent = () => {
-  const [isLoggedIn, setLoggedIn] = useState<boolean | undefined>(undefined)
+  const [isLoggedIn, setLoggedIn] = useState<boolean | undefined>(undefined);
   authenticationRepository.stateListener = (state) => {
-    updateFromState(state)
-  }
+    updateFromState(state);
+  };
 
   const updateFromState = (authenticationState: AuthenticationState) => {
     if (authenticationState === AuthenticationState.Unauthenticated) {
-      Analytics.disable()
-      setLoggedIn(false)
+      Analytics.disable();
+      setLoggedIn(false);
     } else if (authenticationState === AuthenticationState.Anonymous) {
       // Only useful for users that migrate from old version where they were
       // logged in as anonymous users
-      Analytics.disable()
-      setLoggedIn(false)
-      authenticationRepository.logout()
+      Analytics.disable();
+      setLoggedIn(false);
+      authenticationRepository.logout();
     } else {
-      PushNotification.requestPermission()
-      Analytics.enable()
-      new IdentifyUserOnErrorMonitorInteractor().execute()
+      PushNotification.requestPermission();
+      Analytics.enable();
+      new IdentifyUserOnErrorMonitorInteractor().execute();
       PushRepository.getInstance()
         .synchronizeGeneralTopicSubscription()
         .catch((error) => {
-          console.log(error)
-        })
-      setLoggedIn(true)
+          console.log(error);
+        });
+      setLoggedIn(true);
     }
-    SplashScreen.hide()
-  }
+    SplashScreen.hide();
+  };
 
   useEffect(() => {
     new ApplicationUpgradeInteractor().execute().then(() => {
-      authenticationRepository.getAuthenticationState().then(updateFromState)
-    })
-  }, [])
+      authenticationRepository.getAuthenticationState().then(updateFromState);
+    });
+  }, []);
 
   if (isLoggedIn === undefined) {
-    return null
+    return null;
   } else if (isLoggedIn) {
-    return <AuthenticatedRootNavigator />
+    return <AuthenticatedRootNavigator />;
   } else {
-    return <UnauthenticatedRootNavigator />
+    return <UnauthenticatedRootNavigator />;
   }
-}
+};
 
-export default Navigator
+export default Navigator;

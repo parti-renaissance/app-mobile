@@ -1,25 +1,25 @@
-import React, { FC } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Colors, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import LabelInputContainer from './LabelInputContainer'
-import RNPickerSelect from 'react-native-picker-select'
-import { Gender } from '../../core/entities/UserProfile'
+import React, { FC } from "react";
+import { StyleSheet, View } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
+import { Gender } from "../../core/entities/UserProfile";
+import { Colors, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import LabelInputContainer from "./LabelInputContainer";
 
 type Props = Readonly<{
-  onValueChange: (value: Gender) => void
-  defaultValue?: Gender
-  errorMessage?: string
-  disabled?: boolean
-  multiline?: boolean
-}>
+  onValueChange: (value: Gender) => void;
+  defaultValue?: Gender;
+  errorMessage?: string;
+  disabled?: boolean;
+  multiline?: boolean;
+}>;
 
 const GenderPicker: FC<Props> = (props) => {
-  const textStyle = props.disabled ? styles.textDisabled : styles.textEnabled
-  const textAlignStyle = props.multiline ? styles.textLeft : styles.textRight
+  const textStyle = props.disabled ? styles.textDisabled : styles.textEnabled;
+  const textAlignStyle = props.multiline ? styles.textLeft : styles.textRight;
   return (
     <LabelInputContainer
-      label={i18n.t('personalinformation.gender')}
+      label={i18n.t("personalinformation.gender")}
       errorMessage={props.errorMessage}
       disabled={props.disabled}
       multiLine={props.multiline}
@@ -47,23 +47,23 @@ const GenderPicker: FC<Props> = (props) => {
         onValueChange={props.onValueChange}
         items={[
           {
-            label: i18n.t('personalinformation.gender_female'),
+            label: i18n.t("personalinformation.gender_female"),
             value: Gender.Female,
           },
           {
-            label: i18n.t('personalinformation.gender_male'),
+            label: i18n.t("personalinformation.gender_male"),
             value: Gender.Male,
           },
           {
-            label: i18n.t('personalinformation.gender_unknown'),
+            label: i18n.t("personalinformation.gender_unknown"),
             value: Gender.Other,
           },
         ]}
         disabled={props.disabled}
       />
     </LabelInputContainer>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   genderPickerAndroid: {
@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     color: Colors.darkText,
   },
   textLeft: {
-    textAlign: 'left',
+    textAlign: "left",
   },
   textRight: {
-    textAlign: 'right',
+    textAlign: "right",
   },
-})
+});
 
-export default GenderPicker
+export default GenderPicker;

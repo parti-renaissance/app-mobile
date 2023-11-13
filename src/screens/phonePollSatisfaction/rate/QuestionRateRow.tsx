@@ -1,17 +1,14 @@
-import React, { FunctionComponent } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
-import { QuestionRateRowViewModel } from './QuestionRateRowViewModel'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../../styles";
+import { QuestionRateRowViewModel } from "./QuestionRateRowViewModel";
 
 type Props = Readonly<{
-  viewModel: QuestionRateRowViewModel
-  onRateUpdate: (rate: number) => void
-}>
+  viewModel: QuestionRateRowViewModel;
+  onRateUpdate: (rate: number) => void;
+}>;
 
-const QuestionRateRow: FunctionComponent<Props> = ({
-  viewModel,
-  onRateUpdate,
-}) => {
+const QuestionRateRow: FunctionComponent<Props> = ({ viewModel, onRateUpdate }) => {
   return (
     <View>
       <Text style={styles.callout}>{viewModel.subtitle}</Text>
@@ -21,7 +18,7 @@ const QuestionRateRow: FunctionComponent<Props> = ({
             <TouchableOpacity
               key={item}
               onPress={() => {
-                onRateUpdate(viewModel.values[index as number])
+                onRateUpdate(viewModel.values[index as number]);
               }}
             >
               <Image
@@ -30,17 +27,17 @@ const QuestionRateRow: FunctionComponent<Props> = ({
                     ? [styles.starImageStyle, styles.starImageFilled]
                     : styles.starImageStyle
                 }
-                source={require('../../../assets/images/star.png')}
+                source={require("../../../assets/images/star.png")}
               />
             </TouchableOpacity>
-          )
+          );
         })}
       </View>
     </View>
-  )
-}
+  );
+};
 
-const STAR_SIZE = 45
+const STAR_SIZE = 45;
 
 const styles = StyleSheet.create({
   callout: {
@@ -48,8 +45,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.margin,
   },
   ratingBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   starImageFilled: {
     tintColor: Colors.primaryColor,
@@ -59,6 +56,6 @@ const styles = StyleSheet.create({
     tintColor: Colors.secondaryButtonBackground,
     width: STAR_SIZE,
   },
-})
+});
 
-export default QuestionRateRow
+export default QuestionRateRow;

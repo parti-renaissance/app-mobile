@@ -1,5 +1,5 @@
 export interface RestPhoningCharterResponse {
-  content: string | undefined
+  content: string | undefined;
 }
 
 export class RestPhoningCharterNotAccepted {
@@ -8,6 +8,4 @@ export class RestPhoningCharterNotAccepted {
 
 export class RestPhoningCharterAccepted {}
 
-export type RestPhoningCharter =
-  | RestPhoningCharterNotAccepted
-  | RestPhoningCharterAccepted
+export type RestPhoningCharter = RestPhoningCharterNotAccepted | RestPhoningCharterAccepted;

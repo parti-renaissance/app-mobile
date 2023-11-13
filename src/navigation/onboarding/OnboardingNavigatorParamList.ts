@@ -1,5 +1,5 @@
 export type OnboardingNavigatorParamList = {
-  Onboarding: undefined
-  Login: undefined
-  SignUp: undefined
-}
+  Onboarding: undefined;
+  Login: undefined;
+  SignUp: undefined;
+};

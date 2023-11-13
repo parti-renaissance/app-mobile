@@ -1,33 +1,33 @@
-import React, { FunctionComponent } from 'react'
-import { View, StyleSheet, Image } from 'react-native'
-import { Text } from 'react-native-paper'
-import { DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
-import { Colors, Spacing, Typography } from '../../styles'
-import { margin, unit } from '../../styles/spacing'
-import i18n from '../../utils/i18n'
-import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
-import CardView from '../shared/CardView'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
+import { DoorToDoorAddressStatus } from "../../core/entities/DoorToDoor";
+import { Colors, Spacing, Typography } from "../../styles";
+import { margin, unit } from "../../styles/spacing";
+import i18n from "../../utils/i18n";
+import { BorderlessButton, PrimaryButton } from "../shared/Buttons";
+import CardView from "../shared/CardView";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
 import BuildingLayoutBlockCardView, {
   BuildingLayoutBlockCardViewModel,
-} from './BuildingLayoutBlockCardView'
+} from "./BuildingLayoutBlockCardView";
 
 export interface BuildingLayoutViewModel {
-  buildings: BuildingLayoutBlockCardViewModel[]
-  buildingStatus: DoorToDoorAddressStatus
+  buildings: BuildingLayoutBlockCardViewModel[];
+  buildingStatus: DoorToDoorAddressStatus;
 }
 
 type Props = Readonly<{
-  viewModel: BuildingLayoutViewModel
-  onSelect: (buildingBlock: string, floor: number) => void
-  onAddBuildingBlock: () => void
-  onAddBuildingFloor: (buildingBlockId: string) => void
-  onRemoveBuildingBlock: (buildingBlockId: string) => void
-  onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
-  onBuildingAction: (buildingBlockId: string) => void
-  onOpenAddress: () => void
-  onCloseAddress: () => void
-}>
+  viewModel: BuildingLayoutViewModel;
+  onSelect: (buildingBlock: string, floor: number) => void;
+  onAddBuildingBlock: () => void;
+  onAddBuildingFloor: (buildingBlockId: string) => void;
+  onRemoveBuildingBlock: (buildingBlockId: string) => void;
+  onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void;
+  onBuildingAction: (buildingBlockId: string) => void;
+  onOpenAddress: () => void;
+  onCloseAddress: () => void;
+}>;
 
 const BuildingLayoutView: FunctionComponent<Props> = ({
   viewModel,
@@ -54,12 +54,12 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
             onRemoveBuildingFloor={onRemoveBuildingFloor}
             onBuildingAction={onBuildingAction}
           />
-        )
+        );
       })}
-      {viewModel.buildingStatus === 'completed' ? (
+      {viewModel.buildingStatus === "completed" ? (
         <BorderlessButton
           textStyle={styles.openAddress}
-          title={i18n.t('building.open_address.action')}
+          title={i18n.t("building.open_address.action")}
           onPress={onOpenAddress}
         />
       ) : (
@@ -68,46 +68,37 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
           <PrimaryButton
             style={styles.closeAddress}
             onPress={onCloseAddress}
-            title={i18n.t('building.close_address.action')}
-            disabled={viewModel.buildings.some(
-              (block) => block.status !== 'completed',
-            )}
+            title={i18n.t("building.close_address.action")}
+            disabled={viewModel.buildings.some((block) => block.status !== "completed")}
           />
         </>
       )}
     </View>
-  )
-}
+  );
+};
 
 type AddBuildingCardProps = Readonly<{
-  onAddBuildingBlock: () => void
-}>
+  onAddBuildingBlock: () => void;
+}>;
 
-const AddBuildingCard: FunctionComponent<AddBuildingCardProps> = ({
-  onAddBuildingBlock,
-}) => {
+const AddBuildingCard: FunctionComponent<AddBuildingCardProps> = ({ onAddBuildingBlock }) => {
   return (
-    <CardView
-      backgroundColor={Colors.defaultBackground}
-      style={styles.newBuildingCard}
-    >
+    <CardView backgroundColor={Colors.defaultBackground} style={styles.newBuildingCard}>
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
         onPress={() => onAddBuildingBlock()}
       >
         <View style={styles.newBuildingContainer}>
           <Image
-            source={require('../../assets/images/iconMore.png')}
+            source={require("../../assets/images/iconMore.png")}
             style={styles.newBuildingIcon}
           />
-          <Text style={styles.newBuildingText}>
-            {i18n.t('building.layout.add_building')}
-          </Text>
+          <Text style={styles.newBuildingText}>{i18n.t("building.layout.add_building")}</Text>
         </View>
       </TouchablePlatform>
     </CardView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   blockCard: {
@@ -125,10 +116,10 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.unit,
   },
   newBuildingContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     padding: Spacing.margin,
   },
   newBuildingIcon: {
@@ -143,6 +134,6 @@ const styles = StyleSheet.create({
     ...Typography.callout,
     color: Colors.primaryColor,
   },
-})
+});
 
-export default BuildingLayoutView
+export default BuildingLayoutView;

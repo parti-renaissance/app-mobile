@@ -1,4 +1,4 @@
 export default interface PaginationInfo {
-  currentPage: number
-  lastPage: number
+  currentPage: number;
+  lastPage: number;
 }

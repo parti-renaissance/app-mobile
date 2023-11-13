@@ -1,28 +1,27 @@
-import React, { FC, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native'
-
-import { Spacing, Typography } from '../../styles'
-import ProfilePollsCompleted from './ProfilePollsCompleted'
-import ProfileSettingsHeader from './ProfileSettingsHeader'
-import ProfileSettingsItem from './ProfileSettingsItem'
-import AuthenticationRepository from '../../data/AuthenticationRepository'
-import { BorderlessButton, SecondaryButton } from '../shared/Buttons'
-import i18n from '../../utils/i18n'
-import { ProfileScreenViewModel } from './ProfileScreenViewModel'
-import { versionLabel } from './version'
-import { ExternalLink } from '../shared/ExternalLink'
-import ProfileSettingsCard from './ProfileSettingsCard'
-import { RemoveAccountInteractor } from '../../core/interactor/RemoveAccountInteractor'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import { AlertUtils } from '../shared/AlertUtils'
+import React, { FC, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RemoveAccountInteractor } from "../../core/interactor/RemoveAccountInteractor";
+import AuthenticationRepository from "../../data/AuthenticationRepository";
+import { Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { AlertUtils } from "../shared/AlertUtils";
+import { BorderlessButton, SecondaryButton } from "../shared/Buttons";
+import { ExternalLink } from "../shared/ExternalLink";
+import LoadingOverlay from "../shared/LoadingOverlay";
+import ProfilePollsCompleted from "./ProfilePollsCompleted";
+import { ProfileScreenViewModel } from "./ProfileScreenViewModel";
+import ProfileSettingsCard from "./ProfileSettingsCard";
+import ProfileSettingsHeader from "./ProfileSettingsHeader";
+import ProfileSettingsItem from "./ProfileSettingsItem";
+import { versionLabel } from "./version";
 
 type Props = Readonly<{
-  openPersonalInformation: () => void
-  openCenterOfInterest: () => void
-  openApplicationSettings: () => void
-  openNotificationMenu: () => void
-  viewModel: ProfileScreenViewModel
-}>
+  openPersonalInformation: () => void;
+  openCenterOfInterest: () => void;
+  openApplicationSettings: () => void;
+  openNotificationMenu: () => void;
+  viewModel: ProfileScreenViewModel;
+}>;
 
 const ProfileAuthenticated: FC<Props> = ({
   openPersonalInformation,
@@ -31,37 +30,35 @@ const ProfileAuthenticated: FC<Props> = ({
   openNotificationMenu,
   viewModel,
 }) => {
-  const [isLoadingVisible, setIsLoadingVisible] = useState(false)
+  const [isLoadingVisible, setIsLoadingVisible] = useState(false);
 
   const logout = () => {
     AlertUtils.showDestructiveAlert(
-      i18n.t('profile.alert.logout.title'),
-      i18n.t('profile.alert.logout.text'),
-      i18n.t('profile.alert.logout.confirm'),
-      i18n.t('profile.alert.logout.cancel'),
+      i18n.t("profile.alert.logout.title"),
+      i18n.t("profile.alert.logout.text"),
+      i18n.t("profile.alert.logout.confirm"),
+      i18n.t("profile.alert.logout.cancel"),
       () => AuthenticationRepository.getInstance().logout(),
-    )
-  }
+    );
+  };
 
   const onRemoveAccountConfirmed = async () => {
-    setIsLoadingVisible(true)
+    setIsLoadingVisible(true);
     await new RemoveAccountInteractor()
       .execute()
-      .catch((error) =>
-        AlertUtils.showNetworkAlert(error, onRemoveAccountConfirmed),
-      )
-      .finally(() => setIsLoadingVisible(false))
-  }
+      .catch((error) => AlertUtils.showNetworkAlert(error, onRemoveAccountConfirmed))
+      .finally(() => setIsLoadingVisible(false));
+  };
 
   const removeAccount = () => {
     AlertUtils.showDestructiveAlert(
-      i18n.t('profile.alert.remove_account.title'),
-      i18n.t('profile.alert.remove_account.text'),
-      i18n.t('profile.alert.remove_account.confirm'),
-      i18n.t('profile.alert.remove_account.cancel'),
+      i18n.t("profile.alert.remove_account.title"),
+      i18n.t("profile.alert.remove_account.text"),
+      i18n.t("profile.alert.remove_account.confirm"),
+      i18n.t("profile.alert.remove_account.cancel"),
       onRemoveAccountConfirmed,
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -69,10 +66,10 @@ const ProfileAuthenticated: FC<Props> = ({
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.avatar}>
-            <Image source={require('../../assets/images/imageProfil.png')} />
+            <Image source={require("../../assets/images/imageProfil.png")} />
           </View>
           <View style={styles.title}>
-            <Text style={styles.titleText}>{viewModel.name ?? ''}</Text>
+            <Text style={styles.titleText}>{viewModel.name ?? ""}</Text>
           </View>
           <View style={styles.subtitleContainer}>
             <Text style={styles.subtitle}>{viewModel.region}</Text>
@@ -80,45 +77,43 @@ const ProfileAuthenticated: FC<Props> = ({
           </View>
           <ProfilePollsCompleted viewModel={viewModel.polls} />
         </View>
-        <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
+        <ProfileSettingsHeader title={i18n.t("profile.menu.account")} />
         <ProfileSettingsCard
           style={styles.settingsCard}
           viewModel={{
-            title: i18n.t('profile.menu.center_interest'),
-            description: i18n.t('profile.menu.center_interest_description'),
-            image: require('../../assets/images/imageCenterInterest.png'),
+            title: i18n.t("profile.menu.center_interest"),
+            description: i18n.t("profile.menu.center_interest_description"),
+            image: require("../../assets/images/imageCenterInterest.png"),
           }}
           onPress={openCenterOfInterest}
         />
         <ProfileSettingsCard
           style={styles.settingsCard}
           viewModel={{
-            title: i18n.t('profile.menu.personal_information'),
-            description: i18n.t(
-              'profile.menu.personal_information_description',
-            ),
-            image: require('../../assets/images/imageProfileInformations.png'),
+            title: i18n.t("profile.menu.personal_information"),
+            description: i18n.t("profile.menu.personal_information_description"),
+            image: require("../../assets/images/imageProfileInformations.png"),
           }}
           onPress={openPersonalInformation}
         />
         <ProfileSettingsCard
           style={styles.settingsCard}
           viewModel={{
-            title: i18n.t('profile.menu.notifications'),
-            description: i18n.t('profile.menu.notifications_description'),
-            image: require('../../assets/images/imageProfileNotifications.png'),
+            title: i18n.t("profile.menu.notifications"),
+            description: i18n.t("profile.menu.notifications_description"),
+            image: require("../../assets/images/imageProfileNotifications.png"),
           }}
           onPress={openNotificationMenu}
         />
-        <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
+        <ProfileSettingsHeader title={i18n.t("profile.menu.application")} />
         <ProfileSettingsItem
-          title={i18n.t('profile.menu.settings')}
+          title={i18n.t("profile.menu.settings")}
           onPress={openApplicationSettings}
         />
         <ProfileSettingsItem
-          title={i18n.t('profile.menu.termsofuse')}
+          title={i18n.t("profile.menu.termsofuse")}
           onPress={() => {
-            ExternalLink.openUrl(i18n.t('profile.menu.termsofuse_url'))
+            ExternalLink.openUrl(i18n.t("profile.menu.termsofuse_url"));
           }}
         />
         <View style={styles.container}>
@@ -126,23 +121,23 @@ const ProfileAuthenticated: FC<Props> = ({
             onPress={logout}
             style={styles.logout}
             textStyle={styles.logoutText}
-            title={i18n.t('profile.logout')}
+            title={i18n.t("profile.logout")}
           />
           <BorderlessButton
             onPress={removeAccount}
             textStyle={styles.removeAccountText}
-            title={i18n.t('profile.remove_account')}
+            title={i18n.t("profile.remove_account")}
           />
           <Text style={styles.version}>{versionLabel}</Text>
         </View>
       </ScrollView>
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   avatar: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: Spacing.unit,
     marginTop: Spacing.mediumMargin,
   },
@@ -169,11 +164,11 @@ const styles = StyleSheet.create({
     ...Typography.subheadline,
   },
   subtitleContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: Spacing.unit,
   },
   title: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: Spacing.unit,
     marginTop: Spacing.margin,
   },
@@ -183,9 +178,9 @@ const styles = StyleSheet.create({
   version: {
     marginTop: Spacing.mediumMargin,
     marginVertical: Spacing.largeMargin,
-    textAlign: 'center',
+    textAlign: "center",
     ...Typography.lightCaption1,
   },
-})
+});
 
-export default ProfileAuthenticated
+export default ProfileAuthenticated;

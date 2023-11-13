@@ -1,27 +1,21 @@
-import React, { FC } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { RegionViewModel } from '../regions/RegionViewModel'
-import { BorderlessButton } from '../shared/Buttons'
-import CardView from '../shared/CardView'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+import React, { FC } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Styles, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { RegionViewModel } from "../regions/RegionViewModel";
+import { BorderlessButton } from "../shared/Buttons";
+import CardView from "../shared/CardView";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
 
 type Props = Readonly<{
-  viewModel: RegionViewModel
-  onMorePressed: () => void
-}>
+  viewModel: RegionViewModel;
+  onMorePressed: () => void;
+}>;
 
 const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
   return (
-    <CardView
-      style={styles.cardView}
-      backgroundColor={Colors.defaultBackground}
-    >
-      <TouchablePlatform
-        touchHighlight={Colors.touchHighlight}
-        onPress={onMorePressed}
-      >
+    <CardView style={styles.cardView} backgroundColor={Colors.defaultBackground}>
+      <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={onMorePressed}>
         <View>
           <View style={styles.wrapBanner}>
             {viewModel.bannerUrl !== null ? (
@@ -50,7 +44,7 @@ const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
             </View>
           </View>
           <BorderlessButton
-            title={i18n.t('home.region_more')}
+            title={i18n.t("home.region_more")}
             textStyle={Styles.seeMoreButtonTextStyle}
             style={styles.seeMore}
             onPress={onMorePressed}
@@ -58,14 +52,14 @@ const HomeRegion: FC<Props> = ({ viewModel, onMorePressed }) => {
         </View>
       </TouchablePlatform>
     </CardView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   banner: {
     aspectRatio: 320 / 203,
     height: undefined,
-    width: '100%',
+    width: "100%",
   },
   cardView: {
     marginHorizontal: Spacing.margin,
@@ -87,7 +81,7 @@ const styles = StyleSheet.create({
     width: 80,
   },
   seeMore: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   subtitle: {
     ...Typography.subheadline,
@@ -105,6 +99,6 @@ const styles = StyleSheet.create({
     width: 80,
     ...Styles.topElevatedContainerStyle,
   },
-})
+});
 
-export default HomeRegion
+export default HomeRegion;

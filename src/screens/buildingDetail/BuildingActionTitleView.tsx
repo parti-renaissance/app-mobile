@@ -1,19 +1,19 @@
-import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { margin } from '../../styles/spacing'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import { margin } from "../../styles/spacing";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
 
 export interface BuildingActionTitleViewModel {
-  title: string
-  subtitle: string
+  title: string;
+  subtitle: string;
 }
 
 type ActionTitleProps = Readonly<{
-  viewModel: BuildingActionTitleViewModel
-  canRemove: boolean
-  onRemoveBuildingFloor: () => void
-}>
+  viewModel: BuildingActionTitleViewModel;
+  canRemove: boolean;
+  onRemoveBuildingFloor: () => void;
+}>;
 
 const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
   viewModel,
@@ -29,9 +29,7 @@ const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
               touchHighlight={Colors.touchHighlight}
               onPress={onRemoveBuildingFloor}
             >
-              <Image
-                source={require('../../assets/images/iconCircledCross.png')}
-              />
+              <Image source={require("../../assets/images/iconCircledCross.png")} />
             </TouchablePlatform>
           </View>
         ) : null}
@@ -40,20 +38,20 @@ const BuildingActionTitleView: FunctionComponent<ActionTitleProps> = ({
           <Text style={styles.actionSubtitle}>{viewModel.subtitle}</Text>
         </View>
       </View>
-    )
+    );
   } else {
     return (
       <View style={styles.actionContainer}>
         <Text style={styles.actionText}>{viewModel.title}</Text>
       </View>
-    )
+    );
   }
-}
+};
 
 const styles = StyleSheet.create({
   actionContainer: {
     flex: 1,
-    flexWrap: 'nowrap',
+    flexWrap: "nowrap",
     margin: margin,
   },
   actionSubtitle: {
@@ -63,15 +61,15 @@ const styles = StyleSheet.create({
     ...Typography.callout,
   },
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   removeContainer: {
     borderRadius: 32,
     marginStart: Spacing.unit,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
-})
+});
 
-export default BuildingActionTitleView
+export default BuildingActionTitleView;

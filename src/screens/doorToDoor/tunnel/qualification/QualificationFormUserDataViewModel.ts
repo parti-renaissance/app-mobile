@@ -1,7 +1,7 @@
-import { QuestionTextInputRowViewModel } from '../../../pollDetailUserData/PollDetailQuestionUserDataViewModel'
+import { QuestionTextInputRowViewModel } from "../../../pollDetailUserData/PollDetailQuestionUserDataViewModel";
 
 export interface QualificationFormUserDataViewModel {
-  id: string
-  title: string
-  data: Array<QuestionTextInputRowViewModel>
+  id: string;
+  title: string;
+  data: Array<QuestionTextInputRowViewModel>;
 }

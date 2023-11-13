@@ -1,18 +1,14 @@
-import i18n from './i18n'
+import i18n from "./i18n";
 
 const formatPercent = (input: number): string => {
-  return new Intl.NumberFormat(i18n.language, { style: 'percent' }).format(
-    input,
-  )
-}
+  return new Intl.NumberFormat(i18n.language, { style: "percent" }).format(input);
+};
 
 const formatDecimal = (input: number): string => {
-  return new Intl.NumberFormat(i18n.language, { style: 'decimal' }).format(
-    input,
-  )
-}
+  return new Intl.NumberFormat(i18n.language, { style: "decimal" }).format(input);
+};
 
 export const NumberFormatter = {
   formatPercent,
   formatDecimal,
-}
+};

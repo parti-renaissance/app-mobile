@@ -1,6 +1,6 @@
 export type StepType =
-  | 'remoteQuestion'
-  | 'userProfile'
-  | 'consentData'
-  | 'phoneSatisfaction'
-  | 'doorToDoorQualification'
+  | "remoteQuestion"
+  | "userProfile"
+  | "consentData"
+  | "phoneSatisfaction"
+  | "doorToDoorQualification";

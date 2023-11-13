@@ -1,70 +1,65 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react'
-import { Text, StyleSheet, Linking, View } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
-import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
-import { VerticalSpacer } from '../shared/Spacer'
-import i18n from '../../utils/i18n'
-import CircularIcon from '../shared/CircularIcon'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import React, { FunctionComponent, useCallback, useEffect } from "react";
+import { Linking, StyleSheet, Text, View } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import { PhoningSessionModalNavigatorScreenProps } from "../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps";
+import { Colors, Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { PrimaryButton, SecondaryButton } from "../shared/Buttons";
+import CircularIcon from "../shared/CircularIcon";
+import { VerticalSpacer } from "../shared/Spacer";
+import { usePreventGoingBack } from "../shared/usePreventGoingBack.hook";
 
-type PhoningSessionNumberFoundScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFound'>
+type PhoningSessionNumberFoundScreenProps =
+  PhoningSessionModalNavigatorScreenProps<"PhoningSessionNumberFound">;
 
 const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
   navigation,
   route,
 }) => {
-  usePreventGoingBack()
+  usePreventGoingBack();
 
   const phoneNumberUrl = (phoneNumber: string): string => {
-    const whitespaceRegex = /\s/g
-    const sanitizedPhoneNumber = phoneNumber.replace(whitespaceRegex, '')
-    return `tel:${sanitizedPhoneNumber}`
-  }
+    const whitespaceRegex = /\s/g;
+    const sanitizedPhoneNumber = phoneNumber.replace(whitespaceRegex, "");
+    return `tel:${sanitizedPhoneNumber}`;
+  };
 
-  const phoneNumber = route.params.data.adherent.phone.number
+  const phoneNumber = route.params.data.adherent.phone.number;
 
   const callNumber = useCallback(() => {
-    const url = phoneNumberUrl(phoneNumber)
-    Linking.openURL(url)
-  }, [phoneNumber])
+    const url = phoneNumberUrl(phoneNumber);
+    Linking.openURL(url);
+  }, [phoneNumber]);
 
   useEffect(() => {
-    callNumber()
-  }, [callNumber])
+    callNumber();
+  }, [callNumber]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>
-        {i18n.t('phoningsession.number_found.title')}
-      </Text>
+      <Text style={styles.title}>{i18n.t("phoningsession.number_found.title")}</Text>
       <VerticalSpacer spacing={Spacing.margin} />
-      <Text style={styles.body}>
-        {i18n.t('phoningsession.number_found.description')}
-      </Text>
+      <Text style={styles.body}>{i18n.t("phoningsession.number_found.description")}</Text>
       <View style={styles.imageContainer}>
-        <CircularIcon
-          source={require('../../assets/images/phoneNumberFoundIcon.png')}
-        />
+        <CircularIcon source={require("../../assets/images/phoneNumberFoundIcon.png")} />
       </View>
       <SecondaryButton
-        title={i18n.t('phoningsession.number_found.recall')}
+        title={i18n.t("phoningsession.number_found.recall")}
         onPress={() => callNumber()}
       />
       <VerticalSpacer spacing={Spacing.margin} />
       <PrimaryButton
-        title={i18n.t('phoningsession.call_started')}
+        title={i18n.t("phoningsession.call_started")}
         onPress={() =>
-          navigation.replace('PhoneCallStatusPicker', {
+          navigation.replace("PhoneCallStatusPicker", {
             data: route.params.data,
           })
         }
       />
       <VerticalSpacer spacing={Spacing.margin} />
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   body: {
@@ -76,13 +71,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.margin,
   },
   imageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   title: {
     ...Typography.title,
   },
-})
+});
 
-export default PhoningSessionNumberFoundScreen
+export default PhoningSessionNumberFoundScreen;

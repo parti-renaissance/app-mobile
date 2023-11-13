@@ -1,6 +1,6 @@
-import { RestPollResultAnswer } from './RestPollResultAnswer'
+import { RestPollResultAnswer } from "./RestPollResultAnswer";
 
 export interface RestPhonePollResultRequest {
-  survey: string
-  answers: ReadonlyArray<RestPollResultAnswer>
+  survey: string;
+  answers: ReadonlyArray<RestPollResultAnswer>;
 }

@@ -1,6 +1,6 @@
-const path = require('path')
+const path = require("path");
 
-const { projectName } = require('./values')
+const { projectName } = require("./values");
 
 // prettier-ignore
 const paths = {
@@ -20,30 +20,25 @@ const paths = {
 }
 
 function r() {
-  return path.resolve.apply(null, [__dirname].concat('..', [...arguments]))
+  return path.resolve.apply(null, [__dirname].concat("..", [...arguments]));
 }
 
 function getMappingsPath(platform) {
-  return path.resolve(paths.products, platform, 'mappings')
+  return path.resolve(paths.products, platform, "mappings");
 }
 
 function getPackagePath(format) {
   switch (format) {
-    case 'aab':
-    case 'apk':
-      return path.resolve(paths.products, 'android', `${projectName}.${format}`)
-    case 'ipa':
-      return path.resolve(
-        paths.products,
-        'ios',
-        projectName,
-        `${projectName}.${format}`,
-      )
+    case "aab":
+    case "apk":
+      return path.resolve(paths.products, "android", `${projectName}.${format}`);
+    case "ipa":
+      return path.resolve(paths.products, "ios", projectName, `${projectName}.${format}`);
     default:
-      throw new Error(`Unsupported format "${format}".`)
+      throw new Error(`Unsupported format "${format}".`);
   }
 }
 
-module.exports = paths
-module.exports.getMappingsPath = getMappingsPath
-module.exports.getPackagePath = getPackagePath
+module.exports = paths;
+module.exports.getMappingsPath = getMappingsPath;
+module.exports.getPackagePath = getPackagePath;

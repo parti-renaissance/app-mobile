@@ -1,4 +1,4 @@
 export interface ProfilePollsCompletedViewModel {
-  completedThisMonth: string
-  completed: string
+  completedThisMonth: string;
+  completed: string;
 }

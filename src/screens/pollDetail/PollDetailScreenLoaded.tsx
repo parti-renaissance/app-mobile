@@ -1,107 +1,97 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
-import PollDetailProgressBar from './PollDetailProgressBar'
-import { Colors, Spacing } from '../../styles'
-import PollDetailNavigationButtons from './PollDetailNavigationButtons'
-import { Poll } from '../../core/entities/Poll'
-import { PollDetailComponentProvider } from './providers/PollDetailComponentProvider'
-import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarViewModelMapper'
-import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
-import PollsRepository from '../../data/PollsRepository'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import { LocationManager } from '../../utils/LocationManager'
-import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
-import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
-import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
-import { PollResult } from '../../core/entities/PollResult'
-import { AlertUtils } from '../shared/AlertUtils'
-import { useNavigation } from '@react-navigation/native'
-import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import { useNavigation } from "@react-navigation/native";
+import { Poll } from "../../core/entities/Poll";
+import { PollResult } from "../../core/entities/PollResult";
+import PollsRepository from "../../data/PollsRepository";
+import { PollDetailModalNavigatorScreenProps } from "../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps";
+import { Colors, Spacing } from "../../styles";
+import { LocationManager } from "../../utils/LocationManager";
+import { AlertUtils } from "../shared/AlertUtils";
+import LoadingOverlay from "../shared/LoadingOverlay";
+import PollDetailNavigationButtons from "./PollDetailNavigationButtons";
+import { PollDetailNavigationButtonsViewModelMapper } from "./PollDetailNavigationButtonsViewModelMapper";
+import PollDetailProgressBar from "./PollDetailProgressBar";
+import { PollDetailProgressBarViewModelMapper } from "./PollDetailProgressBarViewModelMapper";
+import { CompoundPollDetailComponentProvider } from "./providers/CompoundPollDetailComponentProvider";
+import { PollDetailComponentProvider } from "./providers/PollDetailComponentProvider";
+import { PollDetailRemoteQuestionComponentProvider } from "./providers/PollDetailRemoteQuestionComponentProvider";
+import { PollDetailUserInformationsComponentProvider } from "./providers/PollDetailUserInformationsComponentProvider";
 
 type Props = Readonly<{
-  poll: Poll
-}>
+  poll: Poll;
+}>;
 
 const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
-  const navigation = useNavigation<
-    PollDetailModalNavigatorScreenProps<'PollDetail'>['navigation']
-  >()
-  const [currentStep, setStep] = useState<number>(0)
-  const [, updateState] = useState<any>()
-  const forceUpdate = useCallback(() => updateState({}), [])
+  const navigation =
+    useNavigation<PollDetailModalNavigatorScreenProps<"PollDetail">["navigation"]>();
+  const [currentStep, setStep] = useState<number>(0);
+  const [, updateState] = useState<any>();
+  const forceUpdate = useCallback(() => updateState({}), []);
   const [provider] = useState<PollDetailComponentProvider<PollResult>>(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
       new PollDetailUserInformationsComponentProvider(forceUpdate),
     ),
-  )
+  );
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const progressViewModel = PollDetailProgressBarViewModelMapper.map(
     currentStep,
     provider.getNumberOfSteps(),
     provider.getStepType(currentStep),
-  )
+  );
   const isNextStepAvailable = () => {
-    return currentStep < provider.getNumberOfSteps() - 1
-  }
+    return currentStep < provider.getNumberOfSteps() - 1;
+  };
   const isPreviousStepAvailable = () => {
-    return currentStep > 0
-  }
+    return currentStep > 0;
+  };
   const navigationViewModel = PollDetailNavigationButtonsViewModelMapper.map(
     isPreviousStepAvailable(),
     isNextStepAvailable(),
     provider.isDataComplete(currentStep),
-  )
+  );
 
-  const [pageWidth, setPageWidth] = useState<number>(0)
-  const flatListViewRef = useRef<FlatList>(null)
+  const [pageWidth, setPageWidth] = useState<number>(0);
+  const flatListViewRef = useRef<FlatList>(null);
 
   useEffect(() => {
     flatListViewRef.current?.scrollToIndex({
       animated: true,
       index: currentStep,
-    })
-  }, [currentStep])
+    });
+  }, [currentStep]);
 
   const postAnswers = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    const location = await LocationManager.getLatestLocation()
+    const location = await LocationManager.getLatestLocation();
     PollsRepository.getInstance()
       .sendPollAnswers(poll, provider.getResult(), location)
       .then(() => {
-        navigation.replace('PollDetailSuccess', {
+        navigation.replace("PollDetailSuccess", {
           pollId: poll.uuid,
           title: poll.name,
-        })
+        });
       })
       .catch((error) => {
-        AlertUtils.showNetworkAlert(error, postAnswers)
+        AlertUtils.showNetworkAlert(error, postAnswers);
       })
-      .finally(() => setIsLoading(false))
-  }
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.content}>
-        <PollDetailProgressBar
-          style={styles.progress}
-          viewModel={progressViewModel}
-        />
+        <PollDetailProgressBar style={styles.progress} viewModel={progressViewModel} />
         <View
           style={styles.questionContainer}
           onLayout={(event) => {
-            setPageWidth(event.nativeEvent.layout.width)
+            setPageWidth(event.nativeEvent.layout.width);
           }}
         >
           <FlatList
@@ -115,11 +105,11 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
                 <View key={item} style={{ width: pageWidth }}>
                   {provider.getStepComponent(item)}
                 </View>
-              )
+              );
             }}
             extraData={provider}
             getItemLayout={(_data, index) => {
-              return { length: pageWidth, offset: pageWidth * index, index }
+              return { length: pageWidth, offset: pageWidth * index, index };
             }}
             snapToInterval={pageWidth}
             keyExtractor={(item) => item.toString()}
@@ -134,8 +124,8 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
         />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -144,7 +134,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    overflow: 'hidden', // hide the shadow on the bottom
+    overflow: "hidden", // hide the shadow on the bottom
   },
   progress: {
     paddingHorizontal: Spacing.margin,
@@ -152,6 +142,6 @@ const styles = StyleSheet.create({
   questionContainer: {
     flexGrow: 1,
   },
-})
+});
 
-export default PollDetailScreenLoaded
+export default PollDetailScreenLoaded;

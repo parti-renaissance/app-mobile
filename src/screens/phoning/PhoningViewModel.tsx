@@ -1,6 +1,6 @@
-import { PhoningRowViewModel } from './PhoningRowViewModel'
+import { PhoningRowViewModel } from "./PhoningRowViewModel";
 
 export interface PhoningViewModel {
-  title: string
-  rows: ReadonlyArray<PhoningRowViewModel>
+  title: string;
+  rows: ReadonlyArray<PhoningRowViewModel>;
 }

@@ -1,14 +1,13 @@
-import React, { FunctionComponent, useEffect } from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
-import Markdown from '@ronradtke/react-native-markdown-display'
-import SafeAreaView from 'react-native-safe-area-view'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import React, { FunctionComponent, useEffect } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import Markdown from "@ronradtke/react-native-markdown-display";
+import { ActionsNavigatorScreenProps } from "../../navigation/actions/ActionsNavigatorScreenProps";
+import { Colors, Spacing, Styles, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { BorderlessButton, PrimaryButton } from "../shared/Buttons";
 
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
-
-type PhoningCampaignBriefScreenProps = ActionsNavigatorScreenProps<'PhoningCampaignBrief'>
+type PhoningCampaignBriefScreenProps = ActionsNavigatorScreenProps<"PhoningCampaignBrief">;
 
 const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenProps> = ({
   navigation,
@@ -17,8 +16,8 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
   useEffect(() => {
     navigation.setOptions({
       title: route.params.data.title,
-    })
-  }, [navigation, route.params.data.title])
+    });
+  }, [navigation, route.params.data.title]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,36 +28,36 @@ const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenPr
       </ScrollView>
       <View style={styles.bottomContainer}>
         <PrimaryButton
-          title={i18n.t('phoning.brief.call')}
+          title={i18n.t("phoning.brief.call")}
           onPress={() =>
-            navigation.navigate('PhoningSessionModal', {
-              screen: 'PhoningSessionLoader',
+            navigation.navigate("PhoningSessionModal", {
+              screen: "PhoningSessionLoader",
               params: {
                 campaignId: route.params.data.id,
                 campaignTitle: route.params.data.title,
-                device: 'current',
+                device: "current",
               },
             })
           }
         />
         <BorderlessButton
-          title={i18n.t('phoning.brief.call_from_other_device')}
+          title={i18n.t("phoning.brief.call_from_other_device")}
           textStyle={styles.linkText}
           onPress={() =>
-            navigation.navigate('PhoningSessionModal', {
-              screen: 'PhoningSessionLoader',
+            navigation.navigate("PhoningSessionModal", {
+              screen: "PhoningSessionLoader",
               params: {
                 campaignId: route.params.data.id,
                 campaignTitle: route.params.data.title,
-                device: 'external',
+                device: "external",
               },
             })
           }
         />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -77,6 +76,6 @@ const styles = StyleSheet.create({
   linkText: {
     ...Styles.seeMoreButtonTextStyle,
   },
-})
+});
 
-export default PhoningCampaignBriefScreen
+export default PhoningCampaignBriefScreen;

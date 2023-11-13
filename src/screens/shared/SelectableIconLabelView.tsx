@@ -1,40 +1,32 @@
-import React, { FC } from 'react'
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { TouchablePlatform } from './TouchablePlatform'
+import React, { FC } from "react";
+import { Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import { TouchablePlatform } from "./TouchablePlatform";
 
 type Props = Readonly<{
-  viewModel: SelectableIconLabelViewModel
-  onSelected: (code: string) => void
-}>
+  viewModel: SelectableIconLabelViewModel;
+  onSelected: (code: string) => void;
+}>;
 
 export interface SelectableIconLabelViewModel {
-  code: string
-  label: string
-  image: ImageSourcePropType
-  isSelected: boolean
+  code: string;
+  label: string;
+  image: ImageSourcePropType;
+  isSelected: boolean;
 }
 
 const SelectableIconLabelView: FC<Props> = ({ viewModel, onSelected }) => {
   const containerStyle = viewModel.isSelected
     ? styles.containerSelected
-    : styles.containerUnselected
-  const labelStyle = viewModel.isSelected ? styles.labelSelected : undefined
-  const imageStyle = viewModel.isSelected
-    ? styles.imageSelected
-    : styles.imageUnselected
+    : styles.containerUnselected;
+  const labelStyle = viewModel.isSelected ? styles.labelSelected : undefined;
+  const imageStyle = viewModel.isSelected ? styles.imageSelected : styles.imageUnselected;
   return (
     <View style={[styles.container, containerStyle]}>
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
         onPress={() => {
-          onSelected(viewModel.code)
+          onSelected(viewModel.code);
         }}
       >
         <View style={styles.innerContainer}>
@@ -45,8 +37,8 @@ const SelectableIconLabelView: FC<Props> = ({ viewModel, onSelected }) => {
         </View>
       </TouchablePlatform>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -69,20 +61,20 @@ const styles = StyleSheet.create({
     tintColor: Colors.lightText,
   },
   innerContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     height: 94,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: Spacing.small,
   },
   label: {
     ...Typography.body,
     marginTop: Spacing.unit,
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.darkText,
   },
   labelSelected: {
     color: Colors.primaryColor,
   },
-})
+});
 
-export default SelectableIconLabelView
+export default SelectableIconLabelView;

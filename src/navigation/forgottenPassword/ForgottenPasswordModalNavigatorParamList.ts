@@ -1,3 +1,3 @@
 export type ForgottenPasswordModalNavigatorParamList = {
-  ForgottenPassword: { email?: string }
-}
+  ForgottenPassword: { email?: string };
+};

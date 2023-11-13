@@ -1,35 +1,30 @@
-import React, { FC, useLayoutEffect } from 'react'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { CloseButton } from '../shared/NavigationHeaderButton'
-import { IOS_GOOGLE_API_KEY, ANDROID_GOOGLE_API_KEY } from '../../Config'
-import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
-import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
+import React, { FC, useLayoutEffect } from "react";
+import { Platform, SafeAreaView, StyleSheet } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { ANDROID_GOOGLE_API_KEY, IOS_GOOGLE_API_KEY } from "../../Config";
+import { LocationPickerModalNavigatorScreenProps } from "../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps";
+import { Colors, Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { CloseButton } from "../shared/NavigationHeaderButton";
+import { useLocationPickerScreen } from "./useLocationPickerScreen.hook";
 
-type LocationPickerScreenProps = LocationPickerModalNavigatorScreenProps<'LocationPicker'>
+type LocationPickerScreenProps = LocationPickerModalNavigatorScreenProps<"LocationPicker">;
 
-export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
-  route,
-  navigation,
-}) => {
+export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({ route, navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-      title: i18n.t('personalinformation.address'),
-    })
-  }, [navigation])
+      title: i18n.t("personalinformation.address"),
+    });
+  }, [navigation]);
 
-  const { onPlaceSelected } = useLocationPickerScreen(
-    route.params.onAddressSelected,
-  )
+  const { onPlaceSelected } = useLocationPickerScreen(route.params.onAddressSelected);
 
   return (
     <SafeAreaView style={styles.container}>
       <GooglePlacesAutocomplete
         listViewDisplayed={false}
-        placeholder={i18n.t('common.search')}
+        placeholder={i18n.t("common.search")}
         fetchDetails={true}
         onPress={(_, details) => onPlaceSelected(details)}
         query={{
@@ -37,7 +32,7 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
             ios: IOS_GOOGLE_API_KEY,
             android: ANDROID_GOOGLE_API_KEY,
           }),
-          language: i18n.t('personalinformation.gmaps_language'),
+          language: i18n.t("personalinformation.gmaps_language"),
         }}
         textInputProps={{
           placeholderTextColor: Colors.lightText,
@@ -53,14 +48,14 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
         }}
       />
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   commonText: {
     ...Typography.body,
     paddingVertical: 4,
-    textAlign: 'right',
+    textAlign: "right",
   },
   container: { backgroundColor: Colors.defaultBackground, flex: 1 },
   placeholder: {
@@ -69,4 +64,4 @@ const styles = StyleSheet.create({
   selectedAddress: {
     color: Colors.darkText,
   },
-})
+});

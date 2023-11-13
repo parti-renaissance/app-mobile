@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from 'react'
-import { StyleSheet, View, Modal, StyleProp, ViewStyle } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing } from '../../styles'
-import { CloseButton } from './NavigationHeaderButton'
+import React, { FunctionComponent } from "react";
+import { Modal, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import { Colors, Spacing } from "../../styles";
+import { CloseButton } from "./NavigationHeaderButton";
 
 type Props = Readonly<{
-  modalVisible: boolean
-  onRequestClose: () => void
-  children: any
-  contentContainerStyle?: StyleProp<ViewStyle>
-}>
+  modalVisible: boolean;
+  onRequestClose: () => void;
+  children: any;
+  contentContainerStyle?: StyleProp<ViewStyle>;
+}>;
 
 const ModalOverlay: FunctionComponent<Props> = ({
   modalVisible,
@@ -33,12 +33,12 @@ const ModalOverlay: FunctionComponent<Props> = ({
         </View>
       </SafeAreaView>
     </Modal>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   closeButtonContainer: {
-    position: 'absolute',
+    position: "absolute",
     start: 3, // takes image blank padding into account
     top: 3,
     zIndex: 1,
@@ -46,18 +46,18 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.modalOverlayBackground,
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   content: {
     backgroundColor: Colors.defaultBackground,
     borderRadius: 8,
     marginHorizontal: Spacing.margin,
     marginVertical: Spacing.largeMargin,
-    maxHeight: '100%',
-    overflow: 'hidden',
+    maxHeight: "100%",
+    overflow: "hidden",
     paddingBottom: Spacing.margin,
     paddingTop: Spacing.topMargin,
   },
-})
+});
 
-export default ModalOverlay
+export default ModalOverlay;

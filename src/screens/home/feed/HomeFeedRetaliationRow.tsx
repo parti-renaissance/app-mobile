@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from 'react'
-import { Colors } from '../../../styles'
-import i18n from '../../../utils/i18n'
-import HomeRetaliationCard from '../../retaliations/RetaliationListCard'
-import { RetaliationListCardViewModel } from '../../retaliations/RetaliationListCardViewModel'
-import { HomeFeedTimelineItem } from './HomeFeedTimelineItem'
+import React, { FunctionComponent } from "react";
+import { Colors } from "../../../styles";
+import i18n from "../../../utils/i18n";
+import HomeRetaliationCard from "../../retaliations/RetaliationListCard";
+import { RetaliationListCardViewModel } from "../../retaliations/RetaliationListCardViewModel";
+import { HomeFeedTimelineItem } from "./HomeFeedTimelineItem";
 
 type Props = Readonly<{
-  viewModel: RetaliationListCardViewModel
-  onRetaliateSelected: (id: string) => void
-  onRetaliationSelected: (id: string) => void
-}>
+  viewModel: RetaliationListCardViewModel;
+  onRetaliateSelected: (id: string) => void;
+  onRetaliationSelected: (id: string) => void;
+}>;
 
 export const HomeFeedRetaliationRow: FunctionComponent<Props> = ({
   viewModel,
@@ -18,8 +18,8 @@ export const HomeFeedRetaliationRow: FunctionComponent<Props> = ({
 }) => {
   return (
     <HomeFeedTimelineItem
-      title={i18n.t('home.feed.retaliation')}
-      imageSource={require('../../../assets/images/homeFeedActionIcon.png')}
+      title={i18n.t("home.feed.retaliation")}
+      imageSource={require("../../../assets/images/homeFeedActionIcon.png")}
       tintColor={Colors.homeFeedActionBackground}
     >
       <HomeRetaliationCard
@@ -28,5 +28,5 @@ export const HomeFeedRetaliationRow: FunctionComponent<Props> = ({
         onRetaliationSelected={onRetaliationSelected}
       />
     </HomeFeedTimelineItem>
-  )
-}
+  );
+};

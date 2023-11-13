@@ -1,34 +1,34 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  StyleProp,
   ImageBackground,
-  useWindowDimensions,
   ImageSourcePropType,
-} from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { VerticalSpacer } from '../shared/Spacer'
-import Flag from './Flag'
+  StyleProp,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import { VerticalSpacer } from "../shared/Spacer";
+import Flag from "./Flag";
 
 export interface HomeHeaderViewModel {
-  image: ImageSourcePropType
-  bannerHeading: string
-  bannerTitle: string
-  greeting: string
+  image: ImageSourcePropType;
+  bannerHeading: string;
+  bannerTitle: string;
+  greeting: string;
 }
 
 type Props = Readonly<{
-  style?: StyleProp<ViewStyle>
-  viewModel: HomeHeaderViewModel
-}>
+  style?: StyleProp<ViewStyle>;
+  viewModel: HomeHeaderViewModel;
+}>;
 
-const IMAGE_ASPECT_RATIO = 375 / 284
+const IMAGE_ASPECT_RATIO = 375 / 284;
 
 const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useWindowDimensions();
   return (
     <View style={style}>
       <ImageBackground
@@ -46,8 +46,8 @@ const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
       <Text style={styles.title}>{viewModel.greeting}</Text>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   title: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.homeBannerOverlayBackground,
     padding: Spacing.mediumMargin,
     paddingTop: Spacing.extraLargeMargin,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   bannerHeading: {
     ...Typography.homeBannerTitleItalic,
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   flag: {
     height: 8,
   },
-})
+});
 
-export default HomeHeader
+export default HomeHeader;

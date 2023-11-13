@@ -1,11 +1,11 @@
-import { SelectableIconLabelViewModel } from '../shared/SelectableIconLabelView'
+import { SelectableIconLabelViewModel } from "../shared/SelectableIconLabelView";
 
 export interface EventQuickFiltersViewModel {
-  sections: Array<FilterSectionViewModel>
+  sections: Array<FilterSectionViewModel>;
 }
 
 export interface FilterSectionViewModel {
-  id: string
-  title: string
-  data: Array<SelectableIconLabelViewModel>
+  id: string;
+  title: string;
+  data: Array<SelectableIconLabelViewModel>;
 }

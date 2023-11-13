@@ -1,23 +1,18 @@
-import React, { FC } from 'react'
-import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
-import { Colors, Typography } from '../../styles'
-import { Address } from '../../core/entities/DetailedProfile'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import { AddressFormatter } from '../../utils/AddressFormatter'
+import React, { FC } from "react";
+import { StyleProp, StyleSheet, Text, TextStyle, View } from "react-native";
+import { Address } from "../../core/entities/DetailedProfile";
+import { Colors, Typography } from "../../styles";
+import { AddressFormatter } from "../../utils/AddressFormatter";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
 
 type Props = Readonly<{
-  address: Address | undefined
-  placeholder: string
-  textStyle?: StyleProp<TextStyle>
-  onPress: () => void
-}>
+  address: Address | undefined;
+  placeholder: string;
+  textStyle?: StyleProp<TextStyle>;
+  onPress: () => void;
+}>;
 
-const LocationPicker: FC<Props> = ({
-  onPress,
-  textStyle,
-  placeholder,
-  address,
-}) => {
+const LocationPicker: FC<Props> = ({ onPress, textStyle, placeholder, address }) => {
   return (
     <TouchablePlatform
       style={styles.container}
@@ -33,20 +28,18 @@ const LocationPicker: FC<Props> = ({
             address ? styles.selectedAddress : styles.placeholder,
           ]}
         >
-          {address
-            ? AddressFormatter.formatProfileAddress(address)
-            : placeholder}
+          {address ? AddressFormatter.formatProfileAddress(address) : placeholder}
         </Text>
       </View>
     </TouchablePlatform>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   textContainer: {
     flex: 1,
@@ -54,7 +47,7 @@ const styles = StyleSheet.create({
   commonText: {
     ...Typography.body,
     paddingVertical: 4,
-    textAlign: 'right',
+    textAlign: "right",
   },
   placeholder: {
     color: Colors.lightText,
@@ -62,6 +55,6 @@ const styles = StyleSheet.create({
   selectedAddress: {
     color: Colors.darkText,
   },
-})
+});
 
-export default LocationPicker
+export default LocationPicker;

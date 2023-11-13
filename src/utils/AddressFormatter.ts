@@ -1,6 +1,6 @@
-import { formatAddress } from 'localized-address-format'
-import { Address } from '../core/entities/DetailedProfile'
-import { EventAddress } from '../core/entities/Event'
+import { formatAddress } from "localized-address-format";
+import { Address } from "../core/entities/DetailedProfile";
+import { EventAddress } from "../core/entities/Event";
 
 export const AddressFormatter = {
   formatEventAddress: (address: EventAddress): string => {
@@ -9,15 +9,14 @@ export const AddressFormatter = {
       postalCode: address.postalCode,
       locality: address.city,
       postalCountry: address.country,
-    }).join(', ')
+    }).join(", ");
   },
   formatProfileAddress: (address: Address): string => {
     return formatAddress({
-      addressLines:
-        address.address !== undefined ? [address.address] : undefined,
+      addressLines: address.address !== undefined ? [address.address] : undefined,
       postalCode: address.postalCode,
       locality: address.city,
       postalCountry: address.country,
-    }).join(', ')
+    }).join(", ");
   },
-}
+};

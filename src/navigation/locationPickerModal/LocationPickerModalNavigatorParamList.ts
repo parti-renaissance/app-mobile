@@ -1,5 +1,5 @@
-import { Address } from '../../core/entities/DetailedProfile'
+import { Address } from "../../core/entities/DetailedProfile";
 
 export type LocationPickerModalNavigatorParamList = {
-  LocationPicker: { onAddressSelected: (address: Address) => void }
-}
+  LocationPicker: { onAddressSelected: (address: Address) => void };
+};

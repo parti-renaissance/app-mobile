@@ -1,36 +1,19 @@
-import React, { FunctionComponent } from 'react'
-import {
-  Text,
-  StyleSheet,
-  Image,
-  ViewStyle,
-  StyleProp,
-  View,
-} from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import { QuestionChoiceRowViewModel } from './QuestionChoiceRowViewModel'
+import React, { FunctionComponent } from "react";
+import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
+import { QuestionChoiceRowViewModel } from "./QuestionChoiceRowViewModel";
 
 type Props = Readonly<{
-  style?: StyleProp<ViewStyle>
-  viewModel: QuestionChoiceRowViewModel
-  onPress?: () => void
-}>
+  style?: StyleProp<ViewStyle>;
+  viewModel: QuestionChoiceRowViewModel;
+  onPress?: () => void;
+}>;
 
-const QuestionChoiceRow: FunctionComponent<Props> = ({
-  viewModel,
-  onPress,
-  style,
-}) => {
-  const rowStyle = viewModel.isSelected
-    ? styles.rowSelected
-    : styles.rowUnselected
-  const imageStyle = viewModel.isSelected
-    ? styles.imageSelected
-    : styles.imageUnselected
-  const textStyle = viewModel.isSelected
-    ? styles.textSelected
-    : styles.textUnselected
+const QuestionChoiceRow: FunctionComponent<Props> = ({ viewModel, onPress, style }) => {
+  const rowStyle = viewModel.isSelected ? styles.rowSelected : styles.rowUnselected;
+  const imageStyle = viewModel.isSelected ? styles.imageSelected : styles.imageUnselected;
+  const textStyle = viewModel.isSelected ? styles.textSelected : styles.textUnselected;
 
   return (
     <View style={[styles.row, rowStyle, style]}>
@@ -42,30 +25,24 @@ const QuestionChoiceRow: FunctionComponent<Props> = ({
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             {viewModel.image ? (
-              <Image
-                style={[styles.image, imageStyle]}
-                source={viewModel.image}
-              />
+              <Image style={[styles.image, imageStyle]} source={viewModel.image} />
             ) : null}
             <Text style={[styles.text, textStyle]}>{viewModel.title}</Text>
           </View>
           {viewModel.isSelected ? (
-            <Image
-              style={styles.icon}
-              source={require('../../assets/images/checkIcon.png')}
-            />
+            <Image style={styles.icon} source={require("../../assets/images/checkIcon.png")} />
           ) : null}
         </View>
       </TouchablePlatform>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: Spacing.mediumMargin,
     paddingVertical: 10,
   },
@@ -76,7 +53,7 @@ const styles = StyleSheet.create({
     tintColor: Colors.primaryColor,
   },
   image: {
-    alignSelf: 'center',
+    alignSelf: "center",
     flex: 1,
   },
   imageSelected: {
@@ -91,7 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     flex: 1,
     marginBottom: Spacing.unit,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   rowSelected: {
     borderColor: Colors.primaryColor,
@@ -105,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     lineHeight: 24,
     minHeight: 24, // height of checkIcon
-    textAlign: 'center',
+    textAlign: "center",
   },
   textSelected: {
     paddingStart: 24, // width of checkIcon
@@ -117,6 +94,6 @@ const styles = StyleSheet.create({
   touchContainer: {
     flex: 1,
   },
-})
+});
 
-export default QuestionChoiceRow
+export default QuestionChoiceRow;

@@ -1,27 +1,27 @@
-import React, { FunctionComponent } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { Spacing, Typography, Colors } from '../../../styles'
-import CardView from '../../shared/CardView'
-import ProgressBar from '../../shared/ProgressBar'
-import { PrimaryButton } from '../../shared/Buttons'
-import i18n from '../../../utils/i18n'
-import { VerticalSpacer } from '../../shared/Spacer'
-import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
-import { TouchablePlatform } from '../../shared/TouchablePlatform'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../../styles";
+import i18n from "../../../utils/i18n";
+import { PrimaryButton } from "../../shared/Buttons";
+import CardView from "../../shared/CardView";
+import { HorizontalSeparator } from "../../shared/HorizontalSeparator";
+import ProgressBar from "../../shared/ProgressBar";
+import { VerticalSpacer } from "../../shared/Spacer";
+import { TouchablePlatform } from "../../shared/TouchablePlatform";
 
 type Props = Readonly<{
-  viewModel: PhoningCampaignRowViewModel
-  onCallButtonPressed: () => void
-  onRankButtonPressed: () => void
-}>
+  viewModel: PhoningCampaignRowViewModel;
+  onCallButtonPressed: () => void;
+  onRankButtonPressed: () => void;
+}>;
 
 export interface PhoningCampaignRowViewModel {
-  id: string
-  title: string
-  subtitle: string
-  calledCount: number
-  numberOfPersonToCall: number
-  rank: number
+  id: string;
+  title: string;
+  subtitle: string;
+  calledCount: number;
+  numberOfPersonToCall: number;
+  rank: number;
 }
 
 const PhoningCampaignRow: FunctionComponent<Props> = ({
@@ -30,10 +30,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
   onRankButtonPressed,
 }) => {
   return (
-    <CardView
-      style={styles.cardView}
-      backgroundColor={Colors.defaultBackground}
-    >
+    <CardView style={styles.cardView} backgroundColor={Colors.defaultBackground}>
       <>
         <View style={styles.informationContainer}>
           <Text style={styles.title}>{viewModel.title}</Text>
@@ -43,7 +40,7 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
           </Text>
           <VerticalSpacer spacing={Spacing.unit} />
           <Text style={styles.caption}>
-            {i18n.t('phoning.callcontact.progressformat', {
+            {i18n.t("phoning.callcontact.progressformat", {
               count: viewModel.calledCount,
               done: viewModel.calledCount,
               total: viewModel.numberOfPersonToCall,
@@ -62,14 +59,14 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
         >
           <View style={styles.scoreboardButtonContainer}>
             <Text style={styles.scoreboardText}>
-              {i18n.t('phoning.position', {
+              {i18n.t("phoning.position", {
                 count: viewModel.rank,
                 position: viewModel.rank,
               })}
             </Text>
             <Image
               style={styles.scoreboardImage}
-              source={require('../../../assets/images/disclosureIndicator.png')}
+              source={require("../../../assets/images/disclosureIndicator.png")}
             />
           </View>
         </TouchablePlatform>
@@ -78,15 +75,15 @@ const PhoningCampaignRow: FunctionComponent<Props> = ({
           <VerticalSpacer spacing={Spacing.margin} />
           <PrimaryButton
             buttonStyle={styles.callButton}
-            title={i18n.t('phoning.campaign.action')}
+            title={i18n.t("phoning.campaign.action")}
             onPress={onCallButtonPressed}
-            shape={'rounded'}
+            shape={"rounded"}
           />
         </View>
       </>
     </CardView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   body: {
@@ -119,10 +116,10 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.unit,
   },
   scoreboardButtonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   scoreboardImage: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   scoreboardText: {
     ...Typography.subheadline,
@@ -132,6 +129,6 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title2,
   },
-})
+});
 
-export default PhoningCampaignRow
+export default PhoningCampaignRow;

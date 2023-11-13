@@ -1,4 +1,4 @@
 export interface RestLoginErrorResponse {
-  error: string
-  message: string
+  error: string;
+  message: string;
 }

@@ -1,15 +1,9 @@
-import { DoorToDoorCampaignRanking } from '../../../core/entities/DoorToDoorCampaignRanking'
-import { RankingRowViewModel, Tab } from './Ranking'
+import { DoorToDoorCampaignRanking } from "../../../core/entities/DoorToDoorCampaignRanking";
+import { RankingRowViewModel, Tab } from "./Ranking";
 
 export const RankingViewModelMapper = {
-  map: (
-    ranking: DoorToDoorCampaignRanking | undefined,
-    tab: Tab,
-  ): Array<RankingRowViewModel> => {
-    const toMap =
-      tab === Tab.INDIVIDUAL
-        ? ranking?.individual ?? []
-        : ranking?.departemental ?? []
+  map: (ranking: DoorToDoorCampaignRanking | undefined, tab: Tab): Array<RankingRowViewModel> => {
+    const toMap = tab === Tab.INDIVIDUAL ? ranking?.individual ?? [] : ranking?.departemental ?? [];
     return toMap.map((item) => {
       return {
         rank: item.rank.toString(),
@@ -18,7 +12,7 @@ export const RankingViewModelMapper = {
         pollsCompleted: item.surveys.toString(),
         position: item.rank,
         highlight: item.current,
-      }
-    })
+      };
+    });
   },
-}
+};

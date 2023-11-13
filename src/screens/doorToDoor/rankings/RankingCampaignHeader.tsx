@@ -1,13 +1,13 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../styles'
-import i18n from '../../../utils/i18n'
-import ProgressBar from '../../shared/ProgressBar'
-import { DoorToDoorCampaignCardViewModel } from '../DoorToDoorCampaignCardViewModel'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../../styles";
+import i18n from "../../../utils/i18n";
+import ProgressBar from "../../shared/ProgressBar";
+import { DoorToDoorCampaignCardViewModel } from "../DoorToDoorCampaignCardViewModel";
 
 type Props = Readonly<{
-  viewModel: DoorToDoorCampaignCardViewModel
-}>
+  viewModel: DoorToDoorCampaignCardViewModel;
+}>;
 
 export const RankingCampaignHeader = ({ viewModel }: Props) => {
   return (
@@ -18,28 +18,26 @@ export const RankingCampaignHeader = ({ viewModel }: Props) => {
       </View>
       <View style={styles.statsContainer}>
         <View style={styles.textContainer}>
-          <Text style={styles.goal}>{i18n.t('doorToDoor.goal')}</Text>
-          <Text style={styles.indicator}>
-            {viewModel.goal} questionnaires remplis
-          </Text>
+          <Text style={styles.goal}>{i18n.t("doorToDoor.goal")}</Text>
+          <Text style={styles.indicator}>{viewModel.goal} questionnaires remplis</Text>
         </View>
         <ProgressBar progress={0.3} color={Colors.accent} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   campaignContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     margin: Spacing.unit,
   },
   campaignName: {
     ...Typography.title2,
   },
   container: {
-    alignContent: 'center',
+    alignContent: "center",
     backgroundColor: Colors.groupedListBackground,
     borderRadius: 8,
     margin: Spacing.margin,
@@ -64,9 +62,9 @@ const styles = StyleSheet.create({
     marginTop: Spacing.small,
   },
   textContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: Spacing.unit,
   },
-})
+});

@@ -1,8 +1,8 @@
-import PaginationInfo from './PaginationInfo'
+import PaginationInfo from "./PaginationInfo";
 
 export interface PaginatedResult<T> {
-  paginationInfo: PaginationInfo
-  result: T
+  paginationInfo: PaginationInfo;
+  result: T;
 }
 
 export const PaginatedResult = {
@@ -13,6 +13,6 @@ export const PaginatedResult = {
     return {
       paginationInfo: newContent.paginationInfo,
       result: previousContent.result.concat(newContent.result),
-    }
+    };
   },
-}
+};

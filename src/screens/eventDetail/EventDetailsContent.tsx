@@ -1,36 +1,29 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
 import {
-  ScrollView,
   Image,
-  View,
-  Text,
-  useWindowDimensions,
+  ScrollView,
   StyleSheet,
+  Text,
   TextStyle,
-} from 'react-native'
-import HTML from 'react-native-render-html'
-import { DetailedEvent } from '../../core/entities/Event'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import {
-  BorderlessButton,
-  PrimaryButton,
-  SecondaryButton,
-} from '../shared/Buttons'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import TagView from '../shared/TagView'
-import EventDetailsItemContainer from './EventDetailsItemContainer'
-import { useEventDetailsContent } from './useEventDetailsContent.hook'
+  useWindowDimensions,
+  View,
+} from "react-native";
+import HTML from "react-native-render-html";
+import { DetailedEvent } from "../../core/entities/Event";
+import { Colors, Spacing, Styles, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { BorderlessButton, PrimaryButton, SecondaryButton } from "../shared/Buttons";
+import LoadingOverlay from "../shared/LoadingOverlay";
+import TagView from "../shared/TagView";
+import EventDetailsItemContainer from "./EventDetailsItemContainer";
+import { useEventDetailsContent } from "./useEventDetailsContent.hook";
 
 type Props = Readonly<{
-  detailedEvent: DetailedEvent
-  onReloadEvent: () => void
-}>
+  detailedEvent: DetailedEvent;
+  onReloadEvent: () => void;
+}>;
 
-export const EventDetailsContent: FC<Props> = ({
-  detailedEvent,
-  onReloadEvent,
-}) => {
+export const EventDetailsContent: FC<Props> = ({ detailedEvent, onReloadEvent }) => {
   const {
     viewModel,
     isLoading,
@@ -41,9 +34,9 @@ export const EventDetailsContent: FC<Props> = ({
     unsubscribe,
     subscribe,
     onSeeMoreDescription,
-  } = useEventDetailsContent(detailedEvent, onReloadEvent)
+  } = useEventDetailsContent(detailedEvent, onReloadEvent);
 
-  const contentWidth = useWindowDimensions().width
+  const contentWidth = useWindowDimensions().width;
 
   return (
     <>
@@ -61,15 +54,13 @@ export const EventDetailsContent: FC<Props> = ({
         <Text style={styles.title}>{viewModel.title}</Text>
         <EventDetailsItemContainer
           style={styles.date}
-          icon={require('../../assets/images/iconCalendar.png')}
+          icon={require("../../assets/images/iconCalendar.png")}
         >
           <View>
             <Text style={styles.rowItemTitle}>{viewModel.date.title}</Text>
-            <Text style={styles.rowItemDescription}>
-              {viewModel.date.description}
-            </Text>
+            <Text style={styles.rowItemDescription}>{viewModel.date.description}</Text>
             <BorderlessButton
-              title={i18n.t('eventdetails.add_calendar')}
+              title={i18n.t("eventdetails.add_calendar")}
               textStyle={Styles.seeMoreButtonTextStyle}
               style={styles.seeMoreButtonContainer}
               onPress={addCalendarEvent}
@@ -77,15 +68,11 @@ export const EventDetailsContent: FC<Props> = ({
           </View>
         </EventDetailsItemContainer>
         {viewModel.onlineUrl ? (
-          <EventDetailsItemContainer
-            icon={require('../../assets/images/iconCameraHome.png')}
-          >
+          <EventDetailsItemContainer icon={require("../../assets/images/iconCameraHome.png")}>
             <View>
-              <Text style={styles.rowItemTitle}>
-                {i18n.t('eventdetails.online_event')}
-              </Text>
+              <Text style={styles.rowItemTitle}>{i18n.t("eventdetails.online_event")}</Text>
               <BorderlessButton
-                title={i18n.t('eventdetails.access_online_event')}
+                title={i18n.t("eventdetails.access_online_event")}
                 textStyle={Styles.seeMoreButtonTextStyle}
                 style={styles.seeMoreButtonContainer}
                 onPress={openOnlineUrl}
@@ -94,51 +81,35 @@ export const EventDetailsContent: FC<Props> = ({
           </EventDetailsItemContainer>
         ) : null}
         {viewModel.address ? (
-          <EventDetailsItemContainer
-            icon={require('../../assets/images/iconAddress.png')}
-          >
+          <EventDetailsItemContainer icon={require("../../assets/images/iconAddress.png")}>
             <Text style={styles.rowItemDescription}>{viewModel.address}</Text>
           </EventDetailsItemContainer>
         ) : null}
         <View style={styles.separator} />
         <EventDetailsItemContainer
-          onPress={
-            viewModel.organizer.isPressable ? openOrganizerUrl : undefined
-          }
-          icon={require('../../assets/images/iconOrganizer.png')}
+          onPress={viewModel.organizer.isPressable ? openOrganizerUrl : undefined}
+          icon={require("../../assets/images/iconOrganizer.png")}
         >
           <View style={styles.organizerContainer}>
-            <Text style={styles.organizerTitle}>
-              {viewModel.organizer.title}
-            </Text>
+            <Text style={styles.organizerTitle}>{viewModel.organizer.title}</Text>
             {viewModel.organizer?.description && (
-              <Text style={styles.organizerDescription}>
-                {viewModel.organizer?.description}
-              </Text>
+              <Text style={styles.organizerDescription}>{viewModel.organizer?.description}</Text>
             )}
           </View>
           {viewModel.organizer?.openUrl ? (
-            <Image
-              source={require('../../assets/images/disclosureIndicator.png')}
-            />
+            <Image source={require("../../assets/images/disclosureIndicator.png")} />
           ) : null}
         </EventDetailsItemContainer>
         {viewModel.canShare && (
           <>
             <View style={styles.separator} />
-            <EventDetailsItemContainer
-              icon={require('../../assets/images/iconShare.png')}
-            >
+            <EventDetailsItemContainer icon={require("../../assets/images/iconShare.png")}>
               <View style={styles.eventItemsContainer}>
-                <Text
-                  style={styles.rowItemDescription}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
+                <Text style={styles.rowItemDescription} numberOfLines={1} ellipsizeMode="tail">
                   {viewModel.eventUrl}
                 </Text>
                 <BorderlessButton
-                  title={i18n.t('eventdetails.share_event')}
+                  title={i18n.t("eventdetails.share_event")}
                   textStyle={Styles.seeMoreButtonTextStyle}
                   style={styles.seeMoreButtonContainer}
                   onPress={shareEvent}
@@ -148,9 +119,7 @@ export const EventDetailsContent: FC<Props> = ({
           </>
         )}
         <View style={styles.separator} />
-        <Text style={styles.subtitle}>
-          {i18n.t('eventdetails.description')}
-        </Text>
+        <Text style={styles.subtitle}>{i18n.t("eventdetails.description")}</Text>
         <HTML
           containerStyle={styles.htmlContainer}
           source={{
@@ -161,7 +130,7 @@ export const EventDetailsContent: FC<Props> = ({
         />
         {viewModel.canSeeMore ? (
           <BorderlessButton
-            title={i18n.t('eventdetails.see_more')}
+            title={i18n.t("eventdetails.see_more")}
             textStyle={Styles.seeMoreButtonTextStyle}
             style={[styles.descriptionSeeMore, styles.seeMoreButtonContainer]}
             onPress={onSeeMoreDescription}
@@ -172,36 +141,33 @@ export const EventDetailsContent: FC<Props> = ({
       <View style={styles.bottomContainer}>
         {viewModel.isSubscribed ? (
           <SecondaryButton
-            leadingIcon={require('../../assets/images/checkIcon.png')}
-            title={i18n.t('eventdetails.registered')}
+            leadingIcon={require("../../assets/images/checkIcon.png")}
+            title={i18n.t("eventdetails.registered")}
             iconTint={Colors.primaryColor}
             iconPadding={Spacing.unit}
             onPress={unsubscribe}
           />
         ) : (
-          <PrimaryButton
-            title={i18n.t('eventdetails.register')}
-            onPress={subscribe}
-          />
+          <PrimaryButton title={i18n.t("eventdetails.register")} onPress={subscribe} />
         )}
       </View>
     </>
-  )
-}
+  );
+};
 
 const paragraphStyle: TextStyle = {
   ...Typography.body,
   color: Colors.darkText,
   marginBottom: Spacing.unit,
-}
+};
 
 const styles = StyleSheet.create({
   attendees: {
     ...Typography.body,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     color: Colors.lightText,
     flexGrow: 1,
-    textAlign: 'right',
+    textAlign: "right",
   },
   bottomContainer: {
     ...Styles.elevatedContainerStyle,
@@ -251,7 +217,7 @@ const styles = StyleSheet.create({
     color: Colors.darkText,
   },
   seeMoreButtonContainer: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     paddingHorizontal: 0,
     paddingVertical: 0,
     marginTop: Spacing.unit,
@@ -271,7 +237,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.unit,
   },
   tagAttendeesContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.margin,
   },
@@ -284,4 +250,4 @@ const styles = StyleSheet.create({
   wrapImage: {
     minHeight: 130,
   },
-})
+});

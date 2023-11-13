@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from 'react'
-import { StyleSheet, View, Image, Text } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import { BuildingStatusViewModel } from './BuildingStatusViewModel'
-import StatBlockView from './StatBlockView'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import { BuildingStatusViewModel } from "./BuildingStatusViewModel";
+import StatBlockView from "./StatBlockView";
 
 type Props = Readonly<{
-  viewModel: BuildingStatusViewModel
-}>
+  viewModel: BuildingStatusViewModel;
+}>;
 
 const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
@@ -21,12 +21,12 @@ const BuildingStatusView: FunctionComponent<Props> = ({ viewModel }) => {
         <StatBlockView viewModel={viewModel.completedQuestionnairesStatBlock} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: 'center',
+    alignContent: "center",
     backgroundColor: Colors.secondaryButtonBackground,
     borderRadius: 8,
     margin: Spacing.margin,
@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
   statBlockContainer: {
     backgroundColor: Colors.defaultBackground,
     borderRadius: 8,
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: Spacing.margin,
   },
   statusContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
     marginBottom: Spacing.unit,
     marginHorizontal: Spacing.unit,
   },
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
     ...Typography.subheadline,
     paddingLeft: Spacing.small,
   },
-})
+});
 
-export default BuildingStatusView
+export default BuildingStatusView;

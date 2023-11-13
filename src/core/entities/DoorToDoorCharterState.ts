@@ -6,6 +6,4 @@ export class DoorToDoorCharterNotAccepted {
   public constructor(readonly charter: string) {}
 }
 
-export type DoorToDoorCharterState =
-  | DoorToDoorCharterAccepted
-  | DoorToDoorCharterNotAccepted
+export type DoorToDoorCharterState = DoorToDoorCharterAccepted | DoorToDoorCharterNotAccepted;

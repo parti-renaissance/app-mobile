@@ -1,4 +1,4 @@
 export interface Credentials {
-  accessToken: string
-  refreshToken?: string | null
+  accessToken: string;
+  refreshToken?: string | null;
 }

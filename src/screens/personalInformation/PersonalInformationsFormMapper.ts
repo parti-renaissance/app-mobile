@@ -1,5 +1,5 @@
-import { DetailedProfile } from '../../core/entities/DetailedProfile'
-import { PersonalInformationsForm } from './PersonalInformationsForm'
+import { DetailedProfile } from "../../core/entities/DetailedProfile";
+import { PersonalInformationsForm } from "./PersonalInformationsForm";
 
 export const PersonalInformationsFormMapper = {
   map: (detailedProfile: DetailedProfile): PersonalInformationsForm => {
@@ -12,12 +12,12 @@ export const PersonalInformationsFormMapper = {
       birthdate: detailedProfile.birthDate,
       address: detailedProfile.address,
       email: detailedProfile.email,
-      phoneNumber: detailedProfile.phone?.number ?? '',
-      phoneCountryCode: detailedProfile.phone?.countryCode ?? 'FR',
+      phoneNumber: detailedProfile.phone?.number ?? "",
+      phoneCountryCode: detailedProfile.phone?.countryCode ?? "FR",
       facebook: detailedProfile.facebook,
       twitter: detailedProfile.twitter,
       linkedin: detailedProfile.linkedin,
       telegram: detailedProfile.telegram,
-    }
+    };
   },
-}
+};

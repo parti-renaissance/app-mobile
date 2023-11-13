@@ -1,97 +1,93 @@
-import { useCallback, useState } from 'react'
-import { StatefulQuickPoll } from '../../core/entities/StatefulQuickPoll'
-import { ServerTimeoutError } from '../../core/errors'
+import { useCallback, useState } from "react";
+import { StatefulQuickPoll } from "../../core/entities/StatefulQuickPoll";
+import { ServerTimeoutError } from "../../core/errors";
 import {
   GetHomeResourcesInteractor,
   HomeResources,
-} from '../../core/interactor/GetHomeResourcesInteractor'
-import { ViewState } from '../shared/ViewState'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
+} from "../../core/interactor/GetHomeResourcesInteractor";
+import { ViewState } from "../shared/ViewState";
+import { ViewStateUtils } from "../shared/ViewStateUtils";
 
 export const useFetchHomeResources = (): {
-  statefulState: ViewState<HomeResources>
-  isRefreshing: boolean
-  fetchHomeResources: () => void
-  updateQuickPoll: (quickPoll: StatefulQuickPoll) => void
+  statefulState: ViewState<HomeResources>;
+  isRefreshing: boolean;
+  fetchHomeResources: () => void;
+  updateQuickPoll: (quickPoll: StatefulQuickPoll) => void;
 } => {
-  const [isRefreshing, setRefreshing] = useState(true)
-  const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const [statefulState, setStatefulState] = useState<ViewState<HomeResources>>(
-    ViewState.Loading(),
-  )
+  const [isRefreshing, setRefreshing] = useState(true);
+  const [initialFetchDone, setInitialFetchDone] = useState(false);
+  const [statefulState, setStatefulState] = useState<ViewState<HomeResources>>(ViewState.Loading());
 
-  const isDataLoaded = useCallback(() => statefulState.state === 'content', [
-    statefulState,
-  ])
+  const isDataLoaded = useCallback(() => statefulState.state === "content", [statefulState]);
 
   const fetchData = useCallback(
     (cacheJustLoaded: boolean = false) => {
       if (isDataLoaded()) {
-        setRefreshing(true)
+        setRefreshing(true);
       } else {
-        setStatefulState(ViewState.Loading())
+        setStatefulState(ViewState.Loading());
       }
       new GetHomeResourcesInteractor()
-        .execute('remote')
+        .execute("remote")
         .then((resources) => {
-          setStatefulState(ViewState.Content(resources))
+          setStatefulState(ViewState.Content(resources));
         })
         .catch((error) => {
-          const isNetworkError = error instanceof ServerTimeoutError
+          const isNetworkError = error instanceof ServerTimeoutError;
           if (isNetworkError && cacheJustLoaded) {
-            return
+            return;
           }
           setStatefulState(
             ViewStateUtils.networkError(error, () => {
-              fetchData()
+              fetchData();
             }),
-          )
+          );
         })
         .finally(() => {
-          setRefreshing(false)
-        })
+          setRefreshing(false);
+        });
     },
     [isDataLoaded],
-  )
+  );
 
   const firstDataFetch = useCallback(() => {
     new GetHomeResourcesInteractor()
-      .execute('cache')
+      .execute("cache")
       .then((resources) => {
-        setStatefulState(ViewState.Content(resources))
+        setStatefulState(ViewState.Content(resources));
         if (!initialFetchDone) {
-          setInitialFetchDone(true)
-          fetchData(true)
+          setInitialFetchDone(true);
+          fetchData(true);
         }
       })
       .catch(() => {
-        fetchData()
-      })
-  }, [fetchData, initialFetchDone])
+        fetchData();
+      });
+  }, [fetchData, initialFetchDone]);
 
   const fetchHomeResources = useCallback(() => {
     if (isDataLoaded()) {
-      fetchData(false)
+      fetchData(false);
     } else {
-      firstDataFetch()
+      firstDataFetch();
     }
-  }, [isDataLoaded, fetchData, firstDataFetch])
+  }, [isDataLoaded, fetchData, firstDataFetch]);
 
   const updateQuickPoll = useCallback(
     (quickPoll: StatefulQuickPoll) => {
       // We must make a clone to update state
-      const currentResources = ViewState.unwrap(statefulState)
+      const currentResources = ViewState.unwrap(statefulState);
       if (currentResources === undefined) {
-        return
+        return;
       }
       const clone: HomeResources = {
         ...currentResources,
         quickPoll,
-      }
-      setStatefulState(ViewState.Content(clone))
+      };
+      setStatefulState(ViewState.Content(clone));
     },
     [statefulState],
-  )
+  );
 
-  return { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll }
-}
+  return { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll };
+};

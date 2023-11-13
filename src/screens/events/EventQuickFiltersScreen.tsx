@@ -1,64 +1,46 @@
-import React, { FC, useLayoutEffect } from 'react'
-import { ListRenderItemInfo } from 'react-native'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { SectionGrid } from 'react-native-super-grid'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
+import React, { FC, useLayoutEffect } from "react";
+import { ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { SectionGrid } from "react-native-super-grid";
+import { EventsFilterModalNavigatorScreenProps } from "../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps";
+import { Colors, Spacing, Styles, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { PrimaryButton } from "../shared/Buttons";
+import { CloseButton } from "../shared/NavigationHeaderButton";
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
-} from '../shared/SelectableIconLabelView'
-import { PrimaryButton } from '../shared/Buttons'
-import { CloseButton } from '../shared/NavigationHeaderButton'
-import { useEventQuickFiltersScreen } from './useEventQuickFiltersScreen.hook'
-import { EventsFilterModalNavigatorScreenProps } from '../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'
+} from "../shared/SelectableIconLabelView";
+import { useEventQuickFiltersScreen } from "./useEventQuickFiltersScreen.hook";
 
-type EventQuickFiltersScreenProps = EventsFilterModalNavigatorScreenProps<'EventsFilter'>
+type EventQuickFiltersScreenProps = EventsFilterModalNavigatorScreenProps<"EventsFilter">;
 
-const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const { eventMode } = route.params
-  const {
-    viewModel,
-    onInterestSelected,
-    onClear,
-    onSubmit,
-    onClose,
-  } = useEventQuickFiltersScreen(eventMode)
+const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = ({ navigation, route }) => {
+  const { eventMode } = route.params;
+  const { viewModel, onInterestSelected, onClear, onSubmit, onClose } =
+    useEventQuickFiltersScreen(eventMode);
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
-        title: i18n.t('events.filters.title'),
+        title: i18n.t("events.filters.title"),
         headerLeft: () => <CloseButton onPress={onClose} />,
         headerRight: () => (
           <TouchableOpacity onPress={onClear}>
-            <Text style={styles.headerClearFilters}>
-              {i18n.t('events.filters.clear')}
-            </Text>
+            <Text style={styles.headerClearFilters}>{i18n.t("events.filters.clear")}</Text>
           </TouchableOpacity>
         ),
-      })
-    }
-    updateNavigationHeader()
-  }, [navigation, onClear, onClose])
+      });
+    };
+    updateNavigationHeader();
+  }, [navigation, onClear, onClose]);
 
-  const renderItem = ({
-    item,
-  }: ListRenderItemInfo<SelectableIconLabelViewModel>) => {
-    return (
-      <SelectableIconLabelView
-        viewModel={item}
-        onSelected={onInterestSelected}
-      />
-    )
-  }
+  const renderItem = ({ item }: ListRenderItemInfo<SelectableIconLabelViewModel>) => {
+    return <SelectableIconLabelView viewModel={item} onSelected={onInterestSelected} />;
+  };
 
   return (
-    <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.container}>
+    <SafeAreaView edges={["left", "right", "bottom"]} style={styles.container}>
       <View style={styles.contentContainer}>
         <SectionGrid
           sections={viewModel.sections}
@@ -68,20 +50,17 @@ const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = ({
               <View style={styles.sectionHeaderContainer}>
                 <Text style={styles.section}>{title}</Text>
               </View>
-            ) : null
+            ) : null;
           }}
           renderItem={renderItem}
         />
         <View style={styles.bottomContainer}>
-          <PrimaryButton
-            title={i18n.t('centerofinterest.save')}
-            onPress={onSubmit}
-          />
+          <PrimaryButton title={i18n.t("centerofinterest.save")} onPress={onSubmit} />
         </View>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -95,14 +74,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   headerClearFilters: {
     ...Typography.callout,
     color: Colors.primaryColor,
     marginHorizontal: Spacing.margin,
-    textAlign: 'center',
-    textAlignVertical: 'center',
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   sectionHeaderContainer: {
     backgroundColor: Colors.defaultBackground,
@@ -112,6 +91,6 @@ const styles = StyleSheet.create({
     ...Typography.title3,
     color: Colors.titleText,
   },
-})
+});
 
-export default EventQuickFiltersScreen
+export default EventQuickFiltersScreen;

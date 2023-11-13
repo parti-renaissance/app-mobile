@@ -1,63 +1,45 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent } from "react";
 import {
-  ImageSourcePropType,
-  View,
-  Text,
-  StyleSheet,
   Image,
+  ImageSourcePropType,
   StyleProp,
+  StyleSheet,
+  Text,
+  View,
   ViewStyle,
-} from 'react-native'
-import { Colors, Typography, Spacing } from '../../styles'
-import CardView from '../shared/CardView'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+} from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import CardView from "../shared/CardView";
+import { TouchablePlatform } from "../shared/TouchablePlatform";
 
 type Props = {
-  onPress: () => void
-  text?: string
-  image: ImageSourcePropType
-  disabled?: boolean
-  style?: StyleProp<ViewStyle>
-}
+  onPress: () => void;
+  text?: string;
+  image: ImageSourcePropType;
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+};
 
-const MapButton: FunctionComponent<Props> = ({
-  onPress,
-  text,
-  image,
-  style,
-  disabled = false,
-}) => (
-  <CardView
-    borderRadius={30}
-    backgroundColor={Colors.defaultBackground}
-    style={style}
-  >
-    <TouchablePlatform
-      onPress={onPress}
-      touchHighlight={Colors.touchHighlight}
-      disabled={disabled}
-    >
+const MapButton: FunctionComponent<Props> = ({ onPress, text, image, style, disabled = false }) => (
+  <CardView borderRadius={30} backgroundColor={Colors.defaultBackground} style={style}>
+    <TouchablePlatform onPress={onPress} touchHighlight={Colors.touchHighlight} disabled={disabled}>
       <View style={styles.content}>
         <Image
           style={[styles.mapButtonIcon, disabled ? styles.imageDisabled : null]}
           source={image}
         />
         {text !== undefined && (
-          <Text
-            style={[styles.mapButtonText, disabled ? styles.disabled : null]}
-          >
-            {text}
-          </Text>
+          <Text style={[styles.mapButtonText, disabled ? styles.disabled : null]}>{text}</Text>
         )}
       </View>
     </TouchablePlatform>
   </CardView>
-)
+);
 
 const styles = StyleSheet.create({
   content: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     padding: Spacing.unit,
   },
   disabled: {
@@ -67,17 +49,17 @@ const styles = StyleSheet.create({
     tintColor: Colors.lightText,
   },
   mapButtonIcon: {
-    alignSelf: 'center',
+    alignSelf: "center",
     height: 16,
     marginVertical: Spacing.small,
     width: 16,
   },
   mapButtonText: {
     ...Typography.callout,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginHorizontal: Spacing.unit,
-    textAlign: 'center',
+    textAlign: "center",
   },
-})
+});
 
-export default MapButton
+export default MapButton;

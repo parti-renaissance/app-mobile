@@ -1,18 +1,18 @@
-import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import CardView from '../shared/CardView'
-import { ActionButton, BorderlessButton } from '../shared/Buttons'
-import { HorizontalSeparator } from '../shared/HorizontalSeparator'
-import i18n from '../../utils/i18n'
-import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
-import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
+import React, { FunctionComponent } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Colors, Spacing, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { ActionButton, BorderlessButton } from "../shared/Buttons";
+import CardView from "../shared/CardView";
+import { HorizontalSeparator } from "../shared/HorizontalSeparator";
+import { HorizontalSpacer, VerticalSpacer } from "../shared/Spacer";
+import { RetaliationListCardViewModel } from "./RetaliationListCardViewModel";
 
 type Props = Readonly<{
-  viewModel: RetaliationListCardViewModel
-  onRetaliationSelected: (id: string) => void
-  onRetaliateSelected: (id: string) => void
-}>
+  viewModel: RetaliationListCardViewModel;
+  onRetaliationSelected: (id: string) => void;
+  onRetaliateSelected: (id: string) => void;
+}>;
 
 const RetaliationListCard: FunctionComponent<Props> = ({
   viewModel,
@@ -21,10 +21,7 @@ const RetaliationListCard: FunctionComponent<Props> = ({
 }) => {
   // adding eols to the title and the body enable to force the card to use all the available space
   return (
-    <CardView
-      style={styles.cardView}
-      backgroundColor={Colors.defaultBackground}
-    >
+    <CardView style={styles.cardView} backgroundColor={Colors.defaultBackground}>
       <View style={styles.container}>
         <View>
           <View style={styles.titleContainer}>
@@ -40,28 +37,28 @@ const RetaliationListCard: FunctionComponent<Props> = ({
         </View>
         <VerticalSpacer spacing={Spacing.unit} />
         <BorderlessButton
-          title={i18n.t('home.retaliation.see_more')}
+          title={i18n.t("home.retaliation.see_more")}
           type="primary"
           style={styles.linkButton}
           onPress={() => {
-            onRetaliationSelected(viewModel.id)
+            onRetaliationSelected(viewModel.id);
           }}
         />
         <VerticalSpacer spacing={Spacing.margin} />
         <HorizontalSeparator />
         <VerticalSpacer spacing={Spacing.margin} />
         <ActionButton
-          shape={'rounded'}
+          shape={"rounded"}
           buttonStyle={styles.retaliateButton}
-          title={i18n.t('home.retaliation.retaliate_button')}
+          title={i18n.t("home.retaliation.retaliate_button")}
           onPress={() => {
-            onRetaliateSelected(viewModel.id)
+            onRetaliateSelected(viewModel.id);
           }}
         />
       </View>
     </CardView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   body: {
@@ -75,7 +72,7 @@ const styles = StyleSheet.create({
     padding: Spacing.margin,
   },
   linkButton: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     paddingHorizontal: 0,
     paddingVertical: 0,
   },
@@ -84,13 +81,13 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.title2,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     flexShrink: 1,
   },
   titleContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
-})
+});
 
-export default RetaliationListCard
+export default RetaliationListCard;

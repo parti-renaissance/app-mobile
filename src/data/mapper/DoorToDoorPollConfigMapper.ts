@@ -1,6 +1,6 @@
-import { DoorToDoorPollConfig } from '../../core/entities/DoorToDoorPollConfig'
-import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
-import { PollConfigQuestionPageMapper } from './PollConfigQuestionMapper'
+import { DoorToDoorPollConfig } from "../../core/entities/DoorToDoorPollConfig";
+import { RestDoorToDoorPollConfig } from "../restObjects/RestDoorToDoorPollConfig";
+import { PollConfigQuestionPageMapper } from "./PollConfigQuestionMapper";
 
 export const DoorToDoorPollConfigMapper = {
   map: (restObject: RestDoorToDoorPollConfig): DoorToDoorPollConfig => {
@@ -13,7 +13,7 @@ export const DoorToDoorPollConfigMapper = {
               code: item.code,
               label: item.label,
               success: item.success_status,
-            }
+            };
           }),
         responseStatus: restObject.before_survey.response_status
           .flat() // TODO remove flat when server removed nested arrays
@@ -21,12 +21,10 @@ export const DoorToDoorPollConfigMapper = {
             return {
               code: item.code,
               label: item.label,
-            }
+            };
           }),
       },
-      after: restObject.after_survey.map((page) =>
-        PollConfigQuestionPageMapper.map(page),
-      ),
-    }
+      after: restObject.after_survey.map((page) => PollConfigQuestionPageMapper.map(page)),
+    };
   },
-}
+};

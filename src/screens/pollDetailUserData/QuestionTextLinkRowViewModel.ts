@@ -3,7 +3,7 @@
 // in combination with localization in React native
 // As we only support French locale for now, this is not an issue to split the string.
 export interface QuestionTextLinkRowViewModel {
-  id: string
-  content: string
-  highlightedSuffix: string
+  id: string;
+  content: string;
+  highlightedSuffix: string;
 }

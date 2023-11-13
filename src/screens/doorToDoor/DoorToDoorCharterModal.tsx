@@ -1,19 +1,19 @@
-import React, { FC } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
-import Markdown from '@ronradtke/react-native-markdown-display'
-import SafeAreaView from 'react-native-safe-area-view'
-import DoorToDoorRepository from '../../data/DoorToDoorRepository'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { AlertUtils } from '../shared/AlertUtils'
-import { PrimaryButton } from '../shared/Buttons'
-import { CloseButton } from '../shared/NavigationHeaderButton'
+import React, { FC } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import SafeAreaView from "react-native-safe-area-view";
+import Markdown from "@ronradtke/react-native-markdown-display";
+import DoorToDoorRepository from "../../data/DoorToDoorRepository";
+import { Colors, Spacing, Styles, Typography } from "../../styles";
+import i18n from "../../utils/i18n";
+import { AlertUtils } from "../shared/AlertUtils";
+import { PrimaryButton } from "../shared/Buttons";
+import { CloseButton } from "../shared/NavigationHeaderButton";
 
 type Props = {
-  charter: string
-  onAcceptCharter: () => void
-  onDismissModal: () => void
-}
+  charter: string;
+  onAcceptCharter: () => void;
+  onDismissModal: () => void;
+};
 
 const DoorToDoorCharterModal: FC<Props> = (props) => {
   const acceptCharter = () => {
@@ -21,9 +21,9 @@ const DoorToDoorCharterModal: FC<Props> = (props) => {
       .acceptDoorToDoorCharter()
       .then(() => props.onAcceptCharter())
       .catch((error: Error) => {
-        AlertUtils.showNetworkAlert(error, acceptCharter)
-      })
-  }
+        AlertUtils.showNetworkAlert(error, acceptCharter);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,14 +36,11 @@ const DoorToDoorCharterModal: FC<Props> = (props) => {
         </Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
-        <PrimaryButton
-          title={i18n.t('doorToDoor.charter.accept')}
-          onPress={acceptCharter}
-        />
+        <PrimaryButton title={i18n.t("doorToDoor.charter.accept")} onPress={acceptCharter} />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -59,13 +56,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
   headerTitle: {
     ...Typography.title2,
-    textAlign: 'center',
+    textAlign: "center",
   },
-})
+});
 
-export default DoorToDoorCharterModal
+export default DoorToDoorCharterModal;

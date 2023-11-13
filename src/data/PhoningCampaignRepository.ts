@@ -1,69 +1,60 @@
-import { PhoningCampaign } from '../core/entities/PhoningCampaign'
-import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
-import {
-  PhoningCharterAccepted,
-  PhoningCharterState,
-} from '../core/entities/PhoningCharterState'
-import { PhoningSession } from '../core/entities/PhoningSession'
-import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
-import { Poll } from '../core/entities/Poll'
-import { PollRemoteQuestionResult } from '../core/entities/PollResult'
-import { PhoningCampaignMapper } from './mapper/PhoningCampaignMapper'
-import { PhoningSessionConfigurationMapper } from './mapper/PhoningSessionConfigurationMapper'
-import { PhoningSessionMapper } from './mapper/PhoningSessionMapper'
-import { RestPhonePollResultRequestMapper } from './mapper/RestPhonePollResultRequestMapper'
-import ApiService from './network/ApiService'
-import { PhoningCharterMapper } from './mapper/PhoningCharterMapper'
+import { PhoningCampaign } from "../core/entities/PhoningCampaign";
+import { PhoningCharterAccepted, PhoningCharterState } from "../core/entities/PhoningCharterState";
+import { PhoningSatisfactionAnswer } from "../core/entities/PhoningSatisfactionAnswer";
+import { PhoningSession } from "../core/entities/PhoningSession";
+import { PhoningSessionConfiguration } from "../core/entities/PhoningSessionConfiguration";
+import { Poll } from "../core/entities/Poll";
+import { PollRemoteQuestionResult } from "../core/entities/PollResult";
+import { PhoningCampaignMapper } from "./mapper/PhoningCampaignMapper";
+import { PhoningCharterMapper } from "./mapper/PhoningCharterMapper";
+import { PhoningSessionConfigurationMapper } from "./mapper/PhoningSessionConfigurationMapper";
+import { PhoningSessionMapper } from "./mapper/PhoningSessionMapper";
+import { RestPhonePollResultRequestMapper } from "./mapper/RestPhonePollResultRequestMapper";
+import ApiService from "./network/ApiService";
 
 interface CacheSessionValue<T> {
-  sessionId: string
-  value: T
+  sessionId: string;
+  value: T;
 }
 
 class PhoningCampaignRepository {
-  private static instance: PhoningCampaignRepository
-  private apiService = ApiService.getInstance()
+  private static instance: PhoningCampaignRepository;
+  private apiService = ApiService.getInstance();
   private cachedMemoryConfigurationForSession:
     | CacheSessionValue<PhoningSessionConfiguration>
-    | undefined
-  private cachedPhoningCharterState: PhoningCharterState | undefined
+    | undefined;
+  private cachedPhoningCharterState: PhoningCharterState | undefined;
 
   public static getInstance(): PhoningCampaignRepository {
     if (!PhoningCampaignRepository.instance) {
-      PhoningCampaignRepository.instance = new PhoningCampaignRepository()
+      PhoningCampaignRepository.instance = new PhoningCampaignRepository();
     }
-    return PhoningCampaignRepository.instance
+    return PhoningCampaignRepository.instance;
   }
 
   public async getPhoningTutorial(): Promise<string> {
-    const restMarkdown = await this.apiService.getPhoningTutorial()
-    return restMarkdown.content
+    const restMarkdown = await this.apiService.getPhoningTutorial();
+    return restMarkdown.content;
   }
 
   public async getPhoningCampaigns(): Promise<Array<PhoningCampaign>> {
-    const restCampaigns = await this.apiService.getPhoningCampaigns()
-    return restCampaigns.map(PhoningCampaignMapper.map)
+    const restCampaigns = await this.apiService.getPhoningCampaigns();
+    return restCampaigns.map(PhoningCampaignMapper.map);
   }
 
-  public async getPhoningCampaign(
-    campaignId: string,
-  ): Promise<PhoningCampaign> {
-    const restCampaign = await this.apiService.getPhoningCampaign(campaignId)
-    return PhoningCampaignMapper.map(restCampaign)
+  public async getPhoningCampaign(campaignId: string): Promise<PhoningCampaign> {
+    const restCampaign = await this.apiService.getPhoningCampaign(campaignId);
+    return PhoningCampaignMapper.map(restCampaign);
   }
 
   public async getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
-    const poll = await this.apiService.getPhoningCampaignPoll(campaignId)
-    return poll
+    const poll = await this.apiService.getPhoningCampaignPoll(campaignId);
+    return poll;
   }
 
-  public async getPhoningCampaignSession(
-    campaignId: string,
-  ): Promise<PhoningSession> {
-    const restSession = await this.apiService.getPhoningCampaignSession(
-      campaignId,
-    )
-    return PhoningSessionMapper.map(restSession)
+  public async getPhoningCampaignSession(campaignId: string): Promise<PhoningSession> {
+    const restSession = await this.apiService.getPhoningCampaignSession(campaignId);
+    return PhoningSessionMapper.map(restSession);
   }
 
   public async getPhoningSessionConfiguration(
@@ -73,42 +64,31 @@ class PhoningCampaignRepository {
       this.cachedMemoryConfigurationForSession &&
       this.cachedMemoryConfigurationForSession.sessionId === sessionId
     ) {
-      return this.cachedMemoryConfigurationForSession.value
+      return this.cachedMemoryConfigurationForSession.value;
     }
-    this.cachedMemoryConfigurationForSession = undefined
-    const restConfiguration = await this.apiService.getPhoningSessionConfiguration(
-      sessionId,
-    )
-    const configuration = PhoningSessionConfigurationMapper.map(
-      restConfiguration,
-    )
+    this.cachedMemoryConfigurationForSession = undefined;
+    const restConfiguration = await this.apiService.getPhoningSessionConfiguration(sessionId);
+    const configuration = PhoningSessionConfigurationMapper.map(restConfiguration);
     this.cachedMemoryConfigurationForSession = {
       sessionId,
       value: configuration,
-    }
-    return configuration
+    };
+    return configuration;
   }
 
-  public async updatePhoningSessionStatus(
-    sessionId: string,
-    status: string,
-  ): Promise<void> {
-    await this.apiService.updatePhoningSessionStatus(sessionId, status)
+  public async updatePhoningSessionStatus(sessionId: string, status: string): Promise<void> {
+    await this.apiService.updatePhoningSessionStatus(sessionId, status);
   }
 
   public async sendSatisfactionAnswers(
     sessionId: string,
     answers: ReadonlyArray<PhoningSatisfactionAnswer>,
   ): Promise<void> {
-    const params: Record<string, any> = {}
+    const params: Record<string, any> = {};
     answers.forEach((item) => {
-      params[item.code] = item.value
-    })
-    await this.apiService.updatePhoningSessionStatus(
-      sessionId,
-      'completed',
-      params,
-    )
+      params[item.code] = item.value;
+    });
+    await this.apiService.updatePhoningSessionStatus(sessionId, "completed", params);
   }
 
   public async sendPhonePollAnswers(
@@ -116,22 +96,22 @@ class PhoningCampaignRepository {
     sessionId: string,
     result: PollRemoteQuestionResult,
   ): Promise<void> {
-    const request = RestPhonePollResultRequestMapper.map(poll.uuid, result)
-    await this.apiService.sendPhonePollAnswers(sessionId, request)
+    const request = RestPhonePollResultRequestMapper.map(poll.uuid, result);
+    await this.apiService.sendPhonePollAnswers(sessionId, request);
   }
 
   public async getPhoningCharterState(): Promise<PhoningCharterState> {
-    if (this.cachedPhoningCharterState) return this.cachedPhoningCharterState
-    const restPhoningCharter = await this.apiService.getPhoningCharter()
-    const state = PhoningCharterMapper.map(restPhoningCharter)
-    this.cachedPhoningCharterState = state
-    return state
+    if (this.cachedPhoningCharterState) return this.cachedPhoningCharterState;
+    const restPhoningCharter = await this.apiService.getPhoningCharter();
+    const state = PhoningCharterMapper.map(restPhoningCharter);
+    this.cachedPhoningCharterState = state;
+    return state;
   }
 
   public async acceptPhoningCharter(): Promise<void> {
-    await this.apiService.acceptPhoningCharter()
-    this.cachedPhoningCharterState = new PhoningCharterAccepted()
+    await this.apiService.acceptPhoningCharter();
+    this.cachedPhoningCharterState = new PhoningCharterAccepted();
   }
 }
 
-export default PhoningCampaignRepository
+export default PhoningCampaignRepository;

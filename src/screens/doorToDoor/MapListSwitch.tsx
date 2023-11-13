@@ -1,41 +1,35 @@
-import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Colors } from '../../styles'
-import { DoorToDoorDisplayMode } from './DoorToDoor'
+import React from "react";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Colors } from "../../styles";
+import { DoorToDoorDisplayMode } from "./DoorToDoor";
 
 type Props = {
-  mode: DoorToDoorDisplayMode
-  onPress: (mode: DoorToDoorDisplayMode) => void
-}
+  mode: DoorToDoorDisplayMode;
+  onPress: (mode: DoorToDoorDisplayMode) => void;
+};
 
 const MapListSwitch = ({ mode, onPress }: Props) => (
   <View style={styles.card}>
-    <TouchableOpacity onPress={() => onPress('map')}>
-      <View style={[styles.container, mode === 'map' && styles.selected]}>
-        <Image
-          style={styles.icon}
-          source={require('../../assets/images/papMapModeIcon.png')}
-        />
+    <TouchableOpacity onPress={() => onPress("map")}>
+      <View style={[styles.container, mode === "map" && styles.selected]}>
+        <Image style={styles.icon} source={require("../../assets/images/papMapModeIcon.png")} />
       </View>
     </TouchableOpacity>
-    <TouchableOpacity onPress={() => onPress('list')}>
-      <View style={[styles.container, mode === 'list' && styles.selected]}>
-        <Image
-          style={styles.icon}
-          source={require('../../assets/images/papListModeIcon.png')}
-        />
+    <TouchableOpacity onPress={() => onPress("list")}>
+      <View style={[styles.container, mode === "list" && styles.selected]}>
+        <Image style={styles.icon} source={require("../../assets/images/papListModeIcon.png")} />
       </View>
     </TouchableOpacity>
   </View>
-)
+);
 
 const styles = StyleSheet.create({
   card: {
     borderColor: Colors.progressBackground,
     borderRadius: 8,
     borderWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
   container: {
     margin: 2,
@@ -49,6 +43,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.progressBackground,
     borderRadius: 8,
   },
-})
+});
 
-export default MapListSwitch
+export default MapListSwitch;

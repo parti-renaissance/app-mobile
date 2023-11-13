@@ -1,7 +1,7 @@
-import { RestRegion } from './RestRegion'
+import { RestRegion } from "./RestRegion";
 
 export interface RestDepartmentResponse {
-  code: string
-  name: string
-  region: RestRegion
+  code: string;
+  name: string;
+  region: RestRegion;
 }
