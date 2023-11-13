@@ -16,8 +16,8 @@ jobs:
       volumes:
         - /github/home/.ssh:/root/.ssh
     env:
-      JAVA_TOOL_OPTIONS: '-XX:MinRAMPercentage=20.0 -XX:MaxRAMPercentage=90.0'
-      GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dkotlin.compiler.execution.strategy=in-process'
+      JAVA_TOOL_OPTIONS: "-XX:MinRAMPercentage=20.0 -XX:MaxRAMPercentage=90.0"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.compiler.execution.strategy=in-process"
 
     steps:
       - name: Checkout
@@ -27,12 +27,15 @@ jobs:
       - name: Use Node.js 21
         uses: actions/setup-node@v1
         with:
-          node-version: '21.1.0'
+          node-version: "21.1.0"
+
       - name: Install Yarn
         working-directory: ./
         run: npm install -g yarn
+
       - name: Set up dependencies
         working-directory: ./
+
         run: yarn install
       - name: Prepare env
         working-directory: ./
@@ -60,10 +63,21 @@ jobs:
       #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
       #     restore-keys: |
       #       ${{ runner.os }}-gradle
+
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: ./android
+          bundler: "Gemfile.lock"
+          bundler-cache: true
       - name: Bundle install
+        working-directory: ./android
         run: |
-          bundle config path /root/vendor/bundle
-          bundle check || bundle install
+          bundle install
 
       - name: Fastlane
+        working-directory: ./android
+        env:
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8
         run: bundle exec fastlane ci_check
