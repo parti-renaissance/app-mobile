@@ -48,6 +48,8 @@ export class CompoundPollDetailComponentProvider<A, B>
       return { provider: this.lhs, relativeStep: step };
     } else {
       return {
+        // TODO: fix type
+        // @ts-ignore
         provider: this.rhs,
         relativeStep: step - this.lhs.getNumberOfSteps(),
       };

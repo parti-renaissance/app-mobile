@@ -32,9 +32,12 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
           <View
             style={[
               styles.progress,
+              // TODO: use flex instead of strin percentage
+              //@ts-ignore
               {
                 backgroundColor: Colors.quickPollProgress,
                 width: viewModel.leadingAnswerViewModel.percentage + "%",
+                // flex: parseInt(viewModel.leadingAnswerViewModel.formattedPercentage, 10) / 100,
               },
             ]}
           />

@@ -8,7 +8,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import HTML from "react-native-render-html";
+import HTML, { MixedStyleDeclaration } from "react-native-render-html";
 import { DetailedEvent } from "../../core/entities/Event";
 import { Colors, Spacing, Styles, Typography } from "../../styles";
 import i18n from "../../utils/i18n";
@@ -121,11 +121,11 @@ export const EventDetailsContent: FC<Props> = ({ detailedEvent, onReloadEvent })
         <View style={styles.separator} />
         <Text style={styles.subtitle}>{i18n.t("eventdetails.description")}</Text>
         <HTML
-          containerStyle={styles.htmlContainer}
+          baseStyle={rootStyles}
           source={{
             html: viewModel.description,
           }}
-          tagsStyles={{ p: paragraphStyle }}
+          tagsStyles={{ p: paragraphStyle as MixedStyleDeclaration }}
           contentWidth={contentWidth}
         />
         {viewModel.canSeeMore ? (
@@ -161,6 +161,11 @@ const paragraphStyle: TextStyle = {
   marginBottom: Spacing.unit,
 };
 
+const rootStyles = {
+  marginHorizontal: Spacing.margin,
+  marginTop: Spacing.unit,
+};
+
 const styles = StyleSheet.create({
   attendees: {
     ...Typography.body,
@@ -187,10 +192,6 @@ const styles = StyleSheet.create({
   },
   eventItemsContainer: {
     flex: 1,
-  },
-  htmlContainer: {
-    marginHorizontal: Spacing.margin,
-    marginTop: Spacing.unit,
   },
   image: {
     height: 203,
