@@ -16,6 +16,7 @@ jobs:
         with:
           working-directory: ./ios
           bundler: "Gemfile.lock"
+          ruby-version: ${{ steps.rbenv.outputs.RUBY_VERSION }}
           bundler-cache: true
 
       - name: Use Node.js 21
@@ -46,6 +47,9 @@ jobs:
         with:
           path: ./ios/Pods
           key: ${{ runner.os }}-cocoapods-${{ hashFiles('ios/**/Podfile.lock') }}
+
+      - name: Setup Fastlane
+        run: bundle install
 
       - name: Pod install
         working-directory: ./ios
