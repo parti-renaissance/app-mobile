@@ -12,8 +12,13 @@ import "react-native-gesture-handler";
 import React, { useEffect } from "react";
 import { Platform, StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native";
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+  NavigationContainerRef,
+} from "@react-navigation/native";
 import { I18nextProvider } from "react-i18next";
+import type { AuthenticatedRootNavigatorParamList } from "./src/navigation/authenticatedRoot/AuthenticatedRootNavigatorParamList";
 import { deeplinkConfiguration } from "./src/navigation/deeplink/deeplinkConfiguration";
 import Navigator from "./src/navigation/Navigator";
 import { Colors } from "./src/styles";
@@ -55,14 +60,14 @@ const App = () => {
   }, []);
 
   const routeNameRef = React.useRef<string>();
-  const navigationRef = React.useRef<NavigationContainerRef>();
+  const navigationRef = createNavigationContainerRef<AuthenticatedRootNavigatorParamList>();
 
   return (
     <SafeAreaProvider>
       <NavigationContainer
         ref={navigationRef}
         onReady={() => {
-          const initialScreen = navigationRef?.current?.getCurrentRoute()?.name;
+          const initialScreen = navigationRef.getCurrentRoute()?.name;
           if (initialScreen !== undefined) {
             routeNameRef.current = initialScreen;
             Analytics.logScreen(initialScreen);
@@ -70,9 +75,9 @@ const App = () => {
         }}
         onStateChange={async () => {
           const previousRouteName = routeNameRef.current;
-          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+          const currentRouteName = navigationRef.getCurrentRoute()?.name;
 
-          if (previousRouteName !== currentRouteName) {
+          if (currentRouteName && previousRouteName !== currentRouteName) {
             Analytics.logScreen(currentRouteName);
           }
 
