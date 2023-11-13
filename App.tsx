@@ -12,11 +12,7 @@ import "react-native-gesture-handler";
 import React, { useEffect } from "react";
 import { Platform, StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-  createNavigationContainerRef,
-  NavigationContainer,
-  NavigationContainerRef,
-} from "@react-navigation/native";
+import { createNavigationContainerRef, NavigationContainer } from "@react-navigation/native";
 import { I18nextProvider } from "react-i18next";
 import type { AuthenticatedRootNavigatorParamList } from "./src/navigation/authenticatedRoot/AuthenticatedRootNavigatorParamList";
 import { deeplinkConfiguration } from "./src/navigation/deeplink/deeplinkConfiguration";
