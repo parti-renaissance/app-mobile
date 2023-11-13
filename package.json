@@ -5,7 +5,7 @@
   "scripts": {
     "deplint": "depcruise --config .dependency-cruiser.js src",
     "emulator": "emulator -list-avds | head -n1 | xargs emulator -avd",
-    "eslint": "eslint . --ext js,ts,tsx --max-warnings 0",
+    "eslint": "eslint . --ext js,ts,tsx",
     "eslint:write": "yarn eslint --fix",
     "jest": "jest",
     "open:android": "open -a \"/Applications/Android Studio.app\" android",
