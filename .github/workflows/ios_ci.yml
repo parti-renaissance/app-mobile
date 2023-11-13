@@ -16,7 +16,6 @@ jobs:
         with:
           working-directory: ./ios
           bundler: "Gemfile.lock"
-          ruby-version: ${{ steps.rbenv.outputs.RUBY_VERSION }}
           bundler-cache: true
 
       - name: Use Node.js 21
