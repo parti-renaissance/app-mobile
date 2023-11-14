@@ -3,7 +3,11 @@ module.exports = {
   plugins: ['@babel/plugin-proposal-unicode-property-regex'],
   env: {
     production: {
-      plugins: ['react-native-paper/babel', 'transform-remove-console', '@babel/plugin-proposal-unicode-property-regex'],
+      plugins: [
+        'react-native-paper/babel',
+        'transform-remove-console',
+        '@babel/plugin-proposal-unicode-property-regex',
+      ],
     },
   },
 }
