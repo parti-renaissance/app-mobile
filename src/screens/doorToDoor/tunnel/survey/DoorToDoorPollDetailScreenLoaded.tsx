@@ -1,77 +1,93 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Poll } from "../../../../core/entities/Poll";
-import { PollExtraQuestionPage } from "../../../../core/entities/PollExtraQuestion";
-import { SendDoorPollAnswersInteractor } from "../../../../core/interactor/SendDoorPollAnswersInteractor";
-import { DoorToDoorTunnelModalNavigatorScreenProps } from "../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps";
-import { Colors, Spacing } from "../../../../styles";
-import PollDetailNavigationButtons from "../../../pollDetail/PollDetailNavigationButtons";
-import { PollDetailNavigationButtonsViewModelMapper } from "../../../pollDetail/PollDetailNavigationButtonsViewModelMapper";
-import PollDetailProgressBar from "../../../pollDetail/PollDetailProgressBar";
-import { PollDetailProgressBarViewModelMapper } from "../../../pollDetail/PollDetailProgressBarViewModelMapper";
-import { CompoundPollDetailComponentProvider } from "../../../pollDetail/providers/CompoundPollDetailComponentProvider";
-import { PollDetailComponentProvider } from "../../../pollDetail/providers/PollDetailComponentProvider";
-import { PollDetailRemoteQuestionComponentProvider } from "../../../pollDetail/providers/PollDetailRemoteQuestionComponentProvider";
-import { AlertUtils } from "../../../shared/AlertUtils";
-import KeyboardOffsetView from "../../../shared/KeyboardOffsetView";
-import LoadingOverlay from "../../../shared/LoadingOverlay";
-import { DoorToDoorPollResult } from "./DoorToDoorQuestionResult";
-import { DoorToDoorQualificationComponentProvider } from "./providers/DoorToDoorQualificationComponentProvider";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { Poll } from '../../../../core/entities/Poll'
+import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
+import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { Colors, Spacing } from '../../../../styles'
+import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
+import { PollDetailNavigationButtonsViewModelMapper } from '../../../pollDetail/PollDetailNavigationButtonsViewModelMapper'
+import PollDetailProgressBar from '../../../pollDetail/PollDetailProgressBar'
+import { PollDetailProgressBarViewModelMapper } from '../../../pollDetail/PollDetailProgressBarViewModelMapper'
+import { CompoundPollDetailComponentProvider } from '../../../pollDetail/providers/CompoundPollDetailComponentProvider'
+import { PollDetailComponentProvider } from '../../../pollDetail/providers/PollDetailComponentProvider'
+import { PollDetailRemoteQuestionComponentProvider } from '../../../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
+import { AlertUtils } from '../../../shared/AlertUtils'
+import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
+import LoadingOverlay from '../../../shared/LoadingOverlay'
+import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
+import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
 
 type Props = Readonly<{
-  poll: Poll;
-  qualification: Array<PollExtraQuestionPage>;
-}>;
+  poll: Poll
+  qualification: Array<PollExtraQuestionPage>
+}>
 
-const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({ qualification, poll }) => {
-  const route = useRoute<DoorToDoorTunnelModalNavigatorScreenProps<"TunnelDoorPoll">["route"]>();
+const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
+  qualification,
+  poll,
+}) => {
+  const route =
+    useRoute<
+      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['route']
+    >()
   const navigation =
-    useNavigation<DoorToDoorTunnelModalNavigatorScreenProps<"TunnelDoorPoll">["navigation"]>();
+    useNavigation<
+      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['navigation']
+    >()
 
-  const [currentStep, setStep] = useState<number>(0);
-  const [, updateState] = useState<any>();
-  const forceUpdate = useCallback(() => updateState({}), []);
-  const [provider] = useState<PollDetailComponentProvider<DoorToDoorPollResult>>(
+  const [currentStep, setStep] = useState<number>(0)
+  const [, updateState] = useState<any>()
+  const forceUpdate = useCallback(() => updateState({}), [])
+  const [provider] = useState<
+    PollDetailComponentProvider<DoorToDoorPollResult>
+  >(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
       new DoorToDoorQualificationComponentProvider(qualification, forceUpdate),
     ),
-  );
+  )
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const progressViewModel = PollDetailProgressBarViewModelMapper.map(
     currentStep,
     provider.getNumberOfSteps(),
     provider.getStepType(currentStep),
-  );
+  )
   const isNextStepAvailable = () => {
-    return currentStep < provider.getNumberOfSteps() - 1;
-  };
+    return currentStep < provider.getNumberOfSteps() - 1
+  }
   const isPreviousStepAvailable = () => {
-    return currentStep > 0;
-  };
+    return currentStep > 0
+  }
   const navigationViewModel = PollDetailNavigationButtonsViewModelMapper.map(
     isPreviousStepAvailable(),
     isNextStepAvailable(),
     provider.isDataComplete(currentStep),
-  );
+  )
 
-  const [pageWidth, setPageWidth] = useState<number>(0);
-  const flatListViewRef = useRef<FlatList>(null);
+  const [pageWidth, setPageWidth] = useState<number>(0)
+  const flatListViewRef = useRef<FlatList>(null)
 
   useEffect(() => {
     flatListViewRef.current?.scrollToIndex({
       animated: true,
       index: currentStep,
-    });
-  }, [currentStep]);
+    })
+  }, [currentStep])
 
   const postAnswers = () => {
-    setIsLoading(true);
-    const result = provider.getResult();
+    setIsLoading(true)
+    const result = provider.getResult()
     new SendDoorPollAnswersInteractor()
       .execute({
         campaignId: route.params.campaignId,
@@ -81,27 +97,30 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({ qualificat
         visitStartDateISOString: route.params.visitStartDateISOString,
       })
       .then(() => {
-        navigation.replace("TunnelDoorSuccess", {
+        navigation.replace('TunnelDoorSuccess', {
           campaignId: route.params.campaignId,
           buildingParams: route.params.buildingParams,
           interlocutorStatus: route.params.interlocutorStatus,
-        });
+        })
       })
       .catch((error) => {
-        AlertUtils.showNetworkAlert(error, postAnswers);
+        AlertUtils.showNetworkAlert(error, postAnswers)
       })
-      .finally(() => setIsLoading(false));
-  };
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.content}>
-        <PollDetailProgressBar style={styles.progress} viewModel={progressViewModel} />
+        <PollDetailProgressBar
+          style={styles.progress}
+          viewModel={progressViewModel}
+        />
         <View
           style={styles.questionContainer}
           onLayout={(event) => {
-            setPageWidth(event.nativeEvent.layout.width);
+            setPageWidth(event.nativeEvent.layout.width)
           }}
         >
           <KeyboardOffsetView>
@@ -117,11 +136,11 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({ qualificat
                   <View key={item} style={{ width: pageWidth }}>
                     {provider.getStepComponent(item)}
                   </View>
-                );
+                )
               }}
               extraData={provider}
               getItemLayout={(_data, index) => {
-                return { length: pageWidth, offset: pageWidth * index, index };
+                return { length: pageWidth, offset: pageWidth * index, index }
               }}
               snapToInterval={pageWidth}
               keyExtractor={(item) => item.toString()}
@@ -138,8 +157,8 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({ qualificat
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -148,7 +167,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    overflow: "hidden", // hide the shadow on the bottom
+    overflow: 'hidden', // hide the shadow on the bottom
   },
   progress: {
     paddingHorizontal: Spacing.margin,
@@ -159,6 +178,6 @@ const styles = StyleSheet.create({
   questionList: {
     flex: 1,
   },
-});
+})
 
-export default DoorToDoorPollDetailScreenLoaded;
+export default DoorToDoorPollDetailScreenLoaded

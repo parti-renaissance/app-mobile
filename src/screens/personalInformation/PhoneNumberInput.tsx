@@ -1,33 +1,40 @@
-import React, { forwardRef } from "react";
-import { StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
-import LabelInputContainer from "./LabelInputContainer";
+import React, { forwardRef } from 'react'
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import LabelInputContainer from './LabelInputContainer'
 
 type Props = Readonly<{
-  labelStyle?: StyleProp<ViewStyle>;
-  label: string;
-  placeholder: string;
-  nextInput?: React.RefObject<TextInput>;
-  isLastInput?: boolean;
-  phoneNumber: string;
-  callingCode: string;
-  errorMessage?: string;
-  multiLine?: boolean;
-  inputAccessoryViewID?: string;
-  onCallingCodePress?: () => void;
-  onPhoneNumberChange: (value: string) => void;
-}>;
+  labelStyle?: StyleProp<ViewStyle>
+  label: string
+  placeholder: string
+  nextInput?: React.RefObject<TextInput>
+  isLastInput?: boolean
+  phoneNumber: string
+  callingCode: string
+  errorMessage?: string
+  multiLine?: boolean
+  inputAccessoryViewID?: string
+  onCallingCodePress?: () => void
+  onPhoneNumberChange: (value: string) => void
+}>
 
 const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
-  const returnKeyType = props.isLastInput === true ? "done" : "next";
+  const returnKeyType = props.isLastInput === true ? 'done' : 'next'
   const submitEditing = () => {
     if (props.nextInput !== undefined) {
-      props.nextInput?.current?.focus();
+      props.nextInput?.current?.focus()
     }
-  };
+  }
 
-  const textInputStyle = props.multiLine ? styles.expanded : styles.collapsed;
+  const textInputStyle = props.multiLine ? styles.expanded : styles.collapsed
 
   return (
     <LabelInputContainer
@@ -57,24 +64,24 @@ const PhoneNumberInput = forwardRef<TextInput, Props>((props, ref) => {
           autoCapitalize="none"
           autoCorrect={false}
           onChangeText={(value) => {
-            props.onPhoneNumberChange(value);
+            props.onPhoneNumberChange(value)
           }}
           inputAccessoryViewID={props.inputAccessoryViewID}
         />
       </View>
     </LabelInputContainer>
-  );
-});
+  )
+})
 
 const styles = StyleSheet.create({
   collapsed: {
     minWidth: 115,
-    textAlign: "right",
+    textAlign: 'right',
   },
   container: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   callingCodeContainer: {
     backgroundColor: Colors.lightBackground,
@@ -87,7 +94,7 @@ const styles = StyleSheet.create({
   expanded: {
     flexGrow: 1,
     marginStart: Spacing.margin,
-    textAlign: "left",
+    textAlign: 'left',
   },
   textInput: {
     ...Typography.body,
@@ -95,6 +102,6 @@ const styles = StyleSheet.create({
     color: Colors.darkText,
     paddingVertical: 0,
   },
-});
+})
 
-export default PhoneNumberInput;
+export default PhoneNumberInput

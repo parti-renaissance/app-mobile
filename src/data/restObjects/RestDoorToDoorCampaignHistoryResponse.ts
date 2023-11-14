@@ -1,8 +1,8 @@
 export interface RestDoorToDoorCampaignHistoryResponse {
-  status: string;
-  uuid: string;
+  status: string
+  uuid: string
 }
 
 export interface RestDoorToDoorSurveyReplyResponse {
-  uuid: string;
+  uuid: string
 }

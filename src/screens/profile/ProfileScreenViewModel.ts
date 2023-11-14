@@ -1,8 +1,8 @@
-import { ProfilePollsCompletedViewModel } from "./ProfilePollsCompletedViewModel";
+import { ProfilePollsCompletedViewModel } from './ProfilePollsCompletedViewModel'
 
 export interface ProfileScreenViewModel {
-  region: string;
-  area: string;
-  name?: string;
-  polls: ProfilePollsCompletedViewModel;
+  region: string
+  area: string
+  name?: string
+  polls: ProfilePollsCompletedViewModel
 }

@@ -1,34 +1,40 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../../styles";
-import i18n from "../../../utils/i18n";
-import { PrimaryButton } from "../../shared/Buttons";
-import CardView from "../../shared/CardView";
-import { HorizontalSeparator } from "../../shared/HorizontalSeparator";
-import ProgressBar from "../../shared/ProgressBar";
-import { VerticalSpacer } from "../../shared/Spacer";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../../styles'
+import i18n from '../../../utils/i18n'
+import { PrimaryButton } from '../../shared/Buttons'
+import CardView from '../../shared/CardView'
+import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
+import ProgressBar from '../../shared/ProgressBar'
+import { VerticalSpacer } from '../../shared/Spacer'
 
 type Props = Readonly<{
-  viewModel: PhoningCallContactRowViewModel;
-  onCallButtonPressed: () => void;
-}>;
+  viewModel: PhoningCallContactRowViewModel
+  onCallButtonPressed: () => void
+}>
 
 export interface PhoningCallContactRowViewModel {
-  id: string;
-  calledCount: number;
-  numberOfPersonToCall: number;
+  id: string
+  calledCount: number
+  numberOfPersonToCall: number
 }
 
-const PhoningCallContactRow: FunctionComponent<Props> = ({ viewModel, onCallButtonPressed }) => {
+const PhoningCallContactRow: FunctionComponent<Props> = ({
+  viewModel,
+  onCallButtonPressed,
+}) => {
   return (
-    <CardView style={styles.cardView} backgroundColor={Colors.defaultBackground}>
+    <CardView
+      style={styles.cardView}
+      backgroundColor={Colors.defaultBackground}
+    >
       <View style={styles.container}>
-        <Text style={styles.title}>{i18n.t("phoning.callcontact.title")}</Text>
+        <Text style={styles.title}>{i18n.t('phoning.callcontact.title')}</Text>
         <VerticalSpacer spacing={Spacing.unit} />
-        <Text style={styles.body}>{i18n.t("phoning.callcontact.body")}</Text>
+        <Text style={styles.body}>{i18n.t('phoning.callcontact.body')}</Text>
         <VerticalSpacer spacing={Spacing.unit} />
         <Text style={styles.caption}>
-          {i18n.t("phoning.callcontact.progressformat", {
+          {i18n.t('phoning.callcontact.progressformat', {
             count: viewModel.calledCount,
             done: viewModel.calledCount,
             total: viewModel.numberOfPersonToCall,
@@ -43,14 +49,14 @@ const PhoningCallContactRow: FunctionComponent<Props> = ({ viewModel, onCallButt
         <VerticalSpacer spacing={Spacing.margin} />
         <PrimaryButton
           buttonStyle={styles.callButton}
-          title={i18n.t("phoning.callcontact.callbuttontitle")}
+          title={i18n.t('phoning.callcontact.callbuttontitle')}
           onPress={onCallButtonPressed}
-          shape={"rounded"}
+          shape={'rounded'}
         />
       </View>
     </CardView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   body: {
@@ -76,6 +82,6 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title2,
   },
-});
+})
 
-export default PhoningCallContactRow;
+export default PhoningCallContactRow

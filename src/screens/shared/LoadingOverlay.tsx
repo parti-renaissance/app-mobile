@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from "react";
-import { Modal, Platform, StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Styles, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import LoaderView from "./LoaderView";
+import React, { FunctionComponent } from 'react'
+import { Modal, Platform, StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import LoaderView from './LoaderView'
 
 type Props = Readonly<{
-  visible: boolean;
-}>;
+  visible: boolean
+}>
 
 // (Pierre Felgines) 18/11/2020 This is an ugly hack to set an overlay that works well
 // on both iOS and Android
@@ -18,44 +18,49 @@ const LoadingOverlay: FunctionComponent<Props> = ({ visible }) => {
     return (
       <View style={styles.inner}>
         <LoaderView />
-        <Text style={styles.text}>{i18n.t("common.loading")}</Text>
+        <Text style={styles.text}>{i18n.t('common.loading')}</Text>
       </View>
-    );
-  };
-  if (Platform.OS === "android") {
+    )
+  }
+  if (Platform.OS === 'android') {
     return (
-      <Modal animationType="none" transparent={true} visible={visible} onRequestClose={() => null}>
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={visible}
+        onRequestClose={() => null}
+      >
         <View style={styles.container}>
           <Inner />
         </View>
       </Modal>
-    );
-  } else if (Platform.OS === "ios") {
+    )
+  } else if (Platform.OS === 'ios') {
     if (visible) {
       return (
         <View style={[styles.container, styles.overlay]}>
           <Inner />
         </View>
-      );
+      )
     } else {
-      return null;
+      return null
     }
   }
-  return null;
-};
+  return null
+}
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
     backgroundColor: Colors.loadingOverlayBackground,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   inner: {
-    alignContent: "center",
+    alignContent: 'center',
     borderRadius: 8,
     elevation: 6,
-    justifyContent: "center",
+    justifyContent: 'center',
     minHeight: 100,
     minWidth: 100,
     padding: Spacing.margin,
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
   overlay: {
     bottom: 0,
     end: 0,
-    position: "absolute",
+    position: 'absolute',
     start: 0,
     top: 0,
     zIndex: 100,
@@ -73,6 +78,6 @@ const styles = StyleSheet.create({
     marginTop: Spacing.margin,
     ...Typography.body,
   },
-});
+})
 
-export default LoadingOverlay;
+export default LoadingOverlay

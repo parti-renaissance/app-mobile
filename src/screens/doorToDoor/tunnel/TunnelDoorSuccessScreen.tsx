@@ -1,59 +1,78 @@
-import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from "react";
-import { FlatList, Image, ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
+import {
+  FlatList,
+  Image,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
 import {
   DoorToDoorCampaignRanking,
   DoorToDoorCampaignRankingItem,
-} from "../../../core/entities/DoorToDoorCampaignRanking";
-import DoorToDoorRepository from "../../../data/DoorToDoorRepository";
-import { DoorToDoorTunnelModalNavigatorScreenProps } from "../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps";
-import { Colors, Spacing, Typography } from "../../../styles";
-import { DateProvider } from "../../../utils/DateProvider";
-import i18n from "../../../utils/i18n";
-import { PrimaryButton, SecondaryButton } from "../../shared/Buttons";
-import { CloseButton } from "../../shared/NavigationHeaderButton";
-import { RankingRowViewModel, Tab } from "../rankings/Ranking";
-import { RankingHeaderView } from "../rankings/RankingHeaderView";
-import { RankingRowView } from "../rankings/RankingRowView";
-import { RankingTabsView } from "../rankings/RankingTabsView";
-import { RankingViewModelMapper } from "../rankings/RankingViewModelMapper";
+} from '../../../core/entities/DoorToDoorCampaignRanking'
+import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../../styles'
+import { DateProvider } from '../../../utils/DateProvider'
+import i18n from '../../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
+import { CloseButton } from '../../shared/NavigationHeaderButton'
+import { RankingRowViewModel, Tab } from '../rankings/Ranking'
+import { RankingHeaderView } from '../rankings/RankingHeaderView'
+import { RankingRowView } from '../rankings/RankingRowView'
+import { RankingTabsView } from '../rankings/RankingTabsView'
+import { RankingViewModelMapper } from '../rankings/RankingViewModelMapper'
 
-type TunnelDoorSuccessScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<"TunnelDoorSuccess">;
+type TunnelDoorSuccessScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccess'>
 
-const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const [tab, setTab] = useState(Tab.INDIVIDUAL);
-  const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>();
-  const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>();
+const TunnelDoorSuccessScreen: FunctionComponent<
+  TunnelDoorSuccessScreenProps
+> = ({ navigation, route }) => {
+  const [tab, setTab] = useState(Tab.INDIVIDUAL)
+  const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
+  const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>()
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => <CloseButton onPress={() => navigation.getParent()?.goBack()} />,
-    });
-  }, [navigation]);
+      headerLeft: () => (
+        <CloseButton onPress={() => navigation.getParent()?.goBack()} />
+      ),
+    })
+  }, [navigation])
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()
-      .getDoorToDoorCampaignRanking(route.params.campaignId, "remote")
+      .getDoorToDoorCampaignRanking(route.params.campaignId, 'remote')
       .then((result) => {
-        setUserStats(result.individual.find((item) => item.current));
-        setRanking(result);
-      });
-  }, [route.params, setRanking]);
+        setUserStats(result.individual.find((item) => item.current))
+        setRanking(result)
+      })
+  }, [route.params, setRanking])
 
   const renderItem = ({ item }: ListRenderItemInfo<RankingRowViewModel>) => (
     <RankingRowView viewModel={item} />
-  );
+  )
 
   const renderHeader = () => {
     return (
       <>
-        <Image style={styles.image} source={require("../../../assets/images/papSuccess.png")} />
-        <Text style={styles.title}>{i18n.t("doorToDoor.tunnel.success.newDoor")}</Text>
+        <Image
+          style={styles.image}
+          source={require('../../../assets/images/papSuccess.png')}
+        />
+        <Text style={styles.title}>
+          {i18n.t('doorToDoor.tunnel.success.newDoor')}
+        </Text>
         <Text style={styles.note}>
-          {i18n.t("doorToDoor.tunnel.success.recap", {
+          {i18n.t('doorToDoor.tunnel.success.recap', {
             doorsCount: userStats?.visitedDoors ?? 0,
             pollsCount: userStats?.surveys ?? 0,
           })}
@@ -61,12 +80,12 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
 
         <PrimaryButton
           onPress={() => {
-            navigation.replace("TunnelDoorPoll", {
+            navigation.replace('TunnelDoorPoll', {
               campaignId: route.params.campaignId,
               buildingParams: route.params.buildingParams,
               interlocutorStatus: route.params.interlocutorStatus,
               visitStartDateISOString: DateProvider.now().toISOString(),
-            });
+            })
           }}
           title="Interroger une autre personne dans le même foyer"
           style={styles.button}
@@ -75,14 +94,16 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
 
         {ranking ? (
           <>
-            <Text style={styles.title}>{i18n.t("doorToDoor.tunnel.success.ranking")}</Text>
+            <Text style={styles.title}>
+              {i18n.t('doorToDoor.tunnel.success.ranking')}
+            </Text>
             <RankingTabsView tab={tab} onPress={setTab} />
             <RankingHeaderView tab={tab} />
           </>
         ) : null}
       </>
-    );
-  };
+    )
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -93,31 +114,31 @@ const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> =
         keyExtractor={(item) => item.rank}
       />
       <View style={styles.bottomContainer}>
-        {route.params.buildingParams.type !== "house" ? (
+        {route.params.buildingParams.type !== 'house' ? (
           <PrimaryButton
-            title={i18n.t("doorToDoor.tunnel.success.knockNewDoor")}
+            title={i18n.t('doorToDoor.tunnel.success.knockNewDoor')}
             style={styles.newDoor}
             onPress={() => {
-              const nextDoor = route.params.buildingParams.door + 1;
-              navigation.navigate("TunnelDoorSelection", {
+              const nextDoor = route.params.buildingParams.door + 1
+              navigation.navigate('TunnelDoorSelection', {
                 campaignId: route.params.campaignId,
                 buildingParams: {
                   ...route.params.buildingParams,
                   door: nextDoor,
                 },
                 canCloseFloor: true,
-              });
+              })
             }}
           />
         ) : null}
         <SecondaryButton
-          title={i18n.t("doorToDoor.tunnel.success.stop")}
+          title={i18n.t('doorToDoor.tunnel.success.stop')}
           onPress={() => navigation.getParent()?.goBack()}
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -130,7 +151,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
   },
   buttonTextStyle: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   container: {
     backgroundColor: Colors.defaultBackground,
@@ -150,6 +171,6 @@ const styles = StyleSheet.create({
     ...Typography.title2,
     marginLeft: Spacing.margin,
   },
-});
+})
 
-export default TunnelDoorSuccessScreen;
+export default TunnelDoorSuccessScreen

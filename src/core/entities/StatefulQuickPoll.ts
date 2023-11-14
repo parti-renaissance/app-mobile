@@ -1,5 +1,5 @@
-import { QuickPoll } from "./QuickPoll";
+import { QuickPoll } from './QuickPoll'
 
 export interface StatefulQuickPoll extends QuickPoll {
-  state: "answered" | "pending";
+  state: 'answered' | 'pending'
 }

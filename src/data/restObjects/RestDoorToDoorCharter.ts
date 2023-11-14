@@ -1,5 +1,5 @@
 export interface RestDoorToDoorCharterResponse {
-  content: string | undefined;
+  content: string | undefined
 }
 
 export class RestDoorToDoorCharterNotAccepted {
@@ -10,4 +10,4 @@ export class RestDoorToDoorCharterAccepted {}
 
 export type RestDoorToDoorCharter =
   | RestDoorToDoorCharterNotAccepted
-  | RestDoorToDoorCharterAccepted;
+  | RestDoorToDoorCharterAccepted

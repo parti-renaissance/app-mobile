@@ -1,8 +1,9 @@
-import { PhoningSatisfactionAnswer } from "./PhoningSatisfactionAnswer";
-import { PollRemoteQuestionResult } from "./PollResult";
+import { PhoningSatisfactionAnswer } from './PhoningSatisfactionAnswer'
+import { PollRemoteQuestionResult } from './PollResult'
 
 export interface PhonePollSatisfactionResult {
-  satisfactionAnswers: ReadonlyArray<PhoningSatisfactionAnswer>;
+  satisfactionAnswers: ReadonlyArray<PhoningSatisfactionAnswer>
 }
 
-export type PhonePollResult = PollRemoteQuestionResult & PhonePollSatisfactionResult;
+export type PhonePollResult = PollRemoteQuestionResult &
+  PhonePollSatisfactionResult

@@ -1,3 +1,3 @@
 export interface RestResetPasswordRequest {
-  email_address: string;
+  email_address: string
 }

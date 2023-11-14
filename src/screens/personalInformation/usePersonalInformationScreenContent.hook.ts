@@ -1,175 +1,178 @@
-import { useCallback, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { DetailedProfile, FormViolation } from "../../core/entities/DetailedProfile";
-import { Gender } from "../../core/entities/UserProfile";
-import { ProfileFormError } from "../../core/errors";
-import { CountryRepository } from "../../data/CountryRepository";
-import ProfileRepository from "../../data/ProfileRepository";
-import { PersonalInformationModalNavigatorScreenProps } from "../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps";
-import i18n from "../../utils/i18n";
-import { AlertUtils } from "../shared/AlertUtils";
-import { CallingCodeListPikerViewModelMapper } from "./CallingCodeListPickerViewModelMapper";
-import { NationalityListPikerViewModelMapper } from "./NationalityListPikerViewModelMapper";
-import { PersonalInformationsForm } from "./PersonalInformationsForm";
-import { PersonalInformationsFormMapper } from "./PersonalInformationsFormMapper";
+import { useCallback, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import {
+  DetailedProfile,
+  FormViolation,
+} from '../../core/entities/DetailedProfile'
+import { Gender } from '../../core/entities/UserProfile'
+import { ProfileFormError } from '../../core/errors'
+import { CountryRepository } from '../../data/CountryRepository'
+import ProfileRepository from '../../data/ProfileRepository'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import i18n from '../../utils/i18n'
+import { AlertUtils } from '../shared/AlertUtils'
+import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerViewModelMapper'
+import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
+import { PersonalInformationsForm } from './PersonalInformationsForm'
+import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
 
 export const usePersonalInformationScreenContent = (
   profile: DetailedProfile,
 ): {
-  form: PersonalInformationsForm;
-  isLoading: boolean;
-  callingCode: string;
-  displayCustomGender: boolean;
-  getError: (path: string) => string;
-  onFirstNameChange: (firstName: string) => void;
-  onLastNameChange: (firstName: string) => void;
-  onGenderChange: (gender: Gender) => void;
-  onCustomGenderChange: (customGender: string) => void;
-  onBirthdateChange: (birthdate: Date) => void;
-  onNationalityPress: () => void;
-  onLocationPickerPress: () => void;
-  onEmailChange: (email: string) => void;
-  onPhoneNumberChange: (phoneNumber: string) => void;
-  onCallingCodePress: () => void;
-  onFacebookChange: (facebook: string) => void;
-  onTwitterChange: (twitter: string) => void;
-  onLinkedInChange: (linkedin: string) => void;
-  onTelegramChange: (telegram: string) => void;
-  onSubmit: () => void;
+  form: PersonalInformationsForm
+  isLoading: boolean
+  callingCode: string
+  displayCustomGender: boolean
+  getError: (path: string) => string
+  onFirstNameChange: (firstName: string) => void
+  onLastNameChange: (firstName: string) => void
+  onGenderChange: (gender: Gender) => void
+  onCustomGenderChange: (customGender: string) => void
+  onBirthdateChange: (birthdate: Date) => void
+  onNationalityPress: () => void
+  onLocationPickerPress: () => void
+  onEmailChange: (email: string) => void
+  onPhoneNumberChange: (phoneNumber: string) => void
+  onCallingCodePress: () => void
+  onFacebookChange: (facebook: string) => void
+  onTwitterChange: (twitter: string) => void
+  onLinkedInChange: (linkedin: string) => void
+  onTelegramChange: (telegram: string) => void
+  onSubmit: () => void
 } => {
   const [form, updateForm] = useState<PersonalInformationsForm>(
     PersonalInformationsFormMapper.map(profile),
-  );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<Array<FormViolation>>([]);
+  )
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [errors, setErrors] = useState<Array<FormViolation>>([])
 
   const navigation =
     useNavigation<
-      PersonalInformationModalNavigatorScreenProps<"PersonalInformation">["navigation"]
-    >();
+      PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
+    >()
 
   const getError = (path: string): string => {
     return errors
       .filter((error) => error.propertyPath.startsWith(path))
       .map((value) => value.message)
       .reduce((previous, current) => {
-        return previous + current + "\n";
-      }, "");
-  };
+        return previous + current + '\n'
+      }, '')
+  }
 
   const onFirstNameChange = (firstName: string) => {
-    updateForm({ ...form, firstName });
-  };
+    updateForm({ ...form, firstName })
+  }
 
   const onLastNameChange = (lastName: string) => {
-    updateForm({ ...form, lastName });
-  };
+    updateForm({ ...form, lastName })
+  }
 
   const onSubmit = useCallback(() => {
-    setIsLoading(true);
-    setErrors([]);
+    setIsLoading(true)
+    setErrors([])
     ProfileRepository.getInstance()
       .updateDetailedProfile(profile.uuid, form)
       .then(() => navigation.goBack())
       .catch((error) => {
         if (error instanceof ProfileFormError) {
-          setErrors(error.violations);
+          setErrors(error.violations)
         } else {
-          AlertUtils.showNetworkAlert(error, onSubmit);
+          AlertUtils.showNetworkAlert(error, onSubmit)
         }
       })
-      .finally(() => setIsLoading(false));
-  }, [profile.uuid, form, navigation]);
+      .finally(() => setIsLoading(false))
+  }, [profile.uuid, form, navigation])
 
   const onGenderChange = (gender: Gender) => {
-    updateForm({ ...form, gender });
-  };
+    updateForm({ ...form, gender })
+  }
 
   const onCustomGenderChange = (customGender: string) => {
-    updateForm({ ...form, customGender });
-  };
+    updateForm({ ...form, customGender })
+  }
 
   const onBirthdateChange = (birthdate: Date) => {
-    updateForm({ ...form, birthdate });
-  };
+    updateForm({ ...form, birthdate })
+  }
 
   const onLocationPickerPress = () => {
-    navigation.navigate("LocationPickerModal", {
-      screen: "LocationPicker",
+    navigation.navigate('LocationPickerModal', {
+      screen: 'LocationPicker',
       params: {
         onAddressSelected: (pickedAddress) => {
-          updateForm({ ...form, address: pickedAddress });
+          updateForm({ ...form, address: pickedAddress })
         },
       },
-    });
-  };
+    })
+  }
 
   const onNationalityPress = () => {
-    const countries = CountryRepository.getInstance().getCountries();
-    navigation.navigate("ListPickerModal", {
-      screen: "ListPicker",
+    const countries = CountryRepository.getInstance().getCountries()
+    navigation.navigate('ListPickerModal', {
+      screen: 'ListPicker',
       params: {
-        title: i18n.t("personalinformation.nationality"),
+        title: i18n.t('personalinformation.nationality'),
         items: NationalityListPikerViewModelMapper.map(countries),
         selectedItemId: form.countryCode,
         onItemSelected: (id) => {
-          const selectedCountry = countries.find((c) => c.code === id);
+          const selectedCountry = countries.find((c) => c.code === id)
           if (selectedCountry !== undefined) {
-            updateForm({ ...form, countryCode: selectedCountry.code });
+            updateForm({ ...form, countryCode: selectedCountry.code })
           }
         },
         displaySearch: true,
-        presentationType: "modal",
+        presentationType: 'modal',
       },
-    });
-  };
+    })
+  }
 
   const onEmailChange = (email: string) => {
-    updateForm({ ...form, email });
-  };
+    updateForm({ ...form, email })
+  }
 
   const onPhoneNumberChange = (phoneNumber: string) => {
-    updateForm({ ...form, phoneNumber });
-  };
+    updateForm({ ...form, phoneNumber })
+  }
 
   const onCallingCodePress = () => {
-    const countries = CountryRepository.getInstance().getCountries();
-    navigation.navigate("ListPickerModal", {
-      screen: "ListPicker",
+    const countries = CountryRepository.getInstance().getCountries()
+    navigation.navigate('ListPickerModal', {
+      screen: 'ListPicker',
       params: {
-        title: i18n.t("personalinformation.calling_code"),
+        title: i18n.t('personalinformation.calling_code'),
         items: CallingCodeListPikerViewModelMapper.map(countries),
         selectedItemId: form.phoneCountryCode,
         onItemSelected: (id) => {
-          const selectedCountry = countries.find((c) => c.code === id);
+          const selectedCountry = countries.find((c) => c.code === id)
           if (selectedCountry !== undefined) {
             updateForm({
               ...form,
               phoneCountryCode: selectedCountry.code,
-            });
+            })
           }
         },
         displaySearch: true,
-        presentationType: "modal",
+        presentationType: 'modal',
       },
-    });
-  };
+    })
+  }
 
   const onFacebookChange = (facebook: string) => {
-    updateForm({ ...form, facebook });
-  };
+    updateForm({ ...form, facebook })
+  }
 
   const onTwitterChange = (twitter: string) => {
-    updateForm({ ...form, twitter });
-  };
+    updateForm({ ...form, twitter })
+  }
 
   const onLinkedInChange = (linkedin: string) => {
-    updateForm({ ...form, linkedin });
-  };
+    updateForm({ ...form, linkedin })
+  }
 
   const onTelegramChange = (telegram: string) => {
-    updateForm({ ...form, telegram });
-  };
+    updateForm({ ...form, telegram })
+  }
 
   return {
     form,
@@ -194,5 +197,5 @@ export const usePersonalInformationScreenContent = (
     onLinkedInChange,
     onTelegramChange,
     onSubmit,
-  };
-};
+  }
+}

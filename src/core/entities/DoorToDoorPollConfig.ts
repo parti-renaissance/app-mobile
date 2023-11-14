@@ -1,22 +1,22 @@
-import { PollExtraQuestionPage } from "./PollExtraQuestion";
+import { PollExtraQuestionPage } from './PollExtraQuestion'
 
 export interface DoorToDoorPollConfig {
-  before: DoorToDoorPollConfigBefore;
-  after: Array<PollExtraQuestionPage>;
+  before: DoorToDoorPollConfigBefore
+  after: Array<PollExtraQuestionPage>
 }
 
 export interface DoorToDoorPollConfigBefore {
-  doorStatus: Array<DoorToDoorPollConfigDoorStatus>;
-  responseStatus: Array<DoorToDoorPollConfigResponseStatus>;
+  doorStatus: Array<DoorToDoorPollConfigDoorStatus>
+  responseStatus: Array<DoorToDoorPollConfigResponseStatus>
 }
 
 export interface DoorToDoorPollConfigDoorStatus {
-  code: string;
-  label: string;
-  success: boolean;
+  code: string
+  label: string
+  success: boolean
 }
 
 export interface DoorToDoorPollConfigResponseStatus {
-  code: string;
-  label: string;
+  code: string
+  label: string
 }

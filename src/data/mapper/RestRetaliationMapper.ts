@@ -1,6 +1,12 @@
-import { RestRetaliation, RestRetaliationOpenGraph } from "../restObjects/RestRetaliation";
-import { Retaliation, RetaliationOpenGraph } from "./../../core/entities/Retaliation";
-import { RetaliationSiteTypeMapper } from "./RetaliationSiteTypeMapper";
+import {
+  RestRetaliation,
+  RestRetaliationOpenGraph,
+} from '../restObjects/RestRetaliation'
+import {
+  Retaliation,
+  RetaliationOpenGraph,
+} from './../../core/entities/Retaliation'
+import { RetaliationSiteTypeMapper } from './RetaliationSiteTypeMapper'
 
 export const RestRetaliationMapper = {
   map: (restRetaliation: RestRetaliation): Retaliation => {
@@ -12,16 +18,20 @@ export const RestRetaliationMapper = {
       createdAt: new Date(restRetaliation.created_at),
       withNotification: restRetaliation.with_notification,
       openGraph: RestRetaliationOpenGraphMapper.map(restRetaliation.open_graph),
-    };
+    }
   },
-};
+}
 
 const RestRetaliationOpenGraphMapper = {
-  map: (restRetaliationOpenGraph: RestRetaliationOpenGraph | null): RetaliationOpenGraph | null => {
+  map: (
+    restRetaliationOpenGraph: RestRetaliationOpenGraph | null,
+  ): RetaliationOpenGraph | null => {
     if (restRetaliationOpenGraph === null) {
-      return null;
+      return null
     }
-    const site = RetaliationSiteTypeMapper.map(restRetaliationOpenGraph.site_name);
+    const site = RetaliationSiteTypeMapper.map(
+      restRetaliationOpenGraph.site_name,
+    )
     return {
       url: restRetaliationOpenGraph.url,
       type: restRetaliationOpenGraph.type,
@@ -29,6 +39,6 @@ const RestRetaliationOpenGraphMapper = {
       title: restRetaliationOpenGraph.title,
       site: site,
       description: restRetaliationOpenGraph.description,
-    };
+    }
   },
-};
+}

@@ -1,17 +1,23 @@
-import React from "react";
-import { Platform, Pressable, StyleProp, TouchableHighlight, ViewStyle } from "react-native";
-import { Colors } from "../../styles";
+import React from 'react'
+import {
+  Platform,
+  Pressable,
+  StyleProp,
+  TouchableHighlight,
+  ViewStyle,
+} from 'react-native'
+import { Colors } from '../../styles'
 
 type Props = Readonly<{
-  children: any;
-  disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
-  touchHighlight: string;
-  onPress?: () => void;
-}>;
+  children: any
+  disabled?: boolean
+  style?: StyleProp<ViewStyle>
+  touchHighlight: string
+  onPress?: () => void
+}>
 
 export const TouchablePlatform = (props: Props) => {
-  if (Platform.OS === "android") {
+  if (Platform.OS === 'android') {
     return (
       <Pressable
         style={[props.style]}
@@ -21,7 +27,7 @@ export const TouchablePlatform = (props: Props) => {
       >
         {props.children}
       </Pressable>
-    );
+    )
   } else {
     return (
       <TouchableHighlight
@@ -33,6 +39,6 @@ export const TouchablePlatform = (props: Props) => {
       >
         {props.children}
       </TouchableHighlight>
-    );
+    )
   }
-};
+}

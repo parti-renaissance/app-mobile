@@ -1,14 +1,14 @@
-import React, { FC } from "react";
-import { StyleSheet, Text } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
+import React, { FC } from 'react'
+import { StyleSheet, Text } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
 
 type Props = Readonly<{
-  title: string;
-}>;
+  title: string
+}>
 
 const ProfileSettingsHeader: FC<Props> = ({ title }) => {
-  return <Text style={styles.title}>{title}</Text>;
-};
+  return <Text style={styles.title}>{title}</Text>
+}
 
 const styles = StyleSheet.create({
   title: {
@@ -17,6 +17,6 @@ const styles = StyleSheet.create({
     marginTop: Spacing.margin,
     paddingHorizontal: Spacing.margin,
   },
-});
+})
 
-export default ProfileSettingsHeader;
+export default ProfileSettingsHeader

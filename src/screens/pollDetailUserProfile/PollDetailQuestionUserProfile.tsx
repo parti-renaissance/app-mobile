@@ -1,21 +1,21 @@
-import React, { FunctionComponent } from "react";
-import { SectionList, StyleSheet, Text } from "react-native";
-import { Spacing, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import QuestionChoiceRow from "../pollDetail/QuestionChoiceRow";
-import { QuestionChoiceRowViewModel } from "../pollDetail/QuestionChoiceRowViewModel";
-import { PollDetailQuestionUserProfileViewModel } from "./PollDetailQuestionUserProfileViewModel";
-import { UserProfileSection } from "./PollDetailQuestionUserProfileViewModelMapper";
-import QuestionGenderRow from "./QuestionGenderRow";
-import { QuestionGenderRowViewModel } from "./QuestionGenderRowViewModel";
-import QuestionUserProfileSectionHeader from "./QuestionUserProfileSectionHeader";
+import React, { FunctionComponent } from 'react'
+import { SectionList, StyleSheet, Text } from 'react-native'
+import { Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
+import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
+import { PollDetailQuestionUserProfileViewModel } from './PollDetailQuestionUserProfileViewModel'
+import { UserProfileSection } from './PollDetailQuestionUserProfileViewModelMapper'
+import QuestionGenderRow from './QuestionGenderRow'
+import { QuestionGenderRowViewModel } from './QuestionGenderRowViewModel'
+import QuestionUserProfileSectionHeader from './QuestionUserProfileSectionHeader'
 
 type Props = Readonly<{
-  viewModel: PollDetailQuestionUserProfileViewModel;
-  onGenderChange?: (genderId: string) => void;
-  onAgeChange?: (ageId: string) => void;
-  onProfessionChange?: (professionId: string) => void;
-}>;
+  viewModel: PollDetailQuestionUserProfileViewModel
+  onGenderChange?: (genderId: string) => void
+  onAgeChange?: (ageId: string) => void
+  onProfessionChange?: (professionId: string) => void
+}>
 
 const PollDetailQuestionUserProfile: FunctionComponent<Props> = ({
   viewModel,
@@ -29,28 +29,31 @@ const PollDetailQuestionUserProfile: FunctionComponent<Props> = ({
         viewModel={item}
         onGenderSelected={(genderId) => onGenderChange?.(genderId)}
       />
-    );
-  };
+    )
+  }
 
-  const renderChoice = (item: QuestionChoiceRowViewModel, sectionId: string): JSX.Element => {
+  const renderChoice = (
+    item: QuestionChoiceRowViewModel,
+    sectionId: string,
+  ): JSX.Element => {
     return (
       <QuestionChoiceRow
         viewModel={item}
         onPress={() => {
           switch (sectionId) {
             case UserProfileSection.Gender:
-              break; // no op
+              break // no op
             case UserProfileSection.Age:
-              onAgeChange?.(item.id);
-              break;
+              onAgeChange?.(item.id)
+              break
             case UserProfileSection.Profession:
-              onProfessionChange?.(item.id);
-              break;
+              onProfessionChange?.(item.id)
+              break
           }
         }}
       />
-    );
-  };
+    )
+  }
 
   return (
     <SectionList
@@ -60,10 +63,10 @@ const PollDetailQuestionUserProfile: FunctionComponent<Props> = ({
       sections={viewModel.sections}
       renderItem={({ item, section }) => {
         switch (item.type) {
-          case "gender":
-            return renderGender(item.value);
-          case "choice":
-            return renderChoice(item.value, section.id);
+          case 'gender':
+            return renderGender(item.value)
+          case 'choice':
+            return renderChoice(item.value, section.id)
         }
       }}
       keyExtractor={(item, index) => item.value.id + index}
@@ -71,11 +74,15 @@ const PollDetailQuestionUserProfile: FunctionComponent<Props> = ({
         <QuestionUserProfileSectionHeader title={title} />
       )}
       ListHeaderComponent={() => {
-        return <Text style={styles.headerText}>{i18n.t("polldetail.profile.header")}</Text>;
+        return (
+          <Text style={styles.headerText}>
+            {i18n.t('polldetail.profile.header')}
+          </Text>
+        )
       }}
     />
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -88,6 +95,6 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
   },
-});
+})
 
-export default PollDetailQuestionUserProfile;
+export default PollDetailQuestionUserProfile

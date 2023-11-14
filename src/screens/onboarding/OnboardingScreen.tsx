@@ -1,67 +1,81 @@
-import React, { FC } from "react";
-import { ImageBackground, StatusBar, StyleSheet, Text } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import SafeAreaView from "react-native-safe-area-view";
-import { OnboardingNavigatorScreenProps } from "../../navigation/onboarding/OnboardingNavigatorScreenProps";
-import { Colors, Spacing, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import { PrimaryButton, SecondaryButton } from "../shared/Buttons";
-import { FlexibleVerticalSpacer, VerticalSpacer } from "../shared/Spacer";
-import { useOnboardingScreen } from "./useOnboardingScreen.hook";
+import React, { FC } from 'react'
+import { ImageBackground, StatusBar, StyleSheet, Text } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import SafeAreaView from 'react-native-safe-area-view'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
+import { useOnboardingScreen } from './useOnboardingScreen.hook'
 
-type OnboardingScreenProps = OnboardingNavigatorScreenProps<"Onboarding">;
+type OnboardingScreenProps = OnboardingNavigatorScreenProps<'Onboarding'>
 
 const OnboardingScreen: FC<OnboardingScreenProps> = () => {
-  const { viewModel, onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen();
+  const { viewModel, onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()
   return (
-    <ImageBackground source={viewModel.image} resizeMode="cover" style={styles.container}>
+    <ImageBackground
+      source={viewModel.image}
+      resizeMode="cover"
+      style={styles.container}
+    >
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        colors={["#33000000", "#00000000"]}
+        colors={['#33000000', '#00000000']}
         style={styles.background}
       >
         <SafeAreaView style={styles.content}>
-          <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+          <StatusBar
+            translucent
+            backgroundColor="transparent"
+            barStyle="light-content"
+          />
           <Text style={styles.title} numberOfLines={2} allowFontScaling={false}>
             {viewModel.heading}
           </Text>
-          <Text style={styles.titleRest} numberOfLines={2} allowFontScaling={false}>
+          <Text
+            style={styles.titleRest}
+            numberOfLines={2}
+            allowFontScaling={false}
+          >
             {viewModel.title}
           </Text>
           <FlexibleVerticalSpacer minSpacing={Spacing.mediumMargin} />
-          <Text style={styles.description}>{i18n.t("onboarding.description")}</Text>
+          <Text style={styles.description}>
+            {i18n.t('onboarding.description')}
+          </Text>
           <VerticalSpacer spacing={Spacing.mediumMargin} />
           <PrimaryButton
             style={styles.button}
-            title={i18n.t("onboarding.login")}
+            title={i18n.t('onboarding.login')}
             onPress={onLogin}
           />
           <SecondaryButton
             style={styles.button}
-            title={i18n.t("onboarding.signup")}
+            title={i18n.t('onboarding.signup')}
             onPress={onSignUp}
           />
-          <Text style={styles.separator}>{i18n.t("onboarding.or")}</Text>
+          <Text style={styles.separator}>{i18n.t('onboarding.or')}</Text>
           <SecondaryButton
             style={styles.button}
             onPress={onLegacyLogin}
-            title={i18n.t("onboarding.login_lrem")}
-            trailingIcon={require("../../assets/images/iconEM.png")}
+            title={i18n.t('onboarding.login_lrem')}
+            trailingIcon={require('../../assets/images/iconEM.png')}
             iconPadding={Spacing.unit}
           />
         </SafeAreaView>
       </LinearGradient>
     </ImageBackground>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
   button: {
-    justifyContent: "center",
+    justifyContent: 'center',
     marginBottom: Spacing.margin,
   },
   container: {
@@ -75,20 +89,20 @@ const styles = StyleSheet.create({
   description: {
     ...Typography.body,
     color: Colors.white,
-    textAlign: "center",
-    flexWrap: "wrap",
+    textAlign: 'center',
+    flexWrap: 'wrap',
     flexShrink: 1,
   },
   row: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   separator: {
     ...Typography.body,
     color: Colors.white,
     marginBottom: Spacing.margin,
-    textAlign: "center",
+    textAlign: 'center',
   },
   title: {
     ...Typography.largeTitle,
@@ -99,6 +113,6 @@ const styles = StyleSheet.create({
     ...Typography.largeTitleBold,
     color: Colors.white,
   },
-});
+})
 
-export default OnboardingScreen;
+export default OnboardingScreen

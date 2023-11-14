@@ -1,18 +1,18 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
-import { Spacing } from "../../styles";
-import i18n from "../../utils/i18n";
-import { PrimaryButton, SecondaryButton } from "../shared/Buttons";
-import CircularIcon from "../shared/CircularIcon";
-import { VerticalSpacer } from "../shared/Spacer";
-import { PhonePollDetailSuccessProgressContent } from "./PhonePollDetailSuccessProgressContent";
-import { PhonePollDetailSuccessRowSuccessViewModel } from "./PhonePollDetailSuccessViewModel";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Spacing } from '../../styles'
+import i18n from '../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import CircularIcon from '../shared/CircularIcon'
+import { VerticalSpacer } from '../shared/Spacer'
+import { PhonePollDetailSuccessProgressContent } from './PhonePollDetailSuccessProgressContent'
+import { PhonePollDetailSuccessRowSuccessViewModel } from './PhonePollDetailSuccessViewModel'
 
 type Props = Readonly<{
-  viewModel: PhonePollDetailSuccessRowSuccessViewModel;
-  onNewCall: () => void;
-  onFinish: () => void;
-}>;
+  viewModel: PhonePollDetailSuccessRowSuccessViewModel
+  onNewCall: () => void
+  onFinish: () => void
+}>
 
 export const PhonePollDetailSuccessContent: FunctionComponent<Props> = ({
   viewModel,
@@ -25,16 +25,25 @@ export const PhonePollDetailSuccessContent: FunctionComponent<Props> = ({
         <PhonePollDetailSuccessProgressContent viewModel={viewModel} />
       </View>
       <VerticalSpacer spacing={Spacing.margin} />
-      <CircularIcon style={styles.image} source={require("../../assets/images/imageMerci.png")} />
+      <CircularIcon
+        style={styles.image}
+        source={require('../../assets/images/imageMerci.png')}
+      />
       <View style={styles.content}>
         <VerticalSpacer spacing={Spacing.margin} />
-        <PrimaryButton title={i18n.t("phoningsession.new_call")} onPress={() => onNewCall()} />
+        <PrimaryButton
+          title={i18n.t('phoningsession.new_call')}
+          onPress={() => onNewCall()}
+        />
         <VerticalSpacer spacing={Spacing.margin} />
-        <SecondaryButton title={i18n.t("phoningsession.end_session")} onPress={() => onFinish()} />
+        <SecondaryButton
+          title={i18n.t('phoningsession.end_session')}
+          onPress={() => onFinish()}
+        />
       </View>
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   content: {
@@ -44,4 +53,4 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.margin,
     marginTop: Spacing.margin,
   },
-});
+})

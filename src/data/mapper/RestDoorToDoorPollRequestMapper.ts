@@ -1,8 +1,8 @@
-import { DoorToDoorPollParams } from "../../core/entities/DoorToDoorPollParams";
-import { DoorToDoorPollResult } from "../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult";
-import { RestDoorToDoorPollResultRequest } from "../restObjects/RestDoorToDoorPollResultRequest";
-import { RestPollExtraAnswersRequestMapper } from "./RestPollExtraAnswersRequestMapper";
-import { RestPollResultAnswerMapper } from "./RestPollResultAnswerMapper";
+import { DoorToDoorPollParams } from '../../core/entities/DoorToDoorPollParams'
+import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
+import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
+import { RestPollExtraAnswersRequestMapper } from './RestPollExtraAnswersRequestMapper'
+import { RestPollResultAnswerMapper } from './RestPollResultAnswerMapper'
 
 export const RestDoorToDoorPollRequestMapper = {
   mapHistoryRequest: (
@@ -19,12 +19,16 @@ export const RestDoorToDoorPollRequestMapper = {
       floor: pollParams.floor,
       door: pollParams.door.toString(),
       begin_at: visitStartDateISOString,
-    };
+    }
   },
-  mapAnswers: (pollResult: DoorToDoorPollResult): RestDoorToDoorPollResultRequest => {
+  mapAnswers: (
+    pollResult: DoorToDoorPollResult,
+  ): RestDoorToDoorPollResultRequest => {
     return {
-      survey: "",
-      answers: pollResult.answers.map((answer) => RestPollResultAnswerMapper.map(answer)),
-    };
+      survey: '',
+      answers: pollResult.answers.map((answer) =>
+        RestPollResultAnswerMapper.map(answer),
+      ),
+    }
   },
-};
+}

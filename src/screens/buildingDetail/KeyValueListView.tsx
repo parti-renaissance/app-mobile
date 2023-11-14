@@ -1,20 +1,23 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
-import { Colors, Typography } from "../../styles";
-import { unit } from "../../styles/spacing";
-import KeyValueCell, { KeyValueCellViewModel } from "./KeyValueCell";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Colors, Typography } from '../../styles'
+import { unit } from '../../styles/spacing'
+import KeyValueCell, { KeyValueCellViewModel } from './KeyValueCell'
 
 type Props = Readonly<{
-  viewModel: KeyValueListViewModel;
-  containerStyle: ViewStyle;
-}>;
+  viewModel: KeyValueListViewModel
+  containerStyle: ViewStyle
+}>
 
 export interface KeyValueListViewModel {
-  cells: KeyValueCellViewModel[];
-  footnote: string;
+  cells: KeyValueCellViewModel[]
+  footnote: string
 }
 
-const KeyValueListView: FunctionComponent<Props> = ({ viewModel, containerStyle }) => {
+const KeyValueListView: FunctionComponent<Props> = ({
+  viewModel,
+  containerStyle,
+}) => {
   return (
     <View style={containerStyle}>
       <View style={styles.listBackground}>
@@ -25,13 +28,13 @@ const KeyValueListView: FunctionComponent<Props> = ({ viewModel, containerStyle 
               viewModel={cellViewModel}
               bottomSeparator={index === viewModel.cells.length - 1}
             />
-          );
+          )
         })}
       </View>
       <Text style={styles.listFootnote}>{viewModel.footnote}</Text>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   listBackground: {
@@ -45,6 +48,6 @@ const styles = StyleSheet.create({
   visitRecords: {
     flex: 1,
   },
-});
+})
 
-export default KeyValueListView;
+export default KeyValueListView

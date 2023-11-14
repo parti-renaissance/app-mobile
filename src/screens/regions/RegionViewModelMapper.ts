@@ -1,5 +1,5 @@
-import { Campaign } from "../../core/entities/Campaign";
-import { RegionViewModel } from "./RegionViewModel";
+import { Campaign } from '../../core/entities/Campaign'
+import { RegionViewModel } from './RegionViewModel'
 
 export const RegionViewModelMapper = {
   map: (name: string, campaign: Campaign): RegionViewModel => {
@@ -10,6 +10,6 @@ export const RegionViewModelMapper = {
       bannerUrl: campaign.banner,
       logoUrl: campaign.logo,
       websiteUrl: campaign.externalLink,
-    };
+    }
   },
-};
+}

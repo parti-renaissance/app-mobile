@@ -1,23 +1,26 @@
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import CardView from "../shared/CardView";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
-import { PoiAddressCardViewModel } from "./PoiAddressCardViewModel";
+import React from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import CardView from '../shared/CardView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { PoiAddressCardViewModel } from './PoiAddressCardViewModel'
 
 type Props = {
-  onPress: (id: string) => void;
-  viewModel: PoiAddressCardViewModel | undefined;
-};
+  onPress: (id: string) => void
+  viewModel: PoiAddressCardViewModel | undefined
+}
 
 export const PoiAddressCard = ({ onPress, viewModel }: Props) => {
-  if (!viewModel) return null;
+  if (!viewModel) return null
 
   return (
-    <CardView style={styles.cardWrap} backgroundColor={Colors.defaultBackground}>
+    <CardView
+      style={styles.cardWrap}
+      backgroundColor={Colors.defaultBackground}
+    >
       <TouchablePlatform
         onPress={() => {
-          onPress(viewModel.id);
+          onPress(viewModel.id)
         }}
         disabled={!viewModel.interactable}
         touchHighlight={Colors.touchHighlight}
@@ -38,8 +41,8 @@ export const PoiAddressCard = ({ onPress, viewModel }: Props) => {
         </View>
       </TouchablePlatform>
     </CardView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   building: {
@@ -48,11 +51,11 @@ const styles = StyleSheet.create({
     width: 14,
   },
   card: {
-    alignContent: "center",
-    alignItems: "center",
+    alignContent: 'center',
+    alignItems: 'center',
     backgroundColor: Colors.lightBackground,
     borderRadius: Spacing.unit,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginLeft: Spacing.unit,
     paddingVertical: Spacing.small,
     width: 100,
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.unit,
   },
   content: {
-    flexDirection: "row",
+    flexDirection: 'row',
     padding: Spacing.margin,
   },
   image: {
@@ -76,12 +79,12 @@ const styles = StyleSheet.create({
   label: {
     ...Typography.lightCaption1,
     marginVertical: Spacing.small,
-    textAlign: "center",
-    textTransform: "uppercase",
+    textAlign: 'center',
+    textTransform: 'uppercase',
   },
   subcontent: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   subtitle: {
     ...Typography.lightCaption1,
@@ -89,4 +92,4 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title2,
   },
-});
+})

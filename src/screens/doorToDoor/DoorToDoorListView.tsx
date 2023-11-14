@@ -1,13 +1,13 @@
-import React from "react";
-import { FlatList } from "react-native";
-import { DoorToDoorAddress } from "../../core/entities/DoorToDoor";
-import { PoiAddressCard } from "./PoiAddressCard";
-import { PoiAddressCardViewModelMapper } from "./PoiAddressCardViewModelMapper";
+import React from 'react'
+import { FlatList } from 'react-native'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
+import { PoiAddressCard } from './PoiAddressCard'
+import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 
 type Props = {
-  data: DoorToDoorAddress[];
-  onAddressPress: (id: string) => void;
-};
+  data: DoorToDoorAddress[]
+  onAddressPress: (id: string) => void
+}
 
 const DoorToDoorListView = ({ data, onAddressPress }: Props) => (
   <FlatList
@@ -18,10 +18,10 @@ const DoorToDoorListView = ({ data, onAddressPress }: Props) => (
           viewModel={PoiAddressCardViewModelMapper.map(item)}
           onPress={onAddressPress}
         />
-      );
+      )
     }}
     keyExtractor={(item) => item.id.toString()}
   />
-);
+)
 
-export default DoorToDoorListView;
+export default DoorToDoorListView

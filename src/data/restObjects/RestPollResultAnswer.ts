@@ -1,20 +1,22 @@
 export interface RestPollResultAnswerChoice {
-  surveyQuestion: number;
-  selectedChoices: ReadonlyArray<number>;
+  surveyQuestion: number
+  selectedChoices: ReadonlyArray<number>
 }
 
 export interface RestPollResultAnswerText {
-  surveyQuestion: number;
-  textField: string;
+  surveyQuestion: number
+  textField: string
 }
 
-export type RestPollResultAnswer = RestPollResultAnswerChoice | RestPollResultAnswerText;
+export type RestPollResultAnswer =
+  | RestPollResultAnswerChoice
+  | RestPollResultAnswerText
 
 export interface RestPollResultAnswerChoiceLegacy {
-  surveyQuestion: number;
-  selectedChoices: ReadonlyArray<string>;
+  surveyQuestion: number
+  selectedChoices: ReadonlyArray<string>
 }
 
 export type RestPollResultAnswerLegacy =
   | RestPollResultAnswerChoiceLegacy
-  | RestPollResultAnswerText;
+  | RestPollResultAnswerText

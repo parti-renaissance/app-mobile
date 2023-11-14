@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
+import React, { FunctionComponent } from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 type Props = Readonly<{
-  title: string;
-  onPress?: () => void;
-}>;
+  title: string
+  onPress?: () => void
+}>
 
 const PollDetailToolRow: FunctionComponent<Props> = ({ title, onPress }) => {
   return (
@@ -15,18 +15,18 @@ const PollDetailToolRow: FunctionComponent<Props> = ({ title, onPress }) => {
         <Text style={styles.text}>{title}</Text>
         <Image
           style={styles.image}
-          source={require("../../assets/images/disclosureIndicator.png")}
+          source={require('../../assets/images/disclosureIndicator.png')}
         />
       </View>
     </TouchablePlatform>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingEnd: Spacing.unit,
     paddingStart: Spacing.margin,
     paddingVertical: Spacing.rowVerticalMargin,
@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
     ...Typography.subheadline,
     flexShrink: 1,
   },
-});
+})
 
-export default PollDetailToolRow;
+export default PollDetailToolRow

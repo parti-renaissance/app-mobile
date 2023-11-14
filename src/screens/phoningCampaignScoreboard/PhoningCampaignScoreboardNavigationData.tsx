@@ -1,5 +1,5 @@
-import { PhoningCampaignScore } from "../../core/entities/PhoningCampaign";
+import { PhoningCampaignScore } from '../../core/entities/PhoningCampaign'
 
 export interface PhoningCampaignScoreboardNavigationData {
-  scoreboard: Array<PhoningCampaignScore>;
+  scoreboard: Array<PhoningCampaignScore>
 }

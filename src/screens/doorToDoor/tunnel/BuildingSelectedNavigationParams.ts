@@ -1,9 +1,9 @@
-import { BuildingType } from "../../../core/entities/DoorToDoor";
+import { BuildingType } from '../../../core/entities/DoorToDoor'
 
 export interface BuildingSelectedNavigationParams {
-  id: string;
-  block: string;
-  floor: number;
-  door: number;
-  type: BuildingType;
+  id: string
+  block: string
+  floor: number
+  door: number
+  type: BuildingType
 }

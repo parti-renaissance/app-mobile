@@ -1,4 +1,4 @@
 export interface PollDetailProgressBarViewModel {
-  title: string;
-  progress: number;
+  title: string
+  progress: number
 }

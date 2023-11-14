@@ -1,4 +1,4 @@
 export interface StatBlockViewModel {
-  title: string;
-  stat: string;
+  title: string
+  stat: string
 }

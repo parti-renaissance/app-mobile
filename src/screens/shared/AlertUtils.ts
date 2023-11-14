@@ -1,9 +1,9 @@
-import { Alert, AlertButton } from "react-native";
-import i18n from "../../utils/i18n";
-import { GenericErrorMapper } from "./ErrorMapper";
+import { Alert, AlertButton } from 'react-native'
+import i18n from '../../utils/i18n'
+import { GenericErrorMapper } from './ErrorMapper'
 
 interface AlertOptions {
-  message?: string;
+  message?: string
 }
 
 const showAlert = (
@@ -11,7 +11,7 @@ const showAlert = (
   message: string,
   action: string,
   cancel: string,
-  actionStyle: AlertButton["style"],
+  actionStyle: AlertButton['style'],
   onAction: () => void,
 ) => {
   Alert.alert(
@@ -25,12 +25,12 @@ const showAlert = (
       },
       {
         text: cancel,
-        style: "cancel",
+        style: 'cancel',
       },
     ],
     { cancelable: false },
-  );
-};
+  )
+}
 
 export const AlertUtils = {
   showNetworkAlert: (
@@ -38,34 +38,34 @@ export const AlertUtils = {
     onRetry: (() => void) | undefined,
     options: AlertOptions = {},
   ) => {
-    let alertButtons: AlertButton[];
+    let alertButtons: AlertButton[]
     if (onRetry !== undefined) {
       alertButtons = [
         {
-          text: i18n.t("common.error_retry"),
-          style: "default",
+          text: i18n.t('common.error_retry'),
+          style: 'default',
           onPress: onRetry,
         },
         {
-          text: i18n.t("common.cancel"),
-          style: "cancel",
+          text: i18n.t('common.cancel'),
+          style: 'cancel',
         },
-      ];
+      ]
     } else {
       alertButtons = [
         {
-          text: i18n.t("common.ok"),
-          style: "default",
+          text: i18n.t('common.ok'),
+          style: 'default',
         },
-      ];
+      ]
     }
 
     Alert.alert(
-      i18n.t("common.error_title"),
+      i18n.t('common.error_title'),
       options.message ?? GenericErrorMapper.mapErrorMessage(error),
       alertButtons,
       { cancelable: false },
-    );
+    )
   },
   showSimpleAlert: (
     title: string,
@@ -74,7 +74,7 @@ export const AlertUtils = {
     cancel: string,
     onAction: () => void,
   ) => {
-    showAlert(title, message, action, cancel, "default", onAction);
+    showAlert(title, message, action, cancel, 'default', onAction)
   },
   showDestructiveAlert: (
     title: string,
@@ -83,6 +83,6 @@ export const AlertUtils = {
     cancel: string,
     onAction: () => void,
   ) => {
-    showAlert(title, message, action, cancel, "destructive", onAction);
+    showAlert(title, message, action, cancel, 'destructive', onAction)
   },
-};
+}

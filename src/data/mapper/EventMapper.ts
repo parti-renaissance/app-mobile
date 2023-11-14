@@ -4,20 +4,20 @@ import {
   EventAddress,
   EventMode,
   ShortEvent,
-} from "../../core/entities/Event";
+} from '../../core/entities/Event'
 import {
   RestDetailedEvent,
   RestEventAddress,
   RestEventComittee,
   RestShortEvent,
-} from "../restObjects/RestEvents";
+} from '../restObjects/RestEvents'
 
 export const EventMapper = {
   mapShortEvent: (restShortEvent: RestShortEvent): ShortEvent => {
     const userRegisteredAt = restShortEvent.user_registered_at
       ? new Date(restShortEvent.user_registered_at)
-      : undefined;
-    const address = mapAddress(restShortEvent.post_address);
+      : undefined
+    const address = mapAddress(restShortEvent.post_address)
     return {
       uuid: restShortEvent.uuid,
       tag: restShortEvent.category.name,
@@ -29,13 +29,13 @@ export const EventMapper = {
       dateEnd: new Date(restShortEvent.finish_at),
       userRegisteredAt: userRegisteredAt,
       address: address,
-    };
+    }
   },
   mapDetailedEvent: (restDetailedEvent: RestDetailedEvent): DetailedEvent => {
     const userRegisteredAt = restDetailedEvent.user_registered_at
       ? new Date(restDetailedEvent.user_registered_at)
-      : undefined;
-    const address = mapAddress(restDetailedEvent.post_address);
+      : undefined
+    const address = mapAddress(restDetailedEvent.post_address)
     return {
       uuid: restDetailedEvent.uuid,
       tag: restDetailedEvent.category.name,
@@ -56,21 +56,23 @@ export const EventMapper = {
       commitee: mapCommitee(restDetailedEvent.committee),
       timezone: restDetailedEvent.time_zone,
       link: restDetailedEvent.link,
-    };
+    }
   },
-};
+}
 function mapMode(mode: string | null): EventMode | undefined {
   switch (mode) {
-    case "meeting":
-      return EventMode.MEETING;
-    case "online":
-      return EventMode.ONLINE;
+    case 'meeting':
+      return EventMode.MEETING
+    case 'online':
+      return EventMode.ONLINE
     default:
-      return undefined;
+      return undefined
   }
 }
-function mapAddress(postAddress: RestEventAddress | null | undefined): EventAddress | undefined {
-  if (!postAddress) return undefined;
+function mapAddress(
+  postAddress: RestEventAddress | null | undefined,
+): EventAddress | undefined {
+  if (!postAddress) return undefined
   return {
     address: postAddress.address,
     postalCode: postAddress.postal_code,
@@ -78,13 +80,15 @@ function mapAddress(postAddress: RestEventAddress | null | undefined): EventAddr
     country: postAddress.country,
     longitude: postAddress.longitude,
     latitude: postAddress.latitude,
-  };
+  }
 }
-function mapCommitee(committee: RestEventComittee | null | undefined): Commitee | undefined {
-  if (!committee) return undefined;
+function mapCommitee(
+  committee: RestEventComittee | null | undefined,
+): Commitee | undefined {
+  if (!committee) return undefined
 
   return {
     name: committee.name,
     url: committee.link,
-  };
+  }
 }

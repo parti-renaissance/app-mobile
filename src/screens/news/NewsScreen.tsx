@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react'
 import {
   RefreshControl,
   SectionList,
@@ -7,57 +7,76 @@ import {
   StyleSheet,
   Text,
   View,
-} from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import { NewsNavigatorScreenProps } from "../../navigation/news/NewsNavigatorScreenProps";
-import { Colors, Spacing, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import LoaderView from "../shared/LoaderView";
-import { SectionHeader } from "../shared/SectionHeader";
-import { StatefulView } from "../shared/StatefulView";
-import HighlightedNewsRow from "./HighlightedNewsRow";
-import { NewsContentSectionViewModel, NewsContentViewModel } from "./NewsContentViewModel";
-import NewsRow from "./NewsRow";
-import { NewsRowViewModel } from "./NewsRowViewModel";
-import { useNewsScreen } from "./useNewsScreen.hook";
+} from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import { NewsNavigatorScreenProps } from '../../navigation/news/NewsNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import LoaderView from '../shared/LoaderView'
+import { SectionHeader } from '../shared/SectionHeader'
+import { StatefulView } from '../shared/StatefulView'
+import HighlightedNewsRow from './HighlightedNewsRow'
+import {
+  NewsContentSectionViewModel,
+  NewsContentViewModel,
+} from './NewsContentViewModel'
+import NewsRow from './NewsRow'
+import { NewsRowViewModel } from './NewsRowViewModel'
+import { useNewsScreen } from './useNewsScreen.hook'
 
-type NewsScreenProps = NewsNavigatorScreenProps<"News">;
+type NewsScreenProps = NewsNavigatorScreenProps<'News'>
 
 const Separator = () => {
-  return <View style={styles.separator} />;
-};
+  return <View style={styles.separator} />
+}
 
 const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
-  const { statefulState, isLoadingMore, isRefreshing, loadFirstPage, loadMore, onNewsSelected } =
-    useNewsScreen();
+  const {
+    statefulState,
+    isLoadingMore,
+    isRefreshing,
+    loadFirstPage,
+    loadMore,
+    onNewsSelected,
+  } = useNewsScreen()
 
   const renderItem = ({
     section,
     item,
     index,
-  }: SectionListRenderItemInfo<NewsRowViewModel, NewsContentSectionViewModel>) => {
+  }: SectionListRenderItemInfo<
+    NewsRowViewModel,
+    NewsContentSectionViewModel
+  >) => {
     if (section.isHighlighted) {
-      const isLastItemInSection = index === section.data.length - 1;
+      const isLastItemInSection = index === section.data.length - 1
       return (
         <HighlightedNewsRow
           viewModel={item}
           onPress={() => onNewsSelected(item.id)}
           style={isLastItemInSection && { paddingBottom: Spacing.margin }}
         />
-      );
+      )
     } else {
-      return <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />;
+      return (
+        <NewsRow viewModel={item} onPress={() => onNewsSelected(item.id)} />
+      )
     }
-  };
+  }
 
   const renderSectionHeader = (info: {
-    section: SectionListData<NewsRowViewModel, NewsContentSectionViewModel>;
+    section: SectionListData<NewsRowViewModel, NewsContentSectionViewModel>
   }) => {
     if (info.section.title === undefined) {
-      return null;
+      return null
     }
-    return <SectionHeader title={info.section.title} isHighlighted={info.section.isHighlighted} />;
-  };
+    return (
+      <SectionHeader
+        title={info.section.title}
+        isHighlighted={info.section.isHighlighted}
+      />
+    )
+  }
 
   const NewsContent = (viewModel: NewsContentViewModel) => {
     return (
@@ -66,10 +85,16 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
         sections={viewModel.sections}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
-        ListHeaderComponent={<Text style={styles.title}>{i18n.t("news.title")}</Text>}
-        ListFooterComponent={isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null}
-        ItemSeparatorComponent={(props: { section: NewsContentSectionViewModel }) => {
-          return props.section.isHighlighted ? null : <Separator />;
+        ListHeaderComponent={
+          <Text style={styles.title}>{i18n.t('news.title')}</Text>
+        }
+        ListFooterComponent={
+          isLoadingMore ? <LoaderView style={styles.bottomLoader} /> : null
+        }
+        ItemSeparatorComponent={(props: {
+          section: NewsContentSectionViewModel
+        }) => {
+          return props.section.isHighlighted ? null : <Separator />
         }}
         keyExtractor={(item) => item.id}
         refreshControl={
@@ -83,15 +108,15 @@ const NewsScreen: FunctionComponent<NewsScreenProps> = () => {
         onEndReached={loadMore}
         stickySectionHeadersEnabled={false}
       />
-    );
-  };
+    )
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatefulView state={statefulState} contentComponent={NewsContent} />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   title: {
@@ -114,6 +139,6 @@ const styles = StyleSheet.create({
     height: Spacing.separatorHeight,
     marginHorizontal: Spacing.margin,
   },
-});
+})
 
-export default NewsScreen;
+export default NewsScreen

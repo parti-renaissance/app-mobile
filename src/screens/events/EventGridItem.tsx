@@ -1,21 +1,31 @@
-import React, { FC } from "react";
-import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import CardView from "../shared/CardView";
-import TagView from "../shared/TagView";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
-import { EventRowViewModel } from "./EventViewModel";
+import React, { FC } from 'react'
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import CardView from '../shared/CardView'
+import TagView from '../shared/TagView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { EventRowViewModel } from './EventViewModel'
 
 type Props = Readonly<{
-  style?: StyleProp<ViewStyle>;
-  viewModel: EventRowViewModel;
-  onEventSelected: (eventId: string) => void;
-}>;
+  style?: StyleProp<ViewStyle>
+  viewModel: EventRowViewModel
+  onEventSelected: (eventId: string) => void
+}>
 
 const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   return (
-    <CardView style={[styles.card, style]} backgroundColor={Colors.defaultBackground}>
+    <CardView
+      style={[styles.card, style]}
+      backgroundColor={Colors.defaultBackground}
+    >
       <TouchablePlatform
         touchHighlight={Colors.touchHighlight}
         onPress={() => onEventSelected(viewModel.id)}
@@ -33,7 +43,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
                 <View style={styles.webcamIconContainer}>
                   <Image
                     style={styles.webcamIcon}
-                    source={require("../../assets/images/videocam.png")}
+                    source={require('../../assets/images/videocam.png')}
                   />
                 </View>
               ) : null}
@@ -52,10 +62,10 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
                 <Text style={styles.subscribed}>
                   <Image
                     style={styles.checkIcon}
-                    source={require("../../assets/images/checkIcon.png")}
+                    source={require('../../assets/images/checkIcon.png')}
                   />
-                  {"\n"}
-                  {i18n.t("events.subscribed")}
+                  {'\n'}
+                  {i18n.t('events.subscribed')}
                 </Text>
               ) : null}
             </View>
@@ -63,8 +73,8 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
         </View>
       </TouchablePlatform>
     </CardView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -76,11 +86,11 @@ const styles = StyleSheet.create({
     tintColor: Colors.primaryColor,
   },
   container: {
-    flexDirection: "column",
+    flexDirection: 'column',
     minHeight: 212,
   },
   dateContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     flex: 1,
   },
   day: {
@@ -92,8 +102,8 @@ const styles = StyleSheet.create({
     color: Colors.lightText,
   },
   footer: {
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     flexGrow: 1,
     padding: Spacing.unit,
   },
@@ -104,12 +114,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.groupedListBackground,
   },
   leftColumn: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     flexGrow: 1,
     flexShrink: 1,
   },
   rightColumn: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   subscribed: {
     ...Typography.caption1,
@@ -128,12 +138,12 @@ const styles = StyleSheet.create({
   webcamIcon: {
     borderRadius: 2,
     height: 16,
-    resizeMode: "contain",
+    resizeMode: 'contain',
     width: 24,
   },
   webcamIconContainer: {
     paddingRight: Spacing.unit,
   },
-});
+})
 
-export default EventGridItem;
+export default EventGridItem

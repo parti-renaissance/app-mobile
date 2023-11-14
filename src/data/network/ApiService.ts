@@ -1,59 +1,59 @@
-import { EventFilters } from "../../core/entities/Event";
-import { Poll } from "../../core/entities/Poll";
-import { GetEventsSearchParametersMapper } from "../mapper/GetEventsSearchParametersMapper";
-import { RestBuildingEventRequest } from "../restObjects/RestBuildingEventRequest";
-import { RestBuildingTypeRequest } from "../restObjects/RestBuildingTypeRequest";
-import { RestConfigurations } from "../restObjects/RestConfigurations";
-import { RestDepartmentResponse } from "../restObjects/RestDepartmentResponse";
-import { RestDetailedProfileResponse } from "../restObjects/RestDetailedProfileResponse";
-import { RestDoorToDoorAddress } from "../restObjects/RestDoorToDoorAddress";
-import { RestDoorToDoorCampaign } from "../restObjects/RestDoorToDoorCampaign";
+import { EventFilters } from '../../core/entities/Event'
+import { Poll } from '../../core/entities/Poll'
+import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
+import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
+import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
+import { RestConfigurations } from '../restObjects/RestConfigurations'
+import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
+import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
+import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
+import { RestDoorToDoorCampaign } from '../restObjects/RestDoorToDoorCampaign'
 import {
   RestDoorToDoorCampaignHistoryResponse,
   RestDoorToDoorSurveyReplyResponse,
-} from "../restObjects/RestDoorToDoorCampaignHistoryResponse";
-import { RestDoorToDoorCampaignRanking } from "../restObjects/RestDoorToDoorCampaignRanking";
+} from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
+import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
 import {
   RestDoorToDoorCharter,
   RestDoorToDoorCharterAccepted,
   RestDoorToDoorCharterNotAccepted,
   RestDoorToDoorCharterResponse,
-} from "../restObjects/RestDoorToDoorCharter";
-import { RestDoorToDoorPollConfig } from "../restObjects/RestDoorToDoorPollConfig";
-import { RestDoorToDoorPollResultRequest } from "../restObjects/RestDoorToDoorPollResultRequest";
-import { RestDetailedEvent, RestEvents } from "../restObjects/RestEvents";
-import { RestHeaderInfos } from "../restObjects/RestHeaderInfos";
-import { RestNews, RestNewsResponse } from "../restObjects/RestNewsResponse";
-import { RestPhonePollResultRequest } from "../restObjects/RestPhonePollResultRequest";
-import { RestPhoningCampaign } from "../restObjects/RestPhoningCampaign";
+} from '../restObjects/RestDoorToDoorCharter'
+import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
+import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
+import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
+import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
+import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
+import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
+import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
 import {
   RestPhoningCharter,
   RestPhoningCharterAccepted,
   RestPhoningCharterNotAccepted,
   RestPhoningCharterResponse,
-} from "../restObjects/RestPhoningCharter";
-import { RestPhoningSession } from "../restObjects/RestPhoningSession";
-import { RestPhoningSessionConfiguration } from "../restObjects/RestPhoningSessionConfiguration";
-import { RestPollResultRequest } from "../restObjects/RestPollResultRequest";
-import { RestProfileResponse } from "../restObjects/RestProfileResponse";
-import { RestQuickPollItem } from "../restObjects/RestQuickPollResponse";
-import { RestResetPasswordRequest } from "../restObjects/RestResetPasswordRequest";
-import { RestDataProtectionRegulation } from "../restObjects/RestRestDataProtectionRegulation";
-import { RestRetaliation } from "../restObjects/RestRetaliation";
-import { RestSignUpRequest } from "../restObjects/RestSignUpRequest";
-import { RestTimelineFeedResponse } from "../restObjects/RestTimelineFeedResponse";
-import { RestToolsResponse } from "../restObjects/RestToolsResponse";
+} from '../restObjects/RestPhoningCharter'
+import { RestPhoningSession } from '../restObjects/RestPhoningSession'
+import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
+import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
+import { RestProfileResponse } from '../restObjects/RestProfileResponse'
+import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
+import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
+import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
+import { RestRetaliation } from '../restObjects/RestRetaliation'
+import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
+import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
+import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 import {
   RestPostPushTokenRequest,
   RestUpdateCentersOfInterestRequest,
   RestUpdatePostalCodeRequest,
   RestUpdateProfileRequest,
   RestUpdateSubscriptionsRequest,
-} from "../restObjects/RestUpdateProfileRequest";
-import { RestUserScope } from "../restObjects/RestUserScope";
-import { RestBuildingBlock } from "./../restObjects/RestBuildingBlock";
-import { RestBuildingHistoryPoint } from "./../restObjects/RestBuildingHistoryPoint";
-import { RestMarkdown } from "./../restObjects/RestMarkdown";
+} from '../restObjects/RestUpdateProfileRequest'
+import { RestUserScope } from '../restObjects/RestUserScope'
+import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
+import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
+import { RestMarkdown } from './../restObjects/RestMarkdown'
 import {
   mapAssociatedToken,
   mapPhonePollError,
@@ -61,90 +61,96 @@ import {
   mapProfileFormError,
   mapSignUpFormError,
   mapSubscriptionError,
-} from "./errorMappers";
-import _httpClient from "./HttpClient";
-import { SearchParamsKeyValue } from "./SearchParams";
-import { genericErrorMapping } from "./utils";
+} from './errorMappers'
+import _httpClient from './HttpClient'
+import { SearchParamsKeyValue } from './SearchParams'
+import { genericErrorMapping } from './utils'
 
 class ApiService {
-  private static instance: ApiService;
-  private httpClient = _httpClient;
+  private static instance: ApiService
+  private httpClient = _httpClient
   private constructor() {}
 
   public async signUp(request: RestSignUpRequest): Promise<void> {
     return this.httpClient
-      .post("api/membership?source=jemengage", {
+      .post('api/membership?source=jemengage', {
         json: request,
       })
       .then(() => {})
-      .catch(mapSignUpFormError);
+      .catch(mapSignUpFormError)
   }
 
   public async getGdpr(): Promise<RestDataProtectionRegulation> {
     return this.httpClient
-      .get("api/je-mengage/rgpd")
+      .get('api/je-mengage/rgpd')
       .json<RestDataProtectionRegulation>()
-      .catch(mapSignUpFormError);
+      .catch(mapSignUpFormError)
   }
 
   public async resetPassword(request: RestResetPasswordRequest): Promise<void> {
     return this.httpClient
-      .post("api/membership/forgot-password?source=jemengage", {
+      .post('api/membership/forgot-password?source=jemengage', {
         json: request,
       })
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getPolls(): Promise<Array<Poll>> {
-    return this.httpClient.get("api/jecoute/survey").json<Array<Poll>>().catch(genericErrorMapping);
+    return this.httpClient
+      .get('api/jecoute/survey')
+      .json<Array<Poll>>()
+      .catch(genericErrorMapping)
   }
 
   public sendPollAnswers(request: RestPollResultRequest): Promise<void> {
     return this.httpClient
-      .post("api/jecoute/survey/reply", { json: request })
+      .post('api/jecoute/survey/reply', { json: request })
       .json()
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getProfile(): Promise<RestProfileResponse> {
-    return this.httpClient.get("api/me").json<RestProfileResponse>().catch(genericErrorMapping);
+    return this.httpClient
+      .get('api/me')
+      .json<RestProfileResponse>()
+      .catch(genericErrorMapping)
   }
 
   public getUserScopes(): Promise<Array<RestUserScope>> {
     return this.httpClient
-      .get("api/v3/profile/me/scopes")
+      .get('api/v3/profile/me/scopes')
       .json<Array<RestUserScope>>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getDetailedProfile(): Promise<RestDetailedProfileResponse> {
     return this.httpClient
-      .get("api/v3/profile/me")
+      .get('api/v3/profile/me')
       .json<RestDetailedProfileResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public removeProfile(): Promise<void> {
     return this.httpClient
-      .post("api/v3/profile/unregister")
+      .post('api/v3/profile/unregister')
       .json<void>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getRetaliations(): Promise<Array<RestRetaliation>> {
     return this.httpClient
-      .get("api/v3/ripostes")
+      .get('api/v3/ripostes')
       .json<Array<RestRetaliation>>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getRetaliation(id: string): Promise<RestRetaliation> {
     return this.httpClient
-      .get("api/v3/ripostes/" + id)
+      .get('api/v3/ripostes/' + id)
       .json<RestRetaliation>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public updateProfile(
@@ -152,66 +158,70 @@ class ApiService {
     request: RestUpdateProfileRequest,
   ): Promise<RestDetailedProfileResponse> {
     return this.httpClient
-      .put("api/v3/profile/" + userUuid, { json: request })
+      .put('api/v3/profile/' + userUuid, { json: request })
       .json<RestDetailedProfileResponse>()
-      .catch(mapProfileFormError);
+      .catch(mapProfileFormError)
   }
 
   public getNews(zipCode: string, page: number): Promise<RestNewsResponse> {
     return this.httpClient
-      .get("api/jecoute/news", {
+      .get('api/jecoute/news', {
         searchParams: { zipCode: zipCode, page: page, with_enriched: true },
       })
       .json<RestNewsResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getNewsDetail(newsId: string): Promise<RestNews> {
     return this.httpClient
-      .get("api/jecoute/news/" + newsId)
+      .get('api/jecoute/news/' + newsId)
       .json<RestNews>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public async getDepartment(
     zipCode: string,
     accessToken?: string,
   ): Promise<RestDepartmentResponse> {
-    const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+    const headers = accessToken
+      ? { Authorization: `Bearer ${accessToken}` }
+      : {}
     return this.httpClient
-      .get("api/jecoute/departments/" + zipCode, { headers: headers })
+      .get('api/jecoute/departments/' + zipCode, { headers: headers })
       .json<RestDepartmentResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getQuickPolls(zipCode: string): Promise<RestQuickPollItem> {
     return this.httpClient
-      .get("api/v3/polls/" + zipCode)
+      .get('api/v3/polls/' + zipCode)
       .json<RestQuickPollItem>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public sendQuickPollAnswer(answerId: string): Promise<RestQuickPollItem> {
     return this.httpClient
-      .post("api/v3/polls/vote", { json: { uuid: answerId } })
+      .post('api/v3/polls/vote', { json: { uuid: answerId } })
       .json<RestQuickPollItem>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public async getCityFromPostalCode(postalCode: string): Promise<string | undefined> {
+  public async getCityFromPostalCode(
+    postalCode: string,
+  ): Promise<string | undefined> {
     // Exclude accessToken injection on this route
-    const headers = { Authorization: "" };
+    const headers = { Authorization: '' }
     const response = await this.httpClient
-      .get("api/postal-code/" + postalCode, { headers: headers })
+      .get('api/postal-code/' + postalCode, { headers: headers })
       .json()
-      .catch(genericErrorMapping);
-    const result = response as { [key: string]: string };
-    const entries = Object.entries(result);
+      .catch(genericErrorMapping)
+    const result = response as { [key: string]: string }
+    const entries = Object.entries(result)
     if (entries.length > 0) {
-      const [, value] = Object.entries(result)[0];
-      return value;
+      const [, value] = Object.entries(result)[0]
+      return value
     } else {
-      return undefined;
+      return undefined
     }
   }
 
@@ -221,49 +231,50 @@ class ApiService {
     eventFilters?: EventFilters,
     orderBySubscriptions?: boolean,
   ): Promise<RestEvents> {
-    const searchParams: SearchParamsKeyValue = GetEventsSearchParametersMapper.map(
-      page,
-      zipCode,
-      eventFilters,
-      orderBySubscriptions,
-    );
+    const searchParams: SearchParamsKeyValue =
+      GetEventsSearchParametersMapper.map(
+        page,
+        zipCode,
+        eventFilters,
+        orderBySubscriptions,
+      )
 
     return this.httpClient
-      .get("api/v3/events", {
+      .get('api/v3/events', {
         searchParams: searchParams,
       })
       .json<RestEvents>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getEventDetails(eventId: string): Promise<RestDetailedEvent> {
     return this.httpClient
-      .get("api/v3/events/" + eventId)
+      .get('api/v3/events/' + eventId)
       .json<RestDetailedEvent>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public subscribeToEvent(eventId: string): Promise<void> {
     return this.httpClient
-      .post("api/v3/events/" + eventId + "/subscribe")
+      .post('api/v3/events/' + eventId + '/subscribe')
       .json()
       .then(() => {})
-      .catch(mapSubscriptionError);
+      .catch(mapSubscriptionError)
   }
 
   public unsubscribeFromEvent(eventId: string): Promise<void> {
     return this.httpClient
-      .delete("api/v3/events/" + eventId + "/subscribe")
+      .delete('api/v3/events/' + eventId + '/subscribe')
       .json()
       .then(() => {})
-      .catch(mapSubscriptionError);
+      .catch(mapSubscriptionError)
   }
 
   public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {
     return this.httpClient
-      .get("api/v3/profile/configuration")
+      .get('api/v3/profile/configuration')
       .json<RestConfigurations>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public updateCentersOfInterest(
@@ -271,10 +282,10 @@ class ApiService {
     request: RestUpdateCentersOfInterestRequest,
   ): Promise<void> {
     return this.httpClient
-      .put("api/v3/profile/" + userUuid, { json: request })
+      .put('api/v3/profile/' + userUuid, { json: request })
       .json()
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public updateSubscriptions(
@@ -282,26 +293,26 @@ class ApiService {
     request: RestUpdateSubscriptionsRequest,
   ): Promise<void> {
     return this.httpClient
-      .put("api/v3/profile/" + userUuid, { json: request })
+      .put('api/v3/profile/' + userUuid, { json: request })
       .json()
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public addPushToken(request: RestPostPushTokenRequest): Promise<void> {
     return this.httpClient
-      .post("api/v3/push-token", { json: request })
+      .post('api/v3/push-token', { json: request })
       .json()
       .then(() => {})
-      .catch(mapAssociatedToken);
+      .catch(mapAssociatedToken)
   }
 
   public removePushToken(pushToken: string): Promise<void> {
     return this.httpClient
-      .delete("api/v3/push-token/" + pushToken)
+      .delete('api/v3/push-token/' + pushToken)
       .json()
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public updateDeviceZipCode(
@@ -312,42 +323,44 @@ class ApiService {
       .put(`api/v3/device/${deviceId}`, { json: request })
       .json()
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getPhoningTutorial(): Promise<RestMarkdown> {
     return this.httpClient
-      .get("api/v3/phoning_campaigns/tutorial")
+      .get('api/v3/phoning_campaigns/tutorial')
       .json<RestMarkdown>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getPhoningCampaigns(): Promise<Array<RestPhoningCampaign>> {
     return this.httpClient
-      .get("api/v3/phoning_campaigns/scores")
+      .get('api/v3/phoning_campaigns/scores')
       .json<Array<RestPhoningCampaign>>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
     return this.httpClient
       .get(`api/v3/phoning_campaigns/${campaignId}/survey`)
       .json<Poll>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getPhoningCampaign(campaignId: string): Promise<RestPhoningCampaign> {
     return this.httpClient
       .get(`api/v3/phoning_campaigns/${campaignId}/scores`)
       .json<RestPhoningCampaign>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public getPhoningCampaignSession(campaignId: string): Promise<RestPhoningSession> {
+  public getPhoningCampaignSession(
+    campaignId: string,
+  ): Promise<RestPhoningSession> {
     return this.httpClient
       .post(`api/v3/phoning_campaigns/${campaignId}/start`)
       .json<RestPhoningSession>()
-      .catch(mapPhoningSessionError);
+      .catch(mapPhoningSessionError)
   }
 
   public getPhoningSessionConfiguration(
@@ -356,7 +369,7 @@ class ApiService {
     return this.httpClient
       .get(`api/v3/phoning_campaign_histories/${sessionId}/survey-config`)
       .json<RestPhoningSessionConfiguration>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public updatePhoningSessionStatus(
@@ -370,7 +383,7 @@ class ApiService {
       })
       .json()
       .then(() => {})
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public sendPhonePollAnswers(
@@ -383,56 +396,61 @@ class ApiService {
       })
       .json()
       .then(() => {})
-      .catch(mapPhonePollError);
+      .catch(mapPhonePollError)
   }
 
   public getPhoningCharter(): Promise<RestPhoningCharter> {
     return this.httpClient
-      .get("api/v3/profile/charter/phoning_campaign")
+      .get('api/v3/profile/charter/phoning_campaign')
       .json<RestPhoningCharterResponse>()
       .catch(genericErrorMapping)
       .then((response) => {
         if (response.content === undefined) {
-          return new RestPhoningCharterAccepted();
+          return new RestPhoningCharterAccepted()
         } else {
-          return new RestPhoningCharterNotAccepted(response.content);
+          return new RestPhoningCharterNotAccepted(response.content)
         }
-      });
+      })
   }
 
   public acceptPhoningCharter(): Promise<void> {
     return this.httpClient
-      .put("api/v3/profile/charter/phoning_campaign/accept")
+      .put('api/v3/profile/charter/phoning_campaign/accept')
       .json<void>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getDoorToDoorCharter(): Promise<RestDoorToDoorCharter> {
     return this.httpClient
-      .get("api/v3/profile/charter/pap_campaign")
+      .get('api/v3/profile/charter/pap_campaign')
       .json<RestDoorToDoorCharterResponse>()
       .catch(genericErrorMapping)
       .then((response) => {
         if (response.content === undefined) {
-          return new RestDoorToDoorCharterAccepted();
+          return new RestDoorToDoorCharterAccepted()
         } else {
-          return new RestDoorToDoorCharterNotAccepted(response.content);
+          return new RestDoorToDoorCharterNotAccepted(response.content)
         }
-      });
+      })
   }
 
   public acceptDoorToDoorCharter(): Promise<void> {
     return this.httpClient
-      .put("api/v3/profile/charter/pap_campaign/accept")
+      .put('api/v3/profile/charter/pap_campaign/accept')
       .json<void>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public buildingBlocks(buildingId: string, campaignId: string): Promise<RestBuildingBlock[]> {
+  public buildingBlocks(
+    buildingId: string,
+    campaignId: string,
+  ): Promise<RestBuildingBlock[]> {
     return this.httpClient
-      .get(`api/v3/pap/buildings/${buildingId}/building_blocks?campaign_uuid=${campaignId}`)
+      .get(
+        `api/v3/pap/buildings/${buildingId}/building_blocks?campaign_uuid=${campaignId}`,
+      )
       .json<RestBuildingBlock[]>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public buildingHistory(
@@ -440,9 +458,11 @@ class ApiService {
     campaignId: string,
   ): Promise<RestBuildingHistoryPoint[]> {
     return this.httpClient
-      .get(`api/v3/pap/buildings/${buildingId}/history?campaign_uuid=${campaignId}`)
+      .get(
+        `api/v3/pap/buildings/${buildingId}/history?campaign_uuid=${campaignId}`,
+      )
       .json<RestBuildingHistoryPoint[]>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getAddresses(
@@ -452,7 +472,7 @@ class ApiService {
     longitudeDelta: number,
   ): Promise<RestDoorToDoorAddress[]> {
     return this.httpClient
-      .get("api/v3/pap/address/near", {
+      .get('api/v3/pap/address/near', {
         searchParams: {
           latitude: latitude,
           longitude: longitude,
@@ -461,44 +481,48 @@ class ApiService {
         },
       })
       .json<RestDoorToDoorAddress[]>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getAddress(addressId: string): Promise<RestDoorToDoorAddress> {
     return this.httpClient
       .get(`api/v3/pap/address/${addressId}`)
       .json<RestDoorToDoorAddress>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public getDoorToDoorCampaign(campaignId: string): Promise<RestDoorToDoorCampaign> {
+  public getDoorToDoorCampaign(
+    campaignId: string,
+  ): Promise<RestDoorToDoorCampaign> {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}`)
       .json<RestDoorToDoorCampaign>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public getDoorToDoorPollConfig(campaignId: string): Promise<RestDoorToDoorPollConfig> {
+  public getDoorToDoorPollConfig(
+    campaignId: string,
+  ): Promise<RestDoorToDoorPollConfig> {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}/survey-config`)
       .json<RestDoorToDoorPollConfig>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getDoorToDoorCampaignPoll(campaignId: string): Promise<Poll> {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}/survey`)
       .json<Poll>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public createDoorToDoorCampaignHistory(
     request: any, // object with dynamic keys
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
     return this.httpClient
-      .post("api/v3/pap_campaign_histories", { json: request })
+      .post('api/v3/pap_campaign_histories', { json: request })
       .json<RestDoorToDoorCampaignHistoryResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public replyToDoorToDoorCampaignHistory(
@@ -510,21 +534,24 @@ class ApiService {
         json: request,
       })
       .json<RestDoorToDoorSurveyReplyResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public sendBuildingEvent(buildingId: string, event: RestBuildingEventRequest): Promise<void> {
+  public sendBuildingEvent(
+    buildingId: string,
+    event: RestBuildingEventRequest,
+  ): Promise<void> {
     return this.httpClient
       .post(`api/v3/pap/buildings/${buildingId}/events`, { json: event })
       .json<void>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getDoorToDoorTutorial(): Promise<RestMarkdown> {
     return this.httpClient
-      .get("api/v3/pap_campaigns/tutorial")
+      .get('api/v3/pap_campaigns/tutorial')
       .json<RestMarkdown>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getDoorToDoorCampaignRanking(
@@ -533,7 +560,7 @@ class ApiService {
     return this.httpClient
       .get(`api/v3/pap_campaigns/${campaignId}/ranking`)
       .json<Array<RestDoorToDoorCampaignRanking>>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public updateBuildingType(
@@ -543,45 +570,48 @@ class ApiService {
     return this.httpClient
       .put(`api/v3/pap/buildings/${buildingId}`, { json: request })
       .json<Array<RestDoorToDoorCampaignRanking>>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public async getTools(page: number): Promise<RestToolsResponse> {
     return this.httpClient
-      .get("api/v3/jecoute/resource-links", { searchParams: { page: page } })
+      .get('api/v3/jecoute/resource-links', { searchParams: { page: page } })
       .json<RestToolsResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
-  public getTimelineFeed(page: number, zipCode: string): Promise<RestTimelineFeedResponse> {
+  public getTimelineFeed(
+    page: number,
+    zipCode: string,
+  ): Promise<RestTimelineFeedResponse> {
     return this.httpClient
-      .get("api/v3/je-mengage/timeline_feeds", {
+      .get('api/v3/je-mengage/timeline_feeds', {
         searchParams: { page, postal_code: zipCode },
       })
       .json<RestTimelineFeedResponse>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getHomeHeader(): Promise<RestHeaderInfos> {
     return this.httpClient
-      .get("api/v3/je-mengage/headers/page-accueil")
+      .get('api/v3/je-mengage/headers/page-accueil')
       .json<RestHeaderInfos>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public getLoginHeader(): Promise<RestHeaderInfos> {
     return this.httpClient
-      .get("api/je-mengage/headers/page-connexion")
+      .get('api/je-mengage/headers/page-connexion')
       .json<RestHeaderInfos>()
-      .catch(genericErrorMapping);
+      .catch(genericErrorMapping)
   }
 
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
-      ApiService.instance = new ApiService();
+      ApiService.instance = new ApiService()
     }
-    return ApiService.instance;
+    return ApiService.instance
   }
 }
 
-export default ApiService;
+export default ApiService

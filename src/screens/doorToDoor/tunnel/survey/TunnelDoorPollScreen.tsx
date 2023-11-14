@@ -1,40 +1,43 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { SafeAreaView, StyleSheet } from 'react-native'
 import {
   DoorToDoorCompletePoll,
   GetDoorToDoorCompletePollInteractor,
-} from "../../../../core/interactor/GetDoorToDoorCompletePollInteractor";
-import { DoorToDoorTunnelModalNavigatorScreenProps } from "../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps";
-import { Colors } from "../../../../styles";
-import { StatefulView } from "../../../shared/StatefulView";
-import { ViewState } from "../../../shared/ViewState";
-import { ViewStateUtils } from "../../../shared/ViewStateUtils";
-import { useDoorToDoorTunnelNavigationOptions } from "../useDoorToDoorTunnelNavigationOptions.hook";
-import DoorToDoorPollDetailScreenLoaded from "./DoorToDoorPollDetailScreenLoaded";
+} from '../../../../core/interactor/GetDoorToDoorCompletePollInteractor'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { Colors } from '../../../../styles'
+import { StatefulView } from '../../../shared/StatefulView'
+import { ViewState } from '../../../shared/ViewState'
+import { ViewStateUtils } from '../../../shared/ViewStateUtils'
+import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
+import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'
 
-type TunnelDoorPollScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<"TunnelDoorPoll">;
+type TunnelDoorPollScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>
 
 const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProps> = ({
   navigation,
   route,
 }) => {
-  const [statefulState, setStatefulState] = useState<ViewState<DoorToDoorCompletePoll>>(
-    ViewState.Loading(),
-  );
+  const [statefulState, setStatefulState] = useState<
+    ViewState<DoorToDoorCompletePoll>
+  >(ViewState.Loading())
 
-  useDoorToDoorTunnelNavigationOptions(navigation);
+  useDoorToDoorTunnelNavigationOptions(navigation)
 
   useEffect(() => {
     const fetchData = () => {
       new GetDoorToDoorCompletePollInteractor()
         .execute(route.params.campaignId)
         .then((result) => {
-          setStatefulState(ViewState.Content(result));
+          setStatefulState(ViewState.Content(result))
         })
-        .catch((error) => setStatefulState(ViewStateUtils.networkError(error, fetchData)));
-    };
-    fetchData();
-  }, [route.params.campaignId]);
+        .catch((error) =>
+          setStatefulState(ViewStateUtils.networkError(error, fetchData)),
+        )
+    }
+    fetchData()
+  }, [route.params.campaignId])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,14 +51,14 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProps> = ({
         )}
       />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
-});
+})
 
-export default TunnelDoorPollScreen;
+export default TunnelDoorPollScreen

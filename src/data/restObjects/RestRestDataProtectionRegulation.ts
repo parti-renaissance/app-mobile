@@ -1,3 +1,3 @@
 export interface RestDataProtectionRegulation {
-  content: string;
+  content: string
 }

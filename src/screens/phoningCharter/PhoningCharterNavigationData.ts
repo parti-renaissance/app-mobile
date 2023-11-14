@@ -1,7 +1,7 @@
-import { PhoningCampaignBriefNavigationData } from "../phoningCampaignBrief/PhoningCampaignBriefNavigationData";
+import { PhoningCampaignBriefNavigationData } from '../phoningCampaignBrief/PhoningCampaignBriefNavigationData'
 
 export interface PhoningCharterNavigationData {
-  id: string;
-  charter: string;
-  brief: PhoningCampaignBriefNavigationData;
+  id: string
+  charter: string
+  brief: PhoningCampaignBriefNavigationData
 }

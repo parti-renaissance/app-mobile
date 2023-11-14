@@ -6,5 +6,5 @@ export enum UserScopeCode {
 }
 
 export interface UserScope {
-  code: UserScopeCode;
+  code: UserScopeCode
 }

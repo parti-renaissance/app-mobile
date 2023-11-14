@@ -1,22 +1,27 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
-import { Spacing } from "../../../styles";
-import { TertiaryButton } from "../../shared/Buttons";
-import { HomeQuickPollRowContainerViewModel } from "../HomeRowViewModel";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Spacing } from '../../../styles'
+import { TertiaryButton } from '../../shared/Buttons'
+import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
 
 type Props = Readonly<{
-  viewModel: HomeQuickPollRowContainerViewModel;
-  onAnswerSelected: (pollId: string, answerId: string) => void;
-}>;
+  viewModel: HomeQuickPollRowContainerViewModel
+  onAnswerSelected: (pollId: string, answerId: string) => void
+}>
 
-const HomeQuickPollChoicesView: FunctionComponent<Props> = ({ viewModel, onAnswerSelected }) => {
+const HomeQuickPollChoicesView: FunctionComponent<Props> = ({
+  viewModel,
+  onAnswerSelected,
+}) => {
   return (
     <View style={styles.buttonRow}>
       <TertiaryButton
         style={styles.leftButton}
         shape="rounded"
         innerStyle={styles.innerButton}
-        onPress={() => onAnswerSelected(viewModel.id, viewModel.leadingAnswerViewModel.id)}
+        onPress={() =>
+          onAnswerSelected(viewModel.id, viewModel.leadingAnswerViewModel.id)
+        }
         title={viewModel.leadingAnswerViewModel.title}
         noShadow={true}
       />
@@ -24,17 +29,19 @@ const HomeQuickPollChoicesView: FunctionComponent<Props> = ({ viewModel, onAnswe
         style={styles.rightButton}
         shape="rounded"
         innerStyle={styles.innerButton}
-        onPress={() => onAnswerSelected(viewModel.id, viewModel.trailingAnswerViewModel.id)}
+        onPress={() =>
+          onAnswerSelected(viewModel.id, viewModel.trailingAnswerViewModel.id)
+        }
         title={viewModel.trailingAnswerViewModel.title}
         noShadow={true}
       />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   buttonRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   innerButton: {
     paddingVertical: 8,
@@ -46,6 +53,6 @@ const styles = StyleSheet.create({
   rightButton: {
     flex: 1,
   },
-});
+})
 
-export default HomeQuickPollChoicesView;
+export default HomeQuickPollChoicesView

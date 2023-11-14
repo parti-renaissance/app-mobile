@@ -1,97 +1,117 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { PhonePollResult } from "../../core/entities/PhonePollResult";
-import { PhoningSatisfactionQuestion } from "../../core/entities/PhoningSessionConfiguration";
-import { Poll } from "../../core/entities/Poll";
-import { SendPhonePollAnswersInteractor } from "../../core/interactor/SendPhonePollAnswersInteractor";
-import { PhoningSessionModalNavigatorScreenProps } from "../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps";
-import { Colors, Spacing } from "../../styles";
-import PollDetailNavigationButtons from "../pollDetail/PollDetailNavigationButtons";
-import { PollDetailNavigationButtonsViewModelMapper } from "../pollDetail/PollDetailNavigationButtonsViewModelMapper";
-import PollDetailProgressBar from "../pollDetail/PollDetailProgressBar";
-import { PollDetailProgressBarViewModelMapper } from "../pollDetail/PollDetailProgressBarViewModelMapper";
-import { CompoundPollDetailComponentProvider } from "../pollDetail/providers/CompoundPollDetailComponentProvider";
-import { PollDetailComponentProvider } from "../pollDetail/providers/PollDetailComponentProvider";
-import { PollDetailRemoteQuestionComponentProvider } from "../pollDetail/providers/PollDetailRemoteQuestionComponentProvider";
-import { AlertUtils } from "../shared/AlertUtils";
-import LoadingOverlay from "../shared/LoadingOverlay";
-import { PhonePollDetailSatisfactionComponentProvider } from "./providers/PhonePollDetailSatisfactionComponentProvider";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { PhonePollResult } from '../../core/entities/PhonePollResult'
+import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
+import { Poll } from '../../core/entities/Poll'
+import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { Colors, Spacing } from '../../styles'
+import PollDetailNavigationButtons from '../pollDetail/PollDetailNavigationButtons'
+import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
+import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
+import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailProgressBarViewModelMapper'
+import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
+import { PollDetailComponentProvider } from '../pollDetail/providers/PollDetailComponentProvider'
+import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
+import { AlertUtils } from '../shared/AlertUtils'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
 
 type Props = Readonly<{
-  poll: Poll;
-  satisfactionQuestions: Array<PhoningSatisfactionQuestion>;
-}>;
+  poll: Poll
+  satisfactionQuestions: Array<PhoningSatisfactionQuestion>
+}>
 
-const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({ poll, satisfactionQuestions }) => {
+const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
+  poll,
+  satisfactionQuestions,
+}) => {
   const navigation =
-    useNavigation<PhoningSessionModalNavigatorScreenProps<"PhonePollDetail">["navigation"]>();
-  const route = useRoute<PhoningSessionModalNavigatorScreenProps<"PhonePollDetail">["route"]>();
-  const [currentStep, setStep] = useState<number>(0);
-  const [, updateState] = useState<any>();
-  const forceUpdate = useCallback(() => updateState({}), []);
+    useNavigation<
+      PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['navigation']
+    >()
+  const route =
+    useRoute<
+      PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['route']
+    >()
+  const [currentStep, setStep] = useState<number>(0)
+  const [, updateState] = useState<any>()
+  const forceUpdate = useCallback(() => updateState({}), [])
   const [provider] = useState<PollDetailComponentProvider<PhonePollResult>>(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
-      new PhonePollDetailSatisfactionComponentProvider(satisfactionQuestions, forceUpdate),
+      new PhonePollDetailSatisfactionComponentProvider(
+        satisfactionQuestions,
+        forceUpdate,
+      ),
     ),
-  );
+  )
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const progressViewModel = PollDetailProgressBarViewModelMapper.map(
     currentStep,
     provider.getNumberOfSteps(),
     provider.getStepType(currentStep),
-  );
+  )
   const isNextStepAvailable = () => {
-    return currentStep < provider.getNumberOfSteps() - 1;
-  };
+    return currentStep < provider.getNumberOfSteps() - 1
+  }
   const isPreviousStepAvailable = () => {
-    return currentStep > 0;
-  };
+    return currentStep > 0
+  }
   const navigationViewModel = PollDetailNavigationButtonsViewModelMapper.map(
     isPreviousStepAvailable(),
     isNextStepAvailable(),
     provider.isDataComplete(currentStep),
-  );
+  )
 
-  const [pageWidth, setPageWidth] = useState<number>(0);
-  const flatListViewRef = useRef<FlatList>(null);
+  const [pageWidth, setPageWidth] = useState<number>(0)
+  const flatListViewRef = useRef<FlatList>(null)
 
   useEffect(() => {
     flatListViewRef.current?.scrollToIndex({
       animated: true,
       index: currentStep,
-    });
-  }, [currentStep]);
+    })
+  }, [currentStep])
 
   const postAnswers = () => {
-    setIsLoading(true);
+    setIsLoading(true)
     new SendPhonePollAnswersInteractor()
       .execute(poll, route.params.data.sessionId, provider.getResult())
       .then(() => {
-        navigation.replace("PhonePollDetailSuccess", {
+        navigation.replace('PhonePollDetailSuccess', {
           title: poll.name,
           data: route.params.data,
-        });
+        })
       })
       .catch((error) => {
-        AlertUtils.showNetworkAlert(error, postAnswers);
+        AlertUtils.showNetworkAlert(error, postAnswers)
       })
-      .finally(() => setIsLoading(false));
-  };
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.content}>
-        <PollDetailProgressBar style={styles.progress} viewModel={progressViewModel} />
+        <PollDetailProgressBar
+          style={styles.progress}
+          viewModel={progressViewModel}
+        />
         <View
           style={styles.questionContainer}
           onLayout={(event) => {
-            setPageWidth(event.nativeEvent.layout.width);
+            setPageWidth(event.nativeEvent.layout.width)
           }}
         >
           <FlatList
@@ -105,11 +125,11 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({ poll, satisfact
                 <View key={item} style={{ width: pageWidth }}>
                   {provider.getStepComponent(item)}
                 </View>
-              );
+              )
             }}
             extraData={provider}
             getItemLayout={(_data, index) => {
-              return { length: pageWidth, offset: pageWidth * index, index };
+              return { length: pageWidth, offset: pageWidth * index, index }
             }}
             snapToInterval={pageWidth}
             keyExtractor={(item) => item.toString()}
@@ -124,8 +144,8 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({ poll, satisfact
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -134,7 +154,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    overflow: "hidden", // hide the shadow on the bottom
+    overflow: 'hidden', // hide the shadow on the bottom
   },
   progress: {
     paddingHorizontal: Spacing.margin,
@@ -142,6 +162,6 @@ const styles = StyleSheet.create({
   questionContainer: {
     flexGrow: 1,
   },
-});
+})
 
-export default PhonePollDetailScreenLoaded;
+export default PhonePollDetailScreenLoaded

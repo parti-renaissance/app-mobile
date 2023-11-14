@@ -1,50 +1,55 @@
-import React, { FC, useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import RegionsRepository from "../../data/RegionsRepository";
-import { HomeNavigatorScreenProps } from "../../navigation/home/HomeNavigatorScreenProps";
-import { Colors, Spacing, Styles, Typography } from "../../styles";
-import { Analytics } from "../../utils/Analytics";
-import i18n from "../../utils/i18n";
-import { PrimaryButton } from "../shared/Buttons";
-import { ExternalLink } from "../shared/ExternalLink";
-import { StatefulView } from "../shared/StatefulView";
-import { ViewState } from "../shared/ViewState";
-import { ViewStateUtils } from "../shared/ViewStateUtils";
-import { RegionViewModel } from "./RegionViewModel";
-import { RegionViewModelMapper } from "./RegionViewModelMapper";
+import React, { FC, useEffect, useState } from 'react'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import RegionsRepository from '../../data/RegionsRepository'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { Analytics } from '../../utils/Analytics'
+import i18n from '../../utils/i18n'
+import { PrimaryButton } from '../shared/Buttons'
+import { ExternalLink } from '../shared/ExternalLink'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { RegionViewModel } from './RegionViewModel'
+import { RegionViewModelMapper } from './RegionViewModelMapper'
 
-type RegionScreenProps = HomeNavigatorScreenProps<"Region">;
+type RegionScreenProps = HomeNavigatorScreenProps<'Region'>
 
 const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
-  const [statefulState, setStatefulState] = useState<ViewState<RegionViewModel>>(
-    ViewState.Loading(),
-  );
+  const [statefulState, setStatefulState] = useState<
+    ViewState<RegionViewModel>
+  >(ViewState.Loading())
 
   const fetchData = () => {
     RegionsRepository.getInstance()
       .getRegion(route.params.zipCode)
       .then((result) => {
         if (result.campaign) {
-          const viewModel = RegionViewModelMapper.map(result.name, result.campaign);
-          setStatefulState(ViewState.Content(viewModel));
+          const viewModel = RegionViewModelMapper.map(
+            result.name,
+            result.campaign,
+          )
+          setStatefulState(ViewState.Content(viewModel))
         } else {
           // This is a fatal error, should not happen
-          setStatefulState(ViewStateUtils.networkError(new Error("No campaign for region.")));
+          setStatefulState(
+            ViewStateUtils.networkError(new Error('No campaign for region.')),
+          )
         }
       })
       .catch((error) => {
         setStatefulState(
           ViewStateUtils.networkError(error, () => {
-            setStatefulState(ViewState.Loading());
-            fetchData();
+            setStatefulState(ViewState.Loading())
+            fetchData()
           }),
-        );
-      });
-  };
+        )
+      })
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(fetchData, []);
+  useEffect(fetchData, [])
 
   const RegionContent = (regionViewModel: RegionViewModel) => {
     return (
@@ -79,30 +84,30 @@ const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
         {regionViewModel.websiteUrl !== null ? (
           <View style={styles.bottomContainer}>
             <PrimaryButton
-              title={i18n.t("regions.website")}
+              title={i18n.t('regions.website')}
               onPress={async () => {
-                await Analytics.logRegionDetails();
-                ExternalLink.openUrl(regionViewModel.websiteUrl as string);
+                await Analytics.logRegionDetails()
+                ExternalLink.openUrl(regionViewModel.websiteUrl as string)
               }}
             />
           </View>
         ) : null}
       </View>
-    );
-  };
+    )
+  }
 
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: "never" }}>
+    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
       <StatefulView contentComponent={RegionContent} state={statefulState} />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   banner: {
     aspectRatio: 320 / 203,
     height: undefined,
-    width: "100%",
+    width: '100%',
   },
   bottomContainer: {
     ...Styles.topElevatedContainerStyle,
@@ -114,7 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   containerLogo: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
   },
   content: {
@@ -122,7 +127,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   logo: {
     height: 100,
@@ -147,6 +152,6 @@ const styles = StyleSheet.create({
     width: 100,
     ...Styles.topElevatedContainerStyle,
   },
-});
+})
 
-export default RegionScreen;
+export default RegionScreen
