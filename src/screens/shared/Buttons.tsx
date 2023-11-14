@@ -211,7 +211,7 @@ const getBaseButtonStyle = (shape: ButtonShape): StyleProp<ViewStyle> => {
   }
 };
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   appButtonContainerBorderless: {
     paddingHorizontal: 16,
     paddingVertical: 14,
