@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Maax-Bold.ttf",
+      "sha1": "429b7b34dcd0579b5110724745b9c22cf2796af2"
+    },
+    {
+      "path": "src/assets/fonts/Maax-Medium.ttf",
+      "sha1": "e7eb3f4b421b58d04a169389e96e6e14452bc34d"
+    },
+    {
+      "path": "src/assets/fonts/Maax-Mediumitalic.ttf",
+      "sha1": "78122c702f2bbc41ddff98be617426c1d69a3c67"
+    },
+    {
+      "path": "src/assets/fonts/Roboto-Italic.ttf",
+      "sha1": "dc6756127707ab2d6e388a6023087351fa41999c"
+    },
+    {
+      "path": "src/assets/fonts/Roboto-Medium.ttf",
+      "sha1": "f6783010d5def128c4a1539333324f75701d9bab"
+    },
+    {
+      "path": "src/assets/fonts/Roboto-Regular.ttf",
+      "sha1": "096c9245b6a192d1403a82848e104a65f578a8ec"
+    }
+  ]
+}

@@ -22,5 +22,6 @@
     "tsBuildInfoFile": "./.caches/typescript/.tsbuildinfo",
     "allowJs": true,
   },
-  "include": ["src"]
+  "include": ["src"],
+  "extends": "@tsconfig/react-native/tsconfig.json"
 }

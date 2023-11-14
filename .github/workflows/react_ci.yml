@@ -22,10 +22,10 @@ jobs:
           apt update
           apt install -y git
       - uses: actions/checkout@v2
-      - name: Use Node.js 12
+      - name: Use Node.js 21
         uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: '21.1.0'
       - name: Install Yarn
         run: npm install -g yarn
       - name: Set up dependencies

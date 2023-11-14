@@ -4,6 +4,7 @@ import fr from '../assets/localizables/fr.json'
 import { defaultLanguage } from './defaultLanguage'
 
 i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
   lng: defaultLanguage.languageTag,
   resources: {
     fr: { translation: fr.fr },
