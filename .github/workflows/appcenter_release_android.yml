@@ -41,7 +41,7 @@ jobs:
       - name: Use Node.js 21
         uses: actions/setup-node@v4
         with:
-          node-version: '21.1.0'
+          node-version: 21.1
       - name: Install Yarn
         working-directory: ./
         run: npm install -g yarn
