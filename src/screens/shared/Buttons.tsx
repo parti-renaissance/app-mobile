@@ -22,6 +22,7 @@ type ButtonProps = Readonly<{
   title?: string;
   disabled?: boolean;
   shape?: ButtonShape;
+  children?: React.ReactNode | FunctionComponent<{ textStyle: StyleProp<TextStyle>[] }>;
 }>;
 
 type ButtonShape = "oval" | "rounded";
@@ -55,6 +56,12 @@ const BaseButton: FunctionComponent<ButtonProps & BaseButtonProps & IconProps> =
 
   const baseButtonStyle = getBaseButtonStyle(props.shape ?? "oval");
 
+  const textStyle = [
+    styles.appButtonText,
+    { opacity: opacity, color: props.textColor },
+    props.textStyle,
+  ];
+
   return (
     <View style={[baseButtonStyle, { backgroundColor: computedBackground }, props.style]}>
       <TouchablePlatform
@@ -64,15 +71,13 @@ const BaseButton: FunctionComponent<ButtonProps & BaseButtonProps & IconProps> =
         style={[styles.buttonTouchable, props.buttonStyle]}
       >
         {props.children ? (
-          props.children
+          typeof props.children === "function" ? (
+            props.children({ textStyle })
+          ) : (
+            props.children
+          )
         ) : (
-          <Text
-            style={[
-              styles.appButtonText,
-              { opacity: opacity, color: props.textColor },
-              props.textStyle,
-            ]}
-          >
+          <Text style={textStyle}>
             {props.leadingIcon ? (
               <View style={{ paddingRight: props.iconPadding }}>
                 <Image
@@ -206,7 +211,7 @@ const getBaseButtonStyle = (shape: ButtonShape): StyleProp<ViewStyle> => {
   }
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   appButtonContainerBorderless: {
     paddingHorizontal: 16,
     paddingVertical: 14,
