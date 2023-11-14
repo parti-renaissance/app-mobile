@@ -86,8 +86,8 @@
       },
       "user_form": {
         "consent_title": "Souhaite-t-il être tenu au courant des résultats de ce sondage par e-mail ?",
-        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par la République en Marche dans le cadre de cette consultation et conformément à la politique de protection des données que vous pouvez consulter. \n",
-        "consent_subtitle_suffix": "La politique de données de LaREM.",
+        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par Renaissance dans le cadre de cette consultation et conformément à la politique de protection des données que vous pouvez consulter. \n",
+        "consent_subtitle_suffix": "La politique de données de Renaissance.",
         "consent_url": "https://je-mengage.fr/politique-protection-donnees",
         "positive_choice": "Oui",
         "negative_choice": "Non",
@@ -182,8 +182,8 @@
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
       "footer": {
-        "title": "En Marche !",
-        "description": "Vous voulez contribuer à la transformation En Marche ? Rejoignez les plus de 400 000 adhérents de La République En Marche ! C'est facile, gratuit et 3 minutes suffiront.",
+        "title": "Renaissance",
+        "description": "Vous voulez contribuer à la transformation de Renaissance ? Rejoignez les plus de 400 000 adhérents de Renaissance. C'est facile, gratuit et 3 minutes suffiront.",
         "button": "Je m'engage"
       },
       "region_more": "En savoir plus",
