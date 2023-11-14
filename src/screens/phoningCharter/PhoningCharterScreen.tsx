@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import Markdown from '@ronradtke/react-native-markdown-display'
 import SafeAreaView from 'react-native-safe-area-view'
+import Markdown from '@ronradtke/react-native-markdown-display'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
-
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'

@@ -1,22 +1,22 @@
 import React, { FC, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
+import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
 import i18n from '../../utils/i18n'
+import BirthdayPicker from '../shared/BirthdayPicker'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import GenderPicker from './GenderPicker'
+import { HeaderTextButton } from './HeaderTextButton'
 import LabelInputContainer from './LabelInputContainer'
 import LabelTextInput from './LabelTextInput'
-import GenderPicker from './GenderPicker'
-import BirthdayPicker from '../shared/BirthdayPicker'
 import LocationPicker from './LocationPicker'
-import PhoneNumberInput from './PhoneNumberInput'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import { useNavigation } from '@react-navigation/native'
-import { HeaderTextButton } from './HeaderTextButton'
-import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
-import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
 import { NationalityPicker } from './NationalityPicker'
+import PhoneNumberInput from './PhoneNumberInput'
 import { usePersonalInformationScreenContent } from './usePersonalInformationScreenContent.hook'
-import { DetailedProfile } from '../../core/entities/DetailedProfile'
 
 type Props = Readonly<{
   profile: DetailedProfile
@@ -54,9 +54,10 @@ export const PersonalInformationScreenContent: FC<Props> = ({ profile }) => {
     onSubmit,
   } = usePersonalInformationScreenContent(profile)
 
-  const navigation = useNavigation<
-    PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
+    >()
 
   useEffect(() => {
     navigation.setOptions({

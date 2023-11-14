@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { EventMode } from '../../core/entities/Event'
 import { EventsFilterModalNavigatorScreenProps } from '../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'
 import { EventQuickFiltersViewModel } from './EventQuickFiltersViewModel'
@@ -14,9 +14,10 @@ export const useEventQuickFiltersScreen = (
   onSubmit: () => void
   onClose: () => void
 } => {
-  const navigation = useNavigation<
-    EventsFilterModalNavigatorScreenProps<'EventsFilter'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      EventsFilterModalNavigatorScreenProps<'EventsFilter'>['navigation']
+    >()
   const [eventModeFilter, setEventModeFilter] = useState<EventMode | undefined>(
     eventMode,
   )

@@ -1,8 +1,8 @@
 import { News } from '../../core/entities/News'
 import i18n from '../../utils/i18n'
 import {
-  NewsContentViewModel,
   NewsContentSectionViewModel,
+  NewsContentViewModel,
 } from './NewsContentViewModel'
 import { NewsRowViewModelMapper } from './NewsRowViewModelMapper'
 

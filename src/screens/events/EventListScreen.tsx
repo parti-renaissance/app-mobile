@@ -1,29 +1,29 @@
 import React, { FC, useCallback } from 'react'
 import {
-  SectionList,
-  StyleSheet,
-  SectionListRenderItemInfo,
-  Text,
   ListRenderItemInfo,
-  View,
   RefreshControl,
+  SectionList,
+  SectionListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import { useFocusEffect } from '@react-navigation/native'
 import { EventMode } from '../../core/entities/Event'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
+import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { StatefulView } from '../shared/StatefulView'
+import { EventFilter } from './EventFilter'
 import EventGridItem from './EventGridItem'
 import EventView from './EventView'
 import {
-  EventSectionViewModel,
   EventRowContainerViewModel,
   EventRowViewModel,
+  EventSectionViewModel,
 } from './EventViewModel'
-import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { useEventListScreen } from './useEventListScreen.hook'
-import { EventFilter } from './EventFilter'
-import { useFocusEffect } from '@react-navigation/native'
 
 type Props = Readonly<{
   eventFilter: EventFilter

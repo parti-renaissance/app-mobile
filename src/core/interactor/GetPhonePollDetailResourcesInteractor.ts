@@ -14,12 +14,12 @@ export class GetPhonePollDetailResourcesInteractor {
     campaignId: string,
     sessionId: string,
   ): Promise<PhonePollDetailResources> {
-    const poll = await this.phoningCampaignRepository.getPhoningCampaignPoll(
-      campaignId,
-    )
-    const configuration = await this.phoningCampaignRepository.getPhoningSessionConfiguration(
-      sessionId,
-    )
+    const poll =
+      await this.phoningCampaignRepository.getPhoningCampaignPoll(campaignId)
+    const configuration =
+      await this.phoningCampaignRepository.getPhoningSessionConfiguration(
+        sessionId,
+      )
     return {
       poll,
       configuration,

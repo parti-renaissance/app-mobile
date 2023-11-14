@@ -1,17 +1,18 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Markdown from '@ronradtke/react-native-markdown-display'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import i18n from '../../../../utils/i18n'
-import { StatefulView } from '../../../shared/StatefulView'
 import { PrimaryButton } from '../../../shared/Buttons'
 import { CloseButton } from '../../../shared/NavigationHeaderButton'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { useDoorToDoorBriefScreen } from './useDoorToDoorBriefScreen.hook'
+import { StatefulView } from '../../../shared/StatefulView'
 import { DoorToDoorBriefViewModel } from './DoorToDoorBriefViewModel'
+import { useDoorToDoorBriefScreen } from './useDoorToDoorBriefScreen.hook'
 
-type DoorToDoorBriefScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
+type DoorToDoorBriefScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
 
 const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
   navigation,

@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import ToolsRepository from '../../data/ToolsRepository'
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
-import { ToolRow } from './ToolRow'
-import { ToolRowViewModel } from './ToolRowViewModel'
-import { ExternalLink } from '../shared/ExternalLink'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import ToolsContentViewModel from './ToolsContentViewModel'
-import { ToolsContentViewModelMapper } from './ToolsContentViewModelMapper'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { Tool } from '../../core/entities/Tool'
+import ToolsRepository from '../../data/ToolsRepository'
+import { Colors, Spacing, Typography } from '../../styles'
 import { Analytics } from '../../utils/Analytics'
+import i18n from '../../utils/i18n'
+import { ExternalLink } from '../shared/ExternalLink'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { ToolRow } from './ToolRow'
+import { ToolRowViewModel } from './ToolRowViewModel'
+import ToolsContentViewModel from './ToolsContentViewModel'
+import { ToolsContentViewModelMapper } from './ToolsContentViewModelMapper'
 
 const ToolsScreen = () => {
   const [statefulState, setStatefulState] = useState<
@@ -70,6 +70,7 @@ const ToolsScreen = () => {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(loadFirstPage, [])
 
   const renderItem = ({ item }: ListRenderItemInfo<ToolRowViewModel>) => {

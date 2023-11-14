@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -9,12 +9,12 @@ import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
-type PhoneCallFailureScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoneCallFailure'>
+type PhoneCallFailureScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhoneCallFailure'>
 
-const PhoneCallFailureScreen: FunctionComponent<PhoneCallFailureScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoneCallFailureScreen: FunctionComponent<
+  PhoneCallFailureScreenProps
+> = ({ navigation, route }) => {
   usePreventGoingBack()
 
   useLayoutEffect(() => {

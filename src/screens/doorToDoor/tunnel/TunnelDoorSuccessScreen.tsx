@@ -30,12 +30,12 @@ import { RankingRowView } from '../rankings/RankingRowView'
 import { RankingTabsView } from '../rankings/RankingTabsView'
 import { RankingViewModelMapper } from '../rankings/RankingViewModelMapper'
 
-type TunnelDoorSuccessScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccess'>
+type TunnelDoorSuccessScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccess'>
 
-const TunnelDoorSuccessScreen: FunctionComponent<TunnelDoorSuccessScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const TunnelDoorSuccessScreen: FunctionComponent<
+  TunnelDoorSuccessScreenProps
+> = ({ navigation, route }) => {
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
   const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
   const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>()

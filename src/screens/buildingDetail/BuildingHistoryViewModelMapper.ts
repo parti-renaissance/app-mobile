@@ -1,5 +1,6 @@
+import { format } from 'date-fns'
+import i18n from '../../utils/i18n'
 import { BuildingHistoryPoint } from './../../core/entities/BuildingHistory'
-import { KeyValueListViewModel } from './KeyValueListView'
 import {
   BuildingHistoryViewModel,
   BuildingVisitsDateRecordsViewModel,
@@ -7,8 +8,7 @@ import {
   DateViewModel,
 } from './BuildingVisitsHistoryViewModel'
 import { KeyValueCellViewModel } from './KeyValueCell'
-import i18n from '../../utils/i18n'
-import { format } from 'date-fns'
+import { KeyValueListViewModel } from './KeyValueListView'
 
 export const BuildingHistoryViewModelMapper = {
   map: (history: BuildingHistoryPoint[]): BuildingHistoryViewModel => {

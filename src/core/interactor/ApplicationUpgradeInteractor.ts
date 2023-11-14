@@ -6,11 +6,13 @@ import ProfileRepository from '../../data/ProfileRepository'
 import { AuthenticationState } from '../entities/AuthenticationState'
 
 export class ApplicationUpgradeInteractor {
-  private applicationVersionRepository = ApplicationVersionRepository.getInstance()
+  private applicationVersionRepository =
+    ApplicationVersionRepository.getInstance()
   private authenticationRepository = AuthenticationRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
   public async execute(): Promise<void> {
-    const currentVersion = this.applicationVersionRepository.currentVersionCode()
+    const currentVersion =
+      this.applicationVersionRepository.currentVersionCode()
     const lastVersion = await this.lastVersionCompat(
       this.applicationVersionRepository.previousVersionCode(),
     )
@@ -30,7 +32,8 @@ export class ApplicationUpgradeInteractor {
   private async performMigrations(currentVersion: number, lastVersion: number) {
     if (this.isUpgradingTo(2, currentVersion, lastVersion)) {
       console.log('migrating to version 2')
-      const applicationState = await this.authenticationRepository.getAuthenticationState()
+      const applicationState =
+        await this.authenticationRepository.getAuthenticationState()
       if (applicationState === AuthenticationState.Anonymous) {
         const deviceId = await this.authenticationRepository.getDeviceId()
         const zipCode = await this.profileRepository.getZipCode()
@@ -57,7 +60,8 @@ export class ApplicationUpgradeInteractor {
   ): Promise<number> {
     const lastVersion = await lastVersionPromise
     if (lastVersion === NO_APPLICATION_VERSION_CODE) {
-      const authenticationState = await this.authenticationRepository.getAuthenticationState()
+      const authenticationState =
+        await this.authenticationRepository.getAuthenticationState()
       if (authenticationState !== AuthenticationState.Unauthenticated) {
         return 1
       } else {

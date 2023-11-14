@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { NewsRowViewModel } from './NewsRowViewModel'
 import NewsCard from './NewsCard'
+import { NewsRowViewModel } from './NewsRowViewModel'
 
 type Props = Readonly<{
   viewModel: NewsRowViewModel

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import SplashScreen from 'react-native-splash-screen'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
-import AuthenticationRepository from '../data/AuthenticationRepository'
-import { PushNotification } from '../utils/PushNotification'
-import { Analytics } from '../utils/Analytics'
-import PushRepository from '../data/PushRepository'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
+import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
+import AuthenticationRepository from '../data/AuthenticationRepository'
+import PushRepository from '../data/PushRepository'
+import { Analytics } from '../utils/Analytics'
+import { PushNotification } from '../utils/PushNotification'
 import { AuthenticatedRootNavigator } from './authenticatedRoot/AuthenticatedRootNavigator'
 import { UnauthenticatedRootNavigator } from './unauthenticatedRoot/UnauthenticatedRootNavigator'
-import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
 
 const authenticationRepository = AuthenticationRepository.getInstance()
 

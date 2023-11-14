@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
 import { ImageBackground, StatusBar, StyleSheet, Text } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
-import i18n from '../../utils/i18n'
-import { Colors, Spacing, Typography } from '../../styles'
-import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import LinearGradient from 'react-native-linear-gradient'
+import SafeAreaView from 'react-native-safe-area-view'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { useOnboardingScreen } from './useOnboardingScreen.hook'
-import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 
 type OnboardingScreenProps = OnboardingNavigatorScreenProps<'Onboarding'>
 

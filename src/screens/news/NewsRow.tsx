@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import TagView from '../shared/TagView'
 import { VerticalSpacer } from '../shared/Spacer'
+import TagView from '../shared/TagView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { NewsRowViewModel } from './NewsRowViewModel'
 

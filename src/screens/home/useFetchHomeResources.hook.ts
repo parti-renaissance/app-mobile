@@ -20,9 +20,10 @@ export const useFetchHomeResources = (): {
     ViewState.Loading(),
   )
 
-  const isDataLoaded = useCallback(() => statefulState.state === 'content', [
-    statefulState,
-  ])
+  const isDataLoaded = useCallback(
+    () => statefulState.state === 'content',
+    [statefulState],
+  )
 
   const fetchData = useCallback(
     (cacheJustLoaded: boolean = false) => {

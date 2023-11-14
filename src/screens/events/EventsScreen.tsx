@@ -7,15 +7,15 @@ import {
   TextInput,
   View,
 } from 'react-native'
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import EventListScreen from './EventListScreen'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Analytics } from '../../utils/Analytics'
-import { useEventsScreen } from './useEventsScreen.hook'
-import { EventsFilterButton } from '../shared/NavigationHeaderButton'
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
 import { EventNavigatorScreenProps } from '../../navigation/event/EventNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import { Analytics } from '../../utils/Analytics'
+import i18n from '../../utils/i18n'
+import { EventsFilterButton } from '../shared/NavigationHeaderButton'
+import EventListScreen from './EventListScreen'
+import { useEventsScreen } from './useEventsScreen.hook'
 
 type EventsScreenProps = EventNavigatorScreenProps<'Events'>
 
@@ -31,9 +31,8 @@ const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
 
   const eventMode = route.params?.eventMode
 
-  const { searchText, onChangeText, onFiltersSelected } = useEventsScreen(
-    eventMode,
-  )
+  const { searchText, onChangeText, onFiltersSelected } =
+    useEventsScreen(eventMode)
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {

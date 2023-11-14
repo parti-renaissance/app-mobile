@@ -1,31 +1,31 @@
 import React, { FunctionComponent, useCallback, useState } from 'react'
 import {
-  Text,
-  StyleSheet,
   FlatList,
   ListRenderItemInfo,
+  StyleSheet,
+  Text,
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
-import { PhoningRowViewModel } from './PhoningRowViewModel'
-import { PhoningViewModel } from './PhoningViewModel'
-import { PhoningViewModelMapper } from './PhoningViewModelMapper'
 import { useFocusEffect } from '@react-navigation/native'
-import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
-import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import PhoningCallContactRow from './callContact/CallContactRow'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
-import PhoningCampaignRow from './campaign/PhoningCampaignRow'
 import {
   PhoningCharterNotAccepted,
   PhoningCharterState,
 } from '../../core/entities/PhoningCharterState'
-import i18n from '../../utils/i18n'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import PhoningCallContactRow from './callContact/CallContactRow'
+import PhoningCampaignRow from './campaign/PhoningCampaignRow'
+import { PhoningRowViewModel } from './PhoningRowViewModel'
+import { PhoningViewModel } from './PhoningViewModel'
+import { PhoningViewModelMapper } from './PhoningViewModelMapper'
+import PhoningTutorialRow from './tutorial/PhoningTutorialRow'
 
 type PhoningScreenProps = ActionsNavigatorScreenProps<'Phoning'>
 

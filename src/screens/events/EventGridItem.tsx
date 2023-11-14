@@ -8,11 +8,11 @@ import {
   ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
+import TagView from '../shared/TagView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import { EventRowViewModel } from './EventViewModel'
-import TagView from '../shared/TagView'
-import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   style?: StyleProp<ViewStyle>

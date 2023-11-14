@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
 import { PhoningSessionAdherent } from '../../core/entities/PhoningSessionAdherent'
@@ -14,16 +14,16 @@ import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
-type PhoningSessionLoaderScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoader'>
+type PhoningSessionLoaderScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoader'>
 
-const PhoningSessionLoaderScreen: FunctionComponent<PhoningSessionLoaderScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoningSessionLoaderScreen: FunctionComponent<
+  PhoningSessionLoaderScreenProps
+> = ({ navigation, route }) => {
   usePreventGoingBack()
 
   // (Pierre Felgines) 2022/03/21 We need to pass optional parameters because deeplink

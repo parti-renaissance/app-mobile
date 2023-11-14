@@ -1,8 +1,7 @@
 import React, { FC } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
-
-import i18n from '../../utils/i18n'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
 import { ProfilePollsCompletedViewModel } from './ProfilePollsCompletedViewModel'
 
 type Props = Readonly<{

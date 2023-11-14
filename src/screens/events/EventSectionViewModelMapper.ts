@@ -1,16 +1,16 @@
+import { format } from 'date-fns'
+import MultiMap from 'mnemonist/multi-map'
+import { ShortEvent } from '../../core/entities/Event'
+import { DateFormatter } from '../../utils/DateFormatter'
+import i18n from '../../utils/i18n'
+import { EventFilter } from './EventFilter'
+import { EventRowViewModelMapper } from './EventRowViewModelMapper'
 import {
   EventRowContainerViewModel,
   EventRowViewModel,
   EventSectionRowViewModel,
   EventSectionViewModel,
 } from './EventViewModel'
-import { ShortEvent } from '../../core/entities/Event'
-import { EventFilter } from './EventFilter'
-import MultiMap from 'mnemonist/multi-map'
-import i18n from '../../utils/i18n'
-import { EventRowViewModelMapper } from './EventRowViewModelMapper'
-import { format } from 'date-fns'
-import { DateFormatter } from '../../utils/DateFormatter'
 
 export const EventSectionViewModelMapper = {
   map: (
@@ -37,14 +37,13 @@ function mapCalendar(events: ShortEvent[]): EventSectionViewModel[] {
   for (const key of keys) {
     const eventsOfSection = multiMap.get(key) ?? []
     const sectionViewModel = mapSection(key, eventsOfSection[0])
-    const eventsViewModel: Array<EventRowContainerViewModel> = eventsOfSection.map(
-      (event) => {
+    const eventsViewModel: Array<EventRowContainerViewModel> =
+      eventsOfSection.map((event) => {
         return {
           type: 'event',
           value: EventRowViewModelMapper.map(event),
         }
-      },
-    )
+      })
     result.push({
       id: key,
       sectionViewModel: sectionViewModel,

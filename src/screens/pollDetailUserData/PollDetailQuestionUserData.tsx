@@ -6,10 +6,12 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native'
-
 import { Spacing } from '../../styles'
+import i18n from '../../utils/i18n'
 import QuestionUserProfileSectionHeader from '../pollDetailUserProfile/QuestionUserProfileSectionHeader'
-import QuestionDualChoiceRow from './QuestionDualChoiceRow'
+import { ExternalLink } from '../shared/ExternalLink'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
+import LabelTextInput from '../shared/LabelTextInput'
 import {
   PollDetailQuestionUserDataSectionContentViewModel,
   PollDetailQuestionUserDataViewModel,
@@ -20,12 +22,9 @@ import {
   FORM_INPUT_ID,
   YES_ID,
 } from './PollDetailQuestionUserDataViewModelMapper'
-import LabelTextInput from '../shared/LabelTextInput'
+import QuestionDualChoiceRow from './QuestionDualChoiceRow'
 import { QuestionDualChoiceRowViewModel } from './QuestionDualChoiceRowViewModel'
-import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import QuestionTextLinkRow from './QuestionTextLinkRow'
-import { ExternalLink } from '../shared/ExternalLink'
-import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   viewModel: PollDetailQuestionUserDataViewModel

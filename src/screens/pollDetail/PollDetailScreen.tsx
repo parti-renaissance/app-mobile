@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Alert, View, StyleSheet } from 'react-native'
-import i18n from '../../utils/i18n'
-import PollsRepository from '../../data/PollsRepository'
+import { Alert, StyleSheet, View } from 'react-native'
 import { Poll } from '../../core/entities/Poll'
-import PollDetailScreenLoaded from './PollDetailScreenLoaded'
-import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
+import PollsRepository from '../../data/PollsRepository'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
+import i18n from '../../utils/i18n'
+import ModalOverlay from '../shared/ModalOverlay'
 import {
   CloseButton,
   NavigationHeaderButton,
 } from '../shared/NavigationHeaderButton'
-import ModalOverlay from '../shared/ModalOverlay'
-import PollDetailTools from './PollDetailTools'
+import { StatefulView } from '../shared/StatefulView'
 import { useBackHandler } from '../shared/useBackHandler.hook'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
+import PollDetailScreenLoaded from './PollDetailScreenLoaded'
+import PollDetailTools from './PollDetailTools'
 
 type PollDetailScreenProps = PollDetailModalNavigatorScreenProps<'PollDetail'>
 
@@ -74,7 +74,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
         setStatefulState(ViewStateUtils.networkError(error, fetchPoll))
       })
   }
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchPoll, [route.params.pollId, navigation])
   return (
     <View style={styles.container}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from './LoaderView'

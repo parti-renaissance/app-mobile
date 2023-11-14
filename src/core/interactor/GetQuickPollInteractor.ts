@@ -13,7 +13,8 @@ export class GetQuickPollInteractor {
       zipCode,
       dataSource,
     )
-    const answeredPollsIds = await this.quickPollRepository.getAnsweredQuickPolls()
+    const answeredPollsIds =
+      await this.quickPollRepository.getAnsweredQuickPolls()
     return {
       ...quickPoll,
       state: answeredPollsIds.includes(quickPoll.id) ? 'answered' : 'pending',

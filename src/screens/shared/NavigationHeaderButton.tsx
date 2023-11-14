@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import {
-  TouchableOpacity,
   Image,
-  StyleProp,
-  ViewStyle,
   ImageSourcePropType,
   Platform,
   Pressable,
-  View,
+  StyleProp,
   StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native'
 import { Colors, Spacing } from '../../styles'
 
@@ -20,12 +20,9 @@ type NavigationHeaderButtonProps = Readonly<{
   tintColor?: string
 }>
 
-export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonProps> = ({
-  style,
-  onPress,
-  source,
-  tintColor,
-}) => {
+export const NavigationHeaderButton: FunctionComponent<
+  NavigationHeaderButtonProps
+> = ({ style, onPress, source, tintColor }) => {
   if (Platform.OS === 'android') {
     return (
       <View style={[styles.container, style]}>

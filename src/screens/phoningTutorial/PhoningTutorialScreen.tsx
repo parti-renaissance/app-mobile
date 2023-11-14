@@ -4,17 +4,17 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
-import Markdown from '@ronradtke/react-native-markdown-display'
+import { ScrollView, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { useFocusEffect } from '@react-navigation/native'
+import Markdown from '@ronradtke/react-native-markdown-display'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
 import { ViewState } from '../shared/ViewState'
-import { useFocusEffect } from '@react-navigation/native'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type PhoningTutorialScreenProps = ActionsNavigatorScreenProps<'PhoningTutorial'>
 

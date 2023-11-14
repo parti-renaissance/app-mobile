@@ -1,19 +1,19 @@
 import { PhoningCampaign } from '../core/entities/PhoningCampaign'
-import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
 import {
   PhoningCharterAccepted,
   PhoningCharterState,
 } from '../core/entities/PhoningCharterState'
+import { PhoningSatisfactionAnswer } from '../core/entities/PhoningSatisfactionAnswer'
 import { PhoningSession } from '../core/entities/PhoningSession'
 import { PhoningSessionConfiguration } from '../core/entities/PhoningSessionConfiguration'
 import { Poll } from '../core/entities/Poll'
 import { PollRemoteQuestionResult } from '../core/entities/PollResult'
 import { PhoningCampaignMapper } from './mapper/PhoningCampaignMapper'
+import { PhoningCharterMapper } from './mapper/PhoningCharterMapper'
 import { PhoningSessionConfigurationMapper } from './mapper/PhoningSessionConfigurationMapper'
 import { PhoningSessionMapper } from './mapper/PhoningSessionMapper'
 import { RestPhonePollResultRequestMapper } from './mapper/RestPhonePollResultRequestMapper'
 import ApiService from './network/ApiService'
-import { PhoningCharterMapper } from './mapper/PhoningCharterMapper'
 
 interface CacheSessionValue<T> {
   sessionId: string
@@ -60,9 +60,8 @@ class PhoningCampaignRepository {
   public async getPhoningCampaignSession(
     campaignId: string,
   ): Promise<PhoningSession> {
-    const restSession = await this.apiService.getPhoningCampaignSession(
-      campaignId,
-    )
+    const restSession =
+      await this.apiService.getPhoningCampaignSession(campaignId)
     return PhoningSessionMapper.map(restSession)
   }
 
@@ -76,12 +75,10 @@ class PhoningCampaignRepository {
       return this.cachedMemoryConfigurationForSession.value
     }
     this.cachedMemoryConfigurationForSession = undefined
-    const restConfiguration = await this.apiService.getPhoningSessionConfiguration(
-      sessionId,
-    )
-    const configuration = PhoningSessionConfigurationMapper.map(
-      restConfiguration,
-    )
+    const restConfiguration =
+      await this.apiService.getPhoningSessionConfiguration(sessionId)
+    const configuration =
+      PhoningSessionConfigurationMapper.map(restConfiguration)
     this.cachedMemoryConfigurationForSession = {
       sessionId,
       value: configuration,

@@ -82,7 +82,8 @@ export const PollConfigQuestionOptionsMapper = {
   ): PollExtraQuestionOptions => {
     switch (type) {
       case 'boolean':
-        const booleanOptions = restObject as RestPollConfigQuestionBooleanOptions
+        const booleanOptions =
+          restObject as RestPollConfigQuestionBooleanOptions
         return {
           title: booleanOptions.label,
           subtitle: booleanOptions.help,
@@ -116,7 +117,8 @@ export const PollConfigQuestionOptionsMapper = {
           choices: choices,
         }
       case 'compound':
-        const compoundOptions = restObject as RestPollConfigQuestionCompounOptions
+        const compoundOptions =
+          restObject as RestPollConfigQuestionCompounOptions
         return {
           label: compoundOptions.label,
           required: compoundOptions.required,

@@ -4,7 +4,7 @@ import { TabBarNavigatorScreenProps } from '../tabBar/TabBarNavigatorScreenProps
 import { ActionsNavigatorParamList } from './ActionsNavigatorParamList'
 
 export type ActionsNavigatorScreenProps<
-  T extends keyof ActionsNavigatorParamList
+  T extends keyof ActionsNavigatorParamList,
 > = CompositeScreenProps<
   StackScreenProps<ActionsNavigatorParamList, T>,
   TabBarNavigatorScreenProps

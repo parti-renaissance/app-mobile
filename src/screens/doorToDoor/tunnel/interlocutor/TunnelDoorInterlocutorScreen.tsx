@@ -1,29 +1,27 @@
 import React, { FunctionComponent } from 'react'
 import { SafeAreaView, StyleSheet, Text } from 'react-native'
-import { Colors, Spacing, Typography } from '../../../../styles'
 import { ScrollView } from 'react-native-gesture-handler'
-import i18n from '../../../../utils/i18n'
-import { StatefulView } from '../../../shared/StatefulView'
-import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { useTunnelDoorInterlocutorScreen } from './useTunnelDoorInterlocutorScreen.hook'
+import { Colors, Spacing, Typography } from '../../../../styles'
+import i18n from '../../../../utils/i18n'
+import LoadingOverlay from '../../../shared/LoadingOverlay'
+import { StatefulView } from '../../../shared/StatefulView'
 import { TunnelDoorInterlocutorChoiceCard } from './TunnelDoorInterlocutorChoiceCard'
 import { TunnelDoorInterlocutorChoiceCardViewModel } from './TunnelDoorInterlocutorChoiceCardViewModel'
+import { useTunnelDoorInterlocutorScreen } from './useTunnelDoorInterlocutorScreen.hook'
 
-type TunnelDoorInterlocutorScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
+type TunnelDoorInterlocutorScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
 
-const TunnelDoorInterlocutorScreen: FunctionComponent<TunnelDoorInterlocutorScreenProps> = ({
-  route,
-}) => {
-  const {
-    statefulState,
-    isSendingChoice,
-    onChoice,
-  } = useTunnelDoorInterlocutorScreen(
-    route.params.campaignId,
-    route.params.buildingParams,
-    route.params.visitStartDateISOString,
-  )
+const TunnelDoorInterlocutorScreen: FunctionComponent<
+  TunnelDoorInterlocutorScreenProps
+> = ({ route }) => {
+  const { statefulState, isSendingChoice, onChoice } =
+    useTunnelDoorInterlocutorScreen(
+      route.params.campaignId,
+      route.params.buildingParams,
+      route.params.visitStartDateISOString,
+    )
 
   const renderContentComponent = (
     items: Array<TunnelDoorInterlocutorChoiceCardViewModel>,

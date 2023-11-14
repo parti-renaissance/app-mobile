@@ -103,7 +103,8 @@ const NotificationsContent = (
   )
 }
 
-type NotificationsScreenProps = ProfileModalNavigatorScreenProps<'Notifications'>
+type NotificationsScreenProps =
+  ProfileModalNavigatorScreenProps<'Notifications'>
 
 const NotificationsScreen = (props: NotificationsScreenProps) => {
   const [statefulState, setStatefulState] = useState<

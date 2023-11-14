@@ -1,10 +1,10 @@
 import React from 'react'
 import {
   Platform,
-  TouchableHighlight,
   Pressable,
-  ViewStyle,
   StyleProp,
+  TouchableHighlight,
+  ViewStyle,
 } from 'react-native'
 import { Colors } from '../../styles'
 

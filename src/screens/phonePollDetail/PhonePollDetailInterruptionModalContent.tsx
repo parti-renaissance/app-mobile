@@ -1,13 +1,12 @@
 import React, { FunctionComponent, useState } from 'react'
 import {
-  View,
-  Text,
-  StyleSheet,
   FlatList,
   ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native'
 import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
-
 import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'

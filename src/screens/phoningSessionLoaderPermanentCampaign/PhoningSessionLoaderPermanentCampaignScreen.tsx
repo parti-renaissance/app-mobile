@@ -4,26 +4,26 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningSession } from '../../core/entities/PhoningSession'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { PrimaryButton } from '../shared/Buttons'
-import { CloseButton } from '../shared/NavigationHeaderButton'
-import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
-import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
-import LoadingOverlay from '../shared/LoadingOverlay'
 import { AlertUtils } from '../shared/AlertUtils'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { PrimaryButton } from '../shared/Buttons'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { CloseButton } from '../shared/NavigationHeaderButton'
+import { PhoningSessionNavigationData } from '../shared/PhoningSessionNavigationData'
+import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 
-type PhoningSessionLoaderPermanentCampaignScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoaderPermanentCampaign'>
+type PhoningSessionLoaderPermanentCampaignScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhoningSessionLoaderPermanentCampaign'>
 
-const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<PhoningSessionLoaderPermanentCampaignScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoningSessionLoaderPermanentCampaignScreen: FunctionComponent<
+  PhoningSessionLoaderPermanentCampaignScreenProps
+> = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSession = useCallback(

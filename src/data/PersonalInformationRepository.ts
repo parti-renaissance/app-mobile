@@ -14,7 +14,8 @@ class PersonalInformationRepository {
   private apiService = ApiService.getInstance()
   public static getInstance(): PersonalInformationRepository {
     if (!PersonalInformationRepository.instance) {
-      PersonalInformationRepository.instance = new PersonalInformationRepository()
+      PersonalInformationRepository.instance =
+        new PersonalInformationRepository()
     }
     return PersonalInformationRepository.instance
   }
@@ -30,12 +31,14 @@ class PersonalInformationRepository {
   }
 
   public async getAvailableCentersOfInterest(): Promise<Array<Interest>> {
-    const configurations = await this.apiService.getProfileAvailableConfiguration()
+    const configurations =
+      await this.apiService.getProfileAvailableConfiguration()
     return configurations.interests.map(ConfigurationMapper.mapInterest)
   }
 
   public async getAvailableNotifications(): Promise<Array<Notification>> {
-    const configurations = await this.apiService.getProfileAvailableConfiguration()
+    const configurations =
+      await this.apiService.getProfileAvailableConfiguration()
     return configurations.subscription_types.map(
       ConfigurationMapper.mapSubscriptions,
     )

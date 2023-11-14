@@ -1,14 +1,15 @@
 import React, { FC, useLayoutEffect } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { ANDROID_GOOGLE_API_KEY, IOS_GOOGLE_API_KEY } from '../../Config'
+import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'
-import { IOS_GOOGLE_API_KEY, ANDROID_GOOGLE_API_KEY } from '../../Config'
-import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
 import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
 
-type LocationPickerScreenProps = LocationPickerModalNavigatorScreenProps<'LocationPicker'>
+type LocationPickerScreenProps =
+  LocationPickerModalNavigatorScreenProps<'LocationPicker'>
 
 export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
   route,

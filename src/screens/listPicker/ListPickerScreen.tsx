@@ -1,13 +1,13 @@
 import React, { FC, useLayoutEffect } from 'react'
-import { ListRenderItemInfo, FlatList, StyleSheet } from 'react-native'
-import { Colors, Spacing } from '../../styles'
-import { useListPickerScreen } from './useListPickerScreen.hook'
+import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
 import { ListPickerModalNavigatorScreenProps } from '../../navigation/listPickerModal/ListPickerModalNavigatorScreenProps'
+import { Colors, Spacing } from '../../styles'
+import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { ListPickerRow, ListPickerRowViewModel } from './ListPickerRow'
-import SafeAreaView from 'react-native-safe-area-view'
-import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import { SearchBar } from './SearchBar'
+import { useListPickerScreen } from './useListPickerScreen.hook'
 
 type ListPickerScreenProps = ListPickerModalNavigatorScreenProps<'ListPicker'>
 

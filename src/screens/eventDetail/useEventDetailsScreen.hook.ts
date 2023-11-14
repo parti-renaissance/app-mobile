@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
+import { DetailedEvent } from '../../core/entities/Event'
 import EventRepository from '../../data/EventRepository'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { DetailedEvent } from '../../core/entities/Event'
 
 export const useEventDetailsScreen = (
   eventId: string,
@@ -26,6 +26,7 @@ export const useEventDetailsScreen = (
       })
   }, [eventId])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchData, [])
 
   return {

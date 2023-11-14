@@ -10,10 +10,9 @@ type PollDetailQuestionInputContentProps = Readonly<{
   onChangeText: (text: string) => void
 }>
 
-const PollDetailQuestionInputContent: FunctionComponent<PollDetailQuestionInputContentProps> = ({
-  viewModel,
-  onChangeText,
-}) => {
+const PollDetailQuestionInputContent: FunctionComponent<
+  PollDetailQuestionInputContentProps
+> = ({ viewModel, onChangeText }) => {
   const inputAccessoryViewId =
     'PollDetailQuestionInputAccessoryViewId' + viewModel.id
   const inputRef = useRef<TextInput>(null)

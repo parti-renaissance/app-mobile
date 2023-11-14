@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Typography } from '../../styles'
 import { small } from '../../styles/spacing'
 import { StatBlockViewModel } from './StatBlockViewModel'

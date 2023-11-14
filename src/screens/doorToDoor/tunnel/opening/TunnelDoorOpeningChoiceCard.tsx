@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../../styles'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 import { TunnelDoorOpeningChoiceCardViewModel } from './TunnelDoorOpeningChoiceCardViewModel'

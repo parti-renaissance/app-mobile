@@ -67,7 +67,8 @@ export class SendDoorToDoorPollAnswersJobQueue {
 
   public static async getInstance(): Promise<SendDoorToDoorPollAnswersJobQueue> {
     if (!SendDoorToDoorPollAnswersJobQueue.instance) {
-      SendDoorToDoorPollAnswersJobQueue.instance = new SendDoorToDoorPollAnswersJobQueue()
+      SendDoorToDoorPollAnswersJobQueue.instance =
+        new SendDoorToDoorPollAnswersJobQueue()
       await SendDoorToDoorPollAnswersJobQueue.instance.init()
     }
 

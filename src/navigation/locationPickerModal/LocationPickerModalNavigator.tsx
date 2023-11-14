@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
+import { LocationPickerScreen } from '../../screens/locationPicker/LocationPickerScreen'
 import { headerBlank } from '../../styles/navigationAppearance'
 import { LocationPickerModalNavigatorParamList } from './LocationPickerModalNavigatorParamList'
-import { LocationPickerScreen } from '../../screens/locationPicker/LocationPickerScreen'
 
 const Stack = createStackNavigator<LocationPickerModalNavigatorParamList>()
 

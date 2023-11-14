@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import ProgressBar from '../shared/ProgressBar'
@@ -10,9 +10,9 @@ type Props = Readonly<{
   viewModel: PhonePollDetailSuccessRowSuccessViewModel
 }>
 
-export const PhonePollDetailSuccessProgressContent: FunctionComponent<Props> = ({
-  viewModel,
-}) => {
+export const PhonePollDetailSuccessProgressContent: FunctionComponent<
+  Props
+> = ({ viewModel }) => {
   if (!viewModel.isProgressDisplayed) {
     return null
   }

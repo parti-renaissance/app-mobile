@@ -1,5 +1,5 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { Poll } from '../../core/entities/Poll'
 import { ServerTimeoutError } from '../../core/errors'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
@@ -20,9 +20,8 @@ export const usePollsScreen = (): {
   )
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const navigation = useNavigation<
-    ActionsNavigatorScreenProps<'Polls'>['navigation']
-  >()
+  const navigation =
+    useNavigation<ActionsNavigatorScreenProps<'Polls'>['navigation']>()
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
     setRefreshing(true)

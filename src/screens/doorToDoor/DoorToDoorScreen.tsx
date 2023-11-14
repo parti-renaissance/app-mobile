@@ -4,30 +4,30 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Modal, StyleSheet, Text, SafeAreaView, View } from 'react-native'
-import { Colors, Spacing, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import LocationAuthorization from './LocationAuthorization'
-import DoorToDoorCharterModal from './DoorToDoorCharterModal'
+import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import Geolocation from 'react-native-geolocation-service'
+import { LatLng, Region } from 'react-native-maps'
+import { useFocusEffect } from '@react-navigation/native'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import {
   DoorToDoorCharterNotAccepted,
   DoorToDoorCharterState,
 } from '../../core/entities/DoorToDoorCharterState'
-import DoorToDoorRepository from '../../data/DoorToDoorRepository'
-import { LocationManager } from '../../utils/LocationManager'
-import DoorToDoorMapView, { getRegionFromLatLng } from './DoorToDoorMapView'
-import MapListSwitch from './MapListSwitch'
-import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
-import DoorToDoorListView from './DoorToDoorListView'
-import { LatLng, Region } from 'react-native-maps'
-import { DoorToDoorFilterDisplay, DoorToDoorDisplayMode } from './DoorToDoor'
-import DoorToDoorFilter from './DoorToDoorFilter'
-import Geolocation from 'react-native-geolocation-service'
 import { GetDoorToDoorAddressesInteractor } from '../../core/interactor/GetDoorToDoorAddressesInteractor'
-import RankingModal from './rankings/RankingModal'
-import LoaderView from '../shared/LoaderView'
-import { useFocusEffect } from '@react-navigation/native'
+import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { LocationManager } from '../../utils/LocationManager'
+import LoaderView from '../shared/LoaderView'
+import { DoorToDoorDisplayMode, DoorToDoorFilterDisplay } from './DoorToDoor'
+import DoorToDoorCharterModal from './DoorToDoorCharterModal'
+import DoorToDoorFilter from './DoorToDoorFilter'
+import DoorToDoorListView from './DoorToDoorListView'
+import DoorToDoorMapView, { getRegionFromLatLng } from './DoorToDoorMapView'
+import LocationAuthorization from './LocationAuthorization'
+import MapListSwitch from './MapListSwitch'
+import RankingModal from './rankings/RankingModal'
 
 type DoorToDoorScreenProps = ActionsNavigatorScreenProps<'DoorToDoor'>
 

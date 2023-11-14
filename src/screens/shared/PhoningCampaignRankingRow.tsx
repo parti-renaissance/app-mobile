@@ -1,6 +1,5 @@
-import React from 'react'
-import { FunctionComponent } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing } from '../../styles'
 
 export interface PhoningScoreboardRowViewModel {

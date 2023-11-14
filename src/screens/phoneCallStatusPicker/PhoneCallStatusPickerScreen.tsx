@@ -5,10 +5,10 @@ import React, {
   useState,
 } from 'react'
 import {
-  Text,
-  StyleSheet,
-  ListRenderItemInfo,
   FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
   View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
@@ -25,16 +25,16 @@ import { PrimaryButton } from '../shared/Buttons'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
 import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 
-type PhoneCallStatusPickerScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoneCallStatusPicker'>
+type PhoneCallStatusPickerScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhoneCallStatusPicker'>
 
-const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoneCallStatusPickerScreen: FunctionComponent<
+  PhoneCallStatusPickerScreenProps
+> = ({ navigation, route }) => {
   const [statefulState, setStatefulState] = useState<
     ViewState<Array<PhoningSessionCallStatus>>
   >(ViewState.Loading())

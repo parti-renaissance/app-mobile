@@ -1,34 +1,34 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import {
-  StyleSheet,
-  SectionList,
-  SectionListRenderItemInfo,
   RefreshControl,
-  View,
-  StatusBar,
+  SectionList,
   SectionListData,
+  SectionListRenderItemInfo,
+  StatusBar,
+  StyleSheet,
+  View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors } from '../../styles'
+import { ListFooterLoader } from '../shared/ListFooterLoader'
+import { ProfileButton } from '../shared/NavigationHeaderButton'
+import { SectionHeader } from '../shared/SectionHeader'
 import { StatefulView } from '../shared/StatefulView'
+import { HomeEventRowContainer } from './events/HomeEventRowContainer'
+import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
+import { HomeFeedErrorRow } from './feed/HomeFeedErrorRow'
+import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
+import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
+import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
+import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
+import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
 import HomeHeader from './HomeHeader'
 import HomeRegion from './HomeRegion'
 import { HomeRowViewModel, HomeSectionViewModel } from './HomeRowViewModel'
 import { HomeViewModel } from './HomeViewModel'
 import HomeQuickPollRowContainer from './quickPoll/HomeQuickPollRowContainer'
-import { HomeEventRowContainer } from './events/HomeEventRowContainer'
-import { ProfileButton } from '../shared/NavigationHeaderButton'
 import { useHomeScreen } from './useHomeScreen.hook'
-import { HomeFeedEventRow } from './feed/HomeFeedEventRow'
-import { HomeFeedNewsRow } from './feed/HomeFeedNewsRow'
-import { HomeFeedPhoningCampaignRow } from './feed/HomeFeedPhoningCampaignRow'
-import { HomeFeedDoorToDoorCampaignRow } from './feed/HomeFeedDoorToDoorCampaignRow'
-import { HomeFeedPollRow } from './feed/HomeFeedPollRow'
-import { HomeFeedRetaliationRow } from './feed/HomeFeedRetaliationRow'
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
-import { ListFooterLoader } from '../shared/ListFooterLoader'
-import { HomeFeedErrorRow } from './feed/HomeFeedErrorRow'
-import { SectionHeader } from '../shared/SectionHeader'
 
 type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 

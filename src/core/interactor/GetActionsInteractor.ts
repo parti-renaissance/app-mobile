@@ -11,7 +11,8 @@ export class GetActionsInteractor {
   private actionsRepository = ActionsRepository.getInstance()
 
   public async execute(): Promise<Array<Action>> {
-    const authState = await this.authenticationRepository.getAuthenticationState()
+    const authState =
+      await this.authenticationRepository.getAuthenticationState()
     let hasPhoningScope = false
     let hasDoorToDoorScope = false
     if (authState === AuthenticationState.Authenticated) {

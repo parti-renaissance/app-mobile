@@ -1,6 +1,6 @@
+import { format } from 'date-fns'
 import { EventFilters } from '../../core/entities/Event'
 import { SearchParamsKeyValue } from '../network/SearchParams'
-import { format } from 'date-fns'
 
 export const GetEventsSearchParametersMapper = {
   map: (

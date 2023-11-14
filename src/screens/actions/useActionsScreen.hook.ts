@@ -1,9 +1,8 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { Action } from '../../core/entities/Action'
 import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
-
 import { Analytics } from '../../utils/Analytics'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -23,9 +22,8 @@ export const useActionsScreen = (): {
     stateRef.current = statefulState
   }, [statefulState])
 
-  const navigation = useNavigation<
-    ActionsNavigatorScreenProps<'Actions'>['navigation']
-  >()
+  const navigation =
+    useNavigation<ActionsNavigatorScreenProps<'Actions'>['navigation']>()
   const [fetchedActions] = useState(new Map<string, Action>())
 
   const fetch = useCallback(() => {
@@ -47,6 +45,7 @@ export const useActionsScreen = (): {
       })
   }, [fetchedActions])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useFocusEffect(useCallback(fetch, []))
 
   const onActionSelected = (actionId: string) => {

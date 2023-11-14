@@ -34,9 +34,10 @@ export const PhoneNumberMapper = {
     if (phoneNumber.startsWith('0')) {
       return phoneNumber
     } else {
-      const callingCode = CountryRepository.getInstance().getCallingCodeForCountryCode(
-        countryCode,
-      )
+      const callingCode =
+        CountryRepository.getInstance().getCallingCodeForCountryCode(
+          countryCode,
+        )
       return callingCode + phoneNumber
     }
   },

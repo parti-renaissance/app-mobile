@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { DoorToDoorPollConfigResponseStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import {
   INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE,
@@ -24,9 +24,10 @@ export const useTunnelDoorInterlocutorScreen = (
   isSendingChoice: boolean
   onChoice: (statusId: string) => void
 } => {
-  const navigation = useNavigation<
-    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>['navigation']
+    >()
 
   const [statefulState, setStatefulState] = useState<
     ViewState<Array<DoorToDoorPollConfigResponseStatus>>

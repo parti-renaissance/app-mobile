@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Colors } from '../../styles'
 
 type Props = Readonly<{

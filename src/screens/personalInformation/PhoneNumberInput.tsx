@@ -2,10 +2,10 @@ import React, { forwardRef } from 'react'
 import {
   StyleProp,
   StyleSheet,
-  ViewStyle,
+  Text,
   TextInput,
   View,
-  Text,
+  ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from '../shared/TouchablePlatform'

@@ -1,6 +1,6 @@
-import ApiService from './network/ApiService'
 import { DataProtectionRegulation } from '../core/entities/DataProtectionRegulation'
 import { DataProtectionRegulationMapper } from './mapper/DataProtectionRegulationMapper'
+import ApiService from './network/ApiService'
 
 class LegalRepository {
   private static instance: LegalRepository

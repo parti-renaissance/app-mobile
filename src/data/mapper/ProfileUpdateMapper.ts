@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { PersonalInformationsForm } from '../../screens/personalInformation/PersonalInformationsForm'
 import {
   RestUpdatePhoneNumber,
@@ -5,7 +6,6 @@ import {
   RestUpdateProfileRequest,
 } from '../restObjects/RestUpdateProfileRequest'
 import { GenderMapper } from './GenderMapper'
-import { format } from 'date-fns'
 
 export const ProfileUpdateMapper = {
   mapPersonalInformationForm: (

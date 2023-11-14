@@ -1,13 +1,11 @@
-import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import {
   DetailedProfile,
   FormViolation,
 } from '../../core/entities/DetailedProfile'
-import { PersonalInformationsForm } from './PersonalInformationsForm'
 import { Gender } from '../../core/entities/UserProfile'
 import { ProfileFormError } from '../../core/errors'
-import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
 import { CountryRepository } from '../../data/CountryRepository'
 import ProfileRepository from '../../data/ProfileRepository'
 import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
@@ -15,6 +13,8 @@ import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerViewModelMapper'
 import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
+import { PersonalInformationsForm } from './PersonalInformationsForm'
+import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
 
 export const usePersonalInformationScreenContent = (
   profile: DetailedProfile,
@@ -46,9 +46,10 @@ export const usePersonalInformationScreenContent = (
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
 
-  const navigation = useNavigation<
-    PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
+    >()
 
   const getError = (path: string): string => {
     return errors

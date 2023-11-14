@@ -1,5 +1,5 @@
-import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
+import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
 
 export const PhoningCampaignMapper = {
   map: (restObject: RestPhoningCampaign): PhoningCampaign => {

@@ -1,23 +1,24 @@
 import React from 'react'
+import { PollUserInformationsResult } from '../../../core/entities/PollResult'
+import { StepType } from '../../../core/entities/StepType'
+import { UserConsentData } from '../../../core/entities/UserConsentData'
 import {
   AgeRange,
   Gender,
   Profession,
   UserProfile,
 } from '../../../core/entities/UserProfile'
+import PollDetailQuestionUserData from '../../pollDetailUserData/PollDetailQuestionUserData'
+import { PollDetailQuestionUserDataViewModelMapper } from '../../pollDetailUserData/PollDetailQuestionUserDataViewModelMapper'
 import PollDetailQuestionUserProfile from '../../pollDetailUserProfile/PollDetailQuestionUserProfile'
 import { PollDetailQuestionUserProfileViewModelMapper } from '../../pollDetailUserProfile/PollDetailQuestionUserProfileViewModelMapper'
-import PollDetailQuestionUserData from '../../pollDetailUserData/PollDetailQuestionUserData'
-import { UserConsentData } from '../../../core/entities/UserConsentData'
-import { PollDetailQuestionUserDataViewModelMapper } from '../../pollDetailUserData/PollDetailQuestionUserDataViewModelMapper'
-import { PollUserInformationsResult } from '../../../core/entities/PollResult'
-import { StepType } from '../../../core/entities/StepType'
 import { PollDetailComponentProvider } from './PollDetailComponentProvider'
 
 const STEPS: Array<StepType> = ['userProfile', 'consentData']
 
 export class PollDetailUserInformationsComponentProvider
-  implements PollDetailComponentProvider<PollUserInformationsResult> {
+  implements PollDetailComponentProvider<PollUserInformationsResult>
+{
   private onUpdate: () => void
   private numberOfSteps: number
   private profile: UserProfile = {
@@ -95,9 +96,8 @@ export class PollDetailUserInformationsComponentProvider
   }
 
   private getUserProfileComponent(userProfile: UserProfile): JSX.Element {
-    const viewModel = PollDetailQuestionUserProfileViewModelMapper.map(
-      userProfile,
-    )
+    const viewModel =
+      PollDetailQuestionUserProfileViewModelMapper.map(userProfile)
     return (
       <PollDetailQuestionUserProfile
         viewModel={viewModel}

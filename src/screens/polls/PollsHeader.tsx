@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, ViewStyle, StyleProp } from 'react-native'
-
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PollsHeaderViewModel } from './PollsHeaderViewModel'

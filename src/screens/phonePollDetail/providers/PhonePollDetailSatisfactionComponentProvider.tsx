@@ -8,7 +8,8 @@ import { PhonePollSatisfactionViewModelMapper } from '../../phonePollSatisfactio
 import { PollDetailComponentProvider } from '../../pollDetail/providers/PollDetailComponentProvider'
 
 export class PhonePollDetailSatisfactionComponentProvider
-  implements PollDetailComponentProvider<PhonePollSatisfactionResult> {
+  implements PollDetailComponentProvider<PhonePollSatisfactionResult>
+{
   private questions: Array<PhoningSatisfactionQuestion>
   private answers = new Map<string, PhoningSatisfactionAnswer>()
   private onUpdate: () => void

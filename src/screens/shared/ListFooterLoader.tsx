@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { Spacing } from '../../styles'
 import LoaderView from './LoaderView'
 

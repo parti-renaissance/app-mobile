@@ -1,13 +1,13 @@
+import installations from '@react-native-firebase/installations'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
 import { RefreshTokenPermanentlyInvalidatedError } from '../core/errors'
+import { ErrorMonitor } from '../utils/ErrorMonitor'
 import OAuthApiService from './network/OAuthApiService'
+import PushRepository from './PushRepository'
 import { RestLoginResponse } from './restObjects/RestLoginResponse'
+import CacheManager from './store/CacheManager'
 import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
-import installations from '@react-native-firebase/installations'
-import PushRepository from './PushRepository'
-import CacheManager from './store/CacheManager'
-import { ErrorMonitor } from '../utils/ErrorMonitor'
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository

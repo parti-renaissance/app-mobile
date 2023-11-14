@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Spacing, Typography, Colors } from '../../../styles'
-import CardView from '../../shared/CardView'
-import ProgressBar from '../../shared/ProgressBar'
-import { PrimaryButton } from '../../shared/Buttons'
+import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
-import { VerticalSpacer } from '../../shared/Spacer'
+import { PrimaryButton } from '../../shared/Buttons'
+import CardView from '../../shared/CardView'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
+import ProgressBar from '../../shared/ProgressBar'
+import { VerticalSpacer } from '../../shared/Spacer'
 
 type Props = Readonly<{
   viewModel: PhoningCallContactRowViewModel

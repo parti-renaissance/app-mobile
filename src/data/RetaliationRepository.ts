@@ -1,6 +1,6 @@
+import { Retaliation } from '../core/entities/Retaliation'
 import { RestRetaliationMapper } from './mapper/RestRetaliationMapper'
 import ApiService from './network/ApiService'
-import { Retaliation } from '../core/entities/Retaliation'
 
 class RetaliationRepository {
   private static instance: RetaliationRepository

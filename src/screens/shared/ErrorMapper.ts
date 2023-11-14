@@ -1,12 +1,12 @@
 import {
-  ServerTimeoutError,
-  InternalServerError,
   BadRequestError,
-  UnauthorizedError,
-  ForbiddenError,
-  NotFoundError,
   DepartmentNotFoundError,
   EventSubscriptionError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  ServerTimeoutError,
+  UnauthorizedError,
 } from '../../core/errors'
 import { ErrorMonitor } from '../../utils/ErrorMonitor'
 import i18n from '../../utils/i18n'

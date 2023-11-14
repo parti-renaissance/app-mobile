@@ -1,19 +1,18 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native'
-import Markdown from '@ronradtke/react-native-markdown-display'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import Markdown from '@ronradtke/react-native-markdown-display'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
-
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 
-type PhoningCampaignBriefScreenProps = ActionsNavigatorScreenProps<'PhoningCampaignBrief'>
+type PhoningCampaignBriefScreenProps =
+  ActionsNavigatorScreenProps<'PhoningCampaignBrief'>
 
-const PhoningCampaignBriefScreen: FunctionComponent<PhoningCampaignBriefScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoningCampaignBriefScreen: FunctionComponent<
+  PhoningCampaignBriefScreenProps
+> = ({ navigation, route }) => {
   useEffect(() => {
     navigation.setOptions({
       title: route.params.data.title,

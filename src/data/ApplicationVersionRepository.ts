@@ -11,7 +11,8 @@ class ApplicationVersionRepository {
   }
 
   public async previousVersionCode(): Promise<number> {
-    const applicationVersion = await this.localStore.getPreviousApplicationVersion()
+    const applicationVersion =
+      await this.localStore.getPreviousApplicationVersion()
     if (applicationVersion == null) {
       return NO_APPLICATION_VERSION_CODE
     } else {

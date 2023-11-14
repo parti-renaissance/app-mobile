@@ -1,18 +1,18 @@
+import { ImageSourcePropType } from 'react-native'
 import uuid from 'react-native-uuid'
-import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
-import {
-  BuildingBlock,
-  BuildingBlockFloor,
-} from './../../core/entities/BuildingBlock'
-import { BuildingLayoutViewModel } from './BuildingLayoutView'
 import {
   BuildingType,
   DoorToDoorAddressStatus,
 } from '../../core/entities/DoorToDoor'
-import i18n from '../../utils/i18n'
-import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
-import { ImageSourcePropType } from 'react-native'
 import { DateFormatter } from '../../utils/DateFormatter'
+import i18n from '../../utils/i18n'
+import {
+  BuildingBlock,
+  BuildingBlockFloor,
+} from './../../core/entities/BuildingBlock'
+import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
+import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
+import { BuildingLayoutViewModel } from './BuildingLayoutView'
 
 export const BuildingLayoutViewModelMapper = {
   map: (
@@ -52,7 +52,9 @@ function blockCardViewModel(
     case 'building':
       buildingTypeName = i18n.t(
         'building.layout.buildingtype.appartementbuilding',
-        { buildingName: block.name },
+        {
+          buildingName: block.name,
+        },
       )
       buildingTypeIcon = require('../../assets/images/appartementBuilding.png')
   }

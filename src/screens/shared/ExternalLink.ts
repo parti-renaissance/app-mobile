@@ -1,5 +1,4 @@
 import { InAppBrowser } from 'react-native-inappbrowser-reborn'
-
 import { Analytics } from '../../utils/Analytics'
 
 export const ExternalLink = {

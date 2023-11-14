@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import {
-  View,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  StyleProp,
   ImageBackground,
-  useWindowDimensions,
   ImageSourcePropType,
+  StyleProp,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { VerticalSpacer } from '../shared/Spacer'

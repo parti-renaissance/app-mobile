@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { useDebounce } from 'use-debounce'
 import { EventMode } from '../../core/entities/Event'
 import { EventNavigatorScreenProps } from '../../navigation/event/EventNavigatorScreenProps'
@@ -13,9 +13,8 @@ export const useEventsScreen = (
   onChangeText: (input: string) => void
   onFiltersSelected: () => void
 } => {
-  const navigation = useNavigation<
-    EventNavigatorScreenProps<'Events'>['navigation']
-  >()
+  const navigation =
+    useNavigation<EventNavigatorScreenProps<'Events'>['navigation']>()
   const [searchText, setSearchText] = useState('')
   const [searchTextDebounced] = useDebounce(searchText, DEBOUNCE_TIMEOUT_MILLIS)
 

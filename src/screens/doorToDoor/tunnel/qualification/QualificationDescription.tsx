@@ -1,5 +1,4 @@
-import React from 'react'
-import { FunctionComponent } from 'react'
+import React, { FunctionComponent } from 'react'
 import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
 import { Spacing, Typography } from '../../../../styles'
 

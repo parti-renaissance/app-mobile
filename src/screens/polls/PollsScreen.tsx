@@ -1,35 +1,30 @@
 import React, { FC } from 'react'
 import {
-  StyleSheet,
   FlatList,
   ListRenderItemInfo,
-  View,
   RefreshControl,
+  StyleSheet,
   Text,
+  View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Spacing, Typography } from '../../styles'
-import PollRow from './PollRow'
-import PollHighlightedRow from './PollHighlightedRow'
-import PollsHeader from './PollsHeader'
-import { Colors } from '../../styles'
-import { PollRowViewModel } from './PollRowViewModel'
-import { StatefulView } from '../shared/StatefulView'
-import { PollsScreenViewModel } from './PollsScreenViewModel'
-import CircularIcon from '../shared/CircularIcon'
-import i18n from '../../utils/i18n'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import CircularIcon from '../shared/CircularIcon'
+import { StatefulView } from '../shared/StatefulView'
+import PollHighlightedRow from './PollHighlightedRow'
+import PollRow from './PollRow'
+import { PollRowViewModel } from './PollRowViewModel'
+import PollsHeader from './PollsHeader'
+import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { usePollsScreen } from './usePollsScreen.hook'
 
 type PollsScreenProps = ActionsNavigatorScreenProps<'Polls'>
 
 const PollsScreen: FC<PollsScreenProps> = () => {
-  const {
-    statefulState,
-    isRefreshing,
-    onPollSelected,
-    onRefresh,
-  } = usePollsScreen()
+  const { statefulState, isRefreshing, onPollSelected, onRefresh } =
+    usePollsScreen()
 
   const renderItem = ({
     item,

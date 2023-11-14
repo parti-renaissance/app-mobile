@@ -1,7 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { headerBlank } from '../../styles/navigationAppearance'
+import { createStackNavigator } from '@react-navigation/stack'
 import PersonalInformationScreen from '../../screens/personalInformation/PersonalInformationScreen'
+import { headerBlank } from '../../styles/navigationAppearance'
 import { PersonalInformationModalNavigatorParamList } from './PersonalInformationModalNavigatorParamList'
 
 const Stack = createStackNavigator<PersonalInformationModalNavigatorParamList>()

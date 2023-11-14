@@ -1,5 +1,5 @@
-import { DoorToDoorAddress } from './../../core/entities/DoorToDoor'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
+import { DoorToDoorAddress } from './../../core/entities/DoorToDoor'
 
 export const DoorToDoorMapper = {
   map: (restObject: RestDoorToDoorAddress): DoorToDoorAddress | null => {

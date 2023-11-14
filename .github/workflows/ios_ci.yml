@@ -6,22 +6,24 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-11
+    runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          lfs: true
 
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
         with:
           working-directory: ./ios
-          bundler: 'Gemfile.lock'
+          bundler: "Gemfile.lock"
           bundler-cache: true
 
-      - name: Use Node.js 21
+      - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '21.1.0'
+          node-version: "21"
 
       - name: Install Yarn
         run: npm install -g yarn
@@ -47,13 +49,17 @@ jobs:
           path: ./ios/Pods
           key: ${{ runner.os }}-cocoapods-${{ hashFiles('ios/**/Podfile.lock') }}
 
+      - name: Setup Fastlane
+        working-directory: ./ios
+        run: bundle install
+
       - name: Pod install
         working-directory: ./ios
         run: |
           if [ ! -d "Pods" ]; then
             bundle exec pod install || bundle exec pod install --repo-update
           fi
-
+      - run: git config --system --add safe.directory /__w/app-mobile/app-mobile
       - name: Build and test
         working-directory: ./ios
         env:

@@ -17,7 +17,7 @@ export const ErrorMonitor = {
       Sentry.captureMessage(message, { extra: payload })
     }
   },
-  wrap: (RootComponent: React.ComponentType<Record<string,any>>) => {
+  wrap: (RootComponent: React.ComponentType<Record<string, any>>) => {
     return Sentry.withProfiler(RootComponent)
   },
   setUser: (options: { id: string; email: string }) => {

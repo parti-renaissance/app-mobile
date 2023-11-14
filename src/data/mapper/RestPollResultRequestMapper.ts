@@ -1,9 +1,9 @@
+import { Location } from 'react-native-location'
 import { Poll } from '../../core/entities/Poll'
 import { PollResult } from '../../core/entities/PollResult'
 import { AgeRange, Gender, Profession } from '../../core/entities/UserProfile'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
 import { GenderMapper } from './GenderMapper'
-import { Location } from 'react-native-location'
 import { RestPollResultAnswerLegacyMapper } from './RestPollResultAnswerLegacyMapper'
 
 const restGender = (gender: Gender | undefined): string | undefined => {

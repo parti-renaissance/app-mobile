@@ -1,19 +1,19 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { StyleSheet, SafeAreaView, Linking } from 'react-native'
+import { Linking, SafeAreaView, StyleSheet } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
-import { Colors } from '../../styles'
-import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
-import ProfileAuthenticated from './ProfileAuthenticated'
+import { ServerTimeoutError } from '../../core/errors'
 import {
   GetUserProfileInteractor,
   GetUserProfileInteractorResult,
 } from '../../core/interactor/GetUserProfileInteractor'
-import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
-import { ServerTimeoutError } from '../../core/errors'
-import { CloseButton } from '../shared/NavigationHeaderButton'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
+import { Colors } from '../../styles'
+import { CloseButton } from '../shared/NavigationHeaderButton'
+import { StatefulView } from '../shared/StatefulView'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import ProfileAuthenticated from './ProfileAuthenticated'
+import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 
 type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 

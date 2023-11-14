@@ -1,8 +1,8 @@
+import { isAfter, isBefore, isToday } from 'date-fns'
 import EventRepository from '../../data/EventRepository'
 import ProfileRepository from '../../data/ProfileRepository'
-import { EventFilters, ShortEvent } from '../entities/Event'
 import { DateProvider } from '../../utils/DateProvider'
-import { isAfter, isBefore, isToday } from 'date-fns'
+import { EventFilters, ShortEvent } from '../entities/Event'
 
 export class GetNextEventInteractor {
   private eventRepository = EventRepository.getInstance()

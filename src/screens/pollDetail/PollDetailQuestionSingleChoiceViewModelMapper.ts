@@ -12,15 +12,13 @@ export const PollDetailQuestionSingleChoiceViewModelMapper = {
     return {
       title: question.content,
       subtitle: i18n.t('polldetail.question_unique_choice'),
-      answers: question.choices.map(
-        (choice): QuestionChoiceRowViewModel => {
-          return {
-            id: choice.id.toString(),
-            title: choice.content,
-            isSelected: answer.choiceId === choice.id,
-          }
-        },
-      ),
+      answers: question.choices.map((choice): QuestionChoiceRowViewModel => {
+        return {
+          id: choice.id.toString(),
+          title: choice.content,
+          isSelected: answer.choiceId === choice.id,
+        }
+      }),
     }
   },
 }

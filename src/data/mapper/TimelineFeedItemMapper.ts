@@ -35,7 +35,9 @@ const logWarning = (
 ) => {
   ErrorMonitor.log(
     `[TimelineFeed] Critical, missing property ${property} for item ${item.type}`,
-    { item },
+    {
+      item,
+    },
   )
 }
 

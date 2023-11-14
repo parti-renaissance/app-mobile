@@ -42,6 +42,7 @@ type IconProps = Readonly<{
 type BaseButtonProps = Readonly<{
   backgroundColor: string
   textColor: string
+  children?: React.ComponentProps<typeof TouchablePlatform>['children']
 }>
 
 const BaseButton: FunctionComponent<

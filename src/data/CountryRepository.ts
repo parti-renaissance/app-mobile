@@ -20,22 +20,21 @@ export class CountryRepository {
     if (this.cachedCountries.length > 0) {
       return this.cachedCountries
     }
-    const countries = (require('country-data').countries
-      .all as CountryDataEntity[])
+    const countries = (
+      require('country-data').countries.all as CountryDataEntity[]
+    )
       .filter((country) => {
         return (
           country.status === 'assigned' &&
           country.countryCallingCodes.length > 0
         )
       })
-      .map(
-        (country): Country => {
-          return {
-            code: country.alpha2,
-            callingCode: country.countryCallingCodes[0] ?? '',
-          }
-        },
-      )
+      .map((country): Country => {
+        return {
+          code: country.alpha2,
+          callingCode: country.countryCallingCodes[0] ?? '',
+        }
+      })
     this.cachedCountries = countries
     return countries
   }

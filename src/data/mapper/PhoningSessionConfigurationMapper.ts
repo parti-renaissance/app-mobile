@@ -1,5 +1,5 @@
-import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
 import { PhoningSessionConfiguration } from '../../core/entities/PhoningSessionConfiguration'
+import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
 
 export const PhoningSessionConfigurationMapper = {
   map: (

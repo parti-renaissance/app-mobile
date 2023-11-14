@@ -8,15 +8,16 @@ import {
 import { Poll, Question } from '../../../core/entities/Poll'
 import { PollRemoteQuestionResult } from '../../../core/entities/PollResult'
 import { StepType } from '../../../core/entities/StepType'
-import { PollDetailComponentProvider } from './PollDetailComponentProvider'
 import PollDetailQuestionChoice from '../PollDetailQuestionChoice'
 import PollDetailQuestionInput from '../PollDetailQuestionInput'
 import { PollDetailQuestionInputViewModelMapper } from '../PollDetailQuestionInputViewModelMapper'
 import { PollDetailQuestionMultipleChoicesViewModelMapper } from '../PollDetailQuestionMultipleChoicesViewModelMapper'
 import { PollDetailQuestionSingleChoiceViewModelMapper } from '../PollDetailQuestionSingleChoiceViewModelMapper'
+import { PollDetailComponentProvider } from './PollDetailComponentProvider'
 
 export class PollDetailRemoteQuestionComponentProvider
-  implements PollDetailComponentProvider<PollRemoteQuestionResult> {
+  implements PollDetailComponentProvider<PollRemoteQuestionResult>
+{
   private storage = new Map<number, Answer>()
   private questions: Array<Question>
   private onUpdate: () => void

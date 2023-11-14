@@ -1,20 +1,20 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react'
-import { Text, StyleSheet, Linking, View } from 'react-native'
+import { Linking, StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
-import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
-import { VerticalSpacer } from '../shared/Spacer'
-import i18n from '../../utils/i18n'
-import CircularIcon from '../shared/CircularIcon'
 import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
+import CircularIcon from '../shared/CircularIcon'
+import { VerticalSpacer } from '../shared/Spacer'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
-type PhoningSessionNumberFoundScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFound'>
+type PhoningSessionNumberFoundScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFound'>
 
-const PhoningSessionNumberFoundScreen: FunctionComponent<PhoningSessionNumberFoundScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoningSessionNumberFoundScreen: FunctionComponent<
+  PhoningSessionNumberFoundScreenProps
+> = ({ navigation, route }) => {
   usePreventGoingBack()
 
   const phoneNumberUrl = (phoneNumber: string): string => {

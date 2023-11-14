@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('eslint').Linter.Config} */
+const config = {
   root: true,
   extends: [
     '@react-native',
@@ -6,7 +7,14 @@ module.exports = {
     'plugin:security/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'security'],
+  parserOptions: {
+    project: './tsconfig.json'
+  },
+  plugins: ['@typescript-eslint', 'security', 'import'],
+  env: {
+    es2022: true,
+    node: true,
+  },
   rules: {
     'no-restricted-imports': [
       'error',
@@ -24,3 +32,5 @@ module.exports = {
     ],
   },
 }
+
+module.exports = config

@@ -24,7 +24,7 @@ const elementContainsSearchTerms = (
 
 export const filterItemsForQuery = <
   Type extends Record<keyof Type, string>,
-  Key extends keyof Type
+  Key extends keyof Type,
 >(
   items: Type[],
   keyPath: Key,

@@ -2,10 +2,10 @@ import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import i18n from '../../utils/i18n'
 import { PhoningScoreboardRowViewModelMapper } from '../phoningCampaignScoreboard/PhoningScoreboardRowViewModelMapper'
 import {
-  PhonePollDetailSuccessViewModel,
   PhonePollDetailSuccessRowRanking,
-  PhonePollDetailSuccessSection,
   PhonePollDetailSuccessRowType,
+  PhonePollDetailSuccessSection,
+  PhonePollDetailSuccessViewModel,
 } from './PhonePollDetailSuccessViewModel'
 
 export const PhonePollDetailSuccessViewModelMapper = {
@@ -32,12 +32,13 @@ export const PhonePollDetailSuccessViewModelMapper = {
       campaign.scoreboard.length > 0 &&
       !campaign.permanent
     ) {
-      const rankingRows: Array<PhonePollDetailSuccessRowRanking> = PhoningScoreboardRowViewModelMapper.map(
-        campaign.scoreboard,
-      ).rows.map((viewModel) => ({
-        type: 'rankingRow',
-        viewModel,
-      }))
+      const rankingRows: Array<PhonePollDetailSuccessRowRanking> =
+        PhoningScoreboardRowViewModelMapper.map(campaign.scoreboard).rows.map(
+          (viewModel) => ({
+            type: 'rankingRow',
+            viewModel,
+          }),
+        )
       const rankingSection: PhonePollDetailSuccessSection = {
         title: i18n.t('phoning.scoreboard.title'),
         data: [{ type: 'rankingHeader' }].concat(

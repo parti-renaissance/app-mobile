@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, SectionList, Text } from 'react-native'
-
+import { SectionList, StyleSheet, Text } from 'react-native'
 import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'

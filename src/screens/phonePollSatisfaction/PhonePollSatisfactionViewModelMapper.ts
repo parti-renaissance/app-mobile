@@ -14,8 +14,8 @@ export const PhonePollSatisfactionViewModelMapper = {
     questions: Array<PhoningSatisfactionQuestion>,
     answers: Map<string, PhoningSatisfactionAnswer>,
   ): PhonePollSatisfactionViewModel => {
-    const sections: Array<PhonePollSatisfactionSectionViewModel> = questions.map(
-      (question) => {
+    const sections: Array<PhonePollSatisfactionSectionViewModel> =
+      questions.map((question) => {
         const answer = answers.get(question.code)
         switch (question.type) {
           case 'boolean':
@@ -98,8 +98,7 @@ export const PhonePollSatisfactionViewModelMapper = {
               ],
             }
         }
-      },
-    )
+      })
 
     return { sections }
   },

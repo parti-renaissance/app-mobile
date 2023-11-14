@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
-import { StyleSheet, Platform, InputAccessoryView, Button } from 'react-native'
+import { Button, InputAccessoryView, Platform, StyleSheet } from 'react-native'
 import { BlurView } from '@react-native-community/blur'
-
 import { Spacing } from '../../styles'
 
 type Props = Readonly<{

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, StyleSheet, Text, Platform, Modal } from 'react-native'
+import { Modal, Platform, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LoaderView from './LoaderView'

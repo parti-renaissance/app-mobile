@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-import CardView from '../shared/CardView'
-import { ActionButton, BorderlessButton } from '../shared/Buttons'
-import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import i18n from '../../utils/i18n'
-import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
+import { ActionButton, BorderlessButton } from '../shared/Buttons'
+import CardView from '../shared/CardView'
+import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
+import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
 
 type Props = Readonly<{
   viewModel: RetaliationListCardViewModel

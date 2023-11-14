@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { Tool } from '../../core/entities/Tool'
 import ToolsRepository from '../../data/ToolsRepository'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -32,6 +32,7 @@ const PollDetailTools = () => {
       })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetch, [])
 
   return (

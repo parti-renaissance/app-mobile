@@ -1,4 +1,5 @@
 import { KeyValueListViewModel } from './KeyValueListView'
+
 export interface BuildingHistoryViewModel {
   buildings: BuildingVisitsHistoryViewModel[]
 }

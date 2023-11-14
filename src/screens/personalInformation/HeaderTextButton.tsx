@@ -1,11 +1,10 @@
-import React from 'react'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import {
   StyleProp,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   ViewStyle,
-  Text,
-  StyleSheet,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 

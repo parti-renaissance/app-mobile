@@ -1,11 +1,11 @@
-import _oauthHttpClient from './OAuthHttpClient'
-import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../Config'
-import { RestLoginResponse } from '../restObjects/RestLoginResponse'
 import { HTTPError } from 'ky'
+import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../Config'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
-import { genericErrorMapping } from './utils'
+import { RestLoginResponse } from '../restObjects/RestLoginResponse'
 import { mapLoginError } from './errorMappers'
 import { logHttpError } from './NetworkLogger'
+import _oauthHttpClient from './OAuthHttpClient'
+import { genericErrorMapping } from './utils'
 
 class OAuthApiService {
   private static instance: OAuthApiService

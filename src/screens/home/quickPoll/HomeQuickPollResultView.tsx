@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
-import { HomeQuickPollRowAnswerViewModel } from './HomeQuickPollRowAnswerViewModel'
 import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
+import { HomeQuickPollRowAnswerViewModel } from './HomeQuickPollRowAnswerViewModel'
 
 const TextContainer: FunctionComponent<
   Readonly<{
@@ -34,9 +34,12 @@ const HomeQuickPollResultView: FunctionComponent<Props> = ({ viewModel }) => {
           <View
             style={[
               styles.progress,
+              // TODO: use flex instead of strin percentage
+              //@ts-ignore
               {
                 backgroundColor: Colors.quickPollProgress,
                 width: viewModel.leadingAnswerViewModel.percentage + '%',
+                // flex: parseInt(viewModel.leadingAnswerViewModel.formattedPercentage, 10) / 100,
               },
             ]}
           />

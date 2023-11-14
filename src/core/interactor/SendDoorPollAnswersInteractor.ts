@@ -1,10 +1,10 @@
 import DoorToDoorRepository from '../../data/DoorToDoorRepository'
-import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
-import { DoorToDoorPollParams } from '../entities/DoorToDoorPollParams'
 import {
   SendDoorToDoorPollAnswersJobQueue,
   SendDoorToDoorPollAnswersJobQueueItem,
 } from '../../data/store/SendDoorToDoorPollAnswersJobQueue'
+import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
+import { DoorToDoorPollParams } from '../entities/DoorToDoorPollParams'
 import { ServerTimeoutError } from '../errors'
 
 export const INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE = 'accept_to_answer'

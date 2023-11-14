@@ -1,19 +1,18 @@
 import React, { FunctionComponent } from 'react'
 import {
-  ImageBackground,
-  Text,
-  StyleSheet,
-  ImageSourcePropType,
-  View,
   Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native'
-import ImageBackgroundFallback from '../../shared/ImageBackgroundFallback'
 import LinearGradient from 'react-native-linear-gradient'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { ActionButton } from '../../shared/Buttons'
 import CardView from '../../shared/CardView'
 import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
+import ImageBackgroundFallback from '../../shared/ImageBackgroundFallback'
 import { HorizontalSpacer, VerticalSpacer } from '../../shared/Spacer'
 
 export interface HomeFeedActionCampaignCardViewModel {
@@ -36,7 +35,10 @@ export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
 }) => {
   return (
     <CardView backgroundColor={Colors.defaultBackground}>
-      <ImageBackgroundFallback source={{ uri: viewModel.imageUri }} resizeMode="cover">
+      <ImageBackgroundFallback
+        source={{ uri: viewModel.imageUri }}
+        resizeMode="cover"
+      >
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}

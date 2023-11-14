@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Colors, Spacing } from '../../styles'
-import { NewsRowViewModel } from './NewsRowViewModel'
 import HighlightedNewsCard from './HighlightedNewsCard'
+import { NewsRowViewModel } from './NewsRowViewModel'
 
 type Props = Readonly<{
   viewModel: NewsRowViewModel

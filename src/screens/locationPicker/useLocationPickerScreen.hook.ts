@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete'
+import { useNavigation } from '@react-navigation/native'
 import { Address } from '../../core/entities/DetailedProfile'
 import ProfileRepository from '../../data/ProfileRepository'
 import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
@@ -10,17 +10,17 @@ export const useLocationPickerScreen = (
 ): {
   onPlaceSelected: (place: GooglePlaceDetail | null) => void
 } => {
-  const navigation = useNavigation<
-    LocationPickerModalNavigatorScreenProps<'LocationPicker'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      LocationPickerModalNavigatorScreenProps<'LocationPicker'>['navigation']
+    >()
 
   const getCityFromPostalCode = async (
     postalCode: string,
   ): Promise<string | undefined> => {
     try {
-      const cityFound = await ProfileRepository.getInstance().getCityFromPostalCode(
-        postalCode,
-      )
+      const cityFound =
+        await ProfileRepository.getInstance().getCityFromPostalCode(postalCode)
       return cityFound
     } catch (error) {
       return undefined

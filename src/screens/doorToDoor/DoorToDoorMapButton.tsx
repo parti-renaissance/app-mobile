@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import {
-  ImageSourcePropType,
-  View,
-  Text,
-  StyleSheet,
   Image,
+  ImageSourcePropType,
   StyleProp,
+  StyleSheet,
+  Text,
+  View,
   ViewStyle,
 } from 'react-native'
-import { Colors, Typography, Spacing } from '../../styles'
+import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 

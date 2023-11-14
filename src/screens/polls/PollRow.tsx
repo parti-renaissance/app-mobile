@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
-
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import TagView from '../shared/TagView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'

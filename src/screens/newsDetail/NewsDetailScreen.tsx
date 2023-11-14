@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
-import { Text, StyleSheet, ScrollView, View } from 'react-native'
-import Markdown from '@ronradtke/react-native-markdown-display'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import Markdown from '@ronradtke/react-native-markdown-display'
 import { NewsDetailModalNavigatorScreenProps } from '../../navigation/newsDetailModal/NewsDetailModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import { PrimaryButton } from '../shared/Buttons'

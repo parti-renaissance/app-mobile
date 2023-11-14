@@ -1,14 +1,14 @@
+import { ImageSourcePropType } from 'react-native'
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
+import { DateFormatter } from '../../utils/DateFormatter'
+import i18n from '../../utils/i18n'
 import { BuildingBlock } from './../../core/entities/BuildingBlock'
-import { BuildingHistoryViewModelMapper } from './BuildingHistoryViewModelMapper'
 import { BuildingHistoryPoint } from './../../core/entities/BuildingHistory'
 import { DoorToDoorAddressCampaign } from './../../core/entities/DoorToDoor'
-import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
-import { ImageSourcePropType } from 'react-native'
 import { BuildingDetailScreenViewModel } from './BuildingDetailScreenViewModel'
+import { BuildingHistoryViewModelMapper } from './BuildingHistoryViewModelMapper'
 import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
-import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
-import i18n from '../../utils/i18n'
-import { DateFormatter } from '../../utils/DateFormatter'
+import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 
 export const BuildingDetailScreenViewModelMapper = {
   map: (
