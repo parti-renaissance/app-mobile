@@ -427,8 +427,6 @@ PODS:
     - glog
   - react-native-add-calendar-event (4.2.2):
     - React-Core
-  - react-native-blob-util (0.19.2):
-    - React-Core
   - react-native-blur (4.3.2):
     - React-Core
   - react-native-geolocation-service (5.3.1):
@@ -649,7 +647,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-add-calendar-event (from `../node_modules/react-native-add-calendar-event`)
-  - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-location (from `../node_modules/react-native-location`)
@@ -770,8 +767,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-add-calendar-event:
     :path: "../node_modules/react-native-add-calendar-event"
-  react-native-blob-util:
-    :path: "../node_modules/react-native-blob-util"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
   react-native-geolocation-service:
@@ -911,7 +906,6 @@ SPEC CHECKSUMS:
   React-jsinspector: 194e32c6aab382d88713ad3dd0025c5f5c4ee072
   React-logger: cebf22b6cf43434e471dc561e5911b40ac01d289
   react-native-add-calendar-event: 34ad00f629187cbb97c2f04195e17803b2b3bc5e
-  react-native-blob-util: c74e4ce87c76d244761c68623df78bf0d1638271
   react-native-blur: cfdad7b3c01d725ab62a8a729f42ea463998afa2
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-location: 5a40ec1cc6abf2f6d94df979f98ec76c3a415681
@@ -965,6 +959,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: b76f1acfda8212aa16b7e26bcce3983230c82603
 
-PODFILE CHECKSUM: 7a9e5fd6b7a144d6535acc3241e7a540b15d51f7
+PODFILE CHECKSUM: dbaaaf072ce5d1e6bd85badac19d1a82ab18db90
 
 COCOAPODS: 1.11.2
