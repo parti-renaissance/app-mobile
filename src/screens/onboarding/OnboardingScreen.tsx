@@ -1,5 +1,14 @@
 import React, { FC } from 'react'
-import { ImageBackground, StatusBar, StyleSheet, Text } from 'react-native'
+import {
+  Image,
+  ImageBackground,
+  StatusBar,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import SafeAreaView from 'react-native-safe-area-view'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
