@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from "react";
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
+import React, { FunctionComponent } from 'react'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
 
 export type SectionHeaderProps = Readonly<{
-  title: string;
-  isHighlighted: boolean;
-  style?: StyleProp<ViewStyle>;
-}>;
+  title: string
+  isHighlighted: boolean
+  style?: StyleProp<ViewStyle>
+}>
 
 export const SectionHeader: FunctionComponent<SectionHeaderProps> = ({
   title,
@@ -14,11 +14,17 @@ export const SectionHeader: FunctionComponent<SectionHeaderProps> = ({
   style,
 }) => {
   return (
-    <View style={[styles.container, isHighlighted && styles.highlightedContainer, style]}>
+    <View
+      style={[
+        styles.container,
+        isHighlighted && styles.highlightedContainer,
+        style,
+      ]}
+    >
       <Text style={styles.text}>{title}</Text>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -33,4 +39,4 @@ const styles = StyleSheet.create({
     ...Typography.title2,
     color: Colors.darkText,
   },
-});
+})

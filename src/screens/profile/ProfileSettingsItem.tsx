@@ -1,14 +1,14 @@
-import React, { FC } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
+import React, { FC } from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 
-const disclosureIndicator = require("../../assets/images/disclosureIndicator.png");
+const disclosureIndicator = require('../../assets/images/disclosureIndicator.png')
 
 type Props = Readonly<{
-  title: string;
-  onPress: () => void;
-}>;
+  title: string
+  onPress: () => void
+}>
 
 const ProfileSettingsItem: FC<Props> = ({ title, onPress }) => {
   return (
@@ -18,22 +18,22 @@ const ProfileSettingsItem: FC<Props> = ({ title, onPress }) => {
         <Image source={disclosureIndicator} />
       </View>
     </TouchablePlatform>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
     borderBottomColor: Colors.separator,
     borderBottomWidth: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 44,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginHorizontal: Spacing.margin,
   },
   title: {
     ...Typography.subheadline,
   },
-});
+})
 
-export default ProfileSettingsItem;
+export default ProfileSettingsItem

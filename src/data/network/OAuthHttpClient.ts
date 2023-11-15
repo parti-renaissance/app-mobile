@@ -1,5 +1,5 @@
-import baseHttpClient from "./BaseHttpClient";
+import baseHttpClient from './BaseHttpClient'
 
-const oauthHttpClient = baseHttpClient.extend({});
+const oauthHttpClient = baseHttpClient.extend({})
 
-export default oauthHttpClient;
+export default oauthHttpClient

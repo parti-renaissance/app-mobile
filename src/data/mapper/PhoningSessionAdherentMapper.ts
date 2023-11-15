@@ -1,5 +1,5 @@
-import { PhoningSessionAdherent } from "../../core/entities/PhoningSessionAdherent";
-import { RestPhoningSessionAdherent } from "../restObjects/RestPhoningSession";
+import { PhoningSessionAdherent } from '../../core/entities/PhoningSessionAdherent'
+import { RestPhoningSessionAdherent } from '../restObjects/RestPhoningSession'
 
 export const PhoningSessionAdherentMapper = {
   map: (restObject: RestPhoningSessionAdherent): PhoningSessionAdherent => {
@@ -11,6 +11,6 @@ export const PhoningSessionAdherentMapper = {
         number: restObject.phone.number,
       },
       gender: restObject.gender !== null ? restObject.gender : undefined,
-    };
+    }
   },
-};
+}

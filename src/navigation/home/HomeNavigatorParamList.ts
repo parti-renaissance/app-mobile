@@ -1,11 +1,11 @@
-import { DoorToDoorAddress } from "../../core/entities/DoorToDoor";
+import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 
 export type HomeNavigatorParamList = {
-  Home: undefined;
-  Region: { zipCode: string };
-  News: undefined;
-  EventDetails: { eventId: string };
-  RetaliationDetail: { retaliationId: string };
-  DoorToDoor: undefined;
-  BuildingDetail: { address: DoorToDoorAddress };
-};
+  Home: undefined
+  Region: { zipCode: string }
+  News: undefined
+  EventDetails: { eventId: string }
+  RetaliationDetail: { retaliationId: string }
+  DoorToDoor: undefined
+  BuildingDetail: { address: DoorToDoorAddress }
+}

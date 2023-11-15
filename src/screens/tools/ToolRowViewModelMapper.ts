@@ -1,5 +1,5 @@
-import { Tool } from "../../core/entities/Tool";
-import { ToolRowViewModel } from "./ToolRowViewModel";
+import { Tool } from '../../core/entities/Tool'
+import { ToolRowViewModel } from './ToolRowViewModel'
 
 export const ToolRowViewModelMapper = {
   map: (tool: Tool): ToolRowViewModel => {
@@ -7,6 +7,6 @@ export const ToolRowViewModelMapper = {
       id: tool.id,
       title: tool.title,
       url: tool.url,
-    };
+    }
   },
-};
+}

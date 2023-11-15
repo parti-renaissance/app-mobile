@@ -1,18 +1,20 @@
-import DoorToDoorRepository from "../../data/DoorToDoorRepository";
+import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import {
   SendDoorToDoorPollAnswersJobQueue,
   SendDoorToDoorPollAnswersJobQueueItem,
-} from "../../data/store/SendDoorToDoorPollAnswersJobQueue";
-import { DoorToDoorPollResult } from "../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult";
-import { DoorToDoorPollParams } from "../entities/DoorToDoorPollParams";
-import { ServerTimeoutError } from "../errors";
+} from '../../data/store/SendDoorToDoorPollAnswersJobQueue'
+import { DoorToDoorPollResult } from '../../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
+import { DoorToDoorPollParams } from '../entities/DoorToDoorPollParams'
+import { ServerTimeoutError } from '../errors'
 
-export const INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE = "accept_to_answer";
+export const INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE = 'accept_to_answer'
 
 export class SendDoorPollAnswersInteractor {
-  private repository = DoorToDoorRepository.getInstance();
+  private repository = DoorToDoorRepository.getInstance()
 
-  public async execute(params: SendDoorToDoorPollAnswersJobQueueItem): Promise<void> {
+  public async execute(
+    params: SendDoorToDoorPollAnswersJobQueueItem,
+  ): Promise<void> {
     const pollParams = {
       campaignId: params.campaignId,
       buildingId: params.buildingParams.id,
@@ -20,29 +22,29 @@ export class SendDoorPollAnswersInteractor {
       block: params.buildingParams.block,
       floor: params.buildingParams.floor,
       door: params.buildingParams.door,
-    };
+    }
     try {
       await this.sendAnswers(
         params.doorStatus,
         pollParams,
         params.pollResult ?? { answers: [], qualificationAnswers: [] },
         params.visitStartDateISOString,
-      );
+      )
     } catch (error) {
       if (error instanceof ServerTimeoutError) {
-        this.enqueueAnswers(params);
-        return;
+        this.enqueueAnswers(params)
+        return
       }
-      throw error;
+      throw error
     }
 
-    if (params.buildingParams.type === "house") {
+    if (params.buildingParams.type === 'house') {
       await DoorToDoorRepository.getInstance().closeBuildingBlockFloor(
         params.campaignId,
         params.buildingParams.id,
         params.buildingParams.block,
         params.buildingParams.floor,
-      );
+      )
     }
   }
 
@@ -56,14 +58,14 @@ export class SendDoorPollAnswersInteractor {
       pollParams,
       pollResult,
       visitStartDateISOString,
-    );
+    )
     if (status === INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE && pollResult) {
-      await this.repository.sendDoorToDoorPollAnswers(response.uuid, pollResult);
+      await this.repository.sendDoorToDoorPollAnswers(response.uuid, pollResult)
     }
   }
 
   private async enqueueAnswers(params: SendDoorToDoorPollAnswersJobQueueItem) {
-    const queue = await SendDoorToDoorPollAnswersJobQueue.getInstance();
-    await queue.enqueue(params);
+    const queue = await SendDoorToDoorPollAnswersJobQueue.getInstance()
+    await queue.enqueue(params)
   }
 }

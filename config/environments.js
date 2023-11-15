@@ -1,9 +1,9 @@
 function getAvailableEnvironments() {
-  return ["staging", "production"];
+  return ['staging', 'production']
 }
 
 function getDefaultEnvironment() {
-  return "staging";
+  return 'staging'
 }
 
-module.exports = { getAvailableEnvironments, getDefaultEnvironment };
+module.exports = { getAvailableEnvironments, getDefaultEnvironment }

@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
-import { Colors, Spacing } from "../../../styles";
-import EventView from "../../events/EventView";
-import { HomeEventRowContainerViewModel } from "../HomeRowViewModel";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Colors, Spacing } from '../../../styles'
+import EventView from '../../events/EventView'
+import { HomeEventRowContainerViewModel } from '../HomeRowViewModel'
 
 type Props = Readonly<{
-  viewModel: HomeEventRowContainerViewModel;
-  isHighlighted: boolean;
-  onEventSelected: (eventId: string) => void;
-}>;
+  viewModel: HomeEventRowContainerViewModel
+  isHighlighted: boolean
+  onEventSelected: (eventId: string) => void
+}>
 
 export const HomeEventRowContainer: FunctionComponent<Props> = ({
   viewModel,
@@ -16,11 +16,16 @@ export const HomeEventRowContainer: FunctionComponent<Props> = ({
   onEventSelected,
 }) => {
   return (
-    <View style={[styles.container, isHighlighted && styles.highlightedContainer]}>
-      <EventView viewModel={viewModel.event} onEventSelected={onEventSelected} />
+    <View
+      style={[styles.container, isHighlighted && styles.highlightedContainer]}
+    >
+      <EventView
+        viewModel={viewModel.event}
+        onEventSelected={onEventSelected}
+      />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -32,4 +37,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.highlightedNewsBackground,
     flex: 1,
   },
-});
+})

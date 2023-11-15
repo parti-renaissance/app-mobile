@@ -4,10 +4,10 @@ export enum Tab {
 }
 
 export interface RankingRowViewModel {
-  rank: string;
-  name: string;
-  doorKnocked: string;
-  pollsCompleted: string;
-  position: number;
-  highlight: boolean;
+  rank: string
+  name: string
+  doorKnocked: string
+  pollsCompleted: string
+  position: number
+  highlight: boolean
 }

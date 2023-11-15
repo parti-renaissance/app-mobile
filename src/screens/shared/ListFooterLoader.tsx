@@ -1,18 +1,18 @@
-import React, { FunctionComponent } from "react";
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { Spacing } from "../../styles";
-import LoaderView from "./LoaderView";
+import React, { FunctionComponent } from 'react'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { Spacing } from '../../styles'
+import LoaderView from './LoaderView'
 
 type Props = Readonly<{
-  style?: StyleProp<ViewStyle>;
-}>;
+  style?: StyleProp<ViewStyle>
+}>
 
 export const ListFooterLoader: FunctionComponent<Props> = ({ style }) => {
-  return <LoaderView style={[styles.loader, style]} />;
-};
+  return <LoaderView style={[styles.loader, style]} />
+}
 
 const styles = StyleSheet.create({
   loader: {
     margin: Spacing.margin,
   },
-});
+})

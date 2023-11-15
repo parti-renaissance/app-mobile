@@ -1,19 +1,26 @@
-import React, { FC } from "react";
-import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import CardView from "../shared/CardView";
-import { HorizontalSeparator } from "../shared/HorizontalSeparator";
-import { HorizontalSpacer, VerticalSpacer } from "../shared/Spacer";
-import TagView from "../shared/TagView";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
-import { EventRowViewModel } from "./EventViewModel";
+import React, { FC } from 'react'
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import CardView from '../shared/CardView'
+import { HorizontalSeparator } from '../shared/HorizontalSeparator'
+import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
+import TagView from '../shared/TagView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { EventRowViewModel } from './EventViewModel'
 
 type Props = Readonly<{
-  viewModel: EventRowViewModel;
-  style?: StyleProp<ViewStyle>;
-  onEventSelected: (eventId: string) => void;
-}>;
+  viewModel: EventRowViewModel
+  style?: StyleProp<ViewStyle>
+  onEventSelected: (eventId: string) => void
+}>
 
 const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   return (
@@ -30,7 +37,10 @@ const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
             </View>
             <View style={styles.rightColumn}>
               {viewModel.imageUrl ? (
-                <Image source={{ uri: viewModel.imageUrl }} style={styles.image} />
+                <Image
+                  source={{ uri: viewModel.imageUrl }}
+                  style={styles.image}
+                />
               ) : null}
             </View>
           </View>
@@ -44,9 +54,9 @@ const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
                 <Text style={styles.subscribed}>
                   <Image
                     style={styles.checkIcon}
-                    source={require("../../assets/images/checkIcon.png")}
+                    source={require('../../assets/images/checkIcon.png')}
                   />
-                  {i18n.t("events.subscribed")}
+                  {i18n.t('events.subscribed')}
                 </Text>
               ) : null}
             </View>
@@ -55,15 +65,19 @@ const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
           <HorizontalSeparator />
           <VerticalSpacer spacing={Spacing.margin} />
           <View style={styles.addressContainer}>
-            <Image style={styles.addressIcon} resizeMode="contain" source={viewModel.addressIcon} />
+            <Image
+              style={styles.addressIcon}
+              resizeMode="contain"
+              source={viewModel.addressIcon}
+            />
             <HorizontalSpacer spacing={Spacing.margin} />
             <Text style={styles.address}>{viewModel.formattedAddress}</Text>
           </View>
         </View>
       </TouchablePlatform>
     </CardView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   address: {
@@ -72,23 +86,23 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   addressContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   addressIcon: {
     width: 24,
     height: 24,
   },
   bottomRow: {
-    alignItems: "baseline",
-    flexDirection: "row",
+    alignItems: 'baseline',
+    flexDirection: 'row',
     marginTop: Spacing.unit,
   },
   checkIcon: {
     tintColor: Colors.primaryColor,
   },
   container: {
-    flexDirection: "column",
+    flexDirection: 'column',
     margin: Spacing.margin,
   },
   day: {
@@ -106,12 +120,12 @@ const styles = StyleSheet.create({
     width: 96,
   },
   leftColumn: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     flexGrow: 1,
     flexShrink: 1,
   },
   rightColumn: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   subscribed: {
     ...Typography.caption1,
@@ -122,8 +136,8 @@ const styles = StyleSheet.create({
     marginTop: Spacing.unit,
   },
   topRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
-});
+})
 
-export default EventView;
+export default EventView

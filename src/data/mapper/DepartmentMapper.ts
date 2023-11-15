@@ -1,6 +1,6 @@
-import { Department } from "../../core/entities/Department";
-import { RestDepartmentResponse } from "../restObjects/RestDepartmentResponse";
-import { RegionMapper } from "./RegionMapper";
+import { Department } from '../../core/entities/Department'
+import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
+import { RegionMapper } from './RegionMapper'
 
 export const DepartmentMapper = {
   map: (restDepartment: RestDepartmentResponse): Department => {
@@ -8,6 +8,6 @@ export const DepartmentMapper = {
       name: restDepartment.name,
       code: restDepartment.code,
       region: RegionMapper.map(restDepartment.region),
-    };
+    }
   },
-};
+}

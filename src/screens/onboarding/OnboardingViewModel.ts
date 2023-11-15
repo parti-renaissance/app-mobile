@@ -1,7 +1,7 @@
-import { ImageSourcePropType } from "react-native";
+import { ImageSourcePropType } from 'react-native'
 
 export interface OnboardingViewModel {
-  image: ImageSourcePropType;
-  heading: string;
-  title: string;
+  image: ImageSourcePropType
+  heading: string
+  title: string
 }

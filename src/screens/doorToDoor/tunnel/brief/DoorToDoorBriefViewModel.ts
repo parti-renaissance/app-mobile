@@ -1,3 +1,3 @@
 export interface DoorToDoorBriefViewModel {
-  markdown: string;
+  markdown: string
 }

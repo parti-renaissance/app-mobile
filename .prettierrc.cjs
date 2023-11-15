@@ -16,7 +16,11 @@ const config = {
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
   importOrderTypeScriptVersion: "4.4.0",
-  printWidth: 100,
+  endOfLine: 'lf',
+  printWidth: 80,
+  semi: false,
+  singleQuote: true,
+  trailingComma: 'all',
 };
 
 module.exports = config;

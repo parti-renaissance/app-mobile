@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react'
 import {
   Image,
   ImageSourcePropType,
@@ -9,24 +9,21 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from "react-native";
-import { Colors, Spacing } from "../../styles";
+} from 'react-native'
+import { Colors, Spacing } from '../../styles'
 
 type NavigationHeaderButtonProps = Readonly<{
-  style?: StyleProp<ViewStyle>;
-  buttonStyle?: StyleProp<ViewStyle>;
-  onPress?: () => void;
-  source: ImageSourcePropType;
-  tintColor?: string;
-}>;
+  style?: StyleProp<ViewStyle>
+  buttonStyle?: StyleProp<ViewStyle>
+  onPress?: () => void
+  source: ImageSourcePropType
+  tintColor?: string
+}>
 
-export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonProps> = ({
-  style,
-  onPress,
-  source,
-  tintColor,
-}) => {
-  if (Platform.OS === "android") {
+export const NavigationHeaderButton: FunctionComponent<
+  NavigationHeaderButtonProps
+> = ({ style, onPress, source, tintColor }) => {
+  if (Platform.OS === 'android') {
     return (
       <View style={[styles.container, style]}>
         <Pressable
@@ -37,7 +34,7 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
           <Image source={source} style={{ tintColor: tintColor }} />
         </Pressable>
       </View>
-    );
+    )
   } else {
     return (
       <View style={[styles.container, style]}>
@@ -45,36 +42,36 @@ export const NavigationHeaderButton: FunctionComponent<NavigationHeaderButtonPro
           <Image source={source} style={{ tintColor: tintColor }} />
         </TouchableOpacity>
       </View>
-    );
+    )
   }
-};
+}
 
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   container: {
-    overflow: "hidden",
+    overflow: 'hidden',
     minHeight: 44,
     minWidth: 44,
     borderRadius: 22,
     margin: Spacing.small,
   },
-});
+})
 
-type ButtonProps = Pick<NavigationHeaderButtonProps, "style" | "onPress">;
+type ButtonProps = Pick<NavigationHeaderButtonProps, 'style' | 'onPress'>
 
 export const CloseButton: FunctionComponent<ButtonProps> = (props) => {
   return (
     <NavigationHeaderButton
       {...props}
-      source={require("../../assets/images/navigationBarClose.png")}
+      source={require('../../assets/images/navigationBarClose.png')}
       tintColor={Colors.navigationTint}
     />
-  );
-};
+  )
+}
 
 export const ProfileButton: FunctionComponent<ButtonProps> = (props) => {
   return (
@@ -82,10 +79,10 @@ export const ProfileButton: FunctionComponent<ButtonProps> = (props) => {
       {...props}
       style={[props.style, { backgroundColor: Colors.primaryColor }]}
       tintColor={Colors.veryLightText}
-      source={require("../../assets/images/profileIcon.png")}
+      source={require('../../assets/images/profileIcon.png')}
     />
-  );
-};
+  )
+}
 
 export const EventsFilterButton: FunctionComponent<ButtonProps> = (props) => {
   return (
@@ -93,7 +90,7 @@ export const EventsFilterButton: FunctionComponent<ButtonProps> = (props) => {
       {...props}
       style={props.style}
       tintColor={Colors.primaryColor}
-      source={require("../../assets/images/iconFilters.png")}
+      source={require('../../assets/images/iconFilters.png')}
     />
-  );
-};
+  )
+}

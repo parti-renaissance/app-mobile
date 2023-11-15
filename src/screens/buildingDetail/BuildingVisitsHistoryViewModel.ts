@@ -1,21 +1,21 @@
-import { KeyValueListViewModel } from "./KeyValueListView";
+import { KeyValueListViewModel } from './KeyValueListView'
 
 export interface BuildingHistoryViewModel {
-  buildings: BuildingVisitsHistoryViewModel[];
+  buildings: BuildingVisitsHistoryViewModel[]
 }
 
 export interface BuildingVisitsHistoryViewModel {
-  buildingName: string;
-  dateRecords: BuildingVisitsDateRecordsViewModel[];
+  buildingName: string
+  dateRecords: BuildingVisitsDateRecordsViewModel[]
 }
 
 export interface BuildingVisitsDateRecordsViewModel {
-  key: string;
-  date: DateViewModel;
-  visitRecords: KeyValueListViewModel;
+  key: string
+  date: DateViewModel
+  visitRecords: KeyValueListViewModel
 }
 
 export interface DateViewModel {
-  dayNumber: string;
-  dateContext: string;
+  dayNumber: string
+  dateContext: string
 }

@@ -1,93 +1,103 @@
-import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
+import { StyleSheet, View } from 'react-native'
 import {
   GetPhonePollDetailResourcesInteractor,
   PhonePollDetailResources,
-} from "../../core/interactor/GetPhonePollDetailResourcesInteractor";
-import PhoningCampaignRepository from "../../data/PhoningCampaignRepository";
-import { PhoningSessionModalNavigatorScreenProps } from "../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps";
-import { AlertUtils } from "../shared/AlertUtils";
-import LoadingOverlay from "../shared/LoadingOverlay";
-import ModalOverlay from "../shared/ModalOverlay";
-import { CloseButton } from "../shared/NavigationHeaderButton";
-import { StatefulView } from "../shared/StatefulView";
-import { useBackHandler } from "../shared/useBackHandler.hook";
-import { usePreventGoingBack } from "../shared/usePreventGoingBack.hook";
-import { ViewState } from "../shared/ViewState";
-import { ViewStateUtils } from "../shared/ViewStateUtils";
-import PhonePollDetailInterruptionModalContent from "./PhonePollDetailInterruptionModalContent";
-import PhonePollDetailScreenLoaded from "./PhonePollDetailScreenLoaded";
+} from '../../core/interactor/GetPhonePollDetailResourcesInteractor'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { AlertUtils } from '../shared/AlertUtils'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import ModalOverlay from '../shared/ModalOverlay'
+import { CloseButton } from '../shared/NavigationHeaderButton'
+import { StatefulView } from '../shared/StatefulView'
+import { useBackHandler } from '../shared/useBackHandler.hook'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
+import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 
-type PhonePollDetailScreenProps = PhoningSessionModalNavigatorScreenProps<"PhonePollDetail">;
+type PhonePollDetailScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>
 
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
   navigation,
 }) => {
-  const [statefulState, setStatefulState] = useState<ViewState<PhonePollDetailResources>>(
-    ViewState.Loading(),
-  );
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [statefulState, setStatefulState] = useState<
+    ViewState<PhonePollDetailResources>
+  >(ViewState.Loading())
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
-  usePreventGoingBack();
+  usePreventGoingBack()
 
   const askConfirmationBeforeLeaving = () => {
-    setModalVisible(true);
-  };
+    setModalVisible(true)
+  }
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
-        headerLeft: () => <CloseButton onPress={() => askConfirmationBeforeLeaving()} />,
+        headerLeft: () => (
+          <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
+        ),
         // (Pierre Felgines) 10/09/2021 We need this for the text to be centered
         headerRight: () => <View />,
-      });
-    };
-    updateNavigationHeader();
-  }, [navigation]);
+      })
+    }
+    updateNavigationHeader()
+  }, [navigation])
 
-  useBackHandler(askConfirmationBeforeLeaving);
+  useBackHandler(askConfirmationBeforeLeaving)
 
   const fetchResources = () => {
-    setStatefulState(ViewState.Loading());
+    setStatefulState(ViewState.Loading())
 
     new GetPhonePollDetailResourcesInteractor()
       .execute(route.params.data.campaignId, route.params.data.sessionId)
       .then((resources) => {
         navigation.setOptions({
           title: resources.poll.name,
-        });
-        setStatefulState(ViewState.Content(resources));
+        })
+        setStatefulState(ViewState.Content(resources))
       })
       .catch((error) => {
-        console.error(error);
-        setStatefulState(ViewStateUtils.networkError(error, fetchResources));
-      });
-  };
+        console.error(error)
+        setStatefulState(ViewStateUtils.networkError(error, fetchResources))
+      })
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchResources, [
     route.params.data.campaignId,
     route.params.data.sessionId,
     navigation,
-  ]);
+  ])
 
   const sendInterruptionStatusAndLeave = (statusCode: string) => {
-    setLoading(true);
+    setLoading(true)
     PhoningCampaignRepository.getInstance()
       .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
       .then(() => navigation.pop())
       .catch((error) =>
-        AlertUtils.showNetworkAlert(error, () => sendInterruptionStatusAndLeave(statusCode)),
+        AlertUtils.showNetworkAlert(error, () =>
+          sendInterruptionStatusAndLeave(statusCode),
+        ),
       )
-      .finally(() => setLoading(false));
-  };
+      .finally(() => setLoading(false))
+  }
 
   const onInterruption = (statusCode: string) => {
-    setModalVisible(false);
-    sendInterruptionStatusAndLeave(statusCode);
-  };
+    setModalVisible(false)
+    sendInterruptionStatusAndLeave(statusCode)
+  }
 
   return (
     <View style={styles.container}>
@@ -107,19 +117,21 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
             </ModalOverlay>
             <PhonePollDetailScreenLoaded
               poll={resources.poll}
-              satisfactionQuestions={resources.configuration.satisfactionQuestions}
+              satisfactionQuestions={
+                resources.configuration.satisfactionQuestions
+              }
             />
           </>
         )}
       />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-});
+})
 
-export default PhonePollDetailScreen;
+export default PhonePollDetailScreen

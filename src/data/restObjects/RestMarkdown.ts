@@ -1,3 +1,3 @@
 export interface RestMarkdown {
-  content: string;
+  content: string
 }

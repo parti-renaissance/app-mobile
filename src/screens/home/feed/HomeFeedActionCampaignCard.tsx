@@ -1,26 +1,32 @@
-import React, { FunctionComponent } from "react";
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import { Colors, Spacing, Typography } from "../../../styles";
-import i18n from "../../../utils/i18n";
-import { ActionButton } from "../../shared/Buttons";
-import CardView from "../../shared/CardView";
-import { HorizontalSeparator } from "../../shared/HorizontalSeparator";
-import ImageBackgroundFallback from "../../shared/ImageBackgroundFallback";
-import { HorizontalSpacer, VerticalSpacer } from "../../shared/Spacer";
+import React, { FunctionComponent } from 'react'
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import { Colors, Spacing, Typography } from '../../../styles'
+import i18n from '../../../utils/i18n'
+import { ActionButton } from '../../shared/Buttons'
+import CardView from '../../shared/CardView'
+import { HorizontalSeparator } from '../../shared/HorizontalSeparator'
+import ImageBackgroundFallback from '../../shared/ImageBackgroundFallback'
+import { HorizontalSpacer, VerticalSpacer } from '../../shared/Spacer'
 
 export interface HomeFeedActionCampaignCardViewModel {
-  id: string;
-  imageUri?: string;
-  title: string;
-  subtitle: string;
+  id: string
+  imageUri?: string
+  title: string
+  subtitle: string
 }
 
 type Props = Readonly<{
-  viewModel: HomeFeedActionCampaignCardViewModel;
-  icon: ImageSourcePropType;
-  onPress: () => void;
-}>;
+  viewModel: HomeFeedActionCampaignCardViewModel
+  icon: ImageSourcePropType
+  onPress: () => void
+}>
 
 export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
   viewModel,
@@ -29,14 +35,19 @@ export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
 }) => {
   return (
     <CardView backgroundColor={Colors.defaultBackground}>
-      <ImageBackgroundFallback source={{ uri: viewModel.imageUri }} resizeMode="cover">
+      <ImageBackgroundFallback
+        source={{ uri: viewModel.imageUri }}
+        resizeMode="cover"
+      >
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
-          colors={["rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.5)"]}
+          colors={['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.5)']}
           style={styles.container}
         >
-          <Text style={styles.heading}>{i18n.t("home.feed.action.campaign.heading")}</Text>
+          <Text style={styles.heading}>
+            {i18n.t('home.feed.action.campaign.heading')}
+          </Text>
         </LinearGradient>
       </ImageBackgroundFallback>
       <View style={styles.bottomContainer}>
@@ -53,15 +64,15 @@ export const HomeFeedActionCampaignCard: FunctionComponent<Props> = ({
         <HorizontalSeparator />
         <VerticalSpacer spacing={Spacing.margin} />
         <ActionButton
-          title={i18n.t("home.feed.action.campaign.action")}
+          title={i18n.t('home.feed.action.campaign.action')}
           shape="rounded"
           buttonStyle={styles.button}
           onPress={onPress}
         />
       </View>
     </CardView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -76,7 +87,7 @@ const styles = StyleSheet.create({
     color: Colors.veryLightText,
   },
   row: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   textContainer: {
     flex: 1,
@@ -95,4 +106,4 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: Spacing.small,
   },
-});
+})

@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import { Styles } from "../../styles";
+import React, { FunctionComponent } from 'react'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Styles } from '../../styles'
 
 type Props = Readonly<{
-  children: any;
-  style?: StyleProp<ViewStyle>;
-  backgroundColor: string;
-  borderRadius?: number;
-}>;
+  children: any
+  style?: StyleProp<ViewStyle>
+  backgroundColor: string
+  borderRadius?: number
+}>
 
 const CardView: FunctionComponent<Props> = ({
   style,
@@ -15,22 +15,22 @@ const CardView: FunctionComponent<Props> = ({
   backgroundColor,
   borderRadius = 8,
 }) => {
-  const dynamicStyle = { backgroundColor, borderRadius };
+  const dynamicStyle = { backgroundColor, borderRadius }
   return (
     <View style={[style, styles.shadow, dynamicStyle]}>
       <View style={[dynamicStyle, styles.card]}>{children}</View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   card: {
     elevation: 4,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   shadow: {
     ...Styles.cardViewContainerStyle,
   },
-});
+})
 
-export default CardView;
+export default CardView

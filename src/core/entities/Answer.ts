@@ -1,34 +1,34 @@
 export interface TextAnswer {
-  value: string;
+  value: string
 }
 
 export interface SingleChoiceAnswer {
-  choiceId: number;
+  choiceId: number
 }
 
 export interface MultipleChoicesAnswer {
-  choiceIds: Array<number>;
+  choiceIds: Array<number>
 }
 
 export const isTextAnswer = (
   answer: TextAnswer | SingleChoiceAnswer | MultipleChoicesAnswer,
 ): boolean => {
-  return "value" in answer;
-};
+  return 'value' in answer
+}
 
 export const isSingleChoiceAnswer = (
   answer: TextAnswer | SingleChoiceAnswer | MultipleChoicesAnswer,
 ): boolean => {
-  return "choiceId" in answer;
-};
+  return 'choiceId' in answer
+}
 
 export const isMultipleChoicesAnswer = (
   answer: TextAnswer | SingleChoiceAnswer | MultipleChoicesAnswer,
 ): boolean => {
-  return "choiceIds" in answer;
-};
+  return 'choiceIds' in answer
+}
 
 export interface Answer {
-  questionId: number;
-  answer: TextAnswer | SingleChoiceAnswer | MultipleChoicesAnswer;
+  questionId: number
+  answer: TextAnswer | SingleChoiceAnswer | MultipleChoicesAnswer
 }

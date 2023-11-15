@@ -1,77 +1,83 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Alert, Image, StyleSheet, Text, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import DoorToDoorRepository from "../../../../data/DoorToDoorRepository";
-import { DoorToDoorTunnelModalNavigatorScreenProps } from "../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps";
-import { Colors, Spacing, Typography } from "../../../../styles";
-import i18n from "../../../../utils/i18n";
-import { PrimaryButton, SecondaryButton } from "../../../shared/Buttons";
-import LoadingOverlay from "../../../shared/LoadingOverlay";
-import { TouchablePlatform } from "../../../shared/TouchablePlatform";
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { Alert, Image, StyleSheet, Text, View } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../../../styles'
+import i18n from '../../../../utils/i18n'
+import { PrimaryButton, SecondaryButton } from '../../../shared/Buttons'
+import LoadingOverlay from '../../../shared/LoadingOverlay'
+import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 
 type TunnelDoorSelectionScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<"TunnelDoorSelection">;
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSelection'>
 
-const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const [selectedDoor, setSelectedDoor] = useState(route.params.buildingParams.door);
-  const [isLoading, setIsLoading] = useState(false);
+const TunnelDoorSelectionScreen: FunctionComponent<
+  TunnelDoorSelectionScreenProps
+> = ({ navigation, route }) => {
+  const [selectedDoor, setSelectedDoor] = useState(
+    route.params.buildingParams.door,
+  )
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     navigation.setOptions({
-      title: i18n.t("doorToDoor.tunnel.door.shortTitle", {
+      title: i18n.t('doorToDoor.tunnel.door.shortTitle', {
         count: route.params.buildingParams.floor + 1,
         buildingName: route.params.buildingParams.block,
         floorName: route.params.buildingParams.floor,
         door: selectedDoor,
       }),
-    });
-  }, [navigation, route.params, selectedDoor]);
+    })
+  }, [navigation, route.params, selectedDoor])
 
   useEffect(() => {
-    setSelectedDoor(route.params.buildingParams.door);
-  }, [route.params.buildingParams.door]);
+    setSelectedDoor(route.params.buildingParams.door)
+  }, [route.params.buildingParams.door])
 
   const askConfirmationBeforeCloseFloor = () => {
     Alert.alert(
-      i18n.t("doorToDoor.tunnel.door.close_floor_alert.title"),
-      i18n.t("doorToDoor.tunnel.door.close_floor_alert.message"),
+      i18n.t('doorToDoor.tunnel.door.close_floor_alert.title'),
+      i18n.t('doorToDoor.tunnel.door.close_floor_alert.message'),
       [
         {
-          text: i18n.t("doorToDoor.tunnel.door.close_floor_alert.action"),
+          text: i18n.t('doorToDoor.tunnel.door.close_floor_alert.action'),
           onPress: () => closeFloor(),
-          style: "destructive",
+          style: 'destructive',
         },
         {
-          text: i18n.t("doorToDoor.tunnel.door.close_floor_alert.cancel"),
-          style: "cancel",
+          text: i18n.t('doorToDoor.tunnel.door.close_floor_alert.cancel'),
+          style: 'cancel',
         },
       ],
       { cancelable: false },
-    );
-  };
+    )
+  }
 
   const updateSelectedDoor = (newSelectedDoor: number) => {
     if (newSelectedDoor >= 1) {
-      setSelectedDoor(newSelectedDoor);
+      setSelectedDoor(newSelectedDoor)
     }
-  };
+  }
 
   const closeFloor = () => {
-    const building = route.params.buildingParams;
-    setIsLoading(true);
+    const building = route.params.buildingParams
+    setIsLoading(true)
     DoorToDoorRepository.getInstance()
-      .closeBuildingBlockFloor(route.params.campaignId, building.id, building.block, building.floor)
+      .closeBuildingBlockFloor(
+        route.params.campaignId,
+        building.id,
+        building.block,
+        building.floor,
+      )
       .then(() => {
-        setIsLoading(false);
-        navigation.getParent()?.goBack();
+        setIsLoading(false)
+        navigation.getParent()?.goBack()
       })
       .catch(() => {
-        setIsLoading(false);
-      });
-  };
+        setIsLoading(false)
+      })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -82,46 +88,52 @@ const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProp
             style={styles.changeDoorIndicator}
             touchHighlight={Colors.touchHighlight}
             onPress={() => {
-              updateSelectedDoor(selectedDoor - 1);
+              updateSelectedDoor(selectedDoor - 1)
             }}
           >
-            <Image source={require("../../../../assets/images/iconBack.png")} />
+            <Image source={require('../../../../assets/images/iconBack.png')} />
           </TouchablePlatform>
-          <Image source={require("../../../../assets/images/papDoorIcon.png")} />
+          <Image
+            source={require('../../../../assets/images/papDoorIcon.png')}
+          />
           <TouchablePlatform
             style={styles.changeDoorIndicator}
             touchHighlight={Colors.touchHighlight}
             onPress={() => {
-              updateSelectedDoor(selectedDoor + 1);
+              updateSelectedDoor(selectedDoor + 1)
             }}
           >
             <Image
               style={styles.nextDoor}
-              source={require("../../../../assets/images/iconBack.png")}
+              source={require('../../../../assets/images/iconBack.png')}
             />
           </TouchablePlatform>
         </View>
         <Text style={styles.title}>
-          {i18n.t("doorToDoor.tunnel.door.title", {
+          {i18n.t('doorToDoor.tunnel.door.title', {
             count: route.params.buildingParams.floor + 1,
             buildingName: route.params.buildingParams.block,
             floorName: route.params.buildingParams.floor,
           })}
         </Text>
         <Text style={styles.body}>
-          {i18n.t("doorToDoor.tunnel.door.rdvDoor", {
+          {i18n.t('doorToDoor.tunnel.door.rdvDoor', {
             count: selectedDoor,
             door: selectedDoor,
           })}
         </Text>
-        <Text style={styles.note}>{i18n.t("doorToDoor.tunnel.door.doorFinished")}</Text>
-        <Text style={styles.note}>{i18n.t("doorToDoor.tunnel.door.buildingFinished")}</Text>
+        <Text style={styles.note}>
+          {i18n.t('doorToDoor.tunnel.door.doorFinished')}
+        </Text>
+        <Text style={styles.note}>
+          {i18n.t('doorToDoor.tunnel.door.buildingFinished')}
+        </Text>
       </View>
       <View style={styles.bottomContainer}>
         <PrimaryButton
-          title={i18n.t("doorToDoor.tunnel.door.doorknocked")}
+          title={i18n.t('doorToDoor.tunnel.door.doorknocked')}
           onPress={() =>
-            navigation.navigate("TunnelDoorOpening", {
+            navigation.navigate('TunnelDoorOpening', {
               campaignId: route.params.campaignId,
               buildingParams: {
                 ...route.params.buildingParams,
@@ -131,21 +143,21 @@ const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProp
           }
         />
         <SecondaryButton
-          title={i18n.t("doorToDoor.tunnel.door.floorFinished")}
+          title={i18n.t('doorToDoor.tunnel.door.floorFinished')}
           style={styles.finished}
           onPress={askConfirmationBeforeCloseFloor}
           disabled={!route.params.canCloseFloor}
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   body: {
     ...Typography.body,
     paddingHorizontal: Spacing.extraLargeMargin,
-    textAlign: "center",
+    textAlign: 'center',
   },
   bottomContainer: {
     backgroundColor: Colors.defaultBackground,
@@ -161,32 +173,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: Spacing.margin,
   },
   doorImageContainer: {
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   finished: {
     marginTop: Spacing.unit,
   },
   nextDoor: {
-    transform: [{ rotate: "180deg" }],
+    transform: [{ rotate: '180deg' }],
   },
   note: {
     ...Typography.footnoteLight,
     marginVertical: Spacing.margin,
     paddingHorizontal: Spacing.margin,
-    textAlign: "center",
+    textAlign: 'center',
   },
   title: {
     ...Typography.title3,
     marginBottom: Spacing.unit,
     marginTop: Spacing.largeMargin,
   },
-});
+})
 
-export default TunnelDoorSelectionScreen;
+export default TunnelDoorSelectionScreen

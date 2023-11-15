@@ -1,10 +1,10 @@
-import React, { memo } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Marker } from "react-native-maps";
-import { Colors, Typography } from "../../styles";
-import CardView from "../shared/CardView";
-import { ClusterTypeViewModel } from "./DoorToDoor";
-import { MARKER_DEFAULT_ANCHOR } from "./DoorToDoorMapMarker";
+import React, { memo } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Marker } from 'react-native-maps'
+import { Colors, Typography } from '../../styles'
+import CardView from '../shared/CardView'
+import { ClusterTypeViewModel } from './DoorToDoor'
+import { MARKER_DEFAULT_ANCHOR } from './DoorToDoorMapMarker'
 
 export const DoorToDoorMapCluster = memo((cluster: ClusterTypeViewModel) => (
   <Marker
@@ -21,16 +21,16 @@ export const DoorToDoorMapCluster = memo((cluster: ClusterTypeViewModel) => (
       </View>
     </CardView>
   </Marker>
-));
+))
 
 const styles = StyleSheet.create({
   cluster: {
     height: 40,
-    justifyContent: "center",
+    justifyContent: 'center',
     width: 40,
   },
   count: {
     ...Typography.title3,
-    textAlign: "center",
+    textAlign: 'center',
   },
-});
+})

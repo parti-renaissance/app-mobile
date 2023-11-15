@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback } from 'react'
 import {
   ListRenderItemInfo,
   RefreshControl,
@@ -7,75 +7,89 @@ import {
   StyleSheet,
   Text,
   View,
-} from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { useFocusEffect } from "@react-navigation/native";
-import { EventMode } from "../../core/entities/Event";
-import { Colors, Spacing, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import { ListFooterLoader } from "../shared/ListFooterLoader";
-import { StatefulView } from "../shared/StatefulView";
-import { EventFilter } from "./EventFilter";
-import EventGridItem from "./EventGridItem";
-import EventView from "./EventView";
+} from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import { useFocusEffect } from '@react-navigation/native'
+import { EventMode } from '../../core/entities/Event'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { ListFooterLoader } from '../shared/ListFooterLoader'
+import { StatefulView } from '../shared/StatefulView'
+import { EventFilter } from './EventFilter'
+import EventGridItem from './EventGridItem'
+import EventView from './EventView'
 import {
   EventRowContainerViewModel,
   EventRowViewModel,
   EventSectionViewModel,
-} from "./EventViewModel";
-import { useEventListScreen } from "./useEventListScreen.hook";
+} from './EventViewModel'
+import { useEventListScreen } from './useEventListScreen.hook'
 
 type Props = Readonly<{
-  eventFilter: EventFilter;
-  searchText?: string;
-  eventModeFilter?: EventMode;
-}>;
+  eventFilter: EventFilter
+  searchText?: string
+  eventModeFilter?: EventMode
+}>
 
-const EventListScreen: FC<Props> = ({ eventFilter, searchText, eventModeFilter }) => {
-  const { statefulState, isLoadingMore, isRefreshing, onRefresh, onEndReached, onEventSelected } =
-    useEventListScreen(eventFilter, searchText, eventModeFilter);
+const EventListScreen: FC<Props> = ({
+  eventFilter,
+  searchText,
+  eventModeFilter,
+}) => {
+  const {
+    statefulState,
+    isLoadingMore,
+    isRefreshing,
+    onRefresh,
+    onEndReached,
+    onEventSelected,
+  } = useEventListScreen(eventFilter, searchText, eventModeFilter)
 
   useFocusEffect(
     useCallback(() => {
-      onRefresh();
+      onRefresh()
     }, [onRefresh]),
-  );
+  )
 
   const EventListContent = (events: Array<EventSectionViewModel>) => {
     const renderItemHorizontal = (
       info: ListRenderItemInfo<EventRowViewModel>,
       totalItemCount: number,
     ) => {
-      const isLastItem = info.index + 1 === totalItemCount;
-      const marginEnd = isLastItem ? Spacing.margin : 0;
+      const isLastItem = info.index + 1 === totalItemCount
+      const marginEnd = isLastItem ? Spacing.margin : 0
       return (
         <EventGridItem
           style={[styles.eventGridCell, { marginEnd }]}
           viewModel={info.item}
           onEventSelected={onEventSelected}
         />
-      );
-    };
-    const renderItem = ({ item }: SectionListRenderItemInfo<EventRowContainerViewModel>) => {
+      )
+    }
+    const renderItem = ({
+      item,
+    }: SectionListRenderItemInfo<EventRowContainerViewModel>) => {
       switch (item.type) {
-        case "grouped":
+        case 'grouped':
           return (
             <FlatList
               horizontal={true}
               data={item.value.events}
-              renderItem={(info) => renderItemHorizontal(info, item.value.events.length)}
+              renderItem={(info) =>
+                renderItemHorizontal(info, item.value.events.length)
+              }
             />
-          );
-        case "event":
+          )
+        case 'event':
           return (
             <EventView
               style={styles.eventView}
               viewModel={item.value}
               onEventSelected={onEventSelected}
             />
-          );
+          )
       }
-    };
+    }
     return (
       <SectionList
         stickySectionHeadersEnabled={false}
@@ -84,23 +98,23 @@ const EventListScreen: FC<Props> = ({ eventFilter, searchText, eventModeFilter }
         renderSectionHeader={({ section: { sectionViewModel } }) => {
           return sectionViewModel !== undefined ? (
             <Text style={styles.section}>{sectionViewModel.sectionName}</Text>
-          ) : null;
+          ) : null
         }}
         ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
         keyExtractor={(item) => {
           switch (item.type) {
-            case "event":
-              return item.value.id;
-            case "grouped":
-              return item.value.events[0]?.id;
+            case 'event':
+              return item.value.id
+            case 'grouped':
+              return item.value.events[0]?.id
           }
         }}
         ListEmptyComponent={() => {
           return (
             <View style={styles.emptyTextContainer}>
-              <Text style={styles.emptyText}>{i18n.t("events.empty")}</Text>
+              <Text style={styles.emptyText}>{i18n.t('events.empty')}</Text>
             </View>
-          );
+          )
         }}
         refreshControl={
           <RefreshControl
@@ -113,18 +127,18 @@ const EventListScreen: FC<Props> = ({ eventFilter, searchText, eventModeFilter }
         onEndReachedThreshold={0.8}
         onEndReached={onEndReached}
       />
-    );
-  };
+    )
+  }
 
   return (
     <StatefulView
       state={statefulState}
       contentComponent={(viewModel) => {
-        return EventListContent(viewModel);
+        return EventListContent(viewModel)
       }}
     />
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
@@ -134,9 +148,9 @@ const styles = StyleSheet.create({
     ...Typography.body,
   },
   emptyTextContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: Spacing.margin,
   },
   eventGridCell: {
@@ -154,6 +168,6 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.margin,
     marginTop: Spacing.mediumMargin,
   },
-});
+})
 
-export default EventListScreen;
+export default EventListScreen

@@ -6,4 +6,6 @@ export class PhoningCharterNotAccepted {
   public constructor(readonly charter: string) {}
 }
 
-export type PhoningCharterState = PhoningCharterAccepted | PhoningCharterNotAccepted;
+export type PhoningCharterState =
+  | PhoningCharterAccepted
+  | PhoningCharterNotAccepted

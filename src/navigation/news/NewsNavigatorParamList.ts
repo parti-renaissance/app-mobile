@@ -1,3 +1,3 @@
 export type NewsNavigatorParamList = {
-  News: undefined;
-};
+  News: undefined
+}

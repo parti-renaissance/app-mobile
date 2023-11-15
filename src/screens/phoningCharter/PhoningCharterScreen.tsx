@@ -1,15 +1,15 @@
-import React, { FunctionComponent, useEffect } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import Markdown from "@ronradtke/react-native-markdown-display";
-import PhoningCampaignRepository from "../../data/PhoningCampaignRepository";
-import { ActionsNavigatorScreenProps } from "../../navigation/actions/ActionsNavigatorScreenProps";
-import { Colors, Spacing, Styles, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import { AlertUtils } from "../shared/AlertUtils";
-import { PrimaryButton } from "../shared/Buttons";
+import React, { FunctionComponent, useEffect } from 'react'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import Markdown from '@ronradtke/react-native-markdown-display'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { AlertUtils } from '../shared/AlertUtils'
+import { PrimaryButton } from '../shared/Buttons'
 
-type PhoningCharterScreenProps = ActionsNavigatorScreenProps<"PhoningCharter">;
+type PhoningCharterScreenProps = ActionsNavigatorScreenProps<'PhoningCharter'>
 
 const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProps> = ({
   route,
@@ -17,22 +17,22 @@ const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProps> = ({
 }) => {
   useEffect(() => {
     navigation.setOptions({
-      title: i18n.t("phoning.charter.title"),
-    });
-  });
+      title: i18n.t('phoning.charter.title'),
+    })
+  })
 
   const acceptCharter = () => {
     PhoningCampaignRepository.getInstance()
       .acceptPhoningCharter()
       .then(() => {
-        navigation.replace("PhoningCampaignBrief", {
+        navigation.replace('PhoningCampaignBrief', {
           data: route.params.data.brief,
-        });
+        })
       })
       .catch((error: Error) => {
-        AlertUtils.showNetworkAlert(error, undefined);
-      });
-  };
+        AlertUtils.showNetworkAlert(error, undefined)
+      })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,11 +42,14 @@ const PhoningCharterScreen: FunctionComponent<PhoningCharterScreenProps> = ({
         </Markdown>
       </ScrollView>
       <View style={styles.bottomContainer}>
-        <PrimaryButton title={i18n.t("phoning.charter.accept")} onPress={acceptCharter} />
+        <PrimaryButton
+          title={i18n.t('phoning.charter.accept')}
+          onPress={acceptCharter}
+        />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -61,6 +64,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.defaultBackground,
     flex: 1,
   },
-});
+})
 
-export default PhoningCharterScreen;
+export default PhoningCharterScreen

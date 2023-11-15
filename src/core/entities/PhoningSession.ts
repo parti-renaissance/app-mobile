@@ -1,6 +1,6 @@
-import { PhoningSessionAdherent } from "./PhoningSessionAdherent";
+import { PhoningSessionAdherent } from './PhoningSessionAdherent'
 
 export interface PhoningSession {
-  id: string;
-  adherent?: PhoningSessionAdherent;
+  id: string
+  adherent?: PhoningSessionAdherent
 }

@@ -1,30 +1,36 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../../styles";
-import CardView from "../../shared/CardView";
-import { HomeQuickPollRowContainerViewModel } from "../HomeRowViewModel";
-import HomeQuickPollChoicesView from "./HomeQuickPollChoicesView";
-import HomeQuickPollResultView from "./HomeQuickPollResultView";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../../styles'
+import CardView from '../../shared/CardView'
+import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
+import HomeQuickPollChoicesView from './HomeQuickPollChoicesView'
+import HomeQuickPollResultView from './HomeQuickPollResultView'
 
 type Props = Readonly<{
-  viewModel: HomeQuickPollRowContainerViewModel;
-  onAnswerSelected: (pollId: string, answerId: string) => void;
-}>;
+  viewModel: HomeQuickPollRowContainerViewModel
+  onAnswerSelected: (pollId: string, answerId: string) => void
+}>
 
-const HomeQuickPollRowContainer: FunctionComponent<Props> = ({ viewModel, onAnswerSelected }) => {
+const HomeQuickPollRowContainer: FunctionComponent<Props> = ({
+  viewModel,
+  onAnswerSelected,
+}) => {
   return (
     <CardView style={styles.cardView} backgroundColor={Colors.lightBackground}>
       <View style={styles.container}>
         <Text style={styles.title}>{viewModel.title}</Text>
-        {viewModel.type === "question" ? (
-          <HomeQuickPollChoicesView viewModel={viewModel} onAnswerSelected={onAnswerSelected} />
+        {viewModel.type === 'question' ? (
+          <HomeQuickPollChoicesView
+            viewModel={viewModel}
+            onAnswerSelected={onAnswerSelected}
+          />
         ) : (
           <HomeQuickPollResultView viewModel={viewModel} />
         )}
       </View>
     </CardView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   cardView: {
@@ -39,6 +45,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginBottom: Spacing.margin,
   },
-});
+})
 
-export default HomeQuickPollRowContainer;
+export default HomeQuickPollRowContainer

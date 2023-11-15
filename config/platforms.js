@@ -1,9 +1,9 @@
 function getAvailablePlatforms() {
-  return ["android", "ios"];
+  return ['android', 'ios']
 }
 
 function getDefaultPlatforms() {
-  return getAvailablePlatforms();
+  return getAvailablePlatforms()
 }
 
-module.exports = { getAvailablePlatforms, getDefaultPlatforms };
+module.exports = { getAvailablePlatforms, getDefaultPlatforms }

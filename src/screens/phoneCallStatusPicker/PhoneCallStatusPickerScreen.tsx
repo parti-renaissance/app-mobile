@@ -1,93 +1,112 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from "react-native";
-import SafeAreaView from "react-native-safe-area-view";
-import { PhoningSessionCallStatus } from "../../core/entities/PhoningSessionConfiguration";
-import PhoningCampaignRepository from "../../data/PhoningCampaignRepository";
-import { PhoningSessionModalNavigatorScreenProps } from "../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps";
-import { Colors, Spacing, Styles, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import { PhonePollDetailCallStatusViewModelMapper } from "../phonePollDetail/PhonePollDetailCallStatusViewModelMapper";
-import QuestionChoiceRow from "../pollDetail/QuestionChoiceRow";
-import { QuestionChoiceRowViewModel } from "../pollDetail/QuestionChoiceRowViewModel";
-import { AlertUtils } from "../shared/AlertUtils";
-import { PrimaryButton } from "../shared/Buttons";
-import LoadingOverlay from "../shared/LoadingOverlay";
-import { VerticalSpacer } from "../shared/Spacer";
-import { StatefulView } from "../shared/StatefulView";
-import { usePreventGoingBack } from "../shared/usePreventGoingBack.hook";
-import { ViewState } from "../shared/ViewState";
-import { ViewStateUtils } from "../shared/ViewStateUtils";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
+import {
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { PhonePollDetailCallStatusViewModelMapper } from '../phonePollDetail/PhonePollDetailCallStatusViewModelMapper'
+import QuestionChoiceRow from '../pollDetail/QuestionChoiceRow'
+import { QuestionChoiceRowViewModel } from '../pollDetail/QuestionChoiceRowViewModel'
+import { AlertUtils } from '../shared/AlertUtils'
+import { PrimaryButton } from '../shared/Buttons'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { VerticalSpacer } from '../shared/Spacer'
+import { StatefulView } from '../shared/StatefulView'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 
 type PhoneCallStatusPickerScreenProps =
-  PhoningSessionModalNavigatorScreenProps<"PhoneCallStatusPicker">;
+  PhoningSessionModalNavigatorScreenProps<'PhoneCallStatusPicker'>
 
-const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const [statefulState, setStatefulState] = useState<ViewState<Array<PhoningSessionCallStatus>>>(
-    ViewState.Loading(),
-  );
+const PhoneCallStatusPickerScreen: FunctionComponent<
+  PhoneCallStatusPickerScreenProps
+> = ({ navigation, route }) => {
+  const [statefulState, setStatefulState] = useState<
+    ViewState<Array<PhoningSessionCallStatus>>
+  >(ViewState.Loading())
 
-  const [selectedStatusCode, setSelectedStatusCode] = useState<string>();
-  const [isLoading, setLoading] = useState(false);
+  const [selectedStatusCode, setSelectedStatusCode] = useState<string>()
+  const [isLoading, setLoading] = useState(false)
 
   const fetchCallStatuses = useCallback(() => {
-    const sessionId = route.params.data.sessionId;
+    const sessionId = route.params.data.sessionId
     PhoningCampaignRepository.getInstance()
       .getPhoningSessionConfiguration(sessionId)
       .then((configuration) => configuration.callStatus.finished)
       .then((callStatuses) => setStatefulState(ViewState.Content(callStatuses)))
       .catch((error) => {
-        setStatefulState(ViewStateUtils.networkError(error, fetchCallStatuses));
-      });
-  }, [route.params.data.sessionId]);
+        setStatefulState(ViewStateUtils.networkError(error, fetchCallStatuses))
+      })
+  }, [route.params.data.sessionId])
 
   useEffect(
     () => navigation.setOptions({ title: route.params.data.campaignTitle }),
     [navigation, route.params.data.campaignTitle],
-  );
+  )
 
   useEffect(() => {
-    fetchCallStatuses();
-  }, [fetchCallStatuses]);
+    fetchCallStatuses()
+  }, [fetchCallStatuses])
 
-  usePreventGoingBack();
+  usePreventGoingBack()
 
-  const renderItem = ({ item }: ListRenderItemInfo<QuestionChoiceRowViewModel>) => {
-    return <QuestionChoiceRow viewModel={item} onPress={() => setSelectedStatusCode(item.id)} />;
-  };
+  const renderItem = ({
+    item,
+  }: ListRenderItemInfo<QuestionChoiceRowViewModel>) => {
+    return (
+      <QuestionChoiceRow
+        viewModel={item}
+        onPress={() => setSelectedStatusCode(item.id)}
+      />
+    )
+  }
 
   const sendStatusCodeAndLeave = (statusCode: string) => {
-    setLoading(true);
+    setLoading(true)
     PhoningCampaignRepository.getInstance()
       .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
       .then(() => {
-        navigation.replace("PhoneCallFailure", {
+        navigation.replace('PhoneCallFailure', {
           data: route.params.data,
-        });
+        })
       })
       .catch((error) => {
-        AlertUtils.showNetworkAlert(error, () => sendStatusCodeAndLeave(statusCode));
+        AlertUtils.showNetworkAlert(error, () =>
+          sendStatusCodeAndLeave(statusCode),
+        )
       })
-      .finally(() => setLoading(true));
-  };
+      .finally(() => setLoading(true))
+  }
 
   const onAction = (statusCode: string) => {
-    if (statusCode === "answered") {
-      navigation.replace("PhonePollDetail", {
+    if (statusCode === 'answered') {
+      navigation.replace('PhonePollDetail', {
         data: route.params.data,
-      });
+      })
     } else {
-      sendStatusCodeAndLeave(statusCode);
+      sendStatusCodeAndLeave(statusCode)
     }
-  };
+  }
 
   const Content = (callStatuses: Array<PhoningSessionCallStatus>) => {
     const viewModel = PhonePollDetailCallStatusViewModelMapper.map(
       callStatuses,
       selectedStatusCode,
-    );
+    )
 
     return (
       <View style={styles.content}>
@@ -100,36 +119,38 @@ const PhoneCallStatusPickerScreen: FunctionComponent<PhoneCallStatusPickerScreen
           ListHeaderComponent={() => {
             return (
               <>
-                <Text style={styles.title}>{route.params.data.adherent.info}</Text>
+                <Text style={styles.title}>
+                  {route.params.data.adherent.info}
+                </Text>
                 <VerticalSpacer spacing={Spacing.margin} />
               </>
-            );
+            )
           }}
         />
         <View style={styles.bottomContainer}>
           <PrimaryButton
             disabled={!viewModel.isActionEnabled}
             onPress={() => selectedStatusCode && onAction(selectedStatusCode)}
-            title={i18n.t("phoningsession.status_picker.action")}
+            title={i18n.t('phoningsession.status_picker.action')}
           />
         </View>
       </View>
-    );
-  };
+    )
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <StatefulView state={statefulState} contentComponent={Content} />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   bottomContainer: {
     ...Styles.elevatedContainerStyle,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     paddingVertical: Spacing.margin,
   },
   container: {
@@ -138,7 +159,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    overflow: "hidden", // hide the shadow on the bottom
+    overflow: 'hidden', // hide the shadow on the bottom
   },
   listContainer: {
     paddingHorizontal: Spacing.margin,
@@ -146,6 +167,6 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title,
   },
-});
+})
 
-export default PhoneCallStatusPickerScreen;
+export default PhoneCallStatusPickerScreen

@@ -1,5 +1,5 @@
-import { Campaign } from "../../core/entities/Campaign";
-import { RestCampaign } from "../restObjects/RestCampaign";
+import { Campaign } from '../../core/entities/Campaign'
+import { RestCampaign } from '../restObjects/RestCampaign'
 
 export const CampaignMapper = {
   map: (restCampaign: RestCampaign): Campaign => {
@@ -10,6 +10,6 @@ export const CampaignMapper = {
       slug: restCampaign.slug,
       logo: restCampaign.logo,
       banner: restCampaign.banner,
-    };
+    }
   },
-};
+}

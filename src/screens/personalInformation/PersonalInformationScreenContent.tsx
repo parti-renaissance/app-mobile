@@ -1,35 +1,35 @@
-import React, { FC, useEffect, useRef } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { DetailedProfile } from "../../core/entities/DetailedProfile";
-import { PersonalInformationModalNavigatorScreenProps } from "../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps";
-import { Colors, Spacing, Typography } from "../../styles";
-import { DisplayNameFormatter } from "../../utils/DisplayNameFormatter";
-import i18n from "../../utils/i18n";
-import BirthdayPicker from "../shared/BirthdayPicker";
-import KeyboardOffsetView from "../shared/KeyboardOffsetView";
-import LoadingOverlay from "../shared/LoadingOverlay";
-import GenderPicker from "./GenderPicker";
-import { HeaderTextButton } from "./HeaderTextButton";
-import LabelInputContainer from "./LabelInputContainer";
-import LabelTextInput from "./LabelTextInput";
-import LocationPicker from "./LocationPicker";
-import { NationalityPicker } from "./NationalityPicker";
-import PhoneNumberInput from "./PhoneNumberInput";
-import { usePersonalInformationScreenContent } from "./usePersonalInformationScreenContent.hook";
+import React, { FC, useEffect, useRef } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { DetailedProfile } from '../../core/entities/DetailedProfile'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import { DisplayNameFormatter } from '../../utils/DisplayNameFormatter'
+import i18n from '../../utils/i18n'
+import BirthdayPicker from '../shared/BirthdayPicker'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import GenderPicker from './GenderPicker'
+import { HeaderTextButton } from './HeaderTextButton'
+import LabelInputContainer from './LabelInputContainer'
+import LabelTextInput from './LabelTextInput'
+import LocationPicker from './LocationPicker'
+import { NationalityPicker } from './NationalityPicker'
+import PhoneNumberInput from './PhoneNumberInput'
+import { usePersonalInformationScreenContent } from './usePersonalInformationScreenContent.hook'
 
 type Props = Readonly<{
-  profile: DetailedProfile;
-}>;
+  profile: DetailedProfile
+}>
 
 export const PersonalInformationScreenContent: FC<Props> = ({ profile }) => {
-  const firstNameRef = useRef<TextInput>(null);
-  const lastNameRef = useRef<TextInput>(null);
-  const genderOther = useRef<TextInput>(null);
-  const facebookRef = useRef<TextInput>(null);
-  const linkedInRef = useRef<TextInput>(null);
-  const twitterRef = useRef<TextInput>(null);
-  const telegramRef = useRef<TextInput>(null);
+  const firstNameRef = useRef<TextInput>(null)
+  const lastNameRef = useRef<TextInput>(null)
+  const genderOther = useRef<TextInput>(null)
+  const facebookRef = useRef<TextInput>(null)
+  const linkedInRef = useRef<TextInput>(null)
+  const twitterRef = useRef<TextInput>(null)
+  const telegramRef = useRef<TextInput>(null)
 
   const {
     form,
@@ -52,24 +52,24 @@ export const PersonalInformationScreenContent: FC<Props> = ({ profile }) => {
     onLinkedInChange,
     onTelegramChange,
     onSubmit,
-  } = usePersonalInformationScreenContent(profile);
+  } = usePersonalInformationScreenContent(profile)
 
   const navigation =
     useNavigation<
-      PersonalInformationModalNavigatorScreenProps<"PersonalInformation">["navigation"]
-    >();
+      PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
+    >()
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <HeaderTextButton
-          title={i18n.t("personalinformation.save")}
+          title={i18n.t('personalinformation.save')}
           type="primary"
           onPress={onSubmit}
         />
       ),
-    });
-  }, [navigation, onSubmit]);
+    })
+  }, [navigation, onSubmit])
 
   return (
     <KeyboardOffsetView>
@@ -80,133 +80,139 @@ export const PersonalInformationScreenContent: FC<Props> = ({ profile }) => {
       >
         <LoadingOverlay visible={isLoading} />
         <View>
-          <Text style={styles.section}>{i18n.t("personalinformation.section_identity")}</Text>
+          <Text style={styles.section}>
+            {i18n.t('personalinformation.section_identity')}
+          </Text>
           <LabelTextInput
             ref={firstNameRef}
             nextInput={lastNameRef}
-            label={i18n.t("personalinformation.first_name")}
+            label={i18n.t('personalinformation.first_name')}
             textInputProps={{
-              textContentType: "givenName",
+              textContentType: 'givenName',
             }}
             defaultValue={form.firstName}
             onValueChange={onFirstNameChange}
-            errorMessage={getError("first_name")}
+            errorMessage={getError('first_name')}
           />
           <LabelTextInput
             ref={lastNameRef}
-            label={i18n.t("personalinformation.last_name")}
+            label={i18n.t('personalinformation.last_name')}
             textInputProps={{
-              textContentType: "familyName",
+              textContentType: 'familyName',
             }}
             defaultValue={form.lastName}
             onValueChange={onLastNameChange}
-            errorMessage={getError("last_name")}
+            errorMessage={getError('last_name')}
           />
           <GenderPicker
             onValueChange={onGenderChange}
             defaultValue={form.gender}
-            errorMessage={getError("gender")}
+            errorMessage={getError('gender')}
           />
           {displayCustomGender && (
             <LabelTextInput
               ref={genderOther}
-              label={i18n.t("personalinformation.gender_other")}
+              label={i18n.t('personalinformation.gender_other')}
               defaultValue={form.customGender}
               onValueChange={onCustomGenderChange}
             />
           )}
           <LabelInputContainer
-            label={i18n.t("personalinformation.birthdate")}
-            errorMessage={getError("birthdate")}
+            label={i18n.t('personalinformation.birthdate')}
+            errorMessage={getError('birthdate')}
           >
             <BirthdayPicker
               date={form.birthdate}
-              placeholder={i18n.t("personalinformation.placeholder")}
+              placeholder={i18n.t('personalinformation.placeholder')}
               onDateChange={onBirthdateChange}
               maximumDate={new Date()}
               textAlign="right"
             />
           </LabelInputContainer>
           <LabelInputContainer
-            label={i18n.t("personalinformation.nationality")}
-            errorMessage={getError("nationality")}
+            label={i18n.t('personalinformation.nationality')}
+            errorMessage={getError('nationality')}
           >
             <NationalityPicker
               country={DisplayNameFormatter.formatRegion(form.countryCode)}
               onPress={onNationalityPress}
             />
           </LabelInputContainer>
-          <Text style={styles.section}>{i18n.t("personalinformation.section_coordinates")}</Text>
+          <Text style={styles.section}>
+            {i18n.t('personalinformation.section_coordinates')}
+          </Text>
           <LabelInputContainer
-            label={i18n.t("personalinformation.address")}
-            errorMessage={getError("address")}
+            label={i18n.t('personalinformation.address')}
+            errorMessage={getError('address')}
           >
             <LocationPicker
               address={form.address}
-              placeholder={i18n.t("personalinformation.placeholder")}
+              placeholder={i18n.t('personalinformation.placeholder')}
               onPress={onLocationPickerPress}
             />
           </LabelInputContainer>
           <LabelTextInput
-            label={i18n.t("personalinformation.email")}
+            label={i18n.t('personalinformation.email')}
             textInputProps={{
-              keyboardType: "email-address",
-              textContentType: "emailAddress",
-              autoCapitalize: "none",
+              keyboardType: 'email-address',
+              textContentType: 'emailAddress',
+              autoCapitalize: 'none',
               autoCorrect: false,
             }}
             defaultValue={form.email}
             onValueChange={onEmailChange}
-            errorMessage={getError("email_address")}
+            errorMessage={getError('email_address')}
           />
           <PhoneNumberInput
             phoneNumber={form.phoneNumber}
-            label={i18n.t("personalinformation.phone")}
-            placeholder={i18n.t("personalinformation.placeholder")}
+            label={i18n.t('personalinformation.phone')}
+            placeholder={i18n.t('personalinformation.placeholder')}
             nextInput={facebookRef}
             onPhoneNumberChange={onPhoneNumberChange}
             onCallingCodePress={onCallingCodePress}
             callingCode={callingCode}
-            errorMessage={getError("phone")}
+            errorMessage={getError('phone')}
           />
-          <Text style={styles.section}>{i18n.t("personalinformation.section_social")}</Text>
+          <Text style={styles.section}>
+            {i18n.t('personalinformation.section_social')}
+          </Text>
           <LabelTextInput
             ref={facebookRef}
             nextInput={linkedInRef}
-            label={i18n.t("personalinformation.facebook")}
+            label={i18n.t('personalinformation.facebook')}
             defaultValue={form.facebook}
             onValueChange={onFacebookChange}
-            errorMessage={getError("facebook_page_url")}
+            errorMessage={getError('facebook_page_url')}
           />
           <LabelTextInput
             ref={linkedInRef}
             nextInput={twitterRef}
-            label={i18n.t("personalinformation.linkedin")}
+            label={i18n.t('personalinformation.linkedin')}
             defaultValue={form.linkedin}
             onValueChange={onLinkedInChange}
-            errorMessage={getError("linkedin_page_url")}
+            errorMessage={getError('linkedin_page_url')}
           />
           <LabelTextInput
             ref={twitterRef}
             nextInput={telegramRef}
-            label={i18n.t("personalinformation.twitter")}
+            label={i18n.t('personalinformation.twitter')}
             defaultValue={form.twitter}
             onValueChange={onTwitterChange}
-            errorMessage={getError("twitter_page_url")}
+            errorMessage={getError('twitter_page_url')}
           />
           <LabelTextInput
             ref={telegramRef}
             isLastInput={true}
-            label={i18n.t("personalinformation.telegram")}
+            label={i18n.t('personalinformation.telegram')}
             defaultValue={form.telegram}
             onValueChange={onTelegramChange}
-            errorMessage={getError("telegram_page_url")}
+            errorMessage={getError('telegram_page_url')}
           />
         </View>
       </ScrollView>
     </KeyboardOffsetView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -218,11 +224,11 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.margin,
   },
   countryPickerContainerButton: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   section: {
     ...Typography.caption1,
     color: Colors.lightText,
     marginTop: Spacing.mediumMargin,
   },
-});
+})

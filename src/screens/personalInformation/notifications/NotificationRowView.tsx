@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import { StyleSheet, Switch, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../../styles";
-import { NotificationRowViewModel } from "./NotificationViewModel";
+import React, { FC } from 'react'
+import { StyleSheet, Switch, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../../styles'
+import { NotificationRowViewModel } from './NotificationViewModel'
 
 type Props = Readonly<{
-  viewModel: NotificationRowViewModel;
-  onSelectionChanged: (id: string, isSelected: boolean) => void;
-}>;
+  viewModel: NotificationRowViewModel
+  onSelectionChanged: (id: string, isSelected: boolean) => void
+}>
 
 const NotificationRowView: FC<Props> = ({ viewModel, onSelectionChanged }) => {
   return (
@@ -16,22 +16,24 @@ const NotificationRowView: FC<Props> = ({ viewModel, onSelectionChanged }) => {
         <Switch
           value={viewModel.isSelected}
           onValueChange={(isSelected) => {
-            onSelectionChanged(viewModel.id, isSelected);
+            onSelectionChanged(viewModel.id, isSelected)
           }}
         />
       </View>
-      {viewModel.isLastOfSection === false ? <View style={styles.separator} /> : null}
+      {viewModel.isLastOfSection === false ? (
+        <View style={styles.separator} />
+      ) : null}
     </>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: Spacing.margin,
     paddingVertical: Spacing.margin,
-    alignItems: "center",
+    alignItems: 'center',
   },
   label: {
     ...Typography.caption1,
@@ -44,6 +46,6 @@ const styles = StyleSheet.create({
     height: Spacing.separatorHeight,
     marginHorizontal: Spacing.margin,
   },
-});
+})
 
-export default NotificationRowView;
+export default NotificationRowView

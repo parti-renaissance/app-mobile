@@ -1,46 +1,50 @@
-import { Location } from "react-native-location";
-import { Poll } from "../core/entities/Poll";
-import { PollResult } from "../core/entities/PollResult";
-import { DataSource } from "./DataSource";
-import { RestPollResultRequestMapper } from "./mapper/RestPollResultRequestMapper";
-import ApiService from "./network/ApiService";
-import CacheManager from "./store/CacheManager";
+import { Location } from 'react-native-location'
+import { Poll } from '../core/entities/Poll'
+import { PollResult } from '../core/entities/PollResult'
+import { DataSource } from './DataSource'
+import { RestPollResultRequestMapper } from './mapper/RestPollResultRequestMapper'
+import ApiService from './network/ApiService'
+import CacheManager from './store/CacheManager'
 
 class PollsRepository {
-  private static instance: PollsRepository;
-  private apiService = ApiService.getInstance();
-  private cacheManager = CacheManager.getInstance();
-  private memoryCachedPolls: Array<Poll> = [];
+  private static instance: PollsRepository
+  private apiService = ApiService.getInstance()
+  private cacheManager = CacheManager.getInstance()
+  private memoryCachedPolls: Array<Poll> = []
   private constructor() {}
 
-  public async getPolls(dataSource: DataSource = "remote"): Promise<Array<Poll>> {
-    const cacheKey = "polls";
+  public async getPolls(
+    dataSource: DataSource = 'remote',
+  ): Promise<Array<Poll>> {
+    const cacheKey = 'polls'
     switch (dataSource) {
-      case "cache":
-        const cachedPolls = await this.cacheManager.getFromCache(cacheKey);
-        this.memoryCachedPolls = cachedPolls;
-        return cachedPolls;
-      case "remote":
-        const polls = await this.apiService.getPolls();
-        await this.cacheManager.setInCache(cacheKey, polls);
-        this.memoryCachedPolls = polls;
-        return polls;
+      case 'cache':
+        const cachedPolls = await this.cacheManager.getFromCache(cacheKey)
+        this.memoryCachedPolls = cachedPolls
+        return cachedPolls
+      case 'remote':
+        const polls = await this.apiService.getPolls()
+        await this.cacheManager.setInCache(cacheKey, polls)
+        this.memoryCachedPolls = polls
+        return polls
     }
   }
 
   public async getPoll(pollId: string): Promise<Poll> {
-    const cachedPoll = this.memoryCachedPolls.find((item) => item.uuid === pollId);
+    const cachedPoll = this.memoryCachedPolls.find(
+      (item) => item.uuid === pollId,
+    )
     if (cachedPoll) {
-      return cachedPoll;
+      return cachedPoll
     }
 
     // If no cache, fetch again to find matching poll
-    const polls = await this.getPolls();
-    const poll = polls.find((item) => item.uuid === pollId);
+    const polls = await this.getPolls()
+    const poll = polls.find((item) => item.uuid === pollId)
     if (poll) {
-      return poll;
+      return poll
     } else {
-      throw new Error(`Poll with id ${pollId} does not exists`);
+      throw new Error(`Poll with id ${pollId} does not exists`)
     }
   }
 
@@ -49,16 +53,16 @@ class PollsRepository {
     result: PollResult,
     location: Location | null,
   ): Promise<void> {
-    const restResponse = RestPollResultRequestMapper.map(poll, result, location);
-    await this.apiService.sendPollAnswers(restResponse);
+    const restResponse = RestPollResultRequestMapper.map(poll, result, location)
+    await this.apiService.sendPollAnswers(restResponse)
   }
 
   public static getInstance(): PollsRepository {
     if (!PollsRepository.instance) {
-      PollsRepository.instance = new PollsRepository();
+      PollsRepository.instance = new PollsRepository()
     }
-    return PollsRepository.instance;
+    return PollsRepository.instance
   }
 }
 
-export default PollsRepository;
+export default PollsRepository

@@ -1,19 +1,24 @@
-import React, { FunctionComponent } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { HomeNavigatorScreenProps } from "../../navigation/home/HomeNavigatorScreenProps";
-import { Colors, Spacing, Styles, Typography } from "../../styles";
-import i18n from "../../utils/i18n";
-import { PrimaryButton } from "../shared/Buttons";
-import { VerticalSpacer } from "../shared/Spacer";
-import { StatefulView } from "../shared/StatefulView";
-import RetaliationPostCard from "./RetaliationPostCard";
-import { useRetaliationDetailScreen } from "./useRetaliationDetailScreen.hook";
+import React, { FunctionComponent } from 'react'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { PrimaryButton } from '../shared/Buttons'
+import { VerticalSpacer } from '../shared/Spacer'
+import { StatefulView } from '../shared/StatefulView'
+import RetaliationPostCard from './RetaliationPostCard'
+import { useRetaliationDetailScreen } from './useRetaliationDetailScreen.hook'
 
-type RetaliationDetailScreenProps = HomeNavigatorScreenProps<"RetaliationDetail">;
+type RetaliationDetailScreenProps =
+  HomeNavigatorScreenProps<'RetaliationDetail'>
 
-const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProps> = ({ route }) => {
-  const { statefulState, onRetaliate } = useRetaliationDetailScreen(route.params.retaliationId);
+const RetaliationDetailScreen: FunctionComponent<
+  RetaliationDetailScreenProps
+> = ({ route }) => {
+  const { statefulState, onRetaliate } = useRetaliationDetailScreen(
+    route.params.retaliationId,
+  )
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,19 +31,24 @@ const RetaliationDetailScreen: FunctionComponent<RetaliationDetailScreenProps> =
                 <Text style={styles.title}>{viewModel.title}</Text>
                 <RetaliationPostCard viewModel={viewModel.card} />
                 <VerticalSpacer spacing={Spacing.mediumMargin} />
-                <Text style={styles.subtitle}>{i18n.t("retaliation.title")}</Text>
+                <Text style={styles.subtitle}>
+                  {i18n.t('retaliation.title')}
+                </Text>
                 <Text style={styles.retaliation}>{viewModel.body}</Text>
               </ScrollView>
               <View style={styles.bottomContainer}>
-                <PrimaryButton title={i18n.t("retaliation.execute")} onPress={onRetaliate} />
+                <PrimaryButton
+                  title={i18n.t('retaliation.execute')}
+                  onPress={onRetaliate}
+                />
               </View>
             </>
-          );
+          )
         }}
       />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -64,6 +74,6 @@ const styles = StyleSheet.create({
     ...Typography.title,
     lineHeight: 34,
   },
-});
+})
 
-export default RetaliationDetailScreen;
+export default RetaliationDetailScreen

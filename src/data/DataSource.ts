@@ -1,1 +1,1 @@
-export type DataSource = "cache" | "remote";
+export type DataSource = 'cache' | 'remote'

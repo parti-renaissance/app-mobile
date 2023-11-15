@@ -1,38 +1,45 @@
-import React, { FunctionComponent } from "react";
-import { Image, ImageSourcePropType, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { BuildingBlockStatus } from "../../core/entities/BuildingBlock";
-import { Colors, Spacing, Typography } from "../../styles";
-import { margin, small } from "../../styles/spacing";
-import i18n from "../../utils/i18n";
-import { BorderlessButton } from "../shared/Buttons";
-import CardView from "../shared/CardView";
-import { TouchablePlatform } from "../shared/TouchablePlatform";
+import React, { FunctionComponent } from 'react'
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { BuildingBlockStatus } from '../../core/entities/BuildingBlock'
+import { Colors, Spacing, Typography } from '../../styles'
+import { margin, small } from '../../styles/spacing'
+import i18n from '../../utils/i18n'
+import { BorderlessButton } from '../shared/Buttons'
+import CardView from '../shared/CardView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingLayoutFloorCell, {
   BuildingLayoutFloorCellViewModel,
-} from "./BuildingLayoutFloorCell";
+} from './BuildingLayoutFloorCell'
 
 export interface BuildingLayoutBlockCardViewModel {
-  id: string;
-  buildingTypeName: string;
-  buildingTypeIcon: ImageSourcePropType;
-  floors: BuildingLayoutFloorCellViewModel[];
-  local: boolean;
-  status: BuildingBlockStatus;
-  statusAction: string;
-  removable: boolean;
-  canUpdateBuildingStatus: boolean;
-  canAddNewFloor: boolean;
+  id: string
+  buildingTypeName: string
+  buildingTypeIcon: ImageSourcePropType
+  floors: BuildingLayoutFloorCellViewModel[]
+  local: boolean
+  status: BuildingBlockStatus
+  statusAction: string
+  removable: boolean
+  canUpdateBuildingStatus: boolean
+  canAddNewFloor: boolean
 }
 
 type Props = Readonly<{
-  viewModel: BuildingLayoutBlockCardViewModel;
-  style: ViewStyle;
-  onSelect: (buildingBlock: string, floor: number) => void;
-  onAddBuildingFloor: (buildingBlockId: string) => void;
-  onRemoveBuildingBlock: (buildingBlockId: string) => void;
-  onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void;
-  onBuildingAction: (buildingBlockId: string) => void;
-}>;
+  viewModel: BuildingLayoutBlockCardViewModel
+  style: ViewStyle
+  onSelect: (buildingBlock: string, floor: number) => void
+  onAddBuildingFloor: (buildingBlockId: string) => void
+  onRemoveBuildingBlock: (buildingBlockId: string) => void
+  onRemoveBuildingFloor: (buildingBlockId: string, floor: number) => void
+  onBuildingAction: (buildingBlockId: string) => void
+}>
 
 const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
   viewModel,
@@ -52,7 +59,9 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
               touchHighlight={Colors.touchHighlight}
               onPress={() => onRemoveBuildingBlock(viewModel.id)}
             >
-              <Image source={require("../../assets/images/iconCircledCross.png")} />
+              <Image
+                source={require('../../assets/images/iconCircledCross.png')}
+              />
             </TouchablePlatform>
           </View>
         ) : null}
@@ -77,24 +86,28 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
                 onSelect={onSelect}
                 canRemove={floorViewModel.removable}
                 onRemoveBuildingFloor={(floor: number) => {
-                  onRemoveBuildingFloor(viewModel.id, floor);
+                  onRemoveBuildingFloor(viewModel.id, floor)
                 }}
               />
-              {index !== viewModel.floors.length - 1 ? <View style={styles.separator} /> : null}
+              {index !== viewModel.floors.length - 1 ? (
+                <View style={styles.separator} />
+              ) : null}
             </View>
-          );
+          )
         })}
         {viewModel.canAddNewFloor ? (
-          <AddBuildingFloorCard onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)} />
+          <AddBuildingFloorCard
+            onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
+          />
         ) : null}
       </View>
     </CardView>
-  );
-};
+  )
+}
 
 type AddBuildingFloorCardProps = Readonly<{
-  onAddBuildingFloor: () => void;
-}>;
+  onAddBuildingFloor: () => void
+}>
 
 const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
   onAddBuildingFloor,
@@ -109,16 +122,18 @@ const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
         >
           <View style={styles.newFloorContainer}>
             <Image
-              source={require("../../assets/images/iconMore.png")}
+              source={require('../../assets/images/iconMore.png')}
               style={styles.newFloorIcon}
             />
-            <Text style={styles.newFloorText}>{i18n.t("building.layout.add_floor")}</Text>
+            <Text style={styles.newFloorText}>
+              {i18n.t('building.layout.add_floor')}
+            </Text>
           </View>
         </TouchablePlatform>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   buildingAction: {
@@ -133,13 +148,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondaryButtonBackground,
     borderBottomEndRadius: 8,
     borderBottomStartRadius: 8,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   newFloorContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     padding: Spacing.margin,
   },
   newFloorIcon: {
@@ -152,16 +167,16 @@ const styles = StyleSheet.create({
   removeContainer: {
     borderRadius: 32,
     marginEnd: Spacing.unit,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   separator: {
     backgroundColor: Colors.separator,
     height: Spacing.separatorHeight,
   },
   statusContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     marginHorizontal: margin,
     marginTop: margin,
   },
@@ -174,6 +189,6 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.small,
     paddingLeft: Spacing.small,
   },
-});
+})
 
-export default BuildingLayoutBlockCardView;
+export default BuildingLayoutBlockCardView

@@ -1,3 +1,3 @@
 export interface UserPreferences {
-  zipCode: string;
+  zipCode: string
 }

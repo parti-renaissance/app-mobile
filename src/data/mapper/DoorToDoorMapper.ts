@@ -1,10 +1,10 @@
-import { RestDoorToDoorAddress } from "../restObjects/RestDoorToDoorAddress";
-import { DoorToDoorAddress } from "./../../core/entities/DoorToDoor";
+import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
+import { DoorToDoorAddress } from './../../core/entities/DoorToDoor'
 
 export const DoorToDoorMapper = {
   map: (restObject: RestDoorToDoorAddress): DoorToDoorAddress | null => {
-    const rest_campaign = restObject.building.campaign_statistics;
-    const buildingType = restObject.building.type;
+    const rest_campaign = restObject.building.campaign_statistics
+    const buildingType = restObject.building.type
     const campaign = rest_campaign
       ? {
           numberOfDoors: rest_campaign.nb_visited_doors,
@@ -14,18 +14,18 @@ export const DoorToDoorMapper = {
           lastPassage: mapLastPassage(rest_campaign.last_passage),
           campaignId: rest_campaign.campaign.uuid,
           lastPassageDoneBy: {
-            firstName: rest_campaign.last_passage_done_by?.first_name ?? "",
-            lastName: rest_campaign.last_passage_done_by?.last_name ?? "",
-            id: rest_campaign.last_passage_done_by?.uuid ?? "",
+            firstName: rest_campaign.last_passage_done_by?.first_name ?? '',
+            lastName: rest_campaign.last_passage_done_by?.last_name ?? '',
+            id: rest_campaign.last_passage_done_by?.uuid ?? '',
           },
         }
-      : null;
+      : null
     if (buildingType !== null) {
       const building = {
         type: buildingType,
         id: restObject.building.uuid,
         campaignStatistics: campaign,
-      };
+      }
       return {
         id: restObject.uuid,
         inseeCode: restObject.insee_code,
@@ -37,13 +37,13 @@ export const DoorToDoorMapper = {
         votersCount: restObject.voters_count,
         postalCodes: restObject.postal_codes,
         building: building,
-      };
+      }
     } else {
-      return null;
+      return null
     }
   },
-};
+}
 
 function mapLastPassage(last_passage: string | null): Date | null {
-  return last_passage ? new Date(last_passage) : null;
+  return last_passage ? new Date(last_passage) : null
 }

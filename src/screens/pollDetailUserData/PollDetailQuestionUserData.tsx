@@ -1,44 +1,44 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react'
 import {
   SectionList,
   SectionListData,
   SectionListRenderItemInfo,
   StyleSheet,
   TextInput,
-} from "react-native";
-import { Spacing } from "../../styles";
-import i18n from "../../utils/i18n";
-import QuestionUserProfileSectionHeader from "../pollDetailUserProfile/QuestionUserProfileSectionHeader";
-import { ExternalLink } from "../shared/ExternalLink";
-import KeyboardOffsetView from "../shared/KeyboardOffsetView";
-import LabelTextInput from "../shared/LabelTextInput";
+} from 'react-native'
+import { Spacing } from '../../styles'
+import i18n from '../../utils/i18n'
+import QuestionUserProfileSectionHeader from '../pollDetailUserProfile/QuestionUserProfileSectionHeader'
+import { ExternalLink } from '../shared/ExternalLink'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
+import LabelTextInput from '../shared/LabelTextInput'
 import {
   PollDetailQuestionUserDataSectionContentViewModel,
   PollDetailQuestionUserDataViewModel,
   QuestionTextInputRowViewModel,
-} from "./PollDetailQuestionUserDataViewModel";
+} from './PollDetailQuestionUserDataViewModel'
 import {
   CONSENT_ITEM_ID,
   FORM_INPUT_ID,
   YES_ID,
-} from "./PollDetailQuestionUserDataViewModelMapper";
-import QuestionDualChoiceRow from "./QuestionDualChoiceRow";
-import { QuestionDualChoiceRowViewModel } from "./QuestionDualChoiceRowViewModel";
-import QuestionTextLinkRow from "./QuestionTextLinkRow";
+} from './PollDetailQuestionUserDataViewModelMapper'
+import QuestionDualChoiceRow from './QuestionDualChoiceRow'
+import { QuestionDualChoiceRowViewModel } from './QuestionDualChoiceRowViewModel'
+import QuestionTextLinkRow from './QuestionTextLinkRow'
 
 type Props = Readonly<{
-  viewModel: PollDetailQuestionUserDataViewModel;
-  onConsent?: (isConsenting: boolean) => void;
-  onFirstNameChange?: (firstName: string) => void;
-  onLastNameChange?: (lastName: string) => void;
-  onEmailChange?: (email: string) => void;
-  onZipCodeChange?: (zipCode: string) => void;
-  onBlur: () => void;
-}>;
+  viewModel: PollDetailQuestionUserDataViewModel
+  onConsent?: (isConsenting: boolean) => void
+  onFirstNameChange?: (firstName: string) => void
+  onLastNameChange?: (lastName: string) => void
+  onEmailChange?: (email: string) => void
+  onZipCodeChange?: (zipCode: string) => void
+  onBlur: () => void
+}>
 
 const booleanValue = (id: string): boolean => {
-  return id === YES_ID;
-};
+  return id === YES_ID
+}
 
 const PollDetailQuestionUserData: FunctionComponent<Props> = ({
   viewModel,
@@ -49,27 +49,29 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
   onZipCodeChange,
   onBlur,
 }) => {
-  const refStorage: Record<string, TextInput> = {};
+  const refStorage: Record<string, TextInput> = {}
 
-  const renderDualChoice = (dualChoiceViewModel: QuestionDualChoiceRowViewModel) => {
+  const renderDualChoice = (
+    dualChoiceViewModel: QuestionDualChoiceRowViewModel,
+  ) => {
     return (
       <QuestionDualChoiceRow
         viewModel={dualChoiceViewModel}
         onPress={(choiceId) => {
           if (dualChoiceViewModel.id === CONSENT_ITEM_ID) {
-            onConsent?.(booleanValue(choiceId));
+            onConsent?.(booleanValue(choiceId))
           }
         }}
       />
-    );
-  };
+    )
+  }
 
   const renderInput = (
     textInputViewModel: QuestionTextInputRowViewModel,
     index: number,
     section: SectionListData<PollDetailQuestionUserDataSectionContentViewModel>,
   ) => {
-    const isLastItem = index === section.data.length - 1;
+    const isLastItem = index === section.data.length - 1
     return (
       <LabelTextInput
         ref={(ref: TextInput) => (refStorage[textInputViewModel.id] = ref)}
@@ -80,52 +82,54 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
           autoCapitalize: textInputViewModel.autocapitalize,
           keyboardType: textInputViewModel.keyboardType,
           maxLength: textInputViewModel.maxLength,
-          returnKeyType: isLastItem ? "done" : "next",
+          returnKeyType: isLastItem ? 'done' : 'next',
           onChangeText: (text) => {
             switch (textInputViewModel.id) {
               case FORM_INPUT_ID.firstName:
-                onFirstNameChange?.(text);
-                break;
+                onFirstNameChange?.(text)
+                break
               case FORM_INPUT_ID.lastName:
-                onLastNameChange?.(text);
-                break;
+                onLastNameChange?.(text)
+                break
               case FORM_INPUT_ID.email:
-                onEmailChange?.(text);
-                break;
+                onEmailChange?.(text)
+                break
               case FORM_INPUT_ID.zipCode:
-                onZipCodeChange?.(text);
-                break;
+                onZipCodeChange?.(text)
+                break
             }
           },
           onSubmitEditing: () => {
             if (index + 1 < section.data.length) {
-              const nextId = section.data[index + 1].value.id;
-              refStorage[String(nextId)]?.focus();
+              const nextId = section.data[index + 1].value.id
+              refStorage[String(nextId)]?.focus()
             }
           },
           onBlur: onBlur,
         }}
       />
-    );
-  };
+    )
+  }
 
   const renderItem = (
     info: SectionListRenderItemInfo<PollDetailQuestionUserDataSectionContentViewModel>,
   ) => {
     switch (info.item.type) {
-      case "dualChoice":
-        return renderDualChoice(info.item.value);
-      case "textInput":
-        return renderInput(info.item.value, info.index, info.section);
-      case "textLink":
+      case 'dualChoice':
+        return renderDualChoice(info.item.value)
+      case 'textInput':
+        return renderInput(info.item.value, info.index, info.section)
+      case 'textLink':
         return (
           <QuestionTextLinkRow
             viewModel={info.item.value}
-            onLinkPress={() => ExternalLink.openUrl(i18n.t("polldetail.user_form.consent_url"))}
+            onLinkPress={() =>
+              ExternalLink.openUrl(i18n.t('polldetail.user_form.consent_url'))
+            }
           />
-        );
+        )
     }
-  };
+  }
 
   return (
     <KeyboardOffsetView>
@@ -141,8 +145,8 @@ const PollDetailQuestionUserData: FunctionComponent<Props> = ({
         )}
       />
     </KeyboardOffsetView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -161,6 +165,6 @@ const styles = StyleSheet.create({
   textInput: {
     marginBottom: Spacing.margin,
   },
-});
+})
 
-export default PollDetailQuestionUserData;
+export default PollDetailQuestionUserData

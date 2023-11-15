@@ -1,14 +1,14 @@
-import { Answer } from "./Answer";
-import { UserConsentData } from "./UserConsentData";
-import { UserProfile } from "./UserProfile";
+import { Answer } from './Answer'
+import { UserConsentData } from './UserConsentData'
+import { UserProfile } from './UserProfile'
 
 export interface PollRemoteQuestionResult {
-  answers: ReadonlyArray<Answer>;
+  answers: ReadonlyArray<Answer>
 }
 
 export interface PollUserInformationsResult {
-  profile: UserProfile;
-  consentData: UserConsentData;
+  profile: UserProfile
+  consentData: UserConsentData
 }
 
-export type PollResult = PollRemoteQuestionResult & PollUserInformationsResult;
+export type PollResult = PollRemoteQuestionResult & PollUserInformationsResult

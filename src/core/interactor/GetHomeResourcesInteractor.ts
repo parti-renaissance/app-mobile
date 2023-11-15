@@ -1,100 +1,120 @@
-import allSettled from "promise.allsettled";
-import { DataSource } from "../../data/DataSource";
-import { HomeRepository } from "../../data/HomeRepository";
-import ProfileRepository from "../../data/ProfileRepository";
-import PushRepository from "../../data/PushRepository";
-import RegionsRepository from "../../data/RegionsRepository";
-import { ShortEvent } from "../entities/Event";
-import { HeaderInfos } from "../entities/HeaderInfos";
-import { Profile } from "../entities/Profile";
-import { Region } from "../entities/Region";
-import { StatefulQuickPoll } from "../entities/StatefulQuickPoll";
-import { GetNextEventInteractor } from "./GetNextEventInteractor";
-import { GetQuickPollInteractor } from "./GetQuickPollInteractor";
+import allSettled from 'promise.allsettled'
+import { DataSource } from '../../data/DataSource'
+import { HomeRepository } from '../../data/HomeRepository'
+import ProfileRepository from '../../data/ProfileRepository'
+import PushRepository from '../../data/PushRepository'
+import RegionsRepository from '../../data/RegionsRepository'
+import { ShortEvent } from '../entities/Event'
+import { HeaderInfos } from '../entities/HeaderInfos'
+import { Profile } from '../entities/Profile'
+import { Region } from '../entities/Region'
+import { StatefulQuickPoll } from '../entities/StatefulQuickPoll'
+import { GetNextEventInteractor } from './GetNextEventInteractor'
+import { GetQuickPollInteractor } from './GetQuickPollInteractor'
 
 export interface HomeResources {
-  headerInfos?: HeaderInfos;
-  zipCode: string;
-  region?: Region;
-  profile?: Profile;
-  quickPoll?: StatefulQuickPoll;
-  nextEvent?: ShortEvent;
+  headerInfos?: HeaderInfos
+  zipCode: string
+  region?: Region
+  profile?: Profile
+  quickPoll?: StatefulQuickPoll
+  nextEvent?: ShortEvent
 }
 
 export class GetHomeResourcesInteractor {
-  private homeRepository = HomeRepository.getInstance();
-  private profileRepository = ProfileRepository.getInstance();
-  private regionsRepository = RegionsRepository.getInstance();
-  private pushRepository = PushRepository.getInstance();
-  private getQuickPollInteractor = new GetQuickPollInteractor();
-  private getNextEventInteractor = new GetNextEventInteractor();
+  private homeRepository = HomeRepository.getInstance()
+  private profileRepository = ProfileRepository.getInstance()
+  private regionsRepository = RegionsRepository.getInstance()
+  private pushRepository = PushRepository.getInstance()
+  private getQuickPollInteractor = new GetQuickPollInteractor()
+  private getNextEventInteractor = new GetNextEventInteractor()
 
   public async execute(dataSource: DataSource): Promise<HomeResources> {
-    const zipCode = await this.profileRepository.getZipCode();
+    const zipCode = await this.profileRepository.getZipCode()
 
-    const [headerInfosResult, profileResult, departmentResult, quickPollsResult, nextEventResult] =
-      await allSettled([
-        this.homeRepository.getHomeHeader(dataSource),
-        this.profileRepository.getProfile(dataSource),
-        this.regionsRepository.getDepartment(zipCode, dataSource),
-        this.getQuickPollInteractor.execute(zipCode, dataSource),
-        this.getNextEventInteractor.execute(),
-      ]);
+    const [
+      headerInfosResult,
+      profileResult,
+      departmentResult,
+      quickPollsResult,
+      nextEventResult,
+    ] = await allSettled([
+      this.homeRepository.getHomeHeader(dataSource),
+      this.profileRepository.getProfile(dataSource),
+      this.regionsRepository.getDepartment(zipCode, dataSource),
+      this.getQuickPollInteractor.execute(zipCode, dataSource),
+      this.getNextEventInteractor.execute(),
+    ])
 
     const department =
-      departmentResult.status === "fulfilled"
+      departmentResult.status === 'fulfilled'
         ? departmentResult.value
         : await this.getDefault(
             dataSource,
             (departmentDataSource) =>
-              this.regionsRepository.getDepartment(zipCode, departmentDataSource),
+              this.regionsRepository.getDepartment(
+                zipCode,
+                departmentDataSource,
+              ),
             undefined,
-          );
+          )
 
     if (department !== undefined) {
       try {
-        await this.pushRepository.synchronizeDepartmentSubscription(department);
-        await this.pushRepository.synchronizeRegionSubscription(department.region);
-        await this.pushRepository.synchronizeBoroughSubscription(zipCode);
+        await this.pushRepository.synchronizeDepartmentSubscription(department)
+        await this.pushRepository.synchronizeRegionSubscription(
+          department.region,
+        )
+        await this.pushRepository.synchronizeBoroughSubscription(zipCode)
       } catch (error) {
-        console.log(error);
+        console.log(error)
         // no-op
       }
     }
-    await this.pushRepository.synchronizePushTokenAssociation().catch((error) => {
-      console.log(error);
-    });
+    await this.pushRepository
+      .synchronizePushTokenAssociation()
+      .catch((error) => {
+        console.log(error)
+      })
 
     return {
       headerInfos:
-        headerInfosResult?.status === "fulfilled"
+        headerInfosResult?.status === 'fulfilled'
           ? headerInfosResult.value
           : await this.getDefault(
               dataSource,
-              (headerInfosDataSource) => this.homeRepository.getHomeHeader(headerInfosDataSource),
+              (headerInfosDataSource) =>
+                this.homeRepository.getHomeHeader(headerInfosDataSource),
               undefined,
             ),
       zipCode: zipCode,
       region: department?.region,
       profile:
-        profileResult?.status === "fulfilled"
+        profileResult?.status === 'fulfilled'
           ? profileResult.value
           : await this.getDefault(
               dataSource,
-              (profileDataSource) => this.profileRepository.getProfile(profileDataSource),
+              (profileDataSource) =>
+                this.profileRepository.getProfile(profileDataSource),
               undefined,
             ),
       quickPoll:
-        quickPollsResult.status === "fulfilled"
+        quickPollsResult.status === 'fulfilled'
           ? quickPollsResult.value
           : await this.getDefault(
               dataSource,
               (quickPollsDatasource) =>
-                this.getQuickPollInteractor.execute(zipCode, quickPollsDatasource),
+                this.getQuickPollInteractor.execute(
+                  zipCode,
+                  quickPollsDatasource,
+                ),
               undefined,
             ),
-      nextEvent: nextEventResult.status === "fulfilled" ? nextEventResult.value : undefined,
-    };
+      nextEvent:
+        nextEventResult.status === 'fulfilled'
+          ? nextEventResult.value
+          : undefined,
+    }
   }
 
   private async getDefault<T>(
@@ -103,10 +123,10 @@ export class GetHomeResourcesInteractor {
     defaultValue: T,
   ): Promise<T> {
     switch (dataSource) {
-      case "cache":
-        return defaultValue;
-      case "remote":
-        return fetch("cache").catch(() => defaultValue);
+      case 'cache':
+        return defaultValue
+      case 'remote':
+        return fetch('cache').catch(() => defaultValue)
     }
   }
 }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react'
 import {
   ColorValue,
   Image,
@@ -10,60 +10,72 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from "react-native";
-import { Colors, ColorUtils, Spacing, Typography } from "../../styles";
-import { TouchablePlatform } from "./TouchablePlatform";
+} from 'react-native'
+import { Colors, ColorUtils, Spacing, Typography } from '../../styles'
+import { TouchablePlatform } from './TouchablePlatform'
 
 type ButtonProps = Readonly<{
-  style?: StyleProp<ViewStyle>;
-  buttonStyle?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
-  onPress?: () => void;
-  title?: string;
-  disabled?: boolean;
-  shape?: ButtonShape;
-  children?: React.ReactNode | FunctionComponent<{ textStyle: StyleProp<TextStyle>[] }>;
-}>;
+  style?: StyleProp<ViewStyle>
+  buttonStyle?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
+  onPress?: () => void
+  title?: string
+  disabled?: boolean
+  shape?: ButtonShape
+  children?:
+    | React.ReactNode
+    | FunctionComponent<{ textStyle: StyleProp<TextStyle>[] }>
+}>
 
-type ButtonShape = "oval" | "rounded";
+type ButtonShape = 'oval' | 'rounded'
 
 type TertiaryButtonProps = ButtonProps &
   Readonly<{
-    noShadow?: boolean;
-    innerStyle?: StyleProp<ViewStyle>;
-  }>;
+    noShadow?: boolean
+    innerStyle?: StyleProp<ViewStyle>
+  }>
 
 type IconProps = Readonly<{
-  leadingIcon?: ImageSourcePropType;
-  trailingIcon?: ImageSourcePropType;
-  iconTint?: ColorValue;
-  iconPadding?: number;
-}>;
+  leadingIcon?: ImageSourcePropType
+  trailingIcon?: ImageSourcePropType
+  iconTint?: ColorValue
+  iconPadding?: number
+}>
 
 type BaseButtonProps = Readonly<{
-  backgroundColor: string;
-  textColor: string;
-  children?: React.ComponentProps<typeof TouchablePlatform>["children"];
-}>;
+  backgroundColor: string
+  textColor: string
+  children?: React.ComponentProps<typeof TouchablePlatform>['children']
+}>
 
-const BaseButton: FunctionComponent<ButtonProps & BaseButtonProps & IconProps> = (props) => {
-  const opacity = props.disabled ? 0.5 : 1.0;
-  const defaultBackground = props.backgroundColor;
-  const disabledBackground = ColorUtils.lighten(defaultBackground, 0.7);
-  const highlightedBackground = ColorUtils.lighten(defaultBackground, 0.5);
+const BaseButton: FunctionComponent<
+  ButtonProps & BaseButtonProps & IconProps
+> = (props) => {
+  const opacity = props.disabled ? 0.5 : 1.0
+  const defaultBackground = props.backgroundColor
+  const disabledBackground = ColorUtils.lighten(defaultBackground, 0.7)
+  const highlightedBackground = ColorUtils.lighten(defaultBackground, 0.5)
 
-  const computedBackground = props.disabled ? disabledBackground : defaultBackground;
+  const computedBackground = props.disabled
+    ? disabledBackground
+    : defaultBackground
 
-  const baseButtonStyle = getBaseButtonStyle(props.shape ?? "oval");
+  const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
 
   const textStyle = [
     styles.appButtonText,
     { opacity: opacity, color: props.textColor },
     props.textStyle,
-  ];
+  ]
 
   return (
-    <View style={[baseButtonStyle, { backgroundColor: computedBackground }, props.style]}>
+    <View
+      style={[
+        baseButtonStyle,
+        { backgroundColor: computedBackground },
+        props.style,
+      ]}
+    >
       <TouchablePlatform
         onPress={props.onPress}
         touchHighlight={highlightedBackground}
@@ -71,7 +83,7 @@ const BaseButton: FunctionComponent<ButtonProps & BaseButtonProps & IconProps> =
         style={[styles.buttonTouchable, props.buttonStyle]}
       >
         {props.children ? (
-          typeof props.children === "function" ? (
+          typeof props.children === 'function' ? (
             props.children({ textStyle })
           ) : (
             props.children
@@ -103,8 +115,8 @@ const BaseButton: FunctionComponent<ButtonProps & BaseButtonProps & IconProps> =
         )}
       </TouchablePlatform>
     </View>
-  );
-};
+  )
+}
 
 export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
   return (
@@ -113,8 +125,8 @@ export const PrimaryButton: FunctionComponent<ButtonProps> = (props) => {
       textColor={Colors.primaryButtonTextColor}
       {...props}
     />
-  );
-};
+  )
+}
 
 export const ActionButton: FunctionComponent<ButtonProps> = (props) => {
   return (
@@ -123,25 +135,33 @@ export const ActionButton: FunctionComponent<ButtonProps> = (props) => {
       textColor={Colors.primaryButtonTextColor}
       {...props}
     />
-  );
-};
+  )
+}
 
-export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (props) => {
+export const SecondaryButton: FunctionComponent<ButtonProps & IconProps> = (
+  props,
+) => {
   return (
     <BaseButton
       backgroundColor={Colors.secondaryButtonBackground}
       textColor={Colors.secondaryButtonText}
       {...props}
     />
-  );
-};
+  )
+}
 
-export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (props) => {
-  const opacity = props.disabled ? 0.5 : 1.0;
+export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (
+  props,
+) => {
+  const opacity = props.disabled ? 0.5 : 1.0
   const containerStyle = props.noShadow
     ? [props.style]
-    : [props.style, styles.shadow, { shadowOpacity: styles.shadow.shadowOpacity * opacity }];
-  const baseButtonStyle = getBaseButtonStyle(props.shape ?? "oval");
+    : [
+        props.style,
+        styles.shadow,
+        { shadowOpacity: styles.shadow.shadowOpacity * opacity },
+      ]
+  const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
   return (
     <View style={containerStyle}>
       <View
@@ -169,24 +189,26 @@ export const TertiaryButton: FunctionComponent<TertiaryButtonProps> = (props) =>
         </TouchablePlatform>
       </View>
     </View>
-  );
-};
+  )
+}
 
-type BorderlessButtonType = "regular" | "primary";
+type BorderlessButtonType = 'regular' | 'primary'
 type BorderlessButtonProps = Readonly<{
-  type?: BorderlessButtonType;
-}>;
+  type?: BorderlessButtonType
+}>
 
-export const BorderlessButton: FunctionComponent<ButtonProps & BorderlessButtonProps> = (props) => {
-  const opacity = props.disabled ? 0.5 : 1.0;
+export const BorderlessButton: FunctionComponent<
+  ButtonProps & BorderlessButtonProps
+> = (props) => {
+  const opacity = props.disabled ? 0.5 : 1.0
   const textColor = () => {
-    switch (props.type ?? "regular") {
-      case "regular":
-        return Colors.darkText;
-      case "primary":
-        return Colors.primaryColor;
+    switch (props.type ?? 'regular') {
+      case 'regular':
+        return Colors.darkText
+      case 'primary':
+        return Colors.primaryColor
     }
-  };
+  }
   return (
     <View style={{ opacity: opacity }}>
       <TouchableOpacity
@@ -194,22 +216,28 @@ export const BorderlessButton: FunctionComponent<ButtonProps & BorderlessButtonP
         disabled={props.disabled}
         style={[styles.appButtonContainerBorderless, props.style]}
       >
-        <Text style={[styles.appButtonText, { color: textColor() }, props.textStyle]}>
+        <Text
+          style={[
+            styles.appButtonText,
+            { color: textColor() },
+            props.textStyle,
+          ]}
+        >
           {props.title}
         </Text>
       </TouchableOpacity>
     </View>
-  );
-};
+  )
+}
 
 const getBaseButtonStyle = (shape: ButtonShape): StyleProp<ViewStyle> => {
   switch (shape) {
-    case "oval":
-      return styles.baseAppButtonContainerOval;
-    case "rounded":
-      return styles.baseAppButtonContainerRounded;
+    case 'oval':
+      return styles.baseAppButtonContainerOval
+    case 'rounded':
+      return styles.baseAppButtonContainerRounded
   }
-};
+}
 
 const styles = StyleSheet.create({
   appButtonContainerBorderless: {
@@ -218,23 +246,23 @@ const styles = StyleSheet.create({
   },
   appButtonText: {
     ...Typography.callout,
-    textAlign: "center",
-    alignSelf: "center",
+    textAlign: 'center',
+    alignSelf: 'center',
   },
   baseAppButtonContainerOval: {
     borderRadius: 100,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   baseAppButtonContainerRounded: {
     borderRadius: 4,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   buttonTouchable: {
     paddingHorizontal: Spacing.mediumMargin,
     paddingVertical: 14,
   },
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -242,4 +270,4 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
   },
-});
+})

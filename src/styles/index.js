@@ -1,8 +1,8 @@
-import * as Colors from "./colors";
-import * as ColorUtils from "./colorUtils";
-import * as NavigationAppearance from "./navigationAppearance";
-import * as Spacing from "./spacing";
-import * as Styles from "./styles";
-import * as Typography from "./typography";
+import * as Colors from './colors'
+import * as ColorUtils from './colorUtils'
+import * as NavigationAppearance from './navigationAppearance'
+import * as Spacing from './spacing'
+import * as Styles from './styles'
+import * as Typography from './typography'
 
-export { Colors, Spacing, Typography, NavigationAppearance, Styles, ColorUtils };
+export { Colors, Spacing, Typography, NavigationAppearance, Styles, ColorUtils }

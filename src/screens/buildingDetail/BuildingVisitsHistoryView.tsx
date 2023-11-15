@@ -1,16 +1,16 @@
-import React, { FunctionComponent } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Colors, Spacing, Typography } from "../../styles";
-import { margin, unit } from "../../styles/spacing";
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Colors, Spacing, Typography } from '../../styles'
+import { margin, unit } from '../../styles/spacing'
 import {
   BuildingHistoryViewModel,
   BuildingVisitsDateRecordsViewModel,
   BuildingVisitsHistoryViewModel,
   DateViewModel,
-} from "./BuildingVisitsHistoryViewModel";
-import KeyValueListView from "./KeyValueListView";
+} from './BuildingVisitsHistoryViewModel'
+import KeyValueListView from './KeyValueListView'
 
-type Props = Readonly<{ viewModel: BuildingHistoryViewModel }>;
+type Props = Readonly<{ viewModel: BuildingHistoryViewModel }>
 
 const BuildingVisitsHistoryView: FunctionComponent<Props> = ({ viewModel }) => {
   return (
@@ -21,16 +21,18 @@ const BuildingVisitsHistoryView: FunctionComponent<Props> = ({ viewModel }) => {
             key={buildingViewModel.buildingName}
             viewModel={buildingViewModel}
           />
-        );
+        )
       })}
     </View>
-  );
-};
+  )
+}
 
 type BuildingVisitsHistoryProps = Readonly<{
-  viewModel: BuildingVisitsHistoryViewModel;
-}>;
-const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({ viewModel }) => {
+  viewModel: BuildingVisitsHistoryViewModel
+}>
+const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({
+  viewModel,
+}) => {
   return (
     <View style={styles.rowContainer}>
       <Text key={viewModel.buildingName} style={styles.buildingTitle}>
@@ -42,27 +44,30 @@ const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({ 
             key={dateRecordsViewModel.key}
             viewModel={dateRecordsViewModel}
           />
-        );
+        )
       })}
     </View>
-  );
-};
+  )
+}
 
 type BuildingVisitsDateRecordsProps = Readonly<{
-  viewModel: BuildingVisitsDateRecordsViewModel;
-}>;
-const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProps> = ({
-  viewModel,
-}) => {
+  viewModel: BuildingVisitsDateRecordsViewModel
+}>
+const BuildingVisitsDateRecords: FunctionComponent<
+  BuildingVisitsDateRecordsProps
+> = ({ viewModel }) => {
   return (
     <View style={styles.dateRecordsContainer}>
       <DateView viewModel={viewModel.date} />
-      <KeyValueListView containerStyle={styles.visitRecords} viewModel={viewModel.visitRecords} />
+      <KeyValueListView
+        containerStyle={styles.visitRecords}
+        viewModel={viewModel.visitRecords}
+      />
     </View>
-  );
-};
+  )
+}
 
-type DateViewProps = Readonly<{ viewModel: DateViewModel }>;
+type DateViewProps = Readonly<{ viewModel: DateViewModel }>
 const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
   return (
     <View style={styles.dateContainer}>
@@ -71,8 +76,8 @@ const DateView: FunctionComponent<DateViewProps> = ({ viewModel }) => {
       </View>
       <Text style={styles.dateMonthAndYear}>{viewModel.dateContext}</Text>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   buildingTitle: {
@@ -90,24 +95,24 @@ const styles = StyleSheet.create({
   },
   dateMonthAndYear: {
     ...Typography.caption1,
-    textAlign: "center",
+    textAlign: 'center',
   },
   dateNumber: {
     ...Typography.caption1,
-    textAlign: "center",
+    textAlign: 'center',
   },
   dateNumberContainer: {
     ...Typography.caption1,
-    alignContent: "center",
+    alignContent: 'center',
     backgroundColor: Colors.groupedListBackground,
     borderRadius: 16,
     height: 32,
-    justifyContent: "center",
+    justifyContent: 'center',
     width: 32,
   },
   dateRecordsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   rowContainer: {
     paddingBottom: Spacing.unit,
@@ -115,6 +120,6 @@ const styles = StyleSheet.create({
   visitRecords: {
     flex: 1,
   },
-});
+})
 
-export default BuildingVisitsHistoryView;
+export default BuildingVisitsHistoryView

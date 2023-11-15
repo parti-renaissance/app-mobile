@@ -1,5 +1,5 @@
-import { BuildingType } from "../../core/entities/DoorToDoor";
+import { BuildingType } from '../../core/entities/DoorToDoor'
 
 export interface RestBuildingTypeRequest {
-  type: BuildingType;
+  type: BuildingType
 }

@@ -1,5 +1,5 @@
-import { EventMode } from "../../core/entities/Event";
+import { EventMode } from '../../core/entities/Event'
 
 export type EventsFilterModalNavigatorParamList = {
-  EventsFilter: { eventMode?: EventMode };
-};
+  EventsFilter: { eventMode?: EventMode }
+}

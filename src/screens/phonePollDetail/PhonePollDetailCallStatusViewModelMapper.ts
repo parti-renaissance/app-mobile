@@ -1,5 +1,5 @@
-import { PhoningSessionCallStatus } from "../../core/entities/PhoningSessionConfiguration";
-import { PhonePollDetailCallStatusViewModel } from "./PhonePollDetailCallStatusViewModel";
+import { PhoningSessionCallStatus } from '../../core/entities/PhoningSessionConfiguration'
+import { PhonePollDetailCallStatusViewModel } from './PhonePollDetailCallStatusViewModel'
 
 export const PhonePollDetailCallStatusViewModelMapper = {
   map: (
@@ -13,8 +13,8 @@ export const PhonePollDetailCallStatusViewModelMapper = {
           id: status.code,
           title: status.label,
           isSelected: status.code === selectedStatusCode,
-        };
+        }
       }),
-    };
+    }
   },
-};
+}

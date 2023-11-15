@@ -1,65 +1,72 @@
-import { differenceInCalendarDays } from "date-fns";
-import { PhoningCampaign } from "../../core/entities/PhoningCampaign";
-import i18n from "../../utils/i18n";
-import { PhoningRowViewModel } from "./PhoningRowViewModel";
-import { PhoningViewModel } from "./PhoningViewModel";
+import { differenceInCalendarDays } from 'date-fns'
+import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
+import i18n from '../../utils/i18n'
+import { PhoningRowViewModel } from './PhoningRowViewModel'
+import { PhoningViewModel } from './PhoningViewModel'
 
 export const PhoningViewModelMapper = {
   map: (campaigns: PhoningCampaign[]): PhoningViewModel => {
-    const rows: Array<PhoningRowViewModel> = [];
+    const rows: Array<PhoningRowViewModel> = []
     if (campaigns.length > 0) {
-      appendTutorial(rows);
+      appendTutorial(rows)
     }
-    appendCampaigns(campaigns, rows);
+    appendCampaigns(campaigns, rows)
 
     return {
-      title: i18n.t("phoning.title"),
+      title: i18n.t('phoning.title'),
       rows: rows,
-    };
+    }
   },
-};
+}
 
 function appendTutorial(rows: PhoningRowViewModel[]) {
   rows.push({
-    type: "tutorial",
+    type: 'tutorial',
     value: {
-      id: "tutorial",
+      id: 'tutorial',
     },
-  });
+  })
 }
 
-function appendCampaigns(campaigns: PhoningCampaign[], rows: PhoningRowViewModel[]) {
+function appendCampaigns(
+  campaigns: PhoningCampaign[],
+  rows: PhoningRowViewModel[],
+) {
   campaigns.forEach((campaign) => {
-    const remainingDays = differenceInCalendarDays(campaign.finishAt, Date.now());
+    const remainingDays = differenceInCalendarDays(
+      campaign.finishAt,
+      Date.now(),
+    )
     const subtitle = !campaign.permanent
-      ? i18n.t("phoning.campaign.remainingdays", {
+      ? i18n.t('phoning.campaign.remainingdays', {
           count: remainingDays,
           remainingdays: remainingDays,
         })
-      : i18n.t("phoning.campaign.permanent.subtitle");
+      : i18n.t('phoning.campaign.permanent.subtitle')
     if (campaign.permanent) {
       rows.push({
-        type: "callContact",
+        type: 'callContact',
         value: {
           id: campaign.id,
           calledCount: campaign.surveysCount,
           numberOfPersonToCall: campaign.goal,
         },
-      });
+      })
     } else {
       rows.push({
-        type: "campaign",
+        type: 'campaign',
         value: {
           id: campaign.id,
           title: campaign.title,
           subtitle: subtitle,
           calledCount: campaign.surveysCount,
           numberOfPersonToCall: campaign.goal,
-          rank: campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
+          rank:
+            campaign.scoreboard.find((e) => e.caller)?.position || DEFAULT_RANK,
         },
-      });
+      })
     }
-  });
+  })
 }
 
-const DEFAULT_RANK = 1;
+const DEFAULT_RANK = 1
