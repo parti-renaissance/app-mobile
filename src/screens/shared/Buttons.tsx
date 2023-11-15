@@ -22,6 +22,9 @@ type ButtonProps = Readonly<{
   title?: string
   disabled?: boolean
   shape?: ButtonShape
+  children?:
+    | React.ReactNode
+    | FunctionComponent<{ textStyle: StyleProp<TextStyle>[] }>
 }>
 
 type ButtonShape = 'oval' | 'rounded'
@@ -59,6 +62,12 @@ const BaseButton: FunctionComponent<
 
   const baseButtonStyle = getBaseButtonStyle(props.shape ?? 'oval')
 
+  const textStyle = [
+    styles.appButtonText,
+    { opacity: opacity, color: props.textColor },
+    props.textStyle,
+  ]
+
   return (
     <View
       style={[
@@ -74,15 +83,13 @@ const BaseButton: FunctionComponent<
         style={[styles.buttonTouchable, props.buttonStyle]}
       >
         {props.children ? (
-          props.children
+          typeof props.children === 'function' ? (
+            props.children({ textStyle })
+          ) : (
+            props.children
+          )
         ) : (
-          <Text
-            style={[
-              styles.appButtonText,
-              { opacity: opacity, color: props.textColor },
-              props.textStyle,
-            ]}
-          >
+          <Text style={textStyle}>
             {props.leadingIcon ? (
               <View style={{ paddingRight: props.iconPadding }}>
                 <Image

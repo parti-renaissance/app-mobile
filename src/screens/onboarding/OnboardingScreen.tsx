@@ -1,5 +1,14 @@
 import React, { FC } from 'react'
-import { ImageBackground, StatusBar, StyleSheet, Text } from 'react-native'
+import {
+  Image,
+  ImageBackground,
+  StatusBar,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import SafeAreaView from 'react-native-safe-area-view'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
@@ -58,12 +67,21 @@ const OnboardingScreen: FC<OnboardingScreenProps> = () => {
           />
           <Text style={styles.separator}>{i18n.t('onboarding.or')}</Text>
           <SecondaryButton
-            style={styles.button}
+            style={styles.button as StyleProp<ViewStyle>}
             onPress={onLegacyLogin}
-            title={i18n.t('onboarding.login_lrem')}
-            trailingIcon={require('../../assets/images/iconEM.png')}
-            iconPadding={Spacing.unit}
-          />
+          >
+            {({ textStyle }) => (
+              <View style={styles.reButtonContent}>
+                <Text style={[textStyle]}>
+                  {i18n.t('onboarding.login_lrem')}
+                </Text>
+                <Image
+                  source={require('../../assets/images/iconRE.png')}
+                  style={styles.reButtonIcon}
+                />
+              </View>
+            )}
+          </SecondaryButton>
         </SafeAreaView>
       </LinearGradient>
     </ImageBackground>
@@ -77,6 +95,16 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     marginBottom: Spacing.margin,
+  },
+  reButtonContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: Spacing.unit,
+    height: 20,
+  },
+  reButtonIcon: {
+    objectFit: 'contain',
   },
   container: {
     flex: 1,

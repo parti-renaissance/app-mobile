@@ -86,9 +86,9 @@
       },
       "user_form": {
         "consent_title": "Souhaite-t-il être tenu au courant des résultats de ce sondage par e-mail ?",
-        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par la République en Marche dans le cadre de cette consultation et conformément à la politique de protection des données que vous pouvez consulter. \n",
-        "consent_subtitle_suffix": "La politique de données de LaREM.",
-        "consent_url": "https://je-mengage.fr/politique-protection-donnees",
+        "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par Renaissance dans le cadre de cette consultation et conformément à la politique de protection des données que vous pouvez consulter. \n",
+        "consent_subtitle_suffix": "La politique de données de Renaissance.",
+        "consent_url": "https://cadre.parti-renaissance.fr/politique-protection-donnees",
         "positive_choice": "Oui",
         "negative_choice": "Non",
         "form_title": "Informations personnelles",
@@ -125,7 +125,7 @@
       "polls_month": "ce mois-ci",
       "polls_accomplished": "Questionnaires effectués",
       "menu": {
-        "termsofuse_url": "https://je-mengage.fr/mentions-legales-mobile",
+        "termsofuse_url": "https://cadre.parti-renaissance.fr/mentions-legales-mobile",
         "termsofuse": "Conditions générales",
         "dataprotection": "Données à caractère personnel",
         "application": "Application",
@@ -182,8 +182,8 @@
       "greeting": "Bonjour",
       "greeting_name": "Bonjour\n{{username}}",
       "footer": {
-        "title": "En Marche !",
-        "description": "Vous voulez contribuer à la transformation En Marche ? Rejoignez les plus de 400 000 adhérents de La République En Marche ! C'est facile, gratuit et 3 minutes suffiront.",
+        "title": "Renaissance",
+        "description": "Vous voulez contribuer à la transformation de Renaissance ? Rejoignez les plus de 400 000 adhérents de Renaissance. C'est facile, gratuit et 3 minutes suffiront.",
         "button": "Je m'engage"
       },
       "region_more": "En savoir plus",
@@ -580,7 +580,7 @@
         "name_placeholder": "Indiquez votre nom",
         "mail": "Adresse e-mail*",
         "mail_placeholder": "Indiquez votre adresse e-mail",
-        "gcu": "Je reconnais avoir lu et accepte les termes de la \u003ca href='https://je-mengage.fr/politique-protection-donnees'\u003e Politique de protection des données à caractère personnelle « Je m’engage ». \n"
+        "gcu": "Je reconnais avoir lu et accepte les termes de la \u003ca href='https://cadre.parti-renaissance.fr/politique-protection-donnees'\u003e Politique de protection des données à caractère personnelle « Je m’engage ». \n"
       },
       "notifications": {
         "title": "Notifications",
