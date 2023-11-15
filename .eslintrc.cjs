@@ -1,7 +1,11 @@
 /** @type {import('eslint').Linter.Config} */
 const config = {
   root: true,
-  extends: ['@react-native', 'plugin:security/recommended', 'prettier'],
+  extends: [
+    '@react-native',
+    'prettier',
+    'plugin:security/recommended',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json'
