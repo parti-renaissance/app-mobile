@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services'
+apply from: '../config.gradle'
+apply from: '../properties-utils.gradle'
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -101,9 +103,9 @@ android {
         }
         release {
             storeFile file('keystores/release.keystore')
-            storePassword System.getenv('ANDROID_PASSWORD_RELEASE_KEYSTORE')
+            storePassword localProperties.ANDROID_PASSWORD_RELEASE_KEYSTORE
             keyAlias 'enmarche'
-            keyPassword System.getenv('ANDROID_PASSWORD_RELEASE_KEYSTORE')
+            keyPassword localProperties.ANDROID_PASSWORD_RELEASE_KEYSTORE
         }
     }
 
@@ -158,3 +160,4 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: 'tasks.gradle'

@@ -17,36 +17,99 @@ lane :build do
   build_without_codesign
 end
 
+
+lane :renew_certificates do |options|
+  if options[:execute] == true 
+
+    ios_bundle_ids = [
+      'fr.en-marche.jecoute',
+      'fr.en-marche.jecoute.staging',
+    ]
+
+    create_temporary_keychain
+      
+    match_nuke({
+      type: 'appstore',
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_confirmation: true,
+      app_identifier: ios_bundle_ids
+    })
+    match_nuke({
+      type: 'development',
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_confirmation: true,
+      app_identifier: ios_bundle_ids
+    })
+    match_nuke({
+      type: 'adhoc',
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_confirmation: true,
+      app_identifier: ios_bundle_ids
+    })
+    match({
+      readonly:false,
+      type: 'appstore',
+      platform:'ios',
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_confirmation: true,
+      app_identifier: ios_bundle_ids
+    })
+    match({
+      readonly:false,
+      type: 'development',
+      platform:'ios',
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_confirmation: true,
+      app_identifier: ios_bundle_ids
+    })
+    match({
+      readonly:false,
+      type: 'adhoc',
+      platform:'ios',
+      api_key_path: "fastlane/app_store_connect_api_key.json",
+      skip_confirmation: true,
+      app_identifier: ios_bundle_ids
+    })
+  end
+end
+
+
 lane :deploy do |options|
-  match_type = options[:match_type]
   force_codesign = options[:force_codesign]
   bump = options[:bump_build_number]
   tag_release = options[:tag_release]
+  variant_env = options[:variant_env]
+  match_type = 'appstore'
+  appendice = ''
+
+  if variant_env == 'staging'
+    appendice = '.staging'
+  end
+
+
 
   bump_build_number if bump
   download_codesigning(
     match_type: match_type,
     force_codesign: force_codesign
   )
-  set_codesigning
+
+  set_codesigning(:appendice => appendice)
   gym(
     clean: true,
     scheme: SCHEME,
     configuration: "Release",
     output_name: SCHEME,
-    export_method: export_method_from_match_type(match_type)
+    export_method: 'app-store',
   )
-  if match_type == "appstore"
-    upload_to_testflight(
-      team_name: ENV["FASTLANE_TEAM_NAME"],
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_waiting_for_build_processing: true
-    )
-    post_slack_notification_appstore
-  else
-    deploy_to_appcenter(ipa: lane_context[:IPA_OUTPUT_PATH])
-    post_slack_notification_beta
-  end
+
+  upload_to_testflight(
+    team_name: ENV["FASTLANE_TEAM_NAME"],
+    api_key_path: "fastlane/app_store_connect_api_key.json",
+    skip_waiting_for_build_processing: true
+  )
+  post_slack_notification_appstore(:variant => variant_env)
+
   commit_deploy if tag_release
 end
 
@@ -69,17 +132,7 @@ private_lane :build_without_codesign do
   )
 end
 
-private_lane :deploy_to_appcenter do |options|
-	appcenter_upload(
-	  api_token: ENV["APP_CENTER_API_KEY"],
-	  owner_name: ENV["APP_CENTER_OWNER"],
-	  app_name: ENV["APP_CENTER_NAME"],
-	  ipa: options[:ipa],
-    destinations: "Public,Collaborators",
-    destination_type: "group",
-    release_notes: changelog
-	)
-end
+
 
 private_lane :download_codesigning do |options|
   match_type = options[:match_type]
@@ -95,9 +148,9 @@ private_lane :download_codesigning do |options|
   )
 end
 
-private_lane :set_codesigning do
+private_lane :set_codesigning do |options|
   mapping = lane_context[:MATCH_PROVISIONING_PROFILE_MAPPING]
-  bundle_identifier = get_build_settings("PRODUCT_BUNDLE_IDENTIFIER")
+  bundle_identifier = get_build_settings("PRODUCT_BUNDLE_IDENTIFIER") + options[:appendice]
   profile_name = mapping[bundle_identifier]
   update_code_signing_settings(
     use_automatic_signing: false,
@@ -122,22 +175,6 @@ private_lane :create_temporary_keychain do
   )
 end
 
-private_lane :post_slack_notification_beta do
-  appcenter_url = "https://install.appcenter.ms/orgs/#{ENV["APP_CENTER_OWNER"]}/apps/#{ENV["APP_CENTER_NAME"]}/distribution_groups/public"
-  slack(
-    message: "New iOS build available",
-    success: true,
-    default_payloads: [],
-    payload: {
-      "Configuration": "Release",
-      "Environment": ENV["ENVIRONMENT"],
-      "Version" => app_version_number,
-      "Build number" => app_build_number,
-      "AppCenter" => appcenter_url
-    },
-    slack_url: ENV["SLACK_INCOMING_WEBKOOK_URL"]
-  )
-end
 
 private_lane :post_slack_notification_appstore do |options|
   variant = options[:variant]
@@ -157,7 +194,7 @@ private_lane :post_slack_notification_appstore do |options|
 end
 
 private_lane :bump_build_number do
-  increment_build_number
+  increment_build_number(xcodeproj: XCODEPROJ)
   commit_version_bump(xcodeproj: XCODEPROJ)
   push_to_git_remote if is_ci
 end
