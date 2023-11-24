@@ -15,6 +15,7 @@ import {
 } from './NetworkLogger'
 
 const genericErrorMapping = (error: Error) => {
+  console.log(error)
   if (
     error instanceof TypeError &&
     error.message === 'Network request failed'

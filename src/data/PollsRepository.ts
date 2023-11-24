@@ -1,4 +1,4 @@
-import { Location } from 'react-native-location'
+import type { GeolocationResponse as Location } from '@react-native-community/geolocation'
 import { Poll } from '../core/entities/Poll'
 import { PollResult } from '../core/entities/PollResult'
 import { DataSource } from './DataSource'

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 import { Gender } from '../../core/entities/UserProfile'
 import { Colors, Typography } from '../../styles'
@@ -43,7 +43,7 @@ const GenderPicker: FC<Props> = (props) => {
         useNativeAndroidPickerStyle={false}
         placeholder={{}}
         value={props.defaultValue}
-        Icon={<View style={styles.icon} />}
+        // Icon={() => <View style={styles.icon} />}
         onValueChange={props.onValueChange}
         items={[
           {
