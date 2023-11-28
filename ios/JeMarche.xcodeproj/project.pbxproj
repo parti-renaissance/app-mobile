@@ -538,7 +538,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = JeMarche/JeMarche.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 277;
 				DEVELOPMENT_TEAM = 2B4W43UD9Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JeMarche/Info.plist;
@@ -552,7 +552,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fabernovel.JeMarche;
+				PRODUCT_BUNDLE_IDENTIFIER = "fr.en-marche.jecoute";
 				PRODUCT_NAME = JeMarche;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -571,7 +571,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = JeMarche/JeMarche.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 277;
 				DEVELOPMENT_TEAM = 2B4W43UD9Y;
 				INFOPLIST_FILE = JeMarche/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -584,7 +584,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fabernovel.JeMarche;
+				PRODUCT_BUNDLE_IDENTIFIER = "fr.en-marche.jecoute";
 				PRODUCT_NAME = JeMarche;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

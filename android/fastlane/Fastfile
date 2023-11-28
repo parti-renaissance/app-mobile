@@ -10,26 +10,29 @@ lane :ci_check do
 end
 
 lane :deliver_app do |options|
-  variant = ENV['BUILD_VARIANT']
+  environement = options[:variant]
   channel = options[:channel]
   bump_build_number = options[:bump_build_number]
   tag_release = options[:tag_release]
-
   bump_version_code if bump_build_number
-  case channel
-  when 'appcenter'
-    build_apk(variant: variant)
-    deploy_apk_to_beta_system(apk: lane_context[:GRADLE_APK_OUTPUT_PATH])
-    post_slack_notification_beta(download_link: lane_context[:APPCENTER_DOWNLOAD_LINK], variant: variant)
-  when 'playstore'
-    UI.user_error! 'only ProductionRelease variant can be delivered on the playstore' if variant != 'ProductionRelease'
+
+
+  case environement
+  when 'production'
+    variant = 'ProductionRelease'
     build_aab(variant: variant)
-    deploy_aab_to_playstore(aab: lane_context[:GRADLE_AAB_OUTPUT_PATH])
+    deploy_aab_to_playstore(aab: lane_context[:GRADLE_AAB_OUTPUT_PATH], appendice: '' )
     post_slack_notification_playstore(variant: variant)
+    commit_deploy(variant: variant) if tag_release
+  when 'staging'
+    variant = 'StagingRelease'
+    build_aab(variant: variant)
+    deploy_aab_to_playstore(aab: lane_context[:GRADLE_AAB_OUTPUT_PATH], appendice: '.staging'  )
+    post_slack_notification_playstore(variant: variant)
+    commit_deploy(variant: variant) if tag_release
   else
-    UI.user_error! 'Unknown channel'
+    UI.user_error! 'Unknown variant environemt'
   end
-  commit_deploy(variant: variant) if tag_release
 end
 
 private_lane :build_apk do |options|
@@ -40,24 +43,15 @@ private_lane :build_aab do |options|
   gradle(task: "bundle#{options[:variant]}")
 end
 
-private_lane :deploy_apk_to_beta_system do |options|
-  appcenter_upload(
-    api_token: ENV['APP_CENTER_API_KEY'],
-    owner_name: ENV['APP_CENTER_OWNER'],
-    app_name: ENV['APP_CENTER_NAME'],
-    release_notes: changelog,
-    apk: options[:apk],
-    destinations: "Public,Collaborators",
-    destination_type: "group"
-  )
-end
+
 
 private_lane :deploy_aab_to_playstore do |options|
   upload_to_play_store(
-    package_name: 'fr.en_marche.jecoute',
+    package_name: 'fr.en_marche.jecoute' + options[:appendice],
     version_name: get_version_name,
     version_code: get_version_code,
     aab: options[:aab],
+    track: 'internal',
     release_status: 'draft',
     json_key_data: ENV['ANDROID_JSON_PLAYSTORE_KEY'],
     skip_upload_metadata: true,

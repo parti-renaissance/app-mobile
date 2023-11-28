@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby File.read('.ruby-version').strip
+ruby '2.6.10' 
 
 gem 'cocoapods', '1.11.2'
 gem 'fastlane', '>= 2.198.1'

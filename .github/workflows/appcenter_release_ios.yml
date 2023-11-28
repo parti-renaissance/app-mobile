@@ -6,10 +6,6 @@ on:
         description: 'Define the environment (staging|production)'
         required: true
         default: 'staging'
-      signing:
-        description: 'Define the code signing method (adhoc|appstore)'
-        required: true
-        default: 'adhoc'
       bump_build_number:
         description: 'Bump the build number (false|true)'
         required: true
@@ -61,6 +57,11 @@ jobs:
           IOS_B64_APP_STORE_CONNECT_API_KEY: ${{ secrets.IOS_B64_APP_STORE_CONNECT_API_KEY }}
         run: ./cli.js prepare ${{ github.event.inputs.environment }}
 
+      - name: Setup Fastlane
+        working-directory: ./ios
+        run: bundle install
+
+
       - name: Pods cache
         uses: actions/cache@v1
         with:
@@ -90,8 +91,8 @@ jobs:
           GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         run: |
           bundle exec fastlane deploy \
-          match_type:${{ github.event.inputs.signing }} \
           force_codesign:${{ github.event.inputs.force_codesign }} \
           tag_release:${{ github.event.inputs.tag_release }} \
           bump_build_number:${{ github.event.inputs.bump_build_number }} \
+          variant_env:${{ github.event.inputs.environment }} \
           --env ${{ github.event.inputs.environment }}

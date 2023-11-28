@@ -128,6 +128,7 @@ function prepareXCConfig(env) {
 }
 
 function prepareAndroidResource(env) {
+  p(paths.androidSecretPropertiesTemplate, paths.androidSecretProperties, env)
   p(paths.androidResourceTemplate, paths.androidResource, env)
 }
 
