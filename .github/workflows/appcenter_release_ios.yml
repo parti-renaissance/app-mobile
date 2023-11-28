@@ -14,10 +14,6 @@ on:
         description: 'Tag commit and create the github release (false|true)'
         required: true
         default: 'true'
-      renew_certificates:
-          description: 'fastlane match nuke (false|true)'
-          required: true
-          default: 'false'
       force_codesign:
         description: 'Recreate signing assets (false|true)'
         required: true
@@ -65,17 +61,6 @@ jobs:
         working-directory: ./ios
         run: bundle install
 
-      - name: renew certificates
-        working-directory: ./ios
-        env:
-          LC_ALL: en_US.UTF-8
-          LANG: en_US.UTF-8
-          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD_SECRET }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_SECRET }}
-          GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-        run: |
-          bundle exec fastlane renew_certificates \
-          execute:${{ github.event.inputs.renew_certificates }} \
 
       - name: Pods cache
         uses: actions/cache@v1
@@ -106,7 +91,6 @@ jobs:
           GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         run: |
           bundle exec fastlane deploy \
-          renew_certificates:${{ github.event.inputs.renew_certificates }} \
           force_codesign:${{ github.event.inputs.force_codesign }} \
           tag_release:${{ github.event.inputs.tag_release }} \
           bump_build_number:${{ github.event.inputs.bump_build_number }} \

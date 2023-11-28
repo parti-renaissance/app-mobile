@@ -17,63 +17,6 @@ lane :build do
   build_without_codesign
 end
 
-
-lane :renew_certificates do |options|
-  if options[:execute] == true 
-
-    ios_bundle_ids = [
-      'fr.en-marche.jecoute',
-      'fr.en-marche.jecoute.staging',
-    ]
-
-    create_temporary_keychain
-      
-    match_nuke({
-      type: 'appstore',
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_confirmation: true,
-      app_identifier: ios_bundle_ids
-    })
-    match_nuke({
-      type: 'development',
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_confirmation: true,
-      app_identifier: ios_bundle_ids
-    })
-    match_nuke({
-      type: 'adhoc',
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_confirmation: true,
-      app_identifier: ios_bundle_ids
-    })
-    match({
-      readonly:false,
-      type: 'appstore',
-      platform:'ios',
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_confirmation: true,
-      app_identifier: ios_bundle_ids
-    })
-    match({
-      readonly:false,
-      type: 'development',
-      platform:'ios',
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_confirmation: true,
-      app_identifier: ios_bundle_ids
-    })
-    match({
-      readonly:false,
-      type: 'adhoc',
-      platform:'ios',
-      api_key_path: "fastlane/app_store_connect_api_key.json",
-      skip_confirmation: true,
-      app_identifier: ios_bundle_ids
-    })
-  end
-end
-
-
 lane :deploy do |options|
   force_codesign = options[:force_codesign]
   bump = options[:bump_build_number]
