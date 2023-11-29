@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Alert,
+  DeviceEventEmitter,
   Keyboard,
   KeyboardTypeOptions,
   ScrollView,
@@ -67,9 +68,19 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   })
 
   useEffect(() => {
+    DeviceEventEmitter.addListener('onAddressSelected', (address) => {
+      setSignUpFormData((state) => ({
+        ...state,
+        address,
+      }))
+    })
     LegalRepository.getInstance()
       .getDataProtectionRegulation()
       .then((newGdpr) => setGdpr(newGdpr.content))
+
+    return () => {
+      DeviceEventEmitter.removeAllListeners('onAddressSelected')
+    }
   }, [])
 
   const isActionEnabled = (form: SignUpFormData): boolean => {
@@ -104,17 +115,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', {
-      screen: 'LocationPicker',
-      params: {
-        onAddressSelected: (address) => {
-          setSignUpFormData({
-            ...signUpFormData,
-            address,
-          })
-        },
-      },
-    })
+    navigation.navigate('LocationPickerModal', { screen: 'LocationPicker' })
   }
 
   const getTextInputProps = (

@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { DeviceEventEmitter } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import {
   DetailedProfile,
@@ -45,6 +46,19 @@ export const usePersonalInformationScreenContent = (
   )
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
+
+  useEffect(() => {
+    DeviceEventEmitter.addListener('onAddressSelected', (address) => {
+      updateForm((state) => ({
+        ...state,
+        address,
+      }))
+    })
+
+    return () => {
+      DeviceEventEmitter.removeAllListeners('onAddressSelected')
+    }
+  }, [])
 
   const navigation =
     useNavigation<
@@ -97,14 +111,7 @@ export const usePersonalInformationScreenContent = (
   }
 
   const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', {
-      screen: 'LocationPicker',
-      params: {
-        onAddressSelected: (pickedAddress) => {
-          updateForm({ ...form, address: pickedAddress })
-        },
-      },
-    })
+    navigation.navigate('LocationPickerModal', { screen: 'LocationPicker' })
   }
 
   const onNationalityPress = () => {
