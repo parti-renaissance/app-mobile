@@ -1,5 +1,10 @@
 import React, { FC, useLayoutEffect } from 'react'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
+import {
+  DeviceEventEmitter,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { ANDROID_GOOGLE_API_KEY, IOS_GOOGLE_API_KEY } from '../../Config'
 import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
@@ -12,7 +17,6 @@ type LocationPickerScreenProps =
   LocationPickerModalNavigatorScreenProps<'LocationPicker'>
 
 export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
-  route,
   navigation,
 }) => {
   useLayoutEffect(() => {
@@ -22,8 +26,8 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
     })
   }, [navigation])
 
-  const { onPlaceSelected } = useLocationPickerScreen(
-    route.params.onAddressSelected,
+  const { onPlaceSelected } = useLocationPickerScreen((address) =>
+    DeviceEventEmitter.emit('onAddressSelected', address),
   )
 
   return (
