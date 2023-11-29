@@ -43,7 +43,6 @@ const GenderPicker: FC<Props> = (props) => {
         useNativeAndroidPickerStyle={false}
         placeholder={{}}
         value={props.defaultValue}
-        // Icon={() => <View style={styles.icon} />}
         onValueChange={props.onValueChange}
         items={[
           {
