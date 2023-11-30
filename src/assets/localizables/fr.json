@@ -88,7 +88,7 @@
         "consent_title": "Souhaite-t-il être tenu au courant des résultats de ce sondage par e-mail ?",
         "consent_subtitle": "En cochant OUI, vous consentez à ce que vos données personnelles soient traitées par Renaissance dans le cadre de cette consultation et conformément à la politique de protection des données que vous pouvez consulter. \n",
         "consent_subtitle_suffix": "La politique de données de Renaissance.",
-        "consent_url": "https://cadre.parti-renaissance.fr/politique-protection-donnees",
+        "consent_url": "https://app.parti-renaissance.fr/politique-de-protection-des-donnees",
         "positive_choice": "Oui",
         "negative_choice": "Non",
         "form_title": "Informations personnelles",
