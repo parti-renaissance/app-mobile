@@ -29,7 +29,7 @@ class AuthenticationRepository {
         credentials.refreshToken === null ||
         credentials.refreshToken === undefined
       ) {
-        return AuthenticationState.Unauthenticated
+        return AuthenticationState.Anonymous
       }
       return AuthenticationState.Authenticated
     })
