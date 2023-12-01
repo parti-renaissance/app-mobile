@@ -44,19 +44,6 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
           }),
           language: i18n.t('personalinformation.gmaps_language'),
         }}
-        requestUrl={{
-          useOnPlatform: 'all',
-          url: 'https://maps.googleapis.com/maps/api',
-          headers: Platform.select({
-            ios: {
-              'X-Ios-Bundle-Identifier': ENV_KEYS.BUNDLE_ID,
-            },
-            android: {
-              'X-Android-Package': ENV_KEYS.BUNDLE_ID,
-              'X-Android-Cert': ENV_KEYS.ANDROID_SHA_1_CERT_FI || '',
-            },
-          }) as unknown as Record<string, string>,
-        }}
         textInputProps={{
           placeholderTextColor: Colors.lightText,
         }}
