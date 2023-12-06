@@ -93,7 +93,7 @@ end
 
 private_lane :set_codesigning do |options|
   mapping = lane_context[:MATCH_PROVISIONING_PROFILE_MAPPING]
-  bundle_identifier = get_build_settings("PRODUCT_BUNDLE_IDENTIFIER") + options[:appendice]
+  bundle_identifier = get_build_settings("PRODUCT_BUNDLE_IDENTIFIER")
   profile_name = mapping[bundle_identifier]
   update_code_signing_settings(
     use_automatic_signing: false,
