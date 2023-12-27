@@ -1826,17 +1826,10 @@
   resolved "https://registry.yarnpkg.com/@mapbox/sphericalmercator/-/sphericalmercator-1.1.0.tgz#f3b1af042620716a1289fc41e1e97f610823aefe"
   integrity sha512-pEsfZyG4OMThlfFQbCte4gegvHUjxXCjz0KZ4Xk8NdOYTQBLflj6U8PL05RPAiuRAMAQNUUKJuL6qYZ5Y4kAWA==
 
-"@react-native-async-storage/async-storage@1.16.1":
+"@react-native-async-storage/async-storage@1.16.1", "@react-native-async-storage/async-storage@^1.13.4":
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.16.1.tgz#1dbaa9e0f9736e4ab8fc04c628bbb608fd80b068"
   integrity sha512-aQ7ka+Ii1e/q+7AVFIZPt4kDeSH8b784wMDtz19Kf4A7hf+OgCHBlUQpOXsrv8XxhlBxu0hv4tfrDO15ChnV0Q==
-  dependencies:
-    merge-options "^3.0.4"
-
-"@react-native-async-storage/async-storage@^1.13.4":
-  version "1.15.17"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.17.tgz#0dae263a52e476ffce871086f1fef5b8e44708eb"
-  integrity sha512-NQCFs47aFEch9kya/bqwdpvSdZaVRtzU7YB02L8VrmLSLpKgQH/1VwzFUBPcc1/JI1s3GU4yOLVrEbwxq+Fqcw==
   dependencies:
     merge-options "^3.0.4"
 
@@ -7870,10 +7863,10 @@ react-native-add-calendar-event@4.0.0:
   resolved "https://registry.yarnpkg.com/react-native-add-calendar-event/-/react-native-add-calendar-event-4.0.0.tgz#83959cc1953f255ae38ece84214f232fa6552c9c"
   integrity sha512-gkqidtFquTKR46QWdV12iu86OQJGNTnsT1C58EBPFy1MyCFJZar6y6wRBLaWNfvnhgeGzJeA0ODb8KmD+HU8GQ==
 
-react-native-cache@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-cache/-/react-native-cache-2.0.2.tgz#4a41a46f41548fabb6b8040e0d57126a84629113"
-  integrity sha512-mnffhIBjjLLU19jUjLFnfHbiZhXgMiuXXswYEhfAYsQLpWu2gObwUmYv9y6FbnRxsnxuqc1wmZDxzy9309rn2Q==
+react-native-cache@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-cache/-/react-native-cache-2.0.3.tgz#cb762c23947b5eb9d8b49e218e8d4a18b5d2a9b3"
+  integrity sha512-EV2fp1Xg1ISL+f/JYyafFpt9BsmNcbEZ/IICg8crelI/CsrqZh+5OAUWoBk2WccXpqrC315tL9GaOa9R53zD1A==
   dependencies:
     "@react-native-async-storage/async-storage" "^1.13.4"
 
