@@ -10,7 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import { Colors, Spacing } from '../../styles'
+import { Colors, Spacing } from '@/styles'
 
 type NavigationHeaderButtonProps = Readonly<{
   style?: StyleProp<ViewStyle>

@@ -2,11 +2,11 @@ import { type NativeStackNavigationOptions } from '@react-navigation/native-stac
 import * as Colors from './colors'
 import * as Typography from './typography'
 
+
 export const headerBlank: NativeStackNavigationOptions = {
   title: '',
-  headerBackTitle: ' ', // empty string does not remove the title
+  headerBackTitleVisible: false,
   headerTintColor: Colors.titleText,
-  // headerTransparent: true,
   headerTitleStyle: {
     ...Typography.headline,
     color: Colors.titleText,
@@ -14,6 +14,5 @@ export const headerBlank: NativeStackNavigationOptions = {
   headerShadowVisible: false,
   headerStyle: {
     backgroundColor: Colors.navigationBackground,
-    // hides navigationBar bottom line
   },
 }

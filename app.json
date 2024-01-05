@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "fr.en-marche.jecoute.staging",
       "supportsTablet": true
@@ -43,7 +41,8 @@
             "./assets/fonts/Roboto-Regular.ttf"
           ]
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "router": {

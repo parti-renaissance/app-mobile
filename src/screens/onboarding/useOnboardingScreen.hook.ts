@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
 import { OnboardingViewModel } from './OnboardingViewModel'
 import { OnboardingViewModelMapper } from './OnboardingViewModelMapper'
-import { router } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
 
 export const useOnboardingScreen = (): {
   viewModel: OnboardingViewModel
@@ -36,15 +36,15 @@ export const useOnboardingScreen = (): {
   useFocusEffect(load)
 
   const onLogin = () => {
-    router.push('/onboarding/sign-in')
+    router.push('/auth/sign-in')
   }
 
   const onSignUp = () => {
-    router.navigate('/onboarding/sign-up')
+    router.navigate('/auth/sign-up')
   }
 
   const onLegacyLogin = () => {
-    router.push('/onboarding/sign-in')
+    router.push('/auth/sign-in')
   }
 
   const viewModel = OnboardingViewModelMapper.map(headerInfos)

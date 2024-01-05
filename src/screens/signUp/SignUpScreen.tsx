@@ -38,7 +38,7 @@ import InputAccessoryClose from '../shared/InputAccessoryClose'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import { Link } from 'expo-router'
+import {router} from 'expo-router'
 
 type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
@@ -118,7 +118,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', { screen: 'LocationPicker' })
+    router.push('/(modals)/location-picker')
   }
 
   const getTextInputProps = (

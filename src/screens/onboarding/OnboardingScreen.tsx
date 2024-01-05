@@ -9,15 +9,14 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import {LinearGradient} from 'expo-linear-gradient'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Link } from 'expo-router'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { useOnboardingScreen } from './useOnboardingScreen.hook'
-import { Link } from 'expo-router'
-
 
 const OnboardingScreen = () => {
   const { viewModel, onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()
@@ -54,11 +53,11 @@ const OnboardingScreen = () => {
             {i18n.t('onboarding.description')}
           </Text>
           <VerticalSpacer spacing={Spacing.mediumMargin} />
-            <PrimaryButton
-              style={styles.button}
-              title={i18n.t('onboarding.login')}
-              onPress={onLogin}
-            />
+          <PrimaryButton
+            style={styles.button}
+            title={i18n.t('onboarding.login')}
+            onPress={onLogin}
+          />
           <SecondaryButton
             style={styles.button}
             title={i18n.t('onboarding.signup')}
