@@ -580,7 +580,14 @@
         "name_placeholder": "Indiquez votre nom",
         "mail": "Adresse e-mail*",
         "mail_placeholder": "Indiquez votre adresse e-mail",
-        "gcu": "Je reconnais avoir lu et accepte les termes de la \u003ca href='https://cadre.parti-renaissance.fr/politique-protection-donnees'\u003e Politique de protection des données à caractère personnelle « Je m’engage ». \n"
+        "gcu": {
+          "text": "Conditions générales d'utilisation",
+          "link": {
+            "text": "J’accepte les conditions générales d’utilisation de l’application Je m’engage.",
+            "url": "https://cadre.parti-renaissance.fr/mentions-legales-mobile"
+          }
+        }
+        
       },
       "notifications": {
         "title": "Notifications",
