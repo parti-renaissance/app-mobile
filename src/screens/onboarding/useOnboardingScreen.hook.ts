@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
-import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 import { OnboardingViewModel } from './OnboardingViewModel'
 import { OnboardingViewModelMapper } from './OnboardingViewModelMapper'
 
@@ -13,8 +13,6 @@ export const useOnboardingScreen = (): {
   onSignUp: () => void
   onLegacyLogin: () => void
 } => {
-  const navigation =
-    useNavigation<OnboardingNavigatorScreenProps<'Onboarding'>['navigation']>()
   const [headerInfos, setHeaderInfos] = useState<HeaderInfos>()
 
   const fetchHeader = useCallback((dataSource: DataSource): Promise<void> => {
@@ -38,15 +36,15 @@ export const useOnboardingScreen = (): {
   useFocusEffect(load)
 
   const onLogin = () => {
-    navigation.navigate('Login')
+    router.push('/auth/sign-in')
   }
 
   const onSignUp = () => {
-    navigation.navigate('SignUp')
+    router.navigate('/auth/sign-up')
   }
 
   const onLegacyLogin = () => {
-    navigation.navigate('Login')
+    router.push('/auth/sign-in')
   }
 
   const viewModel = OnboardingViewModelMapper.map(headerInfos)

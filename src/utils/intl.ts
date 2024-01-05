@@ -2,7 +2,7 @@ import { createIntl, createIntlCache, IntlShape } from 'react-intl'
 import '@formatjs/intl-getcanonicallocales/polyfill'
 import '@formatjs/intl-locale/polyfill'
 import '@formatjs/intl-displaynames/polyfill'
-import * as RNLocalize from 'react-native-localize'
+import { getCalendars } from 'expo-localization'
 import { defaultLanguage } from './defaultLanguage'
 
 const loadLocale = (locale: string) => {
@@ -23,7 +23,7 @@ export const loadIntl = (): IntlShape => {
     loadLocale(locale)
     const cache = createIntlCache()
     _intl = createIntl(
-      { locale: locale, messages: {}, timeZone: RNLocalize.getTimeZone() },
+      { locale: locale, messages: {}, timeZone: getCalendars()[0].timeZone },
       cache,
     )
   }

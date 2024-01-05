@@ -1,4 +1,59 @@
 {
-  "name": "JeMarche",
-  "displayName": "JeMarche"
+  "expo": {
+    "name": "vox",
+    "slug": "vox",
+    "scheme": "vox",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "bundleIdentifier": "fr.en-marche.jecoute.staging",
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "sentry-expo",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Maax-Bold.ttf",
+            "./assets/fonts/Maax-Medium.ttf",
+            "./assets/fonts/Maax-Mediumitalic.ttf",
+            "./assets/fonts/Roboto-Italic.ttf",
+            "./assets/fonts/Roboto-Medium.ttf",
+            "./assets/fonts/Roboto-Regular.ttf"
+          ]
+        }
+      ],
+      "expo-localization"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "88a01d03-66fc-4505-adf6-4c6f94a1cfa7"
+      }
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
 }

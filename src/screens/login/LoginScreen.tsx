@@ -1,6 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { StatusBar, StyleSheet, Text, TextInput } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import { LoginError } from '../../core/errors'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
@@ -54,7 +53,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <LoadingOverlay visible={isLoading} />
       <Text style={styles.title}>{i18n.t('login.title')}</Text>
@@ -114,7 +113,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
           })
         }}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 

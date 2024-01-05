@@ -1,6 +1,6 @@
 import { Mutex } from 'async-mutex'
 import ky from 'ky'
-import { API_BASE_URL } from '../../Config'
+import { API_BASE_URL } from '../../config/env'
 import AuthenticationRepository from '../AuthenticationRepository'
 import { Credentials } from '../store/Credentials'
 import LocalStore from '../store/LocalStore'

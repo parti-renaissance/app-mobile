@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Button, InputAccessoryView, Platform, StyleSheet } from 'react-native'
-import { BlurView } from '@react-native-community/blur'
+import { BlurView } from 'expo-blur'
 import { Spacing } from '../../styles'
 
 type Props = Readonly<{
@@ -12,7 +12,7 @@ type Props = Readonly<{
 const InputAccessoryClose: FC<Props> = ({ id, title, onPress }) => {
   return Platform.OS === 'ios' ? (
     <InputAccessoryView nativeID={id}>
-      <BlurView style={styles.blur} blurType="prominent">
+      <BlurView style={styles.blur}>
         <Button title={title} onPress={onPress} />
       </BlurView>
     </InputAccessoryView>

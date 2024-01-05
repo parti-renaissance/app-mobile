@@ -1,5 +1,5 @@
 import { HTTPError } from 'ky'
-import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../Config'
+import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../config/env'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
 import { RestLoginResponse } from '../restObjects/RestLoginResponse'
 import { mapLoginError } from './errorMappers'
