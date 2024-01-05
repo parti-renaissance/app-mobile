@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import * as ENV_KEYS from '../../Config'
+import * as ENV_KEYS from '../../config/env'
 import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'

@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react'
 import { StatusBar, StyleSheet, Text, TextInput } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { LoginError } from '../../core/errors'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'

@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
@@ -13,19 +12,19 @@ export const useOnboardingScreen = (): {
   onSignUp: () => void
   onLegacyLogin: () => void
 } => {
-  const navigation =
-    useNavigation<OnboardingNavigatorScreenProps<'Onboarding'>['navigation']>()
+  // const navigation =
+  //   useNavigation<OnboardingNavigatorScreenProps<'Onboarding'>['navigation']>()
   const [headerInfos, setHeaderInfos] = useState<HeaderInfos>()
 
   const fetchHeader = useCallback((dataSource: DataSource): Promise<void> => {
     return OnboardingRepository.getInstance()
       .getOnboardingHeader(dataSource)
       .then((result) => {
-        setHeaderInfos(result)
+        // setHeaderInfos(result)
       })
       .catch((error) => {
         console.log('Error fetching onboarding header', error)
-        setHeaderInfos(undefined)
+        // setHeaderInfos(undefined)
       })
   }, [])
 
@@ -35,18 +34,18 @@ export const useOnboardingScreen = (): {
     })
   }, [fetchHeader])
 
-  useFocusEffect(load)
+  // useFocusEffect(load)
 
   const onLogin = () => {
-    navigation.navigate('Login')
+    // navigation.navigate('Login')
   }
 
   const onSignUp = () => {
-    navigation.navigate('SignUp')
+    // navigation.navigate('SignUp')
   }
 
   const onLegacyLogin = () => {
-    navigation.navigate('Login')
+    // navigation.navigate('Login')
   }
 
   const viewModel = OnboardingViewModelMapper.map(headerInfos)

@@ -1,7 +1,7 @@
 import { Interest } from '../core/entities/Interest'
 import { Notification } from '../core/entities/Notification'
 import { SignUpFormData } from '../core/entities/SignUpFormData'
-import { ConfigurationMapper } from './mapper/ConfigurationMapper'
+import { ConfigurationMapper } from './mapper/config/envurationMapper'
 import { RestSignUpRequestMapper } from './mapper/RestSignUpRequestMapper'
 import ApiService from './network/ApiService'
 import {
