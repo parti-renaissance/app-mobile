@@ -1,5 +1,5 @@
-import { Slot } from 'expo-router';
-import { SessionProvider } from '@/ctx';
+import { SessionProvider } from '@/ctx'
+import { Slot } from 'expo-router'
 import 'react-native-url-polyfill/auto'
 
 export default function Root() {
@@ -8,5 +8,5 @@ export default function Root() {
     <SessionProvider>
       <Slot />
     </SessionProvider>
-  );
+  )
 }

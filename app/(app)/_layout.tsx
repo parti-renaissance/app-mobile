@@ -1,14 +1,13 @@
-import { Redirect, Stack } from 'expo-router';
-import { Text } from 'react-native';
-
-import { useSession } from '@/ctx';
+import { Text } from 'react-native'
+import { useSession } from '@/ctx'
+import { Redirect, Stack } from 'expo-router'
 
 export default function AppLayout() {
-  const { isLoggedIn, isLoading } = useSession();
+  const { isLoggedIn, isLoading } = useSession()
 
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <Text>Loading...</Text>
   }
 
   // Only require authentication within the (app) group's layout as users
@@ -16,9 +15,9 @@ export default function AppLayout() {
   if (isLoggedIn === false) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
-    return <Redirect href="/onboarding/" />;
+    return <Redirect href="/onboarding/" />
   }
 
   // This layout can be deferred because it's not the root layout.
-  return <Stack />;
+  return <Stack />
 }
