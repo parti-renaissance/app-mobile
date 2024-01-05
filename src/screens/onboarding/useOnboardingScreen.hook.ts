@@ -5,6 +5,8 @@ import { OnboardingRepository } from '../../data/OnboardingRepository'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 import { OnboardingViewModel } from './OnboardingViewModel'
 import { OnboardingViewModelMapper } from './OnboardingViewModelMapper'
+import { router } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const useOnboardingScreen = (): {
   viewModel: OnboardingViewModel
@@ -34,10 +36,10 @@ export const useOnboardingScreen = (): {
     })
   }, [fetchHeader])
 
-  // useFocusEffect(load)
+  useFocusEffect(load)
 
   const onLogin = () => {
-    // navigation.navigate('Login')
+    router.push('/onboarding/sign-in')
   }
 
   const onSignUp = () => {

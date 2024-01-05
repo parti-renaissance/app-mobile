@@ -16,6 +16,7 @@ import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { useOnboardingScreen } from './useOnboardingScreen.hook'
+import { Link } from 'expo-router'
 
 
 const OnboardingScreen = () => {
@@ -53,11 +54,11 @@ const OnboardingScreen = () => {
             {i18n.t('onboarding.description')}
           </Text>
           <VerticalSpacer spacing={Spacing.mediumMargin} />
-          <PrimaryButton
-            style={styles.button}
-            title={i18n.t('onboarding.login')}
-            onPress={onLogin}
-          />
+            <PrimaryButton
+              style={styles.button}
+              title={i18n.t('onboarding.login')}
+              onPress={onLogin}
+            />
           <SecondaryButton
             style={styles.button}
             title={i18n.t('onboarding.signup')}
