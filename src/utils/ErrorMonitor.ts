@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/react-native'
-import { ENVIRONMENT, SENTRY_DSN } from '../Config'
+import * as Sentry from 'sentry-expo'
+import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
 
 export const ErrorMonitor = {
   configure: () => {
@@ -14,25 +14,25 @@ export const ErrorMonitor = {
     if (__DEV__) {
       console.log('[ErrorMonitor]', message, payload)
     } else {
-      Sentry.captureMessage(message, { extra: payload })
+      Sentry.Native.captureMessage(message, { extra: payload })
     }
   },
   wrap: (RootComponent: React.ComponentType<Record<string, any>>) => {
-    return Sentry.withProfiler(RootComponent)
+    return Sentry.Native.withProfiler(RootComponent)
   },
   setUser: (options: { id: string; email: string }) => {
     const { id, email } = options
     if (__DEV__) {
       console.log('[ErrorMonitor] setUser', options)
     } else {
-      Sentry.setUser({ id, email })
+      Sentry.Native.setUser({ id, email })
     }
   },
   clearUser: () => {
     if (__DEV__) {
       console.log('[ErrorMonitor] clearUser')
     } else {
-      Sentry.configureScope((scope) => scope.setUser(null))
+      Sentry.Native.configureScope((scope) => scope.setUser(null))
     }
   },
 }

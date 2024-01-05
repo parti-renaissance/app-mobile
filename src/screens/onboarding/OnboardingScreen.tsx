@@ -9,18 +9,16 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import SafeAreaView from 'react-native-safe-area-view'
-import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Link } from 'expo-router'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
 import { useOnboardingScreen } from './useOnboardingScreen.hook'
 
-type OnboardingScreenProps = OnboardingNavigatorScreenProps<'Onboarding'>
-
-const OnboardingScreen: FC<OnboardingScreenProps> = () => {
+const OnboardingScreen = () => {
   const { viewModel, onLogin, onSignUp, onLegacyLogin } = useOnboardingScreen()
   return (
     <ImageBackground

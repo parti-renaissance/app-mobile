@@ -1,9 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Alert,
+  Button,
   DeviceEventEmitter,
   Keyboard,
   KeyboardTypeOptions,
+  Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -11,9 +13,9 @@ import {
   TextInputProps,
   View,
 } from 'react-native'
-import HTMLView from 'react-native-htmlview'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import CheckBox from '@react-native-community/checkbox'
+import * as WebBrowser from 'expo-web-browser';
+import CheckBox from 'expo-checkbox'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import { SignUpFormData } from '../../core/entities/SignUpFormData'
 import { Gender } from '../../core/entities/UserProfile'
@@ -36,6 +38,7 @@ import InputAccessoryClose from '../shared/InputAccessoryClose'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
+import {router} from 'expo-router'
 
 type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
@@ -115,7 +118,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', { screen: 'LocationPicker' })
+    router.push('/(modals)/location-picker')
   }
 
   const getTextInputProps = (
@@ -136,6 +139,10 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       inputAccessoryViewID: inputAccessoryId,
     }
   }
+
+  const _handleOpenCGUAsync = async () => {
+    await WebBrowser.openBrowserAsync(i18n.t('sign_up.account.gcu.link.url'));
+  };
 
   const showSuccessAlert = () => {
     Alert.alert(
@@ -229,7 +236,6 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <View style={[styles.checkboxContainer, styles.gcuContainer]}>
         <CheckBox
           value={signUpFormData.gcuAccepted}
-          boxType="square"
           onValueChange={(newValue) => {
             setSignUpFormData({
               ...signUpFormData,
@@ -238,11 +244,10 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
           }}
         />
         <View style={styles.checkboxText}>
-          <HTMLView
-            value={`<div>${i18n.t('sign_up.account.gcu')}</div>`}
-            textComponentProps={styles.termsOfUse}
-            stylesheet={makeHtmlViewStyle}
-          />
+         <Text style={styles.termsOfUse}>{i18n.t('sign_up.account.gcu.text')}</Text>
+         <Pressable onPress={_handleOpenCGUAsync}>
+            <Text style={[styles.termsOfUse, {color: Colors.primaryColor, textDecorationLine: 'underline'}]}>{i18n.t('sign_up.account.gcu.link.text')}</Text>
+          </Pressable>
         </View>
       </View>
     </>
@@ -332,7 +337,6 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <View style={styles.checkboxContainer}>
         <CheckBox
           value={signUpFormData.notificationMail}
-          boxType="square"
           onValueChange={(newValue) => {
             setSignUpFormData({
               ...signUpFormData,
@@ -347,7 +351,6 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
       <View style={styles.checkboxContainer}>
         <CheckBox
           value={signUpFormData.notificationSms}
-          boxType="square"
           onValueChange={(newValue) => {
             setSignUpFormData({
               ...signUpFormData,

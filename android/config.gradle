@@ -1,4 +1,0 @@
-ext.release = [
-    versionCode: 94,
-    versionName: "3.9.1",
-]

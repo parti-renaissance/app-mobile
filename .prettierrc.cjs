@@ -1,4 +1,3 @@
-
 /** @typedef  {import("prettier").Config} PrettierConfig */
 /** @typedef  {import("@ianvs/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
 
@@ -16,11 +15,11 @@ const config = {
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
   importOrderTypeScriptVersion: "4.4.0",
-  endOfLine: 'lf',
+  endOfLine: "lf",
   printWidth: 80,
   semi: false,
   singleQuote: true,
-  trailingComma: 'all',
+  trailingComma: "all",
 };
 
 module.exports = config;
