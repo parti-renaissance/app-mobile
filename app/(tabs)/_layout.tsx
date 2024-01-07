@@ -1,8 +1,6 @@
 import { SessionProvider, useSession } from '@/ctx'
 import 'react-native-url-polyfill/auto'
-import { Redirect, SplashScreen, Tabs } from 'expo-router'
-
-
+import { Redirect, Slot, SplashScreen, Stack, Tabs } from 'expo-router'
 
 export default function AppLayout() {
   const { isLoading, isLoggedIn } = useSession()
@@ -18,5 +16,9 @@ export default function AppLayout() {
   }
 
   // Set up the auth context and render our layout inside of it.
-  return ( <Tabs />)
+  return (
+    <Tabs screenOptions={{ headerShown: false }}>
+      <Tabs.Screen name="home" />
+    </Tabs>
+  )
 }

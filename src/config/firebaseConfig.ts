@@ -1,3 +1,4 @@
+import { getAnalytics, initializeAnalytics, logEvent } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getMessaging } from 'firebase/messaging';
 
@@ -19,6 +20,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+export const Analytics = getAnalytics(app);
 
 // export const Messaging = getMessaging(app);
 

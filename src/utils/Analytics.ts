@@ -1,4 +1,5 @@
-import analytics from '@react-native-firebase/analytics'
+import * as FB from "@/config/firebaseConfig"
+import { getAnalytics, logEvent, setAnalyticsCollectionEnabled } from "firebase/analytics"
 
 export type AnalyticsScreens =
   | 'Accueil'
@@ -9,98 +10,98 @@ export type AnalyticsScreens =
 
 export const Analytics = {
   logScreen: async (screenName: string) => {
-    await analytics().logScreenView({
-      screen_name: screenName,
-      screen_class: screenName,
-    })
+    // await analytics().logScreenView({
+    //   screen_name: screenName,
+    //   screen_class: screenName,
+    // })
   },
   logUrlOpened: async (url: string) => {
-    await analytics().logEvent('external_link_opened', { url: url })
+    logEvent(FB.Analytics, 'external_link_opened', { url: url })
   },
   logNavBarItemSelected: async (screen: AnalyticsScreens) => {
-    await analytics().logEvent('nav_bar', {
+    logEvent(FB.Analytics, 'nav_bar', {
       button_type: screen,
       interaction: 'nav_bar',
     })
   },
   logNewsOpen: async () => {
-    await analytics().logEvent('news', {
+    logEvent(FB.Analytics, 'news', {
       button_type: 'open_news',
       interaction: 'open',
     })
   },
   logHomeNewsOpen: async () => {
-    await analytics().logEvent('hero_news', {
+    logEvent(FB.Analytics,'hero_news', {
       button_type: 'open_hero_news',
       interaction: 'open',
     })
   },
   // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeNewsMore: async () => {
-    await analytics().logEvent('hero_news', {
+    logEvent(FB.Analytics,'hero_news', {
       button_type: 'all_news',
       interaction: 'cta',
     })
   },
   // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeToolOpen: async (name: string) => {
-    await analytics().logEvent('hero_tool', {
+    logEvent(FB.Analytics,'hero_tool', {
       button_type: name,
       interaction: 'cta',
     })
   },
   // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeToolsMore: async () => {
-    await analytics().logEvent('hero_tool', {
+    logEvent(FB.Analytics,'hero_tool', {
       button_type: 'all_tools',
       interaction: 'cta',
     })
   },
   logHomeRegionMore: async () => {
-    await analytics().logEvent('hero_article', {
+    logEvent(FB.Analytics,'hero_article', {
       button_type: 'en_savoir_plus',
       interaction: 'cta',
     })
   },
   logHomeEventOpen: async (name: string, category: string) => {
-    await analytics().logEvent('heroe', {
+    logEvent(FB.Analytics,'heroe', {
       button_type: name,
       event_category: category,
       interaction: 'cta',
     })
   },
   logRegionDetails: async () => {
-    await analytics().logEvent('hero_article', {
+    logEvent(FB.Analytics,'hero_article', {
       button_type: 'plus_de_detail',
       interaction: 'cta',
     })
   },
   logEventShare: async (eventName: string) => {
-    await analytics().logEvent('share_events', {
+    logEvent(FB.Analytics,'share_events', {
       button_type: eventName,
       interaction: 'partage',
     })
   },
   logEventAddToCalendar: async (eventName: string) => {
-    await analytics().logEvent('add_calendar', {
+    logEvent(FB.Analytics,'add_calendar', {
       button_type: eventName,
       interaction: 'rappel',
     })
   },
   logEventRegister: async (eventName: string) => {
-    await analytics().logEvent('inscription_events', {
+    logEvent(FB.Analytics,'inscription_events', {
       button_type: eventName,
       interaction: 'inscription',
     })
   },
   logToolSelected: async (name: string) => {
-    await analytics().logEvent('tool', {
+    logEvent(FB.Analytics,'tool', {
       button_type: name,
       interaction: 'cta',
     })
   },
   logActionsPolls: async () => {
-    await analytics().logEvent('questionnaire', {
+    logEvent(FB.Analytics,'questionnaire', {
       button_type: 'questionnaire',
       interaction: 'cta',
     })
@@ -120,22 +121,22 @@ export const Analytics = {
       default:
         return
     }
-    await analytics().logEvent('menu_events', {
+    logEvent(FB.Analytics,'menu_events', {
       button_type: button_type,
       interaction: 'menu',
     })
   },
   logEventSelected: async (name: string, category: string) => {
-    await analytics().logEvent('events', {
+    logEvent(FB.Analytics,'events', {
       button_type: `open_${name}`,
       event_category: category,
       interaction: 'open',
     })
   },
   enable: async () => {
-    await analytics().setAnalyticsCollectionEnabled(true)
+    setAnalyticsCollectionEnabled(FB.Analytics, true)
   },
   disable: async () => {
-    await analytics().setAnalyticsCollectionEnabled(false)
+    setAnalyticsCollectionEnabled(FB.Analytics, false)
   },
 }

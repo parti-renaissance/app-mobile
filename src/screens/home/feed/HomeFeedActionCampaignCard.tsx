@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { LinearGradient} from 'expo-linear-gradient'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { ActionButton } from '../../shared/Buttons'

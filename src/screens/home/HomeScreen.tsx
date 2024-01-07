@@ -8,7 +8,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { router, useNavigation } from 'expo-router'
 import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors } from '../../styles'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
@@ -32,7 +33,7 @@ import { useHomeScreen } from './useHomeScreen.hook'
 
 type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 
-const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
+const HomeScreen: FunctionComponent<HomeScreenProps> = () => {
   const {
     statefulState,
     isRefreshing,
@@ -51,9 +52,11 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     onLoadMore,
   } = useHomeScreen()
 
+  const navigation = useNavigation()
+
   useEffect(() => {
     const navigationToProfile = () => {
-      navigation.navigate('ProfileModal', { screen: 'Profile' })
+      router.push('/(tabs)/home/profile')
     }
     navigation.setOptions({
       headerRight: () => <ProfileButton onPress={navigationToProfile} />,
@@ -177,11 +180,11 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = ({ navigation }) => {
     )
   }
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+    <View style={styles.container}>
       {/* We need the <StatusBar> component for Android */}
       <StatusBar translucent backgroundColor="transparent" />
       <StatefulView contentComponent={HomeContent} state={statefulState} />
-    </SafeAreaView>
+    </View>
   )
 }
 
