@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { StyleSheet } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors } from '../../styles'
 import { StatefulView } from '../shared/StatefulView'

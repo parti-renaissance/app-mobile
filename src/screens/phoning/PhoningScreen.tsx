@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useFocusEffect } from '@react-navigation/native'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import {

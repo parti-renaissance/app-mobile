@@ -1,6 +1,6 @@
 import React, { FC, useLayoutEffect } from 'react'
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { ListPickerModalNavigatorScreenProps } from '../../navigation/listPickerModal/ListPickerModalNavigatorScreenProps'
 import { Colors, Spacing } from '../../styles'
 import { HorizontalSeparator } from '../shared/HorizontalSeparator'

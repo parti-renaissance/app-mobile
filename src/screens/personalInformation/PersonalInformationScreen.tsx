@@ -1,6 +1,6 @@
 import React, { FC, useLayoutEffect } from 'react'
 import { StyleSheet } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
 import { Colors } from '../../styles'
 import i18n from '../../utils/i18n'

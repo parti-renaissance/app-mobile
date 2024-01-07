@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing } from '../../styles'
 import i18n from '../../utils/i18n'

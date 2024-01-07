@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { Tool } from '../../core/entities/Tool'
 import ToolsRepository from '../../data/ToolsRepository'
