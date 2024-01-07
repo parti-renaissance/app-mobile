@@ -1,4 +1,3 @@
-import allSettled from 'promise.allsettled'
 import { DataSource } from '../../data/DataSource'
 import { HomeRepository } from '../../data/HomeRepository'
 import ProfileRepository from '../../data/ProfileRepository'
@@ -38,7 +37,7 @@ export class GetHomeResourcesInteractor {
       departmentResult,
       quickPollsResult,
       nextEventResult,
-    ] = await allSettled([
+    ] = await Promise.allSettled([
       this.homeRepository.getHomeHeader(dataSource),
       this.profileRepository.getProfile(dataSource),
       this.regionsRepository.getDepartment(zipCode, dataSource),

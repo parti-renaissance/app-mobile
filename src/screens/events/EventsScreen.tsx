@@ -7,8 +7,9 @@ import {
   TextInput,
   View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
+import { useNavigation, useRouter } from 'expo-router'
 import { EventNavigatorScreenProps } from '../../navigation/event/EventNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import { Analytics } from '../../utils/Analytics'
@@ -25,9 +26,11 @@ const ROUTES = [
   { key: 'myEvents', title: i18n.t('events.tab_mine') },
 ]
 
-const EventsScreen: FC<EventsScreenProps> = ({ navigation, route }) => {
+const EventsScreen: FC<EventsScreenProps> = () => {
   const initialLayout = { width: Dimensions.get('window').width }
   const [index, setIndex] = useState(0)
+  const navigation = useNavigation()
+  const route = useRouter()
 
   const eventMode = route.params?.eventMode
 

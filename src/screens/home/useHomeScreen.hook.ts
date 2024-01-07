@@ -18,6 +18,7 @@ import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
+import { use } from 'i18next'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -46,6 +47,10 @@ export const useHomeScreen = (): {
   const { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll } =
     useFetchHomeResources()
 
+  useEffect(() => {
+    fetchHomeResources()
+  }, [])
+
   useOnFocus(fetchHomeResources)
 
   const fetchTimelineFeed = useCallback(() => {
@@ -67,6 +72,8 @@ export const useHomeScreen = (): {
   useEffect(() => {
     fetchTimelineFeed()
   }, [fetchTimelineFeed])
+
+  
 
   const onLoadMore = useCallback(() => {
     const currentResult = ViewState.unwrap(feedStatefulState)

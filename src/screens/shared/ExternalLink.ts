@@ -1,9 +1,9 @@
-import { InAppBrowser } from 'react-native-inappbrowser-reborn'
+import * as WebBrowser from 'expo-web-browser';
 import { Analytics } from '../../utils/Analytics'
 
 export const ExternalLink = {
   openUrl: async (url: string) => {
-    InAppBrowser.open(url)
+    await WebBrowser.openBrowserAsync(url)
     await Analytics.logUrlOpened(url)
   },
 }

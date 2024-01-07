@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Markdown from '@ronradtke/react-native-markdown-display'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'

@@ -36,15 +36,15 @@ export const useOnboardingScreen = (): {
   useFocusEffect(load)
 
   const onLogin = () => {
-    router.push('/auth/sign-in')
+    router.push('/sign-in')
   }
 
   const onSignUp = () => {
-    router.navigate('/auth/sign-up')
+    router.navigate('/sign-up')
   }
 
   const onLegacyLogin = () => {
-    router.push('/auth/sign-in')
+    router.push('/sign-in')
   }
 
   const viewModel = OnboardingViewModelMapper.map(headerInfos)

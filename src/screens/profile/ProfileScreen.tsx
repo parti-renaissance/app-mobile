@@ -15,9 +15,8 @@ import { ViewStateUtils } from '../shared/ViewStateUtils'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
 
-type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 
-const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
+const ProfileScreen = () => {
   const [statefulState, setStatefulState] = useState<
     ViewState<GetUserProfileInteractorResult>
   >(ViewState.Loading())
@@ -27,15 +26,15 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      navigation.navigate('NotificationMenu')
+      // navigation.navigate('NotificationMenu')
     }
     const openPersonalInformation = () => {
-      navigation.navigate('PersonalInformationModal', {
-        screen: 'PersonalInformation',
-      })
+      // navigation.navigate('PersonalInformationModal', {
+      //   screen: 'PersonalInformation',
+      // })
     }
     const openCenterOfInterest = () => {
-      navigation.navigate('CenterOfInterest')
+      // navigation.navigate('CenterOfInterest')
     }
     const viewModel = ProfileScreenViewModelMapper.map(
       content.profile,
@@ -83,11 +82,11 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
     }, []),
   )
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-    })
-  }, [navigation])
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
+  //   })
+  // }, [navigation])
 
   return (
     <SafeAreaView style={styles.container}>

@@ -5,7 +5,7 @@ import React, {
   useState,
 } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useFocusEffect } from '@react-navigation/native'
 import Markdown from '@ronradtke/react-native-markdown-display'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'

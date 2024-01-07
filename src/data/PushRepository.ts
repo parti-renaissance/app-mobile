@@ -1,7 +1,6 @@
-import { app, Messaging } from '@/config/firebaseConfig'
-import messaging from 'firebase/messaging'
-import { Mutex } from 'async-mutex'
 import { ENVIRONMENT } from '@/config/env'
+import FB from '@/config/firebaseConfig'
+import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
 import { Region } from '../core/entities/Region'
@@ -20,7 +19,7 @@ class PushRepository {
   public synchronizePushTokenAssociation(): Promise<void> {
     return this.syncrhonizePushTokenMutex.runExclusive(async () => {
       const registrations = await this.localStore.getTopicsRegistration()
-      const pushToken = await messaging.getToken(Messaging)
+      const pushToken = await FB.messaging.getToken()
       if (registrations?.pushTokenAssociated !== pushToken) {
         try {
           await this.apiService.removePushToken(pushToken)
@@ -54,7 +53,7 @@ class PushRepository {
 
   public dissociateToken(): Promise<void> {
     return this.dissociatedTokenMutex.runExclusive(async () => {
-      const pushToken = await messaging.getToken(Messaging)
+      const pushToken = await FB.messaging.getToken()
       try {
         await this.apiService.removePushToken(pushToken)
         console.log('pushToken dissociated with success')
@@ -78,7 +77,7 @@ class PushRepository {
   private async subscribeToGeneralTopic() {
     const registrations = await this.localStore.getTopicsRegistration()
     if (registrations?.globalRegistered !== true) {
-      // await messaging.subscribeToTopic(this.createTopicName('global'))
+      await FB.messaging.subscribeToTopic(this.createTopicName('global'))
       await this.localStore.updateTopicsRegistration({
         globalRegistered: true,
       })
@@ -91,7 +90,7 @@ class PushRepository {
   private async unsubscribeFromGeneralTopic() {
     const registrations = await this.localStore.getTopicsRegistration()
     if (registrations?.globalRegistered === true) {
-      // await messaging().unsubscribeFromTopic(this.createTopicName('global'))
+      await FB.messaging.unsubscribeFromTopic(this.createTopicName('global'))
       await this.localStore.updateTopicsRegistration({
         globalRegistered: false,
       })
@@ -119,10 +118,10 @@ class PushRepository {
     const previousTopic = registrations?.departementRegistered
     if (previousTopic !== topicName) {
       if (previousTopic !== undefined) {
-        // await messaging().unsubscribeFromTopic(previousTopic)
+        await FB.messaging.unsubscribeFromTopic(previousTopic)
         console.log(`unsubscribed from ${previousTopic}`)
       }
-      // await messaging().subscribeToTopic(topicName)
+      await FB.messaging.subscribeToTopic(topicName)
       await this.localStore.updateTopicsRegistration({
         departementRegistered: topicName,
       })
@@ -136,7 +135,7 @@ class PushRepository {
     const registrations = await this.localStore.getTopicsRegistration()
     const previousTopic = registrations?.departementRegistered
     if (previousTopic !== undefined) {
-      // await messaging().unsubscribeFromTopic(previousTopic)
+      await FB.messaging.unsubscribeFromTopic(previousTopic)
       await this.localStore.updateTopicsRegistration({
         departementRegistered: undefined,
       })
@@ -162,10 +161,10 @@ class PushRepository {
     const previousTopic = registrations?.regionRegistered
     if (previousTopic !== topicName) {
       if (previousTopic !== undefined) {
-        // await messaging().unsubscribeFromTopic(previousTopic)
+        await FB.messaging.unsubscribeFromTopic(previousTopic)
         console.log(`unsubscribed from ${previousTopic}`)
       }
-      // await messaging().subscribeToTopic(topicName)
+      await FB.messaging.subscribeToTopic(topicName)
       await this.localStore.updateTopicsRegistration({
         regionRegistered: topicName,
       })
@@ -179,7 +178,7 @@ class PushRepository {
     const registrations = await this.localStore.getTopicsRegistration()
     const previousTopic = registrations?.regionRegistered
     if (previousTopic !== undefined) {
-      // await messaging().unsubscribeFromTopic(previousTopic)
+      await FB.messaging.unsubscribeFromTopic(previousTopic)
       await this.localStore.updateTopicsRegistration({
         regionRegistered: undefined,
       })
@@ -205,11 +204,11 @@ class PushRepository {
     const previousTopic = registrations?.boroughRegistered
     if (previousTopic !== topicName) {
       if (previousTopic !== undefined) {
-        // await messaging().unsubscribeFromTopic(previousTopic)
+        await FB.messaging.unsubscribeFromTopic(previousTopic)
         console.log(`unsubscribed from ${previousTopic}`)
       }
       if (this.boroughSubscriptionSupported(zipCode)) {
-        // await messaging().subscribeToTopic(topicName)
+        await FB.messaging.subscribeToTopic(topicName)
         await this.localStore.updateTopicsRegistration({
           boroughRegistered: topicName,
         })
@@ -237,7 +236,7 @@ class PushRepository {
     const registrations = await this.localStore.getTopicsRegistration()
     const previousTopic = registrations?.boroughRegistered
     if (previousTopic !== undefined) {
-      // await messaging().unsubscribeFromTopic(previousTopic)
+      await FB.messaging.unsubscribeFromTopic(previousTopic)
       await this.localStore.updateTopicsRegistration({
         boroughRegistered: undefined,
       })
@@ -248,8 +247,8 @@ class PushRepository {
   }
 
   public async invalidatePushToken(): Promise<void> {
-    return messaging
-      .deleteToken(Messaging)
+    return FB.messaging
+      .deleteToken()
       .then(() => this.localStore.clearTopicsRegistration())
   }
 

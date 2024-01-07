@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { Poll } from '../../core/entities/Poll'
 import { PollResult } from '../../core/entities/PollResult'
