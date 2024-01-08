@@ -1,5 +1,9 @@
-import * as FB from "@/config/firebaseConfig"
-import { getAnalytics, logEvent, setAnalyticsCollectionEnabled } from "firebase/analytics"
+import FB from '@/config/firebaseConfig'
+import {
+  getAnalytics,
+  logEvent,
+  setAnalyticsCollectionEnabled,
+} from 'firebase/analytics'
 
 export type AnalyticsScreens =
   | 'Accueil'
@@ -16,92 +20,92 @@ export const Analytics = {
     // })
   },
   logUrlOpened: async (url: string) => {
-    logEvent(FB.Analytics, 'external_link_opened', { url: url })
+    FB.analytics.logEvent('external_link_opened', { url: url })
   },
   logNavBarItemSelected: async (screen: AnalyticsScreens) => {
-    logEvent(FB.Analytics, 'nav_bar', {
+    FB.analytics.logEvent('nav_bar', {
       button_type: screen,
       interaction: 'nav_bar',
     })
   },
   logNewsOpen: async () => {
-    logEvent(FB.Analytics, 'news', {
+    FB.analytics.logEvent('news', {
       button_type: 'open_news',
       interaction: 'open',
     })
   },
   logHomeNewsOpen: async () => {
-    logEvent(FB.Analytics,'hero_news', {
+    FB.analytics.logEvent('hero_news', {
       button_type: 'open_hero_news',
       interaction: 'open',
     })
   },
   // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeNewsMore: async () => {
-    logEvent(FB.Analytics,'hero_news', {
+    FB.analytics.logEvent('hero_news', {
       button_type: 'all_news',
       interaction: 'cta',
     })
   },
   // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeToolOpen: async (name: string) => {
-    logEvent(FB.Analytics,'hero_tool', {
+    FB.analytics.logEvent('hero_tool', {
       button_type: name,
       interaction: 'cta',
     })
   },
   // TODO: (Pierre Felgines) 2022/02/28 Delete this analytics once validated
   logHomeToolsMore: async () => {
-    logEvent(FB.Analytics,'hero_tool', {
+    FB.analytics.logEvent('hero_tool', {
       button_type: 'all_tools',
       interaction: 'cta',
     })
   },
   logHomeRegionMore: async () => {
-    logEvent(FB.Analytics,'hero_article', {
+    FB.analytics.logEvent('hero_article', {
       button_type: 'en_savoir_plus',
       interaction: 'cta',
     })
   },
   logHomeEventOpen: async (name: string, category: string) => {
-    logEvent(FB.Analytics,'heroe', {
+    FB.analytics.logEvent('heroe', {
       button_type: name,
       event_category: category,
       interaction: 'cta',
     })
   },
   logRegionDetails: async () => {
-    logEvent(FB.Analytics,'hero_article', {
+    FB.analytics.logEvent('hero_article', {
       button_type: 'plus_de_detail',
       interaction: 'cta',
     })
   },
   logEventShare: async (eventName: string) => {
-    logEvent(FB.Analytics,'share_events', {
+    FB.analytics.logEvent('share_events', {
       button_type: eventName,
       interaction: 'partage',
     })
   },
   logEventAddToCalendar: async (eventName: string) => {
-    logEvent(FB.Analytics,'add_calendar', {
+    FB.analytics.logEvent('add_calendar', {
       button_type: eventName,
       interaction: 'rappel',
     })
   },
   logEventRegister: async (eventName: string) => {
-    logEvent(FB.Analytics,'inscription_events', {
+    FB.analytics.logEvent('inscription_events', {
       button_type: eventName,
       interaction: 'inscription',
     })
   },
   logToolSelected: async (name: string) => {
-    logEvent(FB.Analytics,'tool', {
+    FB.analytics.logEvent('tool', {
       button_type: name,
       interaction: 'cta',
     })
   },
   logActionsPolls: async () => {
-    logEvent(FB.Analytics,'questionnaire', {
+    FB.analytics.logEvent('questionnaire', {
       button_type: 'questionnaire',
       interaction: 'cta',
     })
@@ -121,22 +125,22 @@ export const Analytics = {
       default:
         return
     }
-    logEvent(FB.Analytics,'menu_events', {
+    FB.analytics.logEvent('menu_events', {
       button_type: button_type,
       interaction: 'menu',
     })
   },
   logEventSelected: async (name: string, category: string) => {
-    logEvent(FB.Analytics,'events', {
+    FB.analytics.logEvent('events', {
       button_type: `open_${name}`,
       event_category: category,
       interaction: 'open',
     })
   },
   enable: async () => {
-    setAnalyticsCollectionEnabled(FB.Analytics, true)
+    FB.analytics.setAnalyticsCollectionEnabled(true)
   },
   disable: async () => {
-    setAnalyticsCollectionEnabled(FB.Analytics, false)
+    FB.analytics.setAnalyticsCollectionEnabled(false)
   },
 }

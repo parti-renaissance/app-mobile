@@ -1,3 +1,4 @@
+import FB from '@/config/firebaseConfig'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
 import { RefreshTokenPermanentlyInvalidatedError } from '../core/errors'
 import { ErrorMonitor } from '../utils/ErrorMonitor'
@@ -7,8 +8,6 @@ import { RestLoginResponse } from './restObjects/RestLoginResponse'
 import CacheManager from './store/CacheManager'
 import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
-
-import {app as firebaseApp} from '@/config/firebaseConfig'
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository
@@ -85,7 +84,7 @@ class AuthenticationRepository {
   }
 
   public async getDeviceId(): Promise<string> {
-    return firebaseApp.options.appId
+    return FB.app.deviceId
   }
 
   private mapCredentials(result: RestLoginResponse): Credentials {

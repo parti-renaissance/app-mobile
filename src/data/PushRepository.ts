@@ -1,7 +1,6 @@
-import { app, Messaging } from '@/config/firebaseConfig'
-import messaging from 'firebase/messaging'
-import { Mutex } from 'async-mutex'
 import { ENVIRONMENT } from '@/config/env'
+import FB from '@/config/firebaseConfig'
+import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
 import { Region } from '../core/entities/Region'
@@ -20,7 +19,7 @@ class PushRepository {
   public synchronizePushTokenAssociation(): Promise<void> {
     return this.syncrhonizePushTokenMutex.runExclusive(async () => {
       const registrations = await this.localStore.getTopicsRegistration()
-      const pushToken = await messaging.getToken(Messaging)
+      const pushToken = await FB.messaging.getToken()
       if (registrations?.pushTokenAssociated !== pushToken) {
         try {
           await this.apiService.removePushToken(pushToken)
@@ -54,7 +53,7 @@ class PushRepository {
 
   public dissociateToken(): Promise<void> {
     return this.dissociatedTokenMutex.runExclusive(async () => {
-      const pushToken = await messaging.getToken(Messaging)
+      const pushToken = await FB.messaging.getToken()
       try {
         await this.apiService.removePushToken(pushToken)
         console.log('pushToken dissociated with success')
@@ -248,8 +247,8 @@ class PushRepository {
   }
 
   public async invalidatePushToken(): Promise<void> {
-    return messaging
-      .deleteToken(Messaging)
+    return FB.messaging
+      .deleteToken()
       .then(() => this.localStore.clearTopicsRegistration())
   }
 
