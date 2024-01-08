@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Modal, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Spacing } from '../../styles'
 import { CloseButton } from './NavigationHeaderButton'
 

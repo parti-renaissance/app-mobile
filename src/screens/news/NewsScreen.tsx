@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { NewsNavigatorScreenProps } from '../../navigation/news/NewsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'

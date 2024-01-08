@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import RegionsRepository from '../../data/RegionsRepository'
 import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
