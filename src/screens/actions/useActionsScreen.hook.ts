@@ -8,6 +8,7 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
+import { router } from 'expo-router'
 
 export const useActionsScreen = (): {
   statefulState: ViewState<ReadonlyArray<ActionRowViewModel>>
@@ -56,19 +57,19 @@ export const useActionsScreen = (): {
     switch (action.type) {
       case 'polls': {
         Analytics.logActionsPolls()
-        navigation.navigate('Polls')
+        router.push('/polls')
         break
       }
       case 'phoning': {
-        navigation.navigate('Phoning')
+        router.push('/phoning')
         break
       }
       case 'doorToDoor': {
-        navigation.navigate('DoorToDoor')
+        router.push('/door-to-door')
         break
       }
       case 'retaliation': {
-        navigation.navigate('Retaliations')
+        router.push('/retaliations')
         break
       }
     }

@@ -5,7 +5,7 @@ import React, {
   useState,
 } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import Geolocation from 'react-native-geolocation-service'
+import * as Geolocation from 'expo-location'
 import { LatLng, Region } from 'react-native-maps'
 import { useFocusEffect } from '@react-navigation/native'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
@@ -86,29 +86,16 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProps> = ({
   }, [fetchCharterState])
 
   useEffect(() => {
-    /* MapView and addresses fetch needs an initial location,
-     * so when localization permission is granted,
-     * we retrieve location to initalize with it.
-     */
-    if (locationAuthorized) {
+    (async () => {
       setLoading(true)
-      Geolocation.getCurrentPosition(
-        (position) => {
-          const latLng = {
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-          }
-          setCurrentSearchRegion(getRegionFromLatLng(latLng))
-          setLoading(false)
-        },
-        () => {
-          setLocationAuthorized(false)
-          setLoading(false)
-        },
-        { enableHighAccuracy: true },
-      )
-    }
-  }, [locationAuthorized])
+      let { status } = await Geolocation.requestBackgroundPermissionsAsync();
+      const position = await Geolocation.getCurrentPositionAsync({ accuracy: Geolocation.Accuracy.High })
+      if (status !== 'granted') { return }
+      const latLng = { longitude: position.coords.longitude, latitude: position.coords.latitude }
+      setCurrentSearchRegion(getRegionFromLatLng(latLng))
+      setLoading(false)
+    })()
+  }, [])
 
   useFocusEffect(
     useCallback(() => {
