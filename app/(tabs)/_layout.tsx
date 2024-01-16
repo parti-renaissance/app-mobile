@@ -1,9 +1,11 @@
+import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSession } from '@/ctx'
 import { Colors, Spacing, Typography } from '@/styles'
+import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
 import i18n from '@/utils/i18n'
-import { Redirect, SplashScreen, Tabs } from 'expo-router'
+import { Redirect, SplashScreen, Tabs, usePathname } from 'expo-router'
 
 const tabBarIcon =
   (pathname: string, isHighlighted = false) =>
@@ -50,9 +52,29 @@ const getTabBarIcon = (route: string, focused: boolean) => {
   }
 }
 
+const getScreenname = (route: string): AnalyticsScreens => {
+  switch (route) {
+    case 'home/':
+      return 'Accueil'
+    case 'news/':
+      return 'Actualités'
+    case 'actions/':
+      return 'Actions'
+    case 'events/':
+      return 'Événements'
+    case 'tools/':
+      return 'Ressources'
+  }
+}
+
 export default function AppLayout() {
   const { isLoading, isLoggedIn } = useSession()
   const insets = useSafeAreaInsets()
+  const pathname = usePathname()
+
+  React.useEffect(() => {
+    Analytics.logNavBarItemSelected(getScreenname(pathname))
+  }, [pathname])
 
   if (isLoading) {
     return null

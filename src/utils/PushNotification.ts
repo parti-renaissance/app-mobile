@@ -4,12 +4,14 @@ import messaging, {
 } from '@react-native-firebase/messaging'
 import { LocalNotificationCenter } from '../data/LocalNotificationCenter'
 
+import FB from '@/config/firebaseConfig'
+
 const registerMessageHandlers = () => {
-  messaging().onMessage((message) => {
+  FB.messaging.onMessage((message) => {
     console.log('Receiving remote notification', message)
     createLocalNotificationInForegroundIfNeeded(message)
   })
-  messaging().setBackgroundMessageHandler((message) => {
+  FB.messaging.setBackgroundMessageHandler((message) => {
     return new Promise<void>((resolve) => {
       console.log('Message handled in background', message)
       resolve()

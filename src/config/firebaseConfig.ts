@@ -8,6 +8,8 @@ import { initializeApp } from 'firebase/app'
 import wMessaging, { getMessaging } from 'firebase/messaging'
 
 // Initialize Firebase
+type Mess = ReturnType<typeof nMessaging>
+type Anal = ReturnType<typeof nAnalytics>
 
 function initFirebase() {
   if (Platform.OS === 'web') {
@@ -26,16 +28,22 @@ function initFirebase() {
 
     return {
       messaging: {
-        onMessage: (x: Parameters<typeof wMessaging.onMessage>[1]) =>
-          wMessaging.onMessage(Messaging, x),
+        onMessage: (x: Parameters<Mess['onMessage']>[0]) =>
+          wMessaging.onMessage(Messaging, x as Parameters<typeof wMessaging.onMessage>[1]),
         getToken: () => wMessaging.getToken(Messaging),
         deleteToken: () => wMessaging.deleteToken(Messaging),
+        unsubscribeFromTopic: (x:any) => console.log('unsubscribeFromTopic', x),
+        subscribeToTopic: (x:any) => console.log('subscribeToTopic', x),
+        setBackgroundMessageHandler: (x:any) => console.log('not implemented'),
       },
       analytics: {
         logEvent: (x: Parameters<typeof wAnalytics.logEvent>[1]) =>
           wAnalytics.logEvent(Analytics, x),
-        logScreenView: (x: Parameters<typeof wAnalytics.logEvent>[1]) =>
-          wAnalytics.logEvent(Analytics, x),
+        logScreenView: (x: Parameters<Anal['logScreenView']>[0]) =>
+          wAnalytics.logEvent(Analytics, 'screen_view', {
+            firebase_screen: x.screen_name,
+            firebase_screen_class: x.screen_class,
+          }),
         setAnalyticsCollectionEnabled: (
           x: Parameters<typeof wAnalytics.setAnalyticsCollectionEnabled>[1],
         ) => wAnalytics.setAnalyticsCollectionEnabled(Analytics, x),
@@ -45,14 +53,17 @@ function initFirebase() {
       },
     }
   } else {
-    type Mess = ReturnType<typeof nMessaging>
-    type Anal = ReturnType<typeof nAnalytics>
+
     return {
       messaging: {
         onMessage: (x: Parameters<Mess['onMessage']>[0]) =>
           nMessaging().onMessage(x),
         getToken: () => nMessaging().getToken(),
         deleteToken: () => nMessaging().deleteToken(),
+        unsubscribeFromTopic: (x: Parameters<Mess['unsubscribeFromTopic']>[0]) =>
+          nMessaging().unsubscribeFromTopic(x),
+        subscribeToTopic: (x: Parameters<Mess['subscribeToTopic']>[0]) =>
+          nMessaging().subscribeToTopic(x),
       },
       analytics: {
         logEvent: (...x: Parameters<Anal['logEvent']>) =>

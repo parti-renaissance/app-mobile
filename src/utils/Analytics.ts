@@ -1,9 +1,4 @@
 import FB from '@/config/firebaseConfig'
-import {
-  getAnalytics,
-  logEvent,
-  setAnalyticsCollectionEnabled,
-} from 'firebase/analytics'
 
 export type AnalyticsScreens =
   | 'Accueil'
@@ -14,10 +9,10 @@ export type AnalyticsScreens =
 
 export const Analytics = {
   logScreen: async (screenName: string) => {
-    // await analytics().logScreenView({
-    //   screen_name: screenName,
-    //   screen_class: screenName,
-    // })
+    await FB.analytics.logScreenView({
+      screen_name: screenName,
+      screen_class: screenName,
+    })
   },
   logUrlOpened: async (url: string) => {
     FB.analytics.logEvent('external_link_opened', { url: url })

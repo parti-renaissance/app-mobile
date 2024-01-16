@@ -1,6 +1,8 @@
 PODS:
   - boost (1.83.0)
   - DoubleConversion (1.1.6)
+  - EASClient (0.11.1):
+    - ExpoModulesCore
   - EXApplication (5.8.1):
     - ExpoModulesCore
   - EXConstants (15.4.2):
@@ -9,6 +11,8 @@ PODS:
     - ExpoModulesCore
   - EXJSONUtils (0.12.1)
   - EXManifests (0.13.0):
+    - ExpoModulesCore
+  - EXNotifications (0.27.3):
     - ExpoModulesCore
   - Expo (50.0.0-preview.7):
     - ExpoModulesCore
@@ -109,6 +113,18 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
+  - EXStructuredHeaders (3.7.1)
+  - EXUpdates (0.24.7):
+    - EASClient
+    - EXManifests
+    - ExpoModulesCore
+    - EXStructuredHeaders
+    - EXUpdatesInterface
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - ReachabilitySwift
+    - React-Core
+    - sqlite3 (~> 3.42.0)
   - EXUpdatesInterface (0.15.1)
   - FBLazyVector (0.73.1)
   - FBReactNativeSpec (0.73.1):
@@ -258,6 +274,7 @@ PODS:
     - FBLazyVector (= 0.73.1)
     - RCTRequired (= 0.73.1)
     - React-Core (= 0.73.1)
+  - ReachabilitySwift (5.0.0)
   - React (0.73.1):
     - React-Core (= 0.73.1)
     - React-Core/DevSupport (= 0.73.1)
@@ -1279,6 +1296,8 @@ PODS:
     - React-Core
   - RNCPicker (2.5.1):
     - React-Core
+  - RNCPushNotificationIOS (1.11.0):
+    - React-Core
   - RNDateTimePicker (7.6.1):
     - React-Core
   - RNFBAnalytics (18.7.3):
@@ -1317,16 +1336,21 @@ PODS:
     - SentryPrivate (= 8.7.1)
   - SentryPrivate (8.7.1)
   - SocketRocket (0.6.1)
+  - sqlite3 (3.42.0):
+    - sqlite3/common (= 3.42.0)
+  - sqlite3/common (3.42.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EASClient (from `../node_modules/expo-eas-client/ios`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
+  - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
   - expo-dev-client (from `../node_modules/expo-dev-client/ios`)
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
@@ -1343,6 +1367,8 @@ DEPENDENCIES:
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
+  - EXUpdates (from `../node_modules/expo-updates/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1397,6 +1423,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -1425,15 +1452,19 @@ SPEC REPOS:
     - libevent
     - nanopb
     - PromisesObjC
+    - ReachabilitySwift
     - Sentry
     - SentryPrivate
     - SocketRocket
+    - sqlite3
 
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EASClient:
+    :path: "../node_modules/expo-eas-client/ios"
   EXApplication:
     :path: "../node_modules/expo-application/ios"
   EXConstants:
@@ -1444,6 +1475,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-json-utils/ios"
   EXManifests:
     :path: "../node_modules/expo-manifests/ios"
+  EXNotifications:
+    :path: "../node_modules/expo-notifications/ios"
   Expo:
     :path: "../node_modules/expo"
   expo-dev-client:
@@ -1476,6 +1509,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-web-browser/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
+  EXStructuredHeaders:
+    :path: "../node_modules/expo-structured-headers/ios"
+  EXUpdates:
+    :path: "../node_modules/expo-updates/ios"
   EXUpdatesInterface:
     :path: "../node_modules/expo-updates-interface/ios"
   FBLazyVector:
@@ -1579,6 +1616,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBAnalytics:
@@ -1603,11 +1642,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 26fad476bfa736552bbfa698a06cc530475c1505
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
+  EASClient: 69a3d59376f2fc941512ecb627a500b0dd9d362a
   EXApplication: 3c59e59177ada2b1f77060d9ab81f101ddb8365f
   EXConstants: e77cccf9afb245a6fb2ea917fe5f45f0e1d8b841
   EXFont: 9ae7e8e2e4825cef04a45dca74512a3f711e2fe9
   EXJSONUtils: fbc612ef20c6688be1d67587cbc94cf9d446990a
   EXManifests: 2355abd4aeacfb75eec5b43393c0aef9c2789fcf
+  EXNotifications: 727ca0e18dde91bc3d82b0f8c58a01ae05b644e1
   Expo: cd2dc043dd1cc3d9e8e4e035fb9a41b421e8f13f
   expo-dev-client: 21a0596a8b6e51425b0f0006ec942b61a633e643
   expo-dev-launcher: 7268e3439cdd3b4bb03f12ae9feb4895ae00947b
@@ -1624,6 +1665,8 @@ SPEC CHECKSUMS:
   ExpoModulesCore: b89a9b5ff1eba79702c202eaf55eec470b8f238f
   ExpoWebBrowser: 3b3cde8aa02b08dded6f436e5851e94fec6525c5
   EXSplashScreen: 5d254f495ada3644f57307f59e7ce9a1292e296f
+  EXStructuredHeaders: 10e6f9e6a2e8d47bf67d6d609d6daeb380d08dc5
+  EXUpdates: f29eb09ff5be68a65794acc7aa962812aeeb0346
   EXUpdatesInterface: 95d6bc086d7e043c1f33e30762ebc16a5cf4b153
   FBLazyVector: 2296bacb2fa157a43991048b0a9d71c1c8b65083
   FBReactNativeSpec: df0ebe69acd14ce0be0269cf75b6e338a727259b
@@ -1647,6 +1690,7 @@ SPEC CHECKSUMS:
   RCT-Folly: 082c31bb88ae3582d685f8923b9938147be587b3
   RCTRequired: 6dda55e483f75d2b43781d8ad5bd7df276a50981
   RCTTypeSafety: df0f2632f4e89938b9b9f6152b5e6c66fc6e969e
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   React: 5373769b4a544945831d9c5d455212186d68f763
   React-callinvoker: 2c54fb73b27fdf9bd7772f36dcda23d76e0e7d14
   React-Codegen: 433061982ce4803895a88d21321949d651ab3f3f
@@ -1690,6 +1734,7 @@ SPEC CHECKSUMS:
   ReactCommon: 73242ec9768e71688f35ad97ae3d0709a0f66435
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNCPicker: 529d564911e93598cc399b56cc0769ce3675f8c8
+  RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNDateTimePicker: 8fb39263b721223e095248acaf6f406d5b7f6713
   RNFBAnalytics: f03fafb67e8bdc03b13938abb6dca0407b4034bf
   RNFBApp: c21258de1485419a845efbba9c09ec946c89891d
@@ -1702,6 +1747,7 @@ SPEC CHECKSUMS:
   Sentry: 11776f6a25a128808d793d0d41bb7ad873b5ae4f
   SentryPrivate: b3c448eacdabe9eab7679a2e0af609c608f91572
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  sqlite3: f163dbbb7aa3339ad8fc622782c2d9d7b72f7e9c
   Yoga: 2b33a7ac96c58cdaa7b810948fc6a2a76ed2d108
 
 PODFILE CHECKSUM: 8e80fde4a89e28688e82c04089afd3b032bb252f
