@@ -7,6 +7,9 @@ import { Analytics } from '@/utils/Analytics'
 import { PushNotification } from '@/utils/PushNotification'
 import PushRepository from '@/data/PushRepository'
 const authenticationRepository = AuthenticationRepository.getInstance()
+import { Stack, SplashScreen } from 'expo-router'
+
+import { useSegments, useRouter } from 'expo-router'
 
 type SessionContextType = {
   isLoggedIn: boolean
@@ -20,6 +23,8 @@ export const SessionProvider = ({ children }) => {
     undefined,
   )
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
+
+  useProtectedRoute(isLoggedIn)
 
   const updateFromState = (authenticationState: AuthenticationState) => {
     if (authenticationState === AuthenticationState.Unauthenticated) {
@@ -51,7 +56,10 @@ export const SessionProvider = ({ children }) => {
       .then(() =>
         authenticationRepository.getAuthenticationState().then(updateFromState),
       )
-      .then(() => setIsLoading(false))
+      .then(() => {
+        setIsLoading(false)
+        SplashScreen.hideAsync()
+      })
   }, [])
 
   return (
@@ -67,4 +75,26 @@ export const useSession = () => {
     throw new Error('useSession must be used within a SessionProvider')
   }
   return context
+}
+
+
+function useProtectedRoute(isLoggedIn: boolean) {
+  const segments = useSegments();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const inAuthGroup = segments[0] === "(auth)";
+
+    if (
+      // If the user is not signed in and the initial segment is not anything in the auth group.
+      !isLoggedIn &&
+      !inAuthGroup
+    ) {
+      // Redirect to the sign-in page.
+      router.replace("/onboarding");
+    } else if (isLoggedIn && inAuthGroup) {
+      // Redirect away from the sign-in page.
+      router.replace("/home/");
+    }
+  }, [isLoggedIn, segments]);
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSession } from '@/ctx'
 import { Colors, Spacing, Typography } from '@/styles'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
 import i18n from '@/utils/i18n'
@@ -68,7 +67,6 @@ const getScreenname = (route: string): AnalyticsScreens => {
 }
 
 export default function AppLayout() {
-  const { isLoading, isLoggedIn } = useSession()
   const insets = useSafeAreaInsets()
   const pathname = usePathname()
 
@@ -76,19 +74,10 @@ export default function AppLayout() {
     Analytics.logNavBarItemSelected(getScreenname(pathname))
   }, [pathname])
 
-  if (isLoading) {
-    return null
-  } else {
-    SplashScreen.hideAsync()
-  }
-
-  if (!isLoggedIn) {
-    return <Redirect href="/auth/" />
-  }
-
   // Set up the auth context and render our layout inside of it.
   return (
     <Tabs
+      initialRouteName='home'
       screenOptions={{
         headerShown: false,
         tabBarButton: (props) => {
