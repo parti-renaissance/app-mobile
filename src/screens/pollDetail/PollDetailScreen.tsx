@@ -15,10 +15,14 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import PollDetailScreenLoaded from './PollDetailScreenLoaded'
 import PollDetailTools from './PollDetailTools'
+import { router, useLocalSearchParams, Stack } from 'expo-router'
+
 
 type PollDetailScreenProps = PollDetailModalNavigatorScreenProps<'PollDetail'>
 
-const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
+const PollDetailScreen = ({ navigation }: PollDetailScreenProps) => {
+  const { id } = useLocalSearchParams<{ id: string }>()
+  console.log(id)
   const [statefulState, setStatefulState] = useState<ViewState<Poll>>(
     ViewState.Loading(),
   )
@@ -31,7 +35,7 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
       [
         {
           text: i18n.t('polldetail.leave_alert.action'),
-          onPress: () => navigation.goBack(),
+          onPress: () => router.push('..'),
           style: 'destructive',
         },
         {
@@ -45,28 +49,12 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
 
   useBackHandler(askConfirmationBeforeLeaving)
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
-      ),
-    })
-  }, [navigation, askConfirmationBeforeLeaving])
 
   const fetchPoll = () => {
     setStatefulState(ViewState.Loading())
     PollsRepository.getInstance()
-      .getPoll(route.params.pollId)
+      .getPoll(id)
       .then((poll) => {
-        navigation.setOptions({
-          title: poll.name,
-          headerRight: () => (
-            <NavigationHeaderButton
-              onPress={() => setModalVisible(true)}
-              source={require('../../assets/images/navigationBarLeftAccessoriesOutils.png')}
-            />
-          ),
-        })
         setStatefulState(ViewState.Content(poll))
       })
       .catch((error) => {
@@ -75,9 +63,23 @@ const PollDetailScreen = ({ route, navigation }: PollDetailScreenProps) => {
       })
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(fetchPoll, [route.params.pollId, navigation])
+  useEffect(fetchPoll, [id, navigation])
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{
+        title: statefulState.state === 'content' ? statefulState.content.name : '',
+        headerRight: () => (
+          <NavigationHeaderButton
+            onPress={() => setModalVisible(true)}
+            source={require('../../assets/images/navigationBarLeftAccessoriesOutils.png')}
+          />
+
+        ), 
+        headerLeft: () => (
+          <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
+        ),
+
+      }} />
       <ModalOverlay
         modalVisible={isModalVisible}
         onRequestClose={() => setModalVisible(false)}
