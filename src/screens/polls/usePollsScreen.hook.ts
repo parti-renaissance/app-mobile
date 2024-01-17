@@ -8,6 +8,7 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
+import { router } from 'expo-router'
 
 export const usePollsScreen = (): {
   statefulState: ViewState<PollsScreenViewModel>
@@ -63,9 +64,9 @@ export const usePollsScreen = (): {
   useFocusEffect(firstDataFetch)
 
   const onPollSelected = (pollId: string) => {
-    navigation.navigate('PollDetailModal', {
-      screen: 'PollDetail',
-      params: { pollId },
+    router.push({
+      pathname: '/(tabs)/actions/polls/[id]/',
+      params: { id: pollId },
     })
   }
 
