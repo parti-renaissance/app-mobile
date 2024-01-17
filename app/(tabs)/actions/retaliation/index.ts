@@ -1,3 +1,3 @@
-import RetaliationDetailScreen from "@/screens/retaliation/RetaliationDetailScreen";
+import {RetaliationsScreen} from "@/screens/retaliations/RetaliationsScreen";
 
-export default RetaliationDetailScreen;
+export default RetaliationsScreen
