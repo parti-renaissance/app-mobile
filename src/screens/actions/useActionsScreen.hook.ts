@@ -57,19 +57,19 @@ export const useActionsScreen = (): {
     switch (action.type) {
       case 'polls': {
         Analytics.logActionsPolls()
-        router.push('/polls')
+        router.push('/actions/polls/')
         break
       }
       case 'phoning': {
-        router.push('/phoning')
+        router.push('/actions/phoning')
         break
       }
       case 'doorToDoor': {
-        router.push('/door-to-door')
+        router.push('/actions/door-to-door/')
         break
       }
       case 'retaliation': {
-        router.push('/retaliations')
+        router.push('/actions/retaliation/')
         break
       }
     }

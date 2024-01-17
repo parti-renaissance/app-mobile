@@ -86,16 +86,21 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProps> = ({
   }, [fetchCharterState])
 
   useEffect(() => {
+    if (!locationAuthorized) return
     (async () => {
       setLoading(true)
-      let { status } = await Geolocation.requestBackgroundPermissionsAsync();
+      let { status } = await Geolocation.requestForegroundPermissionsAsync();
       const position = await Geolocation.getCurrentPositionAsync({ accuracy: Geolocation.Accuracy.High })
-      if (status !== 'granted') { return }
+      if (status !== 'granted') {
+        setLocationAuthorized(false)
+        setLoading(false)
+        return
+       }
       const latLng = { longitude: position.coords.longitude, latitude: position.coords.latitude }
       setCurrentSearchRegion(getRegionFromLatLng(latLng))
       setLoading(false)
     })()
-  }, [])
+  }, [locationAuthorized])
 
   useFocusEffect(
     useCallback(() => {
