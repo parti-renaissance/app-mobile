@@ -8,6 +8,7 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
 import { RetaliationListCardViewModelMapper } from './RetaliationListCardViewModelMapper'
+import { router } from 'expo-router'
 
 export const useRetaliationsScreen = (): {
   statefulState: ViewState<Array<RetaliationListCardViewModel>>
@@ -47,7 +48,10 @@ export const useRetaliationsScreen = (): {
   useEffect(fetchRetaliations, [])
 
   const onRetaliationSelected = (id: string) => {
-    navigation.navigate('RetaliationDetail', { retaliationId: id })
+    router.push({
+      pathname: '/(tabs)/actions/retaliation/[id]',
+      params: { id },
+    })
   }
 
   const onRetaliateSelected = (id: string) => {

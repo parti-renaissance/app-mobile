@@ -5,8 +5,8 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
+  View
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -65,12 +65,12 @@ export const RetaliationsScreen: FC<RetaliationsScreenProps> = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatefulView
         state={statefulState}
         contentComponent={RetaliationsContent}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 
