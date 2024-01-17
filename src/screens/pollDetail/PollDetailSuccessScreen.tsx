@@ -8,32 +8,28 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import CircularIcon from '../shared/CircularIcon'
 import { FlexibleVerticalSpacer } from '../shared/Spacer'
 
+import {Stack, router, useLocalSearchParams} from 'expo-router'
+
 type PollDetailSuccessScreenProps =
   PollDetailModalNavigatorScreenProps<'PollDetailSuccess'>
 
 const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
-  route,
   navigation,
 }) => {
+  const { id, title } = useLocalSearchParams<{id:string, title:string}>()
   React.useLayoutEffect(() => {
-    const updateNavigationHeader = () => {
-      navigation.setOptions({
-        title: route.params.title,
-      })
-    }
-
     // Disable back press
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       () => true,
     )
 
-    updateNavigationHeader()
     return () => backHandler.remove()
-  }, [navigation, route.params.title])
+  }, [navigation, title])
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Stack.Screen options={{ title: title }} />
       <View style={styles.container}>
         <CircularIcon
           style={styles.image}
@@ -49,14 +45,15 @@ const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
             style={styles.primaryButton}
             title={i18n.t('polldetail.success.restart')}
             onPress={() =>
-              navigation.replace('PollDetail', {
-                pollId: route.params.pollId,
+              router.replace({
+                pathname: '/(tabs)/actions/polls/[id]/',
+                params: { id },
               })
             }
           />
           <SecondaryButton
             title={i18n.t('polldetail.success.finish')}
-            onPress={() => navigation.goBack()}
+            onPress={() => router.push('..')}
           />
         </View>
       </View>
