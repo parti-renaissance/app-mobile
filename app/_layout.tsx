@@ -12,10 +12,6 @@ export default function Root() {
           <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
           <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-          <Stack.Screen
-            name="(auth)/location-picker"
-            options={{ presentation: 'modal' }}
-          />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
     </SessionProvider>

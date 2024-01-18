@@ -16,6 +16,7 @@ import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerView
 import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
 import { PersonalInformationsForm } from './PersonalInformationsForm'
 import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
+import { router } from 'expo-router'
 
 export const usePersonalInformationScreenContent = (
   profile: DetailedProfile,
@@ -111,7 +112,7 @@ export const usePersonalInformationScreenContent = (
   }
 
   const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', { screen: 'LocationPicker' })
+    router.push('/(tabs)/home/profile/location-picker')
   }
 
   const onNationalityPress = () => {
