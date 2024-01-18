@@ -32,7 +32,7 @@ const ProfileScreen = () => {
       router.push('/(tabs)/home/profile/personal-information')
     }
     const openCenterOfInterest = () => {
-      // navigation.navigate('CenterOfInterest')
+      router.push('/(tabs)/home/profile/center-of-interest')
     }
     const viewModel = ProfileScreenViewModelMapper.map(
       content.profile,
