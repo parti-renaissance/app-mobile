@@ -55,7 +55,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = () => {
 
   useEffect(() => {
     const navigationToProfile = () => {
-      router.push('/(tabs)/home/profile')
+      router.push('/(tabs)/home/profile/')
     }
     navigation.setOptions({
       headerRight: () => <ProfileButton onPress={navigationToProfile} />,

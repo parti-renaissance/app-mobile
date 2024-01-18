@@ -10,6 +10,8 @@ import * as ENV_KEYS from '../../config/env'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
+import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
+import { Stack, router } from 'expo-router'
 
 export const LocationPickerScreen = () => {
   const { onPlaceSelected } = useLocationPickerScreen((address) =>
@@ -18,6 +20,12 @@ export const LocationPickerScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerLeft: () => <CloseButton onPress={() => router.push('../')} />,
+          title: i18n.t('personalinformation.address'),
+        }}
+      />
       <GooglePlacesAutocomplete
         listViewDisplayed={false}
         placeholder={i18n.t('common.search')}

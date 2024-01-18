@@ -118,7 +118,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const onLocationPickerPress = () => {
-    router.push('/(modals)/location-picker')
+    router.push('/location-picker')
   }
 
   const getTextInputProps = (
