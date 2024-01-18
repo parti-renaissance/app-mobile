@@ -8,29 +8,25 @@ import { StatefulView } from '../shared/StatefulView'
 import { HeaderTextButton } from './HeaderTextButton'
 import { PersonalInformationScreenContent } from './PersonalInformationScreenContent'
 import { usePersonalInformationScreen } from './usePersonalInformationScreen.hook'
+import { Stack, router } from 'expo-router'
 
 type PersonalInformationScreenProps =
   PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>
 
-const PersonalInformationScreen: FC<PersonalInformationScreenProps> = ({
-  navigation,
-}) => {
+const PersonalInformationScreen: FC<PersonalInformationScreenProps> = () => {
   const { statefulState } = usePersonalInformationScreen()
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderTextButton
-          title={i18n.t('personalinformation.cancel')}
-          onPress={() => navigation.goBack()}
-        />
-      ),
-      title: i18n.t('personalinformation.title'),
-    })
-  }, [navigation])
 
   return (
     <SafeAreaView style={styles.container}>
+      <Stack.Screen options={{
+        headerLeft: () => (
+          <HeaderTextButton
+            title={i18n.t('personalinformation.cancel')}
+            onPress={() => router.push('../')}
+          />
+        ),
+        title: i18n.t('personalinformation.title'),
+      }} />
       <StatefulView
         state={statefulState}
         contentComponent={(detailedProfile) => {

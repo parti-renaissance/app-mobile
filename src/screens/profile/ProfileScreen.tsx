@@ -6,7 +6,6 @@ import {
   GetUserProfileInteractor,
   GetUserProfileInteractorResult,
 } from '../../core/interactor/GetUserProfileInteractor'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { Colors } from '../../styles'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { StatefulView } from '../shared/StatefulView'
@@ -14,6 +13,7 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
+import { router } from 'expo-router'
 
 
 const ProfileScreen = () => {
@@ -26,15 +26,13 @@ const ProfileScreen = () => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      // navigation.navigate('NotificationMenu')
+      router.push('/(tabs)/home/profile/notification')
     }
     const openPersonalInformation = () => {
-      // navigation.navigate('PersonalInformationModal', {
-      //   screen: 'PersonalInformation',
-      // })
+      router.push('/(tabs)/home/profile/personal-information')
     }
     const openCenterOfInterest = () => {
-      // navigation.navigate('CenterOfInterest')
+      router.push('/(tabs)/home/profile/center-of-interest')
     }
     const viewModel = ProfileScreenViewModelMapper.map(
       content.profile,
@@ -81,12 +79,6 @@ const ProfileScreen = () => {
         })
     }, []),
   )
-
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-  //   })
-  // }, [navigation])
 
   return (
     <SafeAreaView style={styles.container}>
