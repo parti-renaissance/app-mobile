@@ -1,0 +1,2 @@
+import PhoningCampaignScoreboardScreen from "@/screens/phoningCampaignScoreboard/PhoningCampaignScoreboardScreen";
+export default PhoningCampaignScoreboardScreen;

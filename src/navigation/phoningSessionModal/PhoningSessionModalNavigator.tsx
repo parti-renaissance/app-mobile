@@ -33,8 +33,7 @@ const PhoningSessionModal: FunctionComponent = () => {
         options={{ headerLeft: () => null }}
       />
       <Stack.Screen
-        name={'PhoningSessionLoader'}
-        component={PhoningSessionLoaderScreen}
+        name='session/loader'
         options={{ headerLeft: () => null }}
       />
       <Stack.Screen

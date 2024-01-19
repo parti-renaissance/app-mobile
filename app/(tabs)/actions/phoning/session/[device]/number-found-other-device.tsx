@@ -1,0 +1,2 @@
+import PhoningSessionNumberFoundOtherDeviceScreen from "@/screens/phoningSessionNumberFoundOtherDevice/PhoningSessionNumberFoundOtherDeviceScreen";
+export default PhoningSessionNumberFoundOtherDeviceScreen;
