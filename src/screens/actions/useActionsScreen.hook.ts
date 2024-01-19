@@ -23,8 +23,6 @@ export const useActionsScreen = (): {
     stateRef.current = statefulState
   }, [statefulState])
 
-  const navigation =
-    useNavigation<ActionsNavigatorScreenProps<'Actions'>['navigation']>()
   const [fetchedActions] = useState(new Map<string, Action>())
 
   const fetch = useCallback(() => {
@@ -61,7 +59,7 @@ export const useActionsScreen = (): {
         break
       }
       case 'phoning': {
-        router.push('/actions/phoning')
+        router.push('/actions/phoning/')
         break
       }
       case 'doorToDoor': {

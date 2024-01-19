@@ -1,4 +1,4 @@
-import { Linking } from 'react-native'
+import * as Linking from 'expo-linking'
 import { utils } from '@react-native-firebase/app'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { LinkingOptions } from '@react-navigation/native'
