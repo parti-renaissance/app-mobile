@@ -19,6 +19,7 @@ import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
 import { use } from 'i18next'
+import { router } from 'expo-router'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -120,7 +121,10 @@ export const useHomeScreen = (): {
       return
     }
     await Analytics.logHomeRegionMore()
-    navigation.navigate('Region', { zipCode })
+    router.push({
+      pathname: '/(tabs)/home/region',
+      params: { zipCode },
+    })
   }
 
   const onQuickPollAnswerSelected = async (
@@ -164,8 +168,9 @@ export const useHomeScreen = (): {
   }
 
   const onRetaliationSelected = (id: string) => {
-    navigation.navigate('RetaliationDetail', {
-      retaliationId: id,
+    router.push({
+      pathname: '/(tabs)/actions/retaliation/[id]',
+      params: { id },
     })
   }
 

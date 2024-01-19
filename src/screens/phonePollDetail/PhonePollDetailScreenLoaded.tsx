@@ -24,6 +24,8 @@ import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/provide
 import { AlertUtils } from '../shared/AlertUtils'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
+import { useCampaignStore, useSessionStore } from '@/data/store/phoning'
+import { router, useLocalSearchParams } from 'expo-router'
 
 type Props = Readonly<{
   poll: Poll
@@ -34,14 +36,10 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
   satisfactionQuestions,
 }) => {
-  const navigation =
-    useNavigation<
-      PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['navigation']
-    >()
-  const route =
-    useRoute<
-      PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['route']
-    >()
+  const navigation = useNavigation()
+  const { campaign } = useCampaignStore()
+  const { device } = useLocalSearchParams<{ device: 'current' | 'external' }>()
+  const { session } = useSessionStore()
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
@@ -87,11 +85,11 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   const postAnswers = () => {
     setIsLoading(true)
     new SendPhonePollAnswersInteractor()
-      .execute(poll, route.params.data.sessionId, provider.getResult())
+      .execute(poll, session.id, provider.getResult())
       .then(() => {
-        navigation.replace('PhonePollDetailSuccess', {
-          title: poll.name,
-          data: route.params.data,
+        router.replace({
+          pathname: '/(tabs)/actions/phoning/session/[device]/poll/success',
+          params: { device }
         })
       })
       .catch((error) => {

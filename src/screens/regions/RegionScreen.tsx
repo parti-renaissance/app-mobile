@@ -13,17 +13,19 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { RegionViewModel } from './RegionViewModel'
 import { RegionViewModelMapper } from './RegionViewModelMapper'
+import { useLocalSearchParams } from 'expo-router'
 
 type RegionScreenProps = HomeNavigatorScreenProps<'Region'>
 
 const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
+  const { zipCode } = useLocalSearchParams<{zipCode : string}>()
   const [statefulState, setStatefulState] = useState<
     ViewState<RegionViewModel>
   >(ViewState.Loading())
 
   const fetchData = () => {
     RegionsRepository.getInstance()
-      .getRegion(route.params.zipCode)
+      .getRegion(zipCode)
       .then((result) => {
         if (result.campaign) {
           const viewModel = RegionViewModelMapper.map(
@@ -97,9 +99,9 @@ const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+    <View style={styles.container}>
       <StatefulView contentComponent={RegionContent} state={statefulState} />
-    </SafeAreaView>
+    </View>
   )
 }
 
