@@ -22,14 +22,18 @@ import { ViewState } from '@/screens/shared/ViewState'
 import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
 import PhonePollDetailInterruptionModalContent from '@/screens/phonePollDetail/PhonePollDetailInterruptionModalContent'
 import PhonePollDetailScreenLoaded from '@/screens/phonePollDetail/PhonePollDetailScreenLoaded'
+import { useNavigation, useLocalSearchParams } from 'expo-router'
+import { useCampaignStore, useSessionStore } from '@/data/store/phoning'
 
 type PhonePollDetailScreenProps =
     PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>
 
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
     route,
-    navigation,
 }) => {
+    const navigation = useNavigation()
+    const { campaign } = useCampaignStore()
+    const { session } = useSessionStore()
     const [statefulState, setStatefulState] = useState<
         ViewState<PhonePollDetailResources>
     >(ViewState.Loading())
@@ -61,7 +65,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
         setStatefulState(ViewState.Loading())
 
         new GetPhonePollDetailResourcesInteractor()
-            .execute(route.params.data.campaignId, route.params.data.sessionId)
+            .execute(campaign.id, session.id)
             .then((resources) => {
                 navigation.setOptions({
                     title: resources.poll.name,
@@ -76,16 +80,16 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(fetchResources, [
-        route.params.data.campaignId,
-        route.params.data.sessionId,
+        campaign.id,
+        session.id,
         navigation,
     ])
 
     const sendInterruptionStatusAndLeave = (statusCode: string) => {
         setLoading(true)
         PhoningCampaignRepository.getInstance()
-            .updatePhoningSessionStatus(route.params.data.sessionId, statusCode)
-            .then(() => navigation.pop())
+            .updatePhoningSessionStatus(session.id, statusCode)
+            .then(() => navigation.goBack())
             .catch((error) =>
                 AlertUtils.showNetworkAlert(error, () =>
                     sendInterruptionStatusAndLeave(statusCode),

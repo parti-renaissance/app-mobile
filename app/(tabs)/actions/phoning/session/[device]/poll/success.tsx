@@ -13,25 +13,27 @@ import { PhonePollDetailSuccessSectionHeader } from '@/screens/phonePollDetailSu
 import { PhonePollDetailSuccessViewModelMapper } from '@/screens/phonePollDetailSuccess/PhonePollDetailSuccessViewModelMapper'
 import { useCampaignStore, useSessionStore } from '@/data/store/phoning'
 
-import {router, useNavigation} from 'expo-router'
+import {router, useNavigation, useLocalSearchParams} from 'expo-router'
 
 type PhonePollDetailSuccessScreenProps =
     PhoningSessionModalNavigatorScreenProps<'PhonePollDetailSuccess'>
 
 const PhonePollDetailSuccessScreen: FunctionComponent<
     PhonePollDetailSuccessScreenProps
-> = ({ navigation, route }) => {
+> = () => {
     const { campaign } = useCampaignStore()
     const { session } = useSessionStore()
+    const navigation = useNavigation()
+    const { device } = useLocalSearchParams<{ device: 'current' | 'external' }>()
     
 
     usePreventGoingBack()
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
-            title: route.params.title,
+            title: campaign.title,
         })
-    }, [navigation, route.params.title])
+    }, [navigation, campaign.title])
 
 
 
@@ -50,22 +52,18 @@ const PhonePollDetailSuccessScreen: FunctionComponent<
                                     onNewCall={() => {
                                         // If adherent is null in the param list it means we are in the permanent campaign and should navigate to phoningContactTutorial
                                         if (session.adherent) {
-                                            navigation.replace('PhoningSessionLoader', {
-                                                campaignId: route.params.data.campaignId,
-                                                campaignTitle: route.params.data.campaignTitle,
-                                                device: route.params.data.device,
+                                            router.replace({
+                                                pathname: '/(tabs)/actions/phoning/session/[device]/',
+                                                params: { device }
                                             })
                                         } else {
-                                            navigation.replace(
-                                                'PhoningSessionLoaderPermanentCampaign',
-                                                {
-                                                    campaignId: route.params.data.campaignId,
-                                                    campaignTitle: route.params.data.campaignTitle,
-                                                },
-                                            )
+                                            router.replace({
+                                                pathname: '/(tabs)/actions/phoning/session/loader-permanent-campaign',
+                                                params: { device }
+                                            })
                                         }
                                     }}
-                                    onFinish={() => navigation.pop()}
+                                    onFinish={() => {router.navigate({pathname: '/(tabs)/actions/phoning/'})}}
                                 />
                             )
                         case 'rankingHeader':
