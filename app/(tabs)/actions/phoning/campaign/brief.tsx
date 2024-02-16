@@ -29,7 +29,7 @@ const PhoningCampaignBriefScreen: FunctionComponent<
                     title={i18n.t('phoning.brief.call')}
                     onPress={() =>
                         router.push({
-                            pathname: '/(tabs)/actions/phoning/session/[device]/loader',
+                            pathname: '/(tabs)/actions/phoning/session/[device]/',
                             params: { device: 'current' },
                         })
                     }
@@ -39,7 +39,7 @@ const PhoningCampaignBriefScreen: FunctionComponent<
                     textStyle={styles.linkText}
                     onPress={() =>
                         router.push({
-                            pathname: '/(tabs)/actions/phoning/session/[device]/loader',
+                            pathname: '/(tabs)/actions/phoning/session/[device]/',
                             params: { device: 'external' },
                         })
                     }

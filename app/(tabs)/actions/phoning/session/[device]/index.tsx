@@ -82,7 +82,7 @@ const PhoningSessionLoaderScreen = () => {
                     // We add a close button when there is an error to be able to leave
                     navigation.setOptions({
                         headerLeft: () => (
-                            <CloseButton onPress={() => router.pop()} />
+                            <CloseButton onPress={() =>router.push('..')} />
                         ),
                     })
                     setStatefulState(ViewStateUtils.networkError(error, loadSession))

@@ -1,2 +1,0 @@
-import PhonePollDetailSuccessScreen from "@/screens/phonePollDetailSuccess/PhonePollDetailSuccessScreen";
-export default PhonePollDetailSuccessScreen;

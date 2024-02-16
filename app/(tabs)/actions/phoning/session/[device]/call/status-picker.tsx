@@ -30,7 +30,7 @@ import { ViewState } from '@/screens/shared/ViewState'
 import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
 
 import { useSessionStore, useCampaignStore } from '@/data/store/phoning'
-import { Stack } from 'expo-router'
+import { Stack, router, useLocalSearchParams } from 'expo-router'
 
 
 type PhoneCallStatusPickerScreenProps =
@@ -45,6 +45,7 @@ const PhoneCallStatusPickerScreen= () => {
     const [isLoading, setLoading] = useState(false)
     const { session } = useSessionStore()
     const { campaign } = useCampaignStore();
+    const { device } = useLocalSearchParams<{ device: 'current' | 'external' }>()
 
     const fetchCallStatuses = useCallback(() => {
         PhoningCampaignRepository.getInstance()
@@ -78,8 +79,9 @@ const PhoneCallStatusPickerScreen= () => {
         PhoningCampaignRepository.getInstance()
             .updatePhoningSessionStatus(session.id, statusCode)
             .then(() => {
-                navigation.replace('PhoneCallFailure', {
-                    data: route.params.data,
+                router.replace({
+                    pathname:'/(tabs)/actions/phoning/session/[device]/call/failure',
+                    params: { device }
                 })
             })
             .catch((error) => {
@@ -92,8 +94,9 @@ const PhoneCallStatusPickerScreen= () => {
 
     const onAction = (statusCode: string) => {
         if (statusCode === 'answered') {
-            navigation.replace('PhonePollDetail', {
-                data: route.params.data,
+            router.replace({
+                pathname:'/(tabs)/actions/phoning/session/[device]/poll/detail',
+                params: { device }
             })
         } else {
             sendStatusCodeAndLeave(statusCode)
@@ -119,7 +122,7 @@ const PhoneCallStatusPickerScreen= () => {
                         return (
                             <>
                                 <Text style={styles.title}>
-                                    {route.params.data.adherent.info}
+                                    {session.adherent.info}
                                 </Text>
                                 <VerticalSpacer spacing={Spacing.margin} />
                             </>

@@ -30,7 +30,7 @@ const PhoningSessionNoNumberAvailableScreen = () => {
             </View>
             <TertiaryButton
                 title={i18n.t('phoningsession.end_session')}
-                onPress={() => router.pop()}
+                onPress={() => router.navigate('/(tabs)/actions/phoning/')}
             />
         </View>
     )

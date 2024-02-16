@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react'
-import { Linking, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import * as Linking from 'expo-linking'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PhoningSessionModalNavigatorScreenProps } from '@/navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '@/styles'
@@ -54,7 +55,12 @@ const PhoningSessionNumberFoundScreen = () => {
             <VerticalSpacer spacing={Spacing.margin} />
             <PrimaryButton
                 title={i18n.t('phoningsession.call_started')}
-                onPress={() => router.replace( }
+                onPress={() =>
+                    router.replace({
+                        pathname: '/(tabs)/actions/phoning/session/[device]/call/status-picker',
+                        params: { device: 'current' }
+                    })
+                }
             />
             <VerticalSpacer spacing={Spacing.margin} />
         </SafeAreaView>

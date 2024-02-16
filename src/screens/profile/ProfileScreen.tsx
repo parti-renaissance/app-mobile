@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Linking, SafeAreaView, StyleSheet } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
+import * as Linking from 'expo-linking'
 import { useFocusEffect } from '@react-navigation/native'
 import { ServerTimeoutError } from '../../core/errors'
 import {
