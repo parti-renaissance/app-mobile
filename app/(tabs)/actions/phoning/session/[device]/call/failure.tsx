@@ -30,7 +30,7 @@ const PhoneCallFailureScreen= () => {
                 title={i18n.t('phoningsession.new_call')}
                 onPress={() =>
                     router.navigate({
-                        pathname: '/(tabs)/actions/phoning/session/',
+                        pathname: '/(tabs)/actions/phoning/session/[device]/',
                         params: { device }
                     })
                 }
