@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { PhoningSession } from '@/core/entities/PhoningSession'
-import { PhoningSessionAdherent } from '@/core/entities/PhoningSessionAdherent'
 import {
     PhoningSessionFinishedCampaignError,
     PhoningSessionNoNumberError,

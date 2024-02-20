@@ -1,8 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React from 'react'
 import { SectionList, StyleSheet, View } from 'react-native'
-import { PhoningCampaign } from '@/core/entities/PhoningCampaign'
-import PhoningCampaignRepository from '@/data/PhoningCampaignRepository'
-import { PhoningSessionModalNavigatorScreenProps } from '@/navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing } from '@/styles'
 import { PhoningCampaignRankingHeaderView } from '@/screens/shared/PhoningCampaignRankingHeaderView'
 import { PhoningCampaignRankingRow } from '@/screens/shared/PhoningCampaignRankingRow'
@@ -15,12 +12,7 @@ import { useCampaignStore, useSessionStore } from '@/data/store/phoning'
 
 import {router, useNavigation, useLocalSearchParams} from 'expo-router'
 
-type PhonePollDetailSuccessScreenProps =
-    PhoningSessionModalNavigatorScreenProps<'PhonePollDetailSuccess'>
-
-const PhonePollDetailSuccessScreen: FunctionComponent<
-    PhonePollDetailSuccessScreenProps
-> = () => {
+const PhonePollDetailSuccessScreen = () => {
     const { campaign } = useCampaignStore()
     const { session } = useSessionStore()
     const navigation = useNavigation()

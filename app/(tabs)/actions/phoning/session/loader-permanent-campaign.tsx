@@ -1,2 +1,0 @@
-import PhoningSessionLoaderPermanentCampaignScreen from "@/screens/phoningSessionLoaderPermanentCampaign/PhoningSessionLoaderPermanentCampaignScreen";
-export default PhoningSessionLoaderPermanentCampaignScreen;

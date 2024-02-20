@@ -1,19 +1,15 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import * as Linking from 'expo-linking'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { PhoningSessionModalNavigatorScreenProps } from '@/navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '@/styles'
 import i18n from '@/utils/i18n'
 import { PrimaryButton, SecondaryButton } from '@/screens/shared/Buttons'
 import CircularIcon from '@/screens/shared/CircularIcon'
 import { VerticalSpacer } from '@/screens/shared/Spacer'
 import { usePreventGoingBack } from '@/screens/shared/usePreventGoingBack.hook'
-import { useLocalSearchParams, router } from 'expo-router'
+import { router } from 'expo-router'
 import { useSessionStore } from '@/data/store/phoning'
-
-type PhoningSessionNumberFoundScreenProps =
-    PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFound'>
 
 const PhoningSessionNumberFoundScreen = () => {
     usePreventGoingBack()

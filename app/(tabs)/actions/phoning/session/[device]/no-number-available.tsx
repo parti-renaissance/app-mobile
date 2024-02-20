@@ -1,7 +1,5 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { PhoningSessionModalNavigatorScreenProps } from '@/navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '@/styles'
 import i18n from '@/utils/i18n'
 import { TertiaryButton } from '@/screens/shared/Buttons'
@@ -9,9 +7,6 @@ import CircularIcon from '@/screens/shared/CircularIcon'
 import { VerticalSpacer } from '@/screens/shared/Spacer'
 import { usePreventGoingBack } from '@/screens/shared/usePreventGoingBack.hook'
 import { useLocalSearchParams, router } from 'expo-router'
-
-type PhoningSessionNoNumberAvailableScreenProps =
-    PhoningSessionModalNavigatorScreenProps<'PhoningSessionNoNumberAvailable'>
 
 const PhoningSessionNoNumberAvailableScreen = () => {
     const { message } = useLocalSearchParams<{ message: string }>()

@@ -9,10 +9,10 @@ const PhoningSessionModal: FunctionComponent = () => {
                 name='poll/detail'
                 options={{ headerLeft: () => null }}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
                 name={'loader-permanent-campaign'}
                 options={{ headerLeft: () => null }}
-            /> */}
+            />
             <Stack.Screen
                 name={'poll/success'}
                 options={{ headerLeft: () => null }}

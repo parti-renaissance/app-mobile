@@ -1,16 +1,10 @@
-import React, {
-    FunctionComponent,
-    useEffect,
-    useLayoutEffect,
-    useState,
-} from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import {
     GetPhonePollDetailResourcesInteractor,
     PhonePollDetailResources,
 } from '@/core/interactor/GetPhonePollDetailResourcesInteractor'
 import PhoningCampaignRepository from '@/data/PhoningCampaignRepository'
-import { PhoningSessionModalNavigatorScreenProps } from '@/navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { AlertUtils } from '@/screens/shared/AlertUtils'
 import LoadingOverlay from '@/screens/shared/LoadingOverlay'
 import ModalOverlay from '@/screens/shared/ModalOverlay'
@@ -22,15 +16,10 @@ import { ViewState } from '@/screens/shared/ViewState'
 import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
 import PhonePollDetailInterruptionModalContent from '@/screens/phonePollDetail/PhonePollDetailInterruptionModalContent'
 import PhonePollDetailScreenLoaded from '@/screens/phonePollDetail/PhonePollDetailScreenLoaded'
-import { useNavigation, useLocalSearchParams } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import { useCampaignStore, useSessionStore } from '@/data/store/phoning'
 
-type PhonePollDetailScreenProps =
-    PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>
-
-const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
-    route,
-}) => {
+const PhonePollDetailScreen= () => {
     const navigation = useNavigation()
     const { campaign } = useCampaignStore()
     const { session } = useSessionStore()
