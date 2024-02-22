@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   FlatList,
   Image,
@@ -16,29 +11,31 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   DoorToDoorCampaignRanking,
   DoorToDoorCampaignRankingItem,
-} from '../../../core/entities/DoorToDoorCampaignRanking'
-import DoorToDoorRepository from '../../../data/DoorToDoorRepository'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../../styles'
-import { DateProvider } from '../../../utils/DateProvider'
-import i18n from '../../../utils/i18n'
-import { PrimaryButton, SecondaryButton } from '../../shared/Buttons'
-import { CloseButton } from '../../shared/NavigationHeaderButton'
-import { RankingRowViewModel, Tab } from '../rankings/Ranking'
-import { RankingHeaderView } from '../rankings/RankingHeaderView'
-import { RankingRowView } from '../rankings/RankingRowView'
-import { RankingTabsView } from '../rankings/RankingTabsView'
-import { RankingViewModelMapper } from '../rankings/RankingViewModelMapper'
+} from '@/core/entities/DoorToDoorCampaignRanking'
+import DoorToDoorRepository from '@/data/DoorToDoorRepository'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
+import { RankingRowViewModel, Tab } from '@/screens/doorToDoor/rankings/Ranking'
+import { RankingHeaderView } from '@/screens/doorToDoor/rankings/RankingHeaderView'
+import { RankingRowView } from '@/screens/doorToDoor/rankings/RankingRowView'
+import { RankingTabsView } from '@/screens/doorToDoor/rankings/RankingTabsView'
+import { RankingViewModelMapper } from '@/screens/doorToDoor/rankings/RankingViewModelMapper'
+import { PrimaryButton, SecondaryButton } from '@/screens/shared/Buttons'
+import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
+import { Colors, Spacing, Typography } from '@/styles'
+import { DateProvider } from '@/utils/DateProvider'
+import i18n from '@/utils/i18n'
+import { router, useLocalSearchParams, useNavigation } from 'expo-router'
 
-type TunnelDoorSuccessScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSuccess'>
-
-const TunnelDoorSuccessScreen: FunctionComponent<
-  TunnelDoorSuccessScreenProps
-> = ({ navigation, route }) => {
+const TunnelDoorSuccessScreen = () => {
   const [tab, setTab] = useState(Tab.INDIVIDUAL)
   const [ranking, setRanking] = useState<DoorToDoorCampaignRanking>()
   const [userStats, setUserStats] = useState<DoorToDoorCampaignRankingItem>()
+  const navigation = useNavigation()
+  const { tunnel, setTunnel } = useDtdTunnelStore()
+  const params = useLocalSearchParams<{
+    visitStartDateISOString: string
+    interlocutorStatus: string
+  }>()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -50,12 +47,12 @@ const TunnelDoorSuccessScreen: FunctionComponent<
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()
-      .getDoorToDoorCampaignRanking(route.params.campaignId, 'remote')
+      .getDoorToDoorCampaignRanking(tunnel.campaignId, 'remote')
       .then((result) => {
         setUserStats(result.individual.find((item) => item.current))
         setRanking(result)
       })
-  }, [route.params, setRanking])
+  }, [tunnel.campaignId, setRanking])
 
   const renderItem = ({ item }: ListRenderItemInfo<RankingRowViewModel>) => (
     <RankingRowView viewModel={item} />
@@ -66,7 +63,7 @@ const TunnelDoorSuccessScreen: FunctionComponent<
       <>
         <Image
           style={styles.image}
-          source={require('../../../assets/images/papSuccess.png')}
+          source={require('@/assets/images/papSuccess.png')}
         />
         <Text style={styles.title}>
           {i18n.t('doorToDoor.tunnel.success.newDoor')}
@@ -80,11 +77,12 @@ const TunnelDoorSuccessScreen: FunctionComponent<
 
         <PrimaryButton
           onPress={() => {
-            navigation.replace('TunnelDoorPoll', {
-              campaignId: route.params.campaignId,
-              buildingParams: route.params.buildingParams,
-              interlocutorStatus: route.params.interlocutorStatus,
-              visitStartDateISOString: DateProvider.now().toISOString(),
+            router.replace({
+              pathname: '/actions/door-to-door/tunnel/poll',
+              params: {
+                interlocutorStatus: params.interlocutorStatus,
+                visitStartDateISOString: DateProvider.now().toISOString(),
+              },
             })
           }}
           title="Interroger une autre personne dans le même foyer"
@@ -114,20 +112,20 @@ const TunnelDoorSuccessScreen: FunctionComponent<
         keyExtractor={(item) => item.rank}
       />
       <View style={styles.bottomContainer}>
-        {route.params.buildingParams.type !== 'house' ? (
+        {tunnel.buildingParams.type !== 'house' ? (
           <PrimaryButton
             title={i18n.t('doorToDoor.tunnel.success.knockNewDoor')}
             style={styles.newDoor}
             onPress={() => {
-              const nextDoor = route.params.buildingParams.door + 1
-              navigation.navigate('TunnelDoorSelection', {
-                campaignId: route.params.campaignId,
+              const nextDoor = tunnel.buildingParams.door + 1
+              setTunnel({
+                ...tunnel,
                 buildingParams: {
-                  ...route.params.buildingParams,
+                  ...tunnel.buildingParams,
                   door: nextDoor,
                 },
-                canCloseFloor: true,
               })
+              router.push('/actions/door-to-door/tunnel/selection')
             }}
           />
         ) : null}

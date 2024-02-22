@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from 'react-native'
-import uuid from 'react-native-uuid'
+import { randomUUID } from 'expo-crypto';
 import {
   BuildingType,
   DoorToDoorAddressStatus,
@@ -94,7 +94,7 @@ function floorCompletedCellViewModel(
   block: BuildingBlock,
 ): BuildingLayoutFloorCellViewModel {
   return {
-    id: uuid.v4().toString(),
+    id: randomUUID(),
     floorNumber: 0,
     buildingBlock: block.name,
     title: i18n.t('building.layout.floor.title_closed', {

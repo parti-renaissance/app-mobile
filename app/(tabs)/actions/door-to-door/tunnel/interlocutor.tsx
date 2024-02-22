@@ -1,27 +1,18 @@
-import React, { FunctionComponent } from 'react'
-import { SafeAreaView, StyleSheet, Text } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../../../styles'
-import i18n from '../../../../utils/i18n'
-import LoadingOverlay from '../../../shared/LoadingOverlay'
-import { StatefulView } from '../../../shared/StatefulView'
-import { TunnelDoorInterlocutorChoiceCard } from './TunnelDoorInterlocutorChoiceCard'
-import { TunnelDoorInterlocutorChoiceCardViewModel } from './TunnelDoorInterlocutorChoiceCardViewModel'
-import { useTunnelDoorInterlocutorScreen } from './useTunnelDoorInterlocutorScreen.hook'
+import React from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import { TunnelDoorInterlocutorChoiceCard } from '@/screens/doorToDoor/tunnel/interlocutor/TunnelDoorInterlocutorChoiceCard'
+import { TunnelDoorInterlocutorChoiceCardViewModel } from '@/screens/doorToDoor/tunnel/interlocutor/TunnelDoorInterlocutorChoiceCardViewModel'
+import { useTunnelDoorInterlocutorScreen } from '@/screens/doorToDoor/tunnel/interlocutor/useTunnelDoorInterlocutorScreen.hook'
+import LoadingOverlay from '@/screens/shared/LoadingOverlay'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import { useLocalSearchParams } from 'expo-router'
 
-type TunnelDoorInterlocutorScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>
-
-const TunnelDoorInterlocutorScreen: FunctionComponent<
-  TunnelDoorInterlocutorScreenProps
-> = ({ route }) => {
+const TunnelDoorInterlocutorScreen = () => {
+  const params = useLocalSearchParams<{ visitStartDateISOString: string }>()
   const { statefulState, isSendingChoice, onChoice } =
-    useTunnelDoorInterlocutorScreen(
-      route.params.campaignId,
-      route.params.buildingParams,
-      route.params.visitStartDateISOString,
-    )
+    useTunnelDoorInterlocutorScreen(params.visitStartDateISOString)
 
   const renderContentComponent = (
     items: Array<TunnelDoorInterlocutorChoiceCardViewModel>,

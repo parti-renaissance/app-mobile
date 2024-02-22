@@ -7,11 +7,11 @@ import React, {
 } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { BuildingSelectedParams } from '@/data/store/SendDoorToDoorPollAnswersJobQueue'
+import { router } from 'expo-router'
 import { Poll } from '../../../../core/entities/Poll'
 import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
 import { PollDetailNavigationButtonsViewModelMapper } from '../../../pollDetail/PollDetailNavigationButtonsViewModelMapper'
@@ -29,21 +29,20 @@ import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoor
 type Props = Readonly<{
   poll: Poll
   qualification: Array<PollExtraQuestionPage>
+  interlocutorStatus: string
+  campaignId: string
+  buildingParams: BuildingSelectedParams
+  visitStartDateISOString: string
 }>
 
 const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   qualification,
   poll,
+  campaignId,
+  interlocutorStatus,
+  buildingParams,
+  visitStartDateISOString,
 }) => {
-  const route =
-    useRoute<
-      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['route']
-    >()
-  const navigation =
-    useNavigation<
-      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['navigation']
-    >()
-
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
@@ -90,18 +89,14 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
     const result = provider.getResult()
     new SendDoorPollAnswersInteractor()
       .execute({
-        campaignId: route.params.campaignId,
-        doorStatus: route.params.interlocutorStatus,
-        buildingParams: route.params.buildingParams,
+        campaignId,
+        doorStatus: interlocutorStatus,
+        buildingParams,
         pollResult: result,
-        visitStartDateISOString: route.params.visitStartDateISOString,
+        visitStartDateISOString,
       })
       .then(() => {
-        navigation.replace('TunnelDoorSuccess', {
-          campaignId: route.params.campaignId,
-          buildingParams: route.params.buildingParams,
-          interlocutorStatus: route.params.interlocutorStatus,
-        })
+        router.replace('/(tabs)/actions/door-to-door/tunnel/success')
       })
       .catch((error) => {
         AlertUtils.showNetworkAlert(error, postAnswers)
@@ -110,7 +105,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.content}>
         <PollDetailProgressBar
