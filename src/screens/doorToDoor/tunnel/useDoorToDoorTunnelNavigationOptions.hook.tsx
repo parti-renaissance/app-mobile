@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect } from 'react'
 import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { NavigationProp } from '@react-navigation/native'
+import { useNavigation } from 'expo-router'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { useBackHandler } from '../../shared/useBackHandler.hook'
 
-export function useDoorToDoorTunnelNavigationOptions(
-  navigation: NavigationProp<any>,
-) {
+export function useDoorToDoorTunnelNavigationOptions() {
+  const navigation = useNavigation()
   const askConfirmationBeforeLeaving = useCallback(() => {
     Alert.alert(
       i18n.t('doorToDoor.tunnel.leave_alert.title'),

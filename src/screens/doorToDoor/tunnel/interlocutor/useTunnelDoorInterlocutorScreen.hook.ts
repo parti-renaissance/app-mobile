@@ -34,7 +34,7 @@ export const useTunnelDoorInterlocutorScreen = (
   >(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
 
-  useDoorToDoorTunnelNavigationOptions(navigation)
+  useDoorToDoorTunnelNavigationOptions()
 
   useEffect(() => {
     const fetchData = () => {
@@ -51,11 +51,12 @@ export const useTunnelDoorInterlocutorScreen = (
   }, [campaignId])
 
   const navigateToPoll = (code: string) => {
-    navigation.navigate('TunnelDoorPoll', {
-      campaignId,
-      buildingParams,
-      interlocutorStatus: code,
-      visitStartDateISOString,
+    navigation.push({
+      pathname: '/actions/door-to-door/tunnel/poll',
+      params: {
+        interlocutorStatus: code,
+        visitStartDateISOString,
+      },
     })
   }
 

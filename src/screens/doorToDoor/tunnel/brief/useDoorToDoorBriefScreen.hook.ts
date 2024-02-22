@@ -7,6 +7,7 @@ import { ViewState } from '../../../shared/ViewState'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { BuildingSelectedNavigationParams } from '../BuildingSelectedNavigationParams'
 import { DoorToDoorBriefViewModel } from './DoorToDoorBriefViewModel'
+import { router } from 'expo-router'
 
 export const useDoorToDoorBriefScreen = (
   campaignId: string,
@@ -46,17 +47,14 @@ export const useDoorToDoorBriefScreen = (
   const onAction = () => {
     switch (buildingParams.type) {
       case 'house': {
-        navigation.navigate('TunnelDoorOpening', {
-          campaignId,
-          buildingParams,
+        router.navigate({
+          pathname: '/actions/door-to-door/tunnel/opening',
         })
         break
       }
       case 'building': {
-        navigation.navigate('TunnelDoorSelection', {
-          campaignId: campaignId,
-          buildingParams: buildingParams,
-          canCloseFloor: canCloseFloor,
+        router.navigate({
+          pathname: '/actions/door-to-door/tunnel/selection',
         })
         break
       }

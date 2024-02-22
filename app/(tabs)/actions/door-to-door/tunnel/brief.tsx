@@ -1,27 +1,42 @@
-import React, { FunctionComponent, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Markdown from '@ronradtke/react-native-markdown-display'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../../../styles'
-import i18n from '../../../../utils/i18n'
-import { PrimaryButton } from '../../../shared/Buttons'
-import { CloseButton } from '../../../shared/NavigationHeaderButton'
-import { StatefulView } from '../../../shared/StatefulView'
-import { DoorToDoorBriefViewModel } from './DoorToDoorBriefViewModel'
-import { useDoorToDoorBriefScreen } from './useDoorToDoorBriefScreen.hook'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import { PrimaryButton } from '@/screens/shared/Buttons'
+import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { DoorToDoorBriefViewModel } from '@/screens/doorToDoor/tunnel/brief/DoorToDoorBriefViewModel'
+import { useDoorToDoorBriefScreen } from '@/screens/doorToDoor/tunnel/brief/useDoorToDoorBriefScreen.hook'
 
-type DoorToDoorBriefScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>
+import { useNavigation, router, useLocalSearchParams } from 'expo-router'
+import {
+  useDoorToDoorStore,
+  useDtdTunnelStore,
+} from '@/data/store/door-to-door'
 
-const DoorToDoorBriefScreen: FunctionComponent<DoorToDoorBriefScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const DoorToDoorBriefScreen = () => {
+  const navigation = useNavigation()
+  const params = useLocalSearchParams<{
+    campaignId: string
+    door: string
+    block: string
+    floor: string
+    canCloseFloor: string
+  }>()
+  const { address } = useDoorToDoorStore()
+  const { tunnel } = useDtdTunnelStore()
   const { statefulState, onAction } = useDoorToDoorBriefScreen(
-    route.params.campaignId,
-    route.params.buildingParams,
-    route.params.canCloseFloor,
+    address.building.campaignStatistics.campaignId,
+    {
+      id: address.building.id,
+      block: tunnel.block,
+      floor: tunnel.floor,
+      door: tunnel.door,
+      type: address.building.type,
+    },
+    tunnel.canCloseFloor,
   )
 
   useLayoutEffect(() => {

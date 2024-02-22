@@ -1,34 +1,34 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import {
   DoorToDoorCompletePoll,
   GetDoorToDoorCompletePollInteractor,
-} from '../../../../core/interactor/GetDoorToDoorCompletePollInteractor'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors } from '../../../../styles'
-import { StatefulView } from '../../../shared/StatefulView'
-import { ViewState } from '../../../shared/ViewState'
-import { ViewStateUtils } from '../../../shared/ViewStateUtils'
-import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
-import DoorToDoorPollDetailScreenLoaded from './DoorToDoorPollDetailScreenLoaded'
+} from '@/core/interactor/GetDoorToDoorCompletePollInteractor'
+import { useDoorToDoorStore } from '@/data/store/door-to-door'
+import DoorToDoorPollDetailScreenLoaded from '@/screens/doorToDoor/tunnel/survey/DoorToDoorPollDetailScreenLoaded'
+import { useDoorToDoorTunnelNavigationOptions } from '@/screens/doorToDoor/tunnel/useDoorToDoorTunnelNavigationOptions.hook'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { ViewState } from '@/screens/shared/ViewState'
+import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
+import { Colors } from '@/styles'
 
-type TunnelDoorPollScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>
-
-const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const TunnelDoorPollScreen = () => {
   const [statefulState, setStatefulState] = useState<
     ViewState<DoorToDoorCompletePoll>
   >(ViewState.Loading())
 
-  useDoorToDoorTunnelNavigationOptions(navigation)
+  const {
+    address: {
+      building: { campaignStatistics },
+    },
+  } = useDoorToDoorStore()
+
+  useDoorToDoorTunnelNavigationOptions()
 
   useEffect(() => {
     const fetchData = () => {
       new GetDoorToDoorCompletePollInteractor()
-        .execute(route.params.campaignId)
+        .execute(campaignStatistics.campaignId)
         .then((result) => {
           setStatefulState(ViewState.Content(result))
         })
@@ -37,7 +37,7 @@ const TunnelDoorPollScreen: FunctionComponent<TunnelDoorPollScreenProps> = ({
         )
     }
     fetchData()
-  }, [route.params.campaignId])
+  }, [campaignStatistics.campaignId])
 
   return (
     <SafeAreaView style={styles.container}>

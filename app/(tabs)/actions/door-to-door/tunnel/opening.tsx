@@ -1,26 +1,32 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../../../styles'
-import i18n from '../../../../utils/i18n'
-import LoadingOverlay from '../../../shared/LoadingOverlay'
-import { StatefulView } from '../../../shared/StatefulView'
-import { TunnelDoorOpeningChoiceCard } from './TunnelDoorOpeningChoiceCard'
-import { TunnelDoorOpeningChoiceCardViewModel } from './TunnelDoorOpeningChoiceCardViewModel'
-import { useTunnelDoorOpeningScreen } from './useTunnelDoorOpeningScreen.hook'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import LoadingOverlay from '@/screens/shared/LoadingOverlay'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { TunnelDoorOpeningChoiceCard } from '@/screens/doorToDoor/tunnel/opening/TunnelDoorOpeningChoiceCard'
+import { TunnelDoorOpeningChoiceCardViewModel } from '@/screens/doorToDoor/tunnel/opening/TunnelDoorOpeningChoiceCardViewModel'
+import { useTunnelDoorOpeningScreen } from '@/screens/doorToDoor/tunnel/opening/useTunnelDoorOpeningScreen.hook'
 
-type DoorToDoorTunnelOpeningScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>
+import {
+  useDoorToDoorStore,
+  useDtdTunnelStore,
+} from '@/data/store/door-to-door'
 
-const TunnelDoorOpeningScreen: FunctionComponent<
-  DoorToDoorTunnelOpeningScreenProps
-> = ({ route }) => {
+const TunnelDoorOpeningScreen = () => {
+  const {
+    address: { building },
+  } = useDoorToDoorStore()
+  const { tunnel } = useDtdTunnelStore()
   const { statefulState, isSendingChoice, onStatusSelected } =
-    useTunnelDoorOpeningScreen(
-      route.params.campaignId,
-      route.params.buildingParams,
-    )
+    useTunnelDoorOpeningScreen(building.campaignStatistics.campaignId, {
+      id: building.id,
+      floor: tunnel.floor,
+      door: tunnel.door,
+      block: tunnel.block,
+      type: building.type,
+    })
 
   const ContentComponent = (
     viewModels: TunnelDoorOpeningChoiceCardViewModel[],

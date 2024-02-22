@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { Router, router, useNavigation } from 'expo-router'
 import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { DateProvider } from '../../../../utils/DateProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
 import { ViewState } from '../../../shared/ViewState'
@@ -21,14 +20,11 @@ export const useTunnelDoorOpeningScreen = (
   isSendingChoice: boolean
   onStatusSelected: (statusCode: string) => void
 } => {
+  const navigation = useNavigation()
   const [statefulState, setStatefulState] = useState<
     ViewState<DoorToDoorPollConfigDoorStatus[]>
   >(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
-  const navigation =
-    useNavigation<
-      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>['navigation']
-    >()
 
   useDoorToDoorTunnelNavigationOptions(navigation)
 
@@ -44,10 +40,11 @@ export const useTunnelDoorOpeningScreen = (
   }, [campaignId])
 
   const navigateToInterlocutor = () => {
-    navigation.navigate('TunnelDoorInterlocutor', {
-      campaignId,
-      buildingParams,
-      visitStartDateISOString: DateProvider.now().toISOString(),
+    router.push({
+      pathname: '/actions/door-to-door/tunnel/interlocutor',
+      params: {
+        visitStartDateISOString: DateProvider.now().toISOString(),
+      },
     })
   }
 
