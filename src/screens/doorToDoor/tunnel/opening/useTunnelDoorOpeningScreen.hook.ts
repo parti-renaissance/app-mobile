@@ -1,53 +1,48 @@
 import { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
+import { router, useNavigation } from 'expo-router'
 import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { DateProvider } from '../../../../utils/DateProvider'
 import { AlertUtils } from '../../../shared/AlertUtils'
 import { ViewState } from '../../../shared/ViewState'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
-import { BuildingSelectedNavigationParams } from '../BuildingSelectedNavigationParams'
 import { useDoorToDoorTunnelNavigationOptions } from '../useDoorToDoorTunnelNavigationOptions.hook'
 import { TunnelDoorOpeningChoiceCardViewModel } from './TunnelDoorOpeningChoiceCardViewModel'
 import { TunnelDoorOpeningChoiceCardViewModelMapper } from './TunnelDoorOpeningChoiceCardViewModelMapper'
 
-export const useTunnelDoorOpeningScreen = (
-  campaignId: string,
-  buildingParams: BuildingSelectedNavigationParams,
-): {
+export const useTunnelDoorOpeningScreen = (): {
   statefulState: ViewState<TunnelDoorOpeningChoiceCardViewModel[]>
   isSendingChoice: boolean
   onStatusSelected: (statusCode: string) => void
 } => {
+  const navigation = useNavigation()
+  const { tunnel, setTunnel } = useDtdTunnelStore()
   const [statefulState, setStatefulState] = useState<
     ViewState<DoorToDoorPollConfigDoorStatus[]>
   >(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
-  const navigation =
-    useNavigation<
-      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>['navigation']
-    >()
 
-  useDoorToDoorTunnelNavigationOptions(navigation)
+  useDoorToDoorTunnelNavigationOptions()
 
   useEffect(() => {
     DoorToDoorRepository.getInstance()
-      .getDoorToDoorPollConfig(campaignId)
+      .getDoorToDoorPollConfig(tunnel.campaignId)
       .then((pollConfig) => {
         setStatefulState(ViewState.Content(pollConfig.before.doorStatus))
       })
       .catch((error) => {
         setStatefulState(ViewStateUtils.networkError(error))
       })
-  }, [campaignId])
+  }, [tunnel.campaignId])
 
   const navigateToInterlocutor = () => {
-    navigation.navigate('TunnelDoorInterlocutor', {
-      campaignId,
-      buildingParams,
-      visitStartDateISOString: DateProvider.now().toISOString(),
+    router.push({
+      pathname: '/actions/door-to-door/tunnel/interlocutor',
+      params: {
+        visitStartDateISOString: DateProvider.now().toISOString(),
+      },
     })
   }
 
@@ -55,26 +50,27 @@ export const useTunnelDoorOpeningScreen = (
     setIsSendingChoice(true)
     new SendDoorPollAnswersInteractor()
       .execute({
-        campaignId,
+        campaignId: tunnel.campaignId,
         doorStatus: status.code,
-        buildingParams,
+        buildingParams: tunnel.buildingParams,
         visitStartDateISOString: DateProvider.now().toISOString(),
       })
       .then(() => {
-        switch (buildingParams.type) {
+        switch (tunnel.buildingParams.type) {
           case 'house': {
             navigation.getParent()?.goBack()
             break
           }
           case 'building': {
-            navigation.navigate('TunnelDoorSelection', {
-              campaignId,
+            setTunnel({
+              ...tunnel,
               buildingParams: {
-                ...buildingParams,
-                door: buildingParams.door + 1,
+                ...tunnel.buildingParams,
+                door: tunnel.buildingParams.door + 1,
               },
               canCloseFloor: true,
             })
+            router.push('/actions/door-to-door/tunnel/selection')
             break
           }
         }

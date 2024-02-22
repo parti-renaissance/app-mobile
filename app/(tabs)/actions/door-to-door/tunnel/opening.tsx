@@ -1,26 +1,17 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../../../styles'
-import i18n from '../../../../utils/i18n'
-import LoadingOverlay from '../../../shared/LoadingOverlay'
-import { StatefulView } from '../../../shared/StatefulView'
-import { TunnelDoorOpeningChoiceCard } from './TunnelDoorOpeningChoiceCard'
-import { TunnelDoorOpeningChoiceCardViewModel } from './TunnelDoorOpeningChoiceCardViewModel'
-import { useTunnelDoorOpeningScreen } from './useTunnelDoorOpeningScreen.hook'
+import { TunnelDoorOpeningChoiceCard } from '@/screens/doorToDoor/tunnel/opening/TunnelDoorOpeningChoiceCard'
+import { TunnelDoorOpeningChoiceCardViewModel } from '@/screens/doorToDoor/tunnel/opening/TunnelDoorOpeningChoiceCardViewModel'
+import { useTunnelDoorOpeningScreen } from '@/screens/doorToDoor/tunnel/opening/useTunnelDoorOpeningScreen.hook'
+import LoadingOverlay from '@/screens/shared/LoadingOverlay'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
 
-type DoorToDoorTunnelOpeningScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>
-
-const TunnelDoorOpeningScreen: FunctionComponent<
-  DoorToDoorTunnelOpeningScreenProps
-> = ({ route }) => {
+const TunnelDoorOpeningScreen = () => {
   const { statefulState, isSendingChoice, onStatusSelected } =
-    useTunnelDoorOpeningScreen(
-      route.params.campaignId,
-      route.params.buildingParams,
-    )
+    useTunnelDoorOpeningScreen()
 
   const ContentComponent = (
     viewModels: TunnelDoorOpeningChoiceCardViewModel[],

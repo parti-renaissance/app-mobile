@@ -10,7 +10,7 @@ export const LocationManager = {
   },
 
   permissionStatus: async (): Promise<boolean> => {
-    const { status } = await Geolocation.requestBackgroundPermissionsAsync()
+    const { status } = await Geolocation.requestForegroundPermissionsAsync()
     return status === 'granted'
   },
 

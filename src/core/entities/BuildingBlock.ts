@@ -1,4 +1,4 @@
-import uuid from 'react-native-uuid'
+import { randomUUID } from 'expo-crypto';
 import { BuildingType } from './DoorToDoor'
 
 export interface BuildingBlock {
@@ -31,7 +31,7 @@ export class BuildingBlockHelper {
   public createLocalFloor(name: number): BuildingBlockFloor {
     return {
       number: name,
-      id: uuid.v4() as string,
+      id: randomUUID(),
       status: 'todo',
       nbSurveys: 0,
       visitedDoors: [],
@@ -54,7 +54,7 @@ export class BuildingBlockHelper {
     return {
       name: name,
       floors: floors,
-      id: uuid.v4() as string,
+      id: randomUUID(),
       status: 'todo',
       local: true,
       closedAt: undefined,

@@ -1,39 +1,36 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../../../styles'
-import i18n from '../../../../utils/i18n'
-import { PrimaryButton, SecondaryButton } from '../../../shared/Buttons'
-import LoadingOverlay from '../../../shared/LoadingOverlay'
-import { TouchablePlatform } from '../../../shared/TouchablePlatform'
+import DoorToDoorRepository from '@/data/DoorToDoorRepository'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
+import { PrimaryButton, SecondaryButton } from '@/screens/shared/Buttons'
+import LoadingOverlay from '@/screens/shared/LoadingOverlay'
+import { TouchablePlatform } from '@/screens/shared/TouchablePlatform'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import { router, useNavigation } from 'expo-router'
 
-type TunnelDoorSelectionScreenProps =
-  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSelection'>
-
-const TunnelDoorSelectionScreen: FunctionComponent<
-  TunnelDoorSelectionScreenProps
-> = ({ navigation, route }) => {
-  const [selectedDoor, setSelectedDoor] = useState(
-    route.params.buildingParams.door,
-  )
+const TunnelDoorSelectionScreen = () => {
+  const navigation = useNavigation()
+  const { tunnel } = useDtdTunnelStore()
+  const buildingParams = tunnel.buildingParams
+  const [selectedDoor, setSelectedDoor] = useState(buildingParams.door)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     navigation.setOptions({
       title: i18n.t('doorToDoor.tunnel.door.shortTitle', {
-        count: route.params.buildingParams.floor + 1,
-        buildingName: route.params.buildingParams.block,
-        floorName: route.params.buildingParams.floor,
+        count: buildingParams.floor + 1,
+        buildingName: buildingParams.block,
+        floorName: buildingParams.floor,
         door: selectedDoor,
       }),
     })
-  }, [navigation, route.params, selectedDoor])
+  }, [navigation, buildingParams, selectedDoor])
 
   useEffect(() => {
-    setSelectedDoor(route.params.buildingParams.door)
-  }, [route.params.buildingParams.door])
+    setSelectedDoor(buildingParams.door)
+  }, [buildingParams.door])
 
   const askConfirmationBeforeCloseFloor = () => {
     Alert.alert(
@@ -61,11 +58,11 @@ const TunnelDoorSelectionScreen: FunctionComponent<
   }
 
   const closeFloor = () => {
-    const building = route.params.buildingParams
+    const building = buildingParams
     setIsLoading(true)
     DoorToDoorRepository.getInstance()
       .closeBuildingBlockFloor(
-        route.params.campaignId,
+        tunnel.campaignId,
         building.id,
         building.block,
         building.floor,
@@ -91,11 +88,9 @@ const TunnelDoorSelectionScreen: FunctionComponent<
               updateSelectedDoor(selectedDoor - 1)
             }}
           >
-            <Image source={require('../../../../assets/images/iconBack.png')} />
+            <Image source={require('@/assets/images/iconBack.png')} />
           </TouchablePlatform>
-          <Image
-            source={require('../../../../assets/images/papDoorIcon.png')}
-          />
+          <Image source={require('@/assets/images/papDoorIcon.png')} />
           <TouchablePlatform
             style={styles.changeDoorIndicator}
             touchHighlight={Colors.touchHighlight}
@@ -105,15 +100,15 @@ const TunnelDoorSelectionScreen: FunctionComponent<
           >
             <Image
               style={styles.nextDoor}
-              source={require('../../../../assets/images/iconBack.png')}
+              source={require('@/assets/images/iconBack.png')}
             />
           </TouchablePlatform>
         </View>
         <Text style={styles.title}>
           {i18n.t('doorToDoor.tunnel.door.title', {
-            count: route.params.buildingParams.floor + 1,
-            buildingName: route.params.buildingParams.block,
-            floorName: route.params.buildingParams.floor,
+            count: buildingParams.floor + 1,
+            buildingName: buildingParams.block,
+            floorName: buildingParams.floor,
           })}
         </Text>
         <Text style={styles.body}>
@@ -133,11 +128,14 @@ const TunnelDoorSelectionScreen: FunctionComponent<
         <PrimaryButton
           title={i18n.t('doorToDoor.tunnel.door.doorknocked')}
           onPress={() =>
-            navigation.navigate('TunnelDoorOpening', {
-              campaignId: route.params.campaignId,
-              buildingParams: {
-                ...route.params.buildingParams,
-                door: selectedDoor,
+            router.navigate({
+              pathname: '/actions/door-to-door/tunnel/opening',
+              params: {
+                campaignId: tunnel.campaignId,
+                buildingParams: {
+                  ...buildingParams,
+                  door: selectedDoor,
+                },
               },
             })
           }
@@ -146,7 +144,7 @@ const TunnelDoorSelectionScreen: FunctionComponent<
           title={i18n.t('doorToDoor.tunnel.door.floorFinished')}
           style={styles.finished}
           onPress={askConfirmationBeforeCloseFloor}
-          disabled={!route.params.canCloseFloor}
+          disabled={!tunnel.canCloseFloor}
         />
       </View>
     </SafeAreaView>
