@@ -1,7 +1,7 @@
 import { SessionProvider } from '@/ctx'
-// import 'react-native-url-polyfill/auto'
-import { Stack, SplashScreen } from 'expo-router'
 import { headerBlank } from '@/styles/navigationAppearance'
+import { SplashScreen, Stack } from 'expo-router'
+
 SplashScreen.preventAutoHideAsync()
 
 export default function Root() {
