@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography } from '../../styles'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import PollDetailQuestionInputContent from './PollDetailQuestionInputContent'
