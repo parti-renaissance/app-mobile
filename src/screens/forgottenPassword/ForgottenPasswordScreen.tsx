@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useLayoutEffect, useState } from 'react'
-import { StyleSheet, Text } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { StyleSheet, Text, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PersonalInformationRepository from '../../data/PersonalInformationRepository'
 import { ForgottenPasswordModalNavigatorScreenProps } from '../../navigation/forgottenPassword/ForgottenPasswordModalNavigatorScreenProps'

@@ -1,6 +1,11 @@
 import React, { FC, useLayoutEffect } from 'react'
-import { ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import {
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SectionGrid } from 'react-native-super-grid'
 import { EventsFilterModalNavigatorScreenProps } from '../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'

@@ -7,8 +7,8 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList,
 } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
 import { useFocusEffect } from '@react-navigation/native'
 import { EventMode } from '../../core/entities/Event'
 import { Colors, Spacing, Typography } from '../../styles'
