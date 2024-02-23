@@ -10,32 +10,15 @@ import { StatefulView } from '@/screens/shared/StatefulView'
 import { DoorToDoorBriefViewModel } from '@/screens/doorToDoor/tunnel/brief/DoorToDoorBriefViewModel'
 import { useDoorToDoorBriefScreen } from '@/screens/doorToDoor/tunnel/brief/useDoorToDoorBriefScreen.hook'
 
-import { useNavigation, router, useLocalSearchParams } from 'expo-router'
-import {
-  useDoorToDoorStore,
-  useDtdTunnelStore,
-} from '@/data/store/door-to-door'
+import { useNavigation } from 'expo-router'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
 
 const DoorToDoorBriefScreen = () => {
   const navigation = useNavigation()
-  const params = useLocalSearchParams<{
-    campaignId: string
-    door: string
-    block: string
-    floor: string
-    canCloseFloor: string
-  }>()
-  const { address } = useDoorToDoorStore()
   const { tunnel } = useDtdTunnelStore()
   const { statefulState, onAction } = useDoorToDoorBriefScreen(
-    address.building.campaignStatistics.campaignId,
-    {
-      id: address.building.id,
-      block: tunnel.block,
-      floor: tunnel.floor,
-      door: tunnel.door,
-      type: address.building.type,
-    },
+    tunnel.campaignId,
+    tunnel.buildingParams,
     tunnel.canCloseFloor,
   )
 

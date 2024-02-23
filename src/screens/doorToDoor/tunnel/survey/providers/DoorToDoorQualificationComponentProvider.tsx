@@ -1,6 +1,5 @@
 import React from 'react'
-import { ListRenderItem, StyleSheet, View } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import {
   isPollExtraMultipleChoicesAnswer,
   isPollExtraSingleChoiceAnswer,

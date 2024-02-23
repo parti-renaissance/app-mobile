@@ -21,16 +21,14 @@ const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
         name={'opening'}
         options={{ headerBackTitleVisible: false }}
       />
-      {/*r
-      <Stack.Screen name={'TunnelDoorPoll'} component={TunnelDoorPollScreen} />
+      <Stack.Screen name={'poll'} options={{ headerBackTitleVisible: false }} />
       <Stack.Screen
-        name={'TunnelDoorSuccess'}
-        component={TunnelDoorSuccessScreen}
+        name={'success'}
         options={{
-          title: i18n.t('doorToDoor.tunnel.success.wellDone'),
           headerBackTitleVisible: false,
+          title: i18n.t('doorToDoor.tunnel.success.wellDone'),
         }}
-      /> */}
+      />
     </Stack>
   )
 }

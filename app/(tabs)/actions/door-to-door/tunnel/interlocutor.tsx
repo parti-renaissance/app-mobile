@@ -1,9 +1,5 @@
 import React from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
-import {
-  useDoorToDoorStore,
-  useDtdTunnelStore,
-} from '@/data/store/door-to-door'
 import { TunnelDoorInterlocutorChoiceCard } from '@/screens/doorToDoor/tunnel/interlocutor/TunnelDoorInterlocutorChoiceCard'
 import { TunnelDoorInterlocutorChoiceCardViewModel } from '@/screens/doorToDoor/tunnel/interlocutor/TunnelDoorInterlocutorChoiceCardViewModel'
 import { useTunnelDoorInterlocutorScreen } from '@/screens/doorToDoor/tunnel/interlocutor/useTunnelDoorInterlocutorScreen.hook'
@@ -14,23 +10,9 @@ import i18n from '@/utils/i18n'
 import { useLocalSearchParams } from 'expo-router'
 
 const TunnelDoorInterlocutorScreen = () => {
-  const {
-    address: { building },
-  } = useDoorToDoorStore()
-  const { tunnel } = useDtdTunnelStore()
   const params = useLocalSearchParams<{ visitStartDateISOString: string }>()
   const { statefulState, isSendingChoice, onChoice } =
-    useTunnelDoorInterlocutorScreen(
-      building.campaignStatistics.campaignId,
-      {
-        id: building.id,
-        floor: tunnel.floor,
-        door: tunnel.door,
-        block: tunnel.block,
-        type: building.type,
-      },
-      params.visitStartDateISOString,
-    )
+    useTunnelDoorInterlocutorScreen(params.visitStartDateISOString)
 
   const renderContentComponent = (
     items: Array<TunnelDoorInterlocutorChoiceCardViewModel>,

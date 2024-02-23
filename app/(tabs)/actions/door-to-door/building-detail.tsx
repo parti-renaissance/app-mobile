@@ -9,7 +9,6 @@ import {
   Text,
   View,
 } from 'react-native'
-import { useIsFocused } from '@react-navigation/native'
 import {
   BuildingBlock,
   BuildingBlockHelper,
@@ -22,10 +21,14 @@ import {
 } from '@/core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { UpdateBuildingLayoutInteractor } from '@/core/interactor/UpdateBuildingLayoutInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
-import { Colors, Spacing, Styles, Typography } from '@/styles'
-import { margin, mediumMargin } from '@/styles/spacing'
-import AlphabetHelper from '@/utils/AlphabetHelper'
-import i18n from '@/utils/i18n'
+import {
+  useDoorToDoorStore,
+  useDtdTunnelStore,
+} from '@/data/store/door-to-door'
+import { BuildingDetailScreenViewModelMapper } from '@/screens/buildingDetail/BuildingDetailScreenViewModelMapper'
+import BuildingLayoutView from '@/screens/buildingDetail/BuildingLayoutView'
+import BuildingVisitsHistoryView from '@/screens/buildingDetail/BuildingVisitsHistoryView'
+import BuildingStatusView from '@/screens/buildingDetail/BuilidingStatusView'
 import { DoorToDoorCampaignInfoView } from '@/screens/doorToDoor/DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModel } from '@/screens/doorToDoor/DoorToDoorCampaignCardViewModel'
 import { DoorToDoorCampaignCardViewModelMapper } from '@/screens/doorToDoor/DoorToDoorCampaignCardViewModelMapper'
@@ -36,16 +39,12 @@ import CardView from '@/screens/shared/CardView'
 import LoadingOverlay from '@/screens/shared/LoadingOverlay'
 import { NavigationHeaderButton } from '@/screens/shared/NavigationHeaderButton'
 import { TouchablePlatform } from '@/screens/shared/TouchablePlatform'
-import { BuildingDetailScreenViewModelMapper } from '@/screens/buildingDetail/BuildingDetailScreenViewModelMapper'
-import BuildingLayoutView from '@/screens/buildingDetail/BuildingLayoutView'
-import BuildingVisitsHistoryView from '@/screens/buildingDetail/BuildingVisitsHistoryView'
-import BuildingStatusView from '@/screens/buildingDetail/BuilidingStatusView'
-
-import { useNavigation, router } from 'expo-router'
-import {
-  useDoorToDoorStore,
-  useDtdTunnelStore,
-} from '@/data/store/door-to-door'
+import { Colors, Spacing, Styles, Typography } from '@/styles'
+import { margin, mediumMargin } from '@/styles/spacing'
+import AlphabetHelper from '@/utils/AlphabetHelper'
+import i18n from '@/utils/i18n'
+import { useIsFocused } from '@react-navigation/native'
+import { router, useNavigation } from 'expo-router'
 
 enum Tab {
   HISTORY,
@@ -323,9 +322,14 @@ const BuildingDetailScreen = () => {
                 }
               }
               setTunnel({
-                block: block?.id,
-                floor: floorNumber,
-                door: door,
+                campaignId: campaignStatistics.campaignId,
+                buildingParams: {
+                  id: address.building.id,
+                  block: block?.name,
+                  floor: floorNumber,
+                  type: address.building.type,
+                  door: door,
+                },
                 canCloseFloor: canCloseFloor,
               })
               router.push({ pathname: '/actions/door-to-door/tunnel/brief' })

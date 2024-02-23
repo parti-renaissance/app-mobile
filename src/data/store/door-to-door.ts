@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { DoorToDoorAddress } from '@/core/entities/DoorToDoor'
+import { BuildingSelectedParams } from './SendDoorToDoorPollAnswersJobQueue'
 
 type DoorToDoorStore = {
   address: DoorToDoorAddress | null
@@ -12,9 +13,8 @@ export const useDoorToDoorStore = create<DoorToDoorStore>((set) => ({
 }))
 
 interface Tunnel {
-  door: number
-  floor: number
-  block: string
+  campaignId: string
+  buildingParams: BuildingSelectedParams
   canCloseFloor: boolean
 }
 

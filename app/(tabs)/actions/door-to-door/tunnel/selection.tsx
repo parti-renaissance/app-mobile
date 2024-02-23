@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
-import {
-  useDoorToDoorStore,
-  useDtdTunnelStore,
-} from '@/data/store/door-to-door'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
 import { PrimaryButton, SecondaryButton } from '@/screens/shared/Buttons'
 import LoadingOverlay from '@/screens/shared/LoadingOverlay'
 import { TouchablePlatform } from '@/screens/shared/TouchablePlatform'
@@ -15,17 +12,8 @@ import { router, useNavigation } from 'expo-router'
 
 const TunnelDoorSelectionScreen = () => {
   const navigation = useNavigation()
-
   const { tunnel } = useDtdTunnelStore()
-  const { address } = useDoorToDoorStore()
-
-  const buildingParams = {
-    id: address.building.id,
-    block: tunnel.block,
-    floor: tunnel.floor,
-    door: tunnel.door,
-  }
-
+  const buildingParams = tunnel.buildingParams
   const [selectedDoor, setSelectedDoor] = useState(buildingParams.door)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -74,7 +62,7 @@ const TunnelDoorSelectionScreen = () => {
     setIsLoading(true)
     DoorToDoorRepository.getInstance()
       .closeBuildingBlockFloor(
-        address.building.campaignStatistics.campaignId,
+        tunnel.campaignId,
         building.id,
         building.block,
         building.floor,
@@ -143,7 +131,7 @@ const TunnelDoorSelectionScreen = () => {
             router.navigate({
               pathname: '/actions/door-to-door/tunnel/opening',
               params: {
-                campaignId: address.building.campaignStatistics.campaignId,
+                campaignId: tunnel.campaignId,
                 buildingParams: {
                   ...buildingParams,
                   door: selectedDoor,

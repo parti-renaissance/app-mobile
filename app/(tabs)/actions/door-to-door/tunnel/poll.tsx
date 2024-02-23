@@ -1,34 +1,36 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import {
   DoorToDoorCompletePoll,
   GetDoorToDoorCompletePollInteractor,
 } from '@/core/interactor/GetDoorToDoorCompletePollInteractor'
-import { useDoorToDoorStore } from '@/data/store/door-to-door'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
 import DoorToDoorPollDetailScreenLoaded from '@/screens/doorToDoor/tunnel/survey/DoorToDoorPollDetailScreenLoaded'
 import { useDoorToDoorTunnelNavigationOptions } from '@/screens/doorToDoor/tunnel/useDoorToDoorTunnelNavigationOptions.hook'
 import { StatefulView } from '@/screens/shared/StatefulView'
 import { ViewState } from '@/screens/shared/ViewState'
 import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
 import { Colors } from '@/styles'
+import { useLocalSearchParams } from 'expo-router'
 
 const TunnelDoorPollScreen = () => {
   const [statefulState, setStatefulState] = useState<
     ViewState<DoorToDoorCompletePoll>
   >(ViewState.Loading())
 
-  const {
-    address: {
-      building: { campaignStatistics },
-    },
-  } = useDoorToDoorStore()
+  const params = useLocalSearchParams<{
+    visitStartDateISOString: string
+    interlocutorStatus: string
+  }>()
+
+  const { tunnel } = useDtdTunnelStore()
 
   useDoorToDoorTunnelNavigationOptions()
 
   useEffect(() => {
     const fetchData = () => {
       new GetDoorToDoorCompletePollInteractor()
-        .execute(campaignStatistics.campaignId)
+        .execute(tunnel.campaignId)
         .then((result) => {
           setStatefulState(ViewState.Content(result))
         })
@@ -37,20 +39,24 @@ const TunnelDoorPollScreen = () => {
         )
     }
     fetchData()
-  }, [campaignStatistics.campaignId])
+  }, [tunnel.campaignId])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatefulView
         state={statefulState}
         contentComponent={(completePoll) => (
           <DoorToDoorPollDetailScreenLoaded
             poll={completePoll.poll}
             qualification={completePoll.config.after}
+            buildingParams={tunnel.buildingParams}
+            campaignId={tunnel.campaignId}
+            interlocutorStatus={params.interlocutorStatus}
+            visitStartDateISOString={params.visitStartDateISOString}
           />
         )}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 
