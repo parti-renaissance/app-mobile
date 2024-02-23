@@ -1320,10 +1320,6 @@ PODS:
     - FirebaseCoreExtension (= 10.20.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.14.1):
-    - glog
-    - RCT-Folly (= 2022.05.16.00)
-    - React-Core
   - RNScreens (3.29.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1430,7 +1426,6 @@ DEPENDENCIES:
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBInstallations (from `../node_modules/@react-native-firebase/installations`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
-  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1632,8 +1627,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/installations"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
-  RNGestureHandler:
-    :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSentry:
@@ -1744,7 +1737,6 @@ SPEC CHECKSUMS:
   RNFBDynamicLinks: 036ad1bf6711500ab5e4a2fcdea9d143b2e1d39b
   RNFBInstallations: edb525b1a601808155d44748f9f3705fa6564e8f
   RNFBMessaging: a65862d8eba03cb6c838241bd328166504996894
-  RNGestureHandler: 28bdf9a766c081e603120f79e925b72817c751c6
   RNScreens: 2b73f5eb2ac5d94fbd61fa4be0bfebd345716825
   RNSentry: 9a8aebd354d3b47c428c72ec7264b7822cf4f3c2
   Sentry: d9f99f9cc13777c5d938650c1e1c85047bb4f0d1

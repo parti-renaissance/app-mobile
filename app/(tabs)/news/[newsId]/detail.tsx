@@ -1,24 +1,22 @@
 import React, { FunctionComponent, useLayoutEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { NewsDetailModalNavigatorScreenProps } from '@/navigation/newsDetailModal/NewsDetailModalNavigatorScreenProps'
+import { useNewsDetailScreen } from '@/screens/newsDetail/useNewsDetailScreen.hook'
+import { PrimaryButton } from '@/screens/shared/Buttons'
+import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
+import { VerticalSpacer } from '@/screens/shared/Spacer'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { Colors, Spacing, Typography } from '@/styles'
 import Markdown from '@ronradtke/react-native-markdown-display'
-import { NewsDetailModalNavigatorScreenProps } from '../../navigation/newsDetailModal/NewsDetailModalNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '../../styles'
-import { PrimaryButton } from '../shared/Buttons'
-import { CloseButton } from '../shared/NavigationHeaderButton'
-import { VerticalSpacer } from '../shared/Spacer'
-import { StatefulView } from '../shared/StatefulView'
-import { useNewsDetailScreen } from './useNewsDetailScreen.hook'
+import { useLocalSearchParams, useNavigation } from 'expo-router'
 
 type NewsDetailScreenProps = NewsDetailModalNavigatorScreenProps<'NewsDetail'>
 
-const NewsDetailScreen: FunctionComponent<NewsDetailScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const { statefulState, onLinkRedirect } = useNewsDetailScreen(
-    route.params.newsId,
-  )
+const NewsDetailScreen: FunctionComponent<NewsDetailScreenProps> = () => {
+  const navigation = useNavigation()
+  const params = useLocalSearchParams<{ newsId: string }>()
+  const { statefulState, onLinkRedirect } = useNewsDetailScreen(params.newsId)
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
