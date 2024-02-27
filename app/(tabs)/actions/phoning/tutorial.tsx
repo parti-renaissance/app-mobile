@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState, } from 'react'
+import React, { FunctionComponent, useCallback, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import Markdown from '@ronradtke/react-native-markdown-display'
@@ -13,52 +13,56 @@ import { Stack } from 'expo-router'
 
 type PhoningTutorialScreenProps = ActionsNavigatorScreenProps<'PhoningTutorial'>
 
-export interface TutorialResources { content: string }
+export interface TutorialResources {
+  content: string
+}
 
-const PhoningTutorialScreen: FunctionComponent<PhoningTutorialScreenProps> = () => {
-    const [statefulState, setStatefulState] = useState<
-        ViewState<TutorialResources>
-    >(ViewState.Loading())
+const PhoningTutorialScreen: FunctionComponent<
+  PhoningTutorialScreenProps
+> = () => {
+  const [statefulState, setStatefulState] = useState<
+    ViewState<TutorialResources>
+  >(ViewState.Loading())
 
-    const fetchData = useCallback(() => {
-        setStatefulState(ViewState.Loading())
-        PhoningCampaignRepository.getInstance()
-            .getPhoningTutorial()
-            .then((markdown) => {
-                setStatefulState(ViewState.Content({ content: markdown }))
-            })
-            .catch((error) => {
-                setStatefulState(ViewStateUtils.networkError(error, fetchData))
-            })
-    }, [])
+  const fetchData = useCallback(() => {
+    setStatefulState(ViewState.Loading())
+    PhoningCampaignRepository.getInstance()
+      .getPhoningTutorial()
+      .then((markdown) => {
+        setStatefulState(ViewState.Content({ content: markdown }))
+      })
+      .catch((error) => {
+        setStatefulState(ViewStateUtils.networkError(error, fetchData))
+      })
+  }, [])
 
-    useFocusEffect(fetchData)
+  useFocusEffect(fetchData)
 
-    const TutorialContent = (resources: TutorialResources) => {
-        return (
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-                <Markdown style={Typography.markdownStyle} mergeStyle={false}>
-                    {resources.content}
-                </Markdown>
-            </ScrollView>
-        )
-    }
+  const TutorialContent = (resources: TutorialResources) => {
     return (
-        <View style={styles.container}>
-            <Stack.Screen options={{ title: i18n.t('phoning.tutorial.title') }} />
-            <StatefulView contentComponent={TutorialContent} state={statefulState} />
-        </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Markdown style={Typography.markdownStyle} mergeStyle={false}>
+          {resources.content}
+        </Markdown>
+      </ScrollView>
     )
+  }
+  return (
+    <View style={styles.container}>
+      <Stack.Screen options={{ title: i18n.t('phoning.tutorial.title') }} />
+      <StatefulView contentComponent={TutorialContent} state={statefulState} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: Colors.defaultBackground,
-        flex: 1,
-    },
-    contentContainer: {
-        padding: Spacing.margin,
-    },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+  },
+  contentContainer: {
+    padding: Spacing.margin,
+  },
 })
 
 export default PhoningTutorialScreen

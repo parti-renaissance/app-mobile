@@ -15,8 +15,8 @@ type NewsDetailScreenProps = NewsDetailModalNavigatorScreenProps<'NewsDetail'>
 
 const NewsDetailScreen: FunctionComponent<NewsDetailScreenProps> = () => {
   const navigation = useNavigation()
-  const params = useLocalSearchParams<{ newsId: string }>()
-  const { statefulState, onLinkRedirect } = useNewsDetailScreen(params.newsId)
+  const params = useLocalSearchParams<{ id: string }>()
+  const { statefulState, onLinkRedirect } = useNewsDetailScreen(params.id)
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
