@@ -8,24 +8,24 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SectionGrid } from 'react-native-super-grid'
-import { EventsFilterModalNavigatorScreenProps } from '../../navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import { PrimaryButton } from '../shared/Buttons'
-import { CloseButton } from '../shared/NavigationHeaderButton'
+import { EventsFilterModalNavigatorScreenProps } from '@/navigation/eventsFilterModal/EventsFilterModalNavigatorScreenProps'
+import { Colors, Spacing, Styles, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import { PrimaryButton } from '@/screens/shared/Buttons'
+import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
-} from '../shared/SelectableIconLabelView'
-import { useEventQuickFiltersScreen } from './useEventQuickFiltersScreen.hook'
+} from '@/screens/shared/SelectableIconLabelView'
+import { useEventQuickFiltersScreen } from '@/screens/events/useEventQuickFiltersScreen.hook'
+import { useLocalSearchParams, useNavigation } from 'expo-router'
+import { EventMode } from '@/core/entities/Event'
 
 type EventQuickFiltersScreenProps =
   EventsFilterModalNavigatorScreenProps<'EventsFilter'>
 
-const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = ({
-  navigation,
-  route,
-}) => {
-  const { eventMode } = route.params
+const EventQuickFiltersScreen: FC<EventQuickFiltersScreenProps> = () => {
+  const { mode: eventMode } = useLocalSearchParams<{ mode: EventMode }>()
+  const navigation = useNavigation()
   const { viewModel, onInterestSelected, onClear, onSubmit, onClose } =
     useEventQuickFiltersScreen(eventMode)
 
