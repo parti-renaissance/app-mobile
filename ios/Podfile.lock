@@ -1106,6 +1106,8 @@ PODS:
   - React-Mapbuffer (0.73.4):
     - glog
     - React-debug
+  - react-native-add-calendar-event (5.0.0):
+    - React-Core
   - react-native-geolocation-service (5.3.1):
     - React
   - react-native-maps (1.10.0):
@@ -1117,6 +1119,8 @@ PODS:
   - react-native-progress-bar-android (1.0.5):
     - React
   - react-native-progress-view (1.4.2):
+    - React-Core
+  - react-native-render-html (6.3.4):
     - React-Core
   - react-native-safe-area-context (4.8.2):
     - React-Core
@@ -1390,11 +1394,13 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector-modern`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - react-native-add-calendar-event (from `../node_modules/react-native-add-calendar-event`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - "react-native-progress-bar-android (from `../node_modules/@react-native-community/progress-bar-android`)"
   - "react-native-progress-view (from `../node_modules/@react-native-community/progress-view`)"
+  - react-native-render-html (from `../node_modules/react-native-render-html`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
@@ -1555,6 +1561,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-add-calendar-event:
+    :path: "../node_modules/react-native-add-calendar-event"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
   react-native-maps:
@@ -1565,6 +1573,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/progress-bar-android"
   react-native-progress-view:
     :path: "../node_modules/@react-native-community/progress-view"
+  react-native-render-html:
+    :path: "../node_modules/react-native-render-html"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
@@ -1701,11 +1711,13 @@ SPEC CHECKSUMS:
   React-jsinspector: 9ac353eccf6ab54d1e0a33862ba91221d1e88460
   React-logger: 0a57b68dd2aec7ff738195f081f0520724b35dab
   React-Mapbuffer: 114be72666d7e3e317c1a36fb566cd3ad712fcc8
+  react-native-add-calendar-event: b9802a8be8ad4beb0dcb3efb28969c077558fb29
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-maps: b4c3b092b1c71240d8d4792bae3738828942f14a
   react-native-pager-view: 33c56e3b547d2f29d224255d82e796942e0918b8
   react-native-progress-bar-android: 092e6a794f158642692f25c8839d9aa8eb779afb
   react-native-progress-view: fda23a769e325dd94f08439f6cfca5867fca32c0
+  react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   react-native-webview: 1f6c37318115b6e96285e0b06770307d9a751bb8
   React-nativeconfig: ca8b90c736cf3be019cb332ca42d93dd95b32e05

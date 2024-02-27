@@ -1,21 +1,21 @@
 import React, { FC } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
-import { Colors } from '../../styles'
-import { StatefulView } from '../shared/StatefulView'
-import { EventDetailsContent } from './EventDetailsContent'
-import { useEventDetailsScreen } from './useEventDetailsScreen.hook'
+import { HomeNavigatorScreenProps } from '@/navigation/home/HomeNavigatorScreenProps'
+import { Colors } from '@/styles'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { EventDetailsContent } from '@/screens/eventDetail/EventDetailsContent'
+import { useEventDetailsScreen } from '@/screens/eventDetail/useEventDetailsScreen.hook'
+import { useLocalSearchParams } from 'expo-router'
 
 type EventDetailsScreenProps = HomeNavigatorScreenProps<'EventDetails'>
 
 const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
-  const { statefulState, onReloadEvent } = useEventDetailsScreen(
-    route.params.eventId,
-  )
+  const { id } = useLocalSearchParams<{ id: string }>()
+  const { statefulState, onReloadEvent } = useEventDetailsScreen(id)
 
   return (
-    <SafeAreaView style={styles.container} forceInset={{ top: 'never' }}>
+    <View style={styles.container}>
       <StatefulView
         state={statefulState}
         contentComponent={(detailedEvent) => {
@@ -27,7 +27,7 @@ const EventDetailsScreen: FC<EventDetailsScreenProps> = ({ route }) => {
           )
         }}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 
