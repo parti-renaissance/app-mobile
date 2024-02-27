@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
 import { useDebounce } from 'use-debounce'
 import { EventMode } from '../../core/entities/Event'
-import { EventNavigatorScreenProps } from '../../navigation/event/EventNavigatorScreenProps'
+
+import { router } from 'expo-router'
 
 const DEBOUNCE_TIMEOUT_MILLIS = 350
 
@@ -13,17 +13,15 @@ export const useEventsScreen = (
   onChangeText: (input: string) => void
   onFiltersSelected: () => void
 } => {
-  const navigation =
-    useNavigation<EventNavigatorScreenProps<'Events'>['navigation']>()
   const [searchText, setSearchText] = useState('')
   const [searchTextDebounced] = useDebounce(searchText, DEBOUNCE_TIMEOUT_MILLIS)
 
   const onFiltersSelected = useCallback(() => {
-    navigation.navigate('EventsFilterModal', {
-      screen: 'EventsFilter',
-      params: { eventMode: eventMode },
+    router.push({
+      pathname: '/(tabs)/events/[mode]/filters',
+      params: { mode: eventMode },
     })
-  }, [navigation, eventMode])
+  }, [eventMode])
 
   return {
     searchText: searchTextDebounced,
