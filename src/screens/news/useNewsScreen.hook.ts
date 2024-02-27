@@ -70,7 +70,7 @@ export const useNewsScreen = (): {
 
   const onNewsSelected = (id: string) => {
     // TODO: (Pierre Felgines) 2022/02/11 Check where to log analytics `Analytics.logNewsOpen()`
-    router.push({ pathname: '/news/[newsId]/detail', params: { newsId: id } })
+    router.push({ pathname: '/news/[id]', params: { id } })
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
