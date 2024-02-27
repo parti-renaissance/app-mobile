@@ -18,8 +18,9 @@ import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { HomeViewModel } from './HomeViewModel'
 import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useFetchHomeResources } from './useFetchHomeResources.hook'
-import { use } from 'i18next'
 import { router } from 'expo-router'
+import { useCampaignStore } from '@/data/store/phoning'
+import { PhoningCampaign } from '@/core/entities/PhoningCampaign'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -44,6 +45,8 @@ export const useHomeScreen = (): {
     ViewState<PaginatedResult<Array<TimelineFeedItem>>>
   >(ViewState.Loading())
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+
+  const campaignPhoningStore = useCampaignStore()
 
   const { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll } =
     useFetchHomeResources()
@@ -73,8 +76,6 @@ export const useHomeScreen = (): {
   useEffect(() => {
     fetchTimelineFeed()
   }, [fetchTimelineFeed])
-
-  
 
   const onLoadMore = useCallback(() => {
     const currentResult = ViewState.unwrap(feedStatefulState)
@@ -106,12 +107,12 @@ export const useHomeScreen = (): {
     fetchHomeResources()
   }
 
-  const onFeedNewsSelected = (newsId: string) => {
+  const onFeedNewsSelected = (id: string) => {
     // TODO: (Pierre Felgines) 2022/02/28 Update analytics
     Analytics.logHomeNewsOpen()
-    navigation.navigate('NewsDetailModal', {
-      screen: 'NewsDetail',
-      params: { newsId },
+    router.push({
+      pathname: '/home/modals/news-detail',
+      params: { id },
     })
   }
 
@@ -139,14 +140,17 @@ export const useHomeScreen = (): {
     updateQuickPoll(updatedPoll)
   }
 
-  const onNextEventSelected = (eventId: string) => {
+  const onNextEventSelected = (id: string) => {
     const currentResources = ViewState.unwrap(statefulState)
     const event = currentResources?.nextEvent
-    if (!event || event.uuid !== eventId) {
+    if (!event || event.uuid !== id) {
       return
     }
     Analytics.logHomeEventOpen(event.name, event.category)
-    navigation.navigate('EventDetails', { eventId: event.uuid })
+    router.push({
+      pathname: '/home/modals/event-detail',
+      params: { id },
+    })
   }
 
   const onFeedEventSelected = (eventId: string) => {
@@ -193,24 +197,29 @@ export const useHomeScreen = (): {
     if (item === undefined) {
       return
     }
-    navigation.navigate('PhoningSessionModal', {
-      screen: 'PhoningSessionLoader',
+    console.log('onFeedPhoningCampaignSelected', item)
+    campaignPhoningStore.setCampaign({
+      id: item.uuid,
+      title: item.title,
+    } as unknown as PhoningCampaign)
+    router.navigate({
+      pathname: '/(tabs)/actions/phoning/session/[device]',
       params: {
-        campaignId: item.uuid,
-        campaignTitle: item.title,
         device: 'current',
       },
     })
   }
 
   const onFeedDoorToDoorCampaignSelected = () => {
-    navigation.navigate('DoorToDoor')
+    router.navigate({
+      pathname: '/(tabs)/actions/door-to-door',
+    })
   }
 
-  const onFeedPollSelected = (pollId: string) => {
-    navigation.navigate('PollDetailModal', {
-      screen: 'PollDetail',
-      params: { pollId },
+  const onFeedPollSelected = (id: string) => {
+    router.push({
+      pathname: '/home/modals/poll-detail',
+      params: { id },
     })
   }
 
