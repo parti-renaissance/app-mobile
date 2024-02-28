@@ -1,38 +1,32 @@
 const fs = require('fs')
 
-function createGoogleServicesFile(_platform, profile) {
-  if (!_platform) {
-    createGoogleServicesFile('ANDROID', profile)
-    createGoogleServicesFile('IOS', profile)
-    return
-  }
+function createEnvsKeys(_platform, profile) {
+  console.log(process.env)
+  const serverEnv = profile === 'production' ? 'PRODUCTION' : 'STAGING'
+  console.log('serverEnv', serverEnv)
+  const regex = new RegExp(`^EXPO_PUBLIC_.*_${serverEnv}$`)
+  const publicEnvs = Object.keys(process.env).filter((key) => regex.test(key))
+  console.log('publicEnvs', Object.keys(process.env))
 
-  if (!profile) {
-    createGoogleServicesFile(_platform, 'STAGING')
-    return
-  }
+  const envs = publicEnvs.reduce((acc, envName) => {
+    const regex = `^EXPO_PUBLIC_(.*)_${serverEnv}$`
+    const key = envName.match(regex)[1]
+    acc[key] = process.env[envName]
+    return acc
+  }, {})
 
-  const platform = _platform.toUpperCase()
-  if (platform === 'WEB') return
+  const generatedConsts = Object.keys(envs).reduce((acc, key) => {
+    acc += `export const ${key} = '${envs[key]}'\n`
+    return acc
+  }, '')
 
-  const env = profile.toUpperCase() === 'PRODUCTION' ? 'PRODUCTION' : 'STAGING'
+  const generatedFile = 'src/config/env.ts'
+  fs.writeFileSync(generatedFile, generatedConsts)
 
-  const googleServices = process.env[`GOOGLE_SERVICES_${platform}_${env}`]
-
-  if (!googleServices) {
-    throw new Error(
-      `Missing google-services_${platform}_${env} environment variable`,
-    )
-  }
-
-  const googleServicesPath = `config/${platform}/google-services.${platform === 'ANDROID' ? 'json' : 'plist'}`
-
-  fs.writeFileSync(
-    googleServicesPath,
-    Buffer.from(googleServices, 'base64').toString('utf-8'),
-  )
+  console.log('envs', envs)
 }
-createGoogleServicesFile(
+
+createEnvsKeys(
   process.env['EAS_BUILD_PLATFORM'],
   process.env['EAS_BUILD_PROFILE'],
 )

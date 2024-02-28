@@ -5,6 +5,7 @@ import nMessaging from '@react-native-firebase/messaging'
 import * as wAnalytics from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import * as wMessaging from 'firebase/messaging'
+import * as envs from './env'
 
 // Initialize Firebase
 type Mess = ReturnType<typeof nMessaging>
@@ -13,12 +14,12 @@ type Anal = ReturnType<typeof nAnalytics>
 function initFirebase() {
   if (Platform.OS === 'web') {
     const firebaseConfig = {
-      apiKey: process.env.EXPO_PUBLIC_FB_API_KEY,
-      authDomain: `${process.env.EXPO_PUBLIC_FB_PROJECT_ID}.firebaseapp.com`,
-      projectId: process.env.EXPO_PUBLIC_FB_PROJECT_ID,
-      storageBucket: `${process.env.EXPO_PUBLIC_FB_PROJECT_ID}.appspot.com`,
-      messagingSenderId: process.env.EXPO_PUBLIC_FB_SENDER_ID,
-      appId: process.env.EXPO_PUBLIC_FB_APP_ID,
+      apiKey: envs.FB_API_KEY,
+      authDomain: `${envs.FB_PROJECT_ID}.firebaseapp.com`,
+      projectId: envs.FB_PROJECT_ID,
+      storageBucket: `${envs.FB_PROJECT_ID}.appspot.com`,
+      messagingSenderId: envs.FB_SENDER_ID,
+      appId: envs.FB_APP_ID,
     }
     const app = initializeApp(firebaseConfig)
     const Analytics = wAnalytics.getAnalytics(app)
