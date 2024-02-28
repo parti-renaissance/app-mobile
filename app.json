@@ -15,20 +15,25 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "fr.en-marche.jecoute.staging",
-      "googleServicesFile": "./config/firebase/ios/GoogleService-Info.plist",
+      "googleServicesFile": "./config/ios/google-services.plist",
       "supportsTablet": true
     },
     "android": {
-      "googleServicesFile": "./config/firebase/android/google-services.json",
+      "googleServicesFile": "./config/android/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.partirenaissance.vox"
+      "package": "com.partirenaissance.vox",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
-       "bundler": "metro"
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
@@ -75,6 +80,10 @@
     },
     "experiments": {
       "typedRoutes": true
+    },
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/88a01d03-66fc-4505-adf6-4c6f94a1cfa7"
     }
   }
 }

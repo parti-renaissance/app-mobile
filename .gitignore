@@ -43,7 +43,7 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
-config/firebase/android/google-services.json
-config/firebase/ios/GoogleService-Info.plist
+config/android/google-services.json
+config/ios/google-services.plist
 android/app/google-services.json
 ios/vox/GoogleService-Info.plist

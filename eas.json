@@ -1,12 +1,9 @@
 {
   "build": {
     "development": {
-      // "developmentClient": true,
-      "channel": "feature/deploy",
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      }
+      "bun": "1.0.20",
+      "channel": "test",
+      "distribution": "internal"
     },
     "staging": {
       "distribution": "internal",
