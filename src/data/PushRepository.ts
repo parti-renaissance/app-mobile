@@ -1,4 +1,3 @@
-import { ENVIRONMENT } from '@/config/env'
 import FB from '@/config/firebaseConfig'
 import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'

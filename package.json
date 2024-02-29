@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "prettier-watch": "onchange '**/*.ts' '**/*.tsx' '**/*.cjs' '**/*.js' '**/*.json' -- prettier --write {{changed}}",
-    "ts:check": "tsc"
+    "ts:check": "tsc",
+    "prepare": "bun ./scripts/prepare-env.js",
+    "postinstall": "bun ./scripts/prepare-env.js"
   },
   "dependencies": {
     "@expo/webpack-config": "~19.0.1",
@@ -52,6 +54,7 @@
     "expo-router": "~3.4.7",
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
+    "expo-updates": "~0.24.11",
     "expo-web-browser": "~12.8.2",
     "firebase": "^10.7.1",
     "i18next": "^23.7.16",
@@ -100,7 +103,9 @@
     "eslint-plugin-prettier": "^5.1.2",
     "onchange": "^7.1.0",
     "prettier": "^3.1.1",
-    "react-devtools": "^5.0.0"
+    "react-devtools": "^5.0.0",
+    "ts-node": "^10.9.2"
   },
-  "private": true
+  "private": true,
+  "trustedDependencies": ["@sentry/cli"]
 }
