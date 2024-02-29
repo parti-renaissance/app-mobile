@@ -7,6 +7,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: 'vox',
   scheme: 'vox',
   version: '1.0.0',
+  owner: 'parti-renaissance',
   runtimeVersion: {
     policy: 'appVersion',
   },
@@ -89,13 +90,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       origin: false,
     },
     eas: {
-      projectId: '88a01d03-66fc-4505-adf6-4c6f94a1cfa7',
+      projectId: '3b41ebc2-860e-4ccb-a101-5edc6b0c7558',
     },
   },
   experiments: {
     typedRoutes: true,
   },
   updates: {
-    url: 'https://u.expo.dev/88a01d03-66fc-4505-adf6-4c6f94a1cfa7',
+    url: 'https://u.expo.dev/3b41ebc2-860e-4ccb-a101-5edc6b0c7558',
   },
 })
