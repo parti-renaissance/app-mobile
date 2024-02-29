@@ -1,20 +1,23 @@
 {
-    "build": {
-      "development": {
-        "developmentClient": true,
-        "distribution": "internal"
-      },
-      "preview": {
-        "distribution": "internal"
-      },
-      "development-simulator": {
-        "developmentClient": true,
-        "distribution": "internal",
-        "ios": {
-          "simulator": true
-        }
-      },
-      "production": {}
+  "cli": {
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "bun": "1.0.20",
+      "distrubution": "internal",
+      "developmentClient": true
+    },
+    "staging": {
+      "bun": "1.0.20",
+      "distribution": "internal",
+      "channel": "staging"
+    },
+    "production": {
+      "bun": "1.0.20",
+      "distribution": "store",
+      "channel": "master",
+      "autoIncrement": true
     }
   }
-  
+}

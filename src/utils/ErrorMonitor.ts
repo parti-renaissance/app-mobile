@@ -15,7 +15,7 @@ export const ErrorMonitor = {
     if (__DEV__) {
       console.log('[ErrorMonitor]', message, payload)
     } else {
-      Platform.OS === 'web' 
+      Platform.OS === 'web'
         ? Sentry.Browser.captureMessage(message, { extra: payload })
         : Sentry.Native.captureMessage(message, { extra: payload })
     }

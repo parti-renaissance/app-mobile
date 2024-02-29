@@ -8,6 +8,9 @@ node_modules/
 dist/
 web-build/
 
+ios/
+android/
+
 # Native
 *.orig.*
 *.jks
@@ -43,7 +46,9 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
-config/firebase/android/google-services.json
-config/firebase/ios/GoogleService-Info.plist
+config/google-services.json
+config/GoogleService-Info.plist
+src/config/env.ts
 android/app/google-services.json
 ios/vox/GoogleService-Info.plist
+.DS_Store
