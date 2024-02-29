@@ -2,7 +2,8 @@ name: update
 on:
   push:
     branches:
-      - test-updates
+      - staging
+      - master
 
 jobs:
   update:

@@ -1,17 +1,17 @@
 {
   "build": {
     "development": {
-      "bun": "1.0.20",
-      "channel": "test-updates",
-      "distribution": "internal"
+      "bun": "1.0.20"
     },
     "staging": {
+      "bun": "1.0.20",
       "distribution": "internal",
       "channel": "staging"
     },
     "production": {
+      "bun": "1.0.20",
       "distribution": "store",
-      "channel": "production"
+      "channel": "master"
     }
   }
 }
