@@ -2,7 +2,7 @@
   "build": {
     "development": {
       "bun": "1.0.20",
-      "channel": "test",
+      "channel": "test-updates",
       "distribution": "internal"
     },
     "staging": {

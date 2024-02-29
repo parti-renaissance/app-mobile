@@ -2,7 +2,7 @@ name: update
 on:
   push:
     branches:
-      - test
+      - test-updates
 
 jobs:
   update:
