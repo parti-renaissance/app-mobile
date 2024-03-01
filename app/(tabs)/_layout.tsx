@@ -77,7 +77,7 @@ export default function AppLayout() {
   // Set up the auth context and render our layout inside of it.
   return (
     <Tabs
-      initialRouteName='home'
+      initialRouteName="home"
       screenOptions={{
         headerShown: false,
         tabBarButton: (props) => {

@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
-import { useNavigation, useRouter } from 'expo-router'
+import { useNavigation, useLocalSearchParams } from 'expo-router'
 import { EventNavigatorScreenProps } from '@/navigation/event/EventNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '@/styles'
 import { Analytics } from '@/utils/Analytics'
@@ -17,7 +17,7 @@ import i18n from '@/utils/i18n'
 import { EventsFilterButton } from '@/screens/shared/NavigationHeaderButton'
 import EventListScreen from '@/screens/events/EventListScreen'
 import { useEventsScreen } from '@/screens/events/useEventsScreen.hook'
-
+import { EventMode } from '@/core/entities/Event'
 type EventsScreenProps = EventNavigatorScreenProps<'Events'>
 
 const ROUTES = [
@@ -30,9 +30,7 @@ const EventsScreen: FC<EventsScreenProps> = () => {
   const initialLayout = { width: Dimensions.get('window').width }
   const [index, setIndex] = useState(0)
   const navigation = useNavigation()
-  const route = useRouter()
-
-  const eventMode = route.params?.eventMode
+  const { mode: eventMode } = useLocalSearchParams<{ mode: EventMode }>()
 
   const { searchText, onChangeText, onFiltersSelected } =
     useEventsScreen(eventMode)
@@ -126,6 +124,7 @@ const EventsScreen: FC<EventsScreenProps> = () => {
 const styles = StyleSheet.create({
   scene: {
     backgroundColor: Colors.defaultBackground,
+    paddingTop: Spacing.largeMargin,
     flex: 1,
   },
   search: {
