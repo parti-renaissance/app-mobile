@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
-import Geolocation from 'react-native-geolocation-service'
+import * as Location from 'expo-location'
 import MapView from 'react-native-map-clustering'
 import Map, { LatLng, Region } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
@@ -73,15 +73,27 @@ const DoorToDoorMapView = ({
   }
 
   useEffect(() => {
-    const watchID = Geolocation.watchPosition((position) => {
-      setCurrentPosition({
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
-      })
+    let watchId: Location.LocationSubscription | null = null
+    Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.BestForNavigation,
+        timeInterval: 10000,
+        distanceInterval: 10,
+      },
+      (position) => {
+        setCurrentPosition({
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude,
+        })
+      },
+    ).then((id) => {
+      watchId = id
     })
 
     return () => {
-      watchID != null && Geolocation.clearWatch(watchID)
+      if (watchId) {
+        watchId.remove()
+      }
     }
   }, [])
 
