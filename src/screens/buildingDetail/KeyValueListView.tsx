@@ -1,8 +1,7 @@
-import React from 'react'
-import { StyleSheet, View, Text, ViewStyle } from 'react-native'
-import { FunctionComponent } from 'react'
-import { unit } from '../../styles/spacing'
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Typography } from '../../styles'
+import { unit } from '../../styles/spacing'
 import KeyValueCell, { KeyValueCellViewModel } from './KeyValueCell'
 
 type Props = Readonly<{

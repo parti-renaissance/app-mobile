@@ -1,6 +1,6 @@
 import { TextStyle } from 'react-native'
-import * as Spacing from './spacing'
 import * as Colors from './colors'
+import * as Spacing from './spacing'
 
 const largeTitleFontSize = 45
 const titleFontSize = 28

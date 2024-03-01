@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
@@ -30,9 +30,8 @@ export const useEventListScreen = (
   const [statefulState, setStatefulState] = useState<
     ViewState<PaginatedResult<Array<ShortEvent>>>
   >(ViewState.Loading())
-  const navigation = useNavigation<
-    EventNavigatorScreenProps<'Events'>['navigation']
-  >()
+  const navigation =
+    useNavigation<EventNavigatorScreenProps<'Events'>['navigation']>()
 
   const stateRef = useRef(statefulState)
   useEffect(() => {

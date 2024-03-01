@@ -1,5 +1,5 @@
-import { Mutex } from 'async-mutex'
 import messaging from '@react-native-firebase/messaging'
+import { Mutex } from 'async-mutex'
 import { ENVIRONMENT } from '../Config'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
@@ -65,9 +65,8 @@ class PushRepository {
   }
 
   public async synchronizeGeneralTopicSubscription(): Promise<void> {
-    const globalNotificationsEnabled = await this.arePushNotificationsEnabled(
-      'national',
-    )
+    const globalNotificationsEnabled =
+      await this.arePushNotificationsEnabled('national')
     if (globalNotificationsEnabled) {
       this.subscribeToGeneralTopic()
     } else {
@@ -104,9 +103,8 @@ class PushRepository {
   public async synchronizeDepartmentSubscription(
     department: Department,
   ): Promise<void> {
-    const localNotificationsEnabled = await this.arePushNotificationsEnabled(
-      'local',
-    )
+    const localNotificationsEnabled =
+      await this.arePushNotificationsEnabled('local')
     if (localNotificationsEnabled) {
       return this.subscribeToDepartment(department)
     } else {
@@ -148,9 +146,8 @@ class PushRepository {
   }
 
   public async synchronizeRegionSubscription(region: Region): Promise<void> {
-    const localNotificationsEnabled = await this.arePushNotificationsEnabled(
-      'local',
-    )
+    const localNotificationsEnabled =
+      await this.arePushNotificationsEnabled('local')
     if (localNotificationsEnabled) {
       this.subscribeToRegion(region)
     } else {
@@ -192,9 +189,8 @@ class PushRepository {
   }
 
   public async synchronizeBoroughSubscription(zipCode: string): Promise<void> {
-    const localNotificationsEnabled = await this.arePushNotificationsEnabled(
-      'local',
-    )
+    const localNotificationsEnabled =
+      await this.arePushNotificationsEnabled('local')
     if (localNotificationsEnabled) {
       return this.subscribeToBorough(zipCode)
     } else {

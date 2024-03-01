@@ -1,5 +1,6 @@
 import { MultiMap } from 'mnemonist'
 import {
+  Notification,
   NotificationCategory,
   NotificationMedia,
 } from '../../../core/entities/Notification'
@@ -10,7 +11,6 @@ import {
   NotificationSectionViewModel,
   NotificationsViewModel,
 } from './NotificationViewModel'
-import { Notification } from '../../../core/entities/Notification'
 
 export const NotificationViewModelMapper = {
   map: (

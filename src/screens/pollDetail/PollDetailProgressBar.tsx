@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
-
 import ProgressBar from '../shared/ProgressBar'
 import { PollDetailProgressBarViewModel } from './PollDetailProgressBarViewModel'
 

@@ -2,9 +2,9 @@ import React, { forwardRef } from 'react'
 import {
   StyleProp,
   StyleSheet,
+  TextInput,
   TextInputProps,
   ViewStyle,
-  TextInput,
 } from 'react-native'
 import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'

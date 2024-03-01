@@ -29,9 +29,9 @@ export const RestPollExtraAnswersRequestMapper = {
           result[obj.questionId] = singleChoiceAnswer.choiceId
         }
       } else if (isPollExtraMultipleChoicesAnswer(obj.answer)) {
-        result[
-          obj.questionId
-        ] = (obj.answer as PollExtraMultipleChoicesAnswer).choiceIds.join()
+        result[obj.questionId] = (
+          obj.answer as PollExtraMultipleChoicesAnswer
+        ).choiceIds.join()
       } else if (isPollExtraCompoundAnswer(obj.answer)) {
         const compoundValues = (obj.answer as PollExtraCompoundAnswer).values
         compoundValues.forEach((value, key) => {

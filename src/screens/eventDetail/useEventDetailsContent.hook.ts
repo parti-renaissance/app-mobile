@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { Alert, Share } from 'react-native'
+import * as AddCalendarEvent from 'react-native-add-calendar-event'
+import { DetailedEvent } from '../../core/entities/Event'
 import { ForbiddenError } from '../../core/errors'
 import EventRepository from '../../data/EventRepository'
 import { Analytics } from '../../utils/Analytics'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
 import { ExternalLink } from '../shared/ExternalLink'
+import { CreateEventOptionsMapper } from './CreateEventOptionsMapper'
 import { EventDetailsViewModel } from './EventDetailsViewModel'
 import { EventDetailsViewModelMapper } from './EventDetailsViewModelMapper'
-import * as AddCalendarEvent from 'react-native-add-calendar-event'
-import { DetailedEvent } from '../../core/entities/Event'
-import { CreateEventOptionsMapper } from './CreateEventOptionsMapper'
 
 export const useEventDetailsContent = (
   detailedEvent: DetailedEvent,

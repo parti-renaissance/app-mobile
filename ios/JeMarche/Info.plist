@@ -34,21 +34,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>273</string>
-	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
-	<key>FirebaseDynamicLinksCustomDomains</key>
-	<array>
-		<string>https://$(RN_FIREBASE_DYNAMIC_LINK_DOMAIN)</string>
-	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<string>281</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -62,19 +52,22 @@
 	<string>Requis pour partager les événements dans le calendrier</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Requis pour partager les événements dans le calendrier</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Requis pour localiser les portes à frapper et les questionnaires réalisés.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Requis pour enrichir les questionnaires</string>
+	<string>Requis pour localiser les portes à frapper et les questionnaires réalisés.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Roboto-Medium.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>Maax-Medium.ttf</string>
 		<string>Maax-Bold.ttf</string>
+		<string>Maax-Medium.ttf</string>
 		<string>Maax-Mediumitalic.ttf</string>
 		<string>Roboto-Italic.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -86,6 +79,13 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

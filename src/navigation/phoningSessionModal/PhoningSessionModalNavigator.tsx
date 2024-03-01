@@ -1,16 +1,17 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { headerBlank } from '../../styles/navigationAppearance'
+import PhoneCallFailureScreen from '../../screens/phoneCallFailure/PhoneCallFailureScreen'
+import PhoneCallStatusPickerScreen from '../../screens/phoneCallStatusPicker/PhoneCallStatusPickerScreen'
 import PhonePollDetailScreen from '../../screens/phonePollDetail/PhonePollDetailScreen'
 import PhonePollDetailSuccessScreen from '../../screens/phonePollDetailSuccess/PhonePollDetailSuccessScreen'
 import PhoningSessionLoaderScreen from '../../screens/phoningSessionLoader/PhoningSessionLoaderScreen'
-import PhoningSessionNumberFoundScreen from '../../screens/phoningSessionNumberFound/PhoningSessionNumberFoundScreen'
-import PhoneCallStatusPickerScreen from '../../screens/phoneCallStatusPicker/PhoneCallStatusPickerScreen'
-import PhoneCallFailureScreen from '../../screens/phoneCallFailure/PhoneCallFailureScreen'
-import PhoningSessionNoNumberAvailableScreen from '../../screens/phoningSessionNoNumberAvailable/PhoningSessionNoNumberAvailableScreen'
-import PhoningSessionNumberFoundOtherDeviceScreen from '../../screens/phoningSessionNumberFoundOtherDevice/PhoningSessionNumberFoundOtherDeviceScreen'
 import PhoningSessionLoaderPermanentCampaignScreen from '../../screens/phoningSessionLoaderPermanentCampaign/PhoningSessionLoaderPermanentCampaignScreen'
+import PhoningSessionNoNumberAvailableScreen from '../../screens/phoningSessionNoNumberAvailable/PhoningSessionNoNumberAvailableScreen'
+import PhoningSessionNumberFoundScreen from '../../screens/phoningSessionNumberFound/PhoningSessionNumberFoundScreen'
+import PhoningSessionNumberFoundOtherDeviceScreen from '../../screens/phoningSessionNumberFoundOtherDevice/PhoningSessionNumberFoundOtherDeviceScreen'
+import { headerBlank } from '../../styles/navigationAppearance'
 import { PhoningSessionModalNavigatorParamList } from './PhoningSessionModalNavigatorParamList'
+
 const Stack = createStackNavigator<PhoningSessionModalNavigatorParamList>()
 
 const PhoningSessionModal: FunctionComponent = () => {

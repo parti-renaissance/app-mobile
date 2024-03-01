@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'

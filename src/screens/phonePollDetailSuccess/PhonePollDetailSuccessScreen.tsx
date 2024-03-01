@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { StyleSheet, SectionList } from 'react-native'
+import { SectionList, StyleSheet } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
@@ -13,12 +13,12 @@ import { PhonePollDetailSuccessContent } from './PhonePollDetailSuccessContent'
 import { PhonePollDetailSuccessSectionHeader } from './PhonePollDetailSuccessSectionHeader'
 import { PhonePollDetailSuccessViewModelMapper } from './PhonePollDetailSuccessViewModelMapper'
 
-type PhonePollDetailSuccessScreenProps = PhoningSessionModalNavigatorScreenProps<'PhonePollDetailSuccess'>
+type PhonePollDetailSuccessScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhonePollDetailSuccess'>
 
-const PhonePollDetailSuccessScreen: FunctionComponent<PhonePollDetailSuccessScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhonePollDetailSuccessScreen: FunctionComponent<
+  PhonePollDetailSuccessScreenProps
+> = ({ navigation, route }) => {
   const [currentCampaign, setCampaign] = useState<PhoningCampaign>()
 
   usePreventGoingBack()

@@ -1,19 +1,19 @@
 import React, { FC } from 'react'
 import {
-  Text,
-  StyleSheet,
   FlatList,
   ListRenderItemInfo,
   RefreshControl,
+  StyleSheet,
+  Text,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
-import { useRetaliationsScreen } from './useRetaliationsScreen.hook'
 import HomeRetaliationCard from './RetaliationListCard'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
+import { useRetaliationsScreen } from './useRetaliationsScreen.hook'
 
 type RetaliationsScreenProps = ActionsNavigatorScreenProps<'Retaliations'>
 

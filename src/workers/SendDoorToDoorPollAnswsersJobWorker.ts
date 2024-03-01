@@ -1,6 +1,6 @@
-import { SendDoorToDoorPollAnswersJobQueue } from '../data/store/SendDoorToDoorPollAnswersJobQueue'
 import NetInfo from '@react-native-community/netinfo'
 import { SendDoorPollAnswersInteractor } from '../core/interactor/SendDoorPollAnswersInteractor'
+import { SendDoorToDoorPollAnswersJobQueue } from '../data/store/SendDoorToDoorPollAnswersJobQueue'
 
 export class SendDoorToDoorPollAnswersJobWorker {
   private static instance: SendDoorToDoorPollAnswersJobWorker
@@ -42,7 +42,8 @@ export class SendDoorToDoorPollAnswersJobWorker {
 
   public static async getInstance(): Promise<SendDoorToDoorPollAnswersJobWorker> {
     if (!SendDoorToDoorPollAnswersJobWorker.instance) {
-      SendDoorToDoorPollAnswersJobWorker.instance = new SendDoorToDoorPollAnswersJobWorker()
+      SendDoorToDoorPollAnswersJobWorker.instance =
+        new SendDoorToDoorPollAnswersJobWorker()
     }
 
     return SendDoorToDoorPollAnswersJobWorker.instance

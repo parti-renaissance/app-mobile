@@ -1,7 +1,7 @@
 import { News } from '../../core/entities/News'
+import { DateFormatter } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import { NewsRowViewModel } from './NewsRowViewModel'
-import { DateFormatter } from '../../utils/DateFormatter'
 
 const mapTag = (visibility: News['visibility']) => {
   switch (visibility) {

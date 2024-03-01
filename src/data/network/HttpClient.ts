@@ -1,9 +1,9 @@
+import { Mutex } from 'async-mutex'
 import ky from 'ky'
 import { API_BASE_URL } from '../../Config'
-import LocalStore from '../store/LocalStore'
 import AuthenticationRepository from '../AuthenticationRepository'
-import { Mutex } from 'async-mutex'
 import { Credentials } from '../store/Credentials'
+import LocalStore from '../store/LocalStore'
 
 const injectAccessTokenHook = async (request: Request) => {
   const credentials = await LocalStore.getInstance().getCredentials()
@@ -35,9 +35,8 @@ const refreshToken = async (options: { request: Request }) => {
     }
 
     const authenticationRepository = AuthenticationRepository.getInstance()
-    let newCredentials: Credentials = await authenticationRepository.refreshToken(
-      credentials.refreshToken,
-    )
+    let newCredentials: Credentials =
+      await authenticationRepository.refreshToken(credentials.refreshToken)
 
     options.request.headers.set(
       'Authorization',

@@ -1,11 +1,11 @@
 import { News } from '../core/entities/News'
-import ApiService from './network/ApiService'
-import { RestNewsMapper } from './mapper/RestNewsMapper'
 import { PaginatedResult } from '../core/entities/PaginatedResult'
-import { RestMetadataMapper } from './mapper/RestMetadataMapper'
-import CacheManager from './store/CacheManager'
 import { DataSource } from './DataSource'
+import { RestMetadataMapper } from './mapper/RestMetadataMapper'
+import { RestNewsMapper } from './mapper/RestNewsMapper'
+import ApiService from './network/ApiService'
 import { RestNewsResponse } from './restObjects/RestNewsResponse'
+import CacheManager from './store/CacheManager'
 
 const firstPage = 1
 

@@ -1,8 +1,7 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { FunctionComponent } from 'react'
-import { margin, unit } from '../../styles/spacing'
+import React, { FunctionComponent } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
+import { margin, unit } from '../../styles/spacing'
 import {
   BuildingHistoryViewModel,
   BuildingVisitsDateRecordsViewModel,
@@ -54,9 +53,9 @@ const BuildingVisitsHistory: FunctionComponent<BuildingVisitsHistoryProps> = ({
 type BuildingVisitsDateRecordsProps = Readonly<{
   viewModel: BuildingVisitsDateRecordsViewModel
 }>
-const BuildingVisitsDateRecords: FunctionComponent<BuildingVisitsDateRecordsProps> = ({
-  viewModel,
-}) => {
+const BuildingVisitsDateRecords: FunctionComponent<
+  BuildingVisitsDateRecordsProps
+> = ({ viewModel }) => {
   return (
     <View style={styles.dateRecordsContainer}>
       <DateView viewModel={viewModel.date} />

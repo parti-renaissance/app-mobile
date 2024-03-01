@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useEffect, useLayoutEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 export const usePreventGoingBack = (forceBack = false): void => {
   const { addListener, setOptions } = useNavigation()

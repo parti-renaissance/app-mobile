@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Image, StyleSheet, View, Text, Alert } from 'react-native'
+import { Alert, Image, StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
@@ -9,12 +9,12 @@ import { PrimaryButton, SecondaryButton } from '../../../shared/Buttons'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { TouchablePlatform } from '../../../shared/TouchablePlatform'
 
-type TunnelDoorSelectionScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSelection'>
+type TunnelDoorSelectionScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorSelection'>
 
-const TunnelDoorSelectionScreen: FunctionComponent<TunnelDoorSelectionScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const TunnelDoorSelectionScreen: FunctionComponent<
+  TunnelDoorSelectionScreenProps
+> = ({ navigation, route }) => {
   const [selectedDoor, setSelectedDoor] = useState(
     route.params.buildingParams.door,
   )

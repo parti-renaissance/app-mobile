@@ -33,7 +33,8 @@ import {
 const DUAL_CHOICE_COLUMNS = 2
 
 export class DoorToDoorQualificationComponentProvider
-  implements PollDetailComponentProvider<QualificationResult> {
+  implements PollDetailComponentProvider<QualificationResult>
+{
   private onUpdate: () => void
   private numberOfSteps: number
   private pages: Array<PollExtraQuestionPage>
@@ -101,8 +102,9 @@ export class DoorToDoorQualificationComponentProvider
   }
 
   private isCompoundDataComplete = (compoundQuestion: PollExtraQuestion) => {
-    const children = (compoundQuestion.options as PollExtraQuestionCompoundOptions)
-      .children
+    const children = (
+      compoundQuestion.options as PollExtraQuestionCompoundOptions
+    ).children
     const answer = this.storage.get(compoundQuestion.code)?.answer as
       | PollExtraCompoundAnswer
       | undefined
@@ -124,9 +126,10 @@ export class DoorToDoorQualificationComponentProvider
     const answer = this.storage.get(item.code)
     switch (item.type) {
       case 'dualChoice':
-        const dualChoiceAnswer = (answer?.answer as PollExtraSingleChoiceAnswer) ?? {
-          choiceId: '',
-        }
+        const dualChoiceAnswer =
+          (answer?.answer as PollExtraSingleChoiceAnswer) ?? {
+            choiceId: '',
+          }
         // Dual choice question is mapped to a single choice question with 2 columns
         return this.getSingleChoiceComponent(
           item.code,
@@ -162,9 +165,10 @@ export class DoorToDoorQualificationComponentProvider
         (answer?.answer as PollExtraMultipleChoicesAnswer) ?? { choiceIds: [] },
       )
     } else {
-      const singleChoiceAnswer = (answer?.answer as PollExtraSingleChoiceAnswer) ?? {
-        choiceId: '',
-      }
+      const singleChoiceAnswer =
+        (answer?.answer as PollExtraSingleChoiceAnswer) ?? {
+          choiceId: '',
+        }
       return this.getSingleChoiceComponent(
         item.code,
         singleChoiceAnswer,
@@ -311,8 +315,9 @@ export class DoorToDoorQualificationComponentProvider
           storedAnswer &&
           isPollExtraMultipleChoicesAnswer(storedAnswer.answer)
         ) {
-          const choices = (storedAnswer.answer as PollExtraMultipleChoicesAnswer)
-            .choiceIds
+          const choices = (
+            storedAnswer.answer as PollExtraMultipleChoicesAnswer
+          ).choiceIds
           return dependency.choices.some((choice) => choices.includes(choice))
         } else {
           // Compound and TextInput cannot be in a dependency

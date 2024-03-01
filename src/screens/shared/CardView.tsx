@@ -15,16 +15,10 @@ const CardView: FunctionComponent<Props> = ({
   backgroundColor,
   borderRadius = 8,
 }) => {
+  const dynamicStyle = { backgroundColor, borderRadius }
   return (
-    <View style={[style, styles.shadow]}>
-      <View
-        style={[
-          { backgroundColor: backgroundColor, borderRadius: borderRadius },
-          styles.card,
-        ]}
-      >
-        {children}
-      </View>
+    <View style={[style, styles.shadow, dynamicStyle]}>
+      <View style={[dynamicStyle, styles.card]}>{children}</View>
     </View>
   )
 }

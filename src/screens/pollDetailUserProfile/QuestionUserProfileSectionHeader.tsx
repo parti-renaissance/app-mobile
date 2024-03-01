@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text } from 'react-native'
-
 import { Spacing, Typography } from '../../styles'
 
 type Props = Readonly<{

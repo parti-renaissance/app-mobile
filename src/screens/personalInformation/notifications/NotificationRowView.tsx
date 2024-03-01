@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, View, Text, Switch } from 'react-native'
+import { StyleSheet, Switch, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
 import { NotificationRowViewModel } from './NotificationViewModel'
 

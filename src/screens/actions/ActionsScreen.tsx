@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
 import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { useActionsScreen } from './useActionsScreen.hook'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 
 type ActionsScreenProps = ActionsNavigatorScreenProps<'Actions'>
 

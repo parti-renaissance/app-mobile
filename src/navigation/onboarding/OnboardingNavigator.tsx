@@ -1,10 +1,9 @@
+import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
-import { FunctionComponent } from 'react'
 import LoginScreen from '../../screens/login/LoginScreen'
 import OnboardingScreen from '../../screens/onboarding/OnboardingScreen'
-import { headerBlank } from '../../styles/navigationAppearance'
 import SignUpScreen from '../../screens/signUp/SignUpScreen'
+import { headerBlank } from '../../styles/navigationAppearance'
 import { OnboardingNavigatorParamList } from './OnboardingNavigatorParamList'
 
 const Stack = createStackNavigator<OnboardingNavigatorParamList>()

@@ -1,11 +1,10 @@
+import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
-import { FunctionComponent } from 'react'
-import { UnauthenticatedRootNavigatorParamList } from './UnauthenticatedRootNavigatorParamList'
-import { LocationPickerModalNavigator } from '../locationPickerModal/LocationPickerModalNavigator'
-import { OnboardingNavigator } from '../onboarding/OnboardingNavigator'
 import { ForgottenPasswordModalNavigator } from '../forgottenPassword/ForgottenPasswordModalNavigator'
 import { ListPickerModalNavigator } from '../listPickerModal/ListPickerModalNavigator'
+import { LocationPickerModalNavigator } from '../locationPickerModal/LocationPickerModalNavigator'
+import { OnboardingNavigator } from '../onboarding/OnboardingNavigator'
+import { UnauthenticatedRootNavigatorParamList } from './UnauthenticatedRootNavigatorParamList'
 
 const Stack = createStackNavigator<UnauthenticatedRootNavigatorParamList>()
 

@@ -1,5 +1,5 @@
-import { RestPhoningSession } from '../restObjects/RestPhoningSession'
 import { PhoningSession } from '../../core/entities/PhoningSession'
+import { RestPhoningSession } from '../restObjects/RestPhoningSession'
 import { PhoningSessionAdherentMapper } from './PhoningSessionAdherentMapper'
 
 export const PhoningSessionMapper = {

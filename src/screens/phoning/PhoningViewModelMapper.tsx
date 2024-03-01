@@ -1,8 +1,8 @@
-import i18n from '../../utils/i18n'
-import { PhoningViewModel } from './PhoningViewModel'
-import { PhoningRowViewModel } from './PhoningRowViewModel'
-import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
 import { differenceInCalendarDays } from 'date-fns'
+import { PhoningCampaign } from '../../core/entities/PhoningCampaign'
+import i18n from '../../utils/i18n'
+import { PhoningRowViewModel } from './PhoningRowViewModel'
+import { PhoningViewModel } from './PhoningViewModel'
 
 export const PhoningViewModelMapper = {
   map: (campaigns: PhoningCampaign[]): PhoningViewModel => {

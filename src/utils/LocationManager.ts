@@ -1,26 +1,43 @@
-import RNLocation, {
-  Location,
-  RequestPermissionOptions,
-} from 'react-native-location'
+import Geolocation, {
+  GeolocationOptions,
+  GeolocationResponse,
+} from '@react-native-community/geolocation'
 
-export const LocationManager = {
-  getLatestLocation: async (): Promise<Location | null> => {
-    let permission = await RNLocation.checkPermission(locationPermissionsOption)
+let permissionStatus = false
 
-    if (!permission) {
-      permission = await RNLocation.requestPermission(locationPermissionsOption)
-    }
-    return RNLocation.getLatestLocation({ timeout: 1000 })
-  },
-  permissionStatus: async (): Promise<boolean> =>
-    await RNLocation.checkPermission(locationPermissionsOption),
-  requestPermission: async (): Promise<boolean> =>
-    await RNLocation.requestPermission(locationPermissionsOption),
+const askPermission = async (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    Geolocation.requestAuthorization(resolve, reject)
+  })
 }
 
-const locationPermissionsOption: RequestPermissionOptions = {
-  ios: 'whenInUse',
-  android: {
-    detail: 'fine',
+const getLatestLocation = async (
+  opt?: GeolocationOptions,
+): Promise<GeolocationResponse> => {
+  return new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(resolve, reject, opt)
+  })
+}
+
+export const LocationManager = {
+  getLatestLocation: () => {
+    return getLatestLocation({
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 10000,
+    })
   },
+
+  permissionStatus: async (): Promise<boolean> => permissionStatus,
+
+  requestPermission: async (): Promise<boolean> =>
+    askPermission()
+      .then((_) => {
+        permissionStatus = true
+        return true
+      })
+      .catch((_) => {
+        permissionStatus = false
+        return false
+      }),
 }

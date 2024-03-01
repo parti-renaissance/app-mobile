@@ -1,9 +1,9 @@
-import { CustomTabs } from 'react-native-custom-tabs'
+import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 import { Analytics } from '../../utils/Analytics'
 
 export const ExternalLink = {
   openUrl: async (url: string) => {
-    CustomTabs.openURL(url)
+    InAppBrowser.open(url)
     await Analytics.logUrlOpened(url)
   },
 }

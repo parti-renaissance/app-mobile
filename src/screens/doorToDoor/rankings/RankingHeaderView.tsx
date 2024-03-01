@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import { Tab } from './Ranking'

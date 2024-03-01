@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, TouchableWithoutFeedback, Text } from 'react-native'
+import { StyleSheet, Text, TouchableWithoutFeedback } from 'react-native'
 import { Colors, Typography } from '../../styles'
 
 type Props = Readonly<{

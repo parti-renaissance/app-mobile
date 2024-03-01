@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, View, Image, Text } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import StatBlockView from './StatBlockView'

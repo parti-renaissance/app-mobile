@@ -1,27 +1,27 @@
-import { BuildingLayoutMapper } from './restObjects/BuildingLayoutMapper'
-import { BuildingBlock } from './../core/entities/BuildingBlock'
-import { BuildingHistoryPointMapper } from './restObjects/BuildingHistoryPointMapper'
-import ApiService from './network/ApiService'
+import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
+import { BuildingType, DoorToDoorAddress } from '../core/entities/DoorToDoor'
+import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
+import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
 import {
   DoorToDoorCharterAccepted,
   DoorToDoorCharterState,
 } from '../core/entities/DoorToDoorCharterState'
-import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
-import { BuildingType, DoorToDoorAddress } from '../core/entities/DoorToDoor'
-import { DoorToDoorMapper } from './mapper/DoorToDoorMapper'
-import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
 import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
-import { DoorToDoorPollConfigMapper } from './mapper/DoorToDoorPollConfigMapper'
+import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
 import { Poll } from '../core/entities/Poll'
 import { DoorToDoorPollResult } from '../screens/doorToDoor/tunnel/survey/DoorToDoorQuestionResult'
-import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
-import { RestDoorToDoorPollRequestMapper } from './mapper/RestDoorToDoorPollRequestMapper'
-import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRankingMapper'
-import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
-import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
+import { BuildingBlock } from './../core/entities/BuildingBlock'
 import { DataSource } from './DataSource'
-import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
 import { DoorToDoorCampaignMapper } from './mapper/DoorToDoorCampaignMapper'
+import { DoorToDoorCampaignRankingMapper } from './mapper/DoorToDoorCampaignRankingMapper'
+import { DoorToDoorCharterMapper } from './mapper/DoorToDoorCharterMapper'
+import { DoorToDoorMapper } from './mapper/DoorToDoorMapper'
+import { DoorToDoorPollConfigMapper } from './mapper/DoorToDoorPollConfigMapper'
+import { RestDoorToDoorPollRequestMapper } from './mapper/RestDoorToDoorPollRequestMapper'
+import ApiService from './network/ApiService'
+import { BuildingHistoryPointMapper } from './restObjects/BuildingHistoryPointMapper'
+import { BuildingLayoutMapper } from './restObjects/BuildingLayoutMapper'
+import { RestDoorToDoorCampaignHistoryResponse } from './restObjects/RestDoorToDoorCampaignHistoryResponse'
 
 class DoorToDoorRepository {
   private static instance: DoorToDoorRepository
@@ -110,9 +110,8 @@ class DoorToDoorRepository {
       const pollConfig = this.pollConfigCache.get(campaignId)
       if (pollConfig) return pollConfig
     }
-    const restConfiguration = await this.apiService.getDoorToDoorPollConfig(
-      campaignId,
-    )
+    const restConfiguration =
+      await this.apiService.getDoorToDoorPollConfig(campaignId)
     const pollConfig = DoorToDoorPollConfigMapper.map(restConfiguration)
     this.pollConfigCache.set(campaignId, pollConfig)
     return pollConfig
@@ -126,9 +125,8 @@ class DoorToDoorRepository {
       const poll = this.pollCache.get(campaignId)
       if (poll) return poll
     }
-    const fetchedPoll = await this.apiService.getDoorToDoorCampaignPoll(
-      campaignId,
-    )
+    const fetchedPoll =
+      await this.apiService.getDoorToDoorCampaignPoll(campaignId)
     this.pollCache.set(campaignId, fetchedPoll)
     return fetchedPoll
   }
@@ -138,11 +136,12 @@ class DoorToDoorRepository {
     pollResult: DoorToDoorPollResult,
     visitStartDateISOString: string,
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
-    const campaignHistoryPayload = RestDoorToDoorPollRequestMapper.mapHistoryRequest(
-      pollParams,
-      pollResult,
-      visitStartDateISOString,
-    )
+    const campaignHistoryPayload =
+      RestDoorToDoorPollRequestMapper.mapHistoryRequest(
+        pollParams,
+        pollResult,
+        visitStartDateISOString,
+      )
     return this.apiService.createDoorToDoorCampaignHistory(
       campaignHistoryPayload,
     )
@@ -226,9 +225,8 @@ class DoorToDoorRepository {
       const ranking = this.campaignRankingCache.get(campaignId)
       if (ranking) return ranking
     }
-    const fetchedCampaignRanking = await this.apiService.getDoorToDoorCampaignRanking(
-      campaignId,
-    )
+    const fetchedCampaignRanking =
+      await this.apiService.getDoorToDoorCampaignRanking(campaignId)
     const campaignRanking = DoorToDoorCampaignRankingMapper.map(
       fetchedCampaignRanking,
     )

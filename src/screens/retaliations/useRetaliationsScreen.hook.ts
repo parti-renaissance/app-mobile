@@ -1,10 +1,9 @@
-import { useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Retaliation } from '../../core/entities/Retaliation'
 import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationService } from '../../data/RetaliationService'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
-
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
@@ -17,9 +16,8 @@ export const useRetaliationsScreen = (): {
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
 } => {
-  const navigation = useNavigation<
-    ActionsNavigatorScreenProps<'Retaliations'>['navigation']
-  >()
+  const navigation =
+    useNavigation<ActionsNavigatorScreenProps<'Retaliations'>['navigation']>()
   const [statefulState, setStatefulState] = useState<
     ViewState<Array<Retaliation>>
   >(ViewState.Loading())
@@ -45,6 +43,7 @@ export const useRetaliationsScreen = (): {
       .finally(() => setIsRefreshing(false))
   }, [])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchRetaliations, [])
 
   const onRetaliationSelected = (id: string) => {

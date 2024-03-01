@@ -7,7 +7,7 @@ const paths = require('../../config/paths')
 
 function getEnv() {
   return Object.keys(process.env)
-    .filter((key) => /(?:^NODE_ENV$)|(?:^RN_)/i.test(key))
+    .filter((key) => /(?:^NODE_ENV$)|(?:^RN_)|(?:^ANDROID_)/i.test(key))
     .reduce((env, key) => ({ ...env, [key]: process.env[String(key)] }), {})
 }
 

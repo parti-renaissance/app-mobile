@@ -1,7 +1,7 @@
-import CheckBox from '@react-native-community/checkbox'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Alert,
+  DeviceEventEmitter,
   Keyboard,
   KeyboardTypeOptions,
   ScrollView,
@@ -11,30 +11,31 @@ import {
   TextInputProps,
   View,
 } from 'react-native'
+import HTMLView from 'react-native-htmlview'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import CheckBox from '@react-native-community/checkbox'
 import { FormViolation } from '../../core/entities/DetailedProfile'
+import { SignUpFormData } from '../../core/entities/SignUpFormData'
+import { Gender } from '../../core/entities/UserProfile'
+import { SignUpFormError } from '../../core/errors'
+import { CountryRepository } from '../../data/CountryRepository'
+import LegalRepository from '../../data/LegalRepository'
+import PersonalInformationRepository from '../../data/PersonalInformationRepository'
+import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import BirthdayPicker from '../shared/BirthdayPicker'
+import { CallingCodeListPikerViewModelMapper } from '../personalInformation/CallingCodeListPickerViewModelMapper'
+import GenderPicker from '../personalInformation/GenderPicker'
 import LabelInputContainer from '../personalInformation/LabelInputContainer'
 import LocationPicker from '../personalInformation/LocationPicker'
 import PhoneNumberInput from '../personalInformation/PhoneNumberInput'
+import { AlertUtils } from '../shared/AlertUtils'
+import BirthdayPicker from '../shared/BirthdayPicker'
 import { PrimaryButton } from '../shared/Buttons'
+import InputAccessoryClose from '../shared/InputAccessoryClose'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import HTMLView from 'react-native-htmlview'
-import { SignUpFormData } from '../../core/entities/SignUpFormData'
-import { Gender } from '../../core/entities/UserProfile'
-import { AlertUtils } from '../shared/AlertUtils'
-import PersonalInformationRepository from '../../data/PersonalInformationRepository'
-import { SignUpFormError } from '../../core/errors'
-import LegalRepository from '../../data/LegalRepository'
-import InputAccessoryClose from '../shared/InputAccessoryClose'
-import GenderPicker from '../personalInformation/GenderPicker'
-import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
-import { CountryRepository } from '../../data/CountryRepository'
-import { CallingCodeListPikerViewModelMapper } from '../personalInformation/CallingCodeListPickerViewModelMapper'
 
 type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
@@ -67,9 +68,19 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   })
 
   useEffect(() => {
+    DeviceEventEmitter.addListener('onAddressSelected', (address) => {
+      setSignUpFormData((state) => ({
+        ...state,
+        address,
+      }))
+    })
     LegalRepository.getInstance()
       .getDataProtectionRegulation()
       .then((newGdpr) => setGdpr(newGdpr.content))
+
+    return () => {
+      DeviceEventEmitter.removeAllListeners('onAddressSelected')
+    }
   }, [])
 
   const isActionEnabled = (form: SignUpFormData): boolean => {
@@ -104,17 +115,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const onLocationPickerPress = () => {
-    navigation.navigate('LocationPickerModal', {
-      screen: 'LocationPicker',
-      params: {
-        onAddressSelected: (address) => {
-          setSignUpFormData({
-            ...signUpFormData,
-            address,
-          })
-        },
-      },
-    })
+    navigation.navigate('LocationPickerModal', { screen: 'LocationPicker' })
   }
 
   const getTextInputProps = (

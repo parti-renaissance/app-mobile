@@ -1,15 +1,16 @@
 import React, { FC, useLayoutEffect } from 'react'
+import { StyleSheet } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import { Colors } from '../../styles'
+import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
+import { HeaderTextButton } from './HeaderTextButton'
 import { PersonalInformationScreenContent } from './PersonalInformationScreenContent'
 import { usePersonalInformationScreen } from './usePersonalInformationScreen.hook'
-import SafeAreaView from 'react-native-safe-area-view'
-import { StyleSheet } from 'react-native'
-import { Colors } from '../../styles'
-import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
-import { HeaderTextButton } from './HeaderTextButton'
-import i18n from '../../utils/i18n'
 
-type PersonalInformationScreenProps = PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>
+type PersonalInformationScreenProps =
+  PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>
 
 const PersonalInformationScreen: FC<PersonalInformationScreenProps> = ({
   navigation,

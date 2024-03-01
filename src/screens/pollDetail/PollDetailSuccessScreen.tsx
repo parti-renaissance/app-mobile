@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, Text, StyleSheet, BackHandler } from 'react-native'
+import { BackHandler, StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -8,7 +8,8 @@ import { PrimaryButton, SecondaryButton } from '../shared/Buttons'
 import CircularIcon from '../shared/CircularIcon'
 import { FlexibleVerticalSpacer } from '../shared/Spacer'
 
-type PollDetailSuccessScreenProps = PollDetailModalNavigatorScreenProps<'PollDetailSuccess'>
+type PollDetailSuccessScreenProps =
+  PollDetailModalNavigatorScreenProps<'PollDetailSuccess'>
 
 const PollDetailSuccess: FunctionComponent<PollDetailSuccessScreenProps> = ({
   route,

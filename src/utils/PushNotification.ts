@@ -1,6 +1,7 @@
-import messaging from '@react-native-firebase/messaging'
-import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging'
 import { LocalNotificationCenter } from '../data/LocalNotificationCenter'
 
 const registerMessageHandlers = () => {
@@ -34,7 +35,7 @@ const resolveDeeplinkUrlFromFCMMessage = async (
   if (message === null) {
     return undefined
   }
-  const notificationUrl: string | undefined = message?.data?.['deeplink']
+  const notificationUrl = message?.data?.deeplink as string | undefined
   if (notificationUrl) {
     try {
       const { url } = await dynamicLinks().resolveLink(notificationUrl)
@@ -77,9 +78,8 @@ export const PushNotification = {
         }
       },
     )
-    const unsubscribeForegroundObserver = LocalNotificationCenter.observeDeeplinkUrl(
-      observer,
-    )
+    const unsubscribeForegroundObserver =
+      LocalNotificationCenter.observeDeeplinkUrl(observer)
     return () => {
       unsubscribeBackgroundObserver()
       unsubscribeForegroundObserver()

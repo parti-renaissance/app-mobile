@@ -12,12 +12,12 @@ import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 
-type ForgottenPasswordScreenProps = ForgottenPasswordModalNavigatorScreenProps<'ForgottenPassword'>
+type ForgottenPasswordScreenProps =
+  ForgottenPasswordModalNavigatorScreenProps<'ForgottenPassword'>
 
-const ForgottenPasswordScreen: FunctionComponent<ForgottenPasswordScreenProps> = ({
-  route,
-  navigation,
-}) => {
+const ForgottenPasswordScreen: FunctionComponent<
+  ForgottenPasswordScreenProps
+> = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState(route.params.email ?? '')
 

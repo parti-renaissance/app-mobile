@@ -1,5 +1,5 @@
-import { RestBuildingHistoryPoint } from './RestBuildingHistoryPoint'
 import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
+import { RestBuildingHistoryPoint } from './RestBuildingHistoryPoint'
 
 export const BuildingHistoryPointMapper = {
   map: (restObject: RestBuildingHistoryPoint): BuildingHistoryPoint => {

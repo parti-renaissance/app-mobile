@@ -4,7 +4,7 @@ import { UnauthenticatedRootNavigatorScreenProps } from '../unauthenticatedRoot/
 import { OnboardingNavigatorParamList } from './OnboardingNavigatorParamList'
 
 export type OnboardingNavigatorScreenProps<
-  T extends keyof OnboardingNavigatorParamList
+  T extends keyof OnboardingNavigatorParamList,
 > = CompositeScreenProps<
   StackScreenProps<OnboardingNavigatorParamList, T>,
   UnauthenticatedRootNavigatorScreenProps

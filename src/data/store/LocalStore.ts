@@ -91,11 +91,9 @@ class LocalStore {
     return LocalStore.instance
   }
 
-  private async storeUserPreference(
-    object: {
-      [key in keyof UserPreferences]?: any
-    },
-  ): Promise<void> {
+  private async storeUserPreference(object: {
+    [key in keyof UserPreferences]?: any
+  }): Promise<void> {
     const preferences = await this.getUserPreferences()
     const newPreferences = { ...preferences, ...object }
     return AsyncStorage.setItem(
@@ -104,11 +102,9 @@ class LocalStore {
     )
   }
 
-  private async storeTopicsRegistration(
-    object: {
-      [key in keyof TopicsRegistration]?: any
-    },
-  ): Promise<void> {
+  private async storeTopicsRegistration(object: {
+    [key in keyof TopicsRegistration]?: any
+  }): Promise<void> {
     const topicsRegistration = await this.getTopicsRegistration()
     const newTopicsRegistration = { ...topicsRegistration, ...object }
     return AsyncStorage.setItem(

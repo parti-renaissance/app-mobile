@@ -1,19 +1,19 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
-import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { FlexibleVerticalSpacer, VerticalSpacer } from '../shared/Spacer'
-import i18n from '../../utils/i18n'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
 
-type PhoningSessionNumberFoundOtherDeviceScreenProps = PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFoundOtherDevice'>
+type PhoningSessionNumberFoundOtherDeviceScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhoningSessionNumberFoundOtherDevice'>
 
-const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<PhoningSessionNumberFoundOtherDeviceScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const PhoningSessionNumberFoundOtherDeviceScreen: FunctionComponent<
+  PhoningSessionNumberFoundOtherDeviceScreenProps
+> = ({ navigation, route }) => {
   usePreventGoingBack()
 
   const phoneNumber = route.params.data.adherent.phone.number

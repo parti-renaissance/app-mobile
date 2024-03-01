@@ -5,47 +5,47 @@ import React, {
   useState,
 } from 'react'
 import {
-  StyleSheet,
-  SafeAreaView,
-  View,
   Image,
-  Text,
-  ScrollView,
-  RefreshControl,
   Modal,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native'
-import { Colors, Spacing, Styles, Typography } from '../../styles'
-import BuildingStatusView from './BuilidingStatusView'
-import { margin, mediumMargin } from '../../styles/spacing'
-import BuildingLayoutView from './BuildingLayoutView'
-import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewModelMapper'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import i18n from '../../utils/i18n'
-import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
-import DoorToDoorRepository from '../../data/DoorToDoorRepository'
-import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
+import { useIsFocused } from '@react-navigation/native'
 import {
   BuildingBlock,
   BuildingBlockHelper,
 } from '../../core/entities/BuildingBlock'
-import AlphabetHelper from '../../utils/AlphabetHelper'
-import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
-import { AlertUtils } from '../shared/AlertUtils'
-import LoadingOverlay from '../shared/LoadingOverlay'
+import { BuildingHistoryPoint } from '../../core/entities/BuildingHistory'
 import { BuildingType, DoorToDoorAddress } from '../../core/entities/DoorToDoor'
-import { useIsFocused } from '@react-navigation/native'
-import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
-import { DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
 import {
   DoorToDoorCampaignInfo,
   GetDoorToDoorCampaignInfoInteractor,
 } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
-import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
-import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
-import RankingModal from '../doorToDoor/rankings/RankingModal'
-import { RankingModalState } from '../doorToDoor/DoorToDoorScreen'
-import CardView from '../shared/CardView'
+import { UpdateBuildingLayoutInteractor } from '../../core/interactor/UpdateBuildingLayoutInteractor'
+import DoorToDoorRepository from '../../data/DoorToDoorRepository'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
+import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { margin, mediumMargin } from '../../styles/spacing'
+import AlphabetHelper from '../../utils/AlphabetHelper'
+import i18n from '../../utils/i18n'
+import { DoorToDoorCampaignInfoView } from '../doorToDoor/DoorToDoorCampaignCard'
+import { DoorToDoorCampaignCardViewModel } from '../doorToDoor/DoorToDoorCampaignCardViewModel'
+import { DoorToDoorCampaignCardViewModelMapper } from '../doorToDoor/DoorToDoorCampaignCardViewModelMapper'
+import { RankingModalState } from '../doorToDoor/DoorToDoorScreen'
+import RankingModal from '../doorToDoor/rankings/RankingModal'
+import { AlertUtils } from '../shared/AlertUtils'
+import CardView from '../shared/CardView'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { NavigationHeaderButton } from '../shared/NavigationHeaderButton'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { BuildingDetailScreenViewModelMapper } from './BuildingDetailScreenViewModelMapper'
+import BuildingLayoutView from './BuildingLayoutView'
+import BuildingVisitsHistoryView from './BuildingVisitsHistoryView'
+import BuildingStatusView from './BuilidingStatusView'
 
 type BuildingDetailScreenProps = ActionsNavigatorScreenProps<'BuildingDetail'>
 
@@ -64,10 +64,8 @@ const BuildingDetailScreen: FunctionComponent<BuildingDetailScreenProps> = ({
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
-  const [
-    campaignCardViewModel,
-    setCampaignCardViewModel,
-  ] = useState<DoorToDoorCampaignCardViewModel>()
+  const [campaignCardViewModel, setCampaignCardViewModel] =
+    useState<DoorToDoorCampaignCardViewModel>()
   const [address, setAddress] = useState(route.params.address)
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
     { visible: false },

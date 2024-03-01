@@ -2,7 +2,8 @@ import { StepType } from '../../../core/entities/StepType'
 import { PollDetailComponentProvider } from './PollDetailComponentProvider'
 
 export class CompoundPollDetailComponentProvider<A, B>
-  implements PollDetailComponentProvider<A & B> {
+  implements PollDetailComponentProvider<A & B>
+{
   private lhs: PollDetailComponentProvider<A>
   private rhs: PollDetailComponentProvider<B>
 
@@ -42,9 +43,7 @@ export class CompoundPollDetailComponentProvider<A, B>
     }
   }
 
-  private getRelativeData(
-    step: number,
-  ): {
+  private getRelativeData(step: number): {
     provider: PollDetailComponentProvider<Partial<A>>
     relativeStep: number
   } {
@@ -52,6 +51,8 @@ export class CompoundPollDetailComponentProvider<A, B>
       return { provider: this.lhs, relativeStep: step }
     } else {
       return {
+        // TODO: fix type
+        // @ts-ignore
         provider: this.rhs,
         relativeStep: step - this.lhs.getNumberOfSteps(),
       }

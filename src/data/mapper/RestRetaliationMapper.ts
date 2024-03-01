@@ -1,11 +1,11 @@
 import {
-  Retaliation,
-  RetaliationOpenGraph,
-} from './../../core/entities/Retaliation'
-import {
   RestRetaliation,
   RestRetaliationOpenGraph,
 } from '../restObjects/RestRetaliation'
+import {
+  Retaliation,
+  RetaliationOpenGraph,
+} from './../../core/entities/Retaliation'
 import { RetaliationSiteTypeMapper } from './RetaliationSiteTypeMapper'
 
 export const RestRetaliationMapper = {

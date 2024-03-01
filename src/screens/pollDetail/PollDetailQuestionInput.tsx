@@ -1,20 +1,19 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, View, Platform } from 'react-native'
-import { Spacing, Typography } from '../../styles'
-import { PollDetailQuestionInputViewModel } from './PollDetailQuestionInputViewModel'
-import KeyboardOffsetView from '../shared/KeyboardOffsetView'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { Spacing, Typography } from '../../styles'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import PollDetailQuestionInputContent from './PollDetailQuestionInputContent'
+import { PollDetailQuestionInputViewModel } from './PollDetailQuestionInputViewModel'
 
 type PollDetailQuestionInputProps = Readonly<{
   viewModel: PollDetailQuestionInputViewModel
   onChangeText: (text: string) => void
 }>
 
-const PollDetailQuestionInput: FunctionComponent<PollDetailQuestionInputProps> = ({
-  viewModel,
-  onChangeText,
-}) => {
+const PollDetailQuestionInput: FunctionComponent<
+  PollDetailQuestionInputProps
+> = ({ viewModel, onChangeText }) => {
   if (Platform.OS === 'android') {
     return (
       <KeyboardOffsetView>

@@ -4,27 +4,27 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react'
-import { View, StyleSheet } from 'react-native'
-
-import { StatefulView } from '../shared/StatefulView'
-import { ViewState } from '../shared/ViewState'
-import { CloseButton } from '../shared/NavigationHeaderButton'
-import ModalOverlay from '../shared/ModalOverlay'
-import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
-import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
-import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
-import { useBackHandler } from '../shared/useBackHandler.hook'
+import { StyleSheet, View } from 'react-native'
 import {
   GetPhonePollDetailResourcesInteractor,
   PhonePollDetailResources,
 } from '../../core/interactor/GetPhonePollDetailResourcesInteractor'
-import { AlertUtils } from '../shared/AlertUtils'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
+import PhoningCampaignRepository from '../../data/PhoningCampaignRepository'
 import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import { AlertUtils } from '../shared/AlertUtils'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import ModalOverlay from '../shared/ModalOverlay'
+import { CloseButton } from '../shared/NavigationHeaderButton'
+import { StatefulView } from '../shared/StatefulView'
+import { useBackHandler } from '../shared/useBackHandler.hook'
+import { usePreventGoingBack } from '../shared/usePreventGoingBack.hook'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import PhonePollDetailInterruptionModalContent from './PhonePollDetailInterruptionModalContent'
+import PhonePollDetailScreenLoaded from './PhonePollDetailScreenLoaded'
 
-type PhonePollDetailScreenProps = PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>
+type PhonePollDetailScreenProps =
+  PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>
 
 const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
   route,
@@ -74,6 +74,7 @@ const PhonePollDetailScreen: FunctionComponent<PhonePollDetailScreenProps> = ({
       })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchResources, [
     route.params.data.campaignId,
     route.params.data.sessionId,

@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
+import ForgottenPasswordScreen from '../../screens/forgottenPassword/ForgottenPasswordScreen'
 import { headerBlank } from '../../styles/navigationAppearance'
 import { ForgottenPasswordModalNavigatorParamList } from './ForgottenPasswordModalNavigatorParamList'
-import ForgottenPasswordScreen from '../../screens/forgottenPassword/ForgottenPasswordScreen'
 
 const Stack = createStackNavigator<ForgottenPasswordModalNavigatorParamList>()
 

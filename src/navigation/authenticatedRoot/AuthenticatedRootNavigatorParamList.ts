@@ -1,14 +1,14 @@
+import { NavigatorScreenParams } from '@react-navigation/native'
+import { DoorToDoorTunnelModalNavigatorParamList } from '../doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorParamList'
+import { EventsFilterModalNavigatorParamList } from '../eventsFilterModal/EventsFilterModalNavigatorParamList'
+import { ListPickerModalNavigatorParamList } from '../listPickerModal/ListPickerModalNavigatorParamList'
+import { LocationPickerModalNavigatorParamList } from '../locationPickerModal/LocationPickerModalNavigatorParamList'
+import { NewsDetailModalNavigatorParamList } from '../newsDetailModal/NewsDetailModalNavigatorParamList'
+import { PersonalInformationModalNavigatorParamList } from '../personalInformationModal/PersonalInformationModalNavigatorParamList'
+import { PhoningSessionModalNavigatorParamList } from '../phoningSessionModal/PhoningSessionModalNavigatorParamList'
 import { PollDetailModalNavigatorParamList } from '../pollDetailModal/PollDetailModalNavigatorParamList'
 import { ProfileModalNavigatorParamList } from '../profileModal/ProfileModalNavigatorParamList'
-import { PhoningSessionModalNavigatorParamList } from '../phoningSessionModal/PhoningSessionModalNavigatorParamList'
-import { DoorToDoorTunnelModalNavigatorParamList } from '../doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorParamList'
-import { NavigatorScreenParams } from '@react-navigation/native'
-import { NewsDetailModalNavigatorParamList } from '../newsDetailModal/NewsDetailModalNavigatorParamList'
-import { EventsFilterModalNavigatorParamList } from '../eventsFilterModal/EventsFilterModalNavigatorParamList'
 import { TabBarNavigatorParamList } from '../tabBar/TabBarNavigatorParamList'
-import { LocationPickerModalNavigatorParamList } from '../locationPickerModal/LocationPickerModalNavigatorParamList'
-import { PersonalInformationModalNavigatorParamList } from '../personalInformationModal/PersonalInformationModalNavigatorParamList'
-import { ListPickerModalNavigatorParamList } from '../listPickerModal/ListPickerModalNavigatorParamList'
 
 export type AuthenticatedRootNavigatorParamList = {
   TabBarNavigator: NavigatorScreenParams<TabBarNavigatorParamList>

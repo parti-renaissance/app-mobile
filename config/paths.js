@@ -16,6 +16,8 @@ const paths = {
   xcconfigDebug: r('ios/ConfigDebug.xcconfig'),
   androidResource: r('android/app/src/main/res/values/config.xml'),
   androidResourceTemplate: r('commands/_templates/config.xml'),
+  androidSecretProperties: r('android/local.secret.properties'),
+  androidSecretPropertiesTemplate: r('commands/_templates/secret.properties'),
   firebasePlists: r('config/firebase_plists')
 }
 

@@ -74,13 +74,11 @@ const professionTitle = (profession: Profession): string => {
   }
 }
 
-/* eslint-disable no-shadow */
 export enum UserProfileSection {
   Gender = 'Gender',
   Age = 'Age',
   Profession = 'Profession',
 }
-/* eslint-enable no-shadow */
 
 export const PollDetailQuestionUserProfileViewModelMapper = {
   map: (profile: UserProfile): PollDetailQuestionUserProfileViewModel => {

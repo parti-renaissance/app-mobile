@@ -18,7 +18,7 @@ on:
       channel:
         description: 'Define the publishing channel (appcenter|playstore)'
         required: true
-        default: 'appcenter'
+        default: 'playstore'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +26,7 @@ jobs:
       run:
         working-directory: ./android
     container:
-      image: docker://fabernovel/android:api-30-v1.5.0
+      image: docker://fabernovel/android:api-33-v1.7.0
       volumes:
         - /github/home/.ssh:/root/.ssh
     env:
@@ -38,16 +38,20 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Use Node.js 12
-        uses: actions/setup-node@v1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '12'
+          node-version: "21"
+
       - name: Install Yarn
         working-directory: ./
         run: npm install -g yarn
+
       - name: Set up dependencies
         working-directory: ./
         run: yarn install
+
       - name: Prepare env
         working-directory: ./
         env:
@@ -58,26 +62,24 @@ jobs:
           ANDROID_B64_FASTFILE_ENV_PRODUCTION: ${{ secrets.ANDROID_B64_FASTFILE_ENV_PRODUCTION }}
           RN_B64_ENV_STAGING: ${{ secrets.RN_B64_ENV_STAGING }}
           RN_B64_ENV_PRODUCTION: ${{ secrets.RN_B64_ENV_PRODUCTION }}
+          ANDROID_PASSWORD_RELEASE_KEYSTORE: ${{ secrets.ANDROID_PASSWORD_RELEASE_KEYSTORE }}
         run: ./cli.js prepare ${{ github.event.inputs.environment }}
 
-      # - name: Ruby cache
-      #   uses: actions/cache@v2.1.1
-      #   with:
-      #     path: /root/vendor/bundle
-      #     key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gems-
-      # - name: Gradle cache
-      #   uses: actions/cache@v2.1.1
-      #   with:
-      #     path: /root/.gradle
-      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gradle
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: ./android
+          bundler: 'Gemfile.lock'
+          bundler-cache: true
+
+
       - name: Bundle install
+        working-directory: ./android
         run: |
           bundle config path /root/vendor/bundle
           bundle check || bundle install
+
+      - run: git config --system --add safe.directory /__w/app-mobile/app-mobile
 
       - name: Fastlane
         env:
@@ -95,4 +97,5 @@ jobs:
           channel:${{ github.event.inputs.channel }} \
           bump_build_number:${{ github.event.inputs.bump_build_number }} \
           tag_release:${{ github.event.inputs.tag_release }} \
+          variant:${{ github.event.inputs.environment }} \
           --env ${{ github.event.inputs.environment }}

@@ -1,11 +1,11 @@
-import { createStackNavigator } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { headerBlank } from '../../styles/navigationAppearance'
-import i18n from '../../utils/i18n'
+import { createStackNavigator } from '@react-navigation/stack'
 import CenterOfInterestScreen from '../../screens/personalInformation/centerinterest/CenterOfInterestScreen'
 import NotificationMenuScreen from '../../screens/personalInformation/notifications/NotificationMenuScreen'
 import NotificationsScreen from '../../screens/personalInformation/notifications/NotificationsScreen'
 import ProfileScreen from '../../screens/profile/ProfileScreen'
+import { headerBlank } from '../../styles/navigationAppearance'
+import i18n from '../../utils/i18n'
 import { ProfileModalNavigatorParamList } from './ProfileModalNavigatorParamList'
 
 const Stack = createStackNavigator<ProfileModalNavigatorParamList>()

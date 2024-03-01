@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import {
-  Text,
   RefreshControl,
-  StyleSheet,
-  View,
   SectionList,
-  SectionListRenderItemInfo,
   SectionListData,
+  SectionListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { NewsNavigatorScreenProps } from '../../navigation/news/NewsNavigatorScreenProps'

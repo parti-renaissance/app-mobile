@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import EventDetailsScreen from '../../screens/eventDetail/EventDetailsScreen'
-import { headerBlank } from '../../styles/navigationAppearance'
 import EventsScreen from '../../screens/events/EventsScreen'
+import { headerBlank } from '../../styles/navigationAppearance'
 import { EventNavigatorParamList } from './EventNavigatorParamList'
 
 const Stack = createStackNavigator<EventNavigatorParamList>()

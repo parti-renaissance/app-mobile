@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import {
-  StyleSheet,
   SectionList,
   SectionListRenderItemInfo,
+  StyleSheet,
 } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Colors, Spacing } from '../../styles'
+import PollDetailQuestionInputContent from '../pollDetail/PollDetailQuestionInputContent'
 import QuestionDualChoiceRow from '../pollDetailUserData/QuestionDualChoiceRow'
-import QuestionRateRow from './rate/QuestionRateRow'
 import QuestionUserProfileSectionHeader from '../pollDetailUserProfile/QuestionUserProfileSectionHeader'
+import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import {
   PhonePollSatisfactionSectionContentViewModel,
   PhonePollSatisfactionViewModel,
@@ -18,8 +19,7 @@ import {
   PHONE_POLL_SATISFACTION_YES_ID,
 } from './PhonePollSatisfactionViewModelMapper'
 import SatisfactionQuestionChoice from './question/SatisfactionQuestionChoice'
-import PollDetailQuestionInputContent from '../pollDetail/PollDetailQuestionInputContent'
-import KeyboardOffsetView from '../shared/KeyboardOffsetView'
+import QuestionRateRow from './rate/QuestionRateRow'
 
 type Props = Readonly<{
   viewModel: PhonePollSatisfactionViewModel

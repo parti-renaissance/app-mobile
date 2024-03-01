@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../../styles'
 import CardView from '../../shared/CardView'
+import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
 import HomeQuickPollChoicesView from './HomeQuickPollChoicesView'
 import HomeQuickPollResultView from './HomeQuickPollResultView'
-import { HomeQuickPollRowContainerViewModel } from '../HomeRowViewModel'
 
 type Props = Readonly<{
   viewModel: HomeQuickPollRowContainerViewModel

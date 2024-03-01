@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { ListPickerModalNavigatorScreenProps } from '../../navigation/listPickerModal/ListPickerModalNavigatorScreenProps'
 import { filterItemsForQuery } from './filter.service'
 import { ListPickerItem } from './ListPickerItem'
@@ -15,9 +15,10 @@ export const useListPickerScreen = (
   const [searchTerm, setSearchTerm] = useState('')
   const [displayedItems, setDisplayedItems] = useState(items)
 
-  const navigation = useNavigation<
-    ListPickerModalNavigatorScreenProps<'ListPicker'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      ListPickerModalNavigatorScreenProps<'ListPicker'>['navigation']
+    >()
 
   useEffect(() => {
     if (searchTerm.length === 0) {

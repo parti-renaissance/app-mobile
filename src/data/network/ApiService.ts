@@ -1,15 +1,48 @@
-import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
-import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
-import { RestMarkdown } from './../restObjects/RestMarkdown'
-import _httpClient from './HttpClient'
+import { EventFilters } from '../../core/entities/Event'
 import { Poll } from '../../core/entities/Poll'
+import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
+import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
+import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
+import { RestConfigurations } from '../restObjects/RestConfigurations'
+import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
+import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
+import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
+import { RestDoorToDoorCampaign } from '../restObjects/RestDoorToDoorCampaign'
+import {
+  RestDoorToDoorCampaignHistoryResponse,
+  RestDoorToDoorSurveyReplyResponse,
+} from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
+import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
+import {
+  RestDoorToDoorCharter,
+  RestDoorToDoorCharterAccepted,
+  RestDoorToDoorCharterNotAccepted,
+  RestDoorToDoorCharterResponse,
+} from '../restObjects/RestDoorToDoorCharter'
+import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
+import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
+import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
+import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
+import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
+import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
+import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
+import {
+  RestPhoningCharter,
+  RestPhoningCharterAccepted,
+  RestPhoningCharterNotAccepted,
+  RestPhoningCharterResponse,
+} from '../restObjects/RestPhoningCharter'
+import { RestPhoningSession } from '../restObjects/RestPhoningSession'
+import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
 import { RestProfileResponse } from '../restObjects/RestProfileResponse'
-import { genericErrorMapping } from './utils'
-import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
-import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
 import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
-import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
+import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
+import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
+import { RestRetaliation } from '../restObjects/RestRetaliation'
+import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
+import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
+import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 import {
   RestPostPushTokenRequest,
   RestUpdateCentersOfInterestRequest,
@@ -17,11 +50,10 @@ import {
   RestUpdateProfileRequest,
   RestUpdateSubscriptionsRequest,
 } from '../restObjects/RestUpdateProfileRequest'
-import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
-import { EventFilters } from '../../core/entities/Event'
-import { RestConfigurations } from '../restObjects/RestConfigurations'
-import { SearchParamsKeyValue } from './SearchParams'
-import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
+import { RestUserScope } from '../restObjects/RestUserScope'
+import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
+import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
+import { RestMarkdown } from './../restObjects/RestMarkdown'
 import {
   mapAssociatedToken,
   mapPhonePollError,
@@ -30,41 +62,9 @@ import {
   mapSignUpFormError,
   mapSubscriptionError,
 } from './errorMappers'
-import { RestUserScope } from '../restObjects/RestUserScope'
-import { RestPhoningCampaign } from '../restObjects/RestPhoningCampaign'
-import { RestPhoningSession } from '../restObjects/RestPhoningSession'
-import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
-import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
-import {
-  RestPhoningCharter,
-  RestPhoningCharterAccepted,
-  RestPhoningCharterNotAccepted,
-  RestPhoningCharterResponse,
-} from '../restObjects/RestPhoningCharter'
-import { RestRetaliation } from '../restObjects/RestRetaliation'
-import {
-  RestDoorToDoorCharter,
-  RestDoorToDoorCharterAccepted,
-  RestDoorToDoorCharterNotAccepted,
-  RestDoorToDoorCharterResponse,
-} from '../restObjects/RestDoorToDoorCharter'
-import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
-import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
-import {
-  RestDoorToDoorCampaignHistoryResponse,
-  RestDoorToDoorSurveyReplyResponse,
-} from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
-import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
-import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
-import { RestDoorToDoorCampaignRanking } from '../restObjects/RestDoorToDoorCampaignRanking'
-import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
-import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
-import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
-import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
-import { RestToolsResponse } from '../restObjects/RestToolsResponse'
-import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
-import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
-import { RestDoorToDoorCampaign } from '../restObjects/RestDoorToDoorCampaign'
+import _httpClient from './HttpClient'
+import { SearchParamsKeyValue } from './SearchParams'
+import { genericErrorMapping } from './utils'
 
 class ApiService {
   private static instance: ApiService
@@ -231,12 +231,13 @@ class ApiService {
     eventFilters?: EventFilters,
     orderBySubscriptions?: boolean,
   ): Promise<RestEvents> {
-    const searchParams: SearchParamsKeyValue = GetEventsSearchParametersMapper.map(
-      page,
-      zipCode,
-      eventFilters,
-      orderBySubscriptions,
-    )
+    const searchParams: SearchParamsKeyValue =
+      GetEventsSearchParametersMapper.map(
+        page,
+        zipCode,
+        eventFilters,
+        orderBySubscriptions,
+      )
 
     return this.httpClient
       .get('api/v3/events', {

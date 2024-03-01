@@ -10,11 +10,11 @@ import {
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
-import { EventRowViewModel } from './EventViewModel'
-import TagView from '../shared/TagView'
 import { HorizontalSeparator } from '../shared/HorizontalSeparator'
 import { HorizontalSpacer, VerticalSpacer } from '../shared/Spacer'
+import TagView from '../shared/TagView'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { EventRowViewModel } from './EventViewModel'
 
 type Props = Readonly<{
   viewModel: EventRowViewModel

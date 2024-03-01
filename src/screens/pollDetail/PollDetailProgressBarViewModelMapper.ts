@@ -1,6 +1,6 @@
+import { StepType } from '../../core/entities/StepType'
 import i18n from '../../utils/i18n'
 import { PollDetailProgressBarViewModel } from './PollDetailProgressBarViewModel'
-import { StepType } from '../../core/entities/StepType'
 
 const formattedStepType = (stepType: StepType): string | undefined => {
   switch (stepType) {

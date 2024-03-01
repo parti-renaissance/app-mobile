@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ViewState } from '../shared/ViewState'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { HomeViewModel } from './HomeViewModel'
-import { HomeViewModelMapper } from './HomeViewModelMapper'
 import { useNavigation } from '@react-navigation/native'
-import { Analytics } from '../../utils/Analytics'
-import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
-import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import {
   TimelineFeedItem,
   TimelineFeedItemActionCampaign,
   TimelineFeedItemEvent,
   TimelineFeedItemRetaliation,
 } from '../../core/entities/TimelineFeedItem'
-import { useFetchHomeResources } from './useFetchHomeResources.hook'
-import { PaginatedResult } from '../../core/entities/PaginatedResult'
-import { useOnFocus } from '../../utils/useOnFocus.hook'
+import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
+import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
 import { RetaliationService } from '../../data/RetaliationService'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
+import { Analytics } from '../../utils/Analytics'
+import { useOnFocus } from '../../utils/useOnFocus.hook'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { HomeViewModel } from './HomeViewModel'
+import { HomeViewModelMapper } from './HomeViewModelMapper'
+import { useFetchHomeResources } from './useFetchHomeResources.hook'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -36,20 +36,15 @@ export const useHomeScreen = (): {
   onFeedPollSelected: (pollId: string) => void
   onLoadMore: () => void
 } => {
-  const navigation = useNavigation<
-    HomeNavigatorScreenProps<'Home'>['navigation']
-  >()
+  const navigation =
+    useNavigation<HomeNavigatorScreenProps<'Home'>['navigation']>()
   const [feedStatefulState, setFeedStatefulState] = useState<
     ViewState<PaginatedResult<Array<TimelineFeedItem>>>
   >(ViewState.Loading())
   const [isLoadingMore, setIsLoadingMore] = useState(false)
 
-  const {
-    statefulState,
-    isRefreshing,
-    fetchHomeResources,
-    updateQuickPoll,
-  } = useFetchHomeResources()
+  const { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll } =
+    useFetchHomeResources()
 
   useOnFocus(fetchHomeResources)
 

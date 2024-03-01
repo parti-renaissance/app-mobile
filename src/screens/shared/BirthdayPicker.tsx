@@ -1,19 +1,19 @@
 import React, { FC, useState } from 'react'
-import { Colors, Typography } from '../../styles'
-import i18n from '../../utils/i18n'
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {
   Platform,
-  Text,
   StyleProp,
   StyleSheet,
+  Text,
+  TextStyle,
+  TouchableWithoutFeedback,
   View,
   ViewStyle,
-  TouchableWithoutFeedback,
-  TextStyle,
 } from 'react-native'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { IOSNativeProps } from '@react-native-community/datetimepicker'
+import { Colors, Typography } from '../../styles'
 import { DateFormatter } from '../../utils/DateFormatter'
+import i18n from '../../utils/i18n'
 
 type Props = Readonly<{
   date: Date | undefined
@@ -25,9 +25,8 @@ type Props = Readonly<{
 }>
 
 const BirthdayPicker: FC<Props> = (props) => {
-  const [isDatePickerModalVisible, setIsDatePickerModalVisible] = useState(
-    false,
-  )
+  const [isDatePickerModalVisible, setIsDatePickerModalVisible] =
+    useState(false)
 
   const isPlaceholder = props.date === undefined
   const formattedDate =

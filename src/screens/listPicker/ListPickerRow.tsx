@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Text, View, Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 

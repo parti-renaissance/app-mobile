@@ -25,7 +25,7 @@ private static String bumpVersionCode(String text, String key, boolean silent = 
     def didMatch = matcher.size() == 1 && matcher.hasGroup()
     if (!didMatch) {
         if (silent) return text
-        else throw new GradleException("Could not find $key in config.gradle")
+        else throw new FileNotFoundException("Could not find $key in config.gradle")
     }
     def versionCodeStr = matcher[0][1]
     def versionCode = Integer.valueOf(versionCodeStr)

@@ -121,7 +121,8 @@ export const PollExtraQuestionMapper = {
       id: question.code,
       title: options.label,
       data: textSubQuestions.map((textSubQuestion) => {
-        const subQuestyionOptions = textSubQuestion.options as PollExtraQuestionTextOptions
+        const subQuestyionOptions =
+          textSubQuestion.options as PollExtraQuestionTextOptions
         return {
           id: textSubQuestion.code,
           title: subQuestyionOptions.label,

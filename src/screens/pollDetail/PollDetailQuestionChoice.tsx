@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text } from 'react-native'
 import { Spacing, Typography } from '../../styles'
-import QuestionChoiceRow from './QuestionChoiceRow'
 import { PollDetailQuestionChoiceViewModel } from './PollDetailQuestionChoiceViewModel'
+import QuestionChoiceRow from './QuestionChoiceRow'
 import { QuestionChoiceRowViewModel } from './QuestionChoiceRowViewModel'
 
 type Props = Readonly<{

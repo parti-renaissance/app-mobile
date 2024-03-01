@@ -5,34 +5,35 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
-import PollDetailProgressBar from './PollDetailProgressBar'
-import { Colors, Spacing } from '../../styles'
-import PollDetailNavigationButtons from './PollDetailNavigationButtons'
+import { useNavigation } from '@react-navigation/native'
 import { Poll } from '../../core/entities/Poll'
-import { PollDetailComponentProvider } from './providers/PollDetailComponentProvider'
-import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarViewModelMapper'
-import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
+import { PollResult } from '../../core/entities/PollResult'
 import PollsRepository from '../../data/PollsRepository'
-import LoadingOverlay from '../shared/LoadingOverlay'
+import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
+import { Colors, Spacing } from '../../styles'
 import { LocationManager } from '../../utils/LocationManager'
+import { AlertUtils } from '../shared/AlertUtils'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import PollDetailNavigationButtons from './PollDetailNavigationButtons'
+import { PollDetailNavigationButtonsViewModelMapper } from './PollDetailNavigationButtonsViewModelMapper'
+import PollDetailProgressBar from './PollDetailProgressBar'
+import { PollDetailProgressBarViewModelMapper } from './PollDetailProgressBarViewModelMapper'
 import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDetailComponentProvider'
+import { PollDetailComponentProvider } from './providers/PollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
 import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
-import { PollResult } from '../../core/entities/PollResult'
-import { AlertUtils } from '../shared/AlertUtils'
-import { useNavigation } from '@react-navigation/native'
-import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
 
 type Props = Readonly<{
   poll: Poll
 }>
 
 const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
-  const navigation = useNavigation<
-    PollDetailModalNavigatorScreenProps<'PollDetail'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      PollDetailModalNavigatorScreenProps<'PollDetail'>['navigation']
+    >()
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])

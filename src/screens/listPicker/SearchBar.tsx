@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, TextInput, View, Image } from 'react-native'
+import { Image, StyleSheet, TextInput, View } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'

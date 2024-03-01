@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import { RetaliationPostCardViewModel } from './RetaliationPostCardViewModel'

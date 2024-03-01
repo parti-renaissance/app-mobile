@@ -1,9 +1,9 @@
+import type { GeolocationResponse as Location } from '@react-native-community/geolocation'
 import { Poll } from '../../core/entities/Poll'
 import { PollResult } from '../../core/entities/PollResult'
 import { AgeRange, Gender, Profession } from '../../core/entities/UserProfile'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
 import { GenderMapper } from './GenderMapper'
-import { Location } from 'react-native-location'
 import { RestPollResultAnswerLegacyMapper } from './RestPollResultAnswerLegacyMapper'
 
 const restGender = (gender: Gender | undefined): string | undefined => {
@@ -78,8 +78,8 @@ export const RestPollResultRequestMapper = {
       ageRange: restAge(result.profile?.age),
       gender: restGender(result.profile?.gender),
       answers: result.answers.map(RestPollResultAnswerLegacyMapper.map),
-      latitude: location?.latitude ?? undefined,
-      longitude: location?.longitude ?? undefined,
+      latitude: location?.coords.latitude ?? undefined,
+      longitude: location?.coords.longitude ?? undefined,
     }
   },
 }

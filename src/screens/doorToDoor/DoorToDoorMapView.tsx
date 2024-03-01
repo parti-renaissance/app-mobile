@@ -1,20 +1,19 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
+import Geolocation from 'react-native-geolocation-service'
 import MapView from 'react-native-map-clustering'
-import { LatLng, Region } from 'react-native-maps'
+import Map, { LatLng, Region } from 'react-native-maps'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
+import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
+import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
+import MapButton from './DoorToDoorMapButton'
 import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
+import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
-import Geolocation from 'react-native-geolocation-service'
-import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
-import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
-import MapButton from './DoorToDoorMapButton'
-import Map from 'react-native-maps'
-import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 
 const DEFAULT_DELTA = 0.01
 
@@ -94,10 +93,8 @@ const DoorToDoorMapView = ({
   }
 
   const Popup: FunctionComponent<PopupProps> = ({ address }) => {
-    const [
-      viewModel,
-      setViewModel,
-    ] = useState<DoorToDoorCampaignCardViewModel>()
+    const [viewModel, setViewModel] =
+      useState<DoorToDoorCampaignCardViewModel>()
 
     useEffect(() => {
       if (address && address.building.campaignStatistics) {

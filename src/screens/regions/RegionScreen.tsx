@@ -1,19 +1,18 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, View, ScrollView } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import RegionsRepository from '../../data/RegionsRepository'
-
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
+import { Analytics } from '../../utils/Analytics'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
+import { ExternalLink } from '../shared/ExternalLink'
 import { StatefulView } from '../shared/StatefulView'
 import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { RegionViewModel } from './RegionViewModel'
 import { RegionViewModelMapper } from './RegionViewModelMapper'
-import { ExternalLink } from '../shared/ExternalLink'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { Analytics } from '../../utils/Analytics'
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 
 type RegionScreenProps = HomeNavigatorScreenProps<'Region'>
 
@@ -49,6 +48,7 @@ const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
       })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchData, [])
 
   const RegionContent = (regionViewModel: RegionViewModel) => {

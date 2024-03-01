@@ -1,5 +1,5 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
@@ -13,9 +13,8 @@ export const useOnboardingScreen = (): {
   onSignUp: () => void
   onLegacyLogin: () => void
 } => {
-  const navigation = useNavigation<
-    OnboardingNavigatorScreenProps<'Onboarding'>['navigation']
-  >()
+  const navigation =
+    useNavigation<OnboardingNavigatorScreenProps<'Onboarding'>['navigation']>()
   const [headerInfos, setHeaderInfos] = useState<HeaderInfos>()
 
   const fetchHeader = useCallback((dataSource: DataSource): Promise<void> => {

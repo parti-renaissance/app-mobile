@@ -1,10 +1,10 @@
-import { utils } from '@react-native-firebase/app'
-import { LinkingOptions } from '@react-navigation/native'
-import { AuthenticatedRootNavigatorParamList } from '../authenticatedRoot/AuthenticatedRootNavigatorParamList'
-import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { Linking } from 'react-native'
+import { utils } from '@react-native-firebase/app'
+import dynamicLinks from '@react-native-firebase/dynamic-links'
+import { LinkingOptions } from '@react-navigation/native'
 import { BUNDLE_ID } from '../../Config'
 import { PushNotification } from '../../utils/PushNotification'
+import { AuthenticatedRootNavigatorParamList } from '../authenticatedRoot/AuthenticatedRootNavigatorParamList'
 
 const PREFIX = 'https://avecvous.fr/app/'
 
@@ -55,45 +55,50 @@ const subscribe = (
   }
 }
 
-export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> = {
-  prefixes: [PREFIX, BUNDLE_ID + '://'],
-  getInitialURL,
-  subscribe,
-  config: {
-    initialRouteName: 'TabBarNavigator',
-    screens: {
-      TabBarNavigator: {
-        screens: {
-          ActionsNavigator: {
-            initialRouteName: 'Actions',
-            screens: {
-              RetaliationDetail: 'ripostes/:retaliationId',
-              DoorToDoor: 'pap-campaigns/:campaignId',
+export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> =
+  {
+    prefixes: [PREFIX, BUNDLE_ID + '://'],
+    getInitialURL,
+    subscribe,
+    config: {
+      initialRouteName: 'TabBarNavigator',
+      screens: {
+        TabBarNavigator: {
+          screens: {
+            ActionsNavigator: {
+              // TODO: Fix type
+              // @ts-ignore
+              initialRouteName: 'Actions',
+              screens: {
+                RetaliationDetail: 'ripostes/:retaliationId',
+                DoorToDoor: 'pap-campaigns/:campaignId',
+              },
+            },
+            EventNavigator: {
+              // TODO: Fix type
+              // @ts-ignore
+              initialRouteName: 'Events',
+              screens: {
+                EventDetails: 'events/:eventId',
+              },
             },
           },
-          EventNavigator: {
-            initialRouteName: 'Events',
-            screens: {
-              EventDetails: 'events/:eventId',
-            },
+        },
+        NewsDetailModal: {
+          screens: {
+            NewsDetail: 'news/:newsId',
           },
         },
-      },
-      NewsDetailModal: {
-        screens: {
-          NewsDetail: 'news/:newsId',
+        PhoningSessionModal: {
+          screens: {
+            PhoningSessionLoader: 'phoning-campaigns/:campaignId',
+          },
         },
-      },
-      PhoningSessionModal: {
-        screens: {
-          PhoningSessionLoader: 'phoning-campaigns/:campaignId',
-        },
-      },
-      PollDetailModal: {
-        screens: {
-          PollDetail: 'surveys/:pollId',
+        PollDetailModal: {
+          screens: {
+            PollDetail: 'surveys/:pollId',
+          },
         },
       },
     },
-  },
-}
+  }

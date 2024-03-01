@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Cache } from 'react-native-cache'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { CacheMissError } from '../../core/errors'
 
 class CacheManager {

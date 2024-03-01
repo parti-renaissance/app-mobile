@@ -1,15 +1,15 @@
 import React, { FC, useRef, useState } from 'react'
 import { StatusBar, StyleSheet, Text, TextInput } from 'react-native'
-import i18n from '../../utils/i18n'
-import { LoginError } from '../../core/errors'
-import { GenericErrorMapper } from '../shared/ErrorMapper'
 import SafeAreaView from 'react-native-safe-area-view'
-import { Colors, Spacing, Typography } from '../../styles'
-import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
-import LabelTextInput from '../shared/LabelTextInput'
-import LoadingOverlay from '../shared/LoadingOverlay'
+import { LoginError } from '../../core/errors'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
+import { Colors, Spacing, Typography } from '../../styles'
+import i18n from '../../utils/i18n'
+import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
+import { GenericErrorMapper } from '../shared/ErrorMapper'
+import LabelTextInput from '../shared/LabelTextInput'
+import LoadingOverlay from '../shared/LoadingOverlay'
 
 type LoginScreenProps = OnboardingNavigatorScreenProps<'Login'>
 

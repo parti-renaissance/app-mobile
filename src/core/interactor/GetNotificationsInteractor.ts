@@ -7,7 +7,8 @@ import { Notification, NotificationCategory } from '../entities/Notification'
 
 export class GetNotificationsInteractor {
   private authenticationRepository = AuthenticationRepository.getInstance()
-  private personalInformationRepository = PersonalInformationRepository.getInstance()
+  private personalInformationRepository =
+    PersonalInformationRepository.getInstance()
   private profileRepository = ProfileRepository.getInstance()
   private pushRepository = PushRepository.getInstance()
   public async execute(
@@ -15,14 +16,14 @@ export class GetNotificationsInteractor {
   ): Promise<GetNotificationsInteractorResult> {
     const state = await this.authenticationRepository.getAuthenticationState()
     if (state === AuthenticationState.Authenticated) {
-      const allNotifications = await this.personalInformationRepository.getAvailableNotifications()
+      const allNotifications =
+        await this.personalInformationRepository.getAvailableNotifications()
       const notifications = allNotifications.filter(
         (notification) => notification.category === category,
       )
       const profile = await this.profileRepository.getDetailedProfile()
-      const pushEnabled = await this.pushRepository.arePushNotificationsEnabled(
-        category,
-      )
+      const pushEnabled =
+        await this.pushRepository.arePushNotificationsEnabled(category)
       return {
         userUuid: profile.uuid,
         isPushEnabled: pushEnabled,
@@ -30,9 +31,8 @@ export class GetNotificationsInteractor {
         notificationsEnabled: profile.subscriptions,
       }
     } else {
-      const pushEnabled = await this.pushRepository.arePushNotificationsEnabled(
-        category,
-      )
+      const pushEnabled =
+        await this.pushRepository.arePushNotificationsEnabled(category)
       return {
         userUuid: '',
         isPushEnabled: pushEnabled,

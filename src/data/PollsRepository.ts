@@ -1,10 +1,10 @@
+import type { GeolocationResponse as Location } from '@react-native-community/geolocation'
 import { Poll } from '../core/entities/Poll'
 import { PollResult } from '../core/entities/PollResult'
-import ApiService from './network/ApiService'
-import { RestPollResultRequestMapper } from './mapper/RestPollResultRequestMapper'
 import { DataSource } from './DataSource'
+import { RestPollResultRequestMapper } from './mapper/RestPollResultRequestMapper'
+import ApiService from './network/ApiService'
 import CacheManager from './store/CacheManager'
-import { Location } from 'react-native-location'
 
 class PollsRepository {
   private static instance: PollsRepository

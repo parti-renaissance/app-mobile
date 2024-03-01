@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { News } from '../../core/entities/News'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
@@ -18,9 +18,8 @@ export const useNewsScreen = (): {
   loadMore: () => void
   onNewsSelected: (id: string) => void
 } => {
-  const navigation = useNavigation<
-    NewsNavigatorScreenProps<'News'>['navigation']
-  >()
+  const navigation =
+    useNavigation<NewsNavigatorScreenProps<'News'>['navigation']>()
   const [statefulState, setStatefulState] = useState<
     ViewState<PaginatedResult<Array<News>>>
   >(ViewState.Loading())
@@ -80,6 +79,7 @@ export const useNewsScreen = (): {
     })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(loadFirstPage, [])
 
   return {

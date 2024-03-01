@@ -1,5 +1,5 @@
-import Clipboard from '@react-native-community/clipboard'
 import { Linking } from 'react-native'
+import Clipboard from '@react-native-community/clipboard'
 
 export interface RetaliationRequest {
   content: string

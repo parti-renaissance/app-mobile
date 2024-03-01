@@ -1,17 +1,22 @@
 import React, { FC, useLayoutEffect } from 'react'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
+import {
+  DeviceEventEmitter,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import * as ENV_KEYS from '../../Config'
+import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { CloseButton } from '../shared/NavigationHeaderButton'
-import { IOS_GOOGLE_API_KEY, ANDROID_GOOGLE_API_KEY } from '../../Config'
-import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
 import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
 
-type LocationPickerScreenProps = LocationPickerModalNavigatorScreenProps<'LocationPicker'>
+type LocationPickerScreenProps =
+  LocationPickerModalNavigatorScreenProps<'LocationPicker'>
 
 export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
-  route,
   navigation,
 }) => {
   useLayoutEffect(() => {
@@ -21,8 +26,8 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
     })
   }, [navigation])
 
-  const { onPlaceSelected } = useLocationPickerScreen(
-    route.params.onAddressSelected,
+  const { onPlaceSelected } = useLocationPickerScreen((address) =>
+    DeviceEventEmitter.emit('onAddressSelected', address),
   )
 
   return (
@@ -34,8 +39,8 @@ export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
         onPress={(_, details) => onPlaceSelected(details)}
         query={{
           key: Platform.select({
-            ios: IOS_GOOGLE_API_KEY,
-            android: ANDROID_GOOGLE_API_KEY,
+            ios: ENV_KEYS.IOS_GOOGLE_API_KEY,
+            android: ENV_KEYS.ANDROID_GOOGLE_API_KEY,
           }),
           language: i18n.t('personalinformation.gmaps_language'),
         }}

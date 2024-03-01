@@ -1,7 +1,7 @@
-import { BuildingLayoutViewModel } from './BuildingLayoutView'
-import { BuildingHistoryViewModel } from './BuildingVisitsHistoryViewModel'
-import { BuildingStatusViewModel } from './BuildingStatusViewModel'
 import { ImageSourcePropType } from 'react-native'
+import { BuildingLayoutViewModel } from './BuildingLayoutView'
+import { BuildingStatusViewModel } from './BuildingStatusViewModel'
+import { BuildingHistoryViewModel } from './BuildingVisitsHistoryViewModel'
 
 export interface BuildingDetailScreenViewModel {
   address: string

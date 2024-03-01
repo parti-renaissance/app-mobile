@@ -7,7 +7,8 @@ import i18n from '../../../utils/i18n'
 import ProfileSettingsItem from '../../profile/ProfileSettingsItem'
 import CircularIcon from '../../shared/CircularIcon'
 
-type NotificationMenuScreenProps = ProfileModalNavigatorScreenProps<'NotificationMenu'>
+type NotificationMenuScreenProps =
+  ProfileModalNavigatorScreenProps<'NotificationMenu'>
 
 const NotificationMenuScreen = (props: NotificationMenuScreenProps) => {
   const onLocal = () => {

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Colors, Spacing } from '../../../styles'
 import EventView from '../../events/EventView'
 import { HomeEventRowContainerViewModel } from '../HomeRowViewModel'

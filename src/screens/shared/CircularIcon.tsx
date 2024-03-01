@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import {
-  View,
-  StyleSheet,
   Image,
   ImageSourcePropType,
-  ViewStyle,
   StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
 } from 'react-native'
 import { Colors } from '../../styles'
 

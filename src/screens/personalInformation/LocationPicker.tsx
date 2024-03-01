@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
-import { Colors, Typography } from '../../styles'
 import { Address } from '../../core/entities/DetailedProfile'
-import { TouchablePlatform } from '../shared/TouchablePlatform'
+import { Colors, Typography } from '../../styles'
 import { AddressFormatter } from '../../utils/AddressFormatter'
+import { TouchablePlatform } from '../shared/TouchablePlatform'
 
 type Props = Readonly<{
   address: Address | undefined

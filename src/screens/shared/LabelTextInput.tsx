@@ -1,12 +1,12 @@
 import React, { forwardRef } from 'react'
 import {
+  StyleProp,
   StyleSheet,
   Text,
-  View,
-  TextInputProps,
-  StyleProp,
-  ViewStyle,
   TextInput,
+  TextInputProps,
+  View,
+  ViewStyle,
 } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 

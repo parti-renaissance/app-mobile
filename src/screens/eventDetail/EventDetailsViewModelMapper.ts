@@ -1,11 +1,11 @@
 import { DetailedEvent } from '../../core/entities/Event'
+import { DateFormatter } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
 import {
   EventDateViewModel,
   EventDetailsViewModel,
   EventOrganizerViewModel,
 } from './EventDetailsViewModel'
-import { DateFormatter } from '../../utils/DateFormatter'
 
 const DESCRIPTION_MAX_CHAR = 500
 

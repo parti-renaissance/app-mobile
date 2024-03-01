@@ -1,4 +1,3 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
 import React, {
   FunctionComponent,
   useCallback,
@@ -6,11 +5,13 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Poll } from '../../../../core/entities/Poll'
 import { PollExtraQuestionPage } from '../../../../core/entities/PollExtraQuestion'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
+import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing } from '../../../../styles'
 import PollDetailNavigationButtons from '../../../pollDetail/PollDetailNavigationButtons'
 import { PollDetailNavigationButtonsViewModelMapper } from '../../../pollDetail/PollDetailNavigationButtonsViewModelMapper'
@@ -19,12 +20,11 @@ import { PollDetailProgressBarViewModelMapper } from '../../../pollDetail/PollDe
 import { CompoundPollDetailComponentProvider } from '../../../pollDetail/providers/CompoundPollDetailComponentProvider'
 import { PollDetailComponentProvider } from '../../../pollDetail/providers/PollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from '../../../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
+import { AlertUtils } from '../../../shared/AlertUtils'
+import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
 import LoadingOverlay from '../../../shared/LoadingOverlay'
 import { DoorToDoorPollResult } from './DoorToDoorQuestionResult'
 import { DoorToDoorQualificationComponentProvider } from './providers/DoorToDoorQualificationComponentProvider'
-import { AlertUtils } from '../../../shared/AlertUtils'
-import KeyboardOffsetView from '../../../shared/KeyboardOffsetView'
-import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 
 type Props = Readonly<{
   poll: Poll
@@ -35,12 +35,14 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   qualification,
   poll,
 }) => {
-  const route = useRoute<
-    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['route']
-  >()
-  const navigation = useNavigation<
-    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['navigation']
-  >()
+  const route =
+    useRoute<
+      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['route']
+    >()
+  const navigation =
+    useNavigation<
+      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorPoll'>['navigation']
+    >()
 
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()

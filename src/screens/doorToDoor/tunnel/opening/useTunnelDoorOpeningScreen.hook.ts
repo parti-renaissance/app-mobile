@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { DoorToDoorPollConfigDoorStatus } from '../../../../core/entities/DoorToDoorPollConfig'
 import { SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
@@ -25,9 +25,10 @@ export const useTunnelDoorOpeningScreen = (
     ViewState<DoorToDoorPollConfigDoorStatus[]>
   >(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
-  const navigation = useNavigation<
-    DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>['navigation']
-  >()
+  const navigation =
+    useNavigation<
+      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>['navigation']
+    >()
 
   useDoorToDoorTunnelNavigationOptions(navigation)
 

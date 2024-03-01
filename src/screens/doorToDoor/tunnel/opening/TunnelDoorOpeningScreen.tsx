@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../../styles'
@@ -10,19 +10,17 @@ import { TunnelDoorOpeningChoiceCard } from './TunnelDoorOpeningChoiceCard'
 import { TunnelDoorOpeningChoiceCardViewModel } from './TunnelDoorOpeningChoiceCardViewModel'
 import { useTunnelDoorOpeningScreen } from './useTunnelDoorOpeningScreen.hook'
 
-type DoorToDoorTunnelOpeningScreenProps = DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>
+type DoorToDoorTunnelOpeningScreenProps =
+  DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorOpening'>
 
-const TunnelDoorOpeningScreen: FunctionComponent<DoorToDoorTunnelOpeningScreenProps> = ({
-  route,
-}) => {
-  const {
-    statefulState,
-    isSendingChoice,
-    onStatusSelected,
-  } = useTunnelDoorOpeningScreen(
-    route.params.campaignId,
-    route.params.buildingParams,
-  )
+const TunnelDoorOpeningScreen: FunctionComponent<
+  DoorToDoorTunnelOpeningScreenProps
+> = ({ route }) => {
+  const { statefulState, isSendingChoice, onStatusSelected } =
+    useTunnelDoorOpeningScreen(
+      route.params.campaignId,
+      route.params.buildingParams,
+    )
 
   const ContentComponent = (
     viewModels: TunnelDoorOpeningChoiceCardViewModel[],

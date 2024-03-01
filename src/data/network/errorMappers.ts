@@ -1,4 +1,3 @@
-import { LoginError, SignUpFormError } from './../../core/errors/index'
 import { HTTPError } from 'ky'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
@@ -12,9 +11,10 @@ import {
 import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
 import { RestLoginErrorResponse } from '../restObjects/RestLoginErrorResponse'
 import { RestPhoningSessionErrorResponse } from '../restObjects/RestPhoningSession'
-import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
-import { genericErrorMapping } from './utils'
 import { RestSignUpErrorResponse } from '../restObjects/RestSignUpRequest'
+import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
+import { LoginError, SignUpFormError } from './../../core/errors/index'
+import { genericErrorMapping } from './utils'
 
 export const mapLoginError = async (error: any) => {
   if (error instanceof HTTPError && error.response.status === 400) {

@@ -12,19 +12,19 @@ import {
   GetCentersOfInterestInteractor,
 } from '../../../core/interactor/GetCentersOfInterestInteractor'
 import PersonalInformationRepository from '../../../data/PersonalInformationRepository'
+import { ProfileModalNavigatorScreenProps } from '../../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
+import { AlertUtils } from '../../shared/AlertUtils'
 import { PrimaryButton } from '../../shared/Buttons'
 import LoadingOverlay from '../../shared/LoadingOverlay'
-import { StatefulView } from '../../shared/StatefulView'
-import { ViewState } from '../../shared/ViewState'
-import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
 import SelectableIconLabelView, {
   SelectableIconLabelViewModel,
 } from '../../shared/SelectableIconLabelView'
-import { AlertUtils } from '../../shared/AlertUtils'
+import { StatefulView } from '../../shared/StatefulView'
+import { ViewState } from '../../shared/ViewState'
 import { ViewStateUtils } from '../../shared/ViewStateUtils'
-import { ProfileModalNavigatorScreenProps } from '../../../navigation/profileModal/ProfileModalNavigatorScreenProps'
+import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -95,7 +95,8 @@ const CenterOfInterestContent = (
   )
 }
 
-type CentersOfInterestScreenProps = ProfileModalNavigatorScreenProps<'CenterOfInterest'>
+type CentersOfInterestScreenProps =
+  ProfileModalNavigatorScreenProps<'CenterOfInterest'>
 
 const CenterOfInterestScreen = ({
   navigation,
@@ -119,6 +120,8 @@ const CenterOfInterestScreen = ({
         )
       })
   }, [])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchData, [])
   const onSumitSuccessful = () => {
     navigation.goBack()

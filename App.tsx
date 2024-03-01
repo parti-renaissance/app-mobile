@@ -10,23 +10,22 @@
 
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
+import { Platform, StatusBar } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import {
+  createNavigationContainerRef,
   NavigationContainer,
-  NavigationContainerRef,
 } from '@react-navigation/native'
 import { I18nextProvider } from 'react-i18next'
-import i18n from './src/utils/i18n'
+import type { AuthenticatedRootNavigatorParamList } from './src/navigation/authenticatedRoot/AuthenticatedRootNavigatorParamList'
+import { deeplinkConfiguration } from './src/navigation/deeplink/deeplinkConfiguration'
 import Navigator from './src/navigation/Navigator'
-import { Platform, StatusBar } from 'react-native'
 import { Colors } from './src/styles'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { PushNotification } from './src/utils/PushNotification'
 import { Analytics } from './src/utils/Analytics'
 import { ErrorMonitor } from './src/utils/ErrorMonitor'
+import i18n from './src/utils/i18n'
+import { PushNotification } from './src/utils/PushNotification'
 import { SendDoorToDoorPollAnswersJobWorker } from './src/workers/SendDoorToDoorPollAnswsersJobWorker'
-import { deeplinkConfiguration } from './src/navigation/deeplink/deeplinkConfiguration'
-
-declare var global: { HermesInternal: null | {} }
 
 // Must be outside component lifecycle
 PushNotification.setUp()
@@ -60,14 +59,15 @@ const App = () => {
   }, [])
 
   const routeNameRef = React.useRef<string>()
-  const navigationRef = React.useRef<NavigationContainerRef>()
+  const navigationRef =
+    createNavigationContainerRef<AuthenticatedRootNavigatorParamList>()
 
   return (
     <SafeAreaProvider>
       <NavigationContainer
         ref={navigationRef}
         onReady={() => {
-          const initialScreen = navigationRef?.current?.getCurrentRoute()?.name
+          const initialScreen = navigationRef.getCurrentRoute()?.name
           if (initialScreen !== undefined) {
             routeNameRef.current = initialScreen
             Analytics.logScreen(initialScreen)
@@ -75,9 +75,9 @@ const App = () => {
         }}
         onStateChange={async () => {
           const previousRouteName = routeNameRef.current
-          const currentRouteName = navigationRef.current.getCurrentRoute().name
+          const currentRouteName = navigationRef.getCurrentRoute()?.name
 
-          if (previousRouteName !== currentRouteName) {
+          if (currentRouteName && previousRouteName !== currentRouteName) {
             Analytics.logScreen(currentRouteName)
           }
 

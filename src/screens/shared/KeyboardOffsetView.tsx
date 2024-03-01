@@ -3,9 +3,9 @@ import {
   InteractionManager,
   KeyboardAvoidingView,
   Platform,
+  StyleProp,
   StyleSheet,
   View,
-  StyleProp,
   ViewStyle,
 } from 'react-native'
 

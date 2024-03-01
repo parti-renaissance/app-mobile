@@ -12,27 +12,30 @@ jobs:
       run:
         working-directory: ./android
     container:
-      image: docker://fabernovel/android:api-30-v1.5.0
+      image: docker://fabernovel/android:api-33-v1.7.0
       volumes:
         - /github/home/.ssh:/root/.ssh
     env:
-      JAVA_TOOL_OPTIONS: '-XX:MinRAMPercentage=20.0 -XX:MaxRAMPercentage=90.0'
-      GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dkotlin.compiler.execution.strategy=in-process'
+      JAVA_TOOL_OPTIONS: "-XX:MinRAMPercentage=20.0 -XX:MaxRAMPercentage=90.0"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.compiler.execution.strategy=in-process"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Use Node.js 12
+      - name: Use Node.js 21
         uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: "21"
+
       - name: Install Yarn
         working-directory: ./
         run: npm install -g yarn
+
       - name: Set up dependencies
         working-directory: ./
+
         run: yarn install
       - name: Prepare env
         working-directory: ./
@@ -60,10 +63,21 @@ jobs:
       #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
       #     restore-keys: |
       #       ${{ runner.os }}-gradle
-      - name: Bundle install
-        run: |
-          bundle config path /root/vendor/bundle
-          bundle check || bundle install
 
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: ./android
+          bundler: "Gemfile.lock"
+          bundler-cache: true
+      - name: Bundle install
+        working-directory: ./android
+        run: |
+          bundle install
+      - run: git config --system --add safe.directory /__w/app-mobile/app-mobile
       - name: Fastlane
+        working-directory: ./android
+        env:
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8
         run: bundle exec fastlane ci_check

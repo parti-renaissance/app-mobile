@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
-import { Text, StyleSheet, View, Image } from 'react-native'
-
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
+
 const disclosureIndicator = require('../../assets/images/disclosureIndicator.png')
 
 type Props = Readonly<{

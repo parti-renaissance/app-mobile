@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Spacing, Typography } from '../../styles'
 import { VerticalSpacer } from '../shared/Spacer'
 

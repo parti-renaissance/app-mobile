@@ -5,25 +5,25 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { PhonePollResult } from '../../core/entities/PhonePollResult'
+import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
+import { Poll } from '../../core/entities/Poll'
+import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
+import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
 import { Colors, Spacing } from '../../styles'
 import PollDetailNavigationButtons from '../pollDetail/PollDetailNavigationButtons'
-import { Poll } from '../../core/entities/Poll'
-import { PollDetailComponentProvider } from '../pollDetail/providers/PollDetailComponentProvider'
-import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailProgressBarViewModelMapper'
 import { PollDetailNavigationButtonsViewModelMapper } from '../pollDetail/PollDetailNavigationButtonsViewModelMapper'
-import LoadingOverlay from '../shared/LoadingOverlay'
-import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import PollDetailProgressBar from '../pollDetail/PollDetailProgressBar'
+import { PollDetailProgressBarViewModelMapper } from '../pollDetail/PollDetailProgressBarViewModelMapper'
 import { CompoundPollDetailComponentProvider } from '../pollDetail/providers/CompoundPollDetailComponentProvider'
-import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
-import { PhoningSatisfactionQuestion } from '../../core/entities/PhoningSessionConfiguration'
-import { PhonePollResult } from '../../core/entities/PhonePollResult'
-import { SendPhonePollAnswersInteractor } from '../../core/interactor/SendPhonePollAnswersInteractor'
+import { PollDetailComponentProvider } from '../pollDetail/providers/PollDetailComponentProvider'
+import { PollDetailRemoteQuestionComponentProvider } from '../pollDetail/providers/PollDetailRemoteQuestionComponentProvider'
 import { AlertUtils } from '../shared/AlertUtils'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { PhoningSessionModalNavigatorScreenProps } from '../../navigation/phoningSessionModal/PhoningSessionModalNavigatorScreenProps'
+import LoadingOverlay from '../shared/LoadingOverlay'
+import { PhonePollDetailSatisfactionComponentProvider } from './providers/PhonePollDetailSatisfactionComponentProvider'
 
 type Props = Readonly<{
   poll: Poll
@@ -34,12 +34,14 @@ const PhonePollDetailScreenLoaded: FunctionComponent<Props> = ({
   poll,
   satisfactionQuestions,
 }) => {
-  const navigation = useNavigation<
-    PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['navigation']
-  >()
-  const route = useRoute<
-    PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['route']
-  >()
+  const navigation =
+    useNavigation<
+      PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['navigation']
+    >()
+  const route =
+    useRoute<
+      PhoningSessionModalNavigatorScreenProps<'PhonePollDetail'>['route']
+    >()
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])

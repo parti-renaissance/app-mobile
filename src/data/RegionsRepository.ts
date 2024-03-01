@@ -1,10 +1,10 @@
 import { Department } from '../core/entities/Department'
 import { Region } from '../core/entities/Region'
 import { DepartmentNotFoundError, NotFoundError } from '../core/errors'
-import ApiService from './network/ApiService'
-import { DepartmentMapper } from './mapper/DepartmentMapper'
-import { RestDepartmentResponse } from './restObjects/RestDepartmentResponse'
 import { DataSource } from './DataSource'
+import { DepartmentMapper } from './mapper/DepartmentMapper'
+import ApiService from './network/ApiService'
+import { RestDepartmentResponse } from './restObjects/RestDepartmentResponse'
 import CacheManager from './store/CacheManager'
 
 class RegionsRepository {
@@ -18,10 +18,8 @@ class RegionsRepository {
     dataSource: DataSource = 'remote',
   ): Promise<Department> {
     try {
-      const restDepartment: RestDepartmentResponse = await this.getDepartmentAuthenticated(
-        zipCode,
-        dataSource,
-      )
+      const restDepartment: RestDepartmentResponse =
+        await this.getDepartmentAuthenticated(zipCode, dataSource)
       return DepartmentMapper.map(restDepartment)
     } catch (error) {
       if (error instanceof NotFoundError) {

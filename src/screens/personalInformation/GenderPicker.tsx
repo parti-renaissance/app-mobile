@@ -1,10 +1,10 @@
 import React, { FC } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import RNPickerSelect from 'react-native-picker-select'
+import { Gender } from '../../core/entities/UserProfile'
 import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import LabelInputContainer from './LabelInputContainer'
-import RNPickerSelect from 'react-native-picker-select'
-import { Gender } from '../../core/entities/UserProfile'
 
 type Props = Readonly<{
   onValueChange: (value: Gender) => void
@@ -43,7 +43,6 @@ const GenderPicker: FC<Props> = (props) => {
         useNativeAndroidPickerStyle={false}
         placeholder={{}}
         value={props.defaultValue}
-        Icon={() => <View style={styles.icon} />}
         onValueChange={props.onValueChange}
         items={[
           {

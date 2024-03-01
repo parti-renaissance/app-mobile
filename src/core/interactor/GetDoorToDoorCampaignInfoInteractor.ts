@@ -7,9 +7,8 @@ export class GetDoorToDoorCampaignInfoInteractor {
 
   public async execute(campaignId: string): Promise<DoorToDoorCampaignInfo> {
     const campaign = await this.repository.getCampaign(campaignId)
-    const ranking = await this.repository.getDoorToDoorCampaignRanking(
-      campaignId,
-    )
+    const ranking =
+      await this.repository.getDoorToDoorCampaignRanking(campaignId)
     return {
       campaign: campaign,
       ranking: ranking,

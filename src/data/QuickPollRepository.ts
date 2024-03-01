@@ -1,11 +1,11 @@
-import ApiService from './network/ApiService'
-import CacheManager from './store/CacheManager'
-import { DataSource } from './DataSource'
 import { QuickPoll } from '../core/entities/QuickPoll'
-import { RestQuickPollItem } from './restObjects/RestQuickPollResponse'
-import { QuickPollMapper } from './mapper/QuickPollMapper'
-import LocalStore from './store/LocalStore'
 import { NotFoundError } from '../core/errors'
+import { DataSource } from './DataSource'
+import { QuickPollMapper } from './mapper/QuickPollMapper'
+import ApiService from './network/ApiService'
+import { RestQuickPollItem } from './restObjects/RestQuickPollResponse'
+import CacheManager from './store/CacheManager'
+import LocalStore from './store/LocalStore'
 
 class QuickPollRepository {
   private static instance: QuickPollRepository
