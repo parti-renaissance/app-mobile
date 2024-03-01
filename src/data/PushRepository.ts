@@ -1,4 +1,5 @@
 import FB from '@/config/firebaseConfig'
+import { ENVIRONMENT } from '@/config/env'
 import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
