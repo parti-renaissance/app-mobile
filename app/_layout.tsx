@@ -1,6 +1,15 @@
 import { SessionProvider } from '@/ctx'
 import { headerBlank } from '@/styles/navigationAppearance'
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
+import '@tamagui/core/reset.css'
+import { useColorScheme } from 'react-native'
+import { TamaguiProvider } from '@tamagui/core'
+import { config } from '../tamagui.config'
 import * as Sentry from '@sentry/react-native'
 import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
 import { useNavigationContainerRef } from 'expo-router';
@@ -22,7 +31,9 @@ Sentry.init({
 
 SplashScreen.preventAutoHideAsync()
 
- function Root() {
+function Root() {
+  const colorScheme = useColorScheme()
+  // Set up the auth context and render our layout inside of it.
   const navigationRef = useNavigationContainerRef()
 
   React.useEffect(() => {
@@ -30,22 +41,26 @@ SplashScreen.preventAutoHideAsync()
       routingInstrumentation.registerNavigationContainer(navigationRef);
     }
   }, [navigationRef]);
-  
+
   return (
-    <SessionProvider>
-      <Stack>
-        <Stack.Screen
-          name="(auth)/onboarding"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
-        <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-        <Stack.Screen name="(auth)/code-phone-picker" options={{
+    <TamaguiProvider config={config} defaultTheme={colorScheme}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <SessionProvider>
+          <Stack>
+            <Stack.Screen
+              name="(auth)/onboarding"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
+            <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
+            <Stack.Screen name="(auth)/code-phone-picker" options={{
           presentation: 'fullScreenModal',
         }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </SessionProvider>
+          </Stack>
+        </SessionProvider>
+      </ThemeProvider>
+    </TamaguiProvider>
   )
 }
 

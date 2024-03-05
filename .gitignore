@@ -52,3 +52,4 @@ src/config/env.ts
 android/app/google-services.json
 ios/vox/GoogleService-Info.plist
 config/en-marche-prod.json
+.tamagui
