@@ -1,7 +1,9 @@
 import { Platform } from 'react-native'
 import nAnalytics from '@react-native-firebase/analytics'
 import installations from '@react-native-firebase/installations'
-import nMessaging from '@react-native-firebase/messaging'
+import nMessaging, {
+  type FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging'
 import * as wAnalytics from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import * as wMessaging from 'firebase/messaging'
@@ -26,6 +28,9 @@ function initFirebase() {
 
     const Messaging = wMessaging.getMessaging(app)
 
+    const logNotImplemented = (x: string, payload?: any) =>
+      console.warn('Firebase Web - not implemented', x, payload)
+
     return {
       messaging: {
         onMessage: (x: Parameters<Mess['onMessage']>[0]) =>
@@ -36,9 +41,18 @@ function initFirebase() {
         getToken: () => wMessaging.getToken(Messaging),
         deleteToken: () => wMessaging.deleteToken(Messaging),
         unsubscribeFromTopic: (x: any) =>
-          console.log('unsubscribeFromTopic', x),
-        subscribeToTopic: (x: any) => console.log('subscribeToTopic', x),
-        setBackgroundMessageHandler: (x: any) => console.log('not implemented'),
+          logNotImplemented('unsubscribeFromTopic', x),
+        subscribeToTopic: (x: any) => logNotImplemented('subscribeToTopic', x),
+        setBackgroundMessageHandler: (x: any) =>
+          logNotImplemented('setBackgroundMessageHandler', x),
+        requestPermission: async (
+          permission?: FirebaseMessagingTypes.IOSPermissions,
+        ) => {
+          logNotImplemented('requestPermission', permission)
+          return Promise.resolve(
+            'granted',
+          ) as unknown as Promise<FirebaseMessagingTypes.AuthorizationStatus>
+        },
       },
       analytics: {
         logEvent: (x: Parameters<typeof wAnalytics.logEvent>[1]) =>
@@ -68,6 +82,7 @@ function initFirebase() {
         ) => nMessaging().unsubscribeFromTopic(x),
         subscribeToTopic: (x: Parameters<Mess['subscribeToTopic']>[0]) =>
           nMessaging().subscribeToTopic(x),
+        requestPermission: nMessaging().requestPermission,
       },
       analytics: {
         logEvent: (...x: Parameters<Anal['logEvent']>) =>
