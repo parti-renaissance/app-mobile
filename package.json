@@ -32,6 +32,8 @@
     "@react-native-picker/picker": "2.6.1",
     "@ronradtke/react-native-markdown-display": "^8.0.0",
     "@sentry/react-native": "5.19.1",
+    "@tamagui/config": "^1.90.15",
+    "@tamagui/metro-plugin": "^1.90.15",
     "@types/react": "~18.2.14",
     "async-mutex": "^0.4.0",
     "country-data": "^0.0.31",
@@ -85,6 +87,8 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "13.6.4",
+    "sentry-expo": "~7.2.0",
+    "tamagui": "^1.90.15",
     "tinycolor2": "^1.6.0",
     "typescript": "^5.3.3",
     "use-debounce": "^10.0.0",
@@ -105,5 +109,7 @@
     "ts-node": "^10.9.2"
   },
   "private": true,
-  "trustedDependencies": ["@sentry/cli"]
+  "trustedDependencies": [
+    "@sentry/cli"
+  ]
 }
