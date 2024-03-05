@@ -7,7 +7,8 @@ import nMessaging, {
 import * as wAnalytics from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import * as wMessaging from 'firebase/messaging'
-import * as envs from './env'
+
+import firebaseConfig from './firebaseWebConfig'
 
 // Initialize Firebase
 type Mess = ReturnType<typeof nMessaging>
@@ -15,14 +16,6 @@ type Anal = ReturnType<typeof nAnalytics>
 
 function initFirebase() {
   if (Platform.OS === 'web') {
-    const firebaseConfig = {
-      apiKey: envs.FB_API_KEY,
-      authDomain: `${envs.FB_PROJECT_ID}.firebaseapp.com`,
-      projectId: envs.FB_PROJECT_ID,
-      storageBucket: `${envs.FB_PROJECT_ID}.appspot.com`,
-      messagingSenderId: envs.FB_SENDER_ID,
-      appId: envs.FB_APP_ID,
-    }
     const app = initializeApp(firebaseConfig)
     const Analytics = wAnalytics.getAnalytics(app)
 
