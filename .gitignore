@@ -51,4 +51,3 @@ config/GoogleService-Info.plist
 src/config/env.ts
 android/app/google-services.json
 ios/vox/GoogleService-Info.plist
-.DS_Store
