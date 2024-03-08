@@ -21,6 +21,7 @@ To be able to run the application on iOS and Android:
 - run `bun start` to start the react-native bundler
 - run `bun ios` to start the iOS app
 - run `bun android` to start the Android app
+- run `bun web` to start the web app
 
 ### Building/Running the app with EAS Expo (Expo Application Services)
 
@@ -47,6 +48,11 @@ To be able to run the application on iOS and Android:
 ### Deploying the app for internal testing
 
 - run `eas build --profile production` to build the app for the platforms
+
+## Web info
+
+- use web folder for static files, vite generates the files in the public folder
+- `bun build:web` to build the static files like service worker, manifest, etc
 
 ## Contribution
 

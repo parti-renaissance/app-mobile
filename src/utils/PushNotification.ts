@@ -1,10 +1,9 @@
+import FB from '@/config/firebaseConfig'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import messaging, {
-  FirebaseMessagingTypes,
+  type FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging'
 import { LocalNotificationCenter } from '../data/LocalNotificationCenter'
-
-import FB from '@/config/firebaseConfig'
 
 const registerMessageHandlers = () => {
   FB.messaging.onMessage((message) => {
@@ -51,7 +50,7 @@ const resolveDeeplinkUrlFromFCMMessage = async (
 
 export const PushNotification = {
   requestPermission: async (): Promise<boolean> => {
-    const authStatus = await messaging().requestPermission({
+    const authStatus = await FB.messaging.requestPermission({
       sound: true,
       alert: true,
     })
