@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - staging
-      - master
+      - main
 
 jobs:
   update:
