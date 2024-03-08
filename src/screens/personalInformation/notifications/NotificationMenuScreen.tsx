@@ -1,21 +1,28 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { ProfileModalNavigatorScreenProps } from '../../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../../styles'
 import i18n from '../../../utils/i18n'
 import ProfileSettingsItem from '../../profile/ProfileSettingsItem'
 import CircularIcon from '../../shared/CircularIcon'
+import { router } from 'expo-router'
 
 type NotificationMenuScreenProps =
   ProfileModalNavigatorScreenProps<'NotificationMenu'>
 
 const NotificationMenuScreen = (props: NotificationMenuScreenProps) => {
   const onLocal = () => {
-    props.navigation.navigate('Notifications', { category: 'local' })
+    router.push({
+      pathname: '/(tabs)/home/profile/notification/[category]',
+      params: { category: 'local' },
+    })
   }
   const onNational = () => {
-    props.navigation.navigate('Notifications', { category: 'national' })
+    router.push({
+      pathname: '/(tabs)/home/profile/notification/[category]',
+      params: { category: 'national' },
+    })
   }
   return (
     <SafeAreaView style={styles.container}>

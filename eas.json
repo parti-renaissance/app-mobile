@@ -1,0 +1,22 @@
+{
+  "cli": {
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "bun": "1.0.20",
+      "developmentClient": true
+    },
+    "staging": {
+      "bun": "1.0.20",
+      "distribution": "internal",
+      "channel": "staging"
+    },
+    "production": {
+      "bun": "1.0.20",
+      "distribution": "store",
+      "channel": "master",
+      "autoIncrement": true
+    }
+  }
+}

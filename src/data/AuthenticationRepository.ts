@@ -1,4 +1,4 @@
-import installations from '@react-native-firebase/installations'
+import FB from '@/config/firebaseConfig'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
 import { RefreshTokenPermanentlyInvalidatedError } from '../core/errors'
 import { ErrorMonitor } from '../utils/ErrorMonitor'
@@ -84,7 +84,7 @@ class AuthenticationRepository {
   }
 
   public async getDeviceId(): Promise<string> {
-    return installations().getId()
+    return FB.app.deviceId
   }
 
   private mapCredentials(result: RestLoginResponse): Credentials {

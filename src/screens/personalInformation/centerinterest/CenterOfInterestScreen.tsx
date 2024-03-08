@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   CentersOfInterestInteractorResult,
   GetCentersOfInterestInteractor,
@@ -25,6 +25,7 @@ import { StatefulView } from '../../shared/StatefulView'
 import { ViewState } from '../../shared/ViewState'
 import { ViewStateUtils } from '../../shared/ViewStateUtils'
 import { CentersOfInterestViewModelMapper } from './CentersOfInterestViewModelMapper'
+import { useNavigation } from 'expo-router'
 
 const CenterOfInterestContent = (
   content: CentersOfInterestInteractorResult,
@@ -99,8 +100,8 @@ type CentersOfInterestScreenProps =
   ProfileModalNavigatorScreenProps<'CenterOfInterest'>
 
 const CenterOfInterestScreen = ({
-  navigation,
 }: CentersOfInterestScreenProps) => {
+  const navigation = useNavigation()
   const [statefulState, setStatefulState] = useState<
     ViewState<CentersOfInterestInteractorResult>
   >(ViewState.Loading())
@@ -127,7 +128,7 @@ const CenterOfInterestScreen = ({
     navigation.goBack()
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <StatefulView
         state={statefulState}
         contentComponent={(result) => {

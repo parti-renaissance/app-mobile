@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native'
 import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -9,16 +9,16 @@ import { VerticalSpacer } from '../shared/Spacer'
 import { StatefulView } from '../shared/StatefulView'
 import RetaliationPostCard from './RetaliationPostCard'
 import { useRetaliationDetailScreen } from './useRetaliationDetailScreen.hook'
+import { useLocalSearchParams } from 'expo-router'
 
 type RetaliationDetailScreenProps =
   HomeNavigatorScreenProps<'RetaliationDetail'>
 
 const RetaliationDetailScreen: FunctionComponent<
   RetaliationDetailScreenProps
-> = ({ route }) => {
-  const { statefulState, onRetaliate } = useRetaliationDetailScreen(
-    route.params.retaliationId,
-  )
+> = () => {
+  const { id } = useLocalSearchParams<{id: string}>()
+  const { statefulState, onRetaliate } = useRetaliationDetailScreen(id)
 
   return (
     <SafeAreaView style={styles.container}>

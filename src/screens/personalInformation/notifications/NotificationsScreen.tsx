@@ -4,8 +4,8 @@ import {
   SectionListRenderItemInfo,
   StyleSheet,
   Text,
+  View,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
 import { NotificationCategory } from '../../../core/entities/Notification'
 import { EnablePushNotificationsInteractor } from '../../../core/interactor/EnablePushNotificationsInteractor'
 import {
@@ -24,6 +24,7 @@ import { ViewStateUtils } from '../../shared/ViewStateUtils'
 import NotificationRowView from './NotificationRowView'
 import { ID_PUSH, NotificationRowViewModel } from './NotificationViewModel'
 import { NotificationViewModelMapper } from './NotificationViewModelMapper'
+import { Stack, useLocalSearchParams } from 'expo-router'
 
 const NotificationsContent = (
   category: NotificationCategory,
@@ -110,7 +111,7 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
   const [statefulState, setStatefulState] = useState<
     ViewState<GetNotificationsInteractorResult>
   >(ViewState.Loading())
-  const category = props.route.params.category
+  const { category } = useLocalSearchParams<{ category: NotificationCategory }>()
 
   const fetchData = useCallback(() => {
     new GetNotificationsInteractor()
@@ -128,9 +129,6 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
       })
   }, [category])
   useEffect(() => {
-    props.navigation.setOptions({
-      title: getTitle(category),
-    })
     fetchData()
   }, [props, fetchData, category])
 
@@ -139,14 +137,16 @@ const NotificationsScreen = (props: NotificationsScreenProps) => {
     fetchData()
   }
   return (
-    <SafeAreaView style={styles.container}>
+
+    <View style={styles.container}>
+      <Stack.Screen options={{ title: getTitle(category) }} />
       <StatefulView
         state={statefulState}
         contentComponent={(result) => {
           return NotificationsContent(category, result, refetchData)
         }}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 

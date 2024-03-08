@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { StyleSheet } from 'react-native'
-import RNPickerSelect from 'react-native-picker-select'
+import { Picker } from '@react-native-picker/picker'
 import { Gender } from '../../core/entities/UserProfile'
 import { Colors, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -15,8 +15,12 @@ type Props = Readonly<{
 }>
 
 const GenderPicker: FC<Props> = (props) => {
-  const textStyle = props.disabled ? styles.textDisabled : styles.textEnabled
-  const textAlignStyle = props.multiline ? styles.textLeft : styles.textRight
+  const [value, setValue] = React.useState(props.defaultValue)
+  const handleValueChange = (value: Gender) => {
+    setValue(value)
+    props.onValueChange(value)
+  }
+
   return (
     <LabelInputContainer
       label={i18n.t('personalinformation.gender')}
@@ -24,71 +28,27 @@ const GenderPicker: FC<Props> = (props) => {
       disabled={props.disabled}
       multiLine={props.multiline}
     >
-      <RNPickerSelect
-        style={{
-          inputAndroid: {
-            ...styles.genderPickerAndroid,
-            ...textAlignStyle,
-            ...textStyle,
-          },
-          inputIOS: {
-            ...styles.genderPickerIOS,
-            ...textAlignStyle,
-            ...textStyle,
-          },
-          placeholder: {
-            ...styles.placeholder,
-          },
-        }}
-        useNativeAndroidPickerStyle={false}
-        placeholder={{}}
-        value={props.defaultValue}
-        onValueChange={props.onValueChange}
-        items={[
-          {
-            label: i18n.t('personalinformation.gender_female'),
-            value: Gender.Female,
-          },
-          {
-            label: i18n.t('personalinformation.gender_male'),
-            value: Gender.Male,
-          },
-          {
-            label: i18n.t('personalinformation.gender_unknown'),
-            value: Gender.Other,
-          },
-        ]}
-        disabled={props.disabled}
-      />
+      <Picker
+        selectedValue={value}
+        onValueChange={handleValueChange}
+        enabled={!props.disabled}
+        
+      >
+        <Picker.Item
+          label={i18n.t('personalinformation.gender_female')}
+          value={Gender.Female}
+        />
+        <Picker.Item
+          label={i18n.t('personalinformation.gender_male')}
+          value={Gender.Male}
+        />
+        <Picker.Item
+          label={i18n.t('personalinformation.gender_unknown')}
+          value={Gender.Other}
+        />
+      </Picker>
     </LabelInputContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  genderPickerAndroid: {
-    ...Typography.body,
-    paddingVertical: 0,
-  },
-  genderPickerIOS: {
-    ...Typography.body,
-    lineHeight: undefined,
-  },
-  icon: { height: 1, width: 1 },
-  placeholder: {
-    color: Colors.lightText,
-  },
-  textDisabled: {
-    color: Colors.lightText,
-  },
-  textEnabled: {
-    color: Colors.darkText,
-  },
-  textLeft: {
-    textAlign: 'left',
-  },
-  textRight: {
-    textAlign: 'right',
-  },
-})
 
 export default GenderPicker

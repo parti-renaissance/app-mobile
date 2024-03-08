@@ -1,5 +1,0 @@
-<resources>
-    <string name="firebase_dynamic_link_domain">{{{RN_FIREBASE_DYNAMIC_LINK_DOMAIN}}}</string>
-    <!-- Do not name it google_api_key as it conflicts with another string from a dependency -->
-    <string name="mobile_google_api_key">{{{RN_ANDROID_GOOGLE_API_KEY}}}</string>
-</resources>

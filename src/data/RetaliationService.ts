@@ -1,5 +1,5 @@
-import { Linking } from 'react-native'
-import Clipboard from '@react-native-community/clipboard'
+import * as Linking from 'expo-linking'
+import * as Clipboard from 'expo-clipboard'
 
 export interface RetaliationRequest {
   content: string
@@ -7,8 +7,8 @@ export interface RetaliationRequest {
 }
 
 export const RetaliationService = {
-  retaliate: (request: RetaliationRequest) => {
-    Clipboard.setString(request.content)
+  retaliate: async (request: RetaliationRequest) => {
+    await Clipboard.setStringAsync(request.content)
     Linking.openURL(request.url)
   },
 }

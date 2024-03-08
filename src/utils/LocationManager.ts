@@ -1,43 +1,21 @@
-import Geolocation, {
-  GeolocationOptions,
-  GeolocationResponse,
-} from '@react-native-community/geolocation'
-
-let permissionStatus = false
-
-const askPermission = async (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Geolocation.requestAuthorization(resolve, reject)
-  })
-}
-
-const getLatestLocation = async (
-  opt?: GeolocationOptions,
-): Promise<GeolocationResponse> => {
-  return new Promise((resolve, reject) => {
-    Geolocation.getCurrentPosition(resolve, reject, opt)
-  })
-}
+import * as Geolocation from 'expo-location'
 
 export const LocationManager = {
-  getLatestLocation: () => {
-    return getLatestLocation({
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 10000,
-    })
+  getLatestLocation: async () => {
+   const { status } = await Geolocation.requestForegroundPermissionsAsync()
+    if (status !== 'granted') {
+      return null
+    }
+    return await Geolocation.getCurrentPositionAsync()
   },
 
-  permissionStatus: async (): Promise<boolean> => permissionStatus,
+  permissionStatus: async (): Promise<boolean> => {
+    const { status } = await Geolocation.requestForegroundPermissionsAsync()
+    return status === 'granted'
+  },
 
-  requestPermission: async (): Promise<boolean> =>
-    askPermission()
-      .then((_) => {
-        permissionStatus = true
-        return true
-      })
-      .catch((_) => {
-        permissionStatus = false
-        return false
-      }),
+  requestPermission: async (): Promise<boolean> => {
+    const { status } = await Geolocation.requestForegroundPermissionsAsync()
+    return status === 'granted'
+  }
 }

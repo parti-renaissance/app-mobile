@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { Poll } from '../../core/entities/Poll'
 import { PollResult } from '../../core/entities/PollResult'
@@ -24,6 +24,7 @@ import { CompoundPollDetailComponentProvider } from './providers/CompoundPollDet
 import { PollDetailComponentProvider } from './providers/PollDetailComponentProvider'
 import { PollDetailRemoteQuestionComponentProvider } from './providers/PollDetailRemoteQuestionComponentProvider'
 import { PollDetailUserInformationsComponentProvider } from './providers/PollDetailUserInformationsComponentProvider'
+import { router } from 'expo-router'
 
 type Props = Readonly<{
   poll: Poll
@@ -80,10 +81,8 @@ const PollDetailScreenLoaded: FunctionComponent<Props> = ({ poll }) => {
     PollsRepository.getInstance()
       .sendPollAnswers(poll, provider.getResult(), location)
       .then(() => {
-        navigation.replace('PollDetailSuccess', {
-          pollId: poll.uuid,
-          title: poll.name,
-        })
+        router.replace({ pathname: '/(tabs)/actions/polls/[id]/success', params: { id: poll.uuid, title: poll.name } })
+
       })
       .catch((error) => {
         AlertUtils.showNetworkAlert(error, postAnswers)

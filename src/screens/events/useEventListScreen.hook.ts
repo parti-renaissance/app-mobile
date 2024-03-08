@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
 import { EventFilters, EventMode, ShortEvent } from '../../core/entities/Event'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { GetEventsInteractor } from '../../core/interactor/GetEventsInteractor'
@@ -12,6 +11,7 @@ import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { EventFilter } from './EventFilter'
 import { EventSectionViewModelMapper } from './EventSectionViewModelMapper'
 import { EventSectionViewModel } from './EventViewModel'
+import { useNavigation, router } from 'expo-router'
 
 export const useEventListScreen = (
   eventFilter: EventFilter,
@@ -110,8 +110,9 @@ export const useEventListScreen = (
         return
       }
       Analytics.logEventSelected(event.name, event.category)
-      navigation.navigate('EventDetails', {
-        eventId: event.uuid,
+      router.push({
+        pathname: '/(tabs)/events/[id]',
+        params: { id: eventId },
       })
     },
     [navigation, statefulState],

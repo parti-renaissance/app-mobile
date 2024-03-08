@@ -1,12 +1,12 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Linking, SafeAreaView, StyleSheet } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
+import * as Linking from 'expo-linking'
 import { useFocusEffect } from '@react-navigation/native'
 import { ServerTimeoutError } from '../../core/errors'
 import {
   GetUserProfileInteractor,
   GetUserProfileInteractorResult,
 } from '../../core/interactor/GetUserProfileInteractor'
-import { ProfileModalNavigatorScreenProps } from '../../navigation/profileModal/ProfileModalNavigatorScreenProps'
 import { Colors } from '../../styles'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 import { StatefulView } from '../shared/StatefulView'
@@ -14,10 +14,10 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
+import { router } from 'expo-router'
 
-type ProfileScreenProps = ProfileModalNavigatorScreenProps<'Profile'>
 
-const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
+const ProfileScreen = () => {
   const [statefulState, setStatefulState] = useState<
     ViewState<GetUserProfileInteractorResult>
   >(ViewState.Loading())
@@ -27,15 +27,13 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      navigation.navigate('NotificationMenu')
+      router.push('/(tabs)/home/profile/notification')
     }
     const openPersonalInformation = () => {
-      navigation.navigate('PersonalInformationModal', {
-        screen: 'PersonalInformation',
-      })
+      router.push('/(tabs)/home/profile/personal-information')
     }
     const openCenterOfInterest = () => {
-      navigation.navigate('CenterOfInterest')
+      router.push('/(tabs)/home/profile/center-of-interest')
     }
     const viewModel = ProfileScreenViewModelMapper.map(
       content.profile,
@@ -82,12 +80,6 @@ const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
         })
     }, []),
   )
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-    })
-  }, [navigation])
 
   return (
     <SafeAreaView style={styles.container}>

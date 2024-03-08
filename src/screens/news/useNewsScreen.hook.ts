@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { News } from '../../core/entities/News'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import NewsRepository from '../../data/NewsRepository'
 import ProfileRepository from '../../data/ProfileRepository'
-import { NewsNavigatorScreenProps } from '../../navigation/news/NewsNavigatorScreenProps'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { NewsContentViewModel } from './NewsContentViewModel'
@@ -18,8 +17,6 @@ export const useNewsScreen = (): {
   loadMore: () => void
   onNewsSelected: (id: string) => void
 } => {
-  const navigation =
-    useNavigation<NewsNavigatorScreenProps<'News'>['navigation']>()
   const [statefulState, setStatefulState] = useState<
     ViewState<PaginatedResult<Array<News>>>
   >(ViewState.Loading())
@@ -73,10 +70,7 @@ export const useNewsScreen = (): {
 
   const onNewsSelected = (id: string) => {
     // TODO: (Pierre Felgines) 2022/02/11 Check where to log analytics `Analytics.logNewsOpen()`
-    navigation.navigate('NewsDetailModal', {
-      screen: 'NewsDetail',
-      params: { newsId: id },
-    })
+    router.push({ pathname: '/news/[id]', params: { id } })
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,5 +1,6 @@
 import React, { FC, useCallback } from 'react'
 import {
+  FlatList,
   ListRenderItemInfo,
   RefreshControl,
   SectionList,
@@ -8,7 +9,6 @@ import {
   Text,
   View,
 } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
 import { useFocusEffect } from '@react-navigation/native'
 import { EventMode } from '../../core/entities/Event'
 import { Colors, Spacing, Typography } from '../../styles'

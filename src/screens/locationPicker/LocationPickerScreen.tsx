@@ -6,32 +6,26 @@ import {
   StyleSheet,
 } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import * as ENV_KEYS from '../../Config'
-import { LocationPickerModalNavigatorScreenProps } from '../../navigation/locationPickerModal/LocationPickerModalNavigatorScreenProps'
+import * as ENV_KEYS from '../../config/env'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
-import { CloseButton } from '../shared/NavigationHeaderButton'
 import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
+import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
+import { Stack, router } from 'expo-router'
 
-type LocationPickerScreenProps =
-  LocationPickerModalNavigatorScreenProps<'LocationPicker'>
-
-export const LocationPickerScreen: FC<LocationPickerScreenProps> = ({
-  navigation,
-}) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
-      title: i18n.t('personalinformation.address'),
-    })
-  }, [navigation])
-
+export const LocationPickerScreen = () => {
   const { onPlaceSelected } = useLocationPickerScreen((address) =>
     DeviceEventEmitter.emit('onAddressSelected', address),
   )
 
   return (
     <SafeAreaView style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerLeft: () => <CloseButton onPress={() => router.push('../')} />,
+          title: i18n.t('personalinformation.address'),
+        }}
+      />
       <GooglePlacesAutocomplete
         listViewDisplayed={false}
         placeholder={i18n.t('common.search')}

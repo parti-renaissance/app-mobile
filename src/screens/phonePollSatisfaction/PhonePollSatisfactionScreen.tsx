@@ -4,7 +4,7 @@ import {
   SectionListRenderItemInfo,
   StyleSheet,
 } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Spacing } from '../../styles'
 import PollDetailQuestionInputContent from '../pollDetail/PollDetailQuestionInputContent'
 import QuestionDualChoiceRow from '../pollDetailUserData/QuestionDualChoiceRow'
