@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { ImageRequireSource, Platform } from 'react-native'
-import { LatLng, Marker } from 'react-native-maps'
+import { LatLng, Marker } from '@/components/Maps/Maps'
 
 type Props = {
   coordinate: LatLng
