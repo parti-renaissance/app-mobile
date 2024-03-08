@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Marker } from 'react-native-maps'
+import { Marker } from '@/components/Maps/Maps'
 import { Colors, Typography } from '../../styles'
 import CardView from '../shared/CardView'
 import { ClusterTypeViewModel } from './DoorToDoor'

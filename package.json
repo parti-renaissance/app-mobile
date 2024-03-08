@@ -6,13 +6,14 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
+    "web": "vite build --config vite.worker.config.js && expo start --web",
     "lint": "eslint .",
     "format": "prettier --write .",
     "prettier-watch": "onchange '**/*.ts' '**/*.tsx' '**/*.cjs' '**/*.js' '**/*.json' -- prettier --write {{changed}}",
     "ts:check": "tsc",
     "prepare": "bun ./scripts/prepare-env.js",
-    "postinstall": "bun ./scripts/prepare-env.js"
+    "postinstall": "bun ./scripts/prepare-env.js",
+    "build:worker": "vite build --config vite.worker.config.js"
   },
   "dependencies": {
     "@expo/webpack-config": "~19.0.1",
@@ -99,6 +100,8 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
+    "vite": "^5.1.5",
+    "vite-tsconfig-paths": "^4.3.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-universe": "^12.0.0",
@@ -109,7 +112,5 @@
     "ts-node": "^10.9.2"
   },
   "private": true,
-  "trustedDependencies": [
-    "@sentry/cli"
-  ]
+  "trustedDependencies": ["@sentry/cli"]
 }
