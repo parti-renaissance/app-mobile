@@ -32,6 +32,7 @@ import {
 import { HomeViewModel } from '@/screens/home/HomeViewModel'
 import HomeQuickPollRowContainer from '@/screens/home/quickPoll/HomeQuickPollRowContainer'
 import { useHomeScreen } from '@/screens/home/useHomeScreen.hook'
+import { Button } from 'tamagui'
 
 type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
 
@@ -160,6 +161,7 @@ const HomeScreen: FunctionComponent<HomeScreenProps> = () => {
   const HomeContent = (homeViewModel: HomeViewModel) => {
     return (
       <View style={styles.contentContainer}>
+        
         <SectionList
           stickySectionHeadersEnabled={false}
           ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
@@ -194,6 +196,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.defaultBackground,
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   contentContainer: {
     flex: 1,
