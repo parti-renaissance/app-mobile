@@ -197,7 +197,6 @@ export const useHomeScreen = (): {
     if (item === undefined) {
       return
     }
-    console.log('onFeedPhoningCampaignSelected', item)
     campaignPhoningStore.setCampaign({
       id: item.uuid,
       title: item.title,

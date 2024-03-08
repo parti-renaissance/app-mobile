@@ -4,7 +4,6 @@ function createEnvsKeys(_platform, profile) {
   const serverEnv = profile === 'production' ? 'PRODUCTION' : 'STAGING'
   const regex = new RegExp(`^EXPO_PUBLIC_.*_${serverEnv}$`)
   const publicEnvs = Object.keys(process.env).filter((key) => regex.test(key))
-  console.log('publicEnvs', Object.keys(process.env))
 
   const envs = publicEnvs.reduce((acc, envName) => {
     const regex = `^EXPO_PUBLIC_(.*)_${serverEnv}$`
