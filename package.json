@@ -13,7 +13,12 @@
     "ts:check": "tsc",
     "prepare": "bun ./scripts/prepare-env.js",
     "postinstall": "bun ./scripts/prepare-env.js && patch-package",
-    "build:worker": "vite build --config vite.worker.config.js"
+    "build:worker": "vite build --config vite.worker.config.js",
+    "storybook-generate": "sb-rn-get-stories -js",
+    "storybook": "cross-env STORYBOOK_ENABLED='true' expo start",
+    "storybook:web": "start-storybook -p 7007",
+    "storybook:ios": "cross-env STORYBOOK_ENABLED='true' expo start --ios",
+    "storybook:android": "cross-env STORYBOOK_ENABLED='true' expo start --android"
   },
   "dependencies": {
     "@expo/webpack-config": "~19.0.1",
@@ -21,7 +26,7 @@
     "@formatjs/intl-getcanonicallocales": "^2.3.0",
     "@formatjs/intl-locale": "^3.4.3",
     "@react-native-async-storage/async-storage": "1.21.0",
-    "@react-native-community/datetimepicker": "7.6.1",
+    "@react-native-community/datetimepicker": "^7.6.2",
     "@react-native-community/progress-bar-android": "^1.0.5",
     "@react-native-community/progress-view": "^1.4.2",
     "@react-native-community/push-notification-ios": "react-native-community/push-notification-ios",
@@ -100,10 +105,13 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@react-native-community/slider": "^4.5.0",
+    "@storybook/addon-ondevice-actions": "^7.6.16",
+    "@storybook/addon-ondevice-controls": "^7.6.16",
+    "@storybook/react-native": "^7.6.16",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
-    "vite": "^5.1.5",
-    "vite-tsconfig-paths": "^4.3.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-universe": "^12.0.0",
@@ -111,7 +119,9 @@
     "onchange": "^7.1.0",
     "prettier": "^3.1.1",
     "react-devtools": "^5.0.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "vite": "^5.1.5",
+    "vite-tsconfig-paths": "^4.3.1"
   },
   "private": true,
   "trustedDependencies": [

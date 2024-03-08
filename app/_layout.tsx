@@ -9,13 +9,14 @@ import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
 import { useColorScheme } from 'react-native'
 import { TamaguiProvider, View } from '@tamagui/core'
+import Constants from 'expo-constants'
 import { config } from '../tamagui.config'
 
 SplashScreen.preventAutoHideAsync()
 
-export default function Root() {
+function Root() {
   const colorScheme = useColorScheme()
-  // Set up the auth context and render our layout inside of it.
+
   return (
     <TamaguiProvider config={config} defaultTheme={colorScheme}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -34,3 +35,18 @@ export default function Root() {
     </TamaguiProvider>
   )
 }
+
+/**
+ * This is the entry point for your app with the following logic:
+ * - If storybookEnabled is true, render Storybook
+ * - Otherwise, render your app
+ */
+let AppEntryPoint = Root
+
+if (Constants.expoConfig.extra.storybookEnabled === 'true') {
+  SplashScreen.hideAsync()
+
+  AppEntryPoint = require('../.storybook').default
+}
+
+export default AppEntryPoint
