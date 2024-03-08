@@ -5,9 +5,7 @@ import React, {
   useState,
 } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import * as Geolocation from 'expo-location'
-import { LatLng, Region } from 'react-native-maps'
-import { useFocusEffect } from '@react-navigation/native'
+import { LatLng, Region } from '@/components/Maps/Maps'
 import { DoorToDoorAddress } from '@/core/entities/DoorToDoor'
 import {
   DoorToDoorCharterNotAccepted,
@@ -15,10 +13,7 @@ import {
 } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
-import { Colors, Spacing, Typography } from '@/styles'
-import i18n from '@/utils/i18n'
-import { LocationManager } from '@/utils/LocationManager'
-import LoaderView from '@/screens/shared/LoaderView'
+import { useDoorToDoorStore } from '@/data/store/door-to-door'
 import {
   DoorToDoorDisplayMode,
   DoorToDoorFilterDisplay,
@@ -32,8 +27,13 @@ import DoorToDoorMapView, {
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import MapListSwitch from '@/screens/doorToDoor/MapListSwitch'
 import RankingModal from '@/screens/doorToDoor/rankings/RankingModal'
+import LoaderView from '@/screens/shared/LoaderView'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import { LocationManager } from '@/utils/LocationManager'
+import { useFocusEffect } from '@react-navigation/native'
+import * as Geolocation from 'expo-location'
 import { router } from 'expo-router'
-import { useDoorToDoorStore } from '@/data/store/door-to-door'
 
 export type RankingModalState = Readonly<{
   visible: boolean
