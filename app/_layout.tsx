@@ -18,7 +18,7 @@ function Root() {
   const colorScheme = useColorScheme()
 
   return (
-    <TamaguiProvider config={config} defaultTheme={colorScheme}>
+    <TamaguiProvider config={config} defaultTheme={'light'}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <SessionProvider>
           <Stack>
