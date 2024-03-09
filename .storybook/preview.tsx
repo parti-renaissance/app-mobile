@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import React, { View } from 'react-native'
 import { TamaguiProvider } from 'tamagui'
 import { config } from '../tamagui.config'
 
@@ -16,16 +16,16 @@ const preview = {
   decorators: [
     (Story, { parameters }) => (
       <TamaguiProvider config={config} defaultTheme={'light'}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor:
-            parameters.noBackground === true ? undefined : '#26c6da',
-          padding: 8,
-        }}
-      >
-        <Story />
-      </View>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor:
+              parameters.noBackground === true ? undefined : '#26c6da',
+            padding: 8,
+          }}
+        >
+          <Story />
+        </View>
       </TamaguiProvider>
     ),
   ],
