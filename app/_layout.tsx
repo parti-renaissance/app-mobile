@@ -9,6 +9,7 @@ import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
 import { useColorScheme } from 'react-native'
 import { TamaguiProvider } from '@tamagui/core'
+import Constants from 'expo-constants'
 import { config } from '../tamagui.config'
 import * as Sentry from '@sentry/react-native'
 import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
@@ -64,4 +65,17 @@ function Root() {
   )
 }
 
-export default Sentry.wrap(Root)
+/**
+ * This is the entry point for your app with the following logic:
+ * - If storybookEnabled is true, render Storybook
+ * - Otherwise, render your app
+ */
+let AppEntryPoint = Sentry.wrap(Root)
+
+if (Constants.expoConfig.extra.storybookEnabled === 'true') {
+  SplashScreen.hideAsync()
+
+  AppEntryPoint = require('../.storybook').default
+}
+
+export default AppEntryPoint
