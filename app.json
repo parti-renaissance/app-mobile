@@ -52,7 +52,26 @@
             "./assets/fonts/Maax-Mediumitalic.ttf",
             "./assets/fonts/Roboto-Italic.ttf",
             "./assets/fonts/Roboto-Medium.ttf",
-            "./assets/fonts/Roboto-Regular.ttf"
+            "./assets/fonts/Roboto-Regular.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Black.ttf",
+            "./assets/fonts/PublicSans/PublicSans-BlackItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Bold.ttf",
+            "./assets/fonts/PublicSans/PublicSans-BoldItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraBold.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraBoldItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraLight.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraLightItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Light.ttf",
+            "./assets/fonts/PublicSans/PublicSans-LightItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Medium.ttf",
+            "./assets/fonts/PublicSans/PublicSans-MediumItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Regular.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Italic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-SemiBold.ttf",
+            "./assets/fonts/PublicSans/PublicSans-SemiBoldItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Thin.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ThinItalic.ttf"
+
           ]
         }
       ],
