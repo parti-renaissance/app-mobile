@@ -1,4 +1,4 @@
-import { ExpoConfig, ConfigContext } from 'expo/config'
+import { ConfigContext, ExpoConfig } from 'expo/config'
 
 const baseIdentifier = 'fr.en-marche.jecoute'
 const basePackage = 'fr.en_marche.jecoute'
@@ -30,5 +30,8 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     config.android.config.googleMaps.apiKey =
       process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY_STAGING
   }
+
+  config.extra.storybookEnabled = process.env.STORYBOOK_ENABLED
+
   return config
 }
