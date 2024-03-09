@@ -1,10 +1,17 @@
-import { config as configBase } from '@tamagui/config/v3'
-import { createTamagui , createFont} from 'tamagui'
-import { themes } from './themes'
-import { Maax, PublicSans } from './theme/fonts'
+import { config as configBase } from '@tamagui/config/v3';
+import { createMedia } from '@tamagui/react-native-media-driver'
+import { createTamagui } from 'tamagui';
+import { Maax, PublicSans } from './theme/fonts';
+import { themes } from './themes';
 
-export const config = createTamagui({ ...configBase, themes, defaultFont: "PublicSans", fonts:{ ...configBase.fonts, Maax, PublicSans },
- })
+
+export const config = createTamagui({
+  ...configBase,
+  themes,
+  defaultFont: 'PublicSans',
+  fonts: { ...configBase.fonts, Maax, PublicSans },
+ 
+})
 
 export default config
 
