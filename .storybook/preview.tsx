@@ -1,4 +1,6 @@
 import { View } from 'react-native'
+import { TamaguiProvider } from 'tamagui'
+import { config } from '../tamagui.config'
 
 /** @type{import("@storybook/react").Preview} */
 const preview = {
@@ -13,6 +15,7 @@ const preview = {
 
   decorators: [
     (Story, { parameters }) => (
+      <TamaguiProvider config={config} defaultTheme={'light'}>
       <View
         style={{
           flex: 1,
@@ -23,6 +26,7 @@ const preview = {
       >
         <Story />
       </View>
+      </TamaguiProvider>
     ),
   ],
 }
