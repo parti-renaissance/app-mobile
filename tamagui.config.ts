@@ -1,8 +1,10 @@
 import { config as configBase } from '@tamagui/config/v3'
-import { createTamagui } from 'tamagui'
-import { themes } from 'themes'
+import { createTamagui , createFont} from 'tamagui'
+import { themes } from './themes'
+import { Maax, PublicSans } from './theme/fonts'
 
-export const config = createTamagui({ ...configBase, themes })
+export const config = createTamagui({ ...configBase, themes, defaultFont: "PublicSans", fonts:{ ...configBase.fonts, Maax, PublicSans },
+ })
 
 export default config
 
