@@ -7,7 +7,6 @@ export interface EventVoxCardProps {
   payload: {
     title: string,
     tag: string,
-    type: 'news' | 'event' | 'riposte' | 'action',
     image?: string,
     isSubscribed: boolean,
   } & VoxCardDateProps & VoxCardLocationProps & VoxCardAuthorProps
@@ -15,10 +14,9 @@ export interface EventVoxCardProps {
 
 
 const EventCard = ({ payload, onSubscribe, onShowEvent }: EventVoxCardProps) => {
-  const chipVariant = { [`${payload.type}`]: true }
   return (
     <VoxCard>
-      <VoxCard.Chip {...chipVariant}>{payload.tag}</VoxCard.Chip>
+      <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
       <VoxCard.Title>{payload.title}</VoxCard.Title>
       {payload.image && <VoxCard.Image image={payload.image} />}
       <VoxCard.Date date={payload.date} />

@@ -8,7 +8,6 @@ export default {
 const props = {
   payload: {
     title: 'Titre long : Lorem ipsum dolor sit amet consectetur ipsum dolor sit amet consectetur',
-    type: 'event',
     tag: 'Moment de convivialité',
     image: 'https://picsum.photos/600/244',
     date: new Date(),
