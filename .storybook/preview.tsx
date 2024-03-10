@@ -5,6 +5,7 @@ import { config } from '../tamagui.config'
 /** @type{import("@storybook/react").Preview} */
 const preview = {
   parameters: {
+    noBackground: true,
     controls: {
       matchers: {
         color: /(background|color)$/i,
