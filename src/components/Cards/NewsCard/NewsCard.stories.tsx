@@ -5,7 +5,7 @@ export default {
   component: NewsCard,
 }
 
-const props = {
+export const props = {
   payload: {
     title: 'Titre long : Lorem ipsum dolor sit amet consectetur ipsum dolor sit amet consectetur',
     tag: 'Actualité',

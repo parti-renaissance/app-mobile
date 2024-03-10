@@ -31,7 +31,7 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
 export type VoxCardTitleProps = { children: string }
 const VoxCardTitle = (props: VoxCardTitleProps) => {
   return (
-    <Text fontFamily="$PublicSans" fontWeight="$6" color="gray8" lineHeight="$3" fontSize="$2">
+    <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8" lineHeight="$3" fontSize="$2">
       {props.children}
     </Text>
   )

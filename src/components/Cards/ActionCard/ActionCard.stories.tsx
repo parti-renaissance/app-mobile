@@ -5,7 +5,7 @@ export default {
   component: ActionCard,
 }
 
-const props = {
+export const props = {
   payload: {
     tag: 'Porte à porte',
     date: new Date(),
