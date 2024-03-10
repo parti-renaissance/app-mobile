@@ -113,7 +113,7 @@ export type VoxCardAttendeesProps = {
 const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   if (!attendees)
     return (
-      <Text fontFamily="$PublicSans" fontSize="$1" color="gray8" lineHeight="$1">
+      <Text fontFamily="$PublicSans" fontSize="$1" color="$gray8" lineHeight="$1">
         0 pariticpant, soyez le premier !
       </Text>
     )

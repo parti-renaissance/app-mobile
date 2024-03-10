@@ -5,7 +5,7 @@ export default {
   component: EventCard,
 }
 
-export const props = {
+const props = {
   payload: {
     title: 'Titre long : Lorem ipsum dolor sit amet consectetur ipsum dolor sit amet consectetur',
     tag: 'Moment de convivialité',
