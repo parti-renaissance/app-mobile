@@ -23,6 +23,7 @@ const EventCard = ({payload}: EventVoxCardProps) => {
     <VoxCard>
       <VoxCard.Chip {...chipVariant}>{payload.tag}</VoxCard.Chip>
       <VoxCard.Title>{payload.title}</VoxCard.Title>
+      {payload.image && <VoxCard.Image image={payload.image}/> }
       <VoxCard.Date date={payload.date}/>
       <VoxCard.Location location={payload.location}/>
       <XStack justifyContent="space-between">

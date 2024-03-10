@@ -11,7 +11,7 @@ export const Event = {
       title: 'Titre long : Lorem ipsum dolor sit amet consectetur ipsum dolor sit amet consectetur',
       type: 'event',
       tag: 'Moment de convivialité',
-      image: undefined,
+      image: 'https://picsum.photos/600/244',
       date: new Date(),
       location: {
         city: "Montpellier",

@@ -1,4 +1,4 @@
-import { Text, Card as TCard, YStack, H6, XStack, styled, withStaticProperties } from 'tamagui'
+import { Text, Card as TCard, YStack, H6, XStack, styled, withStaticProperties, Image } from 'tamagui'
 import { CalendarDays, MapPin } from '@tamagui/lucide-icons'
 import Chip from '@/components/Chip/Chip'
 import { ComponentProps } from 'react'
@@ -62,9 +62,24 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
   return (
     <XStack gap="$2">
       <MapPin size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        {location.city} {location.postalCode} <Text fontFamily="$PublicSans" fontWeight="$5" color="$gray6" lineHeight="$2" fontSize="$1"> . {location.street}</Text>
+      <Text lineBreakStrategyIOS="push-out">
+        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+          {location.city} {location.postalCode}
         </Text>
+        <Text fontFamily="$PublicSans" fontWeight="$5" color="$gray6" lineHeight="$2" fontSize="$1">{'  '}. {location.street}</Text>
+      </Text>
+    </XStack>
+  )
+}
+
+export type VoxCardImageProps = {
+  image: string
+}
+
+const VoxCardImage = ({ image }: VoxCardImageProps) => {
+  return (
+    <XStack maxHeight="$13" $gtSm={{ maxHeight: '$15' }} borderRadius="$1" overflow="hidden">
+      <Image source={{ uri: image, width: 600, height: 244 }} width="100%" alt="event image" resizeMode="cover" />
     </XStack>
   )
 }
@@ -75,6 +90,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Title: VoxCardTitle,
   Date: VoxCardDate,
   Location: VoxCardLocation,
+  Image: VoxCardImage,
 })
 
 export default VoxCard
