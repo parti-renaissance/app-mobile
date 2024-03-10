@@ -1,4 +1,4 @@
-import VoxCard from '@/components/VoxCard/VoxCard'
+import VoxCard, {VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { XStack, Button, Text } from 'tamagui'
 
 export interface EventVoxCardProps {
@@ -7,19 +7,7 @@ export interface EventVoxCardProps {
     tag: string,
     type: 'news' | 'event' | 'riposte' | 'action',
     image?: string,
-    date: Date,
-    location: {
-      city: string,
-      postalCode: string,
-      street: string,
-    },
-    author: {
-      role: string,
-      name: string,
-      title: string,
-      pictureLink: string,
-    },
-  }
+  } & VoxCardDateProps & VoxCardLocationProps & VoxCardAuthorProps
 }
 
 
