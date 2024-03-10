@@ -5,6 +5,7 @@ import { FeedCard } from '@/components/Cards'
 import ApiService from '@/data/network/ApiService'
 import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
+import { useGetProfilObserver } from '@/hooks/useProfil'
 import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { getToken, useTheme, YStack } from 'tamagui'
 
@@ -21,10 +22,7 @@ const fetchTimelineFeed = async (pageParam: number, zipcode?: string) =>
   zipcode ? await ApiService.getInstance().getTimelineFeed(pageParam, zipcode) : (Promise.resolve(undefined) as Promise<RestTimelineFeedResponse | undefined>)
 
 const HomeFeedList = () => {
-  const { data: profile } = useSuspenseQuery({
-    queryKey: ['profile'],
-    queryFn: () => ApiService.getInstance().getProfile(),
-  })
+  const { data: profile } = useGetProfilObserver()
 
   const {
     data: paginatedFeed,
