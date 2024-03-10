@@ -14,7 +14,6 @@ export interface ActionVoxCardProps {
 }
 
 const ActionCard = ({ payload, onSubscribe, onShow }: ActionVoxCardProps) => {
-  console.log(payload)
   return (
     <VoxCard>
       <VoxCard.Chip action>{payload.tag}</VoxCard.Chip>
