@@ -8,9 +8,8 @@ import {
 import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
 import { useColorScheme } from 'react-native'
-import { TamaguiProvider, View } from '@tamagui/core'
+import TamaguiProvider from '@/tamagui/provider'
 import Constants from 'expo-constants'
-import { config } from '../tamagui.config'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -18,7 +17,7 @@ function Root() {
   const colorScheme = useColorScheme()
 
   return (
-    <TamaguiProvider config={config} defaultTheme={'light'}>
+    <TamaguiProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <SessionProvider>
           <Stack>

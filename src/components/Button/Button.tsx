@@ -14,6 +14,7 @@ export const ButtonContext = createStyledContext({
   size: '$md' as SizeTokens,
   variant: 'contained' as const,
   disabled: false,
+  'data-testid': 'Button',
 })
 
 export const ButtonFrame = styled(View, {
