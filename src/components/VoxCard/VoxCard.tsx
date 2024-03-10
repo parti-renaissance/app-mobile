@@ -31,7 +31,7 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
 export type VoxCardTitleProps = { children: string }
 const VoxCardTitle = (props: VoxCardTitleProps) => {
   return (
-    <Text fontFamily="$PublicSans" fontWeight="$6" lineHeight="$3" fontSize="$2">
+    <Text fontFamily="$PublicSans" fontWeight="$6" color="gray8" lineHeight="$3" fontSize="$2">
       {props.children}
     </Text>
   )
@@ -113,7 +113,7 @@ export type VoxCardAttendeesProps = {
 const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   if (!attendees)
     return (
-      <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
+      <Text fontFamily="$PublicSans" fontSize="$1" color="gray8" lineHeight="$1">
         0 pariticpant, soyez le premier !
       </Text>
     )
@@ -147,6 +147,18 @@ const VoxCardImage = ({ image }: VoxCardImageProps) => {
   )
 }
 
+export type VoxCardDescritionProps = {
+  children: string
+}
+
+const VoxCardDescrition = ({ children }: VoxCardDescritionProps) => {
+  return (
+    <Text numberOfLines={3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$gray8">
+      {children}
+    </Text>
+  )
+}
+
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Chip: VoxCardChip,
   Title: VoxCardTitle,
@@ -155,6 +167,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Image: VoxCardImage,
   Author: VoxCardAuthor,
   Attendees: VoxCardAttendees,
+  Description: VoxCardDescrition,
 })
 
 export default VoxCard
