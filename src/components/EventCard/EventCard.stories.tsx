@@ -18,6 +18,12 @@ export const Event = {
         postalCode: "34090",
         street: " 43 Place du marché de la croix saint Simon",
       },
+      author: {
+        role: 'Assemblée départementale de Paris',
+        name: 'Jean Voulzi',
+        title: 'Responsable mobilisation',
+        pictureLink: 'https://picsum.photos/id/64/200/200',
+      },
     }
   }
 };

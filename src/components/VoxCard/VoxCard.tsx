@@ -43,7 +43,7 @@ const VoxCardTitle = (props: VoxCardTitleProps) => {
 export type VoxCardDateProps = { date: Date }
 const VoxCardDate = ({ date }: VoxCardDateProps) => {
   return (
-    <XStack gap="$2">
+    <XStack gap="$2" alignItems="center">
       <CalendarDays size="$1" />
       <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">{i18n.t('vox_card.date', { date })}</Text>
     </XStack>
@@ -60,7 +60,7 @@ export type VoxCardLocationProps = {
 
 const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
   return (
-    <XStack gap="$2">
+    <XStack gap="$2" alignItems="center">
       <MapPin size="$1" />
       <Text lineBreakStrategyIOS="push-out">
         <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
@@ -71,6 +71,32 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
     </XStack>
   )
 }
+
+
+export type VoxCardAuthorProps = {
+  author: {
+    role: string,
+    name: string,
+    title: string,
+    pictureLink: string,
+  },
+}
+
+const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
+  return (
+    <XStack gap="$2.5" alignItems="center">
+      <XStack height="$2.5" width="$2.5" borderRadius="$10" overflow="hidden">
+        <Image source={{ uri: author.pictureLink, width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
+      </XStack>
+      <Text fontFamily="$PublicSans" fontSize="$1"  lineHeight="$1">
+        <Text fontWeight="$5" color="$gray6"> {author.role}</Text>{"\n"}
+        <Text fontWeight="$4" color="$gray6"> {author.name}, {author.title}</Text>
+      </Text>
+    </XStack>
+
+  )
+}
+
 
 export type VoxCardImageProps = {
   image: string
@@ -91,6 +117,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Date: VoxCardDate,
   Location: VoxCardLocation,
   Image: VoxCardImage,
+  Author: VoxCardAuthor,
 })
 
 export default VoxCard
