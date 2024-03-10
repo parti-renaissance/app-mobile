@@ -1,19 +1,20 @@
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { XStack, Button, Text } from 'tamagui'
+import { Button, Text, XStack } from 'tamagui'
 
 export interface EventVoxCardProps {
-  onSubscribe?: () => void,
-  onShowEvent?: () => void,
+  onSubscribe?: () => void
+  onShow?: () => void
   payload: {
-    title: string,
-    tag: string,
-    image?: string,
-    isSubscribed: boolean,
-  } & VoxCardDateProps & VoxCardLocationProps & VoxCardAuthorProps
+    title: string
+    tag: string
+    image?: string
+    isSubscribed: boolean
+  } & VoxCardDateProps &
+    VoxCardLocationProps &
+    VoxCardAuthorProps
 }
 
-
-const EventCard = ({ payload, onSubscribe, onShowEvent }: EventVoxCardProps) => {
+const EventCard = ({ payload, onSubscribe, onShow }: EventVoxCardProps) => {
   return (
     <VoxCard>
       <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
@@ -23,17 +24,22 @@ const EventCard = ({ payload, onSubscribe, onShowEvent }: EventVoxCardProps) => 
       <VoxCard.Location location={payload.location} />
       <VoxCard.Author author={payload.author} />
       <XStack justifyContent="space-between">
-        <Button size="$2.5" backgroundColor="$white1" borderWidth="$1" paddingHorizontal="$4" borderColor="$gray3" onPress={onShowEvent}>
-          <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8">Voir l'événement</Text>
+        <Button size="$2.5" backgroundColor="$white1" borderWidth="$1" paddingHorizontal="$4" borderColor="$gray3" onPress={onShow}>
+          <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8">
+            Voir l'événement
+          </Text>
         </Button>
         {payload.isSubscribed ? (
           <Button size="$2.5" chromeless paddingHorizontal="$4" onPress={onSubscribe}>
-            <Text fontFamily="$PublicSans" fontWeight="$6" color="$blue6">Inscrit(e)</Text>
+            <Text fontFamily="$PublicSans" fontWeight="$6" color="$blue6">
+              Inscrit(e)
+            </Text>
           </Button>
-
         ) : (
           <Button size="$2.5" backgroundColor="$gray8" paddingHorizontal="$4" onPress={onSubscribe}>
-            <Text fontFamily="$PublicSans" fontWeight="$6" color="$white1">M'inscrire</Text>
+            <Text fontFamily="$PublicSans" fontWeight="$6" color="$white1">
+              M'inscrire
+            </Text>
           </Button>
         )}
       </XStack>
@@ -41,10 +47,4 @@ const EventCard = ({ payload, onSubscribe, onShowEvent }: EventVoxCardProps) => 
   )
 }
 
-
-
 export default EventCard
-
-
-
-

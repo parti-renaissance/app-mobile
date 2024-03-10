@@ -1,8 +1,8 @@
-import { Text, Card as TCard, YStack, H6, XStack, styled, withStaticProperties, Image, ZStack } from 'tamagui'
-import { CalendarDays, MapPin } from '@tamagui/lucide-icons'
-import Chip from '@/components/Chip/Chip'
 import { ComponentProps } from 'react'
+import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
+import { CalendarDays, MapPin } from '@tamagui/lucide-icons'
+import { Image, styled, Card as TCard, Text, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
 const CardFrame = styled(TCard, {
   name: 'Card',
@@ -11,18 +11,14 @@ const CardFrame = styled(TCard, {
   padding: '$4.5',
 } as const)
 
-
 export type VoxCardFrameProps = ComponentProps<typeof TCard>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
-      <YStack gap="$3.5">
-        {children}
-      </YStack>
+      <YStack gap="$3.5">{children}</YStack>
     </CardFrame>
   )
 }
-
 
 const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
   return (
@@ -32,11 +28,12 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
   )
 }
 
-
 export type VoxCardTitleProps = { children: string }
 const VoxCardTitle = (props: VoxCardTitleProps) => {
   return (
-    <Text fontFamily="$PublicSans" fontWeight="$6" lineHeight="$3" fontSize="$2">{props.children}</Text>
+    <Text fontFamily="$PublicSans" fontWeight="$6" lineHeight="$3" fontSize="$2">
+      {props.children}
+    </Text>
   )
 }
 
@@ -45,17 +42,19 @@ const VoxCardDate = ({ date }: VoxCardDateProps) => {
   return (
     <XStack gap="$2" alignItems="center">
       <CalendarDays size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">{i18n.t('vox_card.date', { date })}</Text>
+      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+        {i18n.t('vox_card.date', { date })}
+      </Text>
     </XStack>
   )
 }
 
 export type VoxCardLocationProps = {
   location: {
-    city: string,
-    postalCode: string,
-    street: string,
-  },
+    city: string
+    postalCode: string
+    street: string
+  }
 }
 
 const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
@@ -66,20 +65,21 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
         <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
           {location.city} {location.postalCode}
         </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray6" lineHeight="$2" fontSize="$1">{'  '}. {location.street}</Text>
+        <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray6" lineHeight="$2" fontSize="$1">
+          {'  '}. {location.street}
+        </Text>
       </Text>
     </XStack>
   )
 }
 
-
 export type VoxCardAuthorProps = {
   author: {
-    role: string,
-    name: string,
-    title: string,
-    pictureLink: string,
-  },
+    role: string
+    name: string
+    title: string
+    pictureLink: string
+  }
 }
 
 const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
@@ -89,26 +89,35 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
         <Image source={{ uri: author.pictureLink, width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
       </XStack>
       <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
-        <Text fontWeight="$5" color="$gray6"> {author.role}</Text>{"\n"}
-        <Text fontWeight="$4" color="$gray6"> {author.name}, {author.title}</Text>
+        <Text fontWeight="$5" color="$gray6">
+          {' '}
+          {author.role}
+        </Text>
+        {'\n'}
+        <Text fontWeight="$4" color="$gray6">
+          {' '}
+          {author.name}, {author.title}
+        </Text>
       </Text>
     </XStack>
-
   )
 }
 
 export type VoxCardAttendeesProps = {
   attendees?: {
-    pictures: [string, string, string],
-    count: number,
+    pictures: [string, string, string]
+    count: number
   }
 }
 
 const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
-  if (!attendees) return (
-    <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">0 pariticpant, soyez le premier !</Text >
-  )
-  const reverseIndex = (index: number) => (attendees.pictures.length - 1) - index
+  if (!attendees)
+    return (
+      <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
+        0 pariticpant, soyez le premier !
+      </Text>
+    )
+  const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
   return (
     <XStack gap="$2" alignItems="center">
       <ZStack width={68} height="$2">
@@ -117,15 +126,14 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
             <Image source={{ uri: attendees.pictures[reverseIndex(index)], width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
           </XStack>
         ))}
-
       </ZStack>
 
-      <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">{attendees.count} Inscrits</Text>
+      <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
+        {attendees.count} Inscrits
+      </Text>
     </XStack>
-
   )
 }
-
 
 export type VoxCardImageProps = {
   image: string
@@ -139,7 +147,6 @@ const VoxCardImage = ({ image }: VoxCardImageProps) => {
   )
 }
 
-
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Chip: VoxCardChip,
   Title: VoxCardTitle,
@@ -151,7 +158,3 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
 })
 
 export default VoxCard
-
-
-
-

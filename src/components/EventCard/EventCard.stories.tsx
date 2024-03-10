@@ -1,9 +1,9 @@
-import EventCard from './EventCard';
+import EventCard from './EventCard'
 
 export default {
   title: 'EventCard',
   component: EventCard,
-};
+}
 
 const props = {
   payload: {
@@ -12,9 +12,9 @@ const props = {
     image: 'https://picsum.photos/600/244',
     date: new Date(),
     location: {
-      city: "Montpellier",
-      postalCode: "34090",
-      street: " 43 Place du marché de la croix saint Simon",
+      city: 'Montpellier',
+      postalCode: '34090',
+      street: ' 43 Place du marché de la croix saint Simon',
     },
     author: {
       role: 'Assemblée départementale de Paris',
@@ -22,26 +22,25 @@ const props = {
       title: 'Responsable mobilisation',
       pictureLink: 'https://picsum.photos/id/64/200/200',
     },
-  }
+  },
 }
 
-export const Event = { args: props };
-
+export const Event = { args: props }
 
 export const EventNoImage = {
   args: {
     payload: {
       ...props.payload,
       image: undefined,
-    }
-  }
-};
+    },
+  },
+}
 
 export const EventSubscribed = {
   args: {
     payload: {
       ...props.payload,
       isSubscribed: true,
-    }
-  }
-};
+    },
+  },
+}

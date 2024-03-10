@@ -3,23 +3,15 @@
 
 /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
-  plugins: [
-    "@ianvs/prettier-plugin-sort-imports",
-  ],
-  importOrder: [
-    "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
-    "<THIRD_PARTY_MODULES>",
-    "^~/",
-    "^[../]",
-    "^[./]",
-  ],
-  importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
-  importOrderTypeScriptVersion: "4.4.0",
-  endOfLine: "lf",
-  printWidth: 80,
+  plugins: ['@ianvs/prettier-plugin-sort-imports'],
+  importOrder: ['^(react/(.*)$)|^(react$)|^(react-native(.*)$)', '<THIRD_PARTY_MODULES>', '^~/', '^[../]', '^[./]'],
+  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
+  importOrderTypeScriptVersion: '4.4.0',
+  endOfLine: 'lf',
+  printWidth: 160,
   semi: false,
   singleQuote: true,
-  trailingComma: "all",
-};
+  trailingComma: 'all',
+}
 
-module.exports = config;
+module.exports = config
