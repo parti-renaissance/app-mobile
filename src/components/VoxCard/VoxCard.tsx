@@ -4,10 +4,12 @@ import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin } from '@tamagui/lucide-icons'
 import { Image, styled, Card as TCard, Text, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
-const CardFrame = styled(TCard, {
+const CardFrame = styled(YStack, {
   name: 'Card',
-  backgroundColor: '$white',
-  borderRadius: '$5',
+  backgroundColor: '$white1',
+  $gtMd: {
+    borderRadius: '$5',
+  },
   padding: '$4.5',
 } as const)
 
