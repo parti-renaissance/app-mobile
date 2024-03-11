@@ -1,15 +1,14 @@
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Header, NavBar } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import Navbar from '@/components/Navbar/Navbar'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
 import { Stack } from 'expo-router'
-import { Avatar, getToken, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
 
 const HomeScreen: React.FC = () => (
   <>
     <Stack.Screen
       options={{
-        header: () => <Navbar />,
+        header: () => <Header />,
       }}
     />
     <YStack flex={1}>
