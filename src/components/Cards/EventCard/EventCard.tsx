@@ -1,5 +1,6 @@
+import { Button } from '@/components'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { Button, Text, XStack } from 'tamagui'
+import { XStack } from 'tamagui'
 
 export interface EventVoxCardProps {
   onSubscribe?: () => void
@@ -24,22 +25,16 @@ const EventCard = ({ payload, onSubscribe, onShow }: EventVoxCardProps) => {
       <VoxCard.Location location={payload.location} />
       <VoxCard.Author author={payload.author} />
       <XStack justifyContent="space-between">
-        <Button size="$2.5" backgroundColor="$white1" borderWidth="$1" paddingHorizontal="$4" borderColor="$gray3" onPress={onShow}>
-          <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8">
-            Voir l'événement
-          </Text>
+        <Button variant="outlined" onPress={onShow}>
+          <Button.Text>Voir l'événement</Button.Text>
         </Button>
         {payload.isSubscribed ? (
-          <Button size="$2.5" chromeless paddingHorizontal="$4" onPress={onSubscribe}>
-            <Text fontFamily="$PublicSans" fontWeight="$6" color="$blue6">
-              Inscrit(e)
-            </Text>
+          <Button variant="text" onPress={onSubscribe}>
+            <Button.Text color="$blue6">Inscrit(e)</Button.Text>
           </Button>
         ) : (
-          <Button size="$2.5" backgroundColor="$gray8" paddingHorizontal="$4" onPress={onSubscribe}>
-            <Text fontFamily="$PublicSans" fontWeight="$6" color="$white1">
-              M'inscrire
-            </Text>
+          <Button variant="contained" onPress={onSubscribe}>
+            <Button.Text>M'inscrire</Button.Text>
           </Button>
         )}
       </XStack>

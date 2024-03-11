@@ -1,5 +1,6 @@
+import { Button } from '@/components'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { Button, Text, XStack } from 'tamagui'
+import { XStack } from 'tamagui'
 
 export interface NewsVoxCardProps {
   onShare?: () => void
@@ -23,16 +24,12 @@ const NewsCard = ({ payload, onShare, onShow }: NewsVoxCardProps) => {
       <VoxCard.Description>{payload.description}</VoxCard.Description>
       <VoxCard.Author author={payload.author} />
       <XStack justifyContent="space-between">
-        <Button size="$2.5" backgroundColor="$white1" borderWidth="$1" paddingHorizontal="$4" borderColor="$gray3" onPress={onShare}>
-          <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8">
-            Partager
-          </Text>
+        <Button variant="outlined" onPress={onShare}>
+          <Button.Text>Partager</Button.Text>
         </Button>
 
-        <Button size="$2.5" backgroundColor="$gray8" paddingHorizontal="$4" onPress={onShow}>
-          <Text fontFamily="$PublicSans" fontWeight="$6" color="$white1">
-            Lire en entier
-          </Text>
+        <Button variant="contained" onPress={onShow}>
+          <Button.Text>Lire en entier</Button.Text>
         </Button>
       </XStack>
     </VoxCard>
