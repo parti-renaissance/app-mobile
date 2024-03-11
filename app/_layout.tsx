@@ -1,14 +1,11 @@
 import { SessionProvider } from '@/ctx'
 import { headerBlank } from '@/styles/navigationAppearance'
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
 import { useColorScheme } from 'react-native'
 import TamaguiProvider from '@/tamagui/provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Constants from 'expo-constants'
 import * as Sentry from '@sentry/react-native'
 import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
@@ -33,6 +30,7 @@ SplashScreen.preventAutoHideAsync()
 
 function Root() {
   const colorScheme = useColorScheme()
+    const queryClient = new QueryClient()
   // Set up the auth context and render our layout inside of it.
   const navigationRef = useNavigationContainerRef()
 
@@ -42,25 +40,26 @@ function Root() {
     }
   }, [navigationRef]);
 
+
+
   return (
-    <TamaguiProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <SessionProvider>
-          <Stack>
-            <Stack.Screen
-              name="(auth)/onboarding"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
-            <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-            <Stack.Screen name="(auth)/code-phone-picker" options={{
+    <QueryClientProvider client={queryClient}>
+      <TamaguiProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <SessionProvider>
+            <Stack>
+              <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
+              <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
+              <Stack.Screen name="(auth)/code-phone-picker" options={{
           presentation: 'fullScreenModal',
         }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-        </SessionProvider>
-      </ThemeProvider>
-    </TamaguiProvider>
+            </Stack>
+          </SessionProvider>
+        </ThemeProvider>
+      </TamaguiProvider>
+    </QueryClientProvider>
   )
 }
 
