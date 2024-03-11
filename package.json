@@ -113,7 +113,7 @@
     "@types/react-native-htmlview": "0.12.3",
     "@types/react-native-loading-spinner-overlay": "0.5.2",
     "@types/react-native-push-notification": "5.0.5",
-    "@types/react-native-snap-carousel": "3.8.4",
+    "@types/react-native-snap-carousel": "3.8.11",
     "@types/react-test-renderer": "^18.0.0",
     "@types/tinycolor2": "1.4.3",
     "@typescript-eslint/eslint-plugin": "6.10.0",
