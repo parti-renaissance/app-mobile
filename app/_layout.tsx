@@ -8,9 +8,8 @@ import {
 import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
 import { useColorScheme } from 'react-native'
-import { TamaguiProvider } from '@tamagui/core'
+import TamaguiProvider from '@/tamagui/provider'
 import Constants from 'expo-constants'
-import { config } from '../tamagui.config'
 import * as Sentry from '@sentry/react-native'
 import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
 import { useNavigationContainerRef } from 'expo-router';
@@ -44,7 +43,7 @@ function Root() {
   }, [navigationRef]);
 
   return (
-    <TamaguiProvider config={config} defaultTheme={'light'}>
+    <TamaguiProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <SessionProvider>
           <Stack>
