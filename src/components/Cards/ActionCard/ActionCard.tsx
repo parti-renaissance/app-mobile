@@ -1,5 +1,6 @@
+import { Button } from '@/components'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { Button, Text, XStack } from 'tamagui'
+import { XStack } from 'tamagui'
 
 export interface ActionVoxCardProps {
   onSubscribe?: () => void
@@ -22,22 +23,16 @@ const ActionCard = ({ payload, onSubscribe, onShow }: ActionVoxCardProps) => {
       <VoxCard.Attendees attendees={payload.attendees} />
       <VoxCard.Author author={payload.author} />
       <XStack justifyContent="space-between">
-        <Button size="$2.5" backgroundColor="$white1" borderWidth="$1" paddingHorizontal="$4" borderColor="$gray3" onPress={onShow}>
-          <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8">
-            Voir l'action
-          </Text>
+        <Button variant="outlined" onPress={onShow}>
+          <Button.Text>Voir l'action</Button.Text>
         </Button>
         {payload.isSubscribed ? (
-          <Button size="$2.5" chromeless paddingHorizontal="$4" onPress={onSubscribe}>
-            <Text fontFamily="$PublicSans" fontWeight="$6" color="$green8">
-              J'y participe
-            </Text>
+          <Button variant="text" onPress={onSubscribe}>
+            <Button.Text color="$green8">J'y participe</Button.Text>
           </Button>
         ) : (
-          <Button size="$2.5" backgroundColor="$gray8" paddingHorizontal="$4" onPress={onSubscribe}>
-            <Text fontFamily="$PublicSans" fontWeight="$6" color="$white1">
-              Je participe
-            </Text>
+          <Button variant="contained" onPress={onSubscribe}>
+            <Button.Text fontFamily="$PublicSans">Je participe</Button.Text>
           </Button>
         )}
       </XStack>
