@@ -35,15 +35,15 @@ const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
 export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardProps => {
   const type = tramformFeedItemType(feed.type)
   const author = {
-    role: feed.author || '',
-    name: feed.author || '',
-    title: feed.author || '',
+    role: 'Role data missing',
+    name: feed.author || 'Author not found',
+    title: 'title data missing',
     pictureLink: 'https://picsum.photos/200/200',
   }
   const location = {
-    city: feed.address || '',
-    postalCode: feed.address || '',
-    street: feed.address || '',
+    city: 'NotDataCity',
+    postalCode: '00000',
+    street: feed.address || '404 street not found',
   }
   const tag = tramformFeedItemTypeToTag(feed.type)
   switch (type) {
@@ -73,7 +73,8 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           image: feed.image || 'https://picsum.photos/600/244',
           isSubscribed: false,
           date: new Date(feed.begin_at),
-          location,
+          location: feed.media_type === 'online' ? undefined : location,
+          isOnline: feed.media_type === 'online',
           author,
         },
       }

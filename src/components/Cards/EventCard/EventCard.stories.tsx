@@ -36,6 +36,16 @@ export const EventNoImage = {
   },
 }
 
+export const EventOnline = {
+  args: {
+    payload: {
+      ...props.payload,
+      location: undefined,
+      isOnline: true,
+    },
+  },
+}
+
 export const EventSubscribed = {
   args: {
     payload: {
