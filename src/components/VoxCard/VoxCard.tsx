@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react'
 import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
-import { CalendarDays, MapPin } from '@tamagui/lucide-icons'
+import { CalendarDays, MapPin, Video } from '@tamagui/lucide-icons'
 import { Image, styled, Card as TCard, Text, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
 const CardFrame = styled(YStack, {
@@ -68,7 +68,8 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
           {location.city} {location.postalCode}
         </Text>
         <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray6" lineHeight="$2" fontSize="$1">
-          {'  '}. {location.street}
+          {' '}
+          . {location.street}
         </Text>
       </Text>
     </XStack>
@@ -161,6 +162,17 @@ const VoxCardDescrition = ({ children }: VoxCardDescritionProps) => {
   )
 }
 
+const VoxCardVisio = () => {
+  return (
+    <XStack gap="$2" alignItems="center">
+      <Video size="$1" />
+      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+        Visioconférence
+      </Text>
+    </XStack>
+  )
+}
+
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Chip: VoxCardChip,
   Title: VoxCardTitle,
@@ -170,6 +182,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Author: VoxCardAuthor,
   Attendees: VoxCardAttendees,
   Description: VoxCardDescrition,
+  Visio: VoxCardVisio,
 })
 
 export default VoxCard

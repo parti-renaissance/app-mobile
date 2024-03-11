@@ -2,17 +2,28 @@ import { Button } from '@/components'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
 
+type VoxCardBasePayload = {
+  title: string
+  tag: string
+  image?: string
+  isSubscribed: boolean
+  isOnline: boolean
+  location?: VoxCardLocationProps['location']
+} & VoxCardDateProps &
+  VoxCardAuthorProps
+
 export interface EventVoxCardProps {
   onSubscribe?: () => void
   onShow?: () => void
-  payload: {
-    title: string
-    tag: string
-    image?: string
-    isSubscribed: boolean
-  } & VoxCardDateProps &
-    VoxCardLocationProps &
-    VoxCardAuthorProps
+  payload:
+    | VoxCardBasePayload
+    | ({
+        isOnline: undefined | false
+      } & VoxCardBasePayload &
+        VoxCardLocationProps)
+    | ({
+        isOnline: true
+      } & VoxCardBasePayload)
 }
 
 const EventCard = ({ payload, onSubscribe, onShow }: EventVoxCardProps) => {
@@ -22,7 +33,7 @@ const EventCard = ({ payload, onSubscribe, onShow }: EventVoxCardProps) => {
       <VoxCard.Title>{payload.title}</VoxCard.Title>
       {payload.image && <VoxCard.Image image={payload.image} />}
       <VoxCard.Date date={payload.date} />
-      <VoxCard.Location location={payload.location} />
+      {payload.isOnline ? <VoxCard.Visio /> : <VoxCard.Location location={payload.location} />}
       <VoxCard.Author author={payload.author} />
       <XStack justifyContent="space-between">
         <Button variant="outlined" onPress={onShow}>
