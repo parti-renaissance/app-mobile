@@ -52,7 +52,8 @@ To be able to run the application on iOS and Android:
 ## Web info
 
 - use web folder for static files, vite generates the files in the public folder
-- `bun build:web` to build the static files like service worker, manifest, etc
+- `bun build:worker` to build the static files like service worker, manifest, etc
+- `bun web:deploy` to deploy the web app to the server
 
 ## Contribution
 
