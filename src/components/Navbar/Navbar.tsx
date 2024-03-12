@@ -80,13 +80,13 @@ const NavBar: React.FC = () => {
       </Stack>
 
       <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
-        <Stack gap={2} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
+        <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
           <Text fontFamily={'$PublicSans'} color={'gray8'} fontWeight={'500'}>
             {profile?.first_name} {profile?.last_name}
           </Text>
 
           {/* TODO: add the personal code */}
-          <Text fontFamily={'$PublicSans'} fontSize={12} color={'gray5'}>
+          <Text fontFamily={'$PublicSans'} fontSize={12} color={'$gray5'}>
             #000000
           </Text>
         </Stack>
