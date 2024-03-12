@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
         {ROUTES.map((route) => {
           const focused = pathname.replace('/', '') === route.name
           const colorOpacity = opacityToHexCode(route.gradiant[0], 0.09)
-          const Icon = () => <route.icon size={28} color={focused ? route.gradiant[0] : '#637381'} />
+          const Icon = () => <route.icon size={28} color={focused ? route.gradiant[1] : '#637381'} />
 
           return (
             <Link
@@ -69,7 +69,7 @@ const NavBar: React.FC = () => {
                 </Button.Icon>
 
                 {media.gtMd && (
-                  <Button.Text color={focused ? route.gradiant[0] : 'gray8'} fontWeight={'500'}>
+                  <Button.Text color={focused ? route.gradiant[1] : 'gray8'} fontWeight={'500'}>
                     {route.screenName}
                   </Button.Text>
                 )}
