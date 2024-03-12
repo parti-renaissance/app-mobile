@@ -1,13 +1,14 @@
 // first fetch profile,
 import { memo } from 'react'
 import { FlatList } from 'react-native'
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignNineJune'
 import { FeedCard } from '@/components/Cards'
 import ApiService from '@/data/network/ApiService'
 import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { getToken, useTheme, YStack } from 'tamagui'
+import { getToken, ScrollView, useTheme, XStack, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
@@ -45,17 +46,23 @@ const HomeFeedList = () => {
   }
 
   return (
-    <YStack bg="$gray2">
+    <ScrollView bg="$gray2">
       <FlatList
         style={{ paddingTop: getToken('$space.3') }}
         contentContainerStyle={{ gap: getToken('$space.3') }}
+        ListHeaderComponent={() => (
+          <XStack paddingHorizontal="$4" paddingVertical="$5" alignItems="center" bg="$gray2">
+            <EuCampaignIllustration />
+          </XStack>
+        )}
+        scrollEnabled={false}
         data={feedData}
         renderItem={renderFeedItem}
         keyExtractor={(item) => item.objectID}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
       />
-    </YStack>
+    </ScrollView>
   )
 }
 
