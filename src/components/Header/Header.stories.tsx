@@ -1,8 +1,12 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Header from './Header'
+
+const queryClient = new QueryClient()
 
 export default {
   title: 'Header',
   component: Header,
+  decorators: [(Story) => <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>],
 }
 
 export function Default() {
