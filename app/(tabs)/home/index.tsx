@@ -1,4 +1,4 @@
-import { Header, NavBar } from '@/components'
+import { Header } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
 import { Stack } from 'expo-router'
@@ -8,7 +8,7 @@ const HomeScreen: React.FC = () => (
   <>
     <Stack.Screen
       options={{
-        header: () => <Header />,
+        header: () => <Header hideLogo />,
       }}
     />
     <YStack flex={1}>
