@@ -8,7 +8,7 @@ import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjec
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { getToken, ScrollView, useTheme, XStack, YStack } from 'tamagui'
+import { getToken, ScrollView, Stack, Text, useTheme, XStack, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
@@ -46,23 +46,45 @@ const HomeFeedList = () => {
   }
 
   return (
-    <ScrollView bg="$gray2">
-      <FlatList
-        style={{ paddingTop: getToken('$space.3') }}
-        contentContainerStyle={{ gap: getToken('$space.3') }}
-        ListHeaderComponent={() => (
-          <XStack paddingHorizontal="$4" paddingVertical="$5" alignItems="center" bg="$gray2">
-            <EuCampaignIllustration />
-          </XStack>
-        )}
-        scrollEnabled={false}
-        data={feedData}
-        renderItem={renderFeedItem}
-        keyExtractor={(item) => item.objectID}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.5}
-      />
-    </ScrollView>
+    <YStack flex={1} backgroundColor={'white'} overflow="hidden">
+      <Stack flex={12} padding={2} margin={'$4'} gap={2}>
+        <Stack flexDirection="row" flex={1} gap={'$8'}>
+          <Stack flex={4} borderColor={'$gray3'} borderWidth={1}>
+            <Text>Profil wip</Text>
+          </Stack>
+
+          <Stack flex={8} borderColor={'$gray3'} borderWidth={1} backgroundColor={'$gray2'} padding={'$4'} height={'100%'}>
+            <Stack flexDirection="row" gap={8} height={'100%'}>
+              <Stack flex={2} gap={2} mt="$3" ml="$3">
+                <EuCampaignIllustration />
+              </Stack>
+
+              <Stack flex={6} gap={2} justifyContent="space-between" alignContent="center" alignItems="center" height={'100%'} overflow="scroll">
+                <ScrollView
+                  bg="$gray2"
+                  contentContainerStyle={{ gap: getToken('$space.3') }}
+                  style={{ paddingTop: getToken('$space.3') }}
+                  scrollIndicatorInsets={{ right: 1 }}
+                  maxWidth={600}
+                  overflow="scroll"
+                >
+                  <FlatList
+                    style={{ paddingTop: getToken('$space.3') }}
+                    contentContainerStyle={{ gap: getToken('$space.3') }}
+                    scrollEnabled={false}
+                    data={feedData}
+                    renderItem={renderFeedItem}
+                    keyExtractor={(item) => item.objectID}
+                    onEndReached={loadMore}
+                    onEndReachedThreshold={0.5}
+                  />
+                </ScrollView>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Stack>
+      </Stack>
+    </YStack>
   )
 }
 
