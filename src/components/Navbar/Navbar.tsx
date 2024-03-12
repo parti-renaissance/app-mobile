@@ -36,7 +36,10 @@ const NavBar: React.FC = () => {
       height={82}
       paddingHorizontal={'$4'}
     >
-      <EuCampaignIllustration />
+      <Link href={'/home' as never}>
+        <EuCampaignIllustration />
+      </Link>
+
       <Stack flexDirection="row" gap={4}>
         {ROUTES.map((route) => {
           const focused = pathname.replace('/', '') === route.name
