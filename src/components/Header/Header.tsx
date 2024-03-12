@@ -1,17 +1,77 @@
 import { Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { useGetProfilObserver } from '@/hooks/useProfil'
-import { Avatar, getToken, YStack } from 'tamagui'
+import { Search, X } from '@tamagui/lucide-icons'
+import { Link } from 'expo-router'
+import { Avatar, Button, getToken, Stack, styled, YStack } from 'tamagui'
+
+export type HeaderProps = {
+  hideLogo?: boolean
+  hideAvatar?: boolean
+  onLogoPress?: () => void
+  onSearchPress?: () => void
+  onClosePress?: () => void
+  onAvatarPress?: () => void
+}
+
+const ButtonCircle = styled(Button, {
+  width: 46,
+  height: 46,
+  borderRadius: 100,
+  backgroundColor: '#fff',
+  borderWidth: 1,
+  borderColor: '$gray3',
+})
 
 /**
  * Header component for the app with declinaison for the pages
  */
-const Header = () => {
+const Header = (props: HeaderProps) => {
+  const { hideLogo = false, hideAvatar = false, onLogoPress, onAvatarPress, onClosePress, onSearchPress } = props
   const { data: profile } = useGetProfilObserver()
 
   if (Platform.OS === 'web') {
     return null
   }
+
+  const rightItems = [
+    {
+      name: 'profil',
+      label: 'Mon Profil',
+      show: true,
+      component: (
+        <Stack mt={'$1.5'}>
+          <Link href="/(tabs)/home/profile/" onPress={onAvatarPress}>
+            <Avatar circular size="$4" width={46} height={46}>
+              <Avatar.Image source={{ uri: 'https://picsum.photos/200/200', width: 200, height: 200 }} />
+              <Avatar.Fallback bc="$gray3" />
+            </Avatar>
+          </Link>
+        </Stack>
+      ),
+    },
+    {
+      name: 'search',
+      label: 'Rechercher',
+      show: onSearchPress !== undefined,
+      component: (
+        <ButtonCircle onPress={onSearchPress}>
+          <X color={'$gray5'} size={24} />
+        </ButtonCircle>
+      ),
+    },
+    {
+      name: 'close',
+      label: 'Fermer',
+      show: onClosePress !== undefined,
+      component: (
+        <ButtonCircle onPress={onClosePress}>
+          <Search color={'$gray5'} size={24} />
+        </ButtonCircle>
+      ),
+    },
+  ]
 
   return (
     <SafeAreaView
@@ -20,11 +80,21 @@ const Header = () => {
         backgroundColor: getToken('$white1'),
       }}
     >
-      <YStack justifyContent="center" p="$4.5">
-        <Avatar circular size="$4">
-          <Avatar.Image source={{ uri: 'https://picsum.photos/200/200', width: 200, height: 200 }} />
-          <Avatar.Fallback bc="$gray3" />
-        </Avatar>
+      <YStack
+        justifyContent={rightItems.filter((item) => item.show).length > 0 ? 'space-between' : 'flex-start'}
+        p="$4.5"
+        flexDirection="row"
+        alignItems="center"
+      >
+        {!hideLogo && (
+          <Link href="/(tabs)/home/" onPress={onLogoPress}>
+            <EuCampaignIllustration />
+          </Link>
+        )}
+
+        <Stack gap={'$3'} flexDirection="row">
+          {rightItems.filter((item) => item.show).map((item) => item.component)}
+        </Stack>
       </YStack>
     </SafeAreaView>
   )
