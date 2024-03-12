@@ -3,16 +3,55 @@ import { headerBlank } from '@/styles/navigationAppearance'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
+import { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import TamaguiProvider from '@/tamagui/provider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Constants from 'expo-constants'
+import { useFonts } from 'expo-font'
 
 SplashScreen.preventAutoHideAsync()
 
 function Root() {
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
+
+  const [loaded] = useFonts({
+    'Maax-Bold': require('../assets/fonts/Maax-Bold.ttf'),
+    'Maax-Medium': require('../assets/fonts/Maax-Medium.ttf'),
+    'Maax-Mediumitalic': require('../assets/fonts/Maax-Mediumitalic.ttf'),
+    'Roboto-Italic': require('../assets/fonts/Roboto-Italic.ttf'),
+    'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
+    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
+    'PublicSans-Black': require('../assets/fonts/PublicSans/PublicSans-Black.ttf'),
+    'PublicSans-BlackItalic': require('../assets/fonts/PublicSans/PublicSans-BlackItalic.ttf'),
+    'PublicSans-Bold': require('../assets/fonts/PublicSans/PublicSans-Bold.ttf'),
+    'PublicSans-BoldItalic': require('../assets/fonts/PublicSans/PublicSans-BoldItalic.ttf'),
+    'PublicSans-ExtraBold': require('../assets/fonts/PublicSans/PublicSans-ExtraBold.ttf'),
+    'PublicSans-ExtraBoldItalic': require('../assets/fonts/PublicSans/PublicSans-ExtraBoldItalic.ttf'),
+    'PublicSans-ExtraLight': require('../assets/fonts/PublicSans/PublicSans-ExtraLight.ttf'),
+    'PublicSans-ExtraLightItalic': require('../assets/fonts/PublicSans/PublicSans-ExtraLightItalic.ttf'),
+    'PublicSans-Light': require('../assets/fonts/PublicSans/PublicSans-Light.ttf'),
+    'PublicSans-LightItalic': require('../assets/fonts/PublicSans/PublicSans-LightItalic.ttf'),
+    'PublicSans-Medium': require('../assets/fonts/PublicSans/PublicSans-Medium.ttf'),
+    'PublicSans-MediumItalic': require('../assets/fonts/PublicSans/PublicSans-MediumItalic.ttf'),
+    'PublicSans-Regular': require('../assets/fonts/PublicSans/PublicSans-Regular.ttf'),
+    'PublicSans-Italic': require('../assets/fonts/PublicSans/PublicSans-Italic.ttf'),
+    'PublicSans-SemiBold': require('../assets/fonts/PublicSans/PublicSans-SemiBold.ttf'),
+    'PublicSans-SemiBoldItalic': require('../assets/fonts/PublicSans/PublicSans-SemiBoldItalic.ttf'),
+    'PublicSans-Thin': require('../assets/fonts/PublicSans/PublicSans-Thin.ttf'),
+    'PublicSans-ThinItalic': require('../assets/fonts/PublicSans/PublicSans-ThinItalic.ttf'),
+  })
+
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [loaded])
+
+  if (!loaded) {
+    return null
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
