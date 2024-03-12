@@ -1,6 +1,6 @@
 import { config as configBase } from '@tamagui/config/v3'
 import { createTamagui } from 'tamagui'
-import { themes } from 'themes'
+import { themes } from './themes'
 
 export const config = createTamagui({ ...configBase, themes })
 
