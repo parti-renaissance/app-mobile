@@ -34,7 +34,8 @@ export const Maax = createFont({
 })
 
 export const PublicSans = createFont({
-  family: 'Public Sans',
+  family: 'PublicSans-Regular',
+  defaultWeight: 400,
   weight: {
     1: 100,
     2: 200,
@@ -74,7 +75,10 @@ export const PublicSans = createFont({
     500: { normal: 'PublicSans-Medium', italic: 'PublicSans-MediumItalic' },
     600: { normal: 'PublicSans-SemiBold', italic: 'PublicSans-SemiBoldItalic' },
     700: { normal: 'PublicSans-Bold', italic: 'PublicSans-BoldItalic' },
-    800: { normal: 'PublicSans-ExtraBold', italic: 'PublicSans-ExtraBoldItalic' },
+    800: {
+      normal: 'PublicSans-ExtraBold',
+      italic: 'PublicSans-ExtraBoldItalic',
+    },
     900: { normal: 'PublicSans-Black', italic: 'PublicSans-BlackItalic' },
   },
 })
