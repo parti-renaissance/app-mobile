@@ -1,8 +1,8 @@
 import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { useGetProfilObserver } from '@/hooks/useProfil'
-import { ROUTES } from '@/navigation/Navigator'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
+import { ROUTES } from 'app/routes'
 import { Link, usePathname } from 'expo-router'
 import { Avatar, Button, Stack, styled, Text, useMedia, View } from 'tamagui'
 
