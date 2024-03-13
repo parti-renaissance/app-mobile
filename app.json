@@ -49,7 +49,8 @@
           "fonts": [
             "./assets/fonts/Value-Bold.ttf",
             "./assets/fonts/Value-Medium.ttf",
-            "./assets/fonts/Value-Mediumitalic.ttf",
+            "./assets/fonts/Value-MediumItalic.ttf",
+            "./assets/fonts/Value-Regular.ttf",
             "./assets/fonts/SharpGrotesk-SemiBold.ttf"
           ]
         }

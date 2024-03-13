@@ -18,7 +18,7 @@ const caption2FontSize = 11
 const robotoRegular = 'Value-Regular'
 const robotoMedium = 'Value-Medium'
 const maaxMedium = 'Value-Medium'
-const maaxMediumItalic = 'Value-Mediumitalic'
+const maaxMediumItalic = 'Value-MediumItalic'
 const maaxBold = 'Value-Bold'
 
 export const footnote: TextStyle = {
