@@ -1,14 +1,14 @@
-import type { IconProps } from '@tamagui/helpers-icon'
-import { Calendar as CalendarSvg, Home as HomeSvg, Inbox as InboxSvg, Sparkle as SparkleSvg, Zap as ZapSvg } from '@tamagui/lucide-icons'
+import {
+  Calendar as CalendarSvg,
+  Home as HomeSvg,
+  Inbox as InboxSvg,
+  Sparkle as SparkleSvg,
+  Zap as ZapSvg,
+} from '@tamagui/lucide-icons'
 
-type TabRoute = {
-  name: string
-  screenName: string
-  icon: React.NamedExoticComponent<IconProps>
-  gradiant?: string[]
-}
+export type TabRoute = (typeof ROUTES)[number]
 
-export const ROUTES: TabRoute[] = [
+export const ROUTES = [
   {
     name: 'home',
     screenName: 'Fil',
@@ -39,4 +39,4 @@ export const ROUTES: TabRoute[] = [
     icon: InboxSvg,
     gradiant: ['#E461E8', '#8B2DBF'],
   },
-]
+] as const

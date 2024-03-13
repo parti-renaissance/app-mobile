@@ -7,8 +7,9 @@ import ApiService from '@/data/network/ApiService'
 import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
-import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { getToken, ScrollView, Stack, Text, useTheme, XStack, YStack } from 'tamagui'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
+import { getToken, ScrollView, Stack, Text, useMedia, YStack } from 'tamagui'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
@@ -24,6 +25,7 @@ const fetchTimelineFeed = async (pageParam: number, zipcode?: string) =>
 
 const HomeFeedList = () => {
   const { data: profile } = useGetProfilObserver()
+  const media = useMedia()
 
   const {
     data: paginatedFeed,
@@ -46,46 +48,34 @@ const HomeFeedList = () => {
   }
 
   return (
-    <YStack flex={1} backgroundColor={'white'} overflow="hidden">
-      <Stack flex={12} padding={2} margin={'$4'} gap={2}>
-        <Stack flexDirection="row" flex={1} gap={'$8'}>
-          <Stack flex={4} borderColor={'$gray3'} borderWidth={1}>
-            <Text>Profil wip</Text>
-          </Stack>
-
-          <Stack flex={8} borderColor={'$gray3'} borderWidth={1} backgroundColor={'$gray2'} padding={'$4'} height={'100%'}>
-            <Stack flexDirection="row" gap={8} height={'100%'}>
-              <Stack flex={2} gap={2} mt="$3" ml="$3">
-                <EuCampaignIllustration />
-              </Stack>
-
-              <Stack flex={6} gap={2} justifyContent="space-between" alignContent="center" alignItems="center" height={'100%'} overflow="scroll">
-                <ScrollView
-                  bg="$gray2"
-                  contentContainerStyle={{ gap: getToken('$space.3') }}
-                  style={{ paddingTop: getToken('$space.3') }}
-                  scrollIndicatorInsets={{ right: 1 }}
-                  maxWidth={600}
-                  overflow="scroll"
-                >
-                  <FlatList
-                    style={{ paddingTop: getToken('$space.3') }}
-                    contentContainerStyle={{ gap: getToken('$space.3') }}
-                    scrollEnabled={false}
-                    data={feedData}
-                    renderItem={renderFeedItem}
-                    keyExtractor={(item) => item.objectID}
-                    onEndReached={loadMore}
-                    onEndReachedThreshold={0.5}
-                  />
-                </ScrollView>
-              </Stack>
-            </Stack>
-          </Stack>
+    <PageLayout sidebar={<Text>Test</Text>}>
+      <Stack $gtSm={{ flexDirection: 'row', height: '100%', gap: 8, overflow: 'scroll' }} height={'100vh'}>
+        {media.gtSm && (
+          <YStack flex={2} gap={2} mt="$3">
+            <EuCampaignIllustration />
+          </YStack>
+        )}
+        <Stack $gtSm={{ flex: 6 }} gap={2} alignContent="center" height={'100'} alignItems="center" overflow="scroll">
+          <FlatList
+            style={{ paddingTop: getToken('$space.3'), maxWidth: 440 }}
+            ListHeaderComponent={
+              !media.gtSm ? (
+                <YStack flex={2} gap={2} p="$3">
+                  <EuCampaignIllustration />
+                </YStack>
+              ) : null
+            }
+            contentContainerStyle={{ gap: getToken('$space.3') }}
+            data={feedData}
+            scrollEnabled={!media.gtSm}
+            renderItem={renderFeedItem}
+            keyExtractor={(item) => item.objectID}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+          />
         </Stack>
       </Stack>
-    </YStack>
+    </PageLayout>
   )
 }
-
 export default HomeFeedList

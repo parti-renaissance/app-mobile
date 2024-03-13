@@ -51,7 +51,7 @@ const NavBar: React.FC = () => {
             return (
               <Link
                 key={route.name}
-                href={`/${route.name}` as never}
+                href={`/(tabs)/${route.name}`}
                 onPress={() => {
                   Analytics.logNavBarItemSelected(route.screenName as AnalyticsScreens)
                 }}
