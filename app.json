@@ -47,12 +47,10 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Maax-Bold.ttf",
-            "./assets/fonts/Maax-Medium.ttf",
-            "./assets/fonts/Maax-Mediumitalic.ttf",
-            "./assets/fonts/Roboto-Italic.ttf",
-            "./assets/fonts/Roboto-Medium.ttf",
-            "./assets/fonts/Roboto-Regular.ttf"
+            "./assets/fonts/Value-Bold.ttf",
+            "./assets/fonts/Value-Medium.ttf",
+            "./assets/fonts/Value-Mediumitalic.ttf",
+            "./assets/fonts/SharpGrotesk-SemiBold.ttf"
           ]
         }
       ],

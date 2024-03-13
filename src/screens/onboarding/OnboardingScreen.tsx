@@ -39,19 +39,19 @@ const OnboardingScreen = () => {
             barStyle="light-content"
           />
           <Text style={styles.title} numberOfLines={2} allowFontScaling={false}>
-            {viewModel.heading}
+            {`Le 9 juin,\nnous avons`}
           </Text>
           <Text
             style={styles.titleRest}
             numberOfLines={2}
             allowFontScaling={false}
           >
-            {viewModel.title}
+            { `Besoin\nd'Europe`}
           </Text>
           <FlexibleVerticalSpacer minSpacing={Spacing.mediumMargin} />
-          <Text style={styles.description}>
+          {/* <Text style={styles.description}>
             {i18n.t('onboarding.description')}
-          </Text>
+          </Text> */}
           <VerticalSpacer spacing={Spacing.mediumMargin} />
           <PrimaryButton
             style={styles.button}
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Typography.largeTitle,
-    color: Colors.white,
+    color: Colors.primaryColor,
     marginTop: Spacing.largeMargin,
   },
   titleRest: {

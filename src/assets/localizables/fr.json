@@ -63,7 +63,7 @@
       },
       "profile": {
         "header": "Afin d’améliorer l’analyse des réponses, vous pouvez renseigner le profil de votre interlocuteur. Toutes ces informations sont facultatives.",
-        "gender_section": "Quel est son genre ?",
+        "gender_section": "Quelle est sa civilité ?",
         "gender_male": "Masculin",
         "gender_female": "Féminin",
         "gender_other": "Autre",
@@ -242,7 +242,7 @@
       "section_social": "Vos identifiants réseaux sociaux (optionnel)",
       "first_name": "Prénom",
       "last_name": "Nom",
-      "gender": "Genre",
+      "gender": "Civilité",
       "gender_other": "Identité de genre",
       "birthdate": "Date de naissance",
       "nationality": "Nationalité",
@@ -583,7 +583,7 @@
         "gcu": {
           "text": "Conditions générales d'utilisation",
           "link": {
-            "text": "J’accepte les conditions générales d’utilisation de l’application Besoin d'Europe.",
+            "text": "J’accepte les conditions générales d’utilisation.",
             "url": "https://cadre.parti-renaissance.fr/mentions-legales-mobile"
           }
         }

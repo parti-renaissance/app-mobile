@@ -80,7 +80,7 @@ const ProfileAuthenticated: FC<Props> = ({
           <ProfilePollsCompleted viewModel={viewModel.polls} />
         </View>
         <ProfileSettingsHeader title={i18n.t('profile.menu.account')} />
-        <ProfileSettingsCard
+        {/* <ProfileSettingsCard
           style={styles.settingsCard}
           viewModel={{
             title: i18n.t('profile.menu.center_interest'),
@@ -88,7 +88,7 @@ const ProfileAuthenticated: FC<Props> = ({
             image: require('../../assets/images/imageCenterInterest.png'),
           }}
           onPress={openCenterOfInterest}
-        />
+        /> */}
         <ProfileSettingsCard
           style={styles.settingsCard}
           viewModel={{
