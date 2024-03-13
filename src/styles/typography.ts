@@ -1,8 +1,9 @@
-import { TextStyle } from 'react-native'
-import * as Colors from './colors'
-import * as Spacing from './spacing'
+import { TextStyle } from 'react-native';
+import * as Colors from './colors';
+import * as Spacing from './spacing';
 
-const largeTitleFontSize = 45
+
+const largeTitleFontSize = 40
 const titleFontSize = 28
 const title2FontSize = 22
 const title3FontSize = 20
@@ -14,11 +15,11 @@ const subheadFontSize = 15
 const caption1FontSize = 12
 const caption2FontSize = 11
 
-const robotoRegular = 'Roboto-Regular'
-const robotoMedium = 'Roboto-Medium'
-const maaxMedium = 'Maax-Medium'
-const maaxMediumItalic = 'Maax-Mediumitalic'
-const maaxBold = 'Maax-Bold'
+const robotoRegular = 'Value-Regular'
+const robotoMedium = 'Value-Medium'
+const maaxMedium = 'Value-Medium'
+const maaxMediumItalic = 'Value-MediumItalic'
+const maaxBold = 'Value-Bold'
 
 export const footnote: TextStyle = {
   fontSize: footnoteFontSize,
@@ -36,9 +37,9 @@ export const footnoteLight: TextStyle = {
 
 export const largeTitle: TextStyle = {
   fontSize: largeTitleFontSize,
-  fontFamily: maaxMedium,
+  fontFamily: 'SharpGrotesk-SemiBold25',
   color: Colors.darkText,
-  lineHeight: 46,
+  lineHeight: 41,
   letterSpacing: 0.56,
 }
 
@@ -49,7 +50,6 @@ export const highlightedLargeTitle: TextStyle = {
 
 export const largeTitleBold: TextStyle = {
   ...largeTitle,
-  fontFamily: maaxBold,
 }
 
 export const title: TextStyle = {

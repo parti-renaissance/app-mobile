@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PersonalInformationRepository from '../../data/PersonalInformationRepository'
@@ -11,18 +11,22 @@ import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import { CloseButton } from '../shared/NavigationHeaderButton'
 
+import { useLocalSearchParams, useNavigation, router } from 'expo-router'
+
 type ForgottenPasswordScreenProps =
   ForgottenPasswordModalNavigatorScreenProps<'ForgottenPassword'>
 
-const ForgottenPasswordScreen: FunctionComponent<
-  ForgottenPasswordScreenProps
-> = ({ route, navigation }) => {
+
+
+const ForgottenPasswordScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [email, setEmail] = useState(route.params.email ?? '')
+  const { email: _email} = useLocalSearchParams<{email:string}>()
+  const [email, setEmail] = useState(_email ?? '')
+  const navigation = useNavigation<ForgottenPasswordScreenProps['navigation']>()
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
+      headerLeft: () => <CloseButton onPress={() => router.back()} />,
       title: i18n.t('forgot_password.title'),
       headerTintColor: Colors.darkText,
     })
@@ -37,7 +41,7 @@ const ForgottenPasswordScreen: FunctionComponent<
     PersonalInformationRepository.getInstance()
       .resetPassword(email)
       .then(() => {
-        navigation.goBack()
+        router.back()
       })
       .catch((error) => AlertUtils.showNetworkAlert(error, onSubmit))
       .finally(() => setIsLoading(false))

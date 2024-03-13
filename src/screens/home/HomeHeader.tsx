@@ -31,17 +31,12 @@ const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
   const { width: screenWidth } = useWindowDimensions()
   return (
     <View style={style}>
-      <ImageBackground
-        source={viewModel.image}
-        style={{ minHeight: screenWidth / IMAGE_ASPECT_RATIO }}
-        resizeMode="cover"
-      >
+      <View style={{ minHeight: screenWidth / IMAGE_ASPECT_RATIO, backgroundColor: Colors.primaryColor }} >
         <View style={styles.banner}>
-          <Text style={styles.bannerHeading}>{viewModel.bannerHeading}</Text>
-          <Text style={styles.bannerTitle}>{viewModel.bannerTitle}</Text>
+          <Text style={styles.bannerHeading}>{`Le 9 juin,\nnous avons`}</Text>
+          <Text style={styles.bannerTitle}>{`Besoin\nd'Europe`}</Text>
         </View>
-      </ImageBackground>
-      <Flag style={styles.flag} />
+      </View>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
       <Text style={styles.title}>{viewModel.greeting}</Text>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
@@ -53,22 +48,21 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.title,
     color: Colors.darkText,
-    lineHeight: 34,
+    lineHeight: 30,
     marginHorizontal: Spacing.margin,
   },
   banner: {
     flex: 1,
-    backgroundColor: Colors.homeBannerOverlayBackground,
     padding: Spacing.mediumMargin,
     paddingTop: Spacing.extraLargeMargin,
     justifyContent: 'flex-end',
   },
   bannerHeading: {
-    ...Typography.homeBannerTitleItalic,
-    color: Colors.veryLightText,
+    ...Typography.largeTitle,
+    color: Colors.black,
   },
   bannerTitle: {
-    ...Typography.homeBannerTitle,
+    ...Typography.largeTitle,
     color: Colors.veryLightText,
   },
   flag: {

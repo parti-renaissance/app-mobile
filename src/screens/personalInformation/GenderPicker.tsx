@@ -42,10 +42,10 @@ const GenderPicker: FC<Props> = (props) => {
           label={i18n.t('personalinformation.gender_male')}
           value={Gender.Male}
         />
-        <Picker.Item
+        {/* <Picker.Item
           label={i18n.t('personalinformation.gender_unknown')}
           value={Gender.Other}
-        />
+        /> */}
       </Picker>
     </LabelInputContainer>
   )

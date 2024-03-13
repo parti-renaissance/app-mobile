@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "vox",
+    "name": "Besoin d'Europe",
     "slug": "vox",
     "scheme": "vox",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "owner": "parti-renaissance",
     "runtimeVersion": {
       "policy": "appVersion"
@@ -18,7 +18,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+       "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés.",
+        "NSLocationWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -42,17 +48,16 @@
     },
     "plugins": [
       "expo-router",
-      "sentry-expo",
+      ["@sentry/react-native/expo"],
       [
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Maax-Bold.ttf",
-            "./assets/fonts/Maax-Medium.ttf",
-            "./assets/fonts/Maax-Mediumitalic.ttf",
-            "./assets/fonts/Roboto-Italic.ttf",
-            "./assets/fonts/Roboto-Medium.ttf",
-            "./assets/fonts/Roboto-Regular.ttf"
+            "./assets/fonts/Value-Bold.ttf",
+            "./assets/fonts/Value-Medium.ttf",
+            "./assets/fonts/Value-MediumItalic.ttf",
+            "./assets/fonts/Value-Regular.ttf",
+            "./assets/fonts/SharpGrotesk-SemiBold25.ttf"
           ]
         }
       ],

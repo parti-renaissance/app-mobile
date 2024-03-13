@@ -32,9 +32,9 @@ const ProfileScreen = () => {
     const openPersonalInformation = () => {
       router.push('/(tabs)/home/profile/personal-information')
     }
-    const openCenterOfInterest = () => {
-      router.push('/(tabs)/home/profile/center-of-interest')
-    }
+    // const openCenterOfInterest = () => {
+    //   router.push('/(tabs)/home/profile/center-of-interest')
+    // }
     const viewModel = ProfileScreenViewModelMapper.map(
       content.profile,
       content.department,
@@ -42,7 +42,7 @@ const ProfileScreen = () => {
     return (
       <ProfileAuthenticated
         openPersonalInformation={openPersonalInformation}
-        openCenterOfInterest={openCenterOfInterest}
+        // openCenterOfInterest={openCenterOfInterest}
         openApplicationSettings={openApplicationSettings}
         openNotificationMenu={openNotificationMenu}
         viewModel={viewModel}

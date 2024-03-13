@@ -28,7 +28,7 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     config.android.googleServicesFile =
       process.env.GOOGLE_SERVICES_ANDROID_PATH_STAGING
     config.android.config.googleMaps.apiKey =
-      process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY_STAGIN
+      process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY_STAGING
   }
   return config
 }

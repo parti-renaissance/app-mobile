@@ -63,7 +63,7 @@
       },
       "profile": {
         "header": "Afin d’améliorer l’analyse des réponses, vous pouvez renseigner le profil de votre interlocuteur. Toutes ces informations sont facultatives.",
-        "gender_section": "Quel est son genre ?",
+        "gender_section": "Quelle est sa civilité ?",
         "gender_male": "Masculin",
         "gender_female": "Féminin",
         "gender_other": "Autre",
@@ -100,11 +100,11 @@
       }
     },
     "onboarding": {
-      "title": "Je m’engage\navec",
+      "title": "Besoin d'Europe\navec",
       "title_rest": "la majorité présidentielle",
       "description": "Agissez près de chez vous pour la réussite de notre projet et restez informés de l'actualité locale et nationale",
       "login": "Me connecter",
-      "signup": "Créer un compte Je m'engage",
+      "signup": "Créer un compte",
       "or": "- ou -",
       "login_lrem": "Me connecter avec"
     },
@@ -176,7 +176,7 @@
     "datacollect": { "accept": "Accepter" },
     "home": {
       "banner": {
-        "heading": "Je m'engage\navec",
+        "heading": "Besoin d'Europe\navec",
         "title": "la majorité présidentielle"
       },
       "greeting": "Bonjour",
@@ -184,7 +184,7 @@
       "footer": {
         "title": "Renaissance",
         "description": "Vous voulez contribuer à la transformation de Renaissance ? Rejoignez les plus de 400 000 adhérents de Renaissance. C'est facile, gratuit et 3 minutes suffiront.",
-        "button": "Je m'engage"
+        "button": "Besoin d'Europe"
       },
       "region_more": "En savoir plus",
       "news": { "date_pattern": "dd MMMM yyyy", "date_format": "le {{date}}" },
@@ -242,7 +242,7 @@
       "section_social": "Vos identifiants réseaux sociaux (optionnel)",
       "first_name": "Prénom",
       "last_name": "Nom",
-      "gender": "Genre",
+      "gender": "Civilité",
       "gender_other": "Identité de genre",
       "birthdate": "Date de naissance",
       "nationality": "Nationalité",
@@ -314,7 +314,7 @@
     },
     "notificationmenu": {
       "title": "Notifications",
-      "description": "Activez les notifications pour ne rien manquer sur Je m'engage ! ",
+      "description": "Activez les notifications pour ne rien manquer sur Besoin d'Europe ! ",
       "local": "Locales",
       "national": "Nationales"
     },
@@ -521,7 +521,7 @@
       "location": {
         "title": "Localisation nécessaire",
         "subtitle": "Activez votre localisation pour voir les adresses qui nécessitent un passage. ",
-        "cta": "Autoriser Je m’engage à accéder à votre localisation. "
+        "cta": "Autoriser Besoin d'Europe à accéder à votre localisation. "
       },
       "charter": { "title": "Charte", "accept": "J'ai lu et j'accepte" },
       "filter": {
@@ -583,7 +583,7 @@
         "gcu": {
           "text": "Conditions générales d'utilisation",
           "link": {
-            "text": "J’accepte les conditions générales d’utilisation de l’application Je m’engage.",
+            "text": "J’accepte les conditions générales d’utilisation.",
             "url": "https://cadre.parti-renaissance.fr/mentions-legales-mobile"
           }
         }

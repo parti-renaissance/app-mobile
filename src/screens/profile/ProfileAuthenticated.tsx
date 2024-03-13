@@ -13,11 +13,11 @@ import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import ProfileSettingsCard from './ProfileSettingsCard'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
-import { versionLabel } from './version'
+// import { versionLabel } from './version'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
-  openCenterOfInterest: () => void
+  // openCenterOfInterest: () => void
   openApplicationSettings: () => void
   openNotificationMenu: () => void
   viewModel: ProfileScreenViewModel
@@ -25,7 +25,7 @@ type Props = Readonly<{
 
 const ProfileAuthenticated: FC<Props> = ({
   openPersonalInformation,
-  openCenterOfInterest,
+  // openCenterOfInterest,
   openApplicationSettings,
   openNotificationMenu,
   viewModel,
@@ -83,15 +83,6 @@ const ProfileAuthenticated: FC<Props> = ({
         <ProfileSettingsCard
           style={styles.settingsCard}
           viewModel={{
-            title: i18n.t('profile.menu.center_interest'),
-            description: i18n.t('profile.menu.center_interest_description'),
-            image: require('../../assets/images/imageCenterInterest.png'),
-          }}
-          onPress={openCenterOfInterest}
-        />
-        <ProfileSettingsCard
-          style={styles.settingsCard}
-          viewModel={{
             title: i18n.t('profile.menu.personal_information'),
             description: i18n.t(
               'profile.menu.personal_information_description',
@@ -132,7 +123,7 @@ const ProfileAuthenticated: FC<Props> = ({
             textStyle={styles.removeAccountText}
             title={i18n.t('profile.remove_account')}
           />
-          <Text style={styles.version}>{versionLabel}</Text>
+          {/* <Text style={styles.version}>{versionLabel}</Text> */}
         </View>
       </ScrollView>
     </>
