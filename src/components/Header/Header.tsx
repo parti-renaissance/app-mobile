@@ -28,7 +28,14 @@ const ButtonCircle = styled(Button, {
  * Header component for the app with declinaison for the pages
  */
 const Header = (props: HeaderProps) => {
-  const { hideLogo = false, hideAvatar = false, onLogoPress, onAvatarPress, onClosePress, onSearchPress } = props
+  const {
+    hideLogo = false,
+    hideAvatar = false,
+    onLogoPress,
+    onAvatarPress,
+    onClosePress,
+    onSearchPress,
+  } = props
   const { data: profile } = useGetProfilObserver()
 
   if (Platform.OS === 'web') {
@@ -44,7 +51,13 @@ const Header = (props: HeaderProps) => {
         <Stack mt={'$1.5'}>
           <Link href="/(tabs)/home/profile/" onPress={onAvatarPress}>
             <Avatar circular size="$4" width={46} height={46}>
-              <Avatar.Image source={{ uri: 'https://picsum.photos/200/200', width: 200, height: 200 }} />
+              <Avatar.Image
+                source={{
+                  uri: 'https://picsum.photos/200/200',
+                  width: 200,
+                  height: 200,
+                }}
+              />
               <Avatar.Fallback bc="$gray3" />
             </Avatar>
           </Link>
@@ -81,7 +94,11 @@ const Header = (props: HeaderProps) => {
       }}
     >
       <YStack
-        justifyContent={rightItems.filter((item) => item.show).length > 0 ? 'space-between' : 'flex-start'}
+        justifyContent={
+          rightItems.filter((item) => item.show).length > 0
+            ? 'space-between'
+            : 'flex-start'
+        }
         p="$4.5"
         flexDirection="row"
         alignItems="center"
