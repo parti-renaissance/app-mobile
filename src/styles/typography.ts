@@ -37,10 +37,10 @@ export const footnoteLight: TextStyle = {
 
 export const largeTitle: TextStyle = {
   fontSize: largeTitleFontSize,
-  fontFamily: 'SharpGrotesk-SemiBold',
+  fontFamily: 'SharpGrotesk-SemiBold25',
   color: Colors.darkText,
   lineHeight: 41,
-  // letterSpacing: 0.56,
+  letterSpacing: 0.56,
 }
 
 export const highlightedLargeTitle: TextStyle = {

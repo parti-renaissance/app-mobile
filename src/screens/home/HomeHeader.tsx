@@ -34,7 +34,7 @@ const HomeHeader: FunctionComponent<Props> = ({ style, viewModel }) => {
       <View style={{ minHeight: screenWidth / IMAGE_ASPECT_RATIO, backgroundColor: Colors.primaryColor }} >
         <View style={styles.banner}>
           <Text style={styles.bannerHeading}>{`Le 9 juin,\nnous avons`}</Text>
-          <Text style={styles.bannerTitle}>{`Besoin,\nd'Europe`}</Text>
+          <Text style={styles.bannerTitle}>{`Besoin\nd'Europe`}</Text>
         </View>
       </View>
       <VerticalSpacer spacing={Spacing.mediumMargin} />
