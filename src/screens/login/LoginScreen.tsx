@@ -10,9 +10,11 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 
+import { router } from 'expo-router'
+
 type LoginScreenProps = OnboardingNavigatorScreenProps<'Login'>
 
-const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
+const LoginScreen: FC<LoginScreenProps> = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -107,8 +109,8 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
         style={styles.passwordLostButton}
         title={i18n.t('login.password_lost')}
         onPress={() => {
-          navigation.navigate('ForgottenPasswordModal', {
-            screen: 'ForgottenPassword',
+          router.push( {
+            pathname :'/forget-password',
             params: { email },
           })
         }}

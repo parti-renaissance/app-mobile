@@ -1,26 +1,22 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { PaginatedResult } from '../../core/entities/PaginatedResult'
-import {
-  TimelineFeedItem,
-  TimelineFeedItemActionCampaign,
-  TimelineFeedItemEvent,
-  TimelineFeedItemRetaliation,
-} from '../../core/entities/TimelineFeedItem'
-import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
-import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
-import { RetaliationService } from '../../data/RetaliationService'
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
-import { Analytics } from '../../utils/Analytics'
-import { useOnFocus } from '../../utils/useOnFocus.hook'
-import { ViewState } from '../shared/ViewState'
-import { ViewStateUtils } from '../shared/ViewStateUtils'
-import { HomeViewModel } from './HomeViewModel'
-import { HomeViewModelMapper } from './HomeViewModelMapper'
-import { useFetchHomeResources } from './useFetchHomeResources.hook'
-import { router } from 'expo-router'
-import { useCampaignStore } from '@/data/store/phoning'
-import { PhoningCampaign } from '@/core/entities/PhoningCampaign'
+import { useCallback, useEffect, useState } from 'react';
+import { PhoningCampaign } from '@/core/entities/PhoningCampaign';
+import { useCampaignStore } from '@/data/store/phoning';
+import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
+import { PaginatedResult } from '../../core/entities/PaginatedResult';
+import { TimelineFeedItem, TimelineFeedItemActionCampaign, TimelineFeedItemEvent, TimelineFeedItemRetaliation } from '../../core/entities/TimelineFeedItem';
+import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor';
+import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor';
+import { RetaliationService } from '../../data/RetaliationService';
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps';
+import { Analytics } from '../../utils/Analytics';
+import { useOnFocus } from '../../utils/useOnFocus.hook';
+import { ViewState } from '../shared/ViewState';
+import { ViewStateUtils } from '../shared/ViewStateUtils';
+import { HomeViewModel } from './HomeViewModel';
+import { HomeViewModelMapper } from './HomeViewModelMapper';
+import { useFetchHomeResources } from './useFetchHomeResources.hook';
+
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -159,7 +155,10 @@ export const useHomeScreen = (): {
       return
     }
     Analytics.logHomeEventOpen(item.title, item.category ?? '')
-    navigation.navigate('EventDetails', { eventId: item.uuid })
+    router.push({
+      pathname: '/home/modals/event-detail',
+      params: { id: eventId },
+    })
   }
 
   const findItemWithId = <T extends TimelineFeedItem['value']>(
