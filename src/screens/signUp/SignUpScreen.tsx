@@ -51,7 +51,7 @@ const getError = (violations: Array<FormViolation>, path: string): string => {
     }, '')
 }
 
-const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
+const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
   const inputAccessoryId = 'signUpInputAccessory'
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
@@ -77,12 +77,21 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
         address,
       }))
     })
+
+    DeviceEventEmitter.addListener('onCallingCodeSelected', (callingCode) => {
+      setSignUpFormData((state) => ({
+        ...state,
+        phoneCountryCode: callingCode,
+      }))
+    }
+    )
     LegalRepository.getInstance()
       .getDataProtectionRegulation()
       .then((newGdpr) => setGdpr(newGdpr.content))
 
     return () => {
       DeviceEventEmitter.removeAllListeners('onAddressSelected')
+      DeviceEventEmitter.removeAllListeners('onCallingCodeSelected')
     }
   }, [])
 
@@ -152,7 +161,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
         {
           text: i18n.t('sign_up.success_alert.action'),
           onPress: () => {
-            navigation.goBack()
+            router.back()
           },
         },
       ],
@@ -161,24 +170,10 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const onCallingCodePress = () => {
-    const countries = CountryRepository.getInstance().getCountries()
-    navigation.navigate('ListPickerModal', {
-      screen: 'ListPicker',
+    router.navigate({
+      pathname: '/home/profile/code-phone-picker',
       params: {
-        title: i18n.t('personalinformation.calling_code'),
-        items: CallingCodeListPikerViewModelMapper.map(countries),
         selectedItemId: signUpFormData.phoneCountryCode,
-        onItemSelected: (id) => {
-          const selectedCountry = countries.find((c) => c.code === id)
-          if (selectedCountry !== undefined) {
-            setSignUpFormData({
-              ...signUpFormData,
-              phoneCountryCode: selectedCountry.code,
-            })
-          }
-        },
-        displaySearch: true,
-        presentationType: 'modal',
       },
     })
   }

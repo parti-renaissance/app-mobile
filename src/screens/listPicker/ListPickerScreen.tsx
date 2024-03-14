@@ -9,28 +9,27 @@ import { ListPickerRow, ListPickerRowViewModel } from './ListPickerRow'
 import { SearchBar } from './SearchBar'
 import { useListPickerScreen } from './useListPickerScreen.hook'
 
+import { useNavigation } from 'expo-router'
+
 type ListPickerScreenProps = ListPickerModalNavigatorScreenProps<'ListPicker'>
 
+
+
 export const ListPickerScreen: FC<ListPickerScreenProps> = ({
-  route,
-  navigation,
+  title,
+  items,
+  selectedItemId,
+  onItemSelected,
+  displaySearch,
+  presentationType,
 }) => {
-  const {
-    title,
-    items,
-    selectedItemId,
-    onItemSelected,
-    displaySearch,
-    presentationType,
-  } = route.params
+
+  const navigation = useNavigation()
 
   useLayoutEffect(() => {
     const updateNavigationHeader = () => {
       navigation.setOptions({
-        headerLeft:
-          presentationType === 'modal'
-            ? () => <CloseButton onPress={() => navigation.goBack()} />
-            : undefined,
+        headerLeft: () => <CloseButton onPress={() => navigation.goBack()} />,
         title,
       })
     }

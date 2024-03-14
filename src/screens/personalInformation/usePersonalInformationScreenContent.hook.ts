@@ -1,22 +1,17 @@
-import { useCallback, useEffect, useState } from 'react'
-import { DeviceEventEmitter } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import {
-  DetailedProfile,
-  FormViolation,
-} from '../../core/entities/DetailedProfile'
-import { Gender } from '../../core/entities/UserProfile'
-import { ProfileFormError } from '../../core/errors'
-import { CountryRepository } from '../../data/CountryRepository'
-import ProfileRepository from '../../data/ProfileRepository'
-import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
-import i18n from '../../utils/i18n'
-import { AlertUtils } from '../shared/AlertUtils'
-import { CallingCodeListPikerViewModelMapper } from './CallingCodeListPickerViewModelMapper'
-import { NationalityListPikerViewModelMapper } from './NationalityListPikerViewModelMapper'
-import { PersonalInformationsForm } from './PersonalInformationsForm'
-import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
-import { router } from 'expo-router'
+import { useCallback, useEffect, useState } from 'react';
+import { DeviceEventEmitter } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
+import { DetailedProfile, FormViolation } from '../../core/entities/DetailedProfile';
+import { Gender } from '../../core/entities/UserProfile';
+import { ProfileFormError } from '../../core/errors';
+import { CountryRepository } from '../../data/CountryRepository';
+import ProfileRepository from '../../data/ProfileRepository';
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps';
+import { AlertUtils } from '../shared/AlertUtils';
+import { PersonalInformationsForm } from './PersonalInformationsForm';
+import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper';
+
 
 export const usePersonalInformationScreenContent = (
   profile: DetailedProfile,
@@ -56,8 +51,23 @@ export const usePersonalInformationScreenContent = (
       }))
     })
 
+    DeviceEventEmitter.addListener('onCallingCodeSelected', (callingCode) => {
+      updateForm((state) => ({
+        ...state,
+        phoneCountryCode: callingCode,
+      }))
+    })
+
+    DeviceEventEmitter.addListener('onNationalitySelected', (code) => {
+      updateForm((state) => ({
+        ...state,
+        countryCode: code,
+      }))
+    })
+
     return () => {
       DeviceEventEmitter.removeAllListeners('onAddressSelected')
+      DeviceEventEmitter.removeAllListeners('onCallingCodeSelected')
     }
   }, [])
 
@@ -116,21 +126,10 @@ export const usePersonalInformationScreenContent = (
   }
 
   const onNationalityPress = () => {
-    const countries = CountryRepository.getInstance().getCountries()
-    navigation.navigate('ListPickerModal', {
-      screen: 'ListPicker',
+    router.push({
+      pathname: '/(tabs)/home/profile/country-picker',
       params: {
-        title: i18n.t('personalinformation.nationality'),
-        items: NationalityListPikerViewModelMapper.map(countries),
         selectedItemId: form.countryCode,
-        onItemSelected: (id) => {
-          const selectedCountry = countries.find((c) => c.code === id)
-          if (selectedCountry !== undefined) {
-            updateForm({ ...form, countryCode: selectedCountry.code })
-          }
-        },
-        displaySearch: true,
-        presentationType: 'modal',
       },
     })
   }
@@ -144,26 +143,12 @@ export const usePersonalInformationScreenContent = (
   }
 
   const onCallingCodePress = () => {
-    const countries = CountryRepository.getInstance().getCountries()
-    navigation.navigate('ListPickerModal', {
-      screen: 'ListPicker',
-      params: {
-        title: i18n.t('personalinformation.calling_code'),
-        items: CallingCodeListPikerViewModelMapper.map(countries),
-        selectedItemId: form.phoneCountryCode,
-        onItemSelected: (id) => {
-          const selectedCountry = countries.find((c) => c.code === id)
-          if (selectedCountry !== undefined) {
-            updateForm({
-              ...form,
-              phoneCountryCode: selectedCountry.code,
-            })
-          }
+      router.push({
+        pathname: '/(tabs)/home/profile/code-phone-picker',
+        params: {
+          selectedItemId: form.phoneCountryCode,
         },
-        displaySearch: true,
-        presentationType: 'modal',
-      },
-    })
+      })
   }
 
   const onFacebookChange = (facebook: string) => {
