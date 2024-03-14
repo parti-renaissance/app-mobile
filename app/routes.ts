@@ -1,10 +1,4 @@
-import {
-  Calendar as CalendarSvg,
-  Home as HomeSvg,
-  Inbox as InboxSvg,
-  Sparkle as SparkleSvg,
-  Zap as ZapSvg,
-} from '@tamagui/lucide-icons'
+import { Calendar as CalendarSvg, Home as HomeSvg, Inbox as InboxSvg, Sparkle as SparkleSvg, Zap as ZapSvg } from '@tamagui/lucide-icons'
 
 export type TabRoute = (typeof ROUTES)[number]
 
@@ -16,7 +10,7 @@ export const ROUTES = [
     gradiant: ['#8D98FF', '#8050E6'],
   },
   {
-    name: 'news',
+    name: 'events',
     screenName: 'Événements',
     icon: CalendarSvg,
     gradiant: ['#52ABFB', '#0868E7'],
@@ -28,7 +22,7 @@ export const ROUTES = [
     gradiant: ['#68F984', '#06B827'],
   },
   {
-    name: 'events',
+    name: 'news',
     screenName: 'Ripostes',
     icon: SparkleSvg,
     gradiant: ['#FDA302', '#F7681E'],
