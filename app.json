@@ -18,7 +18,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+       "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés.",
+        "NSLocationWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés."
+      }
     },
     "android": {
       "adaptiveIcon": {

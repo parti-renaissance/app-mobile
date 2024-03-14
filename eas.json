@@ -10,12 +10,13 @@
     "staging": {
       "bun": "1.0.20",
       "distribution": "internal",
-      "channel": "staging"
+      "channel": "staging",
+      "autoIncrement": true
     },
     "production": {
       "bun": "1.0.20",
       "distribution": "store",
-      "channel": "master",
+      "channel": "main",
       "autoIncrement": true
     }
   }
