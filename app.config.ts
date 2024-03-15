@@ -1,4 +1,5 @@
-import { ExpoConfig, ConfigContext } from 'expo/config'
+import { ConfigContext, ExpoConfig } from 'expo/config';
+
 
 const baseIdentifier = 'fr.en-marche.jecoute'
 const basePackage = 'fr.en_marche.jecoute'
@@ -25,10 +26,9 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     config.ios.bundleIdentifier = `${baseIdentifier}.${profile}`
     config.android.package = `${basePackage}.${profile}`
     config.ios.googleServicesFile = process.env.GOOGLE_SERVICES_IOS_PATH_STAGING
-    config.android.googleServicesFile =
-      process.env.GOOGLE_SERVICES_ANDROID_PATH_STAGING
+      config.android.googleServicesFile = './config/google-services.json'
     config.android.config.googleMaps.apiKey =
-      process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY_STAGIN
+      process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY_STAGING
   }
   return config
 }
