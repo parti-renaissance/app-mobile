@@ -18,7 +18,7 @@ function createEnvsKeys(_platform, profile) {
   }, '')
 
   if (!envs.ENVIRONMENT) {
-    generatedConsts += `export const ENVIRONMENT = '${serverEnv.toLowerCase()}'\n`
+    generatedConsts += `export const ENVIRONMENT: 'production'|'staging' = '${serverEnv.toLowerCase()}'\n`
   }
 
   const generatedFile = 'src/config/env.ts'

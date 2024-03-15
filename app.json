@@ -48,7 +48,7 @@
     },
     "plugins": [
       "expo-router",
-      "sentry-expo",
+      ["@sentry/react-native/expo"],
       [
         "expo-font",
         {
