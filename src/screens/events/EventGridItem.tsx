@@ -1,12 +1,5 @@
 import React, { FC } from 'react'
-import {
-  Image,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
@@ -22,29 +15,16 @@ type Props = Readonly<{
 
 const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   return (
-    <CardView
-      style={[styles.card, style]}
-      backgroundColor={Colors.defaultBackground}
-    >
-      <TouchablePlatform
-        touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel.id)}
-      >
+    <CardView style={[styles.card, style]} backgroundColor={Colors.defaultBackground}>
+      <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={() => onEventSelected(viewModel.id)}>
         <View style={styles.container}>
-          {viewModel.imageUrl ? (
-            <Image source={{ uri: viewModel.imageUrl }} style={styles.image} />
-          ) : (
-            <View style={[styles.image, styles.imagePlaceholder]} />
-          )}
+          {viewModel.imageUrl ? <Image source={{ uri: viewModel.imageUrl }} style={styles.image} /> : <View style={[styles.image, styles.imagePlaceholder]} />}
           <View style={styles.leftColumn}>
             <TagView style={styles.tag}>{viewModel.tag}</TagView>
             <Text numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
               {viewModel.isOnline ? (
                 <View style={styles.webcamIconContainer}>
-                  <Image
-                    style={styles.webcamIcon}
-                    source={require('../../assets/images/videocam.png')}
-                  />
+                  <Image style={styles.webcamIcon} source={require('../../assets/images/videocam.png')} />
                 </View>
               ) : null}
               {viewModel.title}
@@ -60,10 +40,7 @@ const EventGridItem: FC<Props> = ({ viewModel, style, onEventSelected }) => {
               </View>
               {viewModel.isSubscribed ? (
                 <Text style={styles.subscribed}>
-                  <Image
-                    style={styles.checkIcon}
-                    source={require('../../assets/images/checkIcon.png')}
-                  />
+                  <Image style={styles.checkIcon} source={require('../../assets/images/checkIcon.png')} />
                   {'\n'}
                   {i18n.t('events.subscribed')}
                 </Text>

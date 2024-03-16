@@ -85,10 +85,10 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
 
 export type VoxCardAuthorProps = {
   author: {
-    role: string
-    name: string
-    title: string
-    pictureLink: string
+    role?: string
+    name?: string
+    title?: string
+    pictureLink?: string
   }
 }
 
