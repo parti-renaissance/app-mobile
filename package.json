@@ -14,8 +14,8 @@
     "ts:check": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "bun ./scripts/prepare-env.js",
-    "postinstall": "bun ./scripts/prepare-env.js && patch-package",
+    "prepare": "bun ./scripts/postinstall.js",
+    "postinstall": "bun ./scripts/postinstall.js && patch-package",
     "build:worker": "vite build --config vite.worker.config.js",
     "storybook-generate": "sb-rn-get-stories -js",
     "storybook": "cross-env STORYBOOK_ENABLED='true' expo start",
@@ -137,5 +137,7 @@
     "vite-tsconfig-paths": "^4.3.1"
   },
   "private": true,
-  "trustedDependencies": ["@sentry/cli"]
+  "trustedDependencies": [
+    "@sentry/cli"
+  ]
 }
