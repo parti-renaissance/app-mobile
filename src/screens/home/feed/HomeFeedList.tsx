@@ -8,7 +8,7 @@ import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjec
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { getToken, useMedia, YStack } from 'tamagui'
+import { getToken, Spinner, Text, useMedia, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
@@ -30,6 +30,8 @@ const HomeFeedList = () => {
     data: paginatedFeed,
     fetchNextPage,
     hasNextPage,
+    refetch,
+    isRefetching,
   } = useSuspenseInfiniteQuery({
     queryKey: ['feed'],
     queryFn: ({ pageParam }) => fetchTimelineFeed(pageParam, profile?.postal_code),
@@ -50,18 +52,29 @@ const HomeFeedList = () => {
     <FlatList
       style={{ paddingTop: getToken('$space.3'), width: '100%' }}
       ListHeaderComponent={
-        !media.gtSm ? (
-          <YStack flex={2} gap={2} p="$3">
-            <EuCampaignIllustration />
-          </YStack>
-        ) : null
+        <>
+          {!media.gtSm ? (
+            <YStack flex={2} gap={2} p="$3">
+              <EuCampaignIllustration />
+            </YStack>
+          ) : null}
+        </>
       }
       contentContainerStyle={{ gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
       data={feedData}
       renderItem={renderFeedItem}
       keyExtractor={(item) => item.objectID}
+      refreshing={isRefetching}
+      onRefresh={() => refetch()}
       onEndReached={loadMore}
       onEndReachedThreshold={0.5}
+      ListFooterComponent={
+        hasNextPage ? (
+          <YStack p="$3" pb="$6">
+            <Spinner size="large" />
+          </YStack>
+        ) : null
+      }
     />
   )
 }
