@@ -8,12 +8,11 @@ import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjec
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { getToken, ScrollView, Stack, Text, useMedia, YStack } from 'tamagui'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import { getToken, useMedia, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
-  return <FeedCard {...props} />
+  return <FeedCard {...props} $sm={{ width: '100%' }} $gtSm={{ width: 500 }} />
 })
 
 const renderFeedItem = ({ item }: { item: RestTimelineFeedItem }) => {
@@ -36,7 +35,7 @@ const HomeFeedList = () => {
     queryFn: ({ pageParam }) => fetchTimelineFeed(pageParam, profile?.postal_code),
     getNextPageParam: (lastPage) => (lastPage.nbPages > lastPage.page ? lastPage.page + 1 : null),
     getPreviousPageParam: (firstPage) => firstPage.page - 1,
-    initialPageParam: 1,
+    initialPageParam: 0,
   })
 
   const feedData = paginatedFeed?.pages.map((page) => page.hits).flat()
@@ -48,34 +47,22 @@ const HomeFeedList = () => {
   }
 
   return (
-    <PageLayout sidebar={<Text>Test</Text>}>
-      <Stack $gtSm={{ flexDirection: 'row', height: '100%', gap: 8, overflow: 'scroll' }} height={'100vh'}>
-        {media.gtSm && (
-          <YStack flex={2} gap={2} mt="$3">
+    <FlatList
+      style={{ paddingTop: getToken('$space.3'), width: '100%' }}
+      ListHeaderComponent={
+        !media.gtSm ? (
+          <YStack flex={2} gap={2} p="$3">
             <EuCampaignIllustration />
           </YStack>
-        )}
-        <Stack $gtSm={{ flex: 6 }} gap={2} alignContent="center" height={'100'} alignItems="center" overflow="scroll">
-          <FlatList
-            style={{ paddingTop: getToken('$space.3'), maxWidth: 440 }}
-            ListHeaderComponent={
-              !media.gtSm ? (
-                <YStack flex={2} gap={2} p="$3">
-                  <EuCampaignIllustration />
-                </YStack>
-              ) : null
-            }
-            contentContainerStyle={{ gap: getToken('$space.3') }}
-            data={feedData}
-            scrollEnabled={!media.gtSm}
-            renderItem={renderFeedItem}
-            keyExtractor={(item) => item.objectID}
-            onEndReached={loadMore}
-            onEndReachedThreshold={0.5}
-          />
-        </Stack>
-      </Stack>
-    </PageLayout>
+        ) : null
+      }
+      contentContainerStyle={{ gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
+      data={feedData}
+      renderItem={renderFeedItem}
+      keyExtractor={(item) => item.objectID}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.5}
+    />
   )
 }
 export default HomeFeedList

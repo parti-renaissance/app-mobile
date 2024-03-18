@@ -7,6 +7,8 @@ import { ROUTES } from 'app/routes'
 import { Stack as StackRouter, Tabs, usePathname } from 'expo-router'
 import { View } from 'tamagui'
 
+import { useMedia } from 'tamagui'
+
 const IS_WEB = Platform.OS === 'web'
 const TAB_BAR_HEIGTH = 60
 
@@ -18,12 +20,13 @@ const getScreenname = (route: string): AnalyticsScreens => {
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const pathname = usePathname()
+  const media = useMedia()
 
   React.useEffect(() => {
     Analytics.logNavBarItemSelected(getScreenname(pathname))
   }, [pathname])
 
-  if (IS_WEB) {
+  if (media.gtSm && IS_WEB) {
     return (
       <StackRouter
         screenOptions={{

@@ -10,22 +10,22 @@ const HomeFeedList = (props: LayoutPageProps) => {
   const media = useMedia()
   return (
     <YStack flex={1} backgroundColor={'white'} overflow="hidden">
-      <Stack $gtSm={{ flex: 12, padding: 2, margin: '$4', gap: 2 }}>
-        <Stack flexDirection="column" $gtSm={{ flexDirection: 'row', gap: '$8' }}>
-          {media.gtSm && props.sidebar && (
+      <Stack $gtSm={{ margin: '$4', gap: 2 }} flex={1}>
+        <Stack flexDirection="column" $gtSm={{ flexDirection: 'row', gap: '$4' }} flex={1}>
+          {media.gtLg && props.sidebar && (
             <Stack flex={4} borderColor={'$gray3'} borderWidth={1}>
               {props.sidebar}
             </Stack>
           )}
           <Stack
             borderColor={'$gray3'}
+            backgroundColor={'$gray2'}
+            $sm={{ flex: 1 }}
             $gtSm={{
               flex: 8,
               borderWidth: 1,
-              backgroundColor: '$gray2',
-              padding: '$4',
+              
             }}
-            height={'100%'}
           >
             {props.children}
           </Stack>
