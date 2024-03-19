@@ -15,7 +15,6 @@ const preview = {
 
   decorators: [
     (Story, { parameters }) => (
-      <TamaguiProvider>
         <View
           style={{
             flex: 1,
@@ -26,7 +25,6 @@ const preview = {
         >
           <Story />
         </View>
-      </TamaguiProvider>
     ),
   ],
 }

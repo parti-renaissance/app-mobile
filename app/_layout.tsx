@@ -38,13 +38,13 @@ const useHandleSplashScreen = (isReady: Boolean) => {
 function Root() {
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
-  const [isFontsLoaded] = useImportFont()
+  // const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
-  useHandleSplashScreen(isFontsLoaded)
+  // useHandleSplashScreen(isFontsLoaded)
 
-  if (!isFontsLoaded) {
-    return null
-  }
+  // if (!isFontsLoaded) {
+  //   return null
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -70,17 +70,5 @@ function Root() {
   )
 }
 
-/**
- * This is the entry point for your app with the following logic:
- * - If storybookEnabled is true, render Storybook
- * - Otherwise, render your app
- */
-let AppEntryPoint = Sentry.wrap(Root)
 
-if (Constants.expoConfig.extra.storybookEnabled === 'true') {
-  SplashScreen.hideAsync()
-
-  AppEntryPoint = require('../.storybook').default
-}
-
-export default AppEntryPoint
+export default Root
