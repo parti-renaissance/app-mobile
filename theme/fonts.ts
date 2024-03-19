@@ -34,18 +34,18 @@ export const Maax = createFont({
 })
 
 export const PublicSans = createFont({
-  family: 'PublicSans-Regular',
+  family: 'Public Sans',
   defaultWeight: 400,
   weight: {
-    1: 100,
-    2: 200,
-    3: 300,
-    4: 400,
-    5: 500,
-    6: 600,
-    7: 700,
-    8: 800,
-    9: 900,
+    1: '100',
+    2: '200',
+    3: '300',
+    4: '400',
+    5: '500',
+    6: '600',
+    7: '700',
+    8: '800',
+    9: '900',
   },
   size: {
     1: 12,
