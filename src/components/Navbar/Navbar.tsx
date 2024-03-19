@@ -1,8 +1,8 @@
 import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import { ROUTES } from '@/config/routes'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
-import { ROUTES } from '@/config/routes'
 import { Link, usePathname } from 'expo-router'
 import { Avatar, Button, Stack, styled, Text, useMedia, View } from 'tamagui'
 import ButtonCustom from '../Button'
@@ -44,9 +44,8 @@ const NavBar: React.FC = () => {
       {profile && (
         <Stack flexDirection="row" gap={4}>
           {ROUTES.map((route) => {
-            const focused = pathname.replace('/', '') === route.name
+            const focused = true
             const colorOpacity = opacityToHexCode(route.gradiant[0], 0.09)
-            const Icon = () => <route.icon size={28} color={focused ? route.gradiant[1] : '#637381'} />
 
             return (
               <Link
@@ -67,7 +66,7 @@ const NavBar: React.FC = () => {
                   }}
                 >
                   <Button.Icon scaleIcon={2}>
-                    <Icon />
+                    <route.icon size={28} active={true} />
                   </Button.Icon>
 
                   {media.gtMd && (

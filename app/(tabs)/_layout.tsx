@@ -2,12 +2,10 @@ import React from 'react'
 import { Platform, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Navbar/Navbar'
-import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
 import { ROUTES } from '@/config/routes'
+import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
 import { Stack as StackRouter, Tabs, usePathname } from 'expo-router'
-import { View } from 'tamagui'
-
-import { useMedia } from 'tamagui'
+import { useMedia, View } from 'tamagui'
 
 const IS_WEB = Platform.OS === 'web'
 const TAB_BAR_HEIGTH = 60
@@ -61,7 +59,7 @@ export default function AppLayout() {
           name={route.name}
           options={{
             tabBarIcon: ({ focused }) => {
-              const Icon = ({ focused }) => <route.icon size={28} color={focused ? route.gradiant[0] : '#637381'} />
+              const Icon = ({ focused }) => <route.icon active={focused} />
 
               return (
                 <View>
