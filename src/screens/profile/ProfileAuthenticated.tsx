@@ -115,7 +115,7 @@ const ProfileAuthenticated: FC<Props> = ({
         <ProfileSettingsItem
           title="StoryBook"
           onPress={() => {
-            router.replace('/dev/storybook' )
+            router.replace('/storybook' )
           }} />
         <View style={styles.container}>
           <SecondaryButton

@@ -84,11 +84,11 @@ function useProtectedRoute(isLoggedIn: boolean) {
 
   React.useEffect(() => {
     const inAuthGroup = segments[0] === "(auth)";
-    const isDevSection = segments[0] === "dev";
+    const isDevSection = segments[0] === "(dev)";
 
-    // if (isDevSection) {
-    //   return;
-    // }
+    if (isDevSection) {
+      return;
+    }
 
     if (
       // If the user is not signed in and the initial segment is not anything in the auth group.

@@ -38,13 +38,13 @@ const useHandleSplashScreen = (isReady: Boolean) => {
 function Root() {
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
-  // const [isFontsLoaded] = useImportFont()
+  const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
-  // useHandleSplashScreen(isFontsLoaded)
+  useHandleSplashScreen(isFontsLoaded)
 
-  // if (!isFontsLoaded) {
-  //   return null
-  // }
+  if (!isFontsLoaded) {
+    return null
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
