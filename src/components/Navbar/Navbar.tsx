@@ -2,7 +2,7 @@ import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
-import { ROUTES } from 'app/routes'
+import { ROUTES } from '@/config/routes'
 import { Link, usePathname } from 'expo-router'
 import { Avatar, Button, Stack, styled, Text, useMedia, View } from 'tamagui'
 import ButtonCustom from '../Button'
@@ -82,9 +82,9 @@ const NavBar: React.FC = () => {
         </Stack>
       )}
 
-      <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
-        {profile ? (
-          <>
+      {profile ? (
+        <Link href="/home/profile/">
+          <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
             <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
               <Text fontFamily={'$PublicSans'} color={'gray8'} fontWeight={'500'}>
                 {profile?.first_name} {profile?.last_name}
@@ -101,25 +101,25 @@ const NavBar: React.FC = () => {
               <Avatar.Image source={{ uri: 'https://picsum.photos/200/200', width: 200, height: 200 }} />
               <Avatar.Fallback bc="$gray3" />
             </Avatar>
-          </>
-        ) : (
-          <>
-            <Stack gap={'$2'} flexDirection="row">
-              <ButtonCustom variant="text" height={'$3'}>
-                <ButtonCustom.Text color={'gray8'} fontWeight={'800'}>
-                  Me connecter
-                </ButtonCustom.Text>
-              </ButtonCustom>
+          </View>
+        </Link>
+      ) : (
+        <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
+          <Stack gap={'$2'} flexDirection="row">
+            <ButtonCustom variant="text" height={'$3'}>
+              <ButtonCustom.Text color={'gray8'} fontWeight={'800'}>
+                Me connecter
+              </ButtonCustom.Text>
+            </ButtonCustom>
 
-              <ButtonCustom backgroundColor={'$blue6'} height={'$3'} borderRadius={'$3'} padding={'$3'}>
-                <ButtonCustom.Text color={'white'} fontWeight={'800'}>
-                  J'adhère
-                </ButtonCustom.Text>
-              </ButtonCustom>
-            </Stack>
-          </>
-        )}
-      </View>
+            <ButtonCustom backgroundColor={'$blue6'} height={'$3'} borderRadius={'$3'} padding={'$3'}>
+              <ButtonCustom.Text color={'white'} fontWeight={'800'}>
+                J'adhère
+              </ButtonCustom.Text>
+            </ButtonCustom>
+          </Stack>
+        </View>
+      )}
     </Stack>
   )
 }

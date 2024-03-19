@@ -3,7 +3,7 @@ import { Platform, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Navbar/Navbar'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
-import { ROUTES } from 'app/routes'
+import { ROUTES } from '@/config/routes'
 import { Stack as StackRouter, Tabs, usePathname } from 'expo-router'
 import { View } from 'tamagui'
 
