@@ -1,23 +1,31 @@
-import { SafeAreaView } from 'react-native-safe-area-context'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import Navbar from '@/components/Navbar/Navbar'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
-import { Stack } from 'expo-router'
-import { Avatar, getToken, YStack } from 'tamagui'
+import { Stack as RouterStack } from 'expo-router'
+import { Stack, Text, YStack } from 'tamagui'
 
-const HomeScreen: React.FC = () => (
-  <>
-    <Stack.Screen
-      options={{
-        header: () => <Navbar />,
-      }}
-    />
-    <YStack flex={1}>
-      <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
-        <HomeFeedList />
-      </BoundarySuspenseWrapper>
-    </YStack>
-  </>
-)
+import React from 'react'
+
+const HomeScreen: React.FC = () => {
+  return (
+    <>
+    <RouterStack.Screen options={{
+      headerShown: false
+    }} />
+    
+      <YStack flex={1}>
+        <PageLayout sidebar={<Text>Test</Text>}>
+          <Stack $gtSm={{ flexDirection: 'row', gap: 8 }} flex={1}>
+            <Stack flex={1} $gtSm={{ flex: 10 }} gap={2}>
+              <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+                <HomeFeedList/>
+              </BoundarySuspenseWrapper>
+            </Stack>
+          </Stack>
+        </PageLayout>
+      </YStack>
+    </>
+  )
+}
 
 export default HomeScreen

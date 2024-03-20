@@ -13,6 +13,7 @@ import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import ProfileSettingsCard from './ProfileSettingsCard'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
+import { router } from 'expo-router'
 // import { versionLabel } from './version'
 
 type Props = Readonly<{
@@ -111,6 +112,11 @@ const ProfileAuthenticated: FC<Props> = ({
             ExternalLink.openUrl(i18n.t('profile.menu.termsofuse_url'))
           }}
         />
+        <ProfileSettingsItem
+          title="StoryBook"
+          onPress={() => {
+            router.replace('/storybook' )
+          }} />
         <View style={styles.container}>
           <SecondaryButton
             onPress={logout}

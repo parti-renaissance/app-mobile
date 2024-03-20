@@ -1,8 +1,8 @@
 import { Button } from '@/components'
-import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
+import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
 
-export interface NewsVoxCardProps {
+export type NewsVoxCardProps = {
   onShare?: () => void
   onShow?: () => void
   payload: {
@@ -13,11 +13,11 @@ export interface NewsVoxCardProps {
   } & VoxCardDateProps &
     VoxCardLocationProps &
     VoxCardAuthorProps
-}
+} & VoxCardFrameProps
 
-const NewsCard = ({ payload, onShare, onShow }: NewsVoxCardProps) => {
+const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
   return (
-    <VoxCard>
+    <VoxCard {...props}>
       <VoxCard.Chip news>{payload.tag}</VoxCard.Chip>
       <VoxCard.Title>{payload.title}</VoxCard.Title>
       {payload.image && <VoxCard.Image image={payload.image} />}

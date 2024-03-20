@@ -1,5 +1,5 @@
 import { Button } from '@/components'
-import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
+import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
 
 type VoxCardBasePayload = {
@@ -12,7 +12,7 @@ type VoxCardBasePayload = {
 } & VoxCardDateProps &
   VoxCardAuthorProps
 
-export interface EventVoxCardProps {
+export type EventVoxCardProps = {
   onSubscribe?: () => void
   onShow?: () => void
   payload:
@@ -24,11 +24,11 @@ export interface EventVoxCardProps {
     | ({
         isOnline: true
       } & VoxCardBasePayload)
-}
+} & VoxCardFrameProps
 
-const EventCard = ({ payload, onSubscribe, onShow }: EventVoxCardProps) => {
+const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
   return (
-    <VoxCard>
+    <VoxCard {...props}>
       <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
       <VoxCard.Title>{payload.title}</VoxCard.Title>
       {payload.image && <VoxCard.Image image={payload.image} />}

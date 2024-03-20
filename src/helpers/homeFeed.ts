@@ -1,5 +1,6 @@
 import { type FeedCardProps } from '@/components/Cards'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
+import { router } from 'expo-router'
 
 const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps['type'] => {
   switch (type) {
@@ -51,7 +52,12 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
       return {
         type,
         onShare: () => {},
-        onShow: () => {},
+        onShow: () => {
+          router.push({
+            pathname: '/home/modals/news-detail',
+            params: { id: feed.objectID },
+          })
+        },
         payload: {
           title: feed.title,
           tag,
@@ -66,7 +72,12 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
       return {
         type,
         onSubscribe: () => {},
-        onShow: () => {},
+        onShow: () => {
+          router.push({
+            pathname: '/home/modals/event-detail',
+            params: { id: feed.objectID },
+          })
+        },
         payload: {
           title: feed.title,
           tag,
@@ -82,7 +93,34 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
       return {
         type,
         onSubscribe: () => {},
-        onShow: () => {},
+        onShow: () => {
+          switch (feed.type) {
+            case 'riposte':
+              router.push({
+                pathname: '/(tabs)/actions/retaliation/[id]',
+                params: { id: feed.objectID },
+              })
+              break
+            case 'phoning-campaign':
+              router.navigate({
+                pathname: '/actions/phoning/',
+                params: { id: feed.objectID },
+              })
+              break
+            case 'pap-campaign':
+              router.navigate({
+                pathname: '/(tabs)/actions/door-to-door',
+                params: { id: feed.objectID },
+              })
+              break
+            case 'survey':
+              router.push({
+                pathname: '/home/modals/poll-detail',
+                params: { id: feed.objectID },
+              })
+              break
+          }
+        },
         payload: {
           tag,
           isSubscribed: false,

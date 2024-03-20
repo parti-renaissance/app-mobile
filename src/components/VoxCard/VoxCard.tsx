@@ -17,7 +17,7 @@ export type VoxCardFrameProps = ComponentProps<typeof TCard>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
-      <YStack gap="$3.5">{children}</YStack>
+      <YStack gap="$3.5" >{children}</YStack>
     </CardFrame>
   )
 }

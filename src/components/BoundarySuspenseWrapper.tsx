@@ -1,6 +1,4 @@
 import { Suspense } from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import HomeFeedList from '@/screens/home/feed/HomeFeedList'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Button, H1, H2, Spinner, YStack } from 'tamagui'
@@ -25,13 +23,13 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
       >
         <Suspense
           fallback={
-            <YStack justifyContent="center" alignItems="center" flex={1}>
+            <YStack justifyContent="center" alignItems="center" flex={1} width="100%">
               <Spinner size="large" color="$blue6" />
               <H2>{props.loadingMessage ?? 'Chargement...'}</H2>
             </YStack>
           }
         >
-          <HomeFeedList />
+          {props.children}
         </Suspense>
       </ErrorBoundary>
     )}

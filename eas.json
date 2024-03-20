@@ -5,7 +5,8 @@
   "build": {
     "development": {
       "bun": "1.0.20",
-      "developmentClient": true
+      "distribution": "internal",
+      "autoIncrement": true
     },
     "staging": {
       "bun": "1.0.20",

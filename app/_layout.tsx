@@ -3,44 +3,47 @@ import { headerBlank } from '@/styles/navigationAppearance'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
 import '@tamagui/core/reset.css'
+import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
+import useImportFont from '@/hooks/useImportFont'
 import TamaguiProvider from '@/tamagui/provider'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Constants from 'expo-constants'
-import * as Sentry from '@sentry/react-native'
-import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
-import { useNavigationContainerRef } from 'expo-router';
-import React from 'react'
+import { useNavigationContainerRef } from 'expo-router'
 
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 
-Sentry.init({
-  dsn: SENTRY_DSN,
-  debug: ENVIRONMENT !== 'production', // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
-  integrations: [
-    new Sentry.ReactNativeTracing({
-      // Pass instrumentation to be used as `routingInstrumentation`
-      routingInstrumentation,
-      // ...
-    }),
-  ],
-});
+const { routingInstrumentation } = ErrorMonitor.configure()
 
 SplashScreen.preventAutoHideAsync()
 
-function Root() {
-  const colorScheme = useColorScheme()
-    const queryClient = new QueryClient()
-  // Set up the auth context and render our layout inside of it.
+const useRegisterRoutingInstrumentation = () => {
   const navigationRef = useNavigationContainerRef()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (navigationRef) {
-      routingInstrumentation.registerNavigationContainer(navigationRef);
+      routingInstrumentation.registerNavigationContainer(navigationRef)
     }
-  }, [navigationRef]);
+  }, [navigationRef])
+}
 
+const useHandleSplashScreen = (isReady: Boolean) => {
+  useEffect(() => {
+    if (isReady) {
+      SplashScreen.hideAsync()
+    }
+  }, [isReady])
+}
 
+function Root() {
+  const colorScheme = useColorScheme()
+  const queryClient = new QueryClient()
+  const [isFontsLoaded] = useImportFont()
+  useRegisterRoutingInstrumentation()
+  useHandleSplashScreen(isFontsLoaded)
+
+  if (!isFontsLoaded) {
+    return null
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -51,10 +54,13 @@ function Root() {
               <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
               <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
               <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-              <Stack.Screen name="(auth)/code-phone-picker" options={{
-          presentation: 'fullScreenModal',
-        }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(auth)/code-phone-picker"
+                options={{
+                  presentation: 'fullScreenModal',
+                }}
+              />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </Stack>
           </SessionProvider>
         </ThemeProvider>
@@ -63,17 +69,5 @@ function Root() {
   )
 }
 
-/**
- * This is the entry point for your app with the following logic:
- * - If storybookEnabled is true, render Storybook
- * - Otherwise, render your app
- */
-let AppEntryPoint = Sentry.wrap(Root)
 
-if (Constants.expoConfig.extra.storybookEnabled === 'true') {
-  SplashScreen.hideAsync()
-
-  AppEntryPoint = require('../.storybook').default
-}
-
-export default AppEntryPoint
+export default Root
