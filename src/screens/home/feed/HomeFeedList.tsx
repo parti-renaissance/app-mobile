@@ -1,14 +1,12 @@
-// first fetch profile,
 import { memo } from 'react'
 import { FlatList } from 'react-native'
-import EuCampaignIllustration from '@/assets/illustrations/EuCampaignNineJune'
 import { FeedCard } from '@/components/Cards'
 import ApiService from '@/data/network/ApiService'
 import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { getToken, Spinner, Text, useMedia, YStack } from 'tamagui'
+import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
@@ -50,17 +48,8 @@ const HomeFeedList = () => {
 
   return (
     <FlatList
-      style={{ paddingTop: getToken('$space.3'), width: '100%' }}
-      ListHeaderComponent={
-        <>
-          {!media.gtSm ? (
-            <YStack flex={2} gap={2} p="$3">
-              <EuCampaignIllustration />
-            </YStack>
-          ) : null}
-        </>
-      }
-      contentContainerStyle={{ gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
+      style={{ width: '100%' }}
+      contentContainerStyle={{ paddingTop: getToken('$space.6'), gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
       data={feedData}
       renderItem={renderFeedItem}
       keyExtractor={(item) => item.objectID}

@@ -24,7 +24,6 @@ const HomeFeedList = (props: LayoutPageProps) => {
             $gtSm={{
               flex: 8,
               borderWidth: 1,
-              
             }}
           >
             {props.children}
