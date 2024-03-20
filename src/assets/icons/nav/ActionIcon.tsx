@@ -1,14 +1,11 @@
 import React, { memo } from 'react'
-import Animated from 'react-native-reanimated'
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
 import { themed } from '@tamagui/helpers-icon'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { randomUUID } from 'expo-crypto'
 
 const uuid = randomUUID()
-
 const inactiveColors = ['#AEB9C3', '#848E9B'] as const
-
 const activeColors = ['#58D470', '#069D22'] as const
 
 type Props = {

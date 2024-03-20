@@ -1,5 +1,4 @@
 import React, { Fragment, memo } from 'react'
-import Animated from 'react-native-reanimated'
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
 import { themed } from '@tamagui/helpers-icon'
 import type { IconProps } from '@tamagui/helpers-icon'

@@ -1,10 +1,9 @@
-import { Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { useGetProfilObserver } from '@/hooks/useProfil'
 import { Search, X } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
-import { Avatar, Button, getToken, Stack, styled, YStack } from 'tamagui'
+import { Avatar, Button, getToken, Stack, styled, useMedia, YStack } from 'tamagui'
 
 export type HeaderProps = {
   hideLogo?: boolean
@@ -28,17 +27,11 @@ const ButtonCircle = styled(Button, {
  * Header component for the app with declinaison for the pages
  */
 const Header = (props: HeaderProps) => {
-  const {
-    hideLogo = false,
-    hideAvatar = false,
-    onLogoPress,
-    onAvatarPress,
-    onClosePress,
-    onSearchPress,
-  } = props
+  const { hideLogo = false, hideAvatar = false, onLogoPress, onAvatarPress, onClosePress, onSearchPress } = props
   const { data: profile } = useGetProfilObserver()
+  const media = useMedia()
 
-  if (Platform.OS === 'web') {
+  if (media.gtSm) {
     return null
   }
 
@@ -47,7 +40,7 @@ const Header = (props: HeaderProps) => {
       name: 'profil',
       label: 'Mon Profil',
       show: true,
-      component: (
+      component: () => (
         <Stack mt={'$1.5'}>
           <Link href="/(tabs)/home/profile/" onPress={onAvatarPress}>
             <Avatar circular size="$4" width={46} height={46}>
@@ -68,7 +61,7 @@ const Header = (props: HeaderProps) => {
       name: 'search',
       label: 'Rechercher',
       show: onSearchPress !== undefined,
-      component: (
+      component: () => (
         <ButtonCircle onPress={onSearchPress}>
           <X color={'$gray5'} size={24} />
         </ButtonCircle>
@@ -78,7 +71,7 @@ const Header = (props: HeaderProps) => {
       name: 'close',
       label: 'Fermer',
       show: onClosePress !== undefined,
-      component: (
+      component: () => (
         <ButtonCircle onPress={onClosePress}>
           <Search color={'$gray5'} size={24} />
         </ButtonCircle>
@@ -94,14 +87,12 @@ const Header = (props: HeaderProps) => {
       }}
     >
       <YStack
-        justifyContent={
-          rightItems.filter((item) => item.show).length > 0
-            ? 'space-between'
-            : 'flex-start'
-        }
+        justifyContent={rightItems.filter((item) => item.show).length > 0 ? 'space-between' : 'flex-start'}
         p="$4.5"
         flexDirection="row"
         alignItems="center"
+        borderBottomWidth="$1"
+        borderColor="$gray2"
       >
         {!hideLogo && (
           <Link href="/(tabs)/home/" onPress={onLogoPress}>
@@ -110,7 +101,11 @@ const Header = (props: HeaderProps) => {
         )}
 
         <Stack gap={'$3'} flexDirection="row">
-          {rightItems.filter((item) => item.show).map((item) => item.component)}
+          {rightItems
+            .filter((item) => item.show)
+            .map((item) => (
+              <item.component key={item.name} />
+            ))}
         </Stack>
       </YStack>
     </SafeAreaView>

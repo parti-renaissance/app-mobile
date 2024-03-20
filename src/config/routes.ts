@@ -1,9 +1,4 @@
-import { ActionIcon } from '@/assets/icons/ActionIcon'
-import { EventIcon } from '@/assets/icons/EventIcon'
-import { HomeIcon } from '@/assets/icons/HomeIcon'
-import { RipostIcon } from '@/assets/icons/RipostIcon'
-import { ToolsIcon } from '@/assets/icons/ToolsIcon'
-import { Calendar as CalendarSvg, Home as HomeSvg, Inbox as InboxSvg, Sparkle as SparkleSvg, Zap as ZapSvg } from '@tamagui/lucide-icons'
+import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
 
 export type TabRoute = (typeof ROUTES)[number]
 
