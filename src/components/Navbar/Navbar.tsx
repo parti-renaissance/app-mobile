@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
       {profile && (
         <Stack flexDirection="row" gap={4}>
           {ROUTES.map((route) => {
-            const focused = true
+            const focused = pathname.includes(route.name)
             const colorOpacity = opacityToHexCode(route.gradiant[0], 0.09)
 
             return (
@@ -66,7 +66,7 @@ const NavBar: React.FC = () => {
                   }}
                 >
                   <Button.Icon scaleIcon={2}>
-                    <route.icon size={28} active={true} />
+                    <route.icon size={28} active={focused} />
                   </Button.Icon>
 
                   {media.gtMd && (

@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Navbar/Navbar'
 import { ROUTES } from '@/config/routes'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
-import { Stack as StackRouter, Tabs, usePathname } from 'expo-router'
+import { Slot, Stack as StackRouter, Tabs, usePathname } from 'expo-router'
 import { useMedia, View } from 'tamagui'
 
 const IS_WEB = Platform.OS === 'web'
@@ -26,15 +26,10 @@ export default function AppLayout() {
 
   if (media.gtSm && IS_WEB) {
     return (
-      <StackRouter
-        screenOptions={{
-          header: () => <NavBar />,
-        }}
-      >
-        {ROUTES.map((route) => (
-          <StackRouter.Screen key={route.name} name={route.name} />
-        ))}
-      </StackRouter>
+      <>
+        <NavBar />
+        <Slot />
+      </>
     )
   }
 
