@@ -1,66 +1,46 @@
-// first fetch profile,
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { FlatList } from 'react-native'
-import { FeedCard } from '@/components/Cards'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import ApiService from '@/data/network/ApiService'
-import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { RestShortEvent } from '@/data/restObjects/RestEvents'
+import { mapProps } from '@/helpers/eventsFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { getToken, Stack, Text, useMedia } from 'tamagui'
+import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+import { EventCard } from '@/components/Cards/EventCard'
+import { router } from 'expo-router'
+import { usePaginatedEvents, useSubscribedEvents, useUnsubscribedEvents } from '@/hooks/useEvents'
 
-const TimelineFeedCard = memo((item: RestShortEvent) => {
-  const payload = {
-    title: item.name,
-    tag: item?.category?.event_group_category.name,
-    image: item.image_url || 'https://picsum.photos/600/244',
-    isSubscribed: !!item.user_registered_at,
-    isOnline: item.mode === 'online',
-    location: {
-      street: item.post_address?.address,
-      postalCode: item.post_address?.postal_code,
-      city: item?.post_address?.city_name,
-    },
-    author: {
-      role: `Par ${item.organizer?.first_name} ${item.organizer?.last_name}`,
-      pictureLink: 'https://picsum.photos/200/200',
-    },
-    date: new Date(),
-  }
-  return (
-    <FeedCard
-      type="event"
-      payload={payload}
-      onSubscribe={() => {
-        console.log('subscribe')
-      }}
-    />
-  )
+const EventListCard = memo((args: { item: RestShortEvent, cb: Parameters<typeof mapProps>[1] }) => {
+  const props = mapProps(args.item, args.cb)
+  return <EventCard {...props}  $sm={{ width: '100%' }} $gtSm={{ width: 500 }} />
 })
 
-const renderEventItem = ({ item }: { item: RestShortEvent }) => {
-  return <TimelineFeedCard {...item} />
-}
 
-const fetchTimelineEvents = async (page: number, zipCode?: string) => await ApiService.getInstance().getEvents(zipCode, page)
-
-const EventFeedList = () => {
+const EventList = () => {
   const { data: profile } = useGetProfilObserver()
   const media = useMedia()
 
   const {
-    data: paginatedEvents,
+    data: paginatedFeed,
     fetchNextPage,
     hasNextPage,
-  } = useSuspenseInfiniteQuery({
-    queryKey: ['events'],
-    queryFn: ({ pageParam }) => fetchTimelineEvents(pageParam, profile?.postal_code),
-    getNextPageParam: (lastPage) => lastPage.metadata.current_page + 1,
-    getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
-    initialPageParam: 1,
-  })
+    refetch,
+    isRefetching,
+  } = usePaginatedEvents(profile?.postal_code)
 
-  const eventsData = paginatedEvents?.pages.map((page) => page.items).flat()
+  const { mutate: subscribe } = useSubscribedEvents()
+
+  const handleSubscribe = (id: string) => {
+    subscribe(id)
+  }
+  const handleShow = (id: string) => {
+    router.push({ pathname: '/(tabs)/events/[id]', params: { id } })
+  }
+
+  const callbacks = useMemo(() => ({
+    onSubscribe: handleSubscribe,
+    onShow: handleShow,
+  }), [])
+
+  const feedData = paginatedFeed?.pages.map((page) => page.items).flat()
 
   const loadMore = () => {
     if (hasNextPage) {
@@ -69,23 +49,24 @@ const EventFeedList = () => {
   }
 
   return (
-    <PageLayout sidebar={<Text>Test</Text>}>
-      <Stack $gtSm={{ flexDirection: 'row', height: '100%', gap: 8, overflow: 'scroll' }} height={'100vh'}>
-        <Stack $gtSm={{ flex: 6 }} gap={2} alignContent="center" height={'100'} alignItems="center" overflow="scroll">
-          <FlatList
-            style={{ paddingTop: getToken('$space.3'), maxWidth: 440 }}
-            contentContainerStyle={{ gap: getToken('$space.3') }}
-            scrollEnabled={!media.gtSm}
-            data={eventsData}
-            renderItem={renderEventItem}
-            // keyExtractor={(item) => item.objectID}
-            onEndReached={loadMore}
-            onEndReachedThreshold={0.5}
-          />
-        </Stack>
-      </Stack>
-    </PageLayout>
+    <FlatList
+      style={{ width: '100%' }}
+      contentContainerStyle={{ paddingTop: getToken('$space.6'), gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
+      data={feedData}
+      renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
+      keyExtractor={(item) => item.uuid}
+      refreshing={isRefetching}
+      onRefresh={() => refetch()}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={
+        hasNextPage ? (
+          <YStack p="$3" pb="$6">
+            <Spinner size="large" />
+          </YStack>
+        ) : null
+      }
+    />
   )
 }
-
-export default EventFeedList
+export default EventList

@@ -1,42 +1,31 @@
-import React, { FC, useLayoutEffect } from 'react'
-import { Header } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import { EventMode } from '@/core/entities/Event'
-import { EventNavigatorScreenProps } from '@/navigation/event/EventNavigatorScreenProps'
-import EventListScreen from '@/screens/events/EventListScreen'
-import { useEventsScreen } from '@/screens/events/useEventsScreen.hook'
-import HomeFeedList from '@/screens/home/feed/HomeFeedList'
-import { EventsFilterButton } from '@/screens/shared/NavigationHeaderButton'
-import { Stack, useLocalSearchParams, useNavigation } from 'expo-router'
-import { YStack } from 'tamagui'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import EventfeedList from '@/screens/events/EventFeedList'
+import { Stack as RouterStack } from 'expo-router'
+import { Stack, Text, YStack } from 'tamagui'
 
-type EventsScreenProps = EventNavigatorScreenProps<'Events'>
+import React from 'react'
 
-const EventsScreen: FC<EventsScreenProps> = () => {
-  const navigation = useNavigation()
-  const { mode: eventMode } = useLocalSearchParams<{ mode: EventMode }>()
-
-  const { searchText, onFiltersSelected } = useEventsScreen(eventMode)
-
-  useLayoutEffect(() => {
-    const updateNavigationHeader = () => {
-      navigation.setOptions({
-        headerRight: () => <EventsFilterButton onPress={onFiltersSelected} />,
-      })
-    }
-    updateNavigationHeader()
-  }, [navigation, onFiltersSelected])
-
+const HomeScreen: React.FC = () => {
   return (
     <>
-      <Stack.Screen
-        options={{
-          header: () => <Header hideLogo />,
-        }}
-      />
-      <EventListScreen eventFilter="home" searchText={searchText} eventModeFilter={eventMode} />
+      <RouterStack.Screen options={{
+        headerShown: false
+      }} />
+
+      <YStack flex={1}>
+        <PageLayout sidebar={<Text>Test</Text>}>
+          <Stack $gtSm={{ flexDirection: 'row', gap: 8 }} flex={1}>
+            <Stack flex={1} $gtSm={{ flex: 10 }} gap={2}>
+              <BoundarySuspenseWrapper loadingMessage="Nous chargons les évenements">
+                <EventfeedList />
+              </BoundarySuspenseWrapper>
+            </Stack>
+          </Stack>
+        </PageLayout>
+      </YStack>
     </>
   )
 }
 
-export default EventsScreen
+export default HomeScreen

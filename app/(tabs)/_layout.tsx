@@ -37,7 +37,7 @@ export default function AppLayout() {
             backgroundColor: 'white',
             borderTopWidth: 2,
             borderTopColor: 'rgba(145, 158, 171, 0.32)',
-            display: media.gtSm ? 'none' : 'flex',
+            display: media.gtSm ?  'none' : 'flex',
             height: TAB_BAR_HEIGTH + insets.bottom,
           },
         }}
