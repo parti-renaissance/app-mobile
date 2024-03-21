@@ -24,7 +24,7 @@ const ChipFrame = styled(View, {
     },
     action: {
       true: {
-        backgroundColor: '$green8',
+        backgroundColor: '$green7',
       },
     },
 

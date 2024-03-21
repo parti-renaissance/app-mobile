@@ -33,7 +33,7 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
 export type VoxCardTitleProps = { children: string }
 const VoxCardTitle = (props: VoxCardTitleProps) => {
   return (
-    <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray8" lineHeight="$3" fontSize="$2">
+    <Text fontFamily="$PublicSans" fontWeight="$6" color="$textPrimary" lineHeight="$3" fontSize="$2">
       {props.children}
     </Text>
   )
@@ -67,7 +67,7 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
         <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
           {location.city} {location.postalCode}
         </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$6" color="$gray6" lineHeight="$2" fontSize="$1">
+        <Text fontFamily="$PublicSans" fontWeight="$6" color="$textSecondary" lineHeight="$2" fontSize="$1">
           {' '}
           . {location.street}
         </Text>
@@ -92,12 +92,12 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
         <Image source={{ uri: author.pictureLink, width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
       </XStack>
       <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
-        <Text fontWeight="$5" color="$gray6">
+        <Text fontWeight="$5" color="$textSecondary">
           {' '}
           {author.role}
         </Text>
         {'\n'}
-        <Text fontWeight="$4" color="$gray6">
+        <Text fontWeight="$4" color="$textSecondary">
           {' '}
           {author.name}, {author.title}
         </Text>
@@ -116,7 +116,7 @@ export type VoxCardAttendeesProps = {
 const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   if (!attendees)
     return (
-      <Text fontFamily="$PublicSans" fontSize="$1" color="$gray8" lineHeight="$1">
+      <Text fontFamily="$PublicSans" fontSize="$1" color="$textPrimary" lineHeight="$1">
         0 pariticpant, soyez le premier !
       </Text>
     )
@@ -156,7 +156,7 @@ export type VoxCardDescritionProps = {
 
 const VoxCardDescrition = ({ children }: VoxCardDescritionProps) => {
   return (
-    <Text numberOfLines={3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$gray8">
+    <Text numberOfLines={3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
       {children}
     </Text>
   )

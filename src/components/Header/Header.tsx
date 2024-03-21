@@ -57,14 +57,15 @@ const MemoizedNavItem = React.memo(NavItem)
 
 const NavBar = () => {
   const pathname = usePathname()
-  return (
-    <Stack flexDirection="row" gap={4} $sm={{display: 'none'}}>
+  const { gtSm } = useMedia()
+  return gtSm ? (
+    <Stack flexDirection="row" gap={4}>
       {ROUTES.map((route) => {
         const focused = pathname.includes(route.name)
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}
     </Stack>
-  )
+  ) : null
 }
 
 const ProfileView = () => {
@@ -72,12 +73,12 @@ const ProfileView = () => {
   return profile ? (<Link href="/home/profile/">
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
       <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
-        <Text fontFamily={'$PublicSans'} color={'$gray8'} fontWeight={'500'}>
+        <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'}>
           {profile?.first_name} {profile?.last_name}
         </Text>
 
         {/* TODO: add the personal code */}
-        <Text fontFamily={'$PublicSans'} fontSize={12} color={'$gray5'}>
+        <Text fontFamily={'$PublicSans'} fontSize={12} color="$textSecondary">
           #000000
         </Text>
       </Stack>
@@ -92,7 +93,7 @@ const ProfileView = () => {
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
       <Stack gap={'$2'} flexDirection="row">
         <ButtonCustom variant="text" height={'$3'}>
-          <ButtonCustom.Text color={'$gray8'} fontWeight={'800'}>
+          <ButtonCustom.Text color="$textPrimary" fontWeight={'800'}>
             Me connecter
           </ButtonCustom.Text>
         </ButtonCustom>
@@ -125,7 +126,7 @@ const Header: React.FC = (props: StackProps) => {
         <NavBar />
         <ProfileView />
       </Stack>
-   </SafeAreaView>
+    </SafeAreaView>
   )
 }
 

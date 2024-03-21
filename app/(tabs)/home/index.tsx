@@ -2,7 +2,7 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
 import { Stack as RouterStack } from 'expo-router'
-import { Stack, Text, YStack } from 'tamagui'
+import { Stack, Text, YStack, Theme } from 'tamagui'
 
 import React from 'react'
 

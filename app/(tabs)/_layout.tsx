@@ -25,10 +25,12 @@ export default function AppLayout() {
 
 
   return (
+    <>
+      <NavBar />
       <Tabs
         initialRouteName="home"
         screenOptions={{
-          header: () => <NavBar />,
+          headerShown: false,
           tabBarLabel: () => null,
           tabBarButton: (props) => <Pressable {...props} />,
           tabBarStyle: {
@@ -58,5 +60,6 @@ export default function AppLayout() {
           />
         ))}
       </Tabs>
+    </>
   )
 }
