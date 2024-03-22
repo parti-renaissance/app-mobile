@@ -1,5 +1,5 @@
 import { Button } from '@/components'
-import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
+import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
 
 export type NewsVoxCardProps = {
@@ -18,20 +18,22 @@ export type NewsVoxCardProps = {
 const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
   return (
     <VoxCard {...props}>
-      <VoxCard.Chip news>{payload.tag}</VoxCard.Chip>
-      <VoxCard.Title>{payload.title}</VoxCard.Title>
-      {payload.image && <VoxCard.Image image={payload.image} />}
-      <VoxCard.Description>{payload.description}</VoxCard.Description>
-      <VoxCard.Author author={payload.author} />
-      <XStack justifyContent="space-between">
-        <Button variant="outlined" onPress={onShare}>
-          <Button.Text>Partager</Button.Text>
-        </Button>
+      <VoxCard.Content>
+        <VoxCard.Chip news>{payload.tag}</VoxCard.Chip>
+        <VoxCard.Title>{payload.title}</VoxCard.Title>
+        {payload.image && <VoxCard.Image image={payload.image} />}
+        <VoxCard.Description>{payload.description}</VoxCard.Description>
+        <VoxCard.Author author={payload.author} />
+        <XStack justifyContent="space-between">
+          <Button variant="outlined" onPress={onShare}>
+            <Button.Text>Partager</Button.Text>
+          </Button>
 
-        <Button variant="contained" onPress={onShow}>
-          <Button.Text>Lire en entier</Button.Text>
-        </Button>
-      </XStack>
+          <Button variant="contained" onPress={onShow}>
+            <Button.Text>Lire en entier</Button.Text>
+          </Button>
+        </XStack>
+      </VoxCard.Content>
     </VoxCard>
   )
 }

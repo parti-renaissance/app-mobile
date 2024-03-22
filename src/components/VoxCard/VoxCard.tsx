@@ -9,8 +9,7 @@ const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   $gtMd: {
     borderRadius: '$5',
-  },
-  padding: '$4.5',
+  }
 } as const)
 
 export type VoxCardFrameProps = ComponentProps<typeof TCard>
@@ -21,6 +20,14 @@ const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
     </CardFrame>
   )
 }
+
+
+export const VoxCardContent = styled(YStack, {
+  padding: '$4.5',
+  gap: '$3.5',
+} as const)
+
+
 
 const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
   return (
@@ -174,6 +181,7 @@ const VoxCardVisio = () => {
 }
 
 export const VoxCard = withStaticProperties(VoxCardFrame, {
+  Content: VoxCardContent,
   Chip: VoxCardChip,
   Title: VoxCardTitle,
   Date: VoxCardDate,
