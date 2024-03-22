@@ -293,10 +293,20 @@ const shadows = {
   },
 }
 
+const text = {
+  light: {
+    textPrimary: gray.gray8,
+    textSecondary: gray.gray6,
+    textDisabled: gray.gray5,
+  },
+}
+
+
 const nonInherited = {
   light: {
     ...lightColors,
     ...shadows.light,
+    ...text.light,
   },
 }
 

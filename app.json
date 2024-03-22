@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Besoin d'Europe",
+    "name": "vox",
     "slug": "vox",
     "scheme": "vox",
     "version": "4.0.1",
@@ -8,7 +8,6 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -20,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-       "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés.",
         "NSLocationWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés."
@@ -31,11 +30,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE"
-      ],
+      "permissions": ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.FOREGROUND_SERVICE"],
       "config": {
         "googleMaps": {
           "apiKey": "key"
@@ -49,18 +44,6 @@
     "plugins": [
       "expo-router",
       ["@sentry/react-native/expo"],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/Value-Bold.ttf",
-            "./assets/fonts/Value-Medium.ttf",
-            "./assets/fonts/Value-MediumItalic.ttf",
-            "./assets/fonts/Value-Regular.ttf",
-            "./assets/fonts/SharpGrotesk-SemiBold25.ttf"
-          ]
-        }
-      ],
       "expo-localization",
       "@react-native-firebase/app",
       "@react-native-firebase/messaging",

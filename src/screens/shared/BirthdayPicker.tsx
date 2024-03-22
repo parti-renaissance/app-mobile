@@ -9,8 +9,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import { IOSNativeProps } from '@react-native-community/datetimepicker'
 import { Colors, Typography } from '../../styles'
 import { DateFormatter } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
@@ -50,7 +48,7 @@ const BirthdayPicker: FC<Props> = (props) => {
           {formattedDate}
         </Text>
       </TouchableWithoutFeedback>
-      <DateTimePickerModal
+      {/* <DateTimePickerModal
         isVisible={isDatePickerModalVisible}
         date={props.date}
         maximumDate={props.maximumDate}
@@ -67,7 +65,7 @@ const BirthdayPicker: FC<Props> = (props) => {
           props.onDateChange(date)
         }}
         onCancel={() => setIsDatePickerModalVisible(false)}
-      />
+      /> */}
     </View>
   )
 }

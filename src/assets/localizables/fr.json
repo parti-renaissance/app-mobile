@@ -22,6 +22,9 @@
       "ok": "OK",
       "noDataPlaceholder": "-"
     },
+    "vox_card": {
+      "date": "{{date, EEEE d MMMM yyyy}} à {{date, HH:mm}}"
+    },
     "tab": {
       "item_news": "Actualités",
       "item_tools": "Ressources",
