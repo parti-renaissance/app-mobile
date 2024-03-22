@@ -8,8 +8,8 @@ export type ActionVoxCardProps = {
   payload: {
     tag: string
     isSubscribed: boolean
-  } & VoxCardDateProps &
-    VoxCardLocationProps &
+    date: VoxCardDateProps
+  } & VoxCardLocationProps &
     VoxCardAuthorProps &
     VoxCardAttendeesProps
 } & VoxCardFrameProps
@@ -20,7 +20,7 @@ const ActionCard = ({ payload, onSubscribe, onShow, ...props }: ActionVoxCardPro
       <VoxCard.Content>
         <VoxCard.Chip action>{payload.tag}</VoxCard.Chip>
         <VoxCard.Location location={payload.location} />
-        <VoxCard.Date date={payload.date} />
+        <VoxCard.Date {...payload.date} />
         <VoxCard.Attendees attendees={payload.attendees} />
         <VoxCard.Author author={payload.author} />
         <XStack justifyContent="space-between">

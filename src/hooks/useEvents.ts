@@ -1,9 +1,10 @@
+import { DetailedEvent } from '@/core/entities/Event'
 import { ForbiddenError } from '@/core/errors'
 import ApiService from '@/data/network/ApiService'
-import { RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
 import { AlertUtils } from '@/screens/shared/AlertUtils'
 import i18n from '@/utils/i18n'
-import { InfiniteData, QueryKey, useMutation, useQueryClient, useSuspenseInfiniteQuery } from '@tanstack/react-query'
+import { InfiniteData, QueryKey, useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 
 const queryKey = ['shortEvents']
 
@@ -26,7 +27,7 @@ export const useSubscribedEvents = () => {
     mutationFn: (eventId: string) => ApiService.getInstance().subscribeToEvent(eventId),
     onMutate: async (eventId) => {
       await queryClient.cancelQueries({ queryKey })
-      const previousShortEvents = queryClient.getQueriesData({ queryKey }) 
+      const previousShortEvents = queryClient.getQueryData(queryKey)
       console.log('previousShortEvents', previousShortEvents)
       queryClient.setQueryData(queryKey, (oldData: InfiniteData<RestEvents> | undefined) => {
         if (!oldData) return oldData
@@ -34,7 +35,7 @@ export const useSubscribedEvents = () => {
           ...page,
           items: page.items.map((item) => {
             if (item.uuid === eventId) {
-              return { ...item, is_subscribed: true }
+              return { ...item, user_registered_at: new Date().toISOString() }
             }
             return item
           }),
@@ -45,8 +46,7 @@ export const useSubscribedEvents = () => {
     },
     onError: (error, _, { previousShortEvents }) => {
       if (previousShortEvents) {
-        console.log(previousShortEvents[0][1])
-        queryClient.setQueryData(queryKey, previousShortEvents[0][1])
+        queryClient.setQueryData(queryKey, previousShortEvents)
       }
     },
     onSettled: () => {
@@ -66,4 +66,34 @@ export const useUnsubscribedEvents = () => {
       AlertUtils.showNetworkAlert(error, () => {}, { message })
     },
   })
+}
+
+export type Event =
+  | ({
+      isShort: true
+    } & RestShortEvent)
+  | RestDetailedEvent
+
+export const useGetEvent = (eventId: string) => {
+  const queryClient = useQueryClient()
+  return useSuspenseQuery<Event>({
+    queryKey: ['event', eventId],
+    queryFn: () => ApiService.getInstance().getEventDetails(eventId),
+    initialData: () => {
+      const dataList = queryClient.getQueryData<InfiniteData<RestEvents>>(queryKey)
+      const dataEvent = queryClient.getQueryData<RestDetailedEvent>(['event', eventId])
+      if (dataEvent) {
+        return dataEvent
+      }
+      if (dataList) {
+        const event = dataList.pages.flatMap((page) => page.items).find((event) => event.uuid === eventId)
+        return { isShort: true, ...event }
+      }
+      return undefined
+    },
+  })
+}
+
+export const useIsShortEvent = (event: Event): event is { isShort: true } & RestShortEvent => {
+  return 'isShort' in event
 }

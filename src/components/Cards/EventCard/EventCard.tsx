@@ -9,8 +9,8 @@ type VoxCardBasePayload = {
   isSubscribed: boolean
   isOnline: boolean
   location?: VoxCardLocationProps['location']
-} & VoxCardDateProps &
-  VoxCardAuthorProps
+  date: VoxCardDateProps
+} & VoxCardAuthorProps
 
 export type EventVoxCardProps = {
   onSubscribe?: () => void
@@ -33,7 +33,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
         <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image && <VoxCard.Image image={payload.image} />}
-        <VoxCard.Date date={payload.date} />
+        <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : <VoxCard.Location location={payload.location} />}
         <VoxCard.Author author={payload.author} />
         <XStack justifyContent="space-between">
