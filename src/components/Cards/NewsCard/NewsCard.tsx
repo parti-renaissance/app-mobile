@@ -10,8 +10,7 @@ export type NewsVoxCardProps = {
     tag: string
     image?: string
     description: string
-  } & VoxCardDateProps &
-    VoxCardLocationProps &
+  } & VoxCardLocationProps &
     VoxCardAuthorProps
 } & VoxCardFrameProps
 
