@@ -1,9 +1,7 @@
-import { ForbiddenError } from '@/core/errors'
 import ApiService from '@/data/network/ApiService'
-import { RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
-import { AlertUtils } from '@/screens/shared/AlertUtils'
-import i18n from '@/utils/i18n'
-import { InfiniteData, QueryKey, useMutation, useQueryClient, useSuspenseInfiniteQuery } from '@tanstack/react-query'
+import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { InfiniteData, useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { PaginatedFeedQueryKey } from './useFeed'
 
 const queryKey = ['shortEvents']
 
@@ -20,50 +18,118 @@ export const usePaginatedEvents = (postalCode: string) => {
   })
 }
 
-export const useSubscribedEvents = () => {
+export const useSubscribeEvent = (eventId: string) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (eventId: string) => ApiService.getInstance().subscribeToEvent(eventId),
-    onMutate: async (eventId) => {
+    mutationFn: () => ApiService.getInstance().subscribeToEvent(eventId),
+    onMutate: async () => {
       await queryClient.cancelQueries({ queryKey })
-      const previousShortEvents = queryClient.getQueriesData({ queryKey }) 
-      console.log('previousShortEvents', previousShortEvents)
+      const previousShortEvents = queryClient.getQueryData(queryKey)
+      const previousEvent = queryClient.getQueryData(['event', eventId])
+      queryClient.setQueryData(['event', eventId], (oldData: RestDetailedEvent | undefined) => {
+        if (!oldData) return oldData
+        return { ...oldData, user_registered_at: new Date().toISOString() }
+      })
       queryClient.setQueryData(queryKey, (oldData: InfiniteData<RestEvents> | undefined) => {
         if (!oldData) return oldData
         const newPages = oldData.pages.map((page) => ({
           ...page,
           items: page.items.map((item) => {
             if (item.uuid === eventId) {
-              return { ...item, is_subscribed: true }
+              return { ...item, user_registered_at: new Date().toISOString() }
             }
             return item
           }),
         }))
         return { ...oldData, pages: newPages }
       })
-      return { previousShortEvents }
+      return { previousShortEvents, previousEvent }
     },
-    onError: (error, _, { previousShortEvents }) => {
+    onError: (error, _, { previousShortEvents, previousEvent }) => {
       if (previousShortEvents) {
-        console.log(previousShortEvents[0][1])
-        queryClient.setQueryData(queryKey, previousShortEvents[0][1])
+        queryClient.setQueryData(queryKey, previousShortEvents)
+      }
+      if (previousEvent) {
+        queryClient.setQueryData(['event', eventId], previousEvent)
       }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
+      queryClient.invalidateQueries({ queryKey: ['event', eventId] })
+      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
     },
   })
 }
 
-export const useUnsubscribedEvents = () => {
+export const useUnsubscribeEvent = (eventId: string) => {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (eventId: string) => ApiService.getInstance().unsubscribeFromEvent(eventId),
-    onError: (error) => {
-      let message: string | undefined
-      if (error instanceof ForbiddenError) {
-        message = i18n.t('eventdetails.connect_to_subscribe')
+    mutationFn: () => ApiService.getInstance().unsubscribeFromEvent(eventId),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey })
+      const previousShortEvents = queryClient.getQueryData(queryKey)
+      const previousEvent = queryClient.getQueryData(['event', eventId])
+      queryClient.setQueryData(['event', eventId], (oldData: RestDetailedEvent | undefined) => {
+        if (!oldData) return oldData
+        return { ...oldData, user_registered_at: undefined }
+      })
+      queryClient.setQueryData(queryKey, (oldData: InfiniteData<RestEvents> | undefined) => {
+        if (!oldData) return oldData
+        const newPages = oldData.pages.map((page) => ({
+          ...page,
+          items: page.items.map((item) => {
+            if (item.uuid === eventId) {
+              return { ...item, user_registered_at: undefined }
+            }
+            return item
+          }),
+        }))
+        return { ...oldData, pages: newPages }
+      })
+      return { previousShortEvents, previousEvent }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey })
+      queryClient.invalidateQueries({ queryKey: ['event', eventId] })
+      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
+    },
+    onError: (error, _, { previousShortEvents, previousEvent }) => {
+      if (previousShortEvents) {
+        queryClient.setQueryData(queryKey, previousShortEvents)
       }
-      AlertUtils.showNetworkAlert(error, () => {}, { message })
+      if (previousEvent) {
+        queryClient.setQueryData(['event', eventId], previousEvent)
+      }
     },
   })
+}
+
+export type Event =
+  | ({
+      isShort: true
+    } & RestShortEvent)
+  | RestDetailedEvent
+
+export const useGetEvent = (eventId: string) => {
+  const queryClient = useQueryClient()
+  return useSuspenseQuery<Event>({
+    queryKey: ['event', eventId],
+    queryFn: () => ApiService.getInstance().getEventDetails(eventId),
+    initialData: () => {
+      const dataList = queryClient.getQueryData<InfiniteData<RestEvents>>(queryKey)
+      const dataEvent = queryClient.getQueryData<RestDetailedEvent>(['event', eventId])
+      if (dataEvent) {
+        return dataEvent
+      }
+      if (dataList) {
+        const event = dataList.pages.flatMap((page) => page.items).find((event) => event.uuid === eventId)
+        return { isShort: true, ...event }
+      }
+      return undefined
+    },
+  })
+}
+
+export const useIsShortEvent = (event: Event): event is { isShort: true } & RestShortEvent => {
+  return 'isShort' in event
 }

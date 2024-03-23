@@ -1,33 +1,31 @@
-import { ComponentProps } from 'react'
+import React, { ComponentProps } from 'react'
 import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
-import { CalendarDays, MapPin, Video } from '@tamagui/lucide-icons'
+import { CalendarDays, Clock, MapPin, Users, Video } from '@tamagui/lucide-icons'
+import { isSameDay } from 'date-fns'
 import { Image, styled, Card as TCard, Text, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
 const CardFrame = styled(YStack, {
   name: 'Card',
   backgroundColor: '$white1',
   $gtMd: {
-    borderRadius: '$5',
-  }
+    borderRadius: '$8',
+  },
 } as const)
 
 export type VoxCardFrameProps = ComponentProps<typeof TCard>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
-      <YStack gap="$3.5" >{children}</YStack>
+      <YStack gap="$3.5">{children}</YStack>
     </CardFrame>
   )
 }
-
 
 export const VoxCardContent = styled(YStack, {
   padding: '$4.5',
   gap: '$3.5',
 } as const)
-
-
 
 const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
   return (
@@ -46,13 +44,25 @@ const VoxCardTitle = (props: VoxCardTitleProps) => {
   )
 }
 
-export type VoxCardDateProps = { date: Date }
-const VoxCardDate = ({ date }: VoxCardDateProps) => {
+export type VoxCardDateProps = { start: Date; end: Date }
+const VoxCardDate = ({ start, end }: VoxCardDateProps) => {
   return (
     <XStack gap="$2" alignItems="center">
       <CalendarDays size="$1" />
       <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        {i18n.t('vox_card.date', { date })}
+        {i18n.t(`vox_card.${isSameDay(start, end) ? 'dayDate' : 'daysDate'}`, { start, end })}
+      </Text>
+    </XStack>
+  )
+}
+
+export type VoxCardCapacity = { children: React.ReactNode }
+const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
+  return (
+    <XStack gap="$2" alignItems="center">
+      <Users size="$1" />
+      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+        {children}
       </Text>
     </XStack>
   )
@@ -147,23 +157,25 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
 
 export type VoxCardImageProps = {
   image: string
+  large?: boolean
 }
 
-const VoxCardImage = ({ image }: VoxCardImageProps) => {
+const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
   return (
-    <XStack maxHeight="$13" $gtSm={{ maxHeight: '$15' }} borderRadius="$1" overflow="hidden">
-      <Image source={{ uri: image, width: 600, height: 244 }} width="100%" alt="event image" resizeMode="cover" />
+    <XStack $gtSm={{ maxHeight: large ? 'auto' : '$15' }} borderRadius="$1" overflow="hidden">
+      <Image source={{ uri: image, width: 600, height: large ? 400 : 244 }} width="100%" alt="event image" resizeMode="cover" />
     </XStack>
   )
 }
 
 export type VoxCardDescritionProps = {
-  children: string
+  children: string | string[]
+  full?: boolean
 }
 
-const VoxCardDescrition = ({ children }: VoxCardDescritionProps) => {
+const VoxCardDescrition = ({ children, full }: VoxCardDescritionProps) => {
   return (
-    <Text numberOfLines={3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
+    <Text numberOfLines={full ? undefined : 3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
       {children}
     </Text>
   )
@@ -191,6 +203,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Attendees: VoxCardAttendees,
   Description: VoxCardDescrition,
   Visio: VoxCardVisio,
+  Capacity: VoxCardCapacity,
 })
 
 export default VoxCard
