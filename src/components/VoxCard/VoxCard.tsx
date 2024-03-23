@@ -157,23 +157,25 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
 
 export type VoxCardImageProps = {
   image: string
+  large?: boolean
 }
 
-const VoxCardImage = ({ image }: VoxCardImageProps) => {
+const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
   return (
-    <XStack maxHeight="$13" $gtSm={{ maxHeight: '$15' }} borderRadius="$1" overflow="hidden">
-      <Image source={{ uri: image, width: 600, height: 244 }} width="100%" alt="event image" resizeMode="cover" />
+    <XStack $gtSm={{ maxHeight: large ? 'auto' : '$15' }} borderRadius="$1" overflow="hidden">
+      <Image source={{ uri: image, width: 600, height: large ? 400 : 244 }} width="100%" alt="event image" resizeMode="cover" />
     </XStack>
   )
 }
 
 export type VoxCardDescritionProps = {
-  children: string
+  children: string | string[]
+  full?: boolean
 }
 
-const VoxCardDescrition = ({ children }: VoxCardDescritionProps) => {
+const VoxCardDescrition = ({ children, full }: VoxCardDescritionProps) => {
   return (
-    <Text numberOfLines={3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
+    <Text numberOfLines={full ? undefined : 3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
       {children}
     </Text>
   )
