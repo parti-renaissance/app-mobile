@@ -39,6 +39,7 @@ export const mapProps = (
 ): EventVoxCardProps => {
   return {
     payload: {
+      id: item.uuid,
       title: item.name,
       tag: item.category.name,
       image: item.image_url,

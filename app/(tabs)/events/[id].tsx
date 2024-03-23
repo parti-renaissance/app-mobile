@@ -1,12 +1,16 @@
 import React from 'react'
+import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
-import { useGetEvent, useIsShortEvent } from '@/hooks/useEvents'
+import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
 import i18n from '@/utils/i18n'
 import { useLocalSearchParams } from 'expo-router'
 import { ScrollView, Separator, Stack, Text, useMedia, YStack } from 'tamagui'
+import { useDebouncedCallback } from 'use-debounce'
+
+const MemoizedSubscribeButton = React.memo(SubscribeButton)
 
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
@@ -69,25 +73,51 @@ function EventDetailScreen(props: { id: string }) {
 
   return (
     <Stack height="100%" $gtSm={{ gap: '$8', padding: '$8', flexDirection: 'row' }}>
-      <ScrollView flex={1}>
-        <VoxCard overflow="hidden">
-          <VoxCard.Image large image={data.image_url || 'https://picsum.photos/600/400'} />
-          <VoxCard.Content>
-            <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
-            <VoxCard.Title>{data.name}</VoxCard.Title>
-            {!isShortEvent && <VoxCard.Description full>{data.description}</VoxCard.Description>}
-            {media.sm && AsideCardContent}
-          </VoxCard.Content>
-        </VoxCard>
-      </ScrollView>
+      <>
+        <ScrollView flex={1}>
+          <VoxCard overflow="hidden" paddingBottom={media.sm ? '$9' : undefined}>
+            <VoxCard.Image large image={data.image_url || 'https://picsum.photos/600/400'} />
+            <VoxCard.Content>
+              <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
+              <VoxCard.Title>{data.name}</VoxCard.Title>
+              {!isShortEvent && <VoxCard.Description full>{data.description}</VoxCard.Description>}
+              {media.sm && AsideCardContent}
+            </VoxCard.Content>
+          </VoxCard>
+        </ScrollView>
+        {media.sm && (
+          <Stack position="absolute" bottom="$3" left="$3" right="$3">
+            <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+          </Stack>
+        )}
+      </>
       {media.gtSm && (
         <Stack>
           <VoxCard>
-            <VoxCard.Content>{AsideCardContent}</VoxCard.Content>
+            <VoxCard.Content>
+              {AsideCardContent}
+              <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+            </VoxCard.Content>
           </VoxCard>
         </Stack>
       )}
     </Stack>
+  )
+}
+
+type SubscribeButtonProps = {
+  eventId: string
+  isSubscribed: boolean
+}
+
+function SubscribeButton({ eventId, isSubscribed }: SubscribeButtonProps) {
+  const { mutate: subscribe } = useSubscribeEvent(eventId)
+  const { mutate: unsubscribe } = useUnsubscribeEvent(eventId)
+  const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
+  return (
+    <Button variant={isSubscribed ? 'outlined' : 'contained'} onPress={handleSubscribe} size="lg" width="100%">
+      <Button.Text color="$blue7">{isSubscribed ? 'Me desinscrire' : "M'inscrire"}</Button.Text>
+    </Button>
   )
 }
 

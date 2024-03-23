@@ -78,6 +78,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           })
         },
         payload: {
+          id: feed.objectID,
           title: feed.title,
           tag,
           image: feed.image || 'https://picsum.photos/600/244',
