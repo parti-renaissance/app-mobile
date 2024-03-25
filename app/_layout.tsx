@@ -1,4 +1,4 @@
-import { SessionProvider } from '@/ctx'
+import { SessionProvider } from '@/ctx/SessionProvider'
 import { headerBlank } from '@/styles/navigationAppearance'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
@@ -10,7 +10,6 @@ import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useNavigationContainerRef } from 'expo-router'
-
 
 const { routingInstrumentation } = ErrorMonitor.configure()
 
@@ -68,6 +67,5 @@ function Root() {
     </QueryClientProvider>
   )
 }
-
 
 export default Root
