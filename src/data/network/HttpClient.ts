@@ -27,21 +27,14 @@ const refreshToken = async (options: { request: Request }) => {
     }
     const tokenHasBeenRefreshed = credentials.accessToken !== requestAccessToken
     if (tokenHasBeenRefreshed) {
-      options.request.headers.set(
-        'Authorization',
-        `Bearer ${credentials?.accessToken}`,
-      )
+      options.request.headers.set('Authorization', `Bearer ${credentials?.accessToken}`)
       return
     }
 
     const authenticationRepository = AuthenticationRepository.getInstance()
-    let newCredentials: Credentials =
-      await authenticationRepository.refreshToken(credentials.refreshToken)
+    let newCredentials: Credentials = await authenticationRepository.refreshToken(credentials.refreshToken)
 
-    options.request.headers.set(
-      'Authorization',
-      `Bearer ${newCredentials?.accessToken}`,
-    )
+    options.request.headers.set('Authorization', `Bearer ${newCredentials?.accessToken}`)
   })
 }
 

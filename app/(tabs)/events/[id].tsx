@@ -116,7 +116,7 @@ function SubscribeButton({ eventId, isSubscribed }: SubscribeButtonProps) {
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   return (
     <Button variant={isSubscribed ? 'outlined' : 'contained'} onPress={handleSubscribe} size="lg" width="100%">
-      <Button.Text color="$blue7">{isSubscribed ? 'Me desinscrire' : "M'inscrire"}</Button.Text>
+      <Button.Text color={isSubscribed ? '$white1' : '$blue7' }>{isSubscribed ? 'Me desinscrire' : "M'inscrire"}</Button.Text>
     </Button>
   )
 }

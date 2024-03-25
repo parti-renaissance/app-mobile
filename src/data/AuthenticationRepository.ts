@@ -1,4 +1,5 @@
 import FB from '@/config/firebaseConfig'
+import { set } from 'date-fns'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
 import { RefreshTokenPermanentlyInvalidatedError } from '../core/errors'
 import { ErrorMonitor } from '../utils/ErrorMonitor'
@@ -25,24 +26,21 @@ class AuthenticationRepository {
         return AuthenticationState.Unauthenticated
       }
       // anonymous users don't retrieve a refresh token during authentication
-      if (
-        credentials.refreshToken === null ||
-        credentials.refreshToken === undefined
-      ) {
+      if (credentials.refreshToken === null || credentials.refreshToken === undefined) {
         return AuthenticationState.Anonymous
       }
       return AuthenticationState.Authenticated
     })
   }
 
-  public async login(email: string, password: string): Promise<void> {
+  public async login({ email, password }: { email: string; password: string }) {
     const instanceId = await this.getDeviceId()
     const result = await this.apiService.login(email, password, instanceId)
     const credentials = this.mapCredentials(result)
 
     // We want to remove preferences as we may have saved an anonymous zipcode before
     await this.localStore.clearPreferences()
-    await this.localStore.storeCredentials(credentials)
+    return JSON.stringify(credentials)
   }
 
   public async refreshToken(refreshToken: string): Promise<Credentials> {
