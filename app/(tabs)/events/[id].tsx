@@ -8,6 +8,7 @@ import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } 
 import i18n from '@/utils/i18n'
 import { useLocalSearchParams } from 'expo-router'
 import { ScrollView, Separator, Stack, Text, useMedia, YStack } from 'tamagui'
+import { View } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 
 const MemoizedSubscribeButton = React.memo(SubscribeButton)
@@ -17,17 +18,15 @@ const HomeScreen: React.FC = () => {
   return (
     <>
       <YStack flex={1}>
-        <PageLayout sidebar={<Text>Test</Text>}>
           <Stack $gtSm={{ flexDirection: 'row', gap: 8 }} flex={1}>
             <BoundarySuspenseWrapper loadingMessage="Nous chargons votre evement">
-              <Stack flex={1} $gtSm={{ alignItems: 'center' }} gap={2}>
-                <Stack flex={1} $gtSm={{ maxWidth: 1200 }} gap={2}>
+              <Stack flex={1} bg="purple" gap={2}>
+                {/* <Stack flex={1} gap={2}> */}
                   <EventDetailScreen id={params.id} />
-                </Stack>
+                {/* </Stack> */}
               </Stack>
             </BoundarySuspenseWrapper>
           </Stack>
-        </PageLayout>
       </YStack>
     </>
   )
@@ -55,15 +54,6 @@ function EventDetailScreen(props: { id: string }) {
 
       <Stack gap="$2">
         <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textDisabled">
-          Date de publication:
-        </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textPrimary">
-          {i18n.t('vox_card.dateCreated', { date: new Date(data.user_registered_at) })}
-        </Text>
-      </Stack>
-
-      <Stack gap="$2">
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textDisabled">
           Évènement créer par:
         </Text>
         <VoxCard.Author {...author} />
@@ -72,34 +62,38 @@ function EventDetailScreen(props: { id: string }) {
   )
 
   return (
-    <Stack height="100%" $gtSm={{ gap: '$8', padding: '$8', flexDirection: 'row' }}>
-      <>
-        <ScrollView flex={1}>
-          <VoxCard overflow="hidden" paddingBottom={media.sm ? '$9' : undefined}>
-            <VoxCard.Image large image={data.image_url || 'https://picsum.photos/600/400'} />
-            <VoxCard.Content>
-              <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
-              <VoxCard.Title>{data.name}</VoxCard.Title>
-              {!isShortEvent && <VoxCard.Description full>{data.description}</VoxCard.Description>}
-              {media.sm && AsideCardContent}
-            </VoxCard.Content>
-          </VoxCard>
-        </ScrollView>
+    <Stack flex={1} bg="red" $gtSm={{ gap: '$8', padding: '$8', flexDirection: 'row' }}>
+      <View style={{flex:1, backgroundColor: 'blue'}}>
+        {/* <ScrollView flex={1}> */}
+          {/* <VoxCard flexGrow={0} overflow="hidden" paddingBottom={media.sm ? '$9' : undefined}> */}
+            {/* <VoxCard.Image large image={data.image_url || 'https://picsum.photos/600/400'} /> */}
+            {/* <VoxCard.Content flex={1}> */}
+            <View>
+            <Text>test wejkhglj werjhgfwkerjhgjwehrg jwerhglkjhwerkerhglkjhwelrjhgljkwerh gjwerhjgkh werjklgh lkwjerh gjlk hwerjlkgh werlkjhg </Text>
+
+            </View>
+              {/* <VoxCard.Chip event>{data.category.name}</VoxCard.Chip> */}
+              {/* <VoxCard.Title>{data.name}</VoxCard.Title> */}
+              {/* {!isShortEvent && <VoxCard.Description full>{data.description}</VoxCard.Description>}
+              {media.sm && AsideCardContent} */}
+            {/* </VoxCard.Content> */}
+          {/* </VoxCard>  */}
+        {/* </ScrollView> */}
         {media.sm && (
           <Stack position="absolute" bottom="$3" left="$3" right="$3">
             <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
           </Stack>
         )}
-      </>
+      </View>
       {media.gtSm && (
-        <Stack>
-          <VoxCard>
+        <View style={{flex:1}}>
+          {/* <VoxCard>
             <VoxCard.Content>
               {AsideCardContent}
               <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
             </VoxCard.Content>
-          </VoxCard>
-        </Stack>
+          </VoxCard> */}
+        </View>
       )}
     </Stack>
   )
@@ -116,7 +110,7 @@ function SubscribeButton({ eventId, isSubscribed }: SubscribeButtonProps) {
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   return (
     <Button variant={isSubscribed ? 'outlined' : 'contained'} onPress={handleSubscribe} size="lg" width="100%">
-      <Button.Text color={isSubscribed ? '$white1' : '$blue7' }>{isSubscribed ? 'Me desinscrire' : "M'inscrire"}</Button.Text>
+      <Button.Text color={isSubscribed ? '$blue7' : '$white1' }>{isSubscribed ? 'Me desinscrire' : "M'inscrire"}</Button.Text>
     </Button>
   )
 }

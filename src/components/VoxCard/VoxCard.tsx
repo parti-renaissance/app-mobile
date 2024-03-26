@@ -3,10 +3,11 @@ import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
 import { CalendarDays, Clock, MapPin, Users, Video } from '@tamagui/lucide-icons'
 import { isSameDay } from 'date-fns'
-import { Image, styled, Card as TCard, Text, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { Image, styled, Card as TCard, Text, View, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
-const CardFrame = styled(YStack, {
+const CardFrame = styled(View, {
   name: 'Card',
+  flexGrow: 0,
   backgroundColor: '$white1',
   $gtMd: {
     borderRadius: '$8',
@@ -23,7 +24,7 @@ const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
 }
 
 export const VoxCardContent = styled(YStack, {
-  padding: '$4.5',
+  margin: '$4.5',
   gap: '$3.5',
 } as const)
 
