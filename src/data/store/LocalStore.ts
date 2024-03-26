@@ -15,15 +15,15 @@ class LocalStore {
 
   storeCredentials(credentials: Credentials): Promise<void> {
     const jsonValue = JSON.stringify(credentials)
-    return AsyncStorage.setItem(KEY_CREDENTIALS, jsonValue)
+    return AsyncStorage.secure.setItem(KEY_CREDENTIALS, jsonValue)
   }
 
   getCredentials(): Promise<Credentials | null> {
-    return AsyncStorage.getItem(KEY_CREDENTIALS).then(this.parseJSON)
+    return AsyncStorage.secure.getItem(KEY_CREDENTIALS).then(this.parseJSON)
   }
 
   clearCredentials(): Promise<void> {
-    return AsyncStorage.removeItem(KEY_CREDENTIALS)
+    return AsyncStorage.secure.removeItem(KEY_CREDENTIALS)
   }
 
   async storeZipCode(zipCode: string): Promise<void> {
