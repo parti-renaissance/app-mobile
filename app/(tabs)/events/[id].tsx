@@ -1,14 +1,12 @@
 import React from 'react'
-import { Dimensions } from 'react-native'
+import { Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
-import i18n from '@/utils/i18n'
 import { useLocalSearchParams } from 'expo-router'
-import { ScrollView, Separator, Stack, Text, useMedia, View, XStack, YStack } from 'tamagui'
+import { ScrollView, Separator, Stack, Text, useMedia, View, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 const MemoizedSubscribeButton = React.memo(SubscribeButton)
@@ -56,6 +54,7 @@ function EventDetailScreen(props: { id: string }) {
       <VoxCard.Date {...date} />
       {data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...location} />}
       {!isShortEvent && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
+      {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
 
       <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
         Cette évènement est réservée aux adhérents à jour de cotisation.
@@ -88,7 +87,11 @@ function EventDetailScreen(props: { id: string }) {
             <VoxCard.Content>
               <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
               <VoxCard.Title>{data.name}</VoxCard.Title>
-              {!isShortEvent && <VoxCard.Description full>{data.description}</VoxCard.Description>}
+              {!isShortEvent && (
+                <VoxCard.Description full markdown>
+                  {data.description}
+                </VoxCard.Description>
+              )}
               {media.lg && AsideCardContent}
             </VoxCard.Content>
           </VoxCard>

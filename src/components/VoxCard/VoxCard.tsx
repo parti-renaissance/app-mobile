@@ -1,9 +1,10 @@
 import React, { ComponentProps } from 'react'
+import Markdown, { MarkdownIt } from 'react-native-markdown-display'
 import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
-import { CalendarDays, MapPin, Users, Video } from '@tamagui/lucide-icons'
+import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { isSameDay } from 'date-fns'
-import { Image, styled, Card as TCard, Text, useMedia, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { getFontSize, Image, styled, Card as TCard, Text, useMedia, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
 const CardFrame = styled(YStack, {
   name: 'Card',
@@ -125,7 +126,7 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
 
 export type VoxCardAttendeesProps = {
   attendees?: {
-    pictures: [string, string, string]
+    pictures?: [string, string, string]
     count: number
   }
 }
@@ -140,15 +141,19 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
   return (
     <XStack gap="$2" alignItems="center">
-      <ZStack width={68} height="$2">
-        {attendees.pictures.map((_, index) => (
-          <XStack key={index} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
-            <Image source={{ uri: attendees.pictures[reverseIndex(index)], width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
-          </XStack>
-        ))}
-      </ZStack>
+      {attendees.pictures && attendees.pictures.length > 3 ? (
+        <ZStack width={68} height="$2">
+          {attendees.pictures.map((_, index) => (
+            <XStack key={index} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
+              <Image source={{ uri: attendees.pictures[reverseIndex(index)], width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
+            </XStack>
+          ))}
+        </ZStack>
+      ) : (
+        <UserCheck size="$1" />
+      )}
 
-      <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
+      <Text fontFamily="$PublicSans" color="$textPrimary" fontSize="$1" lineHeight="$1" fontWeight="$5">
         {attendees.count} Inscrits
       </Text>
     </XStack>
@@ -172,10 +177,25 @@ const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
 export type VoxCardDescritionProps = {
   children: string | string[]
   full?: boolean
+  markdown?: boolean
 }
 
-const VoxCardDescrition = ({ children, full }: VoxCardDescritionProps) => {
-  return (
+const VoxCardDescription = ({ children, full, markdown }: VoxCardDescritionProps) => {
+  const theme = useTheme()
+  return markdown ? (
+    <Markdown
+      style={{
+        body: {
+          fontFamily: 'PublicSans-Medium',
+          fontSize: getFontSize('$1', { font: '$PublicSans' }),
+          color: theme.textPrimary.val,
+          lineHeight: getFontSize('$4', { font: '$PublicSans' }),
+        },
+      }}
+    >
+      {children}
+    </Markdown>
+  ) : (
     <Text numberOfLines={full ? undefined : 3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
       {children}
     </Text>
@@ -202,7 +222,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Image: VoxCardImage,
   Author: VoxCardAuthor,
   Attendees: VoxCardAttendees,
-  Description: VoxCardDescrition,
+  Description: VoxCardDescription,
   Visio: VoxCardVisio,
   Capacity: VoxCardCapacity,
 })
