@@ -1,14 +1,14 @@
 import React, { ComponentProps } from 'react'
 import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
-import { CalendarDays, Clock, MapPin, Users, Video } from '@tamagui/lucide-icons'
+import { CalendarDays, MapPin, Users, Video } from '@tamagui/lucide-icons'
 import { isSameDay } from 'date-fns'
-import { Image, styled, Card as TCard, Text, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { Image, styled, Card as TCard, Text, useMedia, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 
 const CardFrame = styled(YStack, {
   name: 'Card',
   backgroundColor: '$white1',
-  $gtMd: {
+  $gtSm: {
     borderRadius: '$8',
   },
 } as const)
@@ -161,9 +161,10 @@ export type VoxCardImageProps = {
 }
 
 const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
+  const media = useMedia()
   return (
     <XStack $gtSm={{ maxHeight: large ? 'auto' : '$15' }} borderRadius="$1" overflow="hidden">
-      <Image source={{ uri: image, width: 600, height: large ? 400 : 244 }} width="100%" alt="event image" resizeMode="cover" />
+      <Image source={{ uri: image, width: 600, height: large && media.gtLg ? 400 : 244 }} width="100%" alt="event image" resizeMode="cover" />
     </XStack>
   )
 }
