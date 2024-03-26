@@ -19,7 +19,7 @@ function initFirebase() {
       setBackgroundMessageHandler: (x: Parameters<Mess['setBackgroundMessageHandler']>[0]) => nMessaging().setBackgroundMessageHandler(x),
       getInitialNotification: () => nMessaging().getInitialNotification(),
       onNotificationOpenedApp: (x: Parameters<Mess['onNotificationOpenedApp']>[0]) => nMessaging().onNotificationOpenedApp(x),
-      requestPermission: nMessaging().requestPermission,
+      requestPermission: (...x: Parameters<Mess['requestPermission']>) => nMessaging().requestPermission(...x),
     },
     analytics: {
       logEvent: (...x: Parameters<Anal['logEvent']>) => nAnalytics().logEvent(...x),
