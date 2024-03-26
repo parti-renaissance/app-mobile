@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Platform } from 'react-native'
+import LocalStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void]
@@ -59,9 +60,12 @@ export async function removeStorageItemAsync(key: string) {
 }
 
 export const AsyncStorage = {
-  setItem: setStorageItemAsync,
-  getItem: getStorageItemAsync,
-  removeItem: removeStorageItemAsync,
+  secure: {
+    setItem: setStorageItemAsync,
+    getItem: getStorageItemAsync,
+    removeItem: removeStorageItemAsync,
+  },
+  ...LocalStorage,
 }
 
 export function useStorageState(key: string): UseStateHook<string> {
@@ -70,19 +74,9 @@ export function useStorageState(key: string): UseStateHook<string> {
 
   // Get
   React.useEffect(() => {
-    if (Platform.OS === 'web') {
-      try {
-        if (typeof localStorage !== 'undefined') {
-          setState(localStorage.getItem(key))
-        }
-      } catch (e) {
-        console.error('Local storage is unavailable:', e)
-      }
-    } else {
-      SecureStore.getItemAsync(key).then((value) => {
-        setState(value)
-      })
-    }
+    AsyncStorage.secure.getItem(key).then((value) => {
+      setState(value)
+    })
   }, [key])
 
   // Set
