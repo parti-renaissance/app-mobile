@@ -1,7 +1,8 @@
-import ApiService from '@/data/network/ApiService'
-import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
-import { InfiniteData, useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { PaginatedFeedQueryKey } from './useFeed'
+import ApiService from '@/data/network/ApiService';
+import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents';
+import { InfiniteData, useMutation, useQuery, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { PaginatedFeedQueryKey } from './useFeed';
+
 
 const queryKey = ['shortEvents']
 
@@ -112,12 +113,10 @@ export type Event =
 
 export const useGetEvent = (eventId: string) => {
   const queryClient = useQueryClient()
-  return useSuspenseQuery<Event>({
-    queryKey: ['event', eventId],
-    queryFn: () => ApiService.getInstance().getEventDetails(eventId),
-    initialData: () => {
-      const dataList = queryClient.getQueryData<InfiniteData<RestEvents>>(queryKey)
-      const dataEvent = queryClient.getQueryData<RestDetailedEvent>(['event', eventId])
+  const dataList = queryClient.getQueryData<InfiniteData<RestEvents>>(queryKey)
+  const dataEvent = queryClient.getQueryData<RestDetailedEvent>(['event', eventId])
+  const placeholderData = (() => {
+
       if (dataEvent) {
         return dataEvent
       }
@@ -126,7 +125,13 @@ export const useGetEvent = (eventId: string) => {
         return { isShort: true, ...event }
       }
       return undefined
-    },
+    })()
+  const useMyQuery = placeholderData ? useQuery : useSuspenseQuery
+    
+  return useMyQuery<Event>({
+    queryKey: ['event', eventId],
+    queryFn: () => ApiService.getInstance().getEventDetails(eventId),
+    ...(placeholderData ? { placeholderData } : {})
   })
 }
 
