@@ -1,42 +1,28 @@
 import React from 'react'
-import { Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
 import { useLocalSearchParams } from 'expo-router'
-import { ScrollView, Separator, Stack, Text, useMedia, View, XStack } from 'tamagui'
+import { ScrollView, Separator, Stack, Text, useMedia } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 const MemoizedSubscribeButton = React.memo(SubscribeButton)
 
 const padding = '$7'
-const columnWidth = 333
 
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
-  const media = useMedia()
   return (
     <>
-      <XStack flex={1} bg="$gray2">
-        {media.gtMd && (
-          <View width={columnWidth} height="100%" pt={padding} pl={padding}>
-            <VoxCard height={300}>
-              <VoxCard.Content>
-                <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textDisabled">
-                  Évènement créer par:
-                </Text>
-              </VoxCard.Content>
-            </VoxCard>
-          </View>
-        )}
-        <BoundarySuspenseWrapper loadingMessage="Nous chargons votre evement">
-          <Stack flex={1} flexBasis={0} gap={2} $gtLg={{ pr: padding }}>
-            <EventDetailScreen id={params.id} />
-          </Stack>
+      <PageLayout>
+        <PageLayout.SideBarLeft />
+        <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+          <EventDetailScreen id={params.id} />
         </BoundarySuspenseWrapper>
-      </XStack>
+      </PageLayout>
     </>
   )
 }
@@ -72,12 +58,12 @@ function EventDetailScreen(props: { id: string }) {
   )
 
   return (
-    <Stack flex={1} $gtSm={{ flexDirection: 'row' }}>
-      <Stack flex={1} flexBasis={0}>
+    <>
+      <PageLayout.MainSingleColumn>
         <ScrollView
           flex={1}
           contentContainerStyle={{
-            pt: media.gtSm ? padding : undefined,
+            pt: media.gtSm ? padding : '$4',
             pl: media.gtSm ? padding : undefined,
             pr: media.gtSm ? padding : undefined,
           }}
@@ -111,18 +97,16 @@ function EventDetailScreen(props: { id: string }) {
             <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
           </Stack>
         )}
-      </Stack>
-      {media.gtLg && (
-        <Stack width={333} mt={padding}>
-          <VoxCard>
-            <VoxCard.Content>
-              <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
-              {AsideCardContent}
-            </VoxCard.Content>
-          </VoxCard>
-        </Stack>
-      )}
-    </Stack>
+      </PageLayout.MainSingleColumn>
+      <PageLayout.SideBarRight>
+        <VoxCard>
+          <VoxCard.Content>
+            <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+            {AsideCardContent}
+          </VoxCard.Content>
+        </VoxCard>
+      </PageLayout.SideBarRight>
+    </>
   )
 }
 

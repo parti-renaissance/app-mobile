@@ -7,6 +7,7 @@ import { useGetProfilObserver } from '@/hooks/useProfil'
 import { Link, router, usePathname } from 'expo-router'
 import { Avatar, Button, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
 import ButtonCustom from '../Button'
+import Container from '../layouts/Container'
 
 const opacityToHexCode = (hex: string, opacity: number) => {
   const opacityHex = Math.round(opacity * 255).toString(16)
@@ -113,22 +114,15 @@ const ProfileView = () => {
 const Header: React.FC = (props: StackProps) => {
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <Stack
-        {...props}
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        borderBottomWidth={2}
-        borderBottomColor="rgba(145, 158, 171, 0.32)"
-        height={82}
-        paddingHorizontal={'$4'}
-      >
-        <Link href={'/home/'}>
-          <EuCampaignIllustration />
-        </Link>
-        <NavBar />
-        <ProfileView />
-      </Stack>
+      <Container borderBottomWidth={2} borderBottomColor="rgba(145, 158, 171, 0.32)" paddingHorizontal={'$4'} height={82} {...props} alignContent="center">
+        <Stack flexDirection="row" justifyContent="space-between" alignItems="center" flex={1}>
+          <Link href={'/home/'}>
+            <EuCampaignIllustration />
+          </Link>
+          <NavBar />
+          <ProfileView />
+        </Stack>
+      </Container>
     </SafeAreaView>
   )
 }
