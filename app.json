@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "vox",
+    "name": "Besoin d'Europe",
     "slug": "vox",
     "scheme": "vox",
     "version": "4.0.1",
@@ -48,6 +48,7 @@
       "@react-native-firebase/app",
       "@react-native-firebase/messaging",
       "@react-native-firebase/dynamic-links",
+      "expo-secure-store",
       [
         "expo-build-properties",
         {

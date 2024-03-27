@@ -1,12 +1,5 @@
 import React, { FC } from 'react'
-import {
-  Image,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import CardView from '../shared/CardView'
@@ -25,53 +18,14 @@ type Props = Readonly<{
 const EventView: FC<Props> = ({ viewModel, style, onEventSelected }) => {
   return (
     <CardView style={style} backgroundColor={Colors.defaultBackground}>
-      <TouchablePlatform
-        touchHighlight={Colors.touchHighlight}
-        onPress={() => onEventSelected(viewModel.id)}
-      >
+      <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={() => onEventSelected(viewModel.id)}>
         <View style={styles.container}>
           <View style={styles.topRow}>
             <View style={styles.leftColumn}>
               <TagView>{viewModel.tag}</TagView>
               <Text style={styles.title}>{viewModel.title}</Text>
             </View>
-            <View style={styles.rightColumn}>
-              {viewModel.imageUrl ? (
-                <Image
-                  source={{ uri: viewModel.imageUrl }}
-                  style={styles.image}
-                />
-              ) : null}
-            </View>
-          </View>
-          <View style={styles.bottomRow}>
-            <View style={styles.leftColumn}>
-              <Text style={styles.day}>{viewModel.day}</Text>
-              <Text style={styles.hour}>{viewModel.hour}</Text>
-            </View>
-            <View style={styles.rightColumn}>
-              {viewModel.isSubscribed ? (
-                <Text style={styles.subscribed}>
-                  <Image
-                    style={styles.checkIcon}
-                    source={require('../../assets/images/checkIcon.png')}
-                  />
-                  {i18n.t('events.subscribed')}
-                </Text>
-              ) : null}
-            </View>
-          </View>
-          <VerticalSpacer spacing={Spacing.margin} />
-          <HorizontalSeparator />
-          <VerticalSpacer spacing={Spacing.margin} />
-          <View style={styles.addressContainer}>
-            <Image
-              style={styles.addressIcon}
-              resizeMode="contain"
-              source={viewModel.addressIcon}
-            />
-            <HorizontalSpacer spacing={Spacing.margin} />
-            <Text style={styles.address}>{viewModel.formattedAddress}</Text>
+            <View style={styles.rightColumn}>{viewModel.imageUrl ? <Image source={{ uri: viewModel.imageUrl }} style={styles.image} /> : null}</View>
           </View>
         </View>
       </TouchablePlatform>

@@ -1,5 +1,7 @@
 import React, { FC, useRef, useState } from 'react'
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
+import { useSession } from '@/ctx/SessionProvider'
+import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import { LoginError } from '../../core/errors'
 import { LoginInteractor } from '../../core/interactor/LoginInteractor'
 import { OnboardingNavigatorScreenProps } from '../../navigation/onboarding/OnboardingNavigatorScreenProps'
@@ -10,8 +12,6 @@ import { GenericErrorMapper } from '../shared/ErrorMapper'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
 
-import { router } from 'expo-router'
-
 type LoginScreenProps = OnboardingNavigatorScreenProps<'Login'>
 
 const LoginScreen: FC<LoginScreenProps> = () => {
@@ -19,13 +19,11 @@ const LoginScreen: FC<LoginScreenProps> = () => {
   const [password, setPassword] = useState('')
 
   const [isLoading, setLoading] = useState(false)
-  const [emailErrorMessage, setEmailErrorMessage] = useState<
-    string | undefined
-  >(undefined)
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState<
-    string | undefined
-  >(undefined)
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string | undefined>(undefined)
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string | undefined>(undefined)
   const passwordInputRef = useRef<TextInput>(null)
+  const { signIn } = useSession()
+  const { redirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
 
   const isLoginEnabled = (): boolean => {
     return email.length > 0 && password.length > 0
@@ -35,10 +33,11 @@ const LoginScreen: FC<LoginScreenProps> = () => {
     setLoading(true)
     setEmailErrorMessage(undefined)
     setPasswordErrorMessage(undefined)
-    new LoginInteractor()
-      .login(email, password)
+    signIn({ email, password })
       .then(() => {
-        // no op
+        router.push({
+          pathname: redirect || '/(tabs)/home',
+        })
       })
       .catch((exception) => {
         if (exception instanceof LoginError) {
@@ -99,18 +98,13 @@ const LoginScreen: FC<LoginScreenProps> = () => {
           returnKeyType: 'done',
         }}
       />
-      <PrimaryButton
-        disabled={!isLoginEnabled()}
-        style={styles.submitButton}
-        title={i18n.t('login.login')}
-        onPress={onFormSubmitted}
-      />
+      <PrimaryButton disabled={!isLoginEnabled()} style={styles.submitButton} title={i18n.t('login.login')} onPress={onFormSubmitted} />
       <BorderlessButton
         style={styles.passwordLostButton}
         title={i18n.t('login.password_lost')}
         onPress={() => {
-          router.push( {
-            pathname :'/forget-password',
+          router.push({
+            pathname: '/forget-password',
             params: { email },
           })
         }}

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
-import { router } from 'expo-router'
+import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import { HeaderInfos } from '../../core/entities/HeaderInfos'
 import { DataSource } from '../../data/DataSource'
 import { OnboardingRepository } from '../../data/OnboardingRepository'
@@ -14,6 +14,7 @@ export const useOnboardingScreen = (): {
   onLegacyLogin: () => void
 } => {
   const [headerInfos, setHeaderInfos] = useState<HeaderInfos>()
+  const { redirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
 
   const fetchHeader = useCallback((dataSource: DataSource): Promise<void> => {
     return OnboardingRepository.getInstance()
@@ -36,7 +37,10 @@ export const useOnboardingScreen = (): {
   useFocusEffect(load)
 
   const onLogin = () => {
-    router.push('/sign-in')
+    router.push({
+      pathname: '/sign-in',
+      params: { redirect },
+    })
   }
 
   const onSignUp = () => {

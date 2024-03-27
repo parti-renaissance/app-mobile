@@ -3,26 +3,38 @@ import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Header/Header'
 import { ROUTES } from '@/config/routes'
-import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
-import { Tabs, usePathname } from 'expo-router'
+import { useSession } from '@/ctx/SessionProvider'
+import useInit from '@/hooks/useInit'
+import { useLazyRef } from '@/hooks/useLazyRef'
+import { Redirect, Tabs, usePathname } from 'expo-router'
 import { useMedia, View } from 'tamagui'
 
 const TAB_BAR_HEIGTH = 60
-
-const getScreenname = (route: string): AnalyticsScreens => {
-  const tabRoute = ROUTES.find((tabRoute) => tabRoute.name === route)
-  return tabRoute?.screenName as AnalyticsScreens
-}
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const pathname = usePathname()
   const media = useMedia()
+  const { session, isLoading } = useSession()
 
-  React.useEffect(() => {
-    Analytics.logNavBarItemSelected(getScreenname(pathname))
-  }, [pathname])
+  const firstPathname = useLazyRef(() => (!session ? pathname : '/'))
 
+  useInit()
+
+  if (isLoading) {
+    return null
+  }
+
+  if (!session) {
+    return (
+      <Redirect
+        href={{
+          pathname: '/(auth)/onboarding',
+          params: firstPathname.current !== '/' ? { redirect: encodeURI(firstPathname.current) } : undefined,
+        }}
+      />
+    )
+  }
 
   return (
     <>

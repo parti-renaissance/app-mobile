@@ -1,37 +1,64 @@
 // first fetch profile,
-import EuCampaignIllustration from '@/assets/illustrations/EuCampaignNineJune'
-import { Stack, useMedia, YStack } from 'tamagui'
+import Container from '@/components/layouts/Container'
+import VoxCard from '@/components/VoxCard/VoxCard'
+import { StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack } from 'tamagui'
+
+export const padding = '$7'
+export const columnWidth = 333
 
 type LayoutPageProps = {
   children: React.ReactNode
-  sidebar?: React.ReactNode
 }
-const HomeFeedList = (props: LayoutPageProps) => {
+const LayoutFrame = ({ children }: StackProps) => {
+  return (
+    <Container flex={1} bg="$gray2" $gtMd={{ pl: padding }} $gtLg={{ pl: 0 }}>
+      <XStack flex={1}>{children}</XStack>
+    </Container>
+  )
+}
+
+const LayoutSideBarLeft = () => {
   const media = useMedia()
   return (
-    <YStack flex={1} backgroundColor={'white'} overflow="hidden">
-      <Stack $gtSm={{ margin: '$4', gap: 2 }} flex={1}>
-        <Stack flexDirection="column" $gtSm={{ flexDirection: 'row', gap: '$4' }} flex={1}>
-          {media.gtLg && props.sidebar && (
-            <Stack flex={4} borderColor={'$gray3'} borderWidth={1}>
-              {props.sidebar}
-            </Stack>
-          )}
-          <Stack
-            borderColor={'$gray3'}
-            backgroundColor={'$gray2'}
-            $sm={{ flex: 1 }}
-            $gtSm={{
-              flex: 8,
-              borderWidth: 1,
-            }}
-          >
-            {props.children}
-          </Stack>
-        </Stack>
-      </Stack>
+    media.gtMd && (
+      <View width={columnWidth} height="100%" pt={padding}>
+        <VoxCard height={300}>
+          <VoxCard.Content></VoxCard.Content>
+        </VoxCard>
+      </View>
+    )
+  )
+}
+
+const LayoutSideBarRight = ({ children }: ViewProps) => {
+  const media = useMedia()
+  return (
+    media.gtLg && (
+      <View width={columnWidth} height="100%" pt={padding}>
+        {children ? (
+          children
+        ) : (
+          <VoxCard height={300}>
+            <VoxCard.Content></VoxCard.Content>
+          </VoxCard>
+        )}
+      </View>
+    )
+  )
+}
+
+const LayoutMainSingleColumn = ({ children }: StackProps) => {
+  return (
+    <YStack flex={1} flexBasis={0} gap={2}>
+      {children}
     </YStack>
   )
 }
 
-export default HomeFeedList
+export const LayoutPage = withStaticProperties(LayoutFrame, {
+  SideBarLeft: LayoutSideBarLeft,
+  SideBarRight: LayoutSideBarRight,
+  MainSingleColumn: LayoutMainSingleColumn,
+})
+
+export default LayoutPage

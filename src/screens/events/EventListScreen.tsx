@@ -1,28 +1,16 @@
 import React, { FC, useCallback } from 'react'
-import {
-  FlatList,
-  ListRenderItemInfo,
-  RefreshControl,
-  SectionList,
-  SectionListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { FlatList, ListRenderItemInfo, RefreshControl, SectionList, SectionListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { EventMode } from '../../core/entities/Event'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { ListFooterLoader } from '../shared/ListFooterLoader'
 import { StatefulView } from '../shared/StatefulView'
+import EventFeedList from './EventFeedList'
 import { EventFilter } from './EventFilter'
 import EventGridItem from './EventGridItem'
 import EventView from './EventView'
-import {
-  EventRowContainerViewModel,
-  EventRowViewModel,
-  EventSectionViewModel,
-} from './EventViewModel'
+import { EventRowContainerViewModel, EventRowViewModel, EventSectionViewModel } from './EventViewModel'
 import { useEventListScreen } from './useEventListScreen.hook'
 
 type Props = Readonly<{
@@ -31,19 +19,8 @@ type Props = Readonly<{
   eventModeFilter?: EventMode
 }>
 
-const EventListScreen: FC<Props> = ({
-  eventFilter,
-  searchText,
-  eventModeFilter,
-}) => {
-  const {
-    statefulState,
-    isLoadingMore,
-    isRefreshing,
-    onRefresh,
-    onEndReached,
-    onEventSelected,
-  } = useEventListScreen(eventFilter, searchText, eventModeFilter)
+const EventListScreen: FC<Props> = ({ eventFilter, searchText, eventModeFilter }) => {
+  const { statefulState, isLoadingMore, isRefreshing, onRefresh, onEndReached, onEventSelected } = useEventListScreen(eventFilter, searchText, eventModeFilter)
 
   useFocusEffect(
     useCallback(() => {
@@ -52,42 +29,17 @@ const EventListScreen: FC<Props> = ({
   )
 
   const EventListContent = (events: Array<EventSectionViewModel>) => {
-    const renderItemHorizontal = (
-      info: ListRenderItemInfo<EventRowViewModel>,
-      totalItemCount: number,
-    ) => {
+    const renderItemHorizontal = (info: ListRenderItemInfo<EventRowViewModel>, totalItemCount: number) => {
       const isLastItem = info.index + 1 === totalItemCount
       const marginEnd = isLastItem ? Spacing.margin : 0
-      return (
-        <EventGridItem
-          style={[styles.eventGridCell, { marginEnd }]}
-          viewModel={info.item}
-          onEventSelected={onEventSelected}
-        />
-      )
+      return <EventGridItem style={[styles.eventGridCell, { marginEnd }]} viewModel={info.item} onEventSelected={onEventSelected} />
     }
-    const renderItem = ({
-      item,
-    }: SectionListRenderItemInfo<EventRowContainerViewModel>) => {
+    const renderItem = ({ item }: SectionListRenderItemInfo<EventRowContainerViewModel>) => {
       switch (item.type) {
         case 'grouped':
-          return (
-            <FlatList
-              horizontal={true}
-              data={item.value.events}
-              renderItem={(info) =>
-                renderItemHorizontal(info, item.value.events.length)
-              }
-            />
-          )
+          return <FlatList horizontal={true} data={item.value.events} renderItem={(info) => renderItemHorizontal(info, item.value.events.length)} />
         case 'event':
-          return (
-            <EventView
-              style={styles.eventView}
-              viewModel={item.value}
-              onEventSelected={onEventSelected}
-            />
-          )
+          return <EventView style={styles.eventView} viewModel={item.value} onEventSelected={onEventSelected} />
       }
     }
     return (
@@ -96,9 +48,7 @@ const EventListScreen: FC<Props> = ({
         sections={events}
         renderItem={renderItem}
         renderSectionHeader={({ section: { sectionViewModel } }) => {
-          return sectionViewModel !== undefined ? (
-            <Text style={styles.section}>{sectionViewModel.sectionName}</Text>
-          ) : null
+          return sectionViewModel !== undefined ? <Text style={styles.section}>{sectionViewModel.sectionName}</Text> : null
         }}
         ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
         keyExtractor={(item) => {
@@ -116,13 +66,7 @@ const EventListScreen: FC<Props> = ({
             </View>
           )
         }}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            colors={[Colors.primaryColor]}
-          />
-        }
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} colors={[Colors.primaryColor]} />}
         contentContainerStyle={styles.contentContainerStyle}
         onEndReachedThreshold={0.8}
         onEndReached={onEndReached}
@@ -130,14 +74,7 @@ const EventListScreen: FC<Props> = ({
     )
   }
 
-  return (
-    <StatefulView
-      state={statefulState}
-      contentComponent={(viewModel) => {
-        return EventListContent(viewModel)
-      }}
-    />
-  )
+  return <EventFeedList />
 }
 
 const styles = StyleSheet.create({
