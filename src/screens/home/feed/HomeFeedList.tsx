@@ -9,7 +9,7 @@ import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
-  return <FeedCard {...props} $sm={{ width: '100%' }} $gtSm={{ width: 500 }} />
+  return <FeedCard {...props} />
 })
 
 const renderFeedItem = ({ item }: { item: RestTimelineFeedItem }) => {
@@ -32,8 +32,13 @@ const HomeFeedList = () => {
 
   return (
     <FlatList
-      style={{ width: '100%' }}
-      contentContainerStyle={{ paddingTop: getToken('$space.6'), gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
+      style={{ flex: 1 }}
+      contentContainerStyle={{
+        gap: getToken('$4', 'space'),
+        paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
+        paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
+        paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
+      }}
       data={feedData}
       renderItem={renderFeedItem}
       keyExtractor={(item) => item.objectID}

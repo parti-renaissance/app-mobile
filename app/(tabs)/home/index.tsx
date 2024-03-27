@@ -1,29 +1,28 @@
+import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
 import { Stack as RouterStack } from 'expo-router'
-import { Stack, Text, YStack, Theme } from 'tamagui'
-
-import React from 'react'
+import { Stack, Text, Theme, YStack } from 'tamagui'
 
 const HomeScreen: React.FC = () => {
   return (
     <>
-    <RouterStack.Screen options={{
-      headerShown: false
-    }} />
-    
-      <YStack flex={1}>
-        <PageLayout sidebar={<Text>Test</Text>}>
-          <Stack $gtSm={{ flexDirection: 'row', gap: 8 }} flex={1}>
-            <Stack flex={1} $gtSm={{ flex: 10 }} gap={2}>
-              <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
-                <HomeFeedList/>
-              </BoundarySuspenseWrapper>
-            </Stack>
-          </Stack>
-        </PageLayout>
-      </YStack>
+      <RouterStack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <PageLayout>
+        <PageLayout.SideBarLeft />
+        <PageLayout.MainSingleColumn>
+          <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+            <HomeFeedList />
+          </BoundarySuspenseWrapper>
+        </PageLayout.MainSingleColumn>
+        <PageLayout.SideBarRight />
+      </PageLayout>
     </>
   )
 }
