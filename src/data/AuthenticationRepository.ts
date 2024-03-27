@@ -9,6 +9,7 @@ import { RestLoginResponse } from './restObjects/RestLoginResponse'
 import CacheManager from './store/CacheManager'
 import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
+import { sessionSetter } from '@/ctx/SessionProvider'
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository
@@ -40,6 +41,7 @@ class AuthenticationRepository {
 
     // We want to remove preferences as we may have saved an anonymous zipcode before
     await this.localStore.clearPreferences()
+    sessionSetter?.(JSON.stringify(credentials))
     return JSON.stringify(credentials)
   }
 
@@ -65,6 +67,7 @@ class AuthenticationRepository {
     await this.localStore.clearPreferences()
     await CacheManager.getInstance().purgeCache()
     ErrorMonitor.clearUser()
+    
     try {
       await this.pushRepository.invalidatePushToken()
     } catch (error) {
@@ -72,6 +75,7 @@ class AuthenticationRepository {
       console.log(error)
     }
     this.dispatchState(AuthenticationState.Unauthenticated)
+    sessionSetter?.(null)
   }
 
   public dispatchState(state: AuthenticationState) {

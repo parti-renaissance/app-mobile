@@ -9,7 +9,6 @@ export class LoginInteractor {
   public async login(credentials: { email: string; password: string }, setSession: (session: string) => void) {
     try {
       const creds = await this.authenticationRepository.login(credentials)
-      setSession(creds)
       const profile = await this.profileRepository.getProfile()
       const zipCode = profile.zipCode
       await this.profileRepository.saveZipCode(zipCode)

@@ -5,6 +5,8 @@ import { useLazyRef } from '@/hooks/useLazyRef'
 import { useQueryClient } from '@tanstack/react-query'
 import { useStorageState } from '../hooks/useStorageState'
 
+export let sessionSetter: (session: string) => void | null = null
+
 const AuthContext = React.createContext<{
   signIn: (credentials: { email: string; password: string }) => Promise<void>
   signOut: () => Promise<void>
@@ -31,6 +33,7 @@ export function useSession() {
 
 export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('credentials')
+  sessionSetter = setSession
   const loginInteractor = useLazyRef(() => new LoginInteractor())
   const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
   const queryClient = useQueryClient()
