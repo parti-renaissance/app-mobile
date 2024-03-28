@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -6,12 +7,15 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { BASE_URL } from '@/config/env'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
+import useShareApi from '@/hooks/useShareApi'
 import * as Calendar from '@/modules/Calendar/Calendar'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { Link as LinkIcon } from '@tamagui/lucide-icons'
+import { useToastController } from '@tamagui/toast'
+import * as Clipboard from 'expo-clipboard'
 import { useLocalSearchParams, usePathname } from 'expo-router'
 import { ScrollView, Stack, Text, useMedia } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
-
 
 const MemoizedSubscribeButton = React.memo(SubscribeButton)
 
@@ -22,7 +26,6 @@ const HomeScreen: React.FC = () => {
   return (
     <>
       <PageLayout>
-        
         <PageLayout.SideBarLeft />
         <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
           <EventDetailScreen id={params.id} />
@@ -35,6 +38,7 @@ const HomeScreen: React.FC = () => {
 function EventDetailScreen(props: { id: string }) {
   const { data } = useGetEvent(props.id)
   const isShortEvent = useIsShortEvent(data)
+  const toast = useToastController()
   const location = mapPropsLocation(data)
   const author = mapPropsAuthor(data)
   const date = mapPropsDate(data)
@@ -42,6 +46,42 @@ function EventDetailScreen(props: { id: string }) {
   const pathname = usePathname()
 
   const shareUrl = `${BASE_URL}${pathname}`
+
+  const { shareAsync, isShareAvailable } = useShareApi()
+
+  const handleCopyUrl = () => {
+    Clipboard.setStringAsync(shareUrl)
+      .then(() => {
+        toast.show('Lien copié dans le presse-papier', { type: 'info' })
+      })
+      .catch(() => {
+        toast.show('Erreur lors de la copie du lien', { type: 'error' })
+      })
+  }
+
+  const handleShareUrl = () => {
+    shareAsync(
+      Platform.select({
+        android: {
+          title: data.name,
+          message: !isShortEvent ? `${data.description}\n\n${shareUrl}` : undefined || shareUrl,
+        },
+        ios: {
+          message: data.name,
+          url: shareUrl,
+        },
+        web: {
+          title: data.name,
+          message: !isShortEvent ? data.description : data.name,
+          url: shareUrl,
+        },
+      }),
+    )
+      .catch((e) => {
+        ErrorMonitor.log(e.message, { e })
+        toast.show('Erreur lors du partage du lien', { type: 'error' })
+      })
+  }
 
   const eventData = {
     title: data.name,
@@ -70,20 +110,22 @@ function EventDetailScreen(props: { id: string }) {
       </VoxCard.Section>
 
       <VoxCard.Section title="Partager:" gap="$3">
-        <Button variant="outlined" width="100%">
+        <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
           <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
             {shareUrl}
           </Button.Text>
           <LinkIcon color="$textDisabled" />
         </Button>
 
-        <Button variant="outlined" width="100%" size="lg">
-          <Button.Text variant="outlined">Partager</Button.Text>
-        </Button>
+        {isShareAvailable && (
+          <Button variant="outlined" width="100%" size="lg" onPress={handleShareUrl}>
+            <Button.Text variant="outlined">Partager</Button.Text>
+          </Button>
+        )}
 
         <VoxCard.Separator />
 
-        <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar()}>
+        <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
           <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
         </Button>
       </VoxCard.Section>
