@@ -21,6 +21,7 @@
       "infoPlist": {
         "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSCalendarsWriteOnlyAccessUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés.",
         "NSLocationWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés."
       }
@@ -30,7 +31,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.FOREGROUND_SERVICE"],
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.READ_CALENDAR",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.WRITE_CALENDAR"
+      ],
       "config": {
         "googleMaps": {
           "apiKey": "key"
@@ -65,7 +72,15 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-      ]
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["CalendarsWriteOnly"],
+          "androidPermissions": ["android.permission.WRITE_CALENDAR"]
+        }
+      ],
+      ["react-native-add-calendar-event"]
     ],
     "extra": {
       "router": {

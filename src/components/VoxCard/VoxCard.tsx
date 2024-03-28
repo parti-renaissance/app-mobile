@@ -1,10 +1,26 @@
 import React, { ComponentProps } from 'react'
+import { Platform } from 'react-native'
 import Markdown, { MarkdownIt } from 'react-native-markdown-display'
 import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { isSameDay } from 'date-fns'
-import { getFontSize, Image, styled, Card as TCard, Text, useMedia, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import {
+  getFontSize,
+  Image,
+  Separator,
+  Stack,
+  StackProps,
+  styled,
+  Card as TCard,
+  Text,
+  useMedia,
+  useTheme,
+  withStaticProperties,
+  XStack,
+  YStack,
+  ZStack,
+} from 'tamagui'
 
 const CardFrame = styled(YStack, {
   name: 'Card',
@@ -213,6 +229,22 @@ const VoxCardVisio = () => {
   )
 }
 
+const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => {
+  return (
+    <>
+      <VoxCardSeparator />
+      <Stack gap="$2" {...props}>
+        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textDisabled">
+          {title}
+        </Text>
+        {props.children}
+      </Stack>
+    </>
+  )
+}
+
+const VoxCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
+
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Content: VoxCardContent,
   Chip: VoxCardChip,
@@ -225,6 +257,8 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Description: VoxCardDescription,
   Visio: VoxCardVisio,
   Capacity: VoxCardCapacity,
+  Separator: VoxCardSeparator,
+  Section: VoxCardSection,
 })
 
 export default VoxCard

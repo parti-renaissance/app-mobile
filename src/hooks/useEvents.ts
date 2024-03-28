@@ -1,7 +1,8 @@
 import ApiService from '@/data/network/ApiService';
 import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents';
-import { InfiniteData, useMutation, useQuery, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
-import { PaginatedFeedQueryKey } from './useFeed';
+import { useToastController } from '@tamagui/toast';
+import { InfiniteData, useMutation, useQuery, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { PaginatedFeedQueryKey } from './useFeed'
 
 
 const queryKey = ['shortEvents']
@@ -20,9 +21,14 @@ export const usePaginatedEvents = (postalCode: string) => {
 }
 
 export const useSubscribeEvent = (eventId: string) => {
+  const toast = useToastController()
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: () => ApiService.getInstance().subscribeToEvent(eventId),
+    onSuccess: () => {
+      console.log('success')
+      toast.show('Succès', { message: 'Inscription à l\'événement réussie', type: 'success'})
+    },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey })
       const previousShortEvents = queryClient.getQueryData(queryKey)
@@ -53,6 +59,7 @@ export const useSubscribeEvent = (eventId: string) => {
       if (previousEvent) {
         queryClient.setQueryData(['event', eventId], previousEvent)
       }
+      toast.show('Erreur', { message: 'Impossible de s\'inscrire à cet événement', type: 'error'})
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })
@@ -63,9 +70,13 @@ export const useSubscribeEvent = (eventId: string) => {
 }
 
 export const useUnsubscribeEvent = (eventId: string) => {
+  const toast = useToastController()
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: () => ApiService.getInstance().unsubscribeFromEvent(eventId),
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Désinscription de l\'événement réussie', type: 'success'})
+    },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey })
       const previousShortEvents = queryClient.getQueryData(queryKey)
@@ -95,6 +106,7 @@ export const useUnsubscribeEvent = (eventId: string) => {
       queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
     },
     onError: (error, _, { previousShortEvents, previousEvent }) => {
+      toast.show('Erreur', { message: 'Impossible de se désinscrire de cet événement', type: 'error'})
       if (previousShortEvents) {
         queryClient.setQueryData(queryKey, previousShortEvents)
       }

@@ -3,11 +3,15 @@ import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import { BASE_URL } from '@/config/env'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
-import { useLocalSearchParams } from 'expo-router'
-import { ScrollView, Separator, Stack, Text, useMedia } from 'tamagui'
+import * as Calendar from '@/modules/Calendar/Calendar'
+import { Link as LinkIcon } from '@tamagui/lucide-icons'
+import { useLocalSearchParams, usePathname } from 'expo-router'
+import { ScrollView, Stack, Text, useMedia } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
+
 
 const MemoizedSubscribeButton = React.memo(SubscribeButton)
 
@@ -18,6 +22,7 @@ const HomeScreen: React.FC = () => {
   return (
     <>
       <PageLayout>
+        
         <PageLayout.SideBarLeft />
         <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
           <EventDetailScreen id={params.id} />
@@ -34,6 +39,20 @@ function EventDetailScreen(props: { id: string }) {
   const author = mapPropsAuthor(data)
   const date = mapPropsDate(data)
   const media = useMedia()
+  const pathname = usePathname()
+
+  const shareUrl = `${BASE_URL}${pathname}`
+
+  const eventData = {
+    title: data.name,
+    startDate: new Date(data.begin_at).toISOString(),
+    endDate: new Date(data.finish_at).toISOString(),
+    location: `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
+    notes: isShortEvent ? '' : data.description,
+    url: shareUrl,
+  }
+
+  const addToCalendar = Calendar.useCreateEvent(eventData)
 
   const AsideCardContent = (
     <>
@@ -46,14 +65,28 @@ function EventDetailScreen(props: { id: string }) {
         Cette évènement est réservée aux adhérents à jour de cotisation.
       </Text>
 
-      <Separator borderStyle="dashed" />
-
-      <Stack gap="$2">
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textDisabled">
-          Évènement créer par:
-        </Text>
+      <VoxCard.Section title="Évènement créer par:">
         <VoxCard.Author {...author} />
-      </Stack>
+      </VoxCard.Section>
+
+      <VoxCard.Section title="Partager:" gap="$3">
+        <Button variant="outlined" width="100%">
+          <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
+            {shareUrl}
+          </Button.Text>
+          <LinkIcon color="$textDisabled" />
+        </Button>
+
+        <Button variant="outlined" width="100%" size="lg">
+          <Button.Text variant="outlined">Partager</Button.Text>
+        </Button>
+
+        <VoxCard.Separator />
+
+        <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar()}>
+          <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
+        </Button>
+      </VoxCard.Section>
     </>
   )
 
@@ -102,6 +135,7 @@ function EventDetailScreen(props: { id: string }) {
         <VoxCard>
           <VoxCard.Content>
             <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+            <VoxCard.Separator />
             {AsideCardContent}
           </VoxCard.Content>
         </VoxCard>
