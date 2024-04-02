@@ -28,7 +28,7 @@ const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) =
     <TouchableWithoutFeedback
       key={props.route.name}
       onPress={() => {
-        router.push(`/(tabs)/${props.route.name}`)
+        router.replace(`/(tabs)/${props.route.name}`)
       }}
     >
       <ButtonNav
