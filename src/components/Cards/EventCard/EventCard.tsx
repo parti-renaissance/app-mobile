@@ -30,8 +30,8 @@ export type EventVoxCardProps = {
 } & VoxCardFrameProps
 
 const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
-  const { mutate: subscribe } = useSubscribeEvent(payload.id)
-  const { mutate: unsubscribe } = useUnsubscribeEvent(payload.id)
+  const { mutate: subscribe } = useSubscribeEvent({ id: payload.id })
+  const { mutate: unsubscribe } = useUnsubscribeEvent({ id: payload.id })
   const handleSubscribe = useDebouncedCallback(() => (payload.isSubscribed ? unsubscribe() : subscribe()), 200)
 
   return (

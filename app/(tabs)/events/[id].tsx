@@ -36,7 +36,7 @@ const HomeScreen: React.FC = () => {
 }
 
 function EventDetailScreen(props: { id: string }) {
-  const { data } = useGetEvent(props.id)
+  const { data } = useGetEvent({ id: props.id })
   const isShortEvent = useIsShortEvent(data)
   const toast = useToastController()
   const location = mapPropsLocation(data)
@@ -76,11 +76,10 @@ function EventDetailScreen(props: { id: string }) {
           url: shareUrl,
         },
       }),
-    )
-      .catch((e) => {
-        ErrorMonitor.log(e.message, { e })
-        toast.show('Erreur lors du partage du lien', { type: 'error' })
-      })
+    ).catch((e) => {
+      ErrorMonitor.log(e.message, { e })
+      toast.show('Erreur lors du partage du lien', { type: 'error' })
+    })
   }
 
   const eventData = {
@@ -192,8 +191,8 @@ type SubscribeButtonProps = {
 }
 
 function SubscribeButton({ eventId, isSubscribed }: SubscribeButtonProps) {
-  const { mutate: subscribe } = useSubscribeEvent(eventId)
-  const { mutate: unsubscribe } = useUnsubscribeEvent(eventId)
+  const { mutate: subscribe } = useSubscribeEvent({ id: eventId })
+  const { mutate: unsubscribe } = useUnsubscribeEvent({ id: eventId })
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   return (
     <Button variant={isSubscribed ? 'outlined' : 'contained'} onPress={handleSubscribe} size="lg" width="100%">

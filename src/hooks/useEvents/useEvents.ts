@@ -5,7 +5,7 @@ import { useToastController } from '@tamagui/toast'
 import { useMutation, useQuery, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { PaginatedFeedQueryKey } from '../useFeed'
 import { getCachedPaginatedShortEvents, getCachedSingleEvent, optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
-import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './query-keys'
+import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type FetchShortEventsOptions = {
   filters?: EventFilters
@@ -27,7 +27,7 @@ export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: 
   })
 }
 
-export const useSubscribeEvent = (eventId: string) => {
+export const useSubscribeEvent = ({ id: eventId }: { id: string }) => {
   const toast = useToastController()
   const queryClient = useQueryClient()
   return useMutation({
@@ -35,7 +35,7 @@ export const useSubscribeEvent = (eventId: string) => {
     onSuccess: () => {
       toast.show('Succès', { message: "Inscription à l'événement réussie", type: 'success' })
     },
-    onMutate: async () => await optmisticToggleSubscribe(true, eventId, queryClient),
+    onMutate: () => optmisticToggleSubscribe(true, eventId, queryClient),
     onError: (error, _, previousData) => {
       rollbackSubscribe(previousData, queryClient)
       toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
@@ -48,7 +48,7 @@ export const useSubscribeEvent = (eventId: string) => {
   })
 }
 
-export const useUnsubscribeEvent = (eventId: string) => {
+export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
   const toast = useToastController()
   const queryClient = useQueryClient()
   return useMutation({
@@ -56,7 +56,7 @@ export const useUnsubscribeEvent = (eventId: string) => {
     onSuccess: () => {
       toast.show('Succès', { message: "Désinscription de l'événement réussie", type: 'success' })
     },
-    onMutate: async () => await optmisticToggleSubscribe(false, eventId, queryClient),
+    onMutate: () => optmisticToggleSubscribe(false, eventId, queryClient),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_SINGLE_EVENT, eventId] })
@@ -75,7 +75,7 @@ export type Event =
     } & RestShortEvent)
   | RestDetailedEvent
 
-export const useGetEvent = (eventId: string) => {
+export const useGetEvent = ({ id: eventId }: { id: string }) => {
   const queryClient = useQueryClient()
   const dataList = getCachedPaginatedShortEvents(queryClient)
   const dataEvent = getCachedSingleEvent(eventId, queryClient)

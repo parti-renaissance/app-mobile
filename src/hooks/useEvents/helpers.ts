@@ -1,6 +1,6 @@
 import { RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
 import { InfiniteData, QueryClient } from '@tanstack/react-query'
-import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './query-keys'
+import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type ShortEventUpdater = (oldShortEventData: RestShortEvent) => RestShortEvent
 type OptimisticEventSetter = (params: { id: string; updater: ShortEventUpdater; queryClient: QueryClient }) => void
