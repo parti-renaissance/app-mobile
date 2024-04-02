@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react'
 import { FlatList } from 'react-native'
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
 import { EventCard } from '@/components/Cards/EventCard'
 import { RestShortEvent } from '@/data/restObjects/RestEvents'
 import { mapProps } from '@/helpers/eventsFeed'
@@ -18,7 +17,12 @@ const EventList = () => {
   const { data: profile } = useGetProfilObserver()
   const media = useMedia()
 
-  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = usePaginatedEvents(profile?.postal_code)
+  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = usePaginatedEvents({
+    postalCode: profile?.postal_code,
+    filters: {
+      finishAfter: new Date(),
+    }
+  })
 
   const handleSubscribe = (id: string) => {}
   const handleShow = (id: string) => {
