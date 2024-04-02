@@ -1,4 +1,6 @@
+import { ComponentProps } from 'react'
 import { Button } from '@/components'
+import { VoxAlertDialog } from '@/components/AlertDialog'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
 import { XStack } from 'tamagui'
@@ -29,11 +31,30 @@ export type EventVoxCardProps = {
       } & VoxCardBasePayload)
 } & VoxCardFrameProps
 
-const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
-  const { mutate: subscribe } = useSubscribeEvent({ id: payload.id })
-  const { mutate: unsubscribe } = useUnsubscribeEvent({ id: payload.id })
-  const handleSubscribe = useDebouncedCallback(() => (payload.isSubscribed ? unsubscribe() : subscribe()), 200)
+export const SubscribeEventButton = ({
+  isSubscribed,
+  eventId: id,
+  outside = false,
+  ...btnProps
+}: { eventId: string; isSubscribed: boolean; outside?: boolean } & ComponentProps<typeof Button>) => {
+  const { mutate: subscribe } = useSubscribeEvent({ id })
+  const { mutate: unsubscribe } = useUnsubscribeEvent({ id })
+  const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
+  const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
+  return isSubscribed ? (
+    <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'évenement ?`} onAccept={handleSubscribe}>
+      <Button variant={outside ? 'outlined' : 'text'} {...btnProps} {...outsideStyle}>
+        <Button.Text color="$blue7">Me désinscrire</Button.Text>
+      </Button>
+    </VoxAlertDialog>
+  ) : (
+    <Button variant="contained" onPress={handleSubscribe} {...btnProps} {...outsideStyle}>
+      <Button.Text>M'inscrire</Button.Text>
+    </Button>
+  )
+}
 
+const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
@@ -47,9 +68,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
           <Button variant="outlined" onPress={onShow}>
             <Button.Text>Voir l'événement</Button.Text>
           </Button>
-          <Button variant={payload.isSubscribed ? 'text' : 'contained'} onPress={handleSubscribe}>
-            <Button.Text color={payload.isSubscribed ? '$blue7' : undefined}>{!payload.isSubscribed ? "M'inscrire" : "J'y participe"}</Button.Text>
-          </Button>
+          <SubscribeEventButton isSubscribed={payload.isSubscribed} eventId={payload.id} />
         </XStack>
       </VoxCard.Content>
     </VoxCard>

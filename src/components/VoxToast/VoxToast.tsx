@@ -20,7 +20,6 @@ const VoxToast = () => {
       opacity={1}
       alignSelf="center"
       scale={1}
-      x={50}
       p="$5"
       animation="100ms"
       viewportName={currentToast.viewportName}

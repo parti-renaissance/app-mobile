@@ -2,11 +2,12 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import { SubscribeEventButton } from '@/components/Cards'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { BASE_URL } from '@/config/env'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
-import { useGetEvent, useIsShortEvent, useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
+import { useGetEvent, useIsShortEvent } from '@/hooks/useEvents'
 import useShareApi from '@/hooks/useShareApi'
 import * as Calendar from '@/modules/Calendar/Calendar'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -15,9 +16,6 @@ import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { useLocalSearchParams, usePathname } from 'expo-router'
 import { ScrollView, Stack, Text, useMedia } from 'tamagui'
-import { useDebouncedCallback } from 'use-debounce'
-
-const MemoizedSubscribeButton = React.memo(SubscribeButton)
 
 const padding = '$7'
 
@@ -155,47 +153,21 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           </VoxCard>
         </ScrollView>
         {media.lg && (
-          <Stack
-            position="absolute"
-            bottom="$3"
-            $sm={{ left: '$3', right: '$3' }}
-            $lg={{ left: '$10', right: '$10' }}
-            bg="$white1"
-            shadowColor="$shadow"
-            shadowOffset={{ height: 0, width: 0 }}
-            shadowOpacity={0.1}
-            shadowRadius={4}
-          >
-            <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+          <Stack position="absolute" bottom="$3" $sm={{ left: '$4', right: '$4' }} $lg={{ left: '$10', right: '$10' }}>
+            <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
           </Stack>
         )}
       </PageLayout.MainSingleColumn>
       <PageLayout.SideBarRight>
         <VoxCard>
           <VoxCard.Content>
-            <MemoizedSubscribeButton key="EventSubsBtn" eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+            <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
             <VoxCard.Separator />
             {AsideCardContent}
           </VoxCard.Content>
         </VoxCard>
       </PageLayout.SideBarRight>
     </>
-  )
-}
-
-type SubscribeButtonProps = {
-  eventId: string
-  isSubscribed: boolean
-}
-
-function SubscribeButton({ eventId, isSubscribed }: Readonly<SubscribeButtonProps>) {
-  const { mutate: subscribe } = useSubscribeEvent({ id: eventId })
-  const { mutate: unsubscribe } = useUnsubscribeEvent({ id: eventId })
-  const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
-  return (
-    <Button variant={isSubscribed ? 'outlined' : 'contained'} onPress={handleSubscribe} size="lg" width="100%">
-      <Button.Text color={isSubscribed ? '$blue7' : '$white1'}>{isSubscribed ? 'Me desinscrire' : "M'inscrire"}</Button.Text>
-    </Button>
   )
 }
 

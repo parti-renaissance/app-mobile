@@ -1,7 +1,7 @@
 import { SessionProvider } from '@/ctx/SessionProvider'
 import { headerBlank } from '@/styles/navigationAppearance'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import { SplashScreen, Stack } from 'expo-router'
+import { SplashScreen, Stack, useNavigationContainerRef } from 'expo-router'
 import '@tamagui/core/reset.css'
 import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
@@ -12,7 +12,6 @@ import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useNavigationContainerRef } from 'expo-router'
 import { getTokenValue, PortalProvider } from 'tamagui'
 
 const { routingInstrumentation } = ErrorMonitor.configure()
@@ -29,7 +28,7 @@ const useRegisterRoutingInstrumentation = () => {
   }, [navigationRef])
 }
 
-const useHandleSplashScreen = (isReady: Boolean) => {
+const useHandleSplashScreen = (isReady: boolean) => {
   useEffect(() => {
     if (isReady) {
       SplashScreen.hideAsync()
