@@ -24,18 +24,16 @@ const padding = '$7'
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
   return (
-    <>
-      <PageLayout>
-        <PageLayout.SideBarLeft />
-        <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
-          <EventDetailScreen id={params.id} />
-        </BoundarySuspenseWrapper>
-      </PageLayout>
-    </>
+    <PageLayout>
+      <PageLayout.SideBarLeft />
+      <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+        <EventDetailScreen id={params.id} />
+      </BoundarySuspenseWrapper>
+    </PageLayout>
   )
 }
 
-function EventDetailScreen(props: { id: string }) {
+function EventDetailScreen(props: Readonly<{ id: string }>) {
   const { data } = useGetEvent({ id: props.id })
   const isShortEvent = useIsShortEvent(data)
   const toast = useToastController()
@@ -64,7 +62,7 @@ function EventDetailScreen(props: { id: string }) {
       Platform.select({
         android: {
           title: data.name,
-          message: !isShortEvent ? `${data.description}\n\n${shareUrl}` : undefined || shareUrl,
+          message: (!isShortEvent ? `${data.description}\n\n${shareUrl}` : undefined) ?? shareUrl,
         },
         ios: {
           message: data.name,
@@ -190,7 +188,7 @@ type SubscribeButtonProps = {
   isSubscribed: boolean
 }
 
-function SubscribeButton({ eventId, isSubscribed }: SubscribeButtonProps) {
+function SubscribeButton({ eventId, isSubscribed }: Readonly<SubscribeButtonProps>) {
   const { mutate: subscribe } = useSubscribeEvent({ id: eventId })
   const { mutate: unsubscribe } = useUnsubscribeEvent({ id: eventId })
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)

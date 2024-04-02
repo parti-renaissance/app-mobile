@@ -1,4 +1,4 @@
-import { ShareContent as _ShareContent, Share } from 'react-native'
+import { Share } from 'react-native'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import * as Sharing from 'expo-sharing'
 

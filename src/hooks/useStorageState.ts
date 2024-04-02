@@ -20,12 +20,10 @@ export async function setStorageItemAsync(key: string, value: string | null) {
     } catch (e) {
       console.error('Local storage is unavailable:', e)
     }
+  } else if (value == null) {
+    await SecureStore.deleteItemAsync(key)
   } else {
-    if (value == null) {
-      await SecureStore.deleteItemAsync(key)
-    } else {
-      await SecureStore.setItemAsync(key, value)
-    }
+    await SecureStore.setItemAsync(key, value)
   }
 }
 

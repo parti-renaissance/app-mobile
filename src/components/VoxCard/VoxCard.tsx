@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import { Platform } from 'react-native'
-import Markdown, { MarkdownIt } from 'react-native-markdown-display'
+import Markdown from 'react-native-markdown-display'
 import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
@@ -155,13 +155,14 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
       </Text>
     )
   const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
+  const getPictureUri = (index: number) => attendees.pictures[reverseIndex(index)]
   return (
     <XStack gap="$2" alignItems="center">
       {attendees.pictures && attendees.pictures.length > 3 ? (
         <ZStack width={68} height="$2">
           {attendees.pictures.map((_, index) => (
-            <XStack key={index} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
-              <Image source={{ uri: attendees.pictures[reverseIndex(index)], width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
+            <XStack key={encodeURI(getPictureUri(index))} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
+              <Image source={{ uri: getPictureUri(index), width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
             </XStack>
           ))}
         </ZStack>
