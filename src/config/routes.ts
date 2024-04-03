@@ -15,6 +15,7 @@ export const ROUTES = [
   {
     name: '(home)',
     screenName: 'Fil',
+    href: '/',
     icon: HomeIcon,
     gradiant: ['#8D98FF', '#8050E6'],
   },
