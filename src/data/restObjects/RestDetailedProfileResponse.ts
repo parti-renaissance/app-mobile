@@ -1,7 +1,4 @@
-import {
-  RestInterestConfiguration,
-  RestSubscriptionTypeConfiguration,
-} from './RestConfigurations'
+import { RestInterestConfiguration, RestSubscriptionTypeConfiguration } from './RestConfigurations'
 
 export interface RestDetailedProfileResponse {
   uuid: string
@@ -17,6 +14,7 @@ export interface RestDetailedProfileResponse {
   twitter_page_url: string | null
   linkedin_page_url: string | null
   telegram_page_url: string | null
+  instagram_page_url: string | null
   phone: RestPhoneNumber
   interests: Array<RestInterestConfiguration>
   subscription_types: Array<RestSubscriptionTypeConfiguration>
