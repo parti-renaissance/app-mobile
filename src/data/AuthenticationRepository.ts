@@ -1,5 +1,4 @@
 import FB from '@/config/firebaseConfig'
-import { set } from 'date-fns'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
 import { RefreshTokenPermanentlyInvalidatedError } from '../core/errors'
 import { ErrorMonitor } from '../utils/ErrorMonitor'
@@ -9,13 +8,13 @@ import { RestLoginResponse } from './restObjects/RestLoginResponse'
 import CacheManager from './store/CacheManager'
 import { Credentials } from './store/Credentials'
 import LocalStore from './store/LocalStore'
-import { sessionSetter } from '@/ctx/SessionProvider'
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository
   private apiService = OAuthApiService.getInstance()
   private localStore = LocalStore.getInstance()
   private pushRepository = PushRepository.getInstance()
+  public sessionSetter?: (session: string | null) => void
 
   private constructor() {}
 
@@ -41,7 +40,7 @@ class AuthenticationRepository {
 
     // We want to remove preferences as we may have saved an anonymous zipcode before
     await this.localStore.clearPreferences()
-    sessionSetter?.(JSON.stringify(credentials))
+    this.sessionSetter?.(JSON.stringify(credentials))
     return JSON.stringify(credentials)
   }
 
@@ -67,7 +66,7 @@ class AuthenticationRepository {
     await this.localStore.clearPreferences()
     await CacheManager.getInstance().purgeCache()
     ErrorMonitor.clearUser()
-    
+
     try {
       await this.pushRepository.invalidatePushToken()
     } catch (error) {
@@ -75,7 +74,7 @@ class AuthenticationRepository {
       console.log(error)
     }
     this.dispatchState(AuthenticationState.Unauthenticated)
-    sessionSetter?.(null)
+    this.sessionSetter?.(null)
   }
 
   public dispatchState(state: AuthenticationState) {

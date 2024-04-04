@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin from '@/hooks/useLogin'
 import { useQueryClient } from '@tanstack/react-query'
+import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import { useStorageState } from '../hooks/useStorageState'
 
-export let sessionSetter: (session: string) => void | null = null
-
 const AuthContext = React.createContext<{
-  signIn: (credentials: { email: string; password: string }) => Promise<void>
+  signIn: () => Promise<void>
   signOut: () => Promise<void>
   session?: string
   isLoading: boolean
@@ -34,22 +33,30 @@ export function useSession() {
 
 export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('credentials')
-  sessionSetter = setSession
+  const { redirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
+
   const loginInteractor = useLazyRef(() => new LoginInteractor())
   const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
+  authenticationRepository.current.sessionSetter = setSession
   const queryClient = useQueryClient()
   const login = useLogin()
+  console.log(session)
 
   const handleSignIn = async () => {
     return login().then((session) => {
-      setSession(JSON.stringify(session))
+      if (!session) return
+      const { accessToken, refreshToken } = session
+      setSession(JSON.stringify({ accessToken, refreshToken }))
+      loginInteractor.current.setUpLogin().then((profile) => {
+        queryClient.setQueryData(['profile'], profile)
+      })
+      router.replace({ pathname: redirect || '/(tabs)/home' })
     })
   }
 
   const handleSignOut = async () => {
     await authenticationRepository.current.logout(false).then(() => {
       queryClient.setQueryData(['profile'], null)
-      setSession(null)
     })
   }
 
