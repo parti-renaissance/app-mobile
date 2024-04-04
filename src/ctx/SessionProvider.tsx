@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
+import useLogin from '@/hooks/useLogin'
 import { useQueryClient } from '@tanstack/react-query'
 import { useStorageState } from '../hooks/useStorageState'
 
@@ -37,10 +38,11 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const loginInteractor = useLazyRef(() => new LoginInteractor())
   const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
   const queryClient = useQueryClient()
+  const login = useLogin()
 
-  const handleSignIn = async (credentials: { email: string; password: string }) => {
-    return loginInteractor.current.login(credentials, setSession).then(([session, profile]) => {
-      queryClient.setQueryData(['profile'], profile)
+  const handleSignIn = async () => {
+    return login().then((session) => {
+      setSession(JSON.stringify(session))
     })
   }
 
