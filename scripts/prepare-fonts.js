@@ -15,16 +15,14 @@ function crawl(dir) {
     const stat = fs.statSync(filePath)
     if (stat.isDirectory()) {
       crawl(filePath)
-    } else {
-      if (file.endsWith('.ttf')) {
-        // start from the root of the project
-        const relativePath = path.relative(path.join(__dirname, '../'), filePath)
-        // output: [{fontName: 'Roboto-Black', path: 'assets/fonts/Roboto/Roboto-Black.ttf'}, ...]
-        fonts.push({
-          fontName: file.replace('.ttf', ''),
-          path: relativePath,
-        })
-      }
+    } else if (file.endsWith('.ttf')) {
+      // start from the root of the project
+      const relativePath = path.relative(path.join(__dirname, '../'), filePath)
+      // output: [{fontName: 'Roboto-Black', path: 'assets/fonts/Roboto/Roboto-Black.ttf'}, ...]
+      fonts.push({
+        fontName: file.replace('.ttf', ''),
+        path: relativePath,
+      })
     }
   })
 }
