@@ -18,7 +18,7 @@ export const mapPropsAuthor = (item: RestShortEvent | RestDetailedEvent): VoxCar
       role: 'Role data missing',
       name: `${item.organizer.first_name} ${item.organizer.last_name}`,
       title: 'title data missing',
-      pictureLink: 'https://picsum.photos/200/200',
+      pictureLink: undefined
     },
   }
 }

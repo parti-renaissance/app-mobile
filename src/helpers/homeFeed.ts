@@ -39,7 +39,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
     role: 'Role data missing',
     name: feed.author || 'Author not found',
     title: 'title data missing',
-    pictureLink: 'https://picsum.photos/200/200',
+    pictureLink: undefined,
   }
   const location = {
     city: 'NotDataCity',
