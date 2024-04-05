@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ListRenderItemInfo, StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { PaginatedResult } from '../../core/entities/PaginatedResult'
 import { Tool } from '../../core/entities/Tool'
 import ToolsRepository from '../../data/ToolsRepository'
@@ -18,13 +17,9 @@ import ToolsContentViewModel from './ToolsContentViewModel'
 import { ToolsContentViewModelMapper } from './ToolsContentViewModelMapper'
 
 const ToolsScreen = () => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<ToolsContentViewModel>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<ToolsContentViewModel>>(ViewState.Loading())
   const [isLoadingMore, setLoadingMore] = useState(false)
-  const fetchTools = async (
-    page: number,
-  ): Promise<PaginatedResult<Array<Tool>>> => {
+  const fetchTools = async (page: number): Promise<PaginatedResult<Array<Tool>>> => {
     return await ToolsRepository.getInstance().getTools(page)
   }
 
@@ -32,14 +27,10 @@ const ToolsScreen = () => {
     setStatefulState(ViewState.Loading())
     fetchTools(1)
       .then((paginatedResult) => {
-        setStatefulState(
-          ViewState.Content(ToolsContentViewModelMapper.map(paginatedResult)),
-        )
+        setStatefulState(ViewState.Content(ToolsContentViewModelMapper.map(paginatedResult)))
       })
       .catch((error) => {
-        setStatefulState(
-          ViewStateUtils.networkError(error, () => loadFirstPage()),
-        )
+        setStatefulState(ViewStateUtils.networkError(error, () => loadFirstPage()))
       })
   }
 
@@ -55,16 +46,10 @@ const ToolsScreen = () => {
       setLoadingMore(true)
       fetchTools(paginationInfo.currentPage + 1)
         .then((paginatedResult) => {
-          setStatefulState(
-            ViewState.Content(
-              ToolsContentViewModelMapper.map(paginatedResult, content),
-            ),
-          )
+          setStatefulState(ViewState.Content(ToolsContentViewModelMapper.map(paginatedResult, content)))
         })
         .catch((error) => {
-          setStatefulState(
-            ViewStateUtils.networkError(error, () => loadFirstPage()),
-          )
+          setStatefulState(ViewStateUtils.networkError(error, () => loadFirstPage()))
         })
         .finally(() => setLoadingMore(false))
     }
@@ -88,9 +73,7 @@ const ToolsScreen = () => {
         contentContainerStyle={styles.contentContainer}
         data={content.rows}
         keyExtractor={(item) => item.title}
-        ListHeaderComponent={
-          <Text style={styles.title}>{i18n.t('tools.title')}</Text>
-        }
+        ListHeaderComponent={<Text style={styles.title}>{i18n.t('tools.title')}</Text>}
         ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
         renderItem={renderItem}
         onEndReachedThreshold={0.8}
@@ -100,9 +83,9 @@ const ToolsScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatefulView state={statefulState} contentComponent={ToolContent} />
-    </SafeAreaView>
+    </View>
   )
 }
 

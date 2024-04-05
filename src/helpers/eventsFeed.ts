@@ -4,11 +4,11 @@ import { RestDetailedEvent, RestShortEvent } from '@/data/restObjects/RestEvents
 
 export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxCardLocationProps => {
   return {
-    location: {
+    location: item.post_address ? {
       street: item.post_address.address,
       city: item.post_address.city_name,
       postalCode: item.post_address.postal_code,
-    },
+    } : undefined,
   }
 }
 
