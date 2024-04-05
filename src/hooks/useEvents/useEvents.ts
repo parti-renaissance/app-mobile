@@ -87,9 +87,8 @@ export const useGetEvent = ({ id: eventId }: { id: string }) => {
     }
     return undefined
   })()
-  const useMyQuery = placeholderData ? useQuery : useSuspenseQuery
 
-  return useMyQuery<Event>({
+  return useSuspenseQuery<Event>({
     queryKey: ['event', eventId],
     queryFn: () => ApiService.getInstance().getEventDetails(eventId),
     ...(placeholderData ? { placeholderData } : {}),

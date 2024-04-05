@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { FlatList, ListRenderItemInfo, StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
@@ -21,21 +20,20 @@ const ActionsScreen: FunctionComponent<ActionsScreenProps> = () => {
   const ActionContent = (actions: ReadonlyArray<ActionRowViewModel>) => {
     return (
       <FlatList
+        style={styles.container}
         data={actions}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={
-          <Text style={styles.title}>{i18n.t('actions.title')}</Text>
-        }
+        ListHeaderComponent={<Text style={styles.title}>{i18n.t('actions.title')}</Text>}
         contentContainerStyle={styles.contentContainer}
       />
     )
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatefulView state={statefulState} contentComponent={ActionContent} />
-    </SafeAreaView>
+    </View>
   )
 }
 

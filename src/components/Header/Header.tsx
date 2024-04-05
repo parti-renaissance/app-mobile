@@ -4,8 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
 import { useGetProfilObserver } from '@/hooks/useProfil'
-import { Link, router, usePathname } from 'expo-router'
-import { Avatar, Button, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
+import { ArrowLeft } from '@tamagui/lucide-icons'
+import { Link, usePathname, useSegments } from 'expo-router'
+import { Button, Circle, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
 import ButtonCustom from '../Button'
 import Container from '../layouts/Container'
 import ProfilePicture from '../ProfilePicture'
@@ -26,12 +27,7 @@ const ButtonNav = styled(Button, {
 const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) => {
   const colorOpacity = opacityToHexCode(props.route.gradiant[0], 0.09)
   return (
-    <TouchableWithoutFeedback
-      key={props.route.name}
-      onPress={() => {
-        router.replace(`/(tabs)/${props.route.name}`)
-      }}
-    >
+    <Link href={`/(tabs)/${props.route.name}`} asChild key={props.route.name}>
       <ButtonNav
         animation="bouncy"
         hoverStyle={{
@@ -51,7 +47,7 @@ const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) =
           {props.route.screenName}
         </Button.Text>
       </ButtonNav>
-    </TouchableWithoutFeedback>
+    </Link>
   )
 }
 
@@ -108,14 +104,36 @@ const ProfileView = () => {
 }
 
 const Header: React.FC = (props: StackProps) => {
+  const segments = useSegments()
+  const isNested = segments.length > 2
+  const backPath = segments
+    .filter((x) => x.startsWith('(') === false)
+    .slice(0, -1)
+    .join('/')
+
+  const BackBtn = () => (
+    <Stack justifyContent="center" alignItems="center">
+      <Link href={backPath as never} asChild>
+        <TouchableWithoutFeedback>
+          <Circle size="$3" borderWidth="$1" borderColor="$gray3" pressStyle={{ backgroundColor: '$gray1' }}>
+            <ArrowLeft color="$textDisabled" />
+          </Circle>
+        </TouchableWithoutFeedback>
+      </Link>
+    </Stack>
+  )
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
       <Container borderBottomWidth={2} borderBottomColor="rgba(145, 158, 171, 0.32)" paddingHorizontal={'$4'} height={82} {...props} alignContent="center">
         <Stack flexDirection="row" justifyContent="space-between" alignItems="center" flex={1}>
-          <Link href={'/home/'}>
-            <EuCampaignIllustration />
-          </Link>
-          <NavBar />
+          {isNested ? (
+            <BackBtn />
+          ) : (
+            <Link href={'/home/'}>
+              <EuCampaignIllustration />
+            </Link>
+          )}
+          {!isNested && <NavBar />}
           <ProfileView />
         </Stack>
       </Container>

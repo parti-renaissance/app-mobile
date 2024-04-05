@@ -14,7 +14,7 @@ import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { Link as LinkIcon } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
-import { useLocalSearchParams, usePathname } from 'expo-router'
+import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
 import { ScrollView, Stack, Text, useMedia } from 'tamagui'
 
 const padding = '$7'
@@ -82,8 +82,8 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
     title: data.name,
     startDate: new Date(data.begin_at).toISOString(),
     endDate: new Date(data.finish_at).toISOString(),
-    location: `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
-    notes: isShortEvent ? '' : data.description,
+    location: data.mode === 'online' ? 'En ligne' : `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
+    notes: isShortEvent ? '' : data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '',
     url: shareUrl,
   }
 
@@ -93,7 +93,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
     <>
       <VoxCard.Date {...date} />
       {data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...location} />}
-      {!isShortEvent && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
+      {!isShortEvent && data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
       {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
 
       <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
@@ -120,15 +120,22 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
 
         <VoxCard.Separator />
 
-        <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
-          <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
-        </Button>
+        {!isShortEvent && (
+          <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
+            <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
+          </Button>
+        )}
       </VoxCard.Section>
     </>
   )
 
   return (
     <>
+      <RouterStack.Screen
+        options={{
+          title: data.name,
+        }}
+      />
       <PageLayout.MainSingleColumn>
         <ScrollView
           flex={1}
