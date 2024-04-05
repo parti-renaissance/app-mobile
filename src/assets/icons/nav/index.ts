@@ -1,0 +1,5 @@
+export { ActionIcon } from '@/assets/icons/nav/ActionIcon'
+export { EventIcon } from '@/assets/icons/nav/EventIcon'
+export { HomeIcon } from '@/assets/icons/nav/HomeIcon'
+export { RipostIcon } from '@/assets/icons/nav/RipostIcon'
+export { ToolsIcon } from '@/assets/icons/nav/ToolsIcon'

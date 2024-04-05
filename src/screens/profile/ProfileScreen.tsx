@@ -8,7 +8,6 @@ import {
   GetUserProfileInteractorResult,
 } from '../../core/interactor/GetUserProfileInteractor'
 import { Colors } from '../../styles'
-import { CloseButton } from '../shared/NavigationHeaderButton'
 import { StatefulView } from '../shared/StatefulView'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
@@ -32,9 +31,6 @@ const ProfileScreen = () => {
     const openPersonalInformation = () => {
       router.push('/(tabs)/home/profile/personal-information')
     }
-    // const openCenterOfInterest = () => {
-    //   router.push('/(tabs)/home/profile/center-of-interest')
-    // }
     const viewModel = ProfileScreenViewModelMapper.map(
       content.profile,
       content.department,
