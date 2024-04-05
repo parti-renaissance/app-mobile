@@ -1,0 +1,9 @@
+name: Retrieve dependencies
+description: fetch dependencies on NPM
+
+runs:
+  using: composite
+  steps:
+    - name: 📦 Install dependencies
+      shell: bash
+      run: yarn install

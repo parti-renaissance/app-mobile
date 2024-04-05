@@ -2,7 +2,6 @@ import * as Linking from 'expo-linking'
 import { utils } from '@react-native-firebase/app'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { LinkingOptions } from '@react-navigation/native'
-import { BUNDLE_ID } from '../../config/env'
 import { PushNotification } from '../../utils/PushNotification'
 import { AuthenticatedRootNavigatorParamList } from '../authenticatedRoot/AuthenticatedRootNavigatorParamList'
 
@@ -57,7 +56,7 @@ const subscribe = (
 
 export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> =
   {
-    prefixes: [PREFIX, BUNDLE_ID + '://'],
+    prefixes: [PREFIX, process.env.EXPO_PUBLIC_BUNDLE_ID + '://'],
     getInitialURL,
     subscribe,
     config: {

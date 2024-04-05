@@ -57,5 +57,6 @@ config/en-marche-prod.json
 
 
 .vercel
+.firebase
 web/.well-known/apple-app-site-association
 web/.well-known/assetlinks.json

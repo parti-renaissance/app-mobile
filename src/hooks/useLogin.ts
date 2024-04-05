@@ -1,5 +1,4 @@
 import discoveryDocument from '@/config/discoveryDocument'
-import { OAUTH_CLIENT_ID } from '@/config/env'
 import * as AuthSession from 'expo-auth-session'
 import { maybeCompleteAuthSession } from 'expo-web-browser'
 import useBrowserWarmUp from './useBrowserWarmUp'
@@ -7,7 +6,7 @@ import useBrowserWarmUp from './useBrowserWarmUp'
 maybeCompleteAuthSession()
 
 const REDIRECT_URI = AuthSession.makeRedirectUri()
-const BASE_REQUEST_CONFIG = { clientId: OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI } as const
+const BASE_REQUEST_CONFIG = { clientId: process.env.OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI } as const
 
 export const useCodeAuthRequest = () => {
   return AuthSession.useAuthRequest(
