@@ -1,3 +1,3 @@
-import { MapClusteringProps } from 'react-native-map-clustering'
+import MapView from 'react-native-map-clustering'
 
-export default (_: MapClusteringProps) => <div />
+export default MapView

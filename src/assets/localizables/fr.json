@@ -23,7 +23,9 @@
       "noDataPlaceholder": "-"
     },
     "vox_card": {
-      "date": "{{date, EEEE d MMMM yyyy}} à {{date, HH:mm}}"
+      "dayDate": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}} / {{end, HH:mm}}",
+      "daysDate": "du {{start, EEEE d MMMM yyyy}} à {{start, HH:mm}}\nau {{end, EEEE d MMMM yyyy}} à {{end, HH:mm}}",
+      "dateCreated": "{{date, EEEE d MMMM yyyy}}"
     },
     "tab": {
       "item_news": "Actualités",
@@ -590,7 +592,6 @@
             "url": "https://cadre.parti-renaissance.fr/mentions-legales-mobile"
           }
         }
-        
       },
       "notifications": {
         "title": "Notifications",

@@ -1,42 +1,26 @@
 import { memo } from 'react'
 import { FlatList } from 'react-native'
 import { FeedCard } from '@/components/Cards'
-import ApiService from '@/data/network/ApiService'
-import { RestTimelineFeedItem, RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
+import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
+import { useGetPaginatedFeed } from '@/hooks/useFeed'
 import { useGetProfilObserver } from '@/hooks/useProfil'
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
-  return <FeedCard {...props} $sm={{ width: '100%' }} $gtSm={{ width: 500 }} />
+  return <FeedCard {...props} />
 })
 
 const renderFeedItem = ({ item }: { item: RestTimelineFeedItem }) => {
   return <TimelineFeedCard {...item} />
 }
 
-const fetchTimelineFeed = async (pageParam: number, zipcode?: string) =>
-  zipcode ? await ApiService.getInstance().getTimelineFeed(pageParam, zipcode) : (Promise.resolve(undefined) as Promise<RestTimelineFeedResponse | undefined>)
-
 const HomeFeedList = () => {
   const { data: profile } = useGetProfilObserver()
   const media = useMedia()
 
-  const {
-    data: paginatedFeed,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-    isRefetching,
-  } = useSuspenseInfiniteQuery({
-    queryKey: ['feed'],
-    queryFn: ({ pageParam }) => fetchTimelineFeed(pageParam, profile?.postal_code),
-    getNextPageParam: (lastPage) => (lastPage.nbPages > lastPage.page ? lastPage.page + 1 : null),
-    getPreviousPageParam: (firstPage) => firstPage.page - 1,
-    initialPageParam: 0,
-  })
+  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed(profile?.postal_code)
 
   const feedData = paginatedFeed?.pages.map((page) => page.hits).flat()
 
@@ -48,8 +32,13 @@ const HomeFeedList = () => {
 
   return (
     <FlatList
-      style={{ width: '100%' }}
-      contentContainerStyle={{ paddingTop: getToken('$space.6'), gap: getToken('$space.3'), flexGrow: 1, alignItems: media.gtSm ? 'center' : undefined }}
+      style={{ flex: 1 }}
+      contentContainerStyle={{
+        gap: getToken('$4', 'space'),
+        paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
+        paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
+        paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
+      }}
       data={feedData}
       renderItem={renderFeedItem}
       keyExtractor={(item) => item.objectID}
