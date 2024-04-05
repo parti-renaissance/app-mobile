@@ -5,6 +5,7 @@ import Chip from '@/components/Chip/Chip'
 import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { isSameDay } from 'date-fns'
+import ProfilePicture from '@/components/ProfilePicture'
 import {
   getFontSize,
   Image,
@@ -122,9 +123,7 @@ export type VoxCardAuthorProps = {
 const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
   return (
     <XStack gap="$2" alignItems="center">
-      <XStack height="$2" width="$2" borderRadius="$10" overflow="hidden">
-        <Image source={{ uri: author.pictureLink, width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
-      </XStack>
+      <ProfilePicture rounded size="$2" src={author.pictureLink} alt="Profile picture" fullName={author.name} />
       <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
         <Text fontWeight="$5" color="$textSecondary">
           {' '}
