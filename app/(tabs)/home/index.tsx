@@ -1,209 +1,31 @@
-import React, { FunctionComponent, useEffect } from 'react'
-import {
-  RefreshControl,
-  SectionList,
-  SectionListData,
-  SectionListRenderItemInfo,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native'
-import { router, useNavigation } from 'expo-router'
-import { HomeNavigatorScreenProps } from '@/navigation/home/HomeNavigatorScreenProps'
-import { Colors } from '@/styles'
-import { ListFooterLoader } from '@/screens/shared/ListFooterLoader'
-import { ProfileButton } from '@/screens/shared/NavigationHeaderButton'
-import { SectionHeader } from '@/screens/shared/SectionHeader'
-import { StatefulView } from '@/screens/shared/StatefulView'
-import { HomeEventRowContainer } from '@/screens/home/events/HomeEventRowContainer'
-import { HomeFeedDoorToDoorCampaignRow } from '@/screens/home/feed/HomeFeedDoorToDoorCampaignRow'
-import { HomeFeedErrorRow } from '@/screens/home/feed/HomeFeedErrorRow'
-import { HomeFeedEventRow } from '@/screens/home/feed/HomeFeedEventRow'
-import { HomeFeedNewsRow } from '@/screens/home/feed/HomeFeedNewsRow'
-import { HomeFeedPhoningCampaignRow } from '@/screens/home/feed/HomeFeedPhoningCampaignRow'
-import { HomeFeedPollRow } from '@/screens/home/feed/HomeFeedPollRow'
-import { HomeFeedRetaliationRow } from '@/screens/home/feed/HomeFeedRetaliationRow'
-import HomeHeader from '@/screens/home/HomeHeader'
-import HomeRegion from '@/screens/home/HomeRegion'
-import {
-  HomeRowViewModel,
-  HomeSectionViewModel,
-} from '@/screens/home/HomeRowViewModel'
-import { HomeViewModel } from '@/screens/home/HomeViewModel'
-import HomeQuickPollRowContainer from '@/screens/home/quickPoll/HomeQuickPollRowContainer'
-import { useHomeScreen } from '@/screens/home/useHomeScreen.hook'
-import { Button } from 'tamagui'
+import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import HomeFeedList from '@/screens/home/feed/HomeFeedList'
+import { Stack as RouterStack } from 'expo-router'
+import { Stack, Text, YStack, Theme } from 'tamagui'
 
-type HomeScreenProps = HomeNavigatorScreenProps<'Home'>
+import React from 'react'
 
-const HomeScreen: FunctionComponent<HomeScreenProps> = () => {
-  const {
-    statefulState,
-    isRefreshing,
-    isLoadingMore,
-    onRefresh,
-    onRegionMorePressed,
-    onQuickPollAnswerSelected,
-    onNextEventSelected,
-    onRetaliationSelected,
-    onRetaliateSelected,
-    onFeedNewsSelected,
-    onFeedEventSelected,
-    onFeedPhoningCampaignSelected,
-    onFeedDoorToDoorCampaignSelected,
-    onFeedPollSelected,
-    onLoadMore,
-  } = useHomeScreen()
-
-  const navigation = useNavigation()
-
-  useEffect(() => {
-    const navigationToProfile = () => {
-      router.push('/(tabs)/home/profile/')
-    }
-    navigation.setOptions({
-      headerRight: () => <ProfileButton onPress={navigationToProfile} />,
-    })
-  }, [navigation])
-
-  const renderSectionHeader = (info: {
-    section: SectionListData<HomeRowViewModel, HomeSectionViewModel>
-  }) => {
-    const viewModel = info.section.sectionViewModel
-    if (viewModel === undefined) {
-      return null
-    }
-    return (
-      <SectionHeader
-        title={viewModel.sectionName}
-        isHighlighted={viewModel?.isHighlighted}
-      />
-    )
-  }
-
-  const renderItem = ({
-    section,
-    item,
-  }: SectionListRenderItemInfo<HomeRowViewModel, HomeSectionViewModel>) => {
-    if (item.type === 'region') {
-      return (
-        <HomeRegion
-          viewModel={item.value}
-          onMorePressed={onRegionMorePressed}
-        />
-      )
-    } else if (item.type === 'quick_poll') {
-      return (
-        <HomeQuickPollRowContainer
-          viewModel={item.value}
-          onAnswerSelected={onQuickPollAnswerSelected}
-        />
-      )
-    } else if (item.type === 'event') {
-      const isHighlighted = section.sectionViewModel?.isHighlighted ?? false
-      return (
-        <HomeEventRowContainer
-          viewModel={item.value}
-          isHighlighted={isHighlighted}
-          onEventSelected={onNextEventSelected}
-        />
-      )
-    } else if (item.type === 'feedEvent') {
-      return (
-        <HomeFeedEventRow
-          viewModel={item.value}
-          onEventSelected={onFeedEventSelected}
-        />
-      )
-    } else if (item.type === 'feedNews') {
-      return (
-        <HomeFeedNewsRow
-          viewModel={item.value}
-          onNewsSelected={onFeedNewsSelected}
-        />
-      )
-    } else if (item.type === 'feedPhoningCampaign') {
-      return (
-        <HomeFeedPhoningCampaignRow
-          viewModel={item.value}
-          onPhoningCampaignSelected={onFeedPhoningCampaignSelected}
-        />
-      )
-    } else if (item.type === 'feedDoorToDoorCampaign') {
-      return (
-        <HomeFeedDoorToDoorCampaignRow
-          viewModel={item.value}
-          onDoorToDoorCampaignSelected={onFeedDoorToDoorCampaignSelected}
-        />
-      )
-    } else if (item.type === 'feedPoll') {
-      return (
-        <HomeFeedPollRow
-          viewModel={item.value}
-          onPollSelected={onFeedPollSelected}
-        />
-      )
-    } else if (item.type === 'feedRetaliation') {
-      return (
-        <HomeFeedRetaliationRow
-          viewModel={item.value}
-          onRetaliationSelected={onRetaliationSelected}
-          onRetaliateSelected={onRetaliateSelected}
-        />
-      )
-    } else if (item.type === 'error') {
-      return <HomeFeedErrorRow state={item.value} />
-    } else {
-      return null
-    }
-  }
-
-  const HomeContent = (homeViewModel: HomeViewModel) => {
-    return (
-      <View style={styles.contentContainer}>
-        
-        <SectionList
-          stickySectionHeadersEnabled={false}
-          ListHeaderComponent={<HomeHeader viewModel={homeViewModel.header} />}
-          ListFooterComponent={isLoadingMore ? <ListFooterLoader /> : null}
-          sections={homeViewModel.rows}
-          renderItem={renderItem}
-          renderSectionHeader={renderSectionHeader}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={onRefresh}
-              colors={[Colors.primaryColor]}
-            />
-          }
-          keyExtractor={(item, index) => item.type + index}
-          onEndReachedThreshold={0.8}
-          onEndReached={onLoadMore}
-        />
-      </View>
-    )
-  }
+const HomeScreen: React.FC = () => {
   return (
-    <View style={styles.container}>
-      {/* We need the <StatusBar> component for Android */}
-      <StatusBar translucent backgroundColor="transparent" />
-      <StatefulView contentComponent={HomeContent} state={statefulState} />
-    </View>
+    <>
+    <RouterStack.Screen options={{
+      headerShown: false
+    }} />
+    
+      <YStack flex={1}>
+        <PageLayout sidebar={<Text>Test</Text>}>
+          <Stack $gtSm={{ flexDirection: 'row', gap: 8 }} flex={1}>
+            <Stack flex={1} $gtSm={{ flex: 10 }} gap={2}>
+              <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+                <HomeFeedList/>
+              </BoundarySuspenseWrapper>
+            </Stack>
+          </Stack>
+        </PageLayout>
+      </YStack>
+    </>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.defaultBackground,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  contentContainer: {
-    flex: 1,
-    overflow: 'hidden',
-  },
-})
 
 export default HomeScreen
