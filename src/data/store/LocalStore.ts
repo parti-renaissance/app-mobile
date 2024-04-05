@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { AsyncStorage } from '@/hooks/useStorageState'
 import { UserPreferences } from '../../core/entities/UserPreferences'
 import { Credentials } from './Credentials'
 import { TopicsRegistration } from './TopicsRegistration'
@@ -15,15 +15,15 @@ class LocalStore {
 
   storeCredentials(credentials: Credentials): Promise<void> {
     const jsonValue = JSON.stringify(credentials)
-    return AsyncStorage.setItem(KEY_CREDENTIALS, jsonValue)
+    return AsyncStorage.secure.setItem(KEY_CREDENTIALS, jsonValue)
   }
 
   getCredentials(): Promise<Credentials | null> {
-    return AsyncStorage.getItem(KEY_CREDENTIALS).then(this.parseJSON)
+    return AsyncStorage.secure.getItem(KEY_CREDENTIALS).then(this.parseJSON)
   }
 
   clearCredentials(): Promise<void> {
-    return AsyncStorage.removeItem(KEY_CREDENTIALS)
+    return AsyncStorage.secure.removeItem(KEY_CREDENTIALS)
   }
 
   async storeZipCode(zipCode: string): Promise<void> {
@@ -50,25 +50,18 @@ class LocalStore {
     return AsyncStorage.removeItem(TOPICS_REGISTRATION)
   }
 
-  getPreviousApplicationVersion(): Promise<number | null> {
-    return AsyncStorage.getItem(PREVIOUS_APPLICATION_VERSION).then(
-      (version) => {
-        if (version != null) {
-          return parseInt(version, 10)
-        } else {
-          return version
-        }
-      },
-    )
+  getPreviousApplicationVersion(): Promise<string | number | null> {
+    return AsyncStorage.getItem(PREVIOUS_APPLICATION_VERSION).then((version) => {
+      if (version != null) {
+        return parseInt(version, 10)
+      } else {
+        return version
+      }
+    })
   }
 
-  setPreviousApplicationVersion(
-    previousApplicationVersion: number,
-  ): Promise<void> {
-    return AsyncStorage.setItem(
-      PREVIOUS_APPLICATION_VERSION,
-      previousApplicationVersion.toString(),
-    )
+  setPreviousApplicationVersion(previousApplicationVersion: number): Promise<void> {
+    return AsyncStorage.setItem(PREVIOUS_APPLICATION_VERSION, previousApplicationVersion.toString())
   }
 
   async storeAnsweredQuickPoll(quickPollId: string): Promise<void> {
@@ -96,10 +89,7 @@ class LocalStore {
   }): Promise<void> {
     const preferences = await this.getUserPreferences()
     const newPreferences = { ...preferences, ...object }
-    return AsyncStorage.setItem(
-      USER_PREFERENCES,
-      JSON.stringify(newPreferences),
-    )
+    return AsyncStorage.setItem(USER_PREFERENCES, JSON.stringify(newPreferences))
   }
 
   private async storeTopicsRegistration(object: {
@@ -107,10 +97,7 @@ class LocalStore {
   }): Promise<void> {
     const topicsRegistration = await this.getTopicsRegistration()
     const newTopicsRegistration = { ...topicsRegistration, ...object }
-    return AsyncStorage.setItem(
-      TOPICS_REGISTRATION,
-      JSON.stringify(newTopicsRegistration),
-    )
+    return AsyncStorage.setItem(TOPICS_REGISTRATION, JSON.stringify(newTopicsRegistration))
   }
 
   private parseJSON(value: string | null): any {

@@ -6,6 +6,7 @@
     "development": {
       "bun": "1.0.20",
       "distribution": "internal",
+      "channel": "development",
       "autoIncrement": true
     },
     "staging": {
