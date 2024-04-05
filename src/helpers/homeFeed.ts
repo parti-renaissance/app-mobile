@@ -63,7 +63,6 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           tag,
           image: feed.image || 'https://picsum.photos/600/244',
           description: feed.description,
-          date: new Date(feed.date),
           location,
           author,
         },
@@ -79,11 +78,15 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           })
         },
         payload: {
+          id: feed.objectID,
           title: feed.title,
           tag,
           image: feed.image || 'https://picsum.photos/600/244',
           isSubscribed: false,
-          date: new Date(feed.begin_at),
+          date: {
+            start: new Date(feed.date),
+            end: new Date(feed.date),
+          },
           location: feed.media_type === 'online' ? undefined : location,
           isOnline: feed.media_type === 'online',
           author,
@@ -124,7 +127,10 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         payload: {
           tag,
           isSubscribed: false,
-          date: new Date(feed.date),
+          date: {
+            start: new Date(feed.begin_at),
+            end: new Date(feed.finish_at),
+          },
           location,
           author,
           attendees: {

@@ -1,8 +1,6 @@
-import FB from '@/config/firebaseConfig'
+import FB, { AuthorizationStatus } from '@/config/firebaseConfig'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
-import messaging, {
-  type FirebaseMessagingTypes,
-} from '@react-native-firebase/messaging'
+import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { LocalNotificationCenter } from '../data/LocalNotificationCenter'
 
 const registerMessageHandlers = () => {
@@ -18,9 +16,7 @@ const registerMessageHandlers = () => {
   })
 }
 
-const createLocalNotificationInForegroundIfNeeded = async (
-  message: FirebaseMessagingTypes.RemoteMessage,
-) => {
+const createLocalNotificationInForegroundIfNeeded = async (message: FirebaseMessagingTypes.RemoteMessage) => {
   const deeplinkUrl = await resolveDeeplinkUrlFromFCMMessage(message)
   // We need to present a local notification when we are in foreground
   LocalNotificationCenter.post({
@@ -30,9 +26,7 @@ const createLocalNotificationInForegroundIfNeeded = async (
   })
 }
 
-const resolveDeeplinkUrlFromFCMMessage = async (
-  message: FirebaseMessagingTypes.RemoteMessage | null,
-): Promise<string | undefined> => {
+const resolveDeeplinkUrlFromFCMMessage = async (message: FirebaseMessagingTypes.RemoteMessage | null): Promise<string | undefined> => {
   if (message === null) {
     return undefined
   }
@@ -54,11 +48,9 @@ export const PushNotification = {
       sound: true,
       alert: true,
     })
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL
+    const enabled = authStatus === AuthorizationStatus.AUTHORIZED || authStatus === AuthorizationStatus.PROVISIONAL
     if (enabled) {
-      const token = await messaging().getToken()
+      const token = await FB.messaging.getToken()
       console.log('Messaging authorization status enabled with token', token)
     }
     return enabled
@@ -67,20 +59,17 @@ export const PushNotification = {
     registerMessageHandlers()
   },
   getInitialDeeplinkUrl: async (): Promise<string | undefined> => {
-    const message = await messaging().getInitialNotification()
+    const message = await FB.messaging.getInitialNotification()
     return await resolveDeeplinkUrlFromFCMMessage(message)
   },
   observeDeeplinkUrl: (observer: (url: string) => void): (() => void) => {
-    const unsubscribeBackgroundObserver = messaging().onNotificationOpenedApp(
-      async (message) => {
-        const url = await resolveDeeplinkUrlFromFCMMessage(message)
-        if (url) {
-          observer(url)
-        }
-      },
-    )
-    const unsubscribeForegroundObserver =
-      LocalNotificationCenter.observeDeeplinkUrl(observer)
+    const unsubscribeBackgroundObserver = FB.messaging.onNotificationOpenedApp(async (message) => {
+      const url = await resolveDeeplinkUrlFromFCMMessage(message)
+      if (url) {
+        observer(url)
+      }
+    })
+    const unsubscribeForegroundObserver = LocalNotificationCenter.observeDeeplinkUrl(observer)
     return () => {
       unsubscribeBackgroundObserver()
       unsubscribeForegroundObserver()

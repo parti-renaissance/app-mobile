@@ -5,6 +5,12 @@ export interface RestEvents {
   items: Array<RestShortEvent>
 }
 
+export interface RestEventOrganizer {
+  uuid: string
+  firstName: string
+  lastName: string
+}
+
 export interface RestShortEvent {
   category: RestEventCategory
   name: string
@@ -17,6 +23,7 @@ export interface RestShortEvent {
   local_begin_at: string
   local_finish_at: string
   image_url: string | null
+  organizer: RestEventOrganizer
   user_registered_at: string | null
   post_address: RestEventAddress | null
 }
