@@ -8,6 +8,7 @@ import { Link, router, usePathname } from 'expo-router'
 import { Avatar, Button, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
 import ButtonCustom from '../Button'
 import Container from '../layouts/Container'
+import ProfilePicture from '../ProfilePicture'
 
 const opacityToHexCode = (hex: string, opacity: number) => {
   const opacityHex = Math.round(opacity * 255).toString(16)
@@ -84,12 +85,7 @@ const ProfileView = () => {
             #000000
           </Text>
         </Stack>
-
-        <Avatar circular size="$4">
-          {/* TODO: add the real avatar*/}
-          <Avatar.Image source={{ uri: 'https://picsum.photos/200/200', width: 200, height: 200 }} />
-          <Avatar.Fallback bc="$gray3" />
-        </Avatar>
+        <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
       </View>
     </Link>
   ) : (
