@@ -1,0 +1,9 @@
+name: Publish iOS
+description: upload ios version of app
+
+runs:
+  using: composite
+  steps:
+    - name: 🚀 Publish iOS
+      shell: bash
+      run: eas submit --platform ios --latest --non-interactive

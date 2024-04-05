@@ -1,0 +1,62 @@
+name: Release branches
+on:
+  push:
+    branches:
+      - 'release/*'
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+env:
+  EAS_BUILD_PROFILE: development
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+      - name: 🛠️ Prepare node env
+        uses: ./.github/actions/setup-base
+      - name: 📦 Fetch dependencies
+        uses: ./.github/actions/dependencies
+      - name: 🧙🏻‍♂️ Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: ⚙️ Compile android
+        run: eas build --platform android --profile=staging --no-wait
+  build-android-app-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+      - name: 🛠️ Prepare node env
+        uses: ./.github/actions/setup-base
+      - name: 📦 Fetch dependencies
+        uses: ./.github/actions/dependencies
+      - name: 🧙🏻‍♂️ Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: ⚙️ Compile android app bundle
+        run: eas build --platform android --profile=production --no-wait
+  build-ios:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+      - name: 🛠️ Prepare node env
+        uses: ./.github/actions/setup-base
+      - name: 📦 Fetch dependencies
+        uses: ./.github/actions/dependencies
+      - name: 🧙🏻‍♂️ Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: ⚙️ Compile iOS
+        run: eas build --platform ios --profile=production --no-wait

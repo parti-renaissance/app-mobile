@@ -1,0 +1,16 @@
+name: Prepare node & bun
+description: prepare node and bun 
+
+runs:
+  using: composite
+  steps:
+    - name: 🏗 Setup node
+      uses: actions/setup-node@v4
+      with:
+        cache: yarn
+        node-version: 18.X
+
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: 1.0.11 # or "latest", "canary", <sha>
+

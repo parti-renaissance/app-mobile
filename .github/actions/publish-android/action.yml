@@ -1,0 +1,9 @@
+name: Prepare node & bun
+description: publish android
+
+runs:
+  using: composite
+  steps:
+    - name: 🚀 Publish android
+      shell: bash
+      run: eas submit --platform android --latest --non-interactive

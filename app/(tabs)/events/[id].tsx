@@ -5,7 +5,6 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { SubscribeEventButton } from '@/components/Cards'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { BASE_URL } from '@/config/env'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent } from '@/hooks/useEvents'
 import useShareApi from '@/hooks/useShareApi'
@@ -41,7 +40,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const media = useMedia()
   const pathname = usePathname()
 
-  const shareUrl = `${BASE_URL}${pathname}`
+  const shareUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}${pathname}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 

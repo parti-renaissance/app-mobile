@@ -17,7 +17,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "infoPlist": {
         "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
