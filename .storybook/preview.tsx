@@ -1,8 +1,12 @@
-import { View } from 'react-native'
+import React from 'react-native'
+
+import { Stack } from 'tamagui'
+
 
 /** @type{import("@storybook/react").Preview} */
 const preview = {
   parameters: {
+    noBackground: true,
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -13,16 +17,11 @@ const preview = {
 
   decorators: [
     (Story, { parameters }) => (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor:
-            parameters.noBackground === true ? undefined : '#26c6da',
-          padding: 8,
-        }}
-      >
-        <Story />
-      </View>
+      <Stack flex={1} width="100%" backgroundColor="$gray4" justifyContent="center" alignItems="center">
+        <Stack flex={1} width="100%" $gtSm={{maxWidth: 800}} justifyContent="center" alignItems="center">
+          <Story />
+        </Stack>
+      </Stack>
     ),
   ],
 }
