@@ -54,7 +54,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         onShare: () => {},
         onShow: () => {
           router.push({
-            pathname: '/home/modals/news-detail',
+            pathname: '/home/news-detail',
             params: { id: feed.objectID },
           })
         },
@@ -73,7 +73,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         onSubscribe: () => {},
         onShow: () => {
           router.push({
-            pathname: '/home/modals/event-detail',
+            pathname: '/home/event-detail',
             params: { id: feed.objectID },
           })
         },
@@ -118,7 +118,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
               break
             case 'survey':
               router.push({
-                pathname: '/home/modals/poll-detail',
+                pathname: '/home/poll-detail',
                 params: { id: feed.objectID },
               })
               break
