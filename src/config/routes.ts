@@ -22,12 +22,12 @@ const _ROUTES = [
     icon: ActionIcon,
     gradiant: ['#68F984', '#06B827'],
   },
-  {
-    name: 'news',
-    screenName: 'Ripostes',
-    icon: RipostIcon,
-    gradiant: ['#FDA302', '#F7681E'],
-  },
+  // {
+  //   name: 'news',
+  //   screenName: 'Ripostes',
+  //   icon: RipostIcon,
+  //   gradiant: ['#FDA302', '#F7681E'],
+  // },
   {
     name: 'tools',
     screenName: 'Ressources',
