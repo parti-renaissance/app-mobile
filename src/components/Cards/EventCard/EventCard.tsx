@@ -11,7 +11,7 @@ type VoxCardBasePayload = {
   title: string
   tag: string
   image?: string
-  isSubscribed: boolean
+  isSubscribed?: boolean
   isOnline: boolean
   location?: VoxCardLocationProps['location']
   date: VoxCardDateProps
@@ -30,7 +30,6 @@ export type EventVoxCardProps = {
         isOnline: true
       } & VoxCardBasePayload)
 } & VoxCardFrameProps
-
 export const SubscribeEventButton = ({
   isSubscribed,
   eventId: id,
@@ -42,7 +41,7 @@ export const SubscribeEventButton = ({
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
   return isSubscribed ? (
-    <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'évenement ?`} onAccept={handleSubscribe}>
+    <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
       <Button variant={outside ? 'outlined' : 'text'} {...btnProps} {...outsideStyle}>
         <Button.Text color="$blue7">Me désinscrire</Button.Text>
       </Button>
@@ -55,6 +54,8 @@ export const SubscribeEventButton = ({
 }
 
 const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
+  const knowSubscription = payload.isSubscribed !== undefined
+
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
@@ -62,13 +63,14 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image && <VoxCard.Image image={payload.image} />}
         <VoxCard.Date {...payload.date} />
-        {payload.isOnline ? <VoxCard.Visio /> : (payload.location && <VoxCard.Location location={payload.location} />)}
+        {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         <VoxCard.Author author={payload.author} />
-        <XStack justifyContent="space-between">
+        <XStack justifyContent={knowSubscription ? 'space-between' : 'flex-end'}>
           <Button variant="outlined" onPress={onShow}>
             <Button.Text>Voir l'événement</Button.Text>
           </Button>
-          <SubscribeEventButton isSubscribed={payload.isSubscribed} eventId={payload.id} />
+
+          {knowSubscription && <SubscribeEventButton isSubscribed={payload.isSubscribed} eventId={payload.id} />}
         </XStack>
       </VoxCard.Content>
     </VoxCard>

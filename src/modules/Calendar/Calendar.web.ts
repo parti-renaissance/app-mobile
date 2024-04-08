@@ -10,7 +10,7 @@ export const useCreateEvent = (event: AddCalendarEvent.CreateOptions) => {
       name: event.title,
       description: event.notes,
       startDate: formatDate(event.startDate, 'yyyy-MM-dd'),
-      endDate: formatDate(event.startDate, 'yyyy-MM-dd'),
+      endDate: formatDate(event.endDate, 'yyyy-MM-dd'),
       startTime: formatDate(event.startDate, 'HH:mm'),
       endTime: formatDate(event.endDate, 'HH:mm'),
       location: event.location,
