@@ -1,8 +1,9 @@
 import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
+import { Platform } from 'react-native'
 
 export type TabRoute = (typeof ROUTES)[number]
 
-export const ROUTES = [
+const _ROUTES = [
   {
     name: 'home',
     screenName: 'Fil',
@@ -34,3 +35,6 @@ export const ROUTES = [
     gradiant: ['#E461E8', '#8B2DBF'],
   },
 ] as const
+
+
+export const ROUTES = _ROUTES.filter((route) => !(Platform.OS === 'web' && route.name === 'actions'))
