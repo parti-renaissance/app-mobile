@@ -13,7 +13,7 @@ const useGetProfil = () => {
 }
 
 export const useGetProfilObserver = () => {
-  const get_profil = useGetProfil()
+  const getProfil = useGetProfil()
   const queryClient = useQueryClient()
   const [profil, setProfil] = useState<RestProfileResponse>(() => {
     const data = queryClient.getQueryData<RestProfileResponse>(key)
@@ -33,7 +33,7 @@ export const useGetProfilObserver = () => {
   }, [])
 
   return {
-    ...get_profil,
+    ...getProfil,
     profil,
   }
 }

@@ -17,7 +17,7 @@ import ProfileSettingsCard from './ProfileSettingsCard'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
 
-// import { versionLabel } from './version'
+import { versionLabel } from './version'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
@@ -120,7 +120,7 @@ const ProfileAuthenticated: FC<Props> = ({
             <Button.Text>{i18n.t('profile.logout')}</Button.Text>
           </Button>
           <BorderlessButton onPress={removeAccount} textStyle={styles.removeAccountText} title={i18n.t('profile.remove_account')} />
-          {/* <Text style={styles.version}>{versionLabel}</Text> */}
+          <Text style={styles.version}>{versionLabel}</Text>
         </View>
       </ScrollView>
     </>

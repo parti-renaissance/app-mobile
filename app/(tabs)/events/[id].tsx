@@ -24,7 +24,7 @@ const HomeScreen: React.FC = () => {
   return (
     <PageLayout>
       <PageLayout.SideBarLeft />
-      <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+      <BoundarySuspenseWrapper loadingMessage="Nous chargeons votre fil">
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
     </PageLayout>
@@ -48,7 +48,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const handleCopyUrl = () => {
     Clipboard.setStringAsync(shareUrl)
       .then(() => {
-        toast.show('Lien copié dans le presse-papier', { type: 'info' })
+        toast.show('Lien copié', { type: 'info' })
       })
       .catch(() => {
         toast.show('Erreur lors de la copie du lien', { type: 'error' })
@@ -97,14 +97,14 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
 
       <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
-        Cette évènement est réservée aux adhérents à jour de cotisation.
+        Cet événement est réservé aux adhérents à jour de cotisation.
       </Text>
 
-      <VoxCard.Section title="Évènement créer par:">
+      <VoxCard.Section title="Événement créé par :">
         <VoxCard.Author {...author} />
       </VoxCard.Section>
 
-      <VoxCard.Section title="Partager:" gap="$3">
+      <VoxCard.Section title="Partager :" gap="$3">
         <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
           <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
             {shareUrl}
@@ -146,7 +146,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           }}
         >
           <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
-            <VoxCard.Image large image={data.image_url || 'https://picsum.photos/600/400'} />
+            {data.image_url && <VoxCard.Image large image={data.image_url} /> }
             <VoxCard.Content>
               <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
               <VoxCard.Title>{data.name}</VoxCard.Title>

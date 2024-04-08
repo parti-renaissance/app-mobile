@@ -21,7 +21,7 @@ const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
     case 'news':
       return 'Actualité'
     case 'event':
-      return 'Evénement'
+      return 'Événement'
     case 'riposte':
       return 'Riposte'
     case 'phoning-campaign':
@@ -37,11 +37,10 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
   const type = tramformFeedItemType(feed.type)
   const author = {
     role: 'Role data missing',
-    name: feed.author || 'Author not found',
+    name: feed.author,
     title: 'title data missing',
     pictureLink: undefined,
   }
-  console.log('feed.post_address', feed.post_address)
   const location = feed.post_address ?{
     city: feed.post_address.city_name,
     postalCode: feed.post_address.postal_code,
@@ -62,10 +61,14 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         payload: {
           title: feed.title,
           tag,
-          image: feed.image || 'https://picsum.photos/600/244',
+          image: feed.image,
           description: feed.description,
           location,
           author,
+          date: {
+            start: new Date(feed.date),
+            end: new Date(feed.date),
+          }
         },
       }
     case 'event':
@@ -83,7 +86,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           title: feed.title,
           tag,
           image: feed.image,
-          isSubscribed: false,
+          isSubscribed: undefined,
           date: {
             start: new Date(feed.date),
             end: new Date(feed.date),
