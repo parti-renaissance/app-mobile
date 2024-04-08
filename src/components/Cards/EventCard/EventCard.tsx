@@ -62,7 +62,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image && <VoxCard.Image image={payload.image} />}
         <VoxCard.Date {...payload.date} />
-        {payload.isOnline ? <VoxCard.Visio /> : <VoxCard.Location location={payload.location} />}
+        {payload.isOnline ? <VoxCard.Visio /> : (payload.location && <VoxCard.Location location={payload.location} />)}
         <VoxCard.Author author={payload.author} />
         <XStack justifyContent="space-between">
           <Button variant="outlined" onPress={onShow}>
