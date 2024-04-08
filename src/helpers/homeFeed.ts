@@ -41,11 +41,12 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
     title: 'title data missing',
     pictureLink: undefined,
   }
-  const location = {
-    city: 'NotDataCity',
-    postalCode: '00000',
-    street: feed.address || '404 street not found',
-  }
+  console.log('feed.post_address', feed.post_address)
+  const location = feed.post_address ?{
+    city: feed.post_address.city_name,
+    postalCode: feed.post_address.postal_code,
+    street: feed.post_address.address,
+  } : undefined
   const tag = tramformFeedItemTypeToTag(feed.type)
   switch (type) {
     case 'news':
@@ -81,7 +82,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           id: feed.objectID,
           title: feed.title,
           tag,
-          image: feed.image || 'https://picsum.photos/600/244',
+          image: feed.image,
           isSubscribed: false,
           date: {
             start: new Date(feed.date),
