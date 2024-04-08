@@ -87,7 +87,7 @@ const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
 }
 
 export type VoxCardLocationProps = {
-  location: {
+  location?: {
     city: string
     postalCode: string
     street: string
@@ -95,7 +95,7 @@ export type VoxCardLocationProps = {
 }
 
 const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
-  return (
+  return location ? (
     <XStack gap="$2" alignItems="center">
       <MapPin size="$1" />
       <Text lineBreakStrategyIOS="push-out">
@@ -108,7 +108,7 @@ const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
         </Text>
       </Text>
     </XStack>
-  )
+  ) : null
 }
 
 export type VoxCardAuthorProps = {
@@ -125,14 +125,8 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
     <XStack gap="$2" alignItems="center">
       <ProfilePicture rounded size="$2" src={author.pictureLink} alt="Profile picture" fullName={author.name} />
       <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
-        <Text fontWeight="$5" color="$textSecondary">
-          {' '}
-          {author.role}
-        </Text>
-        {'\n'}
         <Text fontWeight="$4" color="$textSecondary">
-          {' '}
-          {author.name}, {author.title}
+          {author.name}
         </Text>
       </Text>
     </XStack>
