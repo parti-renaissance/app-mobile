@@ -2,10 +2,10 @@ import React, { ComponentProps } from 'react'
 import { Platform } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import Chip from '@/components/Chip/Chip'
+import ProfilePicture from '@/components/ProfilePicture'
 import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
-import { isSameDay } from 'date-fns'
-import ProfilePicture from '@/components/ProfilePicture'
+import { getHours, isSameDay } from 'date-fns'
 import {
   getFontSize,
   Image,
@@ -62,13 +62,16 @@ const VoxCardTitle = (props: VoxCardTitleProps) => {
   )
 }
 
-export type VoxCardDateProps = { start: Date; end: Date }
-const VoxCardDate = ({ start, end }: VoxCardDateProps) => {
+export type VoxCardDateProps = { start: Date; end: Date; icon?: boolean }
+const VoxCardDate = ({ start, end, icon = true }: VoxCardDateProps) => {
+  const keySuffix = getHours(start) === getHours(end) ? '' : 'End'
+  const keyPrefix = isSameDay(start, end) ? 'day' : 'days'
+  const key = `${keyPrefix}Date${keySuffix}`
   return (
     <XStack gap="$2" alignItems="center">
-      <CalendarDays size="$1" />
+      {icon && <CalendarDays size="$1" />}
       <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        {i18n.t(`vox_card.${isSameDay(start, end) ? 'dayDate' : 'daysDate'}`, { start, end })}
+        {i18n.t(`vox_card.${key}`, { start, end })}
       </Text>
     </XStack>
   )
@@ -144,7 +147,7 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   if (!attendees)
     return (
       <Text fontFamily="$PublicSans" fontSize="$1" color="$textPrimary" lineHeight="$1">
-        0 pariticpant, soyez le premier !
+        0 participant, soyez le premier !
       </Text>
     )
   const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
@@ -164,7 +167,7 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
       )}
 
       <Text fontFamily="$PublicSans" color="$textPrimary" fontSize="$1" lineHeight="$1" fontWeight="$5">
-        {attendees.count} Inscrits
+        {attendees.count} {attendees.count > 1 ? 'Inscrits' : 'Inscrit'}
       </Text>
     </XStack>
   )

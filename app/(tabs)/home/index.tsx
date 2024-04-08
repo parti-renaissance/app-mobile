@@ -17,7 +17,7 @@ const HomeScreen: React.FC = () => {
       <PageLayout>
         <PageLayout.SideBarLeft />
         <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper loadingMessage="Nous chargons votre fil">
+          <BoundarySuspenseWrapper loadingMessage="Nous chargeons votre fil">
             <HomeFeedList />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>

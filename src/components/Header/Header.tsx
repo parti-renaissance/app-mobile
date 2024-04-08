@@ -76,7 +76,6 @@ const ProfileView = () => {
             {profile?.first_name} {profile?.last_name}
           </Text>
 
-          {/* TODO: add the personal code */}
           <Text fontFamily={'$PublicSans'} fontSize={12} color="$textSecondary">
             #000000
           </Text>

@@ -10,6 +10,7 @@ export type NewsVoxCardProps = {
     tag: string
     image?: string
     description: string
+    date: VoxCardDateProps
   } & VoxCardLocationProps &
     VoxCardAuthorProps
 } & VoxCardFrameProps
@@ -18,16 +19,15 @@ const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip news>{payload.tag}</VoxCard.Chip>
+        <XStack justifyContent="space-between">
+          <VoxCard.Chip news>{payload.tag}</VoxCard.Chip>
+          <VoxCard.Date {...payload.date} icon={false} />
+        </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image && <VoxCard.Image image={payload.image} />}
         <VoxCard.Description>{payload.description}</VoxCard.Description>
-        <VoxCard.Author author={payload.author} />
-        <XStack justifyContent="space-between">
-          <Button variant="outlined" onPress={onShare}>
-            <Button.Text>Partager</Button.Text>
-          </Button>
-
+        {payload.author.name && <VoxCard.Author author={payload.author} />}
+        <XStack justifyContent="flex-end">
           <Button variant="contained" onPress={onShow}>
             <Button.Text>Lire en entier</Button.Text>
           </Button>
