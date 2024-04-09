@@ -1,10 +1,11 @@
+import { useEffect } from 'react'
 import discoveryDocument from '@/config/discoveryDocument'
 import { OAUTH_CLIENT_ID } from '@/config/env'
 import * as AuthSession from 'expo-auth-session'
-import { maybeCompleteAuthSession } from 'expo-web-browser'
+import * as WebBrowser from 'expo-web-browser'
 import useBrowserWarmUp from './useBrowserWarmUp'
 
-maybeCompleteAuthSession()
+WebBrowser.maybeCompleteAuthSession()
 
 const REDIRECT_URI = AuthSession.makeRedirectUri()
 const BASE_REQUEST_CONFIG = { clientId: OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI } as const
@@ -39,5 +40,16 @@ export const useLogin = () => {
       return null
     })
 }
+
+export const useSignUp = () => {
+  useBrowserWarmUp()
+
+  return () =>
+    WebBrowser.openAuthSessionAsync('https://staging-utilisateur.besoindeurope.fr/inscription').then((x) => {
+      console.log(x)
+      console.log('done')
+    })
+}
+// Path: src/hooks/useLogin.ts
 
 export default useLogin

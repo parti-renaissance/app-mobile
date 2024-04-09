@@ -2,7 +2,7 @@ import React from 'react'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import useLogin from '@/hooks/useLogin'
+import useLogin, { useSignUp } from '@/hooks/useLogin'
 import { useQueryClient } from '@tanstack/react-query'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import { useStorageState } from '../hooks/useStorageState'
@@ -10,11 +10,13 @@ import { useStorageState } from '../hooks/useStorageState'
 const AuthContext = React.createContext<{
   signIn: () => Promise<void>
   signOut: () => Promise<void>
+  signUp: () => Promise<void>
   session?: string
   isLoading: boolean
 }>({
   signIn: () => null,
   signOut: () => null,
+  signUp: () => null,
   session: null,
   isLoading: false,
 })
@@ -40,6 +42,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   authenticationRepository.current.sessionSetter = setSession
   const queryClient = useQueryClient()
   const login = useLogin()
+  const register = useSignUp()
 
   const handleSignIn = async () => {
     return login().then((session) => {
@@ -59,11 +62,18 @@ export function SessionProvider(props: React.PropsWithChildren) {
     })
   }
 
+  const handleSignUp = async () => {
+    return register().then(() => {
+      // router.replace({ pathname: '/(auth)/onboarding' })
+    })
+  }
+
   return (
     <AuthContext.Provider
       value={{
         signIn: handleSignIn,
         signOut: handleSignOut,
+        signUp: handleSignUp,
         session: session,
         isLoading,
       }}

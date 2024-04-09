@@ -15,7 +15,7 @@ WebBrowser.maybeCompleteAuthSession()
 
 const OnboardingScreen = () => {
   const { viewModel, onSignUp } = useOnboardingScreen()
-  const { signIn } = useSession()
+  const { signIn, signUp } = useSession()
 
   return (
     <ImageBackground source={viewModel.image} resizeMode="cover" style={styles.container}>
@@ -34,7 +34,7 @@ const OnboardingScreen = () => {
                 <FlexibleVerticalSpacer minSpacing={Spacing.mediumMargin} />
                 <VerticalSpacer spacing={Spacing.mediumMargin} />
                 <PrimaryButton style={styles.button} title={i18n.t('onboarding.login')} onPress={() => signIn()} />
-                <SecondaryButton style={styles.button} title={i18n.t('onboarding.signup')} onPress={onSignUp} />
+                <SecondaryButton style={styles.button} title={i18n.t('onboarding.signup')} onPress={signUp} />
                 <Text style={styles.separator}>{i18n.t('onboarding.or')}</Text>
               </>
             </LayoutPage.MainSingleLeft>
