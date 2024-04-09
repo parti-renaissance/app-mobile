@@ -51,9 +51,9 @@ function Root() {
   return (
     <QueryClientProvider client={queryClient}>
       <TamaguiProvider>
-        <PortalProvider>
-          <ToastProvider>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <PortalProvider>
+            <ToastProvider>
               <SessionProvider>
                 <VoxToast />
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
@@ -70,9 +70,9 @@ function Root() {
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 </Stack>
               </SessionProvider>
-            </ThemeProvider>
-          </ToastProvider>
-        </PortalProvider>
+            </ToastProvider>
+          </PortalProvider>
+        </ThemeProvider>
       </TamaguiProvider>
     </QueryClientProvider>
   )
