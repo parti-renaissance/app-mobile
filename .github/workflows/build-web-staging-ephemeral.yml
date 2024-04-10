@@ -14,6 +14,7 @@ concurrency:
 
 env:
   BRANCH_NAME: ${{ github.ref_name }}
+  EAS_BUILD_PROFILE: staging
 
 jobs:
   build-web:
@@ -83,8 +84,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     needs: build-web
-    env:
-      EAS_BUILD_PROFILE: staging
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -101,3 +100,24 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
       - name: ⚙️ Compile android
         run: eas build --platform android --profile=staging --no-wait
+
+  build-ios:
+    runs-on: ubuntu-latest
+    environment: staging
+    needs: build-web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        name: ⬇️ Download web artifacts
+      - uses: ./.github/actions/setup-base
+      - uses: ./.github/actions/dependencies
+        name: Download dependencies
+      - name: 🧙🏻‍️Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          packager: yarn
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: ⚙️ Compile iOS
+        run: eas build --platform ios --profile=staging --no-wait
