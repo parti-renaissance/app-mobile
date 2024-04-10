@@ -6,7 +6,7 @@ import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import { Redirect, SplashScreen, Tabs, usePathname } from 'expo-router'
+import { Redirect, Tabs, usePathname } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
 
 const TAB_BAR_HEIGTH = 60
@@ -15,17 +15,11 @@ export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const pathname = usePathname()
   const media = useMedia()
-  const { session, isLoading } = useSession()
+  const { session } = useSession()
 
   const firstPathname = useLazyRef(() => (!session ? pathname : '/'))
 
   useInit()
-
-  if (!isLoading) {
-    SplashScreen.hideAsync()
-  } else {
-    return null
-  }
 
   if (session === null) {
     return (
@@ -61,7 +55,6 @@ export default function AppLayout() {
             key={route.name}
             name={route.name}
             options={{
-
               href: route.hidden === true ? null : undefined,
               tabBarIcon: ({ focused }) => {
                 const Icon = ({ focused }) => <route.icon active={focused} />

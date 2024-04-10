@@ -4,8 +4,10 @@ import { FeedCard } from '@/components/Cards'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetPaginatedFeed } from '@/hooks/useFeed'
-import { useGetProfilObserver } from '@/hooks/useProfil'
+import { useGetProfil } from '@/hooks/useProfil'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+import { useQueryClient } from '@tanstack/react-query'
+import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
@@ -17,10 +19,11 @@ const renderFeedItem = ({ item }: { item: RestTimelineFeedItem }) => {
 }
 
 const HomeFeedList = () => {
-  const { data: profile } = useGetProfilObserver()
   const media = useMedia()
+  const queryClient = useQueryClient()
+  const profil = queryClient.getQueryData(['profil']) as RestProfileResponse | undefined
 
-  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed(profile?.postal_code)
+  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed(profil?.postal_code)
 
   const feedData = paginatedFeed?.pages.map((page) => page.hits).flat()
 
