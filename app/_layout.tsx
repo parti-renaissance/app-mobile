@@ -6,13 +6,15 @@ import '@tamagui/core/reset.css'
 import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import VoxToast from '@/components/VoxToast/VoxToast'
+import { useSession } from '@/ctx/SessionProvider'
 import useImportFont from '@/hooks/useImportFont'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { getTokenValue, PortalProvider, Spinner } from 'tamagui'
+import { getTokenValue, PortalProvider, Spinner, ViewProps, YStack } from 'tamagui'
 
 const { routingInstrumentation } = ErrorMonitor.configure()
 
@@ -28,16 +30,32 @@ const useRegisterRoutingInstrumentation = () => {
   }, [navigationRef])
 }
 
+const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
+  const { isLoading } = useSession()
+
+  if (!isLoading && !props.isLoading) {
+    SplashScreen.hideAsync()
+  }
+
+  return (
+    <>
+      {props.children}
+      {(isLoading || props.isLoading) && (
+        <YStack justifyContent="center" alignItems="center" gap="$4" height="100%" flex={1} position="absolute" top="0" left="0" width="100%" bg="white">
+          <EuCampaignIllustration />
+          <Spinner color="$blue7" size="large" />
+        </YStack>
+      )}
+    </>
+  )
+}
+
 function Root() {
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
   const insets = useSafeAreaInsets()
-
-  if (!isFontsLoaded) {
-    return null
-  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -48,17 +66,19 @@ function Root() {
               <SessionProvider>
                 <VoxToast />
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
-                <Stack>
-                  <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
-                  <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-                  <Stack.Screen
-                    name="(auth)/code-phone-picker"
-                    options={{
-                      presentation: 'fullScreenModal',
-                    }}
-                  />
-                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                </Stack>
+                <WaitingRoomHoc isLoading={!isFontsLoaded}>
+                  <Stack>
+                    <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
+                    <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
+                    <Stack.Screen
+                      name="(auth)/code-phone-picker"
+                      options={{
+                        presentation: 'fullScreenModal',
+                      }}
+                    />
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  </Stack>
+                </WaitingRoomHoc>
               </SessionProvider>
             </ToastProvider>
           </PortalProvider>
