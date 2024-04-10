@@ -5,35 +5,12 @@ import { QueryObserver, useQueryClient, useSuspenseQuery } from '@tanstack/react
 
 const key = ['profil']
 
-const useGetProfil = () => {
+export const useGetProfil = () => {
   return useSuspenseQuery({
     queryKey: key,
     queryFn: () => ApiService.getInstance().getProfile(),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
   })
-}
-
-export const useGetProfilObserver = () => {
-  const getProfil = useGetProfil()
-  const queryClient = useQueryClient()
-  const [profil, setProfil] = useState<RestProfileResponse>(() => {
-    const data = queryClient.getQueryData<RestProfileResponse>(key)
-    return data ? data : ({} as RestProfileResponse)
-  })
-
-  useEffect(() => {
-    const observer = new QueryObserver<RestProfileResponse>(queryClient, { queryKey: [key] })
-
-    const unsubscribe = observer.subscribe((result) => {
-      if (result.data) setProfil(result.data)
-    })
-
-    return () => {
-      unsubscribe()
-    }
-  }, [])
-
-  return {
-    ...getProfil,
-    profil,
-  }
 }
