@@ -6,27 +6,44 @@ import { StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YS
 export const padding = '$7'
 export const columnWidth = 333
 
-type LayoutPageProps = {
-  children: React.ReactNode
-}
-const LayoutFrame = ({ children }: StackProps) => {
+const LayoutFrame = ({ children, ...props }: StackProps) => {
   return (
-    <Container flex={1} bg="$gray2" $gtMd={{ pl: padding }} $gtLg={{ pl: 0 }}>
+    <Container flex={1} bg="$gray2" $gtMd={{ pl: padding }} $gtLg={{ pl: 0 }} {...props}>
       <XStack flex={1}>{children}</XStack>
     </Container>
   )
 }
 
-const LayoutSideBarLeft = () => {
+const LayoutSideBarLeft = ({ children }: ViewProps) => {
   const media = useMedia()
   return (
     media.gtMd && (
       <View width={columnWidth} height="100%" pt={padding}>
-        <VoxCard height={300}>
-          <VoxCard.Content></VoxCard.Content>
-        </VoxCard>
+        {children ? (
+          children
+        ) : (
+          <VoxCard height={300}>
+            <VoxCard.Content></VoxCard.Content>
+          </VoxCard>
+        )}
       </View>
     )
+  )
+}
+
+const LayoutMainBarLeft = ({ children }: ViewProps) => {
+  return (
+    <View
+      width="100%"
+      $gtSm={{
+        width: columnWidth,
+        height: '100%',
+        pt: padding,
+        marginLeft: 'auto',
+      }}
+    >
+      {children}
+    </View>
   )
 }
 
@@ -59,6 +76,7 @@ export const LayoutPage = withStaticProperties(LayoutFrame, {
   SideBarLeft: LayoutSideBarLeft,
   SideBarRight: LayoutSideBarRight,
   MainSingleColumn: LayoutMainSingleColumn,
+  MainSingleLeft: LayoutMainBarLeft,
 })
 
 export default LayoutPage
