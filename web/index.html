@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="%LANG_ISO_CODE%">
 
@@ -46,12 +47,13 @@
             /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
             -webkit-text-size-adjust: 100%;
             height: calc(100% + env(safe-area-inset-top));
+            overflow: hidden;
         }
 
         body {
             display: flex;
             /* Allows you to scroll below the viewport; default value is visible */
-            overflow-y: auto;
+            overflow-y:hidden;
             overscroll-behavior-y: none;
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;

@@ -1,9 +1,21 @@
 import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
+import { hi } from 'date-fns/locale'
 import { Platform } from 'react-native'
+import { isWeb } from 'tamagui'
 
-export type TabRoute = (typeof ROUTES)[number]
+import { AllRoutes } from 'expo-router'
 
-const _ROUTES = [
+
+export type TabRoute = {
+  name: 'home' | 'events' | 'actions' | 'news' | 'tools',
+  screenName: string
+  icon: typeof HomeIcon
+  gradiant: string[]
+  hidden?: boolean
+}
+
+
+export const ROUTES = [
   {
     name: 'home',
     screenName: 'Fil',
@@ -19,22 +31,23 @@ const _ROUTES = [
   {
     name: 'actions',
     screenName: 'Actions',
+    hidden: isWeb,
     icon: ActionIcon,
     gradiant: ['#68F984', '#06B827'],
   },
-  // {
-  //   name: 'news',
-  //   screenName: 'Ripostes',
-  //   icon: RipostIcon,
-  //   gradiant: ['#FDA302', '#F7681E'],
-  // },
+  {
+    name: 'news',
+    screenName: 'Ripostes',
+    hidden: true,
+    icon: RipostIcon,
+    gradiant: ['#FDA302', '#F7681E'],
+  },
   {
     name: 'tools',
     screenName: 'Ressources',
     icon: ToolsIcon,
     gradiant: ['#E461E8', '#8B2DBF'],
   },
-] as const
+]  as TabRoute[]
 
 
-export const ROUTES = _ROUTES.filter((route) => !(Platform.OS === 'web' && route.name === 'actions'))

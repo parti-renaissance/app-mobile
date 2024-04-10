@@ -7,7 +7,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { Redirect, SplashScreen, Tabs, usePathname } from 'expo-router'
-import { useMedia, View } from 'tamagui'
+import { isWeb, useMedia, View } from 'tamagui'
 
 const TAB_BAR_HEIGTH = 60
 
@@ -39,7 +39,7 @@ export default function AppLayout() {
   }
 
   return (
-    <>
+    <View style={{ height: isWeb ? '100svh' : '100%' }}>
       <NavBar />
       <Tabs
         initialRouteName="home"
@@ -61,6 +61,8 @@ export default function AppLayout() {
             key={route.name}
             name={route.name}
             options={{
+
+              href: route.hidden === true ? null : undefined,
               tabBarIcon: ({ focused }) => {
                 const Icon = ({ focused }) => <route.icon active={focused} />
 
@@ -74,6 +76,6 @@ export default function AppLayout() {
           />
         ))}
       </Tabs>
-    </>
+    </View>
   )
 }
