@@ -4,7 +4,9 @@ import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin from '@/hooks/useLogin'
 import { useQueryClient } from '@tanstack/react-query'
+import { set } from 'date-fns'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
+import { red } from 'theme/colors.hsl'
 import { useStorageState } from '../hooks/useStorageState'
 
 const AuthContext = React.createContext<{
@@ -33,7 +35,19 @@ export function useSession() {
 
 export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('credentials')
-  const { redirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
+  const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
+
+  const [mRedirect, setMredirect] = React.useState<AllRoutes | null>(null)
+
+  const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
+
+  React.useEffect(() => {
+    if (session && (pRedirect || mRedirect)) {
+      router.replace({ pathname: pRedirect || mRedirect })
+      setIsLoginInProgress(false)
+      setMredirect(null)
+    }
+  }, [session, pRedirect, mRedirect])
 
   const loginInteractor = useLazyRef(() => new LoginInteractor())
   const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
@@ -42,20 +56,28 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const login = useLogin()
 
   const handleSignIn = async () => {
+    setIsLoginInProgress(true)
     return login().then((session) => {
-      if (!session) return
+      if (!session) {
+        setIsLoginInProgress(false)
+        return
+      }
       const { accessToken, refreshToken } = session
       setSession(JSON.stringify({ accessToken, refreshToken }))
-      loginInteractor.current.setUpLogin().then((profile) => {
-        queryClient.setQueryData(['profile'], profile)
-      })
-      router.replace({ pathname: redirect || '/(tabs)/home' })
+      queryClient
+        .prefetchQuery({
+          queryKey: ['profil'],
+          queryFn: () => loginInteractor.current.setUpLogin(),
+        })
+        .then(() => {
+          setMredirect('/home/')
+        })
     })
   }
 
   const handleSignOut = async () => {
     await authenticationRepository.current.logout(false).then(() => {
-      queryClient.setQueryData(['profile'], null)
+      queryClient.setQueryData(['profil'], null)
     })
   }
 
@@ -65,7 +87,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         signIn: handleSignIn,
         signOut: handleSignOut,
         session: session,
-        isLoading,
+        isLoading: isLoginInProgress || isLoading,
       }}
     >
       {props.children}
