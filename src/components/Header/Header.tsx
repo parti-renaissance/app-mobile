@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable, TouchableWithoutFeedback } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
@@ -58,7 +58,7 @@ const NavBar = () => {
   const { gtSm } = useMedia()
   return gtSm ? (
     <Stack flexDirection="row" gap={4}>
-      {ROUTES.map((route) => {
+      {ROUTES.filter(x => !x.hidden).map((route) => {
         const focused = pathname.includes(route.name)
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}
@@ -106,7 +106,7 @@ const Header: React.FC = (props: StackProps) => {
   const segments = useSegments()
   const isNested = segments.length > 2
   const backPath = segments
-    .filter((x) => x.startsWith('(') === false)
+    .filter((x:string) => x.startsWith('(') === false)
     .slice(0, -1)
     .join('/')
 
