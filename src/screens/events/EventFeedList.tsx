@@ -4,7 +4,7 @@ import { EventCard } from '@/components/Cards/EventCard'
 import { RestShortEvent } from '@/data/restObjects/RestEvents'
 import { mapProps } from '@/helpers/eventsFeed'
 import { usePaginatedEvents } from '@/hooks/useEvents'
-import { useGetProfil } from '@/hooks/useProfil'
+import { useGetProfilObserver } from '@/hooks/useProfil'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
@@ -14,20 +14,14 @@ const EventListCard = memo((args: { item: RestShortEvent; cb: Parameters<typeof 
 })
 
 const EventList = () => {
-  const { data: profile } = useGetProfil()
+  const { data: profile } = useGetProfilObserver()
   const media = useMedia()
 
-  const {
-    data: paginatedFeed,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-    isRefetching,
-  } = usePaginatedEvents({
+  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = usePaginatedEvents({
     postalCode: profile?.postal_code,
     filters: {
       finishAfter: new Date(),
-    },
+    }
   })
 
   const handleSubscribe = (id: string) => {}
