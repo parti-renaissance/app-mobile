@@ -43,6 +43,11 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: ↗️ Upload tamagui cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: tamagui
+          path: .tamagui
 
   upload-staging-develop-web:
     runs-on: ubuntu-latest
@@ -69,3 +74,18 @@ jobs:
           URL: ${{steps.deploy.outputs.url}}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: node ./.github/scripts/announce.js
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        name: ⬇️ Download web artifacts
+      - name: 🧙🏻‍️Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          packager: yarn
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: ⚙️ Compile android
+        run: eas build --platform android --profile=staging --no-wait
