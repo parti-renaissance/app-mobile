@@ -60,6 +60,11 @@ let iosConfig = populateIosConfig(APPLE_TEAM_ID, BUNDLE_ID)
 let androidConfig = populateAndroidConfig(PACKAGE_NAME)
 
 
+
+fs.mkdirSync(path.join(__dirname, '../web/.well-known'), { recursive: true }, (err) => {
+  if (err) throw err
+})
+
 const aasaPath = path.join(__dirname, '../web/.well-known', 'apple-app-site-association')
 const assetlinksPath = path.join(__dirname, '../web/.well-known', 'assetlinks.json')
 
