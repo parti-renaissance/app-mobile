@@ -42,6 +42,7 @@ jobs:
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
+          packager: yarn
           token: ${{ secrets.EXPO_TOKEN }}
       - name: ⚙️ Compile android
         run: eas build --platform android --profile=staging --no-wait

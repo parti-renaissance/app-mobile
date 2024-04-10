@@ -4,19 +4,16 @@
   },
   "build": {
     "development": {
-      "bun": "1.0.20",
       "distribution": "internal",
       "channel": "development",
       "autoIncrement": true
     },
     "staging": {
-      "bun": "1.0.20",
       "distribution": "internal",
       "channel": "staging",
       "autoIncrement": true
     },
     "production": {
-      "bun": "1.0.20",
       "distribution": "store",
       "channel": "main",
       "autoIncrement": true
