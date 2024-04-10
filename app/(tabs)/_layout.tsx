@@ -6,7 +6,7 @@ import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import { Redirect, Tabs, usePathname } from 'expo-router'
+import { Redirect, SplashScreen, Tabs, usePathname } from 'expo-router'
 import { useMedia, View } from 'tamagui'
 
 const TAB_BAR_HEIGTH = 60
@@ -21,11 +21,13 @@ export default function AppLayout() {
 
   useInit()
 
-  if (isLoading) {
+  if (!isLoading) {
+    SplashScreen.hideAsync()
+  } else {
     return null
   }
 
-  if (!session) {
+  if (session === null) {
     return (
       <Redirect
         href={{

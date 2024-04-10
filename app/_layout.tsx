@@ -12,7 +12,7 @@ import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { getTokenValue, PortalProvider } from 'tamagui'
+import { getTokenValue, PortalProvider, Spinner } from 'tamagui'
 
 const { routingInstrumentation } = ErrorMonitor.configure()
 
@@ -28,20 +28,11 @@ const useRegisterRoutingInstrumentation = () => {
   }, [navigationRef])
 }
 
-const useHandleSplashScreen = (isReady: boolean) => {
-  useEffect(() => {
-    if (isReady) {
-      SplashScreen.hideAsync()
-    }
-  }, [isReady])
-}
-
 function Root() {
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
-  useHandleSplashScreen(isFontsLoaded)
   const insets = useSafeAreaInsets()
 
   if (!isFontsLoaded) {
@@ -59,7 +50,6 @@ function Root() {
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
                 <Stack>
                   <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
-                  <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
                   <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
                   <Stack.Screen
                     name="(auth)/code-phone-picker"
