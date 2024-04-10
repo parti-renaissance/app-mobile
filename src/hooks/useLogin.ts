@@ -26,7 +26,6 @@ export const useLogin = () => {
     promptAsync().then((codeResult) => {
       if (codeResult.type === 'success') {
         const code = codeResult.params.code
-        console.log(codeResult.params)
         if (!code) return null
         return AuthSession.exchangeCodeAsync(
           {

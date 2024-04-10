@@ -40,7 +40,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
   authenticationRepository.current.sessionSetter = setSession
   const queryClient = useQueryClient()
   const login = useLogin()
-  console.log(session)
 
   const handleSignIn = async () => {
     return login().then((session) => {
