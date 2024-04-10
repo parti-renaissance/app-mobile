@@ -82,6 +82,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     environment: staging
+    needs: build-web
     env:
       EAS_BUILD_PROFILE: staging
     steps:
