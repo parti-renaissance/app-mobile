@@ -61,6 +61,4 @@ const httpClient = baseHttpClient.extend({
   },
 })
 
-export const publicHttpClient = baseHttpClient
-
 export default httpClient
