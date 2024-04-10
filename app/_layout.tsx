@@ -36,7 +36,7 @@ function Root() {
   const insets = useSafeAreaInsets()
 
   if (!isFontsLoaded) {
-    return <Spinner fullscreen />
+    return null
   }
 
   return (
