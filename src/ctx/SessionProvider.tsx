@@ -3,11 +3,13 @@ import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin from '@/hooks/useLogin'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useQueryClient } from '@tanstack/react-query'
-import { set } from 'date-fns'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
-import { red } from 'theme/colors.hsl'
 import { useStorageState } from '../hooks/useStorageState'
+
+import { useToastController } from '@tamagui/toast'
+
 
 const AuthContext = React.createContext<{
   signIn: () => Promise<void>
@@ -40,6 +42,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const [mRedirect, setMredirect] = React.useState<AllRoutes | null>(null)
 
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
+  const toast = useToastController()
 
   React.useEffect(() => {
     if (session && (pRedirect || mRedirect)) {
@@ -56,16 +59,23 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const login = useLogin()
 
   const handleSignIn = async () => {
-    setIsLoginInProgress(true)
-    const session = await login()
-    if (!session) {
+    try {
+      setIsLoginInProgress(true)
+      const session = await login()
+      if (!session) {
+        setIsLoginInProgress(false)
+        return
+      }
+      const { accessToken, refreshToken } = session
+      setSession(JSON.stringify({ accessToken, refreshToken }))
+      await loginInteractor.current.setUpLogin()
+      setMredirect('/home/')
+    } catch (e) {
+      ErrorMonitor.log(e.message, { e })
       setIsLoginInProgress(false)
-      return
+      toast.show('Erreur lors de la connexion', { type: 'error' })
+
     }
-    const { accessToken, refreshToken } = session
-    setSession(JSON.stringify({ accessToken, refreshToken }))
-    await loginInteractor.current.setUpLogin()
-    setMredirect('/home/')
   }
 
   const handleSignOut = async () => {
