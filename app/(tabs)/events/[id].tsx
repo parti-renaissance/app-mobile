@@ -36,12 +36,11 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const isShortEvent = useIsShortEvent(data)
   const toast = useToastController()
   const location = mapPropsLocation(data)
-  const author = mapPropsAuthor(data)
+  const author = mapPropsAuthor(data)   
   const date = mapPropsDate(data)
   const media = useMedia()
-  const pathname = usePathname()
 
-  const shareUrl = `${BASE_URL}${pathname}`
+  const shareUrl = `${BASE_URL}/events/${props.id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 
