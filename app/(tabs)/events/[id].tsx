@@ -140,7 +140,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
         <ScrollView
           flex={1}
           contentContainerStyle={{
-            pt: media.gtSm ? padding : '$4',
+            pt: media.gtSm ? padding : undefined,
             pl: media.gtSm ? padding : undefined,
             pr: media.gtSm ? padding : undefined,
           }}
