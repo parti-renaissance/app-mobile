@@ -16,6 +16,7 @@ env:
 jobs:
   guess-method:
     environment: staging
+    runs-on: ubuntu-latest
     env:
       BUNDLE_ID: fr.en-marche.jecoute
     steps:
