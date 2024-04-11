@@ -34,7 +34,7 @@ const actionHandler = (options) => {
   ) {
     process.stdout.write('build')
   } else if (parsedLast.compare(release) === 0) {
-    process.stdout.write('cheeky')
+    process.stdout.write('archive')
     process.exit(2)
   } else {
     process.stdout.write('unknown')
@@ -45,6 +45,5 @@ program
   .description('Compute if we need to make a new build or an update')
   .option('-r, --release <vX.X.X>', 'Target version')
   .option('-l, --last <vX.X.X>', 'Last known version')
-  .parse()
   .action(actionHandler)
   .parse()
