@@ -6,6 +6,7 @@ export const ErrorMonitor = {
 
     Sentry.init({
       dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+      environment: process.env.EXPO_PUBLIC_ENVIRONMENT,
       //debug: ENVIRONMENT !== 'production', // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
       integrations: [
         new Sentry.ReactNativeTracing({
