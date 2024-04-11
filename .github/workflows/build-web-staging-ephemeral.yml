@@ -1,4 +1,4 @@
-name: Release branches
+name: Ephemeral environment
 on:
   push:
     branches:

@@ -1,4 +1,4 @@
-name: Release branches
+name: Develop branch
 on:
   push:
     branches:
