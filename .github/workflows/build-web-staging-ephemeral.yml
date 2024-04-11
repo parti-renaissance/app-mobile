@@ -31,7 +31,7 @@ jobs:
           candidateVersion: 4.0.1
       - name: Result
         run: |
-          echo "We got the following : ${{steps.guess-method.outputs.buildType}}"
+          echo "We got the following : ${{steps.params.outputs.buildType}}"
         
 
 #jobs:
