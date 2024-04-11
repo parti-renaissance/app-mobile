@@ -32,7 +32,7 @@ jobs:
       - name: Result
         env:
           BUILD_TYPE: ${{steps.compute.outputs.buildType}}
-        run: echo "We got the following value, ${{env.BUILD_TYPE}}, $BUILD_TYPE"
+        run: echo "We got the following value, ${{env.BUILD_TYPE}}, ${BUILD_TYPE}, ${{steps.compute.outputs.buildType}}"
         
 
 #jobs:

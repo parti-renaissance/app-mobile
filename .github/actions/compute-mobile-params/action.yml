@@ -15,7 +15,7 @@ outputs:
     value: ${{steps.store.outputs.bundleId}}
   buildType:
     description: Build type, can be "patch", "release" or "archive"
-    value: ${{steps.store.outputs.buildType}}
+    value: ${{steps.result.outputs.buildType}}
 
 runs:
   using: composite
