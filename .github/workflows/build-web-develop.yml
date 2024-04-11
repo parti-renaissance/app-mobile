@@ -10,6 +10,9 @@ concurrency:
 
 env:
   BRANCH_NAME: ${{ github.ref_name }}
+  EAS_BUILD_PROFILE: staging
+  APP_STORE_BUNDLE_ID: fr.en-marche.jecoute
+  REF_TYPE: ${{ github.ref_type }}
 
 jobs:
   build-web:
