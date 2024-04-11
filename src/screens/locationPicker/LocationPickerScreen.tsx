@@ -6,7 +6,6 @@ import {
   StyleSheet,
 } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import * as ENV_KEYS from '../../config/env'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { useLocationPickerScreen } from './useLocationPickerScreen.hook'
@@ -33,8 +32,8 @@ export const LocationPickerScreen = () => {
         onPress={(_, details) => onPlaceSelected(details)}
         query={{
           key: Platform.select({
-            ios: ENV_KEYS.IOS_GOOGLE_API_KEY,
-            android: ENV_KEYS.ANDROID_GOOGLE_API_KEY,
+            ios: process.env.EXPO_PUBLIC_IOS_GOOGLE_API_KEY,
+            android: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY,
           }),
           language: i18n.t('personalinformation.gmaps_language'),
         }}

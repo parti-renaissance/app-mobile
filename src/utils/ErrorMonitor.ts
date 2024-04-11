@@ -1,12 +1,12 @@
 import * as Sentry from '@sentry/react-native'
-import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
 
 export const ErrorMonitor = {
   configure: () => {
     const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 
     Sentry.init({
-      dsn: SENTRY_DSN,
+      dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+      environment: process.env.EXPO_PUBLIC_ENVIRONMENT,
       //debug: ENVIRONMENT !== 'production', // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
       integrations: [
         new Sentry.ReactNativeTracing({

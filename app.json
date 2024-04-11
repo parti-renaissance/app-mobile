@@ -62,7 +62,15 @@
     },
     "plugins": [
       "expo-router",
-      ["@sentry/react-native/expo"],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "project": "vox",
+          "organization": "parti-renaissance"
+        }
+      ],
       "expo-localization",
       "@react-native-firebase/app",
       "@react-native-firebase/messaging",

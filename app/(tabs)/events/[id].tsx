@@ -5,7 +5,6 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { SubscribeEventButton } from '@/components/Cards'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { BASE_URL } from '@/config/env'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent } from '@/hooks/useEvents'
 import useShareApi from '@/hooks/useShareApi'
@@ -36,11 +35,11 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const isShortEvent = useIsShortEvent(data)
   const toast = useToastController()
   const location = mapPropsLocation(data)
-  const author = mapPropsAuthor(data)   
+  const author = mapPropsAuthor(data)
   const date = mapPropsDate(data)
   const media = useMedia()
 
-  const shareUrl = `${BASE_URL}/events/${props.id}`
+  const shareUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/events/${props.id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 
