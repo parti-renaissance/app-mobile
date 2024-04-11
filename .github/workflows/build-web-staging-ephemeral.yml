@@ -26,7 +26,7 @@ jobs:
       - uses: ./.github/actions/dependencies
       - name: Get version against store
         id: store
-        run: node .github/scripts/readAppVersion.mjs -i ${{env.BUNDLE_ID}} | awk '{print "bundleId="$1}' | tee test.txt
+        run: node .github/scripts/readAppVersion.mjs -i ${{env.BUNDLE_ID}} | awk '{print "bundleId="$1}' | tee $GITHUB_OUTPUT
       - name: Compare versions
         run: node .github/scripts/isBuildOrUpdate.mjs -l ${{steps.store.outputs.bundleId}} -r 42.42.42
 
