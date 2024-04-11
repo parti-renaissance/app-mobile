@@ -1,0 +1,31 @@
+name: Compute mobile app params for submission
+description: Mobile app params for submission
+
+inputs:
+  bundleId:
+    required: true
+    description: App store bundle id (i.e. com.example.app)
+  candidateVersion:
+    required: true
+    description: Upcoming version (i.e. 42.0.0)
+
+outputs:
+  version:
+    description: Application version
+    value: ${{steps.store.outputs.bundleId}}
+  buildType:
+    description: Build type, can be "patch", "release" or "archive"
+    value: ${{steps.store.outputs.buildType}}
+
+runs:
+  using: composite
+  steps:
+    - name: Get version against store
+      shell: bash
+      id: store
+      run: node .github/scripts/readAppVersion.mjs -i ${{env.BUNDLE_ID}} | awk '{print "bundleId="$1}' | tee $GITHUB_OUTPUT
+    - name: Compare versions
+      shell: bash
+      id: result
+      run: node .github/scripts/isBuildOrUpdate.mjs -l ${{steps.store.outputs.bundleId}} -r ${{inputs.candidateVersion}}  | awk '{print "buildType="$1}' | tee $GITHUB_OUTPUT
+
