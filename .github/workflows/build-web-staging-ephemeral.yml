@@ -30,8 +30,7 @@ jobs:
           bundleId: ${{env.BUNDLE_ID}}
           candidateVersion: 4.0.1
       - name: Result
-        run: |
-          echo "We got the following : ${{steps.compute.outputs.buildType}}"
+        run: echo "We got the following value, ${{steps.compute.outputs.buildType}}"
         
 
 #jobs:
