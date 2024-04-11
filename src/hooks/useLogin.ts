@@ -13,7 +13,7 @@ export const useCodeAuthRequest = () => {
   return AuthSession.useAuthRequest(
     {
       ...BASE_REQUEST_CONFIG,
-      scopes: ['jemarche_app'],
+      scopes: ['jemarche_app', 'read:profile', 'write:profile'],
     },
     discoveryDocument,
   )
