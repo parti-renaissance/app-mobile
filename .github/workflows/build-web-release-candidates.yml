@@ -69,3 +69,44 @@ jobs:
           URL: ${{steps.deploy.outputs.url}}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: node ./.github/scripts/announce.js
+
+
+  build-android:
+    environment: staging
+    runs-on: ubuntu-latest
+    env:
+      appStoreBundleId: fr.en-marche.jecoute
+      REF_TYPE: ${{ github.ref_type }}
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-base
+      - uses: ./.github/actions/dependencies
+      - name: 🧙🏻‍️Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          packager: yarn
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Build android
+        run: node .github/scripts/build.mjs -p android
+
+  build-ios:
+    environment: staging
+    runs-on: ubuntu-latest
+    env:
+      appStoreBundleId: fr.en-marche.jecoute
+      REF_TYPE: ${{ github.ref_type }}
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-base
+      - uses: ./.github/actions/dependencies
+      - name: 🧙🏻‍️Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          packager: yarn
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Build iOS
+        run: node .github/scripts/build.mjs -p ios

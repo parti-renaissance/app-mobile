@@ -21,6 +21,6 @@ program
 
                 return result.results[0]
             })
-            .then(({version}) => process.stdout.write(version + '\n'))
+            .then(({version}) => process.stdout.write(version))
     })
     .parse()

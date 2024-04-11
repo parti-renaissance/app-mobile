@@ -13,23 +13,25 @@ The web build uses local build with metro & tamagui compiler for assets generati
 At the time of writing this documentation, we have a compatibility bug with tamagui,
 in fact we have to launch three times the build process to make it works. It's probably an issue with CSS flattening.
 
-### Secrets used
+## Mobile part
+
+Mobile depend upon the version number in app.json
+
+- 1.0.0 to 1.0.0 : archive -> new build
+- 1.0.0 to 1.0.1 : patch -> expo update
+- 1.0.0 to 1.1.0 : build -> new build
+- 1.0.0 to 2.0.0 : build -> new build
+
+In case of an Expo Update, environments are defined in Expo Secrets.
+
+In Case of a build, environment is set the following:
+
+- production : when it's a `branch` and start with `rc/` OR when it's a `tag` and start with `v`
+- staging : any other cases
+
+### Global secrets used
 
 - `GCP_SA_KEY_FIREBASE_DEPLOYER`: Firebase service account token, see [official documentation](https://github.com/FirebaseExtended/action-hosting-deploy/blob/main/docs/service-account.md) for creation & rotation.
-- `EXPO_PUBLIC_API_BASE_URL`
-- `EXPO_PUBLIC_OAUTH_BASE_URL`
-- `EXPO_PUBLIC_OAUTH_CLIENT_ID`
-- `EXPO_PUBLIC_OAUTH_CLIENT_SECRET`
-- `EXPO_PUBLIC_SENTRY_DSN`
-- `EXPO_PUBLIC_IOS_GOOGLE_API_KEY`
-- `EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY`
-- `EXPO_PUBLIC_FB_API_KEY`
-- `EXPO_PUBLIC_FB_PROJECT_ID`
-- `EXPO_PUBLIC_FB_SENDER_ID`
-- `EXPO_PUBLIC_FB_APP_ID`
-- `EXPO_PUBLIC_FB_MEASUREMENT_ID`
-- `EXPO_PUBLIC_ENVIRONMENT`
-
 
 ### Deploy on firebase
 
