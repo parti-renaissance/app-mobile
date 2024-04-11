@@ -6,7 +6,7 @@ import useBrowserWarmUp from './useBrowserWarmUp'
 maybeCompleteAuthSession()
 
 const REDIRECT_URI = AuthSession.makeRedirectUri()
-const BASE_REQUEST_CONFIG = { clientId: process.env.OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI } as const
+const BASE_REQUEST_CONFIG = { clientId: process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI } as const
 
 export const useCodeAuthRequest = () => {
   return AuthSession.useAuthRequest(
