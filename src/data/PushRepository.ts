@@ -1,5 +1,4 @@
 import FB from '@/config/firebaseConfig'
-import { ENVIRONMENT } from '@/config/env'
 import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
@@ -283,7 +282,7 @@ class PushRepository {
   }
 
   private createTopicName(topic: string): string {
-    return ENVIRONMENT + '_jemarche_' + topic
+    return (process.env.EXPO_PUBLIC_ENVIRONMENT ?? 'staging') + '_jemarche_' + topic
   }
 
   public static getInstance(): PushRepository {

@@ -1,6 +1,5 @@
 import { Mutex } from 'async-mutex'
 import ky from 'ky'
-import { API_BASE_URL } from '../../config/env'
 import AuthenticationRepository from '../AuthenticationRepository'
 import { Credentials } from '../store/Credentials'
 import LocalStore from '../store/LocalStore'
@@ -46,7 +45,7 @@ function extractAccessToken(request: Request): string | null {
 }
 
 const baseHttpClient = ky.create({
-  prefixUrl: API_BASE_URL,
+  prefixUrl: process.env.EXPO_PUBLIC_API_BASE_URL,
 })
 
 const httpClient = baseHttpClient.extend({
