@@ -23,9 +23,9 @@ runs:
     - name: Get version against store
       shell: bash
       id: store
-      run: node .github/scripts/readAppVersion.mjs -i ${{env.BUNDLE_ID}} | awk '{print "bundleId="$1}' | tee $GITHUB_OUTPUT
+      run: node .github/scripts/readAppVersion.mjs -i ${{env.BUNDLE_ID}} | awk '{print "bundleId="$1}' >> $GITHUB_OUTPUT
     - name: Compare versions
       shell: bash
       id: result
-      run: node .github/scripts/isBuildOrUpdate.mjs -l ${{steps.store.outputs.bundleId}} -r ${{inputs.candidateVersion}}  | awk '{print "buildType="$1}' | tee $GITHUB_OUTPUT
+      run: node .github/scripts/isBuildOrUpdate.mjs -l ${{steps.store.outputs.bundleId}} -r ${{inputs.candidateVersion}}  | awk '{print "buildType="$1}' >> $GITHUB_OUTPUT
 

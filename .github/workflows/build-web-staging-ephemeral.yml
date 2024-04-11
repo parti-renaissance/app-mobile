@@ -25,13 +25,13 @@ jobs:
       - uses: ./.github/actions/setup-base
       - uses: ./.github/actions/dependencies
       - uses: ./.github/actions/compute-mobile-params
-        id: params
+        id: compute
         with:
           bundleId: ${{env.BUNDLE_ID}}
           candidateVersion: 4.0.1
       - name: Result
         run: |
-          echo "We got the following : ${{steps.params.outputs.buildType}}"
+          echo "We got the following : ${{steps.compute.outputs.buildType}}"
         
 
 #jobs:
