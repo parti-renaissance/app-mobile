@@ -35,7 +35,6 @@ const actionHandler = (options) => {
     process.stdout.write('build')
   } else if (parsedLast.compare(release) === 0) {
     process.stdout.write('archive')
-    process.exit(2)
   } else {
     process.stdout.write('unknown')
   }
