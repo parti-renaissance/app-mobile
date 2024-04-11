@@ -11,7 +11,7 @@ runs:
   steps:
     - name: 📦 Deploy on firebase
       shell: bash
-      run: npx firebase deploy --only hosting --project "${EXPO_PUBLIC_FB_PROJECT_ID}"
+      run: npx firebase deploy --only hosting --project "${EXPO_PUBLIC_FB_PROJECT_ID}" | tee output.txt
     - name: Extract deployed URL
       id: extractor
       shell: bash
