@@ -14,6 +14,7 @@ import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { getTokenValue, PortalProvider, Spinner, ViewProps, YStack, isWeb } from 'tamagui'
+import { BlurView } from 'expo-blur'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
@@ -44,10 +45,33 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
     <>
       {props.children}
       {(isLoading || props.isLoading) && (
-        <YStack justifyContent="center" alignItems="center" gap="$4" height="100%" flex={1} position="absolute" top="0" left="0" width="100%" bg="white">
-          <EuCampaignIllustration />
-          <Spinner color="$blue7" size="large" />
-        </YStack>
+        <>
+          <BlurView
+            intensity={50}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          <YStack
+            justifyContent="center"
+            alignItems="center"
+            gap="$4"
+            height="100%"
+            flex={1}
+            position="absolute"
+            top="0"
+            left="0"
+            width="100%"
+            pointerEvents="none"
+          >
+            <EuCampaignIllustration />
+            <Spinner color="$blue7" size="large" />
+          </YStack>
+        </>
       )}
     </>
   )

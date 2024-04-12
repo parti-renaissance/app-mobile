@@ -6,6 +6,7 @@ import { useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
 import { XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
+
 type VoxCardBasePayload = {
   id: string
   title: string

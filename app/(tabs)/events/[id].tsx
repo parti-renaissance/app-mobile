@@ -15,6 +15,7 @@ import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
 import { ScrollView, Stack, Text, useMedia } from 'tamagui'
+import  * as eventTypes from '@/data/restObjects/RestEvents'
 
 const padding = '$7'
 
@@ -32,7 +33,8 @@ const HomeScreen: React.FC = () => {
 
 function EventDetailScreen(props: Readonly<{ id: string }>) {
   const { data } = useGetEvent({ id: props.id })
-  const isShortEvent = useIsShortEvent(data)
+  const isFullEvent = eventTypes.isFullEvent(data)
+  const isShortEvent = eventTypes.isShortEvent(data)
   const toast = useToastController()
   const location = mapPropsLocation(data)
   const author = mapPropsAuthor(data)
@@ -58,7 +60,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       Platform.select({
         android: {
           title: data.name,
-          message: (!isShortEvent ? `${data.description}\n\n${shareUrl}` : undefined) ?? shareUrl,
+          message: (!isShortEvent && isFullEvent ? `${data.description}\n\n${shareUrl}` : undefined) ?? shareUrl,
         },
         ios: {
           message: data.name,
@@ -66,7 +68,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
         },
         web: {
           title: data.name,
-          message: !isShortEvent ? data.description : data.name,
+          message: !isShortEvent  && isFullEvent ? data.description : data.name,
           url: shareUrl,
         },
       }),
@@ -81,7 +83,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
     startDate: new Date(data.begin_at).toISOString(),
     endDate: new Date(data.finish_at).toISOString(),
     location: data.mode === 'online' ? 'En ligne' : `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
-    notes: isShortEvent ? '' : data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '',
+    notes: !isShortEvent && isFullEvent ? data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '' : '',
     url: shareUrl,
   }
 
@@ -148,7 +150,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
             <VoxCard.Content>
               <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
               <VoxCard.Title>{data.name}</VoxCard.Title>
-              {!isShortEvent && (
+              {!isShortEvent && isFullEvent && (
                 <VoxCard.Description full markdown>
                   {data.description}
                 </VoxCard.Description>
@@ -157,7 +159,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
             </VoxCard.Content>
           </VoxCard>
         </ScrollView>
-        {media.lg && (
+        {media.lg && isFullEvent && (
           <Stack position="absolute" bottom="$3" $sm={{ left: '$4', right: '$4' }} $lg={{ left: '$10', right: '$10' }}>
             <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
           </Stack>
@@ -166,7 +168,9 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       <PageLayout.SideBarRight>
         <VoxCard>
           <VoxCard.Content>
+            { isFullEvent && (
             <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+            )}
             <VoxCard.Separator />
             {AsideCardContent}
           </VoxCard.Content>

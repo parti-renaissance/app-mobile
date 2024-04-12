@@ -4,12 +4,11 @@ import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin from '@/hooks/useLogin'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
+import { fi } from 'date-fns/locale'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import { useStorageState } from '../hooks/useStorageState'
-
-import { useToastController } from '@tamagui/toast'
-
 
 const AuthContext = React.createContext<{
   signIn: () => Promise<void>
@@ -39,18 +38,14 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('credentials')
   const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
 
-  const [mRedirect, setMredirect] = React.useState<AllRoutes | null>(null)
-
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
   const toast = useToastController()
 
   React.useEffect(() => {
-    if (session && (pRedirect || mRedirect)) {
-      router.replace({ pathname: pRedirect || mRedirect })
-      setIsLoginInProgress(false)
-      setMredirect(null)
+    if (session && pRedirect) {
+      pRedirect && router.replace({ pathname: pRedirect })
     }
-  }, [session, pRedirect, mRedirect])
+  }, [session, pRedirect])
 
   const loginInteractor = useLazyRef(() => new LoginInteractor())
   const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
@@ -63,18 +58,16 @@ export function SessionProvider(props: React.PropsWithChildren) {
       setIsLoginInProgress(true)
       const session = await login()
       if (!session) {
-        setIsLoginInProgress(false)
         return
       }
       const { accessToken, refreshToken } = session
       setSession(JSON.stringify({ accessToken, refreshToken }))
       await loginInteractor.current.setUpLogin()
-      setMredirect('/home/')
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
-      setIsLoginInProgress(false)
       toast.show('Erreur lors de la connexion', { type: 'error' })
-
+    } finally {
+      setIsLoginInProgress(false)
     }
   }
 

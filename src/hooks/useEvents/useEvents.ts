@@ -1,8 +1,9 @@
 import { EventFilters } from '@/core/entities/Event'
+import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
-import { RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { Event, RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
 import { useToastController } from '@tamagui/toast'
-import { useMutation, useQuery, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { PaginatedFeedQueryKey } from '../useFeed'
 import { getCachedPaginatedShortEvents, getCachedSingleEvent, optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
@@ -10,17 +11,33 @@ import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './quer
 type FetchShortEventsOptions = {
   filters?: EventFilters
   postalCode?: string
+  zoneCode?: string
 }
 
 const fetchEventList = async (pageParam: number, opts: FetchShortEventsOptions) =>
   opts.postalCode
-    ? await ApiService.getInstance().getEvents(opts.postalCode, pageParam, opts.filters)
+    ? await ApiService.getInstance()
+        .getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters })
+        .then((res) => ({
+          ...res,
+          items: res.items.map((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })),
+        }))
     : (Promise.resolve(undefined) as Promise<RestEvents | undefined>)
 
-export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string }) => {
+const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOptions) => {
+  return await ApiService.getInstance()
+    .getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode })
+    .then((res) => ({
+      ...res,
+      items: res.items.map((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })),
+    }))
+}
+
+export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
+  const { session, isLoading } = useSession()
   return useSuspenseInfiniteQuery({
-    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS],
-    queryFn: ({ pageParam }) => fetchEventList(pageParam, opts),
+    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, session ? 'private' : 'public'],
+    queryFn: ({ pageParam }) => (session ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
     getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : null),
     getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
     initialPageParam: 1,
@@ -68,12 +85,6 @@ export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
     },
   })
 }
-
-export type Event =
-  | ({
-      isShort: true
-    } & RestShortEvent)
-  | RestDetailedEvent
 
 export const useGetEvent = ({ id: eventId }: { id: string }) => {
   const queryClient = useQueryClient()
