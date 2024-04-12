@@ -15,13 +15,13 @@ export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const pathname = usePathname()
   const media = useMedia()
-  const { session } = useSession()
+  const { session, isLoading } = useSession()
 
   const firstPathname = useLazyRef(() => (!session ? pathname : '/'))
 
   useInit()
 
-  if (session === null) {
+  if (session === null && !isLoading) {
     return (
       <Redirect
         href={{
