@@ -3,40 +3,23 @@ import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Header/Header'
 import { ROUTES } from '@/config/routes'
-import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
-import { useLazyRef } from '@/hooks/useLazyRef'
-import { Redirect, Tabs, usePathname } from 'expo-router'
+import { Tabs } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
 
 const TAB_BAR_HEIGTH = 60
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
-  const pathname = usePathname()
   const media = useMedia()
-  const { session, isLoading } = useSession()
-
-  const firstPathname = useLazyRef(() => (!session ? pathname : '/'))
 
   useInit()
-
-  if (session === null && !isLoading) {
-    return (
-      <Redirect
-        href={{
-          pathname: '/(auth)/onboarding',
-          params: firstPathname.current !== '/' ? { redirect: encodeURI(firstPathname.current) } : undefined,
-        }}
-      />
-    )
-  }
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }}>
       <NavBar />
       <Tabs
-        initialRouteName="home"
+        initialRouteName="events"
         screenOptions={{
           headerShown: false,
           tabBarLabel: () => null,

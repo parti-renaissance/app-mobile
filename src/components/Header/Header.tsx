@@ -3,6 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
+import { useSession } from '@/ctx/SessionProvider'
 import { useGetProfil } from '@/hooks/useProfil'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, usePathname, useSegments } from 'expo-router'
@@ -68,7 +69,7 @@ const NavBar = () => {
 
 const ProfileView = () => {
   const { data: profile } = useGetProfil()
-  return profile ? (
+  return (
     <Link href="/home/profile/">
       <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
         <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
@@ -83,26 +84,29 @@ const ProfileView = () => {
         <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
       </View>
     </Link>
-  ) : (
-    <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
-      <Stack gap={'$2'} flexDirection="row">
-        <ButtonCustom variant="text" height={'$3'}>
-          <ButtonCustom.Text color="$textPrimary" fontWeight={'800'}>
-            Me connecter
-          </ButtonCustom.Text>
-        </ButtonCustom>
-
-        <ButtonCustom backgroundColor={'$blue6'} height={'$3'} borderRadius={'$3'} padding={'$3'}>
-          <ButtonCustom.Text color={'white'} fontWeight={'800'}>
-            J'adhère
-          </ButtonCustom.Text>
-        </ButtonCustom>
-      </Stack>
-    </View>
   )
 }
 
+const LoginView = () => (
+  <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
+    <Stack gap={'$2'} flexDirection="row">
+      <ButtonCustom variant="text" height={'$3'}>
+        <ButtonCustom.Text color="$textPrimary" fontWeight={'800'}>
+          Me connecter
+        </ButtonCustom.Text>
+      </ButtonCustom>
+
+      <ButtonCustom backgroundColor={'$blue6'} height={'$3'} borderRadius={'$3'} padding={'$3'}>
+        <ButtonCustom.Text color={'white'} fontWeight={'800'}>
+          J'adhère
+        </ButtonCustom.Text>
+      </ButtonCustom>
+    </Stack>
+  </View>
+)
+
 const Header: React.FC = (props: StackProps) => {
+  const { session } = useSession()
   const segments = useSegments()
   const isNested = segments.length > 2
   const backPath = segments
@@ -133,15 +137,19 @@ const Header: React.FC = (props: StackProps) => {
             </Link>
           )}
           {!isNested && <NavBar />}
-          <Suspense
-            fallback={
-              <View justifyContent="center" alignItems="flex-end" flex={1} height="100%">
-                <Spinner color="$blue7" size="small" />
-              </View>
-            }
-          >
-            <ProfileView />
-          </Suspense>
+          {session ? (
+            <Suspense
+              fallback={
+                <View justifyContent="center" alignItems="flex-end" flex={1} height="100%">
+                  <Spinner color="$blue7" size="small" />
+                </View>
+              }
+            >
+              <ProfileView />
+            </Suspense>
+          ) : (
+            <LoginView />
+          )}
         </Stack>
       </Container>
     </SafeAreaView>
