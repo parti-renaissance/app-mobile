@@ -5,6 +5,7 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { SubscribeEventButton } from '@/components/Cards'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import * as eventTypes from '@/data/restObjects/RestEvents'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent, useIsShortEvent } from '@/hooks/useEvents'
 import useShareApi from '@/hooks/useShareApi'
@@ -15,7 +16,6 @@ import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
 import { ScrollView, Stack, Text, useMedia } from 'tamagui'
-import  * as eventTypes from '@/data/restObjects/RestEvents'
 
 const padding = '$7'
 
@@ -68,7 +68,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
         },
         web: {
           title: data.name,
-          message: !isShortEvent  && isFullEvent ? data.description : data.name,
+          message: !isShortEvent && isFullEvent ? data.description : data.name,
           url: shareUrl,
         },
       }),
@@ -83,7 +83,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
     startDate: new Date(data.begin_at).toISOString(),
     endDate: new Date(data.finish_at).toISOString(),
     location: data.mode === 'online' ? 'En ligne' : `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
-    notes: !isShortEvent && isFullEvent ? data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '' : '',
+    notes: !isShortEvent && isFullEvent ? (data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '') : '',
     url: shareUrl,
   }
 
@@ -146,7 +146,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           }}
         >
           <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
-            {data.image_url && <VoxCard.Image large image={data.image_url} /> }
+            {data.image_url && <VoxCard.Image large image={data.image_url} />}
             <VoxCard.Content>
               <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
               <VoxCard.Title>{data.name}</VoxCard.Title>
@@ -168,9 +168,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       <PageLayout.SideBarRight>
         <VoxCard>
           <VoxCard.Content>
-            { isFullEvent && (
-            <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
-            )}
+            {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
             <VoxCard.Separator />
             {AsideCardContent}
           </VoxCard.Content>
