@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { RefreshControl, ScrollView } from 'react-native'
 import { useTools } from '@/hooks/useTools'
 import CardTool from '@/screens/tools/components/CardTool'
 import { getToken, useMedia, View } from 'tamagui'
@@ -16,25 +16,24 @@ const ResourcesList = () => {
     imageUrl: resource.image_url,
   }))
 
-  const numCols = media.gtSm ? 2 : 1
-
   return (
-    <FlatList
-      key={numCols}
-      numColumns={numCols}
+    <ScrollView
       contentContainerStyle={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: getToken('$4', 'space'),
         paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingHorizontal: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingBottom: getToken('$6', 'space'),
       }}
-      data={toolsData}
-      renderItem={({ item }) => <CardTool {...item} />}
-      keyExtractor={(item) => item.url}
-      refreshing={isRefetching}
-      onRefresh={() => refetch()}
-      onEndReachedThreshold={0.5}
-    />
+      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
+    >
+      {toolsData?.map((item) => (
+        <View key={item.url} width={media.gtSm ? 'calc(50% - 16px)' : '100%'}>
+          <CardTool {...item} />
+        </View>
+      ))}
+    </ScrollView>
   )
 }
 

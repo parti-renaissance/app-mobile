@@ -32,8 +32,6 @@ const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
       flexDirection="column"
       justifyContent="flex-end"
       cursor="pointer"
-      {...(media.gtSm && { flexBasis: 1 })}
-      flexGrow={1}
     >
       <VoxCardContent>
         <View flexDirection="row" gap={2} justifyContent="flex-end">
