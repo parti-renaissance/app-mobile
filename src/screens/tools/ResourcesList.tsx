@@ -2,7 +2,7 @@ import React from 'react'
 import { FlatList } from 'react-native'
 import { useTools } from '@/hooks/useTools'
 import CardTool from '@/screens/tools/components/CardTool'
-import { getToken, useMedia } from 'tamagui'
+import { getToken, useMedia, View } from 'tamagui'
 
 const ResourcesList = () => {
   const media = useMedia()
@@ -16,13 +16,16 @@ const ResourcesList = () => {
     imageUrl: resource.image_url,
   }))
 
+  const numCols = media.gtSm ? 2 : 1
+
   return (
     <FlatList
+      key={numCols}
+      numColumns={numCols}
       contentContainerStyle={{
         gap: getToken('$4', 'space'),
         paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
-        paddingLeft: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
-        paddingRight: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
+        paddingHorizontal: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingBottom: getToken('$6', 'space'),
       }}
       data={toolsData}

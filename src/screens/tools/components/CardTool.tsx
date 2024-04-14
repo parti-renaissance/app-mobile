@@ -3,7 +3,7 @@ import VoxCard, { VoxCardContent } from '@/components/VoxCard/VoxCard'
 import { Analytics } from '@/utils/Analytics'
 import { ArrowUpRight } from '@tamagui/lucide-icons'
 import * as WebBrowser from 'expo-web-browser'
-import { Image, Text, View } from 'tamagui'
+import { Image, Text, useMedia, View } from 'tamagui'
 
 interface CardToolProps {
   type?: string
@@ -13,6 +13,8 @@ interface CardToolProps {
 }
 
 const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
+  const media = useMedia()
+
   const handlePress = async () => {
     await WebBrowser.openBrowserAsync(url)
 
@@ -30,6 +32,8 @@ const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
       flexDirection="column"
       justifyContent="flex-end"
       cursor="pointer"
+      {...(media.gtSm && { flexBasis: 1 })}
+      flexGrow={1}
     >
       <VoxCardContent>
         <View flexDirection="row" gap={2} justifyContent="flex-end">
@@ -47,17 +51,18 @@ const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
         </View>
 
         <View flexDirection="row" gap={2} width="100%" flexShrink={1}>
-          {type && (
-            <Text fontWeight="$4" fontSize="$14" textTransform="uppercase">
-              {type}
-            </Text>
-          )}
-
-          {name && (
-            <Text fontWeight="$7" textTransform="uppercase">
-              {name}
-            </Text>
-          )}
+          <Text>
+            {type && (
+              <Text fontWeight="$4" fontSize="$14" textTransform="uppercase">
+                {type}
+              </Text>
+            )}{' '}
+            {name && (
+              <Text fontWeight="$7" textTransform="uppercase">
+                {name}
+              </Text>
+            )}
+          </Text>
         </View>
 
         <View flexDirection="row" gap="$2">
