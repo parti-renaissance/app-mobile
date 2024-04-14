@@ -2,7 +2,6 @@ import { SessionProvider } from '@/ctx/SessionProvider'
 import { headerBlank } from '@/styles/navigationAppearance'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { SplashScreen, Stack, useNavigationContainerRef } from 'expo-router'
-import '@tamagui/core/reset.css'
 import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -14,7 +13,12 @@ import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { getTokenValue, PortalProvider, Spinner, ViewProps, YStack } from 'tamagui'
+import { getTokenValue, PortalProvider, Spinner, ViewProps, YStack, isWeb } from 'tamagui'
+
+if (isWeb) {
+  require('@tamagui/core/reset.css')
+}
+
 
 const { routingInstrumentation } = ErrorMonitor.configure()
 
