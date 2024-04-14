@@ -2,20 +2,23 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
 import { SubscribeEventButton } from '@/components/Cards'
+import EventRegisterForm from '@/components/EventRegisterForm/EventRegisterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import * as eventTypes from '@/data/restObjects/RestEvents'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
-import { useGetEvent, useIsShortEvent } from '@/hooks/useEvents'
+import { useGetEvent } from '@/hooks/useEvents'
 import useShareApi from '@/hooks/useShareApi'
 import * as Calendar from '@/modules/Calendar/Calendar'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { Link as LinkIcon } from '@tamagui/lucide-icons'
+import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
-import { ScrollView, Stack, Text, useMedia } from 'tamagui'
+import { ScrollView, Stack, Text, useMedia, YStack } from 'tamagui'
 
 const padding = '$7'
 
@@ -36,8 +39,6 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const isFullEvent = eventTypes.isFullEvent(data)
   const isShortEvent = eventTypes.isShortEvent(data)
   const toast = useToastController()
-  const location = mapPropsLocation(data)
-  const author = mapPropsAuthor(data)
   const date = mapPropsDate(data)
   const media = useMedia()
 
@@ -78,31 +79,35 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
     })
   }
 
-  const eventData = {
-    title: data.name,
-    startDate: new Date(data.begin_at).toISOString(),
-    endDate: new Date(data.finish_at).toISOString(),
-    location: data.mode === 'online' ? 'En ligne' : `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
-    notes: !isShortEvent && isFullEvent ? (data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '') : '',
-    url: shareUrl,
-  }
+  const eventData = isFullEvent
+    ? {
+        title: data.name,
+        startDate: new Date(data.begin_at).toISOString(),
+        endDate: new Date(data.finish_at).toISOString(),
+        location: data.mode === 'online' ? 'En ligne' : `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
+        notes: !isShortEvent && isFullEvent ? (data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '') : '',
+        url: shareUrl,
+      }
+    : undefined
 
-  const addToCalendar = Calendar.useCreateEvent(eventData)
+  const addToCalendar = eventData ? Calendar.useCreateEvent(eventData) : undefined
 
   const AsideCardContent = (
     <>
       <VoxCard.Date {...date} />
-      {data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...location} />}
+      {isFullEvent && (data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...mapPropsLocation(data)} />)}
       {!isShortEvent && data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
       {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
 
-      <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
+      {/* <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
         Cet événement est réservé aux adhérents à jour de cotisation.
-      </Text>
+      </Text> */}
 
-      <VoxCard.Section title="Événement créé par :">
-        <VoxCard.Author {...author} />
-      </VoxCard.Section>
+      {isFullEvent && (
+        <VoxCard.Section title="Événement créé par :">
+          <VoxCard.Author {...mapPropsAuthor(data)} />
+        </VoxCard.Section>
+      )}
 
       <VoxCard.Section title="Partager :" gap="$3">
         <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
@@ -118,12 +123,13 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           </Button>
         )}
 
-        <VoxCard.Separator />
-
-        {!isShortEvent && (
-          <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
-            <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
-          </Button>
+        {!isShortEvent && isFullEvent && (
+          <>
+            <VoxCard.Separator />
+            <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
+              <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
+            </Button>
+          </>
         )}
       </VoxCard.Section>
     </>
@@ -165,10 +171,30 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           </Stack>
         )}
       </PageLayout.MainSingleColumn>
+
       <PageLayout.SideBarRight>
         <VoxCard>
-          <VoxCard.Content>
-            {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+          <VoxCard.Content pt="$6">
+            <AuthFallbackWrapper
+              fallback={
+                data.visibility !== 'public' ? (
+                  <YStack justifyContent="center" gap="$4.5">
+                    <YStack gap="$3" alignItems="center">
+                      <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
+                      <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
+                        Connectez-vous pour participer à cet événement
+                      </Text>
+                    </YStack>
+                    <SignUpButton size="lg" width="100%" />
+                    <SignInButton size="lg" width="100%" />
+                  </YStack>
+                ) : (
+                  <EventRegisterForm />
+                )
+              }
+            >
+              {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+            </AuthFallbackWrapper>
             <VoxCard.Separator />
             {AsideCardContent}
           </VoxCard.Content>

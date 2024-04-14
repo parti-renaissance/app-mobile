@@ -88,6 +88,7 @@ export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
 
 export const useGetEvent = ({ id: eventId }: { id: string }) => {
   const queryClient = useQueryClient()
+  const { session } = useSession()
   const dataList = getCachedPaginatedShortEvents(queryClient)
   const dataEvent = getCachedSingleEvent(eventId, queryClient)
   const placeholderData = (() => {
@@ -101,7 +102,7 @@ export const useGetEvent = ({ id: eventId }: { id: string }) => {
 
   return useSuspenseQuery<Event>({
     queryKey: ['event', eventId],
-    queryFn: () => ApiService.getInstance().getEventDetails(eventId),
+    queryFn: () => (session ? ApiService.getInstance().getEventDetails(eventId) : ApiService.getInstance().getPublicEventDetails(eventId)),
     ...(placeholderData ? { placeholderData } : {}),
   })
 }

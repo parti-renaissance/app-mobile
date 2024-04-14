@@ -208,6 +208,13 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public getPublicEventDetails(eventId: string): Promise<RestDetailedEvent> {
+    return this.httpClient
+      .get('api/events/' + eventId)
+      .json<RestDetailedEvent>()
+      .catch(genericErrorMapping)
+  }
+
   public subscribeToEvent(eventId: string): Promise<void> {
     return this.httpClient
       .post('api/v3/events/' + eventId + '/subscribe')
