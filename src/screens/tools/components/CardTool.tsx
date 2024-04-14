@@ -33,13 +33,17 @@ const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
     >
       <VoxCardContent>
         <View flexDirection="row" gap={2} justifyContent="flex-end">
-          <Image
-            source={{
-              uri: imageUrl,
-            }}
-            width={'$5'}
-            height={'$5'}
-          />
+          {imageUrl ? (
+            <Image
+              source={{
+                uri: imageUrl,
+              }}
+              width={'$5'}
+              height={'$5'}
+            />
+          ) : (
+            <View width={'$5'} height={'$5'} backgroundColor="none" />
+          )}
         </View>
 
         <View flexDirection="row" gap={2} width="100%" flexShrink={1}>
