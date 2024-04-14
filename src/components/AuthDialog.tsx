@@ -1,12 +1,10 @@
 import React from 'react'
-import { useSession } from '@/ctx/SessionProvider'
 import { BlurView } from 'expo-blur'
 import { Text, XStack, YStack, YStackProps } from 'tamagui'
-import Button from './Button'
+import { SignInButton, SignUpButton } from './Buttons/AuthButton'
 import VoxCard from './VoxCard/VoxCard'
 
 const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string }) => {
-  const { signIn } = useSession()
   return (
     <VoxCard bg="$colorTransparent" overflow="hidden" position="relative" {...props}>
       <YStack justifyContent="center">{children}</YStack>
@@ -26,12 +24,8 @@ const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string
             {title}
           </Text>
           <XStack justifyContent="center" gap="$4">
-            <Button variant="text" size="md" onPress={signIn}>
-              <Button.Text>Me connecter</Button.Text>
-            </Button>
-            <Button bg="$blue6" size="md">
-              <Button.Text>Créer un compte</Button.Text>
-            </Button>
+            <SignInButton />
+            <SignUpButton />
           </XStack>
         </YStack>
       </YStack>

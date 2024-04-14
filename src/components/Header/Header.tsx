@@ -8,7 +8,7 @@ import { useGetProfil } from '@/hooks/useProfil'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, usePathname, useSegments } from 'expo-router'
 import { Button, Circle, Spinner, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
-import ButtonCustom from '../Button'
+import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
 import ProfilePicture from '../ProfilePicture'
 
@@ -90,17 +90,8 @@ const ProfileView = () => {
 const LoginView = () => (
   <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
     <Stack gap={'$2'} flexDirection="row">
-      <ButtonCustom variant="text" height={'$3'}>
-        <ButtonCustom.Text color="$textPrimary" fontWeight={'800'}>
-          Me connecter
-        </ButtonCustom.Text>
-      </ButtonCustom>
-
-      <ButtonCustom backgroundColor={'$blue6'} height={'$3'} borderRadius={'$3'} padding={'$3'}>
-        <ButtonCustom.Text color={'white'} fontWeight={'800'}>
-          J'adhère
-        </ButtonCustom.Text>
-      </ButtonCustom>
+      <SignInButton />
+      <SignUpButton />
     </Stack>
   </View>
 )
