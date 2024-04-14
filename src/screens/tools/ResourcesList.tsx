@@ -8,13 +8,15 @@ const ResourcesList = () => {
   const media = useMedia()
   const { data, refetch, isRefetching } = useTools()
 
-  const tools = data?.pages.map((page) => page.items).flat()
-  const toolsData = tools?.map((resource) => ({
-    type: 'GUIDE',
-    name: resource.label,
-    url: resource.url,
-    imageUrl: resource.image_url,
-  }))
+  const tools = data?.pages
+    .map((_) => _.items)
+    .flat()
+    ?.map((resource) => ({
+      type: 'GUIDE',
+      name: resource.label,
+      url: resource.url,
+      imageUrl: resource.image_url,
+    }))
 
   return (
     <ScrollView
@@ -22,13 +24,13 @@ const ResourcesList = () => {
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: getToken('$4', 'space'),
-        paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
-        paddingHorizontal: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
+        paddingTop: getToken(media.gtSm ? '$7' : '$4', 'space'),
+        paddingHorizontal: getToken(media.gtSm ? '$7' : '$4', 'space'),
         paddingBottom: getToken('$6', 'space'),
       }}
       refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
     >
-      {toolsData?.map((item) => (
+      {tools?.map((item) => (
         <View key={item.url} width={media.gtSm ? 'calc(50% - 16px)' : '100%'}>
           <CardTool {...item} />
         </View>

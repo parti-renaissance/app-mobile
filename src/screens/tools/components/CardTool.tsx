@@ -3,7 +3,7 @@ import VoxCard, { VoxCardContent } from '@/components/VoxCard/VoxCard'
 import { Analytics } from '@/utils/Analytics'
 import { ArrowUpRight } from '@tamagui/lucide-icons'
 import * as WebBrowser from 'expo-web-browser'
-import { Image, Text, useMedia, View } from 'tamagui'
+import { Image, Text, View } from 'tamagui'
 
 interface CardToolProps {
   type?: string
@@ -13,12 +13,8 @@ interface CardToolProps {
 }
 
 const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
-  const media = useMedia()
-
   const handlePress = async () => {
     await WebBrowser.openBrowserAsync(url)
-
-    // TODO: delete this line or not ?
     await Analytics.logUrlOpened(url)
   }
 
