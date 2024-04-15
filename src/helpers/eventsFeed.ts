@@ -1,25 +1,29 @@
-import { EventVoxCardProps, type FeedCardProps } from '@/components/Cards'
+import { EventVoxCardProps, PartialEventVoxCardProps  } from '@/components/Cards'
 import { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { RestDetailedEvent, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { RestDetailedEvent, RestFullDetailedEvent, RestShortEvent, RestFullShortEvent, RestPartialShortEvent, isPartialEvent, Event } from '@/data/restObjects/RestEvents'
 
 export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxCardLocationProps => {
   return {
-    location: item.post_address ? {
-      street: item.post_address.address,
-      city: item.post_address.city_name,
-      postalCode: item.post_address.postal_code,
-    } : undefined,
+    location: item.post_address
+      ? {
+          street: item.post_address.address,
+          city: item.post_address.city_name,
+          postalCode: item.post_address.postal_code,
+        }
+      : undefined,
   }
 }
 
 export const mapPropsAuthor = (item: RestShortEvent | RestDetailedEvent): VoxCardAuthorProps => {
   return {
-    author: {
-      role: 'Role data missing',
-      name: `${item.organizer.first_name} ${item.organizer.last_name}`,
-      title: 'title data missing',
-      pictureLink: undefined
-    },
+    author: item.organizer
+      ? {
+          role: 'Role data missing',
+          name: `${item.organizer.first_name} ${item.organizer.last_name}`,
+          title: 'title data missing',
+          pictureLink: undefined,
+        }
+      : undefined,
   }
 }
 
@@ -30,8 +34,8 @@ export const mapPropsDate = (item: RestShortEvent | RestDetailedEvent): VoxCardD
   }
 }
 
-export const mapProps = (
-  item: RestShortEvent | RestDetailedEvent,
+export const mapFullProps = (
+  item: RestFullShortEvent,
   cb: {
     onSubscribe: (id: string) => void
     onShow: (id: string) => void
@@ -48,6 +52,27 @@ export const mapProps = (
       ...mapPropsLocation(item),
       date: mapPropsDate(item),
       ...mapPropsAuthor(item),
+    },
+    onSubscribe: () => cb.onSubscribe(item.uuid),
+    onShow: () => cb.onShow(item.uuid),
+  }
+}
+
+
+export const mapPartialProps = (
+  item: RestPartialShortEvent,
+  cb: {
+    onSubscribe: (id: string) => void
+    onShow: (id: string) => void
+  },
+): PartialEventVoxCardProps => {
+  return {
+    payload: {
+      id: item.uuid,
+      title: item.name,
+      image: item.image_url,
+      isOnline: item.mode === 'online',
+      date: mapPropsDate(item),
     },
     onSubscribe: () => cb.onSubscribe(item.uuid),
     onShow: () => cb.onShow(item.uuid),

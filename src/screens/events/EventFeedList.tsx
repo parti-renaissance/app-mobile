@@ -1,20 +1,27 @@
 import { memo, useMemo } from 'react'
 import { FlatList } from 'react-native'
-import { EventCard } from '@/components/Cards/EventCard'
-import { RestShortEvent } from '@/data/restObjects/RestEvents'
-import { mapProps } from '@/helpers/eventsFeed'
+import DialogAuth from '@/components/AuthDialog'
+import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
+import { isFullEvent, isPartialEvent, RestFullShortEvent, RestPartialShortEvent } from '@/data/restObjects/RestEvents'
+import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { usePaginatedEvents } from '@/hooks/useEvents'
-import { useGetProfil } from '@/hooks/useProfil'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
-const EventListCard = memo((args: { item: RestShortEvent; cb: Parameters<typeof mapProps>[1] }) => {
-  const props = mapProps(args.item, args.cb)
-  return <EventCard {...props} />
+const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
+  return isFullEvent(args.item) ? (
+    <EventCard {...mapFullProps(args.item, args.cb)} />
+  ) : isPartialEvent(args.item) ? (
+    <DialogAuth
+      title="D'autres événements vous attendent,
+ connectez-vous ou créez un compte !"
+    >
+      <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
+    </DialogAuth>
+  ) : null
 })
 
 const EventList = () => {
-  const { data: profile } = useGetProfil()
   const media = useMedia()
 
   const {
@@ -24,7 +31,7 @@ const EventList = () => {
     refetch,
     isRefetching,
   } = usePaginatedEvents({
-    postalCode: profile?.postal_code,
+    postalCode: '75001',
     filters: {
       finishAfter: new Date(),
     },

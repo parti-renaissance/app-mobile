@@ -1,6 +1,6 @@
 import { EventFilters } from '../../core/entities/Event'
 import { Poll } from '../../core/entities/Poll'
-import { GetEventsSearchParametersMapper } from '../mapper/GetEventsSearchParametersMapper'
+import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -179,8 +179,8 @@ class ApiService {
     }
   }
 
-  public getEvents(zipCode: string, page: number, eventFilters?: EventFilters, orderBySubscriptions?: boolean): Promise<RestEvents> {
-    const searchParams: SearchParamsKeyValue = GetEventsSearchParametersMapper.map(page, zipCode, eventFilters, orderBySubscriptions)
+  public async getEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zoneCode'>): Promise<RestEvents> {
+    const searchParams = GetEventsSearchParametersMapper.map(args)
 
     return this.httpClient
       .get('api/v3/events', {
@@ -190,9 +190,27 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public async getPublicEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zipCode'>): Promise<RestEvents> {
+    const searchParams = GetEventsSearchParametersMapper.map(args)
+
+    return this.httpClient
+      .get('api/events', {
+        searchParams: searchParams,
+      })
+      .json<RestEvents>()
+      .catch(genericErrorMapping)
+  }
+
   public getEventDetails(eventId: string): Promise<RestDetailedEvent> {
     return this.httpClient
       .get('api/v3/events/' + eventId)
+      .json<RestDetailedEvent>()
+      .catch(genericErrorMapping)
+  }
+
+  public getPublicEventDetails(eventId: string): Promise<RestDetailedEvent> {
+    return this.httpClient
+      .get('api/events/' + eventId)
       .json<RestDetailedEvent>()
       .catch(genericErrorMapping)
   }

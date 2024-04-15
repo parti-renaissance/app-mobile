@@ -2,7 +2,9 @@ import { ComponentProps } from 'react'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
+import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
+import { router } from 'expo-router'
 import { XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
@@ -36,18 +38,32 @@ export const SubscribeEventButton = ({
   outside = false,
   ...btnProps
 }: { eventId: string; isSubscribed: boolean; outside?: boolean } & ComponentProps<typeof Button>) => {
+  const { session } = useSession()
   const { mutate: subscribe } = useSubscribeEvent({ id })
   const { mutate: unsubscribe } = useUnsubscribeEvent({ id })
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
-  return isSubscribed ? (
+  return isSubscribed || session ? (
     <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
       <Button variant={outside ? 'outlined' : 'text'} {...btnProps} {...outsideStyle}>
         <Button.Text color="$blue7">Me désinscrire</Button.Text>
       </Button>
     </VoxAlertDialog>
   ) : (
-    <Button variant="contained" onPress={handleSubscribe} {...btnProps} {...outsideStyle}>
+    <Button
+      variant="contained"
+      onPress={
+        session
+          ? handleSubscribe
+          : () =>
+              router.push({
+                pathname: '/(tabs)/events/[id]',
+                params: { id },
+              })
+      }
+      {...btnProps}
+      {...outsideStyle}
+    >
       <Button.Text>M'inscrire</Button.Text>
     </Button>
   )
