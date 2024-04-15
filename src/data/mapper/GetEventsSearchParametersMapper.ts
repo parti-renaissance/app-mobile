@@ -2,13 +2,28 @@ import { format } from 'date-fns'
 import { EventFilters } from '../../core/entities/Event'
 import { SearchParamsKeyValue } from '../network/SearchParams'
 
+type GetEventsSearchParametersMapperPropsBase = {
+  page: number
+  filters: EventFilters | undefined
+  orderBySubscriptions?: boolean
+}
+
+export type GetEventsSearchParametersMapperProps =
+  | (GetEventsSearchParametersMapperPropsBase & {
+      zipCode?: string | undefined
+      zoneCode?: string | undefined
+    })
+  | ({
+      zoneCode: string
+      zipCode: undefined
+    } & GetEventsSearchParametersMapperPropsBase)
+  | ({
+      zipCode: string
+      zoneCode: undefined
+    } & GetEventsSearchParametersMapperPropsBase)
+
 export const GetEventsSearchParametersMapper = {
-  map: (
-    page: number,
-    zipCode: string,
-    filters: EventFilters | undefined,
-    orderBySubscriptions: boolean | undefined,
-  ): SearchParamsKeyValue => {
+  map: ({ page, zipCode, zoneCode, filters, orderBySubscriptions }: GetEventsSearchParametersMapperProps): SearchParamsKeyValue => {
     let searchParams: SearchParamsKeyValue = { page }
     const subscribedOnly = filters?.subscribedOnly ? true : undefined
     if (subscribedOnly) {

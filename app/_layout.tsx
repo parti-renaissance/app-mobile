@@ -1,24 +1,23 @@
-import { SessionProvider } from '@/ctx/SessionProvider'
-import { headerBlank } from '@/styles/navigationAppearance'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import { SplashScreen, Stack, useNavigationContainerRef } from 'expo-router'
 import React, { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import VoxToast from '@/components/VoxToast/VoxToast'
-import { useSession } from '@/ctx/SessionProvider'
+import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useImportFont from '@/hooks/useImportFont'
+import { headerBlank } from '@/styles/navigationAppearance'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { getTokenValue, PortalProvider, Spinner, ViewProps, YStack, isWeb } from 'tamagui'
+import { BlurView } from 'expo-blur'
+import { SplashScreen, Stack, useNavigationContainerRef } from 'expo-router'
+import { getTokenValue, isWeb, PortalProvider, Spinner, ViewProps, YStack } from 'tamagui'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
 }
-
 
 const { routingInstrumentation } = ErrorMonitor.configure()
 
@@ -36,7 +35,6 @@ const useRegisterRoutingInstrumentation = () => {
 
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
   const { isLoading } = useSession()
-
   if (!isLoading && !props.isLoading) {
     SplashScreen.hideAsync()
   }
@@ -45,10 +43,34 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
     <>
       {props.children}
       {(isLoading || props.isLoading) && (
-        <YStack justifyContent="center" alignItems="center" gap="$4" height="100%" flex={1} position="absolute" top="0" left="0" width="100%" bg="white">
-          <EuCampaignIllustration />
-          <Spinner color="$blue7" size="large" />
-        </YStack>
+        <>
+          <BlurView
+            experimentalBlurMethod="dimezisBlurView"
+            intensity={50}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          <YStack
+            justifyContent="center"
+            alignItems="center"
+            gap="$4"
+            height="100%"
+            flex={1}
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            pointerEvents="none"
+          >
+            <EuCampaignIllustration />
+            <Spinner color="$blue7" size="large" />
+          </YStack>
+        </>
       )}
     </>
   )
