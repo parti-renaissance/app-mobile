@@ -20,10 +20,10 @@ const ProfileScreen = () => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      router.push('/(tabs)/home/profile/notification')
+      router.push('/(tabs)/profile/notification')
     }
     const openPersonalInformation = () => {
-      router.push('/(tabs)/home/profile/personal-information')
+      router.push('/(tabs)/profile/personal-information')
     }
     const viewModel = ProfileScreenViewModelMapper.map(content.profile, content.department)
     return (
