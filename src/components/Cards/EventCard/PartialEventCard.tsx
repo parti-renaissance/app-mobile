@@ -19,7 +19,7 @@ const PartialEventCard = ({ payload, onSubscribe, onShow, ...props }: PartialEve
   return (
     <VoxCard {...props}>
       <VoxCard.Content minHeight={200} justifyContent="space-between">
-        <VoxCard.Content p="0">
+        <VoxCard.Content p={0}>
           <VoxCard.Chip event>Evenement</VoxCard.Chip>
           <VoxCard.Title>{payload.title}</VoxCard.Title>
           {payload.image && <VoxCard.Image image={payload.image} />}

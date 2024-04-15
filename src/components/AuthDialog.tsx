@@ -9,6 +9,7 @@ const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string
     <VoxCard bg="$colorTransparent" overflow="hidden" position="relative" {...props}>
       <YStack justifyContent="center">{children}</YStack>
       <BlurView
+        experimentalBlurMethod="dimezisBlurView"
         intensity={20}
         style={{
           position: 'absolute',
@@ -18,7 +19,7 @@ const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string
           height: '100%',
         }}
       />
-      <YStack position="absolute" top="0" left="0" width="100%" height="100%" justifyContent="center" alignItems="center">
+      <YStack position="absolute" top={0} left={0} width="100%" height="100%" justifyContent="center" alignItems="center">
         <YStack bg="$white1" p="$4.5" borderRadius="$8" gap="$5" elevation={2}>
           <Text fontWeight="$7" fontSize="$2" maxWidth={300} textAlign="center">
             {title}

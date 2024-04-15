@@ -1,5 +1,5 @@
-import React, { memo } from 'react'
-import { Platform } from 'react-native'
+import React, { LegacyRef, memo, RefObject } from 'react'
+import { Keyboard, Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
@@ -19,7 +19,7 @@ import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
-import { ScrollView, Sheet, Stack, Text, useMedia, ViewProps, YStack } from 'tamagui'
+import { ScrollView, Sheet, Text, useMedia, YStack } from 'tamagui'
 
 const padding = '$7'
 
@@ -37,6 +37,14 @@ const HomeScreen: React.FC = () => {
 
 const RegisterButtonSheet = memo(() => {
   const [open, setOpen] = React.useState(false)
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) {
+      Keyboard.dismiss()
+    }
+    setOpen(nextOpen)
+  }
+
+  const scrollRef = React.useRef<ScrollView>(null)
 
   return (
     <>
@@ -50,11 +58,21 @@ const RegisterButtonSheet = memo(() => {
       >
         <Button.Text>M'inscrire</Button.Text>
       </Button>
-      <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress open={open} onOpenChange={setOpen} snapPoints={[70]}>
+      <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress moveOnKeyboardChange open={open} onOpenChange={handleOpenChange} snapPoints={[80]}>
         <Sheet.Overlay />
         <Sheet.Handle />
         <Sheet.Frame padding="$4" elevation="$1">
-          <EventRegisterForm />
+          {/* @ts-ignore **/}
+          <Sheet.ScrollView ref={scrollRef}>
+            <EventRegisterForm
+              onScrollTo={(a) => {
+                scrollRef.current?.scrollTo({
+                  x: 0,
+                  y: a.y - 200,
+                })
+              }}
+            />
+          </Sheet.ScrollView>
         </Sheet.Frame>
       </Sheet>
     </>
