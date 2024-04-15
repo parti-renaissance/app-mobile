@@ -8,6 +8,7 @@ import EventRegisterForm from '@/components/EventRegisterForm/EventRegisterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import { useSession } from '@/ctx/SessionProvider'
 import * as eventTypes from '@/data/restObjects/RestEvents'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent } from '@/hooks/useEvents'
@@ -18,7 +19,7 @@ import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
-import { ScrollView, Stack, Text, useMedia, YStack } from 'tamagui'
+import { ScrollView, Stack, Text, useMedia, ViewProps, YStack } from 'tamagui'
 
 const padding = '$7'
 
@@ -41,10 +42,24 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const toast = useToastController()
   const date = mapPropsDate(data)
   const media = useMedia()
+  const { isAuth, signIn } = useSession()
 
   const shareUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/events/${props.id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
+
+  const LockLeftCard = () => (
+    <YStack justifyContent="center" gap="$4.5">
+      <YStack gap="$3" alignItems="center">
+        <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
+        <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
+          Connectez-vous pour participer à cet événement
+        </Text>
+      </YStack>
+      <SignUpButton size="lg" width="100%" />
+      <SignInButton size="lg" width="100%" />
+    </YStack>
+  )
 
   const handleCopyUrl = () => {
     Clipboard.setStringAsync(shareUrl)
@@ -92,7 +107,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
 
   const addToCalendar = eventData ? Calendar.useCreateEvent(eventData) : undefined
 
-  const AsideCardContent = (
+  const AsideCardContent = () => (
     <>
       <VoxCard.Date {...date} />
       {isFullEvent && (data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...mapPropsLocation(data)} />)}
@@ -108,31 +123,33 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           <VoxCard.Author {...mapPropsAuthor(data)} />
         </VoxCard.Section>
       )}
-
-      <VoxCard.Section title="Partager :" gap="$3">
-        <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
-          <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
-            {shareUrl}
-          </Button.Text>
-          <LinkIcon color="$textDisabled" />
-        </Button>
-
-        {isShareAvailable && (
-          <Button variant="outlined" width="100%" size="lg" onPress={handleShareUrl}>
-            <Button.Text variant="outlined">Partager</Button.Text>
-          </Button>
-        )}
-
-        {!isShortEvent && isFullEvent && (
-          <>
-            <VoxCard.Separator />
-            <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
-              <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
-            </Button>
-          </>
-        )}
-      </VoxCard.Section>
     </>
+  )
+
+  const AsideShare = () => (
+    <VoxCard.Section title="Partager :" gap="$3">
+      <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
+        <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
+          {shareUrl}
+        </Button.Text>
+        <LinkIcon color="$textDisabled" />
+      </Button>
+
+      {isShareAvailable && (
+        <Button variant="outlined" width="100%" size="lg" onPress={handleShareUrl}>
+          <Button.Text variant="outlined">Partager</Button.Text>
+        </Button>
+      )}
+
+      {!isShortEvent && isFullEvent && (
+        <>
+          <VoxCard.Separator />
+          <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
+            <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
+          </Button>
+        </>
+      )}
+    </VoxCard.Section>
   )
 
   return (
@@ -154,51 +171,79 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
             {data.image_url && <VoxCard.Image large image={data.image_url} />}
             <VoxCard.Content>
-              <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>
+              {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
               <VoxCard.Title>{data.name}</VoxCard.Title>
               {!isShortEvent && isFullEvent && (
                 <VoxCard.Description full markdown>
                   {data.description}
                 </VoxCard.Description>
               )}
-              {media.lg && AsideCardContent}
+              {media.lg ||
+                (!isAuth && data.visibility === 'public' && (
+                  <>
+                    <AsideCardContent />
+                    <AsideShare />
+                  </>
+                ))}
             </VoxCard.Content>
           </VoxCard>
         </ScrollView>
         {media.lg && isFullEvent && (
-          <Stack position="absolute" bottom="$3" $sm={{ left: '$4', right: '$4' }} $lg={{ left: '$10', right: '$10' }}>
-            <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
-          </Stack>
+          <YStack position="absolute" bg="$white1" bottom="$0" left="$0" width="100%" elevation="$1" p="$3">
+            <AuthFallbackWrapper
+              fallback={
+                data.visibility !== 'public' ? (
+                  <LockLeftCard />
+                ) : (
+                  <YStack gap="$3" width="100%">
+                    <Button variant="contained" size="lg" onPress={addToCalendar} width="100%">
+                      <Button.Text>S'inscrire</Button.Text>
+                    </Button>
+                    <Button variant="text" size="lg" width="100%" onPress={signIn}>
+                      <Text fontSize="$1">
+                        <Text color="$textPrimary" fontWeight="$7">
+                          Me connecter
+                        </Text>{' '}
+                        <Text color="$textSecondary">pour m’inscrire en un clic.</Text>
+                      </Text>
+                    </Button>
+                  </YStack>
+                )
+              }
+            >
+              <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+            </AuthFallbackWrapper>
+          </YStack>
         )}
       </PageLayout.MainSingleColumn>
 
       <PageLayout.SideBarRight>
-        <VoxCard>
-          <VoxCard.Content pt="$6">
-            <AuthFallbackWrapper
-              fallback={
-                data.visibility !== 'public' ? (
-                  <YStack justifyContent="center" gap="$4.5">
-                    <YStack gap="$3" alignItems="center">
-                      <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
-                      <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
-                        Connectez-vous pour participer à cet événement
-                      </Text>
-                    </YStack>
-                    <SignUpButton size="lg" width="100%" />
-                    <SignInButton size="lg" width="100%" />
-                  </YStack>
-                ) : (
-                  <EventRegisterForm />
-                )
-              }
-            >
-              {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
-            </AuthFallbackWrapper>
-            <VoxCard.Separator />
-            {AsideCardContent}
-          </VoxCard.Content>
-        </VoxCard>
+        <ScrollView>
+          <YStack gap="$6">
+            <VoxCard>
+              <VoxCard.Content pt="$6">
+                <AuthFallbackWrapper
+                  fallback={
+                    <>
+                      {data.visibility !== 'public' ? (
+                        <>
+                          <LockLeftCard />
+                          <AsideShare />
+                        </>
+                      ) : (
+                        <EventRegisterForm />
+                      )}
+                    </>
+                  }
+                >
+                  <AsideCardContent />
+                  <AsideShare />
+                  {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+                </AuthFallbackWrapper>
+              </VoxCard.Content>
+            </VoxCard>
+          </YStack>
+        </ScrollView>
       </PageLayout.SideBarRight>
     </>
   )

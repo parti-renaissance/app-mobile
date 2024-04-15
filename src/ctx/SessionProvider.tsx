@@ -14,12 +14,14 @@ const AuthContext = React.createContext<{
   signIn: () => Promise<void>
   signOut: () => Promise<void>
   signUp: () => Promise<void>
+  isAuth: boolean
   session?: string
   isLoading: boolean
 }>({
   signIn: () => null,
   signOut: () => null,
   signUp: () => null,
+  isAuth: false,
   session: null,
   isLoading: false,
 })
@@ -87,6 +89,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         signUp: handleSignIn,
         session: session,
         isLoading: isLoginInProgress || isLoading,
+        isAuth: !!session && !!(isLoginInProgress || isLoading),
       }}
     >
       {props.children}

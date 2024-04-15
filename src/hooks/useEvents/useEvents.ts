@@ -95,14 +95,20 @@ export const useGetEvent = ({ id: eventId }: { id: string }) => {
     if (dataEvent) return dataEvent
     if (dataList) {
       const event = dataList.pages.flatMap((page) => page.items).find((event) => event.uuid === eventId)
-      return { isShort: true, ...event }
+      return { isShort: true, ...event, object_state: event.organizer ? 'full' : 'partial' }
     }
     return undefined
   })()
 
   return useSuspenseQuery<Event>({
     queryKey: ['event', eventId],
-    queryFn: () => (session ? ApiService.getInstance().getEventDetails(eventId) : ApiService.getInstance().getPublicEventDetails(eventId)),
+    queryFn: () =>
+      (session
+        ? (ApiService.getInstance()
+            .getEventDetails(eventId)
+            .then((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })) as Promise<RestDetailedEvent>)
+        : ApiService.getInstance().getPublicEventDetails(eventId)
+      ).then((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })) as Promise<RestDetailedEvent>,
     ...(placeholderData ? { placeholderData } : {}),
   })
 }
