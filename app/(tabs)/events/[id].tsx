@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
@@ -19,7 +19,7 @@ import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
-import { ScrollView, Stack, Text, useMedia, ViewProps, YStack } from 'tamagui'
+import { ScrollView, Sheet, Stack, Text, useMedia, ViewProps, YStack } from 'tamagui'
 
 const padding = '$7'
 
@@ -35,6 +35,45 @@ const HomeScreen: React.FC = () => {
   )
 }
 
+const RegisterButtonSheet = memo(() => {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <>
+      <Button
+        variant="contained"
+        size="lg"
+        onPress={() => {
+          setOpen(true)
+        }}
+        width="100%"
+      >
+        <Button.Text>M'inscrire</Button.Text>
+      </Button>
+      <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress open={open} onOpenChange={setOpen} snapPoints={[70]}>
+        <Sheet.Overlay />
+        <Sheet.Handle />
+        <Sheet.Frame padding="$4" elevation="$1">
+          <EventRegisterForm />
+        </Sheet.Frame>
+      </Sheet>
+    </>
+  )
+})
+
+const LockLeftCard = () => (
+  <YStack justifyContent="center" gap="$4.5">
+    <YStack gap="$3" alignItems="center">
+      <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
+      <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
+        Connectez-vous pour participer à cet événement
+      </Text>
+    </YStack>
+    <SignUpButton size="lg" width="100%" />
+    <SignInButton size="lg" width="100%" />
+  </YStack>
+)
+
 function EventDetailScreen(props: Readonly<{ id: string }>) {
   const { data } = useGetEvent({ id: props.id })
   const isFullEvent = eventTypes.isFullEvent(data)
@@ -47,19 +86,6 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const shareUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/events/${props.id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
-
-  const LockLeftCard = () => (
-    <YStack justifyContent="center" gap="$4.5">
-      <YStack gap="$3" alignItems="center">
-        <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
-        <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
-          Connectez-vous pour participer à cet événement
-        </Text>
-      </YStack>
-      <SignUpButton size="lg" width="100%" />
-      <SignInButton size="lg" width="100%" />
-    </YStack>
-  )
 
   const handleCopyUrl = () => {
     Clipboard.setStringAsync(shareUrl)
@@ -196,9 +222,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
                   <LockLeftCard />
                 ) : (
                   <YStack gap="$3" width="100%">
-                    <Button variant="contained" size="lg" onPress={addToCalendar} width="100%">
-                      <Button.Text>S'inscrire</Button.Text>
-                    </Button>
+                    <RegisterButtonSheet />
                     <Button variant="text" size="lg" width="100%" onPress={signIn}>
                       <Text fontSize="$1">
                         <Text color="$textPrimary" fontWeight="$7">
