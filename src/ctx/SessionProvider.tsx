@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
@@ -6,7 +6,6 @@ import useLogin from '@/hooks/useLogin'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
-import { fi } from 'date-fns/locale'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import { useStorageState } from '../hooks/useStorageState'
 
@@ -78,21 +77,21 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const handleSignOut = async () => {
     await authenticationRepository.current.logout(false).then(() => {
       queryClient.setQueryData(['profil'], null)
+      router.replace({ pathname: '/(tabs)/events/' })
     })
   }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        signIn: handleSignIn,
-        signOut: handleSignOut,
-        signUp: handleSignIn,
-        session: session,
-        isLoading: isLoginInProgress || isLoading,
-        isAuth: !!session && !!(isLoginInProgress || isLoading),
-      }}
-    >
-      {props.children}
-    </AuthContext.Provider>
+  const providerValue = useMemo(
+    () => ({
+      signIn: handleSignIn,
+      signOut: handleSignOut,
+      signUp: handleSignIn,
+      session,
+      isLoading: isLoginInProgress || isLoading,
+      isAuth: session && !(isLoginInProgress || isLoading),
+    }),
+    [handleSignIn, handleSignOut, session, isLoginInProgress, isLoading],
   )
+
+  return <AuthContext.Provider value={providerValue}>{props.children}</AuthContext.Provider>
 }

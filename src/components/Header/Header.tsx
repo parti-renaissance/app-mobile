@@ -70,7 +70,7 @@ const NavBar = () => {
 const ProfileView = () => {
   const { data: profile } = useGetProfil()
   return (
-    <Link href="/home/profile/">
+    <Link href="/profile/">
       <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
         <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
           <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'}>

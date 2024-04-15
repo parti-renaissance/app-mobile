@@ -3,10 +3,15 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import CardListAuthSkeleton from '@/components/Skeleton/CardListUnAuthSkeleton'
+import { useSession } from '@/ctx/SessionProvider'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
-import { Stack as RouterStack } from 'expo-router'
+import { Redirect, Stack as RouterStack } from 'expo-router'
 
 const HomeScreen: React.FC = () => {
+  const { session } = useSession()
+  if (!session) {
+    return <Redirect href={'/(tabs)/events/'} />
+  }
   return (
     <>
       <RouterStack.Screen

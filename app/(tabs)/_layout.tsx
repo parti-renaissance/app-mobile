@@ -3,6 +3,7 @@ import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Header/Header'
 import { ROUTES } from '@/config/routes'
+import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
 import { Tabs } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
@@ -12,6 +13,7 @@ const TAB_BAR_HEIGTH = 60
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const media = useMedia()
+  const { session } = useSession()
 
   useInit()
 
@@ -28,7 +30,7 @@ export default function AppLayout() {
             backgroundColor: 'white',
             borderTopWidth: 2,
             borderTopColor: 'rgba(145, 158, 171, 0.32)',
-            display: media.gtSm ? 'none' : 'flex',
+            display: media.gtSm || !session ? 'none' : 'flex',
             height: TAB_BAR_HEIGTH + insets.bottom,
           },
         }}
@@ -51,6 +53,7 @@ export default function AppLayout() {
             }}
           />
         ))}
+        <Tabs.Screen name="profile" options={{ href: null }} />
       </Tabs>
     </View>
   )

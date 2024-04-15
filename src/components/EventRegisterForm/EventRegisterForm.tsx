@@ -3,10 +3,10 @@ import { LogBox } from 'react-native'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import Button from '@/components/Button/Button'
 import { useSession } from '@/ctx/SessionProvider'
-import { Check as CheckIcon, Scroll } from '@tamagui/lucide-icons'
+import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik } from 'formik'
-import { Anchor, Checkbox, CheckboxProps, Dialog, H3, Label, Paragraph, ScrollView, Button as TButton, Text, useMedia, View, XStack, YStack } from 'tamagui'
+import { Checkbox, CheckboxProps, Dialog, H3, Label, Paragraph, ScrollView, Text, useMedia, View, XStack, YStack } from 'tamagui'
 import zod from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import FormikController from '../FormikController'
@@ -50,7 +50,7 @@ function _VoxInput({ id: _id, placeholder, autocomplete, error, value, onChange,
         <Input.Box>
           <Input.Area autoComplete={autocomplete} id={id} placeholder={placeholder} value={value} onChangeText={onChange} {...props} />
         </Input.Box>
-        {error && <Input.Info>{error}</Input.Info>}
+        {!!error && <Input.Info>{error}</Input.Info>}
       </Input>
     </View>
   )
@@ -80,7 +80,7 @@ const VoxCheckbox = ({ label, id: _id, error }: VoxCheckboxProps) => {
           <Text>{label}</Text>
         </Label>
       </XStack>
-      {error && <Text fontSize="$1">{error}</Text>}
+      {!!error && <Text fontSize="$1">{error}</Text>}
     </YStack>
   )
 }

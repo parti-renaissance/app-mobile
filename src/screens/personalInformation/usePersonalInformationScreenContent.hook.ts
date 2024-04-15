@@ -1,17 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
-import { DeviceEventEmitter } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { router } from 'expo-router';
-import { DetailedProfile, FormViolation } from '../../core/entities/DetailedProfile';
-import { Gender } from '../../core/entities/UserProfile';
-import { ProfileFormError } from '../../core/errors';
-import { CountryRepository } from '../../data/CountryRepository';
-import ProfileRepository from '../../data/ProfileRepository';
-import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps';
-import { AlertUtils } from '../shared/AlertUtils';
-import { PersonalInformationsForm } from './PersonalInformationsForm';
-import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper';
-
+import { useCallback, useEffect, useState } from 'react'
+import { DeviceEventEmitter } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { router } from 'expo-router'
+import { DetailedProfile, FormViolation } from '../../core/entities/DetailedProfile'
+import { Gender } from '../../core/entities/UserProfile'
+import { ProfileFormError } from '../../core/errors'
+import { CountryRepository } from '../../data/CountryRepository'
+import ProfileRepository from '../../data/ProfileRepository'
+import { PersonalInformationModalNavigatorScreenProps } from '../../navigation/personalInformationModal/PersonalInformationModalNavigatorScreenProps'
+import { AlertUtils } from '../shared/AlertUtils'
+import { PersonalInformationsForm } from './PersonalInformationsForm'
+import { PersonalInformationsFormMapper } from './PersonalInformationsFormMapper'
 
 export const usePersonalInformationScreenContent = (
   profile: DetailedProfile,
@@ -37,9 +36,7 @@ export const usePersonalInformationScreenContent = (
   onTelegramChange: (telegram: string) => void
   onSubmit: () => void
 } => {
-  const [form, updateForm] = useState<PersonalInformationsForm>(
-    PersonalInformationsFormMapper.map(profile),
-  )
+  const [form, updateForm] = useState<PersonalInformationsForm>(PersonalInformationsFormMapper.map(profile))
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<FormViolation>>([])
 
@@ -71,10 +68,7 @@ export const usePersonalInformationScreenContent = (
     }
   }, [])
 
-  const navigation =
-    useNavigation<
-      PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']
-    >()
+  const navigation = useNavigation<PersonalInformationModalNavigatorScreenProps<'PersonalInformation'>['navigation']>()
 
   const getError = (path: string): string => {
     return errors
@@ -122,12 +116,12 @@ export const usePersonalInformationScreenContent = (
   }
 
   const onLocationPickerPress = () => {
-    router.push('/(tabs)/home/profile/location-picker')
+    router.push('/(tabs)/profile/location-picker')
   }
 
   const onNationalityPress = () => {
     router.push({
-      pathname: '/(tabs)/home/profile/country-picker',
+      pathname: '/(tabs)/profile/country-picker',
       params: {
         selectedItemId: form.countryCode,
       },
@@ -143,12 +137,12 @@ export const usePersonalInformationScreenContent = (
   }
 
   const onCallingCodePress = () => {
-      router.push({
-        pathname: '/(tabs)/home/profile/code-phone-picker',
-        params: {
-          selectedItemId: form.phoneCountryCode,
-        },
-      })
+    router.push({
+      pathname: '/(tabs)/profile/code-phone-picker',
+      params: {
+        selectedItemId: form.phoneCountryCode,
+      },
+    })
   }
 
   const onFacebookChange = (facebook: string) => {
@@ -170,9 +164,7 @@ export const usePersonalInformationScreenContent = (
   return {
     form,
     isLoading,
-    callingCode: CountryRepository.getInstance().getCallingCodeForCountryCode(
-      form.phoneCountryCode,
-    ),
+    callingCode: CountryRepository.getInstance().getCallingCodeForCountryCode(form.phoneCountryCode),
     displayCustomGender: form.gender === Gender.Other,
     getError,
     onFirstNameChange,

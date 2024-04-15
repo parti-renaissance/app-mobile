@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
 import { FormikValues, useFormikContext } from 'formik'
-import { use } from 'i18next'
 
 type FormikControllerProps<Values> = {
   children: (args: ArgsFormikField<Values>) => React.ReactNode
