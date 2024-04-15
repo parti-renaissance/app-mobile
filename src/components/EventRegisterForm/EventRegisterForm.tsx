@@ -6,7 +6,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik } from 'formik'
-import { Checkbox, CheckboxProps, Dialog, H3, Label, Paragraph, ScrollView, Text, useMedia, View, XStack, YStack } from 'tamagui'
+import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Text, useMedia, View, XStack, YStack } from 'tamagui'
 import zod from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import FormikController from '../FormikController'
@@ -76,7 +76,7 @@ const VoxCheckbox = ({ label, id: _id, error }: VoxCheckboxProps) => {
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox>
-        <Label htmlFor={id} gap="$1" flex={1} asChild lineHeight="$2" fontSize="$2">
+        <Label htmlFor={id} gap="$1" flex={1} lineHeight="$2" fontSize="$2">
           <Text>{label}</Text>
         </Label>
       </XStack>
@@ -88,7 +88,7 @@ const VoxCheckbox = ({ label, id: _id, error }: VoxCheckboxProps) => {
 type RegisterForm = zod.infer<typeof registerFormSchema>
 
 const initialValues = {
-  first_name: 'Antonin',
+  first_name: '',
   last_name: '',
   email_address: '',
   postal_code: '',
@@ -113,7 +113,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
   return (
     <Formik<typeof initialValues> initialValues={initialValues} validationSchema={toFormikValidationSchema(registerFormSchema)} onSubmit={onSubmit}>
       {() => (
-        <YStack gap="$4">
+        <YStack gap="$4" flex={1}>
           <Text fontWeight="$6" fontSize="$3" textAlign="center" color="$textPrimary">
             M’inscrire à cet évènement
           </Text>
@@ -180,7 +180,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             </Text>
           </Button>
 
-          {media.sm && (
+          {media.lg && (
             <YStack
               id="mention-legale"
               gap="$4"
@@ -225,9 +225,9 @@ function DialogMentionLegale(props: { onPress?: () => void }) {
           ]}
           enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
           exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
-          gap="$4"
+          maxWidth={600}
         >
-          <ScrollView>
+          <ScrollView justifyContent="center" height="100%" maxHeight={isWeb ? 'calc(100vh - 100px)' : undefined}>
             <MentionLegale />
           </ScrollView>
         </Dialog.Content>
@@ -244,8 +244,8 @@ function DialogMentionLegale(props: { onPress?: () => void }) {
 
 function MentionLegale() {
   return (
-    <YStack gap="$4">
-      <H3>Légalité</H3>
+    <YStack gap="$4" flex={1} height="100%">
+      <H2>Légalité</H2>
       <Paragraph>
         Les données recueillies sur ce formulaire sont traitées par Renaissance et ses équipes aux fins d’organisation de cet événement. Elles permettront à ses
         équipes de gérer les informations relatives aux participants et de vous inviter à d’autres événements qu’elles organisent. Elles permettront également à
@@ -260,6 +260,7 @@ function MentionLegale() {
         information relative au traitement de vos données par Renaissance, vous pouvez consulter la politique de protection des données ou contacter le délégué
         à la protection des données à l’adresse dpo@parti-renaissance.fr
       </Paragraph>
+
       <Paragraph>
         (1) J’autorise Renaissance ou toute structure qui se substituerait à elle, à enregistrer, à fixer mon image et/ou ma voix sur tous supports, à
         l’exploiter et à la diffuser en intégralité ou par extrait sans limitation du nombre de reproduction, sur tous canaux, sites web et réseaux sociaux

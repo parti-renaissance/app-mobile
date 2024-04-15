@@ -19,7 +19,7 @@ import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
-import { ScrollView, Sheet, Text, useMedia, YStack } from 'tamagui'
+import { ScrollView, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
 
 const padding = '$7'
 
@@ -63,15 +63,17 @@ const RegisterButtonSheet = memo(() => {
         <Sheet.Handle />
         <Sheet.Frame padding="$4" elevation="$1">
           {/* @ts-ignore **/}
-          <Sheet.ScrollView ref={scrollRef}>
-            <EventRegisterForm
-              onScrollTo={(a) => {
-                scrollRef.current?.scrollTo({
-                  x: 0,
-                  y: a.y - 200,
-                })
-              }}
-            />
+          <Sheet.ScrollView ref={scrollRef} alignItems="center">
+            <XStack maxWidth={600} alignItems="center">
+              <EventRegisterForm
+                onScrollTo={(a) => {
+                  scrollRef.current?.scrollTo({
+                    x: 0,
+                    y: a.y - 200,
+                  })
+                }}
+              />
+            </XStack>
           </Sheet.ScrollView>
         </Sheet.Frame>
       </Sheet>
@@ -233,7 +235,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           </VoxCard>
         </ScrollView>
         {media.lg && isFullEvent && (
-          <YStack position="absolute" bg="$white1" bottom="$0" left="$0" width="100%" elevation="$1" p="$3">
+          <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
             <AuthFallbackWrapper
               fallback={
                 data.visibility !== 'public' ? (
