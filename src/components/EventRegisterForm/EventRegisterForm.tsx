@@ -1,4 +1,4 @@
-import { ComponentProps, useId, useRef } from 'react'
+import React, { ComponentProps, useId, useRef } from 'react'
 import { LogBox } from 'react-native'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import Button from '@/components/Button/Button'
@@ -9,34 +9,37 @@ import { Formik } from 'formik'
 import { Anchor, Checkbox, CheckboxProps, Dialog, H3, Label, Paragraph, ScrollView, Button as TButton, Text, useMedia, View, XStack, YStack } from 'tamagui'
 import zod from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
+import FormikController from '../FormikController'
 import VoxCard from '../VoxCard/VoxCard'
 
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/])
 
 const registerFormSchema = zod.object({
   first_name: zod.string().min(1, { message: 'Le prénom ne doit pas être vide' }),
-  email: zod.string().email({ message: "L'email n'est pas valide" }),
-  postal_code: zod.string().length(5, { message: 'Le code postal doit contenir 5 chiffres' }),
-  cgu: zod.boolean().refine((value) => value, { message: 'Vous devez accepter les CGU' }),
-  news: zod.boolean(),
+  last_name: zod.string().min(1, { message: 'Le nom ne doit pas être vide' }),
+  email_address: zod.string().email({ message: "L'email_address n'est pas valide" }),
+  postal_code: zod
+    .string()
+    .min(4, { message: 'Le code postal doit contenir au minimum 4 chiffres' })
+    .max(6, { message: 'Le code postal doit contenir au maximum 6 chiffres' }),
+  cgu_accepted: zod.boolean().refine((value) => value, { message: 'Vous devez accepter les CGU' }),
+  join_newsletter: zod.boolean().optional(),
 })
 
 type VoxInputProps = {
-  name: string
+  id: string
   error?: string
   placeholder?: string
   autocomplete?: ComponentProps<typeof Input.Area>['autoComplete']
-} & ComponentProps<typeof Input>
+} & ComponentProps<typeof Input.Area>
 
-export function VoxInput({ name, placeholder, autocomplete, error, value, ...props }: VoxInputProps) {
+function _VoxInput({ id: _id, placeholder, autocomplete, error, value, onChange, ...props }: VoxInputProps) {
   const uniqueId = useId()
-  const id = uniqueId + name
+  const id = uniqueId + _id
 
   return (
     <View flexDirection="column" justifyContent="center" alignItems="center" gap="$6">
       <Input
-        {...props}
-        id={props.name}
         size="$3"
         minWidth="100%"
         $group-window-gtXs={{ minWidth: 150 }}
@@ -45,7 +48,7 @@ export function VoxInput({ name, placeholder, autocomplete, error, value, ...pro
         })}
       >
         <Input.Box>
-          <Input.Area autoComplete={autocomplete} id={id} placeholder={placeholder} value={value} />
+          <Input.Area autoComplete={autocomplete} id={id} placeholder={placeholder} value={value} onChangeText={onChange} {...props} />
         </Input.Box>
         {error && <Input.Info>{error}</Input.Info>}
       </Input>
@@ -53,23 +56,27 @@ export function VoxInput({ name, placeholder, autocomplete, error, value, ...pro
   )
 }
 
+const VoxInput = React.memo(_VoxInput)
+
 type VoxCheckboxProps = {
-  name: string
+  id: string
   label: string
   error?: string
 } & CheckboxProps
 
-const VoxCheckbox = ({ label, name, error, ...props }: VoxCheckboxProps) => {
+const VoxCheckbox = ({ label, id: _id, error }: VoxCheckboxProps) => {
   const uniqueId = useId()
+  const id = uniqueId + _id
+
   return (
-    <YStack gap="$2">
+    <YStack gap="$2" theme={error ? 'red' : undefined}>
       <XStack gap="$4" alignItems="center">
-        <Checkbox id={name + uniqueId}>
+        <Checkbox id={id}>
           <Checkbox.Indicator>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox>
-        <Label htmlFor={name + uniqueId} gap="$1" flex={1} asChild lineHeight="$2" fontSize="$2">
+        <Label htmlFor={id} gap="$1" flex={1} asChild lineHeight="$2" fontSize="$2">
           <Text>{label}</Text>
         </Label>
       </XStack>
@@ -81,11 +88,12 @@ const VoxCheckbox = ({ label, name, error, ...props }: VoxCheckboxProps) => {
 type RegisterForm = zod.infer<typeof registerFormSchema>
 
 const initialValues = {
-  first_name: '',
-  email: '',
+  first_name: 'Antonin',
+  last_name: '',
+  email_address: '',
   postal_code: '',
-  cgu: true,
-  news: false,
+  cgu_accepted: true,
+  join_newsletter: false,
 } satisfies RegisterForm
 
 const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void }) => {
@@ -97,7 +105,6 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
 
   const position = useRef<null | { x: number; y: number }>(null)
   const handlePress = () => {
-    console.log(position.current)
     if (position.current) {
       props.onScrollTo?.(position.current)
     }
@@ -105,29 +112,43 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
 
   return (
     <Formik<typeof initialValues> initialValues={initialValues} validationSchema={toFormikValidationSchema(registerFormSchema)} onSubmit={onSubmit}>
-      {({ values, errors, handleChange, setFieldValue }) => (
+      {() => (
         <YStack gap="$4">
           <Text fontWeight="$6" fontSize="$3" textAlign="center" color="$textPrimary">
             M’inscrire à cet évènement
           </Text>
-          <VoxInput name="first_name" placeholder="Prénom" error={errors.first_name} value={values.first_name} onChange={handleChange('first_name')} />
-          <VoxInput name="email" placeholder="Email" error={errors.email} value={values.email} onChange={handleChange('email')} />
-          <VoxInput name="postal_code" placeholder="Code postal" error={errors.postal_code} value={values.postal_code} onChange={handleChange('postal_code')} />
+          <FormikController name="last_name">{({ inputProps }) => <VoxInput placeholder="Nom" {...inputProps} />}</FormikController>
+
+          <FormikController name="first_name">{({ inputProps }) => <VoxInput placeholder="Prénom" {...inputProps} />}</FormikController>
+
+          <FormikController name="email_address">{({ inputProps }) => <VoxInput placeholder="email" {...inputProps} />}</FormikController>
+
+          <FormikController name="postal_code">{({ inputProps }) => <VoxInput placeholder="Code postal" {...inputProps} />}</FormikController>
           <YStack gap="$3">
-            <VoxCheckbox
-              name="news"
-              label="Je m’abonne à la newsletter pour ne rien rater de des actualités de Besoin d’Europe (optionnel)"
-              error={errors.news}
-              checked={values.news}
-              onCheckedChange={(x) => setFieldValue('news', x)}
-            />
-            <VoxCheckbox
-              name="cgu"
-              label="J’ai lu et j’accepte la politique de protection des données et les mentions d’informations relatives au traitement de mes données."
-              error={errors.cgu}
-              checked={values.cgu}
-              onCheckedChange={(x) => setFieldValue('cgu', x)}
-            />
+            <FormikController name="join_newsletter">
+              {({ inputProps }) => (
+                <VoxCheckbox
+                  id={inputProps.id}
+                  label="Je m’abonne à la newsletter pour ne rien rater de des actualités de Besoin d’Europe (optionnel)"
+                  error={inputProps.error}
+                  checked={inputProps.value}
+                  onBlur={inputProps.onBlur}
+                  onCheckedChange={inputProps.onChange}
+                />
+              )}
+            </FormikController>
+
+            <FormikController name="cgu_accepted">
+              {({ inputProps }) => (
+                <VoxCheckbox
+                  id={inputProps.id}
+                  label="J’ai lu et j’accepte la politique de protection des données et les mentions d’informations relatives au traitement de mes données."
+                  error={inputProps.error}
+                  checked={inputProps.value}
+                  onCheckedChange={inputProps.onChange}
+                />
+              )}
+            </FormikController>
           </YStack>
 
           <YStack justifyContent="center" alignContent="center">
