@@ -102,7 +102,7 @@ function Root() {
                 <VoxToast />
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
                 <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                  {isUpdateAvailable || isBuildUpdateAvailable ? (
+                  {(isUpdateAvailable || isBuildUpdateAvailable) && !isWeb ? (
                     <UpdateScreen />
                   ) : (
                     <Stack>
