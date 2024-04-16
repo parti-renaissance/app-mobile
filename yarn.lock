@@ -16151,6 +16151,11 @@ react-native-cache@^2.0.3:
   dependencies:
     "@react-native-async-storage/async-storage" "^1.13.4"
 
+react-native-check-version@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-check-version/-/react-native-check-version-1.1.1.tgz#f469fe8d85d7575325fd13a57ce5c678447f7b86"
+  integrity sha512-/8dLMExwYeZAEWic6Dr9S4TMPdDmuTNif8wS7oaF8gEHl8/i9lABD3YjBglXwieXSqzfge/Tuo0himUOEtQMZg==
+
 react-native-css-interop@~0.0.21:
   version "0.0.34"
   resolved "https://registry.yarnpkg.com/react-native-css-interop/-/react-native-css-interop-0.0.34.tgz#e69852ee4379a88325d649f045aba1263dbd13a9"
