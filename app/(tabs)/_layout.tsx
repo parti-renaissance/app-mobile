@@ -21,7 +21,7 @@ export default function AppLayout() {
     <View style={{ height: isWeb ? '100svh' : '100%' }}>
       <NavBar />
       <Tabs
-        initialRouteName="events"
+        initialRouteName="evenements"
         screenOptions={{
           headerShown: false,
           tabBarLabel: () => null,
@@ -53,7 +53,7 @@ export default function AppLayout() {
             }}
           />
         ))}
-        <Tabs.Screen name="profile" options={{ href: null }} />
+        <Tabs.Screen name="profil" options={{ href: null }} />
       </Tabs>
     </View>
   )
