@@ -63,7 +63,9 @@ const RegisterButtonSheet = memo(() => {
         <Sheet.Handle />
         <Sheet.Frame padding="$4" elevation="$1">
           {/* @ts-ignore **/}
-          <Sheet.ScrollView ref={scrollRef} alignItems="center">
+          <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{
+            alignItems: 'center',
+          }}>
             <XStack maxWidth={600} alignItems="center">
               <EventRegisterForm
                 onScrollTo={(a) => {
