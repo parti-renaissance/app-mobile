@@ -1,9 +1,9 @@
-import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
-import { isWeb } from 'tamagui'
+import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav';
+import { isWeb } from 'tamagui';
 
 
 export type TabRoute = {
-  name: '(home)' | 'evenements' | 'actions' | 'news' | 'tools',
+  name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources'
   screenName: string
   icon: typeof HomeIcon
   gradiant: string[]
@@ -39,11 +39,9 @@ export const ROUTES = [
     gradiant: ['#FDA302', '#F7681E'],
   },
   {
-    name: 'tools',
+    name: 'ressources',
     screenName: 'Ressources',
     icon: ToolsIcon,
     gradiant: ['#E461E8', '#8B2DBF'],
   },
-]  as TabRoute[]
-
-
+] satisfies TabRoute[]

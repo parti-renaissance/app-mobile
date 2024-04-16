@@ -57,12 +57,13 @@ const MemoizedNavItem = React.memo(NavItem)
 const NavBar = () => {
   const pathname = usePathname()
   const { gtSm } = useMedia()
-  const {session} = useSession()
+  const { session } = useSession()
   if (!session) return null
-  return gtSm  ? (
+  return gtSm ? (
     <Stack flexDirection="row" gap={4}>
       {ROUTES.filter((x) => !x.hidden).map((route) => {
-        const focused = pathname.includes(route.name)
+        const isIndex = route.name === '(home)'
+        const focused = pathname.includes(route.name) || (isIndex && pathname === '/')
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}
     </Stack>
