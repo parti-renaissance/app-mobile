@@ -36,7 +36,10 @@ const useRegisterRoutingInstrumentation = () => {
 }
 
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
-  const { isLoading } = useSession()
+  const { session, isLoading } = useSession()
+  if (!session && isLoading) {
+    return null
+  }
 
   if (!isLoading && !props.isLoading) {
     SplashScreen.hideAsync()
