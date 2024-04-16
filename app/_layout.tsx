@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react'
-import { useColorScheme } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { AppState, useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import VoxToast from '@/components/VoxToast/VoxToast'
@@ -10,7 +10,7 @@ import UpdateScreen from '@/screens/update/updateScreen'
 import { headerBlank } from '@/styles/navigationAppearance'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { DarkTheme, DefaultTheme, ThemeProvider, useFocusEffect } from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BlurView } from 'expo-blur'
@@ -79,6 +79,8 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
 }
 
 function Root() {
+  const appState = useRef(AppState.currentState)
+
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
   const [isFontsLoaded] = useImportFont()
@@ -86,11 +88,20 @@ function Root() {
   const insets = useSafeAreaInsets()
   const { isUpdateAvailable, isBuildUpdateAvailable, checkForUpdate } = useAppUpdate()
 
-  useFocusEffect(
-    useCallback(() => {
-      checkForUpdate()
-    }, []),
-  )
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        console.log('App has come to the foreground!')
+        checkForUpdate()
+      }
+
+      appState.current = nextAppState
+    })
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
 
   return (
     <QueryClientProvider client={queryClient}>
