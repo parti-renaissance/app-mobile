@@ -10,7 +10,7 @@ import { Redirect, Stack as RouterStack } from 'expo-router'
 const HomeScreen: React.FC = () => {
   const { session } = useSession()
   if (!session) {
-    return <Redirect href={'/(tabs)/events/'} />
+    return <Redirect href={'/(tabs)/evenements/'} />
   }
   return (
     <>

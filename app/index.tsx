@@ -6,5 +6,5 @@ export default function () {
   if (isLoading) {
     return null
   }
-  return <Redirect href={session ? '/(tabs)/home' : '/(tabs)/events'} />
+  return <Redirect href={session ? '/(tabs)/home' : '/(tabs)/evenements'} />
 }

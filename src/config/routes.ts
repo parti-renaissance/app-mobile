@@ -1,9 +1,5 @@
 import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
-import { hi } from 'date-fns/locale'
-import { Platform } from 'react-native'
 import { isWeb } from 'tamagui'
-
-import { AllRoutes } from 'expo-router'
 
 
 export type TabRoute = {
@@ -23,7 +19,7 @@ export const ROUTES = [
     gradiant: ['#8D98FF', '#8050E6'],
   },
   {
-    name: 'events',
+    name: 'evenements',
     screenName: 'Événements',
     icon: EventIcon,
     gradiant: ['#52ABFB', '#0868E7'],

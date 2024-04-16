@@ -21,7 +21,7 @@ export default function AppLayout() {
     <View style={{ height: isWeb ? '100svh' : '100%' }}>
       <NavBar />
       <Tabs
-        initialRouteName="events"
+        initialRouteName="evenements"
         screenOptions={{
           headerShown: false,
           tabBarLabel: () => null,

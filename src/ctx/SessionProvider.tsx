@@ -91,7 +91,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
     // await WebBrowser.openBrowserAsync('http://staging-utilisateur.besoindeurope.fr/deconnexion')
     await authenticationRepository.current.logout(false).then(() => {
       queryClient.setQueryData(['profil'], null)
-      router.replace({ pathname: '/(tabs)/events/' })
+      router.replace({ pathname: '/(tabs)/evenements/' })
     })
   }
 
