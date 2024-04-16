@@ -3,7 +3,7 @@ import { isWeb } from 'tamagui'
 
 
 export type TabRoute = {
-  name: 'home' | 'events' | 'actions' | 'news' | 'tools',
+  name: '(home)' | 'evenements' | 'actions' | 'news' | 'tools',
   screenName: string
   icon: typeof HomeIcon
   gradiant: string[]
@@ -13,7 +13,7 @@ export type TabRoute = {
 
 export const ROUTES = [
   {
-    name: 'home',
+    name: '(home)',
     screenName: 'Fil',
     icon: HomeIcon,
     gradiant: ['#8D98FF', '#8050E6'],

@@ -125,7 +125,7 @@ const Header: React.FC = (props: StackProps) => {
           {isNested ? (
             <BackBtn />
           ) : (
-            <Link href={'/home/'}>
+            <Link href={'/(tabs)/(home)'}>
               <EuCampaignIllustration />
             </Link>
           )}

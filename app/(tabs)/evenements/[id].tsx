@@ -21,6 +21,7 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import { ScrollView, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
 import Head from 'expo-router/head';
+import * as metatags from '@/config/metatags'
 
 
 const padding = '$7'
@@ -28,14 +29,12 @@ const padding = '$7'
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
   return (
-    <>
     <PageLayout>
       <PageLayout.SideBarLeft />
       <BoundarySuspenseWrapper loadingMessage="Nous chargeons votre fil">
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
     </PageLayout>
-    </>
   )
 }
 
@@ -212,7 +211,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
         }}
       />
       <Head>
-        <title>{data.name} • Besoin d'Europe</title>
+        <title>{metatags.createTitle(data.name)}</title>
       </Head>
       <PageLayout.MainSingleColumn>
         <ScrollView

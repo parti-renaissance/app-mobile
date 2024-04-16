@@ -4,6 +4,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import EventFeedList from '@/screens/events/EventFeedList'
 import { Stack as RouterStack } from 'expo-router'
 import Head from 'expo-router/head';
+import * as metatags from '@/config/metatags'
 
 const EventsScreen: React.FC = () => {
   return (
@@ -15,7 +16,7 @@ const EventsScreen: React.FC = () => {
       />
 
       <Head>
-        <title>Nos événements • Besoin d'Europe</title>
+        <title>{metatags.createTitle('Nos événements')}</title>
       </Head>
 
       <PageLayout>
