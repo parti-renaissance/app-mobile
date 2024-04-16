@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
-import { useColorScheme } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { AppState, useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import VoxToast from '@/components/VoxToast/VoxToast'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
+import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
+import UpdateScreen from '@/screens/update/updateScreen'
 import { headerBlank } from '@/styles/navigationAppearance'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -77,11 +79,29 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
 }
 
 function Root() {
+  const appState = useRef(AppState.currentState)
+
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient()
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
   const insets = useSafeAreaInsets()
+  const { isUpdateAvailable, isBuildUpdateAvailable, checkForUpdate } = useAppUpdate()
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        console.log('App has come to the foreground!')
+        checkForUpdate()
+      }
+
+      appState.current = nextAppState
+    })
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -93,17 +113,21 @@ function Root() {
                 <VoxToast />
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
                 <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                  <Stack>
-                    <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
-                    <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-                    <Stack.Screen
-                      name="(auth)/code-phone-picker"
-                      options={{
-                        presentation: 'fullScreenModal',
-                      }}
-                    />
-                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                  </Stack>
+                  {(isUpdateAvailable || isBuildUpdateAvailable) && !isWeb ? (
+                    <UpdateScreen />
+                  ) : (
+                    <Stack>
+                      <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
+                      <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
+                      <Stack.Screen
+                        name="(auth)/code-phone-picker"
+                        options={{
+                          presentation: 'fullScreenModal',
+                        }}
+                      />
+                      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    </Stack>
+                  )}
                 </WaitingRoomHoc>
               </SessionProvider>
             </ToastProvider>
