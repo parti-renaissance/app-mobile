@@ -103,7 +103,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const media = useMedia()
   const { isAuth, signIn } = useSession()
 
-  const shareUrl = `${process.env.EXPO_PUBLIC_API_BASE_URL}/events/${props.id}`
+  const shareUrl = `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}/events/${props.id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 

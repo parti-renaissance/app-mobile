@@ -1,0 +1,9 @@
+name: Publish iOS
+description: upload ios version of app
+
+runs:
+  using: composite
+  steps:
+    - name: 🏗 Create .env for EAS Build
+      shell: bash
+      run: printenv | grep EXPO_PUBLIC_ | tee .env
