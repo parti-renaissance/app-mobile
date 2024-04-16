@@ -24,7 +24,8 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
 
   if (!profile) {
     config.name = 'Vox Dev'
-    config.ios.bundleIdentifier = `${baseIdentifier}.staging`
+    config.scheme = 'vox-dev'
+    config.ios.bundleIdentifier = `${baseIdentifier}.developement`
     config.android.package = `${basePackage}.staging`
     config.ios.googleServicesFile = './config/GoogleService-Info.plist'
     config.android.googleServicesFile = './config/google-services.json'
