@@ -12,7 +12,7 @@ runs:
       shell: bash
       run: yarn expo export -p web
       continue-on-error: true
-    - name: 🧙🏻‍♂️ Second patch build (otherwise we'll have a .length error)
+    - name: 🧙🏻‍♂️ Third patch build (otherwise we'll have a .length error)
       shell: bash
       run: yarn expo export -p web
       continue-on-error: true
