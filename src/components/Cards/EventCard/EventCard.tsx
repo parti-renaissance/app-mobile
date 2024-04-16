@@ -57,7 +57,7 @@ export const SubscribeEventButton = ({
           ? handleSubscribe
           : () =>
               router.push({
-                pathname: '/(tabs)/events/[id]',
+                pathname: '/(tabs)/evenements/[id]',
                 params: { id },
               })
       }

@@ -1,4 +1,4 @@
-import React, { LegacyRef, memo, RefObject } from 'react'
+import React, { memo } from 'react'
 import { Keyboard, Platform } from 'react-native'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
@@ -18,8 +18,11 @@ import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
-import { Stack as RouterStack, useLocalSearchParams, usePathname } from 'expo-router'
+import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import { ScrollView, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
+import Head from 'expo-router/head';
+import * as metatags from '@/config/metatags'
+
 
 const padding = '$7'
 
@@ -105,7 +108,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const media = useMedia()
   const { isAuth, signIn } = useSession()
 
-  const shareUrl = `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}/events/${props.id}`
+  const shareUrl = `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}/evenements/${props.id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 
@@ -207,6 +210,9 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           title: data.name,
         }}
       />
+      <Head>
+        <title>{metatags.createTitle(data.name)}</title>
+      </Head>
       <PageLayout.MainSingleColumn>
         <ScrollView
           flex={1}

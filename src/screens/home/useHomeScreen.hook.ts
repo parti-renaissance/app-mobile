@@ -107,7 +107,7 @@ export const useHomeScreen = (): {
     // TODO: (Pierre Felgines) 2022/02/28 Update analytics
     Analytics.logHomeNewsOpen()
     router.push({
-      pathname: '/home/modals/news-detail',
+      pathname: '/(tabs)/(home)/modals/news-detail',
       params: { id },
     })
   }
@@ -119,7 +119,7 @@ export const useHomeScreen = (): {
     }
     await Analytics.logHomeRegionMore()
     router.push({
-      pathname: '/(tabs)/home/region',
+      pathname: '/(tabs)/index/region',
       params: { zipCode },
     })
   }
@@ -144,7 +144,7 @@ export const useHomeScreen = (): {
     }
     Analytics.logHomeEventOpen(event.name, event.category)
     router.push({
-      pathname: '/home/modals/event-detail',
+      pathname: '/(tabs)/(home)/modals/event-detail',
       params: { id },
     })
   }
@@ -156,7 +156,7 @@ export const useHomeScreen = (): {
     }
     Analytics.logHomeEventOpen(item.title, item.category ?? '')
     router.push({
-      pathname: '/home/modals/event-detail',
+      pathname: '/(tabs)/(home)/modals/event-detail',
       params: { id: eventId },
     })
   }
@@ -216,7 +216,7 @@ export const useHomeScreen = (): {
 
   const onFeedPollSelected = (id: string) => {
     router.push({
-      pathname: '/home/modals/poll-detail',
+      pathname: '/(tabs)/(home)/modals/poll-detail',
       params: { id },
     })
   }

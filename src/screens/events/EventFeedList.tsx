@@ -39,7 +39,7 @@ const EventList = () => {
 
   const handleSubscribe = (id: string) => {}
   const handleShow = (id: string) => {
-    router.push({ pathname: '/(tabs)/events/[id]', params: { id } })
+    router.push({ pathname: '/(tabs)/evenements/[id]', params: { id } })
   }
 
   const callbacks = useMemo(

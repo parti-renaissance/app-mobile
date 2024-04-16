@@ -111,7 +111,7 @@ export const useEventListScreen = (
       }
       Analytics.logEventSelected(event.name, event.category)
       router.push({
-        pathname: '/(tabs)/events/[id]',
+        pathname: '/(tabs)/evenements/[id]',
         params: { id: eventId },
       })
     },

@@ -1,13 +1,9 @@
-import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
-import { hi } from 'date-fns/locale'
-import { Platform } from 'react-native'
-import { isWeb } from 'tamagui'
-
-import { AllRoutes } from 'expo-router'
+import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav';
+import { isWeb } from 'tamagui';
 
 
 export type TabRoute = {
-  name: 'home' | 'events' | 'actions' | 'news' | 'tools',
+  name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources'
   screenName: string
   icon: typeof HomeIcon
   gradiant: string[]
@@ -17,13 +13,13 @@ export type TabRoute = {
 
 export const ROUTES = [
   {
-    name: 'home',
+    name: '(home)',
     screenName: 'Fil',
     icon: HomeIcon,
     gradiant: ['#8D98FF', '#8050E6'],
   },
   {
-    name: 'events',
+    name: 'evenements',
     screenName: 'Événements',
     icon: EventIcon,
     gradiant: ['#52ABFB', '#0868E7'],
@@ -43,11 +39,9 @@ export const ROUTES = [
     gradiant: ['#FDA302', '#F7681E'],
   },
   {
-    name: 'tools',
+    name: 'ressources',
     screenName: 'Ressources',
     icon: ToolsIcon,
     gradiant: ['#E461E8', '#8B2DBF'],
   },
-]  as TabRoute[]
-
-
+] satisfies TabRoute[]

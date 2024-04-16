@@ -18,7 +18,7 @@ export const useEventsScreen = (
 
   const onFiltersSelected = useCallback(() => {
     router.push({
-      pathname: '/(tabs)/events/[mode]/filters',
+      pathname: '/(tabs)/evenements/[mode]/filters',
       params: { mode: eventMode },
     })
   }, [eventMode])
