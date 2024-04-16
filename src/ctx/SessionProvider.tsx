@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
@@ -7,6 +8,7 @@ import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 import { useStorageState } from '../hooks/useStorageState'
 
 const AuthContext = React.createContext<{
@@ -74,7 +76,19 @@ export function SessionProvider(props: React.PropsWithChildren) {
     }
   }
 
+  const handleRegister = async () => {
+    try {
+      await WebBrowser.openBrowserAsync(discoveryDocument.registrationEndpoint)
+    } catch (e) {
+      ErrorMonitor.log(e.message, { e })
+      toast.show('Erreur lors de la connexion', { type: 'error' })
+    } finally {
+      setIsLoginInProgress(false)
+    }
+  }
+
   const handleSignOut = async () => {
+    // await WebBrowser.openBrowserAsync('http://staging-utilisateur.besoindeurope.fr/deconnexion')
     await authenticationRepository.current.logout(false).then(() => {
       queryClient.setQueryData(['profil'], null)
       router.replace({ pathname: '/(tabs)/events/' })
@@ -85,7 +99,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
     () => ({
       signIn: handleSignIn,
       signOut: handleSignOut,
-      signUp: handleSignIn,
+      signUp: handleRegister,
       session,
       isLoading: isLoginInProgress || isLoading,
       isAuth: session && !(isLoginInProgress || isLoading),
