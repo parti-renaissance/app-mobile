@@ -3,6 +3,7 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import EventFeedList from '@/screens/events/EventFeedList'
 import { Stack as RouterStack } from 'expo-router'
+import Head from 'expo-router/head';
 
 const EventsScreen: React.FC = () => {
   return (
@@ -12,6 +13,10 @@ const EventsScreen: React.FC = () => {
           headerShown: false,
         }}
       />
+
+      <Head>
+        <title>Nos événements • Besoin d'Europe</title>
+      </Head>
 
       <PageLayout>
         <PageLayout.SideBarLeft />
