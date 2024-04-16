@@ -3,13 +3,17 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import CardListAuthSkeleton from '@/components/Skeleton/CardListUnAuthSkeleton'
+import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
 import { Redirect, Stack as RouterStack } from 'expo-router'
 import Head from 'expo-router/head'
-import * as metatags from '@/config/metatags'
+
 const HomeScreen: React.FC = () => {
-  const { isAuth } = useSession()
+  const { isAuth, session, isLoading } = useSession()
+  if (!session && isLoading) {
+    return null
+  }
   if (!isAuth) {
     return <Redirect href={'/(tabs)/evenements/'} />
   }

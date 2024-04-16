@@ -53,7 +53,7 @@ export default function AppLayout() {
             }}
           />
         ))}
-        <Tabs.Screen name="profile" options={{ href: null }} />
+        <Tabs.Screen name="profil" options={{ href: null }} />
       </Tabs>
     </View>
   )
