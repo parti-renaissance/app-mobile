@@ -22,9 +22,6 @@ const CardTool = ({ name, url, imageUrl }: CardToolProps) => {
   const type = maybeName.length > 0 ? maybeType.trim() : undefined
   const title = maybeName.length > 0 ? maybeName.join(':').trim() : name
 
-  console.log('type', type)
-  console.log('title', title)
-
   return (
     <VoxCard
       borderRadius="$radius.8"
