@@ -1,10 +1,10 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import * as metatags from '@/config/metatags'
 import EventFeedList from '@/screens/events/EventFeedList'
 import { Stack as RouterStack } from 'expo-router'
-import Head from 'expo-router/head';
-import * as metatags from '@/config/metatags'
+import Head from 'expo-router/head'
 
 const EventsScreen: React.FC = () => {
   return (
@@ -22,7 +22,7 @@ const EventsScreen: React.FC = () => {
       <PageLayout>
         <PageLayout.SideBarLeft />
         <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper loadingMessage="Nous chargeons votre fil">
+          <BoundarySuspenseWrapper>
             <EventFeedList />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>

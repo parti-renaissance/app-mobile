@@ -1,9 +1,9 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import * as metatags from '@/config/metatags'
 import ResourcesList from '@/screens/tools/ResourcesList'
 import { Stack as RouterStack } from 'expo-router'
-import * as metatags from '@/config/metatags'
 import Head from 'expo-router/head'
 
 const ToolsScreen: React.FC = () => {
@@ -22,7 +22,7 @@ const ToolsScreen: React.FC = () => {
       <PageLayout>
         <PageLayout.SideBarLeft />
         <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper loadingMessage="Nous chargeons les ressources">
+          <BoundarySuspenseWrapper>
             <ResourcesList />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>

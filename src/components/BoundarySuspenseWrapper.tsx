@@ -25,7 +25,6 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
           fallback={
             <YStack justifyContent="center" alignItems="center" flex={1} width="100%">
               <Spinner size="large" color="$blue6" />
-              <H2>{props.loadingMessage ?? 'Chargement...'}</H2>
             </YStack>
           }
         >
