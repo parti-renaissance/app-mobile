@@ -80,7 +80,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
                   <LockLeftCard />
                 ) : (
                   <YStack gap="$3" width="100%">
-                    <RegisterButtonSheet />
+                    <RegisterButtonSheet id={props.id} />
                     <Button variant="text" size="lg" width="100%" onPress={signIn}>
                       <Text fontSize="$1">
                         <Text color="$textPrimary" fontWeight="$7">
@@ -136,7 +136,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
                               <AsideShare data={data} id={props.id} />
                             </>
                           ) : (
-                            <EventRegisterForm />
+                            <EventRegisterForm eventId={props.id} />
                           )}
                         </>
                       }
@@ -211,7 +211,7 @@ function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestDetailedEven
       <VoxCard.Date {...date} />
       {isFullEvent && (data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...mapPropsLocation(data)} />)}
       {!isShortEvent && !!data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
-      {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
+      {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count || 0 }} />}
 
       {/* <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
         Cet événement est réservé aux adhérents à jour de cotisation.
@@ -247,7 +247,7 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
           message: data.name,
           url: shareUrl,
         },
-        web: {
+        default: {
           title: data.name,
           message: !isShortEvent && isFullEvent ? data.description : data.name,
           url: shareUrl,
@@ -264,7 +264,10 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
         title: data.name,
         startDate: new Date(data.begin_at).toISOString(),
         endDate: new Date(data.finish_at).toISOString(),
-        location: data.mode === 'online' ? 'En ligne' : `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`,
+        location:
+          data.mode !== 'online' && data.post_address
+            ? `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`
+            : 'En ligne',
         notes: !isShortEvent && isFullEvent ? (data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '') : '',
         url: shareUrl,
       }
@@ -273,7 +276,7 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
   const addToCalendar = Calendar.useCreateEvent()
   return (
     <VoxCard.Section title="Partager :" gap="$3">
-      <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
+      <Button variant="outlined" width="100%" onPress={() => handleCopyUrl(shareUrl)}>
         <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
           {shareUrl}
         </Button.Text>
@@ -298,7 +301,7 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
   )
 }
 
-function _RegisterButtonSheet() {
+function _RegisterButtonSheet(props: { id: string }) {
   const [open, setOpen] = React.useState(false)
   const handleOpenChange = (nextOpen: boolean) => {
     if (!nextOpen) {
@@ -329,6 +332,7 @@ function _RegisterButtonSheet() {
           <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{ alignItems: 'center' }}>
             <XStack maxWidth={600} alignItems="center">
               <EventRegisterForm
+                eventId={props.id}
                 onScrollTo={(a) => {
                   scrollRef.current?.scrollTo({ x: 0, y: a.y - 200 })
                 }}

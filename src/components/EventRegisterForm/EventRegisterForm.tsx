@@ -2,29 +2,21 @@ import React, { ComponentProps, useId, useRef } from 'react'
 import { LogBox } from 'react-native'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import Button from '@/components/Button/Button'
+import { PublicSubscribeEventFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
+import { PublicSubscribtionFormData, PublicSubscribtionFormDataSchema } from '@/data/restObjects/RestEvents'
+import { useSubscribePublicEvent } from '@/hooks/useEvents'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
+import { useToastController } from '@tamagui/toast'
+import { router } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
-import { Formik } from 'formik'
-import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Text, useMedia, View, XStack, YStack } from 'tamagui'
-import zod from 'zod'
+import { Formik, FormikHelpers } from 'formik'
+import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, Text, useMedia, View, XStack, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import FormikController from '../FormikController'
 import VoxCard from '../VoxCard/VoxCard'
 
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/])
-
-const registerFormSchema = zod.object({
-  first_name: zod.string().min(1, { message: 'Le prénom ne doit pas être vide' }),
-  last_name: zod.string().min(1, { message: 'Le nom ne doit pas être vide' }),
-  email_address: zod.string().email({ message: "L'email_address n'est pas valide" }),
-  postal_code: zod
-    .string()
-    .min(4, { message: 'Le code postal doit contenir au minimum 4 chiffres' })
-    .max(6, { message: 'Le code postal doit contenir au maximum 6 chiffres' }),
-  cgu_accepted: zod.boolean().refine((value) => value, { message: 'Vous devez accepter les CGU' }),
-  join_newsletter: zod.boolean().optional(),
-})
 
 type VoxInputProps = {
   id: string
@@ -33,7 +25,7 @@ type VoxInputProps = {
   autocomplete?: ComponentProps<typeof Input.Area>['autoComplete']
 } & ComponentProps<typeof Input.Area>
 
-function _VoxInput({ id: _id, placeholder, autocomplete, error, value, onChange, ...props }: VoxInputProps) {
+function _VoxInput({ id: _id, placeholder, autocomplete, error, value, onChange, ...props }: VoxInputProps & { value: string; onChange: (x: string) => void }) {
   const uniqueId = useId()
   const id = uniqueId + _id
 
@@ -62,16 +54,16 @@ type VoxCheckboxProps = {
   id: string
   label: string
   error?: string
-} & CheckboxProps
+} & CheckboxProps & { checked: boolean; onCheckedChange: (x: boolean) => void }
 
-const VoxCheckbox = ({ label, id: _id, error }: VoxCheckboxProps) => {
+const VoxCheckbox = ({ label, id: _id, error, ...rest }: VoxCheckboxProps) => {
   const uniqueId = useId()
   const id = uniqueId + _id
 
   return (
     <YStack gap="$2" theme={error ? 'red' : undefined}>
       <XStack gap="$4" alignItems="center">
-        <Checkbox id={id}>
+        <Checkbox id={id} {...rest}>
           <Checkbox.Indicator>
             <CheckIcon />
           </Checkbox.Indicator>
@@ -85,21 +77,38 @@ const VoxCheckbox = ({ label, id: _id, error }: VoxCheckboxProps) => {
   )
 }
 
-type RegisterForm = zod.infer<typeof registerFormSchema>
-
 const initialValues = {
   first_name: '',
   last_name: '',
   email_address: '',
   postal_code: '',
-  cgu_accepted: true,
+  cgu_accepted: false,
   join_newsletter: false,
-} satisfies RegisterForm
+} satisfies PublicSubscribtionFormData
 
-const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void }) => {
+const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void; eventId: string }) => {
   const { signIn } = useSession()
-  const onSubmit = (values: RegisterForm) => {
-    console.log(values)
+  const { mutateAsync } = useSubscribePublicEvent({ id: props.eventId })
+  const onSubmit = (values: PublicSubscribtionFormData, action: FormikHelpers<PublicSubscribtionFormData>) => {
+    action.setSubmitting(true)
+    mutateAsync(values)
+      .then(() => {
+        action.resetForm()
+        router.replace('/(tabs)/evenements')
+      })
+      .catch((error) => {
+        if (error instanceof PublicSubscribeEventFormError) {
+          error.violations.forEach((violation) => {
+            if (violation.propertyPath === '') {
+              return
+            }
+            action.setFieldError(violation.propertyPath, violation.message)
+          })
+        }
+      })
+      .finally(() => {
+        action.setSubmitting(false)
+      })
   }
   const media = useMedia()
 
@@ -111,8 +120,12 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
   }
 
   return (
-    <Formik<typeof initialValues> initialValues={initialValues} validationSchema={toFormikValidationSchema(registerFormSchema)} onSubmit={onSubmit}>
-      {() => (
+    <Formik<PublicSubscribtionFormData>
+      initialValues={initialValues}
+      validationSchema={toFormikValidationSchema(PublicSubscribtionFormDataSchema)}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting, handleSubmit }) => (
         <YStack gap="$4" flex={1}>
           <Text fontWeight="$6" fontSize="$3" textAlign="center" color="$textPrimary">
             M’inscrire à cet évènement
@@ -167,8 +180,9 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             <DialogMentionLegale onPress={handlePress} />
           </YStack>
 
-          <Button size="lg" width="100%">
+          <Button size="lg" width="100%" onPress={() => handleSubmit()}>
             <Button.Text>S'inscrire</Button.Text>
+            {isSubmitting ? <Spinner color="$white1" /> : null}
           </Button>
 
           <Button variant="text" size="lg" width="100%" onPress={signIn}>

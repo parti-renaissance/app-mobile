@@ -16,6 +16,13 @@ export class ProfileFormError extends Error {
     this.violations = violations
   }
 }
+export class PublicSubscribeEventFormError extends Error {
+  violations: Array<FormViolation>
+  constructor(violations: Array<FormViolation>) {
+    super()
+    this.violations = violations
+  }
+}
 export class LoginError extends Error {}
 export class EventSubscriptionError extends Error {}
 export class TokenCannotBeSubscribedError extends Error {}

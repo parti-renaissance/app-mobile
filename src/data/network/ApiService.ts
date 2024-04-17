@@ -18,7 +18,7 @@ import {
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
-import { RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
+import { PublicSubscribtionFormData, RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
 import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
 import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
@@ -46,7 +46,15 @@ import { RestUserScope } from '../restObjects/RestUserScope'
 import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
 import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
 import { RestMarkdown } from './../restObjects/RestMarkdown'
-import { mapAssociatedToken, mapPhonePollError, mapPhoningSessionError, mapProfileFormError, mapSignUpFormError, mapSubscriptionError } from './errorMappers'
+import {
+  mapAssociatedToken,
+  mapPhonePollError,
+  mapPhoningSessionError,
+  mapProfileFormError,
+  mapPublicSubcribeFormError,
+  mapSignUpFormError,
+  mapSubscriptionError,
+} from './errorMappers'
 import _httpClient, { publicHttpClient } from './HttpClient'
 import { SearchParamsKeyValue } from './SearchParams'
 import { genericErrorMapping } from './utils'
@@ -229,6 +237,14 @@ class ApiService {
       .json()
       .then(() => {})
       .catch(mapSubscriptionError)
+  }
+
+  public async subscribePublicEvent(eventId: string, payload: PublicSubscribtionFormData) {
+    return publicHttpClient
+      .post('api/events/' + eventId + '/subscribe', { json: payload })
+      .json()
+      .then(() => {})
+      .catch(mapPublicSubcribeFormError)
   }
 
   public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {
