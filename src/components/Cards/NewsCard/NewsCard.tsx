@@ -11,11 +11,14 @@ export type NewsVoxCardProps = {
     image?: string
     description: string
     date: VoxCardDateProps
+    ctaLabel: string | null
+    ctaLink: string | null
   } & VoxCardLocationProps &
     VoxCardAuthorProps
 } & VoxCardFrameProps
 
 const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
+  console.log(payload)
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
@@ -25,13 +28,15 @@ const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
         </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image && <VoxCard.Image image={payload.image} />}
-        <VoxCard.Description>{payload.description}</VoxCard.Description>
+        <VoxCard.Description markdown>{payload.description}</VoxCard.Description>
         {payload.author.name && <VoxCard.Author author={payload.author} />}
-        <XStack justifyContent="flex-end">
-          <Button variant="contained" onPress={onShow}>
-            <Button.Text>Lire en entier</Button.Text>
-          </Button>
-        </XStack>
+        {payload.ctaLabel && (
+          <XStack justifyContent="flex-end">
+            <Button variant="contained" onPress={onShow}>
+              <Button.Text>{payload.ctaLabel}</Button.Text>
+            </Button>
+          </XStack>
+        )}
       </VoxCard.Content>
     </VoxCard>
   )

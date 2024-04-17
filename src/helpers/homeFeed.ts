@@ -1,3 +1,4 @@
+import { Linking } from 'react-native'
 import { type FeedCardProps } from '@/components/Cards'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { router } from 'expo-router'
@@ -19,7 +20,7 @@ const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps
 const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
   switch (type) {
     case 'news':
-      return 'Actualité'
+      return 'Notification'
     case 'event':
       return 'Événement'
     case 'riposte':
@@ -41,22 +42,28 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
     title: 'title data missing',
     pictureLink: undefined,
   }
-  const location = feed.post_address ?{
-    city: feed.post_address.city_name,
-    postalCode: feed.post_address.postal_code,
-    street: feed.post_address.address,
-  } : undefined
+  const location = feed.post_address
+    ? {
+        city: feed.post_address.city_name,
+        postalCode: feed.post_address.postal_code,
+        street: feed.post_address.address,
+      }
+    : undefined
   const tag = tramformFeedItemTypeToTag(feed.type)
   switch (type) {
     case 'news':
       return {
         type,
         onShare: () => {},
-        onShow: () => {
-          router.push({
-            pathname: '/(tabs)/(home)/news-detail',
-            params: { id: feed.objectID },
-          })
+        onShow: async () => {
+          if (feed.cta_link && (await Linking.canOpenURL(feed.cta_link))) {
+            await Linking.openURL(feed.cta_link)
+          } else {
+            router.push({
+              pathname: '/(tabs)/(home)/news-detail',
+              params: { id: feed.objectID },
+            })
+          }
         },
         payload: {
           title: feed.title,
@@ -64,11 +71,13 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           image: feed.image,
           description: feed.description,
           location,
+          ctaLabel: feed.cta_label,
+          ctaLink: feed.cta_link,
           author,
           date: {
             start: new Date(feed.date),
             end: new Date(feed.date),
-          }
+          },
         },
       }
     case 'event':

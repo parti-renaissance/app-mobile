@@ -19,6 +19,8 @@ export interface RestTimelineFeedItem {
   category: string | null
   is_local: boolean | null
   media_type: string | null
+  cta_link: string | null
+  cta_label: string | null
   url: string | null
   post_address?: RestTimelineFeedAddress
 }
