@@ -30,7 +30,7 @@ const HomeScreen: React.FC = () => {
         <PageLayout.SideBarLeft />
         <PageLayout.MainSingleColumn>
           <AuthFallbackWrapper fallback={<CardListAuthSkeleton title="Pour voir votre fil, connectez-vous ou créez un compte" />}>
-            <BoundarySuspenseWrapper loadingMessage="Nous chargeons votre fil">
+            <BoundarySuspenseWrapper>
               <HomeFeedList />
             </BoundarySuspenseWrapper>
           </AuthFallbackWrapper>
