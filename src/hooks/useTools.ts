@@ -1,6 +1,5 @@
 import ApiService from '@/data/network/ApiService'
-import { RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
-import { useInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 
 const key = ['tools']
 
@@ -9,7 +8,7 @@ const fetchTools = async (page: number) => {
 }
 
 export const useTools = () => {
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     queryKey: key,
     initialPageParam: 1,
     queryFn: ({ pageParam }) => fetchTools(pageParam),
