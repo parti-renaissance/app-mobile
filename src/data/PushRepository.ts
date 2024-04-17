@@ -17,18 +17,15 @@ class PushRepository {
 
   public synchronizePushTokenAssociation(): Promise<void> {
     return this.syncrhonizePushTokenMutex.runExclusive(async () => {
-      const registrations = await this.localStore.getTopicsRegistration()
+      const { pushTokenAssociated } = await this.localStore.getTopicsRegistration()
       const pushToken = await FB.messaging.getToken()
-      if (registrations?.pushTokenAssociated !== pushToken) {
+      if (pushTokenAssociated && pushTokenAssociated !== pushToken) {
         try {
-          await this.apiService.removePushToken(pushToken)
+          await this.apiService.removePushToken(pushTokenAssociated)
           console.log('pushToken dissociated with success')
         } catch (error) {
           // no-op
-          console.log(
-            '[PushRepository](synchronizePushTokenAssociation) Error removing push token',
-            error,
-          )
+          console.log('[PushRepository](synchronizePushTokenAssociation) Error removing push token', error)
         }
         try {
           await this.apiService.addPushToken({
@@ -64,8 +61,7 @@ class PushRepository {
   }
 
   public async synchronizeGeneralTopicSubscription(): Promise<void> {
-    const globalNotificationsEnabled =
-      await this.arePushNotificationsEnabled('national')
+    const globalNotificationsEnabled = await this.arePushNotificationsEnabled('national')
     if (globalNotificationsEnabled) {
       this.subscribeToGeneralTopic()
     } else {
@@ -99,11 +95,8 @@ class PushRepository {
     }
   }
 
-  public async synchronizeDepartmentSubscription(
-    department: Department,
-  ): Promise<void> {
-    const localNotificationsEnabled =
-      await this.arePushNotificationsEnabled('local')
+  public async synchronizeDepartmentSubscription(department: Department): Promise<void> {
+    const localNotificationsEnabled = await this.arePushNotificationsEnabled('local')
     if (localNotificationsEnabled) {
       return this.subscribeToDepartment(department)
     } else {
@@ -145,8 +138,7 @@ class PushRepository {
   }
 
   public async synchronizeRegionSubscription(region: Region): Promise<void> {
-    const localNotificationsEnabled =
-      await this.arePushNotificationsEnabled('local')
+    const localNotificationsEnabled = await this.arePushNotificationsEnabled('local')
     if (localNotificationsEnabled) {
       this.subscribeToRegion(region)
     } else {
@@ -188,8 +180,7 @@ class PushRepository {
   }
 
   public async synchronizeBoroughSubscription(zipCode: string): Promise<void> {
-    const localNotificationsEnabled =
-      await this.arePushNotificationsEnabled('local')
+    const localNotificationsEnabled = await this.arePushNotificationsEnabled('local')
     if (localNotificationsEnabled) {
       return this.subscribeToBorough(zipCode)
     } else {
@@ -224,11 +215,7 @@ class PushRepository {
   }
 
   private boroughSubscriptionSupported(zipCode: string): boolean {
-    return (
-      zipCode.startsWith('13') ||
-      zipCode.startsWith('69') ||
-      zipCode.startsWith('75')
-    )
+    return zipCode.startsWith('13') || zipCode.startsWith('69') || zipCode.startsWith('75')
   }
 
   private async unsubscribeBorough() {
@@ -246,15 +233,10 @@ class PushRepository {
   }
 
   public async invalidatePushToken(): Promise<void> {
-    return FB.messaging
-      .deleteToken()
-      .then(() => this.localStore.clearTopicsRegistration())
+    return FB.messaging.deleteToken().then(() => this.localStore.clearTopicsRegistration())
   }
 
-  public async enablePushNotifications(
-    notificationCategory: NotificationCategory,
-    enable: boolean,
-  ) {
+  public async enablePushNotifications(notificationCategory: NotificationCategory, enable: boolean) {
     switch (notificationCategory) {
       case 'local':
         await this.localStore.updateTopicsRegistration({
@@ -269,9 +251,7 @@ class PushRepository {
     }
   }
 
-  public async arePushNotificationsEnabled(
-    notificationCategory: NotificationCategory,
-  ): Promise<boolean> {
+  public async arePushNotificationsEnabled(notificationCategory: NotificationCategory): Promise<boolean> {
     const registrations = await this.localStore.getTopicsRegistration()
     switch (notificationCategory) {
       case 'local':

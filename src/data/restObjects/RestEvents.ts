@@ -1,5 +1,5 @@
-import { RestMetadata } from './RestMetadata';
-
+import { z } from 'zod'
+import { RestMetadata } from './RestMetadata'
 
 export interface RestEvents {
   metadata: RestMetadata
@@ -33,7 +33,6 @@ export interface RestFullShortEvent {
   object_state: 'full'
 }
 
-
 export interface RestPartialShortEvent {
   object_state: 'partial'
   begin_at: string
@@ -55,8 +54,6 @@ export interface RestPartialShortEvent {
 }
 
 export type RestShortEvent = RestFullShortEvent | RestPartialShortEvent
-
-
 
 export interface RestEventCategory {
   name: string
@@ -95,10 +92,11 @@ export interface RestFullDetailedEvent {
 
 export type RestDetailedEvent = RestFullDetailedEvent | RestPartialShortEvent
 export type RestEvent = RestShortEvent | RestDetailedEvent
-export type Event = (RestShortEvent & { isShort: true}) | (RestDetailedEvent)
+export type Event = (RestShortEvent & { isShort: true }) | RestDetailedEvent
 
 export const isPartialEvent = (event: Event | RestEvent): event is RestPartialShortEvent => event.object_state === 'partial'
-export const isFullEvent = (event: Event | RestEvent): event is (RestFullShortEvent | RestFullDetailedEvent) & { isShort: true | undefined} => event.object_state === 'full'
+export const isFullEvent = (event: Event | RestEvent): event is (RestFullShortEvent | RestFullDetailedEvent) & { isShort: true | undefined } =>
+  event.object_state === 'full'
 export const isShortEvent = (event: Event): event is { isShort: true } & RestShortEvent => 'isShort' in event
 
 export interface RestEventOrganizer {
@@ -129,3 +127,17 @@ export interface RestSubscriptionViolation {
   propertyPath: string
   title: string
 }
+
+export const PublicSubscribtionFormDataSchema = z.object({
+  first_name: z.string().min(1, { message: 'Le prénom ne doit pas être vide' }),
+  last_name: z.string().min(1, { message: 'Le nom ne doit pas être vide' }),
+  email_address: z.string().email({ message: "L'email_address n'est pas valide" }),
+  postal_code: z
+    .string()
+    .min(4, { message: 'Le code postal doit contenir au minimum 4 chiffres' })
+    .max(6, { message: 'Le code postal doit contenir au maximum 6 chiffres' }),
+  cgu_accepted: z.boolean().refine((value) => value, { message: 'Vous devez accepter les CGU' }),
+  join_newsletter: z.boolean(),
+})
+
+export type PublicSubscribtionFormData = z.infer<typeof PublicSubscribtionFormDataSchema>
