@@ -1,11 +1,11 @@
 import Button from '@/components/Button'
-import { ProfileCallToAction } from '@/components/ProfileCards/ProfileCallToAction/ProfileCallToAction'
+import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
 import { gray } from '../../../../theme/colors.hex'
 
 export default function ProcurationCTA() {
   return (
-    <ProfileCallToAction backgroundColor={'#DEECF1'} noPadding>
-      <ProfileCallToAction.Content
+    <ProfileCallToActionLayout backgroundColor={'#DEECF1'} noPadding>
+      <ProfileCallToActionLayout.Content
         title="PROCURATION"
         titleStyle={{
           color: gray.gray6,
@@ -14,12 +14,12 @@ export default function ProcurationCTA() {
         padding={'$3'}
         compact
       />
-      <ProfileCallToAction.Actions>
+      <ProfileCallToActionLayout.Actions>
         <Button variant={'outlined'} marginTop={'$2'} marginLeft={'$2.5'} zIndex={10}>
           <Button.Text>Accéder aux démarches</Button.Text>
         </Button>
-      </ProfileCallToAction.Actions>
-      <ProfileCallToAction.BackgroundImageBottomRight source={require('./box.png')} height={200} />
-    </ProfileCallToAction>
+      </ProfileCallToActionLayout.Actions>
+      <ProfileCallToActionLayout.BackgroundImageBottomRight source={require('./box.png')} height={200} />
+    </ProfileCallToActionLayout>
   )
 }

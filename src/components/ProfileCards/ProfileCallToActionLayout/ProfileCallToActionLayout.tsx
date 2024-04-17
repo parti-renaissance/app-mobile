@@ -37,11 +37,7 @@ const CardImage = ({ source, height }: Readonly<CardImageProps>) => {
 }
 
 const BackgroundImageBottomRight = ({ source }: Readonly<CardImageProps>) => {
-  return (
-    <View>
-      <Image source={source} height={150} width={150} resizeMode={'contain'} position={'absolute'} right={0} bottom={-30} />
-    </View>
-  )
+  return <Image source={source} height={150} width={150} resizeMode={'contain'} position={'absolute'} right={0} bottom={-12} />
 }
 
 interface CardContentProps extends PropsWithChildren {
@@ -50,7 +46,8 @@ interface CardContentProps extends PropsWithChildren {
   titleStyle?: TextProps['style']
   content?: string
   textAlign?: 'center' | 'left' | 'right'
-  padding: number | string
+  padding?: number | string
+  // Remove content spacing
   compact?: boolean
 }
 
@@ -87,7 +84,7 @@ const CardContent = ({ contentStyle, titleStyle, title, content, children, textA
 
 const Actions = ({ children }: Readonly<PropsWithChildren>) => <View flexDirection={'row'}>{children}</View>
 
-export const ProfileCallToAction = withStaticProperties(Layout, {
+export const ProfileCallToActionLayout = withStaticProperties(Layout, {
   Image: CardImage,
   Content: CardContent,
   Actions,
