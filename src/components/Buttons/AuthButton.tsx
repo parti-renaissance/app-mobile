@@ -19,3 +19,8 @@ export const SignUpButton = (props: ComponentProps<typeof Button>) => {
     </Button>
   )
 }
+
+export default {
+  SignInButton,
+  SignUpButton,
+}
