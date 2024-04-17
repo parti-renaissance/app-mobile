@@ -21,7 +21,9 @@ import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
-import { ScrollView, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
+import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
+
+const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
 const padding = '$7'
 
@@ -37,84 +39,126 @@ const HomeScreen: React.FC = () => {
   )
 }
 
-const RegisterButtonSheet = memo(() => {
-  const [open, setOpen] = React.useState(false)
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen) {
-      Keyboard.dismiss()
-    }
-    setOpen(nextOpen)
-  }
-
-  const scrollRef = React.useRef<ScrollView>(null)
-
-  return (
-    <>
-      <Button
-        variant="contained"
-        size="lg"
-        onPress={() => {
-          setOpen(true)
-        }}
-        width="100%"
-      >
-        <Button.Text>M'inscrire</Button.Text>
-      </Button>
-      <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress moveOnKeyboardChange open={open} onOpenChange={handleOpenChange} snapPoints={[80]}>
-        <Sheet.Overlay />
-        <Sheet.Handle />
-        <Sheet.Frame padding="$4" elevation="$1">
-          {/* @ts-ignore **/}
-          <Sheet.ScrollView
-            ref={scrollRef}
-            contentContainerStyle={{
-              alignItems: 'center',
-            }}
-          >
-            <XStack maxWidth={600} alignItems="center">
-              <EventRegisterForm
-                onScrollTo={(a) => {
-                  scrollRef.current?.scrollTo({
-                    x: 0,
-                    y: a.y - 200,
-                  })
-                }}
-              />
-            </XStack>
-          </Sheet.ScrollView>
-        </Sheet.Frame>
-      </Sheet>
-    </>
-  )
-})
-
-const LockLeftCard = () => (
-  <YStack justifyContent="center" gap="$4.5">
-    <YStack gap="$3" alignItems="center">
-      <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
-      <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
-        Connectez-vous pour participer à cet événement
-      </Text>
-    </YStack>
-    <SignUpButton size="lg" width="100%" />
-    <SignInButton size="lg" width="100%" />
-  </YStack>
-)
-
 function EventDetailScreen(props: Readonly<{ id: string }>) {
   const { data } = useGetEvent({ id: props.id })
   const isFullEvent = eventTypes.isFullEvent(data)
-  const isShortEvent = eventTypes.isShortEvent(data)
-  const toast = useToastController()
-  const date = mapPropsDate(data)
   const media = useMedia()
   const { isAuth, signIn } = useSession()
 
-  const shareUrl = `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}/evenements/${props.id}`
+  return (
+    <>
+      <RouterStack.Screen
+        options={{
+          title: data.name,
+        }}
+      />
+      <Head>
+        <title>{metatags.createTitle(data.name)}</title>
+      </Head>
+      {media.lg ? (
+        <PageLayout.MainSingleColumn>
+          <ScrollStack>
+            <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
+              {!!data.image_url && <VoxCard.Image large image={data.image_url} />}
+              <VoxCard.Content>
+                {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
+                <VoxCard.Title>{data.name}</VoxCard.Title>
+                {isFullEvent && (
+                  <VoxCard.Description full markdown>
+                    {data.description}
+                  </VoxCard.Description>
+                )}
+                <AsideCardContent data={data} />
+                <AsideShare data={data} id={props.id} />
+              </VoxCard.Content>
+            </VoxCard>
+          </ScrollStack>
+          <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
+            <AuthFallbackWrapper
+              fallback={
+                data.visibility !== 'public' ? (
+                  <LockLeftCard />
+                ) : (
+                  <YStack gap="$3" width="100%">
+                    <RegisterButtonSheet />
+                    <Button variant="text" size="lg" width="100%" onPress={signIn}>
+                      <Text fontSize="$1">
+                        <Text color="$textPrimary" fontWeight="$7">
+                          Me connecter
+                        </Text>{' '}
+                        <Text color="$textSecondary">pour m’inscrire en un clic.</Text>
+                      </Text>
+                    </Button>
+                  </YStack>
+                )
+              }
+            >
+              {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+            </AuthFallbackWrapper>
+          </YStack>
+        </PageLayout.MainSingleColumn>
+      ) : (
+        <>
+          <PageLayout.MainSingleColumn>
+            <ScrollStack>
+              <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
+                {!!data.image_url && <VoxCard.Image large image={data.image_url} />}
+                <VoxCard.Content>
+                  {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
+                  <VoxCard.Title>{data.name}</VoxCard.Title>
+                  {isFullEvent && (
+                    <VoxCard.Description full markdown>
+                      {data.description}
+                    </VoxCard.Description>
+                  )}
+                  {!isAuth && data.visibility === 'public' && (
+                    <>
+                      <AsideCardContent data={data} />
+                      <AsideShare data={data} id={props.id} />
+                    </>
+                  )}
+                </VoxCard.Content>
+              </VoxCard>
+            </ScrollStack>
+          </PageLayout.MainSingleColumn>
 
-  const { shareAsync, isShareAvailable } = useShareApi()
+          <PageLayout.SideBarRight>
+            <ScrollView>
+              <YStack gap="$6">
+                <VoxCard>
+                  <VoxCard.Content pt="$6">
+                    <AuthFallbackWrapper
+                      fallback={
+                        <>
+                          {data.visibility !== 'public' ? (
+                            <>
+                              <LockLeftCard />
+                              <AsideShare data={data} id={props.id} />
+                            </>
+                          ) : (
+                            <EventRegisterForm />
+                          )}
+                        </>
+                      }
+                    >
+                      <AsideCardContent data={data} />
+                      <AsideShare data={data} id={props.id} />
+                      {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+                    </AuthFallbackWrapper>
+                  </VoxCard.Content>
+                </VoxCard>
+              </YStack>
+            </ScrollView>
+          </PageLayout.SideBarRight>
+        </>
+      )}
+    </>
+  )
+}
 
-  const handleCopyUrl = () => {
+function useHandleCopyUrl() {
+  const toast = useToastController()
+  return (shareUrl: string) =>
     Clipboard.setStringAsync(shareUrl)
       .then(() => {
         toast.show('Lien copié', { type: 'info' })
@@ -122,7 +166,75 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       .catch(() => {
         toast.show('Erreur lors de la copie du lien', { type: 'error' })
       })
-  }
+}
+
+function LockLeftCard() {
+  return (
+    <YStack justifyContent="center" gap="$4.5">
+      <YStack gap="$3" alignItems="center">
+        <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
+        <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
+          Connectez-vous pour participer à cet événement
+        </Text>
+      </YStack>
+      <SignUpButton size="lg" width="100%" />
+      <SignInButton size="lg" width="100%" />
+    </YStack>
+  )
+}
+
+function ScrollStack({ children }: ScrollViewProps) {
+  const media = useMedia()
+
+  return (
+    <PageLayout.MainSingleColumn>
+      <ScrollView
+        flex={1}
+        contentContainerStyle={{
+          pt: media.gtSm ? padding : undefined,
+          pl: media.gtSm ? padding : undefined,
+          pr: media.gtSm ? padding : undefined,
+        }}
+      >
+        {children}
+      </ScrollView>
+    </PageLayout.MainSingleColumn>
+  )
+}
+
+function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestDetailedEvent }>) {
+  const isFullEvent = eventTypes.isFullEvent(data)
+  const isShortEvent = eventTypes.isShortEvent(data)
+  const date = mapPropsDate(data)
+  return (
+    <>
+      <VoxCard.Date {...date} />
+      {isFullEvent && (data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...mapPropsLocation(data)} />)}
+      {!isShortEvent && !!data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
+      {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
+
+      {/* <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
+        Cet événement est réservé aux adhérents à jour de cotisation.
+      </Text> */}
+
+      {isFullEvent && (
+        <VoxCard.Section title="Événement créé par :">
+          <VoxCard.Author {...mapPropsAuthor(data)} />
+        </VoxCard.Section>
+      )}
+    </>
+  )
+}
+
+function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent; id: string }>) {
+  const isFullEvent = eventTypes.isFullEvent(data)
+  const isShortEvent = eventTypes.isShortEvent(data)
+  const handleCopyUrl = useHandleCopyUrl()
+  const toast = useToastController()
+
+  const shareUrl = `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}/evenements/${id}`
+
+  const { shareAsync, isShareAvailable } = useShareApi()
 
   const handleShareUrl = () => {
     shareAsync(
@@ -158,28 +270,8 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       }
     : undefined
 
-  const addToCalendar = eventData ? Calendar.useCreateEvent(eventData) : undefined
-
-  const AsideCardContent = () => (
-    <>
-      <VoxCard.Date {...date} />
-      {isFullEvent && (data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...mapPropsLocation(data)} />)}
-      {!isShortEvent && data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
-      {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count }} />}
-
-      {/* <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
-        Cet événement est réservé aux adhérents à jour de cotisation.
-      </Text> */}
-
-      {isFullEvent && (
-        <VoxCard.Section title="Événement créé par :">
-          <VoxCard.Author {...mapPropsAuthor(data)} />
-        </VoxCard.Section>
-      )}
-    </>
-  )
-
-  const AsideShare = () => (
+  const addToCalendar = Calendar.useCreateEvent()
+  return (
     <VoxCard.Section title="Partager :" gap="$3">
       <Button variant="outlined" width="100%" onPress={handleCopyUrl}>
         <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
@@ -197,108 +289,54 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
       {!isShortEvent && isFullEvent && (
         <>
           <VoxCard.Separator />
-          <Button variant="outlined" width="100%" size="lg" onPress={addToCalendar}>
+          <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar(eventData)}>
             <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
           </Button>
         </>
       )}
     </VoxCard.Section>
   )
+}
+
+function _RegisterButtonSheet() {
+  const [open, setOpen] = React.useState(false)
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) {
+      Keyboard.dismiss()
+    }
+    setOpen(nextOpen)
+  }
+
+  const scrollRef = React.useRef<ScrollView>(null)
 
   return (
     <>
-      <RouterStack.Screen
-        options={{
-          title: data.name,
+      <Button
+        variant="contained"
+        size="lg"
+        onPress={() => {
+          setOpen(true)
         }}
-      />
-      <Head>
-        <title>{metatags.createTitle(data.name)}</title>
-      </Head>
-      <PageLayout.MainSingleColumn>
-        <ScrollView
-          flex={1}
-          contentContainerStyle={{
-            pt: media.gtSm ? padding : undefined,
-            pl: media.gtSm ? padding : undefined,
-            pr: media.gtSm ? padding : undefined,
-          }}
-        >
-          <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
-            {data.image_url && <VoxCard.Image large image={data.image_url} />}
-            <VoxCard.Content>
-              {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
-              <VoxCard.Title>{data.name}</VoxCard.Title>
-              {!isShortEvent && isFullEvent && (
-                <VoxCard.Description full markdown>
-                  {data.description}
-                </VoxCard.Description>
-              )}
-              {media.lg ||
-                (!isAuth && data.visibility === 'public' && (
-                  <>
-                    <AsideCardContent />
-                    <AsideShare />
-                  </>
-                ))}
-            </VoxCard.Content>
-          </VoxCard>
-        </ScrollView>
-        {media.lg && isFullEvent && (
-          <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
-            <AuthFallbackWrapper
-              fallback={
-                data.visibility !== 'public' ? (
-                  <LockLeftCard />
-                ) : (
-                  <YStack gap="$3" width="100%">
-                    <RegisterButtonSheet />
-                    <Button variant="text" size="lg" width="100%" onPress={signIn}>
-                      <Text fontSize="$1">
-                        <Text color="$textPrimary" fontWeight="$7">
-                          Me connecter
-                        </Text>{' '}
-                        <Text color="$textSecondary">pour m’inscrire en un clic.</Text>
-                      </Text>
-                    </Button>
-                  </YStack>
-                )
-              }
-            >
-              <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
-            </AuthFallbackWrapper>
-          </YStack>
-        )}
-      </PageLayout.MainSingleColumn>
-
-      <PageLayout.SideBarRight>
-        <ScrollView>
-          <YStack gap="$6">
-            <VoxCard>
-              <VoxCard.Content pt="$6">
-                <AuthFallbackWrapper
-                  fallback={
-                    <>
-                      {data.visibility !== 'public' ? (
-                        <>
-                          <LockLeftCard />
-                          <AsideShare />
-                        </>
-                      ) : (
-                        <EventRegisterForm />
-                      )}
-                    </>
-                  }
-                >
-                  <AsideCardContent />
-                  <AsideShare />
-                  {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
-                </AuthFallbackWrapper>
-              </VoxCard.Content>
-            </VoxCard>
-          </YStack>
-        </ScrollView>
-      </PageLayout.SideBarRight>
+        width="100%"
+      >
+        <Button.Text>M'inscrire</Button.Text>
+      </Button>
+      <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress moveOnKeyboardChange open={open} onOpenChange={handleOpenChange} snapPoints={[80]}>
+        <Sheet.Overlay />
+        <Sheet.Handle />
+        <Sheet.Frame padding="$4" elevation="$1">
+          {/* @ts-ignore */}
+          <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{ alignItems: 'center' }}>
+            <XStack maxWidth={600} alignItems="center">
+              <EventRegisterForm
+                onScrollTo={(a) => {
+                  scrollRef.current?.scrollTo({ x: 0, y: a.y - 200 })
+                }}
+              />
+            </XStack>
+          </Sheet.ScrollView>
+        </Sheet.Frame>
+      </Sheet>
     </>
   )
 }

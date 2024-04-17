@@ -1,11 +1,11 @@
 import { EventFilters } from '@/core/entities/Event'
 import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
-import { Event, RestDetailedEvent, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { Event, RestEvents, RestShortEvent } from '@/data/restObjects/RestEvents'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { PaginatedFeedQueryKey } from '../useFeed'
-import { getCachedPaginatedShortEvents, getCachedSingleEvent, optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
+import { optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type FetchShortEventsOptions = {
@@ -16,25 +16,15 @@ type FetchShortEventsOptions = {
 
 const fetchEventList = async (pageParam: number, opts: FetchShortEventsOptions) =>
   opts.postalCode
-    ? await ApiService.getInstance()
-        .getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters })
-        .then((res) => ({
-          ...res,
-          items: res.items.map((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })),
-        }))
+    ? await ApiService.getInstance().getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters })
     : (Promise.resolve(undefined) as Promise<RestEvents | undefined>)
 
 const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOptions) => {
-  return await ApiService.getInstance()
-    .getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode })
-    .then((res) => ({
-      ...res,
-      items: res.items.map((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })),
-    }))
+  return await ApiService.getInstance().getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode })
 }
 
 export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
-  const { session, isLoading } = useSession()
+  const { session } = useSession()
   return useSuspenseInfiniteQuery({
     queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, session ? 'private' : 'public'],
     queryFn: ({ pageParam }) => (session ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
@@ -59,7 +49,7 @@ export const useSubscribeEvent = ({ id: eventId }: { id: string }) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS] })
-      queryClient.invalidateQueries({ queryKey: ['event', eventId] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_SINGLE_EVENT, eventId] })
       queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
     },
   })
@@ -87,29 +77,11 @@ export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
 }
 
 export const useGetEvent = ({ id: eventId }: { id: string }) => {
-  const queryClient = useQueryClient()
   const { session } = useSession()
-  const dataList = getCachedPaginatedShortEvents(queryClient)
-  const dataEvent = getCachedSingleEvent(eventId, queryClient)
-  const placeholderData = (() => {
-    if (dataEvent) return dataEvent
-    if (dataList) {
-      const event = dataList.pages.flatMap((page) => page.items).find((event) => event.uuid === eventId)
-      return { isShort: true, ...event, object_state: event.organizer ? 'full' : 'partial' }
-    }
-    return undefined
-  })()
 
-  return useSuspenseQuery<Event>({
-    queryKey: ['event', eventId],
-    queryFn: () =>
-      (session
-        ? (ApiService.getInstance()
-            .getEventDetails(eventId)
-            .then((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })) as Promise<RestDetailedEvent>)
-        : ApiService.getInstance().getPublicEventDetails(eventId)
-      ).then((item) => ({ ...item, object_state: item.organizer ? 'full' : 'partial' })) as Promise<RestDetailedEvent>,
-    ...(placeholderData ? { placeholderData } : {}),
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEY_SINGLE_EVENT, eventId],
+    queryFn: () => (session ? ApiService.getInstance().getEventDetails(eventId) : ApiService.getInstance().getPublicEventDetails(eventId)),
   })
 }
 
