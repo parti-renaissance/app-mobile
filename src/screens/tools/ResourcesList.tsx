@@ -8,11 +8,10 @@ const ResourcesList = () => {
   const media = useMedia()
   const { data, refetch, isRefetching } = useTools()
 
-  const tools = data?.pages
+  const tools = data.pages
     .map((_) => _.items)
     .flat()
-    ?.map((resource) => ({
-      type: 'GUIDE',
+    .map((resource) => ({
       name: resource.label,
       url: resource.url,
       imageUrl: resource.image_url,
@@ -31,7 +30,7 @@ const ResourcesList = () => {
       refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
     >
       {tools?.map((item) => (
-        <View key={item.url} width={media.gtSm ? 'calc(50% - 16px)' : '100%'}>
+        <View key={item.url + item.name} width={media.gtSm ? 'calc(50% - 16px)' : '100%'}>
           <CardTool {...item} />
         </View>
       ))}

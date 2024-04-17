@@ -121,6 +121,7 @@ function Root() {
                     <UpdateScreen />
                   ) : (
                     <Stack>
+                      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                       <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
                       <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
                       <Stack.Screen
@@ -129,7 +130,6 @@ function Root() {
                           presentation: 'fullScreenModal',
                         }}
                       />
-                      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                     </Stack>
                   )}
                 </WaitingRoomHoc>

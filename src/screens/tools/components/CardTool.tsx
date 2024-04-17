@@ -6,17 +6,24 @@ import * as WebBrowser from 'expo-web-browser'
 import { Image, Text, View } from 'tamagui'
 
 interface CardToolProps {
-  type?: string
   name?: string
   url: string
   imageUrl: string
 }
 
-const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
+const CardTool = ({ name, url, imageUrl }: CardToolProps) => {
   const handlePress = async () => {
     await WebBrowser.openBrowserAsync(url)
     await Analytics.logUrlOpened(url)
   }
+
+  const [maybeType, ...maybeName] = name?.trim().split(':')
+
+  const type = maybeName.length > 0 ? maybeType.trim() : undefined
+  const title = maybeName.length > 0 ? maybeName.join(':').trim() : name
+
+  console.log('type', type)
+  console.log('title', title)
 
   return (
     <VoxCard
@@ -47,20 +54,20 @@ const CardTool = ({ type, name, url, imageUrl }: CardToolProps) => {
         <View flexDirection="row" gap={2} width="100%" flexShrink={1}>
           <Text>
             {type && (
-              <Text fontWeight="$4" fontSize="$14" textTransform="uppercase">
+              <Text fontWeight="$2" textTransform="uppercase">
                 {type}
               </Text>
             )}{' '}
-            {name && (
-              <Text fontWeight="$7" textTransform="uppercase">
-                {name}
+            {title && (
+              <Text fontWeight="$4" textTransform="uppercase">
+                {title}
               </Text>
             )}
           </Text>
         </View>
 
         <View flexDirection="row" gap="$2">
-          <Text fontWeight="$7" fontSize="$13" color="$gray8" justifyContent={'center'}>
+          <Text fontWeight="$7" fontSize="$1" color="$gray8" justifyContent={'center'}>
             Ouvrir
           </Text>
           <ArrowUpRight size={16} />
