@@ -25,20 +25,7 @@ const EventsScreen: React.FC = () => {
       </Head>
 
       <PageLayout>
-        <PageLayout.SideBarLeft>
-          <SpacedContainer>
-            <ProfileLoginCTA />
-          </SpacedContainer>
-          <SpacedContainer>
-            <AppDownloadCTA />
-          </SpacedContainer>
-          <SpacedContainer>
-            <ProcurationCTA />
-          </SpacedContainer>
-          <SpacedContainer>
-            <BotBilanCTA />
-          </SpacedContainer>
-        </PageLayout.SideBarLeft>
+        <PageLayout.SideBarLeft />
         <PageLayout.MainSingleColumn>
           <BoundarySuspenseWrapper>
             <EventFeedList />
