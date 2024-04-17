@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { Alert, Linking, Platform } from 'react-native'
 import Title from '@/components/Title/Title'
+import redirectToStore from '@/helpers/redirectToStore'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useAsyncFn from '@/hooks/useAsyncFn'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -17,20 +18,7 @@ export default function UpdateScreen({ isBuildUpdate = false }: Props) {
   const { isProcessing, trigger: onUpdate } = useAsyncFn(
     useCallback(async () => {
       if (isBuildUpdate) {
-        const platformLink =
-          Platform.OS === 'ios'
-            ? 'https://apps.apple.com/fr/app/besoin-deurope/id1441973895'
-            : 'https://play.google.com/store/apps/details?id=fr.en_marche.jecoute'
-
-        try {
-          if (await Linking.canOpenURL(platformLink)) {
-            await Linking.openURL(platformLink)
-          } else {
-            Alert.alert('Impossible de rediriger vers le magasin d’application de votre plateforme.')
-          }
-        } catch (e) {
-          ErrorMonitor.log(e)
-        }
+        await redirectToStore()
       } else {
         try {
           await reloadAsync()
