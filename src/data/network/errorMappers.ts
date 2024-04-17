@@ -6,6 +6,7 @@ import {
   PhoningSessionFinishedCampaignError,
   PhoningSessionNoNumberError,
   ProfileFormError,
+  PublicSubscribeEventFormError,
   TokenCannotBeSubscribedError,
 } from '../../core/errors'
 import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
@@ -42,23 +43,36 @@ export const mapProfileFormError = async (error: any) => {
   return genericErrorMapping(error)
 }
 
+export const mapPublicSubcribeFormError = async (error: any) => {
+  if (error instanceof HTTPError && error.response.status === 400) {
+    const errorResponse = await error.response.json()
+
+    const parsedError = errorResponse as RestUpdateErrorResponse
+    const violations = parsedError.violations.map<FormViolation>((value) => {
+      return {
+        propertyPath: value.propertyPath,
+        message: value.message,
+      }
+    })
+    throw new PublicSubscribeEventFormError(violations)
+  }
+  return genericErrorMapping(error)
+}
+
 export const mapSubscriptionError = async (error: any) => {
   if (error instanceof HTTPError && error.response.status === 400) {
     const errorResponse = await error.response.json()
 
     const parsedError = errorResponse as RestSubscriptionErrorResponse
-    const errorMessage = parsedError.violations.reduce(
-      (previousValue, currentValue) => {
-        let prefix
-        if (previousValue === '') {
-          prefix = ''
-        } else {
-          prefix = '\n'
-        }
-        return previousValue + prefix + currentValue.title
-      },
-      '',
-    )
+    const errorMessage = parsedError.violations.reduce((previousValue, currentValue) => {
+      let prefix
+      if (previousValue === '') {
+        prefix = ''
+      } else {
+        prefix = '\n'
+      }
+      return previousValue + prefix + currentValue.title
+    }, '')
     throw new EventSubscriptionError(errorMessage)
   }
   return genericErrorMapping(error)
