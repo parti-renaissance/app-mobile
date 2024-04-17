@@ -3,9 +3,9 @@ import * as AddCalendarEvent from 'react-native-add-calendar-event'
 import * as Permissions from 'react-native-permissions'
 import { useToastController } from '@tamagui/toast'
 
-export const useCreateEvent = (event: AddCalendarEvent.CreateOptions) => {
+export const useCreateEvent = () => {
   const toast = useToastController()
-  return () =>
+  return (event?: AddCalendarEvent.CreateOptions) =>
     Permissions.request(
       Platform.select({
         ios: Permissions.PERMISSIONS.IOS.CALENDARS_WRITE_ONLY,
