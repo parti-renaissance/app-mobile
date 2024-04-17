@@ -10,11 +10,14 @@ export interface ProfileCallToActionProps extends PropsWithChildren {
   Buttons?: () => ReactNode | ReactNode[]
   content?: string
   contentStyle?: TextProps['style']
+  backgroundColor?: string
+  noPadding?: boolean
+  height?: number | string
 }
 
-function Layout({ children }: Readonly<ProfileCallToActionProps>) {
+function Layout({ children, backgroundColor, noPadding = false, height }: Readonly<ProfileCallToActionProps>) {
   return (
-    <Card padding={'$3'} backgroundColor={'$white1'}>
+    <Card padding={noPadding ? undefined : '$4'} backgroundColor={backgroundColor ?? '$white1'} height={height}>
       {children && <SpacedContainer>{children}</SpacedContainer>}
     </Card>
   )
@@ -33,34 +36,54 @@ const CardImage = ({ source, height }: Readonly<CardImageProps>) => {
   )
 }
 
+const BackgroundImageBottomRight = ({ source }: Readonly<CardImageProps>) => {
+  return (
+    <View>
+      <Image source={source} height={150} width={150} resizeMode={'contain'} position={'absolute'} right={0} bottom={-30} />
+    </View>
+  )
+}
+
 interface CardContentProps extends PropsWithChildren {
   title?: string
   contentStyle?: TextProps['style']
+  titleStyle?: TextProps['style']
   content?: string
   textAlign?: 'center' | 'left' | 'right'
+  padding: number | string
+  compact?: boolean
 }
 
-const CardContent = ({ contentStyle, title, content, children, textAlign }: Readonly<CardContentProps>) => (
-  <>
-    {title && (
-      <SpacedContainer>
-        <Text style={contentStyle} textAlign={textAlign}>
-          {title}
-        </Text>
-      </SpacedContainer>
-    )}
+const CardContent = ({ contentStyle, titleStyle, title, content, children, textAlign, padding, compact }: Readonly<CardContentProps>) => {
+  const RenderText = () => (
+    <Text fontSize="$2" fontWeight="$7" textAlign={textAlign} style={contentStyle}>
+      {content}
+    </Text>
+  )
 
-    {content && (
-      <SpacedContainer>
-        <Text fontSize="$2" fontWeight="$7" textAlign={textAlign}>
-          {content}
-        </Text>
-      </SpacedContainer>
-    )}
+  return (
+    <View padding={padding}>
+      {title && (
+        <SpacedContainer>
+          <Text textAlign={textAlign} style={titleStyle}>
+            {title}
+          </Text>
+        </SpacedContainer>
+      )}
 
-    {children && <SpacedContainer>{children}</SpacedContainer>}
-  </>
-)
+      {content &&
+        (compact ? (
+          <RenderText />
+        ) : (
+          <SpacedContainer>
+            <RenderText />
+          </SpacedContainer>
+        ))}
+
+      {children && <SpacedContainer>{children}</SpacedContainer>}
+    </View>
+  )
+}
 
 const Actions = ({ children }: Readonly<PropsWithChildren>) => <View flexDirection={'row'}>{children}</View>
 
@@ -68,4 +91,5 @@ export const ProfileCallToAction = withStaticProperties(Layout, {
   Image: CardImage,
   Content: CardContent,
   Actions,
+  BackgroundImageBottomRight,
 })

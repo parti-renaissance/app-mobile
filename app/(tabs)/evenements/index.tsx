@@ -2,6 +2,8 @@ import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
+import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
+import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import * as metatags from '@/config/metatags'
@@ -27,7 +29,15 @@ const EventsScreen: React.FC = () => {
           <SpacedContainer>
             <ProfileLoginCTA />
           </SpacedContainer>
-          <AppDownloadCTA />
+          <SpacedContainer>
+            <AppDownloadCTA />
+          </SpacedContainer>
+          <SpacedContainer>
+            <ProcurationCTA />
+          </SpacedContainer>
+          <SpacedContainer>
+            <BotBilanCTA />
+          </SpacedContainer>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <BoundarySuspenseWrapper>
