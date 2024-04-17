@@ -8,6 +8,7 @@ import EventRegisterForm from '@/components/EventRegisterForm/EventRegisterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import * as eventTypes from '@/data/restObjects/RestEvents'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
@@ -19,10 +20,8 @@ import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
+import Head from 'expo-router/head'
 import { ScrollView, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
-import Head from 'expo-router/head';
-import * as metatags from '@/config/metatags'
-
 
 const padding = '$7'
 
@@ -31,7 +30,7 @@ const HomeScreen: React.FC = () => {
   return (
     <PageLayout>
       <PageLayout.SideBarLeft />
-      <BoundarySuspenseWrapper loadingMessage="Nous chargeons votre fil">
+      <BoundarySuspenseWrapper>
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
     </PageLayout>
@@ -66,9 +65,12 @@ const RegisterButtonSheet = memo(() => {
         <Sheet.Handle />
         <Sheet.Frame padding="$4" elevation="$1">
           {/* @ts-ignore **/}
-          <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{
-            alignItems: 'center',
-          }}>
+          <Sheet.ScrollView
+            ref={scrollRef}
+            contentContainerStyle={{
+              alignItems: 'center',
+            }}
+          >
             <XStack maxWidth={600} alignItems="center">
               <EventRegisterForm
                 onScrollTo={(a) => {
