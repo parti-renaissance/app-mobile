@@ -22,6 +22,9 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
+import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
+import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
+import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 
 const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
@@ -31,7 +34,15 @@ const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
   return (
     <PageLayout>
-      <PageLayout.SideBarLeft />
+      <PageLayout.SideBarLeft>
+        <YStack gap="$3">
+          <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
+          <ProcurationCTA />
+          <AuthFallbackWrapper>
+            <AppDownloadCTA />
+          </AuthFallbackWrapper>
+        </YStack>
+      </PageLayout.SideBarLeft>
       <BoundarySuspenseWrapper>
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
