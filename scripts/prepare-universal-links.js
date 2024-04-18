@@ -13,10 +13,10 @@ function populateIosConfig(APPLE_TEAM_ID, BUNDLE_ID) {
           appIDs: [`${APPLE_TEAM_ID}.${BUNDLE_ID}`],
           components: [
             {
-              "/": "*",
-              comment: "Matches all routes"
-            }
-          ]
+              '/': '*',
+              comment: 'Matches all routes',
+            },
+          ],
         },
       ],
     },
@@ -29,21 +29,19 @@ function populateIosConfig(APPLE_TEAM_ID, BUNDLE_ID) {
   }
 }
 
-
 function populateAndroidConfig(PACKAGE_NAME) {
   return [
     {
-      relation: [
-        "delegate_permission/common.handle_all_urls"
-      ],
+      relation: ['delegate_permission/common.handle_all_urls'],
       target: {
-        namespace: "android_app",
+        namespace: 'android_app',
         package_name: PACKAGE_NAME,
         sha256_cert_fingerprints: [
-          "{sha256_cert_fingerprints}"
-        ]
-      }
-    }
+          'E9:79:8E:BB:EB:D0:5F:F0:B6:9A:A6:57:03:19:A5:EF:75:38:2F:DE:97:4A:D4:D4:8D:6A:33:1A:18:8A:ED:50', // Certificate got from `eas credentials`
+          'FF:8E:5C:7B:3F:31:68:1B:B2:A4:E5:37:30:C4:18:E0:5B:D3:EE:20:DA:0C:2E:8F:E6:E4:4B:91:EF:29:53:C4', // Certificate signature extracted from APK
+        ],
+      },
+    },
   ]
 }
 
@@ -55,11 +53,8 @@ const bundleSuffix = profile === 'production' ? '' : `.${profile}`
 const BUNDLE_ID = `${baseIdentifier}${bundleSuffix}`
 const PACKAGE_NAME = `${basePackage}${bundleSuffix}`
 
-
 let iosConfig = populateIosConfig(APPLE_TEAM_ID, BUNDLE_ID)
 let androidConfig = populateAndroidConfig(PACKAGE_NAME)
-
-
 
 fs.mkdirSync(path.join(__dirname, '../web/.well-known'), { recursive: true }, (err) => {
   if (err) throw err
