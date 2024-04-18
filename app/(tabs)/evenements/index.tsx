@@ -5,11 +5,12 @@ import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownload
 import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
-import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
+import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import * as metatags from '@/config/metatags'
 import EventFeedList from '@/screens/events/EventFeedList'
 import { Stack as RouterStack } from 'expo-router'
 import Head from 'expo-router/head'
+import { YStack } from 'tamagui'
 
 const EventsScreen: React.FC = () => {
   return (
@@ -25,13 +26,23 @@ const EventsScreen: React.FC = () => {
       </Head>
 
       <PageLayout>
-        <PageLayout.SideBarLeft />
+        <PageLayout.SideBarLeft>
+          <YStack gap="$3">
+            <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
+            <ProcurationCTA />
+            <AuthFallbackWrapper>
+              <AppDownloadCTA />
+            </AuthFallbackWrapper>
+          </YStack>
+        </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <BoundarySuspenseWrapper>
             <EventFeedList />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
-        <PageLayout.SideBarRight />
+        <PageLayout.SideBarRight>
+          <BotBilanCTA />
+        </PageLayout.SideBarRight>
       </PageLayout>
     </>
   )
