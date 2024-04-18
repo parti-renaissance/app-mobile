@@ -1,25 +1,33 @@
+import React from 'react'
+import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import * as metatags from '@/config/metatags'
-import ProfileScreen from '@/screens/profile/ProfileScreen'
-import { CloseButton } from '@/screens/shared/NavigationHeaderButton'
-import { router, Stack } from 'expo-router'
+import EditInformations from '@/screens/editPersonalInformation/personalInformations'
+import { Stack as RouterStack } from 'expo-router'
 import Head from 'expo-router/head'
 
-function Root() {
+function ProfilScreen() {
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerLeft: () => <CloseButton onPress={() => router.push('../')} />,
-        }}
-      />
-
       <Head>
         <title>{metatags.createTitle('Mon profil')}</title>
       </Head>
-
-      <ProfileScreen />
+      <RouterStack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
+      <PageLayout>
+        <PageLayout.SideBarLeft />
+        <PageLayout.MainSingleColumn>
+          <BoundarySuspenseWrapper>
+            <EditInformations />
+          </BoundarySuspenseWrapper>
+        </PageLayout.MainSingleColumn>
+        <PageLayout.SideBarRight />
+      </PageLayout>
     </>
   )
 }
 
-export default Root
+export default ProfilScreen

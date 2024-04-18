@@ -10,6 +10,7 @@ import Select from '@/components/Select'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
+import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
 import { AlertCircle } from '@tamagui/lucide-icons'
 import { getCountryCodeForRegionCode } from 'awesome-phonenumber'
@@ -63,16 +64,15 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
 
   const handleOnSubmit = (values: PersonalInformationsForm) => {
     const payload = {
-      ...(values?.address && {
-        address: {
-          ...(values.address?.address && { address: values.address?.address }),
-          ...(values.address?.postalCode && { postal_code: values.address?.postalCode }),
-          ...(values.address?.city && { city_name: values.address?.city }),
-          ...(values.address?.country && { country: values.address?.country }),
-        },
-      }),
+      address: {
+        address: values.address?.address ?? '',
+        postal_code: values.address?.postalCode ?? '',
+        city_name: values.address?.city ?? '',
+        country: values.address?.country ?? '',
+      },
+      phone: values?.phoneNumber ? { country: values?.phoneCountryCode, number: values?.phoneNumber } : null,
       gender: values?.gender.toLowerCase(),
-      custom_gender: values?.customGender,
+      custom_gender: values?.customGender ?? null,
       first_name: values?.firstName,
       last_name: values?.lastName,
       email_address: values?.email,
@@ -84,7 +84,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
       linkedin_page_url: values?.linkedin ?? '',
       instagram_page_url: values?.instagram ?? '',
       telegram_page_url: values?.telegram ?? '',
-    }
+    } satisfies RestUpdateProfileRequest
 
     updateProfile(payload)
   }
@@ -92,30 +92,30 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
   return (
     <Formik<PersonalInformationsForm>
       innerRef={formikFormRef}
-      initialValues={
-        {
-          firstName: profile?.first_name ?? '',
-          lastName: profile?.last_name ?? '',
-          gender: Gender[capitalizeFirstLetter(profile?.gender)],
-          customGender: profile?.custom_gender ?? '',
-          nationality: profile?.nationality ?? '',
-          birthdate: new Date(profile?.birthdate ?? ''),
-          address: {
-            address: profile.post_address.address ?? '',
-            city: profile.post_address?.city ?? '',
-            postalCode: profile.post_address?.postal_code ?? '',
-            country: profile?.post_address?.country ?? '',
-          },
-          email: profile?.email_address ?? '',
-          phoneNumber: profile?.phone?.number ?? '',
-          phoneCountryCode: profile?.phone?.country ?? 'FR',
-          facebook: profile?.facebook_page_url ?? '',
-          twitter: profile?.twitter_page_url ?? '',
-          linkedin: profile?.linkedin_page_url ?? '',
-          instagram: profile?.instagram_page_url ?? '',
-          telegram: profile?.telegram_page_url ?? '',
-        } as PersonalInformationsForm & { setSubmitting: boolean }
-      }
+      initialValues={{
+        firstName: profile?.first_name ?? '',
+        lastName: profile?.last_name ?? '',
+        gender: Gender[capitalizeFirstLetter(profile?.gender)],
+        customGender: profile?.custom_gender ?? '',
+        nationality: profile?.nationality ?? '',
+        birthdate: new Date(profile?.birthdate),
+        address: profile.post_address
+          ? {
+              address: profile.post_address.address ?? '',
+              city: profile.post_address?.city ?? '',
+              postalCode: profile.post_address?.postal_code ?? '',
+              country: profile?.post_address?.country ?? '',
+            }
+          : { address: '', city: '', postalCode: '', country: '' },
+        email: profile?.email_address ?? '',
+        phoneNumber: profile?.phone?.number ?? '',
+        phoneCountryCode: profile?.phone?.country ?? 'FR',
+        facebook: profile?.facebook_page_url ?? '',
+        twitter: profile?.twitter_page_url ?? '',
+        linkedin: profile?.linkedin_page_url ?? '',
+        instagram: profile?.instagram_page_url ?? '',
+        telegram: profile?.telegram_page_url ?? '',
+      }}
       validateOnBlur
       validateOnChange
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
@@ -132,11 +132,11 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
               Identité
             </Text>
             <FormikController<PersonalInformationsForm> name="gender">
-              {({ onChangeText, value }) => (
+              {({ inputProps: { onChange, value } }) => (
                 <Select
                   id="gender"
                   label={'Civilité'}
-                  onValueChange={onChangeText}
+                  onValueChange={onChange}
                   placeholder="Sélectionner votre civilité"
                   options={genderOptions}
                   value={value}
@@ -146,18 +146,23 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
 
             <View gap={!media.md ? '$6' : 'unset'} flexDirection={!media.md ? 'row' : 'column'}>
               <View flex={1} flexBasis={0}>
-                <FormikController name="firstName">{(props) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...props} />}</FormikController>
+                <FormikController name="firstName">
+                  {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
+                </FormikController>
               </View>
 
               <View flex={1} flexBasis={0}>
-                <FormikController name="lastName">{(props) => <TextField placeholder="Nom" label="Nom" width="100%" {...props} />}</FormikController>
+                <FormikController name="lastName">
+                  {({ inputProps }) => <TextField placeholder="Nom" label="Nom" width="100%" {...inputProps} />}
+                </FormikController>
               </View>
             </View>
 
             <View gap={!media.md ? '$6' : 'unset'} flexDirection={!media.md ? 'row' : 'column'}>
               <View flex={1} flexBasis={0}>
                 <FormikController name="birthdate">
-                  {({ onChange, value, error, errorMessage }) => (
+                  {({ inputProps: { value, onChange, error, id } }) => { console.log(value) 
+                   return(
                     <DatePicker
                       open={open}
                       onOpenChange={setOpen}
@@ -174,7 +179,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
                     >
                       <DatePicker.Trigger asChild>
                         <TextField
-                          id="birthdate"
+                          id={id}
                           label="Date de naissance"
                           placeholder="JJ/MM/AAAA"
                           value={value ? format(value, 'dd/MM/yyyy') : ''}
@@ -182,7 +187,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
                             setOpen(true)
                           }}
                           error={error}
-                          errorMessage={errorMessage}
+                           showSoftInputOnFocus={false}
                         />
                       </DatePicker.Trigger>
                       <DatePicker.Content>
@@ -190,20 +195,20 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
                         <DatePickerBody order={['year', 'month', 'day']} />
                       </DatePicker.Content>
                     </DatePicker>
-                  )}
+                  )}}
                 </FormikController>
               </View>
 
               <View flex={1} flexBasis={0}>
                 <FormikController name="nationality">
-                  {({ onChange, value, touched, errorMessage }) => (
+                  {({ inputProps: { value, onChange, error } }) => (
                     <>
                       <Select id="nationality" placeholder="Française" label="Nationalité" value={value} onValueChange={onChange} options={nationalities} />
-                      {touched && errorMessage && (
+                      {!!error && (
                         <View style={{ flexDirection: 'row', alignItems: 'center' }} gap={4}>
                           <AlertCircle size={16} color="$red6" />
                           <Text color="$gray6" fontSize="$1">
-                            {errorMessage}
+                            {error}
                           </Text>
                         </View>
                       )}
@@ -222,15 +227,14 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
             </Text>
 
             <FormikController name="email">
-              {(props) => (
+              {({ inputProps }) => (
                 <TextField
-                  id="email"
                   placeholder="exemple@domaine.fr"
                   label="Adresse mail"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   width="100%"
-                  {...props}
+                  {...inputProps}
                 />
               )}
             </FormikController>
@@ -251,7 +255,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
                 </Label>
 
                 <FormikController name="phoneCountryCode">
-                  {({ onChange, value }) => (
+                  {({ inputProps: { onChange, value } }) => (
                     <RegionSelectBox
                       regionCode={value}
                       setRegionCode={(regionCode) => {
@@ -265,14 +269,13 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
 
               <View width="80%">
                 <FormikController name="phoneNumber">
-                  {(props) => (
+                  {({ inputProps }) => (
                     <TextField
-                      id="phoneNumber"
                       label="Numéro de téléphone"
                       keyboardType="phone-pad"
                       placeholder={`+${getCountryCodeForRegionCode(formik.values.phoneCountryCode)}`}
                       width="100%"
-                      {...props}
+                      {...inputProps}
                     />
                   )}
                 </FormikController>
@@ -281,12 +284,11 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
 
             <View gap="$6">
               <FormikController name="address.address">
-                {(props) => (
+                {({ inputProps }) => (
                   <TextField
-                    id="address"
                     label={manualAddress ? 'Rue' : 'Adresse'}
                     placeholder={manualAddress ? '1 rue de la Paix' : '1 rue de la Paix, 75000 Paris'}
-                    {...props}
+                    {...inputProps}
                   />
                 )}
               </FormikController>
@@ -295,13 +297,13 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
                 <View gap="$6" style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                   <View style={{ width: '50%' }}>
                     <FormikController name="address.city">
-                      {(props) => <TextField id="city" placeholder="Paris" label="Ville" width="100%" {...props} />}
+                      {({ inputProps }) => <TextField placeholder="Paris" label="Ville" width="100%" {...inputProps} />}
                     </FormikController>
                   </View>
 
                   <View style={{ width: '50%' }}>
                     <FormikController name="address.postalCode">
-                      {(props) => <TextField id="postalCode" placeholder="75000" label="Code postal" width="100%" {...props} />}
+                      {({ inputProps }) => <TextField placeholder="75000" label="Code postal" width="100%" {...inputProps} />}
                     </FormikController>
                   </View>
                 </View>
@@ -349,7 +351,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
             ].map((item) => (
               <View key={item.id} width="100%">
                 <FormikController name={item.id}>
-                  {(props) => <TextField placeholder={item.placeholder} label={item.label} width="100%" {...props} />}
+                  {({ inputProps }) => <TextField placeholder={item.placeholder} label={item.label} width="100%" {...inputProps} />}
                 </FormikController>
               </View>
             ))}
