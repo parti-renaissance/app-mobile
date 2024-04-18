@@ -12,6 +12,7 @@ import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import { satisfies } from 'semver'
 import { useStorageState } from '../hooks/useStorageState'
+import { Platform } from 'react-native'
 
 type AuthContext = {
   signIn: (props?: { code: string }) => Promise<void>
@@ -82,7 +83,11 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const handleRegister = async () => {
     try {
-      await WebBrowser.openBrowserAsync(discoveryDocument.registrationEndpoint)
+      if (Platform.OS === 'web') {
+        (window.location.href = discoveryDocument.registrationEndpoint)
+      } else {
+        await WebBrowser.openBrowserAsync(discoveryDocument.registrationEndpoint)
+      }
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })
