@@ -18,7 +18,6 @@ export type NewsVoxCardProps = {
 } & VoxCardFrameProps
 
 const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
-  console.log(payload)
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
