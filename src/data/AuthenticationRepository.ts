@@ -3,7 +3,6 @@ import FB from '@/config/firebaseConfig'
 import { AuthenticationState } from '@/core/entities/AuthenticationState'
 import { RefreshTokenPermanentlyInvalidatedError } from '@/core/errors'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { makeRedirectUri } from 'expo-auth-session'
 import * as WebBrowser from 'expo-web-browser'
 import OAuthApiService from './network/OAuthApiService'
 import PushRepository from './PushRepository'
@@ -63,9 +62,7 @@ class AuthenticationRepository {
 
   public async logout(dissociateToken: boolean = true): Promise<void> {
     try {
-      await WebBrowser.openBrowserAsync(
-        `${discoveryDocument.endSessionEndpoint}?redirect_uri=${makeRedirectUri()}&client_id=${process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID}`,
-      )
+      await WebBrowser.openBrowserAsync(discoveryDocument.endSessionEndpoint)
     } catch (e) {
       ErrorMonitor.log('Cannot open web browser on disconnect', {
         error: e,
