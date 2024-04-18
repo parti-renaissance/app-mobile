@@ -47,7 +47,7 @@ const PersonalInformationsFormSchema = z
         required_error: 'L’adresse e-mail est obligatoire',
       })
       .email('L’adresse e-mail n’est pas valide'),
-    phoneNumber: phoneNumberSchema,
+    phoneNumber: z.string(),
     phoneCountryCode: z.string().refine((val) => getCountryCodeForRegionCode(val) !== undefined, {
       message: 'Le code pays doit être de deux lettres',
     }),
