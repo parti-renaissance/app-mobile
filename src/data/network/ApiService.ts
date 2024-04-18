@@ -1,5 +1,4 @@
-import { EventFilters } from '../../core/entities/Event'
-import { Poll } from '../../core/entities/Poll'
+import { Poll } from '@/core/entities/Poll'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
@@ -56,7 +55,6 @@ import {
   mapSubscriptionError,
 } from './errorMappers'
 import _httpClient, { publicHttpClient } from './HttpClient'
-import { SearchParamsKeyValue } from './SearchParams'
 import { genericErrorMapping } from './utils'
 
 class ApiService {
