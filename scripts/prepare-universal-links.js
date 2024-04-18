@@ -39,6 +39,7 @@ function populateAndroidConfig(PACKAGE_NAME) {
         sha256_cert_fingerprints: [
           'E9:79:8E:BB:EB:D0:5F:F0:B6:9A:A6:57:03:19:A5:EF:75:38:2F:DE:97:4A:D4:D4:8D:6A:33:1A:18:8A:ED:50', // Certificate got from `eas credentials`
           'FF:8E:5C:7B:3F:31:68:1B:B2:A4:E5:37:30:C4:18:E0:5B:D3:EE:20:DA:0C:2E:8F:E6:E4:4B:91:EF:29:53:C4', // Certificate signature extracted from APK
+          '7A:6A:7E:3A:D2:80:F9:51:1C:A6:0C:04:CC:F9:6F:E5:45:51:E1:82:78:9D:9C:E3:4D:D5:6F:EC:65:3C:F9:9C', // Google Play Integrity key
         ],
       },
     },
