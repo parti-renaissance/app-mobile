@@ -1,7 +1,8 @@
-import { Linking } from 'react-native'
 import { type FeedCardProps } from '@/components/Cards'
+import { logDefaultError } from '@/data/network/NetworkLogger'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { router } from 'expo-router'
+import { openBrowserAsync } from 'expo-web-browser'
 
 const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps['type'] => {
   switch (type) {
@@ -56,8 +57,8 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         type,
         onShare: () => {},
         onShow: async () => {
-          if (feed.cta_link && (await Linking.canOpenURL(feed.cta_link))) {
-            await Linking.openURL(feed.cta_link)
+          if (feed.cta_link) {
+            await openBrowserAsync(feed.cta_link).catch(logDefaultError)
           } else {
             router.push({
               pathname: '/(tabs)/(home)/news-detail',
