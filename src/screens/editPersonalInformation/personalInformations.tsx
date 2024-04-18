@@ -6,13 +6,12 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { ProfileFormError, PublicSubscribeEventFormError } from '@/core/errors'
+import { ProfileFormError } from '@/core/errors'
+import { useSession } from '@/ctx/SessionProvider'
 import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
-import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumber'
 import { format } from 'date-fns'
-import { vi } from 'date-fns/locale'
 import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -140,6 +139,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             <FormikController name="email">
               {({ inputProps }) => (
                 <TextField
+                  disabled
                   placeholder="exemple@domaine.fr"
                   label="Adresse mail"
                   keyboardType="email-address"
@@ -183,6 +183,7 @@ const EditInformations = () => {
   const $updateProfile = useMutationUpdateProfil({
     userUuid: profile?.uuid,
   })
+  const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()
 
@@ -219,7 +220,7 @@ const EditInformations = () => {
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
     <Button
-      disabled={$updateProfile.isPending}
+      // disabled={$updateProfile.isPending}
       variant="contained"
       size={media?.md ? 'lg' : 'md'}
       onPress={() => {
@@ -240,7 +241,7 @@ const EditInformations = () => {
             pt: media.gtSm ? '$8' : undefined,
             pl: media.gtSm ? '$8' : undefined,
             pr: media.gtSm ? '$8' : undefined,
-            pb: media.lg ? '$10' : undefined,
+            pb: isWeb ? '$10' : '$12',
           }}
           backgroundColor={!isWeb ? '#fff' : ''}
         >
@@ -253,11 +254,12 @@ const EditInformations = () => {
                     <ButtonSave width="100%" />
                   </View>
                 )}
-                <View width={!media?.md ? '50%' : '100%'}>
-                  <Button variant="outlined" width="100%" onPress={removeAccount}>
-                    <Button.Text>Supprimer mon compte</Button.Text>
-                  </Button>
-                </View>
+                <Button variant="outlined" width="100%" onPress={signOut}>
+                  <Button.Text>Se deconnecter</Button.Text>
+                </Button>
+                <Button variant="outlined" width="100%" onPress={removeAccount}>
+                  <Button.Text>Supprimer mon compte</Button.Text>
+                </Button>
               </YStack>
             </VoxCard.Content>
           </VoxCard>

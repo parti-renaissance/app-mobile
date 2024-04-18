@@ -5,13 +5,16 @@ import useBrowserWarmUp from './useBrowserWarmUp'
 
 maybeCompleteAuthSession()
 
-const REDIRECT_URI = AuthSession.makeRedirectUri()
-
 if (!process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID) {
   throw new Error('Missing process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID')
 }
 
-const BASE_REQUEST_CONFIG = { clientId: process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI } as const
+if (!process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN) {
+  throw new Error('Missing process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN')
+}
+
+const REDIRECT_URI = __DEV__ ? AuthSession.makeRedirectUri() : `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}`
+const BASE_REQUEST_CONFIG = { clientId: process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI }
 
 export const useCodeAuthRequest = () => {
   return AuthSession.useAuthRequest(

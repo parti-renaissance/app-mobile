@@ -6,6 +6,9 @@ import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
 import { SubscribeEventButton } from '@/components/Cards'
 import EventRegisterForm from '@/components/EventRegisterForm/EventRegisterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
+import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
+import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import * as metatags from '@/config/metatags'
@@ -22,9 +25,6 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
-import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
-import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 
 const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
@@ -205,6 +205,7 @@ function ScrollStack({ children }: ScrollViewProps) {
           pt: media.gtSm ? padding : undefined,
           pl: media.gtSm ? padding : undefined,
           pr: media.gtSm ? padding : undefined,
+          pb: '$10',
         }}
       >
         {children}
