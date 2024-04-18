@@ -1,4 +1,4 @@
-import { PermissionsAndroid, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import FB, { AuthorizationStatus } from '@/config/firebaseConfig'
 import { LocalNotificationCenter } from '@/data/LocalNotificationCenter'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
@@ -46,6 +46,7 @@ const resolveDeeplinkUrlFromFCMMessage = async (message: FirebaseMessagingTypes.
 export const PushNotification = {
   requestPermission: async (): Promise<boolean> => {
     if (Platform.OS === 'android') {
+      const { PermissionsAndroid } = require('react-native')
       await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
     }
 
