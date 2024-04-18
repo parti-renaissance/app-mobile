@@ -39,8 +39,7 @@ const TextFieldComponent = styled(Input, {
   },
 })
 
-const TextField = ({label, error, ...inputProps}: TextFieldProps) => {
-
+const TextField = ({ label, error, onChange, ...inputProps }: TextFieldProps) => {
   return (
     <View>
       {label && (
@@ -64,6 +63,7 @@ const TextField = ({label, error, ...inputProps}: TextFieldProps) => {
           focusStyle={{
             borderBottomColor: '$gray8',
           }}
+          onChangeText={onChange as (x: any) => void}
           {...inputProps}
         />
 

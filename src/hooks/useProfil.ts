@@ -1,3 +1,4 @@
+import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
 import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
@@ -49,14 +50,15 @@ export const useDeleteProfil = () => {
   const { signOut } = useSession()
 
   return useMutation({
-    mutationFn: () => ApiService.getInstance().removeProfile(),
+    mutationFn: () => new RemoveAccountInteractor().execute(),
     onSuccess: () => {
       signOut()
 
       toast.show('Succès', { message: 'Compte supprimé avec succès', type: 'success' })
     },
-    onError: () => {
+    onError: (e) => {
       toast.show('Erreur', { message: 'Impossible de supprimer le profil', type: 'error' })
+      return e
     },
   })
 }
