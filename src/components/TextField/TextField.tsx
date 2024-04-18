@@ -8,8 +8,7 @@ interface TextFieldProps extends React.ComponentProps<typeof Input> {
   value: string
   onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void
   placeholder?: string
-  error?: boolean
-  errorMessage?: string
+  error?: string
 }
 
 const TextFieldComponent = styled(Input, {
@@ -40,8 +39,7 @@ const TextFieldComponent = styled(Input, {
   },
 })
 
-const TextField = (props: TextFieldProps) => {
-  const { label, error, errorMessage } = props
+const TextField = ({label, error, ...inputProps}: TextFieldProps) => {
 
   return (
     <View>
@@ -66,15 +64,15 @@ const TextField = (props: TextFieldProps) => {
           focusStyle={{
             borderBottomColor: '$gray8',
           }}
-          {...props}
+          {...inputProps}
         />
 
-        {!!error && errorMessage?.length > 0 && (
+        {!!error && (
           <View style={{ flexDirection: 'row', alignItems: 'center' }} gap={4}>
             <AlertCircle size={16} color={'$red6'} />
 
             <Text color="$gray6" fontSize={'$1'}>
-              {errorMessage}
+              {error}
             </Text>
           </View>
         )}

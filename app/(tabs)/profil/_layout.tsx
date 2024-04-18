@@ -12,6 +12,7 @@ export default function AppLayout() {
 
   return (
     <Stack screenOptions={headerBlank}>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="location-picker" options={{ presentation: 'fullScreenModal' }} />
       <Stack.Screen name="code-phone-picker" options={{ presentation: 'fullScreenModal' }} />
       <Stack.Screen name="country-picker" options={{ presentation: 'fullScreenModal' }} />
