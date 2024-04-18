@@ -10,6 +10,7 @@ export interface RestUpdateProfileRequest {
   facebook_page_url: string
   twitter_page_url: string
   linkedin_page_url: string
+  instagram_page_url: string
   telegram_page_url: string
   phone: RestUpdatePhoneNumber | null
 }
