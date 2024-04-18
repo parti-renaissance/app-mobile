@@ -5,23 +5,27 @@ import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin from '@/hooks/useLogin'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { A } from '@storybook/react-native/dist/index.d-e107ed3d'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
+import { satisfies } from 'semver'
 import { useStorageState } from '../hooks/useStorageState'
 
-const AuthContext = React.createContext<{
-  signIn: () => Promise<void>
+type AuthContext = {
+  signIn: (props?: { code: string }) => Promise<void>
   signOut: () => Promise<void>
   signUp: () => Promise<void>
   isAuth: boolean
-  session?: string
+  session?: string | null
   isLoading: boolean
-}>({
-  signIn: () => null,
-  signOut: () => null,
-  signUp: () => null,
+}
+
+const AuthContext = React.createContext<AuthContext>({
+  signIn: () => Promise.resolve(),
+  signOut: () => Promise.resolve(),
+  signUp: () => Promise.resolve(),
   isAuth: false,
   session: null,
   isLoading: false,
@@ -58,10 +62,10 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const queryClient = useQueryClient()
   const login = useLogin()
 
-  const handleSignIn = async () => {
+  const handleSignIn: AuthContext['signIn'] = async (props) => {
     try {
       setIsLoginInProgress(true)
-      const session = await login()
+      const session = await login(props?.code)
       if (!session) {
         return
       }
@@ -96,14 +100,15 @@ export function SessionProvider(props: React.PropsWithChildren) {
   }
 
   const providerValue = useMemo(
-    () => ({
-      signIn: handleSignIn,
-      signOut: handleSignOut,
-      signUp: handleRegister,
-      session,
-      isLoading: isLoginInProgress || isLoading,
-      isAuth: session && !(isLoginInProgress || isLoading),
-    }),
+    () =>
+      ({
+        signIn: handleSignIn,
+        signOut: handleSignOut,
+        signUp: handleRegister,
+        session,
+        isLoading: isLoginInProgress || isLoading,
+        isAuth: Boolean(session && !(isLoginInProgress || isLoading)),
+      }) satisfies AuthContext,
     [handleSignIn, handleSignOut, session, isLoginInProgress, isLoading],
   )
 
