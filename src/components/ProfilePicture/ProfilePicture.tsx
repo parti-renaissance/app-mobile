@@ -1,20 +1,21 @@
 import { Image, Platform } from 'react-native'
-import { Circle, Square, Text, SquareProps, CircleProps, getTokenValue, Token } from 'tamagui'
+import { Circle, CircleProps, getTokenValue, Square, SquareProps, Text, Token } from 'tamagui'
 
-
-type  ProfilePictureProps = {
+type ProfilePictureProps = {
   fullName: string
   src?: string
   alt: string
   size?: Token
   textColor?: string
-  rounded: boolean
-} & (({
-  rounded: true
-} & Omit<CircleProps, 'size'>)
-| ({
-  rounded: false
-} & Omit<SquareProps, 'size'>))
+  rounded?: boolean
+} & (
+  | ({
+      rounded: true
+    } & Omit<CircleProps, 'size'>)
+  | ({
+      rounded: false
+    } & Omit<SquareProps, 'size'>)
+)
 
 const ProfilePicture = (props: ProfilePictureProps) => {
   const { size = '$4', src, alt, rounded, backgroundColor, textColor, fullName, ...rest } = props
@@ -27,10 +28,10 @@ const ProfilePicture = (props: ProfilePictureProps) => {
 
   const Shape = rounded ? Circle : Square
 
-  const sizeValue =  getTokenValue(size, 'size')
+  const sizeValue = getTokenValue(size, 'size')
 
   return (
-    <Shape backgroundColor={backgroundColor || '$blue3'} size={size} {...rest} overflow='hidden'>
+    <Shape backgroundColor={backgroundColor || '$blue3'} size={size} {...rest} overflow="hidden">
       {src ? (
         <Image
           alt={alt}
@@ -41,7 +42,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
           }}
         />
       ) : (
-        <Text color={textColor || '$blue8'} fontSize={Platform.OS === 'ios' ? sizeValue/2 : sizeValue/2.5} fontWeight="$2">
+        <Text color={textColor || '$blue8'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight="$2">
           {initials}
         </Text>
       )}
