@@ -95,7 +95,6 @@ function Root() {
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
       if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-        console.log('App has come to the foreground!')
         checkForUpdate()
       }
 
