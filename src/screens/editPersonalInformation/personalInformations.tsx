@@ -1,64 +1,37 @@
-import React, { useRef } from 'react'
+import React, { forwardRef, useRef } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import { Button } from '@/components'
-import { DatePickerBody } from '@/components/Bento/Datepickers'
-import { DatePicker } from '@/components/Bento/Datepickers/common/dateParts'
-import { RegionSelectBox } from '@/components/Bento/PhoneInput/PhoneInput'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
+import { ProfileFormError, PublicSubscribeEventFormError } from '@/core/errors'
+import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
-import { useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
-import { AlertCircle } from '@tamagui/lucide-icons'
-import { getCountryCodeForRegionCode } from 'awesome-phonenumber'
+import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
+import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumber'
 import { format } from 'date-fns'
+import { vi } from 'date-fns/locale'
 import { Formik, FormikProps } from 'formik'
-import { isWeb, Label, ScrollView, Separator, Stack, Text, useMedia, View } from 'tamagui'
+import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertUtils } from '../shared/AlertUtils'
 import { Gender, PersonalInformationsForm } from './types'
 import { capitalizeFirstLetter } from './utils'
 import { PersonalInformationsFormSchema } from './validation'
 
-const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObject<FormikProps<PersonalInformationsForm>> }) => {
-  const media = useMedia()
-  const [manualAddress, setManualAddress] = React.useState(false)
-  const [open, setOpen] = React.useState(false)
+type FormEditInformationsProps = {
+  onSubmit: (x: RestUpdateProfileRequest) => void
+  profile: RestDetailedProfileResponse
+}
 
-  const { data: profile } = useGetDetailProfil()
-
-  const { mutate: updateProfile } = useMutationUpdateProfil({
-    userUuid: profile?.uuid,
-  })
-
-  const nationalities = [
-    { value: 'FR', text: 'Française' },
-    { value: 'EN', text: 'Anglaise' },
-    { value: 'DE', text: 'Allemande' },
-    { value: 'ES', text: 'Espagnole' },
-    { value: 'IT', text: 'Italienne' },
-    { value: 'PT', text: 'Portugaise' },
-    { value: 'BE', text: 'Belge' },
-    { value: 'NL', text: 'Néerlandaise' },
-    { value: 'LU', text: 'Luxembourgeoise' },
-    { value: 'CH', text: 'Suisse' },
-    { value: 'CA', text: 'Canadienne' },
-    { value: 'US', text: 'Américaine' },
-    { value: 'AU', text: 'Australienne' },
-  ]
-
+const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, FormEditInformationsProps>(({ profile, onSubmit }, ref) => {
   const genderOptions = [
     { value: Gender.Male, text: 'Homme' },
     {
       value: Gender.Female,
       text: 'Femme',
-    },
-    {
-      value: Gender.Other,
-      text: 'Autre',
     },
   ]
 
@@ -86,12 +59,12 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
       telegram_page_url: values?.telegram ?? '',
     } satisfies RestUpdateProfileRequest
 
-    updateProfile(payload)
+    onSubmit(payload)
   }
 
   return (
     <Formik<PersonalInformationsForm>
-      innerRef={formikFormRef}
+      innerRef={ref}
       initialValues={{
         firstName: profile?.first_name ?? '',
         lastName: profile?.last_name ?? '',
@@ -122,7 +95,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
       onSubmit={(values) => handleOnSubmit(values)}
     >
       {(formik) => (
-        <View gap="$6">
+        <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
           </Text>
@@ -144,82 +117,20 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
               )}
             </FormikController>
 
-            <View gap={!media.md ? '$6' : 'unset'} flexDirection={!media.md ? 'row' : 'column'}>
-              <View flex={1} flexBasis={0}>
+            <YStack $gtLg={{ gap: '$6', flexDirection: 'row' }}>
+              <View flex={1}>
                 <FormikController name="firstName">
                   {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
 
-              <View flex={1} flexBasis={0}>
+              <View flex={1}>
                 <FormikController name="lastName">
                   {({ inputProps }) => <TextField placeholder="Nom" label="Nom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
-            </View>
-
-            <View gap={!media.md ? '$6' : 'unset'} flexDirection={!media.md ? 'row' : 'column'}>
-              <View flex={1} flexBasis={0}>
-                <FormikController name="birthdate">
-                  {({ inputProps: { value, onChange, error, id } }) => { console.log(value) 
-                   return(
-                    <DatePicker
-                      open={open}
-                      onOpenChange={setOpen}
-                      config={{
-                        selectedDates: value ? [value] : [],
-                        onDatesChange: (d: Date[]) => {
-                          onChange(d[0])
-                          setOpen(false)
-                        },
-                        dates: {
-                          maxDate: new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate()),
-                        },
-                      }}
-                    >
-                      <DatePicker.Trigger asChild>
-                        <TextField
-                          id={id}
-                          label="Date de naissance"
-                          placeholder="JJ/MM/AAAA"
-                          value={value ? format(value, 'dd/MM/yyyy') : ''}
-                          onBlur={() => {
-                            setOpen(true)
-                          }}
-                          error={error}
-                           showSoftInputOnFocus={false}
-                        />
-                      </DatePicker.Trigger>
-                      <DatePicker.Content>
-                        <DatePicker.Content.Arrow />
-                        <DatePickerBody order={['year', 'month', 'day']} />
-                      </DatePicker.Content>
-                    </DatePicker>
-                  )}}
-                </FormikController>
-              </View>
-
-              <View flex={1} flexBasis={0}>
-                <FormikController name="nationality">
-                  {({ inputProps: { value, onChange, error } }) => (
-                    <>
-                      <Select id="nationality" placeholder="Française" label="Nationalité" value={value} onValueChange={onChange} options={nationalities} />
-                      {!!error && (
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }} gap={4}>
-                          <AlertCircle size={16} color="$red6" />
-                          <Text color="$gray6" fontSize="$1">
-                            {error}
-                          </Text>
-                        </View>
-                      )}
-                    </>
-                  )}
-                </FormikController>
-              </View>
-            </View>
+            </YStack>
           </View>
-
-          {media.md && <Separator alignSelf="stretch" />}
 
           <View>
             <Text fontSize="$2" fontWeight="$4">
@@ -238,104 +149,7 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
                 />
               )}
             </FormikController>
-            <View gap="$6" style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-              <View width="20%">
-                <Label
-                  color="$gray5"
-                  fontWeight="600"
-                  fontFamily="$PublicSans"
-                  fontSize="$1"
-                  ml="$1"
-                  mb="$-4"
-                  pressStyle={{
-                    color: '$gray5',
-                  }}
-                >
-                  Indicatif
-                </Label>
-
-                <FormikController name="phoneCountryCode">
-                  {({ inputProps: { onChange, value } }) => (
-                    <RegionSelectBox
-                      regionCode={value}
-                      setRegionCode={(regionCode) => {
-                        onChange(regionCode)
-                        formik.setFieldValue('phoneNumber', `+${getCountryCodeForRegionCode(formik.values.phoneCountryCode)}`)
-                      }}
-                    />
-                  )}
-                </FormikController>
-              </View>
-
-              <View width="80%">
-                <FormikController name="phoneNumber">
-                  {({ inputProps }) => (
-                    <TextField
-                      label="Numéro de téléphone"
-                      keyboardType="phone-pad"
-                      placeholder={`+${getCountryCodeForRegionCode(formik.values.phoneCountryCode)}`}
-                      width="100%"
-                      {...inputProps}
-                    />
-                  )}
-                </FormikController>
-              </View>
-            </View>
-
-            <View gap="$6">
-              <FormikController name="address.address">
-                {({ inputProps }) => (
-                  <TextField
-                    label={manualAddress ? 'Rue' : 'Adresse'}
-                    placeholder={manualAddress ? '1 rue de la Paix' : '1 rue de la Paix, 75000 Paris'}
-                    {...inputProps}
-                  />
-                )}
-              </FormikController>
-
-              {manualAddress && (
-                <View gap="$6" style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                  <View style={{ width: '50%' }}>
-                    <FormikController name="address.city">
-                      {({ inputProps }) => <TextField placeholder="Paris" label="Ville" width="100%" {...inputProps} />}
-                    </FormikController>
-                  </View>
-
-                  <View style={{ width: '50%' }}>
-                    <FormikController name="address.postalCode">
-                      {({ inputProps }) => <TextField placeholder="75000" label="Code postal" width="100%" {...inputProps} />}
-                    </FormikController>
-                  </View>
-                </View>
-              )}
-              {!manualAddress && (
-                <View
-                  alignContent="center"
-                  gap={6}
-                  justifyContent="center"
-                  alignItems="center"
-                  borderStyle="dashed"
-                  borderWidth="$0.5"
-                  borderRadius="$2"
-                  borderColor="$gray3"
-                  padding="$4"
-                >
-                  <Text color="$gray6">Un problème ?</Text>
-
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text color="$gray6">
-                      <Text color="$blue5" onPress={() => setManualAddress(true)}>
-                        Cliquez-ici !
-                      </Text>{' '}
-                      pour saisir manuellement votre adresse.
-                    </Text>
-                  </View>
-                </View>
-              )}
-            </View>
           </View>
-
-          <Separator alignSelf="stretch" />
 
           <View>
             <Text fontSize="$2" fontWeight="$4">
@@ -360,14 +174,20 @@ const FormEditInformations = ({ formikFormRef }: { formikFormRef: React.RefObjec
       )}
     </Formik>
   )
-}
+})
 
 const EditInformations = () => {
   const media = useMedia()
   const formikFormRef = useRef<FormikProps<PersonalInformationsForm>>(null)
+  const { data: profile } = useGetDetailProfil()
+  const $updateProfile = useMutationUpdateProfil({
+    userUuid: profile?.uuid,
+  })
+
+  const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    await new RemoveAccountInteractor().execute().catch((error) => AlertUtils.showNetworkAlert(error, onRemoveAccountConfirmed))
+    await mutateAsync()
   }
 
   const removeAccount = () => {
@@ -380,38 +200,70 @@ const EditInformations = () => {
     )
   }
 
-  const ButtonSave = (props) => (
-    <Button type="submit" variant="contained" size={media?.md ? 'lg' : 'md'} onPress={() => formikFormRef.current?.submitForm()} {...props}>
+  const handleSubmit = async (values: RestUpdateProfileRequest) => {
+    await $updateProfile.mutateAsync(values).catch((error) => {
+      if (error instanceof ProfileFormError) {
+        error.violations.forEach((violation) => {
+          const valuesKeys = Object.keys(formikFormRef.current?.values ?? {}).map((key) => key.split(/(?=[A-Z])/)[0])
+          if (violation.propertyPath === '') {
+            return
+          }
+          const field = valuesKeys.find((key) => violation.propertyPath.startsWith(key))
+          if (field) {
+            formikFormRef.current?.setFieldError(field, violation.message)
+          }
+        })
+      }
+    })
+  }
+
+  const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
+    <Button
+      disabled={$updateProfile.isPending}
+      variant="contained"
+      size={media?.md ? 'lg' : 'md'}
+      onPress={() => {
+        formikFormRef.current?.handleSubmit()
+      }}
+      {...props}
+    >
       <Button.Text>Enregistrer</Button.Text>
+      {$updateProfile.isPending && <Spinner size="small" color="$white1" />}
     </Button>
   )
 
   return (
     <PageLayout.MainSingleColumn>
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView paddingHorizontal={isWeb ? '$4' : 'unset'} contentContainerStyle={{ paddingVertical: '$8' }} backgroundColor={!isWeb ? '#fff' : ''}>
+        <ScrollView
+          contentContainerStyle={{
+            pt: media.gtSm ? '$8' : undefined,
+            pl: media.gtSm ? '$8' : undefined,
+            pr: media.gtSm ? '$8' : undefined,
+            pb: media.lg ? '$10' : undefined,
+          }}
+          backgroundColor={!isWeb ? '#fff' : ''}
+        >
           <VoxCard>
             <VoxCard.Content>
-              <FormEditInformations formikFormRef={formikFormRef} />
-
-              <Stack flexDirection="row" gap="$3" justifyContent="space-between">
+              <FormEditInformations ref={formikFormRef} profile={profile} onSubmit={handleSubmit} />
+              <YStack gap="$10">
+                {isWeb && (
+                  <View>
+                    <ButtonSave width="100%" />
+                  </View>
+                )}
                 <View width={!media?.md ? '50%' : '100%'}>
-                  <Button variant="outlined" size={media?.md ? 'lg' : 'md'} width={!media?.md ? 'none' : '100%'} onPress={removeAccount}>
+                  <Button variant="outlined" width="100%" onPress={removeAccount}>
                     <Button.Text>Supprimer mon compte</Button.Text>
                   </Button>
                 </View>
-
-                {media.lg && isWeb && (
-                  <View>
-                    <ButtonSave />
-                  </View>
-                )}
-              </Stack>
+              </YStack>
             </VoxCard.Content>
           </VoxCard>
         </ScrollView>
 
-        {media.lg && !isWeb && (
+        {!isWeb && media.lg && (
           <Stack position="absolute" bottom="$3" $sm={{ left: '$4', right: '$4' }} $lg={{ left: '$10', right: '$10' }}>
             <ButtonSave width="100%" />
           </Stack>
