@@ -8,7 +8,7 @@ export default {
 const props = {
   payload: {
     title: 'Titre long : Lorem ipsum dolor sit amet consectetur ipsum dolor sit amet consectetur',
-    tag: 'Actualité',
+    tag: 'Notification',
     image: 'https://picsum.photos/600/244',
     description:
       'Lorem ipsum dolor sit amet consectetur. Feugiat gravida pretium ultrices at pulvinar nunc porttitor nibh. Lorem ipsum dolor sit amet consectetur Reuiat eges...',
@@ -24,6 +24,8 @@ const props = {
       title: 'Responsable mobilisation',
       pictureLink: 'https://picsum.photos/id/64/200/200',
     },
+    cta_link: 'https://parti-renaissance.fr/',
+    cta_label: 'Site Renaissance',
   },
 }
 
