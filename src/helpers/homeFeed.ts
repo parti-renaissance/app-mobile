@@ -61,7 +61,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
             await openBrowserAsync(feed.cta_link).catch(logDefaultError)
           } else {
             router.push({
-              pathname: '/(tabs)/(home)/news-detail',
+              pathname: '/(tabs)/(home)/(modals)/news-detail',
               params: { id: feed.objectID },
             })
           }
