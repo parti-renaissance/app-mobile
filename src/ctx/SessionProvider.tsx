@@ -1,18 +1,16 @@
 import React, { useMemo } from 'react'
+import { Platform } from 'react-native'
 import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import useLogin from '@/hooks/useLogin'
+import useLogin, { REDIRECT_URI } from '@/hooks/useLogin'
+import { useStorageState } from '@/hooks/useStorageState'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { A } from '@storybook/react-native/dist/index.d-e107ed3d'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
-import { satisfies } from 'semver'
-import { useStorageState } from '../hooks/useStorageState'
-import { Platform } from 'react-native'
 
 type AuthContext = {
   signIn: (props?: { code: string }) => Promise<void>
@@ -83,10 +81,13 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const handleRegister = async () => {
     try {
+      const url = discoveryDocument.registrationEndpoint + `&redirect_uri=${REDIRECT_URI}`
       if (Platform.OS === 'web') {
-        (window.location.href = discoveryDocument.registrationEndpoint)
+        window.location.href = url
       } else {
-        await WebBrowser.openBrowserAsync(discoveryDocument.registrationEndpoint)
+        await WebBrowser.openBrowserAsync(url, {
+          createTask: false,
+        })
       }
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
