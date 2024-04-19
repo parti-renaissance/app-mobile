@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Platform } from 'react-native'
+import { Linking, Platform } from 'react-native'
 import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
@@ -85,6 +85,12 @@ export function SessionProvider(props: React.PropsWithChildren) {
       if (Platform.OS === 'web') {
         window.location.href = url
       } else {
+      const listener = Linking.addEventListener('url', async (event) => {
+          if (event.url.startsWith(REDIRECT_URI)) {
+            WebBrowser.dismissBrowser()
+            listener.remove()
+          }
+        })
         await WebBrowser.openBrowserAsync(url, {
           createTask: false,
         })

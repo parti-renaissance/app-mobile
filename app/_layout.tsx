@@ -3,6 +3,7 @@ import { AppState, useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import VoxToast from '@/components/VoxToast/VoxToast'
+import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
@@ -38,23 +39,7 @@ const useRegisterRoutingInstrumentation = () => {
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
   const { session, isLoading } = useSession()
   if (!session && isLoading) {
-    return (
-      <YStack
-        justifyContent="center"
-        alignItems="center"
-        gap="$4"
-        height="100%"
-        flex={1}
-        position="absolute"
-        top={0}
-        left={0}
-        width="100%"
-        pointerEvents="none"
-      >
-        <EuCampaignIllustration />
-        <Spinner color="$blue7" size="large" />
-      </YStack>
-    )
+    return <WaitingScreen />
   }
 
   if (!isLoading && !props.isLoading) {
@@ -77,21 +62,7 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
               height: '100%',
             }}
           />
-          <YStack
-            justifyContent="center"
-            alignItems="center"
-            gap="$4"
-            height="100%"
-            flex={1}
-            position="absolute"
-            top={0}
-            left={0}
-            width="100%"
-            pointerEvents="none"
-          >
-            <EuCampaignIllustration />
-            <Spinner color="$blue7" size="large" />
-          </YStack>
+          <WaitingScreen />
         </>
       )}
     </>
