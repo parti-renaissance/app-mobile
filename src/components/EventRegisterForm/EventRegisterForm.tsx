@@ -1,5 +1,5 @@
 import React, { ComponentProps, useId, useRef } from 'react'
-import { LogBox } from 'react-native'
+import { Linking, LogBox } from 'react-native'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import Button from '@/components/Button/Button'
 import { PublicSubscribeEventFormError } from '@/core/errors'
@@ -7,9 +7,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { PublicSubscribtionFormData, PublicSubscribtionFormDataSchema } from '@/data/restObjects/RestEvents'
 import { useSubscribePublicEvent } from '@/hooks/useEvents'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
-import { useToastController } from '@tamagui/toast'
 import { router } from 'expo-router'
-import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikHelpers } from 'formik'
 import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, Text, useMedia, View, XStack, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -169,8 +167,12 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
               width="100%"
               variant="text"
               size="md"
-              onPress={() => {
-                WebBrowser.openBrowserAsync('https://parti-renaissance.fr/politique-de-protection-des-donnees/')
+              onPress={async () => {
+                const link = 'https://parti-renaissance.fr/politique-de-protection-des-donnees/'
+
+                if (await Linking.canOpenURL(link)) {
+                  await Linking.openURL(link)
+                }
               }}
             >
               <Button.Text color="$black1" fontWeight="$4" fontSize="$1" textAlign="center" textDecorationLine="underline">
