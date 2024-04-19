@@ -124,6 +124,13 @@ function Root() {
                       <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
                       <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
                       <Stack.Screen
+                        name="(auth)/register"
+                        options={{
+                          title: 'Créer un compte',
+                          presentation: 'fullScreenModal',
+                        }}
+                      />
+                      <Stack.Screen
                         name="(auth)/code-phone-picker"
                         options={{
                           presentation: 'fullScreenModal',
