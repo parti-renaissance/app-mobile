@@ -27,10 +27,10 @@ type FormEditInformationsProps = {
 
 const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, FormEditInformationsProps>(({ profile, onSubmit }, ref) => {
   const genderOptions = [
-    { value: Gender.Male, text: 'Homme' },
+    { value: Gender.Male, text: 'Monsieur' },
     {
       value: Gender.Female,
-      text: 'Femme',
+      text: 'Madame',
     },
   ]
 
