@@ -26,7 +26,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 
-async function actionHandler () {
+async function actionHandler() {
 
     const expoCommandBase = `eas build --platform all --non-interactive --no-wait`
     const expoUpdateCommandBase = `eas update --auto`
@@ -55,18 +55,11 @@ async function actionHandler () {
     switch (buildOrUpdate) {
         case 'patch':
             console.log(chalk.magenta('Will do an UPDATE on expo.'))
-                await aExec(expoUpdateCommandBase)
-                process.exit(0)
+            await aExec(expoUpdateCommandBase)
+            process.exit(0)
             break;
         case 'archive':
         case 'build':
-            console.log("Branch name is ", branchName)
-            console.log("refType === 'branch' ", refType === 'branch')
-            console.log("refType.includes('branch') ", refType.includes('branch'))
-            console.log("Ref type is  ", refType)
-            console.log("Branch start with rc/  ", branchName.startsWith('rc/'))
-            console.log("Branch start with v  ", branchName.startsWith('v'))
-
             if (refType.includes('branch') && branchName.startsWith('rc/') || refType === 'tag' && branchName.startsWith('v')) {
                 console.log(chalk.magenta('Will do a build on production env...'))
                 await aExec(`${expoCommandBase} --profile production --auto-submit`)
@@ -81,7 +74,6 @@ async function actionHandler () {
     console.error(chalk.red('No build ran at all !'))
     process.exit(3)
 }
-
 
 
 program
