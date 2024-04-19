@@ -19,7 +19,7 @@ const LayoutSideBarLeft = ({ children }: ViewProps) => {
   return (
     media.gtMd && (
       <View width={columnWidth} height="100%" pt={padding}>
-        children
+        {children}
       </View>
     )
   )
@@ -46,7 +46,7 @@ const LayoutSideBarRight = ({ children }: ViewProps) => {
   return (
     media.gtLg && (
       <View width={columnWidth} height="100%" pt={padding}>
-        children
+        {children}
       </View>
     )
   )
