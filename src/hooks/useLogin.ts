@@ -44,7 +44,9 @@ export const useLogin = () => {
   return (code?: string) =>
     code
       ? exchangeCodeAsync({ code })
-      : promptAsync().then((codeResult) => {
+      : promptAsync({
+          createTask: false,
+        }).then((codeResult) => {
           if (codeResult.type === 'success') {
             const code = codeResult.params.code
             return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
