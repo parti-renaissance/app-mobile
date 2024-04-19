@@ -1,14 +1,13 @@
 import React, { FC, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button } from '@/components'
+import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
 import { useSession } from '@/ctx/SessionProvider'
 import { router } from 'expo-router'
-import { RemoveAccountInteractor } from '../../core/interactor/RemoveAccountInteractor'
-import AuthenticationRepository from '../../data/AuthenticationRepository'
 import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
-import { BorderlessButton, SecondaryButton } from '../shared/Buttons'
+import { BorderlessButton } from '../shared/Buttons'
 import { ExternalLink } from '../shared/ExternalLink'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import ProfilePollsCompleted from './ProfilePollsCompleted'
@@ -16,7 +15,6 @@ import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import ProfileSettingsCard from './ProfileSettingsCard'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
-
 import { versionLabel } from './version'
 
 type Props = Readonly<{
@@ -43,7 +41,7 @@ const ProfileAuthenticated: FC<Props> = ({
       i18n.t('profile.alert.logout.text'),
       i18n.t('profile.alert.logout.confirm'),
       i18n.t('profile.alert.logout.cancel'),
-      () => signOut(),
+      signOut,
     )
   }
 
