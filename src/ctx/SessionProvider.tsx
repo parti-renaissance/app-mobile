@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { Platform } from 'react-native'
 import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
@@ -80,9 +81,14 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const handleRegister = async () => {
     try {
-      await WebBrowser.openBrowserAsync(`${discoveryDocument.registrationEndpoint}&redirect_uri=${REDIRECT_URI}`, {
-        createTask: false,
-      })
+      const url = discoveryDocument.registrationEndpoint + `&redirect_uri=${REDIRECT_URI}`
+      if (Platform.OS === 'web') {
+        window.location.href = url
+      } else {
+        await WebBrowser.openBrowserAsync(url, {
+          createTask: false,
+        })
+      }
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })
