@@ -80,9 +80,9 @@ const ProfileView = () => {
             {profile?.first_name} {profile?.last_name}
           </Text>
 
-          <Text fontFamily={'$PublicSans'} fontSize={12} color="$textSecondary">
+          {/* <Text fontFamily={'$PublicSans'} fontSize={12} color="$textSecondary">
             #000000
-          </Text>
+          </Text> */}
         </Stack>
         <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
       </View>
