@@ -1,16 +1,18 @@
-import discoveryDocument from '@/config/discoveryDocument'
-import FB from '@/config/firebaseConfig'
-import { AuthenticationState } from '@/core/entities/AuthenticationState'
-import { RefreshTokenPermanentlyInvalidatedError } from '@/core/errors'
-import { REDIRECT_URI } from '@/hooks/useLogin'
-import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import * as WebBrowser from 'expo-web-browser'
-import OAuthApiService from './network/OAuthApiService'
-import PushRepository from './PushRepository'
-import { RestLoginResponse } from './restObjects/RestLoginResponse'
-import CacheManager from './store/CacheManager'
-import { Credentials } from './store/Credentials'
-import LocalStore from './store/LocalStore'
+import { Linking } from 'react-native';
+import discoveryDocument from '@/config/discoveryDocument';
+import FB from '@/config/firebaseConfig';
+import { AuthenticationState } from '@/core/entities/AuthenticationState';
+import { RefreshTokenPermanentlyInvalidatedError } from '@/core/errors';
+import { REDIRECT_URI } from '@/hooks/useLogin';
+import { ErrorMonitor } from '@/utils/ErrorMonitor';
+import * as WebBrowser from 'expo-web-browser';
+import OAuthApiService from './network/OAuthApiService';
+import PushRepository from './PushRepository';
+import { RestLoginResponse } from './restObjects/RestLoginResponse';
+import CacheManager from './store/CacheManager';
+import { Credentials } from './store/Credentials';
+import LocalStore from './store/LocalStore';
+
 
 class AuthenticationRepository {
   private static instance: AuthenticationRepository
@@ -63,9 +65,13 @@ class AuthenticationRepository {
 
   public async logout(dissociateToken: boolean = true): Promise<void> {
     try {
-      await WebBrowser.openBrowserAsync(
-        `${discoveryDocument.endSessionEndpoint}?redirect_uri=${REDIRECT_URI}&client_id=${process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID}`,
-      )
+      const lol = Linking.addEventListener('url', async (event) => {
+        if (event.url.startsWith(REDIRECT_URI)) {
+          WebBrowser.dismissBrowser()
+          lol.remove()
+        }
+      })
+      await WebBrowser.openAuthSessionAsync(`${discoveryDocument.endSessionEndpoint}?redirect_uri=${encodeURIComponent(REDIRECT_URI)}`, REDIRECT_URI)
     } catch (e) {
       ErrorMonitor.log('Cannot open web browser on disconnect', {
         error: e,
