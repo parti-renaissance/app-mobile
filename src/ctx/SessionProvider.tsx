@@ -4,13 +4,13 @@ import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import useLogin from '@/hooks/useLogin'
+import useLogin, { REDIRECT_URI } from '@/hooks/useLogin'
+import { useStorageState } from '@/hooks/useStorageState'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
-import { useStorageState } from '../hooks/useStorageState'
 
 type AuthContext = {
   signIn: (props?: { code: string }) => Promise<void>
@@ -81,10 +81,11 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const handleRegister = async () => {
     try {
+      const url = discoveryDocument.registrationEndpoint + `&redirect_uri=${REDIRECT_URI}`
       if (Platform.OS === 'web') {
-        window.location.href = discoveryDocument.registrationEndpoint
+        window.location.href = url
       } else {
-        await WebBrowser.openBrowserAsync(discoveryDocument.registrationEndpoint, {
+        await WebBrowser.openBrowserAsync(url, {
           createTask: false,
         })
       }
