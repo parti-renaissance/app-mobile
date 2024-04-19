@@ -187,13 +187,13 @@ const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
   )
 }
 
-export type VoxCardDescritionProps = {
+export type VoxCardDescriptionProps = {
   children: string | string[]
   full?: boolean
   markdown?: boolean
 }
 
-const VoxCardDescription = ({ children, full, markdown }: VoxCardDescritionProps) => {
+const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProps) => {
   const theme = useTheme()
   return markdown ? (
     <Markdown
@@ -202,7 +202,6 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescritionProps
           fontFamily: 'PublicSans-Medium',
           fontSize: getFontSize('$1', { font: '$PublicSans' }),
           color: theme.textPrimary.val,
-          lineHeight: getFontSize('$4', { font: '$PublicSans' }),
         },
       }}
     >
