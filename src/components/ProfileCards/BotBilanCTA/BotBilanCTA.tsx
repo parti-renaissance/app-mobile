@@ -1,12 +1,15 @@
 import { useCallback } from 'react'
+import { Linking } from 'react-native'
 import Button from '@/components/Button'
 import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
-import { openBrowserAsync } from 'expo-web-browser'
 import { gray } from '../../../../theme/colors.hex'
 
 export default function BotBilanCTA() {
-  const onPress = useCallback(() => {
-    openBrowserAsync('https://t.me/bilandeurope_bot')
+  const onPress = useCallback(async () => {
+    const link = 'https://t.me/bilandeurope_bot'
+    if (await Linking.canOpenURL(link)) {
+      await Linking.openURL(link)
+    }
   }, [])
 
   return (
