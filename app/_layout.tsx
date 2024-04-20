@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BlurView } from 'expo-blur'
 import { SplashScreen, Stack, useNavigationContainerRef } from 'expo-router'
 import { getTokenValue, isWeb, PortalProvider, Spinner, ViewProps, YStack } from 'tamagui'
+import { Slot } from 'expo-router'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
@@ -69,6 +70,10 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
   )
 }
 
+export const unstable_settings = {
+  initialRouteName: '(tabs)',
+};
+
 function Root() {
   const appState = useRef(AppState.currentState)
 
@@ -106,17 +111,7 @@ function Root() {
                   {(isUpdateAvailable || isBuildUpdateAvailable) && !isWeb ? (
                     <UpdateScreen />
                   ) : (
-                    <Stack>
-                      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                      <Stack.Screen name="(auth)/onboarding" options={{ headerShown: false }} />
-                      <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-                      <Stack.Screen
-                        name="(auth)/code-phone-picker"
-                        options={{
-                          presentation: 'fullScreenModal',
-                        }}
-                      />
-                    </Stack>
+                    <Slot  />
                   )}
                 </WaitingRoomHoc>
               </SessionProvider>

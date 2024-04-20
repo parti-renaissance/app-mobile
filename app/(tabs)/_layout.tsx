@@ -5,23 +5,44 @@ import NavBar from '@/components/Header/Header'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
-import { Tabs } from 'expo-router'
+import { Redirect, Tabs, useGlobalSearchParams } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
+import WaitingScreen from '@/components/WaitingScreen'
+import { useURL, parse } from 'expo-linking'
 
 const TAB_BAR_HEIGTH = 60
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { session } = useSession()
+  const { session, signIn, isAuth } = useSession()
+
+  const { code } = useGlobalSearchParams<{ code?: string }>()
+  const url = useURL()
 
   useInit()
+
+  if (!isAuth && (code || url)) {
+    if (isWeb && code) {
+      signIn({ code })
+      return <WaitingScreen />
+    }
+    if (url && !isWeb) {
+      const { queryParams } = parse(url)
+      const code = queryParams?.code as string | undefined
+
+      if (code) {
+        signIn({ code })
+        return <WaitingScreen />
+      }
+    }
+  }
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }}>
       <NavBar />
       <Tabs
-        initialRouteName="evenements"
+        initialRouteName="(home)"
         screenOptions={{
           headerShown: false,
           tabBarLabel: () => null,

@@ -61,7 +61,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
             await Linking.openURL(feed.cta_link).catch(logDefaultError)
           } else {
             router.push({
-              pathname: '/(tabs)/(home)/(modals)/news-detail',
+              pathname: '/news-detail',
               params: { id: feed.objectID },
             })
           }
@@ -87,7 +87,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         onSubscribe: () => {},
         onShow: () => {
           router.push({
-            pathname: '/(tabs)/(home)/event-detail',
+            pathname: '/event-detail',
             params: { id: feed.objectID },
           })
         },
@@ -132,7 +132,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
               break
             case 'survey':
               router.push({
-                pathname: '/(tabs)/(home)/poll-detail',
+                pathname: '/poll-detail',
                 params: { id: feed.objectID },
               })
               break
