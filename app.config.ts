@@ -1,5 +1,5 @@
-import { ConfigContext, ExpoConfig } from 'expo/config'
-import FontLib from './assets/fonts/generated-lib-fonts'
+import { ConfigContext, ExpoConfig } from 'expo/config';
+import FontLib from './assets/fonts/generated-lib-fonts';
 
 const baseIdentifier = 'fr.en-marche.jecoute'
 const basePackage = 'fr.en_marche.jecoute'
@@ -19,7 +19,7 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
 
   const profile = process.env.EAS_BUILD_PROFILE
   setAssociatedDomain(config, process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN)
-  config.android.config.googleMaps.apiKey = process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API
+  config.android.config.googleMaps.apiKey = process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY
 
   if (!profile || profile === 'development') {
     config.name = 'Vox Dev'
