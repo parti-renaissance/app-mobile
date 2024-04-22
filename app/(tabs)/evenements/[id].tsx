@@ -25,6 +25,7 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
@@ -84,6 +85,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
               </VoxCard.Content>
             </VoxCard>
           </ScrollStack>
+          <SafeAreaView edges={['bottom']}>
           <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
             <AuthFallbackWrapper
               fallback={
@@ -92,7 +94,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
                 ) : (
                   <YStack gap="$3" width="100%">
                     <RegisterButtonSheet id={props.id} />
-                    <Button variant="text" size="lg" width="100%" onPress={signIn}>
+                    <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
                       <Text fontSize="$1">
                         <Text color="$textPrimary" fontWeight="$7">
                           Me connecter
@@ -107,6 +109,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
               {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
             </AuthFallbackWrapper>
           </YStack>
+          </SafeAreaView>
         </PageLayout.MainSingleColumn>
       ) : (
         <>
