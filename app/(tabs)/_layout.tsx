@@ -15,14 +15,14 @@ const TAB_BAR_HEIGTH = 60
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { session, signIn, isAuth } = useSession()
+  const { session, signIn, isAuth, isLoading } = useSession()
 
   const { code } = useGlobalSearchParams<{ code?: string }>()
   const url = useURL()
 
   useInit()
 
-  if (!isAuth && (code || url)) {
+  if (!isAuth && !isLoading && (code || url)) {
     if (isWeb && code) {
       signIn({ code })
       return <WaitingScreen />

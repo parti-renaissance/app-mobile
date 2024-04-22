@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react'
-import { Linking, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import useLogin, { REDIRECT_URI } from '@/hooks/useLogin'
+import useLogin, { REDIRECT_URI, useRegister } from '@/hooks/useLogin'
 import { useStorageState } from '@/hooks/useStorageState'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
-import * as WebBrowser from 'expo-web-browser'
 
 type AuthContext = {
   signIn: (props?: { code: string }) => Promise<void>
@@ -60,6 +59,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   authenticationRepository.current.sessionSetter = setSession
   const queryClient = useQueryClient()
   const login = useLogin()
+  const register =  useRegister()
 
   const handleSignIn: AuthContext['signIn'] = async (props) => {
     try {
@@ -72,6 +72,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
       setSession(JSON.stringify({ accessToken, refreshToken }))
       await loginInteractor.current.setUpLogin()
     } catch (e) {
+      console.log('error', e)
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })
     } finally {
@@ -81,19 +82,25 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const handleRegister = async () => {
     try {
-      const url = discoveryDocument.registrationEndpoint + `&redirect_uri=${REDIRECT_URI}`
       if (Platform.OS === 'web') {
-        window.location.href = url
+        window.location.href = discoveryDocument.registrationEndpoint + `?redirect_uri=${REDIRECT_URI}&utm_source=app`
       } else {
-      const listener = Linking.addEventListener('url', async (event) => {
-          if (event.url.startsWith(REDIRECT_URI)) {
-            WebBrowser.dismissBrowser()
-            listener.remove()
+        try {
+          setIsLoginInProgress(true)
+          const session = await register()
+          if (!session) {
+            return
           }
-        })
-        await WebBrowser.openBrowserAsync(url, {
-          createTask: false,
-        })
+          const { accessToken, refreshToken } = session
+          setSession(JSON.stringify({ accessToken, refreshToken }))
+          await loginInteractor.current.setUpLogin()
+        } catch (e) {
+          console.log('error', e)
+          ErrorMonitor.log(e.message, { e })
+          toast.show('Erreur lors de la connexion', { type: 'error' })
+        } finally {
+          setIsLoginInProgress(false)
+        }
       }
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
@@ -104,7 +111,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
   }
 
   const handleSignOut = async () => {
-    // await WebBrowser.openBrowserAsync('http://staging-utilisateur.besoindeurope.fr/deconnexion')
     await authenticationRepository.current.logout(false).then(() => {
       queryClient.setQueryData(['profil'], null)
       router.replace({ pathname: '/(tabs)/evenements/' })
