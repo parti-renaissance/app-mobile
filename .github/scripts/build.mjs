@@ -62,9 +62,9 @@ async function actionHandler() {
         case 'build':
             console.log('REF TYPE IS', process.env.REF_TYPE)
             console.log('refType.includes(\'branch\') && branchName.startsWith(\'rc/\') result', refType.includes('branch') && branchName.startsWith('rc/'))
-            console.log('refType === \'tag\' && branchName.startsWith(\'v\') result', refType === 'tag' && branchName.startsWith('v'))
+            console.log('refType === \'tag\' && branchName.startsWith(\'v\') result', refType.startsWith('tag') && branchName.startsWith('v'))
 
-            if (refType.includes('branch') && branchName.startsWith('rc/') || refType === 'tag' && branchName.startsWith('v')) {
+            if (refType.includes('branch') && branchName.startsWith('rc/') || refType.startsWith('tag') && branchName.startsWith('v')) {
                 console.log(chalk.magenta('Will do a build on production env...'))
                 await aExec(`${expoCommandBase} --profile production --auto-submit`)
                 process.exit(0)
