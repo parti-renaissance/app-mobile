@@ -39,7 +39,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
   const type = tramformFeedItemType(feed.type)
   const author = {
     role: 'Role data missing',
-    name: feed.author,
+    name: feed.author ?? 'Inconnu(e)',
     title: 'title data missing',
     pictureLink: undefined,
   }
@@ -95,11 +95,11 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           id: feed.objectID,
           title: feed.title,
           tag,
-          image: feed.image,
+          image: feed.image ?? undefined,
           isSubscribed: undefined,
           date: {
-            start: new Date(feed.date),
-            end: new Date(feed.date),
+            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
+            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
           },
           location: feed.media_type === 'online' ? undefined : location,
           isOnline: feed.media_type === 'online',
