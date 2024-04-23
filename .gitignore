@@ -62,3 +62,4 @@ web/.well-known/apple-app-site-association
 web/.well-known/assetlinks.json
 
 bun.lockb
+app-release.apks
