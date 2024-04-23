@@ -16,7 +16,7 @@ const normalizedStories = [
     files: "**/*.stories.?(ts|tsx|js|jsx)",
     importPathMatcher:
       /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-
+    // @ts-ignore
     req: require.context(
       "../src",
       true,
@@ -29,7 +29,7 @@ const normalizedStories = [
     files: "**/*.stories.?(ts|tsx|js|jsx)",
     importPathMatcher:
       /^\.(?:(?:^|\/|(?:(?:(?!(?:^|\/)\.).)*?)\/)(?!\.)(?=.)[^/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
-
+    // @ts-ignore
     req: require.context(
       "../src/screens",
       true,
@@ -46,6 +46,7 @@ const annotations = [
 
 global.STORIES = normalizedStories;
 
+// @ts-ignore
 module?.hot?.accept?.();
 
 if (!global.view) {
@@ -57,7 +58,7 @@ if (!global.view) {
   const { importMap } = prepareStories({ storyEntries: normalizedStories });
 
   global.view._preview.onStoriesChanged({
-    importFn: async (importPath) => importMap[importPath],
+    importFn: async (importPath: string) => importMap[importPath],
   });
 
   global.view._preview.onGetProjectAnnotationsChanged({
