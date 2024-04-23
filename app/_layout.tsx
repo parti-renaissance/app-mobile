@@ -1,23 +1,20 @@
 import React, { useEffect, useRef } from 'react'
 import { AppState, useColorScheme } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import VoxToast from '@/components/VoxToast/VoxToast'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
 import UpdateScreen from '@/screens/update/updateScreen'
-import { headerBlank } from '@/styles/navigationAppearance'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { ToastProvider, ToastViewport } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BlurView } from 'expo-blur'
-import { SplashScreen, Stack, useNavigationContainerRef } from 'expo-router'
-import { getTokenValue, isWeb, PortalProvider, Spinner, ViewProps, YStack } from 'tamagui'
-import { Slot } from 'expo-router'
+import { Slot, SplashScreen, useNavigationContainerRef } from 'expo-router'
+import { getTokenValue, isWeb, PortalProvider, ViewProps } from 'tamagui'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
@@ -72,7 +69,7 @@ const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: bo
 
 export const unstable_settings = {
   initialRouteName: '(tabs)',
-};
+}
 
 function Root() {
   const appState = useRef(AppState.currentState)
@@ -82,7 +79,7 @@ function Root() {
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
   const insets = useSafeAreaInsets()
-  const { isUpdateAvailable, isBuildUpdateAvailable, checkForUpdate } = useAppUpdate()
+  const { isBuildUpdateAvailable, checkForUpdate } = useAppUpdate()
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
@@ -107,13 +104,7 @@ function Root() {
               <SessionProvider>
                 <VoxToast />
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
-                <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                  {(isUpdateAvailable || isBuildUpdateAvailable) && !isWeb ? (
-                    <UpdateScreen />
-                  ) : (
-                    <Slot  />
-                  )}
-                </WaitingRoomHoc>
+                <WaitingRoomHoc isLoading={!isFontsLoaded}>{isBuildUpdateAvailable && !isWeb ? <UpdateScreen /> : <Slot />}</WaitingRoomHoc>
               </SessionProvider>
             </PortalProvider>
           </ThemeProvider>
