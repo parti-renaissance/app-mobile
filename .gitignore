@@ -7,6 +7,7 @@ node_modules/
 .expo/
 dist/
 web-build/
+public/
 
 ios/
 android/
@@ -52,3 +53,12 @@ src/config/env.ts
 android/app/google-services.json
 ios/vox/GoogleService-Info.plist
 config/en-marche-prod.json
+.tamagui
+
+
+.vercel
+.firebase
+web/.well-known/apple-app-site-association
+web/.well-known/assetlinks.json
+
+bun.lockb

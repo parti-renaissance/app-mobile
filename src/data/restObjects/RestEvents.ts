@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import { RestMetadata } from './RestMetadata'
 
 export interface RestEvents {
@@ -5,7 +6,15 @@ export interface RestEvents {
   items: Array<RestShortEvent>
 }
 
-export interface RestShortEvent {
+export interface RestEventOrganizer {
+  uuid: string
+  firstName: string
+  lastName: string
+}
+
+export type EventVisibility = 'public' | 'private' | 'adherent' | 'adherent_dues'
+
+export interface RestFullShortEvent {
   category: RestEventCategory
   name: string
   time_zone: string
@@ -17,9 +26,34 @@ export interface RestShortEvent {
   local_begin_at: string
   local_finish_at: string
   image_url: string | null
+  organizer: RestEventOrganizer
   user_registered_at: string | null
   post_address: RestEventAddress | null
+  visibility: EventVisibility
+  object_state: 'full'
 }
+
+export interface RestPartialShortEvent {
+  object_state: 'partial'
+  begin_at: string
+  capacity: null
+  category: null
+  created_at: null
+  finish_at: string
+  image_url: null
+  live_url: null
+  local_finish_at: null
+  mode: null
+  name: string
+  organizer: null
+  participants_count: null
+  post_address: null
+  time_zone: string
+  visibility: EventVisibility
+  uuid: string
+}
+
+export type RestShortEvent = RestFullShortEvent | RestPartialShortEvent
 
 export interface RestEventCategory {
   name: string
@@ -32,7 +66,7 @@ export interface RestEventParentCategory {
   slug: string
 }
 
-export interface RestDetailedEvent {
+export interface RestFullDetailedEvent {
   committee: RestEventComittee | null
   uuid: string
   name: string
@@ -52,7 +86,18 @@ export interface RestDetailedEvent {
   post_address: RestEventAddress | null
   link: string
   category: RestEventCategory
+  visibility: EventVisibility
+  object_state: 'full'
 }
+
+export type RestDetailedEvent = RestFullDetailedEvent | RestPartialShortEvent
+export type RestEvent = RestShortEvent | RestDetailedEvent
+export type Event = (RestShortEvent & { isShort: true }) | RestDetailedEvent
+
+export const isPartialEvent = (event: Event | RestEvent): event is RestPartialShortEvent => event.object_state === 'partial'
+export const isFullEvent = (event: Event | RestEvent): event is (RestFullShortEvent | RestFullDetailedEvent) & { isShort: true | undefined } =>
+  event.object_state === 'full'
+export const isShortEvent = (event: Event): event is { isShort: true } & RestShortEvent => 'isShort' in event
 
 export interface RestEventOrganizer {
   first_name: string
@@ -82,3 +127,17 @@ export interface RestSubscriptionViolation {
   propertyPath: string
   title: string
 }
+
+export const PublicSubscribtionFormDataSchema = z.object({
+  first_name: z.string().min(1, { message: 'Le prénom ne doit pas être vide' }),
+  last_name: z.string().min(1, { message: 'Le nom ne doit pas être vide' }),
+  email_address: z.string().email({ message: "L'email_address n'est pas valide" }),
+  postal_code: z
+    .string()
+    .min(4, { message: 'Le code postal doit contenir au minimum 4 chiffres' })
+    .max(6, { message: 'Le code postal doit contenir au maximum 6 chiffres' }),
+  cgu_accepted: z.boolean().refine((value) => value, { message: 'Vous devez accepter les CGU' }),
+  join_newsletter: z.boolean(),
+})
+
+export type PublicSubscribtionFormData = z.infer<typeof PublicSubscribtionFormDataSchema>

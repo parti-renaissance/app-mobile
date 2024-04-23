@@ -1,11 +1,13 @@
 import React, { FC, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { RemoveAccountInteractor } from '../../core/interactor/RemoveAccountInteractor'
-import AuthenticationRepository from '../../data/AuthenticationRepository'
+import { Button } from '@/components'
+import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
+import { useSession } from '@/ctx/SessionProvider'
+import { router } from 'expo-router'
 import { Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { AlertUtils } from '../shared/AlertUtils'
-import { BorderlessButton, SecondaryButton } from '../shared/Buttons'
+import { BorderlessButton } from '../shared/Buttons'
 import { ExternalLink } from '../shared/ExternalLink'
 import LoadingOverlay from '../shared/LoadingOverlay'
 import ProfilePollsCompleted from './ProfilePollsCompleted'
@@ -13,7 +15,7 @@ import { ProfileScreenViewModel } from './ProfileScreenViewModel'
 import ProfileSettingsCard from './ProfileSettingsCard'
 import ProfileSettingsHeader from './ProfileSettingsHeader'
 import ProfileSettingsItem from './ProfileSettingsItem'
-// import { versionLabel } from './version'
+import { versionLabel } from './version'
 
 type Props = Readonly<{
   openPersonalInformation: () => void
@@ -30,6 +32,7 @@ const ProfileAuthenticated: FC<Props> = ({
   openNotificationMenu,
   viewModel,
 }) => {
+  const { signOut } = useSession()
   const [isLoadingVisible, setIsLoadingVisible] = useState(false)
 
   const logout = () => {
@@ -38,7 +41,7 @@ const ProfileAuthenticated: FC<Props> = ({
       i18n.t('profile.alert.logout.text'),
       i18n.t('profile.alert.logout.confirm'),
       i18n.t('profile.alert.logout.cancel'),
-      () => AuthenticationRepository.getInstance().logout(),
+      signOut,
     )
   }
 
@@ -46,9 +49,7 @@ const ProfileAuthenticated: FC<Props> = ({
     setIsLoadingVisible(true)
     await new RemoveAccountInteractor()
       .execute()
-      .catch((error) =>
-        AlertUtils.showNetworkAlert(error, onRemoveAccountConfirmed),
-      )
+      .catch((error) => AlertUtils.showNetworkAlert(error, onRemoveAccountConfirmed))
       .finally(() => setIsLoadingVisible(false))
   }
 
@@ -84,9 +85,7 @@ const ProfileAuthenticated: FC<Props> = ({
           style={styles.settingsCard}
           viewModel={{
             title: i18n.t('profile.menu.personal_information'),
-            description: i18n.t(
-              'profile.menu.personal_information_description',
-            ),
+            description: i18n.t('profile.menu.personal_information_description'),
             image: require('../../assets/images/imageProfileInformations.png'),
           }}
           onPress={openPersonalInformation}
@@ -101,29 +100,25 @@ const ProfileAuthenticated: FC<Props> = ({
           onPress={openNotificationMenu}
         />
         <ProfileSettingsHeader title={i18n.t('profile.menu.application')} />
-        <ProfileSettingsItem
-          title={i18n.t('profile.menu.settings')}
-          onPress={openApplicationSettings}
-        />
+        <ProfileSettingsItem title={i18n.t('profile.menu.settings')} onPress={openApplicationSettings} />
         <ProfileSettingsItem
           title={i18n.t('profile.menu.termsofuse')}
           onPress={() => {
             ExternalLink.openUrl(i18n.t('profile.menu.termsofuse_url'))
           }}
         />
+        <ProfileSettingsItem
+          title="StoryBook"
+          onPress={() => {
+            router.replace('/storybook')
+          }}
+        />
         <View style={styles.container}>
-          <SecondaryButton
-            onPress={logout}
-            style={styles.logout}
-            textStyle={styles.logoutText}
-            title={i18n.t('profile.logout')}
-          />
-          <BorderlessButton
-            onPress={removeAccount}
-            textStyle={styles.removeAccountText}
-            title={i18n.t('profile.remove_account')}
-          />
-          {/* <Text style={styles.version}>{versionLabel}</Text> */}
+          <Button onPress={logout}>
+            <Button.Text>{i18n.t('profile.logout')}</Button.Text>
+          </Button>
+          <BorderlessButton onPress={removeAccount} textStyle={styles.removeAccountText} title={i18n.t('profile.remove_account')} />
+          <Text style={styles.version}>{versionLabel}</Text>
         </View>
       </ScrollView>
     </>

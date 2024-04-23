@@ -3,18 +3,12 @@ import { Stack } from 'expo-router'
 
 export default function AppLayout() {
   return (
-    <Stack screenOptions={headerBlank}>
+    <Stack screenOptions={{ ...headerBlank, headerShown: false }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="phoning/index" />
-      <Stack.Screen
-        name="phoning/session/[device]"
-        options={{ presentation: 'modal', headerShown: false }}
-      />
+      <Stack.Screen name="phoning/index" options={{ headerShown: false }} />
+      <Stack.Screen name="phoning/session/[device]" options={{ presentation: 'modal', headerShown: false }} />
       <Stack.Screen name="phoning/charter" />
-      <Stack.Screen
-        name="door-to-door/tunnel"
-        options={{ presentation: 'modal', headerShown: false }}
-      />
+      <Stack.Screen name="door-to-door/tunnel" options={{ presentation: 'modal', headerShown: false }} />
       <Stack.Screen name="phoning/tutorial" />
       <Stack.Screen name="phoning/campaign/brief" />
       <Stack.Screen name="phoning/campaign/scoreboard" />

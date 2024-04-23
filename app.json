@@ -3,12 +3,11 @@
     "name": "Besoin d'Europe",
     "slug": "vox",
     "scheme": "vox",
-    "version": "4.0.1",
+    "version": "5.0.0",
     "owner": "parti-renaissance",
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -18,10 +17,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "infoPlist": {
-       "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
+        "NSCalendarsWriteOnlyAccessUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés.",
         "NSLocationWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés."
       }
@@ -31,10 +31,24 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.FOREGROUND_SERVICE"
+        "android.permission.READ_CALENDAR",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.WRITE_CALENDAR"
       ],
       "config": {
         "googleMaps": {
@@ -48,23 +62,20 @@
     },
     "plugins": [
       "expo-router",
-      ["@sentry/react-native/expo"],
       [
-        "expo-font",
+        "@sentry/react-native/expo",
         {
-          "fonts": [
-            "./assets/fonts/Value-Bold.ttf",
-            "./assets/fonts/Value-Medium.ttf",
-            "./assets/fonts/Value-MediumItalic.ttf",
-            "./assets/fonts/Value-Regular.ttf",
-            "./assets/fonts/SharpGrotesk-SemiBold25.ttf"
-          ]
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "project": "vox",
+          "organization": "parti-renaissance"
         }
       ],
       "expo-localization",
       "@react-native-firebase/app",
       "@react-native-firebase/messaging",
       "@react-native-firebase/dynamic-links",
+      "expo-secure-store",
       [
         "expo-build-properties",
         {
@@ -81,7 +92,15 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-      ]
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["CalendarsWriteOnly"],
+          "androidPermissions": ["android.permission.WRITE_CALENDAR"]
+        }
+      ],
+      ["react-native-add-calendar-event"]
     ],
     "extra": {
       "router": {
@@ -93,9 +112,6 @@
     },
     "experiments": {
       "typedRoutes": true
-    },
-    "updates": {
-      "url": "https://u.expo.dev/3b41ebc2-860e-4ccb-a101-5edc6b0c7558"
     }
   }
 }

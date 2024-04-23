@@ -14,8 +14,9 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import * as WebBrowser from 'expo-web-browser';
 import CheckBox from 'expo-checkbox'
+import { router } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import { SignUpFormData } from '../../core/entities/SignUpFormData'
 import { Gender } from '../../core/entities/UserProfile'
@@ -38,7 +39,6 @@ import InputAccessoryClose from '../shared/InputAccessoryClose'
 import KeyboardOffsetView from '../shared/KeyboardOffsetView'
 import LabelTextInput from '../shared/LabelTextInput'
 import LoadingOverlay from '../shared/LoadingOverlay'
-import {router} from 'expo-router'
 
 type SignUpScreenProps = OnboardingNavigatorScreenProps<'SignUp'>
 
@@ -83,8 +83,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
         ...state,
         phoneCountryCode: callingCode,
       }))
-    }
-    )
+    })
     LegalRepository.getInstance()
       .getDataProtectionRegulation()
       .then((newGdpr) => setGdpr(newGdpr.content))
@@ -150,8 +149,8 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
   }
 
   const _handleOpenCGUAsync = async () => {
-    await WebBrowser.openBrowserAsync(i18n.t('sign_up.account.gcu.link.url'));
-  };
+    await WebBrowser.openBrowserAsync(i18n.t('sign_up.account.gcu.link.url'))
+  }
 
   const showSuccessAlert = () => {
     Alert.alert(
@@ -171,7 +170,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
 
   const onCallingCodePress = () => {
     router.navigate({
-      pathname: '/home/profile/code-phone-picker',
+      pathname: '/profile/code-phone-picker',
       params: {
         selectedItemId: signUpFormData.phoneCountryCode,
       },
@@ -185,31 +184,23 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
         style={styles.field}
         label={i18n.t('sign_up.account.first_name')}
         errorMessage={getError(errors, 'first_name')}
-        textInputProps={getTextInputProps(
-          signUpFormData.firstName,
-          i18n.t('sign_up.account.first_name_placeholder'),
-          (text: string) => {
-            setSignUpFormData({
-              ...signUpFormData,
-              firstName: text,
-            })
-          },
-        )}
+        textInputProps={getTextInputProps(signUpFormData.firstName, i18n.t('sign_up.account.first_name_placeholder'), (text: string) => {
+          setSignUpFormData({
+            ...signUpFormData,
+            firstName: text,
+          })
+        })}
       />
       <LabelTextInput
         style={styles.field}
         label={i18n.t('sign_up.account.name')}
         errorMessage={getError(errors, 'last_name')}
-        textInputProps={getTextInputProps(
-          signUpFormData.lastName,
-          i18n.t('sign_up.account.name_placeholder'),
-          (text: string) => {
-            setSignUpFormData({
-              ...signUpFormData,
-              lastName: text,
-            })
-          },
-        )}
+        textInputProps={getTextInputProps(signUpFormData.lastName, i18n.t('sign_up.account.name_placeholder'), (text: string) => {
+          setSignUpFormData({
+            ...signUpFormData,
+            lastName: text,
+          })
+        })}
       />
       <LabelTextInput
         style={styles.field}
@@ -239,9 +230,9 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
           }}
         />
         <View style={styles.checkboxText}>
-         <Text style={styles.termsOfUse}>{i18n.t('sign_up.account.gcu.text')}</Text>
-         <Pressable onPress={_handleOpenCGUAsync}>
-            <Text style={[styles.termsOfUse, {color: Colors.primaryColor, textDecorationLine: 'underline'}]}>{i18n.t('sign_up.account.gcu.link.text')}</Text>
+          <Text style={styles.termsOfUse}>{i18n.t('sign_up.account.gcu.text')}</Text>
+          <Pressable onPress={_handleOpenCGUAsync}>
+            <Text style={[styles.termsOfUse, { color: Colors.primaryColor, textDecorationLine: 'underline' }]}>{i18n.t('sign_up.account.gcu.link.text')}</Text>
           </Pressable>
         </View>
       </View>
@@ -250,9 +241,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
 
   const renderSectionPersonalData = () => (
     <>
-      <Text style={styles.subtitle}>
-        {i18n.t('sign_up.personal_data.title')}
-      </Text>
+      <Text style={styles.subtitle}>{i18n.t('sign_up.personal_data.title')}</Text>
       <View style={styles.field}>
         <GenderPicker
           multiline={true}
@@ -289,9 +278,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
         <PhoneNumberInput
           labelStyle={styles.fieldTitle}
           phoneNumber={signUpFormData.phoneNumber}
-          callingCode={CountryRepository.getInstance().getCallingCodeForCountryCode(
-            signUpFormData.phoneCountryCode,
-          )}
+          callingCode={CountryRepository.getInstance().getCallingCodeForCountryCode(signUpFormData.phoneCountryCode)}
           label={i18n.t('sign_up.personal_data.phone')}
           placeholder={i18n.t('sign_up.personal_data.phone_placeholder')}
           onPhoneNumberChange={(value) => {
@@ -326,9 +313,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
 
   const renderSectionNotifications = () => (
     <>
-      <Text style={styles.subtitle}>
-        {i18n.t('sign_up.notifications.title')}
-      </Text>
+      <Text style={styles.subtitle}>{i18n.t('sign_up.notifications.title')}</Text>
       <View style={styles.checkboxContainer}>
         <CheckBox
           value={signUpFormData.notificationMail}
@@ -339,9 +324,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
             })
           }}
         />
-        <Text style={styles.checkboxText}>
-          {i18n.t('sign_up.notifications.mail')}
-        </Text>
+        <Text style={styles.checkboxText}>{i18n.t('sign_up.notifications.mail')}</Text>
       </View>
       <View style={styles.checkboxContainer}>
         <CheckBox
@@ -353,9 +336,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
             })
           }}
         />
-        <Text style={styles.checkboxText}>
-          {i18n.t('sign_up.notifications.sms')}
-        </Text>
+        <Text style={styles.checkboxText}>{i18n.t('sign_up.notifications.sms')}</Text>
       </View>
     </>
   )
@@ -373,10 +354,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>{i18n.t('sign_up.title')}</Text>
         <KeyboardOffsetView>
-          <ScrollView
-            contentContainerStyle={styles.content}
-            keyboardShouldPersistTaps="handled"
-          >
+          <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
             {renderSectionAccount()}
             {renderSectionPersonalData()}
             {renderSectionNotifications()}
@@ -391,11 +369,7 @@ const SignUpScreen: FunctionComponent<SignUpScreenProps> = () => {
           />
         </KeyboardOffsetView>
         <View style={styles.bottomContainer}>
-          <PrimaryButton
-            title={i18n.t('sign_up.action')}
-            onPress={submit}
-            disabled={!isActionEnabled(signUpFormData)}
-          />
+          <PrimaryButton title={i18n.t('sign_up.action')} onPress={submit} disabled={!isActionEnabled(signUpFormData)} />
         </View>
       </View>
     </SafeAreaView>

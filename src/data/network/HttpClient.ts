@@ -1,6 +1,5 @@
 import { Mutex } from 'async-mutex'
 import ky from 'ky'
-import { API_BASE_URL } from '../../config/env'
 import AuthenticationRepository from '../AuthenticationRepository'
 import { Credentials } from '../store/Credentials'
 import LocalStore from '../store/LocalStore'
@@ -27,21 +26,14 @@ const refreshToken = async (options: { request: Request }) => {
     }
     const tokenHasBeenRefreshed = credentials.accessToken !== requestAccessToken
     if (tokenHasBeenRefreshed) {
-      options.request.headers.set(
-        'Authorization',
-        `Bearer ${credentials?.accessToken}`,
-      )
+      options.request.headers.set('Authorization', `Bearer ${credentials?.accessToken}`)
       return
     }
 
     const authenticationRepository = AuthenticationRepository.getInstance()
-    let newCredentials: Credentials =
-      await authenticationRepository.refreshToken(credentials.refreshToken)
+    let newCredentials: Credentials = await authenticationRepository.refreshToken(credentials.refreshToken)
 
-    options.request.headers.set(
-      'Authorization',
-      `Bearer ${newCredentials?.accessToken}`,
-    )
+    options.request.headers.set('Authorization', `Bearer ${newCredentials?.accessToken}`)
   })
 }
 
@@ -53,7 +45,7 @@ function extractAccessToken(request: Request): string | null {
 }
 
 const baseHttpClient = ky.create({
-  prefixUrl: API_BASE_URL,
+  prefixUrl: process.env.EXPO_PUBLIC_API_BASE_URL,
 })
 
 const httpClient = baseHttpClient.extend({
@@ -67,5 +59,7 @@ const httpClient = baseHttpClient.extend({
     beforeRetry: [refreshToken],
   },
 })
+
+export const publicHttpClient = baseHttpClient
 
 export default httpClient

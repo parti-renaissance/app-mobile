@@ -4,20 +4,27 @@
   },
   "build": {
     "development": {
-      "bun": "1.0.20",
-      "developmentClient": true
+      "distribution": "internal",
+      "channel": "development",
+      "autoIncrement": true
     },
     "staging": {
-      "bun": "1.0.20",
       "distribution": "internal",
       "channel": "staging",
       "autoIncrement": true
     },
     "production": {
-      "bun": "1.0.20",
       "distribution": "store",
       "channel": "main",
       "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "1441973895",
+        "appleTeamId": "2B4W43UD9Y"
+      }
     }
   }
 }

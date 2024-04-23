@@ -1,0 +1,21 @@
+name: Build web
+description: build web
+
+runs:
+  using: composite
+  steps:
+    - name: 🧙🏻‍♂️ First patch build (otherwise we'll have a .css error)
+      shell: bash
+      run: yarn expo export -p web
+      continue-on-error: true
+    - name: 🧙🏻‍♂️ Second patch build (otherwise we'll have a .css error)
+      shell: bash
+      run: yarn expo export -p web
+      continue-on-error: true
+    - name: 🧙🏻‍♂️ Third patch build (otherwise we'll have a .length error)
+      shell: bash
+      run: yarn expo export -p web
+      continue-on-error: true
+    - name: 🛠️ Definitive build
+      shell: bash
+      run: yarn expo export -p web

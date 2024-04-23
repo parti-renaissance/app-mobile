@@ -1,44 +1,31 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import * as Linking from 'expo-linking'
 import { useFocusEffect } from '@react-navigation/native'
+import * as Linking from 'expo-linking'
+import { router } from 'expo-router'
 import { ServerTimeoutError } from '../../core/errors'
-import {
-  GetUserProfileInteractor,
-  GetUserProfileInteractorResult,
-} from '../../core/interactor/GetUserProfileInteractor'
+import { GetUserProfileInteractor, GetUserProfileInteractorResult } from '../../core/interactor/GetUserProfileInteractor'
 import { Colors } from '../../styles'
-import { CloseButton } from '../shared/NavigationHeaderButton'
 import { StatefulView } from '../shared/StatefulView'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import ProfileAuthenticated from './ProfileAuthenticated'
 import { ProfileScreenViewModelMapper } from './ProfileScreenViewModelMapper'
-import { router } from 'expo-router'
-
 
 const ProfileScreen = () => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<GetUserProfileInteractorResult>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<GetUserProfileInteractorResult>>(ViewState.Loading())
 
   const ProfileDispatcher = (content: GetUserProfileInteractorResult) => {
     const openApplicationSettings = async () => {
       await Linking.openSettings()
     }
     const openNotificationMenu = () => {
-      router.push('/(tabs)/home/profile/notification')
+      router.push('/(tabs)/profile/notification')
     }
     const openPersonalInformation = () => {
-      router.push('/(tabs)/home/profile/personal-information')
+      router.push('/(tabs)/profile/personal-information')
     }
-    // const openCenterOfInterest = () => {
-    //   router.push('/(tabs)/home/profile/center-of-interest')
-    // }
-    const viewModel = ProfileScreenViewModelMapper.map(
-      content.profile,
-      content.department,
-    )
+    const viewModel = ProfileScreenViewModelMapper.map(content.profile, content.department)
     return (
       <ProfileAuthenticated
         openPersonalInformation={openPersonalInformation}
@@ -83,10 +70,7 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatefulView
-        state={statefulState}
-        contentComponent={ProfileDispatcher}
-      />
+      <StatefulView state={statefulState} contentComponent={ProfileDispatcher} />
     </SafeAreaView>
   )
 }

@@ -1,0 +1,16 @@
+{
+  "cleanUrls": true,
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/(.*)",
+      "headers": [{ "key": "Content-Type", "value": "application/json" }]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { HTTPError, TimeoutError } from 'ky'
-import { ErrorMonitor } from '../../utils/ErrorMonitor'
 
 export const logTypeError = (error: TypeError) => {
   ErrorMonitor.log('[NetworkLogger] Type error', {
@@ -33,6 +33,7 @@ export const logHttpError = async (error: HTTPError, title?: string) => {
         body: JSON.stringify(body),
       },
     },
+    error.response.status !== 401,
   )
 }
 

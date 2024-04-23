@@ -1,5 +1,4 @@
 import { HTTPError } from 'ky'
-import { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET } from '../../config/env'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
 import { RestLoginResponse } from '../restObjects/RestLoginResponse'
 import { mapLoginError } from './errorMappers'
@@ -18,8 +17,8 @@ class OAuthApiService {
     deviceId: string,
   ): Promise<RestLoginResponse> {
     const formData = new FormData()
-    formData.append('client_id', OAUTH_CLIENT_ID)
-    formData.append('client_secret', OAUTH_CLIENT_SECRET)
+    formData.append('client_id', process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID)
+    formData.append('client_secret', process.env.EXPO_PUBLIC_OAUTH_CLIENT_SECRET)
     formData.append('grant_type', 'password')
     formData.append('scope[]', SCOPE_APP)
     formData.append('scope[]', SCOPE_READ_PROFILE)
@@ -36,8 +35,10 @@ class OAuthApiService {
 
   public refreshToken(refreshToken: string): Promise<RestLoginResponse> {
     const formData = new FormData()
-    formData.append('client_id', OAUTH_CLIENT_ID)
-    formData.append('client_secret', OAUTH_CLIENT_SECRET)
+    if (!process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID) {
+      throw new Error('Missing EXPO_PUBLIC_OAUTH_CLIENT_ID')
+    }
+    formData.append('client_id', process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID)
     formData.append('grant_type', 'refresh_token')
     formData.append('refresh_token', refreshToken)
 

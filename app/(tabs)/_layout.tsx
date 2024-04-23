@@ -1,159 +1,81 @@
 import React from 'react'
-import { Image, Pressable, StyleSheet, View } from 'react-native'
+import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Colors, Spacing, Typography } from '@/styles'
-import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
-import i18n from '@/utils/i18n'
-import { Redirect, SplashScreen, Tabs, usePathname } from 'expo-router'
+import NavBar from '@/components/Header/Header'
+import { ROUTES } from '@/config/routes'
+import { useSession } from '@/ctx/SessionProvider'
+import useInit from '@/hooks/useInit'
+import { Redirect, Tabs, useGlobalSearchParams } from 'expo-router'
+import { isWeb, useMedia, View } from 'tamagui'
+import WaitingScreen from '@/components/WaitingScreen'
+import { useURL, parse } from 'expo-linking'
 
-const tabBarIcon =
-  (pathname: string, isHighlighted = false) =>
-  ({ color, focused }) => {
-    return (
-      <View
-        style={[
-          styles.iconContainer,
-          isHighlighted ? styles.highlightedIconContainer : undefined,
-        ]}
-      >
-        <Image
-          source={getTabBarIcon(pathname, focused)}
-          style={{
-            tintColor: isHighlighted ? Colors.activeItemBackground : color,
-          }}
-        />
-      </View>
-    )
-  }
-
-const getTabBarIcon = (route: string, focused: boolean) => {
-  switch (route) {
-    case 'home':
-      return focused
-        ? require('@/assets/images/tabBarIconsHomeOn.png')
-        : require('@/assets/images/tabBarIconsHomeOff.png')
-    case 'news':
-      return focused
-        ? require('@/assets/images/tabBarIconsNewsOn.png')
-        : require('@/assets/images/tabBarIconsNewsOff.png')
-    case 'actions':
-      return focused
-        ? require('@/assets/images/tabBarIconsActOn.png')
-        : require('@/assets/images/tabBarIconsActOff.png')
-    case 'events':
-      return focused
-        ? require('@/assets/images/tabBarIconsEventOn.png')
-        : require('@/assets/images/tabBarIconsEventOff.png')
-    case 'tools':
-      return focused
-        ? require('@/assets/images/tabBarIconsToolsOn.png')
-        : require('@/assets/images/tabBarIconsToolsOff.png')
-  }
-}
-
-const getScreenname = (route: string): AnalyticsScreens => {
-  switch (route) {
-    case 'home/':
-      return 'Accueil'
-    case 'news/':
-      return 'Actualités'
-    case 'actions/':
-      return 'Actions'
-    case 'events/':
-      return 'Événements'
-    case 'tools/':
-      return 'Ressources'
-  }
-}
+const TAB_BAR_HEIGTH = 60
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
-  const pathname = usePathname()
+  const media = useMedia()
+  const { session, signIn, isAuth, isLoading } = useSession()
 
-  React.useEffect(() => {
-    Analytics.logNavBarItemSelected(getScreenname(pathname))
-  }, [pathname])
+  const { code } = useGlobalSearchParams<{ code?: string }>()
+  const url = useURL()
 
-  // Set up the auth context and render our layout inside of it.
+  useInit()
+
+  if (!isAuth && !isLoading && (code || url)) {
+    if (isWeb && code) {
+      signIn({ code })
+      return <WaitingScreen />
+    }
+    if (url && !isWeb) {
+      const { queryParams } = parse(url)
+      const code = queryParams?.code as string | undefined
+
+      if (code) {
+        signIn({ code })
+        return <WaitingScreen />
+      }
+    }
+  }
+
   return (
-    <Tabs
-      initialRouteName="home"
-      screenOptions={{
-        headerShown: false,
-        tabBarButton: (props) => {
-          return (
-            <Pressable
-              android_ripple={{ color: Colors.tabBarRipple }}
-              {...props}
-            />
-          )
-        },
-        tabBarActiveTintColor: Colors.tabBarActiveTint,
-        tabBarInactiveTintColor: Colors.tabBarInactiveTint,
-        tabBarLabelStyle: {
-          ...Typography.tabLabel,
-          marginTop: Spacing.margin,
-          marginBottom: Spacing.small,
-        },
-        tabBarStyle: {
-          backgroundColor: Colors.tabBarBackground,
-          height: TAB_BAR_HEIGTH + insets.bottom,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="home"
-        options={{
-          tabBarIcon: tabBarIcon('home'),
-          tabBarLabel: i18n.t('tab.item_home'),
+    <View style={{ height: isWeb ? '100svh' : '100%' }}>
+      <NavBar />
+      <Tabs
+        initialRouteName="(home)"
+        screenOptions={{
+          headerShown: false,
+          tabBarLabel: () => null,
+          tabBarButton: (props) => <Pressable {...props} />,
+          tabBarStyle: {
+            backgroundColor: 'white',
+            borderTopWidth: 2,
+            borderTopColor: 'rgba(145, 158, 171, 0.32)',
+            display: media.gtSm || !session ? 'none' : 'flex',
+            height: TAB_BAR_HEIGTH + insets.bottom,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="news"
-        options={{
-          tabBarIcon: tabBarIcon('news'),
-          tabBarLabel: i18n.t('tab.item_news'),
-        }}
-      />
-      <Tabs.Screen
-        name="actions"
-        options={{
-          tabBarIcon: tabBarIcon('actions', true),
-          tabBarLabel: i18n.t('tab.item_actions'),
-        }}
-      />
-      <Tabs.Screen
-        name="events"
-        options={{
-          tabBarIcon: tabBarIcon('events'),
-          tabBarLabel: i18n.t('tab.item_events'),
-        }}
-      />
-      <Tabs.Screen
-        name="tools"
-        options={{
-          tabBarIcon: tabBarIcon('tools'),
-          tabBarLabel: i18n.t('tab.item_tools'),
-        }}
-      />
-    </Tabs>
+      >
+        {ROUTES.map((route) => (
+          <Tabs.Screen
+            key={route.name}
+            name={route.name}
+            options={{
+              href: route.hidden === true ? null : undefined,
+              tabBarIcon: ({ focused }) => {
+                const Icon = ({ focused }) => <route.icon active={focused} />
+
+                return (
+                  <View>
+                    <Icon focused={focused} />
+                  </View>
+                )
+              },
+            }}
+          />
+        ))}
+        <Tabs.Screen name="profil" options={{ href: null }} />
+      </Tabs>
+    </View>
   )
 }
-
-const TAB_BAR_HEIGTH = 60
-const HIGHLIGHTED_TAB_BACKGROUND_SIZE = 36
-
-const styles = StyleSheet.create({
-  highlightedIconContainer: {
-    alignItems: 'center',
-    backgroundColor: Colors.accent,
-    borderRadius: 8,
-    height: HIGHLIGHTED_TAB_BACKGROUND_SIZE,
-    justifyContent: 'center',
-    padding: 8,
-    width: HIGHLIGHTED_TAB_BACKGROUND_SIZE,
-  },
-  iconContainer: {
-    marginTop: Spacing.margin + Spacing.small,
-  },
-})

@@ -1,52 +1,117 @@
-import { SessionProvider } from '@/ctx'
-import { headerBlank } from '@/styles/navigationAppearance'
-import { SplashScreen, Stack } from 'expo-router'
-import * as Sentry from '@sentry/react-native'
-import { ENVIRONMENT, SENTRY_DSN } from '@/config/env'
-import { useNavigationContainerRef } from 'expo-router';
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { AppState, useColorScheme } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import VoxToast from '@/components/VoxToast/VoxToast'
+import WaitingScreen from '@/components/WaitingScreen'
+import { SessionProvider, useSession } from '@/ctx/SessionProvider'
+import useAppUpdate from '@/hooks/useAppUpdate'
+import useImportFont from '@/hooks/useImportFont'
+import UpdateScreen from '@/screens/update/updateScreen'
+import TamaguiProvider from '@/tamagui/provider'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { ToastProvider, ToastViewport } from '@tamagui/toast'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { BlurView } from 'expo-blur'
+import { Slot, SplashScreen, useNavigationContainerRef } from 'expo-router'
+import { getTokenValue, isWeb, PortalProvider, ViewProps } from 'tamagui'
 
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+if (isWeb) {
+  require('@tamagui/core/reset.css')
+}
 
-Sentry.init({
-  dsn: SENTRY_DSN,
-  debug: ENVIRONMENT !== 'production', // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
-  integrations: [
-    new Sentry.ReactNativeTracing({
-      // Pass instrumentation to be used as `routingInstrumentation`
-      routingInstrumentation,
-      // ...
-    }),
-  ],
-});
+const { routingInstrumentation } = ErrorMonitor.configure()
 
 SplashScreen.preventAutoHideAsync()
 
- function Root() {
+const useRegisterRoutingInstrumentation = () => {
   const navigationRef = useNavigationContainerRef()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (navigationRef) {
-      routingInstrumentation.registerNavigationContainer(navigationRef);
+      routingInstrumentation.registerNavigationContainer(navigationRef)
     }
-  }, [navigationRef]);
-  
+  }, [navigationRef])
+}
+
+const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
+  const { session, isLoading } = useSession()
+  if (!session && isLoading) {
+    return <WaitingScreen />
+  }
+
+  if (!isLoading && !props.isLoading) {
+    SplashScreen.hideAsync()
+  }
+
   return (
-    <SessionProvider>
-      <Stack>
-        <Stack.Screen
-          name="(auth)/onboarding"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="(auth)/sign-in" options={headerBlank} />
-        <Stack.Screen name="(auth)/sign-up" options={headerBlank} />
-        <Stack.Screen name="(auth)/code-phone-picker" options={{
-          presentation: 'fullScreenModal',
-        }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </SessionProvider>
+    <>
+      {props.children}
+      {(isLoading || props.isLoading) && (
+        <>
+          <BlurView
+            experimentalBlurMethod="dimezisBlurView"
+            intensity={50}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          <WaitingScreen />
+        </>
+      )}
+    </>
   )
 }
 
-export default Sentry.wrap(Root)
+export const unstable_settings = {
+  initialRouteName: '(tabs)',
+}
+
+function Root() {
+  const appState = useRef(AppState.currentState)
+
+  const colorScheme = useColorScheme()
+  const queryClient = new QueryClient()
+  const [isFontsLoaded] = useImportFont()
+  useRegisterRoutingInstrumentation()
+  const insets = useSafeAreaInsets()
+  const { isBuildUpdateAvailable, checkForUpdate } = useAppUpdate()
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        checkForUpdate()
+      }
+
+      appState.current = nextAppState
+    })
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
+
+  return (
+    <ToastProvider>
+      <QueryClientProvider client={queryClient}>
+        <TamaguiProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <PortalProvider>
+              <SessionProvider>
+                <VoxToast />
+                <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
+                <WaitingRoomHoc isLoading={!isFontsLoaded}>{isBuildUpdateAvailable && !isWeb ? <UpdateScreen /> : <Slot />}</WaitingRoomHoc>
+              </SessionProvider>
+            </PortalProvider>
+          </ThemeProvider>
+        </TamaguiProvider>
+      </QueryClientProvider>
+    </ToastProvider>
+  )
+}
+
+export default Root

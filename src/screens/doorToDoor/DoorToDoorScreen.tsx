@@ -5,9 +5,9 @@ import React, {
   useState,
 } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import * as Geolocation from 'expo-location'
-import { LatLng, Region } from 'react-native-maps'
+import { LatLng, Region } from '@/components/Maps/Maps'
 import { useFocusEffect } from '@react-navigation/native'
+import * as Geolocation from 'expo-location'
 import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
 import {
   DoorToDoorCharterNotAccepted,
@@ -87,16 +87,21 @@ const DoorToDoorScreen: FunctionComponent<DoorToDoorScreenProps> = ({
 
   useEffect(() => {
     if (!locationAuthorized) return
-    (async () => {
+    ;(async () => {
       setLoading(true)
-      let { status } = await Geolocation.requestForegroundPermissionsAsync();
-      const position = await Geolocation.getCurrentPositionAsync({ accuracy: Geolocation.Accuracy.High })
+      let { status } = await Geolocation.requestForegroundPermissionsAsync()
+      const position = await Geolocation.getCurrentPositionAsync({
+        accuracy: Geolocation.Accuracy.High,
+      })
       if (status !== 'granted') {
         setLocationAuthorized(false)
         setLoading(false)
         return
-       }
-      const latLng = { longitude: position.coords.longitude, latitude: position.coords.latitude }
+      }
+      const latLng = {
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+      }
       setCurrentSearchRegion(getRegionFromLatLng(latLng))
       setLoading(false)
     })()

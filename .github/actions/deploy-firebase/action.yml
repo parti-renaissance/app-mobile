@@ -1,0 +1,23 @@
+name: Deploy on firebase
+description: Deploy on firebase hosting
+
+inputs:
+  expire:
+    description: 'Time of expiry (default to 7 days)'
+    required: false
+    default: '7d'
+outputs:
+  url:
+    description: "Deployment URL"
+    value: ${{steps.extractor.outputs.url}}"
+
+runs:
+  using: composite
+  steps:
+    - name: 📦 Deploy on firebase
+      shell: bash
+      run: npx firebase hosting:channel:deploy "${{env.BRANCH_NAME}}" --expires ${{inputs.expire}} --project "${{env.EXPO_PUBLIC_FB_PROJECT_ID}}" | tee output.txt
+    - name: Extract deployed URL
+      id: extractor
+      shell: bash
+      run: cat output.txt | grep "Channel URL" | awk -F 'https://' '{print "https://" $2}' | awk '{print "url="$1}' >> $GITHUB_OUTPUT

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import SplashScreen from 'react-native-splash-screen'
+import * as SplashScreen from 'expo-splash-screen'
 import { AuthenticationState } from '../core/entities/AuthenticationState'
 import { ApplicationUpgradeInteractor } from '../core/interactor/ApplicationUpgradeInteractor'
 import { IdentifyUserOnErrorMonitorInteractor } from '../core/interactor/IdentifyUserOnErrorMonitorInteractor'
@@ -39,7 +39,7 @@ const Navigator: FunctionComponent = () => {
         })
       setLoggedIn(true)
     }
-    SplashScreen.hide()
+    SplashScreen.hideAsync()
   }
 
   useEffect(() => {
