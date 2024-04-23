@@ -81,7 +81,6 @@
     "expo-sharing": "~11.10.0",
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
-    "expo-updates": "~0.24.11",
     "expo-web-browser": "~12.8.2",
     "firebase": "^10.7.1",
     "formik": "^2.4.5",
