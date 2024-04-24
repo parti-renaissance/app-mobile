@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
 import { Keyboard, Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
@@ -17,7 +18,7 @@ import * as eventTypes from '@/data/restObjects/RestEvents'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import { useGetEvent } from '@/hooks/useEvents'
 import useShareApi from '@/hooks/useShareApi'
-import * as Calendar from '@/modules/Calendar/Calendar'
+import useCreateEvent from '@/modules/Calendar/Calendar'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
@@ -25,7 +26,6 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
@@ -86,29 +86,29 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
             </VoxCard>
           </ScrollStack>
           <SafeAreaView edges={['bottom']}>
-          <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
-            <AuthFallbackWrapper
-              fallback={
-                data.visibility !== 'public' ? (
-                  <LockLeftCard />
-                ) : (
-                  <YStack gap="$3" width="100%">
-                    <RegisterButtonSheet id={props.id} />
-                    <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
-                      <Text fontSize="$1">
-                        <Text color="$textPrimary" fontWeight="$7">
-                          Me connecter
-                        </Text>{' '}
-                        <Text color="$textSecondary">pour m’inscrire en un clic.</Text>
-                      </Text>
-                    </Button>
-                  </YStack>
-                )
-              }
-            >
-              {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
-            </AuthFallbackWrapper>
-          </YStack>
+            <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
+              <AuthFallbackWrapper
+                fallback={
+                  data.visibility !== 'public' ? (
+                    <LockLeftCard />
+                  ) : (
+                    <YStack gap="$3" width="100%">
+                      <RegisterButtonSheet id={props.id} />
+                      <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
+                        <Text fontSize="$1">
+                          <Text color="$textPrimary" fontWeight="$7">
+                            Me connecter
+                          </Text>{' '}
+                          <Text color="$textSecondary">pour m’inscrire en un clic.</Text>
+                        </Text>
+                      </Button>
+                    </YStack>
+                  )
+                }
+              >
+                {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+              </AuthFallbackWrapper>
+            </YStack>
           </SafeAreaView>
         </PageLayout.MainSingleColumn>
       ) : (
@@ -274,21 +274,22 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
     })
   }
 
-  const eventData = isFullEvent
-    ? {
-        title: data.name,
-        startDate: new Date(data.begin_at).toISOString(),
-        endDate: new Date(data.finish_at).toISOString(),
-        location:
-          data.mode !== 'online' && data.post_address
-            ? `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`
-            : 'En ligne',
-        notes: !isShortEvent && isFullEvent ? (data.description + data.visio_url ? `\n\nLien: ${data.visio_url}` : '') : '',
-        url: shareUrl,
-      }
-    : undefined
+  const createEventData = (data: eventTypes.RestFullDetailedEvent) => {
+    return {
+      title: data.name,
+      startDate: new Date(data.begin_at).toISOString(),
+      endDate: new Date(data.finish_at).toISOString(),
+      location:
+        data.mode !== 'online' && data.post_address
+          ? `${data.post_address.address}, ${data.post_address.city_name} ${data.post_address.postal_code}`
+          : 'En ligne',
+      notes: data.visio_url ? `${data.description}\n\nLien: ${data.visio_url}` : data.description,
+      url: shareUrl,
+      timeZone: data.time_zone,
+    }
+  }
 
-  const addToCalendar = Calendar.useCreateEvent()
+  const addToCalendar = useCreateEvent()
   return (
     <VoxCard.Section title="Partager :" gap="$3">
       <Button variant="outlined" width="100%" onPress={() => handleCopyUrl(shareUrl)}>
@@ -304,10 +305,10 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
         </Button>
       )}
 
-      {!isShortEvent && isFullEvent && (
+      {isFullEvent && (
         <>
           <VoxCard.Separator />
-          <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar(eventData)}>
+          <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar(createEventData(data))}>
             <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
           </Button>
         </>
