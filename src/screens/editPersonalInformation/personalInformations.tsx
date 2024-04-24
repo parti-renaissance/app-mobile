@@ -202,9 +202,9 @@ const EditInformations = () => {
 
   const removeAccount = () => {
     AlertUtils.showDestructiveAlert(
-      'Suppression du compte',
-      'Êtes-vous sûr de vouloir supprimer votre compte ?',
-      'Supprimer',
+      profile.adherent ? 'Désadhérer' : 'Suppression du compte',
+      profile.adherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+      profile.adherent ? 'Désadhérer' : 'Supprimer',
       'Annuler',
       onRemoveAccountConfirmed,
     )
@@ -267,7 +267,7 @@ const EditInformations = () => {
                   <Button.Text>Se déconnecter</Button.Text>
                 </Button>
                 <Button variant="outlined" width="100%" onPress={removeAccount}>
-                  <Button.Text>Supprimer mon compte</Button.Text>
+                  <Button.Text>{profile.adherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
                 </Button>
               </YStack>
             </VoxCard.Content>
