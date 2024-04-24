@@ -63,7 +63,3 @@ const MenuEntry = ({ title, onPress, danger }: { title: string; onPress: () => v
     </ListItem>
   </YGroup.Item>
 )
-
-const withPointer = {
-  cursor: 'pointer',
-}
