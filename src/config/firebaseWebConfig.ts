@@ -1,4 +1,4 @@
-import clientEnv from './clientEnv'
+import clientEnv from '@/config/clientEnv'
 
 export default {
   apiKey: clientEnv.FB_API_KEY,

@@ -1,5 +1,5 @@
+import clientEnv from '@/config/clientEnv'
 import type { DiscoveryDocument } from 'expo-auth-session'
-import clientEnv from './clientEnv'
 
 const discoveryDocument = {
   authorizationEndpoint: `${clientEnv.OAUTH_BASE_URL}/oauth/v2/auth`,
