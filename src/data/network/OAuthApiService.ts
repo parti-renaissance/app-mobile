@@ -28,9 +28,6 @@ class OAuthApiService {
 
   public refreshToken(refreshToken: string): Promise<RestLoginResponse> {
     const formData = new FormData()
-    if (!clientEnv.OAUTH_CLIENT_ID) {
-      throw new Error('Missing EXPO_PUBLIC_OAUTH_CLIENT_ID')
-    }
     formData.append('client_id', clientEnv.OAUTH_CLIENT_ID)
     formData.append('grant_type', 'refresh_token')
     formData.append('refresh_token', refreshToken)
