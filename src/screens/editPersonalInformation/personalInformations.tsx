@@ -191,8 +191,7 @@ const EditInformations = () => {
 
   const onRemoveAccountConfirmed = async () => {
     if (!profile.adherent) return mutateAsync()
-    const URL_PREFIX = clientEnv.ENVIRONMENT === 'staging' ? 'staging-' : ''
-    const ACCOUNT_ROUTE_RE = `https://${URL_PREFIX}app.parti-renaissance.fr/parametres/mon-compte`
+    const ACCOUNT_ROUTE_RE = `https://${clientEnv.APP_RENAISSANCE_HOST}/parametres/mon-compte`
     if (isWeb && window) {
       window.location.href = ACCOUNT_ROUTE_RE
     } else {
