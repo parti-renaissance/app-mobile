@@ -1,15 +1,6 @@
 import { createThemeBuilder } from '@tamagui/theme-builder'
 import type { Variable } from '@tamagui/web'
-import {
-  blue,
-  gray,
-  green,
-  orange,
-  pink,
-  purple,
-  red,
-  yellow,
-} from './theme/colors.hsl'
+import { blue, gray, green, orange, pink, purple, red, yellow } from './theme/colors.hsl'
 
 const colorTokens = {
   light: {
@@ -75,8 +66,7 @@ const color = {
 }
 
 export const palettes = (() => {
-  const transparent = (hsl: string, opacity = 0) =>
-    hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
+  const transparent = (hsl: string, opacity = 0) => hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
 
   const getColorPalette = (colors: Object): string[] => {
     const colorPalette = Object.values(colors)
@@ -122,12 +112,7 @@ export const palettes = (() => {
     color.black0,
   ]
 
-  const lightPalettes = objectFromEntries(
-    objectKeys(colorTokens.light).map(
-      (key) =>
-        [`light_${key}`, getColorPalette(colorTokens.light[key])] as const,
-    ),
-  )
+  const lightPalettes = objectFromEntries(objectKeys(colorTokens.light).map((key) => [`light_${key}`, getColorPalette(colorTokens.light[key])] as const))
 
   const colorPalettes = {
     ...lightPalettes,
@@ -298,9 +283,9 @@ const text = {
     textPrimary: gray.gray8,
     textSecondary: gray.gray6,
     textDisabled: gray.gray5,
+    textDanger: red.red7,
   },
 }
-
 
 const nonInherited = {
   light: {
@@ -472,27 +457,19 @@ const themeBuilder = createThemeBuilder()
 
 const themesIn = themeBuilder.build()
 
-export type Theme = Record<keyof typeof templates.base, string> &
-  typeof nonInherited.light
+export type Theme = Record<keyof typeof templates.base, string> & typeof nonInherited.light
 export type ThemesOut = Record<keyof typeof themesIn, Theme>
 export const themes = themesIn as ThemesOut
 
 // --- utils ---
 
-export function postfixObjKeys<
-  A extends { [key: string]: Variable<string> | string },
-  B extends string,
->(
+export function postfixObjKeys<A extends { [key: string]: Variable<string> | string }, B extends string>(
   obj: A,
   postfix: B,
 ): {
-  [Key in `${keyof A extends string ? keyof A : never}${B}`]:
-    | Variable<string>
-    | string
+  [Key in `${keyof A extends string ? keyof A : never}${B}`]: Variable<string> | string
 } {
-  return Object.fromEntries(
-    Object.entries(obj).map(([k, v]) => [`${k}${postfix}`, v]),
-  ) as any
+  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [`${k}${postfix}`, v])) as any
 }
 
 // a bit odd but keeping backward compat for values >8 while fixing below
@@ -505,37 +482,22 @@ export function sizeToSpace(v: number) {
   return Math.floor(v * 0.7 - 12)
 }
 
-export function objectFromEntries<ARR_T extends EntriesType>(
-  arr: ARR_T,
-): EntriesToObject<ARR_T> {
+export function objectFromEntries<ARR_T extends EntriesType>(arr: ARR_T): EntriesToObject<ARR_T> {
   return Object.fromEntries(arr) as EntriesToObject<ARR_T>
 }
 
-export type EntriesType =
-  | [PropertyKey, unknown][]
-  | ReadonlyArray<readonly [PropertyKey, unknown]>
+export type EntriesType = [PropertyKey, unknown][] | ReadonlyArray<readonly [PropertyKey, unknown]>
 
 export type DeepWritable<OBJ_T> = {
   -readonly [P in keyof OBJ_T]: DeepWritable<OBJ_T[P]>
 }
 export type UnionToIntersection<UNION_T> = // From https://stackoverflow.com/a/50375286
-  (UNION_T extends any ? (k: UNION_T) => void : never) extends (
-    k: infer I,
-  ) => void
-    ? I
-    : never
+  (UNION_T extends any ? (k: UNION_T) => void : never) extends (k: infer I) => void ? I : never
 
 export type UnionObjectFromArrayOfPairs<ARR_T extends EntriesType> =
-  DeepWritable<ARR_T> extends (infer R)[]
-    ? R extends [infer key, infer val]
-      ? { [prop in key & PropertyKey]: val }
-      : never
-    : never
+  DeepWritable<ARR_T> extends (infer R)[] ? (R extends [infer key, infer val] ? { [prop in key & PropertyKey]: val } : never) : never
 export type MergeIntersectingObjects<ObjT> = { [key in keyof ObjT]: ObjT[key] }
-export type EntriesToObject<ARR_T extends EntriesType> =
-  MergeIntersectingObjects<
-    UnionToIntersection<UnionObjectFromArrayOfPairs<ARR_T>>
-  >
+export type EntriesToObject<ARR_T extends EntriesType> = MergeIntersectingObjects<UnionToIntersection<UnionObjectFromArrayOfPairs<ARR_T>>>
 
 export function objectKeys<O extends Object>(obj: O) {
   return Object.keys(obj) as Array<keyof O>
