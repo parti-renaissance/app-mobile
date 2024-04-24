@@ -69,7 +69,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         payload: {
           title: feed.title,
           tag,
-          image: feed.image,
+          image: feed.image ?? undefined,
           description: feed.description,
           location,
           ctaLabel: feed.cta_label,
@@ -101,8 +101,8 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
             end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
           },
-          location: feed.media_type === 'online' ? undefined : location,
-          isOnline: feed.media_type === 'online',
+          location: feed.mode === 'online' ? undefined : location,
+          isOnline: feed.mode === 'online',
           author,
         },
       }
@@ -142,8 +142,8 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           tag,
           isSubscribed: false,
           date: {
-            start: new Date(feed.begin_at),
-            end: new Date(feed.finish_at),
+            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
+            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
           },
           location,
           author,
