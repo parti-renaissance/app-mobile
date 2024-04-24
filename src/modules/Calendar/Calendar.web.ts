@@ -1,25 +1,26 @@
-import type * as AddCalendarEvent from 'react-native-add-calendar-event'
 import { useToastController } from '@tamagui/toast'
 import { atcb_action } from 'add-to-calendar-button'
 import { formatDate } from 'date-fns'
+import { UseCreateEvent } from './CalendarTypes'
+import { isAllday as getIsAllDay, handleCreateEventError } from './utils'
 
-export const useCreateEvent = (event: AddCalendarEvent.CreateOptions) => {
+const useCreateEvent: UseCreateEvent = () => {
   const toast = useToastController()
-  return () =>
-    atcb_action({
+  return async (event) => {
+    const isAllday = getIsAllDay(event)
+    return atcb_action({
       name: event.title,
       description: event.notes,
-      startDate: formatDate(event.startDate, 'yyyy-MM-dd'),
-      endDate: formatDate(event.endDate, 'yyyy-MM-dd'),
-      startTime: formatDate(event.startDate, 'HH:mm'),
-      endTime: formatDate(event.endDate, 'HH:mm'),
+      startDate: event.startDate ? formatDate(event.startDate, 'yyyy-MM-dd') : undefined,
+      endDate: !isAllday && event.endDate ? formatDate(event.endDate, 'yyyy-MM-dd') : undefined,
+      startTime: !isAllday && event.startDate ? formatDate(event.startDate, 'HH:mm') : undefined,
+      endTime: !isAllday && event.endDate ? formatDate(event.endDate, 'HH:mm') : undefined,
       location: event.location,
-      timeZone: 'Europe/Paris',
+      timeZone: event.timeZone || 'Europe/Paris',
       language: 'fr',
       options: ['Apple', 'Google', 'iCal', 'Microsoft365', 'MicrosoftTeams', 'Outlook.com', 'Yahoo'],
-    }).catch((error: string) => {
-      toast.show('Error', {
-        message: error,
-      })
-    })
+    }).catch((error) => handleCreateEventError(error, toast))
+  }
 }
+
+export default useCreateEvent
