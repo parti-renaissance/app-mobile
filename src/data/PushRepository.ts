@@ -263,7 +263,7 @@ class PushRepository {
   }
 
   private createTopicName(topic: string): string {
-    return clientEnv.ENVIRONMENT + '_jemarche_' + topic
+    return `${clientEnv.ENVIRONMENT}_jemarche_${topic}`
   }
 
   public static getInstance(): PushRepository {
