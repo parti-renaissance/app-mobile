@@ -18,10 +18,6 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
     await signOut()
   }, [])
 
-  const onOpen = useCallback(() => {
-    ref.current?.toggle()
-  }, [])
-
   return (
     <Popover ref={ref} hoverable allowFlip placement={'bottom'} offset={{ mainAxis: isWeb ? 10 : 60, crossAxis: -20 }}>
       <Popover.Trigger cursor={'pointer'}>{children}</Popover.Trigger>
