@@ -1,10 +1,11 @@
 import type { DiscoveryDocument } from 'expo-auth-session'
+import clientEnv from './clientEnv'
 
 const discoveryDocument = {
-  authorizationEndpoint: `${process.env.EXPO_PUBLIC_OAUTH_BASE_URL}/oauth/v2/auth`,
-  tokenEndpoint: `${process.env.EXPO_PUBLIC_OAUTH_BASE_URL}/oauth/v2/token`,
-  registrationEndpoint: `${process.env.EXPO_PUBLIC_OAUTH_BASE_URL}/inscription`,
-  endSessionEndpoint: `${process.env.EXPO_PUBLIC_OAUTH_BASE_URL}/deconnexion`,
+  authorizationEndpoint: `${clientEnv.OAUTH_BASE_URL}/oauth/v2/auth`,
+  tokenEndpoint: `${clientEnv.OAUTH_BASE_URL}/oauth/v2/token`,
+  registrationEndpoint: `${clientEnv.OAUTH_BASE_URL}/inscription`,
+  endSessionEndpoint: `${clientEnv.OAUTH_BASE_URL}/deconnexion`,
 } satisfies DiscoveryDocument
 
 export default discoveryDocument

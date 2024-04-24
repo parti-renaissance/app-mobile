@@ -1,7 +1,8 @@
-import * as Linking from 'expo-linking'
+import clientEnv from '@/config/clientEnv'
 import { utils } from '@react-native-firebase/app'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { LinkingOptions } from '@react-navigation/native'
+import * as Linking from 'expo-linking'
 import { PushNotification } from '../../utils/PushNotification'
 import { AuthenticatedRootNavigatorParamList } from '../authenticatedRoot/AuthenticatedRootNavigatorParamList'
 
@@ -30,9 +31,7 @@ const getInitialURL = async (): Promise<string | null | undefined> => {
   return url
 }
 
-const subscribe = (
-  listener: (url: string) => void,
-): undefined | void | (() => void) => {
+const subscribe = (listener: (url: string) => void): undefined | void | (() => void) => {
   const unsubscribeFirebase = dynamicLinks().onLink(({ url }) => {
     console.log('[Deeplink] Listened for dynamic link url', url)
     listener(url)
@@ -54,50 +53,51 @@ const subscribe = (
   }
 }
 
-export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> =
-  {
-    prefixes: [PREFIX, process.env.EXPO_PUBLIC_BUNDLE_ID + '://'],
-    getInitialURL,
-    subscribe,
-    config: {
-      initialRouteName: 'TabBarNavigator',
-      screens: {
-        TabBarNavigator: {
-          screens: {
-            ActionsNavigator: {
-              // TODO: Fix type
-              // @ts-ignore
-              initialRouteName: 'Actions',
-              screens: {
-                RetaliationDetail: 'ripostes/:retaliationId',
-                DoorToDoor: 'pap-campaigns/:campaignId',
-              },
-            },
-            EventNavigator: {
-              // TODO: Fix type
-              // @ts-ignore
-              initialRouteName: 'Events',
-              screens: {
-                EventDetails: 'events/:eventId',
-              },
+export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> = {
+  // @ts-ignore
+  // TODO: DEADCODE
+  prefixes: [PREFIX, clientEnv.BUNDLE_ID + '://'],
+  getInitialURL,
+  subscribe,
+  config: {
+    initialRouteName: 'TabBarNavigator',
+    screens: {
+      TabBarNavigator: {
+        screens: {
+          ActionsNavigator: {
+            // TODO: Fix type
+            // @ts-ignore
+            initialRouteName: 'Actions',
+            screens: {
+              RetaliationDetail: 'ripostes/:retaliationId',
+              DoorToDoor: 'pap-campaigns/:campaignId',
             },
           },
-        },
-        NewsDetailModal: {
-          screens: {
-            NewsDetail: 'news/:newsId',
-          },
-        },
-        PhoningSessionModal: {
-          screens: {
-            PhoningSessionLoader: 'phoning-campaigns/:campaignId',
-          },
-        },
-        PollDetailModal: {
-          screens: {
-            PollDetail: 'surveys/:pollId',
+          EventNavigator: {
+            // TODO: Fix type
+            // @ts-ignore
+            initialRouteName: 'Events',
+            screens: {
+              EventDetails: 'events/:eventId',
+            },
           },
         },
       },
+      NewsDetailModal: {
+        screens: {
+          NewsDetail: 'news/:newsId',
+        },
+      },
+      PhoningSessionModal: {
+        screens: {
+          PhoningSessionLoader: 'phoning-campaigns/:campaignId',
+        },
+      },
+      PollDetailModal: {
+        screens: {
+          PollDetail: 'surveys/:pollId',
+        },
+      },
     },
-  }
+  },
+}

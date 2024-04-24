@@ -26,6 +26,7 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
+import clientEnv from '@/config/clientEnv'
 
 const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
@@ -247,7 +248,7 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
   const handleCopyUrl = useHandleCopyUrl()
   const toast = useToastController()
 
-  const shareUrl = `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}/evenements/${id}`
+  const shareUrl = `https://${clientEnv.ASSOCIATED_DOMAIN}/evenements/${id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 
