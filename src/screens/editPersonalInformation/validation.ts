@@ -2,10 +2,6 @@ import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumb
 import z from 'zod'
 import { Gender } from './types'
 
-const phoneNumberSchema = z.string({
-  required_error: 'Le numéro de téléphone est obligatoire',
-})
-
 const PersonalInformationsFormSchema = z
   .object({
     firstName: z.string({
@@ -47,7 +43,7 @@ const PersonalInformationsFormSchema = z
         required_error: 'L’adresse e-mail est obligatoire',
       })
       .email('L’adresse e-mail n’est pas valide'),
-    phoneNumber: z.string(),
+    phoneNumber: z.string().optional(),
     phoneCountryCode: z.string().refine((val) => getCountryCodeForRegionCode(val) !== undefined, {
       message: 'Le code pays doit être de deux lettres',
     }),
@@ -59,6 +55,8 @@ const PersonalInformationsFormSchema = z
     telegram: z.string().optional(),
   })
   .superRefine((data, context) => {
+    if (!data.phoneNumber) return
+
     if (!data.phoneNumber && !parsePhoneNumber(data.phoneNumber, { regionCode: data.phoneCountryCode }).valid) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
