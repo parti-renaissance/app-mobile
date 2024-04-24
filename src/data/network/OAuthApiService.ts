@@ -1,3 +1,4 @@
+import clientEnv from '@/config/clientEnv'
 import { HTTPError } from 'ky'
 import { RefreshTokenPermanentlyInvalidatedError } from '../../core/errors'
 import { RestLoginResponse } from '../restObjects/RestLoginResponse'
@@ -11,14 +12,9 @@ class OAuthApiService {
   private oauthHttpClient = _oauthHttpClient
   private constructor() {}
 
-  public login(
-    username: string,
-    password: string,
-    deviceId: string,
-  ): Promise<RestLoginResponse> {
+  public login(username: string, password: string, deviceId: string): Promise<RestLoginResponse> {
     const formData = new FormData()
-    formData.append('client_id', process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID)
-    formData.append('client_secret', process.env.EXPO_PUBLIC_OAUTH_CLIENT_SECRET)
+    formData.append('client_id', clientEnv.OAUTH_CLIENT_ID)
     formData.append('grant_type', 'password')
     formData.append('scope[]', SCOPE_APP)
     formData.append('scope[]', SCOPE_READ_PROFILE)
@@ -27,18 +23,12 @@ class OAuthApiService {
     formData.append('username', username)
     formData.append('password', password)
 
-    return this.oauthHttpClient
-      .post('oauth/v2/token', { body: formData })
-      .json<RestLoginResponse>()
-      .catch(mapLoginError)
+    return this.oauthHttpClient.post('oauth/v2/token', { body: formData }).json<RestLoginResponse>().catch(mapLoginError)
   }
 
   public refreshToken(refreshToken: string): Promise<RestLoginResponse> {
     const formData = new FormData()
-    if (!process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID) {
-      throw new Error('Missing EXPO_PUBLIC_OAUTH_CLIENT_ID')
-    }
-    formData.append('client_id', process.env.EXPO_PUBLIC_OAUTH_CLIENT_ID)
+    formData.append('client_id', clientEnv.OAUTH_CLIENT_ID)
     formData.append('grant_type', 'refresh_token')
     formData.append('refresh_token', refreshToken)
 
@@ -46,10 +36,7 @@ class OAuthApiService {
       .post('oauth/v2/token', { body: formData })
       .json<RestLoginResponse>()
       .catch((error) => {
-        if (
-          error instanceof HTTPError &&
-          error.response.status === INVALID_REFRESH_TOKEN_HTTP_STATUS
-        ) {
+        if (error instanceof HTTPError && error.response.status === INVALID_REFRESH_TOKEN_HTTP_STATUS) {
           logHttpError(error, '[RefreshToken] Failed to refresh token')
           throw new RefreshTokenPermanentlyInvalidatedError()
         } else {

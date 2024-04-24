@@ -1,3 +1,4 @@
+import clientEnv from '@/config/clientEnv'
 import FB from '@/config/firebaseConfig'
 import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
@@ -262,7 +263,7 @@ class PushRepository {
   }
 
   private createTopicName(topic: string): string {
-    return (process.env.EXPO_PUBLIC_ENVIRONMENT ?? 'staging') + '_jemarche_' + topic
+    return `${clientEnv.ENVIRONMENT}_jemarche_${topic}`
   }
 
   public static getInstance(): PushRepository {

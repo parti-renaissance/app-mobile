@@ -39,7 +39,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
   const type = tramformFeedItemType(feed.type)
   const author = {
     role: 'Role data missing',
-    name: feed.author ?? 'Inconnu(e)',
+    name: feed.author ?? '',
     title: 'title data missing',
     pictureLink: undefined,
   }
