@@ -1,4 +1,5 @@
 import React, { FC, useLayoutEffect } from 'react'
+import clientEnv from '@/config/clientEnv';
 import {
   DeviceEventEmitter,
   Platform,
@@ -32,8 +33,8 @@ export const LocationPickerScreen = () => {
         onPress={(_, details) => onPlaceSelected(details)}
         query={{
           key: Platform.select({
-            ios: process.env.EXPO_PUBLIC_IOS_GOOGLE_API_KEY,
-            android: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_API_KEY,
+            ios: clientEnv.IOS_GOOGLE_API_KEY,
+            android: clientEnv.ANDROID_GOOGLE_API_KEY,
           }),
           language: i18n.t('personalinformation.gmaps_language'),
         }}

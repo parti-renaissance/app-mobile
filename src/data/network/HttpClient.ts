@@ -1,3 +1,4 @@
+import clientEnv from '@/config/clientEnv'
 import { Mutex } from 'async-mutex'
 import ky from 'ky'
 import AuthenticationRepository from '../AuthenticationRepository'
@@ -45,7 +46,7 @@ function extractAccessToken(request: Request): string | null {
 }
 
 const baseHttpClient = ky.create({
-  prefixUrl: process.env.EXPO_PUBLIC_API_BASE_URL,
+  prefixUrl: clientEnv.API_BASE_URL,
 })
 
 const httpClient = baseHttpClient.extend({

@@ -15,6 +15,7 @@ export interface RestDetailedProfileResponse {
   linkedin_page_url: string | null
   telegram_page_url: string | null
   instagram_page_url: string | null
+  adherent: boolean
   phone: RestPhoneNumber
   interests: Array<RestInterestConfiguration>
   subscription_types: Array<RestSubscriptionTypeConfiguration>

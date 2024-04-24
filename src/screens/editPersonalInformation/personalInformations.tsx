@@ -6,12 +6,14 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import clientEnv from '@/config/clientEnv'
 import { ProfileFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
 import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
 import { format } from 'date-fns'
+import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -73,11 +75,11 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         birthdate: new Date(profile?.birthdate),
         address: profile.post_address
           ? {
-              address: profile.post_address.address ?? '',
-              city: profile.post_address?.city ?? '',
-              postalCode: profile.post_address?.postal_code ?? '',
-              country: profile?.post_address?.country ?? '',
-            }
+            address: profile.post_address.address ?? '',
+            city: profile.post_address?.city ?? '',
+            postalCode: profile.post_address?.postal_code ?? '',
+            country: profile?.post_address?.country ?? '',
+          }
           : { address: '', city: '', postalCode: '', country: '' },
         email: profile?.email_address ?? '',
         phoneNumber: profile?.phone?.number ?? '',
@@ -188,14 +190,20 @@ const EditInformations = () => {
   const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    await mutateAsync()
+    if (!profile.adherent) return mutateAsync()
+    const ACCOUNT_ROUTE_RE = `https://${clientEnv.APP_RENAISSANCE_HOST}/parametres/mon-compte`
+    if (isWeb && window) {
+      window.location.href = ACCOUNT_ROUTE_RE
+    } else {
+      await WebBrowser.openAuthSessionAsync(ACCOUNT_ROUTE_RE, null, { createTask: false })
+    }
   }
 
   const removeAccount = () => {
     AlertUtils.showDestructiveAlert(
-      'Suppression du compte',
-      'Êtes-vous sûr de vouloir supprimer votre compte ?',
-      'Supprimer',
+      profile.adherent ? 'Désadhérer' : 'Suppression du compte',
+      profile.adherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+      profile.adherent ? 'Désadhérer' : 'Supprimer',
       'Annuler',
       onRemoveAccountConfirmed,
     )
@@ -258,7 +266,7 @@ const EditInformations = () => {
                   <Button.Text>Se déconnecter</Button.Text>
                 </Button>
                 <Button variant="outlined" width="100%" onPress={removeAccount}>
-                  <Button.Text>Supprimer mon compte</Button.Text>
+                  <Button.Text>{profile.adherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
                 </Button>
               </YStack>
             </VoxCard.Content>
