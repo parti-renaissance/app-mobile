@@ -6,12 +6,14 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import clientEnv from '@/config/clientEnv'
 import { ProfileFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
 import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
 import { format } from 'date-fns'
+import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -73,11 +75,11 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         birthdate: new Date(profile?.birthdate),
         address: profile.post_address
           ? {
-              address: profile.post_address.address ?? '',
-              city: profile.post_address?.city ?? '',
-              postalCode: profile.post_address?.postal_code ?? '',
-              country: profile?.post_address?.country ?? '',
-            }
+            address: profile.post_address.address ?? '',
+            city: profile.post_address?.city ?? '',
+            postalCode: profile.post_address?.postal_code ?? '',
+            country: profile?.post_address?.country ?? '',
+          }
           : { address: '', city: '', postalCode: '', country: '' },
         email: profile?.email_address ?? '',
         phoneNumber: profile?.phone?.number ?? '',
@@ -188,7 +190,14 @@ const EditInformations = () => {
   const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    await mutateAsync()
+    if (!profile.adherent) return mutateAsync()
+    const URL_PREFIX = clientEnv.ENVIRONMENT === 'staging' ? 'staging-' : ''
+    const ACCOUNT_ROUTE_RE = `https://${URL_PREFIX}app.parti-renaissance.fr/parametres/mon-compte`
+    if (isWeb && window) {
+      window.location.href = ACCOUNT_ROUTE_RE
+    } else {
+      await WebBrowser.openAuthSessionAsync(ACCOUNT_ROUTE_RE, null, { createTask: false })
+    }
   }
 
   const removeAccount = () => {
