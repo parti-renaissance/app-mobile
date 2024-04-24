@@ -1,4 +1,3 @@
-import clientEnv from '@/config/clientEnv'
 import { utils } from '@react-native-firebase/app'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { LinkingOptions } from '@react-navigation/native'
@@ -56,7 +55,7 @@ const subscribe = (listener: (url: string) => void): undefined | void | (() => v
 export const deeplinkConfiguration: LinkingOptions<AuthenticatedRootNavigatorParamList> = {
   // @ts-ignore
   // TODO: DEADCODE
-  prefixes: [PREFIX, clientEnv.BUNDLE_ID + '://'],
+  prefixes: [PREFIX, '' + '://'],
   getInitialURL,
   subscribe,
   config: {
