@@ -22,6 +22,7 @@ export interface RestTimelineFeedItem {
   cta_link: string | null
   cta_label: string | null
   url: string | null
+  mode: 'meeting' | 'online' | null
   post_address?: RestTimelineFeedAddress
 }
 
