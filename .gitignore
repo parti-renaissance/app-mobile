@@ -63,3 +63,6 @@ web/.well-known/assetlinks.json
 
 bun.lockb
 app-release.apks
+
+# SonarQube
+.scannerwork
