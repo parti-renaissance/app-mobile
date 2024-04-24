@@ -46,17 +46,16 @@ export const useLogin = () => {
     if (code) {
       WebBrowser.dismissAuthSession()
       return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
-    } else {
-      return promptAsync({
-        createTask: false,
-      }).then((codeResult) => {
-        if (codeResult.type === 'success') {
-          const code = codeResult.params.code
-          return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
-        }
-        return null
-      })
     }
+    return promptAsync({
+      createTask: false,
+    }).then((codeResult) => {
+      if (codeResult.type === 'success') {
+        const code = codeResult.params.code
+        return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
+      }
+      return null
+    })
   }
 }
 

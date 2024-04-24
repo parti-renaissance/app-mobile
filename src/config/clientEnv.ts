@@ -32,4 +32,4 @@ const unParsedClientEnv = {
   ENVIRONMENT: process.env.EXPO_PUBLIC_ENVIRONMENT,
 }
 
-export default envClientSchema.parse(unParsedEnvClient)
+export default envClientSchema.parse(unParsedClientEnv)
