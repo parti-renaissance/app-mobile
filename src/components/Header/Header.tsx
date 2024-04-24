@@ -6,7 +6,7 @@ import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { useGetProfil } from '@/hooks/useProfil'
-import { ArrowLeft } from '@tamagui/lucide-icons'
+import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
 import { Link, usePathname, useSegments } from 'expo-router'
 import { Button, Circle, Spinner, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
@@ -74,20 +74,14 @@ const NavBar = () => {
 const ProfileView = () => {
   const { data: profile } = useGetProfil()
   return (
-    <Link href="/profil/">
-      <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
-        <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
-          <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'}>
-            {profile?.first_name} {profile?.last_name}
-          </Text>
-
-          {/* <Text fontFamily={'$PublicSans'} fontSize={12} color="$textSecondary">
-            #000000
-          </Text> */}
-        </Stack>
-        <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
-      </View>
-    </Link>
+    <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
+      <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
+        <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'} fontSize={14}>
+          {profile?.first_name} {profile?.last_name}
+        </Text>
+      </Stack>
+      <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
+    </View>
   )
 }
 
@@ -105,7 +99,7 @@ const Header: React.FC = (props: StackProps) => {
   const segments = useSegments()
   const isNested = segments.length > 2
   const backPath = segments
-    .filter((x: string) => x.startsWith('(') === false)
+    .filter((x: string) => !x.startsWith('('))
     .slice(0, -1)
     .join('/')
 
@@ -140,10 +134,12 @@ const Header: React.FC = (props: StackProps) => {
                 </View>
               }
             >
-              <View flexDirection="row" alignItems="center">
-                <ProfileView />
-                <ProfilePopover />
-              </View>
+              <ProfilePopover>
+                <View flexDirection="row" alignItems="center" gap={'$3'}>
+                  <ProfileView />
+                  <ChevronDown size={16} color="$gray6" />
+                </View>
+              </ProfilePopover>
             </Suspense>
           ) : (
             <LoginView />

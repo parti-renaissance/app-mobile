@@ -1,11 +1,9 @@
-import { useCallback, useRef } from 'react'
-import { Button } from '@/components'
+import { PropsWithChildren, useCallback, useRef } from 'react'
 import { useSession } from '@/ctx/SessionProvider'
-import { ChevronDown } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
-import { ListItem, Popover, Separator, YGroup } from 'tamagui'
+import { isWeb, ListItem, Popover, Separator, YGroup } from 'tamagui'
 
-export default function ProfilePopover() {
+export default function ProfilePopover({ children }: PropsWithChildren) {
   const { signOut } = useSession()
 
   const ref = useRef<Popover>(null)
@@ -20,36 +18,21 @@ export default function ProfilePopover() {
     await signOut()
   }, [])
 
+  const onOpen = useCallback(() => {
+    ref.current?.toggle()
+  }, [])
+
   return (
-    <Popover ref={ref} hoverable>
-      <Popover.Trigger>
-        <Button variant="text">
-          <ChevronDown size={16} color="$gray6" />
-        </Button>
-      </Popover.Trigger>
+    <Popover ref={ref} hoverable allowFlip placement={'bottom'} offset={{ mainAxis: isWeb ? 10 : 60, crossAxis: -20 }}>
+      <Popover.Trigger cursor={'pointer'}>{children}</Popover.Trigger>
 
-      <Popover.Content borderWidth={1} padding={0} borderColor="$gray4" marginRight="$5" marginTop="$3" backgroundColor="$white">
-        <Popover.Arrow />
-        <Popover.Close />
-
-        <YGroup width={400}>
+      <Popover.Content borderWidth={1} padding={0} borderColor="$gray4">
+        <YGroup width={300}>
           <MenuEntry onPress={onGoToProfile} title="Mon profil" />
           <Separator borderStyle={'dashed'} borderColor="$gray4" />
           <MenuEntry onPress={onDisconnect} title="Me déconnecter" danger />
         </YGroup>
       </Popover.Content>
-
-      {/* optionally change to sheet when small screen */}
-      <Popover.Adapt when="sm">
-        <Popover.Sheet>
-          <Popover.Sheet.Overlay />
-          <Popover.Sheet.Frame>
-            <Popover.Sheet.ScrollView>
-              <Popover.Adapt.Contents />
-            </Popover.Sheet.ScrollView>
-          </Popover.Sheet.Frame>
-        </Popover.Sheet>
-      </Popover.Adapt>
     </Popover>
   )
 }
