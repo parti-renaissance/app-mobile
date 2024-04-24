@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { useGetProfil } from '@/hooks/useProfil'
@@ -139,7 +140,10 @@ const Header: React.FC = (props: StackProps) => {
                 </View>
               }
             >
-              <ProfileView />
+              <View flexDirection="row" alignItems="center">
+                <ProfileView />
+                <ProfilePopover />
+              </View>
             </Suspense>
           ) : (
             <LoginView />
