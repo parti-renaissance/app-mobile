@@ -128,11 +128,12 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
           <Text fontWeight="$6" fontSize="$3" textAlign="center" color="$textPrimary">
             M’inscrire à cet évènement
           </Text>
-          <FormikController name="last_name">{({ inputProps }) => <VoxInput placeholder="Nom" {...inputProps} />}</FormikController>
 
           <FormikController name="first_name">{({ inputProps }) => <VoxInput placeholder="Prénom" {...inputProps} />}</FormikController>
 
-          <FormikController name="email_address">{({ inputProps }) => <VoxInput placeholder="email" {...inputProps} />}</FormikController>
+          <FormikController name="last_name">{({ inputProps }) => <VoxInput placeholder="Nom" {...inputProps} />}</FormikController>
+
+          <FormikController name="email_address">{({ inputProps }) => <VoxInput placeholder="Email" {...inputProps} />}</FormikController>
 
           <FormikController name="postal_code">{({ inputProps }) => <VoxInput placeholder="Code postal" {...inputProps} />}</FormikController>
           <YStack gap="$3">
