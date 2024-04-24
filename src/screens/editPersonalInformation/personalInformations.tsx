@@ -93,7 +93,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
       onSubmit={(values) => handleOnSubmit(values)}
     >
-      {(formik) => (
+      {() => (
         <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
