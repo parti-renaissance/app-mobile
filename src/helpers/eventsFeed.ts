@@ -1,6 +1,14 @@
-import { EventVoxCardProps, PartialEventVoxCardProps  } from '@/components/Cards'
+import { EventVoxCardProps, PartialEventVoxCardProps } from '@/components/Cards'
 import { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { RestDetailedEvent, RestFullDetailedEvent, RestShortEvent, RestFullShortEvent, RestPartialShortEvent, isPartialEvent, Event } from '@/data/restObjects/RestEvents'
+import {
+  Event,
+  isPartialEvent,
+  RestDetailedEvent,
+  RestFullDetailedEvent,
+  RestFullShortEvent,
+  RestPartialShortEvent,
+  RestShortEvent,
+} from '@/data/restObjects/RestEvents'
 
 export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxCardLocationProps => {
   return {
@@ -31,6 +39,7 @@ export const mapPropsDate = (item: RestShortEvent | RestDetailedEvent): VoxCardD
   return {
     start: new Date(item.begin_at),
     end: new Date(item.finish_at),
+    timeZone: item.time_zone,
   }
 }
 
@@ -57,7 +66,6 @@ export const mapFullProps = (
     onShow: () => cb.onShow(item.uuid),
   }
 }
-
 
 export const mapPartialProps = (
   item: RestPartialShortEvent,
