@@ -8,7 +8,7 @@ export default function Error404() {
     <PageLayout>
       <PageLayout.MainSingleColumn>
         <View alignSelf="center" alignItems="center" justifyContent="center" flex={1} gap="$1" maxWidth={maxWidth}>
-          <Image source={require('./blocs.png')} height={300} width={300} resizeMode={'contain'} maxWidth={maxWidth} />
+          <Image source={require('../../assets/images/blocs.png')} height={300} width={300} resizeMode={'contain'} maxWidth={maxWidth} />
 
           <Text color="$gray6" textAlign="center">
             Impossible de trouver la page demandée
