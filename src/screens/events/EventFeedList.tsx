@@ -8,6 +8,7 @@ import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { usePaginatedEvents } from '@/hooks/useEvents'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, View, YStack } from 'tamagui'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 
 const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
   return isFullEvent(args.item) ? (
@@ -39,7 +40,7 @@ const EventList = () => {
     },
   })
 
-  const handleSubscribe = (id: string) => {}
+  const handleSubscribe = (id: string) => { }
   const handleShow = (id: string) => {
     router.push({ pathname: '/(tabs)/evenements/[id]', params: { id } })
   }
@@ -64,6 +65,7 @@ const EventList = () => {
     <FlatList
       style={{ width: '100%' }}
       contentContainerStyle={{
+        flexGrow: 1,
         gap: getToken('$4', 'space'),
         paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
@@ -73,9 +75,9 @@ const EventList = () => {
       data={feedData}
       renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
       ListEmptyComponent={() => (
-        <View alignSelf={'center'} alignItems={'center'} justifyContent={'center'} flex={1}>
+        <PageLayout.StateFrame>
           <EmptyEvent />
-        </View>
+        </PageLayout.StateFrame>
       )}
       keyExtractor={(item) => item.uuid}
       refreshing={isRefetching}
