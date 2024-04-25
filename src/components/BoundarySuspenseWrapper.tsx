@@ -3,7 +3,7 @@ import Button from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Image, Spinner, Text, YStack } from 'tamagui'
+import { Image, Spinner, Text, View, YStack } from 'tamagui'
 
 type BoundarySuspenseWrapperProps = {
   children: React.ReactNode
@@ -17,23 +17,17 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
       <ErrorBoundary
         onReset={reset}
         fallbackRender={({ resetErrorBoundary }) => (
-          <YStack justifyContent="center">
-            <PageLayout>
-              <PageLayout.MainSingleColumn>
-                <YStack paddingTop="$4.5" alignSelf="center" alignItems="center" justifyContent="center" flex={1} gap="$2" maxWidth={maxWidth}>
-                  <Image source={require('../assets/images/blocs.png')} height={300} width={300} resizeMode={'contain'} maxWidth={maxWidth} />
-
-                  <Text color="$gray6" textAlign="center">
-                    Une erreur est survenue. Veuillez recharger la page.
-                  </Text>
-
-                  <Button variant="text" onPress={resetErrorBoundary} alignSelf="center">
-                    <Button.Text>Réessayer</Button.Text>
-                  </Button>
-                </YStack>
-              </PageLayout.MainSingleColumn>
-            </PageLayout>
-          </YStack>
+          <PageLayout.StateFrame>
+            <Image source={require('../assets/images/blocs.png')} height={200} width={200} resizeMode={'contain'} />
+            <Text color="$gray6" textAlign="center">
+              Une erreur est survenue. Veuillez recharger la page.
+            </Text>
+            <View>
+              <Button variant="text" onPress={resetErrorBoundary}>
+                <Button.Text>Réessayer</Button.Text>
+              </Button>
+            </View>
+          </PageLayout.StateFrame>
         )}
       >
         <Suspense
@@ -49,7 +43,5 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
     )}
   </QueryErrorResetBoundary>
 )
-
-const maxWidth = '80vw'
 
 export default BoundarySuspenseWrapper

@@ -248,6 +248,8 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
   const handleCopyUrl = useHandleCopyUrl()
   const toast = useToastController()
 
+
+
   const shareUrl = `https://${clientEnv.ASSOCIATED_DOMAIN}/evenements/${id}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
