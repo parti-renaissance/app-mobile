@@ -1,5 +1,6 @@
+import Button from '@/components/Button'
 import VoxCard, { VoxCardDateProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
-import { YStack } from 'tamagui'
+import { XStack } from 'tamagui'
 
 type VoxCardBasePayload = {
   id: string
@@ -25,6 +26,11 @@ const PartialEventCard = ({ payload, onSubscribe, onShow, ...props }: PartialEve
           {payload.image && <VoxCard.Image image={payload.image} />}
         </VoxCard.Content>
         <VoxCard.Date {...payload.date} />
+        <XStack justifyContent={'flex-end'}>
+          <Button variant="outlined" onPress={onShow}>
+            <Button.Text>Voir l'événement</Button.Text>
+          </Button>
+        </XStack>
       </VoxCard.Content>
     </VoxCard>
   )
