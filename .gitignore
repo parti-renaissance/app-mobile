@@ -49,7 +49,7 @@ expo-env.d.ts
 # @end expo-cli
 config/google-services.json
 config/GoogleService-Info.plist
-src/config/env.ts
+src/config/clientEnv.ts
 android/app/google-services.json
 ios/vox/GoogleService-Info.plist
 config/en-marche-prod.json
