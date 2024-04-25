@@ -6,6 +6,7 @@ import ProfilePicture from '@/components/ProfilePicture'
 import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
+import { format } from 'date-fns-tz'
 import {
   getFontSize,
   Image,
@@ -62,16 +63,24 @@ const VoxCardTitle = (props: VoxCardTitleProps) => {
   )
 }
 
-export type VoxCardDateProps = { start: Date; end: Date; icon?: boolean }
-const VoxCardDate = ({ start, end, icon = true }: VoxCardDateProps) => {
+export type VoxCardDateProps = { start: Date; end: Date; icon?: boolean; timeZone?: string }
+const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) => {
   const keySuffix = getHours(start) === getHours(end) ? '' : 'End'
   const keyPrefix = isSameDay(start, end) ? 'day' : 'days'
   const key = `${keyPrefix}Date${keySuffix}`
   return (
     <XStack gap="$2" alignItems="center">
       {icon && <CalendarDays size="$1" />}
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        {i18n.t(`vox_card.${key}`, { start, end })}
+      <Text>
+        <Text fontWeight="$5" lineHeight="$2" fontSize="$1">
+          {i18n.t(`vox_card.${key}`, { start, end })}
+        </Text>
+        {timeZone && timeZone !== 'Europe/Paris' && (
+          <Text fontWeight="$5" color="$textSecondary" lineHeight="$2" fontSize="$1">
+            {' '}
+            • UTC{format(start, 'XXX', { timeZone })} ({timeZone})
+          </Text>
+        )}
       </Text>
     </XStack>
   )
@@ -124,6 +133,7 @@ export type VoxCardAuthorProps = {
 }
 
 const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
+  if (!author.name) return null
   return (
     <XStack gap="$2" alignItems="center">
       <ProfilePicture rounded size="$2" src={author.pictureLink} alt="Profile picture" fullName={author.name} />
@@ -150,8 +160,8 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
         0 participant, soyez le premier !
       </Text>
     )
-  const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
-  const getPictureUri = (index: number) => attendees.pictures[reverseIndex(index)]
+  const reverseIndex = (index: number) => (attendees.pictures ? attendees.pictures.length - 1 - index : 0)
+  const getPictureUri = (index: number) => (attendees.pictures ? attendees.pictures[reverseIndex(index)] : '')
   return (
     <XStack gap="$2" alignItems="center">
       {attendees.pictures && attendees.pictures.length > 3 ? (

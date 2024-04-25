@@ -86,7 +86,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
             <Button.Text>Voir l'événement</Button.Text>
           </Button>
 
-          {knowSubscription && <SubscribeEventButton isSubscribed={payload.isSubscribed} eventId={payload.id} />}
+          {knowSubscription && <SubscribeEventButton isSubscribed={!!payload.isSubscribed} eventId={payload.id} />}
         </XStack>
       </VoxCard.Content>
     </VoxCard>
