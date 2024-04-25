@@ -2,11 +2,12 @@ import { memo, useMemo } from 'react'
 import { FlatList } from 'react-native'
 import DialogAuth from '@/components/AuthDialog'
 import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
+import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import { isFullEvent, isPartialEvent, RestFullShortEvent, RestPartialShortEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { usePaginatedEvents } from '@/hooks/useEvents'
 import { router } from 'expo-router'
-import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+import { getToken, Spinner, useMedia, View, YStack } from 'tamagui'
 
 const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
   return isFullEvent(args.item) ? (
@@ -29,6 +30,7 @@ const EventList = () => {
     fetchNextPage,
     hasNextPage,
     refetch,
+    isLoading,
     isRefetching,
   } = usePaginatedEvents({
     postalCode: '75001',
@@ -66,9 +68,15 @@ const EventList = () => {
         paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
+        height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
       }}
       data={feedData}
       renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
+      ListEmptyComponent={() => (
+        <View alignSelf={'center'} alignItems={'center'} justifyContent={'center'} flex={1}>
+          <EmptyEvent />
+        </View>
+      )}
       keyExtractor={(item) => item.uuid}
       refreshing={isRefetching}
       onRefresh={() => refetch()}
