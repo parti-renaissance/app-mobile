@@ -229,9 +229,11 @@ function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestDetailedEven
       {!isShortEvent && !!data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
       {!isShortEvent && <VoxCard.Attendees attendees={{ count: data.participants_count || 0 }} />}
 
-      {/* <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
-        Cet événement est réservé aux adhérents à jour de cotisation.
-      </Text> */}
+      {data.visibility === 'adherent_dues' && (
+        <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
+          Cet événement est réservé aux adhérents à jour de cotisation.
+        </Text>
+      )}
 
       {isFullEvent && (
         <VoxCard.Section title="Événement créé par :">
