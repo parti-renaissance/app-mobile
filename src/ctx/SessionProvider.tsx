@@ -59,7 +59,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   authenticationRepository.current.sessionSetter = setSession
   const queryClient = useQueryClient()
   const login = useLogin()
-  const register =  useRegister()
+  const register = useRegister()
 
   const handleSignIn: AuthContext['signIn'] = async (props) => {
     try {
@@ -111,8 +111,10 @@ export function SessionProvider(props: React.PropsWithChildren) {
   }
 
   const handleSignOut = async () => {
-    await authenticationRepository.current.logout(false).then(() => {
-      queryClient.setQueryData(['profil'], null)
+    await authenticationRepository.current.logout(false).then(async () => {
+      await queryClient.invalidateQueries()
+      queryClient.clear()
+
       router.replace({ pathname: '/(tabs)/evenements/' })
     })
   }

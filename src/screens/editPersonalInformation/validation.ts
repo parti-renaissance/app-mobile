@@ -12,7 +12,7 @@ const PersonalInformationsFormSchema = z
     }),
     gender: z.nativeEnum(Gender),
     customGender: z.string().optional(),
-    nationality: z.string().length(2, 'Le code pays doit être de deux lettres'),
+    nationality: z.string().length(2, 'Le code pays doit être de deux lettres').optional(),
     birthdate: z.date().refine(
       (birthdate) => {
         const ageCutoffDate = new Date(birthdate)
