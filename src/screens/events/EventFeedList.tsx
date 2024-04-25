@@ -3,24 +3,32 @@ import { FlatList } from 'react-native'
 import DialogAuth from '@/components/AuthDialog'
 import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import { isFullEvent, isPartialEvent, RestFullShortEvent, RestPartialShortEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { usePaginatedEvents } from '@/hooks/useEvents'
 import { router } from 'expo-router'
-import { getToken, Spinner, useMedia, View, YStack } from 'tamagui'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
 const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
-  return isFullEvent(args.item) ? (
-    <EventCard {...mapFullProps(args.item, args.cb)} />
-  ) : isPartialEvent(args.item) ? (
-    <DialogAuth
-      title="D'autres événements vous attendent,
- connectez-vous ou créez un compte !"
-    >
-      <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
-    </DialogAuth>
-  ) : null
+  if (isFullEvent(args.item)) {
+    return <EventCard {...mapFullProps(args.item, args.cb)} />
+  }
+  if (isPartialEvent(args.item)) {
+    return (
+      <AuthFallbackWrapper
+        fallback={
+          <DialogAuth title="D'autres événements vous attendent, connectez-vous ou créez un compte !">
+            <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
+          </DialogAuth>
+        }
+      >
+        <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
+      </AuthFallbackWrapper>
+    )
+  }
+  return null
 })
 
 const EventList = () => {
