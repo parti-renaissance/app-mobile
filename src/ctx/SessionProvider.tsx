@@ -5,6 +5,7 @@ import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin, { REDIRECT_URI, useRegister } from '@/hooks/useLogin'
+import { useGetProfil } from '@/hooks/useProfil'
 import { useStorageState } from '@/hooks/useStorageState'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
@@ -18,6 +19,7 @@ type AuthContext = {
   isAuth: boolean
   session?: string | null
   isLoading: boolean
+  user: ReturnType<typeof useGetProfil>
 }
 
 const AuthContext = React.createContext<AuthContext>({
@@ -27,6 +29,7 @@ const AuthContext = React.createContext<AuthContext>({
   isAuth: false,
   session: null,
   isLoading: false,
+  user: {} as ReturnType<typeof useGetProfil>,
 })
 
 // This hook can be used to access the user info.
@@ -60,6 +63,9 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const queryClient = useQueryClient()
   const login = useLogin()
   const register = useRegister()
+  const user = useGetProfil({ enabled: !!session })
+  const isGlobalLoading = [isLoginInProgress, isLoading, user.isLoading].some(Boolean)
+  const isAuth = Boolean(session && !isGlobalLoading)
 
   const handleSignIn: AuthContext['signIn'] = async (props) => {
     try {
@@ -82,27 +88,16 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const handleRegister = async () => {
     try {
-      if (Platform.OS === 'web') {
-        window.location.href = discoveryDocument.registrationEndpoint + `?redirect_uri=${REDIRECT_URI}&utm_source=app`
-      } else {
-        try {
-          setIsLoginInProgress(true)
-          const session = await register()
-          if (!session) {
-            return
-          }
-          const { accessToken, refreshToken } = session
-          setSession(JSON.stringify({ accessToken, refreshToken }))
-          await loginInteractor.current.setUpLogin()
-        } catch (e) {
-          console.log('error', e)
-          ErrorMonitor.log(e.message, { e })
-          toast.show('Erreur lors de la connexion', { type: 'error' })
-        } finally {
-          setIsLoginInProgress(false)
-        }
+      setIsLoginInProgress(true)
+      const session = await register()
+      if (!session) {
+        return
       }
+      const { accessToken, refreshToken } = session
+      setSession(JSON.stringify({ accessToken, refreshToken }))
+      await loginInteractor.current.setUpLogin()
     } catch (e) {
+      console.log('error', e)
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })
     } finally {
@@ -126,8 +121,9 @@ export function SessionProvider(props: React.PropsWithChildren) {
         signOut: handleSignOut,
         signUp: handleRegister,
         session,
-        isLoading: isLoginInProgress || isLoading,
-        isAuth: Boolean(session && !(isLoginInProgress || isLoading)),
+        isLoading: isGlobalLoading,
+        isAuth,
+        user,
       }) satisfies AuthContext,
     [handleSignIn, handleSignOut, session, isLoginInProgress, isLoading],
   )

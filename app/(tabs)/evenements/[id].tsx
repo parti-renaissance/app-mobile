@@ -12,6 +12,7 @@ import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/Procuration
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import clientEnv from '@/config/clientEnv'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import * as eventTypes from '@/data/restObjects/RestEvents'
@@ -26,7 +27,6 @@ import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { ScrollView, ScrollViewProps, Sheet, Text, useMedia, XStack, YStack } from 'tamagui'
-import clientEnv from '@/config/clientEnv'
 
 const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
@@ -221,6 +221,7 @@ function ScrollStack({ children }: ScrollViewProps) {
 function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestDetailedEvent }>) {
   const isFullEvent = eventTypes.isFullEvent(data)
   const isShortEvent = eventTypes.isShortEvent(data)
+  const author = mapPropsAuthor(data).author
   const date = mapPropsDate(data)
   return (
     <>
@@ -235,9 +236,9 @@ function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestDetailedEven
         </Text>
       )}
 
-      {isFullEvent && (
+      {isFullEvent && author && (
         <VoxCard.Section title="Événement créé par :">
-          <VoxCard.Author {...mapPropsAuthor(data)} />
+          <VoxCard.Author author={author} />
         </VoxCard.Section>
       )}
     </>
@@ -249,8 +250,6 @@ function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestDetailedEvent;
   const isShortEvent = eventTypes.isShortEvent(data)
   const handleCopyUrl = useHandleCopyUrl()
   const toast = useToastController()
-
-
 
   const shareUrl = `https://${clientEnv.ASSOCIATED_DOMAIN}/evenements/${id}`
 
