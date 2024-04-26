@@ -50,7 +50,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       first_name: values?.firstName,
       last_name: values?.lastName,
       email_address: values?.email,
-      nationality: values?.nationality,
+      nationality: values?.nationality ?? null,
       ...(values?.birthdate && { birthdate: format(values?.birthdate, 'yyyy-MM-dd') }),
       ...(values?.phoneCountryCode && values?.phoneNumber && { phone: { country: values?.phoneCountryCode, number: values?.phoneNumber } }),
       facebook_page_url: values?.facebook ?? '',
@@ -75,11 +75,11 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         birthdate: new Date(profile?.birthdate),
         address: profile.post_address
           ? {
-            address: profile.post_address.address ?? '',
-            city: profile.post_address?.city ?? '',
-            postalCode: profile.post_address?.postal_code ?? '',
-            country: profile?.post_address?.country ?? '',
-          }
+              address: profile.post_address.address ?? '',
+              city: profile.post_address?.city ?? '',
+              postalCode: profile.post_address?.postal_code ?? '',
+              country: profile?.post_address?.country ?? '',
+            }
           : { address: '', city: '', postalCode: '', country: '' },
         email: profile?.email_address ?? '',
         phoneNumber: profile?.phone?.number ?? '',
@@ -182,15 +182,18 @@ const EditInformations = () => {
   const media = useMedia()
   const formikFormRef = useRef<FormikProps<PersonalInformationsForm>>(null)
   const { data: profile } = useGetDetailProfil()
+  const { user } = useSession()
   const $updateProfile = useMutationUpdateProfil({
     userUuid: profile?.uuid,
   })
+
+  const isAdherent = !!user.data?.tags.find((tag) => tag.type === 'adherent')
   const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    if (!profile.adherent) return mutateAsync()
+    if (!isAdherent) return mutateAsync()
     const ACCOUNT_ROUTE_RE = `https://${clientEnv.APP_RENAISSANCE_HOST}/parametres/mon-compte`
     if (isWeb && window) {
       window.location.href = ACCOUNT_ROUTE_RE
@@ -201,9 +204,9 @@ const EditInformations = () => {
 
   const removeAccount = () => {
     AlertUtils.showDestructiveAlert(
-      profile.adherent ? 'Désadhérer' : 'Suppression du compte',
-      profile.adherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
-      profile.adherent ? 'Désadhérer' : 'Supprimer',
+      isAdherent ? 'Désadhérer' : 'Suppression du compte',
+      isAdherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+      isAdherent ? 'Désadhérer' : 'Supprimer',
       'Annuler',
       onRemoveAccountConfirmed,
     )
@@ -266,7 +269,7 @@ const EditInformations = () => {
                   <Button.Text>Se déconnecter</Button.Text>
                 </Button>
                 <Button variant="outlined" width="100%" onPress={removeAccount}>
-                  <Button.Text>{profile.adherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
+                  <Button.Text>{isAdherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
                 </Button>
               </YStack>
             </VoxCard.Content>

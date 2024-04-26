@@ -3,7 +3,7 @@ export interface RestUpdateProfileRequest {
   last_name: string
   gender: string
   custom_gender: string | null
-  nationality: string
+  nationality: string | null
   birthdate: string | null
   address: RestUpdatePostAddress | null
   email_address: string
