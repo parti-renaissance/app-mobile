@@ -5,6 +5,7 @@ import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
+import { useSession } from '@/ctx/SessionProvider'
 import { isFullEvent, isPartialEvent, RestFullShortEvent, RestPartialShortEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { usePaginatedEvents } from '@/hooks/useEvents'
@@ -33,6 +34,7 @@ const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortE
 
 const EventList = () => {
   const media = useMedia()
+  const { user } = useSession()
 
   const {
     data: paginatedFeed,
@@ -42,13 +44,13 @@ const EventList = () => {
     isLoading,
     isRefetching,
   } = usePaginatedEvents({
-    postalCode: '75001',
+    postalCode: user.data?.postal_code,
     filters: {
       finishAfter: new Date(),
     },
   })
 
-  const handleSubscribe = (id: string) => { }
+  const handleSubscribe = (id: string) => {}
   const handleShow = (id: string) => {
     router.push({ pathname: '/(tabs)/evenements/[id]', params: { id } })
   }

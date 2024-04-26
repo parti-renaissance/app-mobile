@@ -22,10 +22,10 @@ const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOpt
 }
 
 export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
-  const { session } = useSession()
+  const { isAuth } = useSession()
   return useSuspenseInfiniteQuery({
-    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, session ? 'private' : 'public'],
-    queryFn: ({ pageParam }) => (session ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
+    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, isAuth ? 'private' : 'public'],
+    queryFn: ({ pageParam }) => (isAuth ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
     getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
     getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
     initialPageParam: 1,

@@ -9,10 +9,10 @@ const fetchTimelineFeed = async (pageParam: number, zipcode?: string) =>
 
 export const useGetPaginatedFeed = (postalCode?: string) => {
   return useSuspenseInfiniteQuery({
-    queryKey: PaginatedFeedQueryKey,
-    queryFn: ({ pageParam }) => postalCode ? fetchTimelineFeed(pageParam, postalCode) : ApiService.getInstance().getProfile().then((profile) => fetchTimelineFeed(pageParam, profile?.postal_code)),
-    getNextPageParam: (lastPage) => (lastPage.nbPages > lastPage.page ? lastPage.page + 1 : null),
-    getPreviousPageParam: (firstPage) => firstPage.page - 1,
+    queryKey: [...PaginatedFeedQueryKey, postalCode],
+    queryFn: ({ pageParam }) => fetchTimelineFeed(pageParam, postalCode),
+    getNextPageParam: (lastPage) => (lastPage ? (lastPage.nbPages > lastPage.page ? lastPage.page + 1 : null) : null),
+    getPreviousPageParam: (firstPage) => (firstPage ? firstPage.page - 1 : null),
     initialPageParam: 0,
   })
 }
