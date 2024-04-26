@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { Platform } from 'react-native'
+import { ImageRequireSource, Platform } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import Chip from '@/components/Chip/Chip'
 import ProfilePicture from '@/components/ProfilePicture'
@@ -184,7 +184,7 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
 }
 
 export type VoxCardImageProps = {
-  image: string
+  image: string | ImageRequireSource
   large?: boolean
 }
 
@@ -192,7 +192,12 @@ const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
   const media = useMedia()
   return (
     <XStack $gtSm={{ maxHeight: large ? 'auto' : '$15' }} borderRadius="$1" overflow="hidden">
-      <Image source={{ uri: image, width: 600, height: large && media.gtLg ? 400 : 244 }} width="100%" alt="event image" resizeMode="cover" />
+      <Image
+        source={typeof image === 'number' ? image : { uri: image, width: 600, height: large && media.gtLg ? 400 : 244 }}
+        width="100%"
+        alt="event image"
+        resizeMode="cover"
+      />
     </XStack>
   )
 }

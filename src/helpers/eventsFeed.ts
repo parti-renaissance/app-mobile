@@ -70,7 +70,7 @@ export const mapPartialProps = (
     payload: {
       id: item.uuid,
       title: item.name,
-      image: item.image_url ?? require('@/assets/images/eventRestrictedImagePlaceholder.png'),
+      image: item.image_url ?? undefined,
       isOnline: item.mode === 'online',
       date: mapPropsDate(item),
     },
