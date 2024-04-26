@@ -1,4 +1,5 @@
 import { ComponentProps } from 'react'
+import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
@@ -12,7 +13,7 @@ type VoxCardBasePayload = {
   id: string
   title: string
   tag: string
-  image?: string
+  image?: string | ImageRequireSource
   isSubscribed?: boolean
   isOnline: boolean
   location?: VoxCardLocationProps['location']
@@ -77,7 +78,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
       <VoxCard.Content>
         <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
-        <VoxCard.Image image={payload.image ?? require('@/assets/images/eventImagePlaceholder.png')} />
+        {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}

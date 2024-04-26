@@ -7,6 +7,7 @@ import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
+import { Image as ExpoImage } from 'expo-image'
 import {
   getFontSize,
   Image,
@@ -23,6 +24,7 @@ import {
   YStack,
   ZStack,
 } from 'tamagui'
+import AutoSizeImage from '../AutoSizeImage'
 
 const CardFrame = styled(YStack, {
   name: 'Card',
@@ -188,16 +190,10 @@ export type VoxCardImageProps = {
   large?: boolean
 }
 
-const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
-  const media = useMedia()
+const VoxCardImage = ({ image }: VoxCardImageProps) => {
   return (
-    <XStack $gtSm={{ maxHeight: large ? 'auto' : '$15' }} borderRadius="$1" overflow="hidden">
-      <Image
-        source={typeof image === 'number' ? image : { uri: image, width: 600, height: large && media.gtLg ? 400 : 244 }}
-        width="100%"
-        alt="event image"
-        resizeMode="cover"
-      />
+    <XStack borderRadius="$1" overflow="hidden">
+      <AutoSizeImage source={image} />
     </XStack>
   )
 }
