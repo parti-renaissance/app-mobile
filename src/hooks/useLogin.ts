@@ -63,7 +63,7 @@ export const useLogin = () => {
         const code = codeResult.params.code
         return exchangeCodeAsync({ code })
       }
-      return null
+      throw new Error('Error during login', { cause: JSON.stringify(codeResult) })
     })
   }
 }
