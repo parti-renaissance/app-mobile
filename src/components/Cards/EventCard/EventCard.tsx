@@ -17,7 +17,7 @@ type VoxCardBasePayload = {
   isOnline: boolean
   location?: VoxCardLocationProps['location']
   date: VoxCardDateProps
-} & VoxCardAuthorProps
+} & Partial<VoxCardAuthorProps>
 
 export type EventVoxCardProps = {
   onSubscribe?: () => void
@@ -80,7 +80,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
         {payload.image && <VoxCard.Image image={payload.image} />}
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
-        <VoxCard.Author author={payload.author} />
+        {payload.author && <VoxCard.Author author={payload.author} />}
         <XStack justifyContent={knowSubscription ? 'space-between' : 'flex-end'}>
           <Button variant="outlined" onPress={onShow}>
             <Button.Text>Voir l'événement</Button.Text>
