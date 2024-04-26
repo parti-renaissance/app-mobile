@@ -1,6 +1,8 @@
-import React, { forwardRef, useRef } from 'react'
+import React, { forwardRef, useCallback, useMemo, useRef } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
+import { GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete'
 import { Button } from '@/components'
+import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
@@ -28,16 +30,8 @@ type FormEditInformationsProps = {
 }
 
 const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, FormEditInformationsProps>(({ profile, onSubmit }, ref) => {
-  const genderOptions = [
-    { value: Gender.Male, text: 'Monsieur' },
-    {
-      value: Gender.Female,
-      text: 'Madame',
-    },
-  ]
-
-  const handleOnSubmit = (values: PersonalInformationsForm) => {
-    const payload = {
+  const handleOnSubmit = useCallback((values: PersonalInformationsForm) => {
+    const payload: RestUpdateProfileRequest = {
       address: {
         address: values.address?.address ?? '',
         postal_code: values.address?.postalCode ?? '',
@@ -50,7 +44,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       first_name: values?.firstName,
       last_name: values?.lastName,
       email_address: values?.email,
-      nationality: values?.nationality,
+      nationality: values?.nationality ?? '',
       ...(values?.birthdate && { birthdate: format(values?.birthdate, 'yyyy-MM-dd') }),
       ...(values?.phoneCountryCode && values?.phoneNumber && { phone: { country: values?.phoneCountryCode, number: values?.phoneNumber } }),
       facebook_page_url: values?.facebook ?? '',
@@ -58,10 +52,15 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       linkedin_page_url: values?.linkedin ?? '',
       instagram_page_url: values?.instagram ?? '',
       telegram_page_url: values?.telegram ?? '',
-    } satisfies RestUpdateProfileRequest
+    }
 
     onSubmit(payload)
-  }
+  }, [])
+
+  const onAutocomplete = useCallback((data: GooglePlaceData, details: GooglePlaceDetail) => {
+    // 'details' is provided when fetchDetails = true
+    console.log(data, details)
+  }, [])
 
   return (
     <Formik<PersonalInformationsForm>
@@ -73,13 +72,14 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         customGender: profile?.custom_gender ?? '',
         nationality: profile?.nationality ?? '',
         birthdate: new Date(profile?.birthdate),
+        addressInput: '',
         address: profile.post_address
           ? {
-            address: profile.post_address.address ?? '',
-            city: profile.post_address?.city ?? '',
-            postalCode: profile.post_address?.postal_code ?? '',
-            country: profile?.post_address?.country ?? '',
-          }
+              address: profile.post_address.address ?? '',
+              city: profile.post_address?.city ?? '',
+              postalCode: profile.post_address?.postal_code ?? '',
+              country: profile?.post_address?.country ?? '',
+            }
           : { address: '', city: '', postalCode: '', country: '' },
         email: profile?.email_address ?? '',
         phoneNumber: profile?.phone?.number ?? '',
@@ -93,9 +93,9 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       validateOnBlur
       validateOnChange
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
-      onSubmit={(values) => handleOnSubmit(values)}
+      onSubmit={handleOnSubmit}
     >
-      {() => (
+      {({ values, setFieldValue }) => (
         <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
@@ -105,6 +105,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             <Text fontSize="$2" fontWeight="$4">
               Identité
             </Text>
+
             <FormikController<PersonalInformationsForm> name="gender">
               {({ inputProps: { onChange, value } }) => (
                 <Select
@@ -151,6 +152,28 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                 />
               )}
             </FormikController>
+
+            <AddressAutocomplete setStringValue={(val) => setFieldValue('addressInput', val)} defaultValue={values.addressInput} />
+
+            {/*<GooglePlacesAutocomplete*/}
+            {/*  disableScroll*/}
+            {/*  placeholder={'Adresse'}*/}
+            {/*  fetchDetails*/}
+            {/*  onPress={onAutocompletePress}*/}
+            {/*  query={googlePlaceAutocompleteConfig}*/}
+            {/*  textInputProps={{*/}
+            {/*    placeholderTextColor: Colors.lightText,*/}
+            {/*  }}*/}
+            {/*  styles={{*/}
+            {/*    textInputContainer: {*/}
+            {/*      paddingTop: Spacing.unit,*/}
+            {/*      paddingHorizontal: Spacing.margin,*/}
+            {/*    },*/}
+            {/*    textInput: {*/}
+            {/*      backgroundColor: Colors.separator,*/}
+            {/*    },*/}
+            {/*  }}*/}
+            {/*/>*/}
           </View>
 
           <View>
@@ -158,13 +181,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               Réseaux sociaux
             </Text>
 
-            {[
-              { id: 'facebook', placeholder: 'facebook.com/nom-utilisateur', label: 'Facebook' },
-              { id: 'telegram', placeholder: 't.me/nom-utilisateur', label: 'Telegram' },
-              { id: 'instagram', placeholder: 'instagram.com/nom-utilisateur', label: 'Instagram' },
-              { id: 'twitter', placeholder: 'twitter.com/nom-utilisateur', label: 'Twitter' },
-              { id: 'linkedin', placeholder: 'linkedin.com/nom-utilisateur', label: 'Linkedin' },
-            ].map((item) => (
+            {socialPlatforms.map((item) => (
               <View key={item.id} width="100%">
                 <FormikController name={item.id}>
                   {({ inputProps }) => <TextField placeholder={item.placeholder} label={item.label} width="100%" {...inputProps} />}
@@ -241,18 +258,20 @@ const EditInformations = () => {
     </Button>
   )
 
+  const scrollViewContainerStyle = useMemo(
+    () => ({
+      pt: media.gtSm ? '$8' : undefined,
+      pl: media.gtSm ? '$8' : undefined,
+      pr: media.gtSm ? '$8' : undefined,
+      pb: isWeb ? '$10' : '$12',
+    }),
+    [],
+  )
+
   return (
     <PageLayout.MainSingleColumn>
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView
-          contentContainerStyle={{
-            pt: media.gtSm ? '$8' : undefined,
-            pl: media.gtSm ? '$8' : undefined,
-            pr: media.gtSm ? '$8' : undefined,
-            pb: isWeb ? '$10' : '$12',
-          }}
-          backgroundColor={!isWeb ? '#fff' : ''}
-        >
+        <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : ''}>
           <VoxCard>
             <VoxCard.Content>
               <FormEditInformations ref={formikFormRef} profile={profile} onSubmit={handleSubmit} />
@@ -282,5 +301,21 @@ const EditInformations = () => {
     </PageLayout.MainSingleColumn>
   )
 }
+
+const genderOptions = [
+  { value: Gender.Male, text: 'Monsieur' },
+  {
+    value: Gender.Female,
+    text: 'Madame',
+  },
+]
+
+const socialPlatforms = [
+  { id: 'facebook', placeholder: 'facebook.com/nom-utilisateur', label: 'Facebook' },
+  { id: 'telegram', placeholder: 't.me/nom-utilisateur', label: 'Telegram' },
+  { id: 'instagram', placeholder: 'instagram.com/nom-utilisateur', label: 'Instagram' },
+  { id: 'twitter', placeholder: 'twitter.com/nom-utilisateur', label: 'Twitter' },
+  { id: 'linkedin', placeholder: 'linkedin.com/nom-utilisateur', label: 'Linkedin' },
+]
 
 export default EditInformations

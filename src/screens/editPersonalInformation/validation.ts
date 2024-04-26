@@ -24,6 +24,7 @@ const PersonalInformationsFormSchema = z
         message: "L'âge doit être d'au moins 15 ans.",
       },
     ),
+    addressInput: z.string(),
     address: z.object({
       address: z.string({
         required_error: 'L’adresse est obligatoire',
