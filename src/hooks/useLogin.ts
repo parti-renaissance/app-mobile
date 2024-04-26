@@ -71,12 +71,13 @@ export const useLogin = () => {
 export const useRegister = () => {
   useBrowserWarmUp()
   const [, , promptAsync] = useCodeAuthRequest({ register: true })
-  if (isWeb) {
-    window.location.href = discoveryDocument.registrationEndpoint + `?redirect_uri=${REDIRECT_URI}&utm_source=app`
-    return () => Promise.resolve(null)
-  }
-  return () =>
-    promptAsync({
+  return () => {
+    if (isWeb) {
+      window.location.href = discoveryDocument.registrationEndpoint + `?redirect_uri=${REDIRECT_URI}&utm_source=app`
+      return null
+    }
+
+    return promptAsync({
       createTask: false,
     }).then((codeResult) => {
       if (codeResult.type === 'success') {
@@ -86,6 +87,7 @@ export const useRegister = () => {
         throw new Error('Error during registration', { cause: JSON.stringify(codeResult) })
       }
     })
+  }
 }
 
 export default useLogin
