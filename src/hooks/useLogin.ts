@@ -45,7 +45,6 @@ export const useLogin = () => {
   const [, , promptAsync] = useCodeAuthRequest()
   return (code?: string) => {
     if (code) {
-      console.log('code', code)
       WebBrowser.dismissAuthSession()
       return exchangeCodeAsync({ code })
     }
