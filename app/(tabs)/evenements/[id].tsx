@@ -57,6 +57,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
   const isFullEvent = eventTypes.isFullEvent(data)
   const media = useMedia()
   const { isAuth, signIn } = useSession()
+  const image = data.image_url ?? (eventTypes.isPartialEvent(data) ? require('@/assets/images/eventRestrictedImagePlaceholder.png') : undefined)
 
   return (
     <>
@@ -72,7 +73,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
         <PageLayout.MainSingleColumn>
           <ScrollStack>
             <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
-              {!!data.image_url && <VoxCard.Image large image={data.image_url} />}
+              {image && <VoxCard.Image image={image} />}
               <VoxCard.Content>
                 {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
                 <VoxCard.Title>{data.name}</VoxCard.Title>
@@ -117,7 +118,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
           <PageLayout.MainSingleColumn>
             <ScrollStack>
               <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
-                {!!data.image_url && <VoxCard.Image large image={data.image_url} />}
+                {image && <VoxCard.Image image={image} />}
                 <VoxCard.Content>
                   {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
                   <VoxCard.Title>{data.name}</VoxCard.Title>
