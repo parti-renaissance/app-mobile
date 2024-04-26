@@ -1,14 +1,6 @@
 import { EventVoxCardProps, PartialEventVoxCardProps } from '@/components/Cards'
 import { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import {
-  Event,
-  isPartialEvent,
-  RestDetailedEvent,
-  RestFullDetailedEvent,
-  RestFullShortEvent,
-  RestPartialShortEvent,
-  RestShortEvent,
-} from '@/data/restObjects/RestEvents'
+import { RestDetailedEvent, RestFullShortEvent, RestPartialShortEvent, RestShortEvent } from '@/data/restObjects/RestEvents'
 
 export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxCardLocationProps => {
   return {
@@ -22,7 +14,7 @@ export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxC
   }
 }
 
-export const mapPropsAuthor = (item: RestShortEvent | RestDetailedEvent): VoxCardAuthorProps => {
+export const mapPropsAuthor = (item: RestShortEvent | RestDetailedEvent): Partial<VoxCardAuthorProps> => {
   return {
     author: item.organizer
       ? {
@@ -55,7 +47,7 @@ export const mapFullProps = (
       id: item.uuid,
       title: item.name,
       tag: item.category.name,
-      image: item.image_url,
+      image: item.image_url ?? undefined,
       isSubscribed: !!item.user_registered_at,
       isOnline: item.mode === 'online',
       ...mapPropsLocation(item),
@@ -78,7 +70,7 @@ export const mapPartialProps = (
     payload: {
       id: item.uuid,
       title: item.name,
-      image: item.image_url,
+      image: item.image_url ?? require('@/assets/images/eventRestrictedImagePlaceholder.png'),
       isOnline: item.mode === 'online',
       date: mapPropsDate(item),
     },
