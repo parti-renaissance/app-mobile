@@ -1,3 +1,4 @@
+import { ImageRequireSource } from 'react-native'
 import Button from '@/components/Button'
 import VoxCard, { VoxCardDateProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
@@ -5,7 +6,7 @@ import { XStack } from 'tamagui'
 type VoxCardBasePayload = {
   id: string
   title: string
-  image?: string
+  image?: string | ImageRequireSource
   isOnline: boolean
   date: VoxCardDateProps
 }
@@ -23,7 +24,7 @@ const PartialEventCard = ({ payload, onSubscribe, onShow, ...props }: PartialEve
         <VoxCard.Content p={0}>
           <VoxCard.Chip event>Evenement</VoxCard.Chip>
           <VoxCard.Title>{payload.title}</VoxCard.Title>
-          {payload.image && <VoxCard.Image image={payload.image} />}
+          <VoxCard.Image image={payload.image ?? require('@/assets/images/eventRestrictedImagePlaceholder.png')} />
         </VoxCard.Content>
         <VoxCard.Date {...payload.date} />
         <XStack justifyContent={'flex-end'}>

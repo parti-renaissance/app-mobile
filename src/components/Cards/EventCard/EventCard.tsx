@@ -77,7 +77,7 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
       <VoxCard.Content>
         <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
-        {payload.image && <VoxCard.Image image={payload.image} />}
+        <VoxCard.Image image={payload.image ?? require('@/assets/images/eventImagePlaceholder.png')} />
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}
