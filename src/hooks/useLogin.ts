@@ -42,15 +42,20 @@ const exchangeCodeAsync = ({ code }: { code: string }) => {
 
 export const useLogin = () => {
   useBrowserWarmUp()
-  const [, , promptAsync] = useCodeAuthRequest()
-  return (code?: string) => {
+  const [req, , promptAsync] = useCodeAuthRequest()
+  return async (code?: string) => {
     if (code) {
       WebBrowser.dismissAuthSession()
       return exchangeCodeAsync({ code })
     }
 
     if (isWeb) {
-      window.location.href = discoveryDocument.authorizationEndpoint + `?redirect_uri=${REDIRECT_URI}&clientId=${BASE_REQUEST_CONFIG.clientId}&utm_source=app`
+      const url = new URL(discoveryDocument.authorizationEndpoint)
+      url.searchParams.set('redirect_uri', req?.redirectUri!)
+      url.searchParams.set('client_id', req?.clientId!)
+      url.searchParams.set('response_type', 'code')
+      req?.scopes!.forEach((scope) => url.searchParams.append('scope[]', scope))
+      window.location.href = url.toString()
       return null
     }
 
