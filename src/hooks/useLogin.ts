@@ -3,6 +3,7 @@ import discoveryDocument from '@/config/discoveryDocument'
 import * as AuthSession from 'expo-auth-session'
 import { maybeCompleteAuthSession } from 'expo-web-browser'
 import * as WebBrowser from 'expo-web-browser'
+import { isWeb } from 'tamagui'
 import useBrowserWarmUp from './useBrowserWarmUp'
 
 maybeCompleteAuthSession()
@@ -20,7 +21,7 @@ export const useCodeAuthRequest = (props?: { register: boolean }) => {
         utm_source: 'app',
       },
     },
-    props && props?.register
+    props?.register
       ? {
           authorizationEndpoint: discoveryDocument.registrationEndpoint,
         }
@@ -28,7 +29,7 @@ export const useCodeAuthRequest = (props?: { register: boolean }) => {
   )
 }
 
-const exchangeCodeAsync = ({ code, code_verifier }: { code: string; code_verifier?: string }) => {
+const exchangeCodeAsync = ({ code }: { code: string }) => {
   if (!code) return null
   return AuthSession.exchangeCodeAsync(
     {
@@ -41,18 +42,26 @@ const exchangeCodeAsync = ({ code, code_verifier }: { code: string; code_verifie
 
 export const useLogin = () => {
   useBrowserWarmUp()
-  const [response, , promptAsync] = useCodeAuthRequest()
+  const [, , promptAsync] = useCodeAuthRequest()
   return (code?: string) => {
     if (code) {
+      console.log('code', code)
       WebBrowser.dismissAuthSession()
-      return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
+      return exchangeCodeAsync({ code })
     }
+
+    if (isWeb) {
+      window.location.href = discoveryDocument.authorizationEndpoint + `?redirect_uri=${REDIRECT_URI}&clientId=${BASE_REQUEST_CONFIG.clientId}&utm_source=app`
+      return null
+    }
+
     return promptAsync({
+      presentationStyle: WebBrowser.WebBrowserPresentationStyle.CURRENT_CONTEXT,
       createTask: false,
     }).then((codeResult) => {
       if (codeResult.type === 'success') {
         const code = codeResult.params.code
-        return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
+        return exchangeCodeAsync({ code })
       }
       return null
     })
@@ -61,16 +70,20 @@ export const useLogin = () => {
 
 export const useRegister = () => {
   useBrowserWarmUp()
-  const [response, , promptAsync] = useCodeAuthRequest({ register: true })
+  const [, , promptAsync] = useCodeAuthRequest({ register: true })
+  if (isWeb) {
+    window.location.href = discoveryDocument.registrationEndpoint + `?redirect_uri=${REDIRECT_URI}&utm_source=app`
+    return () => Promise.resolve(null)
+  }
   return () =>
     promptAsync({
       createTask: false,
     }).then((codeResult) => {
       if (codeResult.type === 'success') {
         const code = codeResult.params.code
-        return exchangeCodeAsync({ code, code_verifier: response?.codeVerifier })
+        return exchangeCodeAsync({ code })
       } else {
-        throw new Error('Error during registration')
+        throw new Error('Error during registration', { cause: JSON.stringify(codeResult) })
       }
     })
 }
