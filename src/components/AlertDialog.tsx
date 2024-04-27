@@ -1,5 +1,6 @@
 import { Button } from '@/components'
-import { AlertDialog, Text, XStack, YStack } from 'tamagui'
+import Text from '@/components/base/Text'
+import { AlertDialog, XStack, YStack } from 'tamagui'
 
 type AlertDialogProps = {
   children: React.ReactNode
@@ -36,7 +37,7 @@ export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
           y={0}
         >
           <YStack gap="$4">
-            <Text fontSize="$3" fontWeight="$5" fontFamily="$PublicSans">
+            <Text fontSize="$3" fontWeight="$5">
               {props.title}
             </Text>
 
