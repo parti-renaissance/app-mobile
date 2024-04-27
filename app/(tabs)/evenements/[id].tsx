@@ -6,6 +6,7 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
 import { SubscribeEventButton } from '@/components/Cards'
 import EventRegisterForm from '@/components/EventRegisterForm/EventRegisterForm'
+import InternAlert from '@/components/InternAlert/InternAlert'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
@@ -23,6 +24,7 @@ import useCreateEvent from '@/modules/Calendar/Calendar'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
+import { isPast } from 'date-fns'
 import * as Clipboard from 'expo-clipboard'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
@@ -75,6 +77,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
             <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
               {image && <VoxCard.Image image={image} />}
               <VoxCard.Content>
+                <EventStatus data={data} />
                 {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
                 <VoxCard.Title>{data.name}</VoxCard.Title>
                 {isFullEvent && (
@@ -143,6 +146,7 @@ function EventDetailScreen(props: Readonly<{ id: string }>) {
               <YStack gap="$6">
                 <VoxCard>
                   <VoxCard.Content pt="$6">
+                    <EventStatus data={data} />
                     <AuthFallbackWrapper
                       fallback={
                         <>
@@ -364,6 +368,16 @@ function _RegisterButtonSheet(props: { id: string }) {
       </Sheet>
     </>
   )
+}
+
+function EventStatus({ data: { finish_at, status } }: { data: eventTypes.RestDetailedEvent }) {
+  if (isPast(finish_at) && status === 'SCHEDULED') {
+    return <InternAlert type="info">Événement passé.</InternAlert>
+  }
+  if (status === 'CANCELLED') {
+    return <InternAlert type="danger">Événement annulé.</InternAlert>
+  }
+  return null
 }
 
 export default HomeScreen

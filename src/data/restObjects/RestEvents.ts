@@ -43,6 +43,7 @@ export interface RestPartialShortEvent {
   image_url: null
   live_url: null
   local_finish_at: null
+  status: RestEventStatus
   mode: null
   name: string
   organizer: null
@@ -66,6 +67,8 @@ export interface RestEventParentCategory {
   slug: string
 }
 
+export type RestEventStatus = 'SCHEDULED' | 'CANCELLED'
+
 export interface RestFullDetailedEvent {
   committee: RestEventComittee | null
   uuid: string
@@ -77,7 +80,7 @@ export interface RestFullDetailedEvent {
   finish_at: string
   organizer: RestEventOrganizer
   participants_count: number
-  status: string
+  status: RestEventStatus
   capacity: number
   visio_url: string | null
   mode: string | null
