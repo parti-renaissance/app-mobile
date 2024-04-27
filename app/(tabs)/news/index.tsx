@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { RefreshControl, SectionList, SectionListData, SectionListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { NewsNavigatorScreenProps } from '@/navigation/news/NewsNavigatorScreenProps'
 import HighlightedNewsRow from '@/screens/news/HighlightedNewsRow'
 import { NewsContentSectionViewModel, NewsContentViewModel } from '@/screens/news/NewsContentViewModel'
