@@ -3,7 +3,7 @@ import { RestMetadata } from './RestMetadata'
 
 export interface RestEvents {
   metadata: RestMetadata
-  items: Array<RestShortEvent>
+  items: Array<RestEvent>
 }
 
 export interface RestEventOrganizer {
@@ -13,48 +13,6 @@ export interface RestEventOrganizer {
 }
 
 export type EventVisibility = 'public' | 'private' | 'adherent' | 'adherent_dues'
-
-export interface RestFullShortEvent {
-  category: RestEventCategory
-  name: string
-  time_zone: string
-  begin_at: string
-  finish_at: string
-  capacity: number
-  uuid: string
-  mode: string
-  local_begin_at: string
-  local_finish_at: string
-  image_url: string | null
-  organizer: RestEventOrganizer
-  user_registered_at: string | null
-  post_address: RestEventAddress | null
-  visibility: EventVisibility
-  object_state: 'full'
-}
-
-export interface RestPartialShortEvent {
-  object_state: 'partial'
-  begin_at: string
-  capacity: null
-  category: null
-  created_at: null
-  finish_at: string
-  image_url: null
-  live_url: null
-  local_finish_at: null
-  status: RestEventStatus
-  mode: null
-  name: string
-  organizer: null
-  participants_count: null
-  post_address: null
-  time_zone: string
-  visibility: EventVisibility
-  uuid: string
-}
-
-export type RestShortEvent = RestFullShortEvent | RestPartialShortEvent
 
 export interface RestEventCategory {
   name: string
@@ -69,7 +27,7 @@ export interface RestEventParentCategory {
 
 export type RestEventStatus = 'SCHEDULED' | 'CANCELLED'
 
-export interface RestFullDetailedEvent {
+export interface RestFullEvent {
   committee: RestEventComittee | null
   uuid: string
   name: string
@@ -93,14 +51,56 @@ export interface RestFullDetailedEvent {
   object_state: 'full'
 }
 
-export type RestDetailedEvent = RestFullDetailedEvent | RestPartialShortEvent
-export type RestEvent = RestShortEvent | RestDetailedEvent
-export type Event = (RestShortEvent & { isShort: true }) | RestDetailedEvent
+export type RestPartialEvent = {
+  object_state: 'partial'
+  begin_at: string
+  finish_at: string
+  status: RestEventStatus
+  name: string
+  time_zone: string
+  visibility: EventVisibility
+  uuid: string
+  committee: null
+  slug: null
+  description: string
+  organizer: null
+  participants_count: null
+  capacity: null
+  visio_url: null
+  mode: null
+  image_url: null
+  user_registered_at: null
+  post_address: null
+  link: null
+  category: null
+}
 
-export const isPartialEvent = (event: Event | RestEvent): event is RestPartialShortEvent => event.object_state === 'partial'
-export const isFullEvent = (event: Event | RestEvent): event is (RestFullShortEvent | RestFullDetailedEvent) & { isShort: true | undefined } =>
-  event.object_state === 'full'
-export const isShortEvent = (event: Event): event is { isShort: true } & RestShortEvent => 'isShort' in event
+export type RestEvent = {
+  object_state: 'full' | 'partial'
+  begin_at: string
+  finish_at: string
+  status: RestEventStatus
+  name: string
+  time_zone: string
+  visibility: EventVisibility
+  uuid: string
+  committee: RestEventComittee | null
+  slug: string | null
+  description: string
+  organizer: RestEventOrganizer | null
+  participants_count: number | null
+  capacity: number | null
+  visio_url: string | null
+  mode: string | null
+  image_url: string | null
+  user_registered_at: string | null
+  post_address: RestEventAddress | null
+  link: string | null
+  category: RestEventCategory | null
+} & (RestFullEvent | RestPartialEvent)
+
+export const isPartialEvent = (event: RestEvent): event is RestPartialEvent => event.object_state === 'partial'
+export const isFullEvent = (event: RestEvent): event is RestFullEvent => event.object_state === 'full'
 
 export interface RestEventOrganizer {
   first_name: string

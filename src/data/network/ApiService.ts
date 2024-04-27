@@ -17,7 +17,7 @@ import {
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
-import { PublicSubscribtionFormData, RestDetailedEvent, RestEvents } from '../restObjects/RestEvents'
+import { PublicSubscribtionFormData, RestEvent, RestEvents } from '../restObjects/RestEvents'
 import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
 import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
@@ -207,17 +207,17 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public getEventDetails(eventId: string): Promise<RestDetailedEvent> {
+  public getEventDetails(eventId: string): Promise<RestEvent> {
     return this.httpClient
       .get('api/v3/events/' + eventId)
-      .json<RestDetailedEvent>()
+      .json<RestEvent>()
       .catch(genericErrorMapping)
   }
 
-  public getPublicEventDetails(eventId: string): Promise<RestDetailedEvent> {
+  public getPublicEventDetails(eventId: string): Promise<RestEvent> {
     return this.httpClient
       .get('api/events/' + eventId)
-      .json<RestDetailedEvent>()
+      .json<RestEvent>()
       .catch(genericErrorMapping)
   }
 
