@@ -18,7 +18,7 @@ const InternAlert = (props: InternAlertProps) => {
     <Theme name={themeColor}>
       <Theme name="InternAlert">
         <XStack {...XStackProps} borderRadius="$3" padding="$3" borderWidth="$1" borderColor={'$borderColor'} backgroundColor={'$background'}>
-          <Paragraph size="$4" color="$color">
+          <Paragraph size="$4" color="$color" textAlign="center" flex={1}>
             {children}
           </Paragraph>
         </XStack>
