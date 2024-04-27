@@ -122,6 +122,12 @@ export const templates = (() => {
     outlineColor: -1,
   }
 
+  const InternAlertSurface = {
+    background: transparencies + 1,
+    borderColor: transparencies + 6,
+    color: transparencies + 8,
+  }
+
   const surface1 = {
     background: base.background + 1,
     backgroundHover: base.backgroundHover + 1,
@@ -253,6 +259,7 @@ export const templates = (() => {
     surfaceActive,
     surfaceInput,
     surfaceInputActive,
+    InternAlertSurface,
   }
 })()
 
@@ -446,6 +453,9 @@ const themeBuilder = createThemeBuilder()
       Input: surface1,
       TextArea: surface1,
       VoxInput: surfaceInput1,
+      InternAlert: {
+        template: 'InternAlertSurface',
+      },
     },
     {
       avoidNestingWithin: ['alt1', 'alt2'],
