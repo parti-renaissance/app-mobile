@@ -1,7 +1,7 @@
 import { EventFilters } from '@/core/entities/Event'
 import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
-import { Event, PublicSubscribtionFormData, RestShortEvent } from '@/data/restObjects/RestEvents'
+import { PublicSubscribtionFormData } from '@/data/restObjects/RestEvents'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { PaginatedFeedQueryKey } from '../useFeed'
@@ -76,7 +76,6 @@ export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
 
 export const useGetEvent = ({ id: eventId }: { id: string }) => {
   const { session } = useSession()
-
   return useSuspenseQuery({
     queryKey: [QUERY_KEY_SINGLE_EVENT, eventId],
     queryFn: () => (session ? ApiService.getInstance().getEventDetails(eventId) : ApiService.getInstance().getPublicEventDetails(eventId)),
@@ -97,8 +96,4 @@ export const useSubscribePublicEvent = ({ id: eventId }: { id: string }) => {
       return e
     },
   })
-}
-
-export const useIsShortEvent = (event: Event): event is { isShort: true } & RestShortEvent => {
-  return 'isShort' in event
 }
