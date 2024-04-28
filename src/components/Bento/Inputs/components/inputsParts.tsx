@@ -1,24 +1,28 @@
+import { useState } from 'react'
+import { Disabled } from '@/components/Button/Button.stories'
 import { getFontSized } from '@tamagui/get-font-sized'
 import { getSpace } from '@tamagui/get-token'
 import { User } from '@tamagui/lucide-icons'
 import type { SizeVariantSpreadFunction } from '@tamagui/web'
-import { useState } from 'react'
+import { act } from '@testing-library/react-native'
+import { press } from '@testing-library/react-native/build/user-event/press'
+import { tr } from 'date-fns/locale'
 import type { ColorTokens, FontSizeTokens } from 'tamagui'
 import {
-  Label,
-  Button as TButton,
-  Input as TInput,
-  Text,
-  View,
-  XGroup,
   createStyledContext,
   getFontSize,
   getVariable,
   isWeb,
+  Label,
   styled,
+  Button as TButton,
+  Text,
+  Input as TInput,
   useGetThemedIcon,
   useTheme,
+  View,
   withStaticProperties,
+  XGroup,
 } from 'tamagui'
 
 const defaultContextValues = {
@@ -39,7 +43,6 @@ export const defaultInputGroupStyles = {
   borderWidth: 1,
   outlineWidth: 0,
   color: '$color',
-
   ...(isWeb
     ? {
         tabIndex: 0,
@@ -49,20 +52,26 @@ export const defaultInputGroupStyles = {
       }),
 
   borderColor: '$borderColor',
-  backgroundColor: '$color2',
-
+  backgroundColor: '$background',
   // this fixes a flex bug where it overflows container
   minWidth: 0,
 
-  hoverStyle: {
-    borderColor: '$borderColorHover',
+  pressStyle: {
+    borderColor: '$borderColorPress',
+    backgroundColor: '$backgroundPress',
   },
-
   focusStyle: {
     outlineColor: '$outlineColor',
     outlineWidth: 2,
     outlineStyle: 'solid',
     borderColor: '$borderColorFocus',
+    backgroundColor: '$backgroundFocus',
+    placeHolderColor: '$color',
+    color: '$colorFocus',
+  },
+  hoverStyle: {
+    borderColor: '$borderColorHover',
+    backgroundColor: '$backgroundHover',
   },
 } as const
 
@@ -73,6 +82,15 @@ const InputGroupFrame = styled(XGroup, {
     unstyled: {
       false: defaultInputGroupStyles,
     },
+    minimal: {
+      true: {
+        borderWidth: 0,
+        borderBottomWidth: 1,
+        borderRadius: 0,
+        outlineWidth: 0,
+      },
+    },
+
     scaleIcon: {
       ':number': {} as any,
     },
@@ -114,10 +132,7 @@ const InputGroupImpl = InputGroupFrame.styleable((props, forwardedRef) => {
   )
 })
 
-export const inputSizeVariant: SizeVariantSpreadFunction<any> = (
-  val = '$true',
-  extras
-) => {
+export const inputSizeVariant: SizeVariantSpreadFunction<any> = (val = '$true', extras) => {
   const radiusToken = extras.tokens.radius[val] ?? extras.tokens.radius['$true']
   const paddingHorizontal = getSpace(val, {
     shift: -1,
@@ -143,7 +158,7 @@ const InputFrame = styled(TInput, {
 
 const InputImpl = InputFrame.styleable((props, ref) => {
   const { setFocused } = FocusContext.useStyledContext()
-  const { size } = InputContext.useStyledContext()
+  const { size, color } = InputContext.useStyledContext()
   const { ...rest } = props
   return (
     <View flex={1}>
@@ -152,6 +167,8 @@ const InputImpl = InputFrame.styleable((props, ref) => {
         onFocus={() => {
           setFocused(true)
         }}
+        color={color}
+        placeholderTextColor="$colorDisabled"
         onBlur={() => setFocused(false)}
         size={size}
         {...rest}
@@ -210,9 +227,7 @@ export const InputIconFrame = styled(View, {
 })
 
 const getIconSize = (size: FontSizeTokens, scale: number) => {
-  return (
-    (typeof size === 'number' ? size * 0.5 : getFontSize(size as FontSizeTokens)) * scale
-  )
+  return (typeof size === 'number' ? size * 0.5 : getFontSize(size as FontSizeTokens)) * scale
 }
 
 const InputIcon = InputIconFrame.styleable<{
@@ -224,9 +239,7 @@ const InputIcon = InputIconFrame.styleable<{
   const { size = '$true', color: contextColor, scaleIcon = 1 } = inputContext
 
   const theme = useTheme()
-  const color = getVariable(
-    contextColor || theme[contextColor as any]?.get('web') || theme.color10?.get('web')
-  )
+  const color = getVariable(contextColor || theme[contextColor as any]?.get('web') || theme.color?.get('web'))
   const iconSize = getIconSize(size as FontSizeTokens, scaleIcon)
 
   const getThemedIcon = useGetThemedIcon({ size: iconSize, color: color as any })
@@ -262,6 +275,7 @@ export const InputContainerFrame = styled(View, {
 
 export const InputLabel = styled(Label, {
   context: InputContext,
+  color: '$colorDisabled',
   variants: {
     size: {
       '...fontSize': getFontSized as any,
@@ -271,14 +285,14 @@ export const InputLabel = styled(Label, {
 
 export const InputInfo = styled(Text, {
   context: InputContext,
-  color: '$color10',
+  color: '$color',
 
   variants: {
     size: {
       '...fontSize': (val, { font }) => {
         if (!font) return
-        const fontSize = font.size[val].val * 0.8
-        const lineHeight = font.lineHeight?.[val].val * 0.8
+        const fontSize = font.size[val].val * 0.5
+        const lineHeight = font.lineHeight?.[val].val * 0.5
         const fontWeight = font.weight?.['$2']
         const letterSpacing = font.letterSpacing?.[val]
         const textTransform = font.transform?.[val]

@@ -111,7 +111,9 @@ export const templates = (() => {
     borderColorHover: transparencies + 5,
     borderColorFocus: transparencies + 2,
     borderColorPress: transparencies + 4,
-    color: -transparencies - 1,
+    color: transparencies + 8,
+    colorSecondary: transparencies + 6,
+    colorDisabled: transparencies + 5,
     colorHover: -transparencies - 2,
     colorPress: -transparencies - 1,
     colorFocus: -transparencies - 2,
@@ -151,6 +153,23 @@ export const templates = (() => {
     borderColorHover: base.borderColorHover + 3,
     borderColorFocus: base.borderColorFocus + 3,
     borderColorPress: base.borderColorPress + 3,
+  }
+
+  const surfaceInput = {
+    background: 1,
+    backgroundHover: 4,
+    backgroundPress: 5,
+    backgroundFocus: 4,
+    borderColor: base.colorDisabled,
+    borderColorHover: base.colorSecondary,
+    borderColorFocus: base.color,
+    borderColorPress: base.color,
+    oulineColor: 5,
+    color: base.color,
+    colorHover: base.colorSecondary,
+    colorFocus: base.color,
+    colorPress: base.color,
+    colorDisabled: base.colorDisabled,
   }
 
   const surfaceActive = {
@@ -215,6 +234,7 @@ export const templates = (() => {
     inverseSurface1,
     inverseActive,
     surfaceActive,
+    surfaceInput,
   }
 })()
 
@@ -396,6 +416,10 @@ const themeBuilder = createThemeBuilder()
       ModalOverlay: overlayThemeDefinitions,
       Input: surface1,
       TextArea: surface1,
+      VoxInput: {
+        parent: 'base',
+        template: 'surfaceInput',
+      },
     },
     {
       avoidNestingWithin: ['alt1', 'alt2'],
