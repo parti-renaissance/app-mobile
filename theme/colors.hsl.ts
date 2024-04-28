@@ -100,3 +100,33 @@ export const blue = {
   blue10: 'hsl(201, 77%, 33%)',
   blue11: 'hsl(200, 68%, 21%)',
 }
+
+export const white = {
+  white1: 'hsl(0, 0%, 100%)',
+  white2: 'hsl(0, 0%, 97%)',
+  white3: 'hsl(0, 0%, 96.3%)',
+  white4: 'hsl(0, 0%, 94.1%)',
+  white5: 'hsl(0, 0%, 92.0%)',
+  white6: 'hsl(0, 0%, 90.0%)',
+  white7: 'hsl(0, 0%, 88.5%)',
+  white8: 'hsl(0, 0%, 81.0%)',
+  white9: 'hsl(0, 0%, 56.1%)',
+  white10: 'hsl(0, 0%, 50.3%)',
+  white11: 'hsl(0, 0%, 42.5%)',
+  white12: 'hsl(0, 0%, 9.0%)',
+}
+
+export const black = {
+  black1: 'hsl(0, 0%, 2%)',
+  black2: 'hsl(0, 0%, 8%)',
+  black3: 'hsl(0, 0%, 10%)',
+  black4: 'hsl(0, 0%, 14%)',
+  black5: 'hsl(0, 0%, 16%)',
+  black6: 'hsl(0, 0%, 20%)',
+  black7: 'hsl(0, 0%, 26%)',
+  black8: 'hsl(0, 0%, 29%)',
+  black9: 'hsl(0, 0%, 33%)',
+  black10: 'hsl(0, 0%, 38%)',
+  black11: 'hsl(0, 0%, 65%)',
+  black12: 'hsl(0, 0%, 100%)',
+}
