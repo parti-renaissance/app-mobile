@@ -16,6 +16,7 @@ export const Maax = createFont({
     6: 24,
     7: 32,
     8: 48,
+    true: 14,
   },
   lineHeight: {
     1: 16,
