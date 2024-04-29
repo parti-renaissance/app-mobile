@@ -1,11 +1,12 @@
-import React, { forwardRef, useCallback, useMemo, useRef } from 'react'
-import { KeyboardAvoidingView, Platform } from 'react-native'
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react'
+import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import ErrorText from '@/components/ErrorText/ErrorText'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
+import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
@@ -31,6 +32,8 @@ type FormEditInformationsProps = {
 }
 
 const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, FormEditInformationsProps>(({ profile, onSubmit }, ref) => {
+  const [manualAddress, setManualAddress] = useState<boolean>(false)
+
   const handleOnSubmit = useCallback((values: PersonalInformationsForm) => {
     const payload: RestUpdateProfileRequest = {
       address: {
@@ -57,6 +60,10 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
 
     onSubmit(payload)
   }, [])
+
+  const onManualAddressToggle = useCallback(() => {
+    setManualAddress((v) => !v)
+  }, [manualAddress])
 
   return (
     <Formik<PersonalInformationsForm>
@@ -87,11 +94,10 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         telegram: profile?.telegram_page_url ?? '',
       }}
       validateOnBlur
-      validateOnChange
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
       onSubmit={handleOnSubmit}
     >
-      {({ values, setFieldValue }) => (
+      {({ values, setFieldValue, handleBlur }) => (
         <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
@@ -149,14 +155,67 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               )}
             </FormikController>
 
-            <AddressAutocomplete
-              setAddressComponents={(val) => setFieldValue('address', val)}
-              setStringValue={(val) => setFieldValue('addressInput', val)}
-              defaultValue={values.addressInput}
-            />
+            {manualAddress ? (
+              <>
+                <FormikController name="address.address">
+                  {({ inputProps }) => <TextField placeholder="Adresse" label="Rue et numéro" width="100%" {...inputProps} />}
+                </FormikController>
 
-            <ErrorMessage name="addressInput">{(msg) => <ErrorText>{msg}</ErrorText>}</ErrorMessage>
-            <ErrorMessage name="address">{(msg) => <ErrorText>{msg}</ErrorText>}</ErrorMessage>
+                <FormikController name="address.postalCode">
+                  {({ inputProps }) => <TextField placeholder="Code postal" label="Code postal" width="100%" {...inputProps} />}
+                </FormikController>
+
+                <FormikController name="address.city">
+                  {({ inputProps }) => <TextField placeholder="Ville" label="Ville" width="100%" {...inputProps} />}
+                </FormikController>
+
+                <ErrorMessage name="address">
+                  {(msg) => (
+                    <SpacedContainer>
+                      <ErrorText>{msg}</ErrorText>
+                    </SpacedContainer>
+                  )}
+                </ErrorMessage>
+              </>
+            ) : (
+              <>
+                <SpacedContainer>
+                  <AddressAutocomplete
+                    setAddressComponents={(val) => setFieldValue('address', val)}
+                    setStringValue={(val) => setFieldValue('addressInput', val)}
+                    defaultValue={values.addressInput}
+                    // onBlur={handleBlur('addressInput')}
+                  />
+                </SpacedContainer>
+
+                <ErrorMessage name="addressInput">
+                  {(msg) => (
+                    <SpacedContainer>
+                      <ErrorText>{msg}</ErrorText>
+                    </SpacedContainer>
+                  )}
+                </ErrorMessage>
+              </>
+            )}
+
+            <SpacedContainer>
+              <TouchableOpacity onPress={onManualAddressToggle}>
+                {manualAddress ? (
+                  <Text color={'$textSecondary'} textAlign="center" mt={'$4'}>
+                    <Text color={'$blue6'}>Revenir</Text> à une saisie simplifiée
+                  </Text>
+                ) : (
+                  <>
+                    <Text color={'$textSecondary'} textAlign="center">
+                      Un problème ?
+                    </Text>
+                    <Text color={'$textSecondary'} textAlign="center">
+                      <Text color={'$blue6'}>Cliquez ici</Text> pour saisir manuellement votre adresse.
+                    </Text>
+                  </>
+                )}
+              </TouchableOpacity>
+            </SpacedContainer>
           </View>
 
           <View>

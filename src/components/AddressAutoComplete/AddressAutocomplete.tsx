@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { NativeSyntheticEvent, TextInputFocusEventData, TouchableOpacity } from 'react-native'
 import { ProgressBar } from 'react-native-paper'
 import usePlaceAutocomplete from '@/components/AddressAutoComplete/Hooks/usePlaceAutocomplete'
 import usePlaceDetails from '@/components/AddressAutoComplete/Hooks/usePlaceDetails'
@@ -12,13 +12,15 @@ export interface AddressAutocompleteProps {
   defaultValue?: string
   setStringValue?: (value: string) => void
   setAddressComponents?: (addressComponents: { address: string; city: string; postalCode: string; country: string }) => void
+  onBlur?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void
 }
 
-function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValue, ...rest }: AddressAutocompleteProps): JSX.Element {
+function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValue, onBlur }: AddressAutocompleteProps): JSX.Element {
   const [value, setValue] = useState<string>(defaultValue ?? '')
   const [placeId, setPlaceId] = useState<string | undefined>()
 
   const address = useDebounceValue(value, 500)
+  console.log('Render AddressAutocomplete')
 
   const [hasUserInputSincePlaceSelect, setHasUserInputSincePlaceSelect] = useState(false)
 
@@ -37,6 +39,7 @@ function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValu
   const onInput = useCallback((text: string) => {
     setHasUserInputSincePlaceSelect(true)
     setValue(text)
+    setStringValue?.(text)
   }, [])
 
   // When place is selected, setPlaceId and trigger results close.
@@ -46,21 +49,32 @@ function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValu
       setHasUserInputSincePlaceSelect(false)
       setValue(val)
       setStringValue?.(val)
+      console.log('Got', id, val)
     },
     [setStringValue],
   )
 
+  const handleBlur = (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    ev.preventDefault()
+    console.log('Blur', autocompleteResults && autocompleteResults.length > 0)
+    if (autocompleteResults && autocompleteResults.length > 0) {
+      onPlaceSelect(autocompleteResults[0].place_id, autocompleteResults[0].description)
+      console.log('Set', autocompleteResults[0].place_id, autocompleteResults[0].description)
+    }
+    onBlur?.(ev)
+  }
+
   return (
     <YStack>
-      <TextField placeholder="Adresse" label="Adresse" width="100%" value={value} onChangeText={onInput} {...rest} />
+      <TextField placeholder="Adresse" label="Adresse" width="100%" value={value} onChangeText={onInput} onBlur={handleBlur} />
 
       {isLoading && <ProgressBar indeterminate color={purple.purple3} style={{ backgroundColor: purple.purple1 }} />}
 
       {shouldShowResults &&
         autocompleteResults.map((el) => (
           <TouchableOpacity onPress={onPlaceSelect(el.place_id, el.description)} key={el.place_id}>
-            <ListItem hoverTheme>
-              <Text>{el.description}</Text>
+            <ListItem hoverTheme bg={'$gray1'} hoverStyle={{ backgroundColor: '$gray3' }}>
+              <Text lineHeight={'$2'}>{el.description}</Text>
             </ListItem>
           </TouchableOpacity>
         ))}

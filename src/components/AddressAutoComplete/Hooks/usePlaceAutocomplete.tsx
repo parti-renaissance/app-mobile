@@ -10,9 +10,10 @@ const useCorsProxy = (original: string) => (isWeb ? `https://corsproxy.io/?${enc
 interface PlaceAutocompleteProps {
   address: string
   minLength?: number
+  enabled?: boolean
 }
 
-export default function usePlaceAutocomplete({ address, minLength = 3 }: PlaceAutocompleteProps) {
+export default function usePlaceAutocomplete({ address, enabled, minLength = 3 }: PlaceAutocompleteProps) {
   const payload = stringify({
     input: address,
     key: clientEnv.IOS_GOOGLE_API_KEY,
@@ -25,7 +26,7 @@ export default function usePlaceAutocomplete({ address, minLength = 3 }: PlaceAu
         .then((data) => data.predictions as google.maps.places.AutocompletePrediction[]),
     staleTime: minutesToMilliseconds(10),
     queryKey: ['autocomplete', address],
-    enabled: address.length > minLength,
+    enabled: address.length > minLength && enabled,
     retry: false,
   })
 }
