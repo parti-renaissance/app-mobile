@@ -1,5 +1,6 @@
 import { Toast, useToastState } from '@tamagui/toast'
-import { Text, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
+import Text from '../base/Text'
 
 const VoxToast = () => {
   const currentToast = useToastState()

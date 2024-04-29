@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Check, ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-import { Adapt, isWeb, Label, Select as SelectTamagui, Sheet, Text, View, YStack } from 'tamagui'
+import { Adapt, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tamagui'
+import Text from '../base/Text'
 
 interface SelectProps {
   id: string
