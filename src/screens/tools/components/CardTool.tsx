@@ -1,9 +1,10 @@
 import React from 'react'
+import Text from '@/components/base/Text'
 import VoxCard, { VoxCardContent } from '@/components/VoxCard/VoxCard'
 import { Analytics } from '@/utils/Analytics'
 import { ArrowUpRight } from '@tamagui/lucide-icons'
 import * as WebBrowser from 'expo-web-browser'
-import { Image, Text, View } from 'tamagui'
+import { Image, View } from 'tamagui'
 
 interface CardToolProps {
   name?: string
@@ -17,14 +18,14 @@ const CardTool = ({ name, url, imageUrl }: CardToolProps) => {
     await Analytics.logUrlOpened(url)
   }
 
-  const [maybeType, ...maybeName] = name?.trim().split(':')
+  const [maybeType, ...maybeName] = name?.trim().split(':') ?? []
 
   const type = maybeName.length > 0 ? maybeType.trim() : undefined
   const title = maybeName.length > 0 ? maybeName.join(':').trim() : name
 
   return (
     <VoxCard
-      borderRadius="$radius.8"
+      borderRadius="$8"
       onPress={() => handlePress()}
       borderWidth={1}
       borderColor="$gray3"

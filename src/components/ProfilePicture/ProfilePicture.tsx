@@ -1,5 +1,6 @@
 import { Image, Platform } from 'react-native'
-import { Circle, CircleProps, getTokenValue, Square, SquareProps, Text, Token } from 'tamagui'
+import { Circle, CircleProps, getTokenValue, Square, SquareProps, Token } from 'tamagui'
+import Text from '../base/Text'
 
 type ProfilePictureProps = {
   fullName: string

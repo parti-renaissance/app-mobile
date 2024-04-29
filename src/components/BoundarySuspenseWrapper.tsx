@@ -3,7 +3,8 @@ import Button from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Image, Spinner, Text, View, YStack } from 'tamagui'
+import { Image, Spinner, View, YStack } from 'tamagui'
+import Text from './base/Text'
 
 type BoundarySuspenseWrapperProps = {
   children: React.ReactNode
