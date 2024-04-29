@@ -1,5 +1,7 @@
 import { ComponentProps } from 'react'
-import { styled, View, Text } from 'tamagui'
+import { styled, View } from 'tamagui'
+import Text from '../base/Text'
+
 const ChipFrame = styled(View, {
   name: 'Chip',
   backgroundColor: '$black1',
@@ -27,26 +29,24 @@ const ChipFrame = styled(View, {
         backgroundColor: '$green7',
       },
     },
-
   } as const,
   defaultVariants: {
     news: true,
   },
 } as const)
 
-
 export type ChipProps = {
   children: string
 } & ComponentProps<typeof ChipFrame>
 
-
-const Chip = ({children, ...props}: ChipProps) => {
+const Chip = ({ children, ...props }: ChipProps) => {
   return (
     <ChipFrame {...props}>
-      <Text fontFamily='$PublicSans' fontWeight="$5" fontSize="$1" color="$white1">{children}</Text>
+      <Text fontWeight="$5" fontSize="$1" color="$white1">
+        {children}
+      </Text>
     </ChipFrame>
   )
 }
-
 
 export default Chip

@@ -1,25 +1,24 @@
 import { useCallback } from 'react'
+import Text from '@/components/base/Text'
 import Title from '@/components/Title/Title'
 import redirectToStore from '@/helpers/redirectToStore'
 import useAsyncFn from '@/hooks/useAsyncFn'
-import { Button, Image, Spinner, Text, View, YStack } from 'tamagui'
+import { Button, Image, Spinner, View, YStack } from 'tamagui'
 
 interface Props {
   isBuildUpdate?: boolean
 }
 
 export default function UpdateScreen({ isBuildUpdate = false }: Props) {
-
   const { isProcessing, trigger: onUpdate } = useAsyncFn(
     useCallback(async () => {
       if (isBuildUpdate) {
         await redirectToStore()
-      } 
-  
+      }
     }, [isBuildUpdate]),
   )
 
-  const isDisabled =  isProcessing
+  const isDisabled = isProcessing
 
   return (
     <View height="100%">
@@ -28,10 +27,10 @@ export default function UpdateScreen({ isBuildUpdate = false }: Props) {
 
         <Title>Mise à jour requise</Title>
 
-        <Text fontFamily="$PublicSans" fontWeight="$5" fontSize="$2" textAlign="center">
+        <Text fontWeight="$5" textAlign="center">
           Votre version d’application est trop ancienne pour fonctionner correctement.
         </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$5" fontSize="$2" textAlign="center">
+        <Text fontWeight="$5" textAlign="center">
           Mettez à jour votre application pour découvrir les nouveautés.
         </Text>
       </YStack>

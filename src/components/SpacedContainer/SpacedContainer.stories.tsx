@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import { StoryObj } from '@storybook/react'
-import { Text } from 'tamagui'
+import Text from '../base/Text'
 
 const meta = {
   title: 'Layout',

@@ -1,7 +1,8 @@
 import { PropsWithChildren, ReactNode } from 'react'
 import { ImageSourcePropType } from 'react-native'
+import Text from '@/components/base/Text'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
-import { Card, Image, Text, TextProps, View, withStaticProperties } from 'tamagui'
+import { Card, Image, TextProps, View, withStaticProperties } from 'tamagui'
 
 export interface ProfileCallToActionProps extends PropsWithChildren {
   title?: string

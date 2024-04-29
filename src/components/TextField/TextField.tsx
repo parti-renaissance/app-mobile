@@ -1,7 +1,8 @@
 import React from 'react'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { Input, Label, styled, Text, View } from 'tamagui'
+import { Input, Label, styled, View } from 'tamagui'
+import Text from '../base/Text'
 
 interface TextFieldProps extends React.ComponentProps<typeof Input> {
   label?: string
