@@ -43,6 +43,7 @@ export const defaultInputGroupStyles = {
   borderWidth: 1,
   outlineWidth: 0,
   color: '$color',
+  animation: 'quick',
   ...(isWeb
     ? {
         tabIndex: 0,
@@ -56,6 +57,11 @@ export const defaultInputGroupStyles = {
   // this fixes a flex bug where it overflows container
   minWidth: 0,
 
+  hoverStyle: {
+    borderColor: '$borderColorHover',
+    backgroundColor: '$backgroundHover',
+  },
+
   pressStyle: {
     borderColor: '$borderColorPress',
     backgroundColor: '$backgroundPress',
@@ -68,10 +74,6 @@ export const defaultInputGroupStyles = {
     backgroundColor: '$backgroundFocus',
     placeHolderColor: '$color',
     color: '$colorFocus',
-  },
-  hoverStyle: {
-    borderColor: '$borderColorHover',
-    backgroundColor: '$backgroundHover',
   },
 } as const
 
@@ -168,9 +170,11 @@ const InputImpl = InputFrame.styleable((props, ref) => {
           setFocused(true)
         }}
         color={color}
+        underlineColorAndroid={color}
         placeholderTextColor="$colorDisabled"
         onBlur={() => setFocused(false)}
         size={size}
+        fontSize="$2"
         {...rest}
       />
     </View>
@@ -219,7 +223,7 @@ export const InputIconFrame = styled(View, {
     size: {
       '...size': (val, { tokens }) => {
         return {
-          paddingHorizontal: tokens.space[val],
+          paddingHorizontal: '$2',
         }
       },
     },
