@@ -149,7 +149,11 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               )}
             </FormikController>
 
-            <AddressAutocomplete setStringValue={(val) => setFieldValue('addressInput', val)} defaultValue={values.addressInput} />
+            <AddressAutocomplete
+              setAddressComponents={(val) => setFieldValue('address', val)}
+              setStringValue={(val) => setFieldValue('addressInput', val)}
+              defaultValue={values.addressInput}
+            />
 
             <ErrorMessage name="addressInput">{(msg) => <ErrorText>{msg}</ErrorText>}</ErrorMessage>
             <ErrorMessage name="address">{(msg) => <ErrorText>{msg}</ErrorText>}</ErrorMessage>
