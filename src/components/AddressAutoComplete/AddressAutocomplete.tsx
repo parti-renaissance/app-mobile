@@ -24,7 +24,7 @@ function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValu
 
   const [hasUserInputSincePlaceSelect, setHasUserInputSincePlaceSelect] = useState(false)
 
-  const { data: autocompleteResults, isLoading } = usePlaceAutocomplete({ address })
+  const { data: autocompleteResults, isLoading } = usePlaceAutocomplete({ address, enabled: hasUserInputSincePlaceSelect })
   const { data: placeDetails } = usePlaceDetails({ placeId })
 
   const shouldShowResults = autocompleteResults && hasUserInputSincePlaceSelect && Array.isArray(autocompleteResults)

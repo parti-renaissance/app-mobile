@@ -13,7 +13,7 @@ interface PlaceAutocompleteProps {
   enabled?: boolean
 }
 
-export default function usePlaceAutocomplete({ address, enabled, minLength = 3 }: PlaceAutocompleteProps) {
+export default function usePlaceAutocomplete({ address, enabled = true, minLength = 3 }: PlaceAutocompleteProps) {
   const payload = stringify({
     input: address,
     key: clientEnv.IOS_GOOGLE_API_KEY,
