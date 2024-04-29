@@ -1,8 +1,8 @@
 import React, { forwardRef, useCallback, useMemo, useRef } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
-import { GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
+import ErrorText from '@/components/ErrorText/ErrorText'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
@@ -14,9 +14,10 @@ import { useSession } from '@/ctx/SessionProvider'
 import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
+import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
-import { Formik, FormikProps } from 'formik'
+import { ErrorMessage, Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertUtils } from '../shared/AlertUtils'
@@ -57,11 +58,6 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
     onSubmit(payload)
   }, [])
 
-  const onAutocomplete = useCallback((data: GooglePlaceData, details: GooglePlaceDetail) => {
-    // 'details' is provided when fetchDetails = true
-    console.log(data, details)
-  }, [])
-
   return (
     <Formik<PersonalInformationsForm>
       innerRef={ref}
@@ -72,7 +68,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         customGender: profile?.custom_gender ?? '',
         nationality: profile?.nationality ?? '',
         birthdate: new Date(profile?.birthdate),
-        addressInput: '',
+        addressInput: profile.post_address !== null ? AddressFormatter.formatProfileFormatAddress(profile.post_address) : '',
         address: profile.post_address
           ? {
               address: profile.post_address.address ?? '',
@@ -155,25 +151,8 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
 
             <AddressAutocomplete setStringValue={(val) => setFieldValue('addressInput', val)} defaultValue={values.addressInput} />
 
-            {/*<GooglePlacesAutocomplete*/}
-            {/*  disableScroll*/}
-            {/*  placeholder={'Adresse'}*/}
-            {/*  fetchDetails*/}
-            {/*  onPress={onAutocompletePress}*/}
-            {/*  query={googlePlaceAutocompleteConfig}*/}
-            {/*  textInputProps={{*/}
-            {/*    placeholderTextColor: Colors.lightText,*/}
-            {/*  }}*/}
-            {/*  styles={{*/}
-            {/*    textInputContainer: {*/}
-            {/*      paddingTop: Spacing.unit,*/}
-            {/*      paddingHorizontal: Spacing.margin,*/}
-            {/*    },*/}
-            {/*    textInput: {*/}
-            {/*      backgroundColor: Colors.separator,*/}
-            {/*    },*/}
-            {/*  }}*/}
-            {/*/>*/}
+            <ErrorMessage name="addressInput">{(msg) => <ErrorText>{msg}</ErrorText>}</ErrorMessage>
+            <ErrorMessage name="address">{(msg) => <ErrorText>{msg}</ErrorText>}</ErrorMessage>
           </View>
 
           <View>
@@ -245,7 +224,6 @@ const EditInformations = () => {
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
     <Button
-      // disabled={$updateProfile.isPending}
       variant="contained"
       size={media?.md ? 'lg' : 'md'}
       onPress={() => {
@@ -265,7 +243,7 @@ const EditInformations = () => {
       pr: media.gtSm ? '$8' : undefined,
       pb: isWeb ? '$10' : '$12',
     }),
-    [],
+    [media],
   )
 
   return (
