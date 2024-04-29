@@ -2,7 +2,6 @@ import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react
 import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
-import ErrorText from '@/components/ErrorText/ErrorText'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
@@ -18,7 +17,7 @@ import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/
 import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
-import { ErrorMessage, Formik, FormikProps } from 'formik'
+import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertUtils } from '../shared/AlertUtils'
@@ -97,7 +96,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
       onSubmit={handleOnSubmit}
     >
-      {({ values, setFieldValue, handleBlur }) => (
+      {() => (
         <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
@@ -158,7 +157,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             {manualAddress ? (
               <>
                 <FormikController name="address.address">
-                  {({ inputProps }) => <TextField placeholder="Adresse" label="Rue et numéro" width="100%" {...inputProps} />}
+                  {({ inputProps }) => <TextField placeholder="Adresse" label="Adresse" width="100%" {...inputProps} />}
                 </FormikController>
 
                 <FormikController name="address.postalCode">
@@ -168,34 +167,21 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                 <FormikController name="address.city">
                   {({ inputProps }) => <TextField placeholder="Ville" label="Ville" width="100%" {...inputProps} />}
                 </FormikController>
-
-                <ErrorMessage name="address">
-                  {(msg) => (
-                    <SpacedContainer>
-                      <ErrorText>{msg}</ErrorText>
-                    </SpacedContainer>
-                  )}
-                </ErrorMessage>
               </>
             ) : (
-              <>
-                <SpacedContainer>
-                  <AddressAutocomplete
-                    setAddressComponents={(val) => setFieldValue('address', val)}
-                    setStringValue={(val) => setFieldValue('addressInput', val)}
-                    defaultValue={values.addressInput}
-                    // onBlur={handleBlur('addressInput')}
-                  />
-                </SpacedContainer>
-
-                <ErrorMessage name="addressInput">
-                  {(msg) => (
-                    <SpacedContainer>
-                      <ErrorText>{msg}</ErrorText>
-                    </SpacedContainer>
+              <SpacedContainer>
+                <FormikController name={'addressInput'}>
+                  {({ inputProps, setFieldValue }) => (
+                    <AddressAutocomplete
+                      setAddressComponents={(val) => setFieldValue('address', val)}
+                      setStringValue={inputProps.onChange}
+                      defaultValue={inputProps.value}
+                      onBlur={inputProps.onBlur}
+                      error={inputProps.error}
+                    />
                   )}
-                </ErrorMessage>
-              </>
+                </FormikController>
+              </SpacedContainer>
             )}
 
             <SpacedContainer>

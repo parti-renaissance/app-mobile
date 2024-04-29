@@ -16,6 +16,7 @@ type ArgsFormikField<Data> = {
     onBlur: (fieldOrEvent: any) => void
   }
   touched: boolean
+  setFieldValue: (name: string, value: any) => void
 }
 
 const FormikController = <Values,>({ children, name }: FormikControllerProps<Values>) => {
@@ -26,7 +27,8 @@ const FormikController = <Values,>({ children, name }: FormikControllerProps<Val
   const error = !!get(formik.touched, name) && !!get(formik.errors, name) ? get(formik.errors, name) : undefined
   const touched = useMemo(() => get(formik.touched, name), [get(formik.touched, name)]) as boolean
   const inputProps = useMemo(() => ({ value, error, onChange, onBlur, id: name }), [value, error, onChange, onBlur, name])
-  const args = useMemo(() => ({ inputProps, touched }), [inputProps])
+  const setFieldValue: ArgsFormikField<Values>['setFieldValue'] = useCallback(formik.setFieldValue, [])
+  const args = useMemo(() => ({ inputProps, touched, setFieldValue }), [inputProps])
 
   return children(args)
 }

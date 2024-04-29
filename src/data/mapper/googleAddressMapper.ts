@@ -5,17 +5,58 @@ export default function googleAddressMapper(res: google.maps.GeocoderAddressComp
   country: string
 } {
   const extract = (el: string) => res.find(({ types }) => types.includes(el))
-
-  const streetNumber = extract('street_number')
-  const street = extract('route')
-  const city = extract('locality')
   const country = extract('country')
-  const postalCode = extract('postal_code')
+
+  const place = res.reduce((acc, currentValue) => {
+    for (const key of currentValue.types) {
+      acc[key] = currentValue
+    }
+
+    return acc
+  }, {} as PlaceData)
 
   return {
-    address: `${streetNumber?.long_name} ${street?.long_name}`,
-    city: city?.long_name ?? '',
-    postalCode: postalCode?.long_name ?? '',
-    country: country?.long_name ?? '',
+    address: getAddressValue(place),
+    city: getCityName(place),
+    postalCode: getPostalCode(place),
+    country: country?.short_name ?? '',
   }
 }
+
+interface PlaceData {
+  street_number: null | google.maps.GeocoderAddressComponent
+  route: null | google.maps.GeocoderAddressComponent
+  locality: null | google.maps.GeocoderAddressComponent
+  postal_town: null | google.maps.GeocoderAddressComponent
+  sublocality_level_1: null | google.maps.GeocoderAddressComponent
+  sublocality_level_2: null | google.maps.GeocoderAddressComponent
+  sublocality_level_3: null | google.maps.GeocoderAddressComponent
+  postal_code: null | google.maps.GeocoderAddressComponent
+  postal_code_prefix: null | google.maps.GeocoderAddressComponent
+  plus_code: null | google.maps.GeocoderAddressComponent
+  country: null | google.maps.GeocoderAddressComponent
+  administrative_area_level_1: null | google.maps.GeocoderAddressComponent
+}
+
+const getCityName = (placeData: PlaceData): string =>
+  (placeData.locality && placeData.locality.long_name) ??
+  (placeData.sublocality_level_1 && placeData.sublocality_level_1.long_name) ??
+  (placeData.postal_town && placeData.postal_town.long_name) ??
+  ''
+
+const getPostalCode = (placeData: PlaceData): string =>
+  (placeData.postal_code && placeData.postal_code.long_name) ??
+  (placeData.postal_code_prefix && placeData.postal_code_prefix.long_name) ??
+  (placeData.plus_code && placeData.plus_code.long_name) ??
+  ''
+
+const getAddressValue = (placeData: PlaceData): string =>
+  [(placeData.street_number && placeData.street_number.long_name) ?? '', (placeData.route && placeData.route.long_name) ?? ''].join(' ').trim() ??
+  [
+    (placeData.sublocality_level_3 && placeData.sublocality_level_3.long_name) ?? '',
+    (placeData.sublocality_level_2 && placeData.sublocality_level_2.long_name) ?? '',
+    (placeData.sublocality_level_1 && placeData.sublocality_level_1.long_name) ?? '',
+  ]
+    .filter((el) => null != el && '' !== el)
+    .join(', ')
+    .trim()

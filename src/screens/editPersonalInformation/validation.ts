@@ -69,5 +69,16 @@ const PersonalInformationsFormSchema = z
       })
     }
   })
+  .superRefine((data, context) => {
+    const { postalCode, country } = data.address
+
+    if (country === 'france' && !postalCode) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['address.postalCode'],
+        message: buildError('Le code postal'),
+      })
+    }
+  })
 
 export { PersonalInformationsFormSchema }

@@ -1,26 +1,33 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { NativeSyntheticEvent, TextInputFocusEventData, TouchableOpacity } from 'react-native'
-import { ProgressBar } from 'react-native-paper'
+import React, {memo, useCallback, useEffect, useState} from 'react'
+import {NativeSyntheticEvent, TextInputFocusEventData, TouchableOpacity} from 'react-native'
+import {ProgressBar} from 'react-native-paper'
 import usePlaceAutocomplete from '@/components/AddressAutoComplete/Hooks/usePlaceAutocomplete'
 import usePlaceDetails from '@/components/AddressAutoComplete/Hooks/usePlaceDetails'
 import TextField from '@/components/TextField/TextField'
 import googleAddressMapper from '@/data/mapper/googleAddressMapper'
-import { ListItem, Text, useDebounceValue, YStack } from 'tamagui'
-import { purple } from '../../../theme/colors.hsl'
+import {ListItem, Text, useDebounceValue, YStack} from 'tamagui'
+import {purple} from '../../../theme/colors.hsl'
+
 
 export interface AddressAutocompleteProps {
   defaultValue?: string
   setStringValue?: (value: string) => void
   setAddressComponents?: (addressComponents: { address: string; city: string; postalCode: string; country: string }) => void
   onBlur?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void
+  error?: string
 }
 
-function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValue, onBlur }: AddressAutocompleteProps): JSX.Element {
+function AddressAutocomplete({
+                               setAddressComponents,
+                               setStringValue,
+                               defaultValue,
+                               onBlur,
+                          ,     error
+                             }: AddressAutocompleteProps): JSX.Element {
   const [value, setValue] = useState<string>(defaultValue ?? '')
   const [placeId, setPlaceId] = useState<string | undefined>()
 
   const address = useDebounceValue(value, 500)
-  console.log('Render AddressAutocomplete')
 
   const [hasUserInputSincePlaceSelect, setHasUserInputSincePlaceSelect] = useState(false)
 
@@ -49,24 +56,24 @@ function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValu
       setHasUserInputSincePlaceSelect(false)
       setValue(val)
       setStringValue?.(val)
-      console.log('Got', id, val)
     },
     [setStringValue],
   )
 
-  const handleBlur = (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    ev.preventDefault()
-    console.log('Blur', autocompleteResults && autocompleteResults.length > 0)
-    if (autocompleteResults && autocompleteResults.length > 0) {
-      onPlaceSelect(autocompleteResults[0].place_id, autocompleteResults[0].description)
-      console.log('Set', autocompleteResults[0].place_id, autocompleteResults[0].description)
-    }
-    onBlur?.(ev)
-  }
+  const handleBlur = useCallback(
+    (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      if (autocompleteResults && autocompleteResults.length > 0) {
+        onPlaceSelect(autocompleteResults[0].place_id, autocompleteResults[0].description)()
+      }
+      onBlur?.(ev)
+    },
+    [autocompleteResults],
+  )
 
   return (
     <YStack>
-      <TextField placeholder="Adresse" label="Adresse" width="100%" value={value} onChangeText={onInput} onBlur={handleBlur} />
+      <TextField placeholder="Adresse" label="Adresse" width="100%" value={value} onChangeText={onInput}
+                 onBlur={handleBlur} error={error}/>
 
       {isLoading && <ProgressBar indeterminate color={purple.purple3} style={{ backgroundColor: purple.purple1 }} />}
 
