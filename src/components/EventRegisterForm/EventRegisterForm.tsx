@@ -1,5 +1,6 @@
 import React, { ComponentProps, useId, useRef } from 'react'
 import { Linking, LogBox } from 'react-native'
+import Text from '@/components/base/Text'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import Button from '@/components/Button/Button'
 import { PublicSubscribeEventFormError } from '@/core/errors'
@@ -9,7 +10,7 @@ import { useSubscribePublicEvent } from '@/hooks/useEvents'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
 import { Formik, FormikHelpers } from 'formik'
-import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, Text, useMedia, View, XStack, YStack } from 'tamagui'
+import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, useMedia, View, XStack, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import FormikController from '../FormikController'
 import VoxCard from '../VoxCard/VoxCard'
@@ -188,7 +189,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             {isSubmitting ? <Spinner color="$white1" /> : null}
           </Button>
 
-          <Button variant="text" size="lg" width="100%" onPress={signIn}>
+          <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
             <Text fontSize="$1">
               <Text color="$textPrimary" fontWeight="$7">
                 Me connecter

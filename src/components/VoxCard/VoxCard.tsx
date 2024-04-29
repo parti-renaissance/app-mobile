@@ -57,7 +57,7 @@ const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) =>
   const key = `${keyPrefix}Date${keySuffix}`
   return (
     <XStack gap="$2" alignItems="center">
-      {icon && <CalendarDays size="$1" />}
+      {icon && <CalendarDays size="$1" color="$textPrimary" />}
       <Text>
         <Text fontWeight="$5" lineHeight="$2">
           {i18n.t(`vox_card.${key}`, { start, end })}
@@ -77,7 +77,7 @@ export type VoxCardCapacity = { children: React.ReactNode }
 const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Users size="$2" />
+      <Users size="$2" color="$textPrimary" />
       <Text fontWeight="$5" lineHeight="$2">
         {children}
       </Text>
@@ -96,7 +96,7 @@ export type VoxCardLocationProps = {
 const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
   return location ? (
     <XStack gap="$2" alignItems="center">
-      <MapPin size="$1" />
+      <MapPin size="$1" color="$textPrimary" />
       <Text lineBreakStrategyIOS="push-out">
         <Text fontWeight="$5" lineHeight="$2">
           {location.city} {location.postalCode}
@@ -155,7 +155,7 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
           ))}
         </ZStack>
       ) : (
-        <UserCheck size="$1" />
+        <UserCheck size="$1" color="$textPrimary" />
       )}
 
       <Text fontWeight="$5">
@@ -208,7 +208,7 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
 const VoxCardVisio = () => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Video size="$2" />
+      <Video size="$2" color="$textPrimary" />
       <Text fontWeight="$5" lineHeight="$2">
         Visioconférence
       </Text>

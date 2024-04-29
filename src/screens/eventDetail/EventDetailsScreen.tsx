@@ -1,6 +1,7 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button } from '@/components'
+import Text from '@/components/base/Text'
 import { SubscribeEventButton } from '@/components/Cards'
 import EventRegisterForm from '@/components/EventRegisterForm/EventRegisterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -8,7 +9,7 @@ import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import * as eventTypes from '@/data/restObjects/RestEvents'
-import { ScrollView, Text, useMedia, YStack } from 'tamagui'
+import { ScrollView, useMedia, YStack } from 'tamagui'
 import { AsideCardContent, AsideShare, EventStatus, LockLeftCard, RegisterButtonSheet, ScrollStack } from './EventComponents'
 
 const useSharedState = (data: eventTypes.RestEvent) => {
