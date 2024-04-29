@@ -1,13 +1,12 @@
-import React, {memo, useCallback, useEffect, useState} from 'react'
-import {NativeSyntheticEvent, TextInputFocusEventData, TouchableOpacity} from 'react-native'
-import {ProgressBar} from 'react-native-paper'
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import { NativeSyntheticEvent, TextInputFocusEventData, TouchableOpacity } from 'react-native'
+import { ProgressBar } from 'react-native-paper'
 import usePlaceAutocomplete from '@/components/AddressAutoComplete/Hooks/usePlaceAutocomplete'
 import usePlaceDetails from '@/components/AddressAutoComplete/Hooks/usePlaceDetails'
 import TextField from '@/components/TextField/TextField'
 import googleAddressMapper from '@/data/mapper/googleAddressMapper'
-import {ListItem, Text, useDebounceValue, YStack} from 'tamagui'
-import {purple} from '../../../theme/colors.hsl'
-
+import { ListItem, Text, useDebounceValue, YStack } from 'tamagui'
+import { purple } from '../../../theme/colors.hsl'
 
 export interface AddressAutocompleteProps {
   defaultValue?: string
@@ -17,13 +16,7 @@ export interface AddressAutocompleteProps {
   error?: string
 }
 
-function AddressAutocomplete({
-                               setAddressComponents,
-                               setStringValue,
-                               defaultValue,
-                               onBlur,
-                          ,     error
-                             }: AddressAutocompleteProps): JSX.Element {
+function AddressAutocomplete({ setAddressComponents, setStringValue, defaultValue, onBlur, error }: AddressAutocompleteProps): JSX.Element {
   const [value, setValue] = useState<string>(defaultValue ?? '')
   const [placeId, setPlaceId] = useState<string | undefined>()
 
@@ -72,8 +65,7 @@ function AddressAutocomplete({
 
   return (
     <YStack>
-      <TextField placeholder="Adresse" label="Adresse" width="100%" value={value} onChangeText={onInput}
-                 onBlur={handleBlur} error={error}/>
+      <TextField placeholder="Adresse" label="Adresse" width="100%" value={value} onChangeText={onInput} onBlur={handleBlur} error={error} />
 
       {isLoading && <ProgressBar indeterminate color={purple.purple3} style={{ backgroundColor: purple.purple1 }} />}
 
