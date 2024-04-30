@@ -78,7 +78,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         address: profile.post_address
           ? {
               address: profile.post_address.address ?? '',
-              city: profile.post_address?.city ?? '',
+              city: profile.post_address?.city_name ?? '',
               postalCode: profile.post_address?.postal_code ?? '',
               country: profile?.post_address?.country ?? '',
             }

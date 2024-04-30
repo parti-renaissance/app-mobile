@@ -45,10 +45,7 @@ const getCityName = (placeData: PlaceData): string =>
   ''
 
 const getPostalCode = (placeData: PlaceData): string =>
-  (placeData.postal_code && placeData.postal_code.long_name) ??
-  (placeData.postal_code_prefix && placeData.postal_code_prefix.long_name) ??
-  (placeData.plus_code && placeData.plus_code.long_name) ??
-  ''
+  (placeData.postal_code && placeData.postal_code.long_name) ?? (placeData.postal_code_prefix && placeData.postal_code_prefix.long_name) ?? ''
 
 const getAddressValue = (placeData: PlaceData): string =>
   [(placeData.street_number && placeData.street_number.long_name) ?? '', (placeData.route && placeData.route.long_name) ?? ''].join(' ').trim() ??

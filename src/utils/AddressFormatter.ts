@@ -24,7 +24,7 @@ export const AddressFormatter = {
     return formatAddress({
       addressLines: address.address ? [address.address] : [],
       postalCode: address.postal_code ?? undefined,
-      locality: address.city ?? undefined,
+      locality: address.city_name ?? undefined,
       postalCountry: address.country ?? undefined,
     }).join(', ')
   },
