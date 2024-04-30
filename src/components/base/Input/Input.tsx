@@ -1,4 +1,4 @@
-import React, { ComponentProps, forwardRef, useId, useRef } from 'react'
+import React, { ComponentProps, forwardRef, useId } from 'react'
 import type { TextInput } from 'react-native'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import { useForwardFocus } from '@/hooks/useForwardFocus'
@@ -29,11 +29,12 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
   const inputRef = useForwardRef(ref)
   const focusTrigger = useForwardFocus(inputRef)
   const textInfo = !error && info ? info : error
+  const theme = !!error ? 'red' : 'gray'
 
   return (
-    <Theme name={error ? 'red_active_VoxInput' : 'gray_VoxInput'}>
-      <View flexDirection="column" justifyContent="center" alignItems="center">
-        <Input minWidth="100%" size={small ? '$2' : '$3'}>
+    <View flexDirection="column" justifyContent="center" alignItems="center">
+      <Theme name={theme}>
+        <Input minWidth="100%" size={small ? '$2' : '$3'} theme="VoxInput">
           <YStack width="100%" gap={minimal ? 'unset' : 'inherit'}>
             {label && (
               <Input.Label htmlFor={id} size="$1" fontWeight="$4" paddingBottom={minimal ? 0 : undefined}>
@@ -82,7 +83,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
             </XStack>
           )}
         </Input>
-      </View>
-    </Theme>
+      </Theme>
+    </View>
   )
 })
