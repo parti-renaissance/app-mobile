@@ -8,10 +8,10 @@ import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
-import { Image, Separator, Stack, StackProps, styled, Card as TCard, useMedia, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { Image, Separator, Stack, StackProps, styled, useTheme, View, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 import AutoSizeImage from '../AutoSizeImage'
 
-const CardFrame = styled(YStack, {
+const CardFrame = styled(View, {
   name: 'Card',
   backgroundColor: '$white1',
   $gtSm: {
@@ -19,7 +19,7 @@ const CardFrame = styled(YStack, {
   },
 } as const)
 
-export type VoxCardFrameProps = ComponentProps<typeof TCard>
+export type VoxCardFrameProps = ComponentProps<typeof View>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
