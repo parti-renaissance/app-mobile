@@ -26,7 +26,7 @@ const useSharedState = (data: eventTypes.RestEvent) => {
 
 export default function EventDetailsScreen({ data }: { data: eventTypes.RestEvent }) {
   const media = useMedia()
-  return media.lg ? <EventDetailsScreenDesktop data={data} /> : <EventDetailsScreenMobile data={data} />
+  return media.lg ? <EventDetailsScreenMobile data={data} /> : <EventDetailsScreenDesktop data={data} />
 }
 
 function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
