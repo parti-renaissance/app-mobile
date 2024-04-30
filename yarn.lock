@@ -16347,6 +16347,11 @@ react-native-push-notification@^8.1.1:
   resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-8.1.1.tgz#a41d20c70ea5a7709417e96261b225461f8dc73a"
   integrity sha512-XpBtG/w+a6WXTxu6l1dNYyTiHnbgnvjoc3KxPTxYkaIABRmvuJZkFxqruyGvfCw7ELAlZEAJO+dthdTabCe1XA==
 
+react-native-reanimated-skeleton@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated-skeleton/-/react-native-reanimated-skeleton-1.5.1.tgz#6167a402e541d01e056a5477ce2c4e7dcc2df191"
+  integrity sha512-PO7/hWBDlV8w3l6EJmzzwWwdlXVTrBFuF8QcUu4ZUOMQQGD5YKfBsYnUNkPAfjvYx3ZJfvPORe72QbArI3OGSw==
+
 react-native-reanimated@~3.6.2:
   version "3.6.3"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-3.6.3.tgz#859cf2320e37c80e3a21e19db24f82c34d6d3ded"

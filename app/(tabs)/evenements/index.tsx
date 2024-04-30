@@ -6,6 +6,7 @@ import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import EventFeedList from '@/screens/events/EventFeedList'
 import { Stack as RouterStack } from 'expo-router'
@@ -36,7 +37,54 @@ const EventsScreen: React.FC = () => {
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper>
+          <BoundarySuspenseWrapper
+            fallback={
+              <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Title />
+                    <SkeCard.Date />
+                    <SkeCard.Author />
+                    <SkeCard.Author />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Image />
+                    <SkeCard.Title />
+                    <SkeCard.Date />
+                    <SkeCard.Author />
+                    <SkeCard.Author />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Image />
+                    <SkeCard.Title />
+                    <SkeCard.Date />
+                    <SkeCard.Author />
+                    <SkeCard.Author />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Title />
+                    <SkeCard.Date />
+                    <SkeCard.Author />
+                    <SkeCard.Author />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+              </YStack>
+            }
+          >
             <EventFeedList />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
