@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { FormikValues, useFormikContext } from 'formik'
+import { get } from 'lodash'
 
 type FormikControllerProps<Values> = {
   children: (args: ArgsFormikField<Values>) => React.ReactNode
@@ -12,23 +13,24 @@ type ArgsFormikField<Data> = {
     value: any
     error: string | undefined
     onChange: (data: any) => ReturnType<FormikValues['setFieldValue']>
-    onBlur: () => ReturnType<FormikValues['setFieldTouched']>
+    onBlur: (fieldOrEvent: any) => void
   }
   touched: boolean
+  setFieldValue: (name: string, value: any) => void
 }
 
 const FormikController = <Values,>({ children, name }: FormikControllerProps<Values>) => {
   const formik = useFormikContext<Values>()
-  const onChange = useCallback((data: any) => formik.setFieldValue(name, data), [name])
-  const onBlur = useCallback(() => formik.setFieldTouched(name, true), [name])
-  const value = formik.values[name] as any
-  const error = !!formik.touched[name] && !!formik.errors[name] ? formik.errors[name] : undefined
-  const touched = useMemo(() => formik.touched[name], [formik.touched[name]]) as boolean
+  const onChange = useCallback(formik.handleChange(name), [name])
+  const onBlur = useCallback(formik.handleBlur(name), [name])
+  const value = get(formik.values, name)
+  const error = !!get(formik.touched, name) && !!get(formik.errors, name) ? get(formik.errors, name) : undefined
+  const touched = useMemo(() => get(formik.touched, name), [get(formik.touched, name)]) as boolean
   const inputProps = useMemo(() => ({ value, error, onChange, onBlur, id: name }), [value, error, onChange, onBlur, name])
-  const args = useMemo(() => ({ inputProps, touched }), [inputProps])
-  const child = children(args)
+  const setFieldValue: ArgsFormikField<Values>['setFieldValue'] = useCallback(formik.setFieldValue, [])
+  const args = useMemo(() => ({ inputProps, touched, setFieldValue }), [inputProps])
 
-  return child
+  return children(args)
 }
 
 export default FormikController

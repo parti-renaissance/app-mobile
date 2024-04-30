@@ -66,3 +66,4 @@ app-release.apks
 
 # SonarQube
 .scannerwork
+/coverage
