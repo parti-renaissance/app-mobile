@@ -10,6 +10,7 @@ type BoundarySuspenseWrapperProps = {
   children: React.ReactNode
   errorMessage?: string
   loadingMessage?: string
+  fallback?: React.ReactNode
 }
 
 const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
@@ -33,9 +34,11 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
       >
         <Suspense
           fallback={
-            <YStack justifyContent="center" alignItems="center" flex={1} width="100%">
-              <Spinner size="large" color="$blue6" />
-            </YStack>
+            props.fallback ?? (
+              <YStack justifyContent="center" alignItems="center" flex={1} width="100%">
+                <Spinner size="large" color="$blue6" />
+              </YStack>
+            )
           }
         >
           {props.children}
