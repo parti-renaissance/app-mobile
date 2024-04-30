@@ -1,27 +1,35 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { FlatList } from 'react-native'
+import { Button } from '@/components'
 import DialogAuth from '@/components/AuthDialog'
+import Input from '@/components/base/Input/Input'
 import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
-import { isFullEvent, isPartialEvent, RestFullShortEvent, RestPartialShortEvent } from '@/data/restObjects/RestEvents'
+import { isFullEvent, isPartialEvent, RestEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
-import { usePaginatedEvents } from '@/hooks/useEvents'
+import { usePaginatedSearchEvents, useSuspensePaginatedEvents } from '@/hooks/useEvents'
+import { MessageCircleX, Search, XCircle } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
-import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+import { getToken, Spinner, useMedia, XStack, YStack } from 'tamagui'
+import { useDebounce } from 'use-debounce'
 
-const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
+const MemoizedEventCard = memo(EventCard) as typeof EventCard
+const MemoizedPartialEventCard = memo(PartialEventCard) as typeof PartialEventCard
+
+const EventListCard = memo((args: { item: RestEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
   if (isFullEvent(args.item)) {
-    return <EventCard {...mapFullProps(args.item, args.cb)} />
+    return <MemoizedEventCard {...mapFullProps(args.item, args.cb)} />
   }
   if (isPartialEvent(args.item)) {
     return (
       <AuthFallbackWrapper
         fallback={
           <DialogAuth title="D'autres événements vous attendent, connectez-vous ou créez un compte !">
-            <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
+            <MemoizedPartialEventCard {...mapPartialProps(args.item, args.cb)} />
           </DialogAuth>
         }
       >
@@ -36,19 +44,27 @@ const EventList = () => {
   const media = useMedia()
   const { user } = useSession()
 
-  const {
-    data: paginatedFeed,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-    isLoading,
-    isRefetching,
-  } = usePaginatedEvents({
+  const [_searchText, setSearchText] = useState('')
+  const [searchText] = useDebounce(_searchText, 500)
+
+  const isSearching = searchText.length > 0
+
+  const eventSuspense = useSuspensePaginatedEvents({
     postalCode: user.data?.postal_code,
     filters: {
       finishAfter: new Date(),
     },
   })
+
+  const events = usePaginatedSearchEvents({
+    filters: {
+      searchText,
+    },
+  })
+
+  const { data: paginatedFeed, fetchNextPage, hasNextPage, isRefetching, refetch, isLoading } = isSearching ? events : eventSuspense
+
+  console.log('paginatedFeed', isLoading)
 
   const handleSubscribe = (id: string) => {}
   const handleShow = (id: string) => {
@@ -63,7 +79,7 @@ const EventList = () => {
     [],
   )
 
-  const feedData = paginatedFeed?.pages.map((page) => page.items).flat()
+  const feedData = paginatedFeed?.pages.map((page) => page.items).flat() ?? []
 
   const loadMore = () => {
     if (hasNextPage) {
@@ -80,15 +96,37 @@ const EventList = () => {
         paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
-        height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
+        paddingBottom: getToken('$10', 'space'),
+        // height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
       }}
+      stickyHeaderHiddenOnScroll
+      stickyHeaderIndices={[0]}
+      ListHeaderComponent={
+        <VoxCard elevation={2} bg="$white1">
+          <VoxCard.Content pr="0">
+            <XStack justifyContent="space-between" alignItems="center">
+              <Input
+                placeholder="Rechercher un événement"
+                label="Rechercher"
+                iconLeft={<Search />}
+                loading={Boolean(isRefetching)}
+                value={_searchText}
+                onChangeText={setSearchText}
+              />
+              <Button mt="$5" size="md" variant="text" onPress={() => setSearchText('')}>
+                <XCircle />
+              </Button>
+            </XStack>
+          </VoxCard.Content>
+        </VoxCard>
+      }
       data={feedData}
       renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
-      ListEmptyComponent={() => (
+      ListEmptyComponent={
         <PageLayout.StateFrame>
           <EmptyEvent />
         </PageLayout.StateFrame>
-      )}
+      }
       keyExtractor={(item) => item.uuid}
       refreshing={isRefetching}
       onRefresh={() => refetch()}

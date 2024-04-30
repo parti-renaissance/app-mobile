@@ -3,9 +3,9 @@ import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { PublicSubscribtionFormData } from '@/data/restObjects/RestEvents'
 import { useToastController } from '@tamagui/toast'
-import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { PaginatedFeedQueryKey } from '../useFeed'
-import { optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
+import { getCachedPaginatedShortEvents, optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type FetchShortEventsOptions = {
@@ -21,7 +21,7 @@ const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOpt
   return await ApiService.getInstance().getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode })
 }
 
-export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
+export const useSuspensePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
   const { isAuth } = useSession()
   return useSuspenseInfiniteQuery({
     queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, isAuth ? 'private' : 'public'],
@@ -29,6 +29,20 @@ export const usePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: 
     getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
     getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
     initialPageParam: 1,
+  })
+}
+
+export const usePaginatedSearchEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
+  const { isAuth } = useSession()
+  const queryClient = useQueryClient()
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, isAuth ? 'private' : 'public', opts.filters?.searchText],
+    queryFn: ({ pageParam }) => (isAuth ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
+    getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
+    getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
+    initialPageParam: 1,
+    initialData: () => getCachedPaginatedShortEvents(queryClient, [isAuth ? 'private' : 'public']),
+    enabled: !!opts.filters?.searchText,
   })
 }
 
