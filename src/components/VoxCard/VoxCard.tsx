@@ -11,15 +11,14 @@ import { format } from 'date-fns-tz'
 import { Image, Separator, Stack, StackProps, styled, useTheme, View, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 import AutoSizeImage from '../AutoSizeImage'
 
-const CardFrame = styled(View, {
-  name: 'Card',
+const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   $gtSm: {
     borderRadius: '$8',
   },
 } as const)
 
-export type VoxCardFrameProps = ComponentProps<typeof View>
+export type VoxCardFrameProps = ComponentProps<typeof YStack>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
