@@ -4,7 +4,7 @@ import { AlertCircle } from '@tamagui/lucide-icons'
 import { Input, Label, styled, View } from 'tamagui'
 import Text from '../base/Text'
 
-interface TextFieldProps extends React.ComponentProps<typeof Input> {
+export interface TextFieldProps extends React.ComponentProps<typeof Input> {
   label?: string
   value: string
   onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void

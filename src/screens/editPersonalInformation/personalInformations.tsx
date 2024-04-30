@@ -1,10 +1,12 @@
-import React, { forwardRef, useRef } from 'react'
-import { KeyboardAvoidingView, Platform } from 'react-native'
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react'
+import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
+import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Text from '@/components/base/Text'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
+import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
@@ -13,6 +15,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
+import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
@@ -23,22 +26,17 @@ import { Gender, PersonalInformationsForm } from './types'
 import { capitalizeFirstLetter } from './utils'
 import { PersonalInformationsFormSchema } from './validation'
 
+
 type FormEditInformationsProps = {
   onSubmit: (x: RestUpdateProfileRequest) => void
   profile: RestDetailedProfileResponse
 }
 
 const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, FormEditInformationsProps>(({ profile, onSubmit }, ref) => {
-  const genderOptions = [
-    { value: Gender.Male, text: 'Monsieur' },
-    {
-      value: Gender.Female,
-      text: 'Madame',
-    },
-  ]
+  const [manualAddress, setManualAddress] = useState<boolean>(false)
 
-  const handleOnSubmit = (values: PersonalInformationsForm) => {
-    const payload = {
+  const handleOnSubmit = useCallback((values: PersonalInformationsForm) => {
+    const payload: RestUpdateProfileRequest = {
       address: {
         address: values.address?.address ?? '',
         postal_code: values.address?.postalCode ?? '',
@@ -51,7 +49,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       first_name: values?.firstName,
       last_name: values?.lastName,
       email_address: values?.email,
-      nationality: values?.nationality ?? null,
+      nationality: values?.nationality ?? '',
       ...(values?.birthdate && { birthdate: format(values?.birthdate, 'yyyy-MM-dd') }),
       ...(values?.phoneCountryCode && values?.phoneNumber && { phone: { country: values?.phoneCountryCode, number: values?.phoneNumber } }),
       facebook_page_url: values?.facebook ?? '',
@@ -59,10 +57,14 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       linkedin_page_url: values?.linkedin ?? '',
       instagram_page_url: values?.instagram ?? '',
       telegram_page_url: values?.telegram ?? '',
-    } satisfies RestUpdateProfileRequest
+    }
 
     onSubmit(payload)
-  }
+  }, [])
+
+  const onManualAddressToggle = useCallback(() => {
+    setManualAddress((v) => !v)
+  }, [])
 
   return (
     <Formik<PersonalInformationsForm>
@@ -74,10 +76,11 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         customGender: profile?.custom_gender ?? '',
         nationality: profile?.nationality ?? '',
         birthdate: new Date(profile?.birthdate),
+        addressInput: profile.post_address !== null ? AddressFormatter.formatProfileFormatAddress(profile.post_address) : '',
         address: profile.post_address
           ? {
               address: profile.post_address.address ?? '',
-              city: profile.post_address?.city ?? '',
+              city: profile.post_address?.city_name ?? '',
               postalCode: profile.post_address?.postal_code ?? '',
               country: profile?.post_address?.country ?? '',
             }
@@ -92,9 +95,8 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
         telegram: profile?.telegram_page_url ?? '',
       }}
       validateOnBlur
-      validateOnChange
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
-      onSubmit={(values) => handleOnSubmit(values)}
+      onSubmit={handleOnSubmit}
     >
       {() => (
         <View gap="$7">
@@ -106,6 +108,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             <Text fontSize="$2" fontWeight="$4">
               Identité
             </Text>
+
             <FormikController<PersonalInformationsForm> name="gender">
               {({ inputProps: { onChange, value } }) => (
                 <Select
@@ -152,6 +155,55 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                 />
               )}
             </FormikController>
+
+            {manualAddress ? (
+              <>
+                <FormikController name="address.address">
+                  {({ inputProps }) => <TextField placeholder="Adresse" label="Adresse" width="100%" {...inputProps} />}
+                </FormikController>
+
+                <FormikController name="address.postalCode">
+                  {({ inputProps }) => <TextField placeholder="Code postal" label="Code postal" width="100%" {...inputProps} />}
+                </FormikController>
+
+                <FormikController name="address.city">
+                  {({ inputProps }) => <TextField placeholder="Ville" label="Ville" width="100%" {...inputProps} />}
+                </FormikController>
+              </>
+            ) : (
+              <SpacedContainer>
+                <FormikController name={'addressInput'}>
+                  {({ inputProps, setFieldValue }) => (
+                    <AddressAutocomplete
+                      setAddressComponents={(val) => setFieldValue('address', val)}
+                      setStringValue={inputProps.onChange}
+                      defaultValue={inputProps.value}
+                      onBlur={inputProps.onBlur}
+                      error={inputProps.error}
+                    />
+                  )}
+                </FormikController>
+              </SpacedContainer>
+            )}
+
+            <SpacedContainer>
+              <TouchableOpacity onPress={onManualAddressToggle}>
+                {manualAddress ? (
+                  <Text color={'$textSecondary'} textAlign="center" mt={'$4'}>
+                    <Text color={'$blue6'}>Revenir</Text> à une saisie simplifiée
+                  </Text>
+                ) : (
+                  <>
+                    <Text color={'$textSecondary'} textAlign="center">
+                      Un problème ?
+                    </Text>
+                    <Text color={'$textSecondary'} textAlign="center">
+                      <Text color={'$blue6'}>Cliquez ici</Text> pour saisir manuellement votre adresse.
+                    </Text>
+                  </>
+                )}
+              </TouchableOpacity>
+            </SpacedContainer>
           </View>
 
           <View>
@@ -159,13 +211,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               Réseaux sociaux
             </Text>
 
-            {[
-              { id: 'facebook', placeholder: 'facebook.com/nom-utilisateur', label: 'Facebook' },
-              { id: 'telegram', placeholder: 't.me/nom-utilisateur', label: 'Telegram' },
-              { id: 'instagram', placeholder: 'instagram.com/nom-utilisateur', label: 'Instagram' },
-              { id: 'twitter', placeholder: 'twitter.com/nom-utilisateur', label: 'Twitter' },
-              { id: 'linkedin', placeholder: 'linkedin.com/nom-utilisateur', label: 'Linkedin' },
-            ].map((item) => (
+            {socialPlatforms.map((item) => (
               <View key={item.id} width="100%">
                 <FormikController name={item.id}>
                   {({ inputProps }) => <TextField placeholder={item.placeholder} label={item.label} width="100%" {...inputProps} />}
@@ -232,7 +278,6 @@ const EditInformations = () => {
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
     <Button
-      // disabled={$updateProfile.isPending}
       variant="contained"
       size={media?.md ? 'lg' : 'md'}
       onPress={() => {
@@ -245,18 +290,20 @@ const EditInformations = () => {
     </Button>
   )
 
+  const scrollViewContainerStyle = useMemo(
+    () => ({
+      pt: media.gtSm ? '$8' : undefined,
+      pl: media.gtSm ? '$8' : undefined,
+      pr: media.gtSm ? '$8' : undefined,
+      pb: isWeb ? '$10' : '$12',
+    }),
+    [media],
+  )
+
   return (
     <PageLayout.MainSingleColumn>
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView
-          contentContainerStyle={{
-            pt: media.gtSm ? '$8' : undefined,
-            pl: media.gtSm ? '$8' : undefined,
-            pr: media.gtSm ? '$8' : undefined,
-            pb: isWeb ? '$10' : '$12',
-          }}
-          backgroundColor={!isWeb ? '#fff' : ''}
-        >
+        <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : ''}>
           <VoxCard>
             <VoxCard.Content>
               <FormEditInformations ref={formikFormRef} profile={profile} onSubmit={handleSubmit} />
@@ -286,5 +333,21 @@ const EditInformations = () => {
     </PageLayout.MainSingleColumn>
   )
 }
+
+const genderOptions = [
+  { value: Gender.Male, text: 'Monsieur' },
+  {
+    value: Gender.Female,
+    text: 'Madame',
+  },
+]
+
+const socialPlatforms = [
+  { id: 'facebook', placeholder: 'facebook.com/nom-utilisateur', label: 'Facebook' },
+  { id: 'telegram', placeholder: 't.me/nom-utilisateur', label: 'Telegram' },
+  { id: 'instagram', placeholder: 'instagram.com/nom-utilisateur', label: 'Instagram' },
+  { id: 'twitter', placeholder: 'twitter.com/nom-utilisateur', label: 'Twitter' },
+  { id: 'linkedin', placeholder: 'linkedin.com/nom-utilisateur', label: 'Linkedin' },
+]
 
 export default EditInformations
