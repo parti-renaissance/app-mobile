@@ -4,8 +4,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
-import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
-import CardListAuthSkeleton from '@/components/Skeleton/CardListUnAuthSkeleton'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import HomeFeedList from '@/screens/home/feed/HomeFeedList'
@@ -38,11 +37,54 @@ const HomeScreen: React.FC = () => {
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
-          <AuthFallbackWrapper fallback={<CardListAuthSkeleton title="Pour voir votre fil, connectez-vous ou créez un compte" />}>
-            <BoundarySuspenseWrapper>
-              <HomeFeedList />
-            </BoundarySuspenseWrapper>
-          </AuthFallbackWrapper>
+          <BoundarySuspenseWrapper
+            fallback={
+              <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Title />
+                    <SkeCard.Description />
+                    <SkeCard.Description />
+                    <SkeCard.Description />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Image />
+                    <SkeCard.Title />
+                    <SkeCard.Date />
+                    <SkeCard.Author />
+                    <SkeCard.Author />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Title />
+                    <SkeCard.Description />
+                    <SkeCard.Description />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+                <SkeCard>
+                  <SkeCard.Content>
+                    <SkeCard.Chip />
+                    <SkeCard.Title />
+                    <SkeCard.Date />
+                    <SkeCard.Author />
+                    <SkeCard.Author />
+                    <SkeCard.Actions />
+                  </SkeCard.Content>
+                </SkeCard>
+              </YStack>
+            }
+          >
+            <HomeFeedList />
+          </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
           <BotBilanCTA />
