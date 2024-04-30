@@ -1,4 +1,5 @@
-import { Text, TextProps } from 'tamagui'
+import { TextProps } from 'tamagui'
+import Text from '../base/Text'
 
 export default function Title({ children, ...rest }: TextProps) {
   return (

@@ -1,4 +1,5 @@
 import { ComponentProps } from 'react'
+import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
@@ -12,12 +13,12 @@ type VoxCardBasePayload = {
   id: string
   title: string
   tag: string
-  image?: string
+  image?: string | ImageRequireSource
   isSubscribed?: boolean
   isOnline: boolean
   location?: VoxCardLocationProps['location']
   date: VoxCardDateProps
-} & VoxCardAuthorProps
+} & Partial<VoxCardAuthorProps>
 
 export type EventVoxCardProps = {
   onSubscribe?: () => void
@@ -77,16 +78,16 @@ const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps
       <VoxCard.Content>
         <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
-        {payload.image && <VoxCard.Image image={payload.image} />}
+        {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
-        <VoxCard.Author author={payload.author} />
+        {payload.author && <VoxCard.Author author={payload.author} />}
         <XStack justifyContent={knowSubscription ? 'space-between' : 'flex-end'}>
           <Button variant="outlined" onPress={onShow}>
             <Button.Text>Voir l'événement</Button.Text>
           </Button>
 
-          {knowSubscription && <SubscribeEventButton isSubscribed={payload.isSubscribed} eventId={payload.id} />}
+          {knowSubscription && <SubscribeEventButton isSubscribed={!!payload.isSubscribed} eventId={payload.id} />}
         </XStack>
       </VoxCard.Content>
     </VoxCard>

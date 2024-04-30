@@ -1,29 +1,17 @@
 import React, { ComponentProps } from 'react'
-import { Platform } from 'react-native'
+import { ImageRequireSource, Platform } from 'react-native'
 import Markdown from 'react-native-markdown-display'
+import Text from '@/components/base/Text'
 import Chip from '@/components/Chip/Chip'
 import ProfilePicture from '@/components/ProfilePicture'
 import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
-import {
-  getFontSize,
-  Image,
-  Separator,
-  Stack,
-  StackProps,
-  styled,
-  Card as TCard,
-  Text,
-  useMedia,
-  useTheme,
-  withStaticProperties,
-  XStack,
-  YStack,
-  ZStack,
-} from 'tamagui'
+import { format } from 'date-fns-tz'
+import { Image, Separator, Stack, StackProps, styled, useTheme, View, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import AutoSizeImage from '../AutoSizeImage'
 
-const CardFrame = styled(YStack, {
+const CardFrame = styled(View, {
   name: 'Card',
   backgroundColor: '$white1',
   $gtSm: {
@@ -31,7 +19,7 @@ const CardFrame = styled(YStack, {
   },
 } as const)
 
-export type VoxCardFrameProps = ComponentProps<typeof TCard>
+export type VoxCardFrameProps = ComponentProps<typeof View>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
@@ -56,22 +44,30 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
 export type VoxCardTitleProps = { children: string }
 const VoxCardTitle = (props: VoxCardTitleProps) => {
   return (
-    <Text fontFamily="$PublicSans" fontWeight="$6" color="$textPrimary" lineHeight="$3" fontSize="$2">
+    <Text fontWeight="$6" lineHeight="$3" fontSize="$3">
       {props.children}
     </Text>
   )
 }
 
-export type VoxCardDateProps = { start: Date; end: Date; icon?: boolean }
-const VoxCardDate = ({ start, end, icon = true }: VoxCardDateProps) => {
+export type VoxCardDateProps = { start: Date; end: Date; icon?: boolean; timeZone?: string }
+const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) => {
   const keySuffix = getHours(start) === getHours(end) ? '' : 'End'
   const keyPrefix = isSameDay(start, end) ? 'day' : 'days'
   const key = `${keyPrefix}Date${keySuffix}`
   return (
     <XStack gap="$2" alignItems="center">
-      {icon && <CalendarDays size="$1" />}
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        {i18n.t(`vox_card.${key}`, { start, end })}
+      {icon && <CalendarDays size="$1" color="$textPrimary" />}
+      <Text>
+        <Text fontWeight="$5" lineHeight="$2">
+          {i18n.t(`vox_card.${key}`, { start, end })}
+        </Text>
+        {timeZone && timeZone !== 'Europe/Paris' && (
+          <Text fontWeight="$5" color="$textSecondary" lineHeight="$2">
+            {' '}
+            • UTC{format(start, 'XXX', { timeZone })} ({timeZone})
+          </Text>
+        )}
       </Text>
     </XStack>
   )
@@ -81,8 +77,8 @@ export type VoxCardCapacity = { children: React.ReactNode }
 const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Users size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+      <Users size="$2" color="$textPrimary" />
+      <Text fontWeight="$5" lineHeight="$2">
         {children}
       </Text>
     </XStack>
@@ -100,12 +96,12 @@ export type VoxCardLocationProps = {
 const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
   return location ? (
     <XStack gap="$2" alignItems="center">
-      <MapPin size="$1" />
+      <MapPin size="$1" color="$textPrimary" />
       <Text lineBreakStrategyIOS="push-out">
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+        <Text fontWeight="$5" lineHeight="$2">
           {location.city} {location.postalCode}
         </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$6" color="$textSecondary" lineHeight="$2" fontSize="$1">
+        <Text fontWeight="$6" color="$textSecondary" lineHeight="$2">
           {' '}
           . {location.street}
         </Text>
@@ -124,10 +120,11 @@ export type VoxCardAuthorProps = {
 }
 
 const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
+  if (!author.name) return null
   return (
     <XStack gap="$2" alignItems="center">
-      <ProfilePicture rounded size="$2" src={author.pictureLink} alt="Profile picture" fullName={author.name} />
-      <Text fontFamily="$PublicSans" fontSize="$1" lineHeight="$1">
+      <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
+      <Text>
         <Text fontWeight="$4" color="$textSecondary">
           {author.name}
         </Text>
@@ -144,14 +141,9 @@ export type VoxCardAttendeesProps = {
 }
 
 const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
-  if (!attendees)
-    return (
-      <Text fontFamily="$PublicSans" fontSize="$1" color="$textPrimary" lineHeight="$1">
-        0 participant, soyez le premier !
-      </Text>
-    )
-  const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
-  const getPictureUri = (index: number) => attendees.pictures[reverseIndex(index)]
+  if (!attendees) return <Text>0 participant, soyez le premier !</Text>
+  const reverseIndex = (index: number) => (attendees.pictures ? attendees.pictures.length - 1 - index : 0)
+  const getPictureUri = (index: number) => (attendees.pictures ? attendees.pictures[reverseIndex(index)] : '')
   return (
     <XStack gap="$2" alignItems="center">
       {attendees.pictures && attendees.pictures.length > 3 ? (
@@ -163,10 +155,10 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
           ))}
         </ZStack>
       ) : (
-        <UserCheck size="$1" />
+        <UserCheck size="$1" color="$textPrimary" />
       )}
 
-      <Text fontFamily="$PublicSans" color="$textPrimary" fontSize="$1" lineHeight="$1" fontWeight="$5">
+      <Text fontWeight="$5">
         {attendees.count} {attendees.count > 1 ? 'Inscrits' : 'Inscrit'}
       </Text>
     </XStack>
@@ -174,15 +166,14 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
 }
 
 export type VoxCardImageProps = {
-  image: string
+  image: string | ImageRequireSource
   large?: boolean
 }
 
-const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
-  const media = useMedia()
+const VoxCardImage = ({ image }: VoxCardImageProps) => {
   return (
-    <XStack $gtSm={{ maxHeight: large ? 'auto' : '$15' }} borderRadius="$1" overflow="hidden">
-      <Image source={{ uri: image, width: 600, height: large && media.gtLg ? 400 : 244 }} width="100%" alt="event image" resizeMode="cover" />
+    <XStack borderRadius="$1" overflow="hidden">
+      <AutoSizeImage source={image} />
     </XStack>
   )
 }
@@ -199,8 +190,8 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
     <Markdown
       style={{
         body: {
-          fontFamily: 'PublicSans-Medium',
-          fontSize: getFontSize('$1', { font: '$PublicSans' }),
+          fontFamily: 'PublicSans-Regular',
+          fontSize: 14,
           color: theme.textPrimary.val,
         },
       }}
@@ -208,7 +199,7 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
       {children}
     </Markdown>
   ) : (
-    <Text numberOfLines={full ? undefined : 3} fontFamily="$PublicSans" fontWeight="$4" lineHeight="$2" fontSize="$1" color="$textPrimary">
+    <Text numberOfLines={full ? undefined : 3} fontWeight="$4" lineHeight="$2">
       {children}
     </Text>
   )
@@ -217,8 +208,8 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
 const VoxCardVisio = () => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Video size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
+      <Video size="$2" color="$textPrimary" />
+      <Text fontWeight="$5" lineHeight="$2">
         Visioconférence
       </Text>
     </XStack>
@@ -230,7 +221,7 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
     <>
       <VoxCardSeparator />
       <Stack gap="$2" {...props}>
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$textDisabled">
+        <Text fontWeight="$5" lineHeight="$2" color="$textDisabled">
           {title}
         </Text>
         {props.children}

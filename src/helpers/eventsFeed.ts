@@ -1,8 +1,8 @@
-import { EventVoxCardProps, PartialEventVoxCardProps  } from '@/components/Cards'
+import { EventVoxCardProps, PartialEventVoxCardProps } from '@/components/Cards'
 import { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { RestDetailedEvent, RestFullDetailedEvent, RestShortEvent, RestFullShortEvent, RestPartialShortEvent, isPartialEvent, Event } from '@/data/restObjects/RestEvents'
+import { RestEvent, RestFullEvent, RestPartialEvent } from '@/data/restObjects/RestEvents'
 
-export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxCardLocationProps => {
+export const mapPropsLocation = (item: RestEvent): VoxCardLocationProps => {
   return {
     location: item.post_address
       ? {
@@ -14,7 +14,7 @@ export const mapPropsLocation = (item: RestShortEvent | RestDetailedEvent): VoxC
   }
 }
 
-export const mapPropsAuthor = (item: RestShortEvent | RestDetailedEvent): VoxCardAuthorProps => {
+export const mapPropsAuthor = (item: RestEvent): Partial<VoxCardAuthorProps> => {
   return {
     author: item.organizer
       ? {
@@ -27,15 +27,16 @@ export const mapPropsAuthor = (item: RestShortEvent | RestDetailedEvent): VoxCar
   }
 }
 
-export const mapPropsDate = (item: RestShortEvent | RestDetailedEvent): VoxCardDateProps => {
+export const mapPropsDate = (item: RestEvent): VoxCardDateProps => {
   return {
     start: new Date(item.begin_at),
     end: new Date(item.finish_at),
+    timeZone: item.time_zone,
   }
 }
 
 export const mapFullProps = (
-  item: RestFullShortEvent,
+  item: RestFullEvent,
   cb: {
     onSubscribe: (id: string) => void
     onShow: (id: string) => void
@@ -46,7 +47,7 @@ export const mapFullProps = (
       id: item.uuid,
       title: item.name,
       tag: item.category.name,
-      image: item.image_url,
+      image: item.image_url ?? undefined,
       isSubscribed: !!item.user_registered_at,
       isOnline: item.mode === 'online',
       ...mapPropsLocation(item),
@@ -58,9 +59,8 @@ export const mapFullProps = (
   }
 }
 
-
 export const mapPartialProps = (
-  item: RestPartialShortEvent,
+  item: RestPartialEvent,
   cb: {
     onSubscribe: (id: string) => void
     onShow: (id: string) => void
@@ -70,7 +70,7 @@ export const mapPartialProps = (
     payload: {
       id: item.uuid,
       title: item.name,
-      image: item.image_url,
+      image: item.image_url ?? undefined,
       isOnline: item.mode === 'online',
       date: mapPropsDate(item),
     },

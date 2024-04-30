@@ -1,17 +1,18 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
-import { useGetProfil } from '@/hooks/useProfil'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
 import { Link, usePathname, useSegments } from 'expo-router'
-import { Button, Circle, Spinner, Stack, StackProps, styled, Text, useMedia, View } from 'tamagui'
+import { Button, Circle, Spinner, Stack, StackProps, styled, useMedia, View } from 'tamagui'
+import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
 import ProfilePicture from '../ProfilePicture'
+import AuthFallbackWrapper from '../Skeleton/AuthFallbackWrapper'
 
 const opacityToHexCode = (hex: string, opacity: number) => {
   const opacityHex = Math.round(opacity * 255).toString(16)
@@ -72,15 +73,22 @@ const NavBar = () => {
 }
 
 const ProfileView = () => {
-  const { data: profile } = useGetProfil()
+  const { user } = useSession()
+  const profile = user?.data
   return (
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
-      <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
-        <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'} fontSize={14}>
-          {profile?.first_name} {profile?.last_name}
-        </Text>
-      </Stack>
-      <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
+      {!user.isLoading ? (
+        <>
+          <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
+            <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'} fontSize={14}>
+              {profile?.first_name} {profile?.last_name}
+            </Text>
+          </Stack>
+          <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
+        </>
+      ) : (
+        <Spinner size="small" />
+      )}
     </View>
   )
 }
@@ -95,7 +103,6 @@ const LoginView = () => (
 )
 
 const Header: React.FC = (props: StackProps) => {
-  const { session } = useSession()
   const segments = useSegments()
   const isNested = segments.length > 2
   const backPath = segments
@@ -126,24 +133,14 @@ const Header: React.FC = (props: StackProps) => {
             </Link>
           )}
           {!isNested && <NavBar />}
-          {session ? (
-            <Suspense
-              fallback={
-                <View justifyContent="center" alignItems="flex-end" flex={1} height="100%">
-                  <Spinner color="$blue7" size="small" />
-                </View>
-              }
-            >
-              <ProfilePopover>
-                <View flexDirection="row" alignItems="center" gap={'$3'}>
-                  <ProfileView />
-                  <ChevronDown size={16} color="$gray6" />
-                </View>
-              </ProfilePopover>
-            </Suspense>
-          ) : (
-            <LoginView />
-          )}
+          <AuthFallbackWrapper fallback={<LoginView />}>
+            <ProfilePopover>
+              <View flexDirection="row" alignItems="center" gap={'$3'}>
+                <ProfileView />
+                <ChevronDown size={16} color="$gray6" />
+              </View>
+            </ProfilePopover>
+          </AuthFallbackWrapper>
         </Stack>
       </Container>
     </SafeAreaView>

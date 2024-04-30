@@ -1,6 +1,6 @@
 import React, { ComponentProps, useId, useRef } from 'react'
 import { Linking, LogBox } from 'react-native'
-import { Input } from '@/components/Bento/Inputs/components/inputsParts'
+import Text from '@/components/base/Text'
 import Button from '@/components/Button/Button'
 import { PublicSubscribeEventFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
@@ -9,41 +9,16 @@ import { useSubscribePublicEvent } from '@/hooks/useEvents'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
 import { Formik, FormikHelpers } from 'formik'
-import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, Text, useMedia, View, XStack, YStack } from 'tamagui'
+import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, Theme, useMedia, View, XStack, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
+import Input from '../base/Input/Input'
 import FormikController from '../FormikController'
 import VoxCard from '../VoxCard/VoxCard'
 
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/])
 
-type VoxInputProps = {
-  id: string
-  error?: string
-  placeholder?: string
-  autocomplete?: ComponentProps<typeof Input.Area>['autoComplete']
-} & ComponentProps<typeof Input.Area>
-
-function _VoxInput({ id: _id, placeholder, autocomplete, error, value, onChange, ...props }: VoxInputProps & { value: string; onChange: (x: string) => void }) {
-  const uniqueId = useId()
-  const id = uniqueId + _id
-
-  return (
-    <View flexDirection="column" justifyContent="center" alignItems="center" gap="$6">
-      <Input
-        size="$3"
-        minWidth="100%"
-        $group-window-gtXs={{ minWidth: 150 }}
-        {...(error && {
-          theme: 'red',
-        })}
-      >
-        <Input.Box>
-          <Input.Area autoComplete={autocomplete} id={id} placeholder={placeholder} value={value} onChangeText={onChange} {...props} />
-        </Input.Box>
-        {!!error && <Input.Info>{error}</Input.Info>}
-      </Input>
-    </View>
-  )
+function _VoxInput({ onChange, ...props }: ComponentProps<typeof Input> & { value: string; onChange: (x: string) => void }) {
+  return <Input {...props} onChangeText={onChange} />
 }
 
 const VoxInput = React.memo(_VoxInput)
@@ -61,7 +36,7 @@ const VoxCheckbox = ({ label, id: _id, error, ...rest }: VoxCheckboxProps) => {
   return (
     <YStack gap="$2" theme={error ? 'red' : undefined}>
       <XStack gap="$4" alignItems="center">
-        <Checkbox id={id} {...rest}>
+        <Checkbox id={id} size="$2">
           <Checkbox.Indicator>
             <CheckIcon />
           </Checkbox.Indicator>
@@ -188,7 +163,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             {isSubmitting ? <Spinner color="$white1" /> : null}
           </Button>
 
-          <Button variant="text" size="lg" width="100%" onPress={signIn}>
+          <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
             <Text fontSize="$1">
               <Text color="$textPrimary" fontWeight="$7">
                 Me connecter

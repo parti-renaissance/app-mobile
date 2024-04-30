@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react'
+import Text from '@/components/base/Text'
 import { ChevronDown, ChevronUp, Search, X } from '@tamagui/lucide-icons'
 import { RovingFocusGroup } from '@tamagui/roving-focus'
 import { getCountryCodeForRegionCode, getSupportedRegionCodes } from 'awesome-phonenumber'
-import { Adapt, Image, isWeb, Popover, ScrollView, Text, View } from 'tamagui'
+import { Adapt, Image, isWeb, Popover, ScrollView, View } from 'tamagui'
 import { Input } from './components/inputsParts'
 
 const phoneCodes = getSupportedRegionCodes().map((code) => {

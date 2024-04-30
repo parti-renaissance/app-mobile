@@ -1,6 +1,6 @@
 import { createThemeBuilder } from '@tamagui/theme-builder'
 import type { Variable } from '@tamagui/web'
-import { blue, gray, green, orange, pink, purple, red, yellow } from './theme/colors.hsl'
+import { black, blue, gray, green, orange, pink, purple, red, white, yellow } from './theme/colors.hsl'
 
 const colorTokens = {
   light: {
@@ -12,106 +12,55 @@ const colorTokens = {
     purple,
     red,
     yellow,
+    white,
   },
 }
 
 const lightShadowColor = 'rgba(0,0,0,0.04)'
 const lightShadowColorStrong = 'rgba(0,0,0,0.085)'
 
+const transparenciesPercents = [0, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80] as const
+type PercentValue = (typeof transparenciesPercents)[number]
+const transparent = (hsl: string, opacity = 0) => hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
+
 const lightColors = {
+  ...addSetOfTransparenciesToColor(colorTokens.light.blue.blue6, 'blue', true),
   ...colorTokens.light.blue,
+  ...addSetOfTransparenciesToColor(colorTokens.light.gray.gray6, 'gray', true),
   ...colorTokens.light.gray,
+  ...addSetOfTransparenciesToColor(colorTokens.light.green.green6, 'green', true),
   ...colorTokens.light.green,
+  ...addSetOfTransparenciesToColor(colorTokens.light.orange.orange6, 'orange', true),
   ...colorTokens.light.orange,
+  ...addSetOfTransparenciesToColor(colorTokens.light.pink.pink6, 'pink', true),
   ...colorTokens.light.pink,
+  ...addSetOfTransparenciesToColor(colorTokens.light.purple.purple6, 'purple', true),
   ...colorTokens.light.purple,
+  ...addSetOfTransparenciesToColor(colorTokens.light.red.red6, 'red', true),
   ...colorTokens.light.red,
+  ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow6, 'yellow', true),
   ...colorTokens.light.yellow,
+  ...addSetOfTransparenciesToColor(white.white1, 'white', false),
+  ...colorTokens.light.white,
 }
 
-const color = {
-  white0: 'rgba(255,255,255,0)',
-  white075: 'rgba(255,255,255,0.75)',
-  white05: 'rgba(255,255,255,0.5)',
-  white025: 'rgba(255,255,255,0.25)',
-  black0: 'rgba(10,10,10,0)',
-  black075: 'rgba(10,10,10,0.75)',
-  black05: 'rgba(10,10,10,0.5)',
-  black025: 'rgba(10,10,10,0.25)',
-  white1: '#fff',
-  white2: '#f8f8f8',
-  white3: 'hsl(0, 0%, 96.3%)',
-  white4: 'hsl(0, 0%, 94.1%)',
-  white5: 'hsl(0, 0%, 92.0%)',
-  white6: 'hsl(0, 0%, 90.0%)',
-  white7: 'hsl(0, 0%, 88.5%)',
-  white8: 'hsl(0, 0%, 81.0%)',
-  white9: 'hsl(0, 0%, 56.1%)',
-  white10: 'hsl(0, 0%, 50.3%)',
-  white11: 'hsl(0, 0%, 42.5%)',
-  white12: 'hsl(0, 0%, 9.0%)',
-  black1: '#050505',
-  black2: '#151515',
-  black3: '#191919',
-  black4: '#232323',
-  black5: '#282828',
-  black6: '#323232',
-  black7: '#424242',
-  black8: '#494949',
-  black9: '#545454',
-  black10: '#626262',
-  black11: '#a5a5a5',
-  black12: '#fff',
-  ...postfixObjKeys(lightColors, 'Light'),
-}
+const whiteTransparencies = addSetOfTransparenciesToColor(white.white1, 'white', false)
+const blackTransparencies = addSetOfTransparenciesToColor(black.black1, 'black', false)
 
 export const palettes = (() => {
-  const transparent = (hsl: string, opacity = 0) => hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
+  const lightPalette = [...Object.values(whiteTransparencies), ...Object.values(white), ...Object.values(blackTransparencies).reverse()]
 
-  const getColorPalette = (colors: Object): string[] => {
-    const colorPalette = Object.values(colors)
-    // make the transparent color vibrant and towards the middle
-    const colorI = colorPalette.length - 4
-
+  const getColorPalette = (colors: (typeof colorTokens)['light'][keyof (typeof colorTokens)['light']], neutral: number = 6): string[] => {
+    const colorPalette = Object.values(colors) as string[]
     // add our transparent colors first/last
     // and make sure the last (foreground) color is white/black rather than colorful
     // this is mostly for consistency with the older theme-base
     return [
-      transparent(colorPalette[0], 0),
-      transparent(colorPalette[0], 0.25),
-      transparent(colorPalette[0], 0.5),
-      transparent(colorPalette[0], 0.75),
+      ...transparenciesPercents.map((percent) => transparent(colorPalette[0], percent / 100)),
       ...colorPalette,
-      transparent(colorPalette[colorI], 0.75),
-      transparent(colorPalette[colorI], 0.5),
-      transparent(colorPalette[colorI], 0.25),
-      transparent(colorPalette[colorI], 0),
+      ...[...transparenciesPercents].reverse().map((percent) => transparent(colorPalette[neutral], percent / 100)),
     ]
   }
-
-  const lightPalette = [
-    color.white0,
-    color.white075,
-    color.white05,
-    color.white025,
-    color.white1,
-    color.white2,
-    color.white3,
-    color.white4,
-    color.white5,
-    color.white6,
-    color.white7,
-    color.white8,
-    color.white9,
-    color.white10,
-    color.white11,
-    color.white12,
-    color.black075,
-    color.black05,
-    color.black025,
-    color.black0,
-  ]
-
   const lightPalettes = objectFromEntries(objectKeys(colorTokens.light).map((key) => [`light_${key}`, getColorPalette(colorTokens.light[key])] as const))
 
   const colorPalettes = {
@@ -125,7 +74,7 @@ export const palettes = (() => {
 })()
 
 export const templates = (() => {
-  const transparencies = 3
+  const transparencies = transparenciesPercents.length - 1
 
   // templates use the palette and specify index
   // negative goes backwards from end so -1 is the last item
@@ -162,13 +111,21 @@ export const templates = (() => {
     borderColorHover: transparencies + 5,
     borderColorFocus: transparencies + 2,
     borderColorPress: transparencies + 4,
-    color: -transparencies - 1,
+    color: -transparencies + 1,
+    colorSecondary: transparencies + 6,
+    colorDisabled: transparencies + 5,
     colorHover: -transparencies - 2,
     colorPress: -transparencies - 1,
     colorFocus: -transparencies - 2,
     colorTransparent: -0,
     placeholderColor: -transparencies - 4,
     outlineColor: -1,
+  }
+
+  const InternAlertSurface = {
+    background: transparencies + 1,
+    borderColor: transparencies + 6,
+    color: transparencies + 8,
   }
 
   const surface1 = {
@@ -202,6 +159,40 @@ export const templates = (() => {
     borderColorHover: base.borderColorHover + 3,
     borderColorFocus: base.borderColorFocus + 3,
     borderColorPress: base.borderColorPress + 3,
+  }
+
+  const surfaceInput = {
+    background: 1,
+    backgroundHover: 4,
+    backgroundPress: 5,
+    backgroundFocus: 4,
+    borderColor: base.colorDisabled,
+    borderColorHover: base.colorSecondary,
+    borderColorFocus: base.color,
+    borderColorPress: base.color,
+    oulineColor: 5,
+    color: base.color,
+    colorHover: base.colorSecondary,
+    colorFocus: base.color,
+    colorPress: base.color,
+    colorDisabled: base.colorDisabled,
+  }
+
+  const surfaceInputActive = {
+    background: 5,
+    backgroundHover: 7,
+    backgroundPress: 8,
+    backgroundFocus: 9,
+    borderColor: base.color,
+    borderColorHover: base.colorSecondary,
+    borderColorFocus: base.color,
+    borderColorPress: base.color,
+    oulineColor: 5,
+    color: base.color,
+    colorHover: base.colorSecondary,
+    colorFocus: base.color,
+    colorPress: base.color,
+    colorDisabled: base.color,
   }
 
   const surfaceActive = {
@@ -266,6 +257,9 @@ export const templates = (() => {
     inverseSurface1,
     inverseActive,
     surfaceActive,
+    surfaceInput,
+    surfaceInputActive,
+    InternAlertSurface,
   }
 })()
 
@@ -351,6 +345,16 @@ const surface3 = [
   {
     parent: '',
     template: 'surface3',
+  },
+] as any
+
+const surfaceInput1 = [
+  {
+    parent: 'active',
+    template: 'surfaceInputActive',
+  },
+  {
+    template: 'surfaceInput',
   },
 ] as any
 
@@ -447,6 +451,10 @@ const themeBuilder = createThemeBuilder()
       ModalOverlay: overlayThemeDefinitions,
       Input: surface1,
       TextArea: surface1,
+      VoxInput: surfaceInput1,
+      InternAlert: {
+        template: 'InternAlertSurface',
+      },
     },
     {
       avoidNestingWithin: ['alt1', 'alt2'],
@@ -501,4 +509,18 @@ export type EntriesToObject<ARR_T extends EntriesType> = MergeIntersectingObject
 
 export function objectKeys<O extends Object>(obj: O) {
   return Object.keys(obj) as Array<keyof O>
+}
+
+export function addSetOfTransparenciesToColor<CN extends string, Neutral extends boolean>(color: string, colorName: CN, isNeural: Neutral = false as Neutral) {
+  const percentsArray = transparenciesPercents
+  return percentsArray.reduce(
+    (acc, percent, i) => {
+      const keyName = i === 0 ? `${colorName}` : `${colorName}${0}`
+      const neutralName = `${colorName}/`
+      const name = isNeural ? neutralName : keyName
+      acc[`${name}${percent}`] = transparent(color, percent / 100)
+      return acc
+    },
+    {} as Record<Neutral extends false ? `${CN}0` | `${CN}0${Exclude<PercentValue, 0>}` : `${CN}/${PercentValue}`, string>,
+  )
 }

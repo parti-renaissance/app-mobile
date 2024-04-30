@@ -2,6 +2,7 @@ import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react
 import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
+import Text from '@/components/base/Text'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
@@ -18,12 +19,13 @@ import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
-import { isWeb, ScrollView, Spinner, Stack, Text, useMedia, View, YStack } from 'tamagui'
+import { isWeb, ScrollView, Spinner, Stack, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertUtils } from '../shared/AlertUtils'
 import { Gender, PersonalInformationsForm } from './types'
 import { capitalizeFirstLetter } from './utils'
 import { PersonalInformationsFormSchema } from './validation'
+
 
 type FormEditInformationsProps = {
   onSubmit: (x: RestUpdateProfileRequest) => void
@@ -62,7 +64,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
 
   const onManualAddressToggle = useCallback(() => {
     setManualAddress((v) => !v)
-  }, [manualAddress])
+  }, [])
 
   return (
     <Formik<PersonalInformationsForm>
@@ -227,15 +229,18 @@ const EditInformations = () => {
   const media = useMedia()
   const formikFormRef = useRef<FormikProps<PersonalInformationsForm>>(null)
   const { data: profile } = useGetDetailProfil()
+  const { user } = useSession()
   const $updateProfile = useMutationUpdateProfil({
     userUuid: profile?.uuid,
   })
+
+  const isAdherent = !!user.data?.tags.find((tag) => tag.type === 'adherent')
   const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    if (!profile.adherent) return mutateAsync()
+    if (!isAdherent) return mutateAsync()
     const ACCOUNT_ROUTE_RE = `https://${clientEnv.APP_RENAISSANCE_HOST}/parametres/mon-compte`
     if (isWeb && window) {
       window.location.href = ACCOUNT_ROUTE_RE
@@ -246,9 +251,9 @@ const EditInformations = () => {
 
   const removeAccount = () => {
     AlertUtils.showDestructiveAlert(
-      profile.adherent ? 'Désadhérer' : 'Suppression du compte',
-      profile.adherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
-      profile.adherent ? 'Désadhérer' : 'Supprimer',
+      isAdherent ? 'Désadhérer' : 'Suppression du compte',
+      isAdherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+      isAdherent ? 'Désadhérer' : 'Supprimer',
       'Annuler',
       onRemoveAccountConfirmed,
     )
@@ -312,7 +317,7 @@ const EditInformations = () => {
                   <Button.Text>Se déconnecter</Button.Text>
                 </Button>
                 <Button variant="outlined" width="100%" onPress={removeAccount}>
-                  <Button.Text>{profile.adherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
+                  <Button.Text>{isAdherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
                 </Button>
               </YStack>
             </VoxCard.Content>

@@ -100,6 +100,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           date: {
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
             end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
+            timeZone: feed.time_zone,
           },
           location: feed.mode === 'online' ? undefined : location,
           isOnline: feed.mode === 'online',
