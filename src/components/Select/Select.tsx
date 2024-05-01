@@ -5,15 +5,15 @@ import { Adapt, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tama
 import Text from '../base/Text'
 
 interface SelectProps {
-  id: string
-  value: string
-  onValueChange: (value: string) => void
+  id?: string
+  value?: string
+  onChange?: (value: string) => void
   placeholder?: string
-  label: string
-  options: { value: string; text: string }[]
+  label?: string
+  options: { value: string; label: string }[]
 }
 
-const Select = ({ id, value, onValueChange, placeholder, label, options }: SelectProps) => {
+const Select = ({ id, value, onChange, placeholder, label, options }: SelectProps) => {
   const insets = useSafeAreaInsets()
 
   const selectedOption = options.find((option) => option.value === value)
@@ -37,7 +37,7 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
         </Label>
       )}
 
-      <SelectTamagui id={id} value={value} onValueChange={onValueChange}>
+      <SelectTamagui id={id} value={value} onValueChange={onChange}>
         <SelectTamagui.Trigger
           iconAfter={ChevronDown}
           backgroundColor={'$colorTransparent'}
@@ -58,7 +58,7 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
           }}
         >
           <SelectTamagui.Value placeholder={placeholder} color={'$gray6'} fontSize={'$2'} fontFamily={'$PublicSans'} fontWeight={'400'}>
-            <Text color={'$gray6'}>{selectedOption?.text}</Text>
+            <Text color={'$gray6'}>{selectedOption?.label}</Text>
           </SelectTamagui.Value>
         </SelectTamagui.Trigger>
 
@@ -86,16 +86,14 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
                 </Text>
               </SelectTamagui.Label>
 
-              {options.map((option, i) => {
-                return (
-                  <SelectTamagui.Item index={i} key={option.value} value={option.value} outlineStyle="none" bc="$backgroundStrong">
-                    <SelectTamagui.ItemText>{option.text}</SelectTamagui.ItemText>
-                    <SelectTamagui.ItemIndicator ml="auto">
-                      <Check size={16} />
-                    </SelectTamagui.ItemIndicator>
-                  </SelectTamagui.Item>
-                )
-              })}
+              {options.map((option, i) => (
+                <SelectTamagui.Item index={i} key={option.value} value={option.value} outlineStyle="none" bc="$backgroundStrong">
+                  <SelectTamagui.ItemText>{option.label}</SelectTamagui.ItemText>
+                  <SelectTamagui.ItemIndicator ml="auto">
+                    <Check size={16} />
+                  </SelectTamagui.ItemIndicator>
+                </SelectTamagui.Item>
+              ))}
             </SelectTamagui.Group>
           </SelectTamagui.Viewport>
 

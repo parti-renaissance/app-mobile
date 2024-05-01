@@ -1,53 +1,27 @@
+import Select from '@/components/Select'
 import isoToEmoji from '@/utils/isoToEmoji'
-import { Adapt, Select, Sheet } from 'tamagui'
 import countries from './countries.json'
 
 interface CountrySelectProps {
   value?: string
   onChange: (value: string) => void
-  title?: string
+  label?: string
   id: string
   error: string | undefined
   onBlur: (fieldOrEvent: any) => void
 }
 
-export default function CountrySelect({ value, onChange, title, id }: CountrySelectProps) {
-  return (
-    <Select defaultValue="FR" onValueChange={onChange} value={value} id={id}>
-      <Select.Trigger>
-        <Select.Value placeholder="Rechercher un pays..." />
-      </Select.Trigger>
-
-      <Adapt when="sm" platform="touch">
-        {/* or <Select.Sheet> */}
-        <Sheet>
-          <Sheet.Frame>{/* Content goes here */}</Sheet.Frame>
-          <Sheet.Overlay />
-        </Sheet>
-      </Adapt>
-
-      <Select.Content>
-        <Select.ScrollUpButton />
-        <Select.Viewport>
-          <Select.Group>
-            <Select.Label>{title ?? 'Pays'}</Select.Label>
-            {countriesSource.map((el, index) => (
-              <Select.Item key={`${el.alpha2}-${el.name}`} value={el.alpha2} index={index}>
-                <Select.ItemText>
-                  {el.emoji} {el.name}
-                </Select.ItemText>
-              </Select.Item>
-            ))}
-          </Select.Group>
-        </Select.Viewport>
-        <Select.ScrollDownButton />
-      </Select.Content>
-    </Select>
-  )
+export default function CountrySelect(props: CountrySelectProps) {
+  return <Select options={countriesSourceAsOption} {...props} />
 }
 
 const countriesSource = Object.entries(countries).map(([iso, name]) => ({
   alpha2: iso,
   emoji: iso === 'AN' ? '' : isoToEmoji(iso),
   name,
+}))
+
+const countriesSourceAsOption = countriesSource.map((el) => ({
+  value: el.alpha2,
+  label: `${el.emoji} ${el.name}`,
 }))

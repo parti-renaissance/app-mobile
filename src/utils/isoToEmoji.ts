@@ -1,3 +1,7 @@
+/**
+ * @see https://www.youtube.com/watch?v=kiWnG4WowDk
+ * @param code
+ */
 export default function isoToEmoji(code: string) {
   return code
     .split('')
