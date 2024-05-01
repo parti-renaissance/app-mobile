@@ -4,7 +4,7 @@ import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import { useForwardFocus } from '@/hooks/useForwardFocus'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { Spinner, Theme, View, XStack, YStack } from 'tamagui'
+import { Spinner, Theme, XStack, YStack } from 'tamagui'
 
 /**
  * note: make sure to use the same width for the Input and the Input.Area
@@ -33,7 +33,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
   return (
     <Theme name={theme}>
       <Input flex={1} size={small ? '$2' : '$3'} theme="VoxInput">
-        <YStack width="100%" gap={minimal ? 'unset' : 'inherit'}>
+        <YStack width="100%" gap={minimal ? 'unset' : undefined}>
           {label && (
             <Input.Label htmlFor={id} size="$1" fontWeight="$4" paddingBottom={minimal ? 0 : undefined}>
               {label}
@@ -58,6 +58,8 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
               ref={inputRef}
               paddingLeft={minimal || iconLeft ? 0 : undefined}
               paddingRight={minimal || iconRight ? 0 : undefined}
+              borderBottomWidth={0}
+              underlineColorAndroid={'transparent'}
               {...rest}
               id={id}
             />

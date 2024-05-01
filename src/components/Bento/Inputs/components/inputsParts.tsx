@@ -172,6 +172,7 @@ const InputImpl = InputFrame.styleable((props, ref) => {
         color={color}
         underlineColorAndroid={color}
         placeholderTextColor="$colorDisabled"
+        cursorColor={color}
         onBlur={() => setFocused(false)}
         size={size}
         fontSize="$2"
