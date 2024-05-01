@@ -1,14 +1,16 @@
-import { countries } from 'country-data'
+import isoToEmoji from '@/utils/isoToEmoji'
 import { Adapt, Select, Sheet } from 'tamagui'
+import countries from './countries.json'
 
 interface CountrySelectProps {
-  value: string
+  value?: string
   onChange: (value: string) => void
+  title?: string
 }
 
-export default function CountrySelect({ value, onChange }: CountrySelectProps) {
+export default function CountrySelect({ value, onChange, title }: CountrySelectProps) {
   return (
-    <Select defaultValue="FR" onValueChange={onChange}>
+    <Select defaultValue="FR" onValueChange={onChange} value={value}>
       <Select.Trigger>
         <Select.Value placeholder="Rechercher un pays..." />
       </Select.Trigger>
@@ -25,9 +27,9 @@ export default function CountrySelect({ value, onChange }: CountrySelectProps) {
         <Select.ScrollUpButton />
         <Select.Viewport>
           <Select.Group>
-            <Select.Label>Pays</Select.Label>
+            <Select.Label>{title ?? 'Pays'}</Select.Label>
             {countriesSource.map((el, index) => (
-              <Select.Item key={`${el.alpha3}-${el.name}`} value={el.alpha2} index={index}>
+              <Select.Item key={`${el.alpha2}-${el.name}`} value={el.alpha2} index={index}>
                 <Select.ItemText>
                   {el.emoji} {el.name}
                 </Select.ItemText>
@@ -41,4 +43,8 @@ export default function CountrySelect({ value, onChange }: CountrySelectProps) {
   )
 }
 
-const countriesSource = countries.all.filter((el) => el.emoji)
+const countriesSource = Object.entries(countries).map(([iso, name]) => ({
+  alpha2: iso,
+  emoji: iso === 'AN' ? '' : isoToEmoji(iso),
+  name,
+}))
