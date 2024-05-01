@@ -177,7 +177,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               <FormikController name="address.country">
                 {({ inputProps }) => (
                   <View mt={'$4'}>
-                    <CountrySelect {...inputProps} />
+                    <CountrySelect label="Pays" placeholder="Sélectionnez un pays" {...inputProps} />
                   </View>
                 )}
               </FormikController>

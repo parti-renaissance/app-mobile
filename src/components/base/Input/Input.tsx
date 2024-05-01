@@ -35,7 +35,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
     <View flexDirection="column" justifyContent="center" alignItems="center">
       <Theme name={theme}>
         <Input minWidth="100%" size={small ? '$2' : '$3'} theme="VoxInput">
-          <YStack width="100%" gap={minimal ? 'unset' : 'inherit'}>
+          <YStack width="100%" gap={minimal ? 'unset' : undefined}>
             {label && (
               <Input.Label htmlFor={id} size="$1" fontWeight="$4" paddingBottom={minimal ? 0 : undefined}>
                 {label}

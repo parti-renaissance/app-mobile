@@ -9,10 +9,11 @@ interface CountrySelectProps {
   id: string
   error: string | undefined
   onBlur: (fieldOrEvent: any) => void
+  placeholder?: string
 }
 
 export default function CountrySelect(props: CountrySelectProps) {
-  return <Select options={countriesSourceAsOption} {...props} />
+  return <Select canSearch options={countriesSourceAsOption} {...props} />
 }
 
 const countriesSource = Object.entries(countries).map(([iso, name]) => ({
