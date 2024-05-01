@@ -6,11 +6,14 @@ interface CountrySelectProps {
   value?: string
   onChange: (value: string) => void
   title?: string
+  id: string
+  error: string | undefined
+  onBlur: (fieldOrEvent: any) => void
 }
 
-export default function CountrySelect({ value, onChange, title }: CountrySelectProps) {
+export default function CountrySelect({ value, onChange, title, id }: CountrySelectProps) {
   return (
-    <Select defaultValue="FR" onValueChange={onChange} value={value}>
+    <Select defaultValue="FR" onValueChange={onChange} value={value} id={id}>
       <Select.Trigger>
         <Select.Value placeholder="Rechercher un pays..." />
       </Select.Trigger>

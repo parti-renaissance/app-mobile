@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
-import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
 import redirectToStore from '@/helpers/redirectToStore'
 import { Image } from 'tamagui'
@@ -22,8 +21,6 @@ export default function AppDownloadCTA() {
           <Image source={require('./Assets/Google.png')} resizeMode={'contain'} width={'100%'} height={45} />
         </TouchableOpacity>
       </ProfileCallToActionLayout.Actions>
-
-      <CountrySelect value={'FR'} onChange={console.log} />
     </ProfileCallToActionLayout>
   )
 }

@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Text from '@/components/base/Text'
+import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
@@ -25,7 +26,6 @@ import { AlertUtils } from '../shared/AlertUtils'
 import { Gender, PersonalInformationsForm } from './types'
 import { capitalizeFirstLetter } from './utils'
 import { PersonalInformationsFormSchema } from './validation'
-
 
 type FormEditInformationsProps = {
   onSubmit: (x: RestUpdateProfileRequest) => void
@@ -168,6 +168,14 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
 
                 <FormikController name="address.city">
                   {({ inputProps }) => <TextField placeholder="Ville" label="Ville" width="100%" {...inputProps} />}
+                </FormikController>
+
+                <FormikController name="address.country">
+                  {({ inputProps }) => (
+                    <View mt={'$4'}>
+                      <CountrySelect {...inputProps} />
+                    </View>
+                  )}
                 </FormikController>
               </>
             ) : (
