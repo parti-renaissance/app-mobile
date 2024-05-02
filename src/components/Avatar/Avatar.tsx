@@ -15,7 +15,7 @@ interface AvatarProps {
   withArrow?: boolean
 }
 
-function Avatar({ imageBg, imageLeft = true, imageRight = false, withArrow, ...props }: AvatarProps) {
+function Avatar({ imageBg, imageLeft, imageRight, withArrow, ...props }: AvatarProps) {
   return (
     <XStack gap={'$4'} alignItems={'center'}>
       {imageLeft && <Picture {...props} bg={imageBg} />}

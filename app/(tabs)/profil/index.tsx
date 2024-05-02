@@ -28,6 +28,7 @@ function ProfilScreen() {
             <ProcurationCTA />
             <AppDownloadCTA />
             <BotBilanCTA />
+            <ProfileCard />
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
@@ -35,9 +36,7 @@ function ProfilScreen() {
             <EditInformations />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
-        <PageLayout.SideBarRight>
-          <ProfileCard />
-        </PageLayout.SideBarRight>
+        <PageLayout.SideBarRight></PageLayout.SideBarRight>
       </PageLayout>
     </>
   )
