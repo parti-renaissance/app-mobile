@@ -9,7 +9,7 @@ import { useSubscribePublicEvent } from '@/hooks/useEvents'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
 import { Formik, FormikHelpers } from 'formik'
-import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, Theme, useMedia, View, XStack, YStack } from 'tamagui'
+import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, useMedia, XStack, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import Input from '../base/Input/Input'
 import FormikController from '../FormikController'
@@ -251,22 +251,6 @@ function MentionLegale() {
         électronique mes-donnees@parti-renaissance.fr. Dans certaines hypothèses, une copie de votre pièce d’identité pourra vous être demandée. Pour toute
         information relative au traitement de vos données par Renaissance, vous pouvez consulter la politique de protection des données ou contacter le délégué
         à la protection des données à l’adresse dpo@parti-renaissance.fr
-      </Paragraph>
-
-      <Paragraph>
-        (1) J’autorise Renaissance ou toute structure qui se substituerait à elle, à enregistrer, à fixer mon image et/ou ma voix sur tous supports, à
-        l’exploiter et à la diffuser en intégralité ou par extrait sans limitation du nombre de reproduction, sur tous canaux, sites web et réseaux sociaux
-        édités par les équipes de Renaissance ou ses associations partenaires, dans le cadre de sa communication politique, sous toutes formes, par quelque
-        moyen technique que ce soit, et dans le monde entier, et ce, pour une durée de 2 ans. J’accepte également que cette vidéo soit partagée en intégralité
-        ou par extrait, sur les réseaux sociaux par d’autres utilisateurs. Cette autorisation est consentie à titre gratuit, sans aucune exploitation
-        commerciale. Si je participe en compagnie d’une personne mineure, en qualité de représentant légal de cette personne mineure, j’autorise sans réserve
-        Renaissance ou toute structure qui se substituerait à elle, à enregistrer, à fixer les images de la personne participante dont j’ai la responsabilité,
-        ainsi que les éléments sonores dont elle serait l’émettrice, durant l’événement autorise Renaissance à exploiter ces images et/ou éléments sonores, à
-        les diffuser intégralement ou par extrait, sans limitation du nombre de reproduction, sur tous canaux, sites web et réseaux sociaux édités par
-        Renaissance ou ses partenaires, dans le cadre de sa communication politique, sous toutes formes, par quelque moyen technique que ce soit, et dans le
-        monde entier, et ce, pour un durée de 2 ans. J’accepte également que cette vidéo contenant l’image et/ou la voix de la personne dont j’ai la
-        responsabilité soit partagée sur les réseaux sociaux par d’autres utilisateurs. Cette autorisation est consentie à titre gratuit, sans aucune
-        exploitation commerciale.
       </Paragraph>
     </YStack>
   )
