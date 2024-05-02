@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Input from '@/components/base/Input/Input'
 import { LabelValueModel } from '@/models/common.model'
-import { Check, ChevronDown, ChevronUp, CircleDot, Search } from '@tamagui/lucide-icons'
+import { Check, ChevronDown, ChevronUp, Search, XCircle } from '@tamagui/lucide-icons'
 import { Adapt, isWeb, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tamagui'
 import Text from '../base/Text'
 
@@ -136,7 +136,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
                       iconRight={
                         search.trim().length > 0 ? (
                           <TouchableOpacity onPress={clearSearch}>
-                            <CircleDot />
+                            <XCircle />
                           </TouchableOpacity>
                         ) : (
                           <Search />
