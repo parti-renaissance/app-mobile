@@ -24,7 +24,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
   const initials = fullName
     .split(' ')
     .slice(0, 2)
-    .map(([letter]) => letter.toUpperCase())
+    .map(([letter]) => letter?.toUpperCase())
     .join('')
 
   const Shape = rounded ? Circle : Square

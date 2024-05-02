@@ -2,15 +2,16 @@ import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import Avatar from '@/components/Avatar/Avatar'
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
 import { Link, usePathname, useSegments } from 'expo-router'
 import { Button, Circle, Spinner, Stack, StackProps, styled, useMedia, View } from 'tamagui'
+import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
+import ProfilePicture from '../ProfilePicture'
 import AuthFallbackWrapper from '../Skeleton/AuthFallbackWrapper'
 
 const opacityToHexCode = (hex: string, opacity: number) => {
@@ -76,7 +77,18 @@ const ProfileView = () => {
   const profile = user?.data
   return (
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
-      {!user.isLoading ? <Avatar firstName={profile?.first_name} lastName={profile?.last_name} imageRight /> : <Spinner size="small" />}
+      {!user.isLoading ? (
+        <>
+          <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
+            <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'} fontSize={14}>
+              {profile?.first_name} {profile?.last_name}
+            </Text>
+          </Stack>
+          <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
+        </>
+      ) : (
+        <Spinner size="small" />
+      )}
     </View>
   )
 }

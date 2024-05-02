@@ -4,7 +4,6 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
-import ProfileCard from '@/components/ProfileCards/ProfileCard/ProfileCard'
 import * as metatags from '@/config/metatags'
 import EditInformations from '@/screens/editPersonalInformation/personalInformations'
 import { Stack as RouterStack } from 'expo-router'
@@ -28,7 +27,6 @@ function ProfilScreen() {
             <ProcurationCTA />
             <AppDownloadCTA />
             <BotBilanCTA />
-            <ProfileCard />
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
