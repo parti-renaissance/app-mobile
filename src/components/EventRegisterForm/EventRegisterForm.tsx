@@ -6,6 +6,7 @@ import { PublicSubscribeEventFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
 import { PublicSubscribtionFormData, PublicSubscribtionFormDataSchema } from '@/data/restObjects/RestEvents'
 import { useSubscribePublicEvent } from '@/hooks/useEvents'
+import { CheckedState } from '@tamagui/checkbox-headless/src/useCheckbox'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
 import { Formik, FormikHelpers } from 'formik'
@@ -36,7 +37,7 @@ const VoxCheckbox = ({ label, id: _id, error, ...rest }: VoxCheckboxProps) => {
   return (
     <YStack gap="$2" theme={error ? 'red' : undefined}>
       <XStack gap="$4" alignItems="center">
-        <Checkbox id={id} size="$2">
+        <Checkbox id={id} size="$2" {...rest}>
           <Checkbox.Indicator>
             <CheckIcon />
           </Checkbox.Indicator>
@@ -98,7 +99,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
       validationSchema={toFormikValidationSchema(PublicSubscribtionFormDataSchema)}
       onSubmit={onSubmit}
     >
-      {({ isSubmitting, handleSubmit }) => (
+      {({ isSubmitting, handleSubmit, setFieldValue }) => (
         <YStack gap="$4" flex={1}>
           <Text fontWeight="$6" fontSize="$3" textAlign="center" color="$textPrimary">
             M’inscrire à cet évènement
@@ -120,7 +121,11 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
                   error={inputProps.error}
                   checked={inputProps.value}
                   onBlur={inputProps.onBlur}
-                  onCheckedChange={inputProps.onChange}
+                  onCheckedChange={(d: CheckedState) => {
+                    if (d === 'indeterminate') return
+
+                    setFieldValue('join_newsletter', d)
+                  }}
                 />
               )}
             </FormikController>
@@ -132,7 +137,11 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
                   label="J’ai lu et j’accepte la politique de protection des données et les mentions d’informations relatives au traitement de mes données."
                   error={inputProps.error}
                   checked={inputProps.value}
-                  onCheckedChange={inputProps.onChange}
+                  onCheckedChange={(d: CheckedState) => {
+                    if (d === 'indeterminate') return
+
+                    setFieldValue('cgu_accepted', d)
+                  }}
                 />
               )}
             </FormikController>
