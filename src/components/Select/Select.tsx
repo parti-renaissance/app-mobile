@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Input from '@/components/base/Input/Input'
 import { LabelValueModel } from '@/models/common.model'
 import { Check, ChevronDown, ChevronUp, Search, XCircle } from '@tamagui/lucide-icons'
+import { AnimatedNumberStrategy } from '@tamagui/web'
 import { Adapt, isWeb, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tamagui'
 import Text from '../base/Text'
 
@@ -93,17 +94,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
         </SelectTamagui.Trigger>
 
         <Adapt when="sm" platform="touch">
-          <Sheet
-            native={!isWeb}
-            modal
-            dismissOnSnapToBottom
-            animationConfig={{
-              type: 'spring',
-              damping: 20,
-              mass: 1.2,
-              stiffness: 250,
-            }}
-          >
+          <Sheet native={!isWeb} modal dismissOnSnapToBottom animationConfig={animation}>
             <Sheet.Frame>
               <Sheet.ScrollView>
                 <Adapt.Contents />
@@ -130,7 +121,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
                 </View>
 
                 {canSearch && (
-                  <View pt={'$3'} width={'100%'}>
+                  <View mt={'$2'} width={'100%'}>
                     <Input
                       placeholder={'Recherche'}
                       iconRight={
@@ -169,6 +160,13 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
       </SelectTamagui>
     </View>
   )
+}
+
+const animation: AnimatedNumberStrategy = {
+  type: 'spring',
+  damping: 20,
+  mass: 1.2,
+  stiffness: 250,
 }
 
 export default React.memo(Select)
