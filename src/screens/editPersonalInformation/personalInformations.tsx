@@ -311,7 +311,7 @@ const EditInformations = () => {
                   </View>
                 )}
                 <Button variant="outlined" width="100%" onPress={signOut}>
-                  <Button.Text>Se déconnecter</Button.Text>
+                  <Button.Text>Me déconnecter</Button.Text>
                 </Button>
                 <Button variant="outlined" width="100%" onPress={removeAccount}>
                   <Button.Text>{isAdherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
