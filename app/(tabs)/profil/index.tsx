@@ -34,7 +34,7 @@ function ProfilScreen() {
             <EditInformations />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
-        <PageLayout.SideBarRight></PageLayout.SideBarRight>
+        <PageLayout.SideBarRight />
       </PageLayout>
     </>
   )

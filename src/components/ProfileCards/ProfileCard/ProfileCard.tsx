@@ -30,16 +30,17 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
                 src={src}
                 backgroundColor="$gray2"
                 textColor="$gray6"
+                fontWeight={600}
                 rounded
               />
             </YStack>
             <YStack>
-              <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'} fontSize={14}>
+              <Text fontFamily={'$PublicSans'} color={'$textPrimary'} fontWeight={'500'} fontSize={14}>
                 {firstName} {lastName}
               </Text>
             </YStack>
             <YStack flex={1} alignItems={'flex-end'}>
-              <ChevronRight />
+              <ChevronRight color={'$textSecondary'} />
             </YStack>
           </View>
         </TouchableOpacity>
