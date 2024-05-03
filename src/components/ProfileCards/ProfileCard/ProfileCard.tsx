@@ -18,7 +18,7 @@ export interface ProfileCardProps {
 
 export default function ProfileCard({ firstName = '', lastName = '', tags, onButtonPress, src }: ProfileCardProps) {
   return (
-    <YStack gap={'$4'} padding={'$4'} borderRadius={'$8'} bg={'$white1'}>
+    <YStack gap={'$4'} padding={'$4'} borderRadius={'$8'} bg={'$white1'} borderWidth={1} borderColor={'$gray3'}>
       <Link href={'/profil'} asChild>
         <TouchableOpacity>
           <View alignItems={'center'} flexDirection={'row'}>
@@ -56,7 +56,7 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
 
       {onButtonPress && (
         <View>
-          <Button variant={'outlined'} borderColor={'$purple4'} onPress={onButtonPress}>
+          <Button variant={'outlined'} borderColor={'$purple4'} onPress={onButtonPress} borderWidth={1}>
             <Button.Icon>
               <Repeat color={'$textSecondary'} />
             </Button.Icon>

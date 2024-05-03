@@ -18,7 +18,14 @@ export interface ProfileCallToActionProps extends PropsWithChildren {
 
 function Layout({ children, backgroundColor, noPadding = false, height }: Readonly<ProfileCallToActionProps>) {
   return (
-    <Card padding={noPadding ? undefined : '$4'} backgroundColor={backgroundColor ?? '$white1'} height={height}>
+    <Card
+      padding={noPadding ? undefined : '$4'}
+      backgroundColor={backgroundColor ?? '$white1'}
+      height={height}
+      borderRadius={'$8'}
+      borderWidth={1}
+      borderColor={'$gray3'}
+    >
       {children && <SpacedContainer>{children}</SpacedContainer>}
     </Card>
   )
