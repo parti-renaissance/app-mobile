@@ -4,6 +4,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
+import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
@@ -30,6 +31,7 @@ const EventsScreen: React.FC = () => {
         <PageLayout.SideBarLeft>
           <YStack gap="$3">
             <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
+            <MyProfileCard />
             <ProcurationCTA />
             <AuthFallbackWrapper>
               <AppDownloadCTA />

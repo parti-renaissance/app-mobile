@@ -4,11 +4,14 @@ import ApiService from '@/data/network/ApiService'
 import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
 import { useToastController } from '@tamagui/toast'
-import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, UseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
 
 const key = 'profil'
 
-export const useGetProfil = ({ queryKey, ...options }: Partial<UndefinedInitialDataOptions<RestProfileResponse, Error, RestProfileResponse, QueryKey>>) => {
+export const useGetProfil = ({
+  queryKey,
+  ...options
+}: Partial<UndefinedInitialDataOptions<RestProfileResponse, Error, RestProfileResponse, QueryKey>>): UseQueryResult<RestProfileResponse> => {
   return useQuery({
     queryKey: [key],
     queryFn: () => ApiService.getInstance().getProfile(),
