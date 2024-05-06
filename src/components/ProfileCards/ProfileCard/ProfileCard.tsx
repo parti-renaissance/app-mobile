@@ -31,7 +31,7 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
                 src={src}
                 backgroundColor="$gray2"
                 textColor="$gray6"
-                fontWeight={600}
+                fontWeight={'$6'}
                 rounded
               />
             </YStack>
