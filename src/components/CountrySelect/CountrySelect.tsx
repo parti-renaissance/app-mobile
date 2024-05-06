@@ -22,7 +22,8 @@ const countriesSource = Object.entries(countries).map(([iso, name]) => ({
   name,
 }))
 
-const countriesSourceAsOption = countriesSource.map((el) => ({
+const countriesSourceAsOption = countriesSource.map((el, index) => ({
   value: el.alpha2,
   label: `${el.emoji} ${el.name}`,
+  index,
 }))

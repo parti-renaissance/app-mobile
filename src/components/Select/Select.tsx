@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Input from '@/components/base/Input/Input'
@@ -14,10 +14,14 @@ export interface SelectProps {
   onChange?: (value: string) => void
   placeholder?: string
   label?: string
-  options: LabelValueModel[]
+  options: OptionWithFixedIndex[]
   canSearch?: boolean
   /** Indicate if we search a word in all sentence or only on start **/
   matchOn?: MatchOnEnum
+}
+
+interface OptionWithFixedIndex extends LabelValueModel {
+  index: number
 }
 
 export enum MatchOnEnum {
@@ -36,7 +40,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
     setSearch('')
   }, [])
 
-  const virtualOptions: LabelValueModel[] | undefined = useMemo(() => {
+  const virtualOptions: OptionWithFixedIndex[] | undefined = useMemo(() => {
     if (!canSearch) return options
 
     return options.filter(({ label }) => {
@@ -140,14 +144,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
                 )}
               </SelectTamagui.Label>
 
-              {virtualOptions?.map((option, i) => (
-                <SelectTamagui.Item index={i} key={option.value} value={option.value} outlineStyle="none" bc="$backgroundStrong">
-                  <SelectTamagui.ItemText>{option.label}</SelectTamagui.ItemText>
-                  <SelectTamagui.ItemIndicator ml="auto">
-                    <Check size={16} />
-                  </SelectTamagui.ItemIndicator>
-                </SelectTamagui.Item>
-              ))}
+              {virtualOptions?.map((option) => <RenderItem key={option.value} option={option} index={option.index} />)}
             </SelectTamagui.Group>
           </SelectTamagui.Viewport>
 
@@ -161,6 +158,15 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
     </View>
   )
 }
+
+const RenderItem = memo(({ index, option }: { index: number; option: LabelValueModel }) => (
+  <SelectTamagui.Item index={index} value={option.value} outlineStyle="none" bc="$backgroundStrong">
+    <SelectTamagui.ItemText>{option.label}</SelectTamagui.ItemText>
+    <SelectTamagui.ItemIndicator ml="auto">
+      <Check size={16} />
+    </SelectTamagui.ItemIndicator>
+  </SelectTamagui.Item>
+))
 
 const animation: AnimatedNumberStrategy = {
   type: 'spring',
