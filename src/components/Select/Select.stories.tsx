@@ -8,15 +8,23 @@ export default {
 
 export function Default() {
   return (
-    <Stack gap="$4">
+    <Stack gap="$4" width={400}>
       <Select
-        id={'sort-by-select'}
-        label={'Sort by'}
-        onValueChange={(property) => console.log('Sort by', property)}
-        options={['name', 'percentDone', 'totalSize']}
-        optionsTexts={['Name', 'Percent Done', 'Total Size']}
-        placeholder={'Sort by'}
-        value={'name'}
+        id={'select-id'}
+        label={'This is the label'}
+        onChange={console.log}
+        options={[
+          {
+            label: 'Lorem',
+            value: 'lorem',
+          },
+          {
+            label: 'Ipsum',
+            value: 'ipsum',
+          },
+        ]}
+        placeholder={'This is the placeholder'}
+        value={'lorem'}
       />
     </Stack>
   )
