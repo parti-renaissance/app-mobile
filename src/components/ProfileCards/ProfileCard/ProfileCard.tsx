@@ -48,7 +48,7 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
       </Link>
 
       {tags && (
-        <View flexDirection={'row'} gap={'$1.5'}>
+        <View flexDirection={'row'} gap={'$1.5'} flexWrap={'wrap'}>
           {tags.map((el) => (
             <Tag key={el.type} label={el.label} color={activistTagShape[el.type]?.color} bgColor={activistTagShape[el.type]?.bgColor} />
           ))}
