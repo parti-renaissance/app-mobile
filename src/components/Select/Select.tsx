@@ -1,22 +1,59 @@
-import React from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
+import { TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Check, ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-import { Adapt, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tamagui'
+import Input from '@/components/base/Input/Input'
+import { LabelValueModel } from '@/models/common.model'
+import { Check, ChevronDown, ChevronUp, Search, XCircle } from '@tamagui/lucide-icons'
+import { AnimatedNumberStrategy } from '@tamagui/web'
+import { Adapt, isWeb, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tamagui'
 import Text from '../base/Text'
 
-interface SelectProps {
-  id: string
-  value: string
-  onValueChange: (value: string) => void
+export interface SelectProps {
+  id?: string
+  value?: string
+  onChange?: (value: string) => void
   placeholder?: string
-  label: string
-  options: { value: string; text: string }[]
+  label?: string
+  options: OptionWithFixedIndex[]
+  canSearch?: boolean
+  /** Indicate if we search a word in all sentence or only on start **/
+  matchOn?: MatchOnEnum
 }
 
-const Select = ({ id, value, onValueChange, placeholder, label, options }: SelectProps) => {
+interface OptionWithFixedIndex extends LabelValueModel {
+  index: number
+}
+
+export enum MatchOnEnum {
+  INNER = 'inner',
+  START = 'start',
+}
+
+const Select = ({ id, value, onChange, placeholder, label, options, canSearch = false, matchOn = MatchOnEnum.INNER }: SelectProps) => {
   const insets = useSafeAreaInsets()
 
-  const selectedOption = options.find((option) => option.value === value)
+  const [search, setSearch] = useState<string>('')
+
+  const selectedOption = useMemo(() => options.find((option) => option.value === value), [options, value])
+
+  const clearSearch = useCallback(() => {
+    setSearch('')
+  }, [])
+
+  const virtualOptions: OptionWithFixedIndex[] | undefined = useMemo(() => {
+    if (!canSearch) return options
+
+    return options.filter(({ label }) => {
+      const lowerLabel = label.toLowerCase().trim()
+      const candidate = search.toLowerCase().trim()
+
+      if (matchOn === MatchOnEnum.INNER) {
+        return lowerLabel.includes(candidate)
+      }
+
+      return lowerLabel.startsWith(candidate)
+    })
+  }, [canSearch, search, matchOn])
 
   return (
     <View>
@@ -37,15 +74,13 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
         </Label>
       )}
 
-      <SelectTamagui id={id} value={value} onValueChange={onValueChange}>
+      <SelectTamagui id={id} value={value} onValueChange={onChange}>
         <SelectTamagui.Trigger
           iconAfter={ChevronDown}
           backgroundColor={'$colorTransparent'}
+          borderWidth={0}
           borderBottomWidth={1}
           borderBottomColor={'$gray3'}
-          borderTopWidth={0}
-          borderLeftWidth={0}
-          borderRightWidth={0}
           borderRadius={0}
           padding={'$0'}
           outlineStyle="none"
@@ -58,16 +93,18 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
           }}
         >
           <SelectTamagui.Value placeholder={placeholder} color={'$gray6'} fontSize={'$2'} fontFamily={'$PublicSans'} fontWeight={'400'}>
-            <Text color={'$gray6'}>{selectedOption?.text}</Text>
+            <Text color={'$gray6'}>{selectedOption?.label}</Text>
           </SelectTamagui.Value>
         </SelectTamagui.Trigger>
 
         <Adapt when="sm" platform="touch">
-          <Sheet modal dismissOnSnapToBottom snapPointsMode="fit">
+          <Sheet native={!isWeb} modal dismissOnSnapToBottom animationConfig={animation}>
             <Sheet.Frame>
-              <Adapt.Contents />
+              <Sheet.ScrollView>
+                <Adapt.Contents />
+              </Sheet.ScrollView>
             </Sheet.Frame>
-            <Sheet.Overlay />
+            <Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
           </Sheet>
         </Adapt>
 
@@ -80,22 +117,34 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
 
           <SelectTamagui.Viewport outlineStyle="none">
             <SelectTamagui.Group paddingBottom={insets.bottom}>
-              <SelectTamagui.Label fontWeight={'$5'} fontSize={'$3'} backgroundColor={'none'}>
-                <Text fontFamily={'$PublicSans'} fontSize={'$1'} fontWeight={'500'} color={'#00AEEF'}>
-                  {label}
-                </Text>
+              <SelectTamagui.Label fontWeight={'$5'} fontSize={'$3'} backgroundColor={'none'} flexDirection={'column'} alignItems={'flex-start'}>
+                <View>
+                  <Text fontFamily={'$PublicSans'} fontSize={'$1'} fontWeight={'500'} color={'#00AEEF'}>
+                    {label}
+                  </Text>
+                </View>
+
+                {canSearch && (
+                  <View mt={'$2'} width={'100%'}>
+                    <Input
+                      placeholder={'Recherche'}
+                      iconRight={
+                        search.trim().length > 0 ? (
+                          <TouchableOpacity onPress={clearSearch}>
+                            <XCircle />
+                          </TouchableOpacity>
+                        ) : (
+                          <Search />
+                        )
+                      }
+                      value={search}
+                      onChangeText={setSearch}
+                    />
+                  </View>
+                )}
               </SelectTamagui.Label>
 
-              {options.map((option, i) => {
-                return (
-                  <SelectTamagui.Item index={i} key={option.value} value={option.value} outlineStyle="none" bc="$backgroundStrong">
-                    <SelectTamagui.ItemText>{option.text}</SelectTamagui.ItemText>
-                    <SelectTamagui.ItemIndicator ml="auto">
-                      <Check size={16} />
-                    </SelectTamagui.ItemIndicator>
-                  </SelectTamagui.Item>
-                )
-              })}
+              {virtualOptions?.map((option) => <RenderItem key={option.value} option={option} index={option.index} />)}
             </SelectTamagui.Group>
           </SelectTamagui.Viewport>
 
@@ -108,6 +157,22 @@ const Select = ({ id, value, onValueChange, placeholder, label, options }: Selec
       </SelectTamagui>
     </View>
   )
+}
+
+const RenderItem = memo(({ index, option }: { index: number; option: LabelValueModel }) => (
+  <SelectTamagui.Item index={index} value={option.value} outlineStyle="none" bc="$backgroundStrong">
+    <SelectTamagui.ItemText>{option.label}</SelectTamagui.ItemText>
+    <SelectTamagui.ItemIndicator ml="auto">
+      <Check size={16} />
+    </SelectTamagui.ItemIndicator>
+  </SelectTamagui.Item>
+))
+
+const animation: AnimatedNumberStrategy = {
+  type: 'spring',
+  damping: 20,
+  mass: 1.2,
+  stiffness: 250,
 }
 
 export default React.memo(Select)
