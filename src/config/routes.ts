@@ -1,6 +1,4 @@
-import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav';
-import { isWeb } from 'tamagui';
-
+import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
 
 export type TabRoute = {
   name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources'
@@ -9,7 +7,6 @@ export type TabRoute = {
   gradiant: string[]
   hidden?: boolean
 }
-
 
 export const ROUTES = [
   {
@@ -28,7 +25,6 @@ export const ROUTES = [
   {
     name: 'actions',
     screenName: 'Actions',
-    hidden: isWeb,
     icon: ActionIcon,
     gradiant: ['#68F984', '#06B827'],
   },
