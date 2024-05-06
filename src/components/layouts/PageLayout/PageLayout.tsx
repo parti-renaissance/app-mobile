@@ -1,6 +1,5 @@
 // first fetch profile,
 import Container from '@/components/layouts/Container'
-import VoxCard from '@/components/VoxCard/VoxCard'
 import { StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 
 export const padding = '$7'
@@ -25,12 +24,14 @@ const LayoutSideBarLeft = ({ children }: ViewProps) => {
   )
 }
 
-
 export const LayoutStateFrame = ({ children, ...props }: YStackProps) => {
   return (
     <YStack $sm={{ justifyContent: 'center' }} $gtSm={{ pt: 80 }} flex={1} {...props}>
-      <YStack p="$4.5" paddingTop="$4.5" alignItems="center" gap="$4">{children}</YStack>
-    </YStack>)
+      <YStack p="$4.5" paddingTop="$4.5" alignItems="center" gap="$4">
+        {children}
+      </YStack>
+    </YStack>
+  )
 }
 
 const LayoutMainBarLeft = ({ children }: ViewProps) => {

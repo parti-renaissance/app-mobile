@@ -32,7 +32,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
   const theme = !!error ? 'red' : 'gray'
   return (
     <Theme name={theme}>
-      <Input flex={1} size={small ? '$2' : '$3'} theme="VoxInput">
+      <Input flex={1} size={size ?? (small ? '$2' : '$3')} theme="VoxInput">
         <YStack width="100%" gap={minimal ? 'unset' : undefined}>
           {label && (
             <Input.Label htmlFor={id} size="$1" fontWeight="$4" paddingBottom={minimal ? 0 : undefined}>
@@ -41,7 +41,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
           )}
           <Input.Box
             minimal={minimal}
-            backgroundColor={minimal ? '$colorTransparent' : undefined}
+            backgroundColor={minimal ? '$colorTransparent' : props.backgroundColor ?? '$background'}
             hoverStyle={{
               backgroundColor: minimal ? '$colorTransparent' : undefined,
             }}

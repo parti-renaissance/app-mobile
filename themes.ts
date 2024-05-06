@@ -111,7 +111,7 @@ export const templates = (() => {
     borderColorHover: transparencies + 5,
     borderColorFocus: transparencies + 2,
     borderColorPress: transparencies + 4,
-    color: -transparencies + 1,
+    color: transparencies + 8,
     colorSecondary: transparencies + 6,
     colorDisabled: transparencies + 5,
     colorHover: -transparencies - 2,
@@ -172,6 +172,23 @@ export const templates = (() => {
     borderColorPress: base.color,
     oulineColor: 5,
     color: base.color,
+    colorHover: base.colorSecondary,
+    colorFocus: base.color,
+    colorPress: base.color,
+    colorDisabled: base.colorDisabled,
+  }
+
+  const surfaceRadio = {
+    background: -2,
+    backgroundHover: -1,
+    backgroundPress: transparencies + 3,
+    backgroundFocus: 1,
+    borderColor: 4,
+    borderColorHover: -1,
+    borderColorFocus: transparencies + 8,
+    borderColorPress: base.color,
+    oulineColor: 5,
+    color: base.colorSecondary,
     colorHover: base.colorSecondary,
     colorFocus: base.color,
     colorPress: base.color,
@@ -260,6 +277,7 @@ export const templates = (() => {
     surfaceInput,
     surfaceInputActive,
     InternAlertSurface,
+    surfaceRadio,
   }
 })()
 
@@ -452,6 +470,9 @@ const themeBuilder = createThemeBuilder()
       Input: surface1,
       TextArea: surface1,
       VoxInput: surfaceInput1,
+      VoxRadio: {
+        template: 'surfaceRadio',
+      },
       InternAlert: {
         template: 'InternAlertSurface',
       },
