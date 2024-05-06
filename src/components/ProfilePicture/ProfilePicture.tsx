@@ -1,4 +1,5 @@
 import { Image, Platform } from 'react-native'
+import { GetThemeValueForKey } from '@tamagui/web'
 import { Circle, CircleProps, getTokenValue, Square, SquareProps, Token } from 'tamagui'
 import Text from '../base/Text'
 
@@ -9,6 +10,7 @@ type ProfilePictureProps = {
   size?: Token
   textColor?: string
   rounded?: boolean
+  fontWeight?: 'unset' | GetThemeValueForKey<'fontWeight'>
 } & (
   | ({
       rounded: true
@@ -24,7 +26,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
   const initials = fullName
     .split(' ')
     .slice(0, 2)
-    .map(([letter]) => letter.toUpperCase())
+    .map(([letter]) => letter?.toUpperCase())
     .join('')
 
   const Shape = rounded ? Circle : Square
@@ -43,7 +45,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
           }}
         />
       ) : (
-        <Text color={textColor || '$blue8'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight="$2">
+        <Text color={textColor ?? '$blue8'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight={props.fontWeight ?? '$2'}>
           {initials}
         </Text>
       )}

@@ -4,6 +4,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
+import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
@@ -32,6 +33,7 @@ const HomeScreen: React.FC = () => {
       <PageLayout>
         <PageLayout.SideBarLeft>
           <YStack gap="$3">
+            <MyProfileCard />
             <ProcurationCTA />
             <AppDownloadCTA />
           </YStack>

@@ -13,7 +13,7 @@ export default function BotBilanCTA() {
   }, [])
 
   return (
-    <ProfileCallToActionLayout backgroundColor={'transparent'} noPadding>
+    <ProfileCallToActionLayout backgroundColor={'transparent'} noPadding noBorder>
       <ProfileCallToActionLayout.Content
         title="BOT BILAN D’EUROPE"
         titleStyle={{
