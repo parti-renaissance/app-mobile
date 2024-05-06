@@ -14,16 +14,17 @@ export interface ProfileCallToActionProps extends PropsWithChildren {
   backgroundColor?: string
   noPadding?: boolean
   height?: number | string
+  noBorder?: boolean
 }
 
-function Layout({ children, backgroundColor, noPadding = false, height }: Readonly<ProfileCallToActionProps>) {
+function Layout({ children, backgroundColor, height, noPadding = false, noBorder = false }: Readonly<ProfileCallToActionProps>) {
   return (
     <Card
       padding={noPadding ? undefined : '$4'}
       backgroundColor={backgroundColor ?? '$white1'}
       height={height}
       borderRadius={'$8'}
-      borderWidth={1}
+      borderWidth={noBorder ? 0 : 1}
       borderColor={'$gray3'}
     >
       {children && <SpacedContainer>{children}</SpacedContainer>}
