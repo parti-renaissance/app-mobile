@@ -1,5 +1,6 @@
 import { TouchableOpacity } from 'react-native'
 import Text from '@/components/base/Text'
+import GradientButton from '@/components/Buttons/GradientButton'
 import ProfilePicture from '@/components/ProfilePicture'
 import Tag from '@/components/Tag/Tag'
 import { activistTagShape } from '@/data/activistTagShape'
@@ -56,12 +57,14 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
 
       {onButtonPress && (
         <View>
-          <Button variant={'outlined'} borderColor={'$purple4'} onPress={onButtonPress} borderWidth={1}>
+          <GradientButton onPress={onButtonPress}>
             <Button.Icon>
-              <Repeat color={'$textSecondary'} />
+              <Repeat color={'$textSecondary'} fontWeight={'$7'} />
             </Button.Icon>
-            <Button.Text color={'$textSecondary'}>Mon espace cadre</Button.Text>
-          </Button>
+            <Button.Text color={'$textSecondary'} fontWeight={'$7'}>
+              Mon espace cadre
+            </Button.Text>
+          </GradientButton>
         </View>
       )}
     </YStack>
