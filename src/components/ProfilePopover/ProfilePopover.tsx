@@ -35,7 +35,7 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
       </Adapt>
 
       <Popover.Content borderWidth={1} padding={0} borderColor="$gray4">
-        <YGroup width={isWeb ? 300 : undefined}>
+        <YGroup $gtLg={{ width: 300 }}>
           <MenuEntry onPress={onGoToProfile} title="Mon profil" />
           <Separator borderStyle={'dashed'} borderColor="$gray4" />
           <MenuEntry onPress={onDisconnect} title="Me déconnecter" danger />
