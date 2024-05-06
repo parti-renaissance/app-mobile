@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Text from '@/components/base/Text'
+import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import Select from '@/components/Select'
@@ -109,16 +110,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             </Text>
 
             <FormikController<PersonalInformationsForm> name="gender">
-              {({ inputProps: { onChange, value } }) => (
-                <Select
-                  id="gender"
-                  label={'Civilité'}
-                  onValueChange={onChange}
-                  placeholder="Sélectionner votre civilité"
-                  options={genderOptions}
-                  value={value}
-                />
-              )}
+              {({ inputProps }) => <Select label={'Civilité'} placeholder="Sélectionner votre civilité" options={genderOptions} {...inputProps} />}
             </FormikController>
 
             <YStack $gtLg={{ gap: '$6', flexDirection: 'row' }}>
@@ -155,35 +147,41 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               )}
             </FormikController>
 
-            {manualAddress ? (
-              <>
-                <FormikController name="address.address">
-                  {({ inputProps }) => <TextField placeholder="Adresse" label="Adresse" width="100%" {...inputProps} />}
-                </FormikController>
+            <SpacedContainer display={manualAddress ? 'none' : 'flex'}>
+              <FormikController name={'addressInput'}>
+                {({ inputProps, setFieldValue }) => (
+                  <AddressAutocomplete
+                    setAddressComponents={(val) => setFieldValue('address', val)}
+                    setStringValue={inputProps.onChange}
+                    defaultValue={inputProps.value}
+                    onBlur={inputProps.onBlur}
+                    error={inputProps.error}
+                  />
+                )}
+              </FormikController>
+            </SpacedContainer>
 
-                <FormikController name="address.postalCode">
-                  {({ inputProps }) => <TextField placeholder="Code postal" label="Code postal" width="100%" {...inputProps} />}
-                </FormikController>
+            <View display={manualAddress ? 'flex' : 'none'}>
+              <FormikController name="address.address">
+                {({ inputProps }) => <TextField placeholder="Adresse" label="Adresse" width="100%" {...inputProps} />}
+              </FormikController>
 
-                <FormikController name="address.city">
-                  {({ inputProps }) => <TextField placeholder="Ville" label="Ville" width="100%" {...inputProps} />}
-                </FormikController>
-              </>
-            ) : (
-              <SpacedContainer>
-                <FormikController name={'addressInput'}>
-                  {({ inputProps, setFieldValue }) => (
-                    <AddressAutocomplete
-                      setAddressComponents={(val) => setFieldValue('address', val)}
-                      setStringValue={inputProps.onChange}
-                      defaultValue={inputProps.value}
-                      onBlur={inputProps.onBlur}
-                      error={inputProps.error}
-                    />
-                  )}
-                </FormikController>
-              </SpacedContainer>
-            )}
+              <FormikController name="address.postalCode">
+                {({ inputProps }) => <TextField placeholder="Code postal" label="Code postal" width="100%" {...inputProps} />}
+              </FormikController>
+
+              <FormikController name="address.city">
+                {({ inputProps }) => <TextField placeholder="Ville" label="Ville" width="100%" {...inputProps} />}
+              </FormikController>
+
+              <FormikController name="address.country">
+                {({ inputProps }) => (
+                  <View mt={'$4'}>
+                    <CountrySelect label="Pays" placeholder="Sélectionnez un pays" {...inputProps} />
+                  </View>
+                )}
+              </FormikController>
+            </View>
 
             <SpacedContainer>
               <TouchableOpacity onPress={onManualAddressToggle}>
@@ -334,10 +332,10 @@ const EditInformations = () => {
 }
 
 const genderOptions = [
-  { value: Gender.Male, text: 'Monsieur' },
+  { value: Gender.Male, label: 'Monsieur' },
   {
     value: Gender.Female,
-    text: 'Madame',
+    label: 'Madame',
   },
 ]
 

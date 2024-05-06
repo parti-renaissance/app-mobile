@@ -1,9 +1,8 @@
 import { useCallback } from 'react'
-import { Touchable, TouchableOpacity } from 'react-native'
-import AuthButton from '@/components/Buttons/AuthButton'
+import { TouchableOpacity } from 'react-native'
 import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
 import redirectToStore from '@/helpers/redirectToStore'
-import { Image, View } from 'tamagui'
+import { Image } from 'tamagui'
 
 export default function AppDownloadCTA() {
   const redirectToApple = useCallback(() => redirectToStore('ios'), [])
