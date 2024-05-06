@@ -21,11 +21,11 @@ export default function MobileWall() {
 
         <View flexDirection={'row'} justifyContent={'center'} gap={'$4'}>
           <TouchableOpacity onPress={redirectToApple}>
-            <Image source={require('./Assets/Apple.png')} resizeMode={'contain'} width={150} height={45} />
+            <Image source={require('./Assets/Apple.png')} resizeMode={'contain'} width={140} height={45} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={redirectToAndroid}>
-            <Image source={require('./Assets/Google.png')} resizeMode={'contain'} width={150} height={45} />
+            <Image source={require('./Assets/Google.png')} resizeMode={'contain'} width={140} height={45} />
           </TouchableOpacity>
         </View>
       </View>

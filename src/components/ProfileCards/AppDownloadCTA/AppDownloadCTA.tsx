@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import Text from '@/components/base/Text'
 import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
 import redirectToStore from '@/helpers/redirectToStore'
-import { Image } from 'tamagui'
+import { Image, View } from 'tamagui'
 
 export interface AppDownloadCTAProps {
   variant?: 'date' | 'screenshots'
@@ -35,13 +35,15 @@ export default function AppDownloadCTA({ variant = 'date' }: AppDownloadCTAProps
         )}
       </ProfileCallToActionLayout.Content>
       <ProfileCallToActionLayout.Actions>
-        <TouchableOpacity style={{ flex: 1 }} onPress={redirectToApple}>
-          <Image source={require('./Assets/Apple.png')} resizeMode={'contain'} width={'100%'} height={45} />
-        </TouchableOpacity>
+        <View flexDirection={'row'} flex={1} justifyContent={'center'} gap={'$3'}>
+          <TouchableOpacity onPress={redirectToApple}>
+            <Image source={require('./Assets/Apple.png')} resizeMode={'contain'} width={130} height={45} />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={{ flex: 1 }} onPress={redirectToAndroid}>
-          <Image source={require('./Assets/Google.png')} resizeMode={'contain'} width={'100%'} height={45} />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={redirectToAndroid}>
+            <Image source={require('./Assets/Google.png')} resizeMode={'contain'} width={130} height={45} />
+          </TouchableOpacity>
+        </View>
       </ProfileCallToActionLayout.Actions>
     </ProfileCallToActionLayout>
   )
