@@ -5,9 +5,14 @@ import { View } from 'tamagui'
 const meta = {
   title: 'Profile CTA/App Download',
   component: () => (
-    <View width={400}>
-      <AppDownloadCTA />
-    </View>
+    <>
+      <View width={400} mb={'$4'}>
+        <AppDownloadCTA />
+      </View>
+      <View width={400}>
+        <AppDownloadCTA variant={'screenshots'} />
+      </View>
+    </>
   ),
 }
 
