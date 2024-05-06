@@ -2,12 +2,13 @@ import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
+import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import ResourcesList from '@/screens/tools/ResourcesList'
 import { Stack as RouterStack } from 'expo-router'
 import Head from 'expo-router/head'
-import { YStack } from 'tamagui'
+import { View, YStack } from 'tamagui'
 
 const RessourceCardSkeleton = () => {
   return (
@@ -54,7 +55,10 @@ const ToolsScreen: React.FC = () => {
 
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <AppDownloadCTA />
+          <View gap={'$2'}>
+            <MyProfileCard />
+            <AppDownloadCTA />
+          </View>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <BoundarySuspenseWrapper fallback={<ToolsSkeleton />}>

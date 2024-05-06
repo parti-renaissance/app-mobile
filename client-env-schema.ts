@@ -15,6 +15,7 @@ const envClientSchema = z.object({
   OAUTH_BASE_URL: z.string().url(),
   OAUTH_CLIENT_ID: z.string(),
   SENTRY_DSN: z.string().url(),
+  CADRE_RENAISSANCE_HOST: z.string(),
 })
 
 export type ClientEnv = z.infer<typeof envClientSchema>
