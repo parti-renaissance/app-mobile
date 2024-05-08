@@ -150,6 +150,14 @@ export const templates = (() => {
     borderColorPress: base.borderColorPress + 2,
   }
 
+  const surfaceSwitch = {
+    background: transparencies + 3,
+  }
+
+  const surfaceSwitchThumb = {
+    background: transparencies + 1,
+  }
+
   const surface3 = {
     background: base.background + 3,
     backgroundHover: base.backgroundHover + 3,
@@ -278,6 +286,8 @@ export const templates = (() => {
     surfaceInputActive,
     InternAlertSurface,
     surfaceRadio,
+    surfaceSwitch,
+    surfaceSwitchThumb,
   }
 })()
 
@@ -333,6 +343,17 @@ const inverseSurface1 = [
   },
 ] as any
 
+const surfaceSwitchThumb = [
+  {
+    parent: 'active',
+    template: 'inverseActive',
+  },
+  {
+    parent: '',
+    template: 'surfaceSwitchThumb',
+  },
+] as any
+
 const surface1 = [
   {
     parent: 'active',
@@ -352,6 +373,17 @@ const surface2 = [
   {
     parent: '',
     template: 'surface2',
+  },
+] as any
+
+const surfaceSwitch = [
+  {
+    parent: 'active',
+    template: 'surfaceActive',
+  },
+  {
+    parent: '',
+    template: 'surfaceSwitch',
   },
 ] as any
 
@@ -442,8 +474,8 @@ const themeBuilder = createThemeBuilder()
       Card: surface1,
       Button: surface3,
       Checkbox: surface2,
-      Switch: surface2,
-      SwitchThumb: inverseSurface1,
+      Switch: surfaceSwitch,
+      SwitchThumb: surfaceSwitchThumb,
       TooltipContent: surface2,
       DrawerFrame: {
         template: 'surface1',

@@ -3,9 +3,10 @@ import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { PublicSubscribtionFormData } from '@/data/restObjects/RestEvents'
 import { useToastController } from '@tamagui/toast'
-import { useInfiniteQuery, useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import { PaginatedFeedQueryKey } from '../useFeed'
-import { getCachedPaginatedShortEvents, optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
+import { optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type FetchShortEventsOptions = {
@@ -23,26 +24,20 @@ const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOpt
 
 export const useSuspensePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
   const { isAuth } = useSession()
-  return useSuspenseInfiniteQuery({
-    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, isAuth ? 'private' : 'public'],
-    queryFn: ({ pageParam }) => (isAuth ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
-    getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
-    getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
-    initialPageParam: 1,
-  })
-}
 
-export const usePaginatedSearchEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
-  const { isAuth } = useSession()
-  const queryClient = useQueryClient()
-  return useInfiniteQuery({
-    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, isAuth ? 'private' : 'public', opts.filters?.searchText],
+  const filtersKey = opts.filters
+    ? JSON.stringify({
+        ...opts.filters,
+        finishAfter: opts.filters.finishAfter ? format(opts.filters.finishAfter, 'yyyy-MM-dd') : '',
+      })
+    : ''
+
+  return useSuspenseInfiniteQuery({
+    queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS, isAuth ? 'private' : 'public', filtersKey],
     queryFn: ({ pageParam }) => (isAuth ? fetchEventList(pageParam, opts) : fetchEventPublicList(pageParam, opts)),
     getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
     getPreviousPageParam: (firstPage) => firstPage.metadata.current_page - 1,
     initialPageParam: 1,
-    initialData: () => getCachedPaginatedShortEvents(queryClient, [isAuth ? 'private' : 'public']),
-    enabled: !!opts.filters?.searchText,
   })
 }
 
