@@ -117,13 +117,13 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             </FormikController>
 
             <View $gtMd={{ flexDirection: 'row', gap: '2%' }}>
-              <View width="49%">
+              <View $gtMd={{ width: '49%' }}>
                 <FormikController name="firstName">
                   {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
 
-              <View width="49%">
+              <View $gtMd={{ width: '49%' }}>
                 <FormikController name="lastName">
                   {({ inputProps }) => <TextField placeholder="Nom" label="Nom" width="100%" {...inputProps} />}
                 </FormikController>
@@ -131,7 +131,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             </View>
 
             <View $gtMd={{ flexDirection: 'row', gap: '2%' }}>
-              <View width="49%">
+              <View $gtMd={{ width: '49%' }}>
                 <FormikController name="birthdate">
                   {({ inputProps: { onChange, ...inputProps }, setFieldValue }) => (
                     <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthate', el)} {...inputProps} />
@@ -139,7 +139,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                 </FormikController>
               </View>
 
-              <View width="49%">
+              <View $gtMd={{ width: '49%' }}>
                 <FormikController name="nationality">
                   {({ inputProps }) => <NationalitySelect placeholder="Nationalité" label="Nationalité" {...inputProps} />}
                 </FormikController>
