@@ -25,6 +25,7 @@ import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertUtils } from '../shared/AlertUtils'
+import DatePickerField from './components/DatePicker'
 import { Gender, PersonalInformationsForm } from './types'
 import { capitalizeFirstLetter } from './utils'
 import { PersonalInformationsFormSchema } from './validation'
@@ -115,25 +116,35 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               {({ inputProps }) => <Select label={'Civilité'} placeholder="Sélectionner votre civilité" options={genderOptions} {...inputProps} />}
             </FormikController>
 
-            <YStack $gtLg={{ gap: '$6', flexDirection: 'row' }}>
-              <View flex={1}>
+            <View $gtMd={{ flexDirection: 'row', gap: '2%' }}>
+              <View width="49%">
                 <FormikController name="firstName">
                   {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
 
-              <View flex={1}>
+              <View width="49%">
                 <FormikController name="lastName">
                   {({ inputProps }) => <TextField placeholder="Nom" label="Nom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
-            </YStack>
+            </View>
 
-            <YStack>
-              <FormikController name="nationality">
-                {({ inputProps }) => <NationalitySelect placeholder="Nationalité" label="Nationalité" {...inputProps} />}
-              </FormikController>
-            </YStack>
+            <View $gtMd={{ flexDirection: 'row', gap: '2%' }}>
+              <View width="49%">
+                <FormikController name="birthdate">
+                  {({ inputProps: { onChange, ...inputProps }, setFieldValue }) => (
+                    <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthate', el)} {...inputProps} />
+                  )}
+                </FormikController>
+              </View>
+
+              <View width="49%">
+                <FormikController name="nationality">
+                  {({ inputProps }) => <NationalitySelect placeholder="Nationalité" label="Nationalité" {...inputProps} />}
+                </FormikController>
+              </View>
+            </View>
           </View>
 
           <View>

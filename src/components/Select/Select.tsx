@@ -98,7 +98,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
         </SelectTamagui.Trigger>
 
         <Adapt when="sm" platform="touch">
-          <Sheet native={!isWeb} modal dismissOnSnapToBottom animationConfig={animation}>
+          <Sheet native={!isWeb} modal dismissOnSnapToBottom>
             <Sheet.Frame>
               <Sheet.ScrollView>
                 <Adapt.Contents />
