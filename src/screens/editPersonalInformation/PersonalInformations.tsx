@@ -287,22 +287,25 @@ const EditInformations = () => {
     )
   }
 
-  const handleSubmit = async (values: RestUpdateProfileRequest) => {
-    await $updateProfile.mutateAsync(values).catch((error) => {
-      if (error instanceof ProfileFormError) {
-        error.violations.forEach((violation) => {
-          const valuesKeys = Object.keys(formikFormRef.current?.values ?? {}).map((key) => key.split(/(?=[A-Z])/)[0])
-          if (violation.propertyPath === '') {
-            return
-          }
-          const field = valuesKeys.find((key) => violation.propertyPath.startsWith(key))
-          if (field) {
-            formikFormRef.current?.setFieldError(field, violation.message)
-          }
-        })
-      }
-    })
-  }
+  const handleSubmit = useCallback(
+    async (values: RestUpdateProfileRequest) => {
+      await $updateProfile.mutateAsync(values).catch((error) => {
+        if (error instanceof ProfileFormError) {
+          error.violations.forEach((violation) => {
+            const valuesKeys = Object.keys(formikFormRef.current?.values ?? {}).map((key) => key.split(/(?=[A-Z])/)[0])
+            if (violation.propertyPath === '') {
+              return
+            }
+            const field = valuesKeys.find((key) => violation.propertyPath.startsWith(key))
+            if (field) {
+              formikFormRef.current?.setFieldError(field, violation.message)
+            }
+          })
+        }
+      })
+    },
+    [$updateProfile],
+  )
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
     <Button

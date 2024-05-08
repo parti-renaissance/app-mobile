@@ -168,11 +168,4 @@ const RenderItem = memo(({ index, option }: { index: number; option: LabelValueM
   </SelectTamagui.Item>
 ))
 
-const animation: AnimatedNumberStrategy = {
-  type: 'spring',
-  damping: 20,
-  mass: 1.2,
-  stiffness: 250,
-}
-
 export default React.memo(Select)
