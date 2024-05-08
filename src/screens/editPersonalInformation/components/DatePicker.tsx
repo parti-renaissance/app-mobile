@@ -36,6 +36,17 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
     }
   }
 
+  const onHide = () => {
+    Keyboard.dismiss()
+    setIsDatePickerVisible(false)
+  }
+
+  const onShow = () => {
+    if (!isWeb) {
+      setIsDatePickerVisible(true)
+    }
+  }
+
   return (
     <View>
       <TextField
@@ -44,16 +55,9 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         value={inputValue}
         placeholder="JJ/MM/AAAA"
         showSoftInputOnFocus={false}
-        onSubmitEditing={() => {
-          Keyboard.dismiss()
-          setIsDatePickerVisible(false)
-        }}
+        onSubmitEditing={onHide}
         onChangeText={handleChange}
-        onTouchStart={() => {
-          if (!isWeb) {
-            setIsDatePickerVisible(true)
-          }
-        }}
+        onTouchStart={onShow}
         error={error}
       />
       <DateTimePickerModal
@@ -65,7 +69,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         accentColor="blue"
         mode="date"
         onConfirm={handleConfirm}
-        onCancel={() => setIsDatePickerVisible(false)}
+        onCancel={onHide}
       />
     </View>
   )
