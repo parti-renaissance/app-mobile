@@ -3,9 +3,11 @@ import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Text from '@/components/base/Text'
+import { PhoneInput } from '@/components/Bento/PhoneInput/PhoneInput'
 import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
 import Select from '@/components/Select'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import TextField from '@/components/TextField'
@@ -126,6 +128,12 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                 </FormikController>
               </View>
             </YStack>
+
+            <YStack>
+              <FormikController name="nationality">
+                {({ inputProps }) => <NationalitySelect placeholder="Nationalité" label="Nationalité" {...inputProps} />}
+              </FormikController>
+            </YStack>
           </View>
 
           <View>
@@ -142,10 +150,13 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                   keyboardType="email-address"
                   autoCapitalize="none"
                   width="100%"
+                  mb={'$4'}
                   {...inputProps}
                 />
               )}
             </FormikController>
+
+            <FormikController name={'phoneNumber'}>{({ inputProps }) => <PhoneInput placeholder={'Téléphone'} {...inputProps} />}</FormikController>
 
             <SpacedContainer display={manualAddress ? 'none' : 'flex'}>
               <FormikController name={'addressInput'}>

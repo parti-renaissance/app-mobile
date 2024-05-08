@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react'
-import Text from '@/components/base/Text'
-import { ChevronDown, ChevronUp, Search, X } from '@tamagui/lucide-icons'
+import { useEffect, useMemo, useState } from 'react'
+import { StyleSheet } from 'react-native'
+import { Globe2, Search, X } from '@tamagui/lucide-icons'
 import { RovingFocusGroup } from '@tamagui/roving-focus'
-import { getCountryCodeForRegionCode, getSupportedRegionCodes } from 'awesome-phonenumber'
-import { Adapt, Image, isWeb, Popover, ScrollView, View } from 'tamagui'
-import { Input } from './components/inputsParts'
+import { getCountryCodeForRegionCode, getSupportedRegionCodes, parsePhoneNumber } from 'awesome-phonenumber'
+import type { InputProps, SizeTokens } from 'tamagui'
+import { Adapt, Image, isWeb, Popover, ScrollView, Text, View } from 'tamagui'
+import { Input } from '../Inputs/components/inputsParts'
 
 const phoneCodes = getSupportedRegionCodes().map((code) => {
   return {
@@ -30,62 +31,8 @@ function RegionFilterInput(props: RegionFilterInputProps) {
     })
   }, [filter])
 
-  const list = useMemo(() => {
-    return phoneCodesFiltered.map((item, i) => {
-      return (
-        <RovingFocusGroup.Item
-          key={item.name}
-          onPress={() => {
-            setRegionCode(item.name)
-            setOpen(false)
-          }}
-          {...(isWeb && {
-            onKeyDown: (e: KeyboardEvent) => {
-              if (e.key === 'Enter') {
-                setRegionCode(item.name)
-                setOpen(false)
-              }
-            },
-          })}
-          focusStyle={{
-            outlineColor: '$outlineColor',
-            outlineOffset: -2,
-          }}
-        >
-          <View
-            borderColor="$borderColor"
-            borderWidth={0}
-            borderBottomWidth={1}
-            flexDirection="row"
-            hoverStyle={{
-              backgroundColor: '$gray2',
-            }}
-            focusStyle={{
-              backgroundColor: '$gray2',
-            }}
-            gap="$3"
-            paddingHorizontal="$4"
-            paddingVertical="$2"
-            cursor="pointer"
-          >
-            <Image backgroundColor="$color5" resizeMode="cover" source={{ uri: item.flag }} width={24} height={17} />
-            <Text
-              color="$gray10"
-              $group-item-hover={{
-                color: '$gray12',
-              }}
-              marginRight="auto"
-            >
-              {item.name}
-            </Text>
-          </View>
-        </RovingFocusGroup.Item>
-      )
-    })
-  }, [phoneCodesFiltered])
-
   return (
-    <RovingFocusGroup height="100%" flexDirection="column" paddingTop="$4" width="100%" gap="$3" backgroundColor="$gray1">
+    <RovingFocusGroup height="100%" flexDirection="column" paddingTop="$4" width="100%">
       <Input marginHorizontal="$3" size="$2">
         <Input.Box>
           <Input.Area
@@ -96,7 +43,9 @@ function RegionFilterInput(props: RegionFilterInputProps) {
             key={reset}
             onChangeText={setFilter}
             width="100%"
-            placeholder="Rechercher"
+            placeholderTextColor={'$grey4'}
+            color={'$grey4'}
+            placeholder="Rechercher..."
           />
           <Input.Icon
             onPress={() => {
@@ -111,7 +60,56 @@ function RegionFilterInput(props: RegionFilterInputProps) {
           </Input.Icon>
         </Input.Box>
       </Input>
-      {open && <ScrollView height="100%">{list}</ScrollView>}
+      {open && (
+        <ScrollView height="100%" mt={'$2'}>
+          {phoneCodesFiltered.map((item, i) => {
+            return (
+              <RovingFocusGroup.Item
+                key={item.name}
+                {...(isWeb && {
+                  onKeyDown: (e: KeyboardEvent) => {
+                    if (e.key === 'Enter') {
+                      setRegionCode(item.name)
+                      setOpen(false)
+                    }
+                  },
+                })}
+                focusStyle={{
+                  outlineColor: '$outlineColor',
+                  outlineOffset: -2,
+                }}
+              >
+                <View
+                  onPress={() => {
+                    setRegionCode(item.name)
+                    setOpen(false)
+                  }}
+                  group="item"
+                  borderColor="$borderColor"
+                  borderWidth={0}
+                  borderBottomWidth={1}
+                  flexDirection="row"
+                  gap="$3"
+                  paddingHorizontal="$4"
+                  paddingVertical="$2"
+                  cursor="pointer"
+                >
+                  <Image backgroundColor="$color5" resizeMode="cover" source={{ uri: item.flag }} width={24} height={17} />
+                  <Text
+                    color="$gray10"
+                    $group-item-hover={{
+                      color: '$gray12',
+                    }}
+                    marginRight="auto"
+                  >
+                    {item.name}
+                  </Text>
+                </View>
+              </RovingFocusGroup.Item>
+            )
+          })}
+        </ScrollView>
+      )}
     </RovingFocusGroup>
   )
 }
@@ -122,10 +120,11 @@ type RegionSelectBoxProps = {
   containerWidth?: number
 }
 
-function _RegionSelectBox(props: RegionSelectBoxProps) {
+function RegionSelectBox(props: RegionSelectBoxProps) {
   const { regionCode, setRegionCode, containerWidth } = props
 
   const [open, setOpen] = useState(false)
+  const selectedItem = useMemo(() => phoneCodes.find((item) => item.name === regionCode)!, [regionCode])
 
   return (
     <Popover
@@ -139,30 +138,11 @@ function _RegionSelectBox(props: RegionSelectBoxProps) {
       {...props}
     >
       <Popover.Trigger>
-        <View
-          borderBottomWidth={1}
-          paddingVertical={14.5}
-          borderBottomColor="$gray3"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-          width={'100%'}
-          gap="$2"
-          hoverStyle={{
-            backgroundColor: '$colorTransparent',
-          }}
-          pressStyle={{
-            backgroundColor: '$colorTransparent',
-            borderBottomColor: '$gray8',
-          }}
-          onPress={() => setOpen(!open)}
-        >
-          <Text color="$gray6" fontSize={'$1'}>
-            +{getCountryCodeForRegionCode(regionCode)}
-          </Text>
-
-          {open ? <ChevronUp size={14} color="$gray10" /> : <ChevronDown size={14} color="$gray10" />}
-        </View>
+        <Input.XGroup.Item>
+          <Input.Button paddingHorizontal="$2" onPress={() => setOpen(true)} backgroundColor={'$white1'}>
+            {regionCode ? <Image source={{ uri: selectedItem.flag }} width={20} height={20} /> : <Globe2 color="$gray10" width={20} height={20} />}
+          </Input.Button>
+        </Input.XGroup.Item>
       </Popover.Trigger>
 
       <Adapt when="sm" platform="touch">
@@ -198,4 +178,84 @@ function _RegionSelectBox(props: RegionSelectBoxProps) {
   )
 }
 
-export const RegionSelectBox = React.memo(_RegionSelectBox)
+type BoxInputProps = typeof Input.Box
+type PhoneInputProps = {
+  size?: SizeTokens
+  placeholder: string
+} & BoxInputProps
+
+export function PhoneInput({ size, placeholder, ...rest }: PhoneInputProps) {
+  const [regionCode, setRegionCode] = useState('FR')
+  const [phoneNumber, setPhoneNumber] = useState('+33')
+  const [isValid, setIsValid] = useState(false)
+  const [containerWidth, setContainerWidth] = useState<number>()
+
+  useEffect(() => {
+    if (regionCode) {
+      setPhoneNumber('+' + getCountryCodeForRegionCode(regionCode) + ' ')
+    }
+  }, [regionCode])
+
+  const handlePhoneNumberChange = (text: string) => {
+    text = !phoneNumber && text !== '+' ? `+${text}` : text
+    const parsed = parsePhoneNumber(text)
+    // Note: parsed object has a lot of info about the number
+    if (parsed.regionCode) {
+      setRegionCode(parsed.regionCode)
+    } else {
+      setRegionCode('')
+    }
+    setPhoneNumber(parsed.number?.international || text)
+    setIsValid(parsed.valid)
+  }
+  return (
+    <View flexDirection="column">
+      <Input size={size}>
+        <Input.Box
+          onLayout={(e) => {
+            setContainerWidth(e.nativeEvent.layout.width)
+          }}
+          alignSelf="center"
+          theme={isValid ? 'green' : undefined}
+          width={'100%'}
+          borderLeftWidth={0}
+          borderRightWidth={0}
+          borderTopWidth={0}
+          borderBottomWidth={1}
+          borderRadius={0}
+          focusVisibleStyle={style.input}
+          focusStyle={style.input}
+          hoverStyle={style.input}
+          {...rest}
+        >
+          <Input.Section>
+            <RegionSelectBox containerWidth={containerWidth} regionCode={regionCode} setRegionCode={setRegionCode} />
+          </Input.Section>
+          <Input.Section>
+            <Input.Area
+              keyboardType="numeric"
+              value={phoneNumber}
+              onChangeText={handlePhoneNumberChange}
+              placeholderTextColor={'$grey1'}
+              placeholder={placeholder ?? 'Numéro de téléphone'}
+              color={'$grey4'}
+            />
+          </Input.Section>
+        </Input.Box>
+      </Input>
+    </View>
+  )
+}
+
+PhoneInput.fileName = 'PhoneInput'
+
+const style = StyleSheet.create({
+  input: {
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    borderRadius: 0,
+    backgroundColor: '$white1',
+  },
+})
