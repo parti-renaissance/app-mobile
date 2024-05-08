@@ -3,7 +3,7 @@ import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import TextField from '@/components/TextField'
 import { parseFrenchDate } from '@/utils/date'
-import { Input, View } from 'tamagui'
+import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
   onChange: (date: Date | undefined) => void
@@ -43,16 +43,30 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         label={label}
         value={inputValue}
         placeholder="JJ/MM/AAAA"
-        onFocus={() => setIsDatePickerVisible(true)}
         showSoftInputOnFocus={false}
         onSubmitEditing={() => {
           Keyboard.dismiss()
           setIsDatePickerVisible(false)
         }}
         onChangeText={handleChange}
+        onTouchStart={() => {
+          if (!isWeb) {
+            setIsDatePickerVisible(true)
+          }
+        }}
         error={error}
       />
-      <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={() => setIsDatePickerVisible(false)} />
+      <DateTimePickerModal
+        locale="fr"
+        date={value}
+        confirmTextIOS="Valider"
+        cancelTextIOS="Annuler"
+        isVisible={isDatePickerVisible}
+        accentColor="blue"
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={() => setIsDatePickerVisible(false)}
+      />
     </View>
   )
 })
