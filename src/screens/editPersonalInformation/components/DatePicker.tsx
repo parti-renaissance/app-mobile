@@ -33,7 +33,6 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
 
     if (input != '' && input.length === 10) {
       const candidate = isWeb ? new Date(input) : parseFrenchDate(input)
-      console.log(candidate)
 
       onChange?.(candidate)
     } else {
