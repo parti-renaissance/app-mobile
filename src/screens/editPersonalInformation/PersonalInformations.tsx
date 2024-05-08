@@ -116,30 +116,30 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               {({ inputProps }) => <Select label={'Civilité'} placeholder="Sélectionner votre civilité" options={genderOptions} {...inputProps} />}
             </FormikController>
 
-            <View $gtMd={{ flexDirection: 'row', gap: '2%' }}>
-              <View $gtMd={{ width: '49%' }}>
+            <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="firstName">
                   {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
 
-              <View $gtMd={{ width: '49%' }}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="lastName">
                   {({ inputProps }) => <TextField placeholder="Nom" label="Nom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
             </View>
 
-            <View $gtMd={{ flexDirection: 'row', gap: '2%' }}>
-              <View $gtMd={{ width: '49%' }}>
+            <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="birthdate">
                   {({ inputProps: { onChange, ...inputProps }, setFieldValue }) => (
-                    <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthate', el)} {...inputProps} />
+                    <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthdate', el)} {...inputProps} />
                   )}
                 </FormikController>
               </View>
 
-              <View $gtMd={{ width: '49%' }}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="nationality">
                   {({ inputProps }) => <NationalitySelect placeholder="Nationalité" label="Nationalité" {...inputProps} />}
                 </FormikController>

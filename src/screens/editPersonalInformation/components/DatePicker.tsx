@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react'
 import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import TextField from '@/components/TextField'
-import { parseFrenchDate } from '@/utils/date'
+import { getFormattedDate, getIntlDate, parseFrenchDate } from '@/utils/date'
 import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
@@ -14,21 +14,26 @@ interface DatePickerFieldProps {
   label?: string
 }
 
+const getDateInputValue = (d: Date) => (isWeb ? getIntlDate(d) : d.toLocaleDateString())
+
 const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
-  const readableDate = value && value.toLocaleDateString ? value.toLocaleDateString() : ''
+  const readableDate = value && typeof value === 'object' ? getDateInputValue(value) : ''
   const [inputValue, setInputValue] = useState(readableDate ?? '')
 
   const handleConfirm = (input: Date) => {
-    onChange(input)
+    onChange?.(input)
+    setInputValue(getFormattedDate(input))
     setIsDatePickerVisible(false)
   }
 
   const handleChange = (input: string) => {
     setInputValue(input)
+
     if (input != '' && input.length === 10) {
-      const candidate = parseFrenchDate(input)
+      const candidate = isWeb ? new Date(input) : parseFrenchDate(input)
+      console.log(candidate)
 
       onChange?.(candidate)
     } else {
@@ -37,8 +42,10 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
   }
 
   const onHide = () => {
-    Keyboard.dismiss()
-    setIsDatePickerVisible(false)
+    if (!isWeb) {
+      Keyboard.dismiss()
+      setIsDatePickerVisible(false)
+    }
   }
 
   const onShow = () => {
@@ -59,6 +66,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         onChangeText={handleChange}
         onTouchStart={onShow}
         error={error}
+        isDate
       />
       <DateTimePickerModal
         locale="fr"
