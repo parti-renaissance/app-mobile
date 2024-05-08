@@ -100,7 +100,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
       onSubmit={handleOnSubmit}
     >
-      {() => (
+      {({ handleChange, values }) => (
         <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
@@ -156,7 +156,16 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               )}
             </FormikController>
 
-            <FormikController name={'phoneNumber'}>{({ inputProps }) => <PhoneInput placeholder={'Téléphone'} {...inputProps} />}</FormikController>
+            <FormikController name={'phoneNumber'}>
+              {({ inputProps }) => (
+                <PhoneInput
+                  placeholder={'Téléphone'}
+                  countryCode={values.phoneCountryCode}
+                  onChangeCountryCode={handleChange('phoneCountryCode')}
+                  {...inputProps}
+                />
+              )}
+            </FormikController>
 
             <SpacedContainer display={manualAddress ? 'none' : 'flex'}>
               <FormikController name={'addressInput'}>

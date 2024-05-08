@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
+import isoToEmoji from '@/utils/isoToEmoji'
 import { Globe2, Search, X } from '@tamagui/lucide-icons'
 import { RovingFocusGroup } from '@tamagui/roving-focus'
-import { getCountryCodeForRegionCode, getSupportedRegionCodes, parsePhoneNumber } from 'awesome-phonenumber'
-import type { InputProps, SizeTokens } from 'tamagui'
-import { Adapt, Image, isWeb, Popover, ScrollView, Text, View } from 'tamagui'
+import { getExample, getSupportedRegionCodes, parsePhoneNumber } from 'awesome-phonenumber'
+import type { SizeTokens } from 'tamagui'
+import { Adapt, isWeb, Popover, ScrollView, Text, View } from 'tamagui'
 import { Input } from '../Inputs/components/inputsParts'
 
 const phoneCodes = getSupportedRegionCodes().map((code) => {
   return {
     name: code,
-    flag: `https://flagsapi.com/${code}/flat/64.png`,
+    flag: isoToEmoji(code),
   }
 })
 
@@ -62,7 +63,7 @@ function RegionFilterInput(props: RegionFilterInputProps) {
       </Input>
       {open && (
         <ScrollView height="100%" mt={'$2'}>
-          {phoneCodesFiltered.map((item, i) => {
+          {phoneCodesFiltered.map((item) => {
             return (
               <RovingFocusGroup.Item
                 key={item.name}
@@ -84,6 +85,7 @@ function RegionFilterInput(props: RegionFilterInputProps) {
                     setRegionCode(item.name)
                     setOpen(false)
                   }}
+                  // @ts-expect-error bad type definition / inference
                   group="item"
                   borderColor="$borderColor"
                   borderWidth={0}
@@ -94,7 +96,7 @@ function RegionFilterInput(props: RegionFilterInputProps) {
                   paddingVertical="$2"
                   cursor="pointer"
                 >
-                  <Image backgroundColor="$color5" resizeMode="cover" source={{ uri: item.flag }} width={24} height={17} />
+                  <Text>{item.flag}</Text>
                   <Text
                     color="$gray10"
                     $group-item-hover={{
@@ -140,7 +142,7 @@ function RegionSelectBox(props: RegionSelectBoxProps) {
       <Popover.Trigger>
         <Input.XGroup.Item>
           <Input.Button paddingHorizontal="$2" onPress={() => setOpen(true)} backgroundColor={'$white1'}>
-            {regionCode ? <Image source={{ uri: selectedItem.flag }} width={20} height={20} /> : <Globe2 color="$gray10" width={20} height={20} />}
+            {regionCode ? <Text>{selectedItem.flag}</Text> : <Globe2 color="$gray10" width={20} height={20} />}
           </Input.Button>
         </Input.XGroup.Item>
       </Popover.Trigger>
@@ -182,32 +184,53 @@ type BoxInputProps = typeof Input.Box
 type PhoneInputProps = {
   size?: SizeTokens
   placeholder: string
-} & BoxInputProps
+  value?: string
+  onChange?: (v: string) => void
+  onBlur?: (fieldOrEvent: any) => void
+  error?: string
+  countryCode?: string
+  onChangeCountryCode?: (v: string) => void
+}
 
-export function PhoneInput({ size, placeholder, ...rest }: PhoneInputProps) {
-  const [regionCode, setRegionCode] = useState('FR')
-  const [phoneNumber, setPhoneNumber] = useState('+33')
+export function PhoneInput({ size, placeholder, onChange, value, countryCode = 'FR', onChangeCountryCode, ...rest }: PhoneInputProps) {
   const [isValid, setIsValid] = useState(false)
   const [containerWidth, setContainerWidth] = useState<number>()
 
-  useEffect(() => {
-    if (regionCode) {
-      setPhoneNumber('+' + getCountryCodeForRegionCode(regionCode) + ' ')
-    }
-  }, [regionCode])
-
   const handlePhoneNumberChange = (text: string) => {
-    text = !phoneNumber && text !== '+' ? `+${text}` : text
-    const parsed = parsePhoneNumber(text)
+    let candidate: string = text
+    let isFrenchNumber = false
+
+    // If no country code is set, we assume that is a french number
+    if (candidate.startsWith('0')) {
+      isFrenchNumber = true
+    }
+
+    const parsed = parsePhoneNumber(candidate, { regionCode: isFrenchNumber ? 'FR' : undefined })
     // Note: parsed object has a lot of info about the number
     if (parsed.regionCode) {
-      setRegionCode(parsed.regionCode)
+      onChangeCountryCode?.(parsed.regionCode)
     } else {
-      setRegionCode('')
+      onChangeCountryCode?.('')
     }
-    setPhoneNumber(parsed.number?.international || text)
+
+    onChange?.(parsed.number?.international ?? candidate)
     setIsValid(parsed.valid)
   }
+
+  const handleCountryCodeChange = (iso: string) => {
+    const selectedCountry = phoneCodes.find(({ name }) => name === iso)
+
+    // Compute and change matching regionnal plus code
+    if (selectedCountry) {
+      const example = getExample(selectedCountry.name)
+      if (example?.number) {
+        onChange?.(example.number.e164.replace(example.number.significant, ''))
+      }
+    }
+
+    onChangeCountryCode?.(iso)
+  }
+
   return (
     <View flexDirection="column">
       <Input size={size}>
@@ -229,12 +252,12 @@ export function PhoneInput({ size, placeholder, ...rest }: PhoneInputProps) {
           {...rest}
         >
           <Input.Section>
-            <RegionSelectBox containerWidth={containerWidth} regionCode={regionCode} setRegionCode={setRegionCode} />
+            <RegionSelectBox containerWidth={containerWidth} regionCode={countryCode} setRegionCode={handleCountryCodeChange} />
           </Input.Section>
           <Input.Section>
             <Input.Area
               keyboardType="numeric"
-              value={phoneNumber}
+              value={value}
               onChangeText={handlePhoneNumberChange}
               placeholderTextColor={'$grey1'}
               placeholder={placeholder ?? 'Numéro de téléphone'}
