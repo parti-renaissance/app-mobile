@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
+import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import isoToEmoji from '@/utils/isoToEmoji'
 import { Globe2, Search, X } from '@tamagui/lucide-icons'
 import { RovingFocusGroup } from '@tamagui/roving-focus'
 import { getExample, getSupportedRegionCodes, parsePhoneNumber } from 'awesome-phonenumber'
 import type { SizeTokens } from 'tamagui'
 import { Adapt, isWeb, Popover, ScrollView, Text, View } from 'tamagui'
-import { Input } from '../Inputs/components/inputsParts'
 
 const phoneCodes = getSupportedRegionCodes().map((code) => {
   return {
@@ -256,9 +256,9 @@ export function PhoneInput({ size, placeholder, onChange, value, countryCode = '
               keyboardType="numeric"
               value={value}
               onChangeText={handlePhoneNumberChange}
-              placeholderTextColor={'$grey1'}
+              placeholderTextColor={'$gray6'}
               placeholder={placeholder ?? 'Numéro de téléphone'}
-              color={'$grey4'}
+              color={'$gray6'}
             />
           </Input.Section>
         </Input.Box>
@@ -279,3 +279,5 @@ const style = StyleSheet.create({
     backgroundColor: '$white1',
   },
 })
+
+export default PhoneInput
