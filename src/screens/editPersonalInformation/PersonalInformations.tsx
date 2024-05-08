@@ -251,7 +251,7 @@ const EditInformations = () => {
     userUuid: profile?.uuid,
   })
 
-  const isAdherent = !!user.data?.tags.find((tag) => tag.type === 'adherent')
+  const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent') ?? false
   const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()

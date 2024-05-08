@@ -193,7 +193,6 @@ type PhoneInputProps = {
 }
 
 export function PhoneInput({ size, placeholder, onChange, value, countryCode = 'FR', onChangeCountryCode, ...rest }: PhoneInputProps) {
-  const [isValid, setIsValid] = useState(false)
   const [containerWidth, setContainerWidth] = useState<number>()
 
   const handlePhoneNumberChange = (text: string) => {
@@ -214,7 +213,6 @@ export function PhoneInput({ size, placeholder, onChange, value, countryCode = '
     }
 
     onChange?.(parsed.number?.international ?? candidate)
-    setIsValid(parsed.valid)
   }
 
   const handleCountryCodeChange = (iso: string) => {
@@ -239,7 +237,6 @@ export function PhoneInput({ size, placeholder, onChange, value, countryCode = '
             setContainerWidth(e.nativeEvent.layout.width)
           }}
           alignSelf="center"
-          theme={isValid ? 'green' : undefined}
           width={'100%'}
           borderLeftWidth={0}
           borderRightWidth={0}
