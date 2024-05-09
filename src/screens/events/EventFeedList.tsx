@@ -1,27 +1,79 @@
-import { memo, useMemo } from 'react'
-import { FlatList } from 'react-native'
+import { memo, useEffect, useMemo, useRef } from 'react'
+import { FlatList, Platform } from 'react-native'
 import DialogAuth from '@/components/AuthDialog'
 import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
+import { bottomSheetFilterStates } from '@/components/EventFilterForm/BottomSheetFilters'
+import EventFilterForm, { EventFilters, eventFiltersState, Controller as FilterController, FiltersState } from '@/components/EventFilterForm/EventFilterForm'
+import SearchBox from '@/components/EventFilterForm/SearchBox'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import { useSession } from '@/ctx/SessionProvider'
-import { isFullEvent, isPartialEvent, RestFullShortEvent, RestPartialShortEvent } from '@/data/restObjects/RestEvents'
+import { isFullEvent, isPartialEvent, RestEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
-import { usePaginatedEvents } from '@/hooks/useEvents'
+import { useSuspensePaginatedEvents } from '@/hooks/useEvents'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+import { useDebounce } from 'use-debounce'
 
-const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
+const MemoizedEventCard = memo(EventCard) as typeof EventCard
+const MemoizedPartialEventCard = memo(PartialEventCard) as typeof PartialEventCard
+
+const SmallHeaderList = (props: { listRef: React.RefObject<FlatList> }) => {
+  const { setOpen, open } = bottomSheetFilterStates()
+  useEffect(() => {
+    if (!open) {
+      setTimeout(() => {
+        props.listRef.current?.scrollToOffset({ offset: 0, animated: true })
+      }, 300)
+    }
+  }, [open])
+  const handleFocus = (searchInputRef: FiltersState['searchInputRef']) => () => {
+    setOpen(true)
+    const data = Boolean(props.listRef.current?.props.data ? props.listRef.current?.props.data.length : 0)
+    if (data) props.listRef.current?.scrollToIndex({ index: 0, animated: true, viewOffset: 15 })
+    setTimeout(() => {
+      searchInputRef.current?.focus()
+    }, 0)
+  }
+
+  return (
+    <YStack p="$3" opacity={open ? 0 : 1} overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
+      <FilterController name="search">
+        {(p) => (
+          <SearchBox showSoftInputOnFocus={false} editable={Platform.OS === 'android'} onPressOut={handleFocus(p.ref!)} value={p.value} onChange={p.onChange} />
+        )}
+      </FilterController>
+    </YStack>
+  )
+}
+
+const HeaderList = (props: { listRef: React.RefObject<FlatList> }) => {
+  const media = useMedia()
+  if (media.md) {
+    return <SmallHeaderList listRef={props.listRef} />
+  }
+
+  if (media.lg) {
+    return (
+      <YStack p="$3" overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
+        <EventFilterForm />
+      </YStack>
+    )
+  }
+  return null
+}
+
+const EventListCard = memo((args: { item: RestEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
   if (isFullEvent(args.item)) {
-    return <EventCard {...mapFullProps(args.item, args.cb)} />
+    return <MemoizedEventCard {...mapFullProps(args.item, args.cb)} />
   }
   if (isPartialEvent(args.item)) {
     return (
       <AuthFallbackWrapper
         fallback={
           <DialogAuth title="D'autres événements vous attendent, connectez-vous ou créez un compte !">
-            <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
+            <MemoizedPartialEventCard {...mapPartialProps(args.item, args.cb)} />
           </DialogAuth>
         }
       >
@@ -35,22 +87,26 @@ const EventListCard = memo((args: { item: RestFullShortEvent | RestPartialShortE
 const EventList = () => {
   const media = useMedia()
   const { user } = useSession()
+  const listRef = useRef<FlatList>(null)
+
+  const { value: _filters } = eventFiltersState()
+  const [filters] = useDebounce(_filters, 300)
 
   const {
     data: paginatedFeed,
     fetchNextPage,
     hasNextPage,
-    refetch,
-    isLoading,
     isRefetching,
-  } = usePaginatedEvents({
+    refetch,
+  } = useSuspensePaginatedEvents({
     postalCode: user.data?.postal_code,
     filters: {
-      finishAfter: new Date(),
+      finishAfter: filters.showPast ? undefined : new Date(),
+      searchText: filters.search,
     },
   })
 
-  const handleSubscribe = (id: string) => {}
+  const handleSubscribe = (_: string) => {}
   const handleShow = (id: string) => {
     router.push({ pathname: '/(tabs)/evenements/[id]', params: { id } })
   }
@@ -63,7 +119,7 @@ const EventList = () => {
     [],
   )
 
-  const feedData = paginatedFeed?.pages.map((page) => page.items).flat()
+  const feedData = paginatedFeed?.pages.map((page) => page.items).flat() ?? []
 
   const loadMore = () => {
     if (hasNextPage) {
@@ -74,21 +130,25 @@ const EventList = () => {
   return (
     <FlatList
       style={{ width: '100%' }}
+      ref={listRef}
       contentContainerStyle={{
         flexGrow: 1,
         gap: getToken('$4', 'space'),
         paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
-        height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
+        paddingBottom: getToken('$10', 'space'),
+        // height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
       }}
       data={feedData}
       renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
-      ListEmptyComponent={() => (
+      ListEmptyComponent={
         <PageLayout.StateFrame>
           <EmptyEvent />
         </PageLayout.StateFrame>
-      )}
+      }
+      keyboardDismissMode="on-drag"
+      ListHeaderComponent={media.lg ? <HeaderList listRef={listRef} /> : null}
       keyExtractor={(item) => item.uuid}
       refreshing={isRefetching}
       onRefresh={() => refetch()}
@@ -104,4 +164,5 @@ const EventList = () => {
     />
   )
 }
+
 export default EventList
