@@ -40,7 +40,7 @@ const lightColors = {
   ...colorTokens.light.red,
   ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow6, 'yellow', true),
   ...colorTokens.light.yellow,
-  ...addSetOfTransparenciesToColor(white.white1, 'white', false),
+  ...addSetOfTransparenciesToColor(white.white1, 'white', true),
   ...colorTokens.light.white,
 }
 
@@ -111,7 +111,7 @@ export const templates = (() => {
     borderColorHover: transparencies + 5,
     borderColorFocus: transparencies + 2,
     borderColorPress: transparencies + 4,
-    color: -transparencies + 1,
+    color: transparencies + 8,
     colorSecondary: transparencies + 6,
     colorDisabled: transparencies + 5,
     colorHover: -transparencies - 2,
@@ -150,6 +150,14 @@ export const templates = (() => {
     borderColorPress: base.borderColorPress + 2,
   }
 
+  const surfaceSwitch = {
+    background: transparencies + 3,
+  }
+
+  const surfaceSwitchThumb = {
+    background: transparencies + 1,
+  }
+
   const surface3 = {
     background: base.background + 3,
     backgroundHover: base.backgroundHover + 3,
@@ -172,6 +180,23 @@ export const templates = (() => {
     borderColorPress: base.color,
     oulineColor: 5,
     color: base.color,
+    colorHover: base.colorSecondary,
+    colorFocus: base.color,
+    colorPress: base.color,
+    colorDisabled: base.colorDisabled,
+  }
+
+  const surfaceRadio = {
+    background: -2,
+    backgroundHover: -1,
+    backgroundPress: transparencies + 3,
+    backgroundFocus: 1,
+    borderColor: 4,
+    borderColorHover: -1,
+    borderColorFocus: transparencies + 8,
+    borderColorPress: base.color,
+    oulineColor: 5,
+    color: base.colorSecondary,
     colorHover: base.colorSecondary,
     colorFocus: base.color,
     colorPress: base.color,
@@ -260,6 +285,9 @@ export const templates = (() => {
     surfaceInput,
     surfaceInputActive,
     InternAlertSurface,
+    surfaceRadio,
+    surfaceSwitch,
+    surfaceSwitchThumb,
   }
 })()
 
@@ -315,6 +343,17 @@ const inverseSurface1 = [
   },
 ] as any
 
+const surfaceSwitchThumb = [
+  {
+    parent: 'active',
+    template: 'inverseActive',
+  },
+  {
+    parent: '',
+    template: 'surfaceSwitchThumb',
+  },
+] as any
+
 const surface1 = [
   {
     parent: 'active',
@@ -334,6 +373,17 @@ const surface2 = [
   {
     parent: '',
     template: 'surface2',
+  },
+] as any
+
+const surfaceSwitch = [
+  {
+    parent: 'active',
+    template: 'surfaceActive',
+  },
+  {
+    parent: '',
+    template: 'surfaceSwitch',
   },
 ] as any
 
@@ -424,8 +474,8 @@ const themeBuilder = createThemeBuilder()
       Card: surface1,
       Button: surface3,
       Checkbox: surface2,
-      Switch: surface2,
-      SwitchThumb: inverseSurface1,
+      Switch: surfaceSwitch,
+      SwitchThumb: surfaceSwitchThumb,
       TooltipContent: surface2,
       DrawerFrame: {
         template: 'surface1',
@@ -452,6 +502,9 @@ const themeBuilder = createThemeBuilder()
       Input: surface1,
       TextArea: surface1,
       VoxInput: surfaceInput1,
+      VoxRadio: {
+        template: 'surfaceRadio',
+      },
       InternAlert: {
         template: 'InternAlertSurface',
       },
