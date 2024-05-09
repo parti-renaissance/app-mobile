@@ -7,8 +7,8 @@ interface CountrySelectProps {
   onChange: (value: string) => void
   label?: string
   id: string
-  error: string | undefined
-  onBlur: (fieldOrEvent: any) => void
+  error?: string
+  onBlur?: (fieldOrEvent: any) => void
   placeholder?: string
 }
 

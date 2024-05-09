@@ -3,9 +3,11 @@ import { KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Text from '@/components/base/Text'
+import PhoneInput from '@/components/Bento/PhoneInput/PhoneInput'
 import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import FormikController from '@/components/FormikController'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
 import Select from '@/components/Select'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import TextField from '@/components/TextField'
@@ -23,6 +25,7 @@ import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, useMedia, View, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { AlertUtils } from '../shared/AlertUtils'
+import DatePickerField from './components/DatePicker'
 import { Gender, PersonalInformationsForm } from './types'
 import { capitalizeFirstLetter } from './utils'
 import { PersonalInformationsFormSchema } from './validation'
@@ -98,7 +101,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       validationSchema={toFormikValidationSchema(PersonalInformationsFormSchema)}
       onSubmit={handleOnSubmit}
     >
-      {() => (
+      {({ handleChange, values }) => (
         <View gap="$7">
           <Text fontSize="$3" fontWeight="$6">
             Mes informations
@@ -113,19 +116,35 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               {({ inputProps }) => <Select label={'Civilité'} placeholder="Sélectionner votre civilité" options={genderOptions} {...inputProps} />}
             </FormikController>
 
-            <YStack $gtLg={{ gap: '$6', flexDirection: 'row' }}>
-              <View flex={1}>
+            <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="firstName">
                   {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
 
-              <View flex={1}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="lastName">
                   {({ inputProps }) => <TextField placeholder="Nom" label="Nom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>
-            </YStack>
+            </View>
+
+            <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
+                <FormikController name="birthdate">
+                  {({ inputProps: { onChange, ...inputProps }, setFieldValue }) => (
+                    <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthdate', el)} {...inputProps} />
+                  )}
+                </FormikController>
+              </View>
+
+              <View $gtMd={{ flex: 1, flexBasis: 0 }}>
+                <FormikController name="nationality">
+                  {({ inputProps }) => <NationalitySelect placeholder="Nationalité" label="Nationalité" {...inputProps} />}
+                </FormikController>
+              </View>
+            </View>
           </View>
 
           <View>
@@ -142,6 +161,18 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
                   keyboardType="email-address"
                   autoCapitalize="none"
                   width="100%"
+                  mb={'$4'}
+                  {...inputProps}
+                />
+              )}
+            </FormikController>
+
+            <FormikController name={'phoneNumber'}>
+              {({ inputProps }) => (
+                <PhoneInput
+                  placeholder={'Téléphone'}
+                  countryCode={values.phoneCountryCode}
+                  onChangeCountryCode={handleChange('phoneCountryCode')}
                   {...inputProps}
                 />
               )}
@@ -231,7 +262,7 @@ const EditInformations = () => {
     userUuid: profile?.uuid,
   })
 
-  const isAdherent = !!user.data?.tags.find((tag) => tag.type === 'adherent')
+  const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent') ?? false
   const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()
@@ -256,22 +287,25 @@ const EditInformations = () => {
     )
   }
 
-  const handleSubmit = async (values: RestUpdateProfileRequest) => {
-    await $updateProfile.mutateAsync(values).catch((error) => {
-      if (error instanceof ProfileFormError) {
-        error.violations.forEach((violation) => {
-          const valuesKeys = Object.keys(formikFormRef.current?.values ?? {}).map((key) => key.split(/(?=[A-Z])/)[0])
-          if (violation.propertyPath === '') {
-            return
-          }
-          const field = valuesKeys.find((key) => violation.propertyPath.startsWith(key))
-          if (field) {
-            formikFormRef.current?.setFieldError(field, violation.message)
-          }
-        })
-      }
-    })
-  }
+  const handleSubmit = useCallback(
+    async (values: RestUpdateProfileRequest) => {
+      await $updateProfile.mutateAsync(values).catch((error) => {
+        if (error instanceof ProfileFormError) {
+          error.violations.forEach((violation) => {
+            const valuesKeys = Object.keys(formikFormRef.current?.values ?? {}).map((key) => key.split(/(?=[A-Z])/)[0])
+            if (violation.propertyPath === '') {
+              return
+            }
+            const field = valuesKeys.find((key) => violation.propertyPath.startsWith(key))
+            if (field) {
+              formikFormRef.current?.setFieldError(field, violation.message)
+            }
+          })
+        }
+      })
+    },
+    [$updateProfile],
+  )
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
     <Button
