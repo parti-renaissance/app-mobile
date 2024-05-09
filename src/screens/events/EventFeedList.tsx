@@ -4,7 +4,7 @@ import DialogAuth from '@/components/AuthDialog'
 import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import { bottomSheetFilterStates } from '@/components/EventFilterForm/BottomSheetFilters'
-import { eventFiltersState, Controller as FilterController, FiltersState } from '@/components/EventFilterForm/EventFilterForm'
+import EventFilterForm, { EventFilters, eventFiltersState, Controller as FilterController, FiltersState } from '@/components/EventFilterForm/EventFilterForm'
 import SearchBox from '@/components/EventFilterForm/SearchBox'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
@@ -19,7 +19,7 @@ import { useDebounce } from 'use-debounce'
 const MemoizedEventCard = memo(EventCard) as typeof EventCard
 const MemoizedPartialEventCard = memo(PartialEventCard) as typeof PartialEventCard
 
-const HeaderList = (props: { listRef: React.RefObject<FlatList> }) => {
+const SmallHeaderList = (props: { listRef: React.RefObject<FlatList> }) => {
   const { setOpen, open } = bottomSheetFilterStates()
   useEffect(() => {
     if (!open) {
@@ -46,6 +46,22 @@ const HeaderList = (props: { listRef: React.RefObject<FlatList> }) => {
       </FilterController>
     </YStack>
   )
+}
+
+const HeaderList = (props: { listRef: React.RefObject<FlatList> }) => {
+  const media = useMedia()
+  if (media.md) {
+    return <SmallHeaderList listRef={props.listRef} />
+  }
+
+  if (media.lg) {
+    return (
+      <YStack p="$3" overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
+        <EventFilterForm />
+      </YStack>
+    )
+  }
+  return null
 }
 
 const EventListCard = memo((args: { item: RestEvent; cb: Parameters<typeof mapFullProps>[1] }) => {

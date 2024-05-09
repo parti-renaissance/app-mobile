@@ -31,7 +31,7 @@ const BottomSheetFilter = () => {
     }
   })
 
-  return media.lg ? (
+  return media.md ? (
     <Sheet
       dismissOnSnapToBottom
       moveOnKeyboardChange
