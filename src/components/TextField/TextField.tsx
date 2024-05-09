@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
+import { useFetchHomeResources } from '@/screens/home/useFetchHomeResources.hook'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { Input, Label, styled, View } from 'tamagui'
+import { Input, isWeb, Label, styled, View } from 'tamagui'
 import Text from '../base/Text'
 
 export interface TextFieldProps extends React.ComponentProps<typeof Input> {
@@ -10,6 +11,7 @@ export interface TextFieldProps extends React.ComponentProps<typeof Input> {
   onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void
   placeholder?: string
   error?: string
+  isDate?: boolean
 }
 
 const TextFieldComponent = styled(Input, {
@@ -40,7 +42,15 @@ const TextFieldComponent = styled(Input, {
   },
 })
 
-const TextField = ({ label, error, onChange, ...inputProps }: TextFieldProps) => {
+const TextField = ({ label, error, onChange, isDate = false, ...inputProps }: TextFieldProps) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (inputRef.current && isDate && isWeb) {
+      inputRef.current.type = 'date'
+    }
+  }, [isDate])
+
   return (
     <View>
       {label && (
@@ -61,6 +71,8 @@ const TextField = ({ label, error, onChange, ...inputProps }: TextFieldProps) =>
 
       <View gap={6}>
         <TextFieldComponent
+          // @ts-expect-error use browser's input in web environment
+          ref={inputRef}
           focusStyle={{
             borderBottomColor: '$gray8',
           }}

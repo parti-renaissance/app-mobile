@@ -2,46 +2,82 @@ import React, { forwardRef, useState } from 'react'
 import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import TextField from '@/components/TextField'
-import { Input, View } from 'tamagui'
+import { getFormattedDate, getIntlDate, parseFrenchDate } from '@/utils/date'
+import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
-  onChange: (date: Date) => void
-  onBlur?: () => void
-  value ?: Date
-  error?: boolean
+  onChange: (date: Date | undefined) => void
+  onBlur?: (fieldOrEvent: any) => void
+  value?: Date
+  error?: string
   errorMessage?: string
+  label?: string
 }
 
-const DatePickerField = forwardRef<Input, DatePickerFieldProps>((props, ref) => {
-  const { onChange, error, errorMessage } = props
+const getDateInputValue = (d: Date) => (isWeb ? getIntlDate(d) : d.toLocaleDateString())
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
-  const [date, setDate] = useState('')
+const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label }, ref) => {
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
-  const handleConfirm = (date) => {
-    onChange(date)
+  const readableDate = value && typeof value === 'object' ? getDateInputValue(value) : ''
+  const [inputValue, setInputValue] = useState(readableDate ?? '')
 
-    setDate(date.toLocaleDateString())
-    setDatePickerVisibility(false)
+  const handleConfirm = (input: Date) => {
+    onChange?.(input)
+    setInputValue(getFormattedDate(input))
+    setIsDatePickerVisible(false)
+  }
+
+  const handleChange = (input: string) => {
+    setInputValue(input)
+
+    if (input != '' && input.length === 10) {
+      const candidate = isWeb ? new Date(input) : parseFrenchDate(input)
+
+      onChange?.(candidate)
+    } else {
+      onChange?.(undefined)
+    }
+  }
+
+  const onHide = () => {
+    if (!isWeb) {
+      Keyboard.dismiss()
+      setIsDatePickerVisible(false)
+    }
+  }
+
+  const onShow = () => {
+    if (!isWeb) {
+      setIsDatePickerVisible(true)
+    }
   }
 
   return (
     <View>
       <TextField
         ref={ref}
-        label="Date de naissance"
-        value={date}
+        label={label}
+        value={inputValue}
         placeholder="JJ/MM/AAAA"
-        onFocus={() => setDatePickerVisibility(true)}
         showSoftInputOnFocus={false}
-        onSubmitEditing={() => {
-          Keyboard.dismiss()
-          setDatePickerVisibility(false)
-        }}
+        onSubmitEditing={onHide}
+        onChangeText={handleChange}
+        onTouchStart={onShow}
         error={error}
-        errorMessage={errorMessage}
+        isDate
       />
-      <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={() => setDatePickerVisibility(false)} />
+      <DateTimePickerModal
+        locale="fr"
+        date={value}
+        confirmTextIOS="Valider"
+        cancelTextIOS="Annuler"
+        isVisible={isDatePickerVisible}
+        accentColor="blue"
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={onHide}
+      />
     </View>
   )
 })

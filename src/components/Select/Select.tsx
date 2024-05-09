@@ -21,7 +21,7 @@ export interface SelectProps {
 }
 
 interface OptionWithFixedIndex extends LabelValueModel {
-  index: number
+  index?: number
 }
 
 export enum MatchOnEnum {
@@ -98,7 +98,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
         </SelectTamagui.Trigger>
 
         <Adapt when="sm" platform="touch">
-          <Sheet native={!isWeb} modal dismissOnSnapToBottom animationConfig={animation}>
+          <Sheet native={!isWeb} modal dismissOnSnapToBottom>
             <Sheet.Frame>
               <Sheet.ScrollView>
                 <Adapt.Contents />
@@ -144,7 +144,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
                 )}
               </SelectTamagui.Label>
 
-              {virtualOptions?.map((option) => <RenderItem key={option.value} option={option} index={option.index} />)}
+              {virtualOptions?.map((option, index) => <RenderItem key={option.value} option={option} index={option.index ?? index} />)}
             </SelectTamagui.Group>
           </SelectTamagui.Viewport>
 
@@ -167,12 +167,5 @@ const RenderItem = memo(({ index, option }: { index: number; option: LabelValueM
     </SelectTamagui.ItemIndicator>
   </SelectTamagui.Item>
 ))
-
-const animation: AnimatedNumberStrategy = {
-  type: 'spring',
-  damping: 20,
-  mass: 1.2,
-  stiffness: 250,
-}
 
 export default React.memo(Select)
