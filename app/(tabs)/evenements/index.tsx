@@ -1,5 +1,6 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import BottomSheetFilter from '@/components/EventFilterForm/BottomSheetFilters'
 import EventFilterForm from '@/components/EventFilterForm/EventFilterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
@@ -39,6 +40,7 @@ const EventsScreen: React.FC = () => {
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
+          <BottomSheetFilter />
           <BoundarySuspenseWrapper
             fallback={
               <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>

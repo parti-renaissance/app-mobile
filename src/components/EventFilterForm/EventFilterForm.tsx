@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { RefObject } from 'react'
+import { TextInput } from 'react-native'
 import { LineSwitch } from '@/components/base/Switch/Switch'
 import Text from '@/components/base/Text'
 import { YStack } from 'tamagui'
 import { create } from 'zustand'
 import VoxCard from '../VoxCard/VoxCard'
 import SearchBox from './SearchBox'
-import ZoneFilter, { ZoneValue, zoneValues } from './ZoneFilter'
+import { ZoneValue, zoneValues } from './ZoneFilter'
 
 export type EventFilters = {
   zone: ZoneValue
@@ -14,7 +15,8 @@ export type EventFilters = {
   showCancelled: boolean
 }
 
-type FiltersState = {
+export type FiltersState = {
+  searchInputRef: React.RefObject<TextInput | null>
   value: EventFilters
   setValue: (value: EventFilters) => void
 }
@@ -27,27 +29,35 @@ export const defaultEventFilters: EventFilters = {
 }
 
 export const eventFiltersState = create<FiltersState>((set) => ({
+  searchInputRef: React.createRef(),
   value: defaultEventFilters,
   setValue: (x) => set({ value: x }),
 }))
 
-const Controller = <N extends keyof EventFilters>(props: {
+export const Controller = <N extends keyof EventFilters>(props: {
   name: N
-  children: (p: { value: EventFilters[N]; onChange: (v: EventFilters[N]) => void }) => React.ReactNode
+  children: (p: { value: EventFilters[N]; onChange: (v: EventFilters[N]) => void; ref: FiltersState['searchInputRef'] | undefined }) => React.ReactNode
 }) => {
-  const { value, setValue } = eventFiltersState()
+  const { value, setValue, searchInputRef } = eventFiltersState()
   return props.children({
     value: value[props.name],
     onChange: (v) => setValue({ ...value, [props.name]: v }),
+    ref: props.name === 'search' ? searchInputRef : undefined,
   })
 }
 
-const EventFilters = () => {
+type EventFiltersProps = {
+  onSearchFocus?: () => void
+}
+
+const EventFilters = ({ onSearchFocus }: EventFiltersProps) => {
   return (
-    <VoxCard bg="transparent">
+    <VoxCard bg="$colorTransparent">
       <YStack gap="$5">
-        <Controller name="search">{(p) => <SearchBox {...p} />}</Controller>
-        <Controller name="zone">{(p) => <ZoneFilter {...p} />}</Controller>
+        <Controller name="search">
+          {(p) => <SearchBox enterKeyHint="done" value={p.value} ref={p.ref as RefObject<TextInput>} onChange={p.onChange} onFocus={onSearchFocus} />}
+        </Controller>
+        {/* <Controller name="zone">{(p) => <ZoneFilter {...p} />}</Controller> */}
         <YStack gap="$3">
           <Text fontWeight="$5">Temporalité</Text>
           <Controller name="showPast">
@@ -57,13 +67,13 @@ const EventFilters = () => {
               </LineSwitch>
             )}
           </Controller>
-          <Controller name="showCancelled">
+          {/* <Controller name="showCancelled">
             {(p) => (
               <LineSwitch checked={p.value} onCheckedChange={p.onChange}>
                 Afficher les évènements annulées
               </LineSwitch>
             )}
-          </Controller>
+          </Controller> */}
         </YStack>
       </YStack>
     </VoxCard>

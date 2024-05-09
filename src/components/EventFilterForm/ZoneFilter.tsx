@@ -44,7 +44,7 @@ const ZoneFilter = ({ value, onChange }: ZoneFilterProps) => {
           </RadioCard>
         ))}
       </XStack>
-      <Input placeholder="Choisir un departement" backgroundColor={'$white1'} size={'$5'} iconRight={<ChevronDown />} />
+      <Input placeholder="Choisir un departement" size={'$5'} iconRight={<ChevronDown />} />
     </YStack>
   )
 }

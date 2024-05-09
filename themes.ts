@@ -40,7 +40,7 @@ const lightColors = {
   ...colorTokens.light.red,
   ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow6, 'yellow', true),
   ...colorTokens.light.yellow,
-  ...addSetOfTransparenciesToColor(white.white1, 'white', false),
+  ...addSetOfTransparenciesToColor(white.white1, 'white', true),
   ...colorTokens.light.white,
 }
 

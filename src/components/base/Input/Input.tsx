@@ -41,7 +41,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
           )}
           <Input.Box
             minimal={minimal}
-            backgroundColor={minimal ? '$colorTransparent' : props.backgroundColor ?? '$background'}
+            backgroundColor={minimal ? '$colorTransparent' : props.backgroundColor ?? '$backgroundColor'}
             hoverStyle={{
               backgroundColor: minimal ? '$colorTransparent' : undefined,
             }}
