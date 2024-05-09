@@ -1,5 +1,5 @@
 import { isFullEvent, isPartialEvent, RestEvent, RestEvents } from '@/data/restObjects/RestEvents'
-import { InfiniteData, QueryClient } from '@tanstack/react-query'
+import { InfiniteData, QueryClient, QueryKey } from '@tanstack/react-query'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type ShortEventUpdater = (oldShortEventData: RestEvent) => RestEvent
@@ -25,8 +25,8 @@ export const optmisticSetShortEventById: OptimisticEventSetter = ({ id, updater,
   queryClient.setQueryData([QUERY_KEY_SINGLE_EVENT, id], updater)
 }
 
-export const getCachedPaginatedShortEvents = (queryClient: QueryClient) => {
-  return queryClient.getQueryData<InfiniteData<RestEvents>>([QUERY_KEY_PAGINATED_SHORT_EVENTS])
+export const getCachedPaginatedShortEvents = (queryClient: QueryClient, queryKey?: QueryKey) => {
+  return queryClient.getQueryData<InfiniteData<RestEvents>>([QUERY_KEY_PAGINATED_SHORT_EVENTS, ...(queryKey ?? [])])
 }
 
 export const getCachedSingleEvent = (eventId: string, queryClient: QueryClient) => {

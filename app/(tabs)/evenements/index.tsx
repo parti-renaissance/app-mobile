@@ -1,8 +1,9 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import BottomSheetFilter from '@/components/EventFilterForm/BottomSheetFilters'
+import EventFilterForm from '@/components/EventFilterForm/EventFilterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
@@ -39,6 +40,7 @@ const EventsScreen: React.FC = () => {
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
+          <BottomSheetFilter />
           <BoundarySuspenseWrapper
             fallback={
               <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
@@ -91,7 +93,7 @@ const EventsScreen: React.FC = () => {
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
-          <BotBilanCTA />
+          <EventFilterForm />
         </PageLayout.SideBarRight>
       </PageLayout>
     </>

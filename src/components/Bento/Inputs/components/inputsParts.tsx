@@ -74,12 +74,19 @@ export const defaultInputGroupStyles = {
     backgroundColor: '$backgroundFocus',
     placeHolderColor: '$color',
     color: '$colorFocus',
+
+    hoverStyle: {
+      borderColor: '$borderColorFocus',
+      backgroundColor: '$backgroundFocus',
+      color: '$colorFocus',
+    },
   },
 } as const
 
 const InputGroupFrame = styled(XGroup, {
   justifyContent: 'space-between',
   context: InputContext,
+  animation: 'quick',
   variants: {
     unstyled: {
       false: defaultInputGroupStyles,
@@ -224,7 +231,7 @@ export const InputIconFrame = styled(View, {
     size: {
       '...size': (val, { tokens }) => {
         return {
-          paddingHorizontal: '$2',
+          paddingHorizontal: val,
         }
       },
     },
