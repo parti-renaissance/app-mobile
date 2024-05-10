@@ -1,5 +1,5 @@
-import { ConfigContext, ExpoConfig } from 'expo/config';
-import FontLib from './assets/fonts/generated-lib-fonts';
+import { ConfigContext, ExpoConfig } from 'expo/config'
+import FontLib from './assets/fonts/generated-lib-fonts'
 
 const baseIdentifier = 'fr.en-marche.jecoute'
 const basePackage = 'fr.en_marche.jecoute'
@@ -14,6 +14,12 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     'expo-font',
     {
       fonts: FontLib,
+    },
+  ])
+  config.plugins.push([
+    '@rnmapbox/maps',
+    {
+      RNMapboxMapsDownloadToken: process.env.MAP_BOX_SECRET_KEY,
     },
   ])
 

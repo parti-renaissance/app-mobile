@@ -1,29 +1,16 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
 import { DoorToDoorAddress } from '@/core/entities/DoorToDoor'
-import {
-  DoorToDoorCharterNotAccepted,
-  DoorToDoorCharterState,
-} from '@/core/entities/DoorToDoorCharterState'
+import { DoorToDoorCharterNotAccepted, DoorToDoorCharterState } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
 import { useDoorToDoorStore } from '@/data/store/door-to-door'
-import {
-  DoorToDoorDisplayMode,
-  DoorToDoorFilterDisplay,
-} from '@/screens/doorToDoor/DoorToDoor'
+import { DoorToDoorDisplayMode, DoorToDoorFilterDisplay } from '@/screens/doorToDoor/DoorToDoor'
 import DoorToDoorCharterModal from '@/screens/doorToDoor/DoorToDoorCharterModal'
 import DoorToDoorFilter from '@/screens/doorToDoor/DoorToDoorFilter'
 import DoorToDoorListView from '@/screens/doorToDoor/DoorToDoorListView'
-import DoorToDoorMapView, {
-  getRegionFromLatLng,
-} from '@/screens/doorToDoor/DoorToDoorMapView'
+import DoorToDoorMapView, { getRegionFromLatLng } from '@/screens/doorToDoor/DoorToDoorMapView'
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import MapListSwitch from '@/screens/doorToDoor/MapListSwitch'
 import RankingModal from '@/screens/doorToDoor/rankings/RankingModal'
@@ -42,22 +29,14 @@ export type RankingModalState = Readonly<{
 
 const DoorToDoorScreen = () => {
   const [loading, setLoading] = useState(false)
-  const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
-    { visible: false },
-  )
+  const [rankingModalState, setRankingModalState] = useState<RankingModalState>({ visible: false })
   const [currentSearchRegion, setCurrentSearchRegion] = useState<Region>()
   const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
-  const [filteredAddresses, setFilteredAddresses] = useState<
-    DoorToDoorAddress[]
-  >([])
-  const [locationAuthorized, setLocationAuthorized] = useState<
-    boolean | undefined
-  >()
+  const [filteredAddresses, setFilteredAddresses] = useState<DoorToDoorAddress[]>([])
+  const [locationAuthorized, setLocationAuthorized] = useState<boolean | undefined>()
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
   const [filter, setFilter] = useState<DoorToDoorFilterDisplay>('all')
-  const [charterState, setCharterState] = useState<
-    DoorToDoorCharterState | undefined
-  >()
+  const [charterState, setCharterState] = useState<DoorToDoorCharterState | undefined>()
 
   const { setAddress } = useDoorToDoorStore()
 
@@ -71,12 +50,7 @@ const DoorToDoorScreen = () => {
   const fetchAddresses = (region: Region) => {
     setLoading(true)
     new GetDoorToDoorAddressesInteractor()
-      .execute(
-        region.latitude,
-        region.longitude,
-        region.latitudeDelta,
-        region.longitudeDelta,
-      )
+      .execute(region.latitude, region.longitude, region.latitudeDelta, region.longitudeDelta)
       .then((newAddresses) => {
         setAddresses(newAddresses)
       })
@@ -125,27 +99,19 @@ const DoorToDoorScreen = () => {
   useEffect(() => {
     let result: Array<DoorToDoorAddress> = addresses
     if (filter !== 'all') {
-      result = addresses.filter(
-        (address) =>
-          address.building.campaignStatistics &&
-          address.building.campaignStatistics.status === filter,
-      )
+      result = addresses.filter((address) => address.building.campaignStatistics && address.building.campaignStatistics.status === filter)
     }
     setFilteredAddresses(result)
   }, [addresses, filter])
 
   const getPermissionStatus = async () => {
     // Fix LocationManager returning [0;1] instead of boolean
-    setLocationAuthorized(
-      Boolean(await LocationManager.permissionStatus()).valueOf(),
-    )
+    setLocationAuthorized(Boolean(await LocationManager.permissionStatus()).valueOf())
   }
 
   const requestPermission = async () => {
     // Fix LocationManager returning [0;1] instead of boolean
-    setLocationAuthorized(
-      Boolean(await LocationManager.requestPermission()).valueOf(),
-    )
+    setLocationAuthorized(Boolean(await LocationManager.requestPermission()).valueOf())
   }
 
   const onFilterChange = (mode: DoorToDoorFilterDisplay) => {
@@ -162,9 +128,7 @@ const DoorToDoorScreen = () => {
 
   const renderLoading = () => <LoaderView style={styles.loading} />
 
-  const renderAskPersmission = () => (
-    <LocationAuthorization onAuthorizationRequest={requestPermission} />
-  )
+  const renderAskPersmission = () => <LocationAuthorization onAuthorizationRequest={requestPermission} />
 
   const renderMap = (initalLocation: LatLng) => (
     <>
@@ -185,10 +149,7 @@ const DoorToDoorScreen = () => {
           }}
         />
       ) : (
-        <DoorToDoorListView
-          data={filteredAddresses}
-          onAddressPress={navigateToBuildingDetail}
-        />
+        <DoorToDoorListView data={filteredAddresses} onAddressPress={navigateToBuildingDetail} />
       )}
     </>
   )
@@ -211,20 +172,13 @@ const DoorToDoorScreen = () => {
     <SafeAreaView style={styles.container}>
       <Modal visible={rankingModalState.visible} animationType="slide">
         {rankingModalState.campaignId ? (
-          <RankingModal
-            onDismissModal={() => setRankingModalState({ visible: false })}
-            campaignId={rankingModalState.campaignId}
-          />
+          <RankingModal onDismissModal={() => setRankingModalState({ visible: false })} campaignId={rankingModalState.campaignId} />
         ) : null}
       </Modal>
 
       {charterState instanceof DoorToDoorCharterNotAccepted && (
         <Modal visible={true} animationType="slide">
-          <DoorToDoorCharterModal
-            charter={charterState.charter}
-            onAcceptCharter={fetchCharterState}
-            onDismissModal={() => router.push('../')}
-          />
+          <DoorToDoorCharterModal charter={charterState.charter} onAcceptCharter={fetchCharterState} onDismissModal={() => router.push('../')} />
         </Modal>
       )}
 
@@ -232,9 +186,7 @@ const DoorToDoorScreen = () => {
         <Text style={styles.title} numberOfLines={1}>
           {i18n.t('doorToDoor.title')}
         </Text>
-        {locationAuthorized && (
-          <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
-        )}
+        {locationAuthorized && <MapListSwitch mode={displayMode} onPress={setDisplayMode} />}
       </View>
       {renderContent()}
     </SafeAreaView>
