@@ -6,6 +6,7 @@ export interface RestDoorToDoorAddress {
   latitude: number
   longitude: number
   voters_count: number
+  priority: number | null
   postal_codes: string[]
   building: {
     type: 'building' | 'house' | null

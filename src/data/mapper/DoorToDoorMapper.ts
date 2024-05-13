@@ -37,6 +37,7 @@ export const DoorToDoorMapper = {
         votersCount: restObject.voters_count,
         postalCodes: restObject.postal_codes,
         building: building,
+        priority: restObject.priority,
       }
     } else {
       return null

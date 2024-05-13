@@ -1,26 +1,40 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
-import type Map from 'react-native-maps'
 import { LatLng, Region } from '@/components/Maps/Maps'
-import MapView from '@/components/MapsClustering/MapsClustering'
-import * as Location from 'expo-location'
-import { DoorToDoorAddress } from '../../core/entities/DoorToDoor'
+import clientEnv from '@/config/clientEnv'
+import MapboxGl from '@rnmapbox/maps'
+import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
+import { Feature, Point } from 'geojson'
+import { useTheme } from 'tamagui'
+import { DoorToDoorAddress, DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { DoorToDoorCampaignCard } from './DoorToDoorCampaignCard'
 import { DoorToDoorCampaignCardViewModel } from './DoorToDoorCampaignCardViewModel'
 import { DoorToDoorCampaignCardViewModelMapper } from './DoorToDoorCampaignCardViewModelMapper'
 import MapButton from './DoorToDoorMapButton'
-import { DoorToDoorMapCluster } from './DoorToDoorMapCluster'
-import { DoorToDoorMapMarker } from './DoorToDoorMapMarker'
 import { PoiAddressCard } from './PoiAddressCard'
 import { PoiAddressCardViewModelMapper } from './PoiAddressCardViewModelMapper'
 
+MapboxGl.setAccessToken(clientEnv.MAP_BOX_ACCESS_TOKEN)
+
 const DEFAULT_DELTA = 0.01
+const prio1 = ['==', ['get', 'score'], 1]
+const prio2 = ['==', ['get', 'score'], 2]
+const prio3 = ['>=', ['to-number', ['get', 'score']], 3]
+
+const filterClusterScore = ['floor', ['/', ['ceil', ['get', 'score']], ['get', 'point_count']]]
+
+const prioC1 = ['==', filterClusterScore, 1]
+const prioC2 = ['==', filterClusterScore, 2]
+const prioC3 = ['>=', filterClusterScore, 3]
+const colors = ['#919EAB', '#FF462E', '#FF912B', '#FFC700']
+
+const papStatusFilter = (status: DoorToDoorAddressStatus, value: string) => [['==', ['get', 'status'], status], value]
 
 type Props = {
   data: DoorToDoorAddress[]
-  initialLocation: LatLng
+  initialLocation?: LatLng
   loading: boolean
   onAddressPress: (id: string) => void
   onSearchNearby: (region: Region) => void
@@ -45,58 +59,16 @@ export function getRegionFromLatLng(location: LatLng): Region {
   }
 }
 
-const DoorToDoorMapView = ({
-  data,
-  initialLocation,
-  loading,
-  onAddressPress,
-  onSearchNearby,
-  onCampaignRankingSelected,
-}: Props) => {
-  const mapRef = useRef<Map | null>(null)
-  const [currentPosition, setCurrentPosition] = useState<LatLng>()
+const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCampaignRankingSelected }: Props) => {
+  const mapRef = useRef<MapboxGl.MapView | null>(null)
+  const sourceRef = useRef<MapboxGl.ShapeSource | null>(null)
+  const cameraRef = useRef<MapboxGl.Camera | null>(null)
+  const userLocationRef = useRef<MapboxGl.UserLocation | null>(null)
+  const [followUser, setFollowUser] = useState(true)
   const [popup, setPopup] = useState<PopupState>({
     visible: false,
     addressId: undefined,
   })
-  const [currentRegion, setCurrentRegion] = useState<Region>()
-
-  const moveToCurrentPositionRegion = () => {
-    if (mapRef.current !== null && currentPosition) {
-      mapRef.current?.animateToRegion(
-        getRegionFromLatLng({
-          longitude: currentPosition.longitude,
-          latitude: currentPosition.latitude,
-        }),
-        1000,
-      )
-    }
-  }
-
-  useEffect(() => {
-    let watchId: Location.LocationSubscription | null = null
-    Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.BestForNavigation,
-        timeInterval: 10000,
-        distanceInterval: 10,
-      },
-      (position) => {
-        setCurrentPosition({
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude,
-        })
-      },
-    ).then((id) => {
-      watchId = id
-    })
-
-    return () => {
-      if (watchId) {
-        watchId.remove()
-      }
-    }
-  }, [])
 
   const onMarkerPress = (address: DoorToDoorAddress) => {
     setPopup({
@@ -106,29 +78,20 @@ const DoorToDoorMapView = ({
   }
 
   const Popup: FunctionComponent<PopupProps> = ({ address }) => {
-    const [viewModel, setViewModel] =
-      useState<DoorToDoorCampaignCardViewModel>()
+    const [viewModel, setViewModel] = useState<DoorToDoorCampaignCardViewModel>()
 
     useEffect(() => {
       if (address && address.building.campaignStatistics) {
-        new GetDoorToDoorCampaignInfoInteractor()
-          .execute(address.building.campaignStatistics.campaignId)
-          .then((result) => {
-            setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
-          })
+        new GetDoorToDoorCampaignInfoInteractor().execute(address.building.campaignStatistics.campaignId).then((result) => {
+          setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
+        })
       }
     }, [address])
 
     return (
-      <Pressable
-        style={styles.popupWrap}
-        onPress={() => setPopup({ visible: false })}
-      >
+      <Pressable style={styles.popupWrap}>
         <Pressable style={styles.popup}>
-          <PoiAddressCard
-            onPress={onAddressPress}
-            viewModel={PoiAddressCardViewModelMapper.map(address)}
-          />
+          <PoiAddressCard onPress={onAddressPress} viewModel={PoiAddressCardViewModelMapper.map(address)} />
           {viewModel ? (
             <DoorToDoorCampaignCard
               viewModel={viewModel}
@@ -142,56 +105,124 @@ const DoorToDoorMapView = ({
     )
   }
 
+  const onPress = async (event: OnPressEvent) => {
+    const [cluster] = event.features as Feature<Point>[]
+    if (cluster.properties?.cluster === true && sourceRef.current) {
+      setFollowUser(false)
+      const expansionZoom = await sourceRef.current.getClusterExpansionZoom(cluster)
+      const centerCoordinate = cluster.geometry.coordinates
+      const zoomLevel = expansionZoom * 1.1
+      cameraRef.current?.setCamera({
+        centerCoordinate,
+        zoomLevel,
+        animationMode: 'easeTo',
+        animationDuration: 300,
+      })
+    } else {
+      onMarkerPress(cluster.properties as DoorToDoorAddress)
+    }
+  }
+
+  const createSource = (data: DoorToDoorAddress[]): MapboxGl.ShapeSource['props']['shape'] => {
+    const mapPrio = (x: number | null) => {
+      return x ?? 0
+    }
+
+    return {
+      type: 'FeatureCollection',
+      features: data.map(({ priority, ...rest }) => ({
+        type: 'Feature',
+        properties: {
+          ...rest,
+          status: rest.building.campaignStatistics?.status,
+          score: mapPrio(priority),
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [rest.longitude, rest.latitude],
+        },
+      })),
+    }
+  }
+
+  const theme = useTheme()
+
+  const memoizedSource = useMemo(() => createSource(data), [data])
   return (
     <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        initialRegion={getRegionFromLatLng(initialLocation)}
-        rotateEnabled={false}
-        showsUserLocation={true}
-        showsMyLocationButton={false}
-        showsPointsOfInterest={true}
-        showsCompass={false}
-        showsBuildings={true}
-        showsIndoors={false}
-        pitchEnabled={false}
-        loadingEnabled={true}
-        spiralEnabled={false}
-        renderCluster={(cluster) => (
-          <DoorToDoorMapCluster key={cluster.id} {...cluster} />
-        )}
-        onRegionChangeComplete={(region: Region) => {
-          setCurrentRegion(region)
-        }}
-        // Android only
-        toolbarEnabled={false}
-        // iOS only
-        showsScale={true}
-        // Clustering
-        minPoints={6}
-        nodeSize={8} // performance optimization
-      >
-        {data.map((marker) => (
-          <DoorToDoorMapMarker
-            key={marker.id}
-            icon={PoiAddressCardViewModelMapper.map(marker)?.mapStatusIcon}
-            coordinate={{
-              longitude: marker.longitude,
-              latitude: marker.latitude,
+      <MapboxGl.MapView style={styles.map} ref={mapRef} pitchEnabled={false} onPress={() => setPopup({ visible: false })}>
+        <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={18} />
+        <MapboxGl.UserLocation visible={true} ref={userLocationRef} />
+        <MapboxGl.ShapeSource
+          shape={memoizedSource as MapboxGl.ShapeSource['props']['shape']}
+          id="source-addresses"
+          ref={sourceRef}
+          cluster={true}
+          clusterRadius={35}
+          clusterMaxZoomLevel={18}
+          clusterProperties={{
+            score: ['+', ['get', 'score']],
+          }}
+          onPress={onPress}
+          hitbox={{ width: 20, height: 20 }}
+        >
+          <MapboxGl.CircleLayer
+            id="layer-addresses-cluster"
+            filter={['has', 'point_count']}
+            style={{
+              circleRadius: ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
+              circleColor: ['case', prioC1, colors[1], prioC2, colors[2], prioC3, colors[3], colors[0]],
+              circleOpacity: 0.6,
+              circleStrokeColor: 'white',
+              circleStrokeWidth: 2,
             }}
-            onPress={() => onMarkerPress(marker)}
           />
-        ))}
-      </MapView>
+
+          <MapboxGl.SymbolLayer
+            id="layer-addresses-cluster-count"
+            filter={['has', 'point_count']}
+            style={{
+              textField: ['to-string', ['get', 'point_count']],
+              textSize: 12,
+              textColor: 'white',
+            }}
+          />
+
+          <MapboxGl.CircleLayer
+            id="layer-addresses"
+            filter={['!', ['has', 'point_count']]}
+            circle-sort-key={['case', ['has', 'score'], 100, 0]}
+            style={{
+              circleRadius: 15,
+              circleColor: ['case', ...papStatusFilter('completed', '#DFE3E8'), prio1, colors[1], prio2, colors[2], prio3, colors[3], colors[0]],
+              circleStrokeColor: ['case', ...papStatusFilter('completed', theme.textPrimary.val), 'white'],
+              circleStrokeWidth: 2,
+            }}
+          />
+          <MapboxGl.SymbolLayer
+            id="layer-addresses-status"
+            filter={['!', ['has', 'point_count']]}
+            style={{
+              textField: ['case', ...papStatusFilter('ongoing', '•••'), ...papStatusFilter('completed', '✓'), ''],
+              textSize: 12,
+              textColor: ['case', ...papStatusFilter('completed', theme.textPrimary.val), 'white'],
+            }}
+          />
+        </MapboxGl.ShapeSource>
+      </MapboxGl.MapView>
+
       <View style={styles.childContainer}>
         <View style={styles.mapButtonListContainer}>
           <View style={styles.mapButtonSideContainer} />
           <MapButton
-            onPress={() => {
-              if (currentRegion) {
-                onSearchNearby(currentRegion)
-              }
+            onPress={async () => {
+              const region = (await mapRef.current?.getCenter())!
+              onSearchNearby(
+                getRegionFromLatLng({
+                  longitude: region[0],
+                  latitude: region[1],
+                }),
+              )
             }}
             text="Rechercher dans la zone"
             image={require('./../../assets/images/loopArrow.png')}
@@ -200,21 +231,24 @@ const DoorToDoorMapView = ({
           <View style={styles.mapButtonSideContainer}>
             <MapButton
               style={styles.mapButtonLocation}
-              onPress={moveToCurrentPositionRegion}
+              onPress={() => {
+                setFollowUser(false)
+
+                cameraRef.current?.setCamera({
+                  centerCoordinate: userLocationRef.current?.state.coordinates ?? undefined,
+                  animationMode: 'easeTo',
+                  animationDuration: 300,
+                })
+                setTimeout(() => {
+                  setFollowUser(true)
+                }, 300)
+              }}
               image={require('./../../assets/images/gpsPosition.png')}
             />
           </View>
         </View>
       </View>
-      {popup.visible && (
-        <Popup
-          address={
-            popup.addressId
-              ? data.find((address) => address.id === popup.addressId)
-              : undefined
-          }
-        />
-      )}
+      {popup.visible && <Popup address={popup.addressId ? data.find((address) => address.id === popup.addressId) : undefined} />}
     </View>
   )
 }
@@ -262,7 +296,7 @@ const styles = StyleSheet.create({
   popupWrap: {
     alignItems: 'center',
     bottom: 0,
-    height: '100%',
+    // height: '100%',
     justifyContent: 'flex-end',
     position: 'absolute',
     width: Dimensions.get('window').width,
