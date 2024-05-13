@@ -15,16 +15,13 @@ const Separator = () => {
 }
 
 const PollDetailTools = () => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<ReadonlyArray<Tool>>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<ReadonlyArray<Tool>>>(ViewState.Loading())
 
   const fetch = () => {
     setStatefulState(ViewState.Loading())
     ToolsRepository.getInstance()
       .getTools()
       .then((tools) => {
-        console.log(tools)
         setStatefulState(ViewState.Content(tools.result))
       })
       .catch((error) => {
@@ -48,12 +45,7 @@ const PollDetailTools = () => {
               data={tools}
               keyExtractor={(item) => item.id.toString()}
               ItemSeparatorComponent={Separator}
-              renderItem={({ item }) => (
-                <PollDetailToolRow
-                  title={item.title}
-                  onPress={() => ExternalLink.openUrl(item.url)}
-                />
-              )}
+              renderItem={({ item }) => <PollDetailToolRow title={item.title} onPress={() => ExternalLink.openUrl(item.url)} />}
             />
           </View>
         )

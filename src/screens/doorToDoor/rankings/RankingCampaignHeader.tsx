@@ -19,11 +19,9 @@ export const RankingCampaignHeader = ({ viewModel }: Props) => {
       <View style={styles.statsContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.goal}>{i18n.t('doorToDoor.goal')}</Text>
-          <Text style={styles.indicator}>
-            {viewModel.goal} questionnaires remplis
-          </Text>
+          <Text style={styles.indicator}>{viewModel.goal} questionnaires remplis</Text>
         </View>
-        <ProgressBar progress={0.3} color={Colors.accent} />
+        <ProgressBar progress={viewModel.progress ?? 0.015} color={Colors.accent} />
       </View>
     </View>
   )

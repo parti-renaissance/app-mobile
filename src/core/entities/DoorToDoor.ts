@@ -7,6 +7,7 @@ export type DoorToDoorAddress = {
   latitude: number
   longitude: number
   votersCount: number
+  priority: number | null
   postalCodes: string[]
   building: {
     id: string
