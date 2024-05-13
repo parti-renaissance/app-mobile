@@ -1,230 +1,160 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
-import { DoorToDoorAddress } from '@/core/entities/DoorToDoor'
-import {
-  DoorToDoorCharterNotAccepted,
-  DoorToDoorCharterState,
-} from '@/core/entities/DoorToDoorCharterState'
+import { DoorToDoorCharterNotAccepted, DoorToDoorCharterState } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
 import { useDoorToDoorStore } from '@/data/store/door-to-door'
-import {
-  DoorToDoorDisplayMode,
-  DoorToDoorFilterDisplay,
-} from '@/screens/doorToDoor/DoorToDoor'
+import { DoorToDoorDisplayMode, DoorToDoorFilterDisplay } from '@/screens/doorToDoor/DoorToDoor'
 import DoorToDoorCharterModal from '@/screens/doorToDoor/DoorToDoorCharterModal'
 import DoorToDoorFilter from '@/screens/doorToDoor/DoorToDoorFilter'
 import DoorToDoorListView from '@/screens/doorToDoor/DoorToDoorListView'
-import DoorToDoorMapView, {
-  getRegionFromLatLng,
-} from '@/screens/doorToDoor/DoorToDoorMapView'
+import _DoorToDoorMapView, { getRegionFromLatLng } from '@/screens/doorToDoor/DoorToDoorMapView'
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import MapListSwitch from '@/screens/doorToDoor/MapListSwitch'
 import RankingModal from '@/screens/doorToDoor/rankings/RankingModal'
-import LoaderView from '@/screens/shared/LoaderView'
+import LoadingView from '@/screens/shared/LoadingView'
 import { Colors, Spacing, Typography } from '@/styles'
 import i18n from '@/utils/i18n'
-import { LocationManager } from '@/utils/LocationManager'
-import { useFocusEffect } from '@react-navigation/native'
+import { useQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 import { router } from 'expo-router'
+
+const DoorToDoorMapView = memo(_DoorToDoorMapView)
 
 export type RankingModalState = Readonly<{
   visible: boolean
   campaignId?: string
 }>
 
+class ErrorPermission extends Error {
+  constructor() {
+    super('Permission denied')
+  }
+}
+
+const requestPermission = async () => {
+  const data = await Geolocation.requestForegroundPermissionsAsync()
+  if (data.status !== 'granted') {
+    throw new ErrorPermission()
+  }
+  return data
+}
+
+const _fetchAdresses = async (forcedRegion?: Region) => {
+  let region = forcedRegion
+  if (!region) {
+    const position = await Geolocation.getCurrentPositionAsync({
+      accuracy: Geolocation.Accuracy.High,
+    })
+    const latLng = {
+      longitude: position.coords.longitude,
+      latitude: position.coords.latitude,
+    }
+    region = getRegionFromLatLng(latLng)
+  }
+  return new GetDoorToDoorAddressesInteractor().execute(region.latitude, region.longitude, region.latitudeDelta, region.longitudeDelta)
+}
+
 const DoorToDoorScreen = () => {
-  const [loading, setLoading] = useState(false)
-  const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
-    { visible: false },
-  )
-  const [currentSearchRegion, setCurrentSearchRegion] = useState<Region>()
-  const [addresses, setAddresses] = useState<DoorToDoorAddress[]>([])
-  const [filteredAddresses, setFilteredAddresses] = useState<
-    DoorToDoorAddress[]
-  >([])
-  const [locationAuthorized, setLocationAuthorized] = useState<
-    boolean | undefined
-  >()
+  const [rankingModalState, setRankingModalState] = useState<RankingModalState>({ visible: false })
+  const [currentSearchRegion, _setCurrentSearchRegion] = useState<Region>()
   const [displayMode, setDisplayMode] = useState<DoorToDoorDisplayMode>('map')
   const [filter, setFilter] = useState<DoorToDoorFilterDisplay>('all')
-  const [charterState, setCharterState] = useState<
-    DoorToDoorCharterState | undefined
-  >()
+
+  const setCurrentSearchRegion = useCallback((region: Region) => {
+    _setCurrentSearchRegion(region)
+  }, [])
 
   const { setAddress } = useDoorToDoorStore()
 
-  const fetchCharterState = useCallback(() => {
-    DoorToDoorRepository.getInstance()
-      .getDoorToDoorCharterState()
-      .then((state) => setCharterState(state))
-      .catch(() => setCharterState(undefined))
+  const { data: charterState, refetch: fetchCharterState } = useQuery({
+    queryKey: ['doorToDoorCharterState'],
+    queryFn: () => DoorToDoorRepository.getInstance().getDoorToDoorCharterState(),
+  })
+
+  const {
+    error: errorPermission,
+    refetch: refetchPermission,
+    isSuccess: hasPermission,
+  } = useQuery({
+    queryKey: ['mapPermission'],
+    queryFn: requestPermission,
+  })
+
+  const {
+    data: addresses,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['doorToDoorAddresses', currentSearchRegion],
+    queryFn: () => _fetchAdresses(currentSearchRegion),
+    enabled: hasPermission,
+  })
+
+  const filteredAddresses =
+    addresses?.filter((address) => {
+      if (filter === 'all') return true
+      return address.building.campaignStatistics?.status === filter
+    }) || []
+
+  const navigateToBuildingDetail = useCallback(
+    (id: string) => {
+      const address = addresses?.find((item) => item.id === id)
+      if (address?.building.campaignStatistics) {
+        setAddress(address)
+        router.push('/actions/door-to-door/building-detail')
+      }
+    },
+    [addresses],
+  )
+
+  const renderAskPersmission = () => <LocationAuthorization onAuthorizationRequest={refetchPermission} />
+  const handleCampaignRankingSelected = useCallback((campaignId: string) => {
+    setRankingModalState({ visible: true, campaignId: campaignId })
   }, [])
 
-  const fetchAddresses = (region: Region) => {
-    setLoading(true)
-    new GetDoorToDoorAddressesInteractor()
-      .execute(
-        region.latitude,
-        region.longitude,
-        region.latitudeDelta,
-        region.longitudeDelta,
-      )
-      .then((newAddresses) => {
-        setAddresses(newAddresses)
-      })
-      .finally(() => setLoading(false))
-  }
-
-  useEffect(() => {
-    // Check door to door chart acceptance & localization permission
-    fetchCharterState()
-    getPermissionStatus()
-  }, [fetchCharterState])
-
-  useEffect(() => {
-    if (!locationAuthorized) return
-    ;(async () => {
-      setLoading(true)
-      let { status } = await Geolocation.requestForegroundPermissionsAsync()
-      const position = await Geolocation.getCurrentPositionAsync({
-        accuracy: Geolocation.Accuracy.High,
-      })
-      if (status !== 'granted') {
-        setLocationAuthorized(false)
-        setLoading(false)
-        return
-      }
-      const latLng = {
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
-      }
-      setCurrentSearchRegion(getRegionFromLatLng(latLng))
-      setLoading(false)
-    })()
-  }, [locationAuthorized])
-
-  useFocusEffect(
-    useCallback(() => {
-      /* When screen is focused and current location change,
-       * fetch addresses near current search location.
-       */
-      if (currentSearchRegion) {
-        fetchAddresses(currentSearchRegion)
-      }
-    }, [currentSearchRegion]),
-  )
-
-  useEffect(() => {
-    let result: Array<DoorToDoorAddress> = addresses
-    if (filter !== 'all') {
-      result = addresses.filter(
-        (address) =>
-          address.building.campaignStatistics &&
-          address.building.campaignStatistics.status === filter,
-      )
-    }
-    setFilteredAddresses(result)
-  }, [addresses, filter])
-
-  const getPermissionStatus = async () => {
-    // Fix LocationManager returning [0;1] instead of boolean
-    setLocationAuthorized(
-      Boolean(await LocationManager.permissionStatus()).valueOf(),
-    )
-  }
-
-  const requestPermission = async () => {
-    // Fix LocationManager returning [0;1] instead of boolean
-    setLocationAuthorized(
-      Boolean(await LocationManager.requestPermission()).valueOf(),
-    )
-  }
-
-  const onFilterChange = (mode: DoorToDoorFilterDisplay) => {
-    setFilter(mode)
-  }
-
-  const navigateToBuildingDetail = (id: string) => {
-    const address = addresses.find((item) => item.id === id)
-    if (address?.building.campaignStatistics) {
-      setAddress(address)
-      router.push('/actions/door-to-door/building-detail')
-    }
-  }
-
-  const renderLoading = () => <LoaderView style={styles.loading} />
-
-  const renderAskPersmission = () => (
-    <LocationAuthorization onAuthorizationRequest={requestPermission} />
-  )
-
-  const renderMap = (initalLocation: LatLng) => (
-    <>
-      <View style={styles.filter}>
-        <DoorToDoorFilter filter={filter} onPress={onFilterChange} />
-      </View>
-      {displayMode === 'map' ? (
-        <DoorToDoorMapView
-          data={filteredAddresses}
-          initialLocation={initalLocation}
-          loading={loading}
-          onAddressPress={navigateToBuildingDetail}
-          onSearchNearby={(region) => {
-            setCurrentSearchRegion(region)
-          }}
-          onCampaignRankingSelected={(campaignId: string) => {
-            setRankingModalState({ visible: true, campaignId: campaignId })
-          }}
-        />
-      ) : (
-        <DoorToDoorListView
-          data={filteredAddresses}
-          onAddressPress={navigateToBuildingDetail}
-        />
-      )}
-    </>
+  const renderMap = useCallback(
+    (initalLocation?: LatLng) => (
+      <>
+        <View style={styles.filter}>
+          <DoorToDoorFilter filter={filter} onPress={setFilter} />
+        </View>
+        <View style={{ display: displayMode === 'map' ? 'flex' : 'none', flex: 1 }}>
+          <DoorToDoorMapView
+            data={filteredAddresses}
+            initialLocation={initalLocation}
+            loading={isLoading}
+            onAddressPress={navigateToBuildingDetail}
+            onSearchNearby={setCurrentSearchRegion}
+            onCampaignRankingSelected={handleCampaignRankingSelected}
+          />
+        </View>
+        {displayMode !== 'map' && (isLoading ? <LoadingView /> : <DoorToDoorListView data={filteredAddresses} onAddressPress={navigateToBuildingDetail} />)}
+      </>
+    ),
+    [displayMode, filter, filteredAddresses, isLoading, navigateToBuildingDetail],
   )
 
   const renderContent = () => {
-    if (typeof locationAuthorized === 'boolean') {
-      if (!locationAuthorized) {
-        return renderAskPersmission()
-      }
-      if (!currentSearchRegion) {
-        return renderLoading()
-      }
-      return renderMap(currentSearchRegion)
-    } else {
-      return renderLoading()
+    if (errorPermission instanceof ErrorPermission) {
+      return renderAskPersmission()
     }
+
+    return renderMap(currentSearchRegion)
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={rankingModalState.visible} animationType="slide">
         {rankingModalState.campaignId ? (
-          <RankingModal
-            onDismissModal={() => setRankingModalState({ visible: false })}
-            campaignId={rankingModalState.campaignId}
-          />
+          <RankingModal onDismissModal={() => setRankingModalState({ visible: false })} campaignId={rankingModalState.campaignId} />
         ) : null}
       </Modal>
 
       {charterState instanceof DoorToDoorCharterNotAccepted && (
         <Modal visible={true} animationType="slide">
-          <DoorToDoorCharterModal
-            charter={charterState.charter}
-            onAcceptCharter={fetchCharterState}
-            onDismissModal={() => router.push('../')}
-          />
+          <DoorToDoorCharterModal charter={charterState.charter} onAcceptCharter={fetchCharterState} onDismissModal={() => router.push('../')} />
         </Modal>
       )}
 
@@ -232,9 +162,7 @@ const DoorToDoorScreen = () => {
         <Text style={styles.title} numberOfLines={1}>
           {i18n.t('doorToDoor.title')}
         </Text>
-        {locationAuthorized && (
-          <MapListSwitch mode={displayMode} onPress={setDisplayMode} />
-        )}
+        {!error && <MapListSwitch mode={displayMode} onPress={setDisplayMode} />}
       </View>
       {renderContent()}
     </SafeAreaView>

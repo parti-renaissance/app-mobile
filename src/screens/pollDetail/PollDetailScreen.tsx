@@ -1,31 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
+import { router, Stack, useLocalSearchParams } from 'expo-router'
 import { Poll } from '../../core/entities/Poll'
 import PollsRepository from '../../data/PollsRepository'
 import { PollDetailModalNavigatorScreenProps } from '../../navigation/pollDetailModal/PollDetailModalNavigatorScreenProps'
 import i18n from '../../utils/i18n'
 import ModalOverlay from '../shared/ModalOverlay'
-import {
-  CloseButton,
-  NavigationHeaderButton,
-} from '../shared/NavigationHeaderButton'
+import { CloseButton, NavigationHeaderButton } from '../shared/NavigationHeaderButton'
 import { StatefulView } from '../shared/StatefulView'
 import { useBackHandler } from '../shared/useBackHandler.hook'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import PollDetailScreenLoaded from './PollDetailScreenLoaded'
 import PollDetailTools from './PollDetailTools'
-import { router, useLocalSearchParams, Stack } from 'expo-router'
-
 
 type PollDetailScreenProps = PollDetailModalNavigatorScreenProps<'PollDetail'>
 
 const PollDetailScreen = ({ navigation }: PollDetailScreenProps) => {
   const { id } = useLocalSearchParams<{ id: string }>()
-  console.log(id)
-  const [statefulState, setStatefulState] = useState<ViewState<Poll>>(
-    ViewState.Loading(),
-  )
+  const [statefulState, setStatefulState] = useState<ViewState<Poll>>(ViewState.Loading())
   const [isModalVisible, setModalVisible] = useState(false)
 
   const askConfirmationBeforeLeaving = useCallback(() => {
@@ -49,7 +42,6 @@ const PollDetailScreen = ({ navigation }: PollDetailScreenProps) => {
 
   useBackHandler(askConfirmationBeforeLeaving)
 
-
   const fetchPoll = () => {
     setStatefulState(ViewState.Loading())
     PollsRepository.getInstance()
@@ -66,30 +58,19 @@ const PollDetailScreen = ({ navigation }: PollDetailScreenProps) => {
   useEffect(fetchPoll, [id, navigation])
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{
-        title: statefulState.state === 'content' ? statefulState.content.name : '',
-        headerRight: () => (
-          <NavigationHeaderButton
-            onPress={() => setModalVisible(true)}
-            source={require('../../assets/images/navigationBarLeftAccessoriesOutils.png')}
-          />
-
-        ), 
-        headerLeft: () => (
-          <CloseButton onPress={() => askConfirmationBeforeLeaving()} />
-        ),
-
-      }} />
-      <ModalOverlay
-        modalVisible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
+      <Stack.Screen
+        options={{
+          title: statefulState.state === 'content' ? statefulState.content.name : '',
+          headerRight: () => (
+            <NavigationHeaderButton onPress={() => setModalVisible(true)} source={require('../../assets/images/navigationBarLeftAccessoriesOutils.png')} />
+          ),
+          headerLeft: () => <CloseButton onPress={() => askConfirmationBeforeLeaving()} />,
+        }}
+      />
+      <ModalOverlay modalVisible={isModalVisible} onRequestClose={() => setModalVisible(false)}>
         <PollDetailTools />
       </ModalOverlay>
-      <StatefulView
-        state={statefulState}
-        contentComponent={(poll) => <PollDetailScreenLoaded poll={poll} />}
-      />
+      <StatefulView state={statefulState} contentComponent={(poll) => <PollDetailScreenLoaded poll={poll} />} />
     </View>
   )
 }

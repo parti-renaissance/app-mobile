@@ -14,7 +14,6 @@ export type FeedCardProps =
     } & NewsVoxCardProps)
 
 const FeedCard = (props: FeedCardProps) => {
-  console.log('FeedCard', props)
   switch (props.type) {
     case 'event':
       return <EventCard {...props} />

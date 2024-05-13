@@ -1,5 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { AppState, StyleSheet, Text, View } from 'react-native'
+import * as Linking from 'expo-linking'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { BorderlessButton } from '../shared/Buttons'
@@ -10,21 +11,30 @@ type Props = {
 }
 
 const LocationAuthorization = ({ onAuthorizationRequest }: Props) => {
+  const appState = React.useRef(AppState.currentState)
+  const goToDeviceSettings = () => {
+    Linking.openSettings()
+  }
+
+  React.useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        onAuthorizationRequest()
+      }
+
+      appState.current = nextAppState
+    })
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
   return (
     <View style={styles.container}>
-      <CircularIcon
-        style={styles.phone}
-        source={require('../../assets/images/mapIcon.png')}
-      />
+      <CircularIcon style={styles.phone} source={require('../../assets/images/mapIcon.png')} />
       <Text style={styles.title}>{i18n.t('doorToDoor.location.title')}</Text>
-      <Text style={styles.subtitle}>
-        {i18n.t('doorToDoor.location.subtitle')}
-      </Text>
-      <BorderlessButton
-        onPress={onAuthorizationRequest}
-        title={i18n.t('doorToDoor.location.cta')}
-        textStyle={styles.authorise}
-      />
+      <Text style={styles.subtitle}>{i18n.t('doorToDoor.location.subtitle')}</Text>
+      <BorderlessButton onPress={goToDeviceSettings} title={i18n.t('doorToDoor.location.cta')} textStyle={styles.authorise} />
     </View>
   )
 }
