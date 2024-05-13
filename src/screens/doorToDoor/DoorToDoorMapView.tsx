@@ -34,7 +34,7 @@ const papStatusFilter = (status: DoorToDoorAddressStatus, value: string) => [['=
 
 type Props = {
   data: DoorToDoorAddress[]
-  initialLocation: LatLng
+  initialLocation?: LatLng
   loading: boolean
   onAddressPress: (id: string) => void
   onSearchNearby: (region: Region) => void
@@ -89,7 +89,7 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
     }, [address])
 
     return (
-      <Pressable style={styles.popupWrap} onPress={() => setPopup({ visible: false })}>
+      <Pressable style={styles.popupWrap}>
         <Pressable style={styles.popup}>
           <PoiAddressCard onPress={onAddressPress} viewModel={PoiAddressCardViewModelMapper.map(address)} />
           {viewModel ? (
@@ -150,7 +150,7 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
   const memoizedSource = useMemo(() => createSource(data), [data])
   return (
     <View style={styles.container}>
-      <MapboxGl.MapView style={styles.map} ref={mapRef}>
+      <MapboxGl.MapView style={styles.map} ref={mapRef} pitchEnabled={false} onPress={() => setPopup({ visible: false })}>
         <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={18} />
         <MapboxGl.UserLocation visible={true} ref={userLocationRef} />
         <MapboxGl.ShapeSource
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   popupWrap: {
     alignItems: 'center',
     bottom: 0,
-    height: '100%',
+    // height: '100%',
     justifyContent: 'flex-end',
     position: 'absolute',
     width: Dimensions.get('window').width,
