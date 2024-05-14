@@ -124,7 +124,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
                   </Text>
                 </View>
 
-                {canSearch && (
+                {canSearch && !isWeb && (
                   <View mt={'$2'} width={'100%'}>
                     <Input
                       placeholder={'Recherche'}

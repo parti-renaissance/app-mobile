@@ -1,9 +1,9 @@
 import React, { forwardRef, useState } from 'react'
-import { Keyboard } from 'react-native'
+import { Keyboard, Pressable } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import TextField from '@/components/TextField'
 import { getFormattedDate, getIntlDate, parseFrenchDate } from '@/utils/date'
-import { Input, isWeb, View } from 'tamagui'
+import { Input, isWeb, View, YStack } from 'tamagui'
 
 interface DatePickerFieldProps {
   onChange: (date: Date | undefined) => void
@@ -56,14 +56,16 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
   return (
     <View>
       <TextField
+        fake={!isWeb}
         ref={ref}
         label={label}
         value={inputValue}
         placeholder="JJ/MM/AAAA"
         showSoftInputOnFocus={false}
         onSubmitEditing={onHide}
+        editable={false}
         onChangeText={handleChange}
-        onTouchStart={onShow}
+        onPress={onShow}
         error={error}
         isDate
       />
