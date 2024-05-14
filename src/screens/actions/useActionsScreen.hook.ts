@@ -1,22 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { Action } from '../../core/entities/Action'
-import { GetActionsInteractor } from '../../core/interactor/GetActionsInteractor'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
-import { Analytics } from '../../utils/Analytics'
+import { Action } from '@/core/entities/Action'
+import { GetActionsInteractor } from '@/core/interactor/GetActionsInteractor'
+import { Analytics } from '@/utils/Analytics'
+import { useFocusEffect } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { ActionRowViewModelMapper } from './ActionRowViewModelMapper'
-import { router } from 'expo-router'
 
 export const useActionsScreen = (): {
   statefulState: ViewState<ReadonlyArray<ActionRowViewModel>>
   onActionSelected: (actionId: string) => void
 } => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<ReadonlyArray<ActionRowViewModel>>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<ReadonlyArray<ActionRowViewModel>>>(ViewState.Loading())
 
   const stateRef = useRef(statefulState)
   useEffect(() => {
@@ -63,7 +60,7 @@ export const useActionsScreen = (): {
         break
       }
       case 'doorToDoor': {
-        router.push('/actions/door-to-door/')
+        router.push('/porte-a-porte/')
         break
       }
       case 'retaliation': {
