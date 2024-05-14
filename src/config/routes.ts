@@ -1,11 +1,12 @@
-import { ActionIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
+import { ActionIcon, DoorIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
 
 export type TabRoute = {
-  name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources'
+  name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources' | 'porte-a-porte'
   screenName: string
   icon: typeof HomeIcon
   gradiant: string[]
   hidden?: boolean
+  href?: string
 }
 
 export const ROUTES = [
@@ -40,5 +41,11 @@ export const ROUTES = [
     screenName: 'Ressources',
     icon: ToolsIcon,
     gradiant: ['#E461E8', '#8B2DBF'],
+  },
+  {
+    name: 'porte-a-porte',
+    screenName: 'Porte à Porte',
+    icon: DoorIcon,
+    gradiant: ['#F7681E', '#FDA302'],
   },
 ] satisfies TabRoute[]

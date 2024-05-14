@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import {
-  DoorToDoorCompletePoll,
-  GetDoorToDoorCompletePollInteractor,
-} from '@/core/interactor/GetDoorToDoorCompletePollInteractor'
+import { DoorToDoorCompletePoll, GetDoorToDoorCompletePollInteractor } from '@/core/interactor/GetDoorToDoorCompletePollInteractor'
 import { useDtdTunnelStore } from '@/data/store/door-to-door'
 import DoorToDoorPollDetailScreenLoaded from '@/screens/doorToDoor/tunnel/survey/DoorToDoorPollDetailScreenLoaded'
 import { useDoorToDoorTunnelNavigationOptions } from '@/screens/doorToDoor/tunnel/useDoorToDoorTunnelNavigationOptions.hook'
@@ -14,9 +11,7 @@ import { Colors } from '@/styles'
 import { useLocalSearchParams } from 'expo-router'
 
 const TunnelDoorPollScreen = () => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<DoorToDoorCompletePoll>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<DoorToDoorCompletePoll>>(ViewState.Loading())
 
   const params = useLocalSearchParams<{
     visitStartDateISOString: string
@@ -34,9 +29,7 @@ const TunnelDoorPollScreen = () => {
         .then((result) => {
           setStatefulState(ViewState.Content(result))
         })
-        .catch((error) =>
-          setStatefulState(ViewStateUtils.networkError(error, fetchData)),
-        )
+        .catch((error) => setStatefulState(ViewStateUtils.networkError(error, fetchData)))
     }
     fetchData()
   }, [tunnel.campaignId])

@@ -11,12 +11,9 @@ import { useLocalSearchParams } from 'expo-router'
 
 const TunnelDoorInterlocutorScreen = () => {
   const params = useLocalSearchParams<{ visitStartDateISOString: string }>()
-  const { statefulState, isSendingChoice, onChoice } =
-    useTunnelDoorInterlocutorScreen(params.visitStartDateISOString)
+  const { statefulState, isSendingChoice, onChoice } = useTunnelDoorInterlocutorScreen(params.visitStartDateISOString)
 
-  const renderContentComponent = (
-    items: Array<TunnelDoorInterlocutorChoiceCardViewModel>,
-  ) => (
+  const renderContentComponent = (items: Array<TunnelDoorInterlocutorChoiceCardViewModel>) => (
     <ScrollView contentContainerStyle={styles.content}>
       <Text style={styles.title} key={'title'}>
         {i18n.t('doorToDoor.tunnel.interlocutor.title')}
@@ -24,10 +21,7 @@ const TunnelDoorInterlocutorScreen = () => {
       {items.map((viewModel, index) => (
         <TunnelDoorInterlocutorChoiceCard
           key={viewModel.id}
-          style={[
-            styles.card,
-            index === items.length - 1 && styles.cardExpanded,
-          ]}
+          style={[styles.card, index === items.length - 1 && styles.cardExpanded]}
           viewModel={viewModel}
           onPress={() => onChoice(viewModel.id)}
         />
@@ -38,10 +32,7 @@ const TunnelDoorInterlocutorScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <LoadingOverlay visible={isSendingChoice} />
-      <StatefulView
-        state={statefulState}
-        contentComponent={(content) => renderContentComponent(content)}
-      />
+      <StatefulView state={statefulState} contentComponent={(content) => renderContentComponent(content)} />
     </SafeAreaView>
   )
 }

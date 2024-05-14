@@ -2,13 +2,13 @@ import React from 'react'
 import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import NavBar from '@/components/Header/Header'
+import WaitingScreen from '@/components/WaitingScreen'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
-import { Redirect, Tabs, useGlobalSearchParams } from 'expo-router'
+import { parse, useURL } from 'expo-linking'
+import { Tabs, useGlobalSearchParams } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
-import WaitingScreen from '@/components/WaitingScreen'
-import { useURL, parse } from 'expo-linking'
 
 const TAB_BAR_HEIGTH = 60
 

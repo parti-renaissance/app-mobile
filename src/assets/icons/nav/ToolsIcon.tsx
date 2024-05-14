@@ -1,10 +1,7 @@
-import React, { memo } from 'react'
+import React, { memo, useId } from 'react'
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
-import { themed } from '@tamagui/helpers-icon'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { randomUUID } from 'expo-crypto'
-
-const uuid = randomUUID()
+import { themed } from '@tamagui/helpers-icon'
 
 const inactiveColors = [
   ['#AEB9C3', '#848E9B'],
@@ -21,6 +18,7 @@ type Props = {
 } & IconProps
 
 const Icon = (props) => {
+  const uuid = useId()
   const { color = 'black', size = 24, active, ...otherProps } = props
   const getFillUrl = (index: number) => `url(#${uuid}_${active ? 'active_' : 'inactive_'}${index})`
 

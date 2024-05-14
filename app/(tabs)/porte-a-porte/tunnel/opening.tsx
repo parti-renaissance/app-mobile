@@ -10,26 +10,14 @@ import { Colors, Spacing, Typography } from '@/styles'
 import i18n from '@/utils/i18n'
 
 const TunnelDoorOpeningScreen = () => {
-  const { statefulState, isSendingChoice, onStatusSelected } =
-    useTunnelDoorOpeningScreen()
+  const { statefulState, isSendingChoice, onStatusSelected } = useTunnelDoorOpeningScreen()
 
-  const ContentComponent = (
-    viewModels: TunnelDoorOpeningChoiceCardViewModel[],
-  ) => {
+  const ContentComponent = (viewModels: TunnelDoorOpeningChoiceCardViewModel[]) => {
     return (
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>
-          {i18n.t('doorToDoor.tunnel.opening.title')}
-        </Text>
+        <Text style={styles.title}>{i18n.t('doorToDoor.tunnel.opening.title')}</Text>
         {viewModels.map((viewModel) => {
-          return (
-            <TunnelDoorOpeningChoiceCard
-              key={viewModel.id}
-              style={styles.card}
-              viewModel={viewModel}
-              onPress={() => onStatusSelected(viewModel.id)}
-            />
-          )
+          return <TunnelDoorOpeningChoiceCard key={viewModel.id} style={styles.card} viewModel={viewModel} onPress={() => onStatusSelected(viewModel.id)} />
         })}
       </View>
     )

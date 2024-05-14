@@ -1,30 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import {
-  Image,
-  Modal,
-  RefreshControl,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import {
-  BuildingBlock,
-  BuildingBlockHelper,
-} from '@/core/entities/BuildingBlock'
+import { Image, Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { BuildingBlock, BuildingBlockHelper } from '@/core/entities/BuildingBlock'
 import { BuildingHistoryPoint } from '@/core/entities/BuildingHistory'
 import { BuildingType, DoorToDoorAddress } from '@/core/entities/DoorToDoor'
-import {
-  DoorToDoorCampaignInfo,
-  GetDoorToDoorCampaignInfoInteractor,
-} from '@/core/interactor/GetDoorToDoorCampaignInfoInteractor'
+import { DoorToDoorCampaignInfo, GetDoorToDoorCampaignInfoInteractor } from '@/core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { UpdateBuildingLayoutInteractor } from '@/core/interactor/UpdateBuildingLayoutInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
-import {
-  useDoorToDoorStore,
-  useDtdTunnelStore,
-} from '@/data/store/door-to-door'
+import { useDoorToDoorStore, useDtdTunnelStore } from '@/data/store/door-to-door'
 import { BuildingDetailScreenViewModelMapper } from '@/screens/buildingDetail/BuildingDetailScreenViewModelMapper'
 import BuildingLayoutView from '@/screens/buildingDetail/BuildingLayoutView'
 import BuildingVisitsHistoryView from '@/screens/buildingDetail/BuildingVisitsHistoryView'
@@ -58,19 +40,12 @@ const BuildingDetailScreen = () => {
   const [tab, setTab] = useState(Tab.LAYOUT)
   const [history, setHistory] = useState<BuildingHistoryPoint[]>([])
   const [layout, setLayout] = useState<BuildingBlock[]>([])
-  const [campaignCardViewModel, setCampaignCardViewModel] =
-    useState<DoorToDoorCampaignCardViewModel>()
+  const [campaignCardViewModel, setCampaignCardViewModel] = useState<DoorToDoorCampaignCardViewModel>()
   const dtdStore = useDoorToDoorStore()
   const { setTunnel } = useDtdTunnelStore()
   const [address, setAddress] = useState(dtdStore.address)
-  const [rankingModalState, setRankingModalState] = useState<RankingModalState>(
-    { visible: false },
-  )
-  const viewModel = BuildingDetailScreenViewModelMapper.map(
-    address,
-    history,
-    layout,
-  )
+  const [rankingModalState, setRankingModalState] = useState<RankingModalState>({ visible: false })
+  const viewModel = BuildingDetailScreenViewModelMapper.map(address, history, layout)
   const buildingBlockHelper = new BuildingBlockHelper()
   const campaignStatistics = address.building.campaignStatistics!!
 
@@ -78,13 +53,7 @@ const BuildingDetailScreen = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <NavigationHeaderButton
-          source={require('@/assets/images/edit.png')}
-          onPress={changeBuildingType}
-          style={styles.edit}
-        />
-      ),
+      headerRight: () => <NavigationHeaderButton source={require('@/assets/images/edit.png')} onPress={changeBuildingType} style={styles.edit} />,
     })
   })
 
@@ -98,20 +67,14 @@ const BuildingDetailScreen = () => {
   }
 
   const fetchHistory = async (): Promise<Array<BuildingHistoryPoint>> => {
-    return await DoorToDoorRepository.getInstance().buildingHistory(
-      dtdStore.address.building.id,
-      campaignStatistics.campaignId,
-    )
+    return await DoorToDoorRepository.getInstance().buildingHistory(dtdStore.address.building.id, campaignStatistics.campaignId)
   }
 
   const fetchCampaignInfo = async (): Promise<DoorToDoorCampaignInfo> => {
-    return await new GetDoorToDoorCampaignInfoInteractor().execute(
-      campaignStatistics.campaignId,
-    )
+    return await new GetDoorToDoorCampaignInfoInteractor().execute(campaignStatistics.campaignId)
   }
 
-  const fetchAddress = async (): Promise<DoorToDoorAddress | null> =>
-    await DoorToDoorRepository.getInstance().getAddress(address.id)
+  const fetchAddress = async (): Promise<DoorToDoorAddress | null> => await DoorToDoorRepository.getInstance().getAddress(address.id)
 
   const refreshData = async () => {
     setIsRefreshing(true)
@@ -125,9 +88,7 @@ const BuildingDetailScreen = () => {
       const freshHistory = await fetchHistory()
       setHistory(freshHistory)
       const freshCampaignInfo = await fetchCampaignInfo()
-      setCampaignCardViewModel(
-        DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo),
-      )
+      setCampaignCardViewModel(DoorToDoorCampaignCardViewModelMapper.map(freshCampaignInfo))
     } catch (error) {
       // noop
     } finally {
@@ -153,18 +114,11 @@ const BuildingDetailScreen = () => {
   const addNewBuildingBlock = () => {
     let nextBuildingBlock: string
     if (layout.length > 0) {
-      nextBuildingBlock = AlphabetHelper.nextLetterInAlphabet(
-        layout[layout.length - 1].name,
-      )
+      nextBuildingBlock = AlphabetHelper.nextLetterInAlphabet(layout[layout.length - 1].name)
     } else {
       nextBuildingBlock = AlphabetHelper.firstLetterInAlphabet
     }
-    layout.push(
-      buildingBlockHelper.createLocalBlock(
-        nextBuildingBlock,
-        address.building.type,
-      ),
-    )
+    layout.push(buildingBlockHelper.createLocalBlock(nextBuildingBlock, address.building.type))
     setLayout([...layout])
   }
 
@@ -188,10 +142,7 @@ const BuildingDetailScreen = () => {
     }
   }
 
-  const removeBuildingFloor = (
-    buildingBlockId: string,
-    floorNumber: number,
-  ) => {
+  const removeBuildingFloor = (buildingBlockId: string, floorNumber: number) => {
     const block = layout.find((item) => item.id === buildingBlockId)
     const floor = block?.floors?.find((item) => item.number === floorNumber)
     if (block && floor) {
@@ -207,11 +158,7 @@ const BuildingDetailScreen = () => {
     if (block.status === 'completed') {
       setIsloading(true)
       DoorToDoorRepository.getInstance()
-        .openBuildingBlock(
-          campaignStatistics.campaignId,
-          address.building.id,
-          block.name,
-        )
+        .openBuildingBlock(campaignStatistics.campaignId, address.building.id, block.name)
         .then(() => refreshData())
         .finally(() => setIsloading(false))
     } else {
@@ -223,11 +170,7 @@ const BuildingDetailScreen = () => {
         () => {
           setIsloading(true)
           DoorToDoorRepository.getInstance()
-            .closeBuildingBlock(
-              campaignStatistics.campaignId,
-              address.building.id,
-              block.name,
-            )
+            .closeBuildingBlock(campaignStatistics.campaignId, address.building.id, block.name)
             .then(() => refreshData())
             .finally(() => setIsloading(false))
         },
@@ -238,9 +181,7 @@ const BuildingDetailScreen = () => {
   const changeBuildingType = () => {
     AlertUtils.showSimpleAlert(
       i18n.t('building.change_type_alert.title'),
-      address.building.type === 'building'
-        ? i18n.t('building.change_type_alert.message.building')
-        : i18n.t('building.change_type_alert.message.house'),
+      address.building.type === 'building' ? i18n.t('building.change_type_alert.message.building') : i18n.t('building.change_type_alert.message.house'),
       i18n.t('building.change_type_alert.action'),
       i18n.t('building.change_type_alert.cancel'),
       () => {
@@ -305,9 +246,7 @@ const BuildingDetailScreen = () => {
             viewModel={viewModel.buildingLayout}
             onSelect={(buildingBlock: string, floorNumber: number) => {
               const block = layout.find((item) => item.name === buildingBlock)
-              const floor = block?.floors?.find(
-                (item) => item.number === floorNumber,
-              )
+              const floor = block?.floors?.find((item) => item.number === floorNumber)
               let canCloseFloor = false
               let door = 1
               if (block && floor) {
@@ -315,10 +254,7 @@ const BuildingDetailScreen = () => {
                 if (floor.visitedDoors.length === 0) {
                   door = 1
                 } else {
-                  door =
-                    floor.visitedDoors.sort((door1, door2) => door1 - door2)[
-                      floor.visitedDoors.length - 1
-                    ] + 1
+                  door = floor.visitedDoors.sort((door1, door2) => door1 - door2)[floor.visitedDoors.length - 1] + 1
                 }
               }
               setTunnel({
@@ -335,9 +271,7 @@ const BuildingDetailScreen = () => {
               router.push({ pathname: '/actions/door-to-door/tunnel/brief' })
             }}
             onAddBuildingBlock={() => addNewBuildingBlock()}
-            onAddBuildingFloor={(buildingBlockId: string) =>
-              addNewBuildingFloor(buildingBlockId)
-            }
+            onAddBuildingFloor={(buildingBlockId: string) => addNewBuildingFloor(buildingBlockId)}
             onRemoveBuildingBlock={(buildingBlockId: string) => {
               removeBuildingBlock(buildingBlockId)
             }}
@@ -359,22 +293,11 @@ const BuildingDetailScreen = () => {
       <LoadingOverlay visible={isLoading} />
       <Modal visible={rankingModalState.visible} animationType="slide">
         {rankingModalState.campaignId ? (
-          <RankingModal
-            onDismissModal={() => setRankingModalState({ visible: false })}
-            campaignId={rankingModalState.campaignId}
-          />
+          <RankingModal onDismissModal={() => setRankingModalState({ visible: false })} campaignId={rankingModalState.campaignId} />
         ) : null}
       </Modal>
       <>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing && !isLoading}
-              onRefresh={refreshData}
-              colors={[Colors.primaryColor]}
-            />
-          }
-        >
+        <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing && !isLoading} onRefresh={refreshData} colors={[Colors.primaryColor]} />}>
           <Image source={viewModel.illustration} style={styles.illustration} />
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
@@ -383,38 +306,14 @@ const BuildingDetailScreen = () => {
               because we need to be able to scroll through the content of the tabs and react-native-tab-view
               does not provide us with a way to do it. */}
           <View style={styles.tabbarContainer}>
-            <TouchablePlatform
-              touchHighlight={Colors.touchHighlight}
-              onPress={showLayout}
-            >
-              <View
-                style={tab === Tab.LAYOUT ? styles.selectedTab : styles.tab}
-              >
-                <Text
-                  style={
-                    tab === Tab.LAYOUT ? styles.selectedTabText : styles.tabText
-                  }
-                >
-                  {i18n.t('building.tabs.layout')}
-                </Text>
+            <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={showLayout}>
+              <View style={tab === Tab.LAYOUT ? styles.selectedTab : styles.tab}>
+                <Text style={tab === Tab.LAYOUT ? styles.selectedTabText : styles.tabText}>{i18n.t('building.tabs.layout')}</Text>
               </View>
             </TouchablePlatform>
-            <TouchablePlatform
-              touchHighlight={Colors.touchHighlight}
-              onPress={showHistory}
-            >
-              <View
-                style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}
-              >
-                <Text
-                  style={
-                    tab === Tab.HISTORY
-                      ? styles.selectedTabText
-                      : styles.tabText
-                  }
-                >
-                  {i18n.t('building.tabs.history')}
-                </Text>
+            <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={showHistory}>
+              <View style={tab === Tab.HISTORY ? styles.selectedTab : styles.tab}>
+                <Text style={tab === Tab.HISTORY ? styles.selectedTabText : styles.tabText}>{i18n.t('building.tabs.history')}</Text>
               </View>
             </TouchablePlatform>
           </View>

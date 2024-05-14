@@ -61,12 +61,7 @@ const TunnelDoorSelectionScreen = () => {
     const building = buildingParams
     setIsLoading(true)
     DoorToDoorRepository.getInstance()
-      .closeBuildingBlockFloor(
-        tunnel.campaignId,
-        building.id,
-        building.block,
-        building.floor,
-      )
+      .closeBuildingBlockFloor(tunnel.campaignId, building.id, building.block, building.floor)
       .then(() => {
         setIsLoading(false)
         navigation.getParent()?.goBack()
@@ -98,10 +93,7 @@ const TunnelDoorSelectionScreen = () => {
               updateSelectedDoor(selectedDoor + 1)
             }}
           >
-            <Image
-              style={styles.nextDoor}
-              source={require('@/assets/images/iconBack.png')}
-            />
+            <Image style={styles.nextDoor} source={require('@/assets/images/iconBack.png')} />
           </TouchablePlatform>
         </View>
         <Text style={styles.title}>
@@ -117,12 +109,8 @@ const TunnelDoorSelectionScreen = () => {
             door: selectedDoor,
           })}
         </Text>
-        <Text style={styles.note}>
-          {i18n.t('doorToDoor.tunnel.door.doorFinished')}
-        </Text>
-        <Text style={styles.note}>
-          {i18n.t('doorToDoor.tunnel.door.buildingFinished')}
-        </Text>
+        <Text style={styles.note}>{i18n.t('doorToDoor.tunnel.door.doorFinished')}</Text>
+        <Text style={styles.note}>{i18n.t('doorToDoor.tunnel.door.buildingFinished')}</Text>
       </View>
       <View style={styles.bottomContainer}>
         <PrimaryButton
