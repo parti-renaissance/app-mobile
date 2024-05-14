@@ -111,7 +111,7 @@ export const templates = (() => {
     borderColorHover: transparencies + 5,
     borderColorFocus: transparencies + 2,
     borderColorPress: transparencies + 4,
-    color: transparencies + 8,
+    color: transparencies + 12,
     colorSecondary: transparencies + 6,
     colorDisabled: transparencies + 5,
     colorHover: -transparencies - 2,

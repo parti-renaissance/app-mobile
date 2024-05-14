@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
-import { useFetchHomeResources } from '@/screens/home/useFetchHomeResources.hook'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { Input, isWeb, Label, styled, View } from 'tamagui'
+import { Input, isWeb, Label, styled, View, YStack } from 'tamagui'
 import Text from '../base/Text'
 
 export interface TextFieldProps extends React.ComponentProps<typeof Input> {
@@ -12,9 +11,10 @@ export interface TextFieldProps extends React.ComponentProps<typeof Input> {
   placeholder?: string
   error?: string
   isDate?: boolean
+  fake?: boolean
 }
 
-const TextFieldComponent = styled(Input, {
+const commonStyle = {
   width: '100%',
   padding: 0,
   borderRadius: 0,
@@ -40,9 +40,13 @@ const TextFieldComponent = styled(Input, {
       },
     },
   },
-})
+} as const
 
-const TextField = ({ label, error, onChange, isDate = false, ...inputProps }: TextFieldProps) => {
+const TextFieldComponent = styled(Input, commonStyle)
+
+const FakeTextFieldComponent = styled(YStack, commonStyle)
+
+const TextField = ({ label, error, onChange, isDate = false, fake = false, ...inputProps }: TextFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -70,15 +74,23 @@ const TextField = ({ label, error, onChange, isDate = false, ...inputProps }: Te
       )}
 
       <View gap={6}>
-        <TextFieldComponent
-          // @ts-expect-error use browser's input in web environment
-          ref={inputRef}
-          focusStyle={{
-            borderBottomColor: '$gray8',
-          }}
-          onChangeText={onChange as (x: any) => void}
-          {...inputProps}
-        />
+        {fake ? (
+          <FakeTextFieldComponent onPress={inputProps.onPress}>
+            <Text color="$gray6" py="$3.5">
+              {inputProps.value}
+            </Text>
+          </FakeTextFieldComponent>
+        ) : (
+          <TextFieldComponent
+            // @ts-expect-error use browser's input in web environment
+            ref={inputRef}
+            focusStyle={{
+              borderBottomColor: '$gray8',
+            }}
+            onChangeText={onChange as (x: any) => void}
+            {...inputProps}
+          />
+        )}
 
         {!!error && (
           <View style={{ flexDirection: 'row', alignItems: 'center' }} gap={4}>
