@@ -48,7 +48,7 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
 const MenuEntry = ({ title, onPress, danger }: { title: string; onPress: () => void; danger?: boolean }) => (
   <YGroup.Item>
     <ListItem hoverTheme onPress={onPress} cursor={'pointer'}>
-      <ListItem.Text color={danger ? '$textDanger' : undefined} cursor={'pointer'}>
+      <ListItem.Text color={danger ? '$textDanger' : '$textPrimary'} cursor={'pointer'}>
         {title}
       </ListItem.Text>
     </ListItem>
