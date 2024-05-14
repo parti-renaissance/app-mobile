@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
-import { DoorToDoorCharterNotAccepted, DoorToDoorCharterState } from '@/core/entities/DoorToDoorCharterState'
+import { DoorToDoorCharterNotAccepted } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
 import { useDoorToDoorStore } from '@/data/store/door-to-door'
@@ -16,6 +16,7 @@ import RankingModal from '@/screens/doorToDoor/rankings/RankingModal'
 import LoadingView from '@/screens/shared/LoadingView'
 import { Colors, Spacing, Typography } from '@/styles'
 import i18n from '@/utils/i18n'
+import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { useQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 import { router } from 'expo-router'
@@ -86,11 +87,14 @@ const DoorToDoorScreen = () => {
     data: addresses,
     isLoading,
     error,
+    refetch: refetchAddresses,
   } = useQuery({
     queryKey: ['doorToDoorAddresses', currentSearchRegion],
     queryFn: () => _fetchAdresses(currentSearchRegion),
     enabled: hasPermission,
   })
+
+  useOnFocus(refetchAddresses)
 
   const filteredAddresses =
     addresses?.filter((address) => {
