@@ -5,6 +5,7 @@ import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownload
 import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
+import ProgramCTA from '@/components/ProfileCards/ProgramCTA/ProgramCTA'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
@@ -89,6 +90,7 @@ const HomeScreen: React.FC = () => {
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
+          <ProgramCTA />
           <BotBilanCTA />
         </PageLayout.SideBarRight>
       </PageLayout>
