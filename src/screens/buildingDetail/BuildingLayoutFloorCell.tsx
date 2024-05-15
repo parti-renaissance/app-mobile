@@ -23,13 +23,30 @@ type Props = Readonly<{
   onRemoveBuildingFloor: (floor: number) => void
 }>
 
-const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
-  viewModel,
-  style,
-  canRemove,
-  onSelect,
-  onRemoveBuildingFloor,
-}) => {
+type ActionProps = Readonly<{
+  children: string
+  style?: ViewStyle
+  onPress: () => void | undefined
+}>
+
+export const BuildingLayoutActionType: FunctionComponent<ActionProps> = ({ children, style, onPress }) => {
+  function icon(): JSX.Element {
+    return (
+      <TouchablePlatform style={styles.button} onPress={onPress} touchHighlight={Colors.touchHighlight}>
+        <Image style={styles.icon} source={require('../../assets/images/arrow.png')} />
+      </TouchablePlatform>
+    )
+  }
+
+  return (
+    <View style={[styles.layoutContainer, style]}>
+      <BuildingActionTitleView viewModel={{ title: children, subtitle: '' }} canRemove={false} onRemoveBuildingFloor={() => {}} />
+      {icon()}
+    </View>
+  )
+}
+
+const BuildingLayoutFloorCell: FunctionComponent<Props> = ({ viewModel, style, canRemove, onSelect, onRemoveBuildingFloor }) => {
   function icon(): JSX.Element {
     if (!viewModel.isCompleted) {
       return (
@@ -40,19 +57,13 @@ const BuildingLayoutFloorCell: FunctionComponent<Props> = ({
           }}
           touchHighlight={Colors.touchHighlight}
         >
-          <Image
-            style={styles.icon}
-            source={require('../../assets/images/arrow.png')}
-          />
+          <Image style={styles.icon} source={require('../../assets/images/arrow.png')} />
         </TouchablePlatform>
       )
     } else {
       return (
         <View style={styles.buttonInvertedColors}>
-          <Image
-            style={styles.iconInvertedColors}
-            source={require('../../assets/images/checkIcon.png')}
-          />
+          <Image style={styles.iconInvertedColors} source={require('../../assets/images/checkIcon.png')} />
         </View>
       )
     }
