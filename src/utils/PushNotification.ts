@@ -1,7 +1,6 @@
 import FB, { AuthorizationStatus } from '@/config/firebaseConfig'
 import { LocalNotificationCenter } from '@/data/LocalNotificationCenter'
 import { askNativePermission } from '@/utils/NotificationPermission/NotificationPermission'
-import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 
 const registerMessageHandlers = () => {
@@ -34,8 +33,7 @@ const resolveDeeplinkUrlFromFCMMessage = async (message: FirebaseMessagingTypes.
   const notificationUrl = message?.data?.deeplink as string | undefined
   if (notificationUrl) {
     try {
-      const { url } = await dynamicLinks().resolveLink(notificationUrl)
-      return url
+      return notificationUrl
     } catch (error) {
       console.log('Failed to resolve dynamic link', notificationUrl, error)
     }

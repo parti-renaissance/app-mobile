@@ -3283,11 +3283,6 @@
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/dynamic-links@^18.7.3":
-  version "18.9.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-18.9.0.tgz#c5e5fd05b5e1e4130a6b00630dbe899d55de226c"
-  integrity sha512-EghVT6morI+FJHRou0/Vsjvn/6z5aj3PS2ctTfUWH+AdszAYb4ERXq7jQzk5yQjCJsLZTQ/hfmTwrBo/kaUL/g==
-
 "@react-native-firebase/installations@^18.7.3":
   version "18.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/installations/-/installations-18.9.0.tgz#720badf71c50a3cd88bdf5cd6fdb3da3236c47e2"
