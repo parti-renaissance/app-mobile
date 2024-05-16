@@ -1,54 +1,94 @@
-import React, { memo, useId } from 'react'
-import Svg, { Defs, G, LinearGradient, Path, Stop } from 'react-native-svg'
+import React, { memo } from 'react'
+import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { themed } from '@tamagui/helpers-icon'
-
-const inactiveColors = [['#A9B3BD', '#7A8390']]
-
-const activeColors = [['#FDA302', '#F7681E']]
 
 type Props = {
   active?: boolean
 } & IconProps
 
-const Icon = (props) => {
-  const uuid = useId()
-  const { color = 'black', size = 24, active, ...otherProps } = props
-  const getFillUrl = (index: number) => `url(#${uuid}_${active ? 'active_' : 'inactive_'}${index})`
-
-  return (
-    <Svg width={24} height={25} viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <G opacity={0.6} clipPath="url(#clip0_2510_114200)">
-        <Path d="M20 20.76V5.24c0-.41-.32-.74-.714-.74H12v17h7.286c.394 0 .714-.33.714-.74z" fill={getFillUrl(0)} fillOpacity={0.6} />
-        <Path d="M20 20.76V5.24c0-.41-.32-.74-.714-.74H12v17h7.286c.394 0 .714-.33.714-.74z" fill="#fff" fillOpacity={0.5} />
-        <Path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M5.663 3.117A.717.717 0 005 3.834v17.332c0 .377.29.69.663.717l8.572.615c.413.03.765-.3.765-.716V3.218a.716.716 0 00-.765-.716l-8.572.615zm7.908 10.82c.395 0 .715-.2.715-.719 0-.52-.357-.718-.715-.718-.357 0-.714.139-.714.718 0 .58.32.718.714.718z"
-          fill={getFillUrl(0)}
-        />
-        <Path fillRule="evenodd" clipRule="evenodd" d="M11 8.5l-3-.1v-.8l3-.1v1z" fill={getFillUrl(0)} fillOpacity={0.6} />
-        <Path fillRule="evenodd" clipRule="evenodd" d="M11 8.5l-3-.1v-.8l3-.1v1z" fill="#fff" fillOpacity={0.5} />
-      </G>
-
+const Icon = (props) =>
+  props.active ? (
+    <Svg width={32} height={32} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <Path d="M27 27V6a1 1 0 00-1-1h-6v23h6a1 1 0 001-1z" fill="url(#paint0_linear_2651_82040)" />
+      <Path d="M18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z" fill="url(#paint1_linear_2651_82040)" />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M6.929 2.934A1 1 0 006 3.93V28.07a1 1 0 00.929.997l12 .858A1 1 0 0020 28.925V3.074a1 1 0 00-1.071-.997l-12 .857zM18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z"
+        fill="url(#paint2_linear_2651_82040)"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15 10.5a.488.488 0 01-.5.488l-3.1-.078a.41.41 0 010-.82l3.1-.077c.274-.007.5.213.5.487z"
+        fill="url(#paint3_linear_2651_82040)"
+      />
       <Defs>
-        {inactiveColors.map((color, index) => (
-          <LinearGradient key={index + color.join()} id={`${uuid}_inactive_${index}`} gradientUnits="userSpaceOnUse">
-            <Stop stopColor={color[0]} />
-            <Stop offset={1} stopColor={color[1]} />
-          </LinearGradient>
-        ))}
-
-        {activeColors.map((color, index) => (
-          <LinearGradient key={index + color.join()} id={`${uuid}_active_${index}`} gradientUnits="userSpaceOnUse">
-            <Stop stopColor={color[0]} />
-            <Stop offset={1} stopColor={color[1]} />
-          </LinearGradient>
-        ))}
+        <LinearGradient id="paint0_linear_2651_82040" x1={23.5} y1={5} x2={23.5} y2={28} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#FED181" />
+          <Stop offset={1} stopColor="#FBB48F" />
+        </LinearGradient>
+        <LinearGradient id="paint1_linear_2651_82040" x1={18} y1={16} x2={18} y2={18} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#FED181" />
+          <Stop offset={1} stopColor="#FBB48F" />
+        </LinearGradient>
+        <LinearGradient id="paint2_linear_2651_82040" x1={13} y1={2.07397} x2={13} y2={29.9261} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#FDA302" />
+          <Stop offset={1} stopColor="#F7681E" />
+        </LinearGradient>
+        <LinearGradient id="paint3_linear_2651_82040" x1={13} y1={10} x2={13} y2={11} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#FED181" />
+          <Stop offset={1} stopColor="#FBB48F" />
+        </LinearGradient>
+      </Defs>
+    </Svg>
+  ) : (
+    <Svg width={32} height={32} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <Path d="M27 27V6a1 1 0 00-1-1h-6v23h6a1 1 0 001-1z" fill="url(#paint0_linear_2651_82046)" />
+      <Path d="M18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z" fill="url(#paint1_linear_2651_82046)" />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M6.929 2.934A1 1 0 006 3.93V28.07a1 1 0 00.929.997l12 .858A1 1 0 0020 28.925V3.074a1 1 0 00-1.071-.997l-12 .857zM18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z"
+        fill="url(#paint2_linear_2651_82046)"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M6.929 2.934A1 1 0 006 3.93V28.07a1 1 0 00.929.997l12 .858A1 1 0 0020 28.925V3.074a1 1 0 00-1.071-.997l-12 .857zM18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z"
+        fill="url(#paint3_linear_2651_82046)"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15 10.5a.488.488 0 01-.5.488l-3.1-.078a.41.41 0 010-.82l3.1-.077c.274-.007.5.213.5.487z"
+        fill="url(#paint4_linear_2651_82046)"
+      />
+      <Defs>
+        <LinearGradient id="paint0_linear_2651_82046" x1={23.5} y1={5} x2={23.5} y2={28} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#DDE1E5" />
+          <Stop offset={1} stopColor="#C7CBD1" />
+        </LinearGradient>
+        <LinearGradient id="paint1_linear_2651_82046" x1={18} y1={16} x2={18} y2={18} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#DDE1E5" />
+          <Stop offset={1} stopColor="#C7CBD1" />
+        </LinearGradient>
+        <LinearGradient id="paint2_linear_2651_82046" x1={13} y1={2.07397} x2={13} y2={29.9261} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#FDA302" />
+          <Stop offset={1} stopColor="#F7681E" />
+        </LinearGradient>
+        <LinearGradient id="paint3_linear_2651_82046" x1={13} y1={2.07397} x2={13} y2={29.9261} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#A9B3BD" />
+          <Stop offset={1} stopColor="#7A8390" />
+        </LinearGradient>
+        <LinearGradient id="paint4_linear_2651_82046" x1={13} y1={10.0125} x2={13} y2={10.9878} gradientUnits="userSpaceOnUse">
+          <Stop stopColor="#DDE1E5" />
+          <Stop offset={1} stopColor="#C7CBD1" />
+        </LinearGradient>
       </Defs>
     </Svg>
   )
-}
 
 Icon.displayName = 'DoorIcon'
 
