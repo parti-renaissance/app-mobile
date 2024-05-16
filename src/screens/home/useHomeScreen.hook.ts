@@ -1,22 +1,21 @@
-import { useCallback, useEffect, useState } from 'react';
-import { PhoningCampaign } from '@/core/entities/PhoningCampaign';
-import { useCampaignStore } from '@/data/store/phoning';
-import { useNavigation } from '@react-navigation/native';
-import { router } from 'expo-router';
-import { PaginatedResult } from '../../core/entities/PaginatedResult';
-import { TimelineFeedItem, TimelineFeedItemActionCampaign, TimelineFeedItemEvent, TimelineFeedItemRetaliation } from '../../core/entities/TimelineFeedItem';
-import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor';
-import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor';
-import { RetaliationService } from '../../data/RetaliationService';
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps';
-import { Analytics } from '../../utils/Analytics';
-import { useOnFocus } from '../../utils/useOnFocus.hook';
-import { ViewState } from '../shared/ViewState';
-import { ViewStateUtils } from '../shared/ViewStateUtils';
-import { HomeViewModel } from './HomeViewModel';
-import { HomeViewModelMapper } from './HomeViewModelMapper';
-import { useFetchHomeResources } from './useFetchHomeResources.hook';
-
+import { useCallback, useEffect, useState } from 'react'
+import { PhoningCampaign } from '@/core/entities/PhoningCampaign'
+import { useCampaignStore } from '@/data/store/phoning'
+import { useNavigation } from '@react-navigation/native'
+import { router } from 'expo-router'
+import { PaginatedResult } from '../../core/entities/PaginatedResult'
+import { TimelineFeedItem, TimelineFeedItemActionCampaign, TimelineFeedItemEvent, TimelineFeedItemRetaliation } from '../../core/entities/TimelineFeedItem'
+import { GetTimelineFeedInteractor } from '../../core/interactor/GetTimelineFeedInteractor'
+import { SaveQuickPollAsAnsweredInteractor } from '../../core/interactor/SaveQuickPollAsAnsweredInteractor'
+import { RetaliationService } from '../../data/RetaliationService'
+import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
+import { Analytics } from '../../utils/Analytics'
+import { useOnFocus } from '../../utils/useOnFocus.hook'
+import { ViewState } from '../shared/ViewState'
+import { ViewStateUtils } from '../shared/ViewStateUtils'
+import { HomeViewModel } from './HomeViewModel'
+import { HomeViewModelMapper } from './HomeViewModelMapper'
+import { useFetchHomeResources } from './useFetchHomeResources.hook'
 
 export const useHomeScreen = (): {
   statefulState: ViewState<HomeViewModel>
@@ -35,17 +34,13 @@ export const useHomeScreen = (): {
   onFeedPollSelected: (pollId: string) => void
   onLoadMore: () => void
 } => {
-  const navigation =
-    useNavigation<HomeNavigatorScreenProps<'Home'>['navigation']>()
-  const [feedStatefulState, setFeedStatefulState] = useState<
-    ViewState<PaginatedResult<Array<TimelineFeedItem>>>
-  >(ViewState.Loading())
+  const navigation = useNavigation<HomeNavigatorScreenProps<'Home'>['navigation']>()
+  const [feedStatefulState, setFeedStatefulState] = useState<ViewState<PaginatedResult<Array<TimelineFeedItem>>>>(ViewState.Loading())
   const [isLoadingMore, setIsLoadingMore] = useState(false)
 
   const campaignPhoningStore = useCampaignStore()
 
-  const { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll } =
-    useFetchHomeResources()
+  const { statefulState, isRefreshing, fetchHomeResources, updateQuickPoll } = useFetchHomeResources()
 
   useEffect(() => {
     fetchHomeResources()
@@ -62,9 +57,7 @@ export const useHomeScreen = (): {
         setFeedStatefulState(ViewState.Content(response))
       })
       .catch((error) => {
-        setFeedStatefulState(
-          ViewStateUtils.networkError(error, fetchTimelineFeed),
-        )
+        setFeedStatefulState(ViewStateUtils.networkError(error, fetchTimelineFeed))
       })
       .finally(() => setIsLoadingMore(false))
   }, [])
@@ -124,10 +117,7 @@ export const useHomeScreen = (): {
     })
   }
 
-  const onQuickPollAnswerSelected = async (
-    pollId: string,
-    answerId: string,
-  ) => {
+  const onQuickPollAnswerSelected = async (pollId: string, answerId: string) => {
     const interactor = new SaveQuickPollAsAnsweredInteractor()
     const updatedPoll = await interactor.execute({
       quickPollId: pollId,
@@ -161,13 +151,9 @@ export const useHomeScreen = (): {
     })
   }
 
-  const findItemWithId = <T extends TimelineFeedItem['value']>(
-    id: string,
-    type: TimelineFeedItem['type'],
-  ): T | undefined => {
+  const findItemWithId = <T extends TimelineFeedItem['value']>(id: string, type: TimelineFeedItem['type']): T | undefined => {
     const items = ViewState.unwrap(feedStatefulState)?.result ?? []
-    return items.find((item) => item.type === type && item.value.uuid === id)
-      ?.value as T
+    return items.find((item) => item.type === type && item.value.uuid === id)?.value as T
   }
 
   const onRetaliationSelected = (id: string) => {
@@ -189,10 +175,7 @@ export const useHomeScreen = (): {
   }
 
   const onFeedPhoningCampaignSelected = (campaignId: string) => {
-    const item = findItemWithId<TimelineFeedItemActionCampaign>(
-      campaignId,
-      'phoning',
-    )
+    const item = findItemWithId<TimelineFeedItemActionCampaign>(campaignId, 'phoning')
     if (item === undefined) {
       return
     }
@@ -210,7 +193,7 @@ export const useHomeScreen = (): {
 
   const onFeedDoorToDoorCampaignSelected = () => {
     router.navigate({
-      pathname: '/(tabs)/actions/door-to-door',
+      pathname: '/(tabs)/porte-a-porte',
     })
   }
 

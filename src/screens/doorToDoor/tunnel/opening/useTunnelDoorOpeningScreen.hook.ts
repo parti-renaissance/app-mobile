@@ -19,9 +19,7 @@ export const useTunnelDoorOpeningScreen = (): {
 } => {
   const navigation = useNavigation()
   const { tunnel, setTunnel } = useDtdTunnelStore()
-  const [statefulState, setStatefulState] = useState<
-    ViewState<DoorToDoorPollConfigDoorStatus[]>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<DoorToDoorPollConfigDoorStatus[]>>(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
 
   useDoorToDoorTunnelNavigationOptions()
@@ -39,7 +37,7 @@ export const useTunnelDoorOpeningScreen = (): {
 
   const navigateToInterlocutor = () => {
     router.push({
-      pathname: '/actions/door-to-door/tunnel/interlocutor',
+      pathname: '/porte-a-porte/tunnel/interlocutor',
       params: {
         visitStartDateISOString: DateProvider.now().toISOString(),
       },
@@ -70,7 +68,7 @@ export const useTunnelDoorOpeningScreen = (): {
               },
               canCloseFloor: true,
             })
-            router.push('/actions/door-to-door/tunnel/selection')
+            router.push('/porte-a-porte/tunnel/selection')
             break
           }
         }
@@ -84,9 +82,7 @@ export const useTunnelDoorOpeningScreen = (): {
   }
 
   const onStatusSelected = (statusCode: string) => {
-    const status = (ViewState.unwrap(statefulState) ?? []).find(
-      (s) => s.code === statusCode,
-    )
+    const status = (ViewState.unwrap(statefulState) ?? []).find((s) => s.code === statusCode)
     if (status === undefined) {
       return
     }

@@ -127,7 +127,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
               break
             case 'pap-campaign':
               router.navigate({
-                pathname: '/(tabs)/actions/door-to-door',
+                pathname: '/(tabs)/porte-a-porte',
                 params: { id: feed.objectID },
               })
               break

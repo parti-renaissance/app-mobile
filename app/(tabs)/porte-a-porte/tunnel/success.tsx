@@ -59,7 +59,7 @@ const TunnelDoorSuccessScreen = () => {
         <PrimaryButton
           onPress={() => {
             router.replace({
-              pathname: '/actions/door-to-door/tunnel/poll',
+              pathname: '/porte-a-porte/tunnel/poll',
               params: {
                 interlocutorStatus: params.interlocutorStatus,
                 visitStartDateISOString: DateProvider.now().toISOString(),
@@ -99,7 +99,7 @@ const TunnelDoorSuccessScreen = () => {
                   door: nextDoor,
                 },
               })
-              router.push('/actions/door-to-door/tunnel/selection')
+              router.push('/porte-a-porte/tunnel/selection')
             }}
           />
         ) : null}

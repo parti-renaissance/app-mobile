@@ -117,7 +117,7 @@ const TunnelDoorSelectionScreen = () => {
           title={i18n.t('doorToDoor.tunnel.door.doorknocked')}
           onPress={() =>
             router.navigate({
-              pathname: '/actions/door-to-door/tunnel/opening',
+              pathname: '/porte-a-porte/tunnel/opening',
               params: {
                 campaignId: tunnel.campaignId,
                 buildingParams: {

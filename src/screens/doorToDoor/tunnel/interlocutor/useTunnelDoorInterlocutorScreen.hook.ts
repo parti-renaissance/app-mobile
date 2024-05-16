@@ -3,10 +3,7 @@ import { useDtdTunnelStore } from '@/data/store/door-to-door'
 import { useNavigation } from '@react-navigation/native'
 import { router } from 'expo-router'
 import { DoorToDoorPollConfigResponseStatus } from '../../../../core/entities/DoorToDoorPollConfig'
-import {
-  INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE,
-  SendDoorPollAnswersInteractor,
-} from '../../../../core/interactor/SendDoorPollAnswersInteractor'
+import { INTERLOCUTOR_ACCEPT_TO_ANSWER_CODE, SendDoorPollAnswersInteractor } from '../../../../core/interactor/SendDoorPollAnswersInteractor'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
 import { AlertUtils } from '../../../shared/AlertUtils'
@@ -23,16 +20,11 @@ export const useTunnelDoorInterlocutorScreen = (
   isSendingChoice: boolean
   onChoice: (statusId: string) => void
 } => {
-  const navigation =
-    useNavigation<
-      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>['navigation']
-    >()
+  const navigation = useNavigation<DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorInterlocutor'>['navigation']>()
 
   const { tunnel, setTunnel } = useDtdTunnelStore()
 
-  const [statefulState, setStatefulState] = useState<
-    ViewState<Array<DoorToDoorPollConfigResponseStatus>>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<Array<DoorToDoorPollConfigResponseStatus>>>(ViewState.Loading())
   const [isSendingChoice, setIsSendingChoice] = useState(false)
 
   useDoorToDoorTunnelNavigationOptions()
@@ -44,16 +36,14 @@ export const useTunnelDoorInterlocutorScreen = (
         .then((result) => {
           setStatefulState(ViewState.Content(result.before.responseStatus))
         })
-        .catch((error) =>
-          setStatefulState(ViewStateUtils.networkError(error, fetchData)),
-        )
+        .catch((error) => setStatefulState(ViewStateUtils.networkError(error, fetchData)))
     }
     fetchData()
   }, [tunnel.campaignId])
 
   const navigateToPoll = (code: string) => {
     router.push({
-      pathname: '/actions/door-to-door/tunnel/poll',
+      pathname: '/porte-a-porte/tunnel/poll',
       params: {
         interlocutorStatus: code,
         visitStartDateISOString,
@@ -85,7 +75,7 @@ export const useTunnelDoorInterlocutorScreen = (
               },
               canCloseFloor: true,
             })
-            router.push('/actions/door-to-door/tunnel/selection')
+            router.push('/porte-a-porte/tunnel/selection')
             break
           }
         }
@@ -99,9 +89,7 @@ export const useTunnelDoorInterlocutorScreen = (
   }
 
   const onChoice = (statusId: string) => {
-    const status = (ViewState.unwrap(statefulState) ?? []).find(
-      (s) => s.code === statusId,
-    )
+    const status = (ViewState.unwrap(statefulState) ?? []).find((s) => s.code === statusId)
     if (status === undefined) {
       return
     }

@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { DoorToDoorCampaign } from '../../../../core/entities/DoorToDoorCampaign'
 import DoorToDoorRepository from '../../../../data/DoorToDoorRepository'
 import { DoorToDoorTunnelModalNavigatorScreenProps } from '../../../../navigation/doorToDoorTunnelModal/DoorToDoorTunnelModalNavigatorScreenProps'
@@ -7,7 +8,6 @@ import { ViewState } from '../../../shared/ViewState'
 import { ViewStateUtils } from '../../../shared/ViewStateUtils'
 import { BuildingSelectedNavigationParams } from '../BuildingSelectedNavigationParams'
 import { DoorToDoorBriefViewModel } from './DoorToDoorBriefViewModel'
-import { router } from 'expo-router'
 
 export const useDoorToDoorBriefScreen = (
   campaignId: string,
@@ -17,13 +17,8 @@ export const useDoorToDoorBriefScreen = (
   statefulState: ViewState<DoorToDoorBriefViewModel>
   onAction: () => void
 } => {
-  const [statefulState, setStatefulState] = useState<
-    ViewState<DoorToDoorCampaign>
-  >(ViewState.Loading())
-  const navigation =
-    useNavigation<
-      DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>['navigation']
-    >()
+  const [statefulState, setStatefulState] = useState<ViewState<DoorToDoorCampaign>>(ViewState.Loading())
+  const navigation = useNavigation<DoorToDoorTunnelModalNavigatorScreenProps<'TunnelDoorBrief'>['navigation']>()
 
   const fetchData = useCallback(() => {
     setStatefulState(ViewState.Loading())
@@ -48,13 +43,13 @@ export const useDoorToDoorBriefScreen = (
     switch (buildingParams.type) {
       case 'house': {
         router.navigate({
-          pathname: '/actions/door-to-door/tunnel/opening',
+          pathname: '/porte-a-porte/tunnel/opening',
         })
         break
       }
       case 'building': {
         router.navigate({
-          pathname: '/actions/door-to-door/tunnel/selection',
+          pathname: '/porte-a-porte/tunnel/selection',
         })
         break
       }
