@@ -1,17 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import {
-  FlatList,
-  Image,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { FlatList, Image, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import {
-  DoorToDoorCampaignRanking,
-  DoorToDoorCampaignRankingItem,
-} from '@/core/entities/DoorToDoorCampaignRanking'
+import { DoorToDoorCampaignRanking, DoorToDoorCampaignRankingItem } from '@/core/entities/DoorToDoorCampaignRanking'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
 import { useDtdTunnelStore } from '@/data/store/door-to-door'
 import { RankingRowViewModel, Tab } from '@/screens/doorToDoor/rankings/Ranking'
@@ -39,9 +29,7 @@ const TunnelDoorSuccessScreen = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <CloseButton onPress={() => navigation.getParent()?.goBack()} />
-      ),
+      headerLeft: () => <CloseButton onPress={() => navigation.getParent()?.goBack()} />,
     })
   }, [navigation])
 
@@ -54,20 +42,13 @@ const TunnelDoorSuccessScreen = () => {
       })
   }, [tunnel.campaignId, setRanking])
 
-  const renderItem = ({ item }: ListRenderItemInfo<RankingRowViewModel>) => (
-    <RankingRowView viewModel={item} />
-  )
+  const renderItem = ({ item }: ListRenderItemInfo<RankingRowViewModel>) => <RankingRowView viewModel={item} />
 
   const renderHeader = () => {
     return (
       <>
-        <Image
-          style={styles.image}
-          source={require('@/assets/images/papSuccess.png')}
-        />
-        <Text style={styles.title}>
-          {i18n.t('doorToDoor.tunnel.success.newDoor')}
-        </Text>
+        <Image style={styles.image} source={require('@/assets/images/papSuccess.png')} />
+        <Text style={styles.title}>{i18n.t('doorToDoor.tunnel.success.newDoor')}</Text>
         <Text style={styles.note}>
           {i18n.t('doorToDoor.tunnel.success.recap', {
             doorsCount: userStats?.visitedDoors ?? 0,
@@ -78,7 +59,7 @@ const TunnelDoorSuccessScreen = () => {
         <PrimaryButton
           onPress={() => {
             router.replace({
-              pathname: '/actions/door-to-door/tunnel/poll',
+              pathname: '/porte-a-porte/tunnel/poll',
               params: {
                 interlocutorStatus: params.interlocutorStatus,
                 visitStartDateISOString: DateProvider.now().toISOString(),
@@ -92,9 +73,7 @@ const TunnelDoorSuccessScreen = () => {
 
         {ranking ? (
           <>
-            <Text style={styles.title}>
-              {i18n.t('doorToDoor.tunnel.success.ranking')}
-            </Text>
+            <Text style={styles.title}>{i18n.t('doorToDoor.tunnel.success.ranking')}</Text>
             <RankingTabsView tab={tab} onPress={setTab} />
             <RankingHeaderView tab={tab} />
           </>
@@ -105,12 +84,7 @@ const TunnelDoorSuccessScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        ListHeaderComponent={renderHeader}
-        data={RankingViewModelMapper.map(ranking, tab)}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.rank}
-      />
+      <FlatList ListHeaderComponent={renderHeader} data={RankingViewModelMapper.map(ranking, tab)} renderItem={renderItem} keyExtractor={(item) => item.rank} />
       <View style={styles.bottomContainer}>
         {tunnel.buildingParams.type !== 'house' ? (
           <PrimaryButton
@@ -125,14 +99,11 @@ const TunnelDoorSuccessScreen = () => {
                   door: nextDoor,
                 },
               })
-              router.push('/actions/door-to-door/tunnel/selection')
+              router.push('/porte-a-porte/tunnel/selection')
             }}
           />
         ) : null}
-        <SecondaryButton
-          title={i18n.t('doorToDoor.tunnel.success.stop')}
-          onPress={() => navigation.getParent()?.goBack()}
-        />
+        <SecondaryButton title={i18n.t('doorToDoor.tunnel.success.stop')} onPress={() => navigation.getParent()?.goBack()} />
       </View>
     </SafeAreaView>
   )

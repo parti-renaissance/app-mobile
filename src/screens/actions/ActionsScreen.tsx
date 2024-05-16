@@ -1,6 +1,5 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'
 import { StatefulView } from '../shared/StatefulView'
@@ -8,9 +7,7 @@ import { ActionRow } from './ActionRow'
 import { ActionRowViewModel } from './ActionRowViewModel'
 import { useActionsScreen } from './useActionsScreen.hook'
 
-type ActionsScreenProps = ActionsNavigatorScreenProps<'Actions'>
-
-const ActionsScreen: FunctionComponent<ActionsScreenProps> = () => {
+const ActionsScreen = () => {
   const { statefulState, onActionSelected } = useActionsScreen()
 
   const renderItem = ({ item }: ListRenderItemInfo<ActionRowViewModel>) => {

@@ -1,10 +1,4 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BuildingSelectedParams } from '@/data/store/SendDoorToDoorPollAnswersJobQueue'
@@ -46,9 +40,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
   const [currentStep, setStep] = useState<number>(0)
   const [, updateState] = useState<any>()
   const forceUpdate = useCallback(() => updateState({}), [])
-  const [provider] = useState<
-    PollDetailComponentProvider<DoorToDoorPollResult>
-  >(
+  const [provider] = useState<PollDetailComponentProvider<DoorToDoorPollResult>>(
     new CompoundPollDetailComponentProvider(
       new PollDetailRemoteQuestionComponentProvider(poll, forceUpdate),
       new DoorToDoorQualificationComponentProvider(qualification, forceUpdate),
@@ -57,11 +49,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const progressViewModel = PollDetailProgressBarViewModelMapper.map(
-    currentStep,
-    provider.getNumberOfSteps(),
-    provider.getStepType(currentStep),
-  )
+  const progressViewModel = PollDetailProgressBarViewModelMapper.map(currentStep, provider.getNumberOfSteps(), provider.getStepType(currentStep))
   const isNextStepAvailable = () => {
     return currentStep < provider.getNumberOfSteps() - 1
   }
@@ -96,7 +84,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
         visitStartDateISOString,
       })
       .then(() => {
-        router.replace('/(tabs)/actions/door-to-door/tunnel/success')
+        router.replace('/(tabs)/porte-a-porte/tunnel/success')
       })
       .catch((error) => {
         AlertUtils.showNetworkAlert(error, postAnswers)
@@ -108,10 +96,7 @@ const DoorToDoorPollDetailScreenLoaded: FunctionComponent<Props> = ({
     <SafeAreaView edges={['bottom']} style={styles.container}>
       <LoadingOverlay visible={isLoading} />
       <View style={styles.content}>
-        <PollDetailProgressBar
-          style={styles.progress}
-          viewModel={progressViewModel}
-        />
+        <PollDetailProgressBar style={styles.progress} viewModel={progressViewModel} />
         <View
           style={styles.questionContainer}
           onLayout={(event) => {
