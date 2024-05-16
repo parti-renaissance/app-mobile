@@ -1,17 +1,18 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react'
-import { Image, Keyboard, StyleSheet, TextInput, View } from 'react-native'
+import React, { FunctionComponent, useEffect } from 'react'
+import { Image, StyleSheet, TextInput, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { Button } from '@/components'
 import Input from '@/components/base/Input/Input'
-import { Sheet, XStack } from 'tamagui'
+import { Sheet, YStack } from 'tamagui'
 import { DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, unit } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
-import { BorderlessButton } from '../shared/Buttons'
+import { BorderlessButton, PrimaryButton } from '../shared/Buttons'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
 import BuildingLayoutBlockCardView, { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
+import { BuildingLayoutActionType } from './BuildingLayoutFloorCell'
 
 export interface BuildingLayoutViewModel {
   buildings: BuildingLayoutBlockCardViewModel[]
@@ -29,6 +30,7 @@ type Props = Readonly<{
   onOpenAddress: () => void
   onCloseAddress: () => void
   onLeaflet: (n: number) => void
+  leafletsInfo: { leafletsDistributed: number; lastVisit: string }
 }>
 
 const BuildingLayoutView: FunctionComponent<Props> = ({
@@ -42,36 +44,60 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
   onOpenAddress,
   onCloseAddress,
   onLeaflet,
+  leafletsInfo,
 }) => {
   const [open, setOpen] = React.useState(false)
   return (
     <View style={styles.container}>
-      {viewModel.buildings.map((buildingViewModel) => {
-        return (
-          <BuildingLayoutBlockCardView
-            key={buildingViewModel.id}
-            viewModel={buildingViewModel}
-            style={styles.blockCard}
-            onSelect={onSelect}
-            onAddBuildingFloor={onAddBuildingFloor}
-            onRemoveBuildingBlock={onRemoveBuildingBlock}
-            onRemoveBuildingFloor={onRemoveBuildingFloor}
-            onBuildingAction={onBuildingAction}
-            onLeafletAction={() => setOpen(true)}
-          />
-        )
-      })}
+      <CardView backgroundColor={Colors.defaultBackground}>
+        {viewModel.buildingStatus !== 'todo' &&
+          viewModel.buildings.map((buildingViewModel) => {
+            return (
+              <BuildingLayoutBlockCardView
+                key={buildingViewModel.id}
+                viewModel={buildingViewModel}
+                buildingStatus={viewModel.buildingStatus}
+                style={styles.blockCard}
+                onSelect={onSelect}
+                onAddBuildingFloor={onAddBuildingFloor}
+                onRemoveBuildingBlock={onRemoveBuildingBlock}
+                onRemoveBuildingFloor={onRemoveBuildingFloor}
+                onBuildingAction={onBuildingAction}
+              />
+            )
+          })}
+        <View style={[styles.layoutContainer, { marginTop: 0 }]}>
+          <YStack gap="$3.5" backgroundColor="$white1">
+            {viewModel.buildingStatus === 'todo' && !!viewModel.buildings && (
+              <>
+                <YStack mt="$1.5" />
+                <BuildingLayoutActionType
+                  onPress={() => onSelect(viewModel.buildings[0].floors[0].buildingBlock, viewModel.buildings[0].floors[0].floorNumber)}
+                  viewModel={{
+                    title: 'Commencer le porte à porte',
+                    subtitle: '',
+                  }}
+                />
+              </>
+            )}
+            <BuildingLayoutActionType
+              disabled={viewModel.buildingStatus === 'completed'}
+              completed={Boolean(leafletsInfo.leafletsDistributed)}
+              onPress={() => setOpen(true)}
+              viewModel={{
+                title: leafletsInfo.leafletsDistributed ? `${leafletsInfo.leafletsDistributed} documents boités` : 'J’ai boité des documents',
+                subtitle: leafletsInfo.leafletsDistributed ? leafletsInfo.lastVisit : '',
+              }}
+            />
+          </YStack>
+        </View>
+      </CardView>
       {viewModel.buildingStatus === 'completed' ? (
-        <>
-          <BorderlessButton textStyle={styles.openAddress} title={i18n.t('building.open_address.action')} onPress={onOpenAddress} />
-        </>
+        <BorderlessButton textStyle={styles.openAddress} title={i18n.t('building.open_address.action')} onPress={onOpenAddress} />
       ) : (
-        <>
-          <AddBuildingCard onAddBuildingBlock={onAddBuildingBlock} />
-          <Button onPress={onCloseAddress} disabled={viewModel.buildings.some((block) => block.status !== 'completed')} flex={1} size="lg">
-            <Button.Text>{i18n.t('building.close_address.action')}</Button.Text>
-          </Button>
-        </>
+        (viewModel.buildingStatus === 'ongoing' || (leafletsInfo.leafletsDistributed ?? 0) > 0) && (
+          <PrimaryButton shape="rounded" style={styles.closeAddress} onPress={onCloseAddress} title="J'ai terminé cette adresse" />
+        )
       )}
       <SheetLeaflet open={open} onChange={onLeaflet} onOpenChange={setOpen} />
     </View>
@@ -99,12 +125,15 @@ const SheetLeaflet = ({ open, onChange, onOpenChange }: { open: boolean; onChang
     onOpenChange(false)
   }
 
-  const handleOpenChange = (open: boolean) => {
+  useEffect(() => {
     if (open) {
       setTimeout(() => {
         inputRef.current?.focus()
-      }, 100)
+      }, 200)
     }
+  })
+
+  const handleOpenChange = (open: boolean) => {
     onOpenChange(open)
   }
 
@@ -165,6 +194,7 @@ const styles = StyleSheet.create({
   },
   closeAddress: {
     marginVertical: Spacing.margin,
+    borderRadius: 8,
   },
   container: {
     backgroundColor: Colors.defaultBackground,
@@ -192,6 +222,12 @@ const styles = StyleSheet.create({
   openAddress: {
     ...Typography.callout,
     color: Colors.primaryColor,
+  },
+  layoutContainer: {
+    backgroundColor: Colors.secondaryButtonBackground,
+    borderRadius: 8,
+    margin: margin,
+    overflow: 'hidden',
   },
 })
 

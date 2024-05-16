@@ -40,11 +40,10 @@ export default function AppLayout() {
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }}>
-      <NavBar />
       <Tabs
         initialRouteName="(home)"
         screenOptions={{
-          headerShown: false,
+          header: (x) => <NavBar {...x} />,
           tabBarLabel: () => null,
           tabBarButton: (props) => <Pressable {...props} />,
           tabBarStyle: {

@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useState } from 'react'
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
-import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { DoorToDoorCharterNotAccepted } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
@@ -21,7 +20,6 @@ import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { useQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 import { router } from 'expo-router'
-import { isWeb } from 'tamagui'
 
 const DoorToDoorMapView = memo(_DoorToDoorMapView)
 
@@ -83,7 +81,6 @@ const DoorToDoorScreen = () => {
   } = useQuery({
     queryKey: ['mapPermission'],
     queryFn: requestPermission,
-    enabled: !isWeb,
   })
 
   const {
@@ -149,10 +146,6 @@ const DoorToDoorScreen = () => {
     }
 
     return renderMap(currentSearchRegion)
-  }
-
-  if (isWeb) {
-    return <MobileWallLayout />
   }
 
   return (

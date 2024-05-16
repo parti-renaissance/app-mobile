@@ -11,6 +11,7 @@ export const DoorToDoorMapper = {
           numberOfSurveys: rest_campaign.nb_surveys,
           status: rest_campaign.status,
           id: rest_campaign.uuid,
+          leafletsDistributed: rest_campaign.nb_distributed_programs,
           lastPassage: mapLastPassage(rest_campaign.last_passage),
           campaignId: rest_campaign.campaign.uuid,
           lastPassageDoneBy: {

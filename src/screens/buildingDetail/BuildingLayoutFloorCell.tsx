@@ -24,14 +24,20 @@ type Props = Readonly<{
 }>
 
 type ActionProps = Readonly<{
-  children: string
+  viewModel: { title: string; subtitle: string }
+  disabled?: boolean
+  completed?: boolean
   style?: ViewStyle
   onPress: () => void | undefined
 }>
 
-export const BuildingLayoutActionType: FunctionComponent<ActionProps> = ({ children, style, onPress }) => {
+export const BuildingLayoutActionType: FunctionComponent<ActionProps> = ({ viewModel, style, onPress, disabled, completed }) => {
   function icon(): JSX.Element {
-    return (
+    return completed ? (
+      <View style={styles.buttonInvertedColors}>
+        <Image style={styles.iconInvertedColors} source={require('../../assets/images/checkIcon.png')} />
+      </View>
+    ) : (
       <TouchablePlatform style={styles.button} onPress={onPress} touchHighlight={Colors.touchHighlight}>
         <Image style={styles.icon} source={require('../../assets/images/arrow.png')} />
       </TouchablePlatform>
@@ -39,8 +45,13 @@ export const BuildingLayoutActionType: FunctionComponent<ActionProps> = ({ child
   }
 
   return (
-    <View style={[styles.layoutContainer, style]}>
-      <BuildingActionTitleView viewModel={{ title: children, subtitle: '' }} canRemove={false} onRemoveBuildingFloor={() => {}} />
+    <View
+      style={[
+        styles.layoutContainer,
+        { backgroundColor: Colors.secondaryButtonBackground, opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : undefined },
+      ]}
+    >
+      <BuildingActionTitleView viewModel={viewModel} canRemove={false} onRemoveBuildingFloor={() => {}} />
       {icon()}
     </View>
   )
@@ -112,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderRadius: 8,
   },
 })
 

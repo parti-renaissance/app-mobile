@@ -5,6 +5,7 @@ import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustratio
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
+import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs/src/types'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
 import { Link, usePathname, useSegments } from 'expo-router'
 import { Button, Circle, Spinner, Stack, StackProps, styled, useMedia, View } from 'tamagui'
@@ -102,7 +103,7 @@ const LoginView = () => (
   </View>
 )
 
-const Header: React.FC = (props: StackProps) => {
+const Header: React.FC = (props: BottomTabHeaderProps) => {
   const segments = useSegments()
   const isNested = segments.length > 2
   const backPath = segments

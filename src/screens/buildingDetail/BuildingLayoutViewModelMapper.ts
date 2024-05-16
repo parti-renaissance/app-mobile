@@ -1,25 +1,15 @@
 import { ImageSourcePropType } from 'react-native'
-import { randomUUID } from 'expo-crypto';
-import {
-  BuildingType,
-  DoorToDoorAddressStatus,
-} from '../../core/entities/DoorToDoor'
+import { randomUUID } from 'expo-crypto'
+import { BuildingType, DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { DateFormatter } from '../../utils/DateFormatter'
 import i18n from '../../utils/i18n'
-import {
-  BuildingBlock,
-  BuildingBlockFloor,
-} from './../../core/entities/BuildingBlock'
+import { BuildingBlock, BuildingBlockFloor } from './../../core/entities/BuildingBlock'
 import { BuildingLayoutBlockCardViewModel } from './BuildingLayoutBlockCardView'
 import { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
 import { BuildingLayoutViewModel } from './BuildingLayoutView'
 
 export const BuildingLayoutViewModelMapper = {
-  map: (
-    type: BuildingType,
-    status: DoorToDoorAddressStatus,
-    blocks: BuildingBlock[],
-  ): BuildingLayoutViewModel => {
+  map: (type: BuildingType, status: DoorToDoorAddressStatus, blocks: BuildingBlock[]): BuildingLayoutViewModel => {
     return {
       buildings: blocks.map((block, index) => {
         return blockCardViewModel(block, type, status, index)
@@ -50,12 +40,9 @@ function blockCardViewModel(
       buildingTypeIcon = require('../../assets/images/house.png')
       break
     case 'building':
-      buildingTypeName = i18n.t(
-        'building.layout.buildingtype.appartementbuilding',
-        {
-          buildingName: block.name,
-        },
-      )
+      buildingTypeName = i18n.t('building.layout.buildingtype.appartementbuilding', {
+        buildingName: block.name,
+      })
       buildingTypeIcon = require('../../assets/images/appartementBuilding.png')
   }
 
@@ -68,31 +55,19 @@ function blockCardViewModel(
         ? [floorCompletedCellViewModel(block)]
         : block.floors.map((floor, index) => {
             const canRemoveFloor =
-              floor.local &&
-              index > 0 &&
-              index === block.floors.length - 1 &&
-              block.status !== 'completed' &&
-              addressStatus !== 'completed'
+              floor.local && index > 0 && index === block.floors.length - 1 && block.status !== 'completed' && addressStatus !== 'completed'
             return floorCellViewModel(block.name, floor, type, canRemoveFloor)
           }),
     local: block.local,
     status: block.status,
     statusAction: statusAction,
     removable: addressStatus !== 'completed' && blockIndex > 0,
-    canAddNewFloor:
-      type === 'building' &&
-      block.status !== 'completed' &&
-      addressStatus !== 'completed',
-    canUpdateBuildingStatus:
-      addressStatus !== 'completed' &&
-      (block.status === 'completed' ||
-        block.floors.every((floor) => floor.status === 'completed')),
+    canAddNewFloor: type === 'building' && block.status !== 'completed' && addressStatus !== 'completed',
+    canUpdateBuildingStatus: addressStatus !== 'completed' && (block.status === 'completed' || block.floors.every((floor) => floor.status === 'completed')),
   }
 }
 
-function floorCompletedCellViewModel(
-  block: BuildingBlock,
-): BuildingLayoutFloorCellViewModel {
+function floorCompletedCellViewModel(block: BuildingBlock): BuildingLayoutFloorCellViewModel {
   return {
     id: randomUUID(),
     floorNumber: 0,
@@ -103,21 +78,14 @@ function floorCompletedCellViewModel(
     }),
     subtitle: i18n.t('building.layout.floor.subtitle.closed', {
       name: block.closedBy,
-      date: block.closedAt
-        ? DateFormatter.format(block.closedAt, i18n.t('doorToDoor.date_format'))
-        : '',
+      date: block.closedAt ? DateFormatter.format(block.closedAt, i18n.t('doorToDoor.date_format')) : '',
     }),
     isCompleted: true,
     removable: false,
   }
 }
 
-function floorCellViewModel(
-  buildingBlock: string,
-  floor: BuildingBlockFloor,
-  type: BuildingType,
-  removable: boolean,
-): BuildingLayoutFloorCellViewModel {
+function floorCellViewModel(buildingBlock: string, floor: BuildingBlockFloor, type: BuildingType, removable: boolean): BuildingLayoutFloorCellViewModel {
   return {
     id: floor.id,
     floorNumber: floor.number,
@@ -139,12 +107,7 @@ function floorCellSubtitle(floor: BuildingBlockFloor): string {
   switch (floor.status) {
     case 'completed':
       return i18n.t('building.layout.floor.subtitle.completed', {
-        date: floor.closedAt
-          ? DateFormatter.format(
-              floor.closedAt,
-              i18n.t('doorToDoor.date_format'),
-            )
-          : '',
+        date: floor.closedAt ? DateFormatter.format(floor.closedAt, i18n.t('doorToDoor.date_format')) : '',
       })
     case 'ongoing':
       return i18n.t('building.layout.floor.subtitle.ongoing', {

@@ -27,6 +27,7 @@ import AlphabetHelper from '@/utils/AlphabetHelper'
 import i18n from '@/utils/i18n'
 import { useIsFocused } from '@react-navigation/native'
 import { router, useNavigation } from 'expo-router'
+import { last } from 'lodash'
 
 enum Tab {
   HISTORY,
@@ -45,9 +46,9 @@ const BuildingDetailScreen = () => {
   const { setTunnel } = useDtdTunnelStore()
   const [address, setAddress] = useState(dtdStore.address)
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>({ visible: false })
-  const viewModel = BuildingDetailScreenViewModelMapper.map(address, history, layout)
+  const viewModel = BuildingDetailScreenViewModelMapper.map(address!, history, layout)
   const buildingBlockHelper = new BuildingBlockHelper()
-  const campaignStatistics = address.building.campaignStatistics!!
+  const campaignStatistics = address!.building.campaignStatistics!!
 
   const navigation = useNavigation()
 
@@ -218,6 +219,24 @@ const BuildingDetailScreen = () => {
     )
   }
 
+  const handleLeaflet = (n: number) => {
+    AlertUtils.showDestructiveAlert(
+      i18n.t('building.close_address.alert.title'),
+      i18n.t('building.close_address.alert.message'),
+      i18n.t('building.close_address.alert.action'),
+      i18n.t('building.close_address.alert.cancel'),
+      () => {
+        setIsloading(true)
+        DoorToDoorRepository.getInstance()
+          .sendLeaflet(campaignStatistics.campaignId, address!.building.id, n)
+          .then(() => {
+            refreshData()
+          })
+          .finally(() => setIsloading(false))
+      },
+    )
+  }
+
   const openAddress = () => {
     AlertUtils.showSimpleAlert(
       i18n.t('building.open_address.alert.title'),
@@ -244,6 +263,10 @@ const BuildingDetailScreen = () => {
         return (
           <BuildingLayoutView
             viewModel={viewModel.buildingLayout}
+            leafletsInfo={{
+              leafletsDistributed: viewModel.leafletsDistributed ?? 0,
+              lastVisit: viewModel.lastVisit,
+            }}
             onSelect={(buildingBlock: string, floorNumber: number) => {
               const block = layout.find((item) => item.name === buildingBlock)
               const floor = block?.floors?.find((item) => item.number === floorNumber)
@@ -283,6 +306,7 @@ const BuildingDetailScreen = () => {
             }}
             onOpenAddress={openAddress}
             onCloseAddress={closeAddress}
+            onLeaflet={handleLeaflet}
           />
         )
     }
@@ -297,8 +321,11 @@ const BuildingDetailScreen = () => {
         ) : null}
       </Modal>
       <>
-        <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing && !isLoading} onRefresh={refreshData} colors={[Colors.primaryColor]} />}>
-          <Image source={viewModel.illustration} style={styles.illustration} />
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          refreshControl={<RefreshControl refreshing={isRefreshing && !isLoading} onRefresh={refreshData} colors={[Colors.primaryColor]} />}
+        >
+          {/* <Image source={viewModel.illustration} style={styles.illustration} /> */}
           <Text style={styles.address}>{viewModel.address}</Text>
           <Text style={styles.lastVisit}>{viewModel.lastVisit}</Text>
           <BuildingStatusView viewModel={viewModel.status} />

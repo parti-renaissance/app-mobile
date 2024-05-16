@@ -444,7 +444,7 @@
         "completedQuestionnaires_one": "Questionnaire\nréalisé",
         "completedQuestionnaires_other": "Questionnaires\nréalisés"
       },
-      "tabs": { "history": "Historique", "layout": "Bâtiment" },
+      "tabs": { "history": "Historique", "layout": "Actions" },
       "layout": {
         "buildingtype": {
           "house": "Maison",

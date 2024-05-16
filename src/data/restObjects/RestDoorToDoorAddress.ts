@@ -20,6 +20,8 @@ export interface RestDoorToDoorAddressCampaignStatistics {
   uuid: string
   nb_visited_doors: number
   nb_surveys: number
+  nb_distributed_programs: number
+  status_detail: 'completed_pap' | 'completed_boitage' | 'completed_hybrid'
   last_passage: string | null
   status: 'todo' | 'ongoing' | 'completed'
   last_passage_done_by?: {
