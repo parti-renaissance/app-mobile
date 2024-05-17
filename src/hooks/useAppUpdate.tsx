@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 import { checkVersion } from 'react-native-check-version'
+import { nativeApplicationVersion } from 'expo-application'
 import { isWeb } from 'tamagui'
 
 export default function useAppUpdate() {
-  // const updates = useUpdates()
   const [isBuildUpdateAvailable, setIsBuildUpdateAvailable] = useState(false)
 
   const checkForUpdate = () => {
@@ -14,6 +15,8 @@ export default function useAppUpdate() {
     const checkStoreUpdate = async () => {
       const version = await checkVersion({
         country: 'fr',
+        bundleId: Platform.OS === 'android' ? 'fr.en_marche.jecoute' : 'fr.en-marche.jecoute',
+        currentVersion: nativeApplicationVersion ?? '999',
       })
 
       if (version.needsUpdate) {
@@ -23,19 +26,6 @@ export default function useAppUpdate() {
     return checkStoreUpdate()
   }
 
-  //   const checkExpoUpdate = async () => {
-  //     try {
-  //       const update = await checkForUpdateAsync()
-
-  //       if (update.isAvailable) {
-  //         await fetchUpdateAsync()
-  //       }
-  //     } catch (error) {}
-  //   }
-
-  //   return Promise.allSettled([checkExpoUpdate(), checkStoreUpdate()])
-  // }
-
   useEffect(() => {
     checkForUpdate()
   }, [])
@@ -43,6 +33,5 @@ export default function useAppUpdate() {
   return {
     isBuildUpdateAvailable,
     checkForUpdate,
-    // ...updates,
   }
 }

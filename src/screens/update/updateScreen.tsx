@@ -5,17 +5,11 @@ import redirectToStore from '@/helpers/redirectToStore'
 import useAsyncFn from '@/hooks/useAsyncFn'
 import { Button, Image, Spinner, View, YStack } from 'tamagui'
 
-interface Props {
-  isBuildUpdate?: boolean
-}
-
-export default function UpdateScreen({ isBuildUpdate = false }: Props) {
+export default function UpdateScreen() {
   const { isProcessing, trigger: onUpdate } = useAsyncFn(
     useCallback(async () => {
-      if (isBuildUpdate) {
-        await redirectToStore()
-      }
-    }, [isBuildUpdate]),
+      await redirectToStore()
+    }, []),
   )
 
   const isDisabled = isProcessing
