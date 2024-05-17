@@ -1,5 +1,7 @@
+import { request } from 'react-native-permissions'
 import clientEnv from '@/config/clientEnv'
 import { Mutex } from 'async-mutex'
+import Constants from 'expo-constants'
 import ky from 'ky'
 import AuthenticationRepository from '../AuthenticationRepository'
 import { Credentials } from '../store/Credentials'
@@ -14,6 +16,17 @@ const injectAccessTokenHook = async (request: Request) => {
     request.headers.set('Authorization', `Bearer ${credentials.accessToken}`)
     return request
   }
+}
+
+const injectAppVersionHook = async (request: Request) => {
+  request.headers.set('X-App-Version', Constants.expoConfig?.version ?? '0.0.0')
+  return request
+}
+
+const chainHooks = (hooks: Array<(r: Request) => Promise<Request>>) => (request: Request) => {
+  return hooks.reduce(async (acc, hook) => {
+    return hook(await acc)
+  }, Promise.resolve(request))
 }
 
 const refreshTokenMutex = new Mutex()
@@ -56,7 +69,7 @@ const httpClient = baseHttpClient.extend({
     statusCodes: [401],
   },
   hooks: {
-    beforeRequest: [injectAccessTokenHook],
+    beforeRequest: [chainHooks([injectAccessTokenHook, injectAppVersionHook])],
     beforeRetry: [refreshToken],
   },
 })
