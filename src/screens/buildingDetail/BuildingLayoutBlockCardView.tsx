@@ -41,7 +41,7 @@ const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({ viewModel, onSe
         return (
           <View key={floorViewModel.id}>
             <BuildingLayoutFloorCell
-              viewModel={floorViewModel}
+              viewModel={{ ...floorViewModel, isCompleted: buildingStatus === 'completed' ? true : floorViewModel.isCompleted }}
               style={{}}
               onSelect={onSelect}
               canRemove={floorViewModel.removable}
