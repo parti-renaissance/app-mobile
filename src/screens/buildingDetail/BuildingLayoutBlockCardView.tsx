@@ -1,22 +1,14 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native'
-import { BuildingBlockStatus } from '../../core/entities/BuildingBlock'
+import { Image, ImageSourcePropType, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { useDtdTunnelStore } from '@/data/store/door-to-door'
+import { YStack } from 'tamagui'
+import { BuildingBlock, BuildingBlockStatus } from '../../core/entities/BuildingBlock'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
-import { BorderlessButton } from '../shared/Buttons'
 import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
-import BuildingLayoutFloorCell, {
-  BuildingLayoutFloorCellViewModel,
-} from './BuildingLayoutFloorCell'
+import BuildingLayoutFloorCell, { BuildingLayoutActionType, BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
 
 export interface BuildingLayoutBlockCardViewModel {
   id: string
@@ -33,6 +25,7 @@ export interface BuildingLayoutBlockCardViewModel {
 
 type Props = Readonly<{
   viewModel: BuildingLayoutBlockCardViewModel
+  buildingStatus: BuildingBlockStatus
   style: ViewStyle
   onSelect: (buildingBlock: string, floor: number) => void
   onAddBuildingFloor: (buildingBlockId: string) => void
@@ -41,67 +34,27 @@ type Props = Readonly<{
   onBuildingAction: (buildingBlockId: string) => void
 }>
 
-const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({
-  viewModel,
-  style,
-  onSelect,
-  onAddBuildingFloor,
-  onRemoveBuildingBlock,
-  onRemoveBuildingFloor,
-  onBuildingAction,
-}) => {
+const BuildingLayoutBlockCardView: FunctionComponent<Props> = ({ viewModel, onSelect, onAddBuildingFloor, buildingStatus, onRemoveBuildingFloor }) => {
   return (
-    <CardView style={style} backgroundColor={Colors.defaultBackground}>
-      <View style={styles.statusContainer}>
-        {viewModel.local && viewModel.removable ? (
-          <View style={styles.removeContainer}>
-            <TouchablePlatform
-              touchHighlight={Colors.touchHighlight}
-              onPress={() => onRemoveBuildingBlock(viewModel.id)}
-            >
-              <Image
-                source={require('../../assets/images/iconCircledCross.png')}
-              />
-            </TouchablePlatform>
+    <View style={styles.layoutContainer}>
+      {viewModel.floors.map((floorViewModel, index) => {
+        return (
+          <View key={floorViewModel.id}>
+            <BuildingLayoutFloorCell
+              viewModel={floorViewModel}
+              style={{}}
+              onSelect={onSelect}
+              canRemove={floorViewModel.removable}
+              onRemoveBuildingFloor={(floor: number) => {
+                onRemoveBuildingFloor(viewModel.id, floor)
+              }}
+            />
+            {index !== viewModel.floors.length - 1 ? <View style={styles.separator} /> : null}
           </View>
-        ) : null}
-        <Image style={styles.statusImage} source={viewModel.buildingTypeIcon} />
-        <Text style={styles.statusText}>{viewModel.buildingTypeName} </Text>
-        {viewModel.canUpdateBuildingStatus ? (
-          <BorderlessButton
-            type="primary"
-            title={viewModel.statusAction}
-            onPress={() => onBuildingAction(viewModel.id)}
-            style={styles.buildingAction}
-          />
-        ) : null}
-      </View>
-      <View style={styles.layoutContainer}>
-        {viewModel.floors.map((floorViewModel, index) => {
-          return (
-            <View key={floorViewModel.id}>
-              <BuildingLayoutFloorCell
-                viewModel={floorViewModel}
-                style={{}}
-                onSelect={onSelect}
-                canRemove={floorViewModel.removable}
-                onRemoveBuildingFloor={(floor: number) => {
-                  onRemoveBuildingFloor(viewModel.id, floor)
-                }}
-              />
-              {index !== viewModel.floors.length - 1 ? (
-                <View style={styles.separator} />
-              ) : null}
-            </View>
-          )
-        })}
-        {viewModel.canAddNewFloor ? (
-          <AddBuildingFloorCard
-            onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)}
-          />
-        ) : null}
-      </View>
-    </CardView>
+        )
+      })}
+      {viewModel.canAddNewFloor && viewModel.status !== 'todo' ? <AddBuildingFloorCard onAddBuildingFloor={() => onAddBuildingFloor(viewModel.id)} /> : null}
+    </View>
   )
 }
 
@@ -109,25 +62,15 @@ type AddBuildingFloorCardProps = Readonly<{
   onAddBuildingFloor: () => void
 }>
 
-const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({
-  onAddBuildingFloor,
-}) => {
+const AddBuildingFloorCard: FunctionComponent<AddBuildingFloorCardProps> = ({ onAddBuildingFloor }) => {
   return (
     <View>
       <View style={styles.separator} />
       <View style={styles.newFloorCard}>
-        <TouchablePlatform
-          touchHighlight={Colors.touchHighlight}
-          onPress={() => onAddBuildingFloor()}
-        >
+        <TouchablePlatform touchHighlight={Colors.touchHighlight} onPress={() => onAddBuildingFloor()}>
           <View style={styles.newFloorContainer}>
-            <Image
-              source={require('../../assets/images/iconMore.png')}
-              style={styles.newFloorIcon}
-            />
-            <Text style={styles.newFloorText}>
-              {i18n.t('building.layout.add_floor')}
-            </Text>
+            <Image source={require('../../assets/images/iconMore.png')} style={styles.newFloorIcon} />
+            <Text style={styles.newFloorText}>{i18n.t('building.layout.add_floor')}</Text>
           </View>
         </TouchablePlatform>
       </View>
@@ -143,6 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondaryButtonBackground,
     borderRadius: 8,
     margin: margin,
+    overflow: 'hidden',
   },
   newFloorCard: {
     backgroundColor: Colors.secondaryButtonBackground,

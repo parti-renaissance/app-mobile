@@ -25,6 +25,7 @@ export type DoorToDoorAddressCampaign = {
   lastPassage: Date | null
   campaignId: string
   status: DoorToDoorAddressStatus
+  leafletsDistributed: number
   lastPassageDoneBy: {
     id: string
     firstName: string

@@ -10,5 +10,6 @@ export interface BuildingDetailScreenViewModel {
   status: BuildingStatusViewModel
   history: BuildingHistoryViewModel
   buildingLayout: BuildingLayoutViewModel
+  leafletsDistributed: number | null
   campaignId: string
 }

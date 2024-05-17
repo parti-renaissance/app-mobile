@@ -11,11 +11,7 @@ import { BuildingLayoutViewModelMapper } from './BuildingLayoutViewModelMapper'
 import { BuildingStatusViewModelMapper } from './BuildingStatusViewModelMapper'
 
 export const BuildingDetailScreenViewModelMapper = {
-  map: (
-    address: DoorToDoorAddress,
-    history: BuildingHistoryPoint[],
-    layout: BuildingBlock[],
-  ): BuildingDetailScreenViewModel => {
+  map: (address: DoorToDoorAddress, history: BuildingHistoryPoint[], layout: BuildingBlock[]): BuildingDetailScreenViewModel => {
     const illustration = (): ImageSourcePropType => {
       switch (address.building.type) {
         case 'house':
@@ -29,26 +25,19 @@ export const BuildingDetailScreenViewModelMapper = {
         number: address.number,
         street: address.address,
       }),
-      lastVisit:
-        lastVisit(address.building.campaignStatistics) ??
-        i18n.t('common.noDataPlaceholder'),
+      lastVisit: lastVisit(address.building.campaignStatistics) ?? i18n.t('common.noDataPlaceholder'),
       illustration: illustration(),
+      leafletsDistributed: address.building.campaignStatistics?.leafletsDistributed ?? null,
       status: BuildingStatusViewModelMapper.map(address),
       history: BuildingHistoryViewModelMapper.map(history),
-      buildingLayout: BuildingLayoutViewModelMapper.map(
-        address.building.type,
-        address.building.campaignStatistics?.status ?? 'todo',
-        layout,
-      ),
+      buildingLayout: BuildingLayoutViewModelMapper.map(address.building.type, address.building.campaignStatistics?.status ?? 'todo', layout),
       campaignId: address.building.campaignStatistics?.campaignId ?? '',
     }
   },
 }
 
 function lastVisit(campaign: DoorToDoorAddressCampaign | null): string {
-  return campaign && campaign.lastPassage
-    ? i18n.t('doorToDoor.lastPassage') + ' ' + mapDate(campaign.lastPassage)
-    : i18n.t('doorToDoor.noPassage')
+  return campaign?.lastPassage ? i18n.t('doorToDoor.lastPassage') + ' ' + mapDate(campaign.lastPassage) : i18n.t('doorToDoor.noPassage')
 }
 
 function mapDate(lastPassage: Date): string {

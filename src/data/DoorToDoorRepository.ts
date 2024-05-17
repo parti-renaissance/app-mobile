@@ -2,10 +2,7 @@ import { BuildingHistoryPoint } from '../core/entities/BuildingHistory'
 import { BuildingType, DoorToDoorAddress } from '../core/entities/DoorToDoor'
 import { DoorToDoorCampaign } from '../core/entities/DoorToDoorCampaign'
 import { DoorToDoorCampaignRanking } from '../core/entities/DoorToDoorCampaignRanking'
-import {
-  DoorToDoorCharterAccepted,
-  DoorToDoorCharterState,
-} from '../core/entities/DoorToDoorCharterState'
+import { DoorToDoorCharterAccepted, DoorToDoorCharterState } from '../core/entities/DoorToDoorCharterState'
 import { DoorToDoorPollConfig } from '../core/entities/DoorToDoorPollConfig'
 import { DoorToDoorPollParams } from '../core/entities/DoorToDoorPollParams'
 import { Poll } from '../core/entities/Poll'
@@ -55,78 +52,43 @@ class DoorToDoorRepository {
     this.cachedDoorToDoorCharterState = new DoorToDoorCharterAccepted()
   }
 
-  public async buildingBlocks(
-    buidlingId: string,
-    campaignId: string,
-  ): Promise<BuildingBlock[]> {
-    const restLayout = await this.apiService.buildingBlocks(
-      buidlingId,
-      campaignId,
-    )
+  public async buildingBlocks(buidlingId: string, campaignId: string): Promise<BuildingBlock[]> {
+    const restLayout = await this.apiService.buildingBlocks(buidlingId, campaignId)
     return BuildingLayoutMapper.map(restLayout)
   }
 
-  public async buildingHistory(
-    buidlingId: string,
-    campaignId: string,
-  ): Promise<BuildingHistoryPoint[]> {
-    const restHistory = await this.apiService.buildingHistory(
-      buidlingId,
-      campaignId,
-    )
+  public async buildingHistory(buidlingId: string, campaignId: string): Promise<BuildingHistoryPoint[]> {
+    const restHistory = await this.apiService.buildingHistory(buidlingId, campaignId)
     return restHistory.map(BuildingHistoryPointMapper.map)
   }
 
-  public async getAddresses(
-    latitude: number,
-    longitude: number,
-    latitudeDelta: number,
-    longitudeDelta: number,
-  ): Promise<DoorToDoorAddress[]> {
-    const restDoorToDoorAddresses = await this.apiService.getAddresses(
-      latitude,
-      longitude,
-      latitudeDelta,
-      longitudeDelta,
-    )
+  public async getAddresses(latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number): Promise<DoorToDoorAddress[]> {
+    const restDoorToDoorAddresses = await this.apiService.getAddresses(latitude, longitude, latitudeDelta, longitudeDelta)
     return restDoorToDoorAddresses.map(DoorToDoorMapper.map).filter(notEmpty)
   }
 
-  public async getAddress(
-    addressId: string,
-  ): Promise<DoorToDoorAddress | null> {
+  public async getAddress(addressId: string): Promise<DoorToDoorAddress | null> {
     const restDoorToDoorAddress = await this.apiService.getAddress(addressId)
     return DoorToDoorMapper.map(restDoorToDoorAddress)
   }
 
-  public async getDoorToDoorPollConfig(
-    campaignId: string,
-    preferedDataSource: DataSource = 'cache',
-  ): Promise<DoorToDoorPollConfig> {
-    if (
-      preferedDataSource === 'cache' &&
-      this.pollConfigCache.has(campaignId)
-    ) {
+  public async getDoorToDoorPollConfig(campaignId: string, preferedDataSource: DataSource = 'cache'): Promise<DoorToDoorPollConfig> {
+    if (preferedDataSource === 'cache' && this.pollConfigCache.has(campaignId)) {
       const pollConfig = this.pollConfigCache.get(campaignId)
       if (pollConfig) return pollConfig
     }
-    const restConfiguration =
-      await this.apiService.getDoorToDoorPollConfig(campaignId)
+    const restConfiguration = await this.apiService.getDoorToDoorPollConfig(campaignId)
     const pollConfig = DoorToDoorPollConfigMapper.map(restConfiguration)
     this.pollConfigCache.set(campaignId, pollConfig)
     return pollConfig
   }
 
-  public async getDoorToDoorPoll(
-    campaignId: string,
-    preferedDataSource: DataSource = 'cache',
-  ): Promise<Poll> {
+  public async getDoorToDoorPoll(campaignId: string, preferedDataSource: DataSource = 'cache'): Promise<Poll> {
     if (preferedDataSource === 'cache' && this.pollCache.has(campaignId)) {
       const poll = this.pollCache.get(campaignId)
       if (poll) return poll
     }
-    const fetchedPoll =
-      await this.apiService.getDoorToDoorCampaignPoll(campaignId)
+    const fetchedPoll = await this.apiService.getDoorToDoorCampaignPoll(campaignId)
     this.pollCache.set(campaignId, fetchedPoll)
     return fetchedPoll
   }
@@ -136,33 +98,16 @@ class DoorToDoorRepository {
     pollResult: DoorToDoorPollResult,
     visitStartDateISOString: string,
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
-    const campaignHistoryPayload =
-      RestDoorToDoorPollRequestMapper.mapHistoryRequest(
-        pollParams,
-        pollResult,
-        visitStartDateISOString,
-      )
-    return this.apiService.createDoorToDoorCampaignHistory(
-      campaignHistoryPayload,
-    )
+    const campaignHistoryPayload = RestDoorToDoorPollRequestMapper.mapHistoryRequest(pollParams, pollResult, visitStartDateISOString)
+    return this.apiService.createDoorToDoorCampaignHistory(campaignHistoryPayload)
   }
 
-  public async sendDoorToDoorPollAnswers(
-    campaignHistoryId: string,
-    pollResult: DoorToDoorPollResult,
-  ) {
+  public async sendDoorToDoorPollAnswers(campaignHistoryId: string, pollResult: DoorToDoorPollResult) {
     const answers = RestDoorToDoorPollRequestMapper.mapAnswers(pollResult)
-    await this.apiService.replyToDoorToDoorCampaignHistory(
-      campaignHistoryId,
-      answers,
-    )
+    await this.apiService.replyToDoorToDoorCampaignHistory(campaignHistoryId, answers)
   }
 
-  public async openBuildingBlock(
-    campaignId: string,
-    buildingId: string,
-    name: string,
-  ) {
+  public async openBuildingBlock(campaignId: string, buildingId: string, name: string) {
     return this.apiService.sendBuildingEvent(buildingId, {
       action: 'open',
       type: 'building_block',
@@ -179,6 +124,16 @@ class DoorToDoorRepository {
     })
   }
 
+  public async sendLeaflet(campaignId: string, buildingId: string, programs: number) {
+    return this.apiService.sendBuildingEvent(buildingId, {
+      action: 'close',
+      close_type: 'boitage',
+      programs: programs,
+      type: 'building',
+      campaign: campaignId,
+    })
+  }
+
   public async openBuilding(campaignId: string, buildingId: string) {
     return this.apiService.sendBuildingEvent(buildingId, {
       action: 'open',
@@ -187,11 +142,7 @@ class DoorToDoorRepository {
     })
   }
 
-  public async closeBuildingBlock(
-    campaignId: string,
-    buildingId: string,
-    name: string,
-  ) {
+  public async closeBuildingBlock(campaignId: string, buildingId: string, name: string) {
     return this.apiService.sendBuildingEvent(buildingId, {
       action: 'close',
       type: 'building_block',
@@ -200,12 +151,7 @@ class DoorToDoorRepository {
     })
   }
 
-  public async closeBuildingBlockFloor(
-    campaignId: string,
-    buildingId: string,
-    name: string,
-    floor: number,
-  ) {
+  public async closeBuildingBlockFloor(campaignId: string, buildingId: string, name: string, floor: number) {
     return this.apiService.sendBuildingEvent(buildingId, {
       action: 'close',
       type: 'floor',
@@ -214,22 +160,13 @@ class DoorToDoorRepository {
     })
   }
 
-  public async getDoorToDoorCampaignRanking(
-    campaignId: string,
-    preferedDataSource: DataSource = 'cache',
-  ): Promise<DoorToDoorCampaignRanking> {
-    if (
-      preferedDataSource === 'cache' &&
-      this.campaignRankingCache.has(campaignId)
-    ) {
+  public async getDoorToDoorCampaignRanking(campaignId: string, preferedDataSource: DataSource = 'cache'): Promise<DoorToDoorCampaignRanking> {
+    if (preferedDataSource === 'cache' && this.campaignRankingCache.has(campaignId)) {
       const ranking = this.campaignRankingCache.get(campaignId)
       if (ranking) return ranking
     }
-    const fetchedCampaignRanking =
-      await this.apiService.getDoorToDoorCampaignRanking(campaignId)
-    const campaignRanking = DoorToDoorCampaignRankingMapper.map(
-      fetchedCampaignRanking,
-    )
+    const fetchedCampaignRanking = await this.apiService.getDoorToDoorCampaignRanking(campaignId)
+    const campaignRanking = DoorToDoorCampaignRankingMapper.map(fetchedCampaignRanking)
     this.campaignRankingCache.set(campaignId, campaignRanking)
     return campaignRanking
   }
@@ -241,19 +178,13 @@ class DoorToDoorRepository {
     return restMarkdown.content
   }
 
-  public async updateBuildingType(
-    buildingId: string,
-    buildingType: BuildingType,
-  ): Promise<void> {
+  public async updateBuildingType(buildingId: string, buildingType: BuildingType): Promise<void> {
     await this.apiService.updateBuildingType(buildingId, {
       type: buildingType,
     })
   }
 
-  public async getCampaign(
-    campaignId: string,
-    preferedDataSource: DataSource = 'cache',
-  ): Promise<DoorToDoorCampaign> {
+  public async getCampaign(campaignId: string, preferedDataSource: DataSource = 'cache'): Promise<DoorToDoorCampaign> {
     if (preferedDataSource === 'cache' && this.campaignCache.has(campaignId)) {
       const campaign = this.campaignCache.get(campaignId)
       if (campaign) return campaign
