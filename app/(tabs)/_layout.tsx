@@ -45,6 +45,7 @@ export default function AppLayout() {
         screenOptions={{
           header: (x) => <NavBar {...x} />,
           tabBarLabel: () => null,
+          tabBarLabelPosition: 'below-icon',
           tabBarButton: (props) => <Pressable {...props} />,
           tabBarStyle: {
             backgroundColor: 'white',
@@ -61,6 +62,11 @@ export default function AppLayout() {
             name={route.name}
             options={{
               href: route.hidden === true ? null : undefined,
+              tabBarLabel: route.screenName,
+              tabBarActiveTintColor: route.labelColor,
+              tabBarLabelStyle: {
+                marginBottom: 5,
+              },
               tabBarIcon: ({ focused }) => {
                 const Icon = ({ focused }) => <route.icon active={focused} />
 
