@@ -7,9 +7,10 @@ type Props = {
   active?: boolean
 } & IconProps
 
-const Icon = (props) =>
-  props.active ? (
-    <Svg width={32} height={32} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+const Icon = (props) => {
+  const { active, size = 24, ...otherProp } = props
+  return active ? (
+    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <Path d="M27 27V6a1 1 0 00-1-1h-6v23h6a1 1 0 001-1z" fill="url(#paint0_linear_2651_82040)" />
       <Path d="M18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z" fill="url(#paint1_linear_2651_82040)" />
       <Path
@@ -44,7 +45,7 @@ const Icon = (props) =>
       </Defs>
     </Svg>
   ) : (
-    <Svg width={32} height={32} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...otherProp}>
       <Path d="M27 27V6a1 1 0 00-1-1h-6v23h6a1 1 0 001-1z" fill="url(#paint0_linear_2651_82046)" />
       <Path d="M18 18c.552 0 1-.276 1-1s-.5-1-1-1-1 .193-1 1c0 .807.448 1 1 1z" fill="url(#paint1_linear_2651_82046)" />
       <Path
@@ -89,6 +90,7 @@ const Icon = (props) =>
       </Defs>
     </Svg>
   )
+}
 
 Icon.displayName = 'DoorIcon'
 
