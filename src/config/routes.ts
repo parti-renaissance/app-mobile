@@ -42,17 +42,17 @@ export const ROUTES: TabRoute[] = [
     labelColor: '#F7681E',
   },
   {
-    name: 'ressources',
-    screenName: 'Ressources',
-    icon: ToolsIcon,
-    gradiant: ['#E461E8', '#8B2DBF'],
-    labelColor: '#8B2DBF',
-  },
-  {
     name: 'porte-a-porte',
     screenName: 'Porte à Porte',
     icon: DoorIcon,
     gradiant: ['#F7681E', '#FDA302'],
     labelColor: '#F7681E',
+  },
+  {
+    name: 'ressources',
+    screenName: 'Ressources',
+    icon: ToolsIcon,
+    gradiant: ['#E461E8', '#8B2DBF'],
+    labelColor: '#8B2DBF',
   },
 ]
