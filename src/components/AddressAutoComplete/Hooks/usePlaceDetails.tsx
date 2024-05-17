@@ -1,40 +1,14 @@
-import clientEnv from '@/config/clientEnv'
+import ApiService from '@/data/network/ApiService'
 import { useQuery } from '@tanstack/react-query'
 import { hoursToMilliseconds } from 'date-fns'
-import { stringify } from 'qs'
-import { isWeb } from 'tamagui'
-
-const endpoint = `https://maps.googleapis.com/maps/api/place/details/json`
-const useCorsProxy = (original: string) => (isWeb ? `https://corsproxy.io/?${encodeURIComponent(original)}` : original)
 
 interface PlaceAutocompleteProps {
   placeId?: string
 }
 
-interface GoogleAddressPlaceResult {
-  formatted?: string
-  details?: google.maps.GeocoderAddressComponent[]
-}
-
 export default function usePlaceDetails({ placeId }: PlaceAutocompleteProps) {
-  const payload = stringify({
-    placeid: placeId,
-    key: clientEnv.IOS_GOOGLE_API_KEY,
-    language: 'fr',
-  })
-
   return useQuery({
-    queryFn: ({ signal }) =>
-      fetch(useCorsProxy(`${endpoint}?${payload}`), { signal })
-        .then((res) => res.json())
-        .then((data: { result: google.maps.places.PlaceResult }) =>
-          data?.result
-            ? ({
-                formatted: data.result.formatted_address,
-                details: data.result.address_components,
-              } as GoogleAddressPlaceResult)
-            : null,
-        ),
+    queryFn: async ({ signal }) => ApiService.getInstance().getPlaceDetails(placeId!, signal),
     staleTime: hoursToMilliseconds(24),
     queryKey: ['placeDetails', placeId],
     enabled: !!placeId,

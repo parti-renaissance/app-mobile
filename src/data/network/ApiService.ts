@@ -1,4 +1,5 @@
 import { Poll } from '@/core/entities/Poll'
+import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
@@ -471,12 +472,54 @@ class ApiService {
     return publicHttpClient.get('api/je-mengage/headers/page-connexion').json<RestHeaderInfos>().catch(genericErrorMapping)
   }
 
+  public async getPlaceAutocomplete(query: string, signal?: AbortSignal): Promise<google.maps.places.AutocompletePrediction[]> {
+    return this.httpClient
+      .get(
+        `api/v3/place/autocomplete?input=${stringify({
+          input: query,
+        })}`,
+        {
+          signal,
+        },
+      )
+      .json()
+      .then((response: { predictions: google.maps.places.AutocompletePrediction[] }) => response.predictions)
+      .catch(genericErrorMapping)
+  }
+
+  public async getPlaceDetails(placeId: string, signal?: AbortSignal): Promise<GoogleAddressPlaceResult | null> {
+    return this.httpClient
+      .get(
+        `api/v3/place/details?${stringify({
+          place_id: placeId,
+        })}`,
+        {
+          signal,
+        },
+      )
+      .json()
+      .then((data: { result: google.maps.places.PlaceResult }) =>
+        data?.result
+          ? ({
+              formatted: data.result.formatted_address,
+              details: data.result.address_components,
+            } as GoogleAddressPlaceResult)
+          : null,
+      )
+      .catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()
     }
     return ApiService.instance
   }
+}
+
+export interface GoogleAddressPlaceResult {
+  formatted?: string
+  details?: google.maps.GeocoderAddressComponent[]
 }
 
 export default ApiService
