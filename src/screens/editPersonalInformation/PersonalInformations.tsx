@@ -20,6 +20,8 @@ import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRe
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
 import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
+import { nativeApplicationVersion, nativeBuildVersion } from 'expo-application'
+import Constants from 'expo-constants'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, useMedia, View, YStack } from 'tamagui'
@@ -338,6 +340,9 @@ const EditInformations = () => {
           <VoxCard>
             <VoxCard.Content>
               <FormEditInformations ref={formikFormRef} profile={profile} onSubmit={handleSubmit} />
+              <Text>
+                Version: v{Constants.expoConfig?.version ?? '0.0.0'} [{isWeb ? '???' : nativeBuildVersion} - {clientEnv.ENVIRONMENT}]
+              </Text>
               <YStack gap="$10">
                 {isWeb && (
                   <View>
