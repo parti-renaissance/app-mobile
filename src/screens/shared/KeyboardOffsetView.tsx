@@ -1,13 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
-import {
-  InteractionManager,
-  KeyboardAvoidingView,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { InteractionManager, KeyboardAvoidingView, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 type Props = Readonly<{
   children: any
@@ -37,18 +29,8 @@ const KeyboardOffsetView: FunctionComponent<Props> = (props) => {
 
   if (Platform.OS === 'ios') {
     return (
-      <View
-        style={[styles.container, props.style]}
-        ref={containerViewRef}
-        collapsable={false}
-      >
-        <KeyboardAvoidingView
-          behavior="padding"
-          keyboardVerticalOffset={offset}
-          style={styles.keyboardAvoidingView}
-        >
-          {props.children}
-        </KeyboardAvoidingView>
+      <View style={[styles.container, props.style]} ref={containerViewRef} collapsable={false}>
+        <KeyboardAvoidingView style={styles.keyboardAvoidingView}>{props.children}</KeyboardAvoidingView>
       </View>
     )
   } else {

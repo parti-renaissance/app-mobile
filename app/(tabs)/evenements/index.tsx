@@ -18,12 +18,6 @@ import { YStack } from 'tamagui'
 const EventsScreen: React.FC = () => {
   return (
     <>
-      <RouterStack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-
       <Head>
         <title>{metatags.createTitle('Nos événements')}</title>
       </Head>

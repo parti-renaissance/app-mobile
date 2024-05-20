@@ -43,12 +43,6 @@ const ToolsSkeleton = () => {
 const ToolsScreen: React.FC = () => {
   return (
     <>
-      <RouterStack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-
       <Head>
         <title>{metatags.createTitle('Ressources')}</title>
       </Head>

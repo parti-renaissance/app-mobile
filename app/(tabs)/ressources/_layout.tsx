@@ -1,5 +1,5 @@
+import { SmallHeader } from '@/components/Header/Header'
 import { useSession } from '@/ctx/SessionProvider'
-import { headerBlank } from '@/styles/navigationAppearance'
 import { Redirect, Stack } from 'expo-router'
 
 export default function ActionsScreen() {
@@ -10,8 +10,8 @@ export default function ActionsScreen() {
   }
 
   return (
-    <Stack screenOptions={headerBlank}>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
+    <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
+      <Stack.Screen name="index" options={{ title: 'Ressources' }} />
     </Stack>
   )
 }

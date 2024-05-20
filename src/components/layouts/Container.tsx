@@ -1,11 +1,11 @@
-import { getConfig, getMedia, getTokenValue, mediaObjectToString, mediaQueryConfig, Stack, StackProps } from 'tamagui'
+import { StackProps, YStack, YStackProps } from 'tamagui'
 
-export default function Container({ children, ...props }: StackProps) {
+export default function Container({ children, ...props }: YStackProps) {
   return (
-    <Stack alignItems="center" {...props}>
-      <Stack maxWidth={1250} width="100%" flex={1}>
+    <YStack alignItems="center" {...props}>
+      <YStack maxWidth={1250} width="100%" flex={1}>
         {children}
-      </Stack>
-    </Stack>
+      </YStack>
+    </YStack>
   )
 }

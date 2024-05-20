@@ -21,7 +21,7 @@ const ActionsScreen = () => {
         data={actions}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={<Text style={styles.title}>{i18n.t('actions.title')}</Text>}
+        // ListHeaderComponent={<Text style={styles.title}>{i18n.t('actions.title')}</Text>}
         contentContainerStyle={styles.contentContainer}
       />
     )

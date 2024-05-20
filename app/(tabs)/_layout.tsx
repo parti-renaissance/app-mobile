@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import NavBar from '@/components/Header/Header'
+import Text from '@/components/base/Text'
 import WaitingScreen from '@/components/WaitingScreen'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
@@ -10,7 +10,7 @@ import { parse, useURL } from 'expo-linking'
 import { Tabs, useGlobalSearchParams } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
 
-const TAB_BAR_HEIGTH = 60
+const TAB_BAR_HEIGTH = 80
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
@@ -41,18 +41,31 @@ export default function AppLayout() {
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }}>
       <Tabs
-        initialRouteName="(home)"
+        initialRouteName={isAuth ? '(home)' : 'evenements'}
         screenOptions={{
-          header: (x) => <NavBar {...x} />,
+          headerShown: false,
           tabBarLabel: () => null,
           tabBarLabelPosition: 'below-icon',
           tabBarButton: (props) => <Pressable {...props} />,
+          tabBarHideOnKeyboard: true,
+          headerShadowVisible: false,
           tabBarStyle: {
             backgroundColor: 'white',
-            borderTopWidth: 2,
-            borderTopColor: 'rgba(145, 158, 171, 0.32)',
+            borderTopWidth: 1,
+            shadowOffset: { width: 0, height: 0 },
+            elevation: 0,
+            borderTopColor: 'rgba(145, 158, 171, 0.2)',
             display: media.gtSm || !session ? 'none' : 'flex',
             height: TAB_BAR_HEIGTH + insets.bottom,
+            alignContent: 'center',
+            justifyContent: 'center',
+            padding: 0,
+            paddingTop: 15,
+          },
+
+          tabBarItemStyle: {
+            paddingBottom: 20,
+            // paddingTop: 0,
           },
         }}
       >
@@ -62,11 +75,13 @@ export default function AppLayout() {
             name={route.name}
             options={{
               href: route.hidden === true ? null : undefined,
-              tabBarLabel: route.screenName,
+              title: route.screenName,
+              tabBarLabel: ({ focused }) => (
+                <Text color={focused ? route.labelColor : '$textSecondary'} fontWeight={focused ? '$6' : '$5'} fontSize={10} allowFontScaling={false}>
+                  {route.screenName}
+                </Text>
+              ),
               tabBarActiveTintColor: route.labelColor,
-              tabBarLabelStyle: {
-                marginBottom: 5,
-              },
               tabBarIcon: ({ focused }) => {
                 const Icon = ({ focused }) => <route.icon active={focused} />
 

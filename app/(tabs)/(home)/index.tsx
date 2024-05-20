@@ -15,19 +15,8 @@ import Head from 'expo-router/head'
 import { YStack } from 'tamagui'
 
 const HomeScreen: React.FC = () => {
-  const { isAuth } = useSession()
-
-  if (!isAuth) {
-    return <Redirect href={'/(tabs)/evenements/'} />
-  }
-
   return (
     <>
-      <RouterStack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
       <Head>
         <title>{metatags.createTitle('Le fil')}</title>
       </Head>

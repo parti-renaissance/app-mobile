@@ -16,11 +16,7 @@ function ProfilScreen() {
       <Head>
         <title>{metatags.createTitle('Mon profil')}</title>
       </Head>
-      <RouterStack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
+
       <PageLayout>
         <PageLayout.SideBarLeft>
           <YStack gap="$3">
