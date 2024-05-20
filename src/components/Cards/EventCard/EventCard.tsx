@@ -6,7 +6,7 @@ import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCa
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
 import { router } from 'expo-router'
-import { XStack } from 'tamagui'
+import { Spinner, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 type VoxCardBasePayload = {
@@ -40,14 +40,15 @@ export const SubscribeEventButton = ({
   ...btnProps
 }: { eventId: string; isSubscribed: boolean; outside?: boolean } & ComponentProps<typeof Button>) => {
   const { session } = useSession()
-  const { mutate: subscribe } = useSubscribeEvent({ id })
-  const { mutate: unsubscribe } = useUnsubscribeEvent({ id })
+  const { mutate: subscribe, isPending: isSubPending } = useSubscribeEvent({ id })
+  const { mutate: unsubscribe, isPending: isUnSubPending } = useUnsubscribeEvent({ id })
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
   return isSubscribed ? (
     <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
       <Button variant={outside ? 'outlined' : 'text'} {...btnProps} {...outsideStyle}>
         <Button.Text color="$blue7">Me désinscrire</Button.Text>
+        {isUnSubPending ? <Spinner size="small" color="$blue7" /> : null}
       </Button>
     </VoxAlertDialog>
   ) : (
@@ -66,6 +67,7 @@ export const SubscribeEventButton = ({
       {...outsideStyle}
     >
       <Button.Text>M'inscrire</Button.Text>
+      {isSubPending ? <Spinner size="small" color="$white1" /> : null}
     </Button>
   )
 }
