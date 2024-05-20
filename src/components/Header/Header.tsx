@@ -1,6 +1,7 @@
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
@@ -8,7 +9,7 @@ import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
 import { Link, usePathname } from 'expo-router'
 import { capitalize } from 'lodash'
-import { Button, Spinner, Stack, styled, useMedia, View, XStack, YStackProps } from 'tamagui'
+import { Button, isWeb, Spinner, Stack, styled, useMedia, View, XStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
@@ -120,7 +121,7 @@ export const ProfileNav = () => {
 
 const Header = (_props: NativeStackHeaderProps & YStackProps) => {
   const { options, navigation, back, ...props } = _props
-  console.log(props.route)
+  const media = useMedia()
 
   const BackBtn = () => (
     <Stack justifyContent="center" alignItems="center">
@@ -142,7 +143,9 @@ const Header = (_props: NativeStackHeaderProps & YStackProps) => {
     if (navigation.canGoBack() && navigation.getState().index > 0) {
       return <BackBtn />
     }
-    return (
+    return media.gtSm && isWeb ? (
+      <EuCampaignIllustration />
+    ) : (
       <Text fontSize="$4" fontWeight="$6">
         {capitalize(options.title)}
       </Text>

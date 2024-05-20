@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Modal, SafeAreaView, StyleSheet, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
 import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { DoorToDoorCharterNotAccepted } from '@/core/entities/DoorToDoorCharterState'

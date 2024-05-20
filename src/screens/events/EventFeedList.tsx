@@ -12,6 +12,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { isFullEvent, isPartialEvent, RestEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { useSuspensePaginatedEvents } from '@/hooks/useEvents'
+import { useScrollToTop } from '@react-navigation/native'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
@@ -88,6 +89,7 @@ const EventList = () => {
   const media = useMedia()
   const { user } = useSession()
   const listRef = useRef<FlatList>(null)
+  useScrollToTop(listRef)
 
   const { value: _filters } = eventFiltersState()
   const [filters] = useDebounce(_filters, 300)

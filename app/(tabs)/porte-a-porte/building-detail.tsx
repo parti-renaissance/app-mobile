@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Image, Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { BuildingBlock, BuildingBlockHelper } from '@/core/entities/BuildingBlock'
 import { BuildingHistoryPoint } from '@/core/entities/BuildingHistory'
 import { BuildingType, DoorToDoorAddress } from '@/core/entities/DoorToDoor'
