@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useRef } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, Platform } from 'react-native'
 import DialogAuth from '@/components/AuthDialog'
 import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
@@ -85,7 +85,7 @@ const EventListCard = memo((args: { item: RestEvent; cb: Parameters<typeof mapFu
   return null
 })
 
-const EventList = () => {
+const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
   const media = useMedia()
   const { user } = useSession()
   const listRef = useRef<FlatList>(null)
@@ -103,8 +103,9 @@ const EventList = () => {
   } = useSuspensePaginatedEvents({
     postalCode: user.data?.postal_code,
     filters: {
-      finishAfter: filters.showPast ? undefined : new Date(),
+      finishAfter: filters.showPast || activeTab === 'myEvents' ? undefined : new Date(),
       searchText: filters.search,
+      subscribedOnly: activeTab === 'myEvents',
     },
   })
 
@@ -136,7 +137,7 @@ const EventList = () => {
       contentContainerStyle={{
         flexGrow: 1,
         gap: getToken('$4', 'space'),
-        paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
+        paddingTop: 0,
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingBottom: getToken('$10', 'space'),
@@ -150,7 +151,13 @@ const EventList = () => {
         </PageLayout.StateFrame>
       }
       keyboardDismissMode="on-drag"
-      ListHeaderComponent={media.lg ? <HeaderList listRef={listRef} /> : null}
+      ListHeaderComponent={
+        media.lg ? (
+          <YStack>
+            <HeaderList listRef={listRef} />
+          </YStack>
+        ) : null
+      }
       keyExtractor={(item) => item.uuid}
       refreshing={isRefetching}
       onRefresh={() => refetch()}

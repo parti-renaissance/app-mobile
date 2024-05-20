@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import BottomSheetFilter from '@/components/EventFilterForm/BottomSheetFilters'
 import EventFilterForm from '@/components/EventFilterForm/EventFilterForm'
@@ -9,12 +9,15 @@ import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
+import { Tabs } from '@/components/Tabs/Tabs'
 import * as metatags from '@/config/metatags'
 import EventFeedList from '@/screens/events/EventFeedList'
 import Head from 'expo-router/head'
-import { YStack } from 'tamagui'
+import { useMedia, YStack } from 'tamagui'
 
 const EventsScreen: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'events' | 'myEvents'>('events')
+  const media = useMedia()
   return (
     <>
       <Head>
@@ -34,56 +37,63 @@ const EventsScreen: React.FC = () => {
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <BottomSheetFilter />
-          <BoundarySuspenseWrapper
-            fallback={
-              <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
-                <SkeCard>
-                  <SkeCard.Content>
-                    <SkeCard.Chip />
-                    <SkeCard.Title />
-                    <SkeCard.Date />
-                    <SkeCard.Author />
-                    <SkeCard.Author />
-                    <SkeCard.Actions />
-                  </SkeCard.Content>
-                </SkeCard>
-                <SkeCard>
-                  <SkeCard.Content>
-                    <SkeCard.Chip />
-                    <SkeCard.Image />
-                    <SkeCard.Title />
-                    <SkeCard.Date />
-                    <SkeCard.Author />
-                    <SkeCard.Author />
-                    <SkeCard.Actions />
-                  </SkeCard.Content>
-                </SkeCard>
-                <SkeCard>
-                  <SkeCard.Content>
-                    <SkeCard.Chip />
-                    <SkeCard.Image />
-                    <SkeCard.Title />
-                    <SkeCard.Date />
-                    <SkeCard.Author />
-                    <SkeCard.Author />
-                    <SkeCard.Actions />
-                  </SkeCard.Content>
-                </SkeCard>
-                <SkeCard>
-                  <SkeCard.Content>
-                    <SkeCard.Chip />
-                    <SkeCard.Title />
-                    <SkeCard.Date />
-                    <SkeCard.Author />
-                    <SkeCard.Author />
-                    <SkeCard.Actions />
-                  </SkeCard.Content>
-                </SkeCard>
-              </YStack>
-            }
-          >
-            <EventFeedList />
-          </BoundarySuspenseWrapper>
+          <YStack>
+            <Tabs<'events' | 'myEvents'> value={activeTab} onChange={setActiveTab} grouped={media.lg} $gtMd={{ paddingHorizontal: '$8', paddingTop: '$6' }}>
+              <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
+              <Tabs.Tab id="myEvents">Mes événements</Tabs.Tab>
+            </Tabs>
+
+            <BoundarySuspenseWrapper
+              fallback={
+                <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
+                  <SkeCard>
+                    <SkeCard.Content>
+                      <SkeCard.Chip />
+                      <SkeCard.Title />
+                      <SkeCard.Date />
+                      <SkeCard.Author />
+                      <SkeCard.Author />
+                      <SkeCard.Actions />
+                    </SkeCard.Content>
+                  </SkeCard>
+                  <SkeCard>
+                    <SkeCard.Content>
+                      <SkeCard.Chip />
+                      <SkeCard.Image />
+                      <SkeCard.Title />
+                      <SkeCard.Date />
+                      <SkeCard.Author />
+                      <SkeCard.Author />
+                      <SkeCard.Actions />
+                    </SkeCard.Content>
+                  </SkeCard>
+                  <SkeCard>
+                    <SkeCard.Content>
+                      <SkeCard.Chip />
+                      <SkeCard.Image />
+                      <SkeCard.Title />
+                      <SkeCard.Date />
+                      <SkeCard.Author />
+                      <SkeCard.Author />
+                      <SkeCard.Actions />
+                    </SkeCard.Content>
+                  </SkeCard>
+                  <SkeCard>
+                    <SkeCard.Content>
+                      <SkeCard.Chip />
+                      <SkeCard.Title />
+                      <SkeCard.Date />
+                      <SkeCard.Author />
+                      <SkeCard.Author />
+                      <SkeCard.Actions />
+                    </SkeCard.Content>
+                  </SkeCard>
+                </YStack>
+              }
+            >
+              <EventFeedList activeTab={activeTab} />
+            </BoundarySuspenseWrapper>
+          </YStack>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
           <EventFilterForm />
