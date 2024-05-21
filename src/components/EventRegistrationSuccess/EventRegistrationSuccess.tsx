@@ -3,23 +3,23 @@ import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import { IconProps } from '@tamagui/helpers-icon'
 import { CalendarDays, Clock, MapPin, UserCheck } from '@tamagui/lucide-icons'
+import { Link } from 'expo-router'
 import { Dialog, Image, Separator, View } from 'tamagui'
 
-export default function EventRegistrationSuccess() {
-  return (
-    <Dialog modal>
-      <Dialog.Trigger asChild>
-        <Button>
-          <Button.Text>Show Dialog</Button.Text>
-        </Button>
-      </Dialog.Trigger>
+interface EventRegistrationSuccessProps {
+  onClose?: () => void
+  open: boolean
+}
 
+export default function EventRegistrationSuccess({ onClose, open }: EventRegistrationSuccessProps) {
+  return (
+    <Dialog modal open={open}>
       <Dialog.Portal>
         <Dialog.Overlay key="overlay" animation="slow" opacity={0.5} enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
 
         <Dialog.Content
           elevate
-          key="content"
+          key="EventRegistrationSuccess"
           p={0}
           animateOnly={['transform', 'opacity']}
           animation={[
@@ -52,13 +52,15 @@ export default function EventRegistrationSuccess() {
           <Separator borderStyle={'dashed'} borderColor="$gray4" />
 
           <View flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} p={'$4'}>
-            <Button variant="text">
+            <Button variant="text" onPress={onClose}>
               <Button.Text>Retourner sur l'événement</Button.Text>
             </Button>
 
-            <Button variant={'contained'}>
-              <Button.Text>Tous les événements</Button.Text>
-            </Button>
+            <Link href={'/evenements'}>
+              <Button variant={'contained'}>
+                <Button.Text>Tous les événements</Button.Text>
+              </Button>
+            </Link>
           </View>
         </Dialog.Content>
       </Dialog.Portal>
