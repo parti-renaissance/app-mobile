@@ -6,6 +6,7 @@ type GetEventsSearchParametersMapperPropsBase = {
   page: number
   filters: EventFilters | undefined
   orderBySubscriptions?: boolean
+  orderByBeginAt?: boolean
 }
 
 export type GetEventsSearchParametersMapperProps =
@@ -23,7 +24,7 @@ export type GetEventsSearchParametersMapperProps =
     } & GetEventsSearchParametersMapperPropsBase)
 
 export const GetEventsSearchParametersMapper = {
-  map: ({ page, zipCode, zoneCode, filters, orderBySubscriptions }: GetEventsSearchParametersMapperProps): SearchParamsKeyValue => {
+  map: ({ page, zipCode, zoneCode, filters, orderBySubscriptions, orderByBeginAt }: GetEventsSearchParametersMapperProps): SearchParamsKeyValue => {
     let searchParams: SearchParamsKeyValue = { page }
     const subscribedOnly = filters?.subscribedOnly ? true : undefined
     if (subscribedOnly) {
@@ -62,6 +63,13 @@ export const GetEventsSearchParametersMapper = {
     if (orderBySubscriptions) {
       searchParams = {
         'order[subscriptions]': 'desc',
+        ...searchParams,
+      }
+    }
+
+    if (orderByBeginAt) {
+      searchParams = {
+        'order[beginAt]': 'desc',
         ...searchParams,
       }
     }

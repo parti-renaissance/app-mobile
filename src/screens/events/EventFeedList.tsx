@@ -14,8 +14,9 @@ import { isFullEvent, isPartialEvent, RestEvent } from '@/data/restObjects/RestE
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { useSuspensePaginatedEvents } from '@/hooks/useEvents'
 import { useScrollToTop } from '@react-navigation/native'
+import { ChevronDown, Filter } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
-import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+import { getToken, Spinner, useMedia, XStack, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
 
 const MemoizedEventCard = memo(EventCard) as typeof EventCard
@@ -43,8 +44,10 @@ const splitEvents = (events: RestEvent[]) => {
 
 const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: string; data: RestEvent[] }[]>> }) => {
   const { setOpen, open } = bottomSheetFilterStates()
+  const sections = props.listRef.current?.props.sections
+  const data = Boolean(sections && sections.length > 0 && (sections[0].data.length > 0 || sections[1].data.length > 0))
   useEffect(() => {
-    if (!open) {
+    if (!open && data) {
       setTimeout(() => {
         props.listRef.current?.scrollToLocation({ itemIndex: 0, sectionIndex: 0, animated: true, viewOffset: 100 })
       }, 300)
@@ -52,18 +55,26 @@ const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: 
   }, [open])
   const handleFocus = (searchInputRef: FiltersState['searchInputRef']) => () => {
     setOpen(true)
-    const data = true
+
     if (data) props.listRef.current?.scrollToLocation({ itemIndex: 0, sectionIndex: 0, animated: true, viewOffset: Platform.OS === 'android' ? -30 : -100 })
     setTimeout(() => {
       searchInputRef.current?.focus()
-    }, 100)
+    }, 0)
   }
 
   return (
     <YStack p="$3" opacity={open ? 0 : 1} overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
       <FilterController name="search">
         {(p) => (
-          <SearchBox showSoftInputOnFocus={false} editable={Platform.OS === 'android'} onPressOut={handleFocus(p.ref!)} value={p.value} onChange={p.onChange} />
+          <SearchBox
+            showSoftInputOnFocus={false}
+            DefaultIcon={Filter}
+            editable={Platform.OS === 'android'}
+            placeholder="Rechercher et filtrer"
+            onPressOut={handleFocus(p.ref!)}
+            value={p.value}
+            onChange={p.onChange}
+          />
         )}
       </FilterController>
     </YStack>
@@ -157,6 +168,7 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
     <SectionList
       style={{ width: '100%' }}
       ref={listRef}
+      stickySectionHeadersEnabled={false}
       contentContainerStyle={{
         flexGrow: 1,
         // height: '100%',
@@ -171,11 +183,12 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
       renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
       renderSectionHeader={({ section }) => {
         return (
-          <YStack gap="$4" $md={{ paddingLeft: '$4' }}>
+          <XStack gap="$2" $md={{ paddingLeft: '$4' }} $gtLg={{ paddingTop: section.index === 0 ? '$6' : 0 }}>
             <Text fontWeight="$6" color={section.data.length === 0 ? '$textDisabled' : '$textPrimary'}>
               {section.title} {section.index === 0 ? `(${section.data.length})` : ''}
             </Text>
-          </YStack>
+            <ChevronDown size={16} color="$textPrimary" />
+          </XStack>
         )
       }}
       ListEmptyComponent={
