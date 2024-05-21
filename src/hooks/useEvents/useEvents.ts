@@ -16,10 +16,10 @@ type FetchShortEventsOptions = {
 }
 
 const fetchEventList = async (pageParam: number, opts: FetchShortEventsOptions) =>
-  await ApiService.getInstance().getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters })
+  await ApiService.getInstance().getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters, orderByBeginAt: true })
 
 const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOptions) => {
-  return await ApiService.getInstance().getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode })
+  return await ApiService.getInstance().getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode, orderByBeginAt: true })
 }
 
 export const useSuspensePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {

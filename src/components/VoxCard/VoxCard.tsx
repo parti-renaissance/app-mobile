@@ -15,6 +15,8 @@ const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   $gtSm: {
     borderRadius: '$8',
+    borderColor: '$gray3',
+    borderWidth: 1,
   },
 } as const)
 

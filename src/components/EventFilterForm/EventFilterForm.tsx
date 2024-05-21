@@ -52,31 +52,29 @@ type EventFiltersProps = {
 
 const EventFilters = ({ onSearchFocus }: EventFiltersProps) => {
   return (
-    <VoxCard bg="$colorTransparent">
-      <YStack gap="$5">
-        <Controller name="search">
-          {(p) => <SearchBox enterKeyHint="done" value={p.value} ref={p.ref as RefObject<TextInput>} onChange={p.onChange} onFocus={onSearchFocus} />}
+    <YStack gap="$5">
+      <Controller name="search">
+        {(p) => <SearchBox enterKeyHint="done" value={p.value} ref={p.ref as RefObject<TextInput>} onChange={p.onChange} onFocus={onSearchFocus} />}
+      </Controller>
+      {/* <Controller name="zone">{(p) => <ZoneFilter {...p} />}</Controller> */}
+      <YStack gap="$3">
+        <Text fontWeight="$5">Temporalité</Text>
+        <Controller name="showPast">
+          {(p) => (
+            <LineSwitch checked={p.value} onCheckedChange={p.onChange}>
+              Afficher les évènements passées
+            </LineSwitch>
+          )}
         </Controller>
-        {/* <Controller name="zone">{(p) => <ZoneFilter {...p} />}</Controller> */}
-        <YStack gap="$3">
-          <Text fontWeight="$5">Temporalité</Text>
-          <Controller name="showPast">
-            {(p) => (
-              <LineSwitch checked={p.value} onCheckedChange={p.onChange}>
-                Afficher les évènements passées
-              </LineSwitch>
-            )}
-          </Controller>
-          {/* <Controller name="showCancelled">
+        {/* <Controller name="showCancelled">
             {(p) => (
               <LineSwitch checked={p.value} onCheckedChange={p.onChange}>
                 Afficher les évènements annulées
               </LineSwitch>
             )}
           </Controller> */}
-        </YStack>
       </YStack>
-    </VoxCard>
+    </YStack>
   )
 }
 const MemoizedEF = React.memo(EventFilters)

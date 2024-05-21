@@ -161,7 +161,7 @@ const SheetLeaflet = ({ open, onChange, onOpenChange }: { open: boolean; onChang
           inputMode="decimal"
           keyboardType="number-pad"
           width="100%"
-          label="Nombre de track distribué"
+          label="Nombre de documents distribué"
           selectTextOnFocus
           placeholder={'0'}
           value={value.toString()}
