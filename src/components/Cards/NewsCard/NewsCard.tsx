@@ -26,10 +26,10 @@ const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
           <VoxCard.Date {...payload.date} icon={false} />
         </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
-        {payload.image && <VoxCard.Image image={payload.image} />}
+        {!!payload.image && <VoxCard.Image image={payload.image} />}
         <VoxCard.Description markdown>{payload.description}</VoxCard.Description>
-        {payload.author.name && <VoxCard.Author author={payload.author} />}
-        {payload.ctaLabel && (
+        {!!payload.author.name && <VoxCard.Author author={payload.author} />}
+        {!!payload.ctaLabel && (
           <XStack justifyContent="flex-end">
             <Button variant="contained" onPress={onShow}>
               <Button.Text>{payload.ctaLabel}</Button.Text>
