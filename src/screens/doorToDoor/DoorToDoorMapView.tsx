@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
+import Container from '@/components/layouts/Container'
+import MapboxGl from '@/components/Mapbox/Mapbox'
 import { LatLng, Region } from '@/components/Maps/Maps'
 import clientEnv from '@/config/clientEnv'
-import MapboxGl from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { Feature, Point } from 'geojson'
-import { useTheme } from 'tamagui'
+import { isWeb, useTheme } from 'tamagui'
 import { DoorToDoorAddress, DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { GetDoorToDoorCampaignInfoInteractor } from '../../core/interactor/GetDoorToDoorCampaignInfoInteractor'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -59,7 +60,7 @@ export function getRegionFromLatLng(location: LatLng): Region {
   }
 }
 
-const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCampaignRankingSelected }: Props) => {
+const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCampaignRankingSelected, initialLocation }: Props) => {
   const mapRef = useRef<MapboxGl.MapView | null>(null)
   const sourceRef = useRef<MapboxGl.ShapeSource | null>(null)
   const cameraRef = useRef<MapboxGl.Camera | null>(null)
@@ -91,21 +92,26 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
     return (
       <Pressable style={styles.popupWrap}>
         <Pressable style={styles.popup}>
-          <PoiAddressCard onPress={onAddressPress} viewModel={PoiAddressCardViewModelMapper.map(address)} />
-          {viewModel ? (
-            <DoorToDoorCampaignCard
-              viewModel={viewModel}
-              onPress={(campaignId: string) => {
-                onCampaignRankingSelected(campaignId)
-              }}
-            />
-          ) : null}
+          <Container>
+            <PoiAddressCard onPress={onAddressPress} viewModel={PoiAddressCardViewModelMapper.map(address)} />
+            {viewModel ? (
+              <DoorToDoorCampaignCard
+                viewModel={viewModel}
+                onPress={(campaignId: string) => {
+                  onCampaignRankingSelected(campaignId)
+                }}
+              />
+            ) : null}
+          </Container>
         </Pressable>
       </Pressable>
     )
   }
 
   const onPress = async (event: OnPressEvent) => {
+    if (event.features.length === 0) {
+      return
+    }
     const [cluster] = event.features as Feature<Point>[]
     if (cluster.properties?.cluster === true && sourceRef.current) {
       setFollowUser(false)
@@ -150,11 +156,17 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
   const memoizedSource = useMemo(() => createSource(data), [data])
   return (
     <View style={styles.container}>
-      <MapboxGl.MapView style={styles.map} ref={mapRef} pitchEnabled={false} onPress={() => setPopup({ visible: false })}>
+      <MapboxGl.MapView
+        style={styles.map}
+        ref={mapRef}
+        pitchEnabled={false}
+        onPress={() => setPopup({ visible: false })}
+        styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
+      >
         <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={18} />
         <MapboxGl.UserLocation visible={true} ref={userLocationRef} />
         <MapboxGl.ShapeSource
-          shape={memoizedSource as MapboxGl.ShapeSource['props']['shape']}
+          shape={memoizedSource}
           id="source-addresses"
           ref={sourceRef}
           cluster={true}
@@ -229,22 +241,24 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
             disabled={loading}
           />
           <View style={styles.mapButtonSideContainer}>
-            <MapButton
-              style={styles.mapButtonLocation}
-              onPress={() => {
-                setFollowUser(false)
+            {!isWeb && (
+              <MapButton
+                style={styles.mapButtonLocation}
+                onPress={() => {
+                  setFollowUser(false)
 
-                cameraRef.current?.setCamera({
-                  centerCoordinate: userLocationRef.current?.state.coordinates ?? undefined,
-                  animationMode: 'easeTo',
-                  animationDuration: 300,
-                })
-                setTimeout(() => {
-                  setFollowUser(true)
-                }, 300)
-              }}
-              image={require('./../../assets/images/gpsPosition.png')}
-            />
+                  cameraRef.current?.setCamera({
+                    centerCoordinate: userLocationRef.current?.state.coordinates ?? undefined,
+                    animationMode: 'easeTo',
+                    animationDuration: 300,
+                  })
+                  setTimeout(() => {
+                    setFollowUser(true)
+                  }, 300)
+                }}
+                image={require('./../../assets/images/gpsPosition.png')}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -291,7 +305,8 @@ const styles = StyleSheet.create({
   },
   popup: {
     marginBottom: Spacing.unit,
-    width: Dimensions.get('window').width,
+    width: '100%',
+    flex: 1,
   },
   popupWrap: {
     alignItems: 'center',
