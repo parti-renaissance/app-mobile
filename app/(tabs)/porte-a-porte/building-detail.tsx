@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { BuildingBlock, BuildingBlockHelper } from '@/core/entities/BuildingBlock'
 import { BuildingHistoryPoint } from '@/core/entities/BuildingHistory'
 import { BuildingType, DoorToDoorAddress } from '@/core/entities/DoorToDoor'
@@ -27,6 +28,7 @@ import AlphabetHelper from '@/utils/AlphabetHelper'
 import i18n from '@/utils/i18n'
 import { useIsFocused } from '@react-navigation/native'
 import { router, useNavigation } from 'expo-router'
+import { isWeb } from 'tamagui'
 
 enum Tab {
   HISTORY,
@@ -427,4 +429,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BuildingDetailScreen
+export default isWeb ? MobileWallLayout : BuildingDetailScreen
