@@ -1,6 +1,7 @@
 import { Poll } from '@/core/entities/Poll'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
+import { ActionPaginationSchema } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -506,6 +507,18 @@ class ApiService {
             } as GoogleAddressPlaceResult)
           : null,
       )
+      .catch(genericErrorMapping)
+  }
+
+  public async getActions(params: { latitude: number; longitude: number; page: number }) {
+    return this.httpClient
+      .get('api/v3/actions', {
+        searchParams: params,
+      })
+      .json()
+      .then((res) => {
+        return ActionPaginationSchema.parse(res)
+      })
       .catch(genericErrorMapping)
   }
 
