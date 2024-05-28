@@ -1,9 +1,9 @@
 import React, { forwardRef, useState } from 'react'
-import { Keyboard, Pressable } from 'react-native'
+import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import TextField from '@/components/TextField'
+import { default as TextField } from '@/components/base/Input/Input'
 import { getFormattedDate, getIntlDate, parseFrenchDate } from '@/utils/date'
-import { Input, isWeb, View, YStack } from 'tamagui'
+import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
   onChange: (date: Date | undefined) => void
@@ -12,11 +12,12 @@ interface DatePickerFieldProps {
   error?: string
   errorMessage?: string
   label?: string
+  type?: 'date' | 'time'
 }
 
 const getDateInputValue = (d: Date) => (isWeb ? getIntlDate(d) : d.toLocaleDateString())
 
-const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label }, ref) => {
+const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, type = 'date' }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
   const readableDate = value && typeof value === 'object' ? getDateInputValue(value) : ''
@@ -36,7 +37,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
 
       onChange?.(candidate)
     } else {
-      onChange?.(undefined)
+      // onChange?.(undefined)
     }
   }
 
@@ -60,14 +61,14 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         ref={ref}
         label={label}
         value={inputValue}
-        placeholder="JJ/MM/AAAA"
-        showSoftInputOnFocus={false}
+        placeholder={type === 'date' ? 'JJ/MM/AAAA' : 'HH:MM'}
         onSubmitEditing={onHide}
-        editable={false}
+        editable={isWeb}
         onChangeText={handleChange}
+        onChange={console.log}
         onPress={onShow}
         error={error}
-        isDate
+        type={type}
       />
       <DateTimePickerModal
         locale="fr"

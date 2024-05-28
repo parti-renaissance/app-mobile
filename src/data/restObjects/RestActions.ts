@@ -1,3 +1,6 @@
+import { NamedExoticComponent } from 'react'
+import { IconProps } from '@tamagui/helpers-icon'
+import { DoorOpen, Layers3, Mailbox, Paintbrush } from '@tamagui/lucide-icons'
 import * as z from 'zod'
 
 export enum ActionType {
@@ -5,6 +8,20 @@ export enum ActionType {
   BOITAGE = 'boitage',
   TRACTAGE = 'tractage',
   COLLAGE = 'collage',
+}
+
+export const ReadableActionType: Record<ActionType, string> = {
+  [ActionType.PAP]: 'Porte à Porte',
+  [ActionType.BOITAGE]: 'Boîtage',
+  [ActionType.TRACTAGE]: 'Tractage',
+  [ActionType.COLLAGE]: 'Collage',
+}
+
+export const ActionTypeIcon: Record<ActionType, NamedExoticComponent<IconProps>> = {
+  [ActionType.PAP]: DoorOpen,
+  [ActionType.BOITAGE]: Mailbox,
+  [ActionType.TRACTAGE]: Layers3,
+  [ActionType.COLLAGE]: Paintbrush,
 }
 
 export enum ActionStatus {

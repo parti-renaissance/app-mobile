@@ -476,7 +476,7 @@ class ApiService {
   public async getPlaceAutocomplete(query: string, signal?: AbortSignal): Promise<google.maps.places.AutocompletePrediction[]> {
     return this.httpClient
       .get(
-        `api/v3/place/autocomplete?input=${stringify({
+        `api/v3/place/autocomplete?${stringify({
           input: query,
         })}`,
         {
