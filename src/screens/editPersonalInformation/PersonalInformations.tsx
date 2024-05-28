@@ -180,14 +180,13 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               )}
             </FormikController>
 
-            <SpacedContainer display={manualAddress ? 'none' : 'flex'}>
+            <SpacedContainer display={manualAddress ? 'none' : 'flex'} paddingVertical="$3.5">
               <FormikController name={'addressInput'}>
                 {({ inputProps, setFieldValue }) => (
                   <AddressAutocomplete
+                    minimal
                     setAddressComponents={(val) => setFieldValue('address', val)}
-                    setStringValue={inputProps.onChange}
                     defaultValue={inputProps.value}
-                    onBlur={inputProps.onBlur}
                     error={inputProps.error}
                   />
                 )}

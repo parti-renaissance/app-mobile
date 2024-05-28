@@ -165,6 +165,20 @@ const InputFrame = styled(TInput, {
   context: InputContext,
 })
 
+const FakeInputFrame = styled(Text, {
+  context: InputContext,
+})
+
+const FakeInputImpl = FakeInputFrame.styleable((props, ref) => {
+  const { color } = InputContext.useStyledContext()
+  const { ...rest } = props
+  return (
+    <View flex={1}>
+      <FakeInputFrame ref={ref} color={color} fontSize="$2" {...rest} />
+    </View>
+  )
+})
+
 const InputImpl = InputFrame.styleable((props, ref) => {
   const { setFocused } = FocusContext.useStyledContext()
   const { size, color } = InputContext.useStyledContext()
@@ -339,6 +353,7 @@ const InputXGroup = styled(XGroup, {
 
 export const Input = withStaticProperties(InputContainerFrame, {
   Box: InputGroupImpl,
+  Fake: FakeInputImpl,
   Area: InputImpl,
   Section: InputSection,
   Button,

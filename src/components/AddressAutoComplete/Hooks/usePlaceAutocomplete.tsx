@@ -11,7 +11,7 @@ interface PlaceAutocompleteProps {
 export default function usePlaceAutocomplete({ address, enabled = true, minLength = 3 }: PlaceAutocompleteProps) {
   return useQuery({
     queryFn: async ({ signal }) => ApiService.getInstance().getPlaceAutocomplete(address, signal),
-    staleTime: minutesToMilliseconds(10),
+    placeholderData: (prev) => prev,
     queryKey: ['autocomplete', address],
     enabled: address.length > minLength && enabled,
     retry: false,
