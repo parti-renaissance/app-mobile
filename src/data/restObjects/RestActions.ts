@@ -34,18 +34,18 @@ const ActionParticipantSchema = z.object({
   is_present: z.boolean(),
   adherent: ActionAuthor,
   uuid: z.string().uuid(),
-  created_at: z.string().date(),
-  updated_at: z.string().date(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
 })
 
 const ActionSchema = z.object({
   type: ActionTypeSchema,
-  date: z.string().date(),
+  date: z.coerce.date(),
   status: ActionStatusSchema,
   uuid: z.string().uuid(),
   post_address: ActionAddressSchema,
-  created_at: z.string().date(),
-  updated_at: z.string().date(),
+  created_at: z.coerce.date(),
+  updated_at: z.coerce.date(),
   author: ActionAuthor,
   participants_count: z.number(),
   first_participants: z.array(ActionParticipantSchema),
