@@ -1,10 +1,10 @@
-import Select from '@/components/Select'
+import Select from '@/components/base/Select/Select'
 import isoToEmoji from '@/utils/isoToEmoji'
 import countries from './countries.json'
 
 interface CountrySelectProps {
   value?: string
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
   label?: string
   id: string
   error?: string
@@ -12,8 +12,8 @@ interface CountrySelectProps {
   placeholder?: string
 }
 
-export default function CountrySelect(props: CountrySelectProps) {
-  return <Select canSearch options={countriesSourceAsOption} {...props} />
+export default function CountrySelect({ onBlur, ...props }: CountrySelectProps) {
+  return <Select minimal options={countriesSourceAsOption} {...props} />
 }
 
 const countriesSource = Object.entries(countries).map(([iso, name]) => ({

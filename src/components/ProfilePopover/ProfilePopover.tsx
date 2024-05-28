@@ -15,6 +15,11 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
     router.push('/profil/')
   }, [])
 
+  const onGoToStorybook = useCallback(() => {
+    ref.current?.close()
+    router.replace('/storybook/')
+  }, [])
+
   const onDisconnect = useCallback(async () => {
     ref.current?.close()
     await signOut()
@@ -38,6 +43,12 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
         <YGroup $gtLg={{ width: 300 }}>
           <MenuEntry onPress={onGoToProfile} title="Mon profil" />
           <Separator borderStyle={'dashed'} borderColor="$gray4" />
+          {__DEV__ && (
+            <>
+              <MenuEntry onPress={onGoToStorybook} title="Storybook" />
+              <Separator borderStyle={'dashed'} borderColor="$gray4" />
+            </>
+          )}
           <MenuEntry onPress={onDisconnect} title="Me déconnecter" danger />
         </YGroup>
       </Popover.Content>
