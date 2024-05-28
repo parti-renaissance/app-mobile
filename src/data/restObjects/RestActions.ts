@@ -27,6 +27,7 @@ const ActionAddressSchema = z.object({
   city_name: z.string(),
   country: z.string(),
   latitude: z.number(),
+  longitude: z.number(),
 })
 
 const ActionParticipantSchema = z.object({
