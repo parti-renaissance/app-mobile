@@ -1,7 +1,19 @@
 import * as z from 'zod'
 
-const ActionTypeSchema = z.enum(['pap', 'boitage', 'tractage', 'collage'])
-const ActionStatusSchema = z.enum(['scheduled', 'cancelled'])
+export enum ActionType {
+  PAP = 'pap',
+  BOITAGE = 'boitage',
+  TRACTAGE = 'tractage',
+  COLLAGE = 'collage',
+}
+
+export enum ActionStatus {
+  SCHEDULED = 'scheduled',
+  CANCELLED = 'cancelled',
+}
+
+const ActionTypeSchema = z.nativeEnum(ActionType)
+const ActionStatusSchema = z.nativeEnum(ActionStatus)
 const ActionAuthor = z.object({
   uuid: z.string().uuid(),
   first_name: z.string(),
@@ -50,6 +62,14 @@ export const ActionPaginationSchema = z.object({
   metadata: MetadataSchema,
   items: z.array(ActionSchema),
 })
+
+export const ActionRequestParamsSchema = z.object({
+  longitude: z.number(),
+  latitude: z.number(),
+  page: z.number(),
+})
+
+export type RestActionRequestParams = z.infer<typeof ActionRequestParamsSchema>
 
 export type RestActionType = z.infer<typeof ActionTypeSchema>
 export type RestActionStatus = z.infer<typeof ActionStatusSchema>
