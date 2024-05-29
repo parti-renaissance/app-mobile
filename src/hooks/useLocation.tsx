@@ -8,6 +8,8 @@ class LocationPermissionError extends Error {
   }
 }
 
+export const QUERY_KEY_LOCATION = 'location'
+
 export const useLocationPermission = () => {
   return useSuspenseQuery({
     queryFn: () =>

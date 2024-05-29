@@ -2,9 +2,9 @@ import ApiService from '@/data/network/ApiService'
 import { RestActionRequestParams } from '@/data/restObjects/RestActions'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-const QUERY_KEY_PAGINATED_ACTIONS = 'QUERY_KEY_PAGINATED_ACTIONS'
+export const QUERY_KEY_PAGINATED_ACTIONS = 'QUERY_KEY_PAGINATED_ACTIONS'
 
-export const useSuspensePaginatedActions = (params: Omit<RestActionRequestParams, 'page'>) => {
+export const usePaginatedActions = (params: Omit<RestActionRequestParams, 'page'>) => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEY_PAGINATED_ACTIONS, params],
     queryFn: ({ pageParam }) => ApiService.getInstance().getActions({ ...params, page: pageParam }),

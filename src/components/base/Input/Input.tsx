@@ -57,7 +57,14 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
               </Input.Icon>
             )}
             {props.fake ? (
-              <Input.Fake padding="$3" paddingLeft={minimal || iconLeft ? 0 : '$2'} paddingRight={minimal || iconRight ? 0 : '$2'} borderBottomWidth={0}>
+              <Input.Fake
+                padding="$3"
+                numberOfLines={1}
+                maxWidth={150}
+                paddingLeft={minimal || iconLeft ? 0 : '$2'}
+                paddingRight={minimal || iconRight ? 0 : '$2'}
+                borderBottomWidth={0}
+              >
                 {props.value && props.value.length > 0 ? props.value : props.placeholder}
               </Input.Fake>
             ) : (

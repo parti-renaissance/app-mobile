@@ -493,6 +493,7 @@ class ApiService {
       .get(
         `api/v3/place/details?${stringify({
           place_id: placeId,
+          fields: 'formatted_address,address_components,geometry',
         })}`,
         {
           signal,
@@ -504,6 +505,7 @@ class ApiService {
           ? ({
               formatted: data.result.formatted_address,
               details: data.result.address_components,
+              geometry: data.result.geometry,
             } as GoogleAddressPlaceResult)
           : null,
       )
@@ -525,6 +527,7 @@ class ApiService {
 export interface GoogleAddressPlaceResult {
   formatted?: string
   details?: google.maps.GeocoderAddressComponent[]
+  geometry?: google.maps.GeocoderGeometry
 }
 
 export default ApiService

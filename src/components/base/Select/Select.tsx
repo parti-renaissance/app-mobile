@@ -19,19 +19,20 @@ type SelectProps<A extends string> = {
   minimal?: boolean
   onBlur?: () => void
   onPress?: () => void
+  search?: boolean
 }
 
 type TriggerProps<A extends string> = {
   value?: string
   onChange?: (value: A) => void
+  fake?: boolean
 }
 
 const Trigger = <A extends string>(props: TriggerProps<A> & ComponentProps<typeof Input>) => {
-  const media = useMedia()
   return (
     <YStack flex={1} position="relative">
-      {media.md && <YStack position="absolute" zIndex={1} top={0} left={0} right={0} bottom={0}></YStack>}
-      <Input pointerEvents={media.md ? 'none' : 'auto'} fake={media.md} {...props} selectTextOnFocus />
+      {props.fake && <YStack position="absolute" zIndex={1} top={0} left={0} right={0} bottom={0}></YStack>}
+      <Input pointerEvents={props.fake ? 'none' : 'auto'} fake={props.fake} {...props} selectTextOnFocus />
     </YStack>
   )
 }
@@ -152,11 +153,25 @@ const Item = <A extends string>({ value, label, onSelect, selected, empty, ...pr
 
 const MemoItem = memo(Item)
 
-const Select = <A extends string>({ value, onChange, options, placeholder, queryHandler, label, loading, error, onBlur, minimal, onPress }: SelectProps<A>) => {
+const Select = <A extends string>({
+  search = true,
+  value,
+  onChange,
+  options,
+  placeholder,
+  queryHandler,
+  label,
+  loading,
+  error,
+  onBlur,
+  minimal,
+  onPress,
+}: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
 
   const [query, setQuery] = useState(selectedOption?.label ?? '')
   const [open, setOpen] = useState(false)
+  const media = useMedia()
   const [triggerWidth, setTriggerWidth] = useState(0)
 
   const handleChange = (v: A) => {
@@ -208,19 +223,20 @@ const Select = <A extends string>({ value, onChange, options, placeholder, query
       : [<MemoItem empty key="empty" value="" label="Aucun résultat trouvé" selected={false} onSelect={() => {}} last={true} />]
   }, [filteredOptions, selectedOption, handleChange, last])
 
-  const inputIcon = (icon: React.ReactNode) => (query.length > 0 ? <X onPress={() => setQuery('')} /> : icon)
+  const inputIcon = (icon: React.ReactNode) => (search && query.length > 0 ? <X onPress={() => setQuery('')} /> : icon)
 
   return (
     <Popover onOpenChange={handleOpen} open={open} size="$6">
       <Popover.Trigger height="auto" flex={1} onPress={onPress}>
         <Trigger
           onLayout={(e) => setTriggerWidth(e.nativeEvent.layout.width)}
-          label={label}
+          // label={label}
           placeholder={placeholder}
           value={query}
           onChangeText={handleQuery}
           loading={loading}
           error={error}
+          fake={!search || media.md}
           minimal={minimal}
           iconRight={inputIcon(<ChevronDown />)}
         />
@@ -239,7 +255,7 @@ const Select = <A extends string>({ value, onChange, options, placeholder, query
                   <X />
                 </TouchableOpacity>
               </XStack>
-              <YStack p pb="$3.5" flexGrow={1} h="$5">
+              <YStack display={search ? 'flex' : 'none'} p pb="$3.5" flexGrow={1} h="$5">
                 <Input
                   placeholder={placeholder}
                   value={query}

@@ -1,4 +1,5 @@
 import React from 'react'
+import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
@@ -7,9 +8,12 @@ import MapboxGl from '@/components/Mapbox/Mapbox'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import { ActionType, RestAction } from '@/data/restObjects/RestActions'
-import { useSuspensePaginatedActions } from '@/hooks/useActions/useActions'
-import { useLocation, useLocationPermission } from '@/hooks/useLocation'
+import { QUERY_KEY_PAGINATED_ACTIONS, usePaginatedActions } from '@/hooks/useActions/useActions'
+import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
+import { useQueryClient } from '@tanstack/react-query'
+import { addDays, addWeeks, isSameDay, isSameWeek } from 'date-fns'
+import { is } from 'date-fns/locale'
 import { Redirect } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { get } from 'lodash'
@@ -62,17 +66,52 @@ export default function ActionsScreen() {
   )
 }
 
+type SelectType = 'all' | ActionType
+type SelectPeriod = 'all' | 'today' | 'tomorow' | 'week'
+
+const passPeriod = (date: Date, period: SelectPeriod) => {
+  switch (period) {
+    case 'today':
+      return isSameDay(date, new Date())
+    case 'tomorow':
+      return isSameDay(date, addDays(new Date(), 1))
+    case 'week':
+      return isSameWeek(date, new Date())
+    default:
+      return true
+  }
+}
+
+const passType = (type: SelectType, actionType: ActionType) => {
+  return type === 'all' || actionType === type
+}
+
 function Page() {
   useLocationPermission()
+
+  const queryClient = useQueryClient()
+
   const {
     data: { coords },
   } = useLocation()
-  const data = useSuspensePaginatedActions(coords)
+
+  const data = usePaginatedActions(coords)
   const [position, setPosition] = React.useState(1)
+  const [period, setPeriod] = React.useState<SelectPeriod>('week')
+  const [type, setType] = React.useState<SelectType>('all')
 
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
+
+  const filteredActions = flattedActions.filter((action) => {
+    return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
+  })
   const [activeAction, setActiveAction] = React.useState<RestAction | null>(null)
-  const source = createSource(flattedActions, activeAction?.uuid ?? '')
+  const source = createSource(filteredActions, activeAction?.uuid ?? '')
+
+  const handleLocationChange = (coordsPayload: { lontitude: number; latitude: number }) => {
+    queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
+  }
 
   const handlePress = (e: OnPressEvent) => {
     if (e.features.length === 0) {
@@ -89,9 +128,40 @@ function Page() {
       <YStack height={70} bg="$white1">
         <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }}>
           <XStack gap="$3">
-            <Select options={[]} placeholder="Cette semaine" />
-            <Select options={[]} placeholder="Cette semaine" />
-            <Select options={[]} placeholder="Cette semaine" />
+            <AddressAutocomplete
+              setAddressComponents={({ location }) => {
+                console.log('location', location)
+                if (!location) return
+                handleLocationChange({ lontitude: location.lng, latitude: location.lat })
+              }}
+            />
+            <Select<SelectPeriod>
+              search={false}
+              label="Période"
+              onChange={setPeriod}
+              value={period}
+              options={[
+                { value: 'all', label: 'Tout' },
+                { value: 'today', label: "Ajourd'hui" },
+                { value: 'tomorow', label: 'Demain' },
+                { value: 'week', label: 'Cette semaine' },
+              ]}
+              placeholder="Cette semaine"
+            />
+            <Select<SelectType>
+              search={false}
+              label="Type"
+              onChange={setType}
+              value={type}
+              options={[
+                { value: 'all', label: 'Tout types' },
+                { value: ActionType.TRACTAGE, label: 'Tractage' },
+                { value: ActionType.BOITAGE, label: 'Boitage' },
+                { value: ActionType.COLLAGE, label: 'Collage' },
+                { value: ActionType.PAP, label: 'Porte à porte' },
+              ]}
+              placeholder="Cette semaine"
+            />
           </XStack>
         </ScrollView>
       </YStack>
@@ -128,14 +198,14 @@ function Page() {
           <MapboxGl.Images images={markersImage} />
         </MapboxGl.ShapeSource>
       </MapboxGl.MapView>
-      <BottomSheetList actions={flattedActions} query={data} setPosition={setPosition} position={position} />
+      <BottomSheetList actions={filteredActions} query={data} setPosition={setPosition} position={position} />
     </YStack>
   )
 }
 
 type ActionListProps = {
   actions: RestAction[]
-  query: ReturnType<typeof useSuspensePaginatedActions>
+  query: ReturnType<typeof usePaginatedActions>
 }
 
 const ActionList = (props: ActionListProps) => {
