@@ -18,6 +18,7 @@ type SelectProps<A extends string> = {
   label?: string
   minimal?: boolean
   onBlur?: () => void
+  onPress?: () => void
 }
 
 type TriggerProps<A extends string> = {
@@ -151,7 +152,7 @@ const Item = <A extends string>({ value, label, onSelect, selected, empty, ...pr
 
 const MemoItem = memo(Item)
 
-const Select = <A extends string>({ value, onChange, options, placeholder, queryHandler, label, loading, error, onBlur, minimal }: SelectProps<A>) => {
+const Select = <A extends string>({ value, onChange, options, placeholder, queryHandler, label, loading, error, onBlur, minimal, onPress }: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
 
   const [query, setQuery] = useState(selectedOption?.label ?? '')
@@ -211,7 +212,7 @@ const Select = <A extends string>({ value, onChange, options, placeholder, query
 
   return (
     <Popover onOpenChange={handleOpen} open={open} size="$6">
-      <Popover.Trigger height="auto" flex={1}>
+      <Popover.Trigger height="auto" flex={1} onPress={onPress}>
         <Trigger
           onLayout={(e) => setTriggerWidth(e.nativeEvent.layout.width)}
           label={label}

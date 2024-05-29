@@ -1,5 +1,4 @@
-import React, { forwardRef } from 'react'
-import { Touchable, TouchableOpacity } from 'react-native'
+import React from 'react'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
@@ -14,7 +13,7 @@ import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { Redirect } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { get } from 'lodash'
-import { isWeb, Sheet, Spinner, XStack, YStack } from 'tamagui'
+import { isWeb, ScrollView, Sheet, Spinner, useSheetController, XStack, YStack } from 'tamagui'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -69,6 +68,7 @@ function Page() {
     data: { coords },
   } = useLocation()
   const data = useSuspensePaginatedActions(coords)
+  const [position, setPosition] = React.useState(1)
 
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
   const [activeAction, setActiveAction] = React.useState<RestAction | null>(null)
@@ -85,12 +85,22 @@ function Page() {
   }
 
   return (
-    <YStack gap="$4" flex={1} flexDirection="column">
+    <YStack flex={1} flexDirection="column">
+      <YStack height={70} bg="$white1">
+        <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }}>
+          <XStack gap="$3">
+            <Select options={[]} placeholder="Cette semaine" />
+            <Select options={[]} placeholder="Cette semaine" />
+            <Select options={[]} placeholder="Cette semaine" />
+          </XStack>
+        </ScrollView>
+      </YStack>
       <MapboxGl.MapView
         styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
         style={{ flex: 1 }}
         onPress={() => {
           setActiveAction(null)
+          setPosition(1)
         }}
       >
         <MapboxGl.Camera followUserLocation followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
@@ -118,7 +128,7 @@ function Page() {
           <MapboxGl.Images images={markersImage} />
         </MapboxGl.ShapeSource>
       </MapboxGl.MapView>
-      <BottomSheetList actions={flattedActions} query={data} />
+      <BottomSheetList actions={flattedActions} query={data} setPosition={setPosition} position={position} />
     </YStack>
   )
 }
@@ -151,8 +161,7 @@ const ActionList = (props: ActionListProps) => {
   return props.actions.length === 0 ? <Spinner /> : props.actions.map((action) => <ActionCard key={action.uuid} payload={mapPayload(action)} />)
 }
 
-const BottomSheetList = (props: ActionListProps) => {
-  const [position, setPosition] = React.useState(2)
+const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & { position: number; setPosition: (position: number) => void }) => {
   const handlePositionChange = (position: number) => {
     setPosition(position)
   }
@@ -160,13 +169,10 @@ const BottomSheetList = (props: ActionListProps) => {
   const handleHandlePress = () => {
     switch (position) {
       case 0:
-        setPosition(2)
+        setPosition(1)
         break
       case 1:
         setPosition(0)
-        break
-      case 2:
-        setPosition(1)
         break
       default:
         setPosition(0)
@@ -182,13 +188,12 @@ const BottomSheetList = (props: ActionListProps) => {
   }
   return (
     <Sheet
-      native
       defaultOpen={true}
       defaultPosition={2}
       position={position}
       dismissOnOverlayPress={false}
       onPositionChange={handlePositionChange}
-      snapPoints={['100%', '70%', 130]}
+      snapPoints={['70%', 60]}
       snapPointsMode="mixed"
     >
       <Sheet.Frame borderTopLeftRadius={pageMode ? 0 : 10} borderTopRightRadius={pageMode ? 0 : 10}>
@@ -200,15 +205,9 @@ const BottomSheetList = (props: ActionListProps) => {
             </Text>
           </XStack>
         </YStack>
-        <YStack gap="$3" height={70}>
-          <Sheet.ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }}>
-            <XStack gap="$3">
-              <Select options={[]} placeholder="Cette semaine" />
-              <Select options={[]} placeholder="Cette semaine" />
-              <Select options={[]} placeholder="Cette semaine" />
-            </XStack>
-          </Sheet.ScrollView>
-        </YStack>
+
+        {/* <Sheet.Overlay display={position < 2 ? 'none' : 'flex'} /> */}
+
         <Sheet.ScrollView
           scrollEnabled={position === 0}
           flex={1}
