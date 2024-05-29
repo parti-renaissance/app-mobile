@@ -15,6 +15,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare:env": "ts-node ./scripts/prepare-client-env.ts",
+    "prepare-markers": "ts-node ./scripts/prepare-action-markers.ts",
     "postinstall": "ts-node ./scripts/postinstall.ts",
     "build:worker": "vite build --config vite.worker.config.js",
     "storybook-generate": "sb-rn-get-stories -js",

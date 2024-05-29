@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react'
-import { Dimensions, FlatList } from 'react-native'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
@@ -7,13 +6,14 @@ import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
-import { RestAction } from '@/data/restObjects/RestActions'
+import { ActionType, RestAction } from '@/data/restObjects/RestActions'
 import { useSuspensePaginatedActions } from '@/hooks/useActions/useActions'
-import { useLazyRef } from '@/hooks/useLazyRef'
 import { useLocation, useLocationPermission } from '@/hooks/useLocation'
-import { Redirect, Stack } from 'expo-router'
-import { AnimatePresence, ScrollView, Sheet, Spinner, useSheetController, XStack, YStack } from 'tamagui'
-import { useDebounce } from 'use-debounce'
+import { Redirect } from 'expo-router'
+import { isWeb, Sheet, Spinner, XStack, YStack } from 'tamagui'
+import markersImage from '../../../assets/images/generated-markers-lib'
+
+const getMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
 
 MapboxGl.setAccessToken(clientEnv.MAP_BOX_ACCESS_TOKEN)
 
@@ -65,15 +65,17 @@ function Page() {
         <MapboxGl.Camera followUserLocation followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
         <MapboxGl.UserLocation visible />
         <MapboxGl.ShapeSource id="actions" shape={source} clusterMaxZoomLevel={18} cluster={false} clusterRadius={35}>
-          <MapboxGl.CircleLayer
+          <MapboxGl.SymbolLayer
             id="layer-action"
-            // filter={['==', ['get', 'type'], 'pap']}
+            filter={['has', 'type']}
             style={{
-              circleRadius: 15,
-              circleColor: 'black',
-              circleStrokeWidth: 2,
+              iconImage: ['case', ...Object.values(ActionType).flatMap(getMarketIcon), ActionType.TRACTAGE],
+              iconSize: isWeb ? 0.5 : 1,
+              iconAllowOverlap: true,
+              iconOffset: [1, -20],
             }}
           />
+          <MapboxGl.Images images={markersImage} />
         </MapboxGl.ShapeSource>
       </MapboxGl.MapView>
       <BottomSheetList actions={flattedActions} query={data} />
