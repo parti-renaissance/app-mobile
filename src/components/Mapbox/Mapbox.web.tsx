@@ -39,7 +39,7 @@ export enum UserTrackingMode {
 const staticStore = {
   accessToken: '',
   onClick: (e: MapLayerMouseEvent): void => {
-    console.log(e, e.features)
+    // console.log(e, e.features)
   },
   followUserMode: UserTrackingMode.Follow,
   followZoomLevel: 18,
@@ -73,21 +73,23 @@ const MapView = forwardRef<MapRef, ComponentProps<typeof MV>>((props, ref) => {
   const { children, ...restProps } = props
 
   const layersID = useMemo(() => {
-    const sourceChidlren = React.Children.toArray(children).find((x) => {
+    const sourceChidlrens = React.Children.toArray(children).filter((x) => {
       if (React.isValidElement(x) && x.type === ShapeSource) {
         return true
       }
       return false
     })
     // @ts-ignore
-    return React.Children.toArray(sourceChidlren?.props.children)
-      .map((x) => {
-        if (React.isValidElement(x)) {
-          return x.props.id
-        }
-        return ''
-      })
-      .filter((x) => Boolean(x))
+    return sourceChidlrens.flatMap((sourceChidlren) =>
+      React.Children.toArray(sourceChidlren?.props.children)
+        .map((x) => {
+          if (React.isValidElement(x)) {
+            return x.props.id
+          }
+          return ''
+        })
+        .filter((x) => Boolean(x)),
+    )
   }, [props.children])
 
   if (layersID.length === 0) {

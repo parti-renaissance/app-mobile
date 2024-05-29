@@ -1,12 +1,16 @@
 import fs from 'fs'
 import path from 'path'
-import { ActionType } from '../src/data/restObjects/RestActions'
+import { ActionType, RestActionType } from '../src/data/restObjects/RestActions'
+
+type MarkersName = ActionType | `${ActionType}Active`
+const buildActiveMarker = (type: ActionType) => `${type}Active` as const
 
 const actionTypes = Object.values(ActionType)
+const allMarkers = [...actionTypes, ...actionTypes.map(buildActiveMarker)]
 const tspath = '@/assets/images/actionMap/'
-const buildRequireByName = (type: ActionType) => `require('${tspath}${type}-marker.png')`
+const buildRequireByName = (type: MarkersName) => `require('${tspath}${type}-marker.png')`
 
-const jsOJectEntries = actionTypes.reduce((acc, type) => {
+const jsOJectEntries = allMarkers.reduce((acc, type) => {
   acc += `${type}: ${buildRequireByName(type)},\n`
   return acc
 }, '')

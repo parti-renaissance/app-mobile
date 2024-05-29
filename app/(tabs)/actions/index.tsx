@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react'
+import { Touchable, TouchableOpacity } from 'react-native'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
@@ -9,18 +10,30 @@ import { useSession } from '@/ctx/SessionProvider'
 import { ActionType, RestAction } from '@/data/restObjects/RestActions'
 import { useSuspensePaginatedActions } from '@/hooks/useActions/useActions'
 import { useLocation, useLocationPermission } from '@/hooks/useLocation'
+import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { Redirect } from 'expo-router'
+import { Feature, Point } from 'geojson'
+import { get } from 'lodash'
 import { isWeb, Sheet, Spinner, XStack, YStack } from 'tamagui'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
-const getMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
+const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
+const getActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active`]
+
+const getDynamicMarkerIcon = [
+  'case',
+  ['==', ['get', 'isActive'], true],
+  ['case', ...Object.values(ActionType).flatMap(getActiveMarketIcon), ActionType.TRACTAGE],
+  ['case', ...Object.values(ActionType).flatMap(getMarkerIcon), ActionType.TRACTAGE],
+]
 
 MapboxGl.setAccessToken(clientEnv.MAP_BOX_ACCESS_TOKEN)
 
-const createSource = (actions: RestAction[]): MapboxGl.ShapeSource['props']['shape'] => {
+const createSource = (actions: RestAction[], active: string): MapboxGl.ShapeSource['props']['shape'] => {
   return {
     type: 'FeatureCollection',
     features: actions.map((action) => {
+      const isActive = action.uuid === active
       return {
         type: 'Feature',
         geometry: {
@@ -28,6 +41,7 @@ const createSource = (actions: RestAction[]): MapboxGl.ShapeSource['props']['sha
           coordinates: [action.post_address.longitude, action.post_address.latitude],
         },
         properties: {
+          isActive,
           ...action,
         },
       }
@@ -57,19 +71,45 @@ function Page() {
   const data = useSuspensePaginatedActions(coords)
 
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
-  const source = createSource(flattedActions)
+  const [activeAction, setActiveAction] = React.useState<RestAction | null>(null)
+  const source = createSource(flattedActions, activeAction?.uuid ?? '')
+
+  const handlePress = (e: OnPressEvent) => {
+    if (e.features.length === 0) {
+      setActiveAction(null)
+      return
+    }
+    const [cluster] = e.features as Feature<Point>[]
+
+    setActiveAction(flattedActions.find((action) => action.uuid === cluster.properties?.uuid) ?? null)
+  }
 
   return (
     <YStack gap="$4" flex={1} flexDirection="column">
-      <MapboxGl.MapView styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2" style={{ flex: 1 }}>
+      <MapboxGl.MapView
+        styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
+        style={{ flex: 1 }}
+        onPress={() => {
+          setActiveAction(null)
+        }}
+      >
         <MapboxGl.Camera followUserLocation followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
         <MapboxGl.UserLocation visible />
-        <MapboxGl.ShapeSource id="actions" shape={source} clusterMaxZoomLevel={18} cluster={false} clusterRadius={35}>
+
+        <MapboxGl.ShapeSource
+          id="actions"
+          shape={source}
+          clusterMaxZoomLevel={18}
+          cluster={false}
+          clusterRadius={35}
+          onPress={handlePress}
+          hitbox={{ width: 20, height: 20 }}
+        >
           <MapboxGl.SymbolLayer
             id="layer-action"
             filter={['has', 'type']}
             style={{
-              iconImage: ['case', ...Object.values(ActionType).flatMap(getMarketIcon), ActionType.TRACTAGE],
+              iconImage: getDynamicMarkerIcon,
               iconSize: isWeb ? 0.5 : 1,
               iconAllowOverlap: true,
               iconOffset: [1, -20],
@@ -117,6 +157,22 @@ const BottomSheetList = (props: ActionListProps) => {
     setPosition(position)
   }
 
+  const handleHandlePress = () => {
+    switch (position) {
+      case 0:
+        setPosition(2)
+        break
+      case 1:
+        setPosition(0)
+        break
+      case 2:
+        setPosition(1)
+        break
+      default:
+        setPosition(0)
+    }
+  }
+
   const pageMode = position === 0
 
   const loadMore = () => {
@@ -132,16 +188,18 @@ const BottomSheetList = (props: ActionListProps) => {
       position={position}
       dismissOnOverlayPress={false}
       onPositionChange={handlePositionChange}
-      snapPoints={['100%', '80%', 130]}
+      snapPoints={['100%', '70%', 130]}
       snapPointsMode="mixed"
     >
       <Sheet.Frame borderTopLeftRadius={pageMode ? 0 : 10} borderTopRightRadius={pageMode ? 0 : 10}>
-        <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" />
-        <XStack justifyContent="center" p="$3">
-          <Text fontWeight={'$6'} color="$textDisabled" textAlign="center">
-            Toutes les actions
-          </Text>
-        </XStack>
+        <YStack onPress={handleHandlePress}>
+          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
+          <XStack justifyContent="center" p="$3">
+            <Text fontWeight={'$6'} color="$textDisabled" textAlign="center">
+              Toutes les actions
+            </Text>
+          </XStack>
+        </YStack>
         <YStack gap="$3" height={70}>
           <Sheet.ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }}>
             <XStack gap="$3">
