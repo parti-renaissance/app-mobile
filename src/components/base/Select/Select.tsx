@@ -1,8 +1,9 @@
-import { ComponentProps, memo, useCallback, useMemo, useState } from 'react'
+import { ComponentProps, memo, Suspense, useCallback, useMemo, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Check, ChevronDown, Search, X } from '@tamagui/lucide-icons'
 import _ from 'lodash'
 import { Adapt, isWeb, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
+import { useDebounce } from 'use-debounce'
 import Input from '../Input/Input'
 import Text from '../Text'
 
@@ -56,15 +57,6 @@ const ItemFrame = styled(XStack, {
   justifyContent: 'space-between',
   alignContent: 'center',
   alignItems: 'center',
-  animation: 'quick',
-
-  enterStyle: {
-    opacity: 0,
-  },
-  exitStyle: {
-    opacity: 0,
-    scale: 0.9,
-  },
 
   $gtMd: {
     cursor: 'pointer',
@@ -189,8 +181,13 @@ const Select = <A extends string>({
   )
 
   const querySync = query === selectedOption?.label
+  const filterQuery = useMemo(() => {
+    if (query.length === 0) return options
+    return options.filter((o) => o.label.toLowerCase().trim().includes(query.toLowerCase()))
+  }, [query, options])
 
-  const filteredOptions = queryHandler || querySync ? options : options.filter((o) => o.label.toLowerCase().trim().includes(query.toLowerCase()))
+  const _filteredOptions = queryHandler || querySync ? options : filterQuery
+  const [filteredOptions] = useDebounce(_filteredOptions, 200)
 
   const handleOpen = (x: boolean) => {
     setOpen(x)
@@ -288,7 +285,9 @@ const Select = <A extends string>({
       <Popover.Content p={0} minWidth={triggerWidth}>
         <Popover.Arrow borderWidth={0} unstyled m={0} p={0} h="0" overflow="hidden" display="none" />
         <ListFrame mt={-25}>
-          <Popover.ScrollView keyboardShouldPersistTaps="always">{list}</Popover.ScrollView>
+          <Popover.ScrollView keyboardShouldPersistTaps="always">
+            <Suspense>{list}</Suspense>
+          </Popover.ScrollView>
         </ListFrame>
       </Popover.Content>
     </Popover>
