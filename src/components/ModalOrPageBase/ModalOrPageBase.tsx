@@ -26,15 +26,18 @@ export default function ModalOrPageBase({ children, onClose, open }: ModalOrPage
   }
 
   return (
-    <ScrollView backgroundColor={'white'} style={styles.mediumView}>
-      {children}
-    </ScrollView>
+    <Modal animationType={'slide'}>
+      <ScrollView backgroundColor={'white'} style={styles.mediumView}>
+        {children}
+      </ScrollView>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
   mediumView: {
     height: '100%',
+    paddingTop: Spacing.largeMargin,
   },
   centeredView: {
     flex: 1,
