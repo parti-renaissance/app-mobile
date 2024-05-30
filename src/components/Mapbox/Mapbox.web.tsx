@@ -1,5 +1,14 @@
 import React, { ComponentProps, ComponentRef, forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
-import { CameraStop, type Camera as C, type CircleLayer as CL, type MapView as MV, type ShapeSource as SS, type UserLocation as UL } from '@rnmapbox/maps'
+import {
+  CameraStop,
+  type Camera as C,
+  type CircleLayer as CL,
+  type Images as Img,
+  type MapView as MV,
+  type ShapeSource as SS,
+  type UserLocation as UL,
+} from '@rnmapbox/maps'
+import * as Image from 'expo-image'
 import type mapboxgl from 'mapbox-gl'
 import Map, { GeolocateControl, Layer, MapRef, Source, useMap } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -30,7 +39,7 @@ export enum UserTrackingMode {
 const staticStore = {
   accessToken: '',
   onClick: (e: MapLayerMouseEvent): void => {
-    console.log(e, e.features)
+    // console.log(e, e.features)
   },
   followUserMode: UserTrackingMode.Follow,
   followZoomLevel: 18,
@@ -64,21 +73,23 @@ const MapView = forwardRef<MapRef, ComponentProps<typeof MV>>((props, ref) => {
   const { children, ...restProps } = props
 
   const layersID = useMemo(() => {
-    const sourceChidlren = React.Children.toArray(children).find((x) => {
+    const sourceChidlrens = React.Children.toArray(children).filter((x) => {
       if (React.isValidElement(x) && x.type === ShapeSource) {
         return true
       }
       return false
     })
     // @ts-ignore
-    return React.Children.toArray(sourceChidlren?.props.children)
-      .map((x) => {
-        if (React.isValidElement(x)) {
-          return x.props.id
-        }
-        return ''
-      })
-      .filter((x) => Boolean(x))
+    return sourceChidlrens.flatMap((sourceChidlren) =>
+      React.Children.toArray(sourceChidlren?.props.children)
+        .map((x) => {
+          if (React.isValidElement(x)) {
+            return x.props.id
+          }
+          return ''
+        })
+        .filter((x) => Boolean(x)),
+    )
   }, [props.children])
 
   if (layersID.length === 0) {
@@ -136,9 +147,35 @@ const CircleLayer = (props: ComponentProps<typeof CL> & { source?: string }) => 
 }
 const SymbolLayer = (props: ComponentProps<typeof CL> & { source?: string }) => {
   const { textColor, ...rest } = props.style
-  const paint = useMemo(() => _.mapKeys({ textColor }, (x, k) => toKebabCase(k)), [])
+  const paint = useMemo(() => _.mapKeys(textColor ? { textColor } : {}, (x, k) => toKebabCase(k)), [])
   const layout = useMemo(() => _.mapKeys(rest, (x, k) => toKebabCase(k)), [])
   return <Layer id={props.id} type="symbol" source={props.source} filter={props.filter} layout={layout} paint={paint} />
+}
+
+export const Images = (props: ComponentProps<typeof Img>) => {
+  const { current: map } = useMap()
+  const imageRefs = useRef({})
+  const imgs = props.images ? Object.entries(props.images) : []
+  const urls = Object.entries(imageRefs.current).map(([id, ref]) => [id, ref.nativeViewRef.current?.src])
+
+  useEffect(() => {
+    urls.forEach(([id, url]) => {
+      map?.loadImage(url, (error, image) => {
+        if (error) {
+          return
+        }
+        if (map?.hasImage(id)) return
+        map?.addImage(id, image)
+      })
+    })
+  }, [urls])
+  return (
+    <div hidden>
+      {imgs.map(([id, url]) => (
+        <Image.Image key={id} source={url} ref={(x) => (imageRefs.current[id] = x)} />
+      ))}
+    </div>
+  )
 }
 
 const Camera = forwardRef<React.ComponentRef<typeof C>, ComponentProps<typeof C>>((props: ComponentProps<typeof C>, ref) => {
@@ -223,4 +260,5 @@ export default {
   UserLocation,
   setAccessToken,
   UserTrackingMode,
+  Images,
 }

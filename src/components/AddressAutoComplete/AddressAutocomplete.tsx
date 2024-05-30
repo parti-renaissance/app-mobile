@@ -1,22 +1,35 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { NativeSyntheticEvent, TextInputFocusEventData, TouchableOpacity } from 'react-native'
-import { ProgressBar } from 'react-native-paper'
+import React, { ComponentProps, memo, useCallback, useState } from 'react'
 import usePlaceAutocomplete from '@/components/AddressAutoComplete/Hooks/usePlaceAutocomplete'
 import usePlaceDetails from '@/components/AddressAutoComplete/Hooks/usePlaceDetails'
-import TextField from '@/components/TextField/TextField'
 import googleAddressMapper from '@/data/mapper/googleAddressMapper'
-import { ListItem, Text, useDebounceValue, YStack } from 'tamagui'
-import { purple } from '../../../theme/colors.hsl'
+import { useDebounceValue, YStack } from 'tamagui'
 import Select from '../base/Select/Select'
 
 export interface AddressAutocompleteProps {
   defaultValue?: string
-  setAddressComponents?: (addressComponents: { address: string; city: string; postalCode: string; country: string }) => void
+  setAddressComponents?: (addressComponents: {
+    address: string
+    city: string
+    postalCode: string
+    country: string
+    location?: {
+      lat: number
+      lng: number
+    }
+  }) => void
   error?: string
   minimal?: boolean
+  maxWidth?: string | number
 }
 
-function AddressAutocomplete({ setAddressComponents, defaultValue, minimal, error }: Readonly<AddressAutocompleteProps>): JSX.Element {
+function AddressAutocomplete({
+  setAddressComponents,
+  defaultValue,
+  minimal,
+  error,
+  maxWidth,
+  ...rest
+}: Readonly<AddressAutocompleteProps> & Omit<ComponentProps<typeof Select>, 'handleQuery' | 'options' | 'value' | 'onChange'>): JSX.Element {
   const [value, setValue] = useState<string>('default')
   const [query, setQuery] = useState<string>('')
 
@@ -37,8 +50,8 @@ function AddressAutocomplete({ setAddressComponents, defaultValue, minimal, erro
     }
     setValue(id)
     mutateAsync(id).then((placeDetails) => {
-      if (placeDetails?.formatted && placeDetails.details) {
-        setAddressComponents?.(googleAddressMapper(placeDetails.details))
+      if (placeDetails?.formatted && placeDetails.details && placeDetails.geometry) {
+        setAddressComponents?.(googleAddressMapper(placeDetails))
       }
     })
   }
@@ -50,18 +63,17 @@ function AddressAutocomplete({ setAddressComponents, defaultValue, minimal, erro
         minimal={minimal}
         label="Adresse"
         value={value}
+        maxWidth={maxWidth}
         loading={isFetching}
         onChange={onPlaceSelect}
         queryHandler={onInput}
+        {...rest}
         options={[
           ...(autocompleteResults?.map((x) => ({
             value: x.place_id,
             label: x.description,
           })) ?? []),
-          {
-            value: 'default',
-            label: defaultValue ?? '',
-          },
+          ...(defaultValue ? [{ value: 'default', label: defaultValue }] : []),
         ]}
         error={error}
       />

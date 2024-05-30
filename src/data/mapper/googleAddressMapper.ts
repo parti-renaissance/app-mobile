@@ -1,9 +1,16 @@
-export default function googleAddressMapper(res: google.maps.GeocoderAddressComponent[]): {
+import { type GoogleAddressPlaceResult } from '../network/ApiService'
+
+export default function googleAddressMapper(data: GoogleAddressPlaceResult): {
   address: string
   city: string
   postalCode: string
   country: string
+  location: {
+    lat: number
+    lng: number
+  }
 } {
+  const res = data.details!
   const extract = (el: string) => res.find(({ types }) => types.includes(el))
   const country = extract('country')
 
@@ -20,6 +27,10 @@ export default function googleAddressMapper(res: google.maps.GeocoderAddressComp
     city: getCityName(place),
     postalCode: getPostalCode(place),
     country: country?.short_name ?? '',
+    location: {
+      lat: data.geometry!.location.lat as unknown as number,
+      lng: data.geometry!.location.lng as unknown as number,
+    },
   }
 }
 

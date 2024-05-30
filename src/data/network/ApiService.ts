@@ -1,6 +1,7 @@
 import { Poll } from '@/core/entities/Poll'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
+import { ActionPaginationSchema } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -492,6 +493,7 @@ class ApiService {
       .get(
         `api/v3/place/details?${stringify({
           place_id: placeId,
+          fields: 'formatted_address,address_components,geometry',
         })}`,
         {
           signal,
@@ -503,10 +505,15 @@ class ApiService {
           ? ({
               formatted: data.result.formatted_address,
               details: data.result.address_components,
+              geometry: data.result.geometry,
             } as GoogleAddressPlaceResult)
           : null,
       )
       .catch(genericErrorMapping)
+  }
+
+  public async getActions(params: { latitude: number; longitude: number; page: number }) {
+    return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
   }
 
   public static getInstance(): ApiService {
@@ -520,6 +527,7 @@ class ApiService {
 export interface GoogleAddressPlaceResult {
   formatted?: string
   details?: google.maps.GeocoderAddressComponent[]
+  geometry?: google.maps.GeocoderGeometry
 }
 
 export default ApiService

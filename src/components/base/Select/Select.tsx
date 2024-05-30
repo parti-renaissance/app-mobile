@@ -1,9 +1,9 @@
-import { ComponentProps, memo, useCallback, useMemo, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { useLazyRef } from '@/hooks/useLazyRef'
+import { ComponentProps, memo, Suspense, useCallback, useMemo, useState } from 'react'
+import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
 import { Check, ChevronDown, Search, X } from '@tamagui/lucide-icons'
 import _ from 'lodash'
-import { Adapt, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
+import { Adapt, isWeb, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
+import { useDebounce } from 'use-debounce'
 import Input from '../Input/Input'
 import Text from '../Text'
 
@@ -18,21 +18,21 @@ type SelectProps<A extends string> = {
   label?: string
   minimal?: boolean
   onBlur?: () => void
+  onPress?: () => void
+  search?: boolean
+  labelOnlySheet?: boolean
+  defaultRightIcon?: React.ReactNode
+  maxWidth?: string | number
 }
 
 type TriggerProps<A extends string> = {
   value?: string
   onChange?: (value: A) => void
+  fake?: boolean
 }
 
 const Trigger = <A extends string>(props: TriggerProps<A> & ComponentProps<typeof Input>) => {
-  const media = useMedia()
-  return (
-    <YStack flex={1} position="relative">
-      {media.md && <YStack position="absolute" zIndex={1} top={0} left={0} right={0} bottom={0}></YStack>}
-      <Input pointerEvents={media.md ? 'none' : 'auto'} fake={media.md} {...props} selectTextOnFocus />
-    </YStack>
-  )
+  return <Input fake={props.fake} {...props} selectTextOnFocus />
 }
 
 const ListFrame = styled(YStack, {
@@ -58,15 +58,6 @@ const ItemFrame = styled(XStack, {
   justifyContent: 'space-between',
   alignContent: 'center',
   alignItems: 'center',
-  animation: 'quick',
-
-  enterStyle: {
-    opacity: 0,
-  },
-  exitStyle: {
-    opacity: 0,
-    scale: 0.9,
-  },
 
   $gtMd: {
     cursor: 'pointer',
@@ -80,7 +71,7 @@ const ItemFrame = styled(XStack, {
   $md: {
     backgroundColor: '$white1',
     flex: 1,
-    h: '$5',
+    minHeight: '$5',
     paddingHorizontal: '$4.5',
 
     borderColor: '$gray/32',
@@ -151,19 +142,37 @@ const Item = <A extends string>({ value, label, onSelect, selected, empty, ...pr
 
 const MemoItem = memo(Item)
 
-const Select = <A extends string>({ value, onChange, options, placeholder, queryHandler, label, loading, error, onBlur, minimal }: SelectProps<A>) => {
+const Select = <A extends string>({
+  search = true,
+  value,
+  onChange,
+  options,
+  placeholder,
+  queryHandler,
+  label,
+  loading,
+  error,
+  labelOnlySheet,
+  minimal,
+  onPress,
+  defaultRightIcon,
+  onBlur,
+  maxWidth,
+}: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
 
   const [query, setQuery] = useState(selectedOption?.label ?? '')
   const [open, setOpen] = useState(false)
+  const media = useMedia()
   const [triggerWidth, setTriggerWidth] = useState(0)
 
   const handleChange = (v: A) => {
     const finalQuery = options.find((o) => o.value === v)?.label ?? ''
-    console.log('finalQuery', finalQuery)
     setQuery(finalQuery)
     onChange?.(v)
     setOpen(false)
+    onBlur?.()
+    Keyboard.dismiss()
   }
 
   const handleQuery = useCallback(
@@ -176,13 +185,19 @@ const Select = <A extends string>({ value, onChange, options, placeholder, query
   )
 
   const querySync = query === selectedOption?.label
+  const filterQuery = useMemo(() => {
+    if (query.length === 0) return options
+    return options.filter((o) => o.label.toLowerCase().trim().includes(query.toLowerCase()))
+  }, [query, options])
 
-  const filteredOptions = queryHandler || querySync ? options : options.filter((o) => o.label.toLowerCase().trim().includes(query.toLowerCase()))
+  const _filteredOptions = queryHandler || querySync ? options : filterQuery
+  const [filteredOptions] = useDebounce(_filteredOptions, 200)
 
   const handleOpen = (x: boolean) => {
     setOpen(x)
     if (!x) {
-      // onBlur?.()
+      Keyboard.dismiss()
+      onBlur?.()
       if ((!selectedOption || (selectedOption && !querySync)) && (filteredOptions.length > 0 || options.length > 0)) {
         handleChange(filteredOptions[0] ? filteredOptions[0].value : options[0].value)
       } else {
@@ -207,57 +222,77 @@ const Select = <A extends string>({ value, onChange, options, placeholder, query
       : [<MemoItem empty key="empty" value="" label="Aucun résultat trouvé" selected={false} onSelect={() => {}} last={true} />]
   }, [filteredOptions, selectedOption, handleChange, last])
 
-  const inputIcon = (icon: React.ReactNode) => (query.length > 0 ? <X onPress={() => setQuery('')} /> : icon)
+  const isSearching = search && query.length > 0
+  const isFake = !search || media.md
+  const inputIcon = (icon: React.ReactNode, dyn = true) => (isSearching && dyn ? <X /> : icon)
 
   return (
     <Popover onOpenChange={handleOpen} open={open} size="$6">
-      <Popover.Trigger height="auto" flex={1}>
+      <Popover.Trigger height="auto" flex={1} asChild={!isWeb}>
         <Trigger
+          onPress={onPress}
           onLayout={(e) => setTriggerWidth(e.nativeEvent.layout.width)}
-          label={label}
+          label={!labelOnlySheet ? label : undefined}
           placeholder={placeholder}
           value={query}
           onChangeText={handleQuery}
           loading={loading}
           error={error}
+          fake={isFake}
           minimal={minimal}
-          iconRight={inputIcon(<ChevronDown />)}
+          maxWidth={maxWidth}
+          iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
+          iconRightPress={isSearching && !isFake ? () => setQuery('') : undefined}
         />
       </Popover.Trigger>
       <Adapt when="md">
         <Popover.Sheet modal dismissOnSnapToBottom>
           <Popover.Sheet.Frame>
-            <Popover.Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={4} />
+            <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'padding' : 'height'} keyboardVerticalOffset={50} style={{ flex: 1 }}>
+              <Popover.Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={4} />
 
-            <YStack paddingHorizontal="$4.5">
-              <XStack paddingVertical="$5" alignItems="center" justifyContent="space-between">
-                <Text fontWeight="$6" fontSize="$5">
-                  {label}
-                </Text>
-                <TouchableOpacity onPress={() => setOpen(false)} style={{ padding: 5 }}>
-                  <X />
-                </TouchableOpacity>
-              </XStack>
-              <YStack p pb="$3.5" flexGrow={1} h="$5">
-                <Input
-                  placeholder={placeholder}
-                  value={query}
-                  onChangeText={handleQuery}
-                  selectTextOnFocus
-                  iconRight={inputIcon(<Search />)}
-                  loading={loading}
-                />
+              <YStack paddingHorizontal="$4.5">
+                <XStack paddingVertical="$5" alignItems="center" justifyContent="space-between">
+                  <Text fontWeight="$6" fontSize="$5">
+                    {label}
+                  </Text>
+                  <TouchableOpacity onPress={() => setOpen(false)} style={{ padding: 5 }}>
+                    <X />
+                  </TouchableOpacity>
+                </XStack>
+                <YStack display={search ? 'flex' : 'none'} p pb="$3.5" flexGrow={1} h="$5">
+                  <Input
+                    placeholder={placeholder}
+                    value={query}
+                    onChangeText={handleQuery}
+                    selectTextOnFocus
+                    iconRight={inputIcon(<Search />)}
+                    iconRightPress={isSearching ? () => setQuery('') : undefined}
+                    loading={loading}
+                  />
+                </YStack>
               </YStack>
-            </YStack>
-            <Adapt.Contents />
+              <ListFrame>
+                <Popover.Sheet.ScrollView
+                  keyboardShouldPersistTaps="always"
+                  contentContainerStyle={{
+                    paddingBottom: 110,
+                  }}
+                >
+                  {list}
+                </Popover.Sheet.ScrollView>
+              </ListFrame>
+            </KeyboardAvoidingView>
           </Popover.Sheet.Frame>
           <Popover.Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
         </Popover.Sheet>
       </Adapt>
       <Popover.Content p={0} minWidth={triggerWidth}>
         <Popover.Arrow borderWidth={0} unstyled m={0} p={0} h="0" overflow="hidden" display="none" />
-        <ListFrame>
-          <Popover.ScrollView keyboardShouldPersistTaps="always">{list}</Popover.ScrollView>
+        <ListFrame mt={-25}>
+          <Popover.ScrollView keyboardShouldPersistTaps="always">
+            <Suspense>{list}</Suspense>
+          </Popover.ScrollView>
         </ListFrame>
       </Popover.Content>
     </Popover>

@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Input from '@/components/base/Input/Input'
 import { LabelValueModel } from '@/models/common.model'
 import { Check, ChevronDown, ChevronUp, Search, XCircle } from '@tamagui/lucide-icons'
-import { AnimatedNumberStrategy } from '@tamagui/web'
 import { Adapt, isWeb, Label, Select as SelectTamagui, Sheet, View, YStack } from 'tamagui'
 import Text from '../base/Text'
 

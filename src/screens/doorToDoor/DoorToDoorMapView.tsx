@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
 import Container from '@/components/layouts/Container'
 import MapboxGl from '@/components/Mapbox/Mapbox'
@@ -49,6 +49,8 @@ type PopupState = {
 
 type PopupProps = Readonly<{
   address?: DoorToDoorAddress
+  onAddressPress: (id: string) => void
+  onCampaignRankingSelected: (campaignId: string) => void
 }>
 
 export function getRegionFromLatLng(location: LatLng): Region {
@@ -60,7 +62,37 @@ export function getRegionFromLatLng(location: LatLng): Region {
   }
 }
 
-const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCampaignRankingSelected, initialLocation }: Props) => {
+const Popup = ({ address, onAddressPress, onCampaignRankingSelected }: PopupProps) => {
+  const [viewModel, setViewModel] = useState<DoorToDoorCampaignCardViewModel>()
+
+  useEffect(() => {
+    if (address?.building.campaignStatistics) {
+      new GetDoorToDoorCampaignInfoInteractor().execute(address.building.campaignStatistics.campaignId).then((result) => {
+        setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
+      })
+    }
+  }, [address])
+
+  return (
+    <Pressable style={styles.popupWrap}>
+      <Pressable style={styles.popup}>
+        <Container>
+          <PoiAddressCard onPress={onAddressPress} viewModel={PoiAddressCardViewModelMapper.map(address)} />
+          {viewModel ? (
+            <DoorToDoorCampaignCard
+              viewModel={viewModel}
+              onPress={(campaignId: string) => {
+                onCampaignRankingSelected(campaignId)
+              }}
+            />
+          ) : null}
+        </Container>
+      </Pressable>
+    </Pressable>
+  )
+}
+
+const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCampaignRankingSelected }: Props) => {
   const mapRef = useRef<MapboxGl.MapView | null>(null)
   const sourceRef = useRef<MapboxGl.ShapeSource | null>(null)
   const cameraRef = useRef<MapboxGl.Camera | null>(null)
@@ -76,36 +108,6 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
       visible: true,
       addressId: address.id,
     })
-  }
-
-  const Popup: FunctionComponent<PopupProps> = ({ address }) => {
-    const [viewModel, setViewModel] = useState<DoorToDoorCampaignCardViewModel>()
-
-    useEffect(() => {
-      if (address && address.building.campaignStatistics) {
-        new GetDoorToDoorCampaignInfoInteractor().execute(address.building.campaignStatistics.campaignId).then((result) => {
-          setViewModel(DoorToDoorCampaignCardViewModelMapper.map(result))
-        })
-      }
-    }, [address])
-
-    return (
-      <Pressable style={styles.popupWrap}>
-        <Pressable style={styles.popup}>
-          <Container>
-            <PoiAddressCard onPress={onAddressPress} viewModel={PoiAddressCardViewModelMapper.map(address)} />
-            {viewModel ? (
-              <DoorToDoorCampaignCard
-                viewModel={viewModel}
-                onPress={(campaignId: string) => {
-                  onCampaignRankingSelected(campaignId)
-                }}
-              />
-            ) : null}
-          </Container>
-        </Pressable>
-      </Pressable>
-    )
   }
 
   const onPress = async (event: OnPressEvent) => {
@@ -262,7 +264,13 @@ const DoorToDoorMapView = ({ data, loading, onAddressPress, onSearchNearby, onCa
           </View>
         </View>
       </View>
-      {popup.visible && <Popup address={popup.addressId ? data.find((address) => address.id === popup.addressId) : undefined} />}
+      {popup.visible && (
+        <Popup
+          address={popup.addressId ? data.find((address) => address.id === popup.addressId) : undefined}
+          onAddressPress={onAddressPress}
+          onCampaignRankingSelected={onCampaignRankingSelected}
+        />
+      )}
     </View>
   )
 }
