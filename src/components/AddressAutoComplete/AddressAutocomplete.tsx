@@ -1,4 +1,4 @@
-import React, { ComponentProps, memo, useCallback, useEffect, useState } from 'react'
+import React, { ComponentProps, memo, useCallback, useState } from 'react'
 import usePlaceAutocomplete from '@/components/AddressAutoComplete/Hooks/usePlaceAutocomplete'
 import usePlaceDetails from '@/components/AddressAutoComplete/Hooks/usePlaceDetails'
 import googleAddressMapper from '@/data/mapper/googleAddressMapper'
@@ -19,6 +19,7 @@ export interface AddressAutocompleteProps {
   }) => void
   error?: string
   minimal?: boolean
+  maxWidth?: string | number
 }
 
 function AddressAutocomplete({
@@ -26,6 +27,7 @@ function AddressAutocomplete({
   defaultValue,
   minimal,
   error,
+  maxWidth,
   ...rest
 }: Readonly<AddressAutocompleteProps> & Omit<ComponentProps<typeof Select>, 'handleQuery' | 'options' | 'value' | 'onChange'>): JSX.Element {
   const [value, setValue] = useState<string>('default')
@@ -61,6 +63,7 @@ function AddressAutocomplete({
         minimal={minimal}
         label="Adresse"
         value={value}
+        maxWidth={maxWidth}
         loading={isFetching}
         onChange={onPlaceSelect}
         queryHandler={onInput}

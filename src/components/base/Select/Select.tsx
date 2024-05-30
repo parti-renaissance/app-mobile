@@ -22,6 +22,7 @@ type SelectProps<A extends string> = {
   search?: boolean
   labelOnlySheet?: boolean
   defaultRightIcon?: React.ReactNode
+  maxWidth?: string | number
 }
 
 type TriggerProps<A extends string> = {
@@ -156,6 +157,7 @@ const Select = <A extends string>({
   onPress,
   defaultRightIcon,
   onBlur,
+  maxWidth,
 }: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
 
@@ -238,6 +240,7 @@ const Select = <A extends string>({
           error={error}
           fake={isFake}
           minimal={minimal}
+          maxWidth={maxWidth}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
           iconRightPress={isSearching && !isFake ? () => setQuery('') : undefined}
         />

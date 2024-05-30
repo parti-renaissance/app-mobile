@@ -101,7 +101,6 @@ function Page() {
   const [type, setType] = React.useState<SelectType>('all')
 
   const cameraRef = React.useRef<MapboxGl.Camera>(null)
-  const userLocationRef = React.useRef<MapboxGl.UserLocation>(null)
 
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
 
@@ -112,12 +111,14 @@ function Page() {
   const [followUser, setFollowUser] = React.useState(true)
   const source = createSource(filteredActions, activeAction?.uuid ?? '')
 
-  const handleLocationChange = (coordsPayload: { lontitude: number; latitude: number }) => {
+  const refUserPosition = React.useRef<{ longitude: number; latitude: number } | null>(null)
+
+  const handleLocationChange = (coordsPayload: { longitude: number; latitude: number }) => {
     followUser && setFollowUser(false)
     queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
     queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
     cameraRef.current?.setCamera({
-      centerCoordinate: [coordsPayload.lontitude, coordsPayload.latitude],
+      centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
       zoomLevel: 14,
       animationMode: 'easeTo',
       animationDuration: 300,
@@ -140,10 +141,11 @@ function Page() {
         <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
           <XStack gap="$3">
             <AddressAutocomplete
+              maxWidth={100}
               labelOnlySheet
               setAddressComponents={({ location }) => {
                 if (!location) return
-                handleLocationChange({ lontitude: location.lng, latitude: location.lat })
+                handleLocationChange({ longitude: location.lng, latitude: location.lat })
               }}
             />
             <Select<SelectPeriod>
@@ -188,7 +190,12 @@ function Page() {
           }}
         >
           <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
-          <MapboxGl.UserLocation visible />
+          <MapboxGl.UserLocation
+            visible
+            onUpdate={(x) => {
+              refUserPosition.current = { longitude: x.coords.longitude, latitude: x.coords.latitude }
+            }}
+          />
 
           <MapboxGl.ShapeSource
             id="actions"
@@ -217,15 +224,20 @@ function Page() {
             <MapButton
               style={styles.mapButtonLocation}
               onPress={() => {
-                setFollowUser(false)
+                // setFollowUser(falses
+
+                const userCoords = refUserPosition.current
+                if (!userCoords) return
+                handleLocationChange(userCoords)
 
                 cameraRef.current?.setCamera({
-                  centerCoordinate: userLocationRef.current?.state.coordinates ?? undefined,
+                  centerCoordinate: [userCoords.longitude, userCoords.latitude],
                   animationMode: 'easeTo',
                   animationDuration: 300,
+                  zoomLevel: 14,
                 })
                 setTimeout(() => {
-                  setFollowUser(true)
+                  // setFollowUser(true)
                 }, 300)
               }}
               image={require('@/assets/images/gpsPosition.png')}
