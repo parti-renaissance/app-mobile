@@ -83,7 +83,7 @@ export default function ActionForm({ onCancel, onClose }: Props) {
         }}
         validationSchema={toFormikValidationSchema(ActionCreateFormSchema)}
       >
-        {({ isValid, values, errors, setFieldValue, handleSubmit, isSubmitting }) => (
+        {({ isValid, setFieldValue, handleSubmit, isSubmitting }) => (
           <View>
             <View mb={'$4'}>
               <Text fontSize={14} fontWeight={'$6'}>
@@ -157,9 +157,6 @@ export default function ActionForm({ onCancel, onClose }: Props) {
                 <Button.Text>Créer l’action</Button.Text>
               </Button>
             </View>
-
-            <Text>Values: {JSON.stringify(values)}</Text>
-            <Text>Errors: {JSON.stringify(errors)}</Text>
           </View>
         )}
       </Formik>
