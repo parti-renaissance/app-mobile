@@ -132,7 +132,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               </View>
             </View>
 
-            <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
+            <View $gtMd={{ flexDirection: 'row' }} gap="$4">
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="birthdate">
                   {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}

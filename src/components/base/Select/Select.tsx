@@ -155,6 +155,7 @@ const Select = <A extends string>({
   minimal,
   onPress,
   defaultRightIcon,
+  onBlur,
 }: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
 
@@ -168,6 +169,7 @@ const Select = <A extends string>({
     setQuery(finalQuery)
     onChange?.(v)
     setOpen(false)
+    onBlur?.()
     Keyboard.dismiss()
   }
 
@@ -193,7 +195,7 @@ const Select = <A extends string>({
     setOpen(x)
     if (!x) {
       Keyboard.dismiss()
-      // onBlur?.()
+      onBlur?.()
       if ((!selectedOption || (selectedOption && !querySync)) && (filteredOptions.length > 0 || options.length > 0)) {
         handleChange(filteredOptions[0] ? filteredOptions[0].value : options[0].value)
       } else {
