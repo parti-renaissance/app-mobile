@@ -38,13 +38,17 @@ const ActionCreateFormSchema = z.object({
   description: z.string().max(1000).optional(),
 })
 
-export default function ActionForm() {
+interface Props {
+  onCancel?: () => void
+}
+
+export default function ActionForm({ onCancel }: Props) {
   const media = useMedia()
 
   const webViewPort = media.gtXs
 
   return (
-    <View padding={'$4'}>
+    <View padding={'$4'} style={{ marginBottom: webViewPort ? 0 : 80 }}>
       <Text fontSize={16} fontWeight={'$6'} mb={'$4'}>
         Je crée une action
       </Text>
@@ -71,7 +75,7 @@ export default function ActionForm() {
         onSubmit={console.log}
         validationSchema={toFormikValidationSchema(ActionCreateFormSchema)}
       >
-        {({ values, isValid }) => (
+        {({ isValid }) => (
           <View>
             <View mb={'$4'}>
               <Text fontSize={14} fontWeight={'$6'}>
@@ -138,7 +142,7 @@ export default function ActionForm() {
             </SpacedContainer>
 
             <View flexDirection={'row'} justifyContent={'flex-end'} gap={'$4'}>
-              <Button variant={'text'}>
+              <Button variant={'text'} onPress={onCancel}>
                 <Button.Text>Annuler</Button.Text>
               </Button>
               <Button disabled={!isValid}>
