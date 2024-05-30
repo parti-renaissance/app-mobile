@@ -348,7 +348,7 @@ function Page() {
       </YStack>
 
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        <ActionForm onCancel={onCloseModal} />
+        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} />
       </ModalOrPageBase>
     </>
   )

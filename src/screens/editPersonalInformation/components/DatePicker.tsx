@@ -2,11 +2,12 @@ import React, { forwardRef, useState } from 'react'
 import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { default as TextField } from '@/components/base/Input/Input'
-import { getFormattedDate, getIntlDate, parseFrenchDate } from '@/utils/date'
+import { getFormattedDate, getHumanFormattedTime, getIntlDate } from '@/utils/date'
+import { parseISO } from 'date-fns'
 import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
-  onChange: (date: Date | undefined) => void
+  onChange?: (date: Date | undefined) => void
   onBlur?: (fieldOrEvent: any) => void
   value?: Date
   error?: string
@@ -23,21 +24,39 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
   const readableDate = value && typeof value === 'object' ? getDateInputValue(value) : ''
   const [inputValue, setInputValue] = useState(readableDate ?? '')
 
+  // In case of mobile component
   const handleConfirm = (input: Date) => {
     onChange?.(input)
-    setInputValue(getFormattedDate(input))
+    setInputValue(type === 'date' ? getFormattedDate(input) : getHumanFormattedTime(input))
     setIsDatePickerVisible(false)
   }
 
+  // In case of web component
   const handleChange = (input: string) => {
     setInputValue(input)
 
-    if (input != '' && input.length === 10) {
-      const candidate = isWeb ? new Date(input) : parseFrenchDate(input)
+    if (type === 'date' && input != '' && input.length === 10) {
+      try {
+        onChange?.(isWeb ? new Date(input) : parseISO(input))
+      } catch (e) {
+        //
+      }
+    } else if (type === 'time') {
+      if (input.includes(':')) {
+        const candidate = new Date()
+        const inputParts = input.split(':')
 
-      onChange?.(candidate)
+        if (inputParts.length === 2) {
+          candidate.setHours(Number(inputParts[0]))
+          candidate.setMinutes(Number(inputParts[1]))
+          onChange?.(candidate)
+          return
+        }
+      }
+
+      onChange?.(undefined)
     } else {
-      // onChange?.(undefined)
+      onChange?.(undefined)
     }
   }
 
@@ -65,7 +84,6 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         onSubmitEditing={onHide}
         editable={isWeb}
         onChangeText={handleChange}
-        onChange={console.log}
         onPress={onShow}
         error={error}
         type={type}
@@ -77,7 +95,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         cancelTextIOS="Annuler"
         isVisible={isDatePickerVisible}
         accentColor="blue"
-        mode="date"
+        mode={type}
         onConfirm={handleConfirm}
         onCancel={onHide}
       />

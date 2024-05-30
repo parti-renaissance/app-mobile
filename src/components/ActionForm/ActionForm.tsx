@@ -16,11 +16,9 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 const buildError = (start: string) => `${start} est obligatoire.`
 const ActionCreateFormSchema = z.object({
   type: z.nativeEnum(ActionType),
-  date: z.string().date('La date de début est requise'),
-  time: z.string().date('L’heure de début est requise'),
-  addressInput: z.string({
-    required_error: buildError('L’adresse'),
-  }),
+  date: z.date(),
+  time: z.date(),
+  addressInput: z.string().optional(),
   address: z.object({
     address: z.string({
       required_error: buildError('L’adresse'),
@@ -40,9 +38,10 @@ const ActionCreateFormSchema = z.object({
 
 interface Props {
   onCancel?: () => void
+  onClose?: () => void
 }
 
-export default function ActionForm({ onCancel }: Props) {
+export default function ActionForm({ onCancel, onClose }: Props) {
   const media = useMedia()
 
   const webViewPort = media.gtXs
@@ -61,8 +60,8 @@ export default function ActionForm({ onCancel }: Props) {
       <Formik
         initialValues={{
           type: ActionType.PAP,
-          date: undefined,
-          time: undefined,
+          date: null,
+          time: null,
           addressInput: '',
           address: {
             address: '',
@@ -72,10 +71,19 @@ export default function ActionForm({ onCancel }: Props) {
           },
           description: '',
         }}
-        onSubmit={console.log}
+        validateOnChange
+        isInitialValid={false}
+        onSubmit={(values, formikHelpers) => {
+          console.log(values)
+
+          formikHelpers.setSubmitting(false)
+          formikHelpers.resetForm()
+
+          onClose?.()
+        }}
         validationSchema={toFormikValidationSchema(ActionCreateFormSchema)}
       >
-        {({ isValid }) => (
+        {({ isValid, values, errors, setFieldValue, handleSubmit, isSubmitting }) => (
           <View>
             <View mb={'$4'}>
               <Text fontSize={14} fontWeight={'$6'}>
@@ -111,11 +119,11 @@ export default function ActionForm({ onCancel }: Props) {
 
             <View flexDirection={webViewPort ? 'row' : undefined} gap={webViewPort ? '$4' : undefined}>
               <SpacedContainer style={{ flex: 1 }}>
-                <FormikController name={'date'}>{({ inputProps }) => <DatePicker label={'Date'} {...inputProps} />}</FormikController>
+                <DatePicker label={'Date'} onChange={(v) => setFieldValue('date', v)} />
               </SpacedContainer>
 
               <SpacedContainer style={{ flex: 1 }}>
-                <FormikController name={'time'}>{({ inputProps }) => <DatePicker label={'Heure'} type={'time'} {...inputProps} />}</FormikController>
+                <DatePicker label={'Heure'} type={'time'} onChange={(v) => setFieldValue('time', v)} />
               </SpacedContainer>
             </View>
 
@@ -145,10 +153,13 @@ export default function ActionForm({ onCancel }: Props) {
               <Button variant={'text'} onPress={onCancel}>
                 <Button.Text>Annuler</Button.Text>
               </Button>
-              <Button disabled={!isValid}>
+              <Button disabled={!isValid || isSubmitting} onPress={() => handleSubmit()}>
                 <Button.Text>Créer l’action</Button.Text>
               </Button>
             </View>
+
+            <Text>Values: {JSON.stringify(values)}</Text>
+            <Text>Errors: {JSON.stringify(errors)}</Text>
           </View>
         )}
       </Formik>
