@@ -320,7 +320,7 @@ function Page() {
         </YStack>
 
         <View style={styles.createActionContainer}>
-          <Button onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : undefined }}>
+          <Button onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
             <Button.Text>Créer une action</Button.Text>
           </Button>
         </View>

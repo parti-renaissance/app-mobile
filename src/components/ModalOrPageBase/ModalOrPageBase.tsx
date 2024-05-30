@@ -21,7 +21,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
   if (viewport.gtMd) {
     return (
       <Modal animationType={'fade'} transparent visible={!!open}>
-        <View style={styles.centeredView} onPress={onClose}>
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>{children}</View>
         </View>
       </Modal>
