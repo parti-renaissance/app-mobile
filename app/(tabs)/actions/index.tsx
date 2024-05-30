@@ -1,4 +1,5 @@
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
@@ -10,14 +11,13 @@ import { useSession } from '@/ctx/SessionProvider'
 import { ActionType, RestAction } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, usePaginatedActions } from '@/hooks/useActions/useActions'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
+import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { useQueryClient } from '@tanstack/react-query'
-import { addDays, addWeeks, isSameDay, isSameWeek } from 'date-fns'
-import { is } from 'date-fns/locale'
+import { addDays, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect } from 'expo-router'
 import { Feature, Point } from 'geojson'
-import { get } from 'lodash'
-import { isWeb, ScrollView, Sheet, Spinner, useSheetController, XStack, YStack } from 'tamagui'
+import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack } from 'tamagui'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -100,17 +100,28 @@ function Page() {
   const [period, setPeriod] = React.useState<SelectPeriod>('week')
   const [type, setType] = React.useState<SelectType>('all')
 
+  const cameraRef = React.useRef<MapboxGl.Camera>(null)
+  const userLocationRef = React.useRef<MapboxGl.UserLocation>(null)
+
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
 
   const filteredActions = flattedActions.filter((action) => {
     return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
   })
   const [activeAction, setActiveAction] = React.useState<RestAction | null>(null)
+  const [followUser, setFollowUser] = React.useState(true)
   const source = createSource(filteredActions, activeAction?.uuid ?? '')
 
   const handleLocationChange = (coordsPayload: { lontitude: number; latitude: number }) => {
+    followUser && setFollowUser(false)
     queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
     queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
+    cameraRef.current?.setCamera({
+      centerCoordinate: [coordsPayload.lontitude, coordsPayload.latitude],
+      zoomLevel: 14,
+      animationMode: 'easeTo',
+      animationDuration: 300,
+    })
   }
 
   const handlePress = (e: OnPressEvent) => {
@@ -124,19 +135,20 @@ function Page() {
   }
 
   return (
-    <YStack flex={1} flexDirection="column">
+    <YStack flex={1} flexDirection="column" position="relative">
       <YStack height={70} bg="$white1">
-        <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }}>
+        <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
           <XStack gap="$3">
             <AddressAutocomplete
+              labelOnlySheet
               setAddressComponents={({ location }) => {
-                console.log('location', location)
                 if (!location) return
                 handleLocationChange({ lontitude: location.lng, latitude: location.lat })
               }}
             />
             <Select<SelectPeriod>
               search={false}
+              labelOnlySheet
               label="Période"
               onChange={setPeriod}
               value={period}
@@ -149,6 +161,7 @@ function Page() {
               placeholder="Cette semaine"
             />
             <Select<SelectType>
+              labelOnlySheet
               search={false}
               label="Type"
               onChange={setType}
@@ -165,39 +178,61 @@ function Page() {
           </XStack>
         </ScrollView>
       </YStack>
-      <MapboxGl.MapView
-        styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
-        style={{ flex: 1 }}
-        onPress={() => {
-          setActiveAction(null)
-          setPosition(1)
-        }}
-      >
-        <MapboxGl.Camera followUserLocation followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
-        <MapboxGl.UserLocation visible />
-
-        <MapboxGl.ShapeSource
-          id="actions"
-          shape={source}
-          clusterMaxZoomLevel={18}
-          cluster={false}
-          clusterRadius={35}
-          onPress={handlePress}
-          hitbox={{ width: 20, height: 20 }}
+      <YStack flex={1} position="relative">
+        <MapboxGl.MapView
+          styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
+          style={{ flex: 1 }}
+          onPress={() => {
+            setActiveAction(null)
+            setPosition(1)
+          }}
         >
-          <MapboxGl.SymbolLayer
-            id="layer-action"
-            filter={['has', 'type']}
-            style={{
-              iconImage: getDynamicMarkerIcon,
-              iconSize: isWeb ? 0.5 : 1,
-              iconAllowOverlap: true,
-              iconOffset: [1, -20],
-            }}
-          />
-          <MapboxGl.Images images={markersImage} />
-        </MapboxGl.ShapeSource>
-      </MapboxGl.MapView>
+          <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
+          <MapboxGl.UserLocation visible />
+
+          <MapboxGl.ShapeSource
+            id="actions"
+            shape={source}
+            clusterMaxZoomLevel={18}
+            cluster={false}
+            clusterRadius={35}
+            onPress={handlePress}
+            hitbox={{ width: 20, height: 20 }}
+          >
+            <MapboxGl.SymbolLayer
+              id="layer-action"
+              filter={['has', 'type']}
+              style={{
+                iconImage: getDynamicMarkerIcon,
+                iconSize: isWeb ? 0.5 : 1,
+                iconAllowOverlap: true,
+                iconOffset: [1, -20],
+              }}
+            />
+            <MapboxGl.Images images={markersImage} />
+          </MapboxGl.ShapeSource>
+        </MapboxGl.MapView>
+        <View style={styles.mapButtonSideContainer}>
+          {!isWeb && (
+            <MapButton
+              style={styles.mapButtonLocation}
+              onPress={() => {
+                setFollowUser(false)
+
+                cameraRef.current?.setCamera({
+                  centerCoordinate: userLocationRef.current?.state.coordinates ?? undefined,
+                  animationMode: 'easeTo',
+                  animationDuration: 300,
+                })
+                setTimeout(() => {
+                  setFollowUser(true)
+                }, 300)
+              }}
+              image={require('@/assets/images/gpsPosition.png')}
+            />
+          )}
+        </View>
+      </YStack>
       <BottomSheetList actions={filteredActions} query={data} setPosition={setPosition} position={position} />
     </YStack>
   )
@@ -251,11 +286,6 @@ const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & 
 
   const pageMode = position === 0
 
-  const loadMore = () => {
-    if (props.query.hasNextPage) {
-      props.query.fetchNextPage()
-    }
-  }
   return (
     <Sheet
       defaultOpen={true}
@@ -294,3 +324,63 @@ const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & 
     </Sheet>
   )
 }
+
+const styles = StyleSheet.create({
+  childContainer: {
+    position: 'absolute',
+    width: '100%',
+  },
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+  mapButtonIcon: {
+    alignSelf: 'center',
+    height: 16,
+    width: 16,
+  },
+  mapButtonListContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  mapButtonLocation: {
+    alignSelf: 'flex-end',
+    height: 40,
+    width: 40,
+  },
+  mapButtonSideContainer: {
+    flex: 1,
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  },
+  mapButtonText: {
+    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  popup: {
+    width: '100%',
+    flex: 1,
+  },
+  popupWrap: {
+    alignItems: 'center',
+    bottom: 0,
+    // height: '100%',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+  },
+  searchHereButton: {
+    borderRadius: 20,
+    flex: 0,
+    overflow: 'hidden',
+  },
+  searchHereButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    minHeight: 40,
+    minWidth: 40,
+  },
+})

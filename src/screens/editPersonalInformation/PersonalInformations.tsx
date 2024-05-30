@@ -20,7 +20,7 @@ import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRe
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
 import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
-import { nativeApplicationVersion, nativeBuildVersion } from 'expo-application'
+import { nativeBuildVersion } from 'expo-application'
 import Constants from 'expo-constants'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
@@ -135,6 +135,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
             <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="birthdate">
+                  {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
                   {({ inputProps: { onChange, ...inputProps }, setFieldValue }) => (
                     <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthdate', el)} {...inputProps} />
                   )}
@@ -263,7 +264,7 @@ const EditInformations = () => {
     userUuid: profile?.uuid,
   })
 
-  const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent') ?? false
+  const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent')
   const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()

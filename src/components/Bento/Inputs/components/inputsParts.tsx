@@ -171,9 +171,9 @@ const FakeInputFrame = styled(Text, {
 
 const FakeInputImpl = FakeInputFrame.styleable((props, ref) => {
   const { color } = InputContext.useStyledContext()
-  const { ...rest } = props
+  const { onPress, ...rest } = props
   return (
-    <View flex={1}>
+    <View flex={1} onPress={onPress}>
       <FakeInputFrame ref={ref} color={color} fontSize="$2" {...rest} />
     </View>
   )
