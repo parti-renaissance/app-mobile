@@ -16,7 +16,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 const buildError = (start: string) => `${start} est obligatoire.`
 const ActionCreateFormSchema = z.object({
   type: z.nativeEnum(ActionType),
-  date: z.date().min(new Date()),
+  date: z.date().min(new Date(), 'La date ne peut pas être dans le passé.'),
   time: z.date(),
   addressInput: z.string().optional(),
   address: z.object({
