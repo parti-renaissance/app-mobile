@@ -275,6 +275,6 @@ class PushRepository {
   }
 }
 
-const TOKEN_SOURCE = ''
+const TOKEN_SOURCE = 'vox'
 
 export default PushRepository
