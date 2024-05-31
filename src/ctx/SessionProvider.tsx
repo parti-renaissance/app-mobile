@@ -1,16 +1,14 @@
 import React, { useMemo } from 'react'
-import { Platform } from 'react-native'
-import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import useLogin, { REDIRECT_URI, useRegister } from '@/hooks/useLogin'
+import useLogin, { useRegister } from '@/hooks/useLogin'
 import { useGetProfil } from '@/hooks/useProfil'
 import { useStorageState } from '@/hooks/useStorageState'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
-import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 
 type AuthContext = {
   signIn: (props?: { code: string }) => Promise<void>

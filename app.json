@@ -31,6 +31,7 @@
         ]
       },
       "infoPlist": {
+        "UIBackgroundModes": ["fetch", "remote-notification"],
         "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSCalendarsWriteOnlyAccessUsageDescription": "Requis pour partager les événements dans le calendrier",

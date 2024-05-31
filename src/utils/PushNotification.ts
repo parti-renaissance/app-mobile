@@ -50,10 +50,7 @@ export const PushNotification = {
       alert: true,
     })
     const enabled = authStatus === AuthorizationStatus.AUTHORIZED || authStatus === AuthorizationStatus.PROVISIONAL
-    if (enabled) {
-      const token = await FB.messaging.getToken()
-      console.log('Messaging authorization status enabled with token', token)
-    }
+    if (enabled) await FB.messaging.getToken()
     return enabled
   },
   setUp: () => {

@@ -12,7 +12,12 @@ function initFirebase() {
   return {
     messaging: {
       onMessage: (x: Parameters<Mess['onMessage']>[0]) => nMessaging().onMessage(x),
-      getToken: () => nMessaging().getToken(),
+      getToken: async () => {
+        if (!nMessaging().isDeviceRegisteredForRemoteMessages) {
+          await nMessaging().registerDeviceForRemoteMessages()
+        }
+        return nMessaging().getToken()
+      },
       deleteToken: () => nMessaging().deleteToken(),
       unsubscribeFromTopic: (x: Parameters<Mess['unsubscribeFromTopic']>[0]) => nMessaging().unsubscribeFromTopic(x),
       subscribeToTopic: (x: Parameters<Mess['subscribeToTopic']>[0]) => nMessaging().subscribeToTopic(x),

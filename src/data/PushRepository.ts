@@ -18,12 +18,13 @@ class PushRepository {
 
   public synchronizePushTokenAssociation(): Promise<void> {
     return this.syncrhonizePushTokenMutex.runExclusive(async () => {
-      const { pushTokenAssociated } = await this.localStore.getTopicsRegistration()
+      const registration = await this.localStore.getTopicsRegistration()
       const pushToken = await FB.messaging.getToken()
-      if (pushTokenAssociated && pushTokenAssociated !== pushToken) {
+      if (registration?.pushTokenAssociated !== pushToken) {
         try {
-          await this.apiService.removePushToken(pushTokenAssociated)
-          console.log('pushToken dissociated with success')
+          if (registration?.pushTokenAssociated) {
+            await this.apiService.removePushToken(registration.pushTokenAssociated)
+          }
         } catch (error) {
           // no-op
           console.log('[PushRepository](synchronizePushTokenAssociation) Error removing push token', error)
@@ -263,7 +264,7 @@ class PushRepository {
   }
 
   private createTopicName(topic: string): string {
-    return `${clientEnv.ENVIRONMENT}_jemarche_${topic}`
+    return `${clientEnv.ENVIRONMENT}_vox_${topic}`
   }
 
   public static getInstance(): PushRepository {
@@ -274,6 +275,6 @@ class PushRepository {
   }
 }
 
-const TOKEN_SOURCE = 'je_marche'
+const TOKEN_SOURCE = ''
 
 export default PushRepository
