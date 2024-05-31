@@ -20,31 +20,33 @@ class PushRepository {
     return this.syncrhonizePushTokenMutex.runExclusive(async () => {
       const registration = await this.localStore.getTopicsRegistration()
       const pushToken = await FB.messaging.getToken()
+
+      /* Sauvegarde du token dans le store local */
       if (registration?.pushTokenAssociated !== pushToken) {
-        try {
-          if (registration?.pushTokenAssociated) {
-            await this.apiService.removePushToken(registration.pushTokenAssociated)
-          }
-        } catch (error) {
-          // no-op
-          console.log('[PushRepository](synchronizePushTokenAssociation) Error removing push token', error)
-        }
-        try {
-          await this.apiService.addPushToken({
-            identifier: pushToken,
-            source: TOKEN_SOURCE,
-          })
-        } catch (error) {
-          if (!(error instanceof TokenCannotBeSubscribedError)) {
-            throw error
-          }
-        }
         await this.localStore.updateTopicsRegistration({
           pushTokenAssociated: pushToken,
         })
-        console.log('pushToken associated with success')
-      } else {
-        console.log('pushToken already associated to the user')
+      }
+
+      /* Enregistrement du token sur le serveur */
+      try {
+        await this.apiService.addPushToken({
+          identifier: pushToken,
+          source: TOKEN_SOURCE,
+        })
+      } catch (error) {
+        if (!(error instanceof TokenCannotBeSubscribedError)) {
+          throw error
+        }
+      }
+
+      /* Suppression de l'ancien token */
+      if (registration?.pushTokenAssociated && registration.pushTokenAssociated !== pushToken) {
+        try {
+          await this.apiService.removePushToken(registration.pushTokenAssociated)
+        } catch (error) {
+          console.log('[PushRepository](synchronizePushTokenAssociation) Error removing push token', error)
+        }
       }
     })
   }
