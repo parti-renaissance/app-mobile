@@ -8,7 +8,7 @@ import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
-import { Image, Separator, Stack, StackProps, styled, useTheme, View, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { Image, Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 import AutoSizeImage from '../AutoSizeImage'
 
 const CardFrame = styled(YStack, {
@@ -94,15 +94,15 @@ export type VoxCardLocationProps = {
   }
 }
 
-const VoxCardLocation = ({ location }: VoxCardLocationProps) => {
+const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle: boolean }) => {
   return location ? (
     <XStack gap="$2" alignItems="center">
-      <MapPin size="$1" color="$textPrimary" />
+      {!asTitle && <MapPin size="$1" color="$textPrimary" />}
       <Text lineBreakStrategyIOS="push-out">
-        <Text fontWeight="$5" lineHeight="$2">
+        <Text fontWeight={asTitle ? '$6' : '$5'} lineHeight="$2" fontSize={asTitle ? '$3' : '$2'}>
           {location.city} {location.postalCode}
         </Text>
-        <Text fontWeight="$6" color="$textSecondary" lineHeight="$2">
+        <Text fontWeight="$6" color="$textSecondary" lineHeight="$2" fontSize={asTitle ? '$3' : '$2'}>
           {' '}
           . {location.street}
         </Text>

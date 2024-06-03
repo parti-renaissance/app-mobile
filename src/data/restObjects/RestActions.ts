@@ -51,6 +51,13 @@ const ActionSchema = z.object({
   first_participants: z.array(ActionParticipantSchema),
 })
 
+export const ActionFullSchema = ActionSchema.omit({ first_participants: true, participants_count: true }).merge(
+  z.object({
+    description: z.string(),
+    participants: z.array(ActionParticipantSchema),
+  }),
+)
+
 const MetadataSchema = z.object({
   total_items: z.number(),
   items_per_page: z.number(),
@@ -79,3 +86,13 @@ export type RestActionAddress = z.infer<typeof ActionAddressSchema>
 export type RestActionParticipant = z.infer<typeof ActionParticipantSchema>
 export type RestAction = z.infer<typeof ActionSchema>
 export type RestActions = z.infer<typeof ActionPaginationSchema>
+export type RestActionFull = z.infer<typeof ActionFullSchema>
+export type Action = RestAction | RestActionFull
+
+export const isFullAction = (action: Action): action is RestActionFull => {
+  return Object.hasOwn(action, 'description') && Object.hasOwn(action, 'participants')
+}
+
+export const isPaginatedActionItems = (actions: Action): actions is RestAction => {
+  return Object.hasOwn(actions, 'first_participants') && Object.hasOwn(actions, 'participants_count')
+}
