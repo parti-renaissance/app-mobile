@@ -7,11 +7,12 @@ import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
+import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
-import { Action, ActionType, isFullAction, RestAction } from '@/data/restObjects/RestActions'
+import { Action, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/hooks/useActions/useActions'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
@@ -22,7 +23,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { addDays, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
-import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack } from 'tamagui'
+import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps, ZStack } from 'tamagui'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -94,7 +95,10 @@ function Page() {
   const cameraRef = React.useRef<MapboxGl.Camera>(null)
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
   const filteredActions = flattedActions.filter((action) => {
-    return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
+    return [
+      // passPeriod(action.date, period),
+      passType(type, action.type),
+    ].every(Boolean)
   })
   const setActiveAction = (action: RestAction | null) => {
     router.setParams({ id: action?.uuid ?? '' })
@@ -435,6 +439,17 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
           {payload && action ? (
             <ActionCard payload={payload} asFull>
               {isFullAction(action) ? <VoxCard.Description full>{action.description}</VoxCard.Description> : <SkeCard.Description />}
+              {isFullAction(action) ? (
+                <>
+                  <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
+                  <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
+                    <ParticipantAvatar participant={action.author} />
+                    {action.participants.map((participant) => (
+                      <ParticipantAvatar key={participant.uuid} participant={participant} alignSelf="flex-start" />
+                    ))}
+                  </XStack>
+                </>
+              ) : null}
             </ActionCard>
           ) : null}
 
@@ -448,6 +463,46 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
         </Sheet.ScrollView>
       </Sheet.Frame>
     </Sheet>
+  )
+}
+
+function ParticipantAvatar({ participant, ...props }: Readonly<{ participant: RestActionParticipant | RestActionAuthor }> & YStackProps) {
+  const getIsAuthor = (guy: RestActionParticipant | RestActionAuthor): guy is RestActionAuthor => 'first_name' in guy
+  const isAuthor = getIsAuthor(participant)
+  const namesContainer = isAuthor ? participant : participant.adherent
+  const fullName = `${namesContainer.first_name} ${namesContainer.last_name}`
+  return (
+    <YStack justifyContent="center" alignItems="center" gap="$2" {...props} overflow="hidden" width={90}>
+      <YStack position="relative" width={'100%'} justifyContent="center" alignItems="center">
+        <ProfilePicture size="$5" fullName={fullName} alt={`Photo de ${fullName}`} rounded borderBlockColor="$textPrimary" borderWidth={isAuthor ? 1 : 0} />
+        {isAuthor && (
+          <YStack position="absolute" bottom={0} width="100%" justifyContent="center" alignContent="center" alignItems="center">
+            <YStack
+              borderBlockColor="$textPrimary"
+              borderWidth={1}
+              borderRadius="$4"
+              justifyContent="center"
+              alignContent="center"
+              bg="$white1"
+              p={2}
+              paddingHorizontal="$2.5"
+            >
+              <Text fontSize="$1" color="$textPrimary" textAlign="center" fontWeight="$5">
+                Auteur
+              </Text>
+            </YStack>
+          </YStack>
+        )}
+      </YStack>
+      <YStack justifyContent="center" alignItems="center" gap="$2">
+        <Text numberOfLines={1} color={isAuthor ? '$textPrimary' : '$textSecondary'}>
+          {namesContainer.first_name}
+        </Text>
+        <Text numberOfLines={1} color={isAuthor ? '$textPrimary' : '$textSecondary'}>
+          {namesContainer.last_name}
+        </Text>
+      </YStack>
+    </YStack>
   )
 }
 
@@ -514,26 +569,6 @@ function useSheetPosition(defaultPosition: number) {
 }
 
 const styles = StyleSheet.create({
-  childContainer: {
-    position: 'absolute',
-    width: '100%',
-  },
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  mapButtonIcon: {
-    alignSelf: 'center',
-    height: 16,
-    width: 16,
-  },
-  mapButtonListContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
   mapButtonLocation: {
     alignSelf: 'flex-end',
     height: 40,
@@ -544,31 +579,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: 10,
-  },
-  mapButtonText: {
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
-  popup: {
-    width: '100%',
-    flex: 1,
-  },
-  popupWrap: {
-    alignItems: 'center',
-    bottom: 0,
-    // height: '100%',
-    justifyContent: 'flex-end',
-    position: 'absolute',
-  },
-  searchHereButton: {
-    borderRadius: 20,
-    flex: 0,
-    overflow: 'hidden',
-  },
-  searchHereButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    minHeight: 40,
-    minWidth: 40,
   },
 })
