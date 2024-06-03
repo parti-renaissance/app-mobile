@@ -25,125 +25,6 @@ import { Feature, Point } from 'geojson'
 import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack } from 'tamagui'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
-const mapPayload = (action: Action): ActionVoxCardProps['payload'] => {
-  return {
-    tag: action.type,
-    isSubscribed: false,
-    date: {
-      start: action.date,
-      end: action.date,
-    },
-    location: {
-      city: action.post_address.city_name,
-      street: action.post_address.address,
-      postalCode: action.post_address.postal_code,
-    },
-    author: {
-      name: `${action.author.first_name} ${action.author.last_name}`,
-    },
-  }
-}
-
-const useSheetPosition = (defaultPosition: number) => {
-  const [position, setPosition] = React.useState(defaultPosition)
-  const handleHandlePress = () => {
-    switch (position) {
-      case 0:
-        setPosition(1)
-        break
-      case 1:
-        setPosition(0)
-        break
-      default:
-        setPosition(0)
-    }
-  }
-  return {
-    defaultPosition,
-    position,
-    setPosition,
-    handleHandlePress,
-  }
-}
-
-type ActionBottomSheetProps = {
-  actionQuery: ReturnType<typeof useAction>
-  onPositionChange?: (position: number, percent: number) => void
-  onOpenChange?: (open: boolean) => void
-}
-
-const ActionBottomSheet = ({ actionQuery, onPositionChange, onOpenChange }: ActionBottomSheetProps) => {
-  const { position, setPosition, handleHandlePress, defaultPosition } = useSheetPosition(1)
-  const { data: action, isLoading } = actionQuery
-
-  const _position = !action ? 1 : position
-
-  React.useEffect(() => {
-    if (!action) {
-      setPosition(1)
-    }
-  }, [action])
-
-  const snapPoints = useLazyRef<[number, number]>(() => [70, 30])
-
-  const handlePositionChange = (position: number) => {
-    setPosition(position)
-    onPositionChange?.(position, snapPoints.current[position])
-  }
-
-  const handleOpeningChange = (open: boolean) => {
-    setPosition(1)
-    onOpenChange?.(open)
-  }
-
-  const payload = useMemo(() => (action ? mapPayload(action) : null), [action])
-
-  return (
-    <Sheet
-      modal
-      open={!!action}
-      defaultPosition={defaultPosition}
-      position={_position}
-      onOpenChange={handleOpeningChange}
-      onPositionChange={handlePositionChange}
-      dismissOnOverlayPress={false}
-      snapPoints={snapPoints.current}
-      snapPointsMode="percent"
-      dismissOnSnapToBottom
-    >
-      <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20}>
-        <YStack onPress={handleHandlePress}>
-          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
-        </YStack>
-
-        <Sheet.ScrollView
-          scrollEnabled={position === 0}
-          flex={1}
-          contentContainerStyle={{
-            pt: '$2',
-            pb: '$2',
-            gap: '$2',
-          }}
-        >
-          {payload && action ? (
-            <ActionCard payload={payload} asFull>
-              {isFullAction(action) ? <VoxCard.Description full>{action.description}</VoxCard.Description> : <SkeCard.Description />}
-            </ActionCard>
-          ) : null}
-
-          {payload === null && isLoading ? (
-            <SkeCard>
-              <SkeCard.Chip />
-              <SkeCard.Title />
-              <SkeCard.Description />
-            </SkeCard>
-          ) : null}
-        </Sheet.ScrollView>
-      </Sheet.Frame>
-    </Sheet>
-  )
-}
-
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
 const getActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active`]
 
@@ -155,27 +36,6 @@ const getDynamicMarkerIcon = [
 ]
 
 MapboxGl.setAccessToken(clientEnv.MAP_BOX_ACCESS_TOKEN)
-
-const createSource = (actions: RestAction[], active: string): MapboxGl.ShapeSource['props']['shape'] => {
-  return {
-    type: 'FeatureCollection',
-    features: actions.map((action) => {
-      const isActive = action.uuid === active
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [action.post_address.longitude, action.post_address.latitude],
-        },
-        properties: {
-          priority: isActive ? 1 : 0,
-          isActive,
-          ...action,
-        },
-      }
-    }),
-  }
-}
 
 export default function ActionsScreen() {
   const { isAuth } = useSession()
@@ -414,7 +274,6 @@ function Page() {
       </YStack>
       <BottomSheetList
         actions={filteredActions}
-        query={data}
         postionConfig={positionConfig}
         open={listOpen}
         onOpenChange={setListOpen}
@@ -442,7 +301,6 @@ function Page() {
 
 type ActionListProps = {
   actions: RestAction[]
-  query: ReturnType<typeof usePaginatedActions>
   setActiveAction: (action: RestAction | null) => void
 }
 
@@ -513,6 +371,146 @@ const BottomSheetList = ({
       </Sheet.Frame>
     </Sheet>
   )
+}
+
+type ActionBottomSheetProps = {
+  actionQuery: ReturnType<typeof useAction>
+  onPositionChange?: (position: number, percent: number) => void
+  onOpenChange?: (open: boolean) => void
+}
+
+function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Readonly<ActionBottomSheetProps>) {
+  const { position, setPosition, handleHandlePress, defaultPosition } = useSheetPosition(1)
+  const { data: action, isLoading } = actionQuery
+
+  const _position = !action ? 1 : position
+
+  React.useEffect(() => {
+    if (!action) {
+      setPosition(1)
+    }
+  }, [action])
+
+  const snapPoints = useLazyRef<[number, number]>(() => [70, 30])
+
+  const handlePositionChange = (position: number) => {
+    setPosition(position)
+    onPositionChange?.(position, snapPoints.current[position])
+  }
+
+  const handleOpeningChange = (open: boolean) => {
+    setPosition(1)
+    onOpenChange?.(open)
+  }
+
+  const payload = useMemo(() => (action ? mapPayload(action) : null), [action])
+
+  return (
+    <Sheet
+      modal
+      open={!!action}
+      defaultPosition={defaultPosition}
+      position={_position}
+      onOpenChange={handleOpeningChange}
+      onPositionChange={handlePositionChange}
+      dismissOnOverlayPress={false}
+      snapPoints={snapPoints.current}
+      snapPointsMode="percent"
+      dismissOnSnapToBottom
+    >
+      <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20}>
+        <YStack onPress={handleHandlePress}>
+          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
+        </YStack>
+
+        <Sheet.ScrollView
+          scrollEnabled={position === 0}
+          flex={1}
+          contentContainerStyle={{
+            pt: '$2',
+            pb: '$2',
+            gap: '$2',
+          }}
+        >
+          {payload && action ? (
+            <ActionCard payload={payload} asFull>
+              {isFullAction(action) ? <VoxCard.Description full>{action.description}</VoxCard.Description> : <SkeCard.Description />}
+            </ActionCard>
+          ) : null}
+
+          {payload === null && isLoading ? (
+            <SkeCard>
+              <SkeCard.Chip />
+              <SkeCard.Title />
+              <SkeCard.Description />
+            </SkeCard>
+          ) : null}
+        </Sheet.ScrollView>
+      </Sheet.Frame>
+    </Sheet>
+  )
+}
+
+function mapPayload(action: Action): ActionVoxCardProps['payload'] {
+  return {
+    tag: action.type,
+    isSubscribed: false,
+    date: {
+      start: action.date,
+      end: action.date,
+    },
+    location: {
+      city: action.post_address.city_name,
+      street: action.post_address.address,
+      postalCode: action.post_address.postal_code,
+    },
+    author: {
+      name: `${action.author.first_name} ${action.author.last_name}`,
+    },
+  }
+}
+
+function createSource(actions: RestAction[], active: string): MapboxGl.ShapeSource['props']['shape'] {
+  return {
+    type: 'FeatureCollection',
+    features: actions.map((action) => {
+      const isActive = action.uuid === active
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [action.post_address.longitude, action.post_address.latitude],
+        },
+        properties: {
+          priority: isActive ? 1 : 0,
+          isActive,
+          ...action,
+        },
+      }
+    }),
+  }
+}
+
+function useSheetPosition(defaultPosition: number) {
+  const [position, setPosition] = React.useState(defaultPosition)
+  const handleHandlePress = () => {
+    switch (position) {
+      case 0:
+        setPosition(1)
+        break
+      case 1:
+        setPosition(0)
+        break
+      default:
+        setPosition(0)
+    }
+  }
+  return {
+    defaultPosition,
+    position,
+    setPosition,
+    handleHandlePress,
+  }
 }
 
 const styles = StyleSheet.create({
