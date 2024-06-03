@@ -1,6 +1,7 @@
 import React, { useMemo, useRef } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
@@ -421,18 +422,23 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
       snapPoints={snapPoints.current}
       snapPointsMode="percent"
       dismissOnSnapToBottom
+      key={action?.uuid}
     >
-      <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20}>
+      <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20} position="relative">
         <YStack onPress={handleHandlePress}>
           <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
         </YStack>
-
+        <YStack paddingHorizontal={'$4.5'} pt="$2" pb="$5" elevation={1} bottom={0} bg="$white1" zIndex={100_000_000} position="absolute" width="100%">
+          <Button size="lg" width="100%" bg="$green7">
+            <Button.Text>M'inscrire</Button.Text>
+          </Button>
+        </YStack>
         <Sheet.ScrollView
           scrollEnabled={position === 0}
           flex={1}
           contentContainerStyle={{
             pt: '$2',
-            pb: '$2',
+            pb: '$12',
             gap: '$2',
           }}
         >
