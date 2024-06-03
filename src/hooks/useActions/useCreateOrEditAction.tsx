@@ -4,13 +4,18 @@ import { QUERY_KEY_PAGINATED_ACTIONS } from '@/hooks/useActions/useActions'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export default function useCreateAction() {
+export default function useCreateOrEditAction({ uuid }: { uuid?: string }) {
   const client = useQueryClient()
   const toast = useToastController()
 
   return useMutation({
     // Do not pass function prototype otherwise ApiService instance is not defined
-    mutationFn: (p: ActionCreateType) => ApiService.getInstance().insertAction(p),
+    mutationFn: (p: ActionCreateType) => {
+      if (uuid) {
+        return ApiService.getInstance().editAction(uuid, p)
+      }
+      return ApiService.getInstance().insertAction(p)
+    },
     onSuccess: async () => {
       toast.show('Succès', { message: 'L’action a bien été créée', type: 'success' })
       await client.invalidateQueries({

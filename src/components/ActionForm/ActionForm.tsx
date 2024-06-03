@@ -7,7 +7,7 @@ import Button from '@/components/Button'
 import FormikController from '@/components/FormikController'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import { ActionType, ActionTypeIcon, ReadableActionType } from '@/data/restObjects/RestActions'
-import useCreateAction from '@/hooks/useActions/useCreateAction'
+import useCreateOrEditAction from '@/hooks/useActions/useCreateOrEditAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
 import { captureException } from '@sentry/core'
 import { Formik } from 'formik'
@@ -41,18 +41,30 @@ const ActionCreateFormSchema = z.object({
 interface Props {
   onCancel?: () => void
   onClose?: () => void
+  uuid?: string
 }
 
-export default function ActionForm({ onCancel, onClose }: Props) {
+export default function ActionForm({ onCancel, onClose, uuid }: Props) {
   const media = useMedia()
   const webViewPort = media.gtXs
 
-  const { mutateAsync, isPending } = useCreateAction()
+  const { mutateAsync, isPending } = useCreateOrEditAction({
+    uuid,
+  })
+
+  // @todo fetch data here if uuid is defined
+  const item = {
+    date: new Date(),
+    time: new Date(),
+    addressInput: '68 rue du Rocher, 75008 Paris, France',
+    address: undefined,
+    description: 'Lorem dolor sit amet',
+  }
 
   return (
     <View padding={'$4'} style={{ marginBottom: webViewPort ? 0 : 80 }}>
       <Text fontSize={16} fontWeight={'$6'} mb={'$4'}>
-        Je crée une action
+        {uuid ? 'Je modifie une action' : 'Je crée une action'}
       </Text>
 
       <Text mb={'$4'}>
@@ -63,10 +75,10 @@ export default function ActionForm({ onCancel, onClose }: Props) {
       <Formik
         initialValues={{
           type: ActionType.PAP,
-          date: null,
-          time: null,
-          addressInput: '',
-          address: {
+          date: item.date ?? null,
+          time: item.time ?? null,
+          addressInput: item.addressInput ?? '',
+          address: item.address ?? {
             address: '',
             city: '',
             location: {
@@ -76,7 +88,7 @@ export default function ActionForm({ onCancel, onClose }: Props) {
             postalCode: '',
             country: '',
           },
-          description: '',
+          description: item.description ?? '',
         }}
         validateOnChange
         validateOnMount
@@ -175,7 +187,7 @@ export default function ActionForm({ onCancel, onClose }: Props) {
                 <Button.Text>Annuler</Button.Text>
               </Button>
               <Button disabled={!isValid || isSubmitting || isPending} onPress={() => handleSubmit()}>
-                <Button.Text>Créer l’action</Button.Text>
+                <Button.Text>{uuid ? 'Modifier l’action' : 'Créer l’action'}</Button.Text>
               </Button>
             </View>
           </View>

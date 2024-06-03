@@ -528,6 +528,18 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
+  public async editAction(uuid: string, payload: ActionCreateType) {
+    return this.httpClient
+      .put(`api/v3/actions/${uuid}`, {
+        json: {
+          ...payload,
+          date: payload.date.toISOString(),
+        },
+      })
+      .json()
+      .catch(genericErrorMapping)
+  }
+
   public async getAction(id: string) {
     return this.httpClient.get(`api/v3/actions/${id}`).json().then(ActionFullSchema.parse).catch(genericErrorMapping)
   }

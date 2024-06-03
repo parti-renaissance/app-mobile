@@ -1,16 +1,10 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
 import ActionForm from '@/components/ActionForm/ActionForm'
 import React, { useMemo, useRef } from 'react'
-import { Dimensions, StyleSheet } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import { Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Button } from '@/components'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
 import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
@@ -103,6 +97,7 @@ function Page() {
   const { id: activeAction } = useLocalSearchParams<{ id: string }>()
 
   const queryClient = useQueryClient()
+  const params = useLocalSearchParams()
 
   const {
     data: { coords },
@@ -348,7 +343,7 @@ function Page() {
       </YStack>
 
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} />
+        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={params.uuid} />
       </ModalOrPageBase>
     </>
   )
