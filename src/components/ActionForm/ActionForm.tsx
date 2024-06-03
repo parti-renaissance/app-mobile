@@ -7,7 +7,9 @@ import Button from '@/components/Button'
 import FormikController from '@/components/FormikController'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import { ActionType, ActionTypeIcon, ReadableActionType } from '@/data/restObjects/RestActions'
+import useCreateAction from '@/hooks/useActions/useCreateAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
+import { captureException } from '@sentry/core'
 import { Formik } from 'formik'
 import { useMedia, View } from 'tamagui'
 import * as z from 'zod'
@@ -43,8 +45,9 @@ interface Props {
 
 export default function ActionForm({ onCancel, onClose }: Props) {
   const media = useMedia()
-
   const webViewPort = media.gtXs
+
+  const { mutateAsync, isPending } = useCreateAction()
 
   return (
     <View padding={'$4'} style={{ marginBottom: webViewPort ? 0 : 80 }}>
@@ -65,21 +68,39 @@ export default function ActionForm({ onCancel, onClose }: Props) {
           addressInput: '',
           address: {
             address: '',
-            postal_code: '',
-            city_name: '',
+            city: '',
+            location: {
+              lat: 0,
+              lng: 0,
+            },
+            postalCode: '',
             country: '',
           },
           description: '',
         }}
         validateOnChange
-        isInitialValid={false}
-        onSubmit={(values, formikHelpers) => {
-          console.log(values)
+        validateOnMount
+        onSubmit={async (values, formikHelpers) => {
+          try {
+            await mutateAsync({
+              type: values.type,
+              date: values.date!,
+              description: values.description,
+              post_address: {
+                address: values.address.address,
+                postal_code: values.address.postalCode,
+                city_name: values.address.city,
+                country: values.address.country,
+              },
+            })
+
+            formikHelpers.resetForm()
+            onClose?.()
+          } catch (e) {
+            captureException(e)
+          }
 
           formikHelpers.setSubmitting(false)
-          formikHelpers.resetForm()
-
-          onClose?.()
         }}
         validationSchema={toFormikValidationSchema(ActionCreateFormSchema)}
       >
@@ -153,7 +174,7 @@ export default function ActionForm({ onCancel, onClose }: Props) {
               <Button variant={'text'} onPress={onCancel}>
                 <Button.Text>Annuler</Button.Text>
               </Button>
-              <Button disabled={!isValid || isSubmitting} onPress={() => handleSubmit()}>
+              <Button disabled={!isValid || isSubmitting || isPending} onPress={() => handleSubmit()}>
                 <Button.Text>Créer l’action</Button.Text>
               </Button>
             </View>
