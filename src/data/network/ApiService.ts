@@ -1,7 +1,7 @@
 import { Poll } from '@/core/entities/Poll'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
-import { ActionPaginationSchema } from '../restObjects/RestActions'
+import { ActionFullSchema, ActionPaginationSchema } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -318,7 +318,7 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public updatePhoningSessionStatus(sessionId: string, status: string, params: any = {}): Promise<void> {
+  public updatePhoningSessionStatus(sessionId: string, status: string, params: Record<string, string> = {}): Promise<void> {
     return this.httpClient
       .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
         json: { status, ...params },
@@ -419,7 +419,7 @@ class ApiService {
   }
 
   public createDoorToDoorCampaignHistory(
-    request: any, // object with dynamic keys
+    request: Record<string, string>, // object with dynamic keys
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
     return this.httpClient.post('api/v3/pap_campaign_histories', { json: request }).json<RestDoorToDoorCampaignHistoryResponse>().catch(genericErrorMapping)
   }
@@ -514,6 +514,18 @@ class ApiService {
 
   public async getActions(params: { latitude: number; longitude: number; page: number }) {
     return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
+  }
+
+  public async getAction(id: string) {
+    return this.httpClient.get(`api/v3/actions/${id}`).json().then(ActionFullSchema.parse).catch(genericErrorMapping)
+  }
+
+  public async subscribeToAction(id: string) {
+    return this.httpClient.post(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
+  }
+
+  public async unsubscribeFromAction(id: string) {
+    return this.httpClient.delete(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
   }
 
   public static getInstance(): ApiService {

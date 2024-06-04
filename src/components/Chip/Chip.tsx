@@ -42,7 +42,7 @@ export type ChipProps = {
 const Chip = ({ children, ...props }: ChipProps) => {
   return (
     <ChipFrame {...props}>
-      <Text fontWeight="$5" fontSize="$1" color="$white1">
+      <Text fontWeight="$6" fontSize="$1" color="$white1">
         {children}
       </Text>
     </ChipFrame>

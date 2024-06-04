@@ -1,56 +1,59 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
+import React, { useMemo, useRef } from 'react'
+import { Dimensions, StyleSheet } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
+import ProfilePicture from '@/components/ProfilePicture'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
-import { ActionType, RestAction } from '@/data/restObjects/RestActions'
-import { QUERY_KEY_PAGINATED_ACTIONS, usePaginatedActions } from '@/hooks/useActions/useActions'
+import { Action, ActionStatus, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
+import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions, useSubscribeAction, useUnsubscribeAction } from '@/hooks/useActions/useActions'
+import { useLazyRef } from '@/hooks/useLazyRef'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
+import { useOnFocus } from '@/utils/useOnFocus.hook'
+import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { useQueryClient } from '@tanstack/react-query'
-import { addDays, isSameDay, isSameWeek } from 'date-fns'
-import { Redirect } from 'expo-router'
+import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
+import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
-import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack } from 'tamagui'
+import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
+import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
 const getActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active`]
 
+const filterIsActiveAndCancel = ['all', ['==', ['get', 'status'], ActionStatus.CANCELLED], ['==', ['get', 'isActive'], true]]
+const getCancelledMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}-${ActionStatus.CANCELLED}`]
+const getCancelledActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active-${ActionStatus.CANCELLED}`]
+const getPassedMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}-passed`]
+const getPassedActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active-passed`]
+const filterIsActiveAndPassed = ['all', ['==', ['get', 'isPassed'], true], ['==', ['get', 'isActive'], true]]
 const getDynamicMarkerIcon = [
   'case',
+  filterIsActiveAndCancel,
+  ['case', ...Object.values(ActionType).flatMap(getCancelledActiveMarketIcon), ActionType.TRACTAGE],
+  filterIsActiveAndPassed,
+  ['case', ...Object.values(ActionType).flatMap(getPassedActiveMarketIcon), ActionType.TRACTAGE],
+  ['==', ['get', 'status'], ActionStatus.CANCELLED],
+  ['case', ...Object.values(ActionType).flatMap(getCancelledMarkerIcon), ActionType.TRACTAGE],
+  ['==', ['get', 'isPassed'], true],
+  ['case', ...Object.values(ActionType).flatMap(getPassedMarkerIcon), ActionType.TRACTAGE],
   ['==', ['get', 'isActive'], true],
   ['case', ...Object.values(ActionType).flatMap(getActiveMarketIcon), ActionType.TRACTAGE],
   ['case', ...Object.values(ActionType).flatMap(getMarkerIcon), ActionType.TRACTAGE],
 ]
 
 MapboxGl.setAccessToken(clientEnv.MAP_BOX_ACCESS_TOKEN)
-
-const createSource = (actions: RestAction[], active: string): MapboxGl.ShapeSource['props']['shape'] => {
-  return {
-    type: 'FeatureCollection',
-    features: actions.map((action) => {
-      const isActive = action.uuid === active
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [action.post_address.longitude, action.post_address.latitude],
-        },
-        properties: {
-          isActive,
-          ...action,
-        },
-      }
-    }),
-  }
-}
 
 export default function ActionsScreen() {
   const { isAuth } = useSession()
@@ -76,7 +79,7 @@ const passPeriod = (date: Date, period: SelectPeriod) => {
     case 'tomorow':
       return isSameDay(date, addDays(new Date(), 1))
     case 'week':
-      return isSameWeek(date, new Date())
+      return isSameWeek(new Date(), date)
     default:
       return true
   }
@@ -88,6 +91,8 @@ const passType = (type: SelectType, actionType: ActionType) => {
 
 function Page() {
   useLocationPermission()
+  const insets = useSafeAreaInsets()
+  const { id: activeAction } = useLocalSearchParams<{ id: string }>()
 
   const queryClient = useQueryClient()
 
@@ -96,20 +101,36 @@ function Page() {
   } = useLocation()
 
   const data = usePaginatedActions(coords)
-  const [position, setPosition] = React.useState(1)
+  const actionQuery = useAction(activeAction, coords)
+  const positionConfig = useSheetPosition(1)
+  const { setPosition } = positionConfig
   const [period, setPeriod] = React.useState<SelectPeriod>('week')
   const [type, setType] = React.useState<SelectType>('all')
-
+  const filterHeight = useRef(70)
+  const [listOpen, setListOpen] = React.useState(true)
   const cameraRef = React.useRef<MapboxGl.Camera>(null)
-
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
-
   const filteredActions = flattedActions.filter((action) => {
     return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
   })
-  const [activeAction, setActiveAction] = React.useState<RestAction | null>(null)
+
+  useOnFocus(() => {
+    data.refetch()
+    // actionQuery.refetch()
+  })
+
+  const setActiveAction = (action: RestAction | null) => {
+    if (action) {
+      router.setParams({ id: '' })
+      setTimeout(() => {
+        router.setParams({ id: action.uuid })
+      }, 0)
+    } else {
+      router.setParams({ id: '' })
+    }
+  }
   const [followUser, setFollowUser] = React.useState(true)
-  const source = createSource(filteredActions, activeAction?.uuid ?? '')
+  const source = createSource(filteredActions, activeAction ?? '')
 
   const refUserPosition = React.useRef<{ longitude: number; latitude: number } | null>(null)
 
@@ -121,23 +142,55 @@ function Page() {
       centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
       zoomLevel: 14,
       animationMode: 'easeTo',
-      animationDuration: 300,
+      animationDuration: 30,
     })
+  }
+
+  const setCameraBySnapPercent = (snapPercent: number, cameraSetting?: CameraStop) => {
+    const height = Dimensions.get('window').height
+    const paddingBottom = (height * snapPercent) / 100 - (insets.top + filterHeight.current + 40)
+    cameraRef.current?.setCamera({
+      padding: { paddingBottom, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+      animationMode: 'easeTo',
+      ...cameraSetting,
+    })
+  }
+
+  const handleActiveAction = (action: RestAction | null) => {
+    if (!action) {
+      setActiveAction(null)
+      setListOpen(true)
+      return
+    }
+    const { post_address } = action
+    setActiveAction(action)
+
+    setFollowUser(false)
+    setTimeout(() => {
+      setCameraBySnapPercent(49, {
+        centerCoordinate: [post_address.longitude, post_address.latitude],
+        zoomLevel: 16,
+        animationMode: 'easeTo',
+        animationDuration: 300,
+      })
+    })
+    setListOpen(false)
   }
 
   const handlePress = (e: OnPressEvent) => {
     if (e.features.length === 0) {
       setActiveAction(null)
+      setListOpen(true)
       return
     }
-    const [cluster] = e.features as Feature<Point>[]
 
-    setActiveAction(flattedActions.find((action) => action.uuid === cluster.properties?.uuid) ?? null)
+    const [cluster] = e.features as Feature<Point>[]
+    handleActiveAction(flattedActions.find((action) => action.uuid === cluster.properties?.uuid) ?? null)
   }
 
   return (
     <YStack flex={1} flexDirection="column" position="relative">
-      <YStack height={70} bg="$white1">
+      <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
         <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
           <XStack gap="$3">
             <AddressAutocomplete
@@ -186,7 +239,16 @@ function Page() {
           style={{ flex: 1 }}
           onPress={() => {
             setActiveAction(null)
-            setPosition(1)
+            if (listOpen) {
+              setPosition(1)
+            } else {
+              setListOpen(true)
+            }
+            cameraRef.current?.setCamera({
+              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+              animationMode: 'easeTo',
+              animationDuration: 300,
+            })
           }}
         >
           <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
@@ -208,12 +270,14 @@ function Page() {
           >
             <MapboxGl.SymbolLayer
               id="layer-action"
+              symbol-sort-key={['to-number', ['get', 'priority']]}
               filter={['has', 'type']}
               style={{
                 iconImage: getDynamicMarkerIcon,
                 iconSize: isWeb ? 0.5 : 1,
                 iconAllowOverlap: true,
                 iconOffset: [1, -20],
+                symbolSortKey: ['to-number', ['get', 'priority']],
               }}
             />
             <MapboxGl.Images images={markersImage} />
@@ -224,75 +288,76 @@ function Page() {
             <MapButton
               style={styles.mapButtonLocation}
               onPress={() => {
-                // setFollowUser(falses
-
                 const userCoords = refUserPosition.current
                 if (!userCoords) return
                 handleLocationChange(userCoords)
-
                 cameraRef.current?.setCamera({
                   centerCoordinate: [userCoords.longitude, userCoords.latitude],
                   animationMode: 'easeTo',
                   animationDuration: 300,
                   zoomLevel: 14,
                 })
-                setTimeout(() => {
-                  // setFollowUser(true)
-                }, 300)
               }}
               image={require('@/assets/images/gpsPosition.png')}
             />
           )}
         </View>
       </YStack>
-      <BottomSheetList actions={filteredActions} query={data} setPosition={setPosition} position={position} />
+      <BottomSheetList
+        actions={filteredActions}
+        postionConfig={positionConfig}
+        open={listOpen}
+        onOpenChange={setListOpen}
+        setActiveAction={handleActiveAction}
+      />
+      <ActionBottomSheet
+        actionQuery={actionQuery}
+        onOpenChange={(open) => {
+          if (!open) {
+            setActiveAction(null)
+            setListOpen(true)
+
+            cameraRef.current?.setCamera({
+              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+              animationMode: 'easeTo',
+              animationDuration: 300,
+            })
+          }
+        }}
+        onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
+      />
     </YStack>
   )
 }
 
 type ActionListProps = {
   actions: RestAction[]
-  query: ReturnType<typeof usePaginatedActions>
+  setActiveAction: (action: RestAction | null) => void
 }
 
 const ActionList = (props: ActionListProps) => {
-  const mapPayload = (action: RestAction): ActionVoxCardProps['payload'] => {
-    return {
-      tag: action.type,
-      isSubscribed: false,
-      date: {
-        start: action.date,
-        end: action.date,
-      },
-      location: {
-        city: action.post_address.city_name,
-        street: action.post_address.address,
-        postalCode: action.post_address.postal_code,
-      },
-      author: {
-        name: `${action.author.first_name} ${action.author.last_name}`,
-      },
-    }
-  }
-
-  return props.actions.length === 0 ? <Spinner /> : props.actions.map((action) => <ActionCard key={action.uuid} payload={mapPayload(action)} />)
+  return props.actions.length === 0 ? (
+    <Spinner />
+  ) : (
+    props.actions.map((action) => <ActionCard key={action.uuid} payload={mapPayload(action)} onShow={() => props.setActiveAction(action)} />)
+  )
 }
 
-const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & { position: number; setPosition: (position: number) => void }) => {
+const BottomSheetList = ({
+  postionConfig,
+  onOpenChange,
+  open,
+  ...props
+}: ActionListProps & { postionConfig: ReturnType<typeof useSheetPosition>; open: boolean; onOpenChange: (x: boolean) => void }) => {
+  const { position, setPosition, handleHandlePress, defaultPosition } = postionConfig
   const handlePositionChange = (position: number) => {
     setPosition(position)
   }
 
-  const handleHandlePress = () => {
-    switch (position) {
-      case 0:
-        setPosition(1)
-        break
-      case 1:
-        setPosition(0)
-        break
-      default:
-        setPosition(0)
+  const handleOpeningChange = (open: boolean) => {
+    onOpenChange(open)
+    if (!open) {
+      setPosition(1)
     }
   }
 
@@ -300,15 +365,17 @@ const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & 
 
   return (
     <Sheet
+      open={open}
       defaultOpen={true}
-      defaultPosition={2}
+      defaultPosition={defaultPosition}
       position={position}
       dismissOnOverlayPress={false}
       onPositionChange={handlePositionChange}
+      onOpenChange={handleOpeningChange}
       snapPoints={['70%', 60]}
       snapPointsMode="mixed"
     >
-      <Sheet.Frame borderTopLeftRadius={pageMode ? 0 : 10} borderTopRightRadius={pageMode ? 0 : 10}>
+      <Sheet.Frame borderTopLeftRadius={pageMode ? 0 : 20} borderTopRightRadius={pageMode ? 0 : 20}>
         <YStack onPress={handleHandlePress}>
           <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
           <XStack justifyContent="center" p="$3">
@@ -317,9 +384,6 @@ const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & 
             </Text>
           </XStack>
         </YStack>
-
-        {/* <Sheet.Overlay display={position < 2 ? 'none' : 'flex'} /> */}
-
         <Sheet.ScrollView
           scrollEnabled={position === 0}
           flex={1}
@@ -337,27 +401,235 @@ const BottomSheetList = ({ position, setPosition, ...props }: ActionListProps & 
   )
 }
 
+function SubscribeButton({ isRegister, id }: { isRegister: boolean; id?: string }) {
+  const subscribe = useSubscribeAction(id)
+  const unsubscribe = useUnsubscribeAction(id)
+  const isloaderSub = subscribe.isPending || unsubscribe.isPending
+
+  const handleOnSubscribe = useDebouncedCallback((isRegister: boolean) => {
+    isRegister ? unsubscribe.mutate() : subscribe.mutate()
+  }, 300)
+  return (
+    <Button
+      variant={isRegister ? 'text' : 'contained'}
+      borderWidth={1}
+      borderColor="$green7"
+      animation="quick"
+      size="lg"
+      width="100%"
+      bg={isRegister ? undefined : '$green7'}
+      onPress={() => handleOnSubscribe(!!isRegister)}
+    >
+      <Button.Text display={isloaderSub ? 'none' : 'flex'} color={isRegister ? '$green7' : undefined}>
+        {isRegister ? 'Me désinscrire' : "M'inscrire"}
+      </Button.Text>
+      <Spinner display={isloaderSub ? 'flex' : 'none'} color={isRegister ? '$green7' : '$white1'} />
+    </Button>
+  )
+}
+
+type ActionBottomSheetProps = {
+  actionQuery: ReturnType<typeof useAction>
+  onPositionChange?: (position: number, percent: number) => void
+  onOpenChange?: (open: boolean) => void
+}
+
+function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Readonly<ActionBottomSheetProps>) {
+  const { position, setPosition, handleHandlePress, defaultPosition } = useSheetPosition(1)
+  const { data: action, isLoading } = actionQuery
+
+  const _position = !action ? 1 : position
+
+  React.useEffect(() => {
+    if (!action) {
+      setPosition(1)
+    }
+  }, [action])
+
+  const snapPoints = useLazyRef<[number, number]>(() => [70, 50])
+
+  const handlePositionChange = (position: number) => {
+    setPosition(position)
+    onPositionChange?.(position, snapPoints.current[position])
+  }
+
+  const handleOpeningChange = (open: boolean) => {
+    setPosition(1)
+    onOpenChange?.(open)
+  }
+
+  const payload = useMemo(() => (action ? mapPayload(action) : null), [action])
+
+  return (
+    <Sheet
+      modal
+      open={!!action}
+      defaultPosition={defaultPosition}
+      position={_position}
+      onOpenChange={handleOpeningChange}
+      onPositionChange={handlePositionChange}
+      dismissOnOverlayPress={false}
+      snapPoints={snapPoints.current}
+      snapPointsMode="percent"
+      dismissOnSnapToBottom
+    >
+      <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20} position="relative">
+        <YStack onPress={handleHandlePress}>
+          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
+        </YStack>
+
+        <Sheet.ScrollView
+          scrollEnabled={position === 0}
+          flex={1}
+          contentContainerStyle={{
+            pt: '$2',
+            pb: '$12',
+            gap: '$2',
+          }}
+        >
+          {payload && action ? (
+            <ActionCard payload={payload} asFull>
+              {!isBefore(action.date, new Date()) ? <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
+              {isFullAction(action) ? (
+                <VoxCard.Description markdown full>
+                  {action.description}
+                </VoxCard.Description>
+              ) : (
+                <SkeCard.Description />
+              )}
+              {isFullAction(action) ? (
+                <>
+                  <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
+                  <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
+                    <ParticipantAvatar participant={action.author} />
+                    {action.participants.map((participant) => (
+                      <ParticipantAvatar key={participant.uuid} participant={participant} alignSelf="flex-start" />
+                    ))}
+                  </XStack>
+                </>
+              ) : null}
+            </ActionCard>
+          ) : null}
+
+          {payload === null && isLoading ? (
+            <SkeCard>
+              <SkeCard.Chip />
+              <SkeCard.Title />
+              <SkeCard.Description />
+            </SkeCard>
+          ) : null}
+        </Sheet.ScrollView>
+      </Sheet.Frame>
+    </Sheet>
+  )
+}
+
+function ParticipantAvatar({ participant, ...props }: Readonly<{ participant: RestActionParticipant | RestActionAuthor }> & YStackProps) {
+  const getIsAuthor = (guy: RestActionParticipant | RestActionAuthor): guy is RestActionAuthor => 'first_name' in guy
+  const isAuthor = getIsAuthor(participant)
+  const namesContainer = isAuthor ? participant : participant.adherent
+  const fullName = `${namesContainer.first_name} ${namesContainer.last_name}`
+  return (
+    <YStack justifyContent="center" alignItems="center" gap="$2" {...props} overflow="hidden" width={90}>
+      <YStack position="relative" width={'100%'} justifyContent="center" alignItems="center">
+        <ProfilePicture size="$5" fullName={fullName} alt={`Photo de ${fullName}`} rounded borderBlockColor="$textPrimary" borderWidth={isAuthor ? 1 : 0} />
+        {isAuthor && (
+          <YStack position="absolute" bottom={0} width="100%" justifyContent="center" alignContent="center" alignItems="center">
+            <YStack
+              borderBlockColor="$textPrimary"
+              borderWidth={1}
+              borderRadius="$4"
+              justifyContent="center"
+              alignContent="center"
+              bg="$white1"
+              p={2}
+              paddingHorizontal="$2.5"
+            >
+              <Text fontSize="$1" color="$textPrimary" textAlign="center" fontWeight="$5">
+                Auteur
+              </Text>
+            </YStack>
+          </YStack>
+        )}
+      </YStack>
+      <YStack justifyContent="center" alignItems="center" gap="$2">
+        <Text numberOfLines={1} color={isAuthor ? '$textPrimary' : '$textSecondary'}>
+          {namesContainer.first_name}
+        </Text>
+        <Text numberOfLines={1} color={isAuthor ? '$textPrimary' : '$textSecondary'}>
+          {namesContainer.last_name}
+        </Text>
+      </YStack>
+    </YStack>
+  )
+}
+
+function mapPayload(action: Action): ActionVoxCardProps['payload'] {
+  return {
+    tag: action.type,
+    isSubscribed: false,
+    date: {
+      start: action.date,
+      end: action.date,
+    },
+    status: action.status,
+    location: {
+      city: action.post_address.city_name,
+      street: action.post_address.address,
+      postalCode: action.post_address.postal_code,
+    },
+    author: {
+      name: `${action.author.first_name} ${action.author.last_name}`,
+    },
+  }
+}
+
+function createSource(actions: RestAction[], active: string): MapboxGl.ShapeSource['props']['shape'] {
+  return {
+    type: 'FeatureCollection',
+    features: actions.map((action) => {
+      const isActive = action.uuid === active
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [action.post_address.longitude, action.post_address.latitude],
+        },
+        properties: {
+          priority: isActive ? 1 : 0,
+          isRegister: !!action.user_registered_at,
+          isPassed: isBefore(action.date, new Date()),
+          isActive,
+          ...action,
+        },
+      }
+    }),
+  }
+}
+
+function useSheetPosition(defaultPosition: number) {
+  const [position, setPosition] = React.useState(defaultPosition)
+  const handleHandlePress = () => {
+    switch (position) {
+      case 0:
+        setPosition(1)
+        break
+      case 1:
+        setPosition(0)
+        break
+      default:
+        setPosition(0)
+    }
+  }
+  return {
+    defaultPosition,
+    position,
+    setPosition,
+    handleHandlePress,
+  }
+}
+
 const styles = StyleSheet.create({
-  childContainer: {
-    position: 'absolute',
-    width: '100%',
-  },
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  mapButtonIcon: {
-    alignSelf: 'center',
-    height: 16,
-    width: 16,
-  },
-  mapButtonListContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
   mapButtonLocation: {
     alignSelf: 'flex-end',
     height: 40,
@@ -368,31 +640,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: 10,
-  },
-  mapButtonText: {
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
-  popup: {
-    width: '100%',
-    flex: 1,
-  },
-  popupWrap: {
-    alignItems: 'center',
-    bottom: 0,
-    // height: '100%',
-    justifyContent: 'flex-end',
-    position: 'absolute',
-  },
-  searchHereButton: {
-    borderRadius: 20,
-    flex: 0,
-    overflow: 'hidden',
-  },
-  searchHereButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    minHeight: 40,
-    minWidth: 40,
   },
 })
