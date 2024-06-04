@@ -5,6 +5,7 @@ export interface RestProfileResponse {
   postal_code: string
   email_address: string
   cadre_access: boolean
+  cadre_auth_path: string | null
   certified: boolean
   country: string
   detailed_roles: string[]
