@@ -520,6 +520,14 @@ class ApiService {
     return this.httpClient.get(`api/v3/actions/${id}`).json().then(ActionFullSchema.parse).catch(genericErrorMapping)
   }
 
+  public async subscribeToAction(id: string) {
+    return this.httpClient.post(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
+  }
+
+  public async unsubscribeFromAction(id: string) {
+    return this.httpClient.delete(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
+  }
+
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()

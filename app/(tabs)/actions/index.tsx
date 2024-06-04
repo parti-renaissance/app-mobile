@@ -14,7 +14,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import { Action, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
-import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/hooks/useActions/useActions'
+import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions, useSubscribeAction, useUnsubscribeAction } from '@/hooks/useActions/useActions'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
@@ -24,7 +24,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { addDays, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
-import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps, ZStack } from 'tamagui'
+import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
+import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -86,7 +87,6 @@ function Page() {
 
   const data = usePaginatedActions(coords)
   const actionQuery = useAction(activeAction, coords)
-
   const positionConfig = useSheetPosition(1)
   const { setPosition } = positionConfig
   const [period, setPeriod] = React.useState<SelectPeriod>('week')
@@ -96,13 +96,18 @@ function Page() {
   const cameraRef = React.useRef<MapboxGl.Camera>(null)
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
   const filteredActions = flattedActions.filter((action) => {
-    return [
-      // passPeriod(action.date, period),
-      passType(type, action.type),
-    ].every(Boolean)
+    return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
   })
+
   const setActiveAction = (action: RestAction | null) => {
-    router.setParams({ id: action?.uuid ?? '' })
+    if (action) {
+      router.setParams({ id: '' })
+      setTimeout(() => {
+        router.setParams({ id: action.uuid })
+      }, 0)
+    } else {
+      router.setParams({ id: '' })
+    }
   }
   const [followUser, setFollowUser] = React.useState(true)
   const source = createSource(filteredActions, activeAction ?? '')
@@ -139,9 +144,10 @@ function Page() {
     }
     const { post_address } = action
     setActiveAction(action)
+
     setFollowUser(false)
     setTimeout(() => {
-      setCameraBySnapPercent(30, {
+      setCameraBySnapPercent(49, {
         centerCoordinate: [post_address.longitude, post_address.latitude],
         zoomLevel: 16,
         animationMode: 'easeTo',
@@ -358,9 +364,6 @@ const BottomSheetList = ({
             </Text>
           </XStack>
         </YStack>
-
-        {/* <Sheet.Overlay display={position < 2 ? 'none' : 'flex'} /> */}
-
         <Sheet.ScrollView
           scrollEnabled={position === 0}
           flex={1}
@@ -375,6 +378,33 @@ const BottomSheetList = ({
         </Sheet.ScrollView>
       </Sheet.Frame>
     </Sheet>
+  )
+}
+
+function SubscribeButton({ isRegister, id }: { isRegister: boolean; id?: string }) {
+  const subscribe = useSubscribeAction(id)
+  const unsubscribe = useUnsubscribeAction(id)
+  const isloaderSub = subscribe.isPending || unsubscribe.isPending
+
+  const handleOnSubscribe = useDebouncedCallback((isRegister: boolean) => {
+    isRegister ? unsubscribe.mutate() : subscribe.mutate()
+  }, 300)
+  return (
+    <Button
+      variant={isRegister ? 'text' : 'contained'}
+      borderWidth={1}
+      borderColor="$green7"
+      animation="quick"
+      size="lg"
+      width="100%"
+      bg={isRegister ? undefined : '$green7'}
+      onPress={() => handleOnSubscribe(!!isRegister)}
+    >
+      <Button.Text display={isloaderSub ? 'none' : 'flex'} color={isRegister ? '$green7' : undefined}>
+        {isRegister ? 'Me désinscrire' : "M'inscrire"}
+      </Button.Text>
+      <Spinner display={isloaderSub ? 'flex' : 'none'} color={isRegister ? '$green7' : '$white1'} />
+    </Button>
   )
 }
 
@@ -396,7 +426,7 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
     }
   }, [action])
 
-  const snapPoints = useLazyRef<[number, number]>(() => [70, 30])
+  const snapPoints = useLazyRef<[number, number]>(() => [70, 50])
 
   const handlePositionChange = (position: number) => {
     setPosition(position)
@@ -422,17 +452,12 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
       snapPoints={snapPoints.current}
       snapPointsMode="percent"
       dismissOnSnapToBottom
-      key={action?.uuid}
     >
       <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20} position="relative">
         <YStack onPress={handleHandlePress}>
           <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
         </YStack>
-        <YStack paddingHorizontal={'$4.5'} pt="$2" pb="$5" elevation={1} bottom={0} bg="$white1" zIndex={100_000_000} position="absolute" width="100%">
-          <Button size="lg" width="100%" bg="$green7">
-            <Button.Text>M'inscrire</Button.Text>
-          </Button>
-        </YStack>
+
         <Sheet.ScrollView
           scrollEnabled={position === 0}
           flex={1}
@@ -444,7 +469,14 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
         >
           {payload && action ? (
             <ActionCard payload={payload} asFull>
-              {isFullAction(action) ? <VoxCard.Description full>{action.description}</VoxCard.Description> : <SkeCard.Description />}
+              <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} />
+              {isFullAction(action) ? (
+                <VoxCard.Description markdown full>
+                  {action.description}
+                </VoxCard.Description>
+              ) : (
+                <SkeCard.Description />
+              )}
               {isFullAction(action) ? (
                 <>
                   <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
@@ -544,6 +576,7 @@ function createSource(actions: RestAction[], active: string): MapboxGl.ShapeSour
         },
         properties: {
           priority: isActive ? 1 : 0,
+          isRegister: !!action.user_registered_at,
           isActive,
           ...action,
         },

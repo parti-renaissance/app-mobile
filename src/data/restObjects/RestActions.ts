@@ -44,6 +44,7 @@ const ActionSchema = z.object({
   status: ActionStatusSchema,
   uuid: z.string().uuid(),
   post_address: ActionAddressSchema,
+  user_registered_at: z.coerce.date().nullable(),
   created_at: z.coerce.date(),
   updated_at: z.coerce.date(),
   author: ActionAuthor,
