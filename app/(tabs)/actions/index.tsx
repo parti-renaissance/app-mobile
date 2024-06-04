@@ -13,7 +13,7 @@ import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
-import { Action, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
+import { Action, ActionStatus, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions, useSubscribeAction, useUnsubscribeAction } from '@/hooks/useActions/useActions'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
@@ -21,7 +21,7 @@ import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { useQueryClient } from '@tanstack/react-query'
-import { addDays, isSameDay, isSameWeek } from 'date-fns'
+import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
@@ -31,8 +31,22 @@ import markersImage from '../../../assets/images/generated-markers-lib'
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
 const getActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active`]
 
+const filterIsActiveAndCancel = ['all', ['==', ['get', 'status'], ActionStatus.CANCELLED], ['==', ['get', 'isActive'], true]]
+const getCancelledMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}-${ActionStatus.CANCELLED}`]
+const getCancelledActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active-${ActionStatus.CANCELLED}`]
+const getPassedMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}-passed`]
+const getPassedActiveMarketIcon = (type: ActionType) => [['==', ['get', 'type'], type], `${type}Active-passed`]
+const filterIsActiveAndPassed = ['all', ['==', ['get', 'isPassed'], true], ['==', ['get', 'isActive'], true]]
 const getDynamicMarkerIcon = [
   'case',
+  filterIsActiveAndCancel,
+  ['case', ...Object.values(ActionType).flatMap(getCancelledActiveMarketIcon), ActionType.TRACTAGE],
+  filterIsActiveAndPassed,
+  ['case', ...Object.values(ActionType).flatMap(getPassedActiveMarketIcon), ActionType.TRACTAGE],
+  ['==', ['get', 'status'], ActionStatus.CANCELLED],
+  ['case', ...Object.values(ActionType).flatMap(getCancelledMarkerIcon), ActionType.TRACTAGE],
+  ['==', ['get', 'isPassed'], true],
+  ['case', ...Object.values(ActionType).flatMap(getPassedMarkerIcon), ActionType.TRACTAGE],
   ['==', ['get', 'isActive'], true],
   ['case', ...Object.values(ActionType).flatMap(getActiveMarketIcon), ActionType.TRACTAGE],
   ['case', ...Object.values(ActionType).flatMap(getMarkerIcon), ActionType.TRACTAGE],
@@ -469,7 +483,7 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
         >
           {payload && action ? (
             <ActionCard payload={payload} asFull>
-              <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} />
+              {!isBefore(new Date(), action.date) ? <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
               {isFullAction(action) ? (
                 <VoxCard.Description markdown full>
                   {action.description}
@@ -552,6 +566,7 @@ function mapPayload(action: Action): ActionVoxCardProps['payload'] {
       start: action.date,
       end: action.date,
     },
+    status: action.status,
     location: {
       city: action.post_address.city_name,
       street: action.post_address.address,
@@ -577,6 +592,7 @@ function createSource(actions: RestAction[], active: string): MapboxGl.ShapeSour
         properties: {
           priority: isActive ? 1 : 0,
           isRegister: !!action.user_registered_at,
+          isPassed: isBefore(new Date(), action.date),
           isActive,
           ...action,
         },
