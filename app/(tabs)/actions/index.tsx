@@ -1,20 +1,20 @@
-import ActionForm from '@/components/ActionForm/ActionForm'
 import React, { useMemo, useRef } from 'react'
+import { Dimensions, StyleSheet } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import ActionForm from '@/components/ActionForm/ActionForm'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
-import { Dimensions, StyleSheet } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
 import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
-import clientEnv from '@/config/clientEnv'
-import { useSession } from '@/ctx/SessionProvider'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import clientEnv from '@/config/clientEnv'
+import { useSession } from '@/ctx/SessionProvider'
 import { Action, ActionStatus, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions, useSubscribeAction, useUnsubscribeAction } from '@/hooks/useActions/useActions'
 import { useLazyRef } from '@/hooks/useLazyRef'
@@ -97,7 +97,6 @@ function Page() {
   const { id: activeAction } = useLocalSearchParams<{ id: string }>()
 
   const queryClient = useQueryClient()
-  const params = useLocalSearchParams()
 
   const {
     data: { coords },
@@ -247,16 +246,16 @@ function Page() {
             style={{ flex: 1 }}
             onPress={() => {
               setActiveAction(null)
-            if (listOpen) {
-              setPosition(1)
-            } else {
-              setListOpen(true)
-            }
-            cameraRef.current?.setCamera({
-              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
-              animationMode: 'easeTo',
-              animationDuration: 300,
-            })
+              if (listOpen) {
+                setPosition(1)
+              } else {
+                setListOpen(true)
+              }
+              cameraRef.current?.setCamera({
+                padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+                animationMode: 'easeTo',
+                animationDuration: 300,
+              })
             }}
           >
             <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
@@ -278,13 +277,15 @@ function Page() {
             >
               <MapboxGl.SymbolLayer
                 id="layer-action"
-                symbol-sort-key={['to-number', ['get', 'priority']]}filter={['has', 'type']}
+                symbol-sort-key={['to-number', ['get', 'priority']]}
+                filter={['has', 'type']}
                 style={{
                   iconImage: getDynamicMarkerIcon,
                   iconSize: isWeb ? 0.5 : 1,
                   iconAllowOverlap: true,
                   iconOffset: [1, -20],
-                symbolSortKey: ['to-number', ['get', 'priority']],}}
+                  symbolSortKey: ['to-number', ['get', 'priority']],
+                }}
               />
               <MapboxGl.Images images={markersImage} />
             </MapboxGl.ShapeSource>
@@ -294,8 +295,6 @@ function Page() {
               <MapButton
                 style={styles.mapButtonLocation}
                 onPress={() => {
-
-
                   const userCoords = refUserPosition.current
                   if (!userCoords) return
                   handleLocationChange(userCoords)
@@ -306,7 +305,6 @@ function Page() {
                     animationDuration: 300,
                     zoomLevel: 14,
                   })
-
                 }}
                 image={require('@/assets/images/gpsPosition.png')}
               />
@@ -320,30 +318,33 @@ function Page() {
           </Button>
         </View>
 
-        <BottomSheetList actions={filteredActions} postionConfig={positionConfig}
-        open={listOpen}
-        onOpenChange={setListOpen}
-        setActiveAction={handleActiveAction}
-      />
-      <ActionBottomSheet
-        actionQuery={actionQuery}
-        onOpenChange={(open) => {
-          if (!open) {
-            setActiveAction(null)
-            setListOpen(true)
+        <BottomSheetList
+          actions={filteredActions}
+          postionConfig={positionConfig}
+          open={listOpen}
+          onOpenChange={setListOpen}
+          setActiveAction={handleActiveAction}
+        />
+        <ActionBottomSheet
+          actionQuery={actionQuery}
+          onOpenChange={(open) => {
+            if (!open) {
+              setActiveAction(null)
+              setListOpen(true)
 
-            cameraRef.current?.setCamera({
-              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
-              animationMode: 'easeTo',
-              animationDuration: 300,
-            })
-          }
-        }}
-        onPositionChange={(_, percent) => setCameraBySnapPercent(percent)} />
+              cameraRef.current?.setCamera({
+                padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+                animationMode: 'easeTo',
+                animationDuration: 300,
+              })
+            }
+          }}
+          onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
+        />
       </YStack>
 
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={params.uuid} />
+        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} />
       </ModalOrPageBase>
     </>
   )

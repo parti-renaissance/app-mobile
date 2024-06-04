@@ -1,9 +1,10 @@
 import { PropsWithChildren } from 'react'
 import { Modal, StyleSheet, TouchableOpacity } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from '@/styles'
 import { gray } from '@tamagui/colors'
 import { X } from '@tamagui/lucide-icons'
-import { ScrollView, useMedia, View } from 'tamagui'
+import { Sheet, useMedia, View } from 'tamagui'
 
 interface ModalOrPageBaseProps extends PropsWithChildren {
   onClose?: () => void
@@ -17,6 +18,7 @@ interface ModalOrPageBaseProps extends PropsWithChildren {
  */
 export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader }: ModalOrPageBaseProps) {
   const viewport = useMedia()
+  const insets = useSafeAreaInsets()
 
   if (viewport.gtMd) {
     return (
@@ -29,24 +31,44 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
   }
 
   return (
-    <Modal animationType={'slide'} visible={!!open}>
-      <ScrollView backgroundColor={'white'} style={styles.mediumView}>
+    <Sheet
+      modal
+      open={!!open}
+      snapPoints={[100]}
+      snapPointsMode="percent"
+      dismissOnSnapToBottom
+      moveOnKeyboardChange
+      onOpenChange={(x) => {
+        if (!x) {
+          onClose?.()
+        }
+      }}
+    >
+      <Sheet.Frame>
         {shouldDisplayCloseHeader && (
-          <TouchableOpacity style={styles.header} onPress={onClose}>
+          <TouchableOpacity style={[styles.header, { paddingTop: insets.top }]} onPress={onClose}>
             <X />
           </TouchableOpacity>
         )}
 
-        {children}
-      </ScrollView>
-    </Modal>
+        <Sheet.ScrollView
+          backgroundColor={'white'}
+          contentContainerStyle={{
+            paddingBottom: 250,
+            flexGrow: 1,
+          }}
+        >
+          {children}
+        </Sheet.ScrollView>
+      </Sheet.Frame>
+    </Sheet>
   )
 }
 
 const styles = StyleSheet.create({
   mediumView: {
     height: '100%',
-    paddingTop: Spacing.largeMargin,
+    paddingBottom: 2000,
   },
   centeredView: {
     flex: 1,

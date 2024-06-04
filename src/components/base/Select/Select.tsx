@@ -246,7 +246,7 @@ const Select = <A extends string>({
         />
       </Popover.Trigger>
       <Adapt when="md">
-        <Popover.Sheet modal dismissOnSnapToBottom>
+        <Popover.Sheet modal dismissOnSnapToBottom native>
           <Popover.Sheet.Frame>
             <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'padding' : 'height'} keyboardVerticalOffset={50} style={{ flex: 1 }}>
               <Popover.Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={4} />

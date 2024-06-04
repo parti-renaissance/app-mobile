@@ -1,4 +1,4 @@
-import { createContext, memo, ReactElement, SetStateAction, useCallback, useContext, useState } from 'react'
+import { createContext, memo, ReactElement, useCallback, useContext } from 'react'
 import { styled, withStaticProperties, XStack, YStackProps } from 'tamagui'
 import _Tab, { TabProps } from './Tab'
 
