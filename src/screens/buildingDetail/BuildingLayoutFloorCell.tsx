@@ -31,7 +31,7 @@ type ActionProps = Readonly<{
   onPress: () => void | undefined
 }>
 
-export const BuildingLayoutActionType: FunctionComponent<ActionProps> = ({ viewModel, style, onPress, disabled, completed }) => {
+export const BuildingLayoutActionType: FunctionComponent<ActionProps> = ({ viewModel, onPress, disabled, completed }) => {
   function icon(): JSX.Element {
     return completed ? (
       <View style={styles.buttonInvertedColors}>

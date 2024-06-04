@@ -1,7 +1,7 @@
 import { Poll } from '@/core/entities/Poll'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
-import { ActionFullSchema, ActionPaginationSchema } from '../restObjects/RestActions'
+import { ActionCreateType, ActionFullSchema, ActionPaginationSchema } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -476,7 +476,7 @@ class ApiService {
   public async getPlaceAutocomplete(query: string, signal?: AbortSignal): Promise<google.maps.places.AutocompletePrediction[]> {
     return this.httpClient
       .get(
-        `api/v3/place/autocomplete?input=${stringify({
+        `api/v3/place/autocomplete?${stringify({
           input: query,
         })}`,
         {
@@ -514,6 +514,30 @@ class ApiService {
 
   public async getActions(params: { latitude: number; longitude: number; page: number }) {
     return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
+  }
+
+  public async insertAction(payload: ActionCreateType) {
+    return this.httpClient
+      .post('api/v3/actions', {
+        json: {
+          ...payload,
+          date: payload.date.toISOString(),
+        },
+      })
+      .json()
+      .catch(genericErrorMapping)
+  }
+
+  public async editAction(uuid: string, payload: ActionCreateType) {
+    return this.httpClient
+      .put(`api/v3/actions/${uuid}`, {
+        json: {
+          ...payload,
+          date: payload.date.toISOString(),
+        },
+      })
+      .json()
+      .catch(genericErrorMapping)
   }
 
   public async getAction(id: string) {

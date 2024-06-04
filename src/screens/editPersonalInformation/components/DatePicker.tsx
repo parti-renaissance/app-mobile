@@ -1,40 +1,60 @@
 import React, { forwardRef, useState } from 'react'
-import { Keyboard, Pressable } from 'react-native'
+import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import TextField from '@/components/TextField'
-import { getFormattedDate, getIntlDate, parseFrenchDate } from '@/utils/date'
-import { Input, isWeb, View, YStack } from 'tamagui'
+import { default as TextField } from '@/components/base/Input/Input'
+import { getFormattedDate, getHumanFormattedTime, getIntlDate } from '@/utils/date'
+import { parseISO } from 'date-fns'
+import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
-  onChange: (date: Date | undefined) => void
+  onChange?: (date: Date | undefined) => void
   onBlur?: (fieldOrEvent: any) => void
   value?: Date
   error?: string
   errorMessage?: string
   label?: string
+  type?: 'date' | 'time'
 }
 
 const getDateInputValue = (d: Date) => (isWeb ? getIntlDate(d) : d.toLocaleDateString())
 
-const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label }, ref) => {
+const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, type = 'date' }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
   const readableDate = value && typeof value === 'object' ? getDateInputValue(value) : ''
   const [inputValue, setInputValue] = useState(readableDate ?? '')
 
+  // In case of mobile component
   const handleConfirm = (input: Date) => {
     onChange?.(input)
-    setInputValue(getFormattedDate(input))
+    setInputValue(type === 'date' ? getFormattedDate(input) : getHumanFormattedTime(input))
     setIsDatePickerVisible(false)
   }
 
+  // In case of web component
   const handleChange = (input: string) => {
     setInputValue(input)
 
-    if (input != '' && input.length === 10) {
-      const candidate = isWeb ? new Date(input) : parseFrenchDate(input)
+    if (type === 'date' && input != '' && input.length === 10) {
+      try {
+        onChange?.(isWeb ? new Date(input) : parseISO(input))
+      } catch (e) {
+        //
+      }
+    } else if (type === 'time') {
+      if (input.includes(':')) {
+        const candidate = new Date()
+        const inputParts = input.split(':')
 
-      onChange?.(candidate)
+        if (inputParts.length === 2) {
+          candidate.setHours(Number(inputParts[0]))
+          candidate.setMinutes(Number(inputParts[1]))
+          onChange?.(candidate)
+          return
+        }
+      }
+
+      onChange?.(undefined)
     } else {
       onChange?.(undefined)
     }
@@ -60,14 +80,13 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         ref={ref}
         label={label}
         value={inputValue}
-        placeholder="JJ/MM/AAAA"
-        showSoftInputOnFocus={false}
+        placeholder={type === 'date' ? 'JJ/MM/AAAA' : 'HH:MM'}
         onSubmitEditing={onHide}
-        editable={false}
+        editable={isWeb}
         onChangeText={handleChange}
         onPress={onShow}
         error={error}
-        isDate
+        type={type}
       />
       <DateTimePickerModal
         locale="fr"
@@ -76,7 +95,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         cancelTextIOS="Annuler"
         isVisible={isDatePickerVisible}
         accentColor="blue"
-        mode="date"
+        mode={type}
         onConfirm={handleConfirm}
         onCancel={onHide}
       />

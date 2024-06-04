@@ -1,3 +1,6 @@
+import { NamedExoticComponent } from 'react'
+import { IconProps } from '@tamagui/helpers-icon'
+import { DoorOpen, Layers3, Mailbox, Paintbrush } from '@tamagui/lucide-icons'
 import * as z from 'zod'
 
 export enum ActionType {
@@ -5,6 +8,20 @@ export enum ActionType {
   BOITAGE = 'boitage',
   TRACTAGE = 'tractage',
   COLLAGE = 'collage',
+}
+
+export const ReadableActionType: Record<ActionType, string> = {
+  [ActionType.PAP]: 'Porte à Porte',
+  [ActionType.BOITAGE]: 'Boîtage',
+  [ActionType.TRACTAGE]: 'Tractage',
+  [ActionType.COLLAGE]: 'Collage',
+}
+
+export const ActionTypeIcon: Record<ActionType, NamedExoticComponent<IconProps>> = {
+  [ActionType.PAP]: DoorOpen,
+  [ActionType.BOITAGE]: Mailbox,
+  [ActionType.TRACTAGE]: Layers3,
+  [ActionType.COLLAGE]: Paintbrush,
 }
 
 export enum ActionStatus {
@@ -59,6 +76,18 @@ export const ActionFullSchema = ActionSchema.omit({ first_participants: true, pa
   }),
 )
 
+const ActionCreateSchema = z.object({
+  type: ActionTypeSchema,
+  date: z.coerce.date(),
+  description: z.string(),
+  post_address: z.object({
+    address: z.string(),
+    postal_code: z.string(),
+    city_name: z.string(),
+    country: z.string(),
+  }),
+})
+
 const MetadataSchema = z.object({
   total_items: z.number(),
   items_per_page: z.number(),
@@ -87,6 +116,7 @@ export type RestActionAddress = z.infer<typeof ActionAddressSchema>
 export type RestActionParticipant = z.infer<typeof ActionParticipantSchema>
 export type RestAction = z.infer<typeof ActionSchema>
 export type RestActions = z.infer<typeof ActionPaginationSchema>
+export type ActionCreateType = z.infer<typeof ActionCreateSchema>
 export type RestActionFull = z.infer<typeof ActionFullSchema>
 export type Action = RestAction | RestActionFull
 

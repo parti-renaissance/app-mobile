@@ -1,13 +1,15 @@
 import React, { useMemo, useRef } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { Button } from '@/components'
+import ActionForm from '@/components/ActionForm/ActionForm'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import Button from '@/components/Button'
 import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
+import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
@@ -106,6 +108,8 @@ function Page() {
   const { setPosition } = positionConfig
   const [period, setPeriod] = React.useState<SelectPeriod>('week')
   const [type, setType] = React.useState<SelectType>('all')
+  const [modalOpen, setModalOpen] = React.useState(false)
+
   const filterHeight = useRef(70)
   const [listOpen, setListOpen] = React.useState(true)
   const cameraRef = React.useRef<MapboxGl.Camera>(null)
@@ -188,145 +192,161 @@ function Page() {
     handleActiveAction(flattedActions.find((action) => action.uuid === cluster.properties?.uuid) ?? null)
   }
 
+  const onCloseModal = () => setModalOpen(false)
+
   return (
-    <YStack flex={1} flexDirection="column" position="relative">
-      <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
-        <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
-          <XStack gap="$3">
-            <AddressAutocomplete
-              maxWidth={100}
-              labelOnlySheet
-              setAddressComponents={({ location }) => {
-                if (!location) return
-                handleLocationChange({ longitude: location.lng, latitude: location.lat })
-              }}
-            />
-            <Select<SelectPeriod>
-              search={false}
-              labelOnlySheet
-              label="Période"
-              onChange={setPeriod}
-              value={period}
-              options={[
-                { value: 'all', label: 'Tout' },
-                { value: 'today', label: "Ajourd'hui" },
-                { value: 'tomorow', label: 'Demain' },
-                { value: 'week', label: 'Cette semaine' },
-              ]}
-              placeholder="Cette semaine"
-            />
-            <Select<SelectType>
-              labelOnlySheet
-              search={false}
-              label="Type"
-              onChange={setType}
-              value={type}
-              options={[
-                { value: 'all', label: 'Tout types' },
-                { value: ActionType.TRACTAGE, label: 'Tractage' },
-                { value: ActionType.BOITAGE, label: 'Boitage' },
-                { value: ActionType.COLLAGE, label: 'Collage' },
-                { value: ActionType.PAP, label: 'Porte à porte' },
-              ]}
-              placeholder="Cette semaine"
-            />
-          </XStack>
-        </ScrollView>
-      </YStack>
-      <YStack flex={1} position="relative">
-        <MapboxGl.MapView
-          styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
-          style={{ flex: 1 }}
-          onPress={() => {
-            setActiveAction(null)
-            if (listOpen) {
-              setPosition(1)
-            } else {
-              setListOpen(true)
-            }
-            cameraRef.current?.setCamera({
-              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
-              animationMode: 'easeTo',
-              animationDuration: 300,
-            })
-          }}
-        >
-          <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
-          <MapboxGl.UserLocation
-            visible
-            onUpdate={(x) => {
-              refUserPosition.current = { longitude: x.coords.longitude, latitude: x.coords.latitude }
+    <>
+      <YStack flex={1} flexDirection="column" position="relative">
+        <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
+          <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
+            <XStack gap="$3">
+              <AddressAutocomplete
+                maxWidth={100}
+                labelOnlySheet
+                setAddressComponents={({ location }) => {
+                  if (!location) return
+                  handleLocationChange({ longitude: location.lng, latitude: location.lat })
+                }}
+              />
+              <Select<SelectPeriod>
+                search={false}
+                labelOnlySheet
+                label="Période"
+                onChange={setPeriod}
+                value={period}
+                options={[
+                  { value: 'all', label: 'Tout' },
+                  { value: 'today', label: "Ajourd'hui" },
+                  { value: 'tomorow', label: 'Demain' },
+                  { value: 'week', label: 'Cette semaine' },
+                ]}
+                placeholder="Cette semaine"
+              />
+              <Select<SelectType>
+                labelOnlySheet
+                search={false}
+                label="Type"
+                onChange={setType}
+                value={type}
+                options={[
+                  { value: 'all', label: 'Tout types' },
+                  { value: ActionType.TRACTAGE, label: 'Tractage' },
+                  { value: ActionType.BOITAGE, label: 'Boitage' },
+                  { value: ActionType.COLLAGE, label: 'Collage' },
+                  { value: ActionType.PAP, label: 'Porte à porte' },
+                ]}
+                placeholder="Cette semaine"
+              />
+            </XStack>
+          </ScrollView>
+        </YStack>
+        <YStack flex={1} position="relative">
+          <MapboxGl.MapView
+            styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
+            style={{ flex: 1 }}
+            onPress={() => {
+              setActiveAction(null)
+              if (listOpen) {
+                setPosition(1)
+              } else {
+                setListOpen(true)
+              }
+              cameraRef.current?.setCamera({
+                padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+                animationMode: 'easeTo',
+                animationDuration: 300,
+              })
             }}
-          />
-
-          <MapboxGl.ShapeSource
-            id="actions"
-            shape={source}
-            clusterMaxZoomLevel={18}
-            cluster={false}
-            clusterRadius={35}
-            onPress={handlePress}
-            hitbox={{ width: 20, height: 20 }}
           >
-            <MapboxGl.SymbolLayer
-              id="layer-action"
-              symbol-sort-key={['to-number', ['get', 'priority']]}
-              filter={['has', 'type']}
-              style={{
-                iconImage: getDynamicMarkerIcon,
-                iconSize: isWeb ? 0.5 : 1,
-                iconAllowOverlap: true,
-                iconOffset: [1, -20],
-                symbolSortKey: ['to-number', ['get', 'priority']],
+            <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
+            <MapboxGl.UserLocation
+              visible
+              onUpdate={(x) => {
+                refUserPosition.current = { longitude: x.coords.longitude, latitude: x.coords.latitude }
               }}
             />
-            <MapboxGl.Images images={markersImage} />
-          </MapboxGl.ShapeSource>
-        </MapboxGl.MapView>
-        <View style={styles.mapButtonSideContainer}>
-          {!isWeb && (
-            <MapButton
-              style={styles.mapButtonLocation}
-              onPress={() => {
-                const userCoords = refUserPosition.current
-                if (!userCoords) return
-                handleLocationChange(userCoords)
-                cameraRef.current?.setCamera({
-                  centerCoordinate: [userCoords.longitude, userCoords.latitude],
-                  animationMode: 'easeTo',
-                  animationDuration: 300,
-                  zoomLevel: 14,
-                })
-              }}
-              image={require('@/assets/images/gpsPosition.png')}
-            />
-          )}
-        </View>
-      </YStack>
-      <BottomSheetList
-        actions={filteredActions}
-        postionConfig={positionConfig}
-        open={listOpen}
-        onOpenChange={setListOpen}
-        setActiveAction={handleActiveAction}
-      />
-      <ActionBottomSheet
-        actionQuery={actionQuery}
-        onOpenChange={(open) => {
-          if (!open) {
-            setActiveAction(null)
-            setListOpen(true)
 
-            cameraRef.current?.setCamera({
-              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
-              animationMode: 'easeTo',
-              animationDuration: 300,
-            })
-          }
-        }}
-        onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
-      />
-    </YStack>
+            <MapboxGl.ShapeSource
+              id="actions"
+              shape={source}
+              clusterMaxZoomLevel={18}
+              cluster={false}
+              clusterRadius={35}
+              onPress={handlePress}
+              hitbox={{ width: 20, height: 20 }}
+            >
+              <MapboxGl.SymbolLayer
+                id="layer-action"
+                symbol-sort-key={['to-number', ['get', 'priority']]}
+                filter={['has', 'type']}
+                style={{
+                  iconImage: getDynamicMarkerIcon,
+                  iconSize: isWeb ? 0.5 : 1,
+                  iconAllowOverlap: true,
+                  iconOffset: [1, -20],
+                  symbolSortKey: ['to-number', ['get', 'priority']],
+                }}
+              />
+              <MapboxGl.Images images={markersImage} />
+            </MapboxGl.ShapeSource>
+          </MapboxGl.MapView>
+          <View style={styles.mapButtonSideContainer}>
+            {!isWeb && (
+              <MapButton
+                style={styles.mapButtonLocation}
+                onPress={() => {
+                  const userCoords = refUserPosition.current
+                  if (!userCoords) return
+                  handleLocationChange(userCoords)
+
+                  cameraRef.current?.setCamera({
+                    centerCoordinate: [userCoords.longitude, userCoords.latitude],
+                    animationMode: 'easeTo',
+                    animationDuration: 300,
+                    zoomLevel: 14,
+                  })
+                }}
+                image={require('@/assets/images/gpsPosition.png')}
+              />
+            )}
+          </View>
+        </YStack>
+
+        <View style={styles.createActionContainer}>
+          <Button onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
+            <Button.Text>Créer une action</Button.Text>
+          </Button>
+        </View>
+
+        <BottomSheetList
+          actions={filteredActions}
+          postionConfig={positionConfig}
+          open={listOpen}
+          onOpenChange={setListOpen}
+          setActiveAction={handleActiveAction}
+        />
+        <ActionBottomSheet
+          actionQuery={actionQuery}
+          onOpenChange={(open) => {
+            if (!open) {
+              setActiveAction(null)
+              setListOpen(true)
+
+              cameraRef.current?.setCamera({
+                padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+                animationMode: 'easeTo',
+                animationDuration: 300,
+              })
+            }
+          }}
+          onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
+        />
+      </YStack>
+
+      <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
+        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} />
+      </ModalOrPageBase>
+    </>
   )
 }
 
@@ -634,6 +654,12 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     height: 40,
     width: 40,
+  },
+  createActionContainer: {
+    flex: 1,
+    position: 'absolute',
+    right: 10,
+    bottom: 80,
   },
   mapButtonSideContainer: {
     flex: 1,

@@ -1,10 +1,10 @@
-import React, { ComponentProps, forwardRef, useId } from 'react'
+import React, { ComponentProps, forwardRef, useEffect, useId } from 'react'
 import { type TextInput } from 'react-native'
 import { Input } from '@/components/Bento/Inputs/components/inputsParts'
 import { useForwardFocus } from '@/hooks/useForwardFocus'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { Spinner, Theme, XStack, YStack } from 'tamagui'
+import { isWeb, Spinner, Theme, XStack, YStack } from 'tamagui'
 
 /**
  * note: make sure to use the same width for the Input and the Input.Area
@@ -22,6 +22,7 @@ type InputProps = {
   iconRight?: React.ReactNode
   loading?: boolean
   fake?: boolean
+  type?: string
 } & ComponentProps<typeof Input.Area>
 
 export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
@@ -32,6 +33,14 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
   const focusTrigger = useForwardFocus(inputRef)
   const textInfo = !error && info ? info : error
   const theme = error ? 'red' : 'gray'
+
+  useEffect(() => {
+    if (inputRef.current && props.type && isWeb) {
+      // @ts-expect-error wrong type on input
+      inputRef.current.type = props.type
+    }
+  }, [props.type])
+
   return (
     <Theme name={theme}>
       <Input flex={1} size={size ?? (small ? '$2' : '$3')} theme="VoxInput">
