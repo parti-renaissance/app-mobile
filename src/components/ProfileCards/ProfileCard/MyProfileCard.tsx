@@ -8,18 +8,18 @@ export default function MyProfileCard() {
   const { user } = useSession()
   const profile = user?.data
 
-  const onNavigateToCadre = useCallback(() => openURL(`https://${clientEnv.CADRE_RENAISSANCE_HOST}`), [])
-
   if (!profile) {
     return null
   }
 
+  const onNavigateToCadre = useCallback(() => openURL(`${clientEnv.OAUTH_BASE_URL}${profile.cadre_auth_path}`), [])
+
   return (
     <ProfileCard
-      lastName={profile?.last_name}
-      firstName={profile?.first_name}
-      tags={profile?.tags}
-      onButtonPress={profile?.cadre_access ? onNavigateToCadre : undefined}
+      lastName={profile.last_name}
+      firstName={profile.first_name}
+      tags={profile.tags}
+      onButtonPress={profile.cadre_access ? onNavigateToCadre : undefined}
     />
   )
 }
