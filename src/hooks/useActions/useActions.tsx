@@ -28,6 +28,7 @@ export const useAction = (id?: string, paginatedParams?: Omit<RestActionRequestP
     queryKey: [QUERY_KEY_ACTIONS, { id }],
     queryFn: () => ApiService.getInstance().getAction(id!),
     enabled: !!id,
+    staleTime: 10_000,
     placeholderData,
   })
 }

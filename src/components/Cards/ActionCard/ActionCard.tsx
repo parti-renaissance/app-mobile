@@ -29,7 +29,7 @@ const ActionCard = ({ payload, onSubscribe, onShow, asFull = false, ...props }: 
             Action annulée.
           </InternAlert>
         )}
-        {payload.status !== ActionStatus.CANCELLED && isBefore(new Date(), payload.date.start) && <InternAlert borderLess>Action passée.</InternAlert>}
+        {payload.status !== ActionStatus.CANCELLED && isBefore(payload.date.start, new Date()) && <InternAlert borderLess>Action passée.</InternAlert>}
         <VoxCard.Location asTitle location={payload.location} />
         <VoxCard.Date {...payload.date} />
         {!asFull && <VoxCard.Attendees attendees={payload.attendees} />}

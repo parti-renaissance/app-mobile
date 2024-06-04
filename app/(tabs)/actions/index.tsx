@@ -18,6 +18,7 @@ import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions, useSubscri
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
+import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { useQueryClient } from '@tanstack/react-query'
@@ -78,7 +79,7 @@ const passPeriod = (date: Date, period: SelectPeriod) => {
     case 'tomorow':
       return isSameDay(date, addDays(new Date(), 1))
     case 'week':
-      return isSameWeek(date, new Date())
+      return isSameWeek(new Date(), date)
     default:
       return true
   }
@@ -111,6 +112,11 @@ function Page() {
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
   const filteredActions = flattedActions.filter((action) => {
     return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
+  })
+
+  useOnFocus(() => {
+    data.refetch()
+    // actionQuery.refetch()
   })
 
   const setActiveAction = (action: RestAction | null) => {
@@ -483,7 +489,7 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
         >
           {payload && action ? (
             <ActionCard payload={payload} asFull>
-              {!isBefore(new Date(), action.date) ? <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
+              {!isBefore(action.date, new Date()) ? <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
               {isFullAction(action) ? (
                 <VoxCard.Description markdown full>
                   {action.description}
@@ -592,7 +598,7 @@ function createSource(actions: RestAction[], active: string): MapboxGl.ShapeSour
         properties: {
           priority: isActive ? 1 : 0,
           isRegister: !!action.user_registered_at,
-          isPassed: isBefore(new Date(), action.date),
+          isPassed: isBefore(action.date, new Date()),
           isActive,
           ...action,
         },
