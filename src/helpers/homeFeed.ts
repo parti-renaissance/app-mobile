@@ -1,6 +1,8 @@
 import { Linking } from 'react-native'
 import { type FeedCardProps } from '@/components/Cards'
+import { ActionType } from '@/core/entities/Action'
 import { logDefaultError } from '@/data/network/NetworkLogger'
+import { ReadableActionType } from '@/data/restObjects/RestActions'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { router } from 'expo-router'
 
@@ -10,6 +12,7 @@ const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps
       return 'news'
     case 'event':
       return 'event'
+    case 'action':
     case 'riposte':
     case 'phoning-campaign':
     case 'pap-campaign':
@@ -50,7 +53,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         street: feed.post_address.address,
       }
     : undefined
-  const tag = tramformFeedItemTypeToTag(feed.type)
+  const tag = tramformFeedItemTypeToTag(feed.type)!
   switch (type) {
     case 'news':
       return {
@@ -113,45 +116,30 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         onSubscribe: () => {},
         onShow: () => {
           switch (feed.type) {
-            case 'riposte':
+            case 'action':
               router.push({
-                pathname: '/(tabs)/actions/retaliation/[id]',
+                pathname: '/(tabs)/actions',
                 params: { id: feed.objectID },
               })
               break
-            case 'phoning-campaign':
-              router.navigate({
-                pathname: '/actions/phoning/',
-                params: { id: feed.objectID },
-              })
-              break
-            case 'pap-campaign':
-              router.navigate({
-                pathname: '/(tabs)/porte-a-porte',
-                params: { id: feed.objectID },
-              })
-              break
-            case 'survey':
-              router.push({
-                pathname: '/poll-detail',
-                params: { id: feed.objectID },
-              })
+            default:
               break
           }
         },
         payload: {
-          tag,
-          isSubscribed: false,
+          tag: ReadableActionType[feed.category?.toLowerCase() as ActionType],
+          id: feed.objectID,
+          isSubscribed: !!feed.user_registered_at,
           date: {
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
             end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
           },
           location,
           author,
-          attendees: {
-            pictures: ['https://picsum.photos/id/64/200/200', 'https://picsum.photos/id/66/200/200', 'https://picsum.photos/id/71/200/200'],
-            count: 40,
-          },
+          // attendees: {
+          //   pictures: ['https://picsum.photos/id/64/200/200', 'https://picsum.photos/id/66/200/200', 'https://picsum.photos/id/71/200/200'],
+          //   count: 40,
+          // },
         },
       }
   }
