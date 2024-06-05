@@ -7,7 +7,7 @@ export interface RestTimelineFeedAddress {
 
 export interface RestTimelineFeedItem {
   objectID: string
-  type: 'news' | 'event' | 'phoning-campaign' | 'pap-campaign' | 'survey' | 'riposte'
+  type: 'news' | 'event' | 'phoning-campaign' | 'pap-campaign' | 'survey' | 'riposte' | 'action'
   title: string
   description: string
   author: string | null

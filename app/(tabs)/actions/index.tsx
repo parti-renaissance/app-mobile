@@ -7,7 +7,7 @@ import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
-import { ActionCard, ActionVoxCardProps } from '@/components/Cards'
+import { ActionCard, ActionVoxCardProps, SubscribeButton } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ProfilePicture from '@/components/ProfilePicture'
@@ -16,7 +16,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import { Action, ActionStatus, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
-import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions, useSubscribeAction, useUnsubscribeAction } from '@/hooks/useActions/useActions'
+import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/hooks/useActions/useActions'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
@@ -28,7 +28,6 @@ import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
-import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -421,33 +420,6 @@ const BottomSheetList = ({
   )
 }
 
-function SubscribeButton({ isRegister, id }: { isRegister: boolean; id?: string }) {
-  const subscribe = useSubscribeAction(id)
-  const unsubscribe = useUnsubscribeAction(id)
-  const isloaderSub = subscribe.isPending || unsubscribe.isPending
-
-  const handleOnSubscribe = useDebouncedCallback((isRegister: boolean) => {
-    isRegister ? unsubscribe.mutate() : subscribe.mutate()
-  }, 300)
-  return (
-    <Button
-      variant={isRegister ? 'text' : 'contained'}
-      borderWidth={1}
-      borderColor="$green7"
-      animation="quick"
-      size="lg"
-      width="100%"
-      bg={isRegister ? undefined : '$green7'}
-      onPress={() => handleOnSubscribe(!!isRegister)}
-    >
-      <Button.Text display={isloaderSub ? 'none' : 'flex'} color={isRegister ? '$green7' : undefined}>
-        {isRegister ? 'Me désinscrire' : "M'inscrire"}
-      </Button.Text>
-      <Spinner display={isloaderSub ? 'flex' : 'none'} color={isRegister ? '$green7' : '$white1'} />
-    </Button>
-  )
-}
-
 type ActionBottomSheetProps = {
   actionQuery: ReturnType<typeof useAction>
   onPositionChange?: (position: number, percent: number) => void
@@ -509,7 +481,7 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
         >
           {payload && action ? (
             <ActionCard payload={payload} asFull>
-              {!isBefore(action.date, new Date()) ? <SubscribeButton isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
+              {!isBefore(action.date, new Date()) ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
               {isFullAction(action) ? (
                 <VoxCard.Description markdown full>
                   {action.description}

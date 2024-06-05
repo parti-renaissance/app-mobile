@@ -1,6 +1,8 @@
 import ApiService from '@/data/network/ApiService'
 import { Action, RestActionFull, RestActionRequestParams, RestActions } from '@/data/restObjects/RestActions'
+import { useToastController } from '@tamagui/toast'
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { PaginatedFeedQueryKey } from '../useFeed'
 
 export const QUERY_KEY_PAGINATED_ACTIONS = 'QUERY_KEY_PAGINATED_ACTIONS'
 export const QUERY_KEY_ACTIONS = 'QUERY_KEY_ACTIONS'
@@ -35,6 +37,7 @@ export const useAction = (id?: string, paginatedParams?: Omit<RestActionRequestP
 
 export const useSubscribeAction = (id?: string) => {
   const queryClient = useQueryClient()
+  const toast = useToastController()
   return useMutation({
     mutationFn: () => (id ? ApiService.getInstance().subscribeToAction(id) : Promise.reject(new Error('No id provided'))),
     onMutate: () => {
@@ -45,12 +48,20 @@ export const useSubscribeAction = (id?: string) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_ACTIONS, { id }] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
+      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
+    },
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Inscription à l’action réussie', type: 'success' })
+    },
+    onError: () => {
+      toast.show('Erreur', { message: 'Impossible de s’inscrire à l’action', type: 'error' })
     },
   })
 }
 
 export const useUnsubscribeAction = (id?: string) => {
   const queryClient = useQueryClient()
+  const toast = useToastController()
   return useMutation({
     mutationFn: () => (id ? ApiService.getInstance().unsubscribeFromAction(id) : Promise.reject(new Error('No id provided'))),
     onMutate: () => {
@@ -61,6 +72,13 @@ export const useUnsubscribeAction = (id?: string) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_ACTIONS, { id }] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
+      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
+    },
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Désinscription de l’action réussie', type: 'success' })
+    },
+    onError: () => {
+      toast.show('Erreur', { message: 'Impossible de se désinscrire de l’action', type: 'error' })
     },
   })
 }
