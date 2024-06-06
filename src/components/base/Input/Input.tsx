@@ -88,6 +88,7 @@ export default forwardRef<TextInput, InputProps>(function VoxInput(props, ref) {
                 borderBottomWidth={0}
                 underlineColorAndroid={'transparent'}
                 {...rest}
+                onChangeText={props.onChangeText ?? ((x) => props.onChange({ target: { value: x } }))}
                 id={id}
               />
             )}

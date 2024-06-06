@@ -10,8 +10,9 @@ import { ActionType, ActionTypeIcon, ReadableActionType } from '@/data/restObjec
 import useCreateOrEditAction from '@/hooks/useActions/useCreateOrEditAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
 import { captureException } from '@sentry/core'
+import { addHours } from 'date-fns'
 import { Formik } from 'formik'
-import { useMedia, View } from 'tamagui'
+import { Spinner, useMedia, View } from 'tamagui'
 import * as z from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -20,7 +21,9 @@ const ActionCreateFormSchema = z.object({
   type: z.nativeEnum(ActionType),
   date: z.date().min(new Date(), 'La date ne peut pas être dans le passé.'),
   time: z.date(),
-  addressInput: z.string().optional(),
+  addressInput: z.string({
+    required_error: buildError('L’adresse'),
+  }),
   address: z.object({
     address: z.string({
       required_error: buildError('L’adresse'),
@@ -38,6 +41,7 @@ const ActionCreateFormSchema = z.object({
   description: z.string().max(1000).optional(),
 })
 
+type ActionCreateForm = z.infer<typeof ActionCreateFormSchema>
 interface Props {
   onCancel?: () => void
   onClose?: () => void
@@ -55,10 +59,10 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
   // @todo fetch data here if uuid is defined
   const item = {
     date: new Date(),
-    time: new Date(),
-    addressInput: '68 rue du Rocher, 75008 Paris, France',
+    time: addHours(new Date(), 1),
+    addressInput: '',
     address: undefined,
-    description: 'Lorem dolor sit amet',
+    description: '',
   }
 
   return (
@@ -105,7 +109,6 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
                 country: values.address.country,
               },
             })
-
             formikHelpers.resetForm()
             onClose?.()
           } catch (e) {
@@ -116,7 +119,7 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
         }}
         validationSchema={toFormikValidationSchema(ActionCreateFormSchema)}
       >
-        {({ isValid, setFieldValue, handleSubmit, isSubmitting }) => (
+        {({ handleSubmit, isSubmitting }) => (
           <View>
             <View mb={'$4'}>
               <Text fontSize={14} fontWeight={'$6'}>
@@ -125,7 +128,7 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
             </View>
 
             <View flexDirection={webViewPort ? 'row' : undefined} gap={'$4'} mb={'$4'}>
-              <FormikController name={'type'}>
+              <FormikController<ActionCreateForm, 'type'> name={'type'}>
                 {({ inputProps }) => (
                   <>
                     {Object.values(ActionType).map((el) => (
@@ -152,18 +155,49 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
 
             <View flexDirection={webViewPort ? 'row' : undefined} gap={webViewPort ? '$4' : undefined}>
               <SpacedContainer style={{ flex: 1 }}>
-                <DatePicker label={'Date'} onChange={(v) => setFieldValue('date', v)} />
+                <FormikController<ActionCreateForm, 'date'> name={'date'}>
+                  {({ setFieldValue, inputProps }) => (
+                    <DatePicker
+                      label={'Date'}
+                      error={inputProps.error}
+                      errorMessage={inputProps.error}
+                      onBlur={inputProps.onBlur}
+                      value={inputProps.value}
+                      onChange={setFieldValue('date', true)}
+                    />
+                  )}
+                </FormikController>
               </SpacedContainer>
 
               <SpacedContainer style={{ flex: 1 }}>
-                <DatePicker label={'Heure'} type={'time'} onChange={(v) => setFieldValue('time', v)} />
+                <FormikController<ActionCreateForm, 'time'> name={'time'}>
+                  {({ setFieldValue, inputProps }) => (
+                    <DatePicker
+                      label={'Heure'}
+                      error={inputProps.error}
+                      errorMessage={inputProps.error}
+                      onBlur={inputProps.onBlur}
+                      value={inputProps.value}
+                      type={'time'}
+                      onChange={setFieldValue('time', true)}
+                    />
+                  )}
+                </FormikController>
               </SpacedContainer>
             </View>
 
             <SpacedContainer>
-              <FormikController name={'addressInput'}>
+              <FormikController<ActionCreateForm, 'addressInput'> name={'addressInput'}>
                 {({ inputProps, setFieldValue }) => (
-                  <AddressAutocomplete setAddressComponents={(val) => setFieldValue('address', val)} defaultValue={inputProps.value} error={inputProps.error} />
+                  <AddressAutocomplete
+                    setAddressComponents={(val) => {
+                      inputProps.onChange(val.address)
+                      setFieldValue('address', true)(val)
+                    }}
+                    onBlur={inputProps.onBlur}
+                    defaultValue={inputProps.value}
+                    error={inputProps.error}
+                  />
                 )}
               </FormikController>
             </SpacedContainer>
@@ -175,8 +209,17 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
             </SpacedContainer>
 
             <SpacedContainer>
-              <FormikController name={'description'}>
-                {({ inputProps }) => <Input placeholder={'Ajoutez une description'} multiline numberOfLines={5} {...inputProps} />}
+              <FormikController<ActionCreateForm, 'description'> name={'description'}>
+                {({ inputProps }) => (
+                  <Input
+                    placeholder={'Ajoutez une description'}
+                    multiline
+                    numberOfLines={5}
+                    {...inputProps}
+                    onChange={undefined}
+                    onChangeText={(x) => inputProps.onChange(x)}
+                  />
+                )}
               </FormikController>
 
               <Text mt={'$2'}>1000 caractères maximum</Text>
@@ -186,8 +229,8 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
               <Button variant={'text'} onPress={onCancel}>
                 <Button.Text>Annuler</Button.Text>
               </Button>
-              <Button disabled={!isValid || isSubmitting || isPending} onPress={() => handleSubmit()}>
-                <Button.Text>{uuid ? 'Modifier l’action' : 'Créer l’action'}</Button.Text>
+              <Button disabled={isSubmitting || isPending} onPress={() => handleSubmit()}>
+                {isPending ? <Spinner color="$white1" /> : <Button.Text>{uuid ? 'Modifier l’action' : 'Créer l’action'}</Button.Text>}
               </Button>
             </View>
           </View>

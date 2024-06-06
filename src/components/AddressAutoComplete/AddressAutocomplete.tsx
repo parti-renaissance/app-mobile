@@ -17,6 +17,7 @@ export interface AddressAutocompleteProps {
       lng: number
     }
   }) => void
+  onBlur?: () => void
   error?: string
   minimal?: boolean
   maxWidth?: string | number
@@ -28,6 +29,7 @@ function AddressAutocomplete({
   minimal,
   error,
   maxWidth,
+  onBlur,
   ...rest
 }: Readonly<AddressAutocompleteProps> & Omit<ComponentProps<typeof Select>, 'handleQuery' | 'options' | 'value' | 'onChange'>): JSX.Element {
   const [value, setValue] = useState<string>('default')
@@ -66,6 +68,7 @@ function AddressAutocomplete({
         maxWidth={maxWidth}
         loading={isFetching}
         onChange={onPlaceSelect}
+        onBlur={onBlur}
         queryHandler={onInput}
         {...rest}
         options={[
