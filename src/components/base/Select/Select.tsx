@@ -239,6 +239,7 @@ const Select = <A extends string>({
           loading={loading}
           error={error}
           fake={isFake}
+          onBlur={onBlur}
           minimal={minimal}
           maxWidth={maxWidth}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
@@ -256,7 +257,13 @@ const Select = <A extends string>({
                   <Text fontWeight="$6" fontSize="$5">
                     {label}
                   </Text>
-                  <TouchableOpacity onPress={() => setOpen(false)} style={{ padding: 5 }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setOpen(false)
+                      onBlur?.()
+                    }}
+                    style={{ padding: 5 }}
+                  >
                     <X />
                   </TouchableOpacity>
                 </XStack>

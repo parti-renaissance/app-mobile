@@ -123,13 +123,13 @@ function Page() {
   })
 
   const setActiveAction = (action: RestAction | null) => {
-    if (action) {
+    if (action && activeAction) {
       router.setParams({ id: '' })
       setTimeout(() => {
         router.setParams({ id: action.uuid })
       }, 0)
     } else {
-      router.setParams({ id: '' })
+      router.setParams({ id: action?.uuid ?? '' })
     }
   }
   const [followUser, setFollowUser] = React.useState(true)
@@ -343,7 +343,7 @@ function Page() {
       </YStack>
 
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} />
+        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} />}
       </ModalOrPageBase>
     </>
   )

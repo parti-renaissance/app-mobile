@@ -52,6 +52,8 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
         )}
 
         <Sheet.ScrollView
+          keyboardShouldPersistTaps
+          automaticallyAdjustKeyboardInsets
           backgroundColor={'white'}
           contentContainerStyle={{
             paddingBottom: 250,

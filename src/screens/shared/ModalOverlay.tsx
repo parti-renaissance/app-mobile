@@ -7,23 +7,13 @@ import { CloseButton } from './NavigationHeaderButton'
 type Props = Readonly<{
   modalVisible: boolean
   onRequestClose: () => void
-  children: any
+  children: React.ReactNode
   contentContainerStyle?: StyleProp<ViewStyle>
 }>
 
-const ModalOverlay: FunctionComponent<Props> = ({
-  modalVisible,
-  onRequestClose,
-  children,
-  contentContainerStyle,
-}) => {
+const ModalOverlay: FunctionComponent<Props> = ({ modalVisible, onRequestClose, children, contentContainerStyle }) => {
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={onRequestClose}
-    >
+    <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={onRequestClose}>
       <SafeAreaView style={styles.container}>
         <View style={[styles.content, contentContainerStyle]}>
           <View style={styles.closeButtonContainer}>

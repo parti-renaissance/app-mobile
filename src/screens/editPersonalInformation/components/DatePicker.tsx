@@ -3,12 +3,12 @@ import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { default as TextField } from '@/components/base/Input/Input'
 import { getFormattedDate, getHumanFormattedTime, getIntlDate } from '@/utils/date'
-import { parseISO } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
   onChange?: (date: Date | undefined) => void
-  onBlur?: (fieldOrEvent: any) => void
+  onBlur?: (fieldOrEvent?: React.FocusEvent) => void
   value?: Date
   error?: string
   errorMessage?: string
@@ -16,12 +16,12 @@ interface DatePickerFieldProps {
   type?: 'date' | 'time'
 }
 
-const getDateInputValue = (d: Date) => (isWeb ? getIntlDate(d) : d.toLocaleDateString())
+const getDateInputValue = (d: Date, type: 'date' | 'time') => (isWeb ? getIntlDate(d) : format(d, type === 'date' ? 'dd-MM-yyyy' : 'HH:mm'))
 
-const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, type = 'date' }, ref) => {
+const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, type = 'date', onBlur }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
-  const readableDate = value && typeof value === 'object' ? getDateInputValue(value) : ''
+  const readableDate = value && typeof value === 'object' ? getDateInputValue(value, type) : ''
   const [inputValue, setInputValue] = useState(readableDate ?? '')
 
   // In case of mobile component
@@ -29,13 +29,14 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
     onChange?.(input)
     setInputValue(type === 'date' ? getFormattedDate(input) : getHumanFormattedTime(input))
     setIsDatePickerVisible(false)
+    onBlur?.()
   }
 
   // In case of web component
   const handleChange = (input: string) => {
     setInputValue(input)
 
-    if (type === 'date' && input != '' && input.length === 10) {
+    if (input != '' && input.length === 10) {
       try {
         onChange?.(isWeb ? new Date(input) : parseISO(input))
       } catch (e) {
@@ -64,6 +65,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
     if (!isWeb) {
       Keyboard.dismiss()
       setIsDatePickerVisible(false)
+      onBlur?.()
     }
   }
 
