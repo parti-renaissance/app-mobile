@@ -40,7 +40,7 @@ const ActionAuthor = z.object({
 const ActionAddressSchema = z.object({
   address: z.string(),
   postal_code: z.string(),
-  city: z.string(),
+  city: z.string().nullable(),
   city_name: z.string(),
   country: z.string(),
   latitude: z.number(),
