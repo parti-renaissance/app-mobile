@@ -41,9 +41,9 @@ const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
 export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardProps => {
   const type = tramformFeedItemType(feed.type)
   const author = {
-    role: 'Role data missing',
-    name: feed.author ?? '',
-    title: 'title data missing',
+    role: feed.author?.role,
+    name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : 'Author data missing',
+    title: feed.author?.instance,
     pictureLink: undefined,
   }
   const location = feed.post_address
