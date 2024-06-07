@@ -3,7 +3,7 @@
     "name": "Besoin d'Europe",
     "slug": "vox",
     "scheme": "vox",
-    "version": "5.3.0",
+    "version": "5.4.0",
     "owner": "parti-renaissance",
     "runtimeVersion": {
       "policy": "appVersion"
