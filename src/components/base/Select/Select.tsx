@@ -23,6 +23,7 @@ type SelectProps<A extends string> = {
   labelOnlySheet?: boolean
   defaultRightIcon?: React.ReactNode
   maxWidth?: string | number
+  background?: string
 }
 
 type TriggerProps<A extends string> = {
@@ -244,6 +245,7 @@ const Select = <A extends string>({
           maxWidth={maxWidth}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
           iconRightPress={isSearching && !isFake ? () => setQuery('') : undefined}
+          backgroundColor={'$white1'}
         />
       </Popover.Trigger>
       <Adapt when="md">
@@ -297,9 +299,7 @@ const Select = <A extends string>({
       <Popover.Content p={0} minWidth={triggerWidth}>
         <Popover.Arrow borderWidth={0} unstyled m={0} p={0} h="0" overflow="hidden" display="none" />
         <ListFrame mt={-25}>
-          <Popover.ScrollView keyboardShouldPersistTaps="always">
-            <Suspense>{list}</Suspense>
-          </Popover.ScrollView>
+          <Popover.ScrollView keyboardShouldPersistTaps="always">{list}</Popover.ScrollView>
         </ListFrame>
       </Popover.Content>
     </Popover>

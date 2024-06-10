@@ -106,6 +106,7 @@ export const ActionRequestParamsSchema = z.object({
   longitude: z.number(),
   latitude: z.number(),
   page: z.number(),
+  subscribeOnly: z.boolean().optional(),
 })
 
 export type RestActionRequestParams = z.infer<typeof ActionRequestParamsSchema>
