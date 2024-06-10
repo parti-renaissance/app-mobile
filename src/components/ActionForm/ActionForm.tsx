@@ -6,11 +6,12 @@ import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import FormikController from '@/components/FormikController'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
-import { ActionType, ActionTypeIcon, ReadableActionType } from '@/data/restObjects/RestActions'
+import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/data/restObjects/RestActions'
+import { useAction } from '@/hooks/useActions/useActions'
 import useCreateOrEditAction from '@/hooks/useActions/useCreateOrEditAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
 import { captureException } from '@sentry/core'
-import { addHours } from 'date-fns'
+import { addHours, formatDate } from 'date-fns'
 import { Formik } from 'formik'
 import { Spinner, useMedia, View } from 'tamagui'
 import * as z from 'zod'
@@ -51,18 +52,31 @@ interface Props {
 export default function ActionForm({ onCancel, onClose, uuid }: Props) {
   const media = useMedia()
   const webViewPort = media.gtXs
+  const { data } = useAction(uuid)
 
   const { mutateAsync, isPending } = useCreateOrEditAction({
     uuid,
   })
 
+  if ((!data || !isFullAction(data)) && uuid) return null
+
   // @todo fetch data here if uuid is defined
   const item = {
-    date: new Date(),
-    time: addHours(new Date(), 1),
-    addressInput: '',
-    address: undefined,
-    description: '',
+    type: data?.type ?? ActionType.PAP,
+    date: data?.date ?? addHours(new Date(), 1),
+    time: data?.date ?? addHours(new Date(), 1),
+    addressInput: data?.post_address ? `${data.post_address.address}  ${data.post_address.city_name}` : '',
+    address: {
+      address: data?.post_address?.address ?? '',
+      city: data?.post_address?.city_name ?? '',
+      location: {
+        lat: data?.post_address?.latitude ?? 0,
+        lng: data?.post_address?.longitude ?? 0,
+      },
+      postalCode: data?.post_address?.postal_code ?? '',
+      country: data?.post_address?.country ?? '',
+    },
+    description: data && isFullAction(data) ? data?.description : '',
   }
 
   return (
@@ -77,31 +91,18 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
       </Text>
 
       <Formik
-        initialValues={{
-          type: ActionType.PAP,
-          date: item.date ?? null,
-          time: item.time ?? null,
-          addressInput: item.addressInput ?? '',
-          address: item.address ?? {
-            address: '',
-            city: '',
-            location: {
-              lat: 0,
-              lng: 0,
-            },
-            postalCode: '',
-            country: '',
-          },
-          description: item.description ?? '',
-        }}
+        initialValues={item as ActionCreateForm}
         validateOnChange
         validateOnMount
         onSubmit={async (values, formikHelpers) => {
+          const day = formatDate(values.date, 'yyyy-MM-dd')
+          const time = formatDate(values.time, "HH:mm:ss.SSS'Z")
+          const dateTime = new Date(`${day}T${time}`)
           try {
             await mutateAsync({
               type: values.type,
-              date: values.date!,
-              description: values.description,
+              date: dateTime,
+              description: values.description ?? '',
               post_address: {
                 address: values.address.address,
                 postal_code: values.address.postalCode,
@@ -191,6 +192,7 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
                 {({ inputProps, setFieldValue }) => (
                   <AddressAutocomplete
                     setAddressComponents={(val) => {
+                      if (!val) return
                       inputProps.onChange(val.address)
                       setFieldValue('address', true)(val)
                     }}

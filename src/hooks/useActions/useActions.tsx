@@ -1,3 +1,4 @@
+import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { Action, RestActionFull, RestActionRequestParams, RestActions } from '@/data/restObjects/RestActions'
 import { useToastController } from '@tamagui/toast'
@@ -21,14 +22,16 @@ export const usePaginatedActions = (params: Omit<RestActionRequestParams, 'page'
 export const useAction = (id?: string, paginatedParams?: Omit<RestActionRequestParams, 'page'>) => {
   const queryClient = useQueryClient()
   const previousData = queryClient.getQueryData<InfiniteData<RestActions>>([QUERY_KEY_PAGINATED_ACTIONS, paginatedParams])
+  const { scope } = useSession()
+  const myScope = scope?.data?.find((x) => x.features.includes('actions'))
 
   const placeholderData = id
     ? previousData?.pages.flatMap((page) => page.items).find((action) => action.uuid === id) ||
       queryClient.getQueryData<RestActionFull>([QUERY_KEY_ACTIONS, { id }])
     : undefined
   return useQuery<Action>({
-    queryKey: [QUERY_KEY_ACTIONS, { id }],
-    queryFn: () => ApiService.getInstance().getAction(id!),
+    queryKey: [QUERY_KEY_ACTIONS, { id }, myScope?.code],
+    queryFn: () => ApiService.getInstance().getAction(id!, myScope?.code),
     enabled: !!id,
     staleTime: 10_000,
     placeholderData,

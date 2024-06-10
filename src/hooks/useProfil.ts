@@ -3,18 +3,28 @@ import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
+import { RestUserScope } from '@/data/restObjects/RestUserScope'
 import { useToastController } from '@tamagui/toast'
 import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, UseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
 
 const key = 'profil'
 
 export const useGetProfil = ({
-  queryKey,
   ...options
 }: Partial<UndefinedInitialDataOptions<RestProfileResponse, Error, RestProfileResponse, QueryKey>>): UseQueryResult<RestProfileResponse> => {
   return useQuery({
     queryKey: [key],
     queryFn: () => ApiService.getInstance().getProfile(),
+    ...options,
+  })
+}
+
+export const useGetUserScopes = (
+  options: Partial<UndefinedInitialDataOptions<RestUserScope[], Error, RestUserScope[], QueryKey>>,
+): UseQueryResult<RestUserScope[]> => {
+  return useQuery({
+    queryKey: ['userScopes'],
+    queryFn: () => ApiService.getInstance().getUserScopes(),
     ...options,
   })
 }

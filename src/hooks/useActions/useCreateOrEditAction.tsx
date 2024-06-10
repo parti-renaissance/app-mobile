@@ -1,3 +1,4 @@
+import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { ActionCreateType } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS } from '@/hooks/useActions/useActions'
@@ -7,23 +8,31 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 export default function useCreateOrEditAction({ uuid }: { uuid?: string }) {
   const client = useQueryClient()
   const toast = useToastController()
+  const { scope } = useSession()
+  const myScope = scope?.data?.find((x) => x.features.includes('actions'))
+  const isEdit = !!uuid
 
   return useMutation({
     // Do not pass function prototype otherwise ApiService instance is not defined
     mutationFn: (p: ActionCreateType) => {
-      if (uuid) {
-        return ApiService.getInstance().editAction(uuid, p)
+      if (!myScope) {
+        throw new Error('No scope found')
       }
-      return ApiService.getInstance().insertAction(p)
+      if (isEdit) {
+        return ApiService.getInstance().editAction(uuid, p, myScope.code)
+      }
+      return ApiService.getInstance().insertAction(p, myScope.code)
     },
     onSuccess: async () => {
-      toast.show('Succès', { message: 'L’action a bien été créée', type: 'success' })
+      const message = isEdit ? 'L’action a bien été modifiée' : 'L’action a bien été créée'
+      toast.show('Succès', { message, type: 'success' })
       await client.invalidateQueries({
         queryKey: [QUERY_KEY_PAGINATED_ACTIONS],
       })
     },
     onError: () => {
-      toast.show('Erreur', { message: 'Impossible de créer l’action', type: 'error' })
+      const message = isEdit ? 'Impossible de modifier l’action' : 'Impossible de créer l’action'
+      toast.show('Erreur', { message, type: 'error' })
     },
   })
 }

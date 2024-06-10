@@ -516,9 +516,12 @@ class ApiService {
     return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
   }
 
-  public async insertAction(payload: ActionCreateType) {
+  public async insertAction(payload: ActionCreateType, scope: string) {
     return this.httpClient
       .post('api/v3/actions', {
+        searchParams: {
+          scope,
+        },
         json: {
           ...payload,
           date: payload.date.toISOString(),
@@ -528,20 +531,27 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public async editAction(uuid: string, payload: ActionCreateType) {
+  public async editAction(uuid: string, payload: ActionCreateType, scope: string) {
     return this.httpClient
       .put(`api/v3/actions/${uuid}`, {
         json: {
           ...payload,
           date: payload.date.toISOString(),
+          scope,
         },
       })
       .json()
       .catch(genericErrorMapping)
   }
 
-  public async getAction(id: string) {
-    return this.httpClient.get(`api/v3/actions/${id}`).json().then(ActionFullSchema.parse).catch(genericErrorMapping)
+  public async getAction(id: string, scope?: string) {
+    return this.httpClient
+      .get(`api/v3/actions/${id}`, {
+        searchParams: scope ? { scope } : undefined,
+      })
+      .json()
+      .then(ActionFullSchema.parse)
+      .catch(genericErrorMapping)
   }
 
   public async subscribeToAction(id: string) {
