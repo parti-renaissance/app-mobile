@@ -247,6 +247,21 @@ function Page() {
           </ScrollView>
         </YStack>
         <YStack flex={1} position="relative">
+          {data.isLoading && (
+            <YStack
+              backgroundColor="$gray/48"
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              justifyContent="center"
+              alignItems="center"
+              zIndex={10}
+            >
+              <Spinner size="large" color="$green8" />
+            </YStack>
+          )}
           <MapboxGl.MapView
             styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
             style={{ flex: 1 }}
