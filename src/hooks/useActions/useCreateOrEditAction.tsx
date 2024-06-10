@@ -27,7 +27,7 @@ export const useCreateOrEditAction = ({ uuid, scope }: { uuid?: string; scope?: 
         queryKey: [QUERY_KEY_PAGINATED_ACTIONS],
       })
     },
-    onError: (e) => {
+    onError: () => {
       const message = isEdit ? 'Impossible de modifier l’action' : 'Impossible de créer l’action'
       toast.show('Erreur', { message, type: 'error' })
     },

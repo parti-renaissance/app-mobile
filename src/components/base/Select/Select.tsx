@@ -23,6 +23,7 @@ type SelectProps<A extends string> = {
   labelOnlySheet?: boolean
   defaultRightIcon?: React.ReactNode
   maxWidth?: string | number
+  background?: string
 }
 
 type TriggerProps<A extends string> = {
@@ -244,6 +245,7 @@ const Select = <A extends string>({
           maxWidth={maxWidth}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
           iconRightPress={isSearching && !isFake ? () => setQuery('') : undefined}
+          backgroundColor={'$white1'}
         />
       </Popover.Trigger>
       <Adapt when="md">

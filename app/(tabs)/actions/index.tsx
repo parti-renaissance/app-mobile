@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react'
-import { Dimensions, StyleSheet } from 'react-native'
+import { Dimensions, Platform, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ActionForm from '@/components/ActionForm/ActionForm'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
@@ -206,55 +206,18 @@ function Page() {
 
   const onCloseModal = () => setModalOpen(false)
 
-  return (
-    <>
+  const modal = useMemo(
+    () => (
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
         {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} scope={myScope?.code} />}
       </ModalOrPageBase>
+    ),
+    [modalOpen, activeAction],
+  )
+
+  return (
+    <>
       <YStack flex={1} flexDirection="column" position="relative">
-        <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
-          <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
-            <XStack gap="$3">
-              <AddressAutocomplete
-                maxWidth={100}
-                labelOnlySheet
-                setAddressComponents={({ location }) => {
-                  if (!location) return
-                  handleLocationChange({ longitude: location.lng, latitude: location.lat })
-                }}
-              />
-              <Select<SelectPeriod>
-                search={false}
-                labelOnlySheet
-                label="Période"
-                onChange={setPeriod}
-                value={period}
-                options={[
-                  { value: 'all', label: 'Tout' },
-                  { value: 'today', label: "Ajourd'hui" },
-                  { value: 'tomorow', label: 'Demain' },
-                  { value: 'week', label: 'Cette semaine' },
-                ]}
-                placeholder="Cette semaine"
-              />
-              <Select<SelectType>
-                labelOnlySheet
-                search={false}
-                label="Type"
-                onChange={setType}
-                value={type}
-                options={[
-                  { value: 'all', label: 'Tout types' },
-                  { value: ActionType.TRACTAGE, label: 'Tractage' },
-                  { value: ActionType.BOITAGE, label: 'Boitage' },
-                  { value: ActionType.COLLAGE, label: 'Collage' },
-                  { value: ActionType.PAP, label: 'Porte à porte' },
-                ]}
-                placeholder="Cette semaine"
-              />
-            </XStack>
-          </ScrollView>
-        </YStack>
         <YStack flex={1} position="relative">
           {data.isLoading && (
             <YStack
@@ -271,6 +234,49 @@ function Page() {
               <Spinner size="large" color="$green8" />
             </YStack>
           )}
+          <YStack bg="transparent" display={activeAction ? 'none' : 'flex'} position="absolute" top={25} zIndex={100} left={0} right={0}>
+            <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
+              <XStack gap="$3">
+                <AddressAutocomplete
+                  maxWidth={100}
+                  labelOnlySheet
+                  setAddressComponents={({ location }) => {
+                    if (!location) return
+                    handleLocationChange({ longitude: location.lng, latitude: location.lat })
+                  }}
+                />
+                <Select<SelectPeriod>
+                  search={false}
+                  labelOnlySheet
+                  label="Période"
+                  onChange={setPeriod}
+                  value={period}
+                  options={[
+                    { value: 'all', label: 'Tout' },
+                    { value: 'today', label: "Ajourd'hui" },
+                    { value: 'tomorow', label: 'Demain' },
+                    { value: 'week', label: 'Cette semaine' },
+                  ]}
+                  placeholder="Cette semaine"
+                />
+                <Select<SelectType>
+                  labelOnlySheet
+                  search={false}
+                  label="Type"
+                  onChange={setType}
+                  value={type}
+                  options={[
+                    { value: 'all', label: 'Tout types' },
+                    { value: ActionType.TRACTAGE, label: 'Tractage' },
+                    { value: ActionType.BOITAGE, label: 'Boitage' },
+                    { value: ActionType.COLLAGE, label: 'Collage' },
+                    { value: ActionType.PAP, label: 'Porte à porte' },
+                  ]}
+                  placeholder="Cette semaine"
+                />
+              </XStack>
+            </ScrollView>
+          </YStack>
           <MapboxGl.MapView
             styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
             style={{ flex: 1 }}
@@ -361,6 +367,8 @@ function Page() {
           </GradientButton>
         </View>
 
+        {Platform.OS === 'ios' || Platform.OS === 'web' ? modal : null}
+
         <BottomSheetList
           actions={filteredActions}
           postionConfig={positionConfig}
@@ -385,6 +393,7 @@ function Page() {
           }}
           onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
         />
+        {Platform.OS === 'android' ? modal : null}
       </YStack>
     </>
   )
@@ -454,6 +463,7 @@ const BottomSheetList = ({
             gap: '$2',
           }}
         >
+          {/* {data} */}
           <ActionList {...props} />
         </Sheet.ScrollView>
       </Sheet.Frame>
@@ -663,7 +673,7 @@ function useSheetPosition(defaultPosition: number) {
 
 const styles = StyleSheet.create({
   mapButtonLocation: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     height: 40,
     width: 40,
   },
@@ -676,7 +686,7 @@ const styles = StyleSheet.create({
   mapButtonSideContainer: {
     flex: 1,
     position: 'absolute',
-    right: 10,
-    top: 10,
+    left: 10,
+    bottom: 80,
   },
 })
