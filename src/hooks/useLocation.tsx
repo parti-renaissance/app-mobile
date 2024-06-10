@@ -27,8 +27,13 @@ export const useLocationPermission = () => {
 export const useLocation = () => {
   return useSuspenseQuery({
     queryFn: () =>
-      Geolocation.getCurrentPositionAsync({
-        accuracy: Geolocation.Accuracy.High,
+      Geolocation.getLastKnownPositionAsync().then((data) => {
+        if (!data) {
+          return Geolocation.getCurrentPositionAsync({
+            accuracy: Geolocation.Accuracy.BestForNavigation,
+          }).then((data) => data)
+        }
+        return data
       }),
     queryKey: ['location'],
     retry: false,
