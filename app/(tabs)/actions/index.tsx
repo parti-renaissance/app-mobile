@@ -9,6 +9,7 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
 import GradientButton from '@/components/Buttons/GradientButton'
 import { ActionCard, ActionVoxCardProps, SubscribeButton } from '@/components/Cards'
+import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ProfilePicture from '@/components/ProfilePicture'
@@ -24,11 +25,14 @@ import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
+import { Plus } from '@tamagui/lucide-icons'
 import { useQueryClient } from '@tanstack/react-query'
+import * as turf from '@turf/turf'
 import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
+import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -97,7 +101,9 @@ function Page() {
   const { id: activeAction } = useLocalSearchParams<{ id: string }>()
   const { scope } = useSession()
 
-  const canIAddAction = scope?.data?.some((x) => x.features.includes('actions'))
+  const myScope = scope?.data?.find((x) => x.features.includes('actions'))
+
+  const canIAddAction = Boolean(myScope)
 
   const queryClient = useQueryClient()
 
@@ -141,17 +147,20 @@ function Page() {
 
   const refUserPosition = React.useRef<{ longitude: number; latitude: number } | null>(null)
 
-  const handleLocationChange = (coordsPayload: { longitude: number; latitude: number }) => {
+  const handleLocationChange = (coordsPayload: { longitude: number; latitude: number }, moveToCoord = true) => {
     followUser && setFollowUser(false)
     queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
     queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
-    cameraRef.current?.setCamera({
-      centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
-      zoomLevel: 14,
-      animationMode: 'easeTo',
-      animationDuration: 30,
-    })
+    if (moveToCoord)
+      cameraRef.current?.setCamera({
+        centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
+        zoomLevel: 14,
+        animationMode: 'easeTo',
+        animationDuration: 30,
+      })
   }
+
+  const debouncedHandleLocationChange = useDebouncedCallback(handleLocationChange, 1000)
 
   const setCameraBySnapPercent = (snapPercent: number, cameraSetting?: CameraStop) => {
     const height = Dimensions.get('window').height
@@ -200,7 +209,7 @@ function Page() {
   return (
     <>
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} />}
+        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} scope={myScope?.code} />}
       </ModalOrPageBase>
       <YStack flex={1} flexDirection="column" position="relative">
         <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
@@ -265,6 +274,16 @@ function Page() {
           <MapboxGl.MapView
             styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
             style={{ flex: 1 }}
+            onCameraChanged={(el) => {
+              if (!el.gestures.isGestureActive) return
+              const center = el.properties.center
+              const dataPoint = turf.point([coords.longitude, coords.latitude])
+              const distanceFromCamera = turf.distance(dataPoint, turf.point([center[0], center[1]]), { units: 'meters' })
+
+              if (distanceFromCamera > 1000) {
+                debouncedHandleLocationChange({ longitude: center[0], latitude: center[1] }, false)
+              }
+            }}
             onPress={() => {
               setActiveAction(null)
               if (listOpen) {
@@ -334,8 +353,11 @@ function Page() {
         </YStack>
 
         <View style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'}>
-          <GradientButton onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
-            <Button.Text color={'$textPrimary'}>Créer une action</Button.Text>
+          <GradientButton round onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
+            <Plus color="$purple7" size="$1" />
+            <Button.Text fontSize="$2" fontWeight="$7" color="$purple7">
+              Créer une action
+            </Button.Text>
           </GradientButton>
         </View>
 
@@ -375,7 +397,7 @@ type ActionListProps = {
 
 const ActionList = (props: ActionListProps) => {
   return props.actions.length === 0 ? (
-    <Spinner />
+    <EmptyState state="actions" />
   ) : (
     props.actions.map((action) => <ActionCard key={action.uuid} payload={mapPayload(action)} onShow={() => props.setActiveAction(action)} />)
   )

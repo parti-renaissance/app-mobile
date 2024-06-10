@@ -193,7 +193,7 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
       }}
       ListEmptyComponent={
         <PageLayout.StateFrame>
-          <EmptyEvent />
+          <EmptyEvent state="évenements" />
         </PageLayout.StateFrame>
       }
       keyboardDismissMode="on-drag"

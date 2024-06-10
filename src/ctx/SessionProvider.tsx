@@ -65,6 +65,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const register = useRegister()
   const user = useGetProfil({ enabled: !!session })
   const scope = useGetUserScopes({ enabled: !!session })
+
   const isGlobalLoading = [isLoginInProgress, isLoading, user.isLoading].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
 

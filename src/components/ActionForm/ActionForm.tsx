@@ -6,9 +6,10 @@ import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import FormikController from '@/components/FormikController'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
+import { useSession } from '@/ctx/SessionProvider'
 import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/data/restObjects/RestActions'
 import { useAction } from '@/hooks/useActions/useActions'
-import useCreateOrEditAction from '@/hooks/useActions/useCreateOrEditAction'
+import { useCreateOrEditAction } from '@/hooks/useActions/useCreateOrEditAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
 import { captureException } from '@sentry/core'
 import { addHours, formatDate } from 'date-fns'
@@ -47,15 +48,18 @@ interface Props {
   onCancel?: () => void
   onClose?: () => void
   uuid?: string
+  scope?: string
 }
 
-export default function ActionForm({ onCancel, onClose, uuid }: Props) {
+export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
   const media = useMedia()
   const webViewPort = media.gtXs
+
   const { data } = useAction(uuid)
 
   const { mutateAsync, isPending } = useCreateOrEditAction({
     uuid,
+    scope,
   })
 
   if ((!data || !isFullAction(data)) && uuid) return null
@@ -95,6 +99,7 @@ export default function ActionForm({ onCancel, onClose, uuid }: Props) {
         validateOnChange
         validateOnMount
         onSubmit={async (values, formikHelpers) => {
+          console.log('values', values)
           const day = formatDate(values.date, 'yyyy-MM-dd')
           const time = formatDate(values.time, "HH:mm:ss.SSS'Z")
           const dateTime = new Date(`${day}T${time}`)
