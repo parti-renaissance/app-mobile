@@ -9,6 +9,7 @@ import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
 import GradientButton from '@/components/Buttons/GradientButton'
 import { ActionCard, ActionVoxCardProps, SubscribeButton } from '@/components/Cards'
+import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ProfilePicture from '@/components/ProfilePicture'
@@ -24,6 +25,7 @@ import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
+import { Plus } from '@tamagui/lucide-icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
@@ -265,6 +267,13 @@ function Page() {
           <MapboxGl.MapView
             styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
             style={{ flex: 1 }}
+            onCameraChanged={(el) => {
+              const center = el.properties.center
+              // compute distance between center and user position
+              // const distance = Math.sqrt(
+              //   Math.pow(center[0] - refUserPosition.current?.longitude, 2) + Math.pow(center[1] - refUserPosition.current?.latitude, 2)
+              // )
+            }}
             onPress={() => {
               setActiveAction(null)
               if (listOpen) {
@@ -334,8 +343,11 @@ function Page() {
         </YStack>
 
         <View style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'}>
-          <GradientButton onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
-            <Button.Text color={'$textPrimary'}>Créer une action</Button.Text>
+          <GradientButton round onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
+            <Plus color="$purple7" size="$1" />
+            <Button.Text fontSize="$2" fontWeight="$7" color="$purple7">
+              Créer une action
+            </Button.Text>
           </GradientButton>
         </View>
 
@@ -375,7 +387,7 @@ type ActionListProps = {
 
 const ActionList = (props: ActionListProps) => {
   return props.actions.length === 0 ? (
-    <Spinner />
+    <EmptyState state="actions" />
   ) : (
     props.actions.map((action) => <ActionCard key={action.uuid} payload={mapPayload(action)} onShow={() => props.setActiveAction(action)} />)
   )
