@@ -119,7 +119,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
             case 'action':
               router.push({
                 pathname: '/(tabs)/actions',
-                params: { id: feed.objectID },
+                params: { uuid: feed.objectID },
               })
               break
             default:

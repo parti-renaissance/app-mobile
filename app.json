@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Besoin d'Europe",
+    "name": "Féderation",
     "slug": "vox",
     "scheme": "vox",
     "version": "5.4.0",
@@ -110,7 +110,8 @@
           "androidPermissions": ["android.permission.WRITE_CALENDAR"]
         }
       ],
-      ["react-native-add-calendar-event"]
+      ["react-native-add-calendar-event"],
+      ["expo-notifications"]
     ],
     "extra": {
       "router": {

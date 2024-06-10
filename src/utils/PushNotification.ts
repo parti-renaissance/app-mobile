@@ -4,10 +4,10 @@ import { askNativePermission } from '@/utils/NotificationPermission/Notification
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 
 const registerMessageHandlers = () => {
-  FB.messaging.onMessage((message) => {
-    console.log('Receiving remote notification', message)
-    createLocalNotificationInForegroundIfNeeded(message)
-  })
+  // FB.messaging.onMessage((message) => {
+  //   console.log('Receiving remote notification', message)
+  //   createLocalNotificationInForegroundIfNeeded(message)
+  // })
   FB.messaging.setBackgroundMessageHandler((message) => {
     return new Promise<void>((resolve) => {
       console.log('Message handled in background', message)
@@ -16,15 +16,15 @@ const registerMessageHandlers = () => {
   })
 }
 
-const createLocalNotificationInForegroundIfNeeded = async (message: FirebaseMessagingTypes.RemoteMessage) => {
-  const deeplinkUrl = await resolveDeeplinkUrlFromFCMMessage(message)
-  // We need to present a local notification when we are in foreground
-  LocalNotificationCenter.post({
-    title: message.notification?.title,
-    body: message.notification?.body ?? '',
-    deeplinkUrl,
-  })
-}
+// const createLocalNotificationInForegroundIfNeeded = async (message: FirebaseMessagingTypes.RemoteMessage) => {
+//   const deeplinkUrl = await resolveDeeplinkUrlFromFCMMessage(message)
+//   // We need to present a local notification when we are in foreground
+//   LocalNotificationCenter.post({
+//     title: message.notification?.title,
+//     body: message.notification?.body ?? '',
+//     deeplinkUrl,
+//   })
+// }
 
 const resolveDeeplinkUrlFromFCMMessage = async (message: FirebaseMessagingTypes.RemoteMessage | null): Promise<string | undefined> => {
   if (message === null) {

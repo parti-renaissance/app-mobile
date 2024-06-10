@@ -2,7 +2,6 @@ import React from 'react'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import MobileWall from '@/components/MobileWall/MobileWall'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import { useMedia, YStack } from 'tamagui'
@@ -19,7 +18,6 @@ export default function MobileWallLayout() {
       <PageLayout.SideBarLeft>
         <YStack gap="$3">
           <MyProfileCard />
-          <ProcurationCTA />
         </YStack>
       </PageLayout.SideBarLeft>
       <PageLayout.MainSingleColumn>
@@ -34,7 +32,7 @@ export default function MobileWallLayout() {
         )}
       </PageLayout.MainSingleColumn>
       <PageLayout.SideBarRight>
-        <BotBilanCTA />
+        <ProcurationCTA />
       </PageLayout.SideBarRight>
     </PageLayout>
   )

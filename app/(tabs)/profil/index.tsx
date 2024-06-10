@@ -2,7 +2,6 @@ import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import BotBilanCTA from '@/components/ProfileCards/BotBilanCTA/BotBilanCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import * as metatags from '@/config/metatags'
 import EditInformations from '@/screens/editPersonalInformation/PersonalInformations'
@@ -21,7 +20,6 @@ function ProfilScreen() {
           <YStack gap="$3">
             <ProcurationCTA />
             <AppDownloadCTA />
-            <BotBilanCTA />
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
