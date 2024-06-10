@@ -20,7 +20,7 @@ export default function ProcurationCTA() {
           fontWeight: 600,
           color: gray.gray6,
         }}
-        content={'Disponible le 9 juin ?'}
+        content={'Aucune voix ne doit manquer !'}
         padding={'$3'}
         compact
       />

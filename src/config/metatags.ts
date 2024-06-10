@@ -1,9 +1,5 @@
-
-const prefixtTitle = "• Besoin d'Europe"
-
-
-
+const prefixtTitle = '• Féderation'
 
 export const createTitle = (title: string) => {
-    return `${title} ${prefixtTitle}`
+  return `${title} ${prefixtTitle}`
 }
