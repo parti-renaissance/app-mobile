@@ -11,10 +11,11 @@ import GradientButton from '@/components/Buttons/GradientButton'
 import { ActionCard, ActionVoxCardProps, SubscribeButton } from '@/components/Cards'
 import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import MapboxGl from '@/components/Mapbox/Mapbox'
+import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
-import { Tabs } from '@/components/Tabs/Tabs'
+// import { Tabs } from '@/components/Tabs/Tabs'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
@@ -32,7 +33,6 @@ import * as turf from '@turf/turf'
 import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
-import { use } from 'i18next'
 import { isWeb, ScrollView, Sheet, Spinner, useMedia, View, XStack, YStack, YStackProps } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
@@ -68,6 +68,10 @@ export default function ActionsScreen() {
 
   if (!isAuth) {
     return <Redirect href={'/(tabs)/evenements/'} />
+  }
+
+  if (Platform.OS === 'web') {
+    return <MobileWallLayout />
   }
 
   return (
