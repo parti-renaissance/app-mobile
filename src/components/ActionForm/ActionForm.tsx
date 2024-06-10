@@ -86,10 +86,10 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
         {uuid ? 'Je modifie une action' : 'Je crée une action'}
       </Text>
 
-      <Text mb={'$4'}>
+      {/* <Text mb={'$4'}>
         Lorem ipsum dolor sit amet consectetur. lorem ipsum dolor sit amet consecteturibh lectrem ipsum dolor sit amet consectetur. lorem ipsum dolor sit amet
         consecteturibh le
-      </Text>
+      </Text> */}
 
       <Formik
         initialValues={item as ActionCreateForm}
@@ -138,7 +138,7 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
                         <ActionTypeEntry
                           label={ReadableActionType[el]}
                           Icon={ActionTypeIcon[el]}
-                          description={'lorem ipsum dolor sit amet'}
+                          description={''}
                           selected={inputProps.value === el}
                           onPress={() => inputProps.onChange(el)}
                         />
