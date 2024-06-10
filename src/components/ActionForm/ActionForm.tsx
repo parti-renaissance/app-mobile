@@ -54,9 +54,7 @@ interface Props {
 export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
   const media = useMedia()
   const webViewPort = media.gtXs
-
   const { data } = useAction(uuid)
-
   const { mutateAsync, isPending } = useCreateOrEditAction({
     uuid,
     scope,
