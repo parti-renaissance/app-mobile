@@ -9,7 +9,7 @@ import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import { useSession } from '@/ctx/SessionProvider'
 import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/data/restObjects/RestActions'
 import { useAction } from '@/hooks/useActions/useActions'
-import useCreateOrEditAction from '@/hooks/useActions/useCreateOrEditAction'
+import { useCreateOrEditAction } from '@/hooks/useActions/useCreateOrEditAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
 import { captureException } from '@sentry/core'
 import { addHours, formatDate } from 'date-fns'
@@ -48,19 +48,18 @@ interface Props {
   onCancel?: () => void
   onClose?: () => void
   uuid?: string
+  scope?: string
 }
 
-export default function ActionForm({ onCancel, onClose, uuid }: Props) {
+export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
   const media = useMedia()
   const webViewPort = media.gtXs
-  const { scope } = useSession()
-  const myScope = scope?.data?.find((x) => x.features.includes('actions'))
+
   const { data } = useAction(uuid)
-  console.log(scope, 'scope')
 
   const { mutateAsync, isPending } = useCreateOrEditAction({
     uuid,
-    scope: myScope?.code,
+    scope,
   })
 
   if ((!data || !isFullAction(data)) && uuid) return null

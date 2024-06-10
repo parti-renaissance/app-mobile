@@ -27,10 +27,12 @@ import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { Plus } from '@tamagui/lucide-icons'
 import { useQueryClient } from '@tanstack/react-query'
+import * as turf from '@turf/turf'
 import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
+import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
 const getMarkerIcon = (type: ActionType) => [['==', ['get', 'type'], type], type]
@@ -99,7 +101,9 @@ function Page() {
   const { id: activeAction } = useLocalSearchParams<{ id: string }>()
   const { scope } = useSession()
 
-  const canIAddAction = scope?.data?.some((x) => x.features.includes('actions'))
+  const myScope = scope?.data?.find((x) => x.features.includes('actions'))
+
+  const canIAddAction = Boolean(myScope)
 
   const queryClient = useQueryClient()
 
@@ -143,17 +147,20 @@ function Page() {
 
   const refUserPosition = React.useRef<{ longitude: number; latitude: number } | null>(null)
 
-  const handleLocationChange = (coordsPayload: { longitude: number; latitude: number }) => {
+  const handleLocationChange = (coordsPayload: { longitude: number; latitude: number }, moveToCoord = true) => {
     followUser && setFollowUser(false)
     queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
     queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
-    cameraRef.current?.setCamera({
-      centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
-      zoomLevel: 14,
-      animationMode: 'easeTo',
-      animationDuration: 30,
-    })
+    if (moveToCoord)
+      cameraRef.current?.setCamera({
+        centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
+        zoomLevel: 14,
+        animationMode: 'easeTo',
+        animationDuration: 30,
+      })
   }
+
+  const debouncedHandleLocationChange = useDebouncedCallback(handleLocationChange, 1000)
 
   const setCameraBySnapPercent = (snapPercent: number, cameraSetting?: CameraStop) => {
     const height = Dimensions.get('window').height
@@ -202,7 +209,7 @@ function Page() {
   return (
     <>
       <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} />}
+        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} scope={myScope?.code} />}
       </ModalOrPageBase>
       <YStack flex={1} flexDirection="column" position="relative">
         <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
@@ -268,11 +275,14 @@ function Page() {
             styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
             style={{ flex: 1 }}
             onCameraChanged={(el) => {
+              if (!el.gestures.isGestureActive) return
               const center = el.properties.center
-              // compute distance between center and user position
-              // const distance = Math.sqrt(
-              //   Math.pow(center[0] - refUserPosition.current?.longitude, 2) + Math.pow(center[1] - refUserPosition.current?.latitude, 2)
-              // )
+              const dataPoint = turf.point([coords.longitude, coords.latitude])
+              const distanceFromCamera = turf.distance(dataPoint, turf.point([center[0], center[1]]), { units: 'meters' })
+
+              if (distanceFromCamera > 1000) {
+                debouncedHandleLocationChange({ longitude: center[0], latitude: center[1] }, false)
+              }
             }}
             onPress={() => {
               setActiveAction(null)
