@@ -508,7 +508,7 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange, onEdit
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
                 <>
-                  <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
+                  <Text fontWeight="$5">{action.participants.length + 1} inscrits :</Text>
                   <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
                     <ParticipantAvatar participant={action.author} />
                     {action.participants.map((participant) => (
@@ -575,8 +575,9 @@ function ParticipantAvatar({ participant, ...props }: Readonly<{ participant: Re
 
 function mapPayload(action: Action): ActionVoxCardProps['payload'] {
   return {
+    id: action.uuid,
     tag: action.type,
-    isSubscribed: false,
+    isSubscribed: Boolean(action.user_registered_at),
     date: {
       start: action.date,
       end: action.date,
