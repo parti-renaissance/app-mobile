@@ -7,6 +7,7 @@ import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
+import GradientButton from '@/components/Buttons/GradientButton'
 import { ActionCard, ActionVoxCardProps, SubscribeButton } from '@/components/Cards'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
@@ -94,6 +95,9 @@ function Page() {
   useLocationPermission()
   const insets = useSafeAreaInsets()
   const { id: activeAction } = useLocalSearchParams<{ id: string }>()
+  const { scope } = useSession()
+
+  const canIAddAction = scope?.data?.some((x) => x.features.includes('actions'))
 
   const queryClient = useQueryClient()
 
@@ -195,6 +199,9 @@ function Page() {
 
   return (
     <>
+      <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
+        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} uuid={activeAction} />}
+      </ModalOrPageBase>
       <YStack flex={1} flexDirection="column" position="relative">
         <YStack height={filterHeight.current} bg="$white1" display={activeAction ? 'none' : 'flex'}>
           <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
@@ -311,10 +318,10 @@ function Page() {
           </View>
         </YStack>
 
-        <View style={styles.createActionContainer}>
-          <Button onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
-            <Button.Text>Créer une action</Button.Text>
-          </Button>
+        <View style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'}>
+          <GradientButton onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
+            <Button.Text color={'$textPrimary'}>Créer une action</Button.Text>
+          </GradientButton>
         </View>
 
         <BottomSheetList
@@ -326,6 +333,7 @@ function Page() {
         />
         <ActionBottomSheet
           actionQuery={actionQuery}
+          onEdit={() => setModalOpen(true)}
           onOpenChange={(open) => {
             if (!open) {
               setActiveAction(null)
@@ -341,10 +349,6 @@ function Page() {
           onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
         />
       </YStack>
-
-      <ModalOrPageBase open={modalOpen} onClose={onCloseModal} shouldDisplayCloseHeader>
-        {modalOpen && <ActionForm onCancel={onCloseModal} onClose={onCloseModal} />}
-      </ModalOrPageBase>
     </>
   )
 }
@@ -424,11 +428,14 @@ type ActionBottomSheetProps = {
   actionQuery: ReturnType<typeof useAction>
   onPositionChange?: (position: number, percent: number) => void
   onOpenChange?: (open: boolean) => void
+  onEdit?: () => void
 }
 
-function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Readonly<ActionBottomSheetProps>) {
+function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange, onEdit }: Readonly<ActionBottomSheetProps>) {
   const { position, setPosition, handleHandlePress, defaultPosition } = useSheetPosition(1)
   const { data: action, isLoading } = actionQuery
+
+  const isMyAction = action && isFullAction(action) && action.editable
 
   const _position = !action ? 1 : position
 
@@ -481,14 +488,9 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange }: Read
         >
           {payload && action ? (
             <ActionCard payload={payload} asFull>
-              {!isBefore(action.date, new Date()) ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
-              {isFullAction(action) ? (
-                <VoxCard.Description markdown full>
-                  {action.description}
-                </VoxCard.Description>
-              ) : (
-                <SkeCard.Description />
-              )}
+              {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
+              {!isBefore(action.date, new Date()) && isMyAction ? <GradientButton onPress={onEdit}>Editer</GradientButton> : null}
+              {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
                 <>
                   <Text fontWeight="$5">{action.participants.length} inscrits :</Text>

@@ -72,6 +72,7 @@ const ActionSchema = z.object({
 export const ActionFullSchema = ActionSchema.omit({ first_participants: true, participants_count: true }).merge(
   z.object({
     description: z.string().nullable(),
+    editable: z.boolean(),
     participants: z.array(ActionParticipantSchema),
   }),
 )
