@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Dimensions, Platform, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ActionForm from '@/components/ActionForm/ActionForm'
@@ -14,6 +14,7 @@ import MapboxGl from '@/components/Mapbox/Mapbox'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
+import { Tabs } from '@/components/Tabs/Tabs'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
@@ -31,7 +32,8 @@ import * as turf from '@turf/turf'
 import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
-import { isWeb, ScrollView, Sheet, Spinner, View, XStack, YStack, YStackProps } from 'tamagui'
+import { use } from 'i18next'
+import { isWeb, ScrollView, Sheet, Spinner, useMedia, View, XStack, YStack, YStackProps } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 import markersImage from '../../../assets/images/generated-markers-lib'
 
@@ -98,7 +100,7 @@ const passType = (type: SelectType, actionType: ActionType) => {
 function Page() {
   useLocationPermission()
   const insets = useSafeAreaInsets()
-  const { id: activeAction } = useLocalSearchParams<{ id: string }>()
+  const { uuid: activeAction } = useLocalSearchParams<{ uuid: string }>()
   const { scope } = useSession()
 
   const myScope = scope?.data?.find((x) => x.features.includes('actions'))
@@ -111,13 +113,15 @@ function Page() {
     data: { coords },
   } = useLocation()
 
-  const data = usePaginatedActions(coords)
-  const actionQuery = useAction(activeAction, coords)
+  const [activeTab, setActiveTab] = useState<'actions' | 'myActions'>('actions')
+  const data = usePaginatedActions({ ...coords, subscribeOnly: activeTab === 'myActions' })
+  const actionQuery = useAction(activeAction, { ...coords, subscribeOnly: activeTab === 'myActions' })
   const positionConfig = useSheetPosition(1)
   const { setPosition } = positionConfig
   const [period, setPeriod] = React.useState<SelectPeriod>('week')
   const [type, setType] = React.useState<SelectType>('all')
   const [modalOpen, setModalOpen] = React.useState(false)
+  const media = useMedia()
 
   const filterHeight = useRef(70)
   const [listOpen, setListOpen] = React.useState(true)
@@ -134,12 +138,12 @@ function Page() {
 
   const setActiveAction = (action: RestAction | null) => {
     if (action && activeAction) {
-      router.setParams({ id: '' })
+      router.setParams({ uuid: '' })
       setTimeout(() => {
-        router.setParams({ id: action.uuid })
+        router.setParams({ uuid: action.uuid })
       }, 0)
     } else {
-      router.setParams({ id: action?.uuid ?? '' })
+      router.setParams({ uuid: action?.uuid ?? '' })
     }
   }
   const [followUser, setFollowUser] = React.useState(true)
@@ -215,8 +219,208 @@ function Page() {
     [modalOpen, activeAction],
   )
 
+  const createActionButton = useMemo(
+    () => (
+      <View style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'}>
+        <GradientButton round onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
+          <Plus color="$purple7" size="$1" />
+          <Button.Text fontSize="$2" fontWeight="$7" color="$purple7">
+            Créer une action
+          </Button.Text>
+        </GradientButton>
+      </View>
+    ),
+    [canIAddAction, modalOpen],
+  )
+
+  const filtersBtns = useMemo(
+    () => (
+      <YStack bg="transparent" display={activeAction ? 'none' : 'flex'} position="absolute" top={5} zIndex={100} left={0} right={0}>
+        <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
+          <XStack gap="$3">
+            <AddressAutocomplete
+              maxWidth={100}
+              labelOnlySheet
+              setAddressComponents={({ location }) => {
+                if (!location) return
+                handleLocationChange({ longitude: location.lng, latitude: location.lat })
+              }}
+            />
+            <Select<SelectPeriod>
+              search={false}
+              labelOnlySheet
+              label="Période"
+              onChange={setPeriod}
+              value={period}
+              options={[
+                { value: 'all', label: 'Tout' },
+                { value: 'today', label: "Ajourd'hui" },
+                { value: 'tomorow', label: 'Demain' },
+                { value: 'week', label: 'Cette semaine' },
+              ]}
+              placeholder="Cette semaine"
+            />
+            <Select<SelectType>
+              labelOnlySheet
+              search={false}
+              label="Type"
+              onChange={setType}
+              value={type}
+              options={[
+                { value: 'all', label: 'Tout types' },
+                { value: ActionType.TRACTAGE, label: 'Tractage' },
+                { value: ActionType.BOITAGE, label: 'Boitage' },
+                { value: ActionType.COLLAGE, label: 'Collage' },
+                { value: ActionType.PAP, label: 'Porte à porte' },
+              ]}
+              placeholder="Cette semaine"
+            />
+          </XStack>
+        </ScrollView>
+      </YStack>
+    ),
+    [activeAction, period, type],
+  )
+
+  const bottomSheetList = useMemo(
+    () => (
+      <BottomSheetList
+        actions={filteredActions}
+        postionConfig={positionConfig}
+        open={listOpen}
+        onOpenChange={setListOpen}
+        setActiveAction={handleActiveAction}
+      />
+    ),
+    [filteredActions, listOpen],
+  )
+
+  const actionBottomSheet = useMemo(
+    () => (
+      <ActionBottomSheet
+        actionQuery={actionQuery}
+        onEdit={() => setModalOpen(true)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setActiveAction(null)
+            setListOpen(true)
+
+            cameraRef.current?.setCamera({
+              padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+              animationMode: 'easeTo',
+              animationDuration: 300,
+            })
+          }
+        }}
+        onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
+      />
+    ),
+    [actionQuery],
+  )
+
+  const mapView = useMemo(
+    () => (
+      <MapboxGl.MapView
+        styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
+        style={{ flex: 1 }}
+        scaleBarEnabled={false}
+        onCameraChanged={(el) => {
+          if (!el.gestures.isGestureActive) return
+          const center = el.properties.center
+          const dataPoint = turf.point([coords.longitude, coords.latitude])
+          const distanceFromCamera = turf.distance(dataPoint, turf.point([center[0], center[1]]), { units: 'meters' })
+
+          if (distanceFromCamera > 1000) {
+            debouncedHandleLocationChange({ longitude: center[0], latitude: center[1] }, false)
+          }
+        }}
+        onPress={() => {
+          setActiveAction(null)
+          if (listOpen) {
+            setPosition(1)
+          } else {
+            setListOpen(true)
+          }
+          cameraRef.current?.setCamera({
+            padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+            animationMode: 'easeTo',
+            animationDuration: 300,
+          })
+        }}
+      >
+        <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
+        <MapboxGl.UserLocation
+          visible
+          onUpdate={(x) => {
+            refUserPosition.current = { longitude: x.coords.longitude, latitude: x.coords.latitude }
+          }}
+        />
+
+        <MapboxGl.ShapeSource
+          id="actions"
+          shape={source}
+          clusterMaxZoomLevel={18}
+          cluster={false}
+          clusterRadius={35}
+          onPress={handlePress}
+          hitbox={{ width: 20, height: 20 }}
+        >
+          <MapboxGl.SymbolLayer
+            id="layer-action"
+            symbol-sort-key={['to-number', ['get', 'priority']]}
+            filter={['has', 'type']}
+            style={{
+              iconImage: getDynamicMarkerIcon,
+              iconSize: isWeb ? 0.5 : 1,
+              iconAllowOverlap: true,
+              iconOffset: [1, -20],
+              symbolSortKey: ['to-number', ['get', 'priority']],
+            }}
+          />
+          <MapboxGl.Images images={markersImage} />
+        </MapboxGl.ShapeSource>
+      </MapboxGl.MapView>
+    ),
+    [coords, followUser, source],
+  )
+
+  const mapButton = useMemo(
+    () => (
+      <View style={styles.mapButtonSideContainer}>
+        {!isWeb && (
+          <MapButton
+            style={styles.mapButtonLocation}
+            onPress={() => {
+              const userCoords = refUserPosition.current
+              if (!userCoords) return
+              handleLocationChange(userCoords)
+
+              cameraRef.current?.setCamera({
+                centerCoordinate: [userCoords.longitude, userCoords.latitude],
+                animationMode: 'easeTo',
+                animationDuration: 300,
+                zoomLevel: 14,
+              })
+            }}
+            image={require('@/assets/images/gpsPosition.png')}
+          />
+        )}
+      </View>
+    ),
+    [],
+  )
+
   return (
     <>
+      {/* <Tabs<'actions' | 'myActions'>
+        value={activeTab}
+        onChange={setActiveTab}
+        grouped={media.lg}
+        $gtMd={{ paddingHorizontal: '$7', paddingTop: '$6', paddingBottom: 0 }}
+      >
+        <Tabs.Tab id="actions">Toutes les actions</Tabs.Tab>
+        <Tabs.Tab id="myActions">J'y participe</Tabs.Tab>
+      </Tabs> */}
       <YStack flex={1} flexDirection="column" position="relative">
         <YStack flex={1} position="relative">
           {data.isLoading && (
@@ -234,166 +438,17 @@ function Page() {
               <Spinner size="large" color="$green8" />
             </YStack>
           )}
-          <YStack bg="transparent" display={activeAction ? 'none' : 'flex'} position="absolute" top={25} zIndex={100} left={0} right={0}>
-            <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
-              <XStack gap="$3">
-                <AddressAutocomplete
-                  maxWidth={100}
-                  labelOnlySheet
-                  setAddressComponents={({ location }) => {
-                    if (!location) return
-                    handleLocationChange({ longitude: location.lng, latitude: location.lat })
-                  }}
-                />
-                <Select<SelectPeriod>
-                  search={false}
-                  labelOnlySheet
-                  label="Période"
-                  onChange={setPeriod}
-                  value={period}
-                  options={[
-                    { value: 'all', label: 'Tout' },
-                    { value: 'today', label: "Ajourd'hui" },
-                    { value: 'tomorow', label: 'Demain' },
-                    { value: 'week', label: 'Cette semaine' },
-                  ]}
-                  placeholder="Cette semaine"
-                />
-                <Select<SelectType>
-                  labelOnlySheet
-                  search={false}
-                  label="Type"
-                  onChange={setType}
-                  value={type}
-                  options={[
-                    { value: 'all', label: 'Tout types' },
-                    { value: ActionType.TRACTAGE, label: 'Tractage' },
-                    { value: ActionType.BOITAGE, label: 'Boitage' },
-                    { value: ActionType.COLLAGE, label: 'Collage' },
-                    { value: ActionType.PAP, label: 'Porte à porte' },
-                  ]}
-                  placeholder="Cette semaine"
-                />
-              </XStack>
-            </ScrollView>
-          </YStack>
-          <MapboxGl.MapView
-            styleURL="mapbox://styles/larem/clwaph1m1008501pg1cspgbj2"
-            style={{ flex: 1 }}
-            onCameraChanged={(el) => {
-              if (!el.gestures.isGestureActive) return
-              const center = el.properties.center
-              const dataPoint = turf.point([coords.longitude, coords.latitude])
-              const distanceFromCamera = turf.distance(dataPoint, turf.point([center[0], center[1]]), { units: 'meters' })
+          {filtersBtns}
 
-              if (distanceFromCamera > 1000) {
-                debouncedHandleLocationChange({ longitude: center[0], latitude: center[1] }, false)
-              }
-            }}
-            onPress={() => {
-              setActiveAction(null)
-              if (listOpen) {
-                setPosition(1)
-              } else {
-                setListOpen(true)
-              }
-              cameraRef.current?.setCamera({
-                padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
-                animationMode: 'easeTo',
-                animationDuration: 300,
-              })
-            }}
-          >
-            <MapboxGl.Camera ref={cameraRef} followUserLocation={followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
-            <MapboxGl.UserLocation
-              visible
-              onUpdate={(x) => {
-                refUserPosition.current = { longitude: x.coords.longitude, latitude: x.coords.latitude }
-              }}
-            />
-
-            <MapboxGl.ShapeSource
-              id="actions"
-              shape={source}
-              clusterMaxZoomLevel={18}
-              cluster={false}
-              clusterRadius={35}
-              onPress={handlePress}
-              hitbox={{ width: 20, height: 20 }}
-            >
-              <MapboxGl.SymbolLayer
-                id="layer-action"
-                symbol-sort-key={['to-number', ['get', 'priority']]}
-                filter={['has', 'type']}
-                style={{
-                  iconImage: getDynamicMarkerIcon,
-                  iconSize: isWeb ? 0.5 : 1,
-                  iconAllowOverlap: true,
-                  iconOffset: [1, -20],
-                  symbolSortKey: ['to-number', ['get', 'priority']],
-                }}
-              />
-              <MapboxGl.Images images={markersImage} />
-            </MapboxGl.ShapeSource>
-          </MapboxGl.MapView>
-          <View style={styles.mapButtonSideContainer}>
-            {!isWeb && (
-              <MapButton
-                style={styles.mapButtonLocation}
-                onPress={() => {
-                  const userCoords = refUserPosition.current
-                  if (!userCoords) return
-                  handleLocationChange(userCoords)
-
-                  cameraRef.current?.setCamera({
-                    centerCoordinate: [userCoords.longitude, userCoords.latitude],
-                    animationMode: 'easeTo',
-                    animationDuration: 300,
-                    zoomLevel: 14,
-                  })
-                }}
-                image={require('@/assets/images/gpsPosition.png')}
-              />
-            )}
-          </View>
+          {mapView}
         </YStack>
 
-        <View style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'}>
-          <GradientButton round onPress={() => setModalOpen(true)} style={{ display: modalOpen ? 'none' : 'block' }}>
-            <Plus color="$purple7" size="$1" />
-            <Button.Text fontSize="$2" fontWeight="$7" color="$purple7">
-              Créer une action
-            </Button.Text>
-          </GradientButton>
-        </View>
-
+        {createActionButton}
         {Platform.OS === 'ios' || Platform.OS === 'web' ? modal : null}
-
-        <BottomSheetList
-          actions={filteredActions}
-          postionConfig={positionConfig}
-          open={listOpen}
-          onOpenChange={setListOpen}
-          setActiveAction={handleActiveAction}
-        />
-        <ActionBottomSheet
-          actionQuery={actionQuery}
-          onEdit={() => setModalOpen(true)}
-          onOpenChange={(open) => {
-            if (!open) {
-              setActiveAction(null)
-              setListOpen(true)
-
-              cameraRef.current?.setCamera({
-                padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
-                animationMode: 'easeTo',
-                animationDuration: 300,
-              })
-            }
-          }}
-          onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
-        />
+        {bottomSheetList}
+        {actionBottomSheet}
         {Platform.OS === 'android' ? modal : null}
+        {mapButton}
       </YStack>
     </>
   )
@@ -435,6 +490,7 @@ const BottomSheetList = ({
   return (
     <Sheet
       open={open}
+      native
       defaultOpen={true}
       defaultPosition={defaultPosition}
       position={position}
@@ -509,6 +565,7 @@ function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange, onEdit
   return (
     <Sheet
       modal
+      native
       open={!!action}
       defaultPosition={defaultPosition}
       position={_position}

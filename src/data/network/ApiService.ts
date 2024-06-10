@@ -1,7 +1,7 @@
 import { Poll } from '@/core/entities/Poll'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
-import { ActionCreateType, ActionFullSchema, ActionPaginationSchema } from '../restObjects/RestActions'
+import { ActionCreateType, ActionFullSchema, ActionPaginationSchema, RestActionRequestParams } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -512,7 +512,11 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public async getActions(params: { latitude: number; longitude: number; page: number }) {
+  public async getActions({ subscribeOnly, ...restParams }: RestActionRequestParams) {
+    const params = {
+      ...restParams,
+      ...(subscribeOnly ? { subscribeOnly: true } : {}),
+    }
     return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
   }
 
