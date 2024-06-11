@@ -18,7 +18,7 @@ const getScreenname = (route: string): AnalyticsScreens => {
 const subscribeNotification = async () => {
   const pushRepository = PushRepository.getInstance()
   await PushNotification.requestPermission()
-  // await pushRepository.synchronizePushTokenAssociation()
+  await pushRepository.synchronizePushTokenAssociation()
 }
 
 export default function useInitPushNotification() {
