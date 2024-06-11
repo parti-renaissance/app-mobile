@@ -39,8 +39,8 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
       config.ios.googleServicesFile = './config/GoogleService-Info.plist'
       config.android.googleServicesFile = './config/google-services.json'
     }
-    config.android.adaptiveIcon.foregroundImage = './assets/developement/adaptive-icon.jpg'
-    config.ios.icon = './assets/developement/icon.jpg'
+    config.android.adaptiveIcon.foregroundImage = './assets/developement/adaptive-icon.png'
+    config.ios.icon = './assets/developement/icon.png'
   } else if (profile === 'production') {
     config.name = process.env.EXPO_PUBLIC_APP_NAME
     config.ios.bundleIdentifier = baseIdentifier
@@ -50,8 +50,8 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
   } else {
     config.name = process.env.EXPO_PUBLIC_APP_NAME
     config.scheme = 'vox-staging'
-    config.android.adaptiveIcon.foregroundImage = './assets/staging/adaptive-icon.jpg'
-    config.ios.icon = './assets/staging/icon.jpg'
+    config.android.adaptiveIcon.foregroundImage = './assets/staging/adaptive-icon.png'
+    config.ios.icon = './assets/staging/icon.png'
     config.ios.bundleIdentifier = `${baseIdentifier}.${profile}`
     config.android.package = `${basePackage}.${profile}`
     config.ios.googleServicesFile = process.env.GOOGLE_SERVICES_IOS_PATH_STAGING
