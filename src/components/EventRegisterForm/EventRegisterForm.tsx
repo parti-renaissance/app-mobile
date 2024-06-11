@@ -117,7 +117,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
               {({ inputProps }) => (
                 <VoxCheckbox
                   id={inputProps.id}
-                  label="Je m’abonne à la newsletter pour ne rien rater de des actualités de Besoin d’Europe (optionnel)"
+                  label="Je m’abonne à la newsletter pour ne rien rater de des actualités (optionnel)"
                   error={inputProps.error}
                   checked={inputProps.value}
                   onBlur={inputProps.onBlur}
