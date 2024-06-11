@@ -1,117 +1,119 @@
 <!doctype html>
 <html lang="%LANG_ISO_CODE%">
-  <head>
-    <meta charset="utf-8" />
-    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <!--
       This viewport works for phones with notches.
       It's optimized for gestures by disabling global zoom.
      -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover" />
-    <meta name="apple-itunes-app" content="app-id=1441973895" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Le 9 juin, nous avons Besoin d’Europe" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="https://app.besoindeurope.fr/og-inscription-bde.webp" />
-    <meta property="og:description" content="Devenez acteur de la campagne européenne" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover" />
+  <meta name="apple-itunes-app" content="app-id=1441973895" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Législatives 2024" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="https://en-marche-prod.web.app/og-inscription-bde.png" />
+  <meta property="og:description" content="Devenez acteur de la campagne européenne" />
 
-    <meta name="twitter:card" content="app">
-    <meta name="twitter:site" content="@besoindeurope">
-    <meta name="twitter:description" content=" Le 9 juin, nous avons Besoin d’Europe">
-    <meta name="twitter:app:name:googleplay" content="Féderation">
-    <meta name="twitter:app:url:googleplay" content="vox://">
-    <meta name="twitter:app:id:googleplay" content="fr.en_marche.jecoute">
-    <meta name="twitter:app:name:iphone" content="Féderation">
-    <meta name="twitter:app:url:iphone" content="vox://">
-    <meta name="twitter:app:id:iphone" content="1441973895">
-    <meta name="twitter:app:name:ipad" content="Féderation">
-    <meta name="twitter:app:url:ipad" content="vox://">
-    <meta name="twitter:app:id:ipad" content="1441973895">
+  <meta name="twitter:card" content="app">
+  <meta name="twitter:site" content="@renaissance">
+  <meta name="twitter:description" content="Législatives 2024">
+  <meta name="twitter:app:name:googleplay" content="Renaissance">
+  <meta name="twitter:app:url:googleplay" content="vox://">
+  <meta name="twitter:app:id:googleplay" content="fr.en_marche.jecoute">
+  <meta name="twitter:app:name:iphone" content="Renaissance">
+  <meta name="twitter:app:url:iphone" content="vox://">
+  <meta name="twitter:app:id:iphone" content="1441973895">
+  <meta name="twitter:app:name:ipad" content="Renaissance">
+  <meta name="twitter:app:url:ipad" content="vox://">
+  <meta name="twitter:app:id:ipad" content="1441973895">
 
-    <title>%WEB_TITLE%</title>
-    <style>
-      /**
+  <title>%WEB_TITLE%</title>
+  <style>
+    /**
        * Extend the react-native-web reset:
        * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
        */
-      html,
-      body,
-      #root {
-        width: 100%;
-        /* To smooth any scrolling behavior */
-        -webkit-overflow-scrolling: touch;
-        margin: 0px;
-        padding: 0px;
-        /* Allows content to fill the viewport and go beyond the bottom */
-        min-height: 100%;
-      }
+    html,
+    body,
+    #root {
+      width: 100%;
+      /* To smooth any scrolling behavior */
+      -webkit-overflow-scrolling: touch;
+      margin: 0px;
+      padding: 0px;
+      /* Allows content to fill the viewport and go beyond the bottom */
+      min-height: 100%;
+    }
 
-      #root {
-        flex-shrink: 0;
-        flex-basis: auto;
-        flex-grow: 1;
-        display: flex;
-        flex: 1;
-      }
+    #root {
+      flex-shrink: 0;
+      flex-basis: auto;
+      flex-grow: 1;
+      display: flex;
+      flex: 1;
+    }
 
-      html {
-        scroll-behavior: smooth;
-        /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
-        -webkit-text-size-adjust: 100%;
-        height: calc(100% + env(safe-area-inset-top));
-        overflow: hidden;
-      }
+    html {
+      scroll-behavior: smooth;
+      /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+      -webkit-text-size-adjust: 100%;
+      height: calc(100% + env(safe-area-inset-top));
+      overflow: hidden;
+    }
 
-      body {
-        display: flex;
-        /* Allows you to scroll below the viewport; default value is visible */
-        overflow-y: hidden;
-        overscroll-behavior-y: none;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        -ms-overflow-style: scrollbar;
-      }
+    body {
+      display: flex;
+      /* Allows you to scroll below the viewport; default value is visible */
+      overflow-y: hidden;
+      overscroll-behavior-y: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -ms-overflow-style: scrollbar;
+    }
 
-      /* Enable for apps that support dark-theme */
-      /*@media (prefers-color-scheme: dark) {
+    /* Enable for apps that support dark-theme */
+    /*@media (prefers-color-scheme: dark) {
         body {
           background-color: black;
         }
       }*/
-    </style>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker
-            .register('/firebase-messaging-sw.js')
-            .then((registration) => {
-              console.log('Service Worker registered with scope:', registration.scope)
-            })
-            .catch((error) => {
-              console.error('Service Worker registration failed:', error)
-            })
-        })
-      }
-    </script>
-  </head>
+  </style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/firebase-messaging-sw.js')
+          .then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope)
+          })
+          .catch((error) => {
+            console.error('Service Worker registration failed:', error)
+          })
+      })
+    }
+  </script>
+</head>
 
-  <body>
-    <!--
+<body>
+  <!--
       A generic no script element with a reload button and a message.
       Feel free to customize this however you'd like.
     -->
-    <noscript>
-      <form action="" style="background-color: #fff; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999">
-        <div style="font-size: 18px; font-family: Helvetica, sans-serif; line-height: 24px; margin: 10%; width: 80%">
-          <p>Oh no! It looks like JavaScript is not enabled in your browser.</p>
-          <p style="margin: 20px 0">
-            <button
-              type="submit"
-              style="
+  <noscript>
+    <form action=""
+      style="background-color: #fff; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999">
+      <div style="font-size: 18px; font-family: Helvetica, sans-serif; line-height: 24px; margin: 10%; width: 80%">
+        <p>Oh no! It looks like JavaScript is not enabled in your browser.</p>
+        <p style="margin: 20px 0">
+          <button type="submit" style="
                 background-color: #4630eb;
                 border-radius: 100px;
                 border: none;
@@ -121,15 +123,15 @@
                 font-weight: bold;
                 line-height: 20px;
                 padding: 6px 16px;
-              "
-            >
-              Reload
-            </button>
-          </p>
-        </div>
-      </form>
-    </noscript>
-    <!-- The root element for your Expo app. -->
-    <div id="root"></div>
-  </body>
+              ">
+            Reload
+          </button>
+        </p>
+      </div>
+    </form>
+  </noscript>
+  <!-- The root element for your Expo app. -->
+  <div id="root"></div>
+</body>
+
 </html>

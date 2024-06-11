@@ -14,6 +14,8 @@ const envClientSchema = z.object({
   OAUTH_CLIENT_ID: z.string(),
   SENTRY_DSN: z.string().url(),
   MAP_BOX_ACCESS_TOKEN: z.string(),
+  APP_NAME: z.string(),
+  CAMPAIGN_DOMAIN: z.string(),
 })
 
 export type ClientEnv = z.infer<typeof envClientSchema>

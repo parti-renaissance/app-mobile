@@ -42,12 +42,13 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     config.android.adaptiveIcon.foregroundImage = './assets/developement/adaptive-icon.jpg'
     config.ios.icon = './assets/developement/icon.jpg'
   } else if (profile === 'production') {
+    config.name = process.env.EXPO_PUBLIC_APP_NAME
     config.ios.bundleIdentifier = baseIdentifier
     config.android.package = basePackage
     config.ios.googleServicesFile = process.env.GOOGLE_SERVICES_IOS_PATH_PRODUCTION
     config.android.googleServicesFile = process.env.GOOGLE_SERVICES_ANDROID_PATH_PRODUCTION
   } else {
-    config.name = 'Vox Staging'
+    config.name = process.env.EXPO_PUBLIC_APP_NAME
     config.scheme = 'vox-staging'
     config.android.adaptiveIcon.foregroundImage = './assets/staging/adaptive-icon.jpg'
     config.ios.icon = './assets/staging/icon.jpg'
