@@ -1,5 +1,5 @@
-import { ComponentProps, memo, Suspense, useCallback, useMemo, useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native'
+import { ComponentProps, memo, useCallback, useMemo, useRef, useState } from 'react'
+import { Keyboard, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity } from 'react-native'
 import { Check, ChevronDown, Search, X } from '@tamagui/lucide-icons'
 import _ from 'lodash'
 import { Adapt, isWeb, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
@@ -166,6 +166,7 @@ const Select = <A extends string>({
   const [open, setOpen] = useState(false)
   const media = useMedia()
   const [triggerWidth, setTriggerWidth] = useState(0)
+  const inputModalRef = useRef<TextInput>(null)
 
   const handleChange = (v: A) => {
     const finalQuery = options.find((o) => o.value === v)?.label ?? ''
@@ -204,6 +205,8 @@ const Select = <A extends string>({
       } else {
         setQuery(selectedOption?.label ?? '')
       }
+    } else if (search) {
+      inputModalRef.current?.focus()
     }
   }
   const last = _.last(filteredOptions)
@@ -271,6 +274,7 @@ const Select = <A extends string>({
                 </XStack>
                 <YStack display={search ? 'flex' : 'none'} p pb="$3.5" flexGrow={1} h="$5">
                   <Input
+                    ref={inputModalRef}
                     placeholder={placeholder}
                     value={query}
                     onChangeText={handleQuery}
