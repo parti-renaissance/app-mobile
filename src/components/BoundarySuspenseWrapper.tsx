@@ -1,5 +1,4 @@
 import { Suspense } from 'react'
-import { err } from 'react-native-svg'
 import Button from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
@@ -15,7 +14,7 @@ type BoundarySuspenseWrapperProps = {
   errorChildren?: (err: FallbackProps) => React.ReactNode
 }
 
-const DefaultErrorFallback = ({ resetErrorBoundary }: FallbackProps) => (
+export const DefaultErrorFallback = ({ resetErrorBoundary }: FallbackProps) => (
   <>
     <Image source={require('../assets/images/blocs.png')} height={200} width={200} objectFit={'contain'} />
     <Text color="$gray6" textAlign="center">
@@ -34,9 +33,15 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
     {({ reset }) => (
       <ErrorBoundary
         onReset={reset}
-        fallbackRender={(EBprops) => (
-          <PageLayout.StateFrame>{props.errorChildren ? props.errorChildren(EBprops) : <DefaultErrorFallback {...EBprops} />}</PageLayout.StateFrame>
-        )}
+        fallbackRender={(EBprops) =>
+          props.errorChildren ? (
+            props.errorChildren(EBprops)
+          ) : (
+            <PageLayout.StateFrame>
+              <DefaultErrorFallback {...EBprops} />
+            </PageLayout.StateFrame>
+          )
+        }
       >
         <Suspense
           fallback={

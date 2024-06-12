@@ -5,11 +5,12 @@ import ActionForm from '@/components/ActionForm/ActionForm'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
 import Button from '@/components/Button'
 import GradientButton from '@/components/Buttons/GradientButton'
 import { ActionCard, ActionVoxCardProps, SubscribeButton } from '@/components/Cards'
 import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
@@ -22,8 +23,9 @@ import { useSession } from '@/ctx/SessionProvider'
 import { Action, ActionStatus, ActionType, isFullAction, RestAction, RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/hooks/useActions/useActions'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import { QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
+import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
+import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
@@ -75,7 +77,18 @@ export default function ActionsScreen() {
   }
 
   return (
-    <BoundarySuspenseWrapper>
+    <BoundarySuspenseWrapper
+      errorChildren={(props) => {
+        if (props.error instanceof LocationPermissionError) {
+          return <LocationAuthorization onAuthorizationRequest={() => props.resetErrorBoundary()} />
+        }
+        return (
+          <PageLayout.StateFrame>
+            <DefaultErrorFallback {...props} />
+          </PageLayout.StateFrame>
+        )
+      }}
+    >
       <Page />
     </BoundarySuspenseWrapper>
   )

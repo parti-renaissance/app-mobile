@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 
-class LocationPermissionError extends Error {
+export class LocationPermissionError extends Error {
   constructor() {
     super('Location permission denied')
     this.name = 'LocationPermissionError'
