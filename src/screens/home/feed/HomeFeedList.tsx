@@ -1,15 +1,18 @@
-import { memo } from 'react'
+import { memo, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { FeedCard } from '@/components/Cards'
 import { useSession } from '@/ctx/SessionProvider'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { tranformFeedItemToProps } from '@/helpers/homeFeed'
 import { useGetPaginatedFeed } from '@/hooks/useFeed'
+import { useScrollToTop } from '@react-navigation/native'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
+
+const FeedCardMemoized = memo(FeedCard) as typeof FeedCard
 
 const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
   const props = tranformFeedItemToProps(item)
-  return <FeedCard {...props} />
+  return <FeedCardMemoized {...props} />
 })
 
 const renderFeedItem = ({ item }: { item: RestTimelineFeedItem }) => {
@@ -26,9 +29,12 @@ const HomeFeedList = () => {
       fetchNextPage()
     }
   }
+  const flatListRef = useRef<FlatList<RestTimelineFeedItem>>(null)
+  useScrollToTop(flatListRef)
 
   return (
     <FlatList
+      ref={flatListRef}
       style={{ flex: 1 }}
       contentContainerStyle={{
         gap: getToken('$4', 'space'),

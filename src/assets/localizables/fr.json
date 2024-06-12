@@ -107,7 +107,7 @@
       }
     },
     "onboarding": {
-      "title": "Besoin d'Europe\navec",
+      "title": "Renaissance\navec",
       "title_rest": "la majorité présidentielle",
       "description": "Agissez près de chez vous pour la réussite de notre projet et restez informés de l'actualité locale et nationale",
       "login": "Me connecter",
@@ -183,7 +183,7 @@
     "datacollect": { "accept": "Accepter" },
     "home": {
       "banner": {
-        "heading": "Besoin d'Europe\navec",
+        "heading": "Renaissance\navec",
         "title": "la majorité présidentielle"
       },
       "greeting": "Bonjour",
@@ -191,7 +191,7 @@
       "footer": {
         "title": "Renaissance",
         "description": "Vous voulez contribuer à la transformation de Renaissance ? Rejoignez les plus de 400 000 adhérents de Renaissance. C'est facile, gratuit et 3 minutes suffiront.",
-        "button": "Besoin d'Europe"
+        "button": "Renaissance"
       },
       "region_more": "En savoir plus",
       "news": { "date_pattern": "dd MMMM yyyy", "date_format": "le {{date}}" },
@@ -321,7 +321,7 @@
     },
     "notificationmenu": {
       "title": "Notifications",
-      "description": "Activez les notifications pour ne rien manquer sur Besoin d'Europe ! ",
+      "description": "Activez les notifications pour ne rien manquer sur Renaissance ! ",
       "local": "Locales",
       "national": "Nationales"
     },

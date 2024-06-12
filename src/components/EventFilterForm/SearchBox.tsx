@@ -1,26 +1,26 @@
 import React, { ComponentProps, forwardRef, useCallback } from 'react'
-import { TextInput, TextInputProps } from 'react-native'
+import { Pressable, TextInput, TextInputProps } from 'react-native'
 import { useForwardRef } from '@/hooks/useForwardRef'
-import { Search, XCircle } from '@tamagui/lucide-icons'
+import { Filter, Search, XCircle } from '@tamagui/lucide-icons'
 import Input from '../base/Input/Input'
-import Button from '../Button/Button'
 
 type SearchBoxProps = {
   value: string
   onChange: (value: string) => void
   onFocus?: TextInputProps['onFocus']
+  DefaultIcon?: typeof Filter | typeof Search
 } & Omit<ComponentProps<typeof Input>, 'value' | 'onChange' | 'onFocus'>
 
-const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ value, onChange, onFocus, ...rest }, ref) => {
+const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ value, onChange, onFocus, DefaultIcon = Search, ...rest }, ref) => {
   const searchInputRef = useForwardRef(ref)
 
   const IconRight = useCallback((props: { isInputFill: boolean }) => {
     return props.isInputFill ? (
-      <Button variant="text" onPress={() => onChange('')}>
+      <Pressable onPress={() => onChange('')}>
         <XCircle />
-      </Button>
+      </Pressable>
     ) : (
-      <Search />
+      <DefaultIcon />
     )
   }, [])
 
@@ -29,6 +29,8 @@ const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ value, onChange, onFo
       placeholder="Rechercher un événement"
       size={'$4'}
       ref={searchInputRef}
+      backgroundColor={'$white1'}
+      placeholderTextColor={'$textSecondary'}
       value={value}
       onFocus={onFocus}
       iconRight={<IconRight isInputFill={value.length > 0} />}

@@ -1,4 +1,5 @@
 import React from 'react'
+import Error404 from '@/components/404/Error404'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
@@ -15,6 +16,7 @@ import { isWeb, YStack } from 'tamagui'
 
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
+  if (!params.id) return <Error404 />
   return (
     <PageLayout>
       <PageLayout.SideBarLeft>

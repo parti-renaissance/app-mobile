@@ -1,16 +1,14 @@
 import React, { useMemo } from 'react'
-import { Platform } from 'react-native'
-import discoveryDocument from '@/config/discoveryDocument'
 import { LoginInteractor } from '@/core/interactor/LoginInteractor'
 import AuthenticationRepository from '@/data/AuthenticationRepository'
 import { useLazyRef } from '@/hooks/useLazyRef'
-import useLogin, { REDIRECT_URI, useRegister } from '@/hooks/useLogin'
-import { useGetProfil } from '@/hooks/useProfil'
+import useLogin, { useRegister } from '@/hooks/useLogin'
+import { useGetProfil, useGetUserScopes } from '@/hooks/useProfil'
 import { useStorageState } from '@/hooks/useStorageState'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { useQueryClient } from '@tanstack/react-query'
-import { AllRoutes, router, useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 
 type AuthContext = {
   signIn: (props?: { code: string }) => Promise<void>
@@ -20,6 +18,7 @@ type AuthContext = {
   session?: string | null
   isLoading: boolean
   user: ReturnType<typeof useGetProfil>
+  scope: ReturnType<typeof useGetUserScopes>
 }
 
 const AuthContext = React.createContext<AuthContext>({
@@ -30,6 +29,7 @@ const AuthContext = React.createContext<AuthContext>({
   session: null,
   isLoading: false,
   user: {} as ReturnType<typeof useGetProfil>,
+  scope: {} as ReturnType<typeof useGetUserScopes>,
 })
 
 // This hook can be used to access the user info.
@@ -46,7 +46,7 @@ export function useSession() {
 
 export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('credentials')
-  const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: AllRoutes }>()
+  const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: string }>()
 
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
   const toast = useToastController()
@@ -64,6 +64,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const login = useLogin()
   const register = useRegister()
   const user = useGetProfil({ enabled: !!session })
+  const scope = useGetUserScopes({ enabled: !!session })
+
   const isGlobalLoading = [isLoginInProgress, isLoading, user.isLoading].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
 
@@ -124,6 +126,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         isLoading: isGlobalLoading,
         isAuth,
         user,
+        scope,
       }) satisfies AuthContext,
     [handleSignIn, handleSignOut, session, isLoginInProgress, isLoading],
   )

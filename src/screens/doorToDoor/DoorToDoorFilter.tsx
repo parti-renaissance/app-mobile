@@ -1,5 +1,6 @@
 import React from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
+import Container from '@/components/layouts/Container'
 import { Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
 import { DoorToDoorFilterDisplay } from './DoorToDoor'
@@ -12,18 +13,8 @@ type Props = {
 
 const DoorToDoorFilter = ({ filter, onPress }: Props) => {
   return (
-    <ScrollView
-      horizontal
-      style={styles.container}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.contentContainer}
-    >
-      <DoorToDoorFilterItem
-        filter="all"
-        title={i18n.t('doorToDoor.filter.all')}
-        onPress={() => onPress('all')}
-        active={filter === 'all'}
-      />
+    <ScrollView horizontal style={styles.container} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.contentContainer}>
+      <DoorToDoorFilterItem filter="all" title={i18n.t('doorToDoor.filter.all')} onPress={() => onPress('all')} active={filter === 'all'} />
       <DoorToDoorFilterItem
         filter="todo"
         icon={require('../../assets/images/papTodoIcon.png')}

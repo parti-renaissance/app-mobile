@@ -1,5 +1,5 @@
+import Select from '@/components/base/Select/Select'
 import { uniqBy, upperFirst } from 'lodash'
-import Select from '../Select'
 import nationalities from './nationalities.json'
 
 interface NationalitySelectProps {
@@ -8,16 +8,16 @@ interface NationalitySelectProps {
   label?: string
   id: string
   error?: string
-  onBlur?: (fieldOrEvent: any) => void
+  onBlur?: () => void
   placeholder?: string
 }
 
-export default function NationalitySelect(props: NationalitySelectProps) {
-  return <Select canSearch options={countriesSource} {...props} />
-}
-
 const countriesSource = uniqBy(nationalities, 'iso').map((n) => ({
-  value: n.iso!,
-  label: upperFirst(n.nationality!),
-  index: n.index!,
+  value: n.iso,
+  label: upperFirst(n.nationality),
+  index: n.index,
 }))
+
+export default function NationalitySelect({ id, ...props }: Readonly<NationalitySelectProps>) {
+  return <Select key={id} search options={countriesSource} {...props} minimal />
+}

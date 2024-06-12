@@ -7,10 +7,16 @@ export interface RestTimelineFeedAddress {
 
 export interface RestTimelineFeedItem {
   objectID: string
-  type: 'news' | 'event' | 'phoning-campaign' | 'pap-campaign' | 'survey' | 'riposte'
+  type: 'news' | 'event' | 'phoning-campaign' | 'pap-campaign' | 'survey' | 'riposte' | 'action'
   title: string
   description: string
-  author: string | null
+  author: {
+    first_name: string
+    last_name: string
+    role: string
+    instance: string
+    zone: string
+  } | null
   date: string
   begin_at: string | null
   finish_at: string | null
@@ -22,6 +28,7 @@ export interface RestTimelineFeedItem {
   cta_link: string | null
   cta_label: string | null
   url: string | null
+  user_registered_at: string | null
   time_zone: string | null
   mode: 'meeting' | 'online' | null
   post_address?: RestTimelineFeedAddress

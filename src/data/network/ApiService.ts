@@ -1,6 +1,7 @@
 import { Poll } from '@/core/entities/Poll'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
+import { ActionCreateType, ActionFullSchema, ActionPaginationSchema, RestActionRequestParams } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -317,7 +318,7 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public updatePhoningSessionStatus(sessionId: string, status: string, params: any = {}): Promise<void> {
+  public updatePhoningSessionStatus(sessionId: string, status: string, params: Record<string, string> = {}): Promise<void> {
     return this.httpClient
       .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
         json: { status, ...params },
@@ -418,7 +419,7 @@ class ApiService {
   }
 
   public createDoorToDoorCampaignHistory(
-    request: any, // object with dynamic keys
+    request: Record<string, string>, // object with dynamic keys
   ): Promise<RestDoorToDoorCampaignHistoryResponse> {
     return this.httpClient.post('api/v3/pap_campaign_histories', { json: request }).json<RestDoorToDoorCampaignHistoryResponse>().catch(genericErrorMapping)
   }
@@ -475,7 +476,7 @@ class ApiService {
   public async getPlaceAutocomplete(query: string, signal?: AbortSignal): Promise<google.maps.places.AutocompletePrediction[]> {
     return this.httpClient
       .get(
-        `api/v3/place/autocomplete?input=${stringify({
+        `api/v3/place/autocomplete?${stringify({
           input: query,
         })}`,
         {
@@ -492,6 +493,7 @@ class ApiService {
       .get(
         `api/v3/place/details?${stringify({
           place_id: placeId,
+          fields: 'formatted_address,address_components,geometry',
         })}`,
         {
           signal,
@@ -503,10 +505,65 @@ class ApiService {
           ? ({
               formatted: data.result.formatted_address,
               details: data.result.address_components,
+              geometry: data.result.geometry,
             } as GoogleAddressPlaceResult)
           : null,
       )
       .catch(genericErrorMapping)
+  }
+
+  public async getActions({ subscribeOnly, ...restParams }: RestActionRequestParams) {
+    const params = {
+      ...restParams,
+      ...(subscribeOnly ? { subscribeOnly: true } : {}),
+    }
+    return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
+  }
+
+  public async insertAction(payload: ActionCreateType, scope: string) {
+    return this.httpClient
+      .post('api/v3/actions', {
+        searchParams: {
+          scope,
+        },
+        json: {
+          ...payload,
+          date: payload.date.toISOString(),
+        },
+      })
+      .json()
+      .catch(genericErrorMapping)
+  }
+
+  public async editAction(uuid: string, payload: ActionCreateType, scope: string) {
+    return this.httpClient
+      .put(`api/v3/actions/${uuid}`, {
+        json: {
+          ...payload,
+          date: payload.date.toISOString(),
+          scope,
+        },
+      })
+      .json()
+      .catch(genericErrorMapping)
+  }
+
+  public async getAction(id: string, scope?: string) {
+    return this.httpClient
+      .get(`api/v3/actions/${id}`, {
+        searchParams: scope ? { scope } : undefined,
+      })
+      .json()
+      .then(ActionFullSchema.parse)
+      .catch(genericErrorMapping)
+  }
+
+  public async subscribeToAction(id: string) {
+    return this.httpClient.post(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
+  }
+
+  public async unsubscribeFromAction(id: string) {
+    return this.httpClient.delete(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
   }
 
   public static getInstance(): ApiService {
@@ -520,6 +577,7 @@ class ApiService {
 export interface GoogleAddressPlaceResult {
   formatted?: string
   details?: google.maps.GeocoderAddressComponent[]
+  geometry?: google.maps.GeocoderGeometry
 }
 
 export default ApiService

@@ -20,6 +20,8 @@ import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRe
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/hooks/useProfil'
 import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
+import { nativeBuildVersion } from 'expo-application'
+import Constants from 'expo-constants'
 import * as WebBrowser from 'expo-web-browser'
 import { Formik, FormikProps } from 'formik'
 import { isWeb, ScrollView, Spinner, Stack, useMedia, View, YStack } from 'tamagui'
@@ -130,9 +132,10 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               </View>
             </View>
 
-            <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
+            <View $gtMd={{ flexDirection: 'row' }} gap="$4">
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <FormikController name="birthdate">
+                  {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
                   {({ inputProps: { onChange, ...inputProps }, setFieldValue }) => (
                     <DatePickerField label="Date de naissance" onChange={(el) => setFieldValue('birthdate', el)} {...inputProps} />
                   )}
@@ -178,14 +181,13 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               )}
             </FormikController>
 
-            <SpacedContainer display={manualAddress ? 'none' : 'flex'}>
+            <SpacedContainer display={manualAddress ? 'none' : 'flex'} paddingVertical="$3.5">
               <FormikController name={'addressInput'}>
                 {({ inputProps, setFieldValue }) => (
                   <AddressAutocomplete
+                    minimal
                     setAddressComponents={(val) => setFieldValue('address', val)}
-                    setStringValue={inputProps.onChange}
                     defaultValue={inputProps.value}
-                    onBlur={inputProps.onBlur}
                     error={inputProps.error}
                   />
                 )}
@@ -262,7 +264,7 @@ const EditInformations = () => {
     userUuid: profile?.uuid,
   })
 
-  const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent') ?? false
+  const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent')
   const { signOut } = useSession()
 
   const { mutateAsync } = useDeleteProfil()
@@ -338,6 +340,9 @@ const EditInformations = () => {
           <VoxCard>
             <VoxCard.Content>
               <FormEditInformations ref={formikFormRef} profile={profile} onSubmit={handleSubmit} />
+              <Text>
+                Version: v{Constants.expoConfig?.version ?? '0.0.0'} [{isWeb ? '???' : nativeBuildVersion} - {clientEnv.ENVIRONMENT}]
+              </Text>
               <YStack gap="$10">
                 {isWeb && (
                   <View>

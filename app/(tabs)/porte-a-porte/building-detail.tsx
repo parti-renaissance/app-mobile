@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Image, Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { BuildingBlock, BuildingBlockHelper } from '@/core/entities/BuildingBlock'
 import { BuildingHistoryPoint } from '@/core/entities/BuildingHistory'
 import { BuildingType, DoorToDoorAddress } from '@/core/entities/DoorToDoor'
@@ -27,7 +28,7 @@ import AlphabetHelper from '@/utils/AlphabetHelper'
 import i18n from '@/utils/i18n'
 import { useIsFocused } from '@react-navigation/native'
 import { router, useNavigation } from 'expo-router'
-import { last } from 'lodash'
+import { isWeb } from 'tamagui'
 
 enum Tab {
   HISTORY,
@@ -44,7 +45,7 @@ const BuildingDetailScreen = () => {
   const [campaignCardViewModel, setCampaignCardViewModel] = useState<DoorToDoorCampaignCardViewModel>()
   const dtdStore = useDoorToDoorStore()
   const { setTunnel } = useDtdTunnelStore()
-  const [address, setAddress] = useState(dtdStore.address)
+  const [address, setAddress] = useState(dtdStore.address as DoorToDoorAddress)
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>({ visible: false })
   const viewModel = BuildingDetailScreenViewModelMapper.map(address!, history, layout)
   const buildingBlockHelper = new BuildingBlockHelper()
@@ -59,6 +60,9 @@ const BuildingDetailScreen = () => {
   })
 
   const fetchLayout = async (): Promise<Array<BuildingBlock>> => {
+    if (!dtdStore.address) {
+      throw new Error('No address found')
+    }
     return await new UpdateBuildingLayoutInteractor().execute(
       dtdStore.address.building.id,
       campaignStatistics.campaignId,
@@ -68,6 +72,9 @@ const BuildingDetailScreen = () => {
   }
 
   const fetchHistory = async (): Promise<Array<BuildingHistoryPoint>> => {
+    if (!dtdStore.address) {
+      throw new Error('No address found')
+    }
     return await DoorToDoorRepository.getInstance().buildingHistory(dtdStore.address.building.id, campaignStatistics.campaignId)
   }
 
@@ -284,7 +291,7 @@ const BuildingDetailScreen = () => {
                 campaignId: campaignStatistics.campaignId,
                 buildingParams: {
                   id: address.building.id,
-                  block: block?.name,
+                  block: block?.name!,
                   floor: floorNumber,
                   type: address.building.type,
                   door: door,
@@ -422,4 +429,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BuildingDetailScreen
+export default isWeb ? MobileWallLayout : BuildingDetailScreen

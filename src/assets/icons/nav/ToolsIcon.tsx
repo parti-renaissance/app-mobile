@@ -4,8 +4,8 @@ import type { IconProps } from '@tamagui/helpers-icon'
 import { themed } from '@tamagui/helpers-icon'
 
 const inactiveColors = [
-  ['#AEB9C3', '#848E9B'],
   ['#D7DCE1', '#C1C7CD'],
+  ['#AEB9C3', '#848E9B'],
 ]
 
 const activeColors = [

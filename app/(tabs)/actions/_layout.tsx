@@ -1,10 +1,12 @@
-import { headerBlank } from '@/styles/navigationAppearance'
+import { SmallHeader } from '@/components/Header/Header'
+import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { Stack } from 'expo-router'
+import { isWeb } from 'tamagui'
 
 export default function AppLayout() {
   return (
-    <Stack screenOptions={{ ...headerBlank, headerShown: false }}>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
+    <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
+      <Stack.Screen name="index" options={{ title: 'Actions' }} />
       <Stack.Screen name="phoning/index" options={{ headerShown: false }} />
       <Stack.Screen name="phoning/session/[device]" options={{ presentation: 'modal', headerShown: false }} />
       <Stack.Screen name="phoning/charter" />

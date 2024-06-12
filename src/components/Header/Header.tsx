@@ -5,10 +5,11 @@ import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustratio
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
-import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs/src/types'
+import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
-import { Link, usePathname, useSegments } from 'expo-router'
-import { Button, Circle, Spinner, Stack, StackProps, styled, useMedia, View } from 'tamagui'
+import { Link, usePathname } from 'expo-router'
+import { capitalize } from 'lodash'
+import { Button, isWeb, Spinner, Stack, styled, useMedia, View, XStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
@@ -30,12 +31,15 @@ const ButtonNav = styled(Button, {
 
 const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) => {
   const colorOpacity = opacityToHexCode(props.route.gradiant[0], 0.09)
+  const [isHover, setIsHover] = React.useState(false)
   return (
     <Link href={`/(tabs)/${props.route.name}`} asChild key={props.route.name}>
       <ButtonNav
+        onHoverIn={() => setIsHover(true)}
+        onHoverOut={() => setIsHover(false)}
         animation="bouncy"
         hoverStyle={{
-          bg: props.isActive ? colorOpacity : 'transparent',
+          bg: colorOpacity,
           bc: 'transparent',
         }}
         pressStyle={{
@@ -44,7 +48,7 @@ const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) =
         }}
       >
         <Button.Icon scaleIcon={2}>
-          <props.route.icon size={28} active={props.isActive} />
+          <props.route.icon size={28} active={[props.isActive, isHover].some(Boolean)} />
         </Button.Icon>
 
         <Button.Text $md={{ display: 'none' }} color={props.isActive ? props.route.gradiant[1] : '$gray8'} fontWeight={'500'}>
@@ -57,7 +61,7 @@ const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) =
 
 const MemoizedNavItem = React.memo(NavItem)
 
-const NavBar = () => {
+export const NavBar = () => {
   const pathname = usePathname()
   const { gtSm } = useMedia()
   const { session } = useSession()
@@ -80,12 +84,12 @@ const ProfileView = () => {
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
       {!user.isLoading ? (
         <>
-          <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end">
+          <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end" display="none" $gtMd={{ display: 'flex' }}>
             <Text fontFamily={'$PublicSans'} color="$textPrimary" fontWeight={'500'} fontSize={14}>
               {profile?.first_name} {profile?.last_name}
             </Text>
           </Stack>
-          <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$4" rounded />
+          <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$3" rounded />
         </>
       ) : (
         <Spinner size="small" />
@@ -93,7 +97,6 @@ const ProfileView = () => {
     </View>
   )
 }
-
 const LoginView = () => (
   <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
     <Stack gap={'$2'} flexDirection="row">
@@ -103,49 +106,74 @@ const LoginView = () => (
   </View>
 )
 
-const Header: React.FC = (props: BottomTabHeaderProps) => {
-  const segments = useSegments()
-  const isNested = segments.length > 2
-  const backPath = segments
-    .filter((x: string) => !x.startsWith('('))
-    .slice(0, -1)
-    .join('/')
+export const ProfileNav = () => {
+  return (
+    <AuthFallbackWrapper fallback={<LoginView />}>
+      <ProfilePopover>
+        <View flexDirection="row" alignItems="center" gap={'$3'}>
+          <ProfileView />
+          <ChevronDown size={16} color="$gray6" />
+        </View>
+      </ProfilePopover>
+    </AuthFallbackWrapper>
+  )
+}
+
+const Header = (_props: NativeStackHeaderProps & YStackProps) => {
+  const { options, navigation, back, ...props } = _props
+  const media = useMedia()
 
   const BackBtn = () => (
     <Stack justifyContent="center" alignItems="center">
-      <Link href={backPath as never} asChild>
-        <TouchableWithoutFeedback>
-          <Circle size="$3" borderWidth="$1" borderColor="$gray3" pressStyle={{ backgroundColor: '$gray1' }}>
-            <ArrowLeft color="$textDisabled" />
-          </Circle>
-        </TouchableWithoutFeedback>
-      </Link>
+      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+        <XStack gap={'$3'} alignItems="center">
+          <View flexDirection="row" gap={'$3'} alignItems="center">
+            <ArrowLeft color="$textPrimary" />
+          </View>
+          <Text fontSize="$4" fontWeight="$6">
+            {back?.title ?? 'Retour'}
+          </Text>
+        </XStack>
+      </TouchableWithoutFeedback>
     </Stack>
   )
+
+  const LeftNav = () => {
+    if (options.headerLeft) return options.headerLeft({ label: back?.title, canGoBack: navigation.canGoBack() })
+    if (navigation.canGoBack() && navigation.getState().index > 0) {
+      return <BackBtn />
+    }
+    return media.gtSm && isWeb ? (
+      <EuCampaignIllustration />
+    ) : (
+      <Text fontSize="$4" fontWeight="$6">
+        {capitalize(options.title)}
+      </Text>
+    )
+  }
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <Container borderBottomWidth={2} borderBottomColor="rgba(145, 158, 171, 0.32)" paddingHorizontal={'$4'} height={82} {...props} alignContent="center">
+      <Container
+        borderBottomWidth={options.headerShadowVisible === undefined ? 1 : undefined}
+        borderBottomColor="rgba(145, 158, 171, 0.2)"
+        paddingHorizontal={'$4'}
+        height={82}
+        {...props}
+        alignContent="center"
+      >
         <Stack flexDirection="row" justifyContent="space-between" alignItems="center" flex={1}>
-          {isNested ? (
-            <BackBtn />
-          ) : (
-            <Link href={'/(tabs)/(home)'}>
-              <EuCampaignIllustration />
-            </Link>
-          )}
-          {!isNested && <NavBar />}
-          <AuthFallbackWrapper fallback={<LoginView />}>
-            <ProfilePopover>
-              <View flexDirection="row" alignItems="center" gap={'$3'}>
-                <ProfileView />
-                <ChevronDown size={16} color="$gray6" />
-              </View>
-            </ProfilePopover>
-          </AuthFallbackWrapper>
+          <LeftNav />
+          {!(navigation.canGoBack() && navigation.getState().index > 0) && <NavBar />}
+          {options.headerRight ? options.headerRight({ canGoBack: navigation.canGoBack() }) : <ProfileNav />}
         </Stack>
       </Container>
     </SafeAreaView>
   )
+}
+
+export const SmallHeader: typeof Header = (props) => {
+  const media = useMedia()
+  return <Header {...props} height={media.gtSm ? 82 : 52} />
 }
 
 export default Header

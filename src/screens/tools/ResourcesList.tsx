@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { RefreshControl, ScrollView } from 'react-native'
 import { useTools } from '@/hooks/useTools'
 import CardTool from '@/screens/tools/components/CardTool'
+import { useScrollToTop } from '@react-navigation/native'
 import { getToken, useMedia, View } from 'tamagui'
 
 const ResourcesList = () => {
   const media = useMedia()
   const { data, refetch, isRefetching } = useTools()
+  const ref = useRef<ScrollView>(null)
+  useScrollToTop(ref)
 
   const tools = data.pages
     .map((_) => _.items)
@@ -19,6 +22,7 @@ const ResourcesList = () => {
 
   return (
     <ScrollView
+      ref={ref}
       contentContainerStyle={{
         flexDirection: 'row',
         flexWrap: 'wrap',

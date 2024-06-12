@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { FontAwesome } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 
@@ -24,7 +25,7 @@ function AutoSizeImage(props: AutoSizeImageProps) {
     : undefined
 
   return (
-    <View style={[styles.imageContainer]}>
+    <Animated.View style={[styles.imageContainer]}>
       <Image
         blurRadius={showOverlay ? 2 : 0}
         style={[
@@ -52,7 +53,7 @@ function AutoSizeImage(props: AutoSizeImageProps) {
           <FontAwesome name={'plus-circle'} size={50} color={'rgba(255,255,255,0.9)'} />
         </View>
       )}
-    </View>
+    </Animated.View>
   )
 }
 

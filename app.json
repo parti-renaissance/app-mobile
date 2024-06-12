@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "Besoin d'Europe",
+    "name": "Renaissance",
     "slug": "vox",
     "scheme": "vox",
-    "version": "5.3.0",
+    "version": "5.4.0",
     "owner": "parti-renaissance",
     "runtimeVersion": {
       "policy": "appVersion"
@@ -31,6 +31,7 @@
         ]
       },
       "infoPlist": {
+        "UIBackgroundModes": ["fetch", "remote-notification"],
         "NSCalendarsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSContactsUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSCalendarsWriteOnlyAccessUsageDescription": "Requis pour partager les événements dans le calendrier",
@@ -77,8 +78,6 @@
       [
         "@sentry/react-native/expo",
         {
-          "url": "https://sentry.io/",
-          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
           "project": "vox",
           "organization": "parti-renaissance"
         }
@@ -111,7 +110,8 @@
           "androidPermissions": ["android.permission.WRITE_CALENDAR"]
         }
       ],
-      ["react-native-add-calendar-event"]
+      ["react-native-add-calendar-event"],
+      ["expo-notifications"]
     ],
     "extra": {
       "router": {

@@ -6,7 +6,6 @@ import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import ResourcesList from '@/screens/tools/ResourcesList'
-import { Stack as RouterStack } from 'expo-router'
 import Head from 'expo-router/head'
 import { View, YStack } from 'tamagui'
 
@@ -43,12 +42,6 @@ const ToolsSkeleton = () => {
 const ToolsScreen: React.FC = () => {
   return (
     <>
-      <RouterStack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-
       <Head>
         <title>{metatags.createTitle('Ressources')}</title>
       </Head>

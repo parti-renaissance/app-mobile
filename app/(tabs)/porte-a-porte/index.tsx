@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Modal, SafeAreaView, StyleSheet, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
 import { DoorToDoorCharterNotAccepted } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
@@ -11,11 +11,9 @@ import DoorToDoorFilter from '@/screens/doorToDoor/DoorToDoorFilter'
 import DoorToDoorListView from '@/screens/doorToDoor/DoorToDoorListView'
 import _DoorToDoorMapView, { getRegionFromLatLng } from '@/screens/doorToDoor/DoorToDoorMapView'
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
-import MapListSwitch from '@/screens/doorToDoor/MapListSwitch'
 import RankingModal from '@/screens/doorToDoor/rankings/RankingModal'
 import LoadingView from '@/screens/shared/LoadingView'
 import { Colors, Spacing, Typography } from '@/styles'
-import i18n from '@/utils/i18n'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { useQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
@@ -162,12 +160,12 @@ const DoorToDoorScreen = () => {
         </Modal>
       )}
 
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.title} numberOfLines={1}>
           {i18n.t('doorToDoor.title')}
         </Text>
         {!error && <MapListSwitch mode={displayMode} onPress={setDisplayMode} />}
-      </View>
+      </View> */}
       {renderContent()}
     </SafeAreaView>
   )

@@ -1,12 +1,13 @@
 import { useCallback } from 'react'
 import { Linking } from 'react-native'
 import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
+import clientEnv from '@/config/clientEnv'
 import { gray } from '../../../../theme/colors.hex'
 import Button from '../../Button'
 
 export default function ProgramCTA() {
   const onPress = useCallback(async () => {
-    const link = 'https://besoindeurope.fr/projet?utm_source=app'
+    const link = `https://${clientEnv.CAMPAIGN_DOMAIN}/projet?utm_source=app`
     if (await Linking.canOpenURL(link)) {
       await Linking.openURL(link)
     }

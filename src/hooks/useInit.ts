@@ -15,10 +15,15 @@ const getScreenname = (route: string): AnalyticsScreens => {
   return tabRoute?.screenName as AnalyticsScreens
 }
 
+const subscribeNotification = async () => {
+  const pushRepository = PushRepository.getInstance()
+  await PushNotification.requestPermission()
+  await pushRepository.synchronizePushTokenAssociation()
+}
+
 export default function useInitPushNotification() {
   const { session } = useSession()
   const pathname = usePathname()
-
   useEffect(() => {
     Analytics.logNavBarItemSelected(getScreenname(pathname))
   }, [pathname])
@@ -26,17 +31,15 @@ export default function useInitPushNotification() {
   useEffect(() => {
     if (session) {
       Analytics.enable()
-      PushNotification.requestPermission()
       new IdentifyUserOnErrorMonitorInteractor().execute()
       SendDoorToDoorPollAnswersJobWorker.getInstance().then((worker) => {
         worker.start()
       })
-      PushRepository.getInstance()
-        .synchronizeGeneralTopicSubscription()
-        .catch((error) => {
-          console.log(error)
-        })
+      subscribeNotification().catch((error) => {
+        console.error('Failed to subscribe to notifications', error)
+      })
+    } else {
+      Analytics.disable()
     }
-    Analytics.disable()
   }, [session])
 }

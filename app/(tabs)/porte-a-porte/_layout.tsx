@@ -1,15 +1,18 @@
-import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
-import { headerBlank } from '@/styles/navigationAppearance'
+import { SmallHeader } from '@/components/Header/Header'
 import { Stack } from 'expo-router'
-import { isWeb } from 'tamagui'
 
 export default function DoorToDoorLayout() {
-  return isWeb ? (
-    <MobileWallLayout />
-  ) : (
-    <Stack screenOptions={{ ...headerBlank, headerShown: false }}>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="tunnel" options={{ presentation: 'modal', headerShown: false }} />
+  return (
+    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: 'slide_from_right' }}>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: 'Porte à porte',
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen name="building-detail" options={{ title: '' }} />
+      <Stack.Screen name="tunnel" options={{ presentation: 'fullScreenModal', headerShown: false }} />
     </Stack>
   )
 }

@@ -1,6 +1,8 @@
 import { Linking } from 'react-native'
 import { type FeedCardProps } from '@/components/Cards'
+import { ActionType } from '@/core/entities/Action'
 import { logDefaultError } from '@/data/network/NetworkLogger'
+import { ReadableActionType } from '@/data/restObjects/RestActions'
 import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { router } from 'expo-router'
 
@@ -10,6 +12,7 @@ const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps
       return 'news'
     case 'event':
       return 'event'
+    case 'action':
     case 'riposte':
     case 'phoning-campaign':
     case 'pap-campaign':
@@ -38,9 +41,9 @@ const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
 export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardProps => {
   const type = tramformFeedItemType(feed.type)
   const author = {
-    role: 'Role data missing',
-    name: feed.author ?? '',
-    title: 'title data missing',
+    role: feed.author?.role,
+    name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : 'Author data missing',
+    title: feed.author?.instance,
     pictureLink: undefined,
   }
   const location = feed.post_address
@@ -50,7 +53,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         street: feed.post_address.address,
       }
     : undefined
-  const tag = tramformFeedItemTypeToTag(feed.type)
+  const tag = tramformFeedItemTypeToTag(feed.type)!
   switch (type) {
     case 'news':
       return {
@@ -96,11 +99,11 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           title: feed.title,
           tag,
           image: feed.image ?? undefined,
-          isSubscribed: undefined,
+          isSubscribed: !!feed.user_registered_at,
           date: {
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
             end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
-            timeZone: feed.time_zone,
+            timeZone: feed.time_zone ?? undefined,
           },
           location: feed.mode === 'online' ? undefined : location,
           isOnline: feed.mode === 'online',
@@ -113,45 +116,30 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         onSubscribe: () => {},
         onShow: () => {
           switch (feed.type) {
-            case 'riposte':
+            case 'action':
               router.push({
-                pathname: '/(tabs)/actions/retaliation/[id]',
-                params: { id: feed.objectID },
+                pathname: '/(tabs)/actions',
+                params: { uuid: feed.objectID },
               })
               break
-            case 'phoning-campaign':
-              router.navigate({
-                pathname: '/actions/phoning/',
-                params: { id: feed.objectID },
-              })
-              break
-            case 'pap-campaign':
-              router.navigate({
-                pathname: '/(tabs)/porte-a-porte',
-                params: { id: feed.objectID },
-              })
-              break
-            case 'survey':
-              router.push({
-                pathname: '/poll-detail',
-                params: { id: feed.objectID },
-              })
+            default:
               break
           }
         },
         payload: {
-          tag,
-          isSubscribed: false,
+          tag: ReadableActionType[feed.category?.toLowerCase() as ActionType],
+          id: feed.objectID,
+          isSubscribed: !!feed.user_registered_at,
           date: {
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
             end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
           },
           location,
           author,
-          attendees: {
-            pictures: ['https://picsum.photos/id/64/200/200', 'https://picsum.photos/id/66/200/200', 'https://picsum.photos/id/71/200/200'],
-            count: 40,
-          },
+          // attendees: {
+          //   pictures: ['https://picsum.photos/id/64/200/200', 'https://picsum.photos/id/66/200/200', 'https://picsum.photos/id/71/200/200'],
+          //   count: 40,
+          // },
         },
       }
   }

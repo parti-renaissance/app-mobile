@@ -37,13 +37,13 @@ const Icon = (props) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M15 10.5a.488.488 0 01-.5.488l-3.1-.078a.41.41 0 010-.82l3.1-.077c.274-.007.5.213.5.487z"
-        fill={getFillUrl(3)}
+        fill={getFillUrl(2)}
       />
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M15 10.5a.488.488 0 01-.5.488l-3.1-.078a.41.41 0 010-.82l3.1-.077c.274-.007.5.213.5.487z"
-        fill={getFillUrl(4)}
+        fill={getFillUrl(1)}
       />
 
       <Defs>
@@ -60,10 +60,6 @@ const Icon = (props) => {
             <LinearGradient id={getStateFromIndex(i, 2)} x1={13} y1={2.07397} x2={13} y2={29.9261} gradientUnits="userSpaceOnUse">
               <Stop stopColor={g1[0]} />
               <Stop offset={1} stopColor={g1[1]} />
-            </LinearGradient>
-            <LinearGradient id={getStateFromIndex(i, 3)} x1={13} y1={2.07397} x2={13} y2={29.9261} gradientUnits="userSpaceOnUse">
-              <Stop stopColor={g2[0]} />
-              <Stop offset={1} stopColor={g2[1]} />
             </LinearGradient>
           </Fragment>
         ))}

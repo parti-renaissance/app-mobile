@@ -13,7 +13,7 @@ export type TabRoute = {
 export const ROUTES: TabRoute[] = [
   {
     name: '(home)',
-    screenName: 'Fil',
+    screenName: 'Mon fil',
     href: '/',
     icon: HomeIcon,
     gradiant: ['#8D98FF', '#8050E6'],

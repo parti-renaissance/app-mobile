@@ -1,3 +1,5 @@
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import Header, { SmallHeader } from '@/components/Header/Header'
 import { useSession } from '@/ctx/SessionProvider'
 import { Redirect, Stack } from 'expo-router'
 
@@ -7,12 +9,13 @@ export default function AppLayout() {
   if (!isAuth) {
     return <Redirect href={'/(tabs)/evenements/'} />
   }
+  const config = { title: '' }
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(modals)/news-detail" options={{ headerShown: false }} />
-      <Stack.Screen name="(modals)/event-detail" options={{ headerShown: false }} />
-      <Stack.Screen name="(modals)/poll-detail" options={{ headerShown: false }} />
+    <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
+      <Stack.Screen name="index" options={{ title: '', header: Header, headerLeft: () => <EuCampaignIllustration /> }} />
+      <Stack.Screen name="(modals)/news-detail" options={config} />
+      <Stack.Screen name="(modals)/event-detail" options={config} />
+      <Stack.Screen name="(modals)/poll-detail" options={config} />
     </Stack>
   )
 }

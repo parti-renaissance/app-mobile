@@ -1,9 +1,7 @@
+import clientEnv from './clientEnv'
 
-const prefixtTitle = "• Besoin d'Europe"
-
-
-
+const prefixtTitle = `• ${clientEnv.APP_NAME}`
 
 export const createTitle = (title: string) => {
-    return `${title} ${prefixtTitle}`
+  return `${title} ${prefixtTitle}`
 }
