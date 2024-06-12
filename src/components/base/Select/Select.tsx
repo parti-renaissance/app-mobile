@@ -265,6 +265,7 @@ const Select = <A extends string>({
                   <TouchableOpacity
                     onPress={() => {
                       setOpen(false)
+                      if (search) Keyboard.dismiss()
                       onBlur?.()
                     }}
                     style={{ padding: 5 }}
