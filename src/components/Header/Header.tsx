@@ -144,7 +144,11 @@ const Header = (_props: NativeStackHeaderProps & YStackProps) => {
       return <BackBtn />
     }
     return media.gtSm && isWeb ? (
-      <EuCampaignIllustration />
+      <Link href="/" asChild>
+        <View cursor="pointer">
+          <EuCampaignIllustration />
+        </View>
+      </Link>
     ) : (
       <Text fontSize="$4" fontWeight="$6">
         {capitalize(options.title)}
