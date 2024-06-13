@@ -10,11 +10,22 @@ import {
 } from '@rnmapbox/maps'
 import * as Image from 'expo-image'
 import type mapboxgl from 'mapbox-gl'
-import Map, { GeolocateControl, Layer, MapRef, Source, useMap } from 'react-map-gl'
+import Map, { GeolocateControl, Layer, MapRef, PaddingOptions, Source, useMap } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import _ from 'lodash'
 import { MapLayerMouseEvent } from 'mapbox-gl'
 import { create } from 'zustand'
+import MapboxGl from './Mapbox'
+
+const mapPadding = (padding?: MapboxGl.CameraPadding): PaddingOptions | undefined => {
+  if (!padding) return undefined
+  return {
+    top: padding.paddingTop,
+    bottom: padding.paddingBottom,
+    left: padding.paddingLeft,
+    right: padding.paddingRight,
+  }
+}
 
 type ShareState = {
   followUserLocation?: boolean
@@ -194,6 +205,12 @@ const Camera = forwardRef<React.ComponentRef<typeof C>, ComponentProps<typeof C>
   // @ts-ignore
   staticStore.followZoomLevel = props.followZoomLevel
 
+  useEffect(() => {
+    if (props.padding) {
+      map?.setPadding(mapPadding(props.padding)!)
+    }
+  }, [props.padding])
+
   useImperativeHandle(
     ref,
     () => ({
@@ -202,6 +219,9 @@ const Camera = forwardRef<React.ComponentRef<typeof C>, ComponentProps<typeof C>
           center: opt.centerCoordinate as [number, number],
           zoom: opt.zoomLevel,
           essential: true,
+          padding: mapPadding(opt.padding),
+          animate: true,
+          duration: opt.animationDuration,
         })
       },
       flyTo: (opt) => {
@@ -244,6 +264,20 @@ const UserLocation = forwardRef<ComponentRef<typeof UL>, ComponentProps<typeof U
         maxDuration: Infinity,
       }}
       trackUserLocation
+      onGeolocate={(e) => {
+        // @ts-expect-error onGeolocate is not defined
+        props?.onUpdate({
+          coords: {
+            latitude: e.coords.latitude,
+            longitude: e.coords.longitude,
+            altitude: e.coords.altitude ?? undefined,
+            accuracy: e.coords.accuracy,
+            heading: e.coords.heading ?? undefined,
+            speed: e.coords.speed ?? undefined,
+          },
+          timestamp: e.timestamp,
+        })
+      }}
       positionOptions={{
         enableHighAccuracy: true,
       }}

@@ -1,17 +1,17 @@
 import ApiService from '@/data/network/ApiService'
 import { useQuery } from '@tanstack/react-query'
-import { minutesToMilliseconds } from 'date-fns'
 
 interface PlaceAutocompleteProps {
   address: string
   minLength?: number
   enabled?: boolean
+  keepPreviousData?: boolean
 }
 
-export default function usePlaceAutocomplete({ address, enabled = true, minLength = 3 }: PlaceAutocompleteProps) {
+export default function usePlaceAutocomplete({ address, enabled = true, minLength = 3, keepPreviousData }: PlaceAutocompleteProps) {
   return useQuery({
     queryFn: async ({ signal }) => ApiService.getInstance().getPlaceAutocomplete(address, signal),
-    placeholderData: (prev) => prev,
+    placeholderData: keepPreviousData ? (prev) => prev : undefined,
     queryKey: ['autocomplete', address],
     enabled: address.length > minLength && enabled,
     retry: false,
