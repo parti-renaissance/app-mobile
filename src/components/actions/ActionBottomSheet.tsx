@@ -1,0 +1,108 @@
+import React, { useMemo } from 'react'
+import Text from '@/components/base/Text'
+import GradientButton from '@/components/Buttons/GradientButton'
+import { ActionCard, SubscribeButton } from '@/components/Cards'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
+import VoxCard from '@/components/VoxCard/VoxCard'
+import { isFullAction } from '@/data/restObjects/RestActions'
+import { useAction } from '@/hooks/useActions/useActions'
+import { useLazyRef } from '@/hooks/useLazyRef'
+import { isBefore } from 'date-fns'
+import { Sheet, XStack, YStack } from 'tamagui'
+import ParticipantAvatar from './ActionParticipants'
+import { mapPayload, useSheetPosition } from './utils'
+
+type ActionBottomSheetProps = {
+  actionQuery: ReturnType<typeof useAction>
+  onPositionChange?: (position: number, percent: number) => void
+  onOpenChange?: (open: boolean) => void
+  onEdit?: () => void
+}
+
+export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange, onEdit }: Readonly<ActionBottomSheetProps>) {
+  const { position, setPosition, handleHandlePress, defaultPosition } = useSheetPosition(1)
+  const { data: action, isLoading } = actionQuery
+
+  const isMyAction = action && isFullAction(action) && action.editable
+
+  const _position = !action ? 1 : position
+
+  React.useEffect(() => {
+    if (!action) {
+      setPosition(1)
+    }
+  }, [action])
+
+  const snapPoints = useLazyRef<[number, number]>(() => [70, 50])
+
+  const handlePositionChange = (position: number) => {
+    setPosition(position)
+    onPositionChange?.(position, snapPoints.current[position])
+  }
+
+  const handleOpeningChange = (open: boolean) => {
+    setPosition(1)
+    onOpenChange?.(open)
+  }
+
+  const payload = useMemo(() => (action ? mapPayload(action) : null), [action])
+
+  return (
+    <Sheet
+      modal
+      native
+      open={!!action}
+      defaultPosition={defaultPosition}
+      position={_position}
+      onOpenChange={handleOpeningChange}
+      onPositionChange={handlePositionChange}
+      dismissOnOverlayPress={false}
+      snapPoints={snapPoints.current}
+      snapPointsMode="percent"
+      dismissOnSnapToBottom
+    >
+      <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20} position="relative">
+        <YStack onPress={handleHandlePress}>
+          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
+        </YStack>
+
+        <Sheet.ScrollView
+          scrollEnabled={position === 0}
+          flex={1}
+          contentContainerStyle={{
+            pt: '$2',
+            pb: '$12',
+            gap: '$2',
+          }}
+        >
+          {payload && action ? (
+            <ActionCard payload={payload} asFull>
+              {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
+              {!isBefore(action.date, new Date()) && isMyAction ? <GradientButton onPress={onEdit}>Editer</GradientButton> : null}
+              {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
+              {isFullAction(action) ? (
+                <>
+                  <Text fontWeight="$5">{action.participants.length + 1} inscrits :</Text>
+                  <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
+                    <ParticipantAvatar participant={action.author} />
+                    {action.participants.map((participant) => (
+                      <ParticipantAvatar key={participant.uuid} participant={participant} alignSelf="flex-start" />
+                    ))}
+                  </XStack>
+                </>
+              ) : null}
+            </ActionCard>
+          ) : null}
+
+          {payload === null && isLoading ? (
+            <SkeCard>
+              <SkeCard.Chip />
+              <SkeCard.Title />
+              <SkeCard.Description />
+            </SkeCard>
+          ) : null}
+        </Sheet.ScrollView>
+      </Sheet.Frame>
+    </Sheet>
+  )
+}
