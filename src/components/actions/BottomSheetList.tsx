@@ -47,7 +47,9 @@ export const SideList = (props: ContainerListProps & { children: React.ReactNode
           <ActionList {...props} />
         </ScrollView>
       </YStack>
-      <YStack>{props.children}</YStack>
+      <YStack position="absolute" left="100%">
+        {props.children}
+      </YStack>
     </XStack>
   )
 }

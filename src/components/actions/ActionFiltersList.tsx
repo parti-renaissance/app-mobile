@@ -26,12 +26,13 @@ type ActionFiltersListProps = {
   onLocationChange: (location: { longitude: number; latitude: number }) => void
   onPeriodChange: (period: SelectPeriod) => void
   onTypeChange: (type: SelectType) => void
+  onAddressReset: () => void
   period: SelectPeriod
   type: SelectType
 }
 
 export const ActionFiltersList = (allProps: ActionFiltersListProps & YStackProps) => {
-  const { onPeriodChange, onTypeChange, onLocationChange, period, type, ...props } = allProps
+  const { onPeriodChange, onTypeChange, onLocationChange, period, type, onAddressReset, ...props } = allProps
   const handleLocationChange = ({ location }: { location?: { lng: number; lat: number } }) => {
     if (!location) return
     onLocationChange({ longitude: location.lng, latitude: location.lat })
@@ -40,7 +41,7 @@ export const ActionFiltersList = (allProps: ActionFiltersListProps & YStackProps
     <YStack {...props}>
       <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
         <XStack gap="$3">
-          <AddressAutocomplete maxWidth={100} labelOnlySheet setAddressComponents={handleLocationChange} />
+          <AddressAutocomplete maxWidth={100} labelOnlySheet setAddressComponents={handleLocationChange} forceSelect={false} onReset={onAddressReset} />
           <Select<SelectPeriod>
             search={false}
             labelOnlySheet

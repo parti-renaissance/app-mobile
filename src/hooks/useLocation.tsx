@@ -27,14 +27,18 @@ export const useLocationPermission = () => {
 export const useLocation = () => {
   return useSuspenseQuery({
     queryFn: () =>
-      Geolocation.getLastKnownPositionAsync().then((data) => {
-        if (!data) {
-          return Geolocation.getCurrentPositionAsync({
-            accuracy: Geolocation.Accuracy.BestForNavigation,
-          }).then((data) => data)
-        }
-        return data
-      }),
+      Geolocation.getLastKnownPositionAsync()
+        .then((data) => {
+          if (!data) {
+            return Geolocation.getCurrentPositionAsync({
+              accuracy: Geolocation.Accuracy.BestForNavigation,
+            }).then((data) => data)
+          }
+          return data
+        })
+        .catch(() => {
+          throw new LocationPermissionError()
+        }),
     queryKey: ['location'],
     retry: false,
   })

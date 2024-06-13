@@ -21,6 +21,8 @@ export interface AddressAutocompleteProps {
   error?: string
   minimal?: boolean
   maxWidth?: string | number
+  forceSelect?: boolean
+  onReset?: () => void
 }
 
 function AddressAutocomplete({
@@ -30,6 +32,8 @@ function AddressAutocomplete({
   error,
   maxWidth,
   onBlur,
+  onReset,
+  forceSelect = true,
   ...rest
 }: Readonly<AddressAutocompleteProps> & Omit<ComponentProps<typeof Select>, 'handleQuery' | 'options' | 'value' | 'onChange'>): JSX.Element {
   const [value, setValue] = useState<string>('default')
@@ -48,6 +52,7 @@ function AddressAutocomplete({
   // When place is selected, setPlaceId and trigger results close.
   const onPlaceSelect = (id: string) => {
     if (id.length === 0) {
+      onReset?.()
       return
     }
     setValue(id)
@@ -69,6 +74,7 @@ function AddressAutocomplete({
         loading={isFetching}
         onChange={onPlaceSelect}
         onBlur={onBlur}
+        forceSelect={forceSelect}
         queryHandler={onInput}
         {...rest}
         options={[

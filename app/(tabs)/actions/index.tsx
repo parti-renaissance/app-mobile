@@ -126,17 +126,26 @@ function Page() {
     }
   }
 
-  const handleLocationChange = (coordsPayload: { longitude: number; latitude: number }, moveToCoord = true) => {
-    followUser && setFollowUser(false)
-    queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
-    queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
-    if (moveToCoord)
-      mapRefs.current?.camera?.setCamera({
-        centerCoordinate: [coordsPayload.longitude, coordsPayload.latitude],
-        zoomLevel: 14,
-        animationMode: 'easeTo',
-        animationDuration: 30,
-      })
+  const handleLocationChange = (coordsPayload?: { longitude: number; latitude: number }, moveToCoord = true) => {
+    if (coordsPayload) {
+      followUser && setFollowUser(false)
+      queryClient.setQueryData([QUERY_KEY_LOCATION], { coords: coordsPayload })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
+    }
+    if (moveToCoord) {
+      const coords = coordsPayload ?? refUserPosition.current
+      if (coords) {
+        setTimeout(() => {
+          mapRefs.current?.camera?.setCamera({
+            centerCoordinate: [coords.longitude, coords.latitude],
+            zoomLevel: 14,
+            animationMode: 'easeTo',
+            animationDuration: 30,
+            padding,
+          })
+        }, 100)
+      }
+    }
   }
 
   const debouncedHandleLocationChange = useDebouncedCallback(handleLocationChange, 1000)
@@ -190,6 +199,7 @@ function Page() {
     () => (
       <ActionFiltersList
         onLocationChange={handleLocationChange}
+        onAddressReset={() => handleLocationChange(refUserPosition.current ?? undefined)}
         type={type}
         period={period}
         onPeriodChange={setPeriod}
@@ -220,15 +230,15 @@ function Page() {
 
   const sideList = (
     <SideList actions={filteredActions} postionConfig={positionConfig} open={listOpen} onOpenChange={setListOpen} setActiveAction={handleActiveAction}>
-      <YStack flex={1}>
+      <YStack height={200}>
         <ActionFiltersList
           onLocationChange={handleLocationChange}
+          onAddressReset={() => handleLocationChange(refUserPosition.current ?? undefined)}
           type={type}
           period={period}
           onPeriodChange={setPeriod}
           onTypeChange={setType}
           zIndex={10000}
-          height={100}
         />
         <YStack pl="$3">
           <ActionCreateButton width={200} onPress={() => setModalOpen(true)} />

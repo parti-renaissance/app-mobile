@@ -264,6 +264,20 @@ const UserLocation = forwardRef<ComponentRef<typeof UL>, ComponentProps<typeof U
         maxDuration: Infinity,
       }}
       trackUserLocation
+      onGeolocate={(e) => {
+        // @ts-expect-error onGeolocate is not defined
+        props?.onUpdate({
+          coords: {
+            latitude: e.coords.latitude,
+            longitude: e.coords.longitude,
+            altitude: e.coords.altitude ?? undefined,
+            accuracy: e.coords.accuracy,
+            heading: e.coords.heading ?? undefined,
+            speed: e.coords.speed ?? undefined,
+          },
+          timestamp: e.timestamp,
+        })
+      }}
       positionOptions={{
         enableHighAccuracy: true,
       }}
