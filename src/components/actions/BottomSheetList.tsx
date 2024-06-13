@@ -3,7 +3,7 @@ import Text from '@/components/base/Text'
 import { ActionCard } from '@/components/Cards'
 import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import { RestAction } from '@/data/restObjects/RestActions'
-import { Sheet, XStack, YStack } from 'tamagui'
+import { ScrollView, Sheet, XStack, YStack } from 'tamagui'
 import { mapPayload } from './utils'
 import type { useSheetPosition } from './utils'
 
@@ -20,12 +20,39 @@ export const ActionList = (props: ActionListProps) => {
   )
 }
 
-export const BottomSheetList = ({
-  postionConfig,
-  onOpenChange,
-  open,
-  ...props
-}: ActionListProps & { postionConfig: ReturnType<typeof useSheetPosition>; open: boolean; onOpenChange: (x: boolean) => void }) => {
+type ContainerListProps = ActionListProps & { postionConfig: ReturnType<typeof useSheetPosition>; open: boolean; onOpenChange: (x: boolean) => void }
+
+export const SideList = (props: ContainerListProps & { children: React.ReactNode }) => {
+  return (
+    <XStack
+      zIndex={100}
+      animation="quick"
+      key="side-list"
+      animateOnly={['transform']}
+      transform={[{ translateX: props.open ? 0 : '-100%' }]}
+      position="absolute"
+      flex={1}
+      left={0}
+      bottom={0}
+      top={0}
+    >
+      <YStack elevation={5} width={500} flex={1} backgroundColor={'$gray1'}>
+        <ScrollView
+          contentContainerStyle={{
+            p: '$4',
+            gap: '$3',
+          }}
+          flex={1}
+        >
+          <ActionList {...props} />
+        </ScrollView>
+      </YStack>
+      <YStack>{props.children}</YStack>
+    </XStack>
+  )
+}
+
+export const BottomSheetList = ({ postionConfig, onOpenChange, open, ...props }: ContainerListProps) => {
   const { position, setPosition, handleHandlePress, defaultPosition } = postionConfig
   const handlePositionChange = (position: number) => {
     setPosition(position)

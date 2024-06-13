@@ -12,13 +12,15 @@ import {
   passType,
   SelectPeriod,
   SelectType,
+  SideActionList,
+  SideList,
   useSheetPosition,
 } from '@/components/actions'
 import { ActionMapView } from '@/components/actions/ActionMapView'
+import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import MapboxGl from '@/components/Mapbox/Mapbox'
-import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { useSession } from '@/ctx/SessionProvider'
 import { RestAction } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/hooks/useActions/useActions'
@@ -28,11 +30,12 @@ import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
+import { GalleryHorizontal } from '@tamagui/lucide-icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { Feature, Point } from 'geojson'
 import { FallbackProps } from 'react-error-boundary'
-import { isWeb, Spinner, View, YStack } from 'tamagui'
+import { isWeb, Spinner, useMedia, View, YStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 const ErrorFallback = (props: FallbackProps) => {
@@ -48,18 +51,26 @@ const ErrorFallback = (props: FallbackProps) => {
 
 export default function ActionsScreen() {
   const { isAuth } = useSession()
+  const media = useMedia()
 
   if (!isAuth) {
     return <Redirect href={'/(tabs)/evenements/'} />
   }
 
-  if (Platform.OS === 'web') {
-    return <MobileWallLayout />
-  }
-
   return (
     <BoundarySuspenseWrapper errorChildren={ErrorFallback}>
-      <Page />
+      {!isWeb && media.gtMd ? (
+        // <PageLayout.StateFrame bg="$white2">
+        <YStack flex={1} justifyContent="center" bg="$white2" alignItems="center">
+          <GalleryHorizontal size={40} color="$green6" />
+          <Text fontSize="$2" color="$green6">
+            Tournez votre appareil en mode portrait
+          </Text>
+        </YStack>
+      ) : (
+        // </PageLayout.StateFrame>
+        <Page />
+      )}
     </BoundarySuspenseWrapper>
   )
 }
@@ -67,6 +78,7 @@ export default function ActionsScreen() {
 function Page() {
   useLocationPermission()
   const insets = useSafeAreaInsets()
+  const media = useMedia()
   const { uuid: activeAction } = useLocalSearchParams<{ uuid: string }>()
   const { scope } = useSession()
   const myScope = scope?.data?.find((x) => x.features.includes('actions'))
@@ -85,6 +97,7 @@ function Page() {
   const [period, setPeriod] = React.useState<SelectPeriod>('week')
   const [type, setType] = React.useState<SelectType>('all')
   const [modalOpen, setModalOpen] = React.useState(false)
+  const padding = { paddingBottom: media.gtMd ? 300 : 0, paddingLeft: media.gtMd ? 500 : 0, paddingRight: 0, paddingTop: 0 }
 
   const filterHeight = useRef(70)
   const [listOpen, setListOpen] = React.useState(true)
@@ -104,7 +117,7 @@ function Page() {
 
   const setActiveAction = (action: RestAction | null) => {
     if (action && activeAction) {
-      router.setParams({ uuid: '' })
+      if (media.md) router.setParams({ uuid: '' })
       setTimeout(() => {
         router.setParams({ uuid: action.uuid })
       }, 0)
@@ -130,7 +143,7 @@ function Page() {
 
   const setCameraBySnapPercent = (snapPercent: number, cameraSetting?: CameraStop) => {
     const height = Dimensions.get('window').height
-    const paddingBottom = (height * snapPercent) / 100 - (insets.top + filterHeight.current + 40)
+    const paddingBottom = media.md ? (height * snapPercent) / 100 - (insets.top + filterHeight.current + 40) : 0
     mapRefs.current?.camera?.setCamera({
       padding: { paddingBottom, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
       animationMode: 'easeTo',
@@ -154,7 +167,7 @@ function Page() {
         animationMode: 'easeTo',
         animationDuration: 300,
       })
-    })
+    }, 200)
     setListOpen(false)
   }
 
@@ -181,8 +194,7 @@ function Page() {
         period={period}
         onPeriodChange={setPeriod}
         onTypeChange={setType}
-        bg="transparent"
-        display={activeAction ? 'none' : 'flex'}
+        bg="$transparentColor"
         position="absolute"
         top={5}
         zIndex={100}
@@ -206,6 +218,25 @@ function Page() {
     [filteredActions, listOpen],
   )
 
+  const sideList = (
+    <SideList actions={filteredActions} postionConfig={positionConfig} open={listOpen} onOpenChange={setListOpen} setActiveAction={handleActiveAction}>
+      <YStack flex={1}>
+        <ActionFiltersList
+          onLocationChange={handleLocationChange}
+          type={type}
+          period={period}
+          onPeriodChange={setPeriod}
+          onTypeChange={setType}
+          zIndex={10000}
+          height={100}
+        />
+        <YStack pl="$3">
+          <ActionCreateButton width={200} onPress={() => setModalOpen(true)} />
+        </YStack>
+      </YStack>
+    </SideList>
+  )
+
   const actionBottomSheet = useMemo(
     () => (
       <ActionBottomSheet
@@ -221,6 +252,29 @@ function Page() {
               animationMode: 'easeTo',
               animationDuration: 300,
             })
+          }
+        }}
+        onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
+      />
+    ),
+    [actionQuery],
+  )
+
+  const sideActionList = useMemo(
+    () => (
+      <SideActionList
+        actionQuery={actionQuery}
+        onEdit={() => setModalOpen(true)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setActiveAction(null)
+            setListOpen(true)
+
+            // mapRefs.current?.camera?.setCamera({
+            //   padding: { paddingBottom: 0, paddingLeft: 0, paddingRight: 0, paddingTop: 0 },
+            //   animationMode: 'easeTo',
+            //   animationDuration: 300,
+            // })
           }
         }}
         onPositionChange={(_, percent) => setCameraBySnapPercent(percent)}
@@ -262,9 +316,10 @@ function Page() {
         coords={coords}
         onUserPositionChange={handleOnUserLocationChange}
         followUser={followUser}
+        padding={padding}
       />
     ),
-    [coords, followUser, source],
+    [coords, followUser, source, padding],
   )
 
   const mapButton = useMemo(
@@ -305,6 +360,8 @@ function Page() {
         <Tabs.Tab id="myActions">J'y participe</Tabs.Tab>
       </Tabs> */}
       <YStack flex={1} flexDirection="column" position="relative">
+        {media.gtMd && sideActionList}
+        {media.gtMd && sideList}
         <YStack flex={1} position="relative">
           {data.isLoading && (
             <YStack
@@ -321,15 +378,15 @@ function Page() {
               <Spinner size="large" color="$green8" />
             </YStack>
           )}
-          {filtersBtns}
+          {media.md && filtersBtns}
 
           {mapView}
         </YStack>
-
-        <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'} />
+        {media.md && <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'} />}
         {Platform.OS === 'ios' || Platform.OS === 'web' ? modal : null}
-        {bottomSheetList}
-        {actionBottomSheet}
+
+        {media.md && bottomSheetList}
+        {media.md && actionBottomSheet}
         {Platform.OS === 'android' ? modal : null}
         {mapButton}
       </YStack>

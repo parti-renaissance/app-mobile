@@ -45,6 +45,7 @@ type ActionMapViewProps = {
   source: MapboxGl.ShapeSource['props']['shape']
   onActionPress: (e: OnPressEvent) => void
   followUser: boolean
+  padding?: { paddingBottom: number; paddingLeft: number; paddingRight: number; paddingTop: number }
 }
 
 export const ActionMapView = forwardRef<MapViewRef, ActionMapViewProps>(({ coords, ...props }, ref) => {
@@ -72,7 +73,13 @@ export const ActionMapView = forwardRef<MapViewRef, ActionMapViewProps>(({ coord
       onCameraChanged={hanldeCameraChange}
       onPress={props.onMapPress}
     >
-      <MapboxGl.Camera ref={cameraRef} followUserLocation={props.followUser} followUserMode={MapboxGl.UserTrackingMode.Follow} followZoomLevel={14} />
+      <MapboxGl.Camera
+        padding={props.padding}
+        ref={cameraRef}
+        followUserLocation={props.followUser}
+        followUserMode={MapboxGl.UserTrackingMode.Follow}
+        followZoomLevel={14}
+      />
       <MapboxGl.UserLocation visible onUpdate={handleOnUserLocationUpdate} />
 
       <MapboxGl.ShapeSource

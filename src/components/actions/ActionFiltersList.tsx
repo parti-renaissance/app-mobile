@@ -30,13 +30,14 @@ type ActionFiltersListProps = {
   type: SelectType
 }
 
-export const ActionFiltersList = (props: ActionFiltersListProps & YStackProps) => {
+export const ActionFiltersList = (allProps: ActionFiltersListProps & YStackProps) => {
+  const { onPeriodChange, onTypeChange, onLocationChange, period, type, ...props } = allProps
   const handleLocationChange = ({ location }: { location?: { lng: number; lat: number } }) => {
     if (!location) return
-    props.onLocationChange({ longitude: location.lng, latitude: location.lat })
+    onLocationChange({ longitude: location.lng, latitude: location.lat })
   }
   return (
-    <YStack>
+    <YStack {...props}>
       <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
         <XStack gap="$3">
           <AddressAutocomplete maxWidth={100} labelOnlySheet setAddressComponents={handleLocationChange} />
@@ -44,8 +45,8 @@ export const ActionFiltersList = (props: ActionFiltersListProps & YStackProps) =
             search={false}
             labelOnlySheet
             label="Période"
-            onChange={props.onPeriodChange}
-            value={props.period}
+            onChange={onPeriodChange}
+            value={period}
             options={PERIOD_OPTIONS}
             placeholder="Cette semaine"
           />
@@ -53,8 +54,8 @@ export const ActionFiltersList = (props: ActionFiltersListProps & YStackProps) =
             labelOnlySheet
             search={false}
             label="Type"
-            onChange={props.onTypeChange}
-            value={props.type}
+            onChange={onTypeChange}
+            value={type}
             options={TYPE_OPTIONS}
             placeholder="Cette semaine"
           />

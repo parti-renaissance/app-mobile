@@ -39,8 +39,8 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
       config.ios.googleServicesFile = './config/GoogleService-Info.plist'
       config.android.googleServicesFile = './config/google-services.json'
     }
-    config.android.adaptiveIcon.foregroundImage = './assets/developement/adaptive-icon.png'
-    config.ios.icon = './assets/developement/icon.png'
+    config.android.adaptiveIcon.foregroundImage = './assets/developement/adaptive-icon.jpg'
+    config.ios.icon = './assets/developement/icon.jpg'
   } else if (profile === 'production') {
     config.name = process.env.EXPO_PUBLIC_APP_NAME
     config.ios.bundleIdentifier = baseIdentifier
