@@ -530,7 +530,7 @@ class ApiService {
         case 'week':
           return {
             after: startOfDay(new Date()).toISOString(),
-            before: addDays(new Date(), 7).toISOString(),
+            before: endOfDay(addDays(new Date(), 7).toISOString()),
           }
         default:
           return null
