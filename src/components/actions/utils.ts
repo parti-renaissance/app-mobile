@@ -1,9 +1,9 @@
 import React from 'react'
 import { ActionVoxCardProps } from '@/components/Cards/ActionCard'
-import { Action, ActionType, RestAction } from '@/data/restObjects/RestActions'
-import { addDays, isBefore, isSameDay, isSameWeek } from 'date-fns'
+import { Action, ActionType, FilterActionType, RestAction } from '@/data/restObjects/RestActions'
+import { addDays, isBefore, isSameDay, isSameWeek, setHours } from 'date-fns'
 import MapboxGl from '../Mapbox/Mapbox'
-import { SelectPeriod, SelectType } from './ActionFiltersList'
+import { SelectPeriod } from './ActionFiltersList'
 
 export function mapPayload(action: Action): ActionVoxCardProps['payload'] {
   return {
@@ -48,6 +48,9 @@ export function useSheetPosition(defaultPosition: number) {
   }
 }
 
+export const getToday = setHours(new Date(), 0)
+export const getTomorow = setHours(addDays(new Date(), 1), 0)
+
 export const passPeriod = (date: Date, period: SelectPeriod) => {
   switch (period) {
     case 'today':
@@ -61,8 +64,8 @@ export const passPeriod = (date: Date, period: SelectPeriod) => {
   }
 }
 
-export const passType = (type: SelectType, actionType: ActionType) => {
-  return type === 'all' || actionType === type
+export const passType = (type: FilterActionType, actionType: ActionType) => {
+  return type === FilterActionType.ALL || (actionType as unknown as Omit<FilterActionType, 'all'>) === type
 }
 
 export function createSource(actions: RestAction[], active: string): MapboxGl.ShapeSource['props']['shape'] {

@@ -1,7 +1,9 @@
+import { SelectPeriod } from '@/components/actions'
 import { Poll } from '@/core/entities/Poll'
+import { addDays, endOfDay, startOfDay } from 'date-fns'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
-import { ActionCreateType, ActionFullSchema, ActionPaginationSchema, RestActionRequestParams } from '../restObjects/RestActions'
+import { ActionCreateType, ActionFullSchema, ActionPaginationSchema, FilterActionType, RestActionRequestParams } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -512,10 +514,37 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public async getActions({ subscribeOnly, ...restParams }: RestActionRequestParams) {
+  public async getActions({ subscribeOnly, longitude, latitude, type, period }: RestActionRequestParams) {
+    const calcPeriod = (period?: SelectPeriod) => {
+      switch (period) {
+        case 'today':
+          return {
+            after: startOfDay(new Date()).toISOString(),
+            before: endOfDay(new Date()).toISOString(),
+          }
+        case 'tomorow':
+          return {
+            after: startOfDay(addDays(new Date(), 1)).toISOString(),
+            before: endOfDay(addDays(new Date(), 1)).toISOString(),
+          }
+        case 'week':
+          return {
+            after: startOfDay(new Date()).toISOString(),
+            before: addDays(new Date(), 7).toISOString(),
+          }
+        default:
+          return null
+      }
+    }
+
+    const periodDate = calcPeriod(period as SelectPeriod)
+
     const params = {
-      ...restParams,
+      ...(type !== FilterActionType.ALL ? { type } : {}),
+      ...(period && periodDate ? { 'date[after]': periodDate.after, 'date[before]': periodDate.before } : {}),
       ...(subscribeOnly ? { subscribeOnly: true } : {}),
+      longitude,
+      latitude,
     }
     return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
   }

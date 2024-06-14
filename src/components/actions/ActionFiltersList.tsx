@@ -1,10 +1,10 @@
 import React from 'react'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
-import { ActionType } from '@/data/restObjects/RestActions'
+import { FilterActionType } from '@/data/restObjects/RestActions'
 import { ScrollView, XStack, YStack, YStackProps } from 'tamagui'
 
-export type SelectType = 'all' | ActionType
+export type SelectType = FilterActionType
 export type SelectPeriod = 'all' | 'today' | 'tomorow' | 'week'
 
 const PERIOD_OPTIONS: Array<{ value: SelectPeriod; label: string }> = [
@@ -15,11 +15,11 @@ const PERIOD_OPTIONS: Array<{ value: SelectPeriod; label: string }> = [
 ]
 
 const TYPE_OPTIONS: Array<{ value: SelectType; label: string }> = [
-  { value: 'all', label: 'Tout types' },
-  { value: ActionType.TRACTAGE, label: 'Tractage' },
-  { value: ActionType.BOITAGE, label: 'Boitage' },
-  { value: ActionType.COLLAGE, label: 'Collage' },
-  { value: ActionType.PAP, label: 'Porte à porte' },
+  { value: FilterActionType.ALL, label: 'Tout types' },
+  { value: FilterActionType.TRACTAGE, label: 'Tractage' },
+  { value: FilterActionType.BOITAGE, label: 'Boitage' },
+  { value: FilterActionType.COLLAGE, label: 'Collage' },
+  { value: FilterActionType.PAP, label: 'Porte à porte' },
 ]
 
 type ActionFiltersListProps = {

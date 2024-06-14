@@ -4,15 +4,29 @@ import { ActionCard } from '@/components/Cards'
 import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import { RestAction } from '@/data/restObjects/RestActions'
 import { ScrollView, Sheet, XStack, YStack } from 'tamagui'
+import SkeCard from '../Skeleton/CardSkeleton'
 import { mapPayload } from './utils'
 import type { useSheetPosition } from './utils'
 
 type ActionListProps = {
   actions: RestAction[]
+  loading: boolean
   setActiveAction: (action: RestAction | null) => void
 }
 
 export const ActionList = (props: ActionListProps) => {
+  if (props.loading) {
+    return [1, 2, 3, 4, 5].map((i) => (
+      <SkeCard key={i}>
+        <SkeCard.Content>
+          <SkeCard.Chip />
+          <SkeCard.Title />
+          <SkeCard.Description />
+          <SkeCard.Actions />
+        </SkeCard.Content>
+      </SkeCard>
+    ))
+  }
   return props.actions.length === 0 ? (
     <EmptyState state="actions" />
   ) : (

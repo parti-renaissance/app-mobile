@@ -8,7 +8,6 @@ import {
   BottomSheetList,
   CreateEditModal,
   createSource,
-  passPeriod,
   passType,
   SelectPeriod,
   SelectType,
@@ -22,7 +21,7 @@ import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/Boun
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import { useSession } from '@/ctx/SessionProvider'
-import { RestAction } from '@/data/restObjects/RestActions'
+import { FilterActionType, RestAction } from '@/data/restObjects/RestActions'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/hooks/useActions/useActions'
 import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
@@ -89,12 +88,14 @@ function Page() {
   } = useLocation()
 
   const [activeTab] = useState<'actions' | 'myActions'>('actions')
-  const data = usePaginatedActions({ ...coords, subscribeOnly: activeTab === 'myActions' })
-  const actionQuery = useAction(activeAction, { ...coords, subscribeOnly: activeTab === 'myActions' })
+  const [period, setPeriod] = React.useState<SelectPeriod>('week')
+  const [type, setType] = React.useState<SelectType>(FilterActionType.ALL)
+
+  const data = usePaginatedActions({ ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
+  const actionQuery = useAction(activeAction, { ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
   const positionConfig = useSheetPosition(1)
   const { setPosition } = positionConfig
-  const [period, setPeriod] = React.useState<SelectPeriod>('week')
-  const [type, setType] = React.useState<SelectType>('all')
+
   const [modalOpen, setModalOpen] = React.useState(false)
   const padding = { paddingBottom: media.gtMd ? 300 : 0, paddingLeft: media.gtMd ? 500 : 0, paddingRight: 0, paddingTop: 0 }
 
@@ -103,7 +104,7 @@ function Page() {
   const mapRefs = React.useRef<{ camera: MapboxGl.Camera | null }>(null)
   const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
   const filteredActions = flattedActions.filter((action) => {
-    return [passPeriod(action.date, period), passType(type, action.type)].every(Boolean)
+    return [passType(type, action.type)].every(Boolean)
   })
   const [followUser, setFollowUser] = React.useState(true)
   const source = createSource(filteredActions, activeAction ?? '')
@@ -217,6 +218,7 @@ function Page() {
   const bottomSheetList = useMemo(
     () => (
       <BottomSheetList
+        loading={data.isFetching}
         actions={filteredActions}
         postionConfig={positionConfig}
         open={listOpen}
@@ -224,26 +226,36 @@ function Page() {
         setActiveAction={handleActiveAction}
       />
     ),
-    [filteredActions, listOpen],
+    [filteredActions, listOpen, data.isFetching],
   )
 
-  const sideList = (
-    <SideList actions={filteredActions} postionConfig={positionConfig} open={listOpen} onOpenChange={setListOpen} setActiveAction={handleActiveAction}>
-      <YStack height={200}>
-        <ActionFiltersList
-          onLocationChange={handleLocationChange}
-          onAddressReset={() => handleLocationChange(refUserPosition.current ?? undefined)}
-          type={type}
-          period={period}
-          onPeriodChange={setPeriod}
-          onTypeChange={setType}
-          zIndex={10000}
-        />
-        <YStack pl="$3">
-          <ActionCreateButton width={200} onPress={() => setModalOpen(true)} />
+  const sideList = useMemo(
+    () => (
+      <SideList
+        actions={filteredActions}
+        loading={data.isFetching}
+        postionConfig={positionConfig}
+        open={listOpen}
+        onOpenChange={setListOpen}
+        setActiveAction={handleActiveAction}
+      >
+        <YStack height={200}>
+          <ActionFiltersList
+            onLocationChange={handleLocationChange}
+            onAddressReset={() => handleLocationChange(refUserPosition.current ?? undefined)}
+            type={type}
+            period={period}
+            onPeriodChange={setPeriod}
+            onTypeChange={setType}
+            zIndex={10000}
+          />
+          <YStack pl="$3">
+            <ActionCreateButton width={200} onPress={() => setModalOpen(true)} />
+          </YStack>
         </YStack>
-      </YStack>
-    </SideList>
+      </SideList>
+    ),
+    [filteredActions, listOpen, data.isFetching],
   )
 
   const actionBottomSheet = useMemo(

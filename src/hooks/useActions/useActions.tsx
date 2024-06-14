@@ -1,3 +1,4 @@
+import { SelectPeriod, SelectType } from '@/components/actions'
 import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { Action, RestActionFull, RestActionRequestParams, RestActions } from '@/data/restObjects/RestActions'
@@ -8,10 +9,18 @@ import { PaginatedFeedQueryKey } from '../useFeed'
 export const QUERY_KEY_PAGINATED_ACTIONS = 'QUERY_KEY_PAGINATED_ACTIONS'
 export const QUERY_KEY_ACTIONS = 'QUERY_KEY_ACTIONS'
 
-export const usePaginatedActions = (params: Omit<RestActionRequestParams, 'page'>) => {
+type Params = Omit<RestActionRequestParams, 'page'> & {
+  filters: {
+    type: SelectType
+    period: SelectPeriod
+  }
+}
+
+export const usePaginatedActions = (params: Params) => {
+  const { filters, ...rest } = params
   return useInfiniteQuery({
-    queryKey: [QUERY_KEY_PAGINATED_ACTIONS, params],
-    queryFn: ({ pageParam }) => ApiService.getInstance().getActions({ ...params, page: pageParam }),
+    queryKey: [QUERY_KEY_PAGINATED_ACTIONS, JSON.stringify(params)],
+    queryFn: ({ pageParam }) => ApiService.getInstance().getActions({ ...rest, page: pageParam, type: filters.type, period: filters.period }),
     getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
     getPreviousPageParam: (firstPage) => (firstPage.metadata.current_page <= firstPage.metadata.last_page ? undefined : firstPage.metadata.current_page - 1),
     initialPageParam: 1,
@@ -19,9 +28,9 @@ export const usePaginatedActions = (params: Omit<RestActionRequestParams, 'page'
   })
 }
 
-export const useAction = (id?: string, paginatedParams?: Omit<RestActionRequestParams, 'page'>) => {
+export const useAction = (id?: string, paginatedParams?: Params) => {
   const queryClient = useQueryClient()
-  const previousData = queryClient.getQueryData<InfiniteData<RestActions>>([QUERY_KEY_PAGINATED_ACTIONS, paginatedParams])
+  const previousData = queryClient.getQueryData<InfiniteData<RestActions>>([QUERY_KEY_PAGINATED_ACTIONS, JSON.stringify(paginatedParams)])
   const { scope } = useSession()
   const myScope = scope?.data?.find((x) => x.features.includes('actions'))
 
