@@ -549,12 +549,14 @@ class ApiService {
     return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
   }
 
-  public async insertAction(payload: ActionCreateType, scope: string) {
+  public async insertAction(payload: ActionCreateType, scope?: string) {
     return this.httpClient
       .post('api/v3/actions', {
-        searchParams: {
-          scope,
-        },
+        searchParams: scope
+          ? {
+              scope,
+            }
+          : undefined,
         json: {
           ...payload,
           date: payload.date.toISOString(),
@@ -564,7 +566,7 @@ class ApiService {
       .catch(genericErrorMapping)
   }
 
-  public async editAction(uuid: string, payload: ActionCreateType, scope: string) {
+  public async editAction(uuid: string, payload: ActionCreateType, scope?: string) {
     return this.httpClient
       .put(`api/v3/actions/${uuid}`, {
         json: {
