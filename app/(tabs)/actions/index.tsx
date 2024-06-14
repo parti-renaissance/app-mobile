@@ -82,7 +82,6 @@ function Page() {
   const { uuid: activeAction } = useLocalSearchParams<{ uuid: string }>()
   const { scope } = useSession()
   const myScope = scope?.data?.find((x) => x.features.includes('actions'))
-  const canIAddAction = Boolean(myScope)
   const queryClient = useQueryClient()
 
   const {
@@ -392,7 +391,7 @@ function Page() {
 
           {mapView}
         </YStack>
-        {media.md && <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} display={canIAddAction ? 'flex' : 'none'} />}
+        {media.md && <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} />}
         {Platform.OS === 'ios' || Platform.OS === 'web' ? modal : null}
 
         {media.md && bottomSheetList}
