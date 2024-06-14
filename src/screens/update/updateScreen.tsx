@@ -17,7 +17,7 @@ export default function UpdateScreen() {
   return (
     <View height="100%">
       <YStack alignItems="center" justifyContent="center" flex={1} gap={'$4'} p={'$5'}>
-        <Image source={require('./assets/updateRefresh.png')} height={153} resizeMode="contain" />
+        <Image source={require('./assets/updateRefresh.png')} height={153} objectFit="contain" />
 
         <Title>Mise à jour requise</Title>
 
