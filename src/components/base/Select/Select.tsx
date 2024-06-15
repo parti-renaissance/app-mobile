@@ -20,6 +20,7 @@ type SelectProps<A extends string> = {
   onBlur?: () => void
   onPress?: () => void
   search?: boolean
+  forceSelect?: boolean
   labelOnlySheet?: boolean
   defaultRightIcon?: React.ReactNode
   maxWidth?: string | number
@@ -159,6 +160,7 @@ const Select = <A extends string>({
   defaultRightIcon,
   onBlur,
   maxWidth,
+  forceSelect = true,
 }: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
 
@@ -200,6 +202,11 @@ const Select = <A extends string>({
     if (!x) {
       Keyboard.dismiss()
       onBlur?.()
+      if (!forceSelect && query.length === 0) {
+        handleChange('')
+        setQuery('')
+        return
+      }
       if ((!selectedOption || (selectedOption && !querySync)) && (filteredOptions.length > 0 || options.length > 0)) {
         handleChange(filteredOptions[0] ? filteredOptions[0].value : options[0].value)
       } else {
@@ -247,7 +254,14 @@ const Select = <A extends string>({
           minimal={minimal}
           maxWidth={maxWidth}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
-          iconRightPress={isSearching && !isFake ? () => setQuery('') : undefined}
+          iconRightPress={
+            isSearching && !isFake
+              ? () => {
+                  setQuery('')
+                  handleQuery('')
+                }
+              : undefined
+          }
           backgroundColor={'$white1'}
         />
       </Popover.Trigger>

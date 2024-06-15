@@ -12,9 +12,6 @@ export const useCreateOrEditAction = ({ uuid, scope }: { uuid?: string; scope?: 
   return useMutation({
     // Do not pass function prototype otherwise ApiService instance is not defined
     mutationFn: (p: ActionCreateType) => {
-      if (!scope) {
-        throw new Error('No scope found')
-      }
       if (isEdit) {
         return ApiService.getInstance().editAction(uuid, p, scope)
       }

@@ -84,7 +84,6 @@ const DoorToDoorScreen = () => {
   const {
     data: addresses,
     isLoading,
-    error,
     refetch: refetchAddresses,
   } = useQuery({
     queryKey: ['doorToDoorAddresses', currentSearchRegion],

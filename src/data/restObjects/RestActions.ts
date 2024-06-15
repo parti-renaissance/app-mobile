@@ -10,6 +10,14 @@ export enum ActionType {
   COLLAGE = 'collage',
 }
 
+export enum FilterActionType {
+  ALL = 'all',
+  PAP = 'pap',
+  BOITAGE = 'boitage',
+  TRACTAGE = 'tractage',
+  COLLAGE = 'collage',
+}
+
 export const ReadableActionType: Record<ActionType, string> = {
   [ActionType.PAP]: 'Porte à Porte',
   [ActionType.BOITAGE]: 'Boîtage',
@@ -107,6 +115,8 @@ export const ActionRequestParamsSchema = z.object({
   latitude: z.number(),
   page: z.number(),
   subscribeOnly: z.boolean().optional(),
+  type: z.nativeEnum(FilterActionType).optional(),
+  period: z.string().optional(),
 })
 
 export type RestActionRequestParams = z.infer<typeof ActionRequestParamsSchema>

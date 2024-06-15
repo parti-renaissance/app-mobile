@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Button from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import { genericErrorMapping } from '@/data/network/utils'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import { Image, Spinner, View, YStack } from 'tamagui'
@@ -33,6 +34,7 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
     {({ reset }) => (
       <ErrorBoundary
         onReset={reset}
+        onError={genericErrorMapping}
         fallbackRender={(EBprops) =>
           props.errorChildren ? (
             props.errorChildren(EBprops)
