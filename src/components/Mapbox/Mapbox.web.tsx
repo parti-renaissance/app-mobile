@@ -265,8 +265,7 @@ const UserLocation = forwardRef<ComponentRef<typeof UL>, ComponentProps<typeof U
       }}
       trackUserLocation
       onGeolocate={(e) => {
-        // @ts-expect-error onGeolocate is not defined
-        props?.onUpdate({
+        props.onUpdate?.({
           coords: {
             latitude: e.coords.latitude,
             longitude: e.coords.longitude,

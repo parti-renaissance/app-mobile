@@ -50,8 +50,8 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
   } else {
     config.name = process.env.EXPO_PUBLIC_APP_NAME
     config.scheme = 'vox-staging'
-    config.android.adaptiveIcon.foregroundImage = './assets/staging/adaptive-icon.png'
-    config.ios.icon = './assets/staging/icon.png'
+    config.android.adaptiveIcon.foregroundImage = './assets/staging/adaptive-icon.jpg'
+    config.ios.icon = './assets/staging/icon.jpg'
     config.ios.bundleIdentifier = `${baseIdentifier}.${profile}`
     config.android.package = `${basePackage}.${profile}`
     config.ios.googleServicesFile = process.env.GOOGLE_SERVICES_IOS_PATH_STAGING
