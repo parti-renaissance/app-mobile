@@ -90,7 +90,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         onSubscribe: () => {},
         onShow: () => {
           router.push({
-            pathname: '/event-detail',
+            pathname: '/(tabs)/(home)/(modals)/event-detail',
             params: { id: feed.objectID },
           })
         },

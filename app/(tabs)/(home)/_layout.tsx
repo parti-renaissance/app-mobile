@@ -11,7 +11,7 @@ export default function AppLayout() {
   }
   const config = { title: '' }
   return (
-    <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
+    <Stack screenOptions={{ header: (props) => <SmallHeader {...props} />, animation: 'slide_from_right' }}>
       <Stack.Screen name="index" options={{ title: '', header: Header, headerLeft: () => <EuCampaignIllustration /> }} />
       <Stack.Screen name="(modals)/news-detail" options={config} />
       <Stack.Screen name="(modals)/event-detail" options={config} />
