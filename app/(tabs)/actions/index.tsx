@@ -57,7 +57,7 @@ export default function ActionsScreen() {
   }
 
   return (
-    <BoundarySuspenseWrapper errorChildren={ErrorFallback}>
+    <BoundarySuspenseWrapper errorChildren={(x) => <ErrorFallback {...x} />}>
       {!isWeb && media.gtMd ? (
         // <PageLayout.StateFrame bg="$white2">
         <YStack flex={1} justifyContent="center" bg="$white2" alignItems="center">
@@ -78,7 +78,7 @@ function Page() {
   useLocationPermission()
   const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { uuid: activeAction } = useLocalSearchParams<{ uuid: string }>()
+  const { uuid: activeAction, ...params } = useLocalSearchParams<{ uuid: string; action: 'create' }>()
   const { scope } = useSession()
   const myScope = scope?.data?.find((x) => x.features.includes('actions'))
   const queryClient = useQueryClient()
@@ -96,7 +96,14 @@ function Page() {
   const positionConfig = useSheetPosition(1)
   const { setPosition } = positionConfig
 
-  const [modalOpen, setModalOpen] = React.useState(false)
+  const [_modalOpen, _setModalOpen] = React.useState(false)
+  const modalOpen = _modalOpen || params.action === 'create'
+  const setModalOpen = (open: boolean) => {
+    _setModalOpen(open)
+    if (!open) {
+      router.setParams({ action: '' })
+    }
+  }
   const padding = { paddingBottom: media.gtMd ? 300 : 0, paddingLeft: media.gtMd ? 500 : 0, paddingRight: 0, paddingTop: 0 }
 
   const filterHeight = useRef(70)

@@ -2,6 +2,7 @@ import React from 'react'
 import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
+import QuickAction from '@/components/QuickAction'
 import WaitingScreen from '@/components/WaitingScreen'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
@@ -28,6 +29,11 @@ export default function AppLayout() {
     return hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
   }
 
+  const getQuickActionVisibility = () => {
+    const hideOnScreens = ['actions', 'porte-a-porte'] // put here name of screen where you want to hide tabBar
+    return !hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
+  }
+
   if (!isAuth && !isLoading && (code || url)) {
     if (isWeb && code) {
       signIn({ code })
@@ -45,7 +51,8 @@ export default function AppLayout() {
   }
 
   return (
-    <View style={{ height: isWeb ? '100svh' : '100%' }}>
+    <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
+      {getQuickActionVisibility() ? <QuickAction /> : null}
       <Tabs
         initialRouteName={isAuth ? '(home)' : 'evenements'}
         screenOptions={{
