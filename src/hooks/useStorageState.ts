@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { Platform } from 'react-native'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { isTWA } from '@/utils/Telegram'
 import LocalStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import useAsyncState, { UseStateHook } from './useAsyncState'
-
-const isTWA = Platform.OS === 'web' && window?.Telegram?.WebApp.initData
 
 export async function setStorageItemAsync(key: string, value: string | null) {
   if (isTWA) {

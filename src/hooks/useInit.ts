@@ -5,6 +5,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import PushRepository from '@/data/PushRepository'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
 import { PushNotification } from '@/utils/PushNotification'
+import { isTWA } from '@/utils/Telegram'
 import { SendDoorToDoorPollAnswersJobWorker } from '@/workers/SendDoorToDoorPollAnswsersJobWorker'
 import { usePathname } from 'expo-router'
 
@@ -27,6 +28,13 @@ export default function useInitPushNotification() {
   useEffect(() => {
     Analytics.logNavBarItemSelected(getScreenname(pathname))
   }, [pathname])
+
+  useEffect(() => {
+    if (isTWA) {
+      window.Telegram.WebApp.ready()
+      window.Telegram.WebApp.expand()
+    }
+  }, [])
 
   useEffect(() => {
     if (session) {
