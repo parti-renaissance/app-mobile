@@ -1,11 +1,43 @@
 import * as React from 'react'
 import { Platform } from 'react-native'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import LocalStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import useAsyncState, { UseStateHook } from './useAsyncState'
 
+const isTWA = Platform.OS === 'web' && window?.Telegram?.WebApp.initData
+
 export async function setStorageItemAsync(key: string, value: string | null) {
-  if (Platform.OS === 'web') {
+  if (isTWA) {
+    try {
+      if (value === null) {
+        return new Promise((resolve, reject) =>
+          window.Telegram.WebApp.CloudStorage.removeItem(key, (error, success) => {
+            if (error) {
+              reject(new Error(error))
+            }
+            if (success) {
+              resolve(success)
+            }
+          }),
+        )
+      } else {
+        return new Promise((resolve, reject) =>
+          window.Telegram.WebApp.CloudStorage.setItem(key, value, (error, success) => {
+            if (error) {
+              reject(new Error(error))
+            }
+            if (success) {
+              resolve(success)
+            }
+          }),
+        )
+      }
+    } catch (e) {
+      ErrorMonitor.log('Telegram CloudStorage is unavailable:', e)
+      console.error('Telegram CloudStorage is unavailable:', e)
+    }
+  } else if (Platform.OS === 'web') {
     try {
       if (value === null) {
         localStorage.removeItem(key)

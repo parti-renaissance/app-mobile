@@ -7699,6 +7699,11 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.3.tgz#6209321eb2c1712a7e7466422b8cb1fc0d9dd5d8"
   integrity sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==
 
+"@types/telegram-web-app@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@types/telegram-web-app/-/telegram-web-app-7.2.1.tgz#655c4acf6d00a096e5ed2a67e09465da1cccead4"
+  integrity sha512-aXUUyTE8vVwolOta84wPybKNAeZq6rPVYCn/mnewN+tqF5QBqoQFnvqUATn7yNFH2+hpYF2Z2fKU6lnMQ8EC3A==
+
 "@types/tough-cookie@*":
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.5.tgz#cb6e2a691b70cb177c6e3ae9c1d2e8b2ea8cd304"
@@ -19864,6 +19869,11 @@ tcp-port-used@^1.0.2:
   dependencies:
     debug "4.3.1"
     is2 "^2.0.6"
+
+telegram-webapps-types@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/telegram-webapps-types/-/telegram-webapps-types-1.0.5.tgz#35eee9b690cc8a8127b4d68ec6e8b2b40b33847b"
+  integrity sha512-QLBBjEgdGdJZmnSshq2jVUrqwolRBiM7e0YPsUpHOFxA2W9nkUYI5yBFd3vGyCqFlNoJw8S6k2Q7lxVffzUwlw==
 
 telejson@^7.2.0:
   version "7.2.0"

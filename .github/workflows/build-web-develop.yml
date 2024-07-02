@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'develop'
+      - 'feature/telegram'
 
 concurrency:
   group: '${{ github.workflow }}-${{ github.ref }}'
@@ -79,28 +80,28 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: node ./.github/scripts/announce.js
 
-  build-mobile:
-    environment: staging
-    runs-on: ubuntu-latest
-    needs: build-web
-    env:
-      APP_STORE_BUNDLE_ID: fr.en-marche.jecoute
-      REF_TYPE: ${{ github.ref_type }}`
-    steps:
-      - name: 🏗 Setup repo
-        uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-base
-      - uses: ./.github/actions/dependencies
-      - uses: actions/download-artifact@v4
-      - uses: ./.github/actions/setup-env
-        name: ⬇️ Download web artifacts
-      - name: 🧙🏻‍️Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          packager: yarn
-          token: ${{ secrets.EXPO_TOKEN }}
-      - name: Insert envs into eas.json
-        run: node .github/scripts/prepare-eas-envs.js
-      - name: Build android & iOS
-        run: node .github/scripts/build.mjs
+  # build-mobile:
+  #   environment: staging
+  #   runs-on: ubuntu-latest
+  #   needs: build-web
+  #   env:
+  #     APP_STORE_BUNDLE_ID: fr.en-marche.jecoute
+  #     REF_TYPE: ${{ github.ref_type }}`
+  #   steps:
+  #     - name: 🏗 Setup repo
+  #       uses: actions/checkout@v4
+  #     - uses: ./.github/actions/setup-base
+  #     - uses: ./.github/actions/dependencies
+  #     - uses: actions/download-artifact@v4
+  #     - uses: ./.github/actions/setup-env
+  #       name: ⬇️ Download web artifacts
+  #     - name: 🧙🏻‍️Setup EAS
+  #       uses: expo/expo-github-action@v8
+  #       with:
+  #         eas-version: latest
+  #         packager: yarn
+  #         token: ${{ secrets.EXPO_TOKEN }}
+  #     - name: Insert envs into eas.json
+  #       run: node .github/scripts/prepare-eas-envs.js
+  #     - name: Build android & iOS
+  #       run: node .github/scripts/build.mjs
