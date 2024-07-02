@@ -17,22 +17,22 @@ const ActionMapper = {
   actions: {
     title: 'Créer une action',
     actionType: 'custom',
-    action: () => router.replace({ pathname: '/actions', params: { action: 'create' } }),
+    action: (scope?: string) => router.replace({ pathname: '/actions', params: { action: 'create', scope: scope } }),
   },
   messages: {
     title: 'Créer une newsletter',
     actionType: 'esp-cadre-redirect',
-    action: () => '/newsletters/create',
+    action: () => '/messagerie/newsletters/create',
   },
   events: {
     title: 'Créer un événement',
     actionType: 'esp-cadre-redirect',
-    action: () => '/events/create',
+    action: () => '/evenements/creer',
   },
   news: {
     title: 'Créer une notification',
     actionType: 'esp-cadre-redirect',
-    action: () => '/notifications/create',
+    action: () => '/notifications',
   },
 } as const
 
@@ -89,7 +89,7 @@ export default function QuickAction() {
   const [open, setOpen] = useState(false)
 
   const insets = useSafeAreaInsets()
-  const { scope, user } = useSession()
+  const { scope } = useSession()
   const feature = useRef<(typeof FeatureActionsType)[number] | null>(null)
 
   const features = useMemo(() => Array.from(new Set(scope.data?.flatMap((x) => x.features))).filter(isFeatureAction), [scope.data])
@@ -108,19 +108,21 @@ export default function QuickAction() {
 
   const [listData, setListData] = useState<ListsData>(defaultList)
   const handleTriggerPress = useLazyRef(() => (toggle = true) => () => {
+    console.log('toggle', toggle)
     if (!toggle) {
       setOpen((x) => !x)
     }
     setListData(defaultList)
   })
 
-  const triggerAction = (id: (typeof FeatureActionsType)[number]) => {
+  const triggerAction = (id: (typeof FeatureActionsType)[number], scope?: string) => {
     const action = ActionMapper[id]
     if (action.actionType === 'custom') {
-      action.action()
+      action.action(scope)
     } else {
-      const EC_URL = new URL(`${clientEnv.OAUTH_BASE_URL}${user?.data?.cadre_auth_path}`)
+      const EC_URL = new URL(`https://staging-cadre.parti-renaissance.fr`)
       EC_URL.searchParams.set('redirect', action.action())
+      if (scope) EC_URL.searchParams.set('scope', scope)
       WebBrowser.openAuthSessionAsync(EC_URL.toString())
     }
     handleTriggerPress.current(false)()
@@ -140,7 +142,7 @@ export default function QuickAction() {
       })
     } else {
       if (!feature.current) return
-      triggerAction(feature.current)
+      triggerAction(feature.current, id)
     }
   }
   if (!features) return

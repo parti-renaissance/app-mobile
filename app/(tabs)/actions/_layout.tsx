@@ -1,7 +1,5 @@
 import { SmallHeader } from '@/components/Header/Header'
-import MobileWallLayout from '@/components/MobileWallLayout/MobileWallLayout'
 import { Stack } from 'expo-router'
-import { isWeb } from 'tamagui'
 
 export default function AppLayout() {
   return (

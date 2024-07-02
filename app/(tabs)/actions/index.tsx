@@ -78,9 +78,9 @@ function Page() {
   useLocationPermission()
   const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { uuid: activeAction, ...params } = useLocalSearchParams<{ uuid: string; action: 'create' }>()
+  const { uuid: activeAction, ...params } = useLocalSearchParams<{ uuid: string; action: 'create'; scope?: string }>()
   const { scope } = useSession()
-  const myScope = scope?.data?.find((x) => x.features.includes('actions'))
+  const myScope = params.scope ?? scope?.data?.find((x) => x.features.includes('actions'))?.code
   const queryClient = useQueryClient()
 
   const {
@@ -200,7 +200,7 @@ function Page() {
 
   const onCloseModal = () => setModalOpen(false)
 
-  const modal = <CreateEditModal open={modalOpen} onClose={onCloseModal} activeAction={activeAction} scope={myScope?.code} />
+  const modal = <CreateEditModal open={modalOpen} onClose={onCloseModal} activeAction={activeAction} scope={myScope} />
 
   const filtersBtns = useMemo(
     () => (
