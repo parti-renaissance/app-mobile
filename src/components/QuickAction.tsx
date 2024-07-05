@@ -107,13 +107,16 @@ export default function QuickAction() {
   } as const
 
   const [listData, setListData] = useState<ListsData>(defaultList)
-  const handleTriggerPress = useLazyRef(() => (toggle = true) => () => {
-    console.log('toggle', toggle)
-    if (!toggle) {
-      setOpen((x) => !x)
-    }
-    setListData(defaultList)
-  })
+  const handleTriggerPress = useCallback(
+    (toggle = true) =>
+      () => {
+        if (!toggle) {
+          setOpen((x) => !x)
+        }
+        setListData(defaultList)
+      },
+    [defaultList],
+  )
 
   const triggerAction = (id: (typeof FeatureActionsType)[number], scope?: string) => {
     const action = ActionMapper[id]
@@ -125,7 +128,7 @@ export default function QuickAction() {
       if (scope) EC_URL.searchParams.set('scope', scope)
       WebBrowser.openAuthSessionAsync(EC_URL.toString())
     }
-    handleTriggerPress.current(false)()
+    handleTriggerPress(false)()
   }
 
   const handleItemPress = ({ id, type }: ActionArgs) => {
@@ -156,7 +159,7 @@ export default function QuickAction() {
             enterStyle={{ opacity: 1 }}
             exitStyle={{ opacity: 0, pointerEvents: 'none' }}
             cursor="pointer"
-            onPress={handleTriggerPress.current(listData.type === 'scopes')}
+            onPress={handleTriggerPress(listData.type === 'scopes')}
             position="absolute"
             bg="$gray/48"
             top={0}
@@ -188,7 +191,7 @@ export default function QuickAction() {
         round
         size="$5"
         animation={'quick'}
-        onPress={handleTriggerPress.current(listData.type === 'scopes')}
+        onPress={handleTriggerPress(listData.type === 'scopes')}
         position={'absolute'}
         // opacity={open ? 0.5 : 1}
         bottom={10 + 80 + 10 + insets.bottom}
