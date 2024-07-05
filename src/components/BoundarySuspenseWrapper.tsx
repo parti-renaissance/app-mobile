@@ -34,7 +34,7 @@ const BoundarySuspenseWrapper = (props: BoundarySuspenseWrapperProps) => (
     {({ reset }) => (
       <ErrorBoundary
         onReset={reset}
-        onError={genericErrorMapping}
+        // onError={genericErrorMapping}
         fallbackRender={(EBprops) =>
           props.errorChildren ? (
             props.errorChildren(EBprops)

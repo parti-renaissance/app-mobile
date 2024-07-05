@@ -37,7 +37,7 @@ const Trigger = <A extends string>(props: TriggerProps<A> & ComponentProps<typeo
   return <Input fake={props.fake} {...props} selectTextOnFocus />
 }
 
-const ListFrame = styled(YStack, {
+export const ListFrame = styled(YStack, {
   flex: 1,
   width: '100%',
   $gtMd: {
@@ -56,7 +56,7 @@ type ItemProps<A extends string> = {
   selected: boolean
 }
 
-const ItemFrame = styled(XStack, {
+export const ItemFrame = styled(XStack, {
   justifyContent: 'space-between',
   alignContent: 'center',
   alignItems: 'center',
