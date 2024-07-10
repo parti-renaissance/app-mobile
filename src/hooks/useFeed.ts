@@ -1,11 +1,11 @@
-import ApiService from '@/data/network/ApiService'
 import { RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
+import { getTimelineFeed } from '@/services/timeline-feed/api'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 
 export const PaginatedFeedQueryKey = ['feed'] as const
 
 const fetchTimelineFeed = async (pageParam: number, zipcode?: string) =>
-  zipcode ? await ApiService.getInstance().getTimelineFeed(pageParam, zipcode) : (Promise.resolve(undefined) as Promise<RestTimelineFeedResponse | undefined>)
+  zipcode ? await getTimelineFeed({ page: pageParam, postal_code: zipcode }) : (Promise.resolve(undefined) as Promise<RestTimelineFeedResponse | undefined>)
 
 export const useGetPaginatedFeed = (postalCode?: string) => {
   return useSuspenseInfiniteQuery({

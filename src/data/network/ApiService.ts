@@ -99,19 +99,6 @@ class ApiService {
       .then(() => {})
       .catch(genericErrorMapping)
   }
-
-  public getProfile(): Promise<RestProfileResponse> {
-    return this.httpClient.get('api/me').json<RestProfileResponse>().catch(genericErrorMapping)
-  }
-
-  public getUserScopes(): Promise<Array<RestUserScope>> {
-    return this.httpClient.get('api/v3/profile/me/scopes').json<Array<RestUserScope>>().catch(genericErrorMapping)
-  }
-
-  public getDetailedProfile(): Promise<RestDetailedProfileResponse> {
-    return this.httpClient.get('api/v3/profile/me').json<RestDetailedProfileResponse>().catch(genericErrorMapping)
-  }
-
   public removeProfile(): Promise<void> {
     return this.httpClient.post('api/v3/profile/unregister').json<void>().catch(genericErrorMapping)
   }
@@ -455,15 +442,6 @@ class ApiService {
     return this.httpClient
       .get('api/v3/jecoute/resource-links', { searchParams: { page: page } })
       .json<RestToolsResponse>()
-      .catch(genericErrorMapping)
-  }
-
-  public getTimelineFeed(page: number, zipCode: string): Promise<RestTimelineFeedResponse> {
-    return this.httpClient
-      .get('api/v3/je-mengage/timeline_feeds', {
-        searchParams: { page, postal_code: zipCode },
-      })
-      .json<RestTimelineFeedResponse>()
       .catch(genericErrorMapping)
   }
 

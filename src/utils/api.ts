@@ -16,12 +16,12 @@ export function api<Request, Response>({ type = 'private', method, path, request
     requestSchema.parse(requestData)
 
     // Prepare API call
-    let url = path
     let data: Request | null = null
+    let params: Request | null = null
 
     if (requestData) {
       if (method === 'GET' || method === 'DELETE') {
-        url += `${requestData}`
+        params = requestData
       } else {
         data = requestData
       }
@@ -29,8 +29,9 @@ export function api<Request, Response>({ type = 'private', method, path, request
 
     const config: AxiosRequestConfig = {
       method,
-      url,
+      url: path,
       data,
+      params,
     }
 
     // Make API call base on the type of request
