@@ -56,9 +56,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
     }
   }, [session, pRedirect])
 
-  // const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
-  // authenticationRepository.current.sessionSetter = setSession
-  const queryClient = useQueryClient()
   const login = useLogin()
   const { mutateAsync: logout } = useLogOut()
   const register = useRegister()
@@ -79,7 +76,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
       setSession({ accessToken, refreshToken })
       // await loginInteractor.current.setUpLogin()
     } catch (e) {
-      console.log('error', e)
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })
     } finally {

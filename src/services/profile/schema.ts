@@ -20,10 +20,12 @@ export const RestProfilResponseSchema = z.object({
     z.object({
       label: z.string(),
       type: z.union([z.literal('sympathisant'), z.literal('adherent'), z.literal('elu'), z.literal('meeting_lille_09_03'), z.literal('procuration')]),
-      surveys: z.object({
-        total: z.number(),
-        last_month: z.number(),
-      }),
+      surveys: z
+        .object({
+          total: z.number(),
+          last_month: z.number(),
+        })
+        .optional(),
     }),
   ),
 })

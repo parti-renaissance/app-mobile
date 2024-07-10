@@ -40,7 +40,7 @@ export function api<Request, Response>({ type = 'private', method, path, request
     const result = responseSchema.safeParse(response.data)
 
     if (!result.success) {
-      console.error('🚨 Safe-Parsing Failed ', result.error.message)
+      console.error(`🚨 Safe-Parsing Failed ${path}: `, result.error.message)
       throw new Error(result.error.message)
     } else {
       return result.data

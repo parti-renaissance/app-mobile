@@ -1,9 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
-import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
-import { useLazyRef } from '@/hooks/useLazyRef'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { ArrowLeft, ArrowRight, Plus, X } from '@tamagui/lucide-icons'
 import { BlurView } from 'expo-blur'
@@ -188,7 +186,6 @@ export default function QuickAction() {
         )}
       </AnimatePresence>
       <CircleGradientButton
-        round
         size="$5"
         animation={'quick'}
         onPress={handleTriggerPress(listData.type === 'scopes')}
