@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import useLogin, { useRegister } from '@/hooks/useLogin'
 import { useGetProfil, useGetUserScopes } from '@/hooks/useProfil'
+import { useLogOut } from '@/services/logout/api'
 import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
@@ -59,6 +60,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   // authenticationRepository.current.sessionSetter = setSession
   const queryClient = useQueryClient()
   const login = useLogin()
+  const { mutateAsync: logout } = useLogOut()
   const register = useRegister()
   const user = useGetProfil({ enabled: !!session })
   const scope = useGetUserScopes({ enabled: !!user.data })
@@ -105,11 +107,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   }
 
   const handleSignOut = async () => {
-    await authenticationRepository.current.logout(false).then(async () => {
-      await queryClient.invalidateQueries()
-      queryClient.clear()
-      router.replace({ pathname: '/(tabs)/evenements/' })
-    })
+    await logout()
   }
 
   const providerValue = useMemo(

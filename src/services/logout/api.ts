@@ -1,40 +1,37 @@
-import { LogoutAPIRequestSchema, LogoutAPIResponseSchema } from '@/services/logout/schema'
+import { Linking } from 'react-native'
+import discoveryDocument from '@/config/discoveryDocument'
+import { REDIRECT_URI } from '@/hooks/useLogin'
 import { useUserStore } from '@/store/user-store'
-import { api } from '@/utils/api'
-import { useMutation } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
-import { toast } from 'sonner'
-import { z } from 'zod'
+import * as WebBrowser from 'expo-web-browser'
 
-const LogoutRequest = LogoutAPIRequestSchema
-
-const LogoutResponse = LogoutAPIResponseSchema
-
-interface ErrorResponse {
-  message: string
+const logout = async () => {
+  const lol = Linking.addEventListener('url', async (event) => {
+    if (event.url.startsWith(REDIRECT_URI)) {
+      WebBrowser.dismissBrowser()
+      lol.remove()
+    }
+  })
+  return WebBrowser.openAuthSessionAsync(`${discoveryDocument.endSessionEndpoint}?redirect_uri=${encodeURIComponent(REDIRECT_URI)}`, REDIRECT_URI)
 }
 
-const logout = api<z.infer<typeof LogoutRequest>, z.infer<typeof LogoutResponse>>({
-  method: 'POST',
-  path: API_ENDPOINT.SIGN_OUT,
-  requestSchema: LogoutRequest,
-  responseSchema: LogoutResponse,
-})
-
 export function useLogOut() {
+  const queryClient = useQueryClient()
   const { removeCredentials } = useUserStore()
-  return useMutation<z.infer<typeof LogoutAPIResponseSchema>, AxiosError<ErrorResponse>>({
+  return useMutation<WebBrowser.WebBrowserAuthSessionResult, Error>({
     mutationFn: logout,
-    onSuccess: (data) => {
-      const { message } = data
+    onSuccess: async () => {
       removeCredentials()
-      toast.success(message)
-      router.push(Routes.LOGIN)
+      await queryClient.invalidateQueries()
+      queryClient.clear()
+      router.replace({ pathname: '/(tabs)/evenements/' })
     },
     onError: (error) => {
-      const errorMessage = error.response?.data.message
-      toast.error(errorMessage)
+      ErrorMonitor.log('Cannot open web browser on disconnect', {
+        error: error,
+      })
     },
   })
 }
