@@ -1,10 +1,11 @@
 import { memo, useRef } from 'react'
 import { FlatList } from 'react-native'
-import { FeedCard } from '@/components/Cards'
+import { AlertCard, FeedCard } from '@/components/Cards'
 import { useSession } from '@/ctx/SessionProvider'
-import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
 import { transformFeedItemToProps } from '@/helpers/homeFeed'
-import { useGetPaginatedFeed } from '@/hooks/useFeed'
+import { useAlerts } from '@/services/alerts/hook'
+import { useGetPaginatedFeed } from '@/services/timeline-feed/hook'
+import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { useScrollToTop } from '@react-navigation/native'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 
@@ -32,6 +33,8 @@ const HomeFeedList = () => {
   const flatListRef = useRef<FlatList<RestTimelineFeedItem>>(null)
   useScrollToTop(flatListRef)
 
+  const { data: alerts } = useAlerts()
+
   return (
     <FlatList
       ref={flatListRef}
@@ -42,6 +45,22 @@ const HomeFeedList = () => {
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
       }}
+      ListHeaderComponent={() => (
+        <YStack flex={1}>
+          {alerts.map((alert, i) => (
+            <AlertCard
+              key={`${i}-alert`}
+              payload={{
+                tag: alert.label,
+                title: alert.title,
+                description: alert.description,
+                ctaLabel: alert.cta_label,
+                ctaLink: alert.cta_url,
+              }}
+            />
+          ))}
+        </YStack>
+      )}
       data={feedData}
       renderItem={renderFeedItem}
       keyExtractor={(item) => item.objectID}

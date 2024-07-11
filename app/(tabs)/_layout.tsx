@@ -30,6 +30,7 @@ export default function AppLayout() {
   }
 
   const getQuickActionVisibility = () => {
+    return false
     const hideOnScreens = ['actions', 'porte-a-porte'] // put here name of screen where you want to hide tabBar
     return !hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
   }
