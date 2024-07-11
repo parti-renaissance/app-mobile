@@ -3,7 +3,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
 import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
-import { getProfile, getUserScopes } from '@/services/profile/api'
+import { getDetailedProfile, getProfile, getUserScopes } from '@/services/profile/api'
 import { useToastController } from '@tamagui/toast'
 import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, UseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
 
@@ -32,7 +32,7 @@ export const useGetUserScopes = (
 export const useGetDetailProfil = () => {
   return useSuspenseQuery({
     queryKey: ['profileDetail'],
-    queryFn: () => ApiService.getInstance().getDetailedProfile(),
+    queryFn: () => getDetailedProfile(),
   })
 }
 

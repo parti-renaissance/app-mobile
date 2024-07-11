@@ -30,13 +30,11 @@ import { RestPhoningCharter, RestPhoningCharterAccepted, RestPhoningCharterNotAc
 import { RestPhoningSession } from '../restObjects/RestPhoningSession'
 import { RestPhoningSessionConfiguration } from '../restObjects/RestPhoningSessionConfiguration'
 import { RestPollResultRequest } from '../restObjects/RestPollResultRequest'
-import { RestProfileResponse } from '../restObjects/RestProfileResponse'
 import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
 import { RestRetaliation } from '../restObjects/RestRetaliation'
 import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
-import { RestTimelineFeedResponse } from '../restObjects/RestTimelineFeedResponse'
 import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 import {
   RestPostPushTokenRequest,
@@ -45,7 +43,6 @@ import {
   RestUpdateProfileRequest,
   RestUpdateSubscriptionsRequest,
 } from '../restObjects/RestUpdateProfileRequest'
-import { RestUserScope } from '../restObjects/RestUserScope'
 import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
 import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
 import { RestMarkdown } from './../restObjects/RestMarkdown'
