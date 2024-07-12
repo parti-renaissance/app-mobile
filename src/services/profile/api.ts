@@ -1,8 +1,8 @@
 import * as schemas from '@/services/profile/schema'
+import type * as Types from '@/services/profile/schema'
 import { api } from '@/utils/api'
-import { z } from 'zod'
 
-export const getProfile = api<z.infer<typeof schemas.RestProfilRequestSchema>, z.infer<typeof schemas.RestProfilResponseSchema>>({
+export const getProfile = api<Types.RestProfilRequest, Types.RestProfilResponse>({
   method: 'GET',
   path: '/api/me',
   requestSchema: schemas.RestProfilRequestSchema,
@@ -10,18 +10,27 @@ export const getProfile = api<z.infer<typeof schemas.RestProfilRequestSchema>, z
   type: 'private',
 })
 
-export const getDetailedProfile = api<z.infer<typeof schemas.RestDetailedProfileRequestSchema>, z.infer<typeof schemas.RestDetailedProfileResponseSchema>>({
+export const getDetailedProfile = api<Types.RestDetailedProfileRequest, Types.RestDetailedProfileResponse>({
   method: 'GET',
-  path: '/api/profile/me',
+  path: '/api/v3/profile/me',
   requestSchema: schemas.RestDetailedProfileRequestSchema,
   responseSchema: schemas.RestDetailedProfileResponseSchema,
   type: 'private',
 })
 
-export const getUserScopes = api<z.infer<typeof schemas.RestUserScopesRequestSchema>, z.infer<typeof schemas.RestUserScopesResponseSchema>>({
+export const getUserScopes = api<Types.RestUserScopesRequest, Types.RestUserScopesResponse>({
   method: 'GET',
   path: '/api/v3/profile/me/scopes',
   requestSchema: schemas.RestUserScopesRequestSchema,
   responseSchema: schemas.RestUserScopesResponseSchema,
   type: 'private',
 })
+
+export const updateProfile = (userUuid: string, request: Types.RestUpdateProfileRequest) =>
+  api<typeof request, Types.RestUpdateProfileResponse>({
+    method: 'PUT',
+    path: `/api/v3/profile/${userUuid}`,
+    requestSchema: schemas.RestUpdateProfileRequestSchema,
+    responseSchema: schemas.RestUpdateProfileResponseSchema,
+    type: 'private',
+  })(request)

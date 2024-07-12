@@ -1,9 +1,12 @@
 import { z } from 'zod'
 
+export type RestTimelineFeedRequest = z.infer<typeof RestTimelineFeedRequestSchema>
 export const RestTimelineFeedRequestSchema = z.object({
   page: z.number(),
   postal_code: z.string(),
 })
+
+export type RestTimelineFeedAddress = z.infer<typeof RestTimelineFeedAddressSchema>
 export const RestTimelineFeedAddressSchema = z.object({
   address: z.string().nullable(),
   postal_code: z.string().nullable(),
@@ -11,6 +14,7 @@ export const RestTimelineFeedAddressSchema = z.object({
   country: z.string().nullable(),
 })
 
+export type RestTimelineFeedItem = z.infer<typeof RestTimelineFeedItemSchema>
 export const RestTimelineFeedItemSchema = z.object({
   objectID: z.string(),
   type: z.enum(['news', 'event', 'phoning-campaign', 'pap-campaign', 'survey', 'riposte', 'action']),
@@ -34,6 +38,7 @@ export const RestTimelineFeedItemSchema = z.object({
   post_address: RestTimelineFeedAddressSchema.nullable(),
 })
 
+export type RestTimelineFeedResponse = z.infer<typeof RestTimelineFeedResponseSchema>
 export const RestTimelineFeedResponseSchema = z.object({
   hits: z.array(RestTimelineFeedItemSchema),
   page: z.number(),

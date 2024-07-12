@@ -34,7 +34,6 @@ import { RestQuickPollItem } from '../restObjects/RestQuickPollResponse'
 import { RestResetPasswordRequest } from '../restObjects/RestResetPasswordRequest'
 import { RestDataProtectionRegulation } from '../restObjects/RestRestDataProtectionRegulation'
 import { RestRetaliation } from '../restObjects/RestRetaliation'
-import { RestSignUpRequest } from '../restObjects/RestSignUpRequest'
 import { RestToolsResponse } from '../restObjects/RestToolsResponse'
 import {
   RestPostPushTokenRequest,
@@ -62,15 +61,6 @@ class ApiService {
   private static instance: ApiService
   private httpClient = _httpClient
   private constructor() {}
-
-  public async signUp(request: RestSignUpRequest): Promise<void> {
-    return this.httpClient
-      .post('api/membership?source=jemengage', {
-        json: request,
-      })
-      .then(() => {})
-      .catch(mapSignUpFormError)
-  }
 
   public async getGdpr(): Promise<RestDataProtectionRegulation> {
     return this.httpClient.get('api/je-mengage/rgpd').json<RestDataProtectionRegulation>().catch(mapSignUpFormError)

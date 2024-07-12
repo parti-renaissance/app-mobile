@@ -114,13 +114,13 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
               Identité
             </Text>
 
-            <FormikController<PersonalInformationsForm> name="gender">
+            <FormikController<PersonalInformationsForm, 'gender'> name="gender">
               {({ inputProps }) => <Select label={'Civilité'} placeholder="Sélectionner votre civilité" options={genderOptions} {...inputProps} />}
             </FormikController>
 
             <View $gtMd={{ flexDirection: 'row', gap: '$4' }}>
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
-                <FormikController name="firstName">
+                <FormikController<PersonalInformationsForm, 'firstName'> name="firstName">
                   {({ inputProps }) => <TextField placeholder="Prénom" label="Prénom" width="100%" {...inputProps} />}
                 </FormikController>
               </View>

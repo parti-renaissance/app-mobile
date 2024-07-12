@@ -1,9 +1,8 @@
 import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
 import { useSession } from '@/ctx/SessionProvider'
-import ApiService from '@/data/network/ApiService'
 import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
-import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
-import { getDetailedProfile, getProfile, getUserScopes } from '@/services/profile/api'
+import { getDetailedProfile, getProfile, getUserScopes, updateProfile } from '@/services/profile/api'
+import { RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
 import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, UseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
 
@@ -41,7 +40,7 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: RestUpdateProfileRequest) => ApiService.getInstance().updateProfile(userUuid, data),
+    mutationFn: (data: RestUpdateProfileRequest) => updateProfile(userUuid, data),
     onMutate: (profil) => {
       queryClient.setQueryData([key], profil)
     },

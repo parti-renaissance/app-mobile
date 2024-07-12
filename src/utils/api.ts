@@ -1,6 +1,7 @@
 import { instance, instanceWithoutInterceptors } from '@/lib/axios'
 import { AxiosRequestConfig, Method } from 'axios'
 import { z } from 'zod'
+import { ErrorMonitor } from './ErrorMonitor'
 
 interface APICallPayload<Request, Response> {
   method: Method
@@ -41,8 +42,12 @@ export function api<Request, Response>({ type = 'private', method, path, request
     const result = responseSchema.safeParse(response.data)
 
     if (!result.success) {
-      console.error(`🚨 Safe-Parsing Failed ${path}: `, result.error.message)
-      throw new Error(result.error.message)
+      console.error('Safe-Parsing Failed : ', result.error.message)
+      ErrorMonitor.log(`🚨 Safe-Parsing Failed : `, {
+        api: { path, method, data, params },
+        zod: result.error.message,
+      })
+      return response.data
     } else {
       return result.data
     }

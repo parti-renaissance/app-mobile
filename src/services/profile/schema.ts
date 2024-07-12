@@ -1,7 +1,11 @@
 import { z } from 'zod'
 
+// -----------------  RestProfil  -----------------
+
+export type RestProfilRequest = z.infer<typeof RestProfilRequestSchema>
 export const RestProfilRequestSchema = z.void()
 
+export type RestProfilResponse = z.infer<typeof RestProfilResponseSchema>
 export const RestProfilResponseSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
@@ -30,15 +34,19 @@ export const RestProfilResponseSchema = z.object({
   ),
 })
 
+// -----------------  RestDetailedProfile  -----------------
+
+export type RestDetailedProfileRequest = z.infer<typeof RestDetailedProfileRequestSchema>
 export const RestDetailedProfileRequestSchema = z.void()
 
+export type RestDetailedProfileResponse = z.infer<typeof RestDetailedProfileResponseSchema>
 export const RestDetailedProfileResponseSchema = z.object({
   uuid: z.string().uuid(),
   first_name: z.string(),
   last_name: z.string(),
   gender: z.string(),
-  custom_gender: z.string().nullable(),
-  nationality: z.string().nullable(),
+  custom_gender: z.string(),
+  nationality: z.string(),
   birthdate: z.string(),
   post_address: z
     .object({
@@ -51,11 +59,11 @@ export const RestDetailedProfileResponseSchema = z.object({
     })
     .nullable(),
   email_address: z.string().email(),
-  facebook_page_url: z.string().nullable(),
-  twitter_page_url: z.string().nullable(),
-  linkedin_page_url: z.string().nullable(),
-  telegram_page_url: z.string().nullable(),
-  instagram_page_url: z.string().nullable(),
+  facebook_page_url: z.string().optional(),
+  twitter_page_url: z.string().optional(),
+  linkedin_page_url: z.string().optional(),
+  telegram_page_url: z.string().optional(),
+  instagram_page_url: z.string().optional(),
   adherent: z.boolean(),
   phone: z.object({
     country: z.string(),
@@ -75,8 +83,12 @@ export const RestDetailedProfileResponseSchema = z.object({
   ),
 })
 
+// -----------------  RestUserScopes  -----------------
+
+export type RestUserScopesRequest = z.infer<typeof RestUserScopesRequestSchema>
 export const RestUserScopesRequestSchema = z.void()
 
+export type RestUserScopesResponse = z.infer<typeof RestUserScopesResponseSchema>
 export const RestUserScopesResponseSchema = z.array(
   z.object({
     code: z.string(),
@@ -92,3 +104,32 @@ export const RestUserScopesResponseSchema = z.array(
     features: z.array(z.string()),
   }),
 )
+
+// -----------------  RestUpdateProfile  -----------------
+
+export type RestUpdateProfileRequest = z.infer<typeof RestUpdateProfileRequestSchema>
+export const RestUpdateProfileRequestSchema = z
+  .object({
+    first_name: z.string(),
+    last_name: z.string(),
+    gender: z.string(),
+    custom_gender: z.string(),
+    nationality: z.string(),
+    birthdate: z.string(),
+    address: z.object({
+      address: z.string(),
+      postal_code: z.string(),
+      city_name: z.string(),
+      country: z.string(),
+    }),
+    email_address: z.string().email(),
+    facebook_page_url: z.string().url(),
+    twitter_page_url: z.string().url(),
+    linkedin_page_url: z.string().url(),
+    instagram_page_url: z.string().url(),
+    telegram_page_url: z.string().url(),
+  })
+  .partial()
+
+export const RestUpdateProfileResponseSchema = RestDetailedProfileRequestSchema
+export type RestUpdateProfileResponse = RestDetailedProfileRequest

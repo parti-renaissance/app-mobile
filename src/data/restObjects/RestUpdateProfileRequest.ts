@@ -31,6 +31,7 @@ export interface RestUpdateErrorResponse {
   violations: Array<RestViolation>
 }
 
+//validation de formulaire
 export interface RestViolation {
   propertyPath: string
   message: string
