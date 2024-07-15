@@ -1,5 +1,7 @@
 import { SelectPeriod } from '@/components/actions'
 import { Poll } from '@/core/entities/Poll'
+import { instance, instanceWithoutInterceptors } from '@/lib/axios'
+import { AxiosRequestConfig, Method } from 'axios'
 import { addDays, endOfDay, startOfDay } from 'date-fns'
 import { stringify } from 'qs'
 import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
@@ -51,109 +53,83 @@ import {
   mapPhoningSessionError,
   mapProfileFormError,
   mapPublicSubcribeFormError,
-  mapSignUpFormError,
   mapSubscriptionError,
 } from './errorMappers'
-import _httpClient, { publicHttpClient } from './HttpClient'
 import { genericErrorMapping } from './utils'
+
+const api = <Response>(method: Method, path: string, opt?: AxiosRequestConfig) =>
+  instance<Response>({ ...opt, url: path, method })
+    .then((res) => res.data)
+    .catch(genericErrorMapping)
+const publicApi = <Response>(method: Method, path: string, opt?: AxiosRequestConfig) =>
+  instanceWithoutInterceptors<Response>({ ...opt, url: path, method })
+    .then((res) => res.data)
+    .catch(genericErrorMapping)
 
 class ApiService {
   private static instance: ApiService
-  private httpClient = _httpClient
   private constructor() {}
 
   public async getGdpr(): Promise<RestDataProtectionRegulation> {
-    return this.httpClient.get('api/je-mengage/rgpd').json<RestDataProtectionRegulation>().catch(mapSignUpFormError)
+    return api<RestDataProtectionRegulation>('get', 'api/je-mengage/rgpd')
   }
 
   public async resetPassword(request: RestResetPasswordRequest): Promise<void> {
-    return this.httpClient
-      .post('api/membership/forgot-password?source=jemengage', {
-        json: request,
-      })
+    return api<void>('post', 'api/membership/forgot-password?source=jemengage', {
+      data: request,
+    })
       .then(() => {})
       .catch(genericErrorMapping)
   }
 
-  public getPolls(): Promise<Array<Poll>> {
-    return this.httpClient.get('api/jecoute/survey').json<Array<Poll>>().catch(genericErrorMapping)
+  public async getPolls() {
+    return api<Array<Poll>>('get', 'api/jecoute/survey')
   }
 
-  public sendPollAnswers(request: RestPollResultRequest): Promise<void> {
-    return this.httpClient
-      .post('api/jecoute/survey/reply', { json: request })
-      .json()
-      .then(() => {})
-      .catch(genericErrorMapping)
+  public async sendPollAnswers(request: RestPollResultRequest) {
+    return api<void>('post', 'api/jecoute/survey/reply', { data: request }).catch(genericErrorMapping)
   }
-  public removeProfile(): Promise<void> {
-    return this.httpClient.post('api/v3/profile/unregister').json<void>().catch(genericErrorMapping)
+  public async removeProfile(): Promise<void> {
+    return api<void>('post', 'api/v3/profile/unregister')
   }
 
-  public getRetaliations(): Promise<Array<RestRetaliation>> {
-    return this.httpClient.get('api/v3/ripostes').json<Array<RestRetaliation>>().catch(genericErrorMapping)
+  public async getRetaliations() {
+    return api<Array<RestRetaliation>>('get', 'api/v3/ripostes')
   }
 
-  public getRetaliation(id: string): Promise<RestRetaliation> {
-    return this.httpClient
-      .get('api/v3/ripostes/' + id)
-      .json<RestRetaliation>()
-      .catch(genericErrorMapping)
+  public async getRetaliation(id: string) {
+    return api<RestRetaliation>('get', 'api/v3/ripostes/' + id)
   }
 
-  public updateProfile(userUuid: string, request: RestUpdateProfileRequest): Promise<RestDetailedProfileResponse> {
-    return this.httpClient
-      .put('api/v3/profile/' + userUuid, { json: request })
-      .json<RestDetailedProfileResponse>()
-      .catch(mapProfileFormError)
+  public async updateProfile(userUuid: string, request: RestUpdateProfileRequest) {
+    return api<RestDetailedProfileResponse>('put', 'api/v3/profile/' + userUuid, { data: request }).catch(mapProfileFormError)
   }
 
-  public getNews(zipCode: string, page: number): Promise<RestNewsResponse> {
-    return this.httpClient
-      .get('api/jecoute/news', {
-        searchParams: { zipCode: zipCode, page: page, with_enriched: true },
-      })
-      .json<RestNewsResponse>()
-      .catch(genericErrorMapping)
+  public async getNews(zipCode: string, page: number) {
+    return api<RestNewsResponse>('get', 'api/jecoute/news', {
+      params: { zipCode: zipCode, page: page, with_enriched: true },
+    })
   }
 
-  public getNewsDetail(newsId: string): Promise<RestNews> {
-    return this.httpClient
-      .get('api/jecoute/news/' + newsId)
-      .json<RestNews>()
-      .catch(genericErrorMapping)
+  public async getNewsDetail(newsId: string) {
+    return api<RestNews>('get', 'api/jecoute/news/' + newsId).catch(genericErrorMapping)
   }
 
-  public async getDepartment(zipCode: string, accessToken?: string): Promise<RestDepartmentResponse> {
-    const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
-    return this.httpClient
-      .get('api/jecoute/departments/' + zipCode, { headers: headers })
-      .json<RestDepartmentResponse>()
-      .catch(genericErrorMapping)
+  public async getDepartment(zipCode: string) {
+    return api<RestDepartmentResponse>('get', 'api/jecoute/departments/' + zipCode)
   }
 
-  public getQuickPolls(zipCode: string): Promise<RestQuickPollItem> {
-    return this.httpClient
-      .get('api/v3/polls/' + zipCode)
-      .json<RestQuickPollItem>()
-      .catch(genericErrorMapping)
+  public async getQuickPolls(zipCode: string) {
+    return api<RestQuickPollItem>('get', 'api/v3/polls/' + zipCode)
   }
 
-  public sendQuickPollAnswer(answerId: string): Promise<RestQuickPollItem> {
-    return this.httpClient
-      .post('api/v3/polls/vote', { json: { uuid: answerId } })
-      .json<RestQuickPollItem>()
-      .catch(genericErrorMapping)
+  public async sendQuickPollAnswer(answerId: string) {
+    return api<RestQuickPollItem>('post', 'api/v3/polls/vote', { data: { uuid: answerId } })
   }
 
   public async getCityFromPostalCode(postalCode: string): Promise<string | undefined> {
-    // Exclude accessToken injection on this route
-    const headers = { Authorization: '' }
-    const response = await this.httpClient
-      .get('api/postal-code/' + postalCode, { headers: headers })
-      .json()
-      .catch(genericErrorMapping)
-    const result = response as { [key: string]: string }
+    const response = await publicApi<{ [key: string]: string }>('get', 'api/postal-code/' + postalCode)
+    const result = response
     const entries = Object.entries(result)
     if (entries.length > 0) {
       const [, value] = Object.entries(result)[0]
@@ -163,161 +139,103 @@ class ApiService {
     }
   }
 
-  public async getEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zoneCode'>): Promise<RestEvents> {
+  public async getEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zoneCode'>) {
+    const searchParams = GetEventsSearchParametersMapper.map(args)
+    return await api<RestEvents>('get', 'api/v3/events', {
+      params: searchParams,
+    })
+  }
+
+  public async getPublicEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zipCode'>) {
     const searchParams = GetEventsSearchParametersMapper.map(args)
 
-    return this.httpClient
-      .get('api/v3/events', {
-        searchParams: searchParams,
-      })
-      .json<RestEvents>()
-      .catch(genericErrorMapping)
+    return await publicApi<RestEvents>('get', 'api/events', {
+      params: searchParams,
+    })
   }
 
-  public async getPublicEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zipCode'>): Promise<RestEvents> {
-    const searchParams = GetEventsSearchParametersMapper.map(args)
-
-    return this.httpClient
-      .get('api/events', {
-        searchParams: searchParams,
-      })
-      .json<RestEvents>()
-      .catch(genericErrorMapping)
+  public async getEventDetails(eventId: string) {
+    return api<RestEvent>('get', 'api/v3/events/' + eventId)
   }
 
-  public getEventDetails(eventId: string): Promise<RestEvent> {
-    return this.httpClient
-      .get('api/v3/events/' + eventId)
-      .json<RestEvent>()
-      .catch(genericErrorMapping)
+  public async getPublicEventDetails(eventId: string): Promise<RestEvent> {
+    return publicApi('get', 'api/events/' + eventId)
   }
 
-  public getPublicEventDetails(eventId: string): Promise<RestEvent> {
-    return this.httpClient
-      .get('api/events/' + eventId)
-      .json<RestEvent>()
-      .catch(genericErrorMapping)
+  public async subscribeToEvent(eventId: string): Promise<void> {
+    return api<void>('post', ' api/v3/events/' + eventId + '/subscribe').catch(mapSubscriptionError)
   }
 
-  public subscribeToEvent(eventId: string): Promise<void> {
-    return this.httpClient
-      .post('api/v3/events/' + eventId + '/subscribe')
-      .json()
-      .then(() => {})
-      .catch(mapSubscriptionError)
-  }
-
-  public unsubscribeFromEvent(eventId: string): Promise<void> {
-    return this.httpClient
-      .delete('api/v3/events/' + eventId + '/subscribe')
-      .json()
-      .then(() => {})
-      .catch(mapSubscriptionError)
+  public async unsubscribeFromEvent(eventId: string): Promise<void> {
+    return api<void>('delete', 'api/v3/events/' + eventId + '/subscribe').catch(mapSubscriptionError)
   }
 
   public async subscribePublicEvent(eventId: string, payload: PublicSubscribtionFormData) {
-    return publicHttpClient
-      .post('api/events/' + eventId + '/subscribe', { json: payload })
-      .json()
-      .then(() => {})
-      .catch(mapPublicSubcribeFormError)
+    return publicApi<void>('post', 'api/events/' + eventId + '/subscribe', { data: payload }).catch(mapPublicSubcribeFormError)
   }
 
   public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {
-    return this.httpClient.get('api/v3/profile/configuration').json<RestConfigurations>().catch(genericErrorMapping)
+    return api('get', 'api/v3/profile/configuration')
   }
 
-  public updateCentersOfInterest(userUuid: string, request: RestUpdateCentersOfInterestRequest): Promise<void> {
-    return this.httpClient
-      .put('api/v3/profile/' + userUuid, { json: request })
-      .json()
-      .then(() => {})
-      .catch(genericErrorMapping)
+  public async updateCentersOfInterest(userUuid: string, request: RestUpdateCentersOfInterestRequest): Promise<void> {
+    return api('put', 'api/v3/profile/' + userUuid, { data: request })
   }
 
-  public updateSubscriptions(userUuid: string, request: RestUpdateSubscriptionsRequest): Promise<void> {
-    return this.httpClient
-      .put('api/v3/profile/' + userUuid, { json: request })
-      .json()
-      .then(() => {})
-      .catch(genericErrorMapping)
+  public async updateSubscriptions(userUuid: string, request: RestUpdateSubscriptionsRequest): Promise<void> {
+    return api('put', 'api/v3/profile/' + userUuid, { data: request })
   }
 
-  public addPushToken(request: RestPostPushTokenRequest): Promise<void> {
-    return this.httpClient
-      .post('api/v3/push-token', { json: request })
-      .json()
-      .then(() => {})
-      .catch(mapAssociatedToken)
+  public async addPushToken(request: RestPostPushTokenRequest): Promise<void> {
+    return api<void>('post', 'api/v3/push-token', { data: request }).catch(mapAssociatedToken)
   }
 
-  public removePushToken(pushToken: string): Promise<void> {
-    return this.httpClient
-      .delete('api/v3/push-token/' + pushToken)
-      .json()
-      .then(() => {})
-      .catch(genericErrorMapping)
+  public async removePushToken(pushToken: string): Promise<void> {
+    return api<void>('delete', 'api/v3/push-token/' + pushToken)
   }
 
-  public updateDeviceZipCode(deviceId: string, request: RestUpdatePostalCodeRequest): Promise<void> {
-    return this.httpClient
-      .put(`api/v3/device/${deviceId}`, { json: request })
-      .json()
-      .then(() => {})
-      .catch(genericErrorMapping)
+  public async updateDeviceZipCode(deviceId: string, request: RestUpdatePostalCodeRequest): Promise<void> {
+    return api<void>('put', `api/v3/device/${deviceId}`, { data: request }).catch(genericErrorMapping)
   }
 
-  public getPhoningTutorial(): Promise<RestMarkdown> {
-    return this.httpClient.get('api/v3/phoning_campaigns/tutorial').json<RestMarkdown>().catch(genericErrorMapping)
+  public async getPhoningTutorial(): Promise<RestMarkdown> {
+    return api('get', 'api/v3/phoning_campaigns/tutorial')
   }
 
-  public getPhoningCampaigns(): Promise<Array<RestPhoningCampaign>> {
-    return this.httpClient.get('api/v3/phoning_campaigns/scores').json<Array<RestPhoningCampaign>>().catch(genericErrorMapping)
+  public async getPhoningCampaigns(): Promise<Array<RestPhoningCampaign>> {
+    return api('get', 'api/v3/phoning_campaigns/scores')
   }
 
-  public getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
-    return this.httpClient.get(`api/v3/phoning_campaigns/${campaignId}/survey`).json<Poll>().catch(genericErrorMapping)
+  public async getPhoningCampaignPoll(campaignId: string): Promise<Poll> {
+    return api('get', `api/v3/phoning_campaigns/${campaignId}/survey`)
   }
 
-  public getPhoningCampaign(campaignId: string): Promise<RestPhoningCampaign> {
-    return this.httpClient.get(`api/v3/phoning_campaigns/${campaignId}/scores`).json<RestPhoningCampaign>().catch(genericErrorMapping)
+  public async getPhoningCampaign(campaignId: string): Promise<RestPhoningCampaign> {
+    return api('get', `api/v3/phoning_campaigns/${campaignId}/scores`)
   }
 
-  public getPhoningCampaignSession(campaignId: string): Promise<RestPhoningSession> {
-    return this.httpClient.post(`api/v3/phoning_campaigns/${campaignId}/start`).json<RestPhoningSession>().catch(mapPhoningSessionError)
+  public async getPhoningCampaignSession(campaignId: string) {
+    return api<RestPhoningSession>('post', `api/v3/phoning_campaigns/${campaignId}/start`).catch(mapPhoningSessionError)
   }
 
-  public getPhoningSessionConfiguration(sessionId: string): Promise<RestPhoningSessionConfiguration> {
-    return this.httpClient
-      .get(`api/v3/phoning_campaign_histories/${sessionId}/survey-config`)
-      .json<RestPhoningSessionConfiguration>()
-      .catch(genericErrorMapping)
+  public async getPhoningSessionConfiguration(sessionId: string): Promise<RestPhoningSessionConfiguration> {
+    return api<RestPhoningSessionConfiguration>('get', `api/v3/phoning_campaign_histories/${sessionId}/survey-config`)
   }
 
-  public updatePhoningSessionStatus(sessionId: string, status: string, params: Record<string, string> = {}): Promise<void> {
-    return this.httpClient
-      .put(`api/v3/phoning_campaign_histories/${sessionId}`, {
-        json: { status, ...params },
-      })
-      .json()
-      .then(() => {})
-      .catch(genericErrorMapping)
+  public async updatePhoningSessionStatus(sessionId: string, status: string, params: Record<string, string> = {}): Promise<void> {
+    return api('put', `api/v3/phoning_campaign_histories/${sessionId}`, {
+      data: { status, ...params },
+    })
   }
 
-  public sendPhonePollAnswers(sessionId: string, request: RestPhonePollResultRequest): Promise<void> {
-    return this.httpClient
-      .post(`api/v3/phoning_campaign_histories/${sessionId}/reply`, {
-        json: request,
-      })
-      .json()
-      .then(() => {})
-      .catch(mapPhonePollError)
+  public async sendPhonePollAnswers(sessionId: string, request: RestPhonePollResultRequest): Promise<void> {
+    return api<void>('post', `api/v3/phoning_campaign_histories/${sessionId}/reply`, {
+      data: request,
+    }).catch(mapPhonePollError)
   }
 
-  public getPhoningCharter(): Promise<RestPhoningCharter> {
-    return this.httpClient
-      .get('api/v3/profile/charter/phoning_campaign')
-      .json<RestPhoningCharterResponse>()
+  public async getPhoningCharter(): Promise<RestPhoningCharter> {
+    return api<RestPhoningCharterResponse>('get', 'api/v3/profile/charter/phoning_campaign')
       .catch(genericErrorMapping)
       .then((response) => {
         if (response.content === undefined) {
@@ -328,14 +246,12 @@ class ApiService {
       })
   }
 
-  public acceptPhoningCharter(): Promise<void> {
-    return this.httpClient.put('api/v3/profile/charter/phoning_campaign/accept').json<void>().catch(genericErrorMapping)
+  public async acceptPhoningCharter(): Promise<void> {
+    return api<void>('put', 'api/v3/profile/charter/phoning_campaign/accept')
   }
 
-  public getDoorToDoorCharter(): Promise<RestDoorToDoorCharter> {
-    return this.httpClient
-      .get('api/v3/profile/charter/pap_campaign')
-      .json<RestDoorToDoorCharterResponse>()
+  public async getDoorToDoorCharter(): Promise<RestDoorToDoorCharter> {
+    return api<RestDoorToDoorCharterResponse>('get', 'api/v3/profile/charter/pap_campaign')
       .catch(genericErrorMapping)
       .then((response) => {
         if (response.content === undefined) {
@@ -346,137 +262,119 @@ class ApiService {
       })
   }
 
-  public acceptDoorToDoorCharter(): Promise<void> {
-    return this.httpClient.put('api/v3/profile/charter/pap_campaign/accept').json<void>().catch(genericErrorMapping)
+  public async acceptDoorToDoorCharter(): Promise<void> {
+    return api('put', 'api/v3/profile/charter/pap_campaign/accept')
   }
 
-  public buildingBlocks(buildingId: string, campaignId: string): Promise<RestBuildingBlock[]> {
-    return this.httpClient
-      .get(`api/v3/pap/buildings/${buildingId}/building_blocks?campaign_uuid=${campaignId}`)
-      .json<RestBuildingBlock[]>()
-      .catch(genericErrorMapping)
+  public async buildingBlocks(buildingId: string, campaignId: string) {
+    return api<RestBuildingBlock[]>('get', `api/v3/pap/buildings/${buildingId}/building_blocks?campaign_uuid=${campaignId}`)
   }
 
-  public buildingHistory(buildingId: string, campaignId: string): Promise<RestBuildingHistoryPoint[]> {
-    return this.httpClient
-      .get(`api/v3/pap/buildings/${buildingId}/history?campaign_uuid=${campaignId}`)
-      .json<RestBuildingHistoryPoint[]>()
-      .catch(genericErrorMapping)
+  public async buildingHistory(buildingId: string, campaignId: string) {
+    return api<RestBuildingHistoryPoint[]>('get', `api/v3/pap/buildings/${buildingId}/history?campaign_uuid=${campaignId}`)
   }
 
-  public getAddresses(latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number): Promise<RestDoorToDoorAddress[]> {
-    return this.httpClient
-      .get('api/v3/pap/address/near', {
-        searchParams: {
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: latitudeDelta,
-          longitudeDelta: longitudeDelta,
-        },
-      })
-      .json<RestDoorToDoorAddress[]>()
-      .catch(genericErrorMapping)
+  public async getAddresses(latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number) {
+    return api<RestDoorToDoorAddress[]>('get', 'api/v3/pap/address/near', {
+      params: {
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: latitudeDelta,
+        longitudeDelta: longitudeDelta,
+      },
+    })
   }
 
-  public getAddress(addressId: string): Promise<RestDoorToDoorAddress> {
-    return this.httpClient.get(`api/v3/pap/address/${addressId}`).json<RestDoorToDoorAddress>().catch(genericErrorMapping)
+  public async getAddress(addressId: string) {
+    return api<RestDoorToDoorAddress>('get', `api/v3/pap/address/${addressId}`)
   }
 
-  public getDoorToDoorCampaign(campaignId: string): Promise<RestDoorToDoorCampaign> {
-    return this.httpClient.get(`api/v3/pap_campaigns/${campaignId}`).json<RestDoorToDoorCampaign>().catch(genericErrorMapping)
+  public async getDoorToDoorCampaign(campaignId: string): Promise<RestDoorToDoorCampaign> {
+    return api<RestDoorToDoorCampaign>('get', `api/v3/pap_campaigns/${campaignId}`)
   }
 
-  public getDoorToDoorPollConfig(campaignId: string): Promise<RestDoorToDoorPollConfig> {
-    return this.httpClient.get(`api/v3/pap_campaigns/${campaignId}/survey-config`).json<RestDoorToDoorPollConfig>().catch(genericErrorMapping)
+  public async getDoorToDoorPollConfig(campaignId: string): Promise<RestDoorToDoorPollConfig> {
+    return api<RestDoorToDoorPollConfig>('get', `api/v3/pap_campaigns/${campaignId}/survey-config`)
   }
 
-  public getDoorToDoorCampaignPoll(campaignId: string): Promise<Poll> {
-    return this.httpClient.get(`api/v3/pap_campaigns/${campaignId}/survey`).json<Poll>().catch(genericErrorMapping)
+  public async getDoorToDoorCampaignPoll(campaignId: string): Promise<Poll> {
+    return api<Poll>('get', `api/v3/pap_campaigns/${campaignId}/survey`)
   }
 
-  public createDoorToDoorCampaignHistory(
+  public async createDoorToDoorCampaignHistory(
     request: Record<string, string>, // object with dynamic keys
-  ): Promise<RestDoorToDoorCampaignHistoryResponse> {
-    return this.httpClient.post('api/v3/pap_campaign_histories', { json: request }).json<RestDoorToDoorCampaignHistoryResponse>().catch(genericErrorMapping)
+  ) {
+    return api<RestDoorToDoorCampaignHistoryResponse>('post', 'api/v3/pap_campaign_histories', { data: request })
   }
 
-  public replyToDoorToDoorCampaignHistory(campaignHistoryId: string, request: RestDoorToDoorPollResultRequest): Promise<RestDoorToDoorSurveyReplyResponse> {
-    return this.httpClient
-      .post(`api/v3/pap_campaign_histories/${campaignHistoryId}/reply`, {
-        json: request,
-      })
-      .json<RestDoorToDoorSurveyReplyResponse>()
-      .catch(genericErrorMapping)
+  public async replyToDoorToDoorCampaignHistory(
+    campaignHistoryId: string,
+    request: RestDoorToDoorPollResultRequest,
+  ): Promise<RestDoorToDoorSurveyReplyResponse> {
+    return api<RestDoorToDoorSurveyReplyResponse>('post', `api/v3/pap_campaign_histories/${campaignHistoryId}/reply`, {
+      data: request,
+    })
   }
 
-  public sendBuildingEvent(buildingId: string, event: RestBuildingEventRequest): Promise<void> {
-    return this.httpClient.post(`api/v3/pap/buildings/${buildingId}/events`, { json: event }).json<void>().catch(genericErrorMapping)
+  public async sendBuildingEvent(buildingId: string, event: RestBuildingEventRequest): Promise<void> {
+    return api<void>('post', `api/v3/pap/buildings/${buildingId}/events`, { data: event })
   }
 
-  public getDoorToDoorTutorial(): Promise<RestMarkdown> {
-    return this.httpClient.get('api/v3/pap_campaigns/tutorial').json<RestMarkdown>().catch(genericErrorMapping)
+  public async getDoorToDoorTutorial() {
+    return api<RestMarkdown>('get', 'api/v3/pap_campaigns/tutorial')
   }
 
-  public getDoorToDoorCampaignRanking(campaignId: string): Promise<Array<RestDoorToDoorCampaignRanking>> {
-    return this.httpClient.get(`api/v3/pap_campaigns/${campaignId}/ranking`).json<Array<RestDoorToDoorCampaignRanking>>().catch(genericErrorMapping)
+  public async getDoorToDoorCampaignRanking(campaignId: string) {
+    return api<Array<RestDoorToDoorCampaignRanking>>('get', `api/v3/pap_campaigns/${campaignId}/ranking`)
   }
 
-  public updateBuildingType(buildingId: string, request: RestBuildingTypeRequest): Promise<Array<RestDoorToDoorCampaignRanking>> {
-    return this.httpClient.put(`api/v3/pap/buildings/${buildingId}`, { json: request }).json<Array<RestDoorToDoorCampaignRanking>>().catch(genericErrorMapping)
+  public async updateBuildingType(buildingId: string, request: RestBuildingTypeRequest): Promise<Array<RestDoorToDoorCampaignRanking>> {
+    return api<Array<RestDoorToDoorCampaignRanking>>('put', `api/v3/pap/buildings/${buildingId}`, { data: request })
   }
 
-  public async getTools(page: number): Promise<RestToolsResponse> {
-    return this.httpClient
-      .get('api/v3/jecoute/resource-links', { searchParams: { page: page } })
-      .json<RestToolsResponse>()
-      .catch(genericErrorMapping)
+  public async getTools(page: number) {
+    return api<RestToolsResponse>('get', 'api/v3/jecoute/resource-links', { params: { page: page } })
   }
 
-  public getHomeHeader(): Promise<RestHeaderInfos> {
-    return this.httpClient.get('api/v3/je-mengage/headers/page-accueil').json<RestHeaderInfos>().catch(genericErrorMapping)
+  public async getHomeHeader() {
+    return api<RestHeaderInfos>('get', 'api/v3/je-mengage/headers/page-accueil')
   }
 
-  public getLoginHeader(): Promise<RestHeaderInfos> {
-    return publicHttpClient.get('api/je-mengage/headers/page-connexion').json<RestHeaderInfos>().catch(genericErrorMapping)
+  public async getLoginHeader() {
+    return publicApi<RestHeaderInfos>('get', 'api/je-mengage/headers/page-connexion')
   }
 
   public async getPlaceAutocomplete(query: string, signal?: AbortSignal): Promise<google.maps.places.AutocompletePrediction[]> {
-    return this.httpClient
-      .get(
-        `api/v3/place/autocomplete?${stringify({
-          input: query,
-        })}`,
-        {
-          signal,
-        },
-      )
-      .json()
-      .then((response: { predictions: google.maps.places.AutocompletePrediction[] }) => response.predictions)
-      .catch(genericErrorMapping)
+    return api(
+      'get',
+      `api/v3/place/autocomplete?${stringify({
+        input: query,
+      })}`,
+      {
+        signal,
+      },
+    ).then((response: { predictions: google.maps.places.AutocompletePrediction[] }) => response.predictions)
   }
 
   public async getPlaceDetails(placeId: string, signal?: AbortSignal): Promise<GoogleAddressPlaceResult | null> {
-    return this.httpClient
-      .get(
-        `api/v3/place/details?${stringify({
-          place_id: placeId,
-          fields: 'formatted_address,address_components,geometry',
-        })}`,
-        {
-          signal,
-        },
-      )
-      .json()
-      .then((data: { result: google.maps.places.PlaceResult }) =>
-        data?.result
-          ? ({
-              formatted: data.result.formatted_address,
-              details: data.result.address_components,
-              geometry: data.result.geometry,
-            } as GoogleAddressPlaceResult)
-          : null,
-      )
-      .catch(genericErrorMapping)
+    return api(
+      'get',
+      `api/v3/place/details?${stringify({
+        place_id: placeId,
+        fields: 'formatted_address,address_components,geometry',
+      })}`,
+      {
+        signal,
+      },
+    ).then((data: { result: google.maps.places.PlaceResult }) =>
+      data?.result
+        ? ({
+            formatted: data.result.formatted_address,
+            details: data.result.address_components,
+            geometry: data.result.geometry,
+          } as GoogleAddressPlaceResult)
+        : null,
+    )
   }
 
   public async getActions({ subscribeOnly, longitude, latitude, type, period }: RestActionRequestParams) {
@@ -511,55 +409,45 @@ class ApiService {
       longitude,
       latitude,
     }
-    return this.httpClient.get('api/v3/actions', { searchParams: params }).json().then(ActionPaginationSchema.parse).catch(genericErrorMapping)
+    return api('get', 'api/v3/actions', { params: params }).then(ActionPaginationSchema.parse)
   }
 
   public async insertAction(payload: ActionCreateType, scope?: string) {
-    return this.httpClient
-      .post('api/v3/actions', {
-        searchParams: scope
-          ? {
-              scope,
-            }
-          : undefined,
-        json: {
-          ...payload,
-          date: payload.date.toISOString(),
-        },
-      })
-      .json()
-      .catch(genericErrorMapping)
+    return api('post', 'api/v3/actions', {
+      params: scope
+        ? {
+            scope,
+          }
+        : undefined,
+      data: {
+        ...payload,
+        date: payload.date.toISOString(),
+      },
+    })
   }
 
   public async editAction(uuid: string, payload: ActionCreateType, scope?: string) {
-    return this.httpClient
-      .put(`api/v3/actions/${uuid}`, {
-        json: {
-          ...payload,
-          date: payload.date.toISOString(),
-          scope,
-        },
-      })
-      .json()
-      .catch(genericErrorMapping)
+    return api('put', `api/v3/actions/${uuid}`, {
+      data: {
+        ...payload,
+        date: payload.date.toISOString(),
+        scope,
+      },
+    })
   }
 
   public async getAction(id: string, scope?: string) {
-    return this.httpClient
-      .get(`api/v3/actions/${id}`, {
-        searchParams: scope ? { scope } : undefined,
-      })
-      .json()
-      .then(ActionFullSchema.parse)
-      .catch(genericErrorMapping)
+    return api('get', `api/v3/actions/${id}`, {
+      params: scope ? { scope } : undefined,
+    }).then(ActionFullSchema.parse)
   }
 
   public async subscribeToAction(id: string) {
-    return this.httpClient.post(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
+    return api('post', `api/v3/actions/${id}/register`)
   }
 
   public async unsubscribeFromAction(id: string) {
-    return this.httpClient.delete(`api/v3/actions/${id}/register`).json().catch(genericErrorMapping)
+    return api('delete', `api/v3/actions/${id}/register`)
   }
 
   public static getInstance(): ApiService {

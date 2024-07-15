@@ -1,4 +1,3 @@
-import { request } from 'react-native-permissions'
 import clientEnv from '@/config/clientEnv'
 import { Mutex } from 'async-mutex'
 import Constants from 'expo-constants'

@@ -2,6 +2,7 @@ import clientEnv from '@/config/clientEnv'
 import { getRefreshToken } from '@/services/refresh-token/api'
 import { useUserStore } from '@/store/user-store'
 import axios, { AxiosError, CreateAxiosDefaults, InternalAxiosRequestConfig } from 'axios'
+import Constants from 'expo-constants'
 import { identity } from 'fp-ts/lib/function'
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -20,10 +21,10 @@ export const instance = axios.create(baseConfig)
 instance.interceptors.request.use(
   function (config) {
     const accessToken = useUserStore.getState().user?.accessToken
-    // console.log('accessToken', accessToken)
 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
+      config.headers['X-App-version'] = Constants.expoConfig?.version ?? '0.0.0'
     }
 
     return config
@@ -44,7 +45,7 @@ instance.interceptors.response.use(identity, async function (error: AxiosError) 
         useUserStore.getState().removeCredentials()
         return
       }
-      const response = await getRefreshToken({
+      const response = await getRefreshToken({ instance, instanceWithoutInterceptors })({
         client_id: clientEnv.OAUTH_CLIENT_ID,
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
