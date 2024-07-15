@@ -21,7 +21,7 @@ export function api<Request, Response>({ type = 'private', method, path, request
     let params: Request | null = null
 
     if (requestData) {
-      if (method === 'GET' || method === 'DELETE') {
+      if (['get', 'delete'].includes(method.toLowerCase())) {
         params = requestData
       } else {
         data = requestData
@@ -42,12 +42,11 @@ export function api<Request, Response>({ type = 'private', method, path, request
     const result = responseSchema.safeParse(response.data)
 
     if (!result.success) {
-      console.error('Safe-Parsing Failed : ', result.error.message)
       ErrorMonitor.log(`🚨 Safe-Parsing Failed : `, {
         api: { path, method, data, params },
         zod: result.error.message,
       })
-      return response.data
+      return response.data as Response
     } else {
       return result.data
     }

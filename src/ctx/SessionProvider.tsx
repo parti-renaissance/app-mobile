@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
+import useAsyncState from '@/hooks/useAsyncState'
 import useLogin, { useRegister } from '@/hooks/useLogin'
 import { useGetProfil, useGetUserScopes } from '@/hooks/useProfil'
 import { useLogOut } from '@/services/logout/api'
 import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { useQueryClient } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 
 type AuthContext = {
@@ -43,8 +43,7 @@ export function useSession() {
 }
 
 export function SessionProvider(props: React.PropsWithChildren) {
-  const { user: session, setCredentials: setSession } = useUserStore()
-  // const [[isLoading, session], setSession] = useStorageState('credentials')
+  const { user: session, setCredentials: setSession, _hasHydrated } = useUserStore()
   const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: string }>()
 
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
@@ -62,7 +61,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const user = useGetProfil({ enabled: !!session })
   const scope = useGetUserScopes({ enabled: !!user.data })
 
-  const isGlobalLoading = [isLoginInProgress, user.isLoading].some(Boolean)
+  const isGlobalLoading = [isLoginInProgress, user.isLoading, !_hasHydrated].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
 
   const handleSignIn: AuthContext['signIn'] = async (props) => {
@@ -74,7 +73,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
       }
       const { accessToken, refreshToken } = session
       setSession({ accessToken, refreshToken })
-      // await loginInteractor.current.setUpLogin()
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })

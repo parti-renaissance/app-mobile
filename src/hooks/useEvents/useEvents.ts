@@ -2,6 +2,7 @@ import { EventFilters } from '@/core/entities/Event'
 import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { PublicSubscribtionFormData } from '@/data/restObjects/RestEvents'
+import { getEvents } from '@/services/events/api'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
@@ -16,7 +17,7 @@ type FetchShortEventsOptions = {
 }
 
 const fetchEventList = async (pageParam: number, opts: FetchShortEventsOptions) =>
-  await ApiService.getInstance().getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters, orderByBeginAt: true })
+  await getEvents({ page: pageParam, zipCode: opts.postalCode, filters: opts.filters, orderByBeginAt: true })
 
 const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOptions) => {
   return await ApiService.getInstance().getPublicEvents({ page: pageParam, filters: opts.filters, zoneCode: opts.zoneCode, orderByBeginAt: true })
@@ -24,7 +25,6 @@ const fetchEventPublicList = async (pageParam: number, opts: FetchShortEventsOpt
 
 export const useSuspensePaginatedEvents = (opts: { filters?: EventFilters; postalCode?: string; zoneCode?: string }) => {
   const { isAuth } = useSession()
-
   const filtersKey = opts.filters
     ? JSON.stringify({
         ...opts.filters,
