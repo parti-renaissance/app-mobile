@@ -13,11 +13,10 @@ import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import TextField from '@/components/TextField'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
-import { ProfileFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
-import { RestDetailedProfileResponse } from '@/data/restObjects/RestDetailedProfileResponse'
-import { RestUpdateProfileRequest } from '@/data/restObjects/RestUpdateProfileRequest'
+import { ProfileFormError } from '@/services/profile/error'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/services/profile/hook'
+import type { RestDetailedProfileResponse, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
 import { nativeBuildVersion } from 'expo-application'
@@ -41,7 +40,7 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
   const [manualAddress, setManualAddress] = useState<boolean>(false)
 
   const handleOnSubmit = useCallback((values: PersonalInformationsForm) => {
-    const payload: RestUpdateProfileRequest = {
+    const payload = {
       address: {
         address: values.address?.address ?? '',
         postal_code: values.address?.postalCode ?? '',
@@ -50,18 +49,18 @@ const FormEditInformations = forwardRef<FormikProps<PersonalInformationsForm>, F
       },
       phone: values?.phoneNumber ? { country: values?.phoneCountryCode, number: values?.phoneNumber } : null,
       gender: values?.gender.toLowerCase(),
-      custom_gender: values?.customGender ?? null,
+      custom_gender: values?.customGender,
       first_name: values?.firstName,
       last_name: values?.lastName,
       email_address: values?.email,
-      nationality: values?.nationality ?? '',
+      nationality: values?.nationality,
       ...(values?.birthdate && { birthdate: format(values?.birthdate, 'yyyy-MM-dd') }),
       ...(values?.phoneCountryCode && values?.phoneNumber && { phone: { country: values?.phoneCountryCode, number: values?.phoneNumber } }),
-      facebook_page_url: values?.facebook ?? '',
-      twitter_page_url: values?.twitter ?? '',
-      linkedin_page_url: values?.linkedin ?? '',
-      instagram_page_url: values?.instagram ?? '',
-      telegram_page_url: values?.telegram ?? '',
+      facebook_page_url: values?.facebook,
+      twitter_page_url: values?.twitter,
+      linkedin_page_url: values?.linkedin,
+      instagram_page_url: values?.instagram,
+      telegram_page_url: values?.telegram,
     }
 
     onSubmit(payload)
@@ -261,7 +260,7 @@ const EditInformations = () => {
   const { data: profile } = useGetDetailProfil()
   const { user } = useSession()
   const $updateProfile = useMutationUpdateProfil({
-    userUuid: profile?.uuid,
+    userUuid: profile!.uuid,
   })
 
   const isAdherent = !!user.data?.tags?.find((tag) => tag.type === 'adherent')

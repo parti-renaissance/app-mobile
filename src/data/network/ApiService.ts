@@ -10,7 +10,6 @@ import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventReques
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
 import { RestDepartmentResponse } from '../restObjects/RestDepartmentResponse'
-import { RestDetailedProfileResponse } from '../restObjects/RestDetailedProfileResponse'
 import { RestDoorToDoorAddress } from '../restObjects/RestDoorToDoorAddress'
 import { RestDoorToDoorCampaign } from '../restObjects/RestDoorToDoorCampaign'
 import { RestDoorToDoorCampaignHistoryResponse, RestDoorToDoorSurveyReplyResponse } from '../restObjects/RestDoorToDoorCampaignHistoryResponse'
@@ -41,20 +40,12 @@ import {
   RestPostPushTokenRequest,
   RestUpdateCentersOfInterestRequest,
   RestUpdatePostalCodeRequest,
-  RestUpdateProfileRequest,
   RestUpdateSubscriptionsRequest,
 } from '../restObjects/RestUpdateProfileRequest'
 import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
 import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
 import { RestMarkdown } from './../restObjects/RestMarkdown'
-import {
-  mapAssociatedToken,
-  mapPhonePollError,
-  mapPhoningSessionError,
-  mapProfileFormError,
-  mapPublicSubcribeFormError,
-  mapSubscriptionError,
-} from './errorMappers'
+import { mapAssociatedToken, mapPhonePollError, mapPhoningSessionError, mapPublicSubcribeFormError, mapSubscriptionError } from './errorMappers'
 import { genericErrorMapping } from './utils'
 
 const api = <Response>(method: Method, path: string, opt?: AxiosRequestConfig) =>
@@ -96,10 +87,6 @@ class ApiService {
 
   public async getRetaliation(id: string) {
     return api<RestRetaliation>('get', 'api/v3/ripostes/' + id)
-  }
-
-  public async updateProfile(userUuid: string, request: RestUpdateProfileRequest) {
-    return api<RestDetailedProfileResponse>('put', 'api/v3/profile/' + userUuid, { data: request }).catch(mapProfileFormError)
   }
 
   public async getNews(zipCode: string, page: number) {

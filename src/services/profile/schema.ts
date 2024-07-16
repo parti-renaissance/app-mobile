@@ -123,11 +123,11 @@ export const RestUpdateProfileRequestSchema = z
       country: z.string(),
     }),
     email_address: z.string().email(),
-    facebook_page_url: z.string().url(),
-    twitter_page_url: z.string().url(),
-    linkedin_page_url: z.string().url(),
-    instagram_page_url: z.string().url(),
-    telegram_page_url: z.string().url(),
+    facebook_page_url: z.string(),
+    twitter_page_url: z.string(),
+    linkedin_page_url: z.string(),
+    instagram_page_url: z.string(),
+    telegram_page_url: z.string(),
   })
   .partial()
 

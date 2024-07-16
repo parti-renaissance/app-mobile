@@ -60,7 +60,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const user = useGetProfil({ enabled: !!session })
   const scope = useGetUserScopes({ enabled: !!user.data })
 
-  const isGlobalLoading = [isLoginInProgress, user.isLoading, !_hasHydrated].some(Boolean)
+  const isGlobalLoading = [isLoginInProgress, user.isLoading, scope.isLoading, !_hasHydrated].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
 
   const handleSignIn: AuthContext['signIn'] = async (props) => {

@@ -8,9 +8,7 @@ const key = 'profil'
 
 export const useGetProfil = ({
   ...options
-}: Partial<
-  UndefinedInitialDataOptions<ReturnType<Awaited<typeof api.getProfile>>, Error, RestProfileResponse, QueryKey>
->): UseQueryResult<RestProfileResponse> => {
+}: Partial<UndefinedInitialDataOptions<ReturnType<Awaited<typeof api.getProfile>>, Error, RestProfileResponse, QueryKey>>) => {
   return useQuery({
     queryKey: [key],
     queryFn: () => api.getProfile(),

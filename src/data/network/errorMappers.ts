@@ -1,4 +1,5 @@
-import { HTTPError } from 'ky'
+import { formErrorThrower } from '@/services/errors/form-errors'
+import { isAxiosError } from 'axios'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
   EventSubscriptionError,
@@ -12,14 +13,13 @@ import {
 import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
 import { RestLoginErrorResponse } from '../restObjects/RestLoginErrorResponse'
 import { RestPhoningSessionErrorResponse } from '../restObjects/RestPhoningSession'
-import { RestSignUpErrorResponse } from '../restObjects/RestSignUpRequest'
 import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
-import { LoginError, SignUpFormError } from './../../core/errors/index'
+import { LoginError } from './../../core/errors/index'
 import { genericErrorMapping } from './utils'
 
-export const mapLoginError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
+export const mapLoginError = async (error: unknown) => {
+  if (isAxiosError(error) && error.status === 400) {
+    const errorResponse = error?.response?.data
 
     const parsedError = errorResponse as RestLoginErrorResponse
     throw new LoginError(parsedError.message)
@@ -27,45 +27,23 @@ export const mapLoginError = async (error: any) => {
   return genericErrorMapping(error)
 }
 
-export const mapProfileFormError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
-
-    const parsedError = errorResponse as RestUpdateErrorResponse
-    const violations = parsedError.violations.map<FormViolation>((value) => {
-      return {
-        propertyPath: value.propertyPath,
-        message: value.message,
-      }
-    })
-    throw new ProfileFormError(violations)
-  }
+export const mapProfileFormError = async (error: unknown) => {
+  formErrorThrower(error, ProfileFormError)
   return genericErrorMapping(error)
 }
 
-export const mapPublicSubcribeFormError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
-
-    const parsedError = errorResponse as RestUpdateErrorResponse
-    const violations = parsedError.violations.map<FormViolation>((value) => {
-      return {
-        propertyPath: value.propertyPath,
-        message: value.message,
-      }
-    })
-    throw new PublicSubscribeEventFormError(violations)
-  }
+export const mapPublicSubcribeFormError = async (error: unknown) => {
+  formErrorThrower(error, PublicSubscribeEventFormError)
   return genericErrorMapping(error)
 }
 
 export const mapSubscriptionError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
+  if (isAxiosError(error) && error.status === 400) {
+    const errorResponse = error?.response?.data
 
     const parsedError = errorResponse as RestSubscriptionErrorResponse
     const errorMessage = parsedError.violations.reduce((previousValue, currentValue) => {
-      let prefix
+      let prefix: string
       if (previousValue === '') {
         prefix = ''
       } else {
@@ -79,8 +57,8 @@ export const mapSubscriptionError = async (error: any) => {
 }
 
 export const mapAssociatedToken = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
+  if (isAxiosError(error) && error.status === 400) {
+    const errorResponse = error?.response?.data
 
     const parsedError = errorResponse as RestUpdateErrorResponse
     const violations = parsedError.violations.map<FormViolation>((value) => {
@@ -99,9 +77,9 @@ export const mapAssociatedToken = async (error: any) => {
   return genericErrorMapping(error)
 }
 
-export const mapPhoningSessionError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
+export const mapPhoningSessionError = async (error: unknown) => {
+  if (isAxiosError(error) && error.status === 400) {
+    const errorResponse = error?.response?.data
     const parsedError = errorResponse as RestPhoningSessionErrorResponse
     switch (parsedError.code) {
       case 'no_available_number':
@@ -113,30 +91,14 @@ export const mapPhoningSessionError = async (error: any) => {
   return genericErrorMapping(error)
 }
 
-export const mapPhonePollError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
+export const mapPhonePollError = async (error: unknown) => {
+  if (isAxiosError(error) && error.status === 400) {
+    const errorResponse = error?.response?.data
     const parsedError = errorResponse as RestPhoningSessionErrorResponse
     switch (parsedError.code) {
       case 'already_replied':
         throw new PhonePollAlreadyAnsweredError(parsedError.message)
     }
-  }
-  return genericErrorMapping(error)
-}
-
-export const mapSignUpFormError = async (error: any) => {
-  if (error instanceof HTTPError && error.response.status === 400) {
-    const errorResponse = await error.response.json()
-
-    const parsedError = errorResponse as RestSignUpErrorResponse
-    const violations = parsedError.violations.map<FormViolation>((value) => {
-      return {
-        propertyPath: value.propertyPath,
-        message: value.title,
-      }
-    })
-    throw new SignUpFormError(violations)
   }
   return genericErrorMapping(error)
 }

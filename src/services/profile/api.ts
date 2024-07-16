@@ -1,8 +1,9 @@
+import { profileFormErrorThrower } from '@/services/profile/error'
 import * as schemas from '@/services/profile/schema'
 import type * as Types from '@/services/profile/schema'
 import { api } from '@/utils/api'
 
-export const getProfile = api<Types.RestProfilRequest, Types.RestProfilResponse>({
+export const getProfile = api({
   method: 'GET',
   path: '/api/me',
   requestSchema: schemas.RestProfilRequestSchema,
@@ -10,7 +11,7 @@ export const getProfile = api<Types.RestProfilRequest, Types.RestProfilResponse>
   type: 'private',
 })
 
-export const getDetailedProfile = api<Types.RestDetailedProfileRequest, Types.RestDetailedProfileResponse>({
+export const getDetailedProfile = api({
   method: 'GET',
   path: '/api/v3/profile/me',
   requestSchema: schemas.RestDetailedProfileRequestSchema,
@@ -18,7 +19,7 @@ export const getDetailedProfile = api<Types.RestDetailedProfileRequest, Types.Re
   type: 'private',
 })
 
-export const getUserScopes = api<Types.RestUserScopesRequest, Types.RestUserScopesResponse>({
+export const getUserScopes = api({
   method: 'GET',
   path: '/api/v3/profile/me/scopes',
   requestSchema: schemas.RestUserScopesRequestSchema,
@@ -27,15 +28,16 @@ export const getUserScopes = api<Types.RestUserScopesRequest, Types.RestUserScop
 })
 
 export const updateProfile = (userUuid: string, request: Types.RestUpdateProfileRequest) =>
-  api<typeof request, Types.RestUpdateProfileResponse>({
+  api({
     method: 'PUT',
     path: `/api/v3/profile/${userUuid}`,
     requestSchema: schemas.RestUpdateProfileRequestSchema,
     responseSchema: schemas.RestUpdateProfileResponseSchema,
+    errorThrowers: [profileFormErrorThrower],
     type: 'private',
   })(request)
 
-export const removeProfile = api<Types.RestRemoveProfileRequest, Types.RestRemoveProfileResponse>({
+export const removeProfile = api({
   method: 'post',
   path: '/api/v3/profile/me/remove',
   requestSchema: schemas.RestRemoveProfileRequestSchema,
