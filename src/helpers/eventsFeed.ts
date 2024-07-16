@@ -38,7 +38,6 @@ export const mapPropsDate = (item: RestEvent): VoxCardDateProps => {
 export const mapFullProps = (
   item: RestFullEvent,
   cb: {
-    onSubscribe: (id: string) => void
     onShow: (id: string) => void
   },
 ): EventVoxCardProps => {
@@ -54,7 +53,6 @@ export const mapFullProps = (
       date: mapPropsDate(item),
       ...mapPropsAuthor(item),
     },
-    onSubscribe: () => cb.onSubscribe(item.uuid),
     onShow: () => cb.onShow(item.uuid),
   }
 }
@@ -62,7 +60,6 @@ export const mapFullProps = (
 export const mapPartialProps = (
   item: RestPartialEvent,
   cb: {
-    onSubscribe: (id: string) => void
     onShow: (id: string) => void
   },
 ): PartialEventVoxCardProps => {
@@ -74,7 +71,6 @@ export const mapPartialProps = (
       isOnline: item.mode === 'online',
       date: mapPropsDate(item),
     },
-    onSubscribe: () => cb.onSubscribe(item.uuid),
     onShow: () => cb.onShow(item.uuid),
   }
 }

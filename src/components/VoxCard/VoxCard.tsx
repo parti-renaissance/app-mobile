@@ -94,7 +94,7 @@ export type VoxCardLocationProps = {
   }
 }
 
-const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle: boolean }) => {
+const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle?: boolean }) => {
   return location ? (
     <XStack gap="$2" alignItems="center">
       {!asTitle && <MapPin size="$1" color="$textPrimary" />}

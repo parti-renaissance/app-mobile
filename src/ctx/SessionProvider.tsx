@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import useAsyncState from '@/hooks/useAsyncState'
 import useLogin, { useRegister } from '@/hooks/useLogin'
 import { useGetProfil, useGetUserScopes } from '@/hooks/useProfil'
 import { useLogOut } from '@/services/logout/api'

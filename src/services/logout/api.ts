@@ -24,8 +24,8 @@ export function useLogOut() {
     mutationFn: logout,
     onSuccess: async () => {
       removeCredentials()
-      await queryClient.invalidateQueries()
       queryClient.clear()
+      await queryClient.invalidateQueries()
       router.replace({ pathname: '/(tabs)/evenements/' })
     },
     onError: (error) => {

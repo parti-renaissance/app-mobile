@@ -270,7 +270,7 @@ const EditInformations = () => {
   const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    if (!isAdherent) return mutateAsync()
+    if (!isAdherent) return mutateAsync().then(() => signOut())
     const ACCOUNT_ROUTE_RE = `https://${clientEnv.APP_RENAISSANCE_HOST}/parametres/mon-compte`
     if (isWeb && window) {
       window.location.href = ACCOUNT_ROUTE_RE

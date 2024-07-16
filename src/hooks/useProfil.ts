@@ -57,17 +57,14 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
   })
 }
 
-// @TODO : remove key from queryClient when user delete his account
 export const useDeleteProfil = () => {
-  // const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
   const toast = useToastController()
-  const { signOut } = useSession()
 
   return useMutation({
     mutationFn: () => new RemoveAccountInteractor().execute(),
     onSuccess: () => {
-      signOut()
-
+      queryClient.clear()
       toast.show('Succès', { message: 'Compte supprimé avec succès', type: 'success' })
     },
     onError: (e) => {

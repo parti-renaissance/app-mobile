@@ -21,7 +21,6 @@ type VoxCardBasePayload = {
 } & Partial<VoxCardAuthorProps>
 
 export type EventVoxCardProps = {
-  onSubscribe?: () => void
   onShow?: () => void
   payload:
     | VoxCardBasePayload
@@ -72,7 +71,7 @@ export const SubscribeEventButton = ({
   )
 }
 
-const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
+const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   const knowSubscription = payload.isSubscribed !== undefined
 
   return (

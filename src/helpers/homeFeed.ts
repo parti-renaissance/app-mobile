@@ -87,7 +87,6 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
     case 'event':
       return {
         type,
-        onSubscribe: () => {},
         onShow: () => {
           router.push({
             pathname: '/(tabs)/(home)/(modals)/event-detail',
@@ -113,7 +112,6 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
     case 'action':
       return {
         type,
-        onSubscribe: () => {},
         onShow: () => {
           switch (feed.type) {
             case 'action':
