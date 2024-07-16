@@ -133,3 +133,10 @@ export const RestUpdateProfileRequestSchema = z
 
 export const RestUpdateProfileResponseSchema = RestDetailedProfileRequestSchema
 export type RestUpdateProfileResponse = RestDetailedProfileRequest
+
+// -----------------  RestRemoveProfile  -----------------
+export type RestRemoveProfileRequest = z.infer<typeof RestRemoveProfileRequestSchema>
+export const RestRemoveProfileRequestSchema = z.void()
+
+export type RestRemoveProfileResponse = z.infer<typeof RestRemoveProfileResponseSchema>
+export const RestRemoveProfileResponseSchema = z.void()

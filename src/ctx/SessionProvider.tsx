@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import useLogin, { useRegister } from '@/hooks/useLogin'
-import { useGetProfil, useGetUserScopes } from '@/hooks/useProfil'
 import { useLogOut } from '@/services/logout/api'
+import { useGetProfil, useGetUserScopes } from '@/services/profile/hook'
 import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
@@ -89,7 +89,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
       }
       const { accessToken, refreshToken } = session
       setSession({ accessToken, refreshToken })
-      // await loginInteractor.current.setUpLogin()
     } catch (e) {
       console.log('error', e)
       ErrorMonitor.log(e.message, { e })

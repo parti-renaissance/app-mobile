@@ -34,3 +34,11 @@ export const updateProfile = (userUuid: string, request: Types.RestUpdateProfile
     responseSchema: schemas.RestUpdateProfileResponseSchema,
     type: 'private',
   })(request)
+
+export const removeProfile = api<Types.RestRemoveProfileRequest, Types.RestRemoveProfileResponse>({
+  method: 'post',
+  path: '/api/v3/profile/me/remove',
+  requestSchema: schemas.RestRemoveProfileRequestSchema,
+  responseSchema: schemas.RestRemoveProfileResponseSchema,
+  type: 'private',
+})

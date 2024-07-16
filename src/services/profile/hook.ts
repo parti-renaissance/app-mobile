@@ -1,7 +1,5 @@
-import { RemoveAccountInteractor } from '@/core/interactor/RemoveAccountInteractor'
-import { useSession } from '@/ctx/SessionProvider'
 import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
-import { getDetailedProfile, getProfile, getUserScopes, updateProfile } from '@/services/profile/api'
+import * as api from '@/services/profile/api'
 import { RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
 import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, UseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
@@ -10,20 +8,22 @@ const key = 'profil'
 
 export const useGetProfil = ({
   ...options
-}: Partial<UndefinedInitialDataOptions<ReturnType<Awaited<typeof getProfile>>, Error, RestProfileResponse, QueryKey>>): UseQueryResult<RestProfileResponse> => {
+}: Partial<
+  UndefinedInitialDataOptions<ReturnType<Awaited<typeof api.getProfile>>, Error, RestProfileResponse, QueryKey>
+>): UseQueryResult<RestProfileResponse> => {
   return useQuery({
     queryKey: [key],
-    queryFn: () => getProfile(),
+    queryFn: () => api.getProfile(),
     ...options,
   })
 }
 
 export const useGetUserScopes = (
-  options: Partial<UndefinedInitialDataOptions<ReturnType<Awaited<typeof getUserScopes>>, Error, ReturnType<Awaited<typeof getUserScopes>>, QueryKey>>,
+  options: Partial<UndefinedInitialDataOptions<ReturnType<Awaited<typeof api.getUserScopes>>, Error, ReturnType<Awaited<typeof api.getUserScopes>>, QueryKey>>,
 ) => {
   return useQuery({
     queryKey: ['userScopes'],
-    queryFn: () => getUserScopes(),
+    queryFn: () => api.getUserScopes(),
     ...options,
   })
 }
@@ -31,7 +31,7 @@ export const useGetUserScopes = (
 export const useGetDetailProfil = () => {
   return useSuspenseQuery({
     queryKey: ['profileDetail'],
-    queryFn: () => getDetailedProfile(),
+    queryFn: () => api.getDetailedProfile(),
   })
 }
 
@@ -40,7 +40,7 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: RestUpdateProfileRequest) => updateProfile(userUuid, data),
+    mutationFn: (data: RestUpdateProfileRequest) => api.updateProfile(userUuid, data),
     onMutate: (profil) => {
       queryClient.setQueryData([key], profil)
     },
@@ -62,7 +62,7 @@ export const useDeleteProfil = () => {
   const toast = useToastController()
 
   return useMutation({
-    mutationFn: () => new RemoveAccountInteractor().execute(),
+    mutationFn: () => api.removeProfile(),
     onSuccess: () => {
       queryClient.clear()
       toast.show('Succès', { message: 'Compte supprimé avec succès', type: 'success' })

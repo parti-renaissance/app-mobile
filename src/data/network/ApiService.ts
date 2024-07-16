@@ -89,9 +89,6 @@ class ApiService {
   public async sendPollAnswers(request: RestPollResultRequest) {
     return api<void>('post', 'api/jecoute/survey/reply', { data: request }).catch(genericErrorMapping)
   }
-  public async removeProfile(): Promise<void> {
-    return api<void>('post', 'api/v3/profile/unregister')
-  }
 
   public async getRetaliations() {
     return api<Array<RestRetaliation>>('get', 'api/v3/ripostes')
@@ -163,7 +160,7 @@ class ApiService {
   }
 
   public async subscribeToEvent(eventId: string): Promise<void> {
-    return api<void>('post', ' api/v3/events/' + eventId + '/subscribe').catch(mapSubscriptionError)
+    return api<void>('post', 'api/v3/events/' + eventId + '/subscribe').catch(mapSubscriptionError)
   }
 
   public async unsubscribeFromEvent(eventId: string): Promise<void> {
