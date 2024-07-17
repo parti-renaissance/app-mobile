@@ -1,10 +1,9 @@
 import { mapParams, type GetEventsSearchParametersMapperProps } from '@/services/events/paramsMapper'
 import * as schemas from '@/services/events/schema'
-import type * as Types from '@/services/events/schema'
 import { api } from '@/utils/api'
 
 export const getEvents = (params: GetEventsSearchParametersMapperProps) =>
-  api<Types.RestGetEventsRequest, Types.RestGetEventsResponse>({
+  api({
     method: 'get',
     path: '/api/v3/events',
     requestSchema: schemas.RestGetEventsRequestSchema,
@@ -12,7 +11,7 @@ export const getEvents = (params: GetEventsSearchParametersMapperProps) =>
     type: 'private',
   })(mapParams(params))
 
-export const getPublicEvents = api<Types.RestGetEventsRequest, Types.RestGetEventsResponse>({
+export const getPublicEvents = api({
   method: 'get',
   path: '/api/events',
   requestSchema: schemas.RestGetEventsRequestSchema,
