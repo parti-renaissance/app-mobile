@@ -1,19 +1,7 @@
 import { z } from 'zod'
 import { createRestPaginationSchema } from '../schema'
 
-export type RestGetEventsRequest = z.infer<typeof RestGetEventsRequestSchema>
-export const RestGetEventsRequestSchema = z
-  .object({
-    'finishAt[strictly_after]': z.string(),
-    name: z.string(),
-    mode: z.string(),
-    'order[subscriptions]': z.string(),
-    'order[beginAt]': z.string(),
-    zipCode: z.string(),
-    subscribedOnly: z.boolean(),
-  })
-  .partial()
-  .merge(z.object({ page: z.number() }))
+// ------- Event Schemas ----------
 
 export const EventVisibilitySchema = z.enum(['public', 'private', 'adherent', 'adherent_dues'])
 
@@ -30,7 +18,7 @@ export const RestEventCategorySchema = z.object({
   event_group_category: RestEventParentCategorySchema,
 })
 
-export const RestEventStatusSchema = z.enum(['SCHEDULED', 'CANCELED'])
+export const RestEventStatusSchema = z.enum(['SCHEDULED', 'CANCELLED'])
 export const RestEventOrganizerSchema = z.object({
   uuid: z.string(),
   first_name: z.string(),
@@ -65,6 +53,7 @@ export const RestBaseEventSchema = z.object({
   time_zone: z.string(),
   organizer: RestEventOrganizerSchema.nullable(),
   image_url: z.string().nullable(),
+  mode: z.enum(['online', 'meeting']).nullable(),
   category: RestEventCategorySchema,
 })
 
@@ -76,7 +65,6 @@ export const RestFullEventSchema = z
     participants_count: z.number(),
     capacity: z.number().nullable(),
     visio_url: z.string().nullable(),
-    mode: z.enum(['online', 'meeting']).nullable(),
     user_registered_at: z.string().nullable(),
     post_address: RestEventAddressSchema.nullable(),
   })
@@ -93,8 +81,47 @@ export const RestItemEventSchema = RestFullEventSchema.omit({
   description: true,
 }).or(RestPartialEventSchema)
 
+export type RestFullEvent = z.infer<typeof RestFullEventSchema>
+export type RestPartialEvent = z.infer<typeof RestPartialEventSchema>
 export type RestEvent = z.infer<typeof RestEventSchema>
 export type RestItemEvent = z.infer<typeof RestItemEventSchema>
 
+export const isFullEvent = (event: RestEvent | RestItemEvent): event is RestFullEvent => event.object_state === 'full'
+export const isPartialEvent = (event: RestEvent | RestItemEvent): event is RestPartialEvent => event.object_state === 'partial'
+
+// ------------ RestGetEvents --------------
+
+export type RestGetEventsRequest = z.infer<typeof RestGetEventsRequestSchema>
+export const RestGetEventsRequestSchema = z
+  .object({
+    'finishAt[strictly_after]': z.string(),
+    name: z.string(),
+    mode: z.string(),
+    'order[subscriptions]': z.string(),
+    'order[beginAt]': z.string(),
+    zipCode: z.string(),
+    subscribedOnly: z.boolean(),
+  })
+  .partial()
+  .merge(z.object({ page: z.number() }))
+
 export type RestGetEventsResponse = z.infer<typeof RestGetEventsResponseSchema>
 export const RestGetEventsResponseSchema = createRestPaginationSchema(RestItemEventSchema)
+
+export type RestGetEventDetailsResponse = z.infer<typeof RestGetEventsResponseSchema>
+export const RestGetEventDetailsResponseSchema = RestEventSchema
+
+export type RestGetEventDetailsRequest = z.infer<typeof RestGetEventsResponseSchema>
+export const RestGetEventDetailsRequestSchema = z.void()
+
+// ------------ Rest Public Subscription --------------
+
+export type RestPostPublicEventSubsciptionRequest = z.infer<typeof RestPostPublicEventSubsciptionRequest>
+export const RestPostPublicEventSubsciptionRequest = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  email_address: z.string().email(),
+  postal_code: z.string().min(4).max(6),
+  cgu_accepted: z.boolean(),
+  join_newsletter: z.boolean(),
+})

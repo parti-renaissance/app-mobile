@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import { Platform, SectionList } from 'react-native'
 import DialogAuth from '@/components/AuthDialog'
 import Text from '@/components/base/Text'
@@ -10,9 +10,9 @@ import SearchBox from '@/components/EventFilterForm/SearchBox'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import { useSession } from '@/ctx/SessionProvider'
-import { isFullEvent, isPartialEvent, RestEvent } from '@/data/restObjects/RestEvents'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
-import { useSuspensePaginatedEvents } from '@/hooks/useEvents'
+import { useSuspensePaginatedEvents } from '@/services/events/hook'
+import { isFullEvent, isPartialEvent, RestItemEvent } from '@/services/events/schema'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown, Filter } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
@@ -22,9 +22,9 @@ import { useDebounce } from 'use-debounce'
 const MemoizedEventCard = memo(EventCard) as typeof EventCard
 const MemoizedPartialEventCard = memo(PartialEventCard) as typeof PartialEventCard
 
-const splitEvents = (events: RestEvent[]) => {
-  let incomming: RestEvent[] = []
-  let past: RestEvent[] = []
+const splitEvents = (events: RestItemEvent[]) => {
+  const incomming: RestItemEvent[] = []
+  const past: RestItemEvent[] = []
   events.forEach((event) => {
     if (new Date(event.begin_at) < new Date()) {
       past.push(event)
@@ -42,7 +42,7 @@ const splitEvents = (events: RestEvent[]) => {
   ]
 }
 
-const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: string; data: RestEvent[] }[]>> }) => {
+const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: string; data: RestItemEvent[] }[]>> }) => {
   const { setOpen, open } = bottomSheetFilterStates()
   const sections = props.listRef.current?.props.sections
   const data = Boolean(sections && sections.length > 0 && (sections[0].data.length > 0 || sections[1].data.length > 0))
@@ -97,7 +97,7 @@ const HeaderList = (props: { listRef: React.RefObject<SectionList> }) => {
   return null
 }
 
-const EventListCard = memo((args: { item: RestEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
+const EventListCard = memo((args: { item: RestItemEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
   if (isFullEvent(args.item)) {
     return <MemoizedEventCard {...mapFullProps(args.item, args.cb)} />
   }
@@ -140,7 +140,7 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
     },
   })
 
-  const handleSubscribe = (_: string) => {}
+  const handleSubscribe = () => {}
   const handleShow = (id: string) => {
     router.push({ pathname: '/(tabs)/evenements/[id]', params: { id } })
   }

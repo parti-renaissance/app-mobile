@@ -1,12 +1,12 @@
-import { isFullEvent, isPartialEvent, RestEvent, RestEvents } from '@/data/restObjects/RestEvents'
+import { isPartialEvent, RestEvent, RestGetEventsResponse, RestItemEvent } from '@/services/events/schema'
 import { InfiniteData, QueryClient, QueryKey } from '@tanstack/react-query'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
-type ShortEventUpdater = (oldShortEventData: RestEvent) => RestEvent
+type ShortEventUpdater = (oldShortEventData: RestEvent | RestItemEvent) => RestEvent
 type OptimisticEventSetter = (params: { id: string; updater: ShortEventUpdater; queryClient: QueryClient }) => void
 
 export const optmisticSetPaginatedShortEvent: OptimisticEventSetter = ({ id, queryClient, updater }) => {
-  queryClient.setQueryData([QUERY_KEY_PAGINATED_SHORT_EVENTS], (oldPaginatedData: InfiniteData<RestEvents>) => {
+  queryClient.setQueryData([QUERY_KEY_PAGINATED_SHORT_EVENTS], (oldPaginatedData: InfiniteData<RestGetEventsResponse>) => {
     if (!oldPaginatedData) return oldPaginatedData
     const updatedPages = oldPaginatedData.pages.map((page) => {
       const updatedItems = page.items.map((item) => {
@@ -26,7 +26,7 @@ export const optmisticSetShortEventById: OptimisticEventSetter = ({ id, updater,
 }
 
 export const getCachedPaginatedShortEvents = (queryClient: QueryClient, queryKey?: QueryKey) => {
-  return queryClient.getQueryData<InfiniteData<RestEvents>>([QUERY_KEY_PAGINATED_SHORT_EVENTS, ...(queryKey ?? [])])
+  return queryClient.getQueryData<InfiniteData<RestGetEventsResponse>>([QUERY_KEY_PAGINATED_SHORT_EVENTS, ...(queryKey ?? [])])
 }
 
 export const getCachedSingleEvent = (eventId: string, queryClient: QueryClient) => {
@@ -52,7 +52,7 @@ export const optmisticToggleSubscribe = async (subscribe: boolean, eventId: stri
   return previousData
 }
 
-export const rollbackSubscribe = (previousData: { shortEvents: InfiniteData<RestEvents>; event: RestEvent }, queryClient: QueryClient) => {
+export const rollbackSubscribe = (previousData: { shortEvents: InfiniteData<RestGetEventsResponse>; event: RestEvent }, queryClient: QueryClient) => {
   queryClient.setQueryData([QUERY_KEY_PAGINATED_SHORT_EVENTS], previousData.shortEvents)
   queryClient.setQueryData([QUERY_KEY_SINGLE_EVENT, previousData.event.uuid], previousData.event)
 }

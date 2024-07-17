@@ -57,12 +57,11 @@ export const createApi =
             api: { path, method, data, params },
             zod: result.error.message,
           })
-          return response.data as Response
-        } else {
-          return result.data
+          return response!.data as Response
         }
+        return result.data
       } catch (error) {
-        parseError(error, errorThrowers)
+        return parseError(error, errorThrowers)
       }
     }
   }

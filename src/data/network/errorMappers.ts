@@ -2,15 +2,12 @@ import { formErrorThrower } from '@/services/errors/form-errors'
 import { isAxiosError } from 'axios'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {
-  EventSubscriptionError,
   PhonePollAlreadyAnsweredError,
   PhoningSessionFinishedCampaignError,
   PhoningSessionNoNumberError,
-  ProfileFormError,
   PublicSubscribeEventFormError,
   TokenCannotBeSubscribedError,
 } from '../../core/errors'
-import { RestSubscriptionErrorResponse } from '../restObjects/RestEvents'
 import { RestLoginErrorResponse } from '../restObjects/RestLoginErrorResponse'
 import { RestPhoningSessionErrorResponse } from '../restObjects/RestPhoningSession'
 import { RestUpdateErrorResponse } from '../restObjects/RestUpdateProfileRequest'
@@ -27,36 +24,12 @@ export const mapLoginError = async (error: unknown) => {
   return genericErrorMapping(error)
 }
 
-export const mapProfileFormError = async (error: unknown) => {
-  formErrorThrower(error, ProfileFormError)
-  return genericErrorMapping(error)
-}
-
 export const mapPublicSubcribeFormError = async (error: unknown) => {
   formErrorThrower(error, PublicSubscribeEventFormError)
   return genericErrorMapping(error)
 }
 
-export const mapSubscriptionError = async (error: any) => {
-  if (isAxiosError(error) && error.status === 400) {
-    const errorResponse = error?.response?.data
-
-    const parsedError = errorResponse as RestSubscriptionErrorResponse
-    const errorMessage = parsedError.violations.reduce((previousValue, currentValue) => {
-      let prefix: string
-      if (previousValue === '') {
-        prefix = ''
-      } else {
-        prefix = '\n'
-      }
-      return previousValue + prefix + currentValue.title
-    }, '')
-    throw new EventSubscriptionError(errorMessage)
-  }
-  return genericErrorMapping(error)
-}
-
-export const mapAssociatedToken = async (error: any) => {
+export const mapAssociatedToken = async (error: unknown) => {
   if (isAxiosError(error) && error.status === 400) {
     const errorResponse = error?.response?.data
 

@@ -8,7 +8,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
-import * as eventTypes from '@/data/restObjects/RestEvents'
+import * as eventTypes from '@/services/events/schema'
 import { ScrollView, useMedia, YStack } from 'tamagui'
 import { AsideCardContent, AsideShare, EventStatus, LockLeftCard, RegisterButtonSheet, ScrollStack } from './EventComponents'
 
@@ -19,7 +19,6 @@ const useSharedState = (data: eventTypes.RestEvent) => {
   return {
     imageSource,
     media,
-    isFullEvent: eventTypes.isFullEvent(data),
     session,
   }
 }
@@ -30,7 +29,7 @@ export default function EventDetailsScreen({ data }: { data: eventTypes.RestEven
 }
 
 function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
-  const { imageSource, media, isFullEvent, session } = useSharedState(data)
+  const { imageSource, media, session } = useSharedState(data)
   return (
     <PageLayout.MainSingleColumn>
       <ScrollStack>
@@ -40,9 +39,12 @@ function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
             <EventStatus data={data} />
             {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
             <VoxCard.Title>{data.name}</VoxCard.Title>
-            <VoxCard.Description full markdown>
-              {data.description}
-            </VoxCard.Description>
+            {eventTypes.isFullEvent(data) && (
+              <VoxCard.Description full markdown>
+                {data.description}
+              </VoxCard.Description>
+            )}
+
             <AsideCardContent data={data} />
             <AsideShare data={data} id={data.uuid} />
           </VoxCard.Content>
@@ -69,7 +71,7 @@ function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
               )
             }
           >
-            {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+            {eventTypes.isFullEvent(data) && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
           </AuthFallbackWrapper>
         </YStack>
       </SafeAreaView>
@@ -78,7 +80,7 @@ function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
 }
 
 function EventDetailsScreenDesktop({ data }: { data: eventTypes.RestEvent }) {
-  const { imageSource, media, isFullEvent, session } = useSharedState(data)
+  const { imageSource, media, session } = useSharedState(data)
   return (
     <>
       <PageLayout.MainSingleColumn>
@@ -88,7 +90,7 @@ function EventDetailsScreenDesktop({ data }: { data: eventTypes.RestEvent }) {
             <VoxCard.Content>
               {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
               <VoxCard.Title>{data.name}</VoxCard.Title>
-              {isFullEvent && (
+              {eventTypes.isFullEvent(data) && (
                 <VoxCard.Description full markdown>
                   {data.description}
                 </VoxCard.Description>
@@ -126,7 +128,9 @@ function EventDetailsScreenDesktop({ data }: { data: eventTypes.RestEvent }) {
                 >
                   <AsideCardContent data={data} />
                   <AsideShare data={data} id={data.uuid} />
-                  {isFullEvent && <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />}
+                  {eventTypes.isFullEvent(data) && (
+                    <SubscribeEventButton key="EventSubsBtn" outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+                  )}
                 </AuthFallbackWrapper>
               </VoxCard.Content>
             </VoxCard>

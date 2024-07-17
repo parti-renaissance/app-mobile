@@ -4,7 +4,6 @@ import { instance, instanceWithoutInterceptors } from '@/lib/axios'
 import { AxiosRequestConfig, Method } from 'axios'
 import { addDays, endOfDay, startOfDay } from 'date-fns'
 import { stringify } from 'qs'
-import { GetEventsSearchParametersMapper, GetEventsSearchParametersMapperProps } from '../mapper/GetEventsSearchParametersMapper'
 import { ActionCreateType, ActionFullSchema, ActionPaginationSchema, FilterActionType, RestActionRequestParams } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
@@ -22,7 +21,6 @@ import {
 } from '../restObjects/RestDoorToDoorCharter'
 import { RestDoorToDoorPollConfig } from '../restObjects/RestDoorToDoorPollConfig'
 import { RestDoorToDoorPollResultRequest } from '../restObjects/RestDoorToDoorPollResultRequest'
-import { PublicSubscribtionFormData, RestEvent, RestEvents } from '../restObjects/RestEvents'
 import { RestHeaderInfos } from '../restObjects/RestHeaderInfos'
 import { RestNews, RestNewsResponse } from '../restObjects/RestNewsResponse'
 import { RestPhonePollResultRequest } from '../restObjects/RestPhonePollResultRequest'
@@ -45,7 +43,7 @@ import {
 import { RestBuildingBlock } from './../restObjects/RestBuildingBlock'
 import { RestBuildingHistoryPoint } from './../restObjects/RestBuildingHistoryPoint'
 import { RestMarkdown } from './../restObjects/RestMarkdown'
-import { mapAssociatedToken, mapPhonePollError, mapPhoningSessionError, mapPublicSubcribeFormError, mapSubscriptionError } from './errorMappers'
+import { mapAssociatedToken, mapPhonePollError, mapPhoningSessionError } from './errorMappers'
 import { genericErrorMapping } from './utils'
 
 const api = <Response>(method: Method, path: string, opt?: AxiosRequestConfig) =>
@@ -121,41 +119,6 @@ class ApiService {
     } else {
       return undefined
     }
-  }
-
-  public async getEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zoneCode'>) {
-    const searchParams = GetEventsSearchParametersMapper.map(args)
-    return await api<RestEvents>('get', 'api/v3/events', {
-      params: searchParams,
-    })
-  }
-
-  public async getPublicEvents(args: Omit<GetEventsSearchParametersMapperProps, 'zipCode'>) {
-    const searchParams = GetEventsSearchParametersMapper.map(args)
-
-    return await publicApi<RestEvents>('get', 'api/events', {
-      params: searchParams,
-    })
-  }
-
-  public async getEventDetails(eventId: string) {
-    return api<RestEvent>('get', 'api/v3/events/' + eventId)
-  }
-
-  public async getPublicEventDetails(eventId: string): Promise<RestEvent> {
-    return publicApi('get', 'api/events/' + eventId)
-  }
-
-  public async subscribeToEvent(eventId: string): Promise<void> {
-    return api<void>('post', 'api/v3/events/' + eventId + '/subscribe').catch(mapSubscriptionError)
-  }
-
-  public async unsubscribeFromEvent(eventId: string): Promise<void> {
-    return api<void>('delete', 'api/v3/events/' + eventId + '/subscribe').catch(mapSubscriptionError)
-  }
-
-  public async subscribePublicEvent(eventId: string, payload: PublicSubscribtionFormData) {
-    return publicApi<void>('post', 'api/events/' + eventId + '/subscribe', { data: payload }).catch(mapPublicSubcribeFormError)
   }
 
   public async getProfileAvailableConfiguration(): Promise<RestConfigurations> {

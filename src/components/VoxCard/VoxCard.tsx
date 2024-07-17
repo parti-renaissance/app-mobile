@@ -88,9 +88,9 @@ const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
 
 export type VoxCardLocationProps = {
   location?: {
-    city: string
-    postalCode: string
-    street: string
+    city: string | null
+    postalCode: string | null
+    street: string | null
   }
 }
 
@@ -113,9 +113,9 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
 
 export type VoxCardAuthorProps = {
   author: {
-    role?: string
-    name?: string
-    title?: string
+    role: string | null
+    name: string
+    title: string | null
     pictureLink?: string
   }
 }
