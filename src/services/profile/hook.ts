@@ -1,28 +1,23 @@
-import { RestProfileResponse } from '@/data/restObjects/RestProfileResponse'
 import * as api from '@/services/profile/api'
 import { RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
-import { QueryKey, UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient, UseQueryResult, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
 const key = 'profil'
 
-export const useGetProfil = ({
-  ...options
-}: Partial<UndefinedInitialDataOptions<ReturnType<Awaited<typeof api.getProfile>>, Error, RestProfileResponse, QueryKey>>) => {
+export const useGetProfil = ({ enabled }: { enabled?: boolean } = {}) => {
   return useQuery({
     queryKey: [key],
     queryFn: () => api.getProfile(),
-    ...options,
+    enabled,
   })
 }
 
-export const useGetUserScopes = (
-  options: Partial<UndefinedInitialDataOptions<ReturnType<Awaited<typeof api.getUserScopes>>, Error, ReturnType<Awaited<typeof api.getUserScopes>>, QueryKey>>,
-) => {
+export const useGetUserScopes = ({ enabled }: { enabled?: boolean } = {}) => {
   return useQuery({
     queryKey: ['userScopes'],
     queryFn: () => api.getUserScopes(),
-    ...options,
+    enabled,
   })
 }
 
