@@ -1,11 +1,13 @@
 import { PropsWithChildren, useCallback, useRef } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSession } from '@/ctx/SessionProvider'
+import { useUserStore } from '@/store/user-store'
 import { router } from 'expo-router'
 import { Adapt, isWeb, ListItem, Popover, Separator, YGroup } from 'tamagui'
 
 export default function ProfilePopover({ children }: PropsWithChildren) {
   const { signOut } = useSession()
+  const { user } = useUserStore()
   const { bottom } = useSafeAreaInsets()
 
   const ref = useRef<Popover>(null)
@@ -49,7 +51,7 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
               <Separator borderStyle={'dashed'} borderColor="$gray4" />
             </>
           )}
-          <MenuEntry onPress={onDisconnect} title="Me déconnecter" danger />
+          <MenuEntry onPress={onDisconnect} title={user?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'} danger />
         </YGroup>
       </Popover.Content>
     </Popover>
