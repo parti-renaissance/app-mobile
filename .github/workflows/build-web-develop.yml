@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - 'develop'
-
+      - 'feature/RE-2321-expo-update'
 concurrency:
   group: '${{ github.workflow }}-${{ github.ref }}'
   cancel-in-progress: true
