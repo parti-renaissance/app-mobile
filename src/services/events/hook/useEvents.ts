@@ -51,7 +51,11 @@ export const useSubscribeEvent = ({ id: eventId }: { id: string }) => {
     },
     onMutate: () => optmisticToggleSubscribe(true, eventId, queryClient),
     onError: (error, _, previousData) => {
-      if (previousData) rollbackSubscribe(previousData, queryClient)
+      // console.log(error.response.data)
+
+      if (previousData) {
+        rollbackSubscribe(previousData, queryClient)
+      }
       toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
     },
     onSettled: () => {

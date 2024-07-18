@@ -45,7 +45,7 @@ export const subscribeToEvent = (eventId: string) =>
     method: 'post',
     path: `/api/v3/events/${eventId}/subscribe`,
     requestSchema: z.void(),
-    responseSchema: z.void(),
+    responseSchema: z.any(),
     type: 'private',
   })()
 

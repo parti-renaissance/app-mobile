@@ -3,12 +3,18 @@ import { logDefaultError, logHttpError, logTimeoutError, logTypeError } from '@/
 import axios from 'axios'
 
 export const genericErrorThrower = (error: unknown) => {
+  console.log(axios.isAxiosError(error))
+
   if (axios.isAxiosError(error)) {
     if (error.code === 'ECONNABORTED') {
       logTimeoutError(error)
       throw new ServerTimeoutError(error.message)
     } else if (error.response) {
       logHttpError(error)
+
+      console.log(error.response.status)
+      console.log(error.message)
+
       switch (error.response.status) {
         case 400:
           throw new BadRequestError(error.message)
