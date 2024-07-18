@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { checkVersion } from 'react-native-check-version'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { nativeApplicationVersion } from 'expo-application'
+import { checkForUpdateAsync, fetchUpdateAsync, useUpdates } from 'expo-updates'
 import { isWeb } from 'tamagui'
 
 export default function useAppUpdate() {
+  const updates = useUpdates()
   const [isBuildUpdateAvailable, setIsBuildUpdateAvailable] = useState(false)
 
   const checkForUpdate = () => {
@@ -23,7 +26,20 @@ export default function useAppUpdate() {
         setIsBuildUpdateAvailable(true)
       }
     }
-    return checkStoreUpdate()
+
+    const checkExpoUpdate = async () => {
+      try {
+        const update = await checkForUpdateAsync()
+
+        if (update.isAvailable) {
+          await fetchUpdateAsync()
+        }
+      } catch (error) {
+        ErrorMonitor.log('Expo update failed', error)
+      }
+    }
+
+    return Promise.allSettled([checkExpoUpdate(), checkStoreUpdate()])
   }
 
   useEffect(() => {
@@ -33,5 +49,6 @@ export default function useAppUpdate() {
   return {
     isBuildUpdateAvailable,
     checkForUpdate,
+    ...updates,
   }
 }

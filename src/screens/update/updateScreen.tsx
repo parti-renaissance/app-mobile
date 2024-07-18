@@ -2,17 +2,28 @@ import { useCallback } from 'react'
 import Text from '@/components/base/Text'
 import Title from '@/components/Title/Title'
 import redirectToStore from '@/helpers/redirectToStore'
+import useAppUpdate from '@/hooks/useAppUpdate'
 import useAsyncFn from '@/hooks/useAsyncFn'
+import { reloadAsync } from 'expo-updates'
 import { Button, Image, Spinner, View, YStack } from 'tamagui'
 
-export default function UpdateScreen() {
+interface Props {
+  isBuildUpdate?: boolean
+}
+
+export default function UpdateScreen({ isBuildUpdate = false }: Props) {
+  const { isDownloading } = useAppUpdate()
   const { isProcessing, trigger: onUpdate } = useAsyncFn(
     useCallback(async () => {
-      await redirectToStore()
+      if (isBuildUpdate) {
+        await redirectToStore()
+      } else {
+        await reloadAsync()
+      }
     }, []),
   )
 
-  const isDisabled = isProcessing
+  const isDisabled = isProcessing || isDownloading
 
   return (
     <View height="100%">
