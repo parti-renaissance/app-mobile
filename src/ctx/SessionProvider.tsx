@@ -8,7 +8,7 @@ import { useToastController } from '@tamagui/toast'
 import { router, useLocalSearchParams } from 'expo-router'
 
 type AuthContext = {
-  signIn: (props?: { code: string }) => Promise<void>
+  signIn: (props?: { code: string; isAdmin?: boolean }) => Promise<void>
   signOut: () => Promise<void>
   signUp: () => Promise<void>
   isAuth: boolean
@@ -71,7 +71,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         return
       }
       const { accessToken, refreshToken } = session
-      setSession({ accessToken, refreshToken })
+      setSession({ accessToken, refreshToken, isAdmin: props?.isAdmin })
     } catch (e) {
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })

@@ -11,14 +11,14 @@ import { parse, useURL } from 'expo-linking'
 import { Tabs, useGlobalSearchParams, useSegments } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
 
-const TAB_BAR_HEIGTH = 80
+const TAB_BAR_HEIGHT = 80
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const media = useMedia()
   const { session, signIn, isAuth, isLoading } = useSession()
 
-  const { code } = useGlobalSearchParams<{ code?: string }>()
+  const { code, _switch_user } = useGlobalSearchParams<{ code?: string; _switch_user?: string }>()
   const url = useURL()
 
   useInit()
@@ -36,7 +36,7 @@ export default function AppLayout() {
 
   if (!isAuth && !isLoading && (code || url)) {
     if (isWeb && code) {
-      signIn({ code })
+      signIn({ code, isAdmin: _switch_user === 'true' })
       return <WaitingScreen />
     }
     if (url && !isWeb) {
@@ -69,7 +69,7 @@ export default function AppLayout() {
             elevation: 0,
             borderTopColor: 'rgba(145, 158, 171, 0.2)',
             display: media.gtSm || !session || getTabBarVisibility() ? 'none' : 'flex',
-            height: TAB_BAR_HEIGTH + insets.bottom,
+            height: TAB_BAR_HEIGHT + insets.bottom,
             alignContent: 'center',
             justifyContent: 'center',
             padding: 0,
