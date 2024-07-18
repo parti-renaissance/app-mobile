@@ -41,7 +41,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.jpg",
         "backgroundColor": "#ffffff"
       },
       "intentFilters": [
@@ -123,6 +123,10 @@
     },
     "experiments": {
       "typedRoutes": true
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3b41ebc2-860e-4ccb-a101-5edc6b0c7558",
+      "checkAutomatically": "NEVER"
     }
   }
 }
