@@ -12,12 +12,11 @@ type VoxCardBasePayload = {
 }
 
 export type PartialEventVoxCardProps = {
-  onSubscribe?: () => void
   onShow?: () => void
   payload: VoxCardBasePayload
 } & VoxCardFrameProps
 
-const PartialEventCard = ({ payload, onSubscribe, onShow, ...props }: PartialEventVoxCardProps) => {
+const PartialEventCard = ({ payload, onShow, ...props }: PartialEventVoxCardProps) => {
   const image = payload.image ?? require('@/assets/images/eventRestrictedImagePlaceholder.png')
   return (
     <VoxCard {...props}>

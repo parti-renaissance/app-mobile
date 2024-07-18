@@ -1,13 +1,10 @@
 import React, { useMemo } from 'react'
-import { LoginInteractor } from '@/core/interactor/LoginInteractor'
-import AuthenticationRepository from '@/data/AuthenticationRepository'
-import { useLazyRef } from '@/hooks/useLazyRef'
 import useLogin, { useRegister } from '@/hooks/useLogin'
-import { useGetProfil, useGetUserScopes } from '@/hooks/useProfil'
-import { useStorageState } from '@/hooks/useStorageState'
+import { useLogOut } from '@/services/logout/api'
+import { useGetProfil, useGetUserScopes } from '@/services/profile/hook'
+import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { useQueryClient } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 
 type AuthContext = {
@@ -15,7 +12,7 @@ type AuthContext = {
   signOut: () => Promise<void>
   signUp: () => Promise<void>
   isAuth: boolean
-  session?: string | null
+  session?: User | null
   isLoading: boolean
   user: ReturnType<typeof useGetProfil>
   scope: ReturnType<typeof useGetUserScopes>
@@ -45,7 +42,7 @@ export function useSession() {
 }
 
 export function SessionProvider(props: React.PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState('credentials')
+  const { user: session, setCredentials: setSession, _hasHydrated } = useUserStore()
   const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: string }>()
 
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
@@ -57,16 +54,13 @@ export function SessionProvider(props: React.PropsWithChildren) {
     }
   }, [session, pRedirect])
 
-  const loginInteractor = useLazyRef(() => new LoginInteractor())
-  const authenticationRepository = useLazyRef(() => AuthenticationRepository.getInstance())
-  authenticationRepository.current.sessionSetter = setSession
-  const queryClient = useQueryClient()
   const login = useLogin()
+  const { mutateAsync: logout } = useLogOut()
   const register = useRegister()
   const user = useGetProfil({ enabled: !!session })
-  const scope = useGetUserScopes({ enabled: !!session })
+  const scope = useGetUserScopes({ enabled: !!user.data })
 
-  const isGlobalLoading = [isLoginInProgress, isLoading, user.isLoading].some(Boolean)
+  const isGlobalLoading = [isLoginInProgress, user.isLoading, scope.isLoading, !_hasHydrated].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
 
   const handleSignIn: AuthContext['signIn'] = async (props) => {
@@ -77,10 +71,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
         return
       }
       const { accessToken, refreshToken } = session
-      setSession(JSON.stringify({ accessToken, refreshToken }))
-      await loginInteractor.current.setUpLogin()
+      setSession({ accessToken, refreshToken })
     } catch (e) {
-      console.log('error', e)
       ErrorMonitor.log(e.message, { e })
       toast.show('Erreur lors de la connexion', { type: 'error' })
     } finally {
@@ -96,8 +88,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         return
       }
       const { accessToken, refreshToken } = session
-      setSession(JSON.stringify({ accessToken, refreshToken }))
-      await loginInteractor.current.setUpLogin()
+      setSession({ accessToken, refreshToken })
     } catch (e) {
       console.log('error', e)
       ErrorMonitor.log(e.message, { e })
@@ -108,12 +99,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
   }
 
   const handleSignOut = async () => {
-    await authenticationRepository.current.logout(false).then(async () => {
-      await queryClient.invalidateQueries()
-      queryClient.clear()
-
-      router.replace({ pathname: '/(tabs)/evenements/' })
-    })
+    await logout()
   }
 
   const providerValue = useMemo(
@@ -128,7 +114,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         user,
         scope,
       }) satisfies AuthContext,
-    [handleSignIn, handleSignOut, session, isLoginInProgress, isLoading],
+    [handleSignIn, handleSignOut, session, isLoginInProgress],
   )
 
   return <AuthContext.Provider value={providerValue}>{props.children}</AuthContext.Provider>

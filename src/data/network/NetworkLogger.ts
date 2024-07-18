@@ -1,5 +1,5 @@
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { HTTPError, TimeoutError } from 'ky'
+import { AxiosError } from 'axios'
 
 export const logTypeError = (error: TypeError) => {
   ErrorMonitor.log('[NetworkLogger] Type error', {
@@ -7,7 +7,7 @@ export const logTypeError = (error: TypeError) => {
   })
 }
 
-export const logTimeoutError = (error: TimeoutError) => {
+export const logTimeoutError = (error: AxiosError) => {
   ErrorMonitor.log('[NetworkLogger] Timeout error', {
     request: {
       url: error.request.url,
@@ -17,10 +17,10 @@ export const logTimeoutError = (error: TimeoutError) => {
   })
 }
 
-export const logHttpError = async (error: HTTPError, title?: string) => {
-  const body = await error.response.json()
+export const logHttpError = async (error: AxiosError, title?: string) => {
+  const body = await error.response?.data
   ErrorMonitor.log(
-    title ?? `[NetworkLogger] HTTP error ${error.response.status}`,
+    title ?? `[NetworkLogger] HTTP error ${error.response?.status}`,
     {
       request: {
         url: error.request.url,
@@ -28,12 +28,12 @@ export const logHttpError = async (error: HTTPError, title?: string) => {
         method: error.request.method,
       },
       response: {
-        status: error.response.status,
-        headers: JSON.stringify(error.response.headers),
+        status: error.response?.status,
+        headers: JSON.stringify(error.response?.headers),
         body: JSON.stringify(body),
       },
     },
-    error.response.status !== 401,
+    error.response?.status !== 401,
   )
 }
 

@@ -9,7 +9,6 @@ import { Spinner, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 export type ActionVoxCardProps = {
-  onSubscribe?: () => void
   onShow?: () => void
   payload: {
     id?: string

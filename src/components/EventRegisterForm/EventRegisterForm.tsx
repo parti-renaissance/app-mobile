@@ -2,10 +2,10 @@ import React, { ComponentProps, useId, useRef } from 'react'
 import { Linking, LogBox } from 'react-native'
 import Text from '@/components/base/Text'
 import Button from '@/components/Button/Button'
-import { PublicSubscribeEventFormError } from '@/core/errors'
 import { useSession } from '@/ctx/SessionProvider'
-import { PublicSubscribtionFormData, PublicSubscribtionFormDataSchema } from '@/data/restObjects/RestEvents'
-import { useSubscribePublicEvent } from '@/hooks/useEvents'
+import { PublicEventSubscriptionFormError } from '@/services/events/error'
+import { useSubscribePublicEvent } from '@/services/events/hook'
+import type { RestPostPublicEventSubsciptionRequest } from '@/services/events/schema'
 import { CheckedState } from '@tamagui/checkbox-headless/src/useCheckbox'
 import { Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
@@ -15,6 +15,9 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 import Input from '../base/Input/Input'
 import FormikController from '../FormikController'
 import VoxCard from '../VoxCard/VoxCard'
+import { PublicSubscribtionFormDataSchema } from './schema'
+
+type PublicSubscribtionFormData = RestPostPublicEventSubsciptionRequest
 
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/])
 
@@ -71,7 +74,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
         router.replace('/(tabs)/evenements')
       })
       .catch((error) => {
-        if (error instanceof PublicSubscribeEventFormError) {
+        if (error instanceof PublicEventSubscriptionFormError) {
           error.violations.forEach((violation) => {
             if (violation.propertyPath === '') {
               return

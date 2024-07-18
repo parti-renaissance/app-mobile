@@ -34,14 +34,6 @@ export const ROUTES: TabRoute[] = [
     labelColor: '#06B827',
   },
   {
-    name: 'news',
-    screenName: 'Ripostes',
-    hidden: true,
-    icon: RipostIcon,
-    gradiant: ['#FDA302', '#F7681E'],
-    labelColor: '#F7681E',
-  },
-  {
     name: 'porte-a-porte',
     screenName: 'Porte à Porte',
     icon: DoorIcon,

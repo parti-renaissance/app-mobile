@@ -4,7 +4,7 @@ import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
-import { useSubscribeEvent, useUnsubscribeEvent } from '@/hooks/useEvents'
+import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import { router } from 'expo-router'
 import { Spinner, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
@@ -21,7 +21,6 @@ type VoxCardBasePayload = {
 } & Partial<VoxCardAuthorProps>
 
 export type EventVoxCardProps = {
-  onSubscribe?: () => void
   onShow?: () => void
   payload:
     | VoxCardBasePayload
@@ -72,7 +71,7 @@ export const SubscribeEventButton = ({
   )
 }
 
-const EventCard = ({ payload, onSubscribe, onShow, ...props }: EventVoxCardProps) => {
+const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   const knowSubscription = payload.isSubscribed !== undefined
 
   return (

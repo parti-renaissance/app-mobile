@@ -8,10 +8,10 @@ import InternAlert from '@/components/InternAlert/InternAlert'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
-import * as eventTypes from '@/data/restObjects/RestEvents'
 import { mapPropsAuthor, mapPropsDate, mapPropsLocation } from '@/helpers/eventsFeed'
 import useShareApi from '@/hooks/useShareApi'
 import useCreateEvent from '@/modules/Calendar/Calendar'
+import * as eventTypes from '@/services/events/schema'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
@@ -184,7 +184,7 @@ function _RegisterButtonSheet(props: { id: string }) {
         <Sheet.Overlay />
         <Sheet.Handle />
         <Sheet.Frame padding="$4" elevation="$1">
-          {/* @ts-ignore */}
+          {/* @ts-expect-error ref don't match  */}
           <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{ alignItems: 'center' }}>
             <XStack maxWidth={600} alignItems="center">
               <EventRegisterForm

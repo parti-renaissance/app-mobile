@@ -1,5 +1,6 @@
 import clientEnv from '@/config/clientEnv'
 import FB from '@/config/firebaseConfig'
+import { addPushToken } from '@/services/push-token/api'
 import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
@@ -30,7 +31,7 @@ class PushRepository {
 
       /* Enregistrement du token sur le serveur */
       try {
-        await this.apiService.addPushToken({
+        await addPushToken({
           identifier: pushToken,
           source: TOKEN_SOURCE,
         })

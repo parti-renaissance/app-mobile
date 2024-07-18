@@ -1,16 +1,17 @@
 import { EventVoxCardProps, PartialEventVoxCardProps } from '@/components/Cards'
 import { VoxCardAuthorProps, VoxCardDateProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { RestEvent, RestFullEvent, RestPartialEvent } from '@/data/restObjects/RestEvents'
+import { isFullEvent, RestEvent, RestFullEvent, RestPartialEvent } from '@/services/events/schema'
 
 export const mapPropsLocation = (item: RestEvent): VoxCardLocationProps => {
   return {
-    location: item.post_address
-      ? {
-          street: item.post_address.address,
-          city: item.post_address.city_name,
-          postalCode: item.post_address.postal_code,
-        }
-      : undefined,
+    location:
+      isFullEvent(item) && item.post_address
+        ? {
+            street: item.post_address.address,
+            city: item.post_address.city_name,
+            postalCode: item.post_address.postal_code,
+          }
+        : undefined,
   }
 }
 
@@ -18,9 +19,9 @@ export const mapPropsAuthor = (item: RestEvent): Partial<VoxCardAuthorProps> => 
   return {
     author: item.organizer
       ? {
-          role: 'Role data missing',
+          role: item.organizer.role,
           name: `${item.organizer.first_name} ${item.organizer.last_name}`,
-          title: 'title data missing',
+          title: item.organizer.instance,
           pictureLink: undefined,
         }
       : undefined,
@@ -38,7 +39,6 @@ export const mapPropsDate = (item: RestEvent): VoxCardDateProps => {
 export const mapFullProps = (
   item: RestFullEvent,
   cb: {
-    onSubscribe: (id: string) => void
     onShow: (id: string) => void
   },
 ): EventVoxCardProps => {
@@ -54,7 +54,6 @@ export const mapFullProps = (
       date: mapPropsDate(item),
       ...mapPropsAuthor(item),
     },
-    onSubscribe: () => cb.onSubscribe(item.uuid),
     onShow: () => cb.onShow(item.uuid),
   }
 }
@@ -62,7 +61,6 @@ export const mapFullProps = (
 export const mapPartialProps = (
   item: RestPartialEvent,
   cb: {
-    onSubscribe: (id: string) => void
     onShow: (id: string) => void
   },
 ): PartialEventVoxCardProps => {
@@ -74,7 +72,6 @@ export const mapPartialProps = (
       isOnline: item.mode === 'online',
       date: mapPropsDate(item),
     },
-    onSubscribe: () => cb.onSubscribe(item.uuid),
     onShow: () => cb.onShow(item.uuid),
   }
 }

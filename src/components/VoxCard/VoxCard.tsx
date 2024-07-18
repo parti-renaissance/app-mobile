@@ -88,13 +88,13 @@ const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
 
 export type VoxCardLocationProps = {
   location?: {
-    city: string
-    postalCode: string
-    street: string
+    city: string | null
+    postalCode: string | null
+    street: string | null
   }
 }
 
-const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle: boolean }) => {
+const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle?: boolean }) => {
   return location ? (
     <XStack gap="$2" alignItems="center">
       {!asTitle && <MapPin size="$1" color="$textPrimary" />}
@@ -113,9 +113,9 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
 
 export type VoxCardAuthorProps = {
   author: {
-    role?: string
-    name?: string
-    title?: string
+    role: string | null
+    name: string | null
+    title: string | null
     pictureLink?: string
   }
 }
@@ -126,9 +126,17 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
     <XStack gap="$2" alignItems="center">
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
       <Text>
-        <Text fontWeight="$4" color="$textSecondary">
-          {author.name}
+        <Text fontWeight="$5" color="$textSecondary">
+          {author.name},
         </Text>
+        {author.role && author.title && (
+          <>
+            {'\n'}
+            <Text fontWeight="$4" color="$textSecondary">
+              {author.role} {author.title}
+            </Text>
+          </>
+        )}
       </Text>
     </XStack>
   )
@@ -231,7 +239,7 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
   )
 }
 
-const VoxCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
+const VoxCardSeparator = (props: StackProps) => <Separator {...props} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
 
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Content: VoxCardContent,
