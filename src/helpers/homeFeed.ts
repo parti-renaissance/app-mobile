@@ -3,7 +3,7 @@ import { type FeedCardProps } from '@/components/Cards'
 import { ActionType } from '@/core/entities/Action'
 import { logDefaultError } from '@/data/network/NetworkLogger'
 import { ReadableActionType } from '@/data/restObjects/RestActions'
-import { RestTimelineFeedItem } from '@/data/restObjects/RestTimelineFeedResponse'
+import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { router } from 'expo-router'
 
 const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps['type'] => {
@@ -41,9 +41,9 @@ const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
 export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardProps => {
   const type = tramformFeedItemType(feed.type)
   const author = {
-    role: feed.author?.role,
-    name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : 'Author data missing',
-    title: feed.author?.instance,
+    role: feed.author?.role ?? null,
+    name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : null,
+    title: feed.author?.instance ?? null,
     pictureLink: undefined,
   }
   const location = feed.post_address
@@ -70,17 +70,17 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           }
         },
         payload: {
-          title: feed.title,
+          title: feed.title!,
           tag,
           image: feed.image ?? undefined,
-          description: feed.description,
+          description: feed.description!,
           location,
           ctaLabel: feed.cta_label,
           ctaLink: feed.cta_link,
           author,
           date: {
-            start: new Date(feed.date),
-            end: new Date(feed.date),
+            start: new Date(feed.date!),
+            end: new Date(feed.date!),
           },
         },
       }
@@ -95,13 +95,13 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         },
         payload: {
           id: feed.objectID,
-          title: feed.title,
+          title: feed.title!,
           tag,
           image: feed.image ?? undefined,
           isSubscribed: !!feed.user_registered_at,
           date: {
-            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
-            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
+            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
+            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date!),
             timeZone: feed.time_zone ?? undefined,
           },
           location: feed.mode === 'online' ? undefined : location,
@@ -129,8 +129,8 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
           id: feed.objectID,
           isSubscribed: !!feed.user_registered_at,
           date: {
-            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date),
-            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date),
+            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
+            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date!),
           },
           location,
           author,

@@ -14,13 +14,21 @@ export const RestTimelineFeedAddressSchema = z.object({
   country: z.string().nullable(),
 })
 
+export const RestTimelineFeedAuthorSchema = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  role: z.string().nullable(),
+  instance: z.string().nullable(),
+  zone: z.string().nullable(),
+})
+
 export type RestTimelineFeedItem = z.infer<typeof RestTimelineFeedItemSchema>
 export const RestTimelineFeedItemSchema = z.object({
   objectID: z.string(),
   type: z.enum(['news', 'event', 'phoning-campaign', 'pap-campaign', 'survey', 'riposte', 'action']),
   title: z.string().nullable(),
   description: z.string().nullable(),
-  author: z.string().nullable(),
+  author: RestTimelineFeedAuthorSchema.nullable(),
   date: z.string().nullable(),
   begin_at: z.string().nullable(),
   finish_at: z.string().nullable(),

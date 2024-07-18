@@ -114,7 +114,7 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
 export type VoxCardAuthorProps = {
   author: {
     role: string | null
-    name: string
+    name: string | null
     title: string | null
     pictureLink?: string
   }
@@ -126,9 +126,17 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
     <XStack gap="$2" alignItems="center">
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
       <Text>
-        <Text fontWeight="$4" color="$textSecondary">
-          {author.name}
+        <Text fontWeight="$5" color="$textSecondary">
+          {author.name},
         </Text>
+        {author.role && author.title && (
+          <>
+            {'\n'}
+            <Text fontWeight="$4" color="$textSecondary">
+              {author.role} {author.title}
+            </Text>
+          </>
+        )}
       </Text>
     </XStack>
   )
@@ -231,7 +239,7 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
   )
 }
 
-const VoxCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
+const VoxCardSeparator = (props: StackProps) => <Separator {...props} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
 
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Content: VoxCardContent,
