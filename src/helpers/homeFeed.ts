@@ -6,7 +6,7 @@ import { ReadableActionType } from '@/data/restObjects/RestActions'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { router } from 'expo-router'
 
-const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps['type'] => {
+const transformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps['type'] => {
   switch (type) {
     case 'news':
       return 'news'
@@ -21,7 +21,7 @@ const tramformFeedItemType = (type: RestTimelineFeedItem['type']): FeedCardProps
   }
 }
 
-const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
+const transformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
   switch (type) {
     case 'news':
       return 'Notification'
@@ -38,8 +38,8 @@ const tramformFeedItemTypeToTag = (type: RestTimelineFeedItem['type']) => {
   }
 }
 
-export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardProps => {
-  const type = tramformFeedItemType(feed.type)
+export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardProps => {
+  const type = transformFeedItemType(feed.type)
   const author = {
     role: feed.author?.role ?? null,
     name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : null,
@@ -53,7 +53,7 @@ export const tranformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPro
         street: feed.post_address.address,
       }
     : undefined
-  const tag = tramformFeedItemTypeToTag(feed.type)!
+  const tag = transformFeedItemTypeToTag(feed.type)!
   switch (type) {
     case 'news':
       return {

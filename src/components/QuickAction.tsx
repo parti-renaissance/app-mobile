@@ -34,7 +34,7 @@ const ActionMapper = {
   },
 } as const
 
-function CircleGradientButton({ children, ...rest }: CircleProps & { round?: boolean }) {
+function CircleGradientButton({ children, ...rest }: CircleProps) {
   return (
     <Circle size={rest.size} elevation={'$2.5'} {...rest}>
       <Circle borderWidth={0} backgroundColor="$white1" overflow="hidden" size={rest.size} elevation={5}>

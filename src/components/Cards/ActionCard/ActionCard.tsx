@@ -21,7 +21,7 @@ export type ActionVoxCardProps = {
     VoxCardAttendeesProps
 } & VoxCardFrameProps
 
-const ActionCard = ({ payload, onShow, asFull = false, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
+const ActionCard = ({ payload, onSubscribe, onShow, asFull = false, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
   const isPassed = isBefore(payload.date.start, new Date())
   const isCancelled = payload.status === ActionStatus.CANCELLED
   return (
@@ -69,7 +69,7 @@ export function SubscribeButton({ isRegister, id, large }: { isRegister: boolean
       size={large ? 'lg' : 'md'}
       width={large ? '100%' : undefined}
       bg={isRegister ? undefined : '$green7'}
-      onPress={() => handleOnSubscribe(!!isRegister)}
+      onPress={() => handleOnSubscribe(isRegister)}
     >
       <Button.Text display={isloaderSub ? 'none' : 'flex'} color={isRegister ? '$green7' : undefined}>
         {isRegister ? 'Me désinscrire' : "M'inscrire"}
