@@ -58,15 +58,9 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
     case 'news':
       return {
         type,
-        onShare: () => {},
         onShow: async () => {
           if (feed.cta_link && (await Linking.canOpenURL(feed.cta_link))) {
             await Linking.openURL(feed.cta_link).catch(logDefaultError)
-          } else {
-            router.push({
-              pathname: '/news-detail',
-              params: { id: feed.objectID },
-            })
           }
         },
         payload: {

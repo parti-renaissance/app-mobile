@@ -48,16 +48,7 @@ const HomeFeedList = () => {
       ListHeaderComponent={() => (
         <YStack flex={1}>
           {alerts.map((alert, i) => (
-            <AlertCard
-              key={`${i}-alert`}
-              payload={{
-                tag: alert.label,
-                title: alert.title,
-                description: alert.description,
-                ctaLabel: alert.cta_label,
-                ctaLink: alert.cta_url,
-              }}
-            />
+            <AlertCard key={`${i}-alert`} payload={alert} />
           ))}
         </YStack>
       )}
