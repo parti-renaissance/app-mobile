@@ -17,6 +17,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { ProfileFormError } from '@/services/profile/error'
 import { useDeleteProfil, useGetDetailProfil, useMutationUpdateProfil } from '@/services/profile/hook'
 import type { RestDetailedProfileResponse, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { useUserStore } from '@/store/user-store'
 import { AddressFormatter } from '@/utils/AddressFormatter'
 import { format } from 'date-fns'
 import { nativeBuildVersion } from 'expo-application'
@@ -259,6 +260,7 @@ const EditInformations = () => {
   const formikFormRef = useRef<FormikProps<PersonalInformationsForm>>(null)
   const { data: profile } = useGetDetailProfil()
   const { user } = useSession()
+  const { user: credentials } = useUserStore()
   const $updateProfile = useMutationUpdateProfil({
     userUuid: profile!.uuid,
   })
@@ -349,7 +351,7 @@ const EditInformations = () => {
                   </View>
                 )}
                 <Button variant="outlined" width="100%" onPress={signOut}>
-                  <Button.Text>Me déconnecter</Button.Text>
+                  <Button.Text>{credentials?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'}</Button.Text>
                 </Button>
                 <Button variant="outlined" width="100%" onPress={removeAccount}>
                   <Button.Text>{isAdherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
