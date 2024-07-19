@@ -1,7 +1,7 @@
 import React from 'react'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
-import { FilterActionType } from '@/data/restObjects/RestActions'
+import { FilterActionType } from '@/services/actions/schema'
 import { ScrollView, XStack, YStack, YStackProps } from 'tamagui'
 
 export type SelectType = FilterActionType

@@ -1,8 +1,8 @@
-import ApiService from '@/data/network/ApiService'
-import { ActionCreateType } from '@/data/restObjects/RestActions'
-import { QUERY_KEY_PAGINATED_ACTIONS } from '@/hooks/useActions/useActions'
+import * as api from '@/services/actions/api'
+import { ActionCreateType } from '@/services/actions/schema'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { optmisticUpdate } from './helpers'
 
 export const useCreateOrEditAction = ({ uuid, scope }: { uuid?: string; scope?: string }) => {
   const client = useQueryClient()
@@ -10,19 +10,17 @@ export const useCreateOrEditAction = ({ uuid, scope }: { uuid?: string; scope?: 
   const isEdit = !!uuid
 
   return useMutation({
-    // Do not pass function prototype otherwise ApiService instance is not defined
+    // Do not pass function prototype otherwise api instance is not defined
     mutationFn: (p: ActionCreateType) => {
       if (isEdit) {
-        return ApiService.getInstance().editAction(uuid, p, scope)
+        return api.editAction(uuid, p, scope)
       }
-      return ApiService.getInstance().insertAction(p, scope)
+      return api.insertAction(p, scope)
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       const message = isEdit ? 'L’action a bien été modifiée' : 'L’action a bien été créée'
       toast.show('Succès', { message, type: 'success' })
-      await client.invalidateQueries({
-        queryKey: [QUERY_KEY_PAGINATED_ACTIONS],
-      })
+      optmisticUpdate(() => data, data.uuid, client)
     },
     onError: () => {
       const message = isEdit ? 'Impossible de modifier l’action' : 'Impossible de créer l’action'

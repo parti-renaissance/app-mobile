@@ -2,6 +2,9 @@ import { NamedExoticComponent } from 'react'
 import { IconProps } from '@tamagui/helpers-icon'
 import { DoorOpen, Layers3, Mailbox, Paintbrush } from '@tamagui/lucide-icons'
 import * as z from 'zod'
+import { createRestPaginationSchema } from '../common/schema'
+
+export type SelectPeriod = 'all' | 'today' | 'tomorow' | 'week'
 
 export enum ActionType {
   PAP = 'pap',
@@ -40,9 +43,12 @@ export enum ActionStatus {
 const ActionTypeSchema = z.nativeEnum(ActionType)
 const ActionStatusSchema = z.nativeEnum(ActionStatus)
 const ActionAuthor = z.object({
-  uuid: z.string().uuid(),
+  uuid: z.string(),
   first_name: z.string(),
   last_name: z.string(),
+  role: z.string().nullable(),
+  instance: z.string().nullable(),
+  zone: z.string().nullable(),
 })
 
 const ActionAddressSchema = z.object({
@@ -85,7 +91,7 @@ export const ActionFullSchema = ActionSchema.omit({ first_participants: true, pa
   }),
 )
 
-const ActionCreateSchema = z.object({
+export const ActionCreateSchema = z.object({
   type: ActionTypeSchema,
   date: z.coerce.date(),
   description: z.string(),
@@ -97,20 +103,9 @@ const ActionCreateSchema = z.object({
   }),
 })
 
-const MetadataSchema = z.object({
-  total_items: z.number(),
-  items_per_page: z.number(),
-  count: z.number(),
-  current_page: z.number(),
-  last_page: z.number(),
-})
+export const ActionPaginationSchema = createRestPaginationSchema(ActionSchema)
 
-export const ActionPaginationSchema = z.object({
-  metadata: MetadataSchema,
-  items: z.array(ActionSchema),
-})
-
-export const ActionRequestParamsSchema = z.object({
+export const ActionRequestSchema = z.object({
   longitude: z.number(),
   latitude: z.number(),
   page: z.number(),
@@ -119,7 +114,16 @@ export const ActionRequestParamsSchema = z.object({
   period: z.string().optional(),
 })
 
-export type RestActionRequestParams = z.infer<typeof ActionRequestParamsSchema>
+export const RestGetActionsRequestSchema = z.object({
+  longitude: z.number(),
+  latitude: z.number(),
+  subscribeOnly: z.boolean().optional(),
+  'date[after]': z.string().optional(),
+  'date[before]': z.string().optional(),
+  type: z.nativeEnum(FilterActionType).optional(),
+})
+
+export type RestActionRequestParams = z.infer<typeof ActionRequestSchema>
 
 export type RestActionType = z.infer<typeof ActionTypeSchema>
 export type RestActionStatus = z.infer<typeof ActionStatusSchema>

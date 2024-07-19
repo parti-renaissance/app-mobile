@@ -1,6 +1,6 @@
 import { EventFilters } from '@/core/entities/Event'
 import { useSession } from '@/ctx/SessionProvider'
-import { GenericResponseError } from '@/services/errors/generic-errors'
+import { GenericResponseError } from '@/services/common/errors/generic-errors'
 import * as api from '@/services/events/api'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'

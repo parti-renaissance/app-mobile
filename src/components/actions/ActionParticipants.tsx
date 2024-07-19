@@ -1,7 +1,7 @@
 import React from 'react'
 import Text from '@/components/base/Text'
 import ProfilePicture from '@/components/ProfilePicture'
-import { RestActionAuthor, RestActionParticipant } from '@/data/restObjects/RestActions'
+import { RestActionAuthor, RestActionParticipant } from '@/services/actions/schema'
 import { YStack, YStackProps } from 'tamagui'
 
 export default function AcrtionParticipants({ participant, ...props }: Readonly<{ participant: RestActionParticipant | RestActionAuthor }> & YStackProps) {

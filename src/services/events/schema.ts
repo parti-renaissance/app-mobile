@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createRestPaginationSchema } from '../schema'
+import { createRestPaginationSchema } from '../common/schema'
 
 // ------- Event Schemas ----------
 
