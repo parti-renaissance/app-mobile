@@ -46,7 +46,7 @@ export const mapFullProps = (
     payload: {
       id: item.uuid,
       title: item.name,
-      tag: item.category?.name || '',
+      tag: item.category?.name ?? '',
       image: item.image_url ?? undefined,
       isSubscribed: !!item.user_registered_at,
       isOnline: item.mode === 'online',
