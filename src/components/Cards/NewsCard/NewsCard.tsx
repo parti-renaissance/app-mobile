@@ -3,7 +3,6 @@ import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCa
 import { XStack } from 'tamagui'
 
 export type NewsVoxCardProps = {
-  onShare?: () => void
   onShow?: () => void
   payload: {
     title: string
@@ -17,7 +16,7 @@ export type NewsVoxCardProps = {
     VoxCardAuthorProps
 } & VoxCardFrameProps
 
-const NewsCard = ({ payload, onShare, onShow, ...props }: NewsVoxCardProps) => {
+const NewsCard = ({ payload, onShow, ...props }: NewsVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
