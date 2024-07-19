@@ -2,7 +2,6 @@ import { SelectPeriod, SelectType } from '@/components/actions'
 import { useSession } from '@/ctx/SessionProvider'
 import ApiService from '@/data/network/ApiService'
 import { Action, RestActionFull, RestActionRequestParams, RestActions } from '@/data/restObjects/RestActions'
-import { PaginatedFeedQueryKey } from '@/services/timeline-feed/hook'
 import { useToastController } from '@tamagui/toast'
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -60,7 +59,6 @@ export const useSubscribeAction = (id?: string) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_ACTIONS, { id }] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
-      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
     },
     onSuccess: () => {
       toast.show('Succès', { message: 'Inscription à l’action réussie', type: 'success' })
@@ -84,7 +82,6 @@ export const useUnsubscribeAction = (id?: string) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_ACTIONS, { id }] })
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_ACTIONS] })
-      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
     },
     onSuccess: () => {
       toast.show('Succès', { message: 'Désinscription de l’action réussie', type: 'success' })

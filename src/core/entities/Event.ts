@@ -30,7 +30,7 @@ export interface DetailedEvent {
   visioUrl?: string
   address?: EventAddress
   organizer: EventOrganizer
-  commitee?: Commitee
+  committee?: Committee
   timezone: string
   link: string
 }
@@ -49,7 +49,7 @@ export interface EventOrganizer {
   lastName: string
 }
 
-export interface Commitee {
+export interface Committee {
   name: string
   url: string
 }
