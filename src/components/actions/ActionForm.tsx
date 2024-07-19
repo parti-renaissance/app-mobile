@@ -10,7 +10,7 @@ import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
 import { useAction } from '@/services/actions/hook/useActions'
 import { useCreateOrEditAction } from '@/services/actions/hook/useCreateOrEditAction'
 import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/services/actions/schema'
-import { captureException } from '@sentry/core'
+import { FormError } from '@/services/common/errors/form-errors'
 import { addHours, formatDate } from 'date-fns'
 import { Formik } from 'formik'
 import { Spinner, useMedia, View } from 'tamagui'
@@ -114,7 +114,11 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
             formikHelpers.resetForm()
             onClose?.()
           } catch (e) {
-            captureException(e)
+            if (e instanceof FormError) {
+              e.violations.forEach((violation) => {
+                formikHelpers.setFieldError(violation.propertyPath, violation.message)
+              })
+            }
           }
 
           formikHelpers.setSubmitting(false)
