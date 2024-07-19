@@ -15,11 +15,12 @@ export const optmisticSetPaginatedShortFeedItem: OptimisticFeedItemSetter = ({ i
       const updatedPages = oldPaginatedData.pages.map((page) => {
         const updatedItems = page.hits.map((item) => {
           if (item.objectID === id) {
-            return updater(item)
+            const updated = updater(item)
+            return updated
           }
           return item
         })
-        return { ...page, items: updatedItems }
+        return { ...page, hits: updatedItems }
       })
       return { ...oldPaginatedData, pages: updatedPages }
     },

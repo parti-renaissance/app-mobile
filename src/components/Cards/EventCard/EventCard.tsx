@@ -73,7 +73,6 @@ export const SubscribeEventButton = ({
 
 const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   const knowSubscription = payload.isSubscribed !== undefined
-
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
