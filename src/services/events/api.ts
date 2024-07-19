@@ -54,7 +54,7 @@ export const unsubscribeFromEvent = (eventId: string) =>
     method: 'delete',
     path: `/api/v3/events/${eventId}/subscribe`,
     requestSchema: z.void(),
-    responseSchema: z.void(),
+    responseSchema: z.any(),
     type: 'private',
   })()
 

@@ -59,11 +59,11 @@ export const RestDetailedProfileResponseSchema = z.object({
     })
     .nullable(),
   email_address: z.string().email(),
-  facebook_page_url: z.string().optional(),
-  twitter_page_url: z.string().optional(),
-  linkedin_page_url: z.string().optional(),
-  telegram_page_url: z.string().optional(),
-  instagram_page_url: z.string().optional(),
+  facebook_page_url: z.string().nullable(),
+  twitter_page_url: z.string().nullable(),
+  linkedin_page_url: z.string().nullable(),
+  telegram_page_url: z.string().nullable(),
+  instagram_page_url: z.string().nullable(),
   adherent: z.boolean(),
   phone: z.object({
     country: z.string(),

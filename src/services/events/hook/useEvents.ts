@@ -1,12 +1,12 @@
 import { EventFilters } from '@/core/entities/Event'
 import { useSession } from '@/ctx/SessionProvider'
+import { GenericResponseError } from '@/services/errors/generic-errors'
 import * as api from '@/services/events/api'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { PaginatedFeedQueryKey } from '../../timeline-feed/hook/'
 import { RestPostPublicEventSubsciptionRequest } from '../schema'
-import { optmisticToggleSubscribe, rollbackSubscribe } from './helpers'
+import { optmisticToggleSubscribe } from './helpers'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type FetchShortEventsOptions = {
@@ -48,20 +48,14 @@ export const useSubscribeEvent = ({ id: eventId }: { id: string }) => {
     mutationFn: () => api.subscribeToEvent(eventId),
     onSuccess: () => {
       toast.show('Succès', { message: "Inscription à l'événement réussie", type: 'success' })
+      optmisticToggleSubscribe(true, eventId, queryClient)
     },
-    onMutate: () => optmisticToggleSubscribe(true, eventId, queryClient),
-    onError: (error, _, previousData) => {
-      // console.log(error.response.data)
-
-      if (previousData) {
-        rollbackSubscribe(previousData, queryClient)
+    onError: (error) => {
+      if (error instanceof GenericResponseError) {
+        toast.show('Erreur', { message: error.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
       }
-      toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS] })
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_SINGLE_EVENT, eventId] })
-      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
     },
   })
 }
@@ -73,16 +67,14 @@ export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
     mutationFn: () => api.unsubscribeFromEvent(eventId),
     onSuccess: () => {
       toast.show('Succès', { message: "Désinscription de l'événement réussie", type: 'success' })
+      optmisticToggleSubscribe(false, eventId, queryClient)
     },
-    onMutate: () => optmisticToggleSubscribe(false, eventId, queryClient),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAGINATED_SHORT_EVENTS] })
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY_SINGLE_EVENT, eventId] })
-      queryClient.invalidateQueries({ queryKey: PaginatedFeedQueryKey })
-    },
-    onError: (error, _, previousData) => {
-      toast.show('Erreur', { message: 'Impossible de se désinscrire de cet événement', type: 'error' })
-      if (previousData) rollbackSubscribe(previousData, queryClient)
+    onError: (error) => {
+      if (error instanceof GenericResponseError) {
+        toast.show('Erreur', { message: error.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de se désinscrire de cet événement', type: 'error' })
+      }
     },
   })
 }
@@ -104,9 +96,14 @@ export const useSubscribePublicEvent = ({ id: eventId }: { id: string }) => {
       toast.show('Succès', { message: "Inscription à l'événement réussie", type: 'success' })
     },
     onMutate: () => optmisticToggleSubscribe(true, eventId, queryClient),
-    onError: (e) => {
-      toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
-      return e
+    onError: (error) => {
+      if (error instanceof GenericResponseError) {
+        toast.show('Erreur', { message: error.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
+      }
+      optmisticToggleSubscribe(false, eventId, queryClient)
+      return error
     },
   })
 }
