@@ -3,7 +3,7 @@ import { ActionCreateType } from '@/services/actions/schema'
 import { GenericResponseError } from '@/services/common/errors/generic-errors'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { optmisticUpdate } from './helpers'
+import { optimisticUpdate } from './helpers'
 
 export const useCreateOrEditAction = ({ uuid, scope }: { uuid?: string; scope?: string }) => {
   const client = useQueryClient()
@@ -21,7 +21,7 @@ export const useCreateOrEditAction = ({ uuid, scope }: { uuid?: string; scope?: 
     onSuccess: async (data) => {
       const message = isEdit ? 'L’action a bien été modifiée' : 'L’action a bien été créée'
       toast.show('Succès', { message, type: 'success' })
-      optmisticUpdate(() => data, data.uuid, client)
+      optimisticUpdate(() => data, data.uuid, client)
     },
     onError: (e) => {
       if (e instanceof GenericResponseError) {

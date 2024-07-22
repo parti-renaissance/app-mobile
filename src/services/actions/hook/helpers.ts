@@ -15,7 +15,7 @@ export const optimisticToggleSubscribe = async (subscribe: boolean, actionId: st
   helpers.optimisticSetDataById({ ...optimisticParams, queryKey: QUERY_KEY_ACTIONS })
 }
 
-export const optmisticUpdate = async (updater: (x: RestActionFull) => RestActionFull, actionId: string, queryClient: QueryClient) => {
+export const optimisticUpdate = async (updater: (x: RestActionFull) => RestActionFull, actionId: string, queryClient: QueryClient) => {
   const optimisticParams = { id: actionId, updater, queryClient }
   helpers.optimisticSetPaginatedData({ ...optimisticParams, queryKey: QUERY_KEY_PAGINATED_ACTIONS })
   helpers.optimisticSetDataById({ ...optimisticParams, queryKey: QUERY_KEY_ACTIONS })
