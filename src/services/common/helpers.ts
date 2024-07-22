@@ -1,15 +1,15 @@
 import { InfiniteData, QueryClient } from '@tanstack/react-query'
 import { RestPagination } from './schema'
 
-type ShortEventUpdater<Item extends { uuid: string }> = (oldShortEventData: Item) => Item
+type OptimisticItemUpdater<Item extends { uuid: string }> = (oldShortEventData: Item) => Item
 type OptimisticEventSetterProps<Item extends { uuid: string }> = {
   id: string
-  updater: ShortEventUpdater<Item>
+  updater: OptimisticItemUpdater<Item>
   queryClient: QueryClient
   queryKey: string
 }
 
-export const optmisticSetPaginatedData = <Item extends { uuid: string }>({ id, queryClient, updater, queryKey }: OptimisticEventSetterProps<Item>) => {
+export const optimisticSetPaginatedData = <Item extends { uuid: string }>({ id, queryClient, updater, queryKey }: OptimisticEventSetterProps<Item>) => {
   queryClient.setQueriesData<InfiniteData<RestPagination<Item>>>(
     {
       queryKey: [queryKey],
@@ -30,7 +30,7 @@ export const optmisticSetPaginatedData = <Item extends { uuid: string }>({ id, q
   )
 }
 
-export const optmisticSetDataById = <Item extends { uuid: string }>({ id, updater, queryClient, queryKey }: OptimisticEventSetterProps<Item>) => {
+export const optimisticSetDataById = <Item extends { uuid: string }>({ id, updater, queryClient, queryKey }: OptimisticEventSetterProps<Item>) => {
   queryClient.setQueryData([queryKey, id], updater)
 }
 

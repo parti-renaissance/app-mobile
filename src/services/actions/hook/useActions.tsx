@@ -5,7 +5,7 @@ import { Action, RestActionFull, RestActionRequestParams, RestActions } from '@/
 import { GenericResponseError } from '@/services/common/errors/generic-errors'
 import { useToastController } from '@tamagui/toast'
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { optmisticToggleSubscribe } from './helpers'
+import { optimisticToggleSubscribe } from './helpers'
 
 export const QUERY_KEY_PAGINATED_ACTIONS = 'QUERY_KEY_PAGINATED_ACTIONS'
 export const QUERY_KEY_ACTIONS = 'QUERY_KEY_ACTIONS'
@@ -55,7 +55,7 @@ export const useSubscribeAction = (id?: string) => {
     mutationFn: () => (id ? api.subscribeToAction(id) : Promise.reject(new Error('No id provided'))),
     onSuccess: () => {
       if (id) {
-        optmisticToggleSubscribe(true, id!, queryClient)
+        optimisticToggleSubscribe(true, id!, queryClient)
       }
       toast.show('Succès', { message: 'Inscription à l’action réussie', type: 'success' })
     },
@@ -76,7 +76,7 @@ export const useUnsubscribeAction = (id?: string) => {
     mutationFn: () => (id ? api.unsubscribeFromAction(id) : Promise.reject(new Error('No id provided'))),
     onSuccess: () => {
       if (id) {
-        optmisticToggleSubscribe(false, id!, queryClient)
+        optimisticToggleSubscribe(false, id!, queryClient)
       }
       toast.show('Succès', { message: 'Désinscription de l’action réussie', type: 'success' })
     },
