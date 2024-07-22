@@ -1,16 +1,10 @@
 import { Platform } from 'react-native'
 import { CreateOptions } from 'react-native-add-calendar-event'
-import { DetailedEvent } from '../../core/entities/Event'
+import { DetailedEvent } from '../../../core/entities/Event'
 
 export const CreateEventOptionsMapper = {
   map: (event: DetailedEvent): CreateOptions => {
-    const address = event.address
-      ? event.address.address +
-        ', ' +
-        event.address.postalCode +
-        ' ' +
-        event.address.city
-      : undefined
+    const address = event.address ? event.address.address + ', ' + event.address.postalCode + ' ' + event.address.city : undefined
     return {
       title: event.name,
       startDate: event.dateStart.toISOString(),

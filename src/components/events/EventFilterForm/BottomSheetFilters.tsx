@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Keyboard } from 'react-native'
-import EventFilterForm from '@/components/EventFilterForm/EventFilterForm'
+import EventFilterForm from '@/components/events/EventFilterForm/EventFilterForm'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { Sheet, useMedia } from 'tamagui'
 import { create } from 'zustand'
