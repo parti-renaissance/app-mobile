@@ -18,7 +18,7 @@ export const getPublicEvents = (params: GetEventsSearchParametersMapperProps) =>
     method: 'get',
     path: '/api/events',
     requestSchema: schemas.RestGetEventsRequestSchema,
-    responseSchema: schemas.RestGetEventsResponseSchema,
+    responseSchema: schemas.RestGetPublicEventsResponseSchema,
     type: 'public',
   })(mapParams(params))
 
@@ -36,7 +36,7 @@ export const getPublicEventDetails = (eventId: string) =>
     method: 'get',
     path: `/api/events/${eventId}`,
     requestSchema: schemas.RestGetEventDetailsRequestSchema,
-    responseSchema: schemas.RestGetEventDetailsResponseSchema,
+    responseSchema: schemas.RestGetPublicEventDetailsResponseSchema,
     type: 'public',
   })()
 

@@ -2,7 +2,7 @@ import { Linking } from 'react-native'
 import { type FeedCardProps } from '@/components/Cards'
 import { ActionType } from '@/core/entities/Action'
 import { logDefaultError } from '@/data/network/NetworkLogger'
-import { ReadableActionType } from '@/data/restObjects/RestActions'
+import { ReadableActionType } from '@/services/actions/schema'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { router } from 'expo-router'
 

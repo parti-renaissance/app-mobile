@@ -1,5 +1,5 @@
-import { ErrorThrower } from '@/services/errors/types'
-import { parseError } from '@/services/errors/utils'
+import { ErrorThrower } from '@/services/common/errors/types'
+import { parseError } from '@/services/common/errors/utils'
 import { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import { z } from 'zod'
 import { ErrorMonitor } from './ErrorMonitor'

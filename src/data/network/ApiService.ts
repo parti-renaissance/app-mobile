@@ -1,10 +1,7 @@
-import { SelectPeriod } from '@/components/actions'
 import { Poll } from '@/core/entities/Poll'
 import { instance, instanceWithoutInterceptors } from '@/lib/axios'
 import { AxiosRequestConfig, Method } from 'axios'
-import { addDays, endOfDay, startOfDay } from 'date-fns'
 import { stringify } from 'qs'
-import { ActionCreateType, ActionFullSchema, ActionPaginationSchema, FilterActionType, RestActionRequestParams } from '../restObjects/RestActions'
 import { RestBuildingEventRequest } from '../restObjects/RestBuildingEventRequest'
 import { RestBuildingTypeRequest } from '../restObjects/RestBuildingTypeRequest'
 import { RestConfigurations } from '../restObjects/RestConfigurations'
@@ -323,80 +320,6 @@ class ApiService {
         : null,
     )
   }
-
-  public async getActions({ subscribeOnly, longitude, latitude, type, period }: RestActionRequestParams) {
-    const calcPeriod = (period?: SelectPeriod) => {
-      switch (period) {
-        case 'today':
-          return {
-            after: startOfDay(new Date()).toISOString(),
-            before: endOfDay(new Date()).toISOString(),
-          }
-        case 'tomorow':
-          return {
-            after: startOfDay(addDays(new Date(), 1)).toISOString(),
-            before: endOfDay(addDays(new Date(), 1)).toISOString(),
-          }
-        case 'week':
-          return {
-            after: startOfDay(new Date()).toISOString(),
-            before: endOfDay(addDays(new Date(), 7).toISOString()),
-          }
-        default:
-          return null
-      }
-    }
-
-    const periodDate = calcPeriod(period as SelectPeriod)
-
-    const params = {
-      ...(type !== FilterActionType.ALL ? { type } : {}),
-      ...(period && periodDate ? { 'date[after]': periodDate.after, 'date[before]': periodDate.before } : {}),
-      ...(subscribeOnly ? { subscribeOnly: true } : {}),
-      longitude,
-      latitude,
-    }
-    return api('get', 'api/v3/actions', { params: params }).then(ActionPaginationSchema.parse)
-  }
-
-  public async insertAction(payload: ActionCreateType, scope?: string) {
-    return api('post', 'api/v3/actions', {
-      params: scope
-        ? {
-            scope,
-          }
-        : undefined,
-      data: {
-        ...payload,
-        date: payload.date.toISOString(),
-      },
-    })
-  }
-
-  public async editAction(uuid: string, payload: ActionCreateType, scope?: string) {
-    return api('put', `api/v3/actions/${uuid}`, {
-      data: {
-        ...payload,
-        date: payload.date.toISOString(),
-        scope,
-      },
-    })
-  }
-
-  public async getAction(id: string, scope?: string) {
-    return api('get', `api/v3/actions/${id}`, {
-      params: scope ? { scope } : undefined,
-    }).then(ActionFullSchema.parse)
-  }
-
-  public async subscribeToAction(id: string) {
-    return api('post', `api/v3/actions/${id}/register`)
-  }
-
-  public async unsubscribeFromAction(id: string) {
-    return api('delete', `api/v3/actions/${id}/register`)
-  }
-
   public static getInstance(): ApiService {
     if (!ApiService.instance) {
       ApiService.instance = new ApiService()

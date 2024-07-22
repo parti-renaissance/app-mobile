@@ -2,7 +2,7 @@ import { Linking } from 'react-native'
 import { Button } from '@/components'
 import VoxCard, { VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
 import type { RestAlertsResponse } from '@/services/alerts/schema'
-import { genericErrorThrower } from '@/services/errors/generic-errors'
+import { genericErrorThrower } from '@/services/common/errors/generic-errors'
 import { XStack } from 'tamagui'
 
 export type AlertVoxCardProps = {

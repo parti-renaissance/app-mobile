@@ -1,4 +1,4 @@
-import { FormError } from '@/services/errors/form-errors'
+import { FormError } from '@/services/common/errors/form-errors'
 
 export class ServerTimeoutError extends Error {}
 export class BadRequestError extends Error {}

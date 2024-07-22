@@ -39,7 +39,7 @@ export const getCachedPaginatedShortFeedItem = (eventId: string, queryClient: Qu
   return paginatedFeedItems.map(([queryKeys, store]) => [queryKeys, store?.pages.flatMap((page) => page.hits).find((event) => event.objectID === eventId)])
 }
 
-export const optmisticToggleSubscribe = async (subscribe: boolean, eventId: string, queryClient: QueryClient) => {
+export const optimisticToggleSubscribe = async (subscribe: boolean, eventId: string, queryClient: QueryClient) => {
   const previousData = { shortFeedItems: getCachedPaginatedShortFeedItems(queryClient)! }
 
   const updateShortFeedItem = (oldShortFeedItemData: RestTimelineFeedItem): RestTimelineFeedItem => {

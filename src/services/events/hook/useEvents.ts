@@ -1,12 +1,12 @@
 import { EventFilters } from '@/core/entities/Event'
 import { useSession } from '@/ctx/SessionProvider'
-import { GenericResponseError } from '@/services/errors/generic-errors'
+import { GenericResponseError } from '@/services/common/errors/generic-errors'
 import * as api from '@/services/events/api'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { RestPostPublicEventSubsciptionRequest } from '../schema'
-import { optmisticToggleSubscribe } from './helpers'
+import { optimisticToggleSubscribe } from './helpers'
 import { QUERY_KEY_PAGINATED_SHORT_EVENTS, QUERY_KEY_SINGLE_EVENT } from './queryKeys'
 
 type FetchShortEventsOptions = {
@@ -48,7 +48,7 @@ export const useSubscribeEvent = ({ id: eventId }: { id: string }) => {
     mutationFn: () => api.subscribeToEvent(eventId),
     onSuccess: () => {
       toast.show('Succès', { message: "Inscription à l'événement réussie", type: 'success' })
-      optmisticToggleSubscribe(true, eventId, queryClient)
+      optimisticToggleSubscribe(true, eventId, queryClient)
     },
     onError: (error) => {
       if (error instanceof GenericResponseError) {
@@ -67,7 +67,7 @@ export const useUnsubscribeEvent = ({ id: eventId }: { id: string }) => {
     mutationFn: () => api.unsubscribeFromEvent(eventId),
     onSuccess: () => {
       toast.show('Succès', { message: "Désinscription de l'événement réussie", type: 'success' })
-      optmisticToggleSubscribe(false, eventId, queryClient)
+      optimisticToggleSubscribe(false, eventId, queryClient)
     },
     onError: (error) => {
       if (error instanceof GenericResponseError) {
@@ -95,14 +95,14 @@ export const useSubscribePublicEvent = ({ id: eventId }: { id: string }) => {
     onSuccess: () => {
       toast.show('Succès', { message: "Inscription à l'événement réussie", type: 'success' })
     },
-    onMutate: () => optmisticToggleSubscribe(true, eventId, queryClient),
+    onMutate: () => optimisticToggleSubscribe(true, eventId, queryClient),
     onError: (error) => {
       if (error instanceof GenericResponseError) {
         toast.show('Erreur', { message: error.message, type: 'error' })
       } else {
         toast.show('Erreur', { message: "Impossible de s'inscrire à cet événement", type: 'error' })
       }
-      optmisticToggleSubscribe(false, eventId, queryClient)
+      optimisticToggleSubscribe(false, eventId, queryClient)
       return error
     },
   })

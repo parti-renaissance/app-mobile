@@ -1,8 +1,8 @@
 import { Button } from '@/components'
 import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
-import { ActionStatus } from '@/data/restObjects/RestActions'
-import { useSubscribeAction, useUnsubscribeAction } from '@/hooks/useActions/useActions'
+import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
+import { ActionStatus } from '@/services/actions/schema'
 import { isBefore } from 'date-fns'
 import { capitalize } from 'lodash'
 import { Spinner, XStack } from 'tamagui'
@@ -21,7 +21,7 @@ export type ActionVoxCardProps = {
     VoxCardAttendeesProps
 } & VoxCardFrameProps
 
-const ActionCard = ({ payload, onSubscribe, onShow, asFull = false, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
+const ActionCard = ({ payload, onShow, asFull = false, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
   const isPassed = isBefore(payload.date.start, new Date())
   const isCancelled = payload.status === ActionStatus.CANCELLED
   return (

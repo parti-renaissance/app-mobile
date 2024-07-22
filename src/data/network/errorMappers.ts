@@ -1,4 +1,4 @@
-import { formErrorThrower } from '@/services/errors/form-errors'
+import { formErrorThrower } from '@/services/common/errors/form-errors'
 import { isAxiosError } from 'axios'
 import { FormViolation } from '../../core/entities/DetailedProfile'
 import {

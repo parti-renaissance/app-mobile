@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActionVoxCardProps } from '@/components/Cards/ActionCard'
-import { Action, ActionType, FilterActionType, RestAction } from '@/data/restObjects/RestActions'
+import { Action, ActionType, FilterActionType, RestAction } from '@/services/actions/schema'
 import { addDays, isBefore, isSameDay, isSameWeek, setHours } from 'date-fns'
 import MapboxGl from '../Mapbox/Mapbox'
 import { SelectPeriod } from './ActionFiltersList'
@@ -22,6 +22,8 @@ export function mapPayload(action: Action): ActionVoxCardProps['payload'] {
     },
     author: {
       name: `${action.author.first_name} ${action.author.last_name}`,
+      role: action.author.role,
+      title: action.author.instance,
     },
   }
 }

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createRestPaginationSchema } from '../schema'
+import { createRestPaginationSchema } from '../common/schema'
 
 // ------- Event Schemas ----------
 
@@ -76,15 +76,35 @@ export const RestPartialEventSchema = z
   })
   .merge(RestBaseEventSchema)
 
-export const RestEventSchema = RestFullEventSchema.or(RestPartialEventSchema)
-export const RestItemEventSchema = RestFullEventSchema.omit({
-  description: true,
-}).or(RestPartialEventSchema)
+export const RestEventSchema = z.discriminatedUnion('object_state', [RestFullEventSchema, RestPartialEventSchema])
+
+export const RestPublicEventSchema = z.discriminatedUnion('object_state', [RestFullEventSchema.omit({ user_registered_at: true }), RestPartialEventSchema])
+export const RestItemEventSchema = z.discriminatedUnion('object_state', [
+  RestFullEventSchema.omit({
+    description: true,
+  }),
+  RestPartialEventSchema,
+])
+
+export const RestPublicItemEventSchema = z.discriminatedUnion('object_state', [
+  RestFullEventSchema.omit({
+    description: true,
+    user_registered_at: true,
+  }),
+  RestPartialEventSchema,
+])
 
 export type RestFullEvent = z.infer<typeof RestFullEventSchema>
 export type RestPartialEvent = z.infer<typeof RestPartialEventSchema>
-export type RestEvent = z.infer<typeof RestEventSchema>
-export type RestItemEvent = z.infer<typeof RestItemEventSchema>
+
+export type RestPrivateEvent = z.infer<typeof RestEventSchema>
+export type RestPublicEvent = z.infer<typeof RestPublicEventSchema>
+
+export type RestEvent = RestPrivateEvent | RestPublicEvent
+
+export type RestPrivateItemEvent = z.infer<typeof RestItemEventSchema>
+export type RestPublicItemEvent = z.infer<typeof RestPublicItemEventSchema>
+export type RestItemEvent = RestPrivateItemEvent | RestPublicItemEvent
 
 export const isFullEvent = (event: RestEvent | RestItemEvent): event is RestFullEvent => event.object_state === 'full'
 export const isPartialEvent = (event: RestEvent | RestItemEvent): event is RestPartialEvent => event.object_state === 'partial'
@@ -108,8 +128,14 @@ export const RestGetEventsRequestSchema = z
 export type RestGetEventsResponse = z.infer<typeof RestGetEventsResponseSchema>
 export const RestGetEventsResponseSchema = createRestPaginationSchema(RestItemEventSchema)
 
+export type RestGetPublicEventsRequest = z.infer<typeof RestGetPublicEventsResponseSchema>
+export const RestGetPublicEventsResponseSchema = createRestPaginationSchema(RestPublicItemEventSchema)
+
 export type RestGetEventDetailsResponse = z.infer<typeof RestGetEventsResponseSchema>
 export const RestGetEventDetailsResponseSchema = RestEventSchema
+
+export type RestGetPublicEventDetailsResponse = z.infer<typeof RestGetPublicEventDetailsResponseSchema>
+export const RestGetPublicEventDetailsResponseSchema = RestPublicEventSchema
 
 export type RestGetEventDetailsRequest = z.infer<typeof RestGetEventsResponseSchema>
 export const RestGetEventDetailsRequestSchema = z.void()

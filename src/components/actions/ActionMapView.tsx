@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle } from 'react'
 import MapboxGl from '@/components/Mapbox/Mapbox'
 import clientEnv from '@/config/clientEnv'
-import { ActionStatus, ActionType } from '@/data/restObjects/RestActions'
+import { ActionStatus, ActionType } from '@/services/actions/schema'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import * as turf from '@turf/turf'
 import { isWeb } from 'tamagui'

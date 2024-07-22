@@ -6,11 +6,11 @@ import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import FormikController from '@/components/FormikController'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
-import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/data/restObjects/RestActions'
-import { useAction } from '@/hooks/useActions/useActions'
-import { useCreateOrEditAction } from '@/hooks/useActions/useCreateOrEditAction'
 import DatePicker from '@/screens/editPersonalInformation/components/DatePicker'
-import { captureException } from '@sentry/core'
+import { useAction } from '@/services/actions/hook/useActions'
+import { useCreateOrEditAction } from '@/services/actions/hook/useCreateOrEditAction'
+import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/services/actions/schema'
+import { FormError } from '@/services/common/errors/form-errors'
 import { addHours, formatDate } from 'date-fns'
 import { Formik } from 'formik'
 import { Spinner, useMedia, View } from 'tamagui'
@@ -114,7 +114,11 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
             formikHelpers.resetForm()
             onClose?.()
           } catch (e) {
-            captureException(e)
+            if (e instanceof FormError) {
+              e.violations.forEach((violation) => {
+                formikHelpers.setFieldError(violation.propertyPath, violation.message)
+              })
+            }
           }
 
           formikHelpers.setSubmitting(false)
