@@ -4,7 +4,6 @@ import { LineSwitch } from '@/components/base/Switch/Switch'
 import Text from '@/components/base/Text'
 import { YStack } from 'tamagui'
 import { create } from 'zustand'
-import VoxCard from '../VoxCard/VoxCard'
 import SearchBox from './SearchBox'
 import { ZoneValue, zoneValues } from './ZoneFilter'
 

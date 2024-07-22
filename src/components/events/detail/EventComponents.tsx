@@ -1,8 +1,6 @@
 import React, { memo } from 'react'
 import { Keyboard, Platform } from 'react-native'
 import { Button } from '@/components'
-import Text from '@/components/base/Text'
-import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
 import EventRegisterForm from '@/components/events/EventRegisterForm/EventRegisterForm'
 import InternAlert from '@/components/InternAlert/InternAlert'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -13,10 +11,10 @@ import useShareApi from '@/hooks/useShareApi'
 import useCreateEvent from '@/modules/Calendar/Calendar'
 import * as eventTypes from '@/services/events/schema'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { Link as LinkIcon, Unlock } from '@tamagui/lucide-icons'
+import { Link as LinkIcon } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import { isPast } from 'date-fns'
-import { ScrollView, ScrollViewProps, Sheet, useMedia, XStack, YStack } from 'tamagui'
+import { ScrollView, ScrollViewProps, Sheet, useMedia, XStack } from 'tamagui'
 import { useHandleCopyUrl } from './utils'
 
 const padding = '$7'
@@ -41,21 +39,6 @@ export function ScrollStack({ children }: ScrollViewProps) {
   )
 }
 
-export function LockLeftCard() {
-  return (
-    <YStack justifyContent="center" gap="$4.5">
-      <YStack gap="$3" alignItems="center">
-        <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
-        <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
-          Connectez-vous pour participer à cet événement
-        </Text>
-      </YStack>
-      <SignUpButton size="lg" width="100%" />
-      <SignInButton size="lg" width="100%" />
-    </YStack>
-  )
-}
-
 export function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestEvent }>) {
   const isFullEvent = eventTypes.isFullEvent(data)
   const author = mapPropsAuthor(data).author
@@ -66,12 +49,6 @@ export function AsideCardContent({ data }: Readonly<{ data: eventTypes.RestEvent
       {isFullEvent && (data.mode === 'online' ? <VoxCard.Visio /> : <VoxCard.Location {...mapPropsLocation(data)} />)}
       {isFullEvent && !!data.capacity && <VoxCard.Capacity>Capacité {data.capacity} personnes</VoxCard.Capacity>}
       {isFullEvent && <VoxCard.Attendees attendees={{ count: data.participants_count || 0 }} />}
-
-      {data.visibility === 'adherent_dues' && (
-        <Text fontFamily="$PublicSans" textAlign="center" fontWeight="$5" lineHeight="$2" fontSize="$1" color="$yellow9">
-          Cet événement est réservé aux adhérents à jour de cotisation.
-        </Text>
-      )}
 
       {isFullEvent && author && (
         <VoxCard.Section title="Événement créé par :">

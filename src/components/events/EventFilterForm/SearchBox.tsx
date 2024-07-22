@@ -1,8 +1,8 @@
 import React, { ComponentProps, forwardRef, useCallback } from 'react'
 import { Pressable, TextInput, TextInputProps } from 'react-native'
+import Input from '@/components/base/Input/Input'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { Filter, Search, XCircle } from '@tamagui/lucide-icons'
-import Input from '../base/Input/Input'
 
 type SearchBoxProps = {
   value: string
