@@ -12,7 +12,7 @@ import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import { useSession } from '@/ctx/SessionProvider'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { useSuspensePaginatedEvents } from '@/services/events/hook'
-import { isFullEvent, isPartialEvent, RestItemEvent } from '@/services/events/schema'
+import { isFullEvent, isPartialEvent, RestItemEvent, RestPublicItemEvent } from '@/services/events/schema'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown, Filter } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
@@ -22,9 +22,9 @@ import { useDebounce } from 'use-debounce'
 const MemoizedEventCard = memo(EventCard) as typeof EventCard
 const MemoizedPartialEventCard = memo(PartialEventCard) as typeof PartialEventCard
 
-const splitEvents = (events: RestItemEvent[]) => {
-  const incomming: RestItemEvent[] = []
-  const past: RestItemEvent[] = []
+const splitEvents = (events: RestItemEvent[] | RestPublicItemEvent[]) => {
+  const incomming: typeof events = []
+  const past: typeof events = []
   events.forEach((event) => {
     if (new Date(event.begin_at) < new Date()) {
       past.push(event)
