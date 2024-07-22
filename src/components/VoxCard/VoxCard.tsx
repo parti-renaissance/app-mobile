@@ -127,7 +127,7 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
       <Text>
         <Text fontWeight="$5" color="$textSecondary">
-          {author.name},
+          {author.name}
         </Text>
         {author.role && author.title && (
           <>

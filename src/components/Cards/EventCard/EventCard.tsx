@@ -5,6 +5,8 @@ import { VoxAlertDialog } from '@/components/AlertDialog'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
+import { RestEvent } from '@/services/events/schema'
+import { isPast } from 'date-fns'
 import { router } from 'expo-router'
 import { Spinner, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
@@ -14,6 +16,7 @@ type VoxCardBasePayload = {
   title: string
   tag: string
   image?: string | ImageRequireSource
+  status?: RestEvent['status']
   isSubscribed?: boolean
   isOnline: boolean
   location?: VoxCardLocationProps['location']
@@ -72,7 +75,10 @@ export const SubscribeEventButton = ({
 }
 
 const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
-  const knowSubscription = payload.isSubscribed !== undefined
+  const isPassed = isPast(payload.date.end)
+  const isCancelled = payload.status === 'CANCELLED'
+  const knowSubscription = payload.isSubscribed
+  const canSubscribe = [!isPassed, knowSubscription, !isCancelled].every(Boolean)
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
@@ -82,12 +88,12 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}
-        <XStack justifyContent={knowSubscription ? 'space-between' : 'flex-end'}>
+        <XStack justifyContent={canSubscribe ? 'space-between' : 'flex-start'}>
           <Button variant="outlined" onPress={onShow}>
             <Button.Text>Voir l'événement</Button.Text>
           </Button>
 
-          {knowSubscription && <SubscribeEventButton isSubscribed={!!payload.isSubscribed} eventId={payload.id} />}
+          {canSubscribe && <SubscribeEventButton isSubscribed={!!payload.isSubscribed} eventId={payload.id} />}
         </XStack>
       </VoxCard.Content>
     </VoxCard>
