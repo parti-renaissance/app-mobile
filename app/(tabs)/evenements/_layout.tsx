@@ -11,7 +11,6 @@ export default function EventLayout() {
         name="index"
         options={isAuth ? { title: 'Événements' } : { header: (x) => <Header {...x} />, title: 'Événements', headerLeft: () => <EuCampaignIllustration /> }}
       />
-      <Stack.Screen name="[mode]/filters" options={{ headerShown: false, presentation: 'modal' }} />
       <Stack.Screen name="[id]" options={{ title: '' }} />
     </Stack>
   )
