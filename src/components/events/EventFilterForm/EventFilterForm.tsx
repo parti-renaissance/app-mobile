@@ -1,7 +1,5 @@
 import React, { RefObject } from 'react'
 import { TextInput } from 'react-native'
-import { LineSwitch } from '@/components/base/Switch/Switch'
-import Text from '@/components/base/Text'
 import { YStack } from 'tamagui'
 import { create } from 'zustand'
 import SearchBox from './SearchBox'
@@ -55,24 +53,7 @@ const EventFilters = ({ onSearchFocus }: EventFiltersProps) => {
       <Controller name="search">
         {(p) => <SearchBox enterKeyHint="done" value={p.value} ref={p.ref as RefObject<TextInput>} onChange={p.onChange} onFocus={onSearchFocus} />}
       </Controller>
-      {/* <Controller name="zone">{(p) => <ZoneFilter {...p} />}</Controller> */}
-      <YStack gap="$3">
-        <Text fontWeight="$5">Temporalité</Text>
-        <Controller name="showPast">
-          {(p) => (
-            <LineSwitch checked={p.value} onCheckedChange={p.onChange}>
-              Afficher les évènements passées
-            </LineSwitch>
-          )}
-        </Controller>
-        {/* <Controller name="showCancelled">
-            {(p) => (
-              <LineSwitch checked={p.value} onCheckedChange={p.onChange}>
-                Afficher les évènements annulées
-              </LineSwitch>
-            )}
-          </Controller> */}
-      </YStack>
+      <YStack gap="$3"></YStack>
     </YStack>
   )
 }
