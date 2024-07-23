@@ -1,4 +1,12 @@
 {
-  "entry": ["app/**/*.{js,ts,tsx}", "themes.ts", "src/web-workers/**/*.{js,ts,tsx}", ".github/scripts/**/*.{js,ts,tsx,mjs}"],
+  "entry": [
+    "app/**/*.{js,ts,tsx}",
+    "themes.ts",
+    "src/web-workers/**/*.{js,ts,tsx}",
+    ".github/scripts/**/*.{js,ts,tsx,mjs}",
+    "scripts/**/*.{js,ts,tsx,mjs}",
+    "app.config.ts",
+    "metro.config.cjs"
+  ],
   "ignore": ["**/*.stories.tsx"]
 }
