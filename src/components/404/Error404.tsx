@@ -1,6 +1,6 @@
 import { Button } from '@/components'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { Image, View } from 'tamagui'
 import Text from '../base/Text'
 
