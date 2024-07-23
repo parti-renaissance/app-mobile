@@ -46,14 +46,8 @@ class ProfileRepository {
     return profile
   }
 
-  public async updateDetailedProfile(
-    profileUuid: string,
-    newProfile: PersonalInformationsForm,
-  ): Promise<void> {
-    await this.apiService.updateProfile(
-      profileUuid,
-      ProfileUpdateMapper.mapPersonalInformationForm(newProfile),
-    )
+  public async updateDetailedProfile(profileUuid: string, newProfile: PersonalInformationsForm): Promise<void> {
+    await this.apiService.updateProfile(profileUuid, ProfileUpdateMapper.mapPersonalInformationForm(newProfile))
   }
 
   public async getZipCode(): Promise<string> {
@@ -65,9 +59,7 @@ class ProfileRepository {
     }
   }
 
-  public async getCityFromPostalCode(
-    postalCode: string,
-  ): Promise<string | undefined> {
+  public async getCityFromPostalCode(postalCode: string): Promise<string | undefined> {
     return this.apiService.getCityFromPostalCode(postalCode)
   }
 

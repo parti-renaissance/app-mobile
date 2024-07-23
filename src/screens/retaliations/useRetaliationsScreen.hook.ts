@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { Retaliation } from '../../core/entities/Retaliation'
 import RetaliationRepository from '../../data/RetaliationRepository'
 import { RetaliationService } from '../../data/RetaliationService'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { RetaliationListCardViewModel } from './RetaliationListCardViewModel'
 import { RetaliationListCardViewModelMapper } from './RetaliationListCardViewModelMapper'
-import { router } from 'expo-router'
 
 export const useRetaliationsScreen = (): {
   statefulState: ViewState<Array<RetaliationListCardViewModel>>
@@ -17,11 +15,7 @@ export const useRetaliationsScreen = (): {
   onRetaliationSelected: (id: string) => void
   onRetaliateSelected: (id: string) => void
 } => {
-  const navigation =
-    useNavigation<ActionsNavigatorScreenProps<'Retaliations'>['navigation']>()
-  const [statefulState, setStatefulState] = useState<
-    ViewState<Array<Retaliation>>
-  >(ViewState.Loading())
+  const [statefulState, setStatefulState] = useState<ViewState<Array<Retaliation>>>(ViewState.Loading())
   const stateRef = useRef(statefulState)
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -67,9 +61,7 @@ export const useRetaliationsScreen = (): {
   }
 
   return {
-    statefulState: ViewState.map(statefulState, (retaliations) =>
-      retaliations.map(RetaliationListCardViewModelMapper.map),
-    ),
+    statefulState: ViewState.map(statefulState, (retaliations) => retaliations.map(RetaliationListCardViewModelMapper.map)),
     isRefreshing,
     onRefresh: fetchRetaliations,
     onRetaliationSelected,

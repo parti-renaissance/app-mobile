@@ -1,46 +1,36 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ActionsNavigatorScreenProps } from '@/navigation/actions/ActionsNavigatorScreenProps'
+import { useCampaignStore } from '@/data/store/phoning'
+import { PhoningScoreboardRowViewModelMapper } from '@/screens/phoningCampaignScoreboard/PhoningScoreboardRowViewModelMapper'
+import { PhoningCampaignRankingView } from '@/screens/shared/PhoningCampaignRankingView'
 import { Colors, Spacing } from '@/styles'
 import i18n from '@/utils/i18n'
-import { PhoningCampaignRankingView } from '@/screens/shared/PhoningCampaignRankingView'
-import { PhoningScoreboardRowViewModelMapper } from '@/screens/phoningCampaignScoreboard/PhoningScoreboardRowViewModelMapper'
-import {router, useLocalSearchParams, useNavigation} from 'expo-router'
-import{ useCampaignStore } from '@/data/store/phoning'
+import { useNavigation } from 'expo-router'
 
-type PhoningCampaignScoreboardScreenProps =
-    ActionsNavigatorScreenProps<'PhoningCampaignScoreboard'>
+const PhoningCampaignScoreboardScreen = () => {
+  const navigation = useNavigation()
+  const { campaign } = useCampaignStore()
 
-const PhoningCampaignScoreboardScreen: FunctionComponent<
-    PhoningCampaignScoreboardScreenProps
-> = () => {
-    const navigation = useNavigation()
-    const { campaign } = useCampaignStore()
-    
-    useEffect(() => {
-        navigation.setOptions({
-            title: i18n.t('phoning.scoreboard.title'),
-        })
-    }, [navigation])
+  useEffect(() => {
+    navigation.setOptions({
+      title: i18n.t('phoning.scoreboard.title'),
+    })
+  }, [navigation])
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <PhoningCampaignRankingView
-                viewModel={PhoningScoreboardRowViewModelMapper.map(
-                    campaign.scoreboard,
-                )}
-            />
-        </SafeAreaView>
-    )
+  return (
+    <SafeAreaView style={styles.container}>
+      <PhoningCampaignRankingView viewModel={PhoningScoreboardRowViewModelMapper.map(campaign.scoreboard)} />
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: Colors.defaultBackground,
-        flex: 1,
-        padding: Spacing.margin,
-    },
+  container: {
+    backgroundColor: Colors.defaultBackground,
+    flex: 1,
+    padding: Spacing.margin,
+  },
 })
 
 export default PhoningCampaignScoreboardScreen
