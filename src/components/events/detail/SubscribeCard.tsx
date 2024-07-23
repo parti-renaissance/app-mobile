@@ -84,7 +84,7 @@ export function LockAdhDueCard({ activeSubscription }: { activeSubscription?: bo
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
           {!activeSubscription
-            ? 'Mettez à jour votre cotisation  pour participer à d’autres événement similaires'
+            ? 'Mettez à jour votre cotisation pour participer à d’autres événements similaires'
             : 'Cet événement est réservé aux adhérents à jour de cotisation.'}
         </Text>
       </YStack>
