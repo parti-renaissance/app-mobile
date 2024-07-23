@@ -1,0 +1,4 @@
+{
+  "entry": ["app/**/*.{js,ts,tsx}", "themes.ts", "src/web-workers/**/*.{js,ts,tsx}", ".github/scripts/**/*.{js,ts,tsx,mjs}"],
+  "ignore": ["**/*.stories.tsx"]
+}
