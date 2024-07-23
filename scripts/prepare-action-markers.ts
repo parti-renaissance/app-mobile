@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { flow } from 'fp-ts/lib/function'
-import { ActionType } from '../src/data/restObjects/RestActions'
+import { ActionType } from '../src/services/actions/schema'
 
 type MarkerSuffix = 'passed' | 'cancelled'
 type MarkerState = ActionType | `${ActionType}Active`

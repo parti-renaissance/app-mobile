@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { ROUTES } from '@/config/routes'
-import { IdentifyUserOnErrorMonitorInteractor } from '@/core/interactor/IdentifyUserOnErrorMonitorInteractor'
 import { useSession } from '@/ctx/SessionProvider'
 import PushRepository from '@/data/PushRepository'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
@@ -31,7 +30,6 @@ export default function useInitPushNotification() {
   useEffect(() => {
     if (session) {
       Analytics.enable()
-      new IdentifyUserOnErrorMonitorInteractor().execute()
       SendDoorToDoorPollAnswersJobWorker.getInstance().then((worker) => {
         worker.start()
       })

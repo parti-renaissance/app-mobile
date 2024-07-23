@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { useLocalSearchParams } from 'expo-router'
 import RegionsRepository from '../../data/RegionsRepository'
-import { HomeNavigatorScreenProps } from '../../navigation/home/HomeNavigatorScreenProps'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
 import { Analytics } from '../../utils/Analytics'
 import i18n from '../../utils/i18n'
@@ -13,31 +12,21 @@ import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { RegionViewModel } from './RegionViewModel'
 import { RegionViewModelMapper } from './RegionViewModelMapper'
-import { useLocalSearchParams } from 'expo-router'
 
-type RegionScreenProps = HomeNavigatorScreenProps<'Region'>
-
-const RegionScreen: FC<RegionScreenProps> = ({ route }) => {
-  const { zipCode } = useLocalSearchParams<{zipCode : string}>()
-  const [statefulState, setStatefulState] = useState<
-    ViewState<RegionViewModel>
-  >(ViewState.Loading())
+const RegionScreen = () => {
+  const { zipCode } = useLocalSearchParams<{ zipCode: string }>()
+  const [statefulState, setStatefulState] = useState<ViewState<RegionViewModel>>(ViewState.Loading())
 
   const fetchData = () => {
     RegionsRepository.getInstance()
       .getRegion(zipCode)
       .then((result) => {
         if (result.campaign) {
-          const viewModel = RegionViewModelMapper.map(
-            result.name,
-            result.campaign,
-          )
+          const viewModel = RegionViewModelMapper.map(result.name, result.campaign)
           setStatefulState(ViewState.Content(viewModel))
         } else {
           // This is a fatal error, should not happen
-          setStatefulState(
-            ViewStateUtils.networkError(new Error('No campaign for region.')),
-          )
+          setStatefulState(ViewStateUtils.networkError(new Error('No campaign for region.')))
         }
       })
       .catch((error) => {

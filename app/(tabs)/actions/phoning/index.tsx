@@ -1,53 +1,36 @@
-import React, { FunctionComponent, useCallback, useState } from 'react'
-import {
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useState } from 'react'
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
 import { PhoningCampaign } from '@/core/entities/PhoningCampaign'
-import {
-  PhoningCharterNotAccepted,
-  PhoningCharterState,
-} from '@/core/entities/PhoningCharterState'
+import { PhoningCharterNotAccepted, PhoningCharterState } from '@/core/entities/PhoningCharterState'
 import PhoningCampaignRepository from '@/data/PhoningCampaignRepository'
-import { ActionsNavigatorScreenProps } from '@/navigation/actions/ActionsNavigatorScreenProps'
-import { Colors, Spacing, Typography } from '@/styles'
-import i18n from '@/utils/i18n'
-import { StatefulView } from '@/screens/shared/StatefulView'
-import { ViewState } from '@/screens/shared/ViewState'
-import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
+import { useCampaignStore, useCharterStore } from '@/data/store/phoning'
 import PhoningCallContactRow from '@/screens/phoning/callContact/CallContactRow'
 import PhoningCampaignRow from '@/screens/phoning/campaign/PhoningCampaignRow'
 import { PhoningRowViewModel } from '@/screens/phoning/PhoningRowViewModel'
 import { PhoningViewModel } from '@/screens/phoning/PhoningViewModel'
 import { PhoningViewModelMapper } from '@/screens/phoning/PhoningViewModelMapper'
 import PhoningTutorialRow from '@/screens/phoning/tutorial/PhoningTutorialRow'
+import { StatefulView } from '@/screens/shared/StatefulView'
+import { ViewState } from '@/screens/shared/ViewState'
+import { ViewStateUtils } from '@/screens/shared/ViewStateUtils'
+import { Colors, Spacing, Typography } from '@/styles'
+import i18n from '@/utils/i18n'
+import { useFocusEffect } from '@react-navigation/native'
 import { router } from 'expo-router'
-
-import { useCampaignStore, useCharterStore } from '@/data/store/phoning'
-
-type PhoningScreenProps = ActionsNavigatorScreenProps<'Phoning'>
 
 export interface PhoningResources {
   campaigns: PhoningCampaign[]
 }
 
-const PhoningScreen: FunctionComponent<PhoningScreenProps> = () => {
+const PhoningScreen = () => {
   const [isRefreshing, setRefreshing] = useState(false)
   const [currentResources, setResources] = useState<PhoningResources>({
     campaigns: [],
   })
   const { setCampaign } = useCampaignStore()
   const { setCharter } = useCharterStore()
-  const [charterState, setCharterState] = useState<
-    PhoningCharterState | undefined
-  >()
-  const [statefulState, setStatefulState] = useState<
-    ViewState<PhoningViewModel>
-  >(ViewState.Loading())
+  const [charterState, setCharterState] = useState<PhoningCharterState | undefined>()
+  const [statefulState, setStatefulState] = useState<ViewState<PhoningViewModel>>(ViewState.Loading())
 
   const fetchData = useCallback(() => {
     setRefreshing(true)
@@ -117,9 +100,7 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = () => {
             const campaign = findCampaignInCurrentResources(item.value.id)
             if (campaign?.permanent) {
               setCampaign(campaign)
-              router.push(
-                '/(tabs)/actions/phoning/session/loader-permanent-campaign',
-              )
+              router.push('/(tabs)/actions/phoning/session/loader-permanent-campaign')
             }
           }}
         />
@@ -129,17 +110,13 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = () => {
         <PhoningCampaignRow
           viewModel={item.value}
           onCallButtonPressed={() => {
-            const selectedCampaign = findCampaignInCurrentResources(
-              item.value.id,
-            )
+            const selectedCampaign = findCampaignInCurrentResources(item.value.id)
             if (selectedCampaign) {
               navigateToCampaign(selectedCampaign)
             }
           }}
           onRankButtonPressed={() => {
-            const selectedCampaign = findCampaignInCurrentResources(
-              item.value.id,
-            )
+            const selectedCampaign = findCampaignInCurrentResources(item.value.id)
             if (selectedCampaign) {
               setCampaign(selectedCampaign)
               router.push('/(tabs)/actions/phoning/campaign/scoreboard')
@@ -166,25 +143,17 @@ const PhoningScreen: FunctionComponent<PhoningScreenProps> = () => {
         keyExtractor={(item) => item.value.id}
         refreshing={isRefreshing}
         onRefresh={fetchData}
-        ListHeaderComponent={
-          <Text style={styles.title}>{phoningViewModel.title}</Text>
-        }
+        ListHeaderComponent={<Text style={styles.title}>{phoningViewModel.title}</Text>}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptySubtitle}>
-              {i18n.t('phoning.subtitle_no_campaigns')}
-            </Text>
+            <Text style={styles.emptySubtitle}>{i18n.t('phoning.subtitle_no_campaigns')}</Text>
           </View>
         }
         contentContainerStyle={styles.contentContainer}
       />
     )
   }
-  return (
-    <View style={styles.container}>
-      {<StatefulView contentComponent={PhoningContent} state={statefulState} />}
-    </View>
-  )
+  return <View style={styles.container}>{<StatefulView contentComponent={PhoningContent} state={statefulState} />}</View>
 }
 
 const styles = StyleSheet.create({

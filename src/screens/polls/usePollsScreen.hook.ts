@@ -1,14 +1,13 @@
 import { useCallback, useState } from 'react'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native'
+import { router } from 'expo-router'
 import { Poll } from '../../core/entities/Poll'
 import { ServerTimeoutError } from '../../core/errors'
 import { GetPollsInteractor } from '../../core/interactor/GetPollsInteractor'
-import { ActionsNavigatorScreenProps } from '../../navigation/actions/ActionsNavigatorScreenProps'
 import { ViewState } from '../shared/ViewState'
 import { ViewStateUtils } from '../shared/ViewStateUtils'
 import { PollsScreenViewModel } from './PollsScreenViewModel'
 import { PollsScreenViewModelMapper } from './PollsScreenViewModelMapper'
-import { router } from 'expo-router'
 
 export const usePollsScreen = (): {
   statefulState: ViewState<PollsScreenViewModel>
@@ -16,13 +15,9 @@ export const usePollsScreen = (): {
   onPollSelected: (pollId: string) => void
   onRefresh: () => void
 } => {
-  const [statefulState, setStatefulState] = useState<ViewState<Array<Poll>>>(
-    ViewState.Loading(),
-  )
+  const [statefulState, setStatefulState] = useState<ViewState<Array<Poll>>>(ViewState.Loading())
   const [isRefreshing, setRefreshing] = useState(true)
   const [initialFetchDone, setInitialFetchDone] = useState(false)
-  const navigation =
-    useNavigation<ActionsNavigatorScreenProps<'Polls'>['navigation']>()
 
   const fetchData = useCallback((cacheJustLoaded: boolean = false) => {
     setRefreshing(true)
