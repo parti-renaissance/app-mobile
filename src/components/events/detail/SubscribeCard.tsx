@@ -69,7 +69,7 @@ export function LockAdhCard({ activeSubscription }: { activeSubscription?: boole
       <YStack gap="$3" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
-          {!activeSubscription ? 'Adhérez pour participer à d’autres événement similaires' : 'Cet événement est réservé aux adhérents.'}
+          {!activeSubscription ? 'Adhérez pour participer à d’autres événements similaires' : 'Cet événement est réservé aux adhérents.'}
         </Text>
       </YStack>
       <AdhButton />
