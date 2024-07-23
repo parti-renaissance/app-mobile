@@ -39,7 +39,7 @@ export function LockAuthCard({ activeSubscription }: { activeSubscription?: bool
       <YStack gap="$3" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
-          {!activeSubscription ? 'Créer un compte pour participer à d’autres événement similaires' : ' Créer un compte pour participer à cet événement.'}
+          {!activeSubscription ? 'Créer un compte pour participer à d’autres événements similaires' : ' Créer un compte pour participer à cet événement.'}
         </Text>
       </YStack>
       <SignUpButton size="lg" width="100%" />
