@@ -1,6 +1,6 @@
 import { ImageRequireSource } from 'react-native'
 import Button from '@/components/Button'
-import VoxCard, { VoxCardDateProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
+import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
 
 type VoxCardBasePayload = {
@@ -13,7 +13,7 @@ type VoxCardBasePayload = {
 
 export type PartialEventVoxCardProps = {
   onShow?: () => void
-  payload: VoxCardBasePayload
+  payload: VoxCardBasePayload & VoxCardAuthorProps
 } & VoxCardFrameProps
 
 const PartialEventCard = ({ payload, onShow, ...props }: PartialEventVoxCardProps) => {
@@ -27,7 +27,8 @@ const PartialEventCard = ({ payload, onShow, ...props }: PartialEventVoxCardProp
           {image && <VoxCard.Image image={image} />}
         </VoxCard.Content>
         <VoxCard.Date {...payload.date} />
-        <XStack justifyContent={'flex-end'}>
+        {payload.author && <VoxCard.Author author={payload.author} />}
+        <XStack justifyContent={'flex-start'}>
           <Button variant="outlined" onPress={onShow}>
             <Button.Text>Voir l'événement</Button.Text>
           </Button>

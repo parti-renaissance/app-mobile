@@ -70,6 +70,7 @@ export const mapPartialProps = (
       title: item.name,
       image: item.image_url ?? undefined,
       isOnline: item.mode === 'online',
+      ...mapPropsAuthor(item),
       date: mapPropsDate(item),
     },
     onShow: () => cb.onShow(item.uuid),
