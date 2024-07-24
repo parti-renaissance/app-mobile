@@ -12,7 +12,11 @@ export const optimisticToggleSubscribe = async (subscribe: boolean, eventId: str
 
   const updateShortEvent = (oldShortEventData: RestEvent): RestEvent => {
     if (!oldShortEventData || isPartialEvent(oldShortEventData)) return oldShortEventData
-    return { ...oldShortEventData, user_registered_at: subscribe ? new Date().toISOString() : null }
+    return {
+      ...oldShortEventData,
+      user_registered_at: subscribe ? new Date().toISOString() : null,
+      participants_count: subscribe ? (oldShortEventData.participants_count ?? 0) + 1 : (oldShortEventData.participants_count ?? 1) - 1,
+    }
   }
   const optimisticParams = { id: eventId, updater: updateShortEvent, queryClient }
   toggleSubscribeOnfeed(subscribe, eventId, queryClient)

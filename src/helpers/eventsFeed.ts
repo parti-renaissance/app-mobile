@@ -49,6 +49,7 @@ export const mapFullProps = (
       tag: item.category?.name ?? '',
       image: item.image_url ?? undefined,
       isSubscribed: !!item.user_registered_at,
+      isCompleted: Boolean(item.capacity && item.participants_count >= item.capacity),
       isOnline: item.mode === 'online',
       ...mapPropsLocation(item),
       date: mapPropsDate(item),
@@ -69,6 +70,7 @@ export const mapPartialProps = (
       id: item.uuid,
       title: item.name,
       image: item.image_url ?? undefined,
+
       isOnline: item.mode === 'online',
       ...mapPropsAuthor(item),
       date: mapPropsDate(item),

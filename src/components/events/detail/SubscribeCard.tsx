@@ -114,7 +114,11 @@ export function SubscribePublicCard({ data }: Readonly<{ data: eventTypes.RestEv
 export function SubscribeCard({ data }: Readonly<{ data: eventTypes.RestEvent }>) {
   const { isAuth } = useSession()
   const media = useMedia()
-  const isEventActive = !(isPast(data.finish_at) || data.status === 'CANCELLED')
+  const isEventActive = !(
+    isPast(data.finish_at) ||
+    data.status === 'CANCELLED' ||
+    (eventTypes.isFullEvent(data) && data.capacity && data.participants_count >= data.capacity && !data.user_registered_at)
+  )
 
   if (isAuth) {
     if (eventTypes.isFullEvent(data)) {
