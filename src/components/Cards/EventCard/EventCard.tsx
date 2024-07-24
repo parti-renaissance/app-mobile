@@ -18,6 +18,7 @@ type VoxCardBasePayload = {
   image?: string | ImageRequireSource
   status?: RestEvent['status']
   isSubscribed?: boolean
+  isCompleted?: boolean
   isOnline: boolean
   location?: VoxCardLocationProps['location']
   date: VoxCardDateProps
@@ -75,10 +76,12 @@ export const SubscribeEventButton = ({
 }
 
 const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
-  const isPassed = isPast(payload.date.end)
-  const isCancelled = payload.status === 'CANCELLED'
-  const knowSubscription = payload.isSubscribed
-  const canSubscribe = [!isPassed, knowSubscription, !isCancelled].every(Boolean)
+  const canSubscribe = [
+    !isPast(payload.date.end),
+    payload.isSubscribed !== undefined,
+    payload.status !== 'CANCELLED',
+    !payload.isCompleted || (payload.isCompleted && payload.isSubscribed),
+  ].every(Boolean)
   return (
     <VoxCard {...props}>
       <VoxCard.Content>

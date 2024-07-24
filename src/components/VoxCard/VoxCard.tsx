@@ -78,7 +78,7 @@ export type VoxCardCapacity = { children: React.ReactNode }
 const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Users size="$2" color="$textPrimary" />
+      <Users size="$1" color="$textPrimary" />
       <Text fontWeight="$5" lineHeight="$2">
         {children}
       </Text>
@@ -112,7 +112,7 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
 }
 
 export type VoxCardAuthorProps = {
-  author: {
+  author?: {
     role: string | null
     name: string | null
     title: string | null
@@ -121,7 +121,7 @@ export type VoxCardAuthorProps = {
 }
 
 const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
-  if (!author.name) return null
+  if (!author || !author.name) return null
   return (
     <XStack gap="$2" alignItems="center">
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
