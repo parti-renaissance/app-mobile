@@ -180,12 +180,15 @@ function _RegisterButtonSheet(props: { id: string }) {
 
 export const RegisterButtonSheet = memo(_RegisterButtonSheet)
 
-export function EventStatus({ data: { finish_at, status } }: { data: eventTypes.RestEvent }) {
-  if (isPast(finish_at) && status === 'SCHEDULED') {
+export function EventStatus({ data }: Readonly<{ data: eventTypes.RestEvent }>) {
+  if (isPast(data.finish_at) && data.status === 'SCHEDULED') {
     return <InternAlert type="info">Événement passé.</InternAlert>
   }
-  if (status === 'CANCELLED') {
+  if (data.status === 'CANCELLED') {
     return <InternAlert type="danger">Événement annulé.</InternAlert>
+  }
+  if (eventTypes.isFullEvent(data) && data.capacity && data.participants_count >= data.capacity) {
+    return <InternAlert type="info">Événement complet.</InternAlert>
   }
   return null
 }
