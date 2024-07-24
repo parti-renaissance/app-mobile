@@ -1,7 +1,8 @@
-import { ComponentProps } from 'react'
+import React, { ComponentProps, useMemo } from 'react'
 import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
+import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
@@ -76,16 +77,39 @@ export const SubscribeEventButton = ({
 }
 
 const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
+  const isCancelled = payload.status === 'CANCELLED'
+  const isPassed = isPast(payload.date.end ?? payload.date.start)
   const canSubscribe = [
     !isPast(payload.date.end),
     payload.isSubscribed !== undefined,
-    payload.status !== 'CANCELLED',
+    !isCancelled,
     !payload.isCompleted || (payload.isCompleted && payload.isSubscribed),
   ].every(Boolean)
+
+  const status = useMemo(() => {
+    if (isCancelled) {
+      return (
+        <InternAlert borderLess type="danger">
+          Événement annulée.
+        </InternAlert>
+      )
+    } else if (isPassed) {
+      return <InternAlert borderLess>Événement passée.</InternAlert>
+    } else if (payload.isCompleted) {
+      return (
+        <InternAlert borderLess type="info">
+          Événement complet.
+        </InternAlert>
+      )
+    }
+    return null
+  }, [isCancelled, isPassed, payload.isCompleted])
+
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
         <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
+        {status}
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />

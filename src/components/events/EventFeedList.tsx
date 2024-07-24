@@ -15,6 +15,7 @@ import { useSuspensePaginatedEvents } from '@/services/events/hook'
 import { isFullEvent, isPartialEvent, RestItemEvent, RestPublicItemEvent } from '@/services/events/schema'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown, Filter } from '@tamagui/lucide-icons'
+import { isPast } from 'date-fns'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, XStack, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
@@ -26,7 +27,7 @@ const splitEvents = (events: RestItemEvent[] | RestPublicItemEvent[]) => {
   const incomming: typeof events = []
   const past: typeof events = []
   events.forEach((event) => {
-    if (new Date(event.begin_at) < new Date()) {
+    if (isPast(event.finish_at)) {
       past.push(event)
     } else {
       incomming.push(event)
