@@ -100,5 +100,7 @@ jobs:
           eas-version: latest
           packager: yarn
           token: ${{ secrets.EXPO_TOKEN }}
+      - name: Insert envs into eas.json
+        run: node .github/scripts/prepare-eas-envs.js
       - name: Build android & iOS
         run: node .github/scripts/build.mjs
