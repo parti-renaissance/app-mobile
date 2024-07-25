@@ -1,28 +1,9 @@
-import React, { ComponentProps, ComponentType, useCallback, useDeferredValue, useEffect, useMemo } from 'react'
-import { Dimensions, Platform } from 'react-native'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withRepeat, withSpring } from 'react-native-reanimated'
+import React, { ComponentProps } from 'react'
+import { Platform } from 'react-native'
+import { useDerivedValue, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import Chip from '@/components/Chip/Chip'
-import { LinearGradient } from '@tamagui/linear-gradient'
-import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
-import { use } from 'i18next'
-// import { LinearGradient } from 'expo-linear-gradient';
-import {
-  Circle,
-  getFontSize,
-  Image,
-  Separator,
-  Square,
-  Stack,
-  StackProps,
-  styled,
-  Card as TCard,
-  Text,
-  useMedia,
-  withStaticProperties,
-  XStack,
-  YStack,
-  ZStack,
-} from 'tamagui'
+import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia'
+import { Circle, Separator, Square, Stack, StackProps, styled, Card as TCard, Text, withStaticProperties, XStack, YStack } from 'tamagui'
 
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
@@ -33,35 +14,37 @@ const CardFrame = styled(YStack, {
 
 export type SkeCardFrameProps = ComponentProps<typeof TCard>
 const SkeCardFrame = ({ children, ...props }: SkeCardFrameProps) => {
-  const [x, setX] = React.useState(100)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setX((prev) => (prev > 0 ? -prev : Math.abs(prev)))
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+  const [{ height, width }, setX] = React.useState<{ height: number; width: number }>({ height: 0, width: 0 })
+
+  const sharedWidth = useSharedValue(0)
+  const vectorStart = useDerivedValue(() => vec(sharedWidth.value, 0))
+  const vectorEnd = useDerivedValue(() => vec(sharedWidth.value + width, 0))
+
   return (
     <CardFrame
       {...props}
       overflow="hidden"
       position="relative"
       onLayout={(e) => {
-        const { height } = e.nativeEvent.layout
-        setX(height)
+        setX(e.nativeEvent.layout)
+        sharedWidth.value = -e.nativeEvent.layout.width
+        sharedWidth.value = withRepeat(withTiming(e.nativeEvent.layout.width, { duration: 1000 }), -1, true)
       }}
     >
+      <YStack gap="$3.5">
+        {height > 0 && width > 0 && (
+          <Canvas style={{ flex: 1, position: 'absolute', width, height }}>
+            <Rect x={0} y={0} width={width} height={height} color="lightblue">
+              <LinearGradient
+                start={vectorStart}
+                end={vectorEnd}
+                colors={['rgba(255, 255, 255, 0)', 'rgba(5,143,255,0.1)', 'rgba(38,146,41,0.1)', 'rgba(255, 255, 255, 0)']}
+              />
+            </Rect>
+          </Canvas>
+        )}
+      </YStack>
       <YStack gap="$3.5">{children}</YStack>
-      <LinearGradient
-        animation="slow"
-        animateOnly={['transform']}
-        colors={['rgba(255, 255, 255, 0)', 'rgba(0,0,0, 0.05)', 'rgba(255, 255, 255, 0)']}
-        position="absolute"
-        left={0}
-        bottom={0}
-        transform={[{ translateY: x }]}
-        width="100%"
-        height="100%"
-      />
     </CardFrame>
   )
 }
@@ -94,17 +77,6 @@ const SkeCardDate = () => {
   )
 }
 
-export type SkeCardCapacity = { children: React.ReactNode }
-const SkeCardCapacity = ({ children }: SkeCardCapacity) => {
-  return (
-    <XStack gap="$2" alignItems="center">
-      <Users size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        {children}
-      </Text>
-    </XStack>
-  )
-}
 
 const SkeActions = () => {
   return (
@@ -115,39 +87,6 @@ const SkeActions = () => {
   )
 }
 
-export type SkeCardLocationProps = {
-  location?: {
-    city: string
-    postalCode: string
-    street: string
-  }
-}
-
-const SkeCardLocation = ({ location }: SkeCardLocationProps) => {
-  return location ? (
-    <XStack gap="$2" alignItems="center">
-      <MapPin size="$1" />
-      <Text lineBreakStrategyIOS="push-out">
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-          {location.city} {location.postalCode}
-        </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$6" color="$textSecondary" lineHeight="$2" fontSize="$1">
-          {' '}
-          . {location.street}
-        </Text>
-      </Text>
-    </XStack>
-  ) : null
-}
-
-export type SkeCardAuthorProps = {
-  author: {
-    role?: string
-    name?: string
-    title?: string
-    pictureLink?: string
-  }
-}
 
 const SkeCardAuthor = () => {
   return (
@@ -157,43 +96,6 @@ const SkeCardAuthor = () => {
     </XStack>
   )
 }
-
-export type SkeCardAttendeesProps = {
-  attendees?: {
-    pictures?: [string, string, string]
-    count: number
-  }
-}
-
-// const SkeCardAttendees = ({ attendees }: SkeCardAttendeesProps) => {
-//   if (!attendees)
-//     return (
-//       <Text fontFamily="$PublicSans" fontSize="$1" color="$textPrimary" lineHeight="$1">
-//         0 participant, soyez le premier !
-//       </Text>
-//     )
-//   const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
-//   const getPictureUri = (index: number) => attendees.pictures[reverseIndex(index)]
-//   return (
-//     <XStack gap="$2" alignItems="center">
-//       {attendees.pictures && attendees.pictures.length > 3 ? (
-//         <ZStack width={68} height="$2">
-//           {attendees.pictures.map((_, index) => (
-//             <XStack key={encodeURI(getPictureUri(index))} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
-//               <Image source={{ uri: getPictureUri(index), width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
-//             </XStack>
-//           ))}
-//         </ZStack>
-//       ) : (
-//         <UserCheck size="$1" />
-//       )}
-
-//       <Text fontFamily="$PublicSans" color="$textPrimary" fontSize="$1" lineHeight="$1" fontWeight="$5">
-//         {attendees.count} {attendees.count > 1 ? 'Inscrits' : 'Inscrit'}
-//       </Text>
-//     </XStack>
-//   )
-// }
 
 const SkeCardImage = () => {
   return <Stack height="$20" flex={1} bg="$gray2" borderRadius="$1" />
@@ -213,17 +115,6 @@ const SkeCardDescription = ({ full }: SkeCardDescritionProps) => {
   )
 }
 
-const SkeCardVisio = () => {
-  return (
-    <XStack gap="$2" alignItems="center">
-      <Video size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        Visioconférence
-      </Text>
-    </XStack>
-  )
-}
-
 const SkeCardSection = ({ children, ...props }: StackProps) => {
   return (
     <>
@@ -236,7 +127,7 @@ const SkeCardSection = ({ children, ...props }: StackProps) => {
   )
 }
 
-const SkeCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
+const SkeCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} {...props} />
 
 export const SkeCard = withStaticProperties(SkeCardFrame, {
   Content: SkeCardContent,
@@ -245,16 +136,10 @@ export const SkeCard = withStaticProperties(SkeCardFrame, {
   Title: SkeCardTitle,
   Date: SkeCardDate,
   Actions: SkeActions,
-  //   Location: SkeCardLocation,
   Image: SkeCardImage,
   Author: SkeCardAuthor,
-  //   Attendees: SkeCardAttendees,
-  Description: SkeCardDescription,
   Section: SkeCardSection,
-  //   Visio: SkeCardVisio,
-  //   Capacity: SkeCardCapacity,
-  //   Separator: SkeCardSeparator,
-  //   Section: SkeCardSection,
+  Description: SkeCardDescription,
 })
 
 export default SkeCard
