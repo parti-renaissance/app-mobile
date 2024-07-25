@@ -43,7 +43,7 @@ const EventsScreen: React.FC = () => {
             grouped={media.lg}
             $gtMd={{ paddingHorizontal: '$7', paddingTop: '$6', paddingBottom: 0 }}
           >
-            <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
+            <Tabs.Tab id="events">Tous les événements (update)</Tabs.Tab>
             <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
           </Tabs>
 
