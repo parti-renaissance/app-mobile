@@ -1,28 +1,9 @@
-import React, { ComponentProps, ComponentType, useCallback, useDeferredValue, useEffect, useMemo } from 'react'
-import { Dimensions, Platform } from 'react-native'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withRepeat, withSpring } from 'react-native-reanimated'
+import React, { ComponentProps, useEffect } from 'react'
+import { Platform } from 'react-native'
 import Chip from '@/components/Chip/Chip'
 import { LinearGradient } from '@tamagui/linear-gradient'
-import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
-import { use } from 'i18next'
-// import { LinearGradient } from 'expo-linear-gradient';
-import {
-  Circle,
-  getFontSize,
-  Image,
-  Separator,
-  Square,
-  Stack,
-  StackProps,
-  styled,
-  Card as TCard,
-  Text,
-  useMedia,
-  withStaticProperties,
-  XStack,
-  YStack,
-  ZStack,
-} from 'tamagui'
+import { Users } from '@tamagui/lucide-icons'
+import { Circle, Separator, Square, Stack, StackProps, styled, Card as TCard, Text, withStaticProperties, XStack, YStack } from 'tamagui'
 
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
@@ -123,23 +104,6 @@ export type SkeCardLocationProps = {
   }
 }
 
-const SkeCardLocation = ({ location }: SkeCardLocationProps) => {
-  return location ? (
-    <XStack gap="$2" alignItems="center">
-      <MapPin size="$1" />
-      <Text lineBreakStrategyIOS="push-out">
-        <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-          {location.city} {location.postalCode}
-        </Text>
-        <Text fontFamily="$PublicSans" fontWeight="$6" color="$textSecondary" lineHeight="$2" fontSize="$1">
-          {' '}
-          . {location.street}
-        </Text>
-      </Text>
-    </XStack>
-  ) : null
-}
-
 export type SkeCardAuthorProps = {
   author: {
     role?: string
@@ -157,43 +121,6 @@ const SkeCardAuthor = () => {
     </XStack>
   )
 }
-
-export type SkeCardAttendeesProps = {
-  attendees?: {
-    pictures?: [string, string, string]
-    count: number
-  }
-}
-
-// const SkeCardAttendees = ({ attendees }: SkeCardAttendeesProps) => {
-//   if (!attendees)
-//     return (
-//       <Text fontFamily="$PublicSans" fontSize="$1" color="$textPrimary" lineHeight="$1">
-//         0 participant, soyez le premier !
-//       </Text>
-//     )
-//   const reverseIndex = (index: number) => attendees.pictures.length - 1 - index
-//   const getPictureUri = (index: number) => attendees.pictures[reverseIndex(index)]
-//   return (
-//     <XStack gap="$2" alignItems="center">
-//       {attendees.pictures && attendees.pictures.length > 3 ? (
-//         <ZStack width={68} height="$2">
-//           {attendees.pictures.map((_, index) => (
-//             <XStack key={encodeURI(getPictureUri(index))} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
-//               <Image source={{ uri: getPictureUri(index), width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
-//             </XStack>
-//           ))}
-//         </ZStack>
-//       ) : (
-//         <UserCheck size="$1" />
-//       )}
-
-//       <Text fontFamily="$PublicSans" color="$textPrimary" fontSize="$1" lineHeight="$1" fontWeight="$5">
-//         {attendees.count} {attendees.count > 1 ? 'Inscrits' : 'Inscrit'}
-//       </Text>
-//     </XStack>
-//   )
-// }
 
 const SkeCardImage = () => {
   return <Stack height="$20" flex={1} bg="$gray2" borderRadius="$1" />
@@ -213,17 +140,6 @@ const SkeCardDescription = ({ full }: SkeCardDescritionProps) => {
   )
 }
 
-const SkeCardVisio = () => {
-  return (
-    <XStack gap="$2" alignItems="center">
-      <Video size="$1" />
-      <Text fontFamily="$PublicSans" fontWeight="$5" lineHeight="$2" fontSize="$1">
-        Visioconférence
-      </Text>
-    </XStack>
-  )
-}
-
 const SkeCardSection = ({ children, ...props }: StackProps) => {
   return (
     <>
@@ -236,7 +152,7 @@ const SkeCardSection = ({ children, ...props }: StackProps) => {
   )
 }
 
-const SkeCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
+const SkeCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} {...props} />
 
 export const SkeCard = withStaticProperties(SkeCardFrame, {
   Content: SkeCardContent,
@@ -245,16 +161,10 @@ export const SkeCard = withStaticProperties(SkeCardFrame, {
   Title: SkeCardTitle,
   Date: SkeCardDate,
   Actions: SkeActions,
-  //   Location: SkeCardLocation,
   Image: SkeCardImage,
   Author: SkeCardAuthor,
-  //   Attendees: SkeCardAttendees,
-  Description: SkeCardDescription,
   Section: SkeCardSection,
-  //   Visio: SkeCardVisio,
-  //   Capacity: SkeCardCapacity,
-  //   Separator: SkeCardSeparator,
-  //   Section: SkeCardSection,
+  Description: SkeCardDescription,
 })
 
 export default SkeCard

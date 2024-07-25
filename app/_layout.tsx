@@ -78,7 +78,7 @@ function Root() {
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
   const insets = useSafeAreaInsets()
-  const { isBuildUpdateAvailable, checkForUpdate } = useAppUpdate()
+  const { isBuildUpdateAvailable, checkForUpdate, isUpdateAvailable } = useAppUpdate()
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
@@ -103,7 +103,9 @@ function Root() {
               <SessionProvider>
                 <VoxToast />
                 <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
-                <WaitingRoomHoc isLoading={!isFontsLoaded}>{isBuildUpdateAvailable && !isWeb ? <UpdateScreen /> : <Slot />}</WaitingRoomHoc>
+                <WaitingRoomHoc isLoading={!isFontsLoaded}>
+                  {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
+                </WaitingRoomHoc>
               </SessionProvider>
             </PortalProvider>
           </ThemeProvider>
