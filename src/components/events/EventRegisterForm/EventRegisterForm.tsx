@@ -22,7 +22,7 @@ type PublicSubscribtionFormData = RestPostPublicEventSubsciptionRequest
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/])
 
 function _VoxInput({ onChange, ...props }: ComponentProps<typeof Input> & { value: string; onChange: (x: string) => void }) {
-  return <Input {...props} onChangeText={onChange} />
+  return <Input {...props} color="gray" onChangeText={onChange} />
 }
 
 const VoxInput = React.memo(_VoxInput)
