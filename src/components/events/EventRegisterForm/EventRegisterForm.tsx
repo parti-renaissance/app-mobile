@@ -108,15 +108,23 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             M’inscrire à cet évènement
           </Text>
 
-          <FormikController name="first_name">{({ inputProps }) => <VoxInput placeholder="Prénom" {...inputProps} />}</FormikController>
+          <FormikController<PublicSubscribtionFormData, 'first_name'> name="first_name">
+            {({ inputProps }) => <VoxInput placeholder="Prénom" {...inputProps} />}
+          </FormikController>
 
-          <FormikController name="last_name">{({ inputProps }) => <VoxInput placeholder="Nom" {...inputProps} />}</FormikController>
+          <FormikController<PublicSubscribtionFormData, 'last_name'> name="last_name">
+            {({ inputProps }) => <VoxInput placeholder="Nom" {...inputProps} />}
+          </FormikController>
 
-          <FormikController name="email_address">{({ inputProps }) => <VoxInput placeholder="Email" {...inputProps} />}</FormikController>
+          <FormikController<PublicSubscribtionFormData, 'email_address'> name="email_address">
+            {({ inputProps }) => <VoxInput placeholder="Email" {...inputProps} />}
+          </FormikController>
 
-          <FormikController name="postal_code">{({ inputProps }) => <VoxInput placeholder="Code postal" {...inputProps} />}</FormikController>
+          <FormikController<PublicSubscribtionFormData, 'postal_code'> name="postal_code">
+            {({ inputProps }) => <VoxInput placeholder="Code postal" {...inputProps} />}
+          </FormikController>
           <YStack gap="$3">
-            <FormikController name="join_newsletter">
+            <FormikController<PublicSubscribtionFormData, 'join_newsletter'> name="join_newsletter">
               {({ inputProps }) => (
                 <VoxCheckbox
                   id={inputProps.id}
@@ -133,7 +141,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
               )}
             </FormikController>
 
-            <FormikController name="cgu_accepted">
+            <FormikController<PublicSubscribtionFormData, 'cgu_accepted'> name="cgu_accepted">
               {({ inputProps }) => (
                 <VoxCheckbox
                   id={inputProps.id}
