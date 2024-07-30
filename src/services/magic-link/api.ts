@@ -1,3 +1,4 @@
+import { createApi } from '@/utils/constructApi'
 import type { RestGetMagicLinkRequest, RestGetMagicLinkResponse } from './schema'
 
 export const getMagicLink = async ({ platform }: RestGetMagicLinkRequest): Promise<RestGetMagicLinkResponse> => {

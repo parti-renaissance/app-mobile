@@ -7,6 +7,7 @@ import { ErrorMonitor } from './ErrorMonitor'
 interface APICallPayload<Request, Response> {
   method: Method
   path: string
+  useParams?: boolean
   requestSchema: z.ZodType<Request>
   responseSchema: z.ZodType<Response>
   errorThrowers?: ErrorThrower[]
@@ -21,7 +22,7 @@ export interface Instances {
 
 export const createApi =
   ({ instance, instanceWithoutInterceptors }: Instances) =>
-  <Request, Response>({ type = 'private', method, path, requestSchema, responseSchema, errorThrowers }: APICallPayload<Request, Response>) => {
+  <Request, Response>({ type = 'private', method, path, requestSchema, responseSchema, useParams, errorThrowers }: APICallPayload<Request, Response>) => {
     return async (requestData: Request) => {
       try {
         // Validate request data
@@ -32,7 +33,7 @@ export const createApi =
         let params: Request | null = null
 
         if (requestData) {
-          if (['get', 'delete'].includes(method.toLowerCase())) {
+          if (['get', 'delete'].includes(method.toLowerCase()) || useParams) {
             params = requestData
           } else {
             data = requestData
@@ -57,7 +58,7 @@ export const createApi =
             api: { path, method, data, params },
             zod: result.error.message,
           })
-          return response!.data as Response
+          return response.data as Response
         }
         return result.data
       } catch (error) {

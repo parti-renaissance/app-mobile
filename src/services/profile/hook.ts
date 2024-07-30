@@ -3,11 +3,11 @@ import { RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
-const key = 'profil'
+export const PROFIL_QUERY_KEY = 'profil'
 
 export const useGetProfil = ({ enabled }: { enabled?: boolean } = {}) => {
   return useQuery({
-    queryKey: [key],
+    queryKey: [PROFIL_QUERY_KEY],
     queryFn: () => api.getProfile(),
     enabled,
   })
@@ -35,16 +35,16 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
   return useMutation({
     mutationFn: (data: RestUpdateProfileRequest) => api.updateProfile(userUuid, data),
     onMutate: (profil) => {
-      queryClient.setQueryData([key], profil)
+      queryClient.setQueryData([PROFIL_QUERY_KEY], profil)
     },
     onSuccess: () => {
       toast.show('Succès', { message: 'Profil mis à jour', type: 'success' })
       queryClient.invalidateQueries({
-        queryKey: [key],
+        queryKey: [PROFIL_QUERY_KEY],
       })
     },
     onError: (error, profil) => {
-      queryClient.setQueryData([key], profil)
+      queryClient.setQueryData([PROFIL_QUERY_KEY], profil)
       toast.show('Erreur', { message: 'Impossible de mettre à jour le profil', type: 'error' })
     },
   })
