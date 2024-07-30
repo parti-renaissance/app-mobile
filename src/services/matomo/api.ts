@@ -11,7 +11,7 @@ export const instance = axios.create(baseConfig)
 
 export const api = createApi({ instance, instanceWithoutInterceptors: instance })
 
-export const matoApi =
+export const matomoApi =
   <Request extends z.ZodRawShape>(requestSchema: z.ZodObject<Request>) =>
   (payload: z.infer<z.ZodObject<Request>> & { userId?: string }) =>
     api({
@@ -23,7 +23,7 @@ export const matoApi =
     })({ ...payload, idsite: '6', rec: 1, apiv: 1, send_image: 0 })
 
 export const trackEvent = (data: { category: string; action: string; name?: string; value?: string; campaign?: string; userData?: Record<string, string> }) =>
-  matoApi(MatomoEventRequestSchema)({
+  matomoApi(MatomoEventRequestSchema)({
     e_c: data.category,
     e_a: data.action,
     e_n: data.name,
@@ -33,7 +33,7 @@ export const trackEvent = (data: { category: string; action: string; name?: stri
   })
 
 export const trackAction = (data: { name: string; url?: string; userData?: Record<string, string | undefined> }) =>
-  matoApi(z.object({ action_name: z.string(), url: z.string().url().optional() }))({ action_name: data.name, url: data.url, ...data.userData })
+  matomoApi(z.object({ action_name: z.string(), url: z.string().url().optional() }))({ action_name: data.name, url: data.url, ...data.userData })
 
 export const trackScreenView = (data: { pathname: string; userData?: Record<string, string> }) => {
   const screenName = data.pathname.split('/')[1]?.trim() ?? ''
