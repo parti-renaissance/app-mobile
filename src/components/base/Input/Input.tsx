@@ -119,7 +119,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   } = _props
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useForwardRef(ref)
-  const isErrored = !!error
+  const isFailed = !!error
   const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     setIsFocused(true)
     onFocus?.(e)
@@ -151,7 +151,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         disabled={disabled}
         color={color ?? 'white'}
         size={size ?? 'md'}
-        error={isErrored}
+        error={isFailed}
         loading={loading}
         forceStyle={isFocused ? 'focus' : undefined}
         onPress={handlePress}
