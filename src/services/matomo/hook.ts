@@ -1,16 +1,8 @@
 import clientEnv from '@/config/clientEnv'
-import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/matomo/api'
 
 export const useMatomo = () => {
-  const { user } = useSession()
-  const userData = user.data
-    ? {
-        uid: user.data.email_address,
-      }
-    : undefined
-
-  const userInfo = { userData } as const
+  const userInfo = {}
   return clientEnv.ENVIRONMENT === 'production'
     ? {
         trackEvent: (data: Parameters<typeof api.trackEvent>[0]) => {
