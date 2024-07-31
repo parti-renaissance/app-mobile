@@ -1,3 +1,4 @@
+import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumber'
 import { z } from 'zod'
 
 // -----------------  RestProfil  -----------------
@@ -47,7 +48,7 @@ export const RestDetailedProfileResponseSchema = z.object({
   gender: z.string(),
   custom_gender: z.string(),
   nationality: z.string(),
-  birthdate: z.string(),
+  birthdate: z.coerce.date(),
   post_address: z
     .object({
       address: z.string().nullable(),
@@ -59,11 +60,11 @@ export const RestDetailedProfileResponseSchema = z.object({
     })
     .nullable(),
   email_address: z.string().email(),
-  facebook_page_url: z.string().nullable(),
-  twitter_page_url: z.string().nullable(),
-  linkedin_page_url: z.string().nullable(),
-  telegram_page_url: z.string().nullable(),
-  instagram_page_url: z.string().nullable(),
+  facebook_page_url: z.string().nullable().optional(),
+  twitter_page_url: z.string().nullable().optional(),
+  linkedin_page_url: z.string().nullable().optional(),
+  telegram_page_url: z.string().nullable().optional(),
+  instagram_page_url: z.string().nullable().optional(),
   adherent: z.boolean(),
   phone: z.object({
     country: z.string(),
@@ -115,19 +116,19 @@ export const RestUpdateProfileRequestSchema = z
     gender: z.string(),
     custom_gender: z.string(),
     nationality: z.string(),
-    birthdate: z.string(),
-    address: z.object({
-      address: z.string(),
-      postal_code: z.string(),
-      city_name: z.string(),
-      country: z.string(),
+    birthdate: z.coerce.date(),
+    post_address: z.object({
+      address: z.string().nullable().optional(),
+      postal_code: z.string().nullable().optional(),
+      city_name: z.string().nullable().optional(),
+      country: z.string().nullable().optional(),
     }),
     email_address: z.string().email(),
-    facebook_page_url: z.string(),
-    twitter_page_url: z.string(),
-    linkedin_page_url: z.string(),
-    instagram_page_url: z.string(),
-    telegram_page_url: z.string(),
+    facebook_page_url: z.string().url().nullable().optional(),
+    twitter_page_url: z.string().url().nullable().optional(),
+    linkedin_page_url: z.string().url().nullable().optional(),
+    instagram_page_url: z.string().url().nullable().optional(),
+    telegram_page_url: z.string().url().nullable().optional(),
   })
   .partial()
 

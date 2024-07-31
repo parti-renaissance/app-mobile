@@ -16,16 +16,15 @@ export type InputProps = {
   iconLeft?: React.ReactNode
   iconRight?: React.ReactNode
   onChange?: (text: string) => void
+  onCodeChange?: (text: string) => void
   onIconRightPress?: () => void
-  type?: 'text' | 'password' | 'email' | 'number' | 'date' | 'time'
-  fake?: boolean
 } & Omit<TextInputProps, 'placeholder' | 'onChange'>
 
 const InputFrame = styled(XStack, {
   name: 'Input',
   gap: '$2.5',
   width: '100%',
-  minWidth: 100,
+  minWidth: 150,
   minHeight: '$3.5',
   alignItems: 'center',
   borderRadius: '$10',
@@ -108,8 +107,6 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     loading,
     iconLeft,
     iconRight,
-    type,
-    fake,
     onFocus,
     onBlur,
     onChangeText,
@@ -134,17 +131,9 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     onChange?.(text)
   }
 
-  const handlePress = (e) => {
-    inputProps.onPress?.(e)
+  const handlePress = () => {
     inputRef.current?.focus()
   }
-
-  useEffect(() => {
-    if (inputRef.current && type && isWeb) {
-      // @ts-expect-error wrong type on input
-      inputRef.current.type = type
-    }
-  }, [type])
 
   return (
     <YStack gap="$1" flex={1}>
@@ -190,30 +179,25 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
                 </YStack>
               ))}
           </AnimatePresence>
-          {fake ? (
-            <Text color={gray.gray8} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
-              {inputProps.value}
-            </Text>
-          ) : (
-            <TextInput
-              style={{
-                color: gray.gray8,
-                padding: 0,
-                fontSize: 14,
-                width: '100%',
-                height: '100%',
-              }}
-              editable={!disabled}
-              ref={inputRef}
-              value={inputProps.value}
-              onChangeText={handleValueChange}
-              placeholderTextColor={gray.gray5}
-              placeholder={placeholder}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              {...inputProps}
-            />
-          )}
+
+          <TextInput
+            style={{
+              color: gray.gray8,
+              padding: 0,
+              fontSize: 14,
+              width: '100%',
+              height: '100%',
+            }}
+            editable={!disabled}
+            ref={inputRef}
+            value={inputProps.value}
+            onChangeText={handleValueChange}
+            placeholderTextColor={gray.gray5}
+            placeholder={placeholder}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            {...inputProps}
+          />
         </YStack>
         {!loading && iconRight && (
           <YStack height="100%" justifyContent="center" onPress={onIconRightPress}>

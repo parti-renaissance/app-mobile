@@ -4,7 +4,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import * as metatags from '@/config/metatags'
-import EditInformations from '@/screens/editPersonalInformation/PersonalInformations'
+import EditInformations from '@/screens/profil/account/page'
 import Head from 'expo-router/head'
 import { YStack } from 'tamagui'
 

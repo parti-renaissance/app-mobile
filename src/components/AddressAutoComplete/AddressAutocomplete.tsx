@@ -22,6 +22,7 @@ export interface AddressAutocompleteProps {
   minimal?: boolean
   maxWidth?: string | number
   forceSelect?: boolean
+  placeholder?: string
   onReset?: () => void
 }
 
@@ -67,8 +68,7 @@ function AddressAutocomplete({
     <YStack>
       <Select
         placeholder={'Adresse'}
-        minimal={minimal}
-        label="Adresse"
+        // label="Adresse"
         value={value}
         maxWidth={maxWidth}
         loading={isFetching}

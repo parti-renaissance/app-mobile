@@ -4,7 +4,7 @@ import { Check, ChevronDown, Search, X } from '@tamagui/lucide-icons'
 import _ from 'lodash'
 import { Adapt, isWeb, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
-import Input from '../Input/Input'
+import Input, { InputProps } from '../Input/Input'
 import Text from '../Text'
 
 type SelectProps<A extends string> = {
@@ -16,7 +16,6 @@ type SelectProps<A extends string> = {
   options: { value: A; label: string }[]
   queryHandler?: (query: string) => void
   label?: string
-  minimal?: boolean
   onBlur?: () => void
   onPress?: () => void
   search?: boolean
@@ -25,6 +24,7 @@ type SelectProps<A extends string> = {
   defaultRightIcon?: React.ReactNode
   maxWidth?: string | number
   background?: string
+  color?: InputProps['color']
 }
 
 type TriggerProps<A extends string> = {
@@ -155,7 +155,7 @@ const Select = <A extends string>({
   loading,
   error,
   labelOnlySheet,
-  minimal,
+  color,
   onPress,
   defaultRightIcon,
   onBlur,
@@ -251,10 +251,9 @@ const Select = <A extends string>({
           error={error}
           fake={isFake}
           onBlur={onBlur}
-          minimal={minimal}
-          maxWidth={maxWidth}
+          color={color}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
-          iconRightPress={
+          onIconRightPress={
             isSearching && !isFake
               ? () => {
                   setQuery('')
@@ -262,7 +261,6 @@ const Select = <A extends string>({
                 }
               : undefined
           }
-          backgroundColor={'$white1'}
         />
       </Popover.Trigger>
       <Adapt when="md">
@@ -294,8 +292,9 @@ const Select = <A extends string>({
                     value={query}
                     onChangeText={handleQuery}
                     selectTextOnFocus
+                    color="gray"
                     iconRight={inputIcon(<Search />)}
-                    iconRightPress={isSearching ? () => setQuery('') : undefined}
+                    onIconRightPress={isSearching ? () => setQuery('') : undefined}
                     loading={loading}
                   />
                 </YStack>

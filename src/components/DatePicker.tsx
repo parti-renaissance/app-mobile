@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from 'react'
 import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import { default as TextField } from '@/components/base/Input/Input'
+import { InputProps, default as TextField } from '@/components/base/Input/Input'
 import { getFormattedDate, getHumanFormattedTime, getIntlDate } from '@/utils/date'
 import { format, parseISO } from 'date-fns'
 import { Input, isWeb, View } from 'tamagui'
@@ -11,14 +11,15 @@ interface DatePickerFieldProps {
   onBlur?: (fieldOrEvent?: React.FocusEvent) => void
   value?: Date
   error?: string
-  errorMessage?: string
   label?: string
+  placeholder?: string
   type?: 'date' | 'time'
+  color: InputProps['color']
 }
 
 const getDateInputValue = (d: Date, type: 'date' | 'time') => (isWeb ? getIntlDate(d) : format(d, type === 'date' ? 'dd-MM-yyyy' : 'HH:mm'))
 
-const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, type = 'date', onBlur }, ref) => {
+const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, color, type = 'date', onBlur }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
   const readableDate = value && typeof value === 'object' ? getDateInputValue(value, type) : ''
@@ -87,6 +88,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         editable={isWeb}
         onChangeText={handleChange}
         onPress={onShow}
+        color={color}
         error={error}
         type={type}
       />
