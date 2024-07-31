@@ -2,17 +2,13 @@ import { useEffect } from 'react'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import PushRepository from '@/data/PushRepository'
+import { useMatomo } from '@/services/matomo/hook'
 import { Analytics, AnalyticsScreens } from '@/utils/Analytics'
 import { PushNotification } from '@/utils/PushNotification'
 import { SendDoorToDoorPollAnswersJobWorker } from '@/workers/SendDoorToDoorPollAnswsersJobWorker'
 import { usePathname } from 'expo-router'
 
 PushNotification.setUp()
-
-const getScreenname = (route: string): AnalyticsScreens => {
-  const tabRoute = ROUTES.find((tabRoute) => tabRoute.name === route)
-  return tabRoute?.screenName as AnalyticsScreens
-}
 
 const subscribeNotification = async () => {
   const pushRepository = PushRepository.getInstance()
@@ -23,9 +19,11 @@ const subscribeNotification = async () => {
 export default function useInitPushNotification() {
   const { session } = useSession()
   const pathname = usePathname()
+  const matomo = useMatomo()
+
   useEffect(() => {
-    Analytics.logNavBarItemSelected(getScreenname(pathname))
-  }, [pathname])
+    matomo.trackAppStart()
+  }, [])
 
   useEffect(() => {
     if (session) {
@@ -40,4 +38,8 @@ export default function useInitPushNotification() {
       Analytics.disable()
     }
   }, [session])
+
+  useEffect(() => {
+    matomo.trackScreenView({ pathname })
+  }, [pathname])
 }
