@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { AppState, useColorScheme } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import VoxToast from '@/components/VoxToast/VoxToast'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
@@ -10,11 +8,11 @@ import UpdateScreen from '@/screens/update/updateScreen'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import { ToastProvider, ToastViewport } from '@tamagui/toast'
+import { ToastProvider } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BlurView } from 'expo-blur'
 import { Slot, SplashScreen, useNavigationContainerRef } from 'expo-router'
-import { getTokenValue, isWeb, PortalProvider, ViewProps } from 'tamagui'
+import { isWeb, ViewProps } from 'tamagui'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
@@ -77,7 +75,7 @@ function Root() {
   const queryClient = new QueryClient()
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
-  const insets = useSafeAreaInsets()
+
   const { isBuildUpdateAvailable, checkForUpdate, isUpdateAvailable } = useAppUpdate()
 
   useEffect(() => {
@@ -99,15 +97,11 @@ function Root() {
       <QueryClientProvider client={queryClient}>
         <TamaguiProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <PortalProvider>
-              <SessionProvider>
-                <VoxToast />
-                <ToastViewport flexDirection="column" top={getTokenValue('$4', 'space') + insets.top} left={insets.left} right={insets.right} />
-                <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                  {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
-                </WaitingRoomHoc>
-              </SessionProvider>
-            </PortalProvider>
+            <SessionProvider>
+              <WaitingRoomHoc isLoading={!isFontsLoaded}>
+                {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
+              </WaitingRoomHoc>
+            </SessionProvider>
           </ThemeProvider>
         </TamaguiProvider>
       </QueryClientProvider>

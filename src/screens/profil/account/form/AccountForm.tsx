@@ -1,4 +1,4 @@
-import { ComponentProps, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
@@ -12,10 +12,9 @@ import { useMutationUpdateProfil } from '@/services/profile/hook'
 import { RestDetailedProfileResponse, RestUpdateProfileRequest } from '@/services/profile/schema'
 import isoToEmoji from '@/utils/isoToEmoji'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { media } from '@tamagui/config/v3'
 import { getSupportedRegionCodes } from 'awesome-phonenumber'
 import { Controller, useForm } from 'react-hook-form'
-import { isWeb, Portal, PortalItem, Spinner, Stack, View, XStack } from 'tamagui'
+import { PortalItem, Spinner, useMedia, View, XStack } from 'tamagui'
 import { validateAccountFormSchema } from './schema'
 
 const phoneCodes = getSupportedRegionCodes().map((code) => {
@@ -39,6 +38,8 @@ export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfil
     defaultValues: profile,
   })
 
+  const media = useMedia()
+
   const $updateProfile = useMutationUpdateProfil({
     userUuid: profile!.uuid,
   })
@@ -58,9 +59,9 @@ export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfil
   }, [])
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
-    <Button variant="contained" size={media?.md ? 'lg' : 'md'} onPress={onSubmit} {...props}>
+    <Button variant="contained" size={'lg'} disabled={!formState.isValid} onPress={onSubmit} {...props}>
       <Button.Text>Enregistrer</Button.Text>
-      {/* {$updateProfile.isPending && <Spinner size="small" color="$white1" />} */}
+      {$updateProfile.isPending && <Spinner size="small" color="$white1" />}
     </Button>
   )
 
@@ -161,7 +162,7 @@ export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfil
           control={control}
           render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
             <XStack gap="$3">
-              <View flex={1}>
+              <View width={110}>
                 <Select
                   color="gray"
                   value={value.country}
@@ -170,7 +171,7 @@ export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfil
                   onChange={(x) => onChange({ number: value.number, country: x })}
                 />
               </View>
-              <View flex={6}>
+              <View flexGrow={1}>
                 <Input
                   value={value.number}
                   color="gray"
@@ -289,22 +290,22 @@ export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfil
           />
         ))}
 
-        {/* {isWeb && ( */}
-        <View>
-          <ButtonSave width="100%" />
-        </View>
-        {/* )} */}
+        {media.gtMd && formState.isDirty && (
+          <View>
+            <ButtonSave width="100%" />
+          </View>
+        )}
 
-        <PortalItem hostName="ProfilHeaderRight">
-          {formState.isDirty && (
-            <Button variant="text" size="lg" onPress={onSubmit}>
+        {[media.md, formState.isDirty].every(Boolean) ? (
+          <PortalItem hostName="ProfilHeaderRight">
+            <Button variant="text" size="lg" onPress={onSubmit} disabled={!formState.isValid}>
               <Text fontSize="$2" fontWeight="$6" color="$blue7">
                 Enregistrer
               </Text>
               {$updateProfile.isPending && <Spinner size="small" color="$blue7" />}
             </Button>
-          )}
-        </PortalItem>
+          </PortalItem>
+        ) : null}
       </View>
     </View>
   )

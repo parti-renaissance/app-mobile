@@ -51,14 +51,15 @@ export const RestDetailedProfileResponseSchema = z.object({
   birthdate: z.coerce.date(),
   post_address: z
     .object({
-      address: z.string().nullable(),
-      postal_code: z.string().nullable(),
-      city: z.string().nullable(),
-      city_name: z.string().nullable(),
-      region: z.string().nullable(),
-      country: z.string().nullable(),
+      address: z.string().nullable().optional(),
+      postal_code: z.string().nullable().optional(),
+      city: z.string().nullable().optional(),
+      city_name: z.string().nullable().optional(),
+      region: z.string().nullable().optional(),
+      country: z.string().nullable().optional(),
     })
-    .nullable(),
+    .nullable()
+    .optional(),
   email_address: z.string().email(),
   facebook_page_url: z.string().nullable().optional(),
   twitter_page_url: z.string().nullable().optional(),
@@ -117,12 +118,15 @@ export const RestUpdateProfileRequestSchema = z
     custom_gender: z.string(),
     nationality: z.string(),
     birthdate: z.coerce.date(),
-    post_address: z.object({
-      address: z.string().nullable().optional(),
-      postal_code: z.string().nullable().optional(),
-      city_name: z.string().nullable().optional(),
-      country: z.string().nullable().optional(),
-    }),
+    post_address: z
+      .object({
+        address: z.string().nullable().optional(),
+        postal_code: z.string().nullable().optional(),
+        city_name: z.string().nullable().optional(),
+        country: z.string().nullable().optional(),
+      })
+      .optional()
+      .nullable(),
     email_address: z.string().email(),
     facebook_page_url: z.string().url().nullable().optional(),
     twitter_page_url: z.string().url().nullable().optional(),

@@ -203,7 +203,7 @@ const Select = <A extends string>({
       Keyboard.dismiss()
       onBlur?.()
       if (!forceSelect && query.length === 0) {
-        handleChange('')
+        handleChange('' as A)
         setQuery('')
         return
       }

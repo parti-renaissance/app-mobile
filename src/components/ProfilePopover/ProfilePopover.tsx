@@ -2,7 +2,7 @@ import { PropsWithChildren, useCallback, useRef } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSession } from '@/ctx/SessionProvider'
 import { useUserStore } from '@/store/user-store'
-import { router } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { Adapt, isWeb, ListItem, Popover, Separator, YGroup } from 'tamagui'
 
 export default function ProfilePopover({ children }: PropsWithChildren) {
@@ -11,11 +11,6 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
   const { bottom } = useSafeAreaInsets()
 
   const ref = useRef<Popover>(null)
-
-  const onGoToProfile = useCallback(() => {
-    ref.current?.close()
-    router.push('/(app)/profil/')
-  }, [])
 
   const onGoToStorybook = useCallback(() => {
     ref.current?.close()
@@ -37,33 +32,39 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
           <Popover.Sheet.Frame padding="$4" pb={bottom}>
             <Adapt.Contents />
           </Popover.Sheet.Frame>
-          <Popover.Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
+          <Popover.Sheet.Overlay animation="100ms" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
         </Popover.Sheet>
       </Adapt>
 
       <Popover.Content borderWidth={1} padding={0} borderColor="$gray4">
         <YGroup $gtLg={{ width: 300 }}>
-          <MenuEntry onPress={onGoToProfile} title="Mon profil" />
+          <YGroup.Item>
+            <Link href="/profil/" asChild>
+              <MenuEntry title="Mon profil" onPress={() => ref.current?.close()} />
+            </Link>
+          </YGroup.Item>
           <Separator borderStyle={'dashed'} borderColor="$gray4" />
           {__DEV__ && (
             <>
-              <MenuEntry onPress={onGoToStorybook} title="Storybook" />
+              <YGroup.Item>
+                <MenuEntry onPress={onGoToStorybook} title="Storybook" />
+              </YGroup.Item>
               <Separator borderStyle={'dashed'} borderColor="$gray4" />
             </>
           )}
-          <MenuEntry onPress={onDisconnect} title={user?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'} danger />
+          <YGroup.Item>
+            <MenuEntry onPress={onDisconnect} title={user?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'} danger />
+          </YGroup.Item>
         </YGroup>
       </Popover.Content>
     </Popover>
   )
 }
 
-const MenuEntry = ({ title, onPress, danger }: { title: string; onPress: () => void; danger?: boolean }) => (
-  <YGroup.Item>
-    <ListItem hoverTheme onPress={onPress} cursor={'pointer'}>
-      <ListItem.Text color={danger ? '$textDanger' : '$textPrimary'} cursor={'pointer'}>
-        {title}
-      </ListItem.Text>
-    </ListItem>
-  </YGroup.Item>
+const MenuEntry = ({ title, onPress, danger, onPressIn }: { title: string; onPress?: () => void; onPressIn?: () => void; danger?: boolean }) => (
+  <ListItem hoverTheme pressTheme onPress={onPress} onPressIn={onPressIn} cursor={'pointer'}>
+    <ListItem.Text color={danger ? '$textDanger' : '$textPrimary'} cursor={'pointer'}>
+      {title}
+    </ListItem.Text>
+  </ListItem>
 )

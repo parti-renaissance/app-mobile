@@ -1,4 +1,5 @@
 import React from 'react'
+import { PortalLayout } from '@/components/layouts/PortalLayout'
 import WaitingScreen from '@/components/WaitingScreen'
 import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
@@ -31,21 +32,23 @@ export default function AppLayout() {
   }
 
   return (
-    <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            title: 'Mon Profil',
-          }}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="profil"
-          options={{
-            title: 'Profil',
-          }}
-        ></Stack.Screen>
-      </Stack>
-    </View>
+    <PortalLayout>
+      <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              title: '',
+            }}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="profil"
+            options={{
+              title: 'Profil',
+            }}
+          ></Stack.Screen>
+        </Stack>
+      </View>
+    </PortalLayout>
   )
 }
