@@ -7,7 +7,7 @@ export default function AppLayout() {
   const { isAuth } = useSession()
 
   if (!isAuth) {
-    return <Redirect href={'/(tabs)/evenements/'} />
+    return <Redirect href={'/(app)/(tabs)/evenements/'} />
   }
 
   return (

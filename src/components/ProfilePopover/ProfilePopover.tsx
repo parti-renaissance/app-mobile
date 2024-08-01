@@ -14,7 +14,7 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
 
   const onGoToProfile = useCallback(() => {
     ref.current?.close()
-    router.push('/profil/')
+    router.push('/(app)/profil/')
   }, [])
 
   const onGoToStorybook = useCallback(() => {

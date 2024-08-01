@@ -7,7 +7,7 @@ import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
-import { Link, usePathname } from 'expo-router'
+import { Link, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
 import { Button, isWeb, Spinner, Stack, styled, useMedia, View, XStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
@@ -122,6 +122,7 @@ export const ProfileNav = () => {
 const Header = (_props: NativeStackHeaderProps & YStackProps) => {
   const { options, navigation, back, ...props } = _props
   const media = useMedia()
+  const segments = useSegments()
 
   const BackBtn = () => (
     <Stack justifyContent="center" alignItems="center">
@@ -140,9 +141,11 @@ const Header = (_props: NativeStackHeaderProps & YStackProps) => {
 
   const LeftNav = () => {
     if (options.headerLeft) return options.headerLeft({ label: back?.title, canGoBack: navigation.canGoBack() })
-    if (navigation.canGoBack() && navigation.getState().index > 0) {
+
+    if (navigation.canGoBack() && segments.includes('(tabs)') ? navigation.getState().index > 0 : true) {
       return <BackBtn />
     }
+
     return media.gtSm && isWeb ? (
       <Link href="/" asChild>
         <View cursor="pointer">
