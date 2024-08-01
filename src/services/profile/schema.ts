@@ -1,4 +1,5 @@
 import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumber'
+import { property } from 'lodash'
 import { z } from 'zod'
 
 // -----------------  RestProfil  -----------------
@@ -135,6 +136,26 @@ export const RestUpdateProfileRequestSchema = z
     telegram_page_url: z.string().url().nullable().optional(),
   })
   .partial()
+
+export const propertyPathSchema = z.enum([
+  'first_name',
+  'last_name',
+  'gender',
+  'custom_gender',
+  'nationality',
+  'birthdate',
+  'post_address',
+  'post_address.address',
+  'post_address.postal_code',
+  'post_address.city_name',
+  'post_address.country',
+  'email_address',
+  'facebook_page_url',
+  'twitter_page_url',
+  'linkedin_page_url',
+  'instagram_page_url',
+  'telegram_page_url',
+])
 
 export const RestUpdateProfileResponseSchema = RestDetailedProfileRequestSchema
 export type RestUpdateProfileResponse = RestDetailedProfileRequest

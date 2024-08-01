@@ -8,11 +8,13 @@ import Text from '@/components/base/Text'
 import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import DatePickerField from '@/components/DatePicker'
 import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
+import { ProfileFormError } from '@/services/profile/error'
 import { useMutationUpdateProfil } from '@/services/profile/hook'
 import { RestDetailedProfileResponse, RestUpdateProfileRequest } from '@/services/profile/schema'
 import isoToEmoji from '@/utils/isoToEmoji'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getSupportedRegionCodes } from 'awesome-phonenumber'
+import { property } from 'lodash'
 import { Controller, useForm } from 'react-hook-form'
 import { PortalItem, Spinner, useMedia, View, XStack } from 'tamagui'
 import { validateAccountFormSchema } from './schema'
@@ -32,8 +34,8 @@ const socialPlatforms = [
   { id: 'linkedin', placeholder: 'linkedin.com/nom-utilisateur', label: 'Linkedin', starturl: 'https://linkedin.com/in/' },
 ] as const
 
-export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfileResponse; onSubmit: (payload: RestUpdateProfileRequest) => void }) => {
-  const { control, handleSubmit, formState, reset } = useForm({
+export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
+  const { control, handleSubmit, formState, reset, setError } = useForm({
     resolver: zodResolver(validateAccountFormSchema),
     defaultValues: profile,
   })
@@ -45,9 +47,18 @@ export const AccountForm = ({ profile, ...props }: { profile: RestDetailedProfil
   })
 
   const onSubmit = handleSubmit((data) => {
-    $updateProfile.mutateAsync(data).then(() => {
-      reset(data)
-    })
+    $updateProfile
+      .mutateAsync(data)
+      .then(() => {
+        reset(data)
+      })
+      .catch((e) => {
+        if (e instanceof ProfileFormError) {
+          e.violations.forEach((violation) => {
+            setError(violation.propertyPath, { message: violation.message })
+          })
+        }
+      })
   })
 
   const [_manualAddress, setManualAddress] = useState<boolean>(false)

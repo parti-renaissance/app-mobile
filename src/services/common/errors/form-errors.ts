@@ -1,14 +1,17 @@
 import axios from 'axios'
 import { z } from 'zod'
 
-export const FormErrorResponseSchema = z.object({
-  violations: z.array(
-    z.object({
-      propertyPath: z.string(),
-      message: z.string(),
-    }),
-  ),
-})
+export const createFormErrorResponseSchema = <Pathes>(pathsSchema: z.ZodType<Pathes>) =>
+  z.object({
+    violations: z.array(
+      z.object({
+        propertyPath: pathsSchema,
+        message: z.string(),
+      }),
+    ),
+  })
+
+export const FormErrorResponseSchema = createFormErrorResponseSchema(z.string())
 
 export class FormError extends Error {
   violations: z.infer<typeof FormErrorResponseSchema>['violations']
@@ -18,10 +21,10 @@ export class FormError extends Error {
   }
 }
 
-export const formErrorThrower = (error: unknown, FormErrorClass = FormError) => {
+export const formErrorThrower = (error: unknown, FormErrorClass = FormError, schema = FormErrorResponseSchema) => {
   if (axios.isAxiosError(error)) {
     if (error.response?.data) {
-      const { success, data } = FormErrorResponseSchema.safeParse(error.response.data)
+      const { success, data } = schema.safeParse(error.response.data)
 
       if (success) {
         throw new FormErrorClass(data)
@@ -31,4 +34,7 @@ export const formErrorThrower = (error: unknown, FormErrorClass = FormError) => 
   return error
 }
 
-export const createFormErrorThrower = (x: typeof FormError) => (error: unknown) => formErrorThrower(error, x)
+export const createFormErrorThrower =
+  (x: typeof FormError, schema = FormErrorResponseSchema) =>
+  (error: unknown) =>
+    formErrorThrower(error, x, schema)
