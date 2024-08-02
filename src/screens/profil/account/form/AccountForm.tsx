@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
@@ -10,11 +10,10 @@ import DatePickerField from '@/components/DatePicker'
 import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
 import { ProfileFormError } from '@/services/profile/error'
 import { useMutationUpdateProfil } from '@/services/profile/hook'
-import { RestDetailedProfileResponse, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import isoToEmoji from '@/utils/isoToEmoji'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getSupportedRegionCodes } from 'awesome-phonenumber'
-import { property } from 'lodash'
 import { Controller, useForm } from 'react-hook-form'
 import { PortalItem, Spinner, useMedia, View, XStack } from 'tamagui'
 import { validateAccountFormSchema } from './schema'
@@ -61,16 +60,20 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
       })
   })
 
-  const [_manualAddress, setManualAddress] = useState<boolean>(false)
+  const [manualAddress, setManualAddress] = useState<boolean>(false)
 
-  const manualAddress = _manualAddress || formState.errors.post_address
+  useEffect(() => {
+    if (formState.errors.post_address) {
+      setManualAddress(true)
+    }
+  }, [formState.errors.post_address])
 
   const onManualAddressToggle = useCallback(() => {
     setManualAddress((v) => !v)
   }, [])
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
-    <Button variant="contained" size={'lg'} disabled={!formState.isValid} onPress={onSubmit} {...props}>
+    <Button variant="contained" size={'lg'} onPress={onSubmit} {...props}>
       <Button.Text>Enregistrer</Button.Text>
       {$updateProfile.isPending && <Spinner size="small" color="$white1" />}
     </Button>
@@ -309,7 +312,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
 
         {[media.md, formState.isDirty].every(Boolean) ? (
           <PortalItem hostName="ProfilHeaderRight">
-            <Button variant="text" size="lg" onPress={onSubmit} disabled={!formState.isValid}>
+            <Button variant="text" size="lg" onPress={onSubmit}>
               <Text fontSize="$2" fontWeight="$6" color="$blue7">
                 Enregistrer
               </Text>

@@ -62,7 +62,7 @@ const EditInformations = () => {
         <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : ''}>
           <VoxCard>
             <VoxCard.Content>
-              <AccountForm profile={profile} onSubmit={() => {}} />
+              <AccountForm profile={profile} />
               <Text>
                 Version: v{Constants.expoConfig?.version ?? '0.0.0'} [{isWeb ? '???' : nativeBuildVersion} - {clientEnv.ENVIRONMENT}]
               </Text>

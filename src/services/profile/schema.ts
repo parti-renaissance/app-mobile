@@ -157,8 +157,8 @@ export const propertyPathSchema = z.enum([
   'telegram_page_url',
 ])
 
-export const RestUpdateProfileResponseSchema = RestDetailedProfileRequestSchema
-export type RestUpdateProfileResponse = RestDetailedProfileRequest
+export const RestUpdateProfileResponseSchema = z.string()
+export type RestUpdateProfileResponse = z.infer<typeof RestUpdateProfileResponseSchema>
 
 // -----------------  RestRemoveProfile  -----------------
 export type RestRemoveProfileRequest = z.infer<typeof RestRemoveProfileRequestSchema>
