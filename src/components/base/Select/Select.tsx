@@ -22,10 +22,10 @@ type SelectProps<A extends string> = {
   forceSelect?: boolean
   labelOnlySheet?: boolean
   defaultRightIcon?: React.ReactNode
-  maxWidth?: string | number
   background?: string
   disabled?: boolean
   color?: InputProps['color']
+  size?: InputProps['size']
 }
 
 type TriggerProps<A extends string> = {
@@ -155,13 +155,12 @@ const Select = <A extends string>({
   label,
   loading,
   error,
-  labelOnlySheet,
   color,
   onPress,
   defaultRightIcon,
   onBlur,
   disabled,
-  maxWidth,
+  size,
   forceSelect = true,
 }: SelectProps<A>) => {
   const selectedOption = options.find((o) => o.value === value)
@@ -245,7 +244,7 @@ const Select = <A extends string>({
         <Trigger
           onPress={onPress}
           onLayout={(e) => setTriggerWidth(e.nativeEvent.layout.width)}
-          label={!labelOnlySheet ? label : undefined}
+          label={label}
           placeholder={placeholder}
           value={query}
           onChangeText={handleQuery}
@@ -253,6 +252,7 @@ const Select = <A extends string>({
           error={error}
           disabled={disabled}
           fake={isFake}
+          size={size}
           onBlur={onBlur}
           color={color}
           iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}

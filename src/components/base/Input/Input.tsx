@@ -170,33 +170,32 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         )}
         <YStack gap="$1" flex={1} height="100%" justifyContent="center" position="relative">
           <AnimatePresence>
-            {label ||
-              (placeholder && inputProps.value && inputProps.value.length > 0 && (
-                <YStack
-                  gap="$1"
-                  flex={1}
-                  alignSelf="flex-start"
-                  justifyContent="center"
-                  position="absolute"
-                  top={0}
-                  left={0}
-                  animation="bouncy"
-                  enterStyle={{
-                    opacity: 0,
-                  }}
-                  exitStyle={{
-                    opacity: 0,
-                  }}
-                >
-                  <Text color="$textSecondary" fontSize={10}>
-                    {label ?? placeholder}
-                  </Text>
-                </YStack>
-              ))}
+            {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
+              <YStack
+                gap="$1"
+                flex={1}
+                alignSelf="flex-start"
+                justifyContent="center"
+                position="absolute"
+                top={0}
+                left={0}
+                animation="bouncy"
+                enterStyle={{
+                  opacity: 0,
+                }}
+                exitStyle={{
+                  opacity: 0,
+                }}
+              >
+                <Text color="$textSecondary" fontSize={10}>
+                  {label ?? placeholder}
+                </Text>
+              </YStack>
+            )}
           </AnimatePresence>
           {fake ? (
-            <Text color={gray.gray8} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
-              {inputProps.value}
+            <Text color={placeholder ? gray.gray5 : gray.gray8} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
+              {inputProps.value || placeholder}
             </Text>
           ) : (
             <TextInput
