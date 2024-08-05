@@ -2,6 +2,7 @@ import React from 'react'
 import Text from '@/components/base/Text'
 import { ActionCard } from '@/components/Cards'
 import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
+import { useSession } from '@/ctx/SessionProvider'
 import { RestAction } from '@/services/actions/schema'
 import { ScrollView, Sheet, XStack, YStack } from 'tamagui'
 import SkeCard from '../Skeleton/CardSkeleton'
@@ -15,6 +16,8 @@ type ActionListProps = {
 }
 
 export const ActionList = (props: ActionListProps) => {
+  const { user } = useSession()
+  const isMyAction = (action: RestAction) => action?.author?.uuid === user?.data?.uuid
   if (props.loading) {
     return [1, 2, 3, 4, 5].map((i) => (
       <SkeCard key={i}>
@@ -30,7 +33,9 @@ export const ActionList = (props: ActionListProps) => {
   return props.actions.length === 0 ? (
     <EmptyState state="actions" />
   ) : (
-    props.actions.map((action) => <ActionCard key={action.uuid} payload={mapPayload(action)} onShow={() => props.setActiveAction(action)} />)
+    props.actions.map((action) => (
+      <ActionCard key={action.uuid} isMyAction={isMyAction(action)} payload={mapPayload(action)} onShow={() => props.setActiveAction(action)} />
+    ))
   )
 }
 
