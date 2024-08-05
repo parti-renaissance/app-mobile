@@ -42,16 +42,17 @@ export const ActionFiltersList = (allProps: ActionFiltersListProps & YStackProps
       <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
         <XStack gap="$3">
           <AddressAutocomplete
-            maxWidth={200}
+            maxWidth={130}
             minWidth={120}
+            size="sm"
             label="Rechercher"
             placeholder="Adresse"
             setAddressComponents={handleLocationChange}
             forceSelect={false}
             onReset={onAddressReset}
           />
-          <Select<SelectPeriod> search={false} label="Période" onChange={onPeriodChange} value={period} options={PERIOD_OPTIONS} />
-          <Select<SelectType> search={false} label="Type" onChange={onTypeChange} value={type} options={TYPE_OPTIONS} />
+          <Select<SelectPeriod> size="sm" search={false} label="Période" onChange={onPeriodChange} value={period} options={PERIOD_OPTIONS} />
+          <Select<SelectType> size="sm" label="Type" search={false} onChange={onTypeChange} value={type} options={TYPE_OPTIONS} />
         </XStack>
       </ScrollView>
     </YStack>

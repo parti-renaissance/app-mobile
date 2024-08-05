@@ -246,7 +246,7 @@ function Page() {
         onOpenChange={setListOpen}
         setActiveAction={handleActiveAction}
       >
-        <YStack height={200}>
+        <YStack height={200} $gtSm={{ width: 500 }}>
           <ActionFiltersList
             onLocationChange={handleLocationChange}
             onAddressReset={() => handleLocationChange(refUserPosition.current ?? undefined)}
