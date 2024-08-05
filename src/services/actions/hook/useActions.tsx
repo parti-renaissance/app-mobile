@@ -37,10 +37,10 @@ export const useAction = (id?: string, paginatedParams?: Params) => {
 
   const placeholderData = id
     ? previousData?.pages.flatMap((page) => page.items).find((action) => action.uuid === id) ||
-      queryClient.getQueryData<RestActionFull>([QUERY_KEY_ACTIONS, { id }])
+      queryClient.getQueryData<RestActionFull>([QUERY_KEY_ACTIONS, id])
     : undefined
   return useQuery<Action>({
-    queryKey: [QUERY_KEY_ACTIONS, { id }, myScope?.code],
+    queryKey: [QUERY_KEY_ACTIONS, id, myScope?.code],
     queryFn: () => api.getAction(id!, myScope?.code),
     enabled: !!id,
     staleTime: 10_000,

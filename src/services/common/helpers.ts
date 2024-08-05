@@ -31,7 +31,16 @@ export const optimisticSetPaginatedData = <Item extends { uuid: string }>({ id, 
 }
 
 export const optimisticSetDataById = <Item extends { uuid: string }>({ id, updater, queryClient, queryKey }: OptimisticEventSetterProps<Item>) => {
-  queryClient.setQueryData([queryKey, id], updater)
+  queryClient.setQueriesData<Item>(
+    {
+      queryKey: [queryKey, id],
+    },
+    (oldData) => {
+      console.log('oldData', oldData)
+      if (!oldData) return oldData
+      return updater(oldData)
+    },
+  )
 }
 
 export const getCachedPaginatedData = <Item extends { uuid: string }>(queryClient: QueryClient, key: string) => {

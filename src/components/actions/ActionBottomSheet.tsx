@@ -82,9 +82,11 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
 
           {payload === null && isLoading ? (
             <SkeCard>
-              <SkeCard.Chip />
-              <SkeCard.Title />
-              <SkeCard.Description />
+              <SkeCard.Content>
+                <SkeCard.Chip />
+                <SkeCard.Title />
+                <SkeCard.Description />
+              </SkeCard.Content>
             </SkeCard>
           ) : null}
         </ScrollView>
@@ -125,7 +127,7 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
     <Sheet
       modal
       native
-      open={!!action}
+      open={!!action || isLoading}
       defaultPosition={defaultPosition}
       position={_position}
       onOpenChange={handleOpeningChange}

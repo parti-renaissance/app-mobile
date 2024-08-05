@@ -166,9 +166,9 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
                     <DatePicker
                       label={'Date'}
                       error={inputProps.error}
-                      errorMessage={inputProps.error}
                       onBlur={inputProps.onBlur}
                       value={inputProps.value}
+                      color="gray"
                       onChange={setFieldValue('date', true)}
                     />
                   )}
@@ -181,10 +181,10 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
                     <DatePicker
                       label={'Heure'}
                       error={inputProps.error}
-                      errorMessage={inputProps.error}
                       onBlur={inputProps.onBlur}
                       value={inputProps.value}
                       type={'time'}
+                      color="gray"
                       onChange={setFieldValue('time', true)}
                     />
                   )}
@@ -204,6 +204,7 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
                     onBlur={inputProps.onBlur}
                     defaultValue={inputProps.value}
                     error={inputProps.error}
+                    color="gray"
                   />
                 )}
               </FormikController>
@@ -222,6 +223,7 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
                     placeholder={'Ajoutez une description'}
                     multiline
                     numberOfLines={5}
+                    color="gray"
                     {...inputProps}
                     onChange={undefined}
                     onChangeText={(x) => inputProps.onChange(x)}
