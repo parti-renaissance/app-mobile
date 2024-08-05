@@ -8,12 +8,13 @@ interface CountrySelectProps {
   label?: string
   id: string
   error?: string
+  color?: 'gray' | 'white'
   onBlur?: (fieldOrEvent: any) => void
   placeholder?: string
 }
 
 export default function CountrySelect({ onBlur, ...props }: CountrySelectProps) {
-  return <Select minimal options={countriesSourceAsOption} {...props} />
+  return <Select options={countriesSourceAsOption} {...props} />
 }
 
 const countriesSource = Object.entries(countries).map(([iso, name]) => ({

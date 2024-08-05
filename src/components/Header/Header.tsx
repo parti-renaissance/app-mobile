@@ -7,7 +7,7 @@ import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
-import { Link, usePathname } from 'expo-router'
+import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
 import { Button, isWeb, Spinner, Stack, styled, useMedia, View, XStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
@@ -122,11 +122,12 @@ export const ProfileNav = () => {
 const Header = (_props: NativeStackHeaderProps & YStackProps) => {
   const { options, navigation, back, ...props } = _props
   const media = useMedia()
+  const segments = useSegments()
 
   const BackBtn = () => (
     <Stack justifyContent="center" alignItems="center">
-      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-        <XStack gap={'$3'} alignItems="center">
+      <TouchableWithoutFeedback onPress={() => (navigation.canGoBack() ? navigation.goBack() : router.navigate('/'))}>
+        <XStack gap={'$3'} alignItems="center" cursor="pointer">
           <View flexDirection="row" gap={'$3'} alignItems="center">
             <ArrowLeft color="$textPrimary" />
           </View>
@@ -140,9 +141,11 @@ const Header = (_props: NativeStackHeaderProps & YStackProps) => {
 
   const LeftNav = () => {
     if (options.headerLeft) return options.headerLeft({ label: back?.title, canGoBack: navigation.canGoBack() })
-    if (navigation.canGoBack() && navigation.getState().index > 0) {
-      return <BackBtn />
+
+    if (navigation.canGoBack() && segments.includes('(tabs)') ? navigation.getState().index > 0 : true) {
+      return <BackBtn key={segments.join('')} />
     }
+
     return media.gtSm && isWeb ? (
       <Link href="/" asChild>
         <View cursor="pointer">

@@ -1,5 +1,6 @@
 import Select from '@/components/base/Select/Select'
 import { uniqBy, upperFirst } from 'lodash'
+import { InputProps } from '../base/Input/Input'
 import nationalities from './nationalities.json'
 
 interface NationalitySelectProps {
@@ -10,6 +11,7 @@ interface NationalitySelectProps {
   error?: string
   onBlur?: () => void
   placeholder?: string
+  color: InputProps['color']
 }
 
 const countriesSource = uniqBy(nationalities, 'iso').map((n) => ({
@@ -19,5 +21,5 @@ const countriesSource = uniqBy(nationalities, 'iso').map((n) => ({
 }))
 
 export default function NationalitySelect({ id, ...props }: Readonly<NationalitySelectProps>) {
-  return <Select key={id} search options={countriesSource} {...props} minimal />
+  return <Select key={id} search options={countriesSource} {...props} />
 }

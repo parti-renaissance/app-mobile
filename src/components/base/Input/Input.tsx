@@ -5,7 +5,7 @@ import { AlertCircle } from '@tamagui/lucide-icons'
 import { AnimatePresence, isWeb, Spinner, styled, Text, XStack, YStack } from 'tamagui'
 import { gray } from 'theme/colors.hsl'
 
-type InputProps = {
+export type InputProps = {
   size?: 'xs' | 'sm' | 'md' | 'lg'
   color?: 'white' | 'gray'
   error?: string
@@ -17,7 +17,7 @@ type InputProps = {
   iconRight?: React.ReactNode
   onChange?: (text: string) => void
   onIconRightPress?: () => void
-  type?: 'text' | 'password' | 'email' | 'number'
+  type?: 'text' | 'password' | 'email' | 'number' | 'date' | 'time'
   fake?: boolean
 } & Omit<TextInputProps, 'placeholder' | 'onChange'>
 
@@ -25,7 +25,7 @@ const InputFrame = styled(XStack, {
   name: 'Input',
   gap: '$2.5',
   width: '100%',
-  minWidth: 150,
+  minWidth: 100,
   minHeight: '$3.5',
   alignItems: 'center',
   borderRadius: '$10',
@@ -134,7 +134,12 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     onChange?.(text)
   }
 
-  const handlePress = () => {
+  const handlePress = (e) => {
+    if (disabled) {
+      if (isWeb) e.preventDefault()
+      return
+    }
+    inputProps.onPress?.(e)
     inputRef.current?.focus()
   }
 
@@ -211,6 +216,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
               onFocus={handleFocus}
               onBlur={handleBlur}
               {...inputProps}
+              onPress={disabled ? undefined : inputProps.onPress}
             />
           )}
         </YStack>

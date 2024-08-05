@@ -2,13 +2,9 @@ import React from 'react'
 import { Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
-import QuickAction from '@/components/QuickAction'
-import WaitingScreen from '@/components/WaitingScreen'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
-import useInit from '@/hooks/useInit'
-import { parse, useURL } from 'expo-linking'
-import { Tabs, useGlobalSearchParams, useSegments } from 'expo-router'
+import { Tabs, useSegments } from 'expo-router'
 import { isWeb, useMedia, View } from 'tamagui'
 
 const TAB_BAR_HEIGHT = 80
@@ -16,12 +12,7 @@ const TAB_BAR_HEIGHT = 80
 export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { session, signIn, isAuth, isLoading } = useSession()
-
-  const { code, _switch_user } = useGlobalSearchParams<{ code?: string; _switch_user?: string }>()
-  const url = useURL()
-
-  useInit()
+  const { session, isAuth } = useSession()
 
   const segments = useSegments()
   const getTabBarVisibility = () => {
@@ -29,31 +20,8 @@ export default function AppLayout() {
     return hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
   }
 
-  const getQuickActionVisibility = () => {
-    return false
-    const hideOnScreens = ['actions', 'porte-a-porte'] // put here name of screen where you want to hide tabBar
-    return !hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
-  }
-
-  if (!isAuth && !isLoading && (code || url)) {
-    if (isWeb && code) {
-      signIn({ code, isAdmin: _switch_user === 'true' })
-      return <WaitingScreen />
-    }
-    if (url && !isWeb) {
-      const { queryParams } = parse(url)
-      const code = queryParams?.code as string | undefined
-
-      if (code) {
-        signIn({ code })
-        return <WaitingScreen />
-      }
-    }
-  }
-
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      {getQuickActionVisibility() ? <QuickAction /> : null}
       <Tabs
         initialRouteName={isAuth ? '(home)' : 'evenements'}
         screenOptions={{
@@ -79,7 +47,6 @@ export default function AppLayout() {
 
           tabBarItemStyle: {
             paddingBottom: 20,
-            // paddingTop: 0,
           },
         }}
       >
@@ -108,7 +75,6 @@ export default function AppLayout() {
             }}
           />
         ))}
-        <Tabs.Screen name="profil" options={{ href: null }} />
       </Tabs>
     </View>
   )
