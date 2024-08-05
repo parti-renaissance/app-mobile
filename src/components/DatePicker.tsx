@@ -13,13 +13,14 @@ interface DatePickerFieldProps {
   error?: string
   label?: string
   placeholder?: string
+  disabled?: boolean
   type?: 'date' | 'time'
   color: InputProps['color']
 }
 
 const getDateInputValue = (d: Date, type: 'date' | 'time') => (isWeb ? getIntlDate(d) : format(d, type === 'date' ? 'dd-MM-yyyy' : 'HH:mm'))
 
-const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, color, type = 'date', onBlur }, ref) => {
+const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, disabled, color, type = 'date', onBlur }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
   const readableDate = value && typeof value === 'object' ? getDateInputValue(value, type) : ''
@@ -85,10 +86,11 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         value={inputValue}
         placeholder={type === 'date' ? 'JJ/MM/AAAA' : 'HH:MM'}
         onSubmitEditing={onHide}
-        editable={isWeb}
+        editable={isWeb && !disabled}
         onChangeText={handleChange}
         onPress={onShow}
         color={color}
+        disabled={disabled}
         error={error}
         type={type}
       />

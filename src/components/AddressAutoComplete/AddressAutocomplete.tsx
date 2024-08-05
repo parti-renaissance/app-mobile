@@ -68,7 +68,6 @@ function AddressAutocomplete({
     <YStack>
       <Select
         placeholder={'Adresse'}
-        // label="Adresse"
         value={value}
         maxWidth={maxWidth}
         loading={isFetching}

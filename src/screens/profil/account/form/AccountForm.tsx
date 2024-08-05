@@ -86,7 +86,12 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
       </Text>
       <View gap="$5">
         <Text fontSize="$2" fontWeight="$4">
-          Identité
+          Identité{' '}
+          {profile?.certified && (
+            <Text color="$green7" fontSize={'$1'}>
+              (Certifié)
+            </Text>
+          )}
         </Text>
         <Controller
           name="gender"
@@ -97,6 +102,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
               onBlur={onBlur}
               color="gray"
               search={false}
+              disabled={!!profile.certified}
               value={value}
               onChange={onChange}
               error={error?.message}
@@ -113,7 +119,15 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
               name="first_name"
               control={control}
               render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                <Input color="gray" placeholder="Prénom" value={value} onBlur={onBlur} onChange={onChange} error={error?.message} />
+                <Input
+                  color="gray"
+                  disabled={!!profile.certified}
+                  placeholder="Prénom"
+                  value={value}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  error={error?.message}
+                />
               )}
             />
           </View>
@@ -123,7 +137,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
               name="last_name"
               control={control}
               render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                <Input color="gray" placeholder="Nom" value={value} onBlur={onBlur} onChange={onChange} error={error?.message} />
+                <Input color="gray" disabled={!!profile.certified} placeholder="Nom" value={value} onBlur={onBlur} onChange={onChange} error={error?.message} />
               )}
             />
           </View>
@@ -135,7 +149,15 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
               name="birthdate"
               control={control}
               render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                <DatePickerField color="gray" placeholder="Date de naissance" value={value} onBlur={onBlur} onChange={onChange} error={error?.message} />
+                <DatePickerField
+                  color="gray"
+                  disabled={!!profile.certified}
+                  placeholder="Date de naissance"
+                  value={value}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  error={error?.message}
+                />
               )}
             />
           </View>

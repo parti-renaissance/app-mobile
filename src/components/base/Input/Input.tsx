@@ -135,6 +135,10 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   }
 
   const handlePress = (e) => {
+    if (disabled) {
+      if (isWeb) e.preventDefault()
+      return
+    }
     inputProps.onPress?.(e)
     inputRef.current?.focus()
   }
@@ -212,6 +216,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
               onFocus={handleFocus}
               onBlur={handleBlur}
               {...inputProps}
+              onPress={disabled ? undefined : inputProps.onPress}
             />
           )}
         </YStack>

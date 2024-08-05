@@ -24,6 +24,7 @@ type SelectProps<A extends string> = {
   defaultRightIcon?: React.ReactNode
   maxWidth?: string | number
   background?: string
+  disabled?: boolean
   color?: InputProps['color']
 }
 
@@ -159,6 +160,7 @@ const Select = <A extends string>({
   onPress,
   defaultRightIcon,
   onBlur,
+  disabled,
   maxWidth,
   forceSelect = true,
 }: SelectProps<A>) => {
@@ -239,7 +241,7 @@ const Select = <A extends string>({
 
   return (
     <Popover onOpenChange={handleOpen} open={open} size="$6">
-      <Popover.Trigger height="auto" flex={1} asChild={!isWeb}>
+      <Popover.Trigger height="auto" flex={1} asChild={!isWeb} disabled={disabled}>
         <Trigger
           onPress={onPress}
           onLayout={(e) => setTriggerWidth(e.nativeEvent.layout.width)}
@@ -249,6 +251,7 @@ const Select = <A extends string>({
           onChangeText={handleQuery}
           loading={loading}
           error={error}
+          disabled={disabled}
           fake={isFake}
           onBlur={onBlur}
           color={color}
