@@ -10,8 +10,9 @@ export const optimisticToggleSubscribe = async (subscribe: boolean, eventId: str
     event: helpers.getCachedSingleItem<RestEvent>(eventId, queryClient, QUERY_KEY_SINGLE_EVENT)!,
   }
 
-  const updateShortEvent = (oldShortEventData: RestEvent): RestEvent => {
-    if (!oldShortEventData || isPartialEvent(oldShortEventData)) return oldShortEventData
+  const updateShortEvent: helpers.OptimisticItemUpdater<RestEvent> = (oldShortEventData) => {
+    if (oldShortEventData === undefined) return undefined
+    if (isPartialEvent(oldShortEventData)) return oldShortEventData
     return {
       ...oldShortEventData,
       user_registered_at: subscribe ? new Date().toISOString() : null,

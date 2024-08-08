@@ -72,7 +72,7 @@ const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: 
             DefaultIcon={Filter}
             editable={Platform.OS === 'android'}
             placeholder="Rechercher et filtrer"
-            onPressOut={handleFocus(p.ref!)}
+            onPress={handleFocus(p.ref!)}
             value={p.value}
             onChange={p.onChange}
           />

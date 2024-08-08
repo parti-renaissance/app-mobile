@@ -27,9 +27,9 @@ const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ value, onChange, onFo
   return (
     <Input
       placeholder="Rechercher un événement"
-      size={'$4'}
+      size="md"
       ref={searchInputRef}
-      backgroundColor={'$white1'}
+      color="white"
       placeholderTextColor={'$textSecondary'}
       value={value}
       onFocus={onFocus}
