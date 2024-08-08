@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react'
-import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
+import { LayoutChangeEvent, NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
 import { AnimatePresence, isWeb, Spinner, styled, Text, XStack, YStack } from 'tamagui'
@@ -20,6 +20,21 @@ export type InputProps = {
   type?: 'text' | 'password' | 'email' | 'number' | 'date' | 'time'
   fake?: boolean
 } & Omit<TextInputProps, 'placeholder' | 'onChange'>
+
+const sizes = {
+  xs: {
+    height: 3.5,
+  },
+  sm: {
+    height: 4,
+  },
+  md: {
+    height: 4.5,
+  },
+  lg: {
+    height: 56,
+  },
+}
 
 const InputFrame = styled(XStack, {
   name: 'Input',
@@ -82,16 +97,16 @@ const InputFrame = styled(XStack, {
 
     size: {
       xs: {
-        height: '$3.5',
+        minHeight: '$3.5',
       },
       sm: {
-        height: '$4',
+        minHeight: '$4',
       },
       md: {
-        height: '$4.5',
+        minHeight: '$4.5',
       },
       lg: {
-        height: 56,
+        minHeight: 56,
       },
     },
   },
@@ -134,6 +149,29 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     onChange?.(text)
   }
 
+  const handleChange = (evt: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    if (inputProps.multiline) adjustTextInputSize(evt)
+  }
+
+  const handleLayoutChange = (evt: LayoutChangeEvent) => {
+    if (inputProps.multiline) adjustTextInputSize(evt)
+  }
+
+  const adjustTextInputSize = (evt) => {
+    const el = evt?.target || evt?.nativeEvent?.target
+    if (el) {
+      const lastHeight = el.style.height
+      el.style.height = 0
+      const newHeight = el.offsetHeight - el.clientHeight + el.scrollHeight
+
+      if (newHeight < 200) {
+        el.style.height = `${newHeight}px`
+      } else {
+        el.style.height = lastHeight
+      }
+    }
+  }
+
   const handlePress = (e) => {
     if (disabled) {
       if (isWeb) e.preventDefault()
@@ -162,41 +200,41 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         onPress={handlePress}
         iconLeft={!!iconLeft}
         iconRight={!!iconRight}
+        maxHeight={`$${sizes[size ?? 'md'].height + (inputProps.multiline ? 5 : 0)}`}
       >
         {!loading && iconLeft && (
           <YStack height="100%" justifyContent="center">
             {iconLeft}
           </YStack>
         )}
-        <YStack gap="$1" flex={1} height="100%" justifyContent="center" position="relative">
+        <YStack gap="$1" flex={1} height="100%" justifyContent="center" position="relative" paddingVertical={`$${sizes[size ?? 'md'].height - 1.5}`}>
           <AnimatePresence>
-            {label ||
-              (placeholder && inputProps.value && inputProps.value.length > 0 && (
-                <YStack
-                  gap="$1"
-                  flex={1}
-                  alignSelf="flex-start"
-                  justifyContent="center"
-                  position="absolute"
-                  top={0}
-                  left={0}
-                  animation="bouncy"
-                  enterStyle={{
-                    opacity: 0,
-                  }}
-                  exitStyle={{
-                    opacity: 0,
-                  }}
-                >
-                  <Text color="$textSecondary" fontSize={10}>
-                    {label ?? placeholder}
-                  </Text>
-                </YStack>
-              ))}
+            {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
+              <YStack
+                gap="$1"
+                flex={1}
+                alignSelf="flex-start"
+                justifyContent="center"
+                position="absolute"
+                top={0}
+                left={0}
+                animation="bouncy"
+                enterStyle={{
+                  opacity: 0,
+                }}
+                exitStyle={{
+                  opacity: 0,
+                }}
+              >
+                <Text color="$textSecondary" fontSize={10}>
+                  {label ?? placeholder}
+                </Text>
+              </YStack>
+            )}
           </AnimatePresence>
           {fake ? (
-            <Text color={gray.gray8} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
-              {inputProps.value}
+            <Text color={placeholder ? gray.gray5 : gray.gray8} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
+              {inputProps.value || placeholder}
             </Text>
           ) : (
             <TextInput
@@ -216,6 +254,8 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
               onFocus={handleFocus}
               onBlur={handleBlur}
               {...inputProps}
+              onChange={handleChange}
+              onLayout={handleLayoutChange}
               onPress={disabled ? undefined : inputProps.onPress}
             />
           )}

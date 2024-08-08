@@ -10,6 +10,7 @@ import { useDebouncedCallback } from 'use-debounce'
 
 export type ActionVoxCardProps = {
   onShow?: () => void
+  isMyAction?: boolean
   payload: {
     id?: string
     tag: string
@@ -21,7 +22,7 @@ export type ActionVoxCardProps = {
     VoxCardAttendeesProps
 } & VoxCardFrameProps
 
-const ActionCard = ({ payload, onShow, asFull = false, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
+const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
   const isPassed = isBefore(payload.date.start, new Date())
   const isCancelled = payload.status === ActionStatus.CANCELLED
   return (
@@ -43,7 +44,7 @@ const ActionCard = ({ payload, onShow, asFull = false, ...props }: ActionVoxCard
             <Button variant="outlined" onPress={onShow}>
               <Button.Text>Voir l'action</Button.Text>
             </Button>
-            {isCancelled || isPassed ? null : <SubscribeButton isRegister={payload.isSubscribed} id={payload.id} />}
+            {isCancelled || isPassed || isMyAction ? null : <SubscribeButton isRegister={payload.isSubscribed} id={payload.id} />}
           </XStack>
         )}
         {asFull && props.children}

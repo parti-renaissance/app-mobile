@@ -1,7 +1,7 @@
 import { InfiniteData, QueryClient } from '@tanstack/react-query'
 import { RestPagination } from './schema'
 
-type OptimisticItemUpdater<Item extends { uuid: string }> = (oldShortEventData: Item) => Item
+export type OptimisticItemUpdater<Item extends { uuid: string }> = (oldShortEventData?: Item) => Item | undefined
 type OptimisticEventSetterProps<Item extends { uuid: string }> = {
   id: string
   updater: OptimisticItemUpdater<Item>
@@ -17,13 +17,17 @@ export const optimisticSetPaginatedData = <Item extends { uuid: string }>({ id, 
     (oldPaginatedData) => {
       if (!oldPaginatedData) return oldPaginatedData
       const updatedPages = oldPaginatedData.pages.map((page) => {
+        let updated = false
         const updatedItems = page.items.map((item) => {
           if (item.uuid === id) {
-            return updater(item)
+            updated = true
+            return updater(item) ?? item
           }
           return item
         })
-        return { ...page, items: updatedItems }
+        const defaultUpdater = updater()
+
+        return { ...page, items: updated || !defaultUpdater ? updatedItems : [defaultUpdater, ...updatedItems] }
       })
       return { ...oldPaginatedData, pages: updatedPages }
     },
@@ -31,7 +35,14 @@ export const optimisticSetPaginatedData = <Item extends { uuid: string }>({ id, 
 }
 
 export const optimisticSetDataById = <Item extends { uuid: string }>({ id, updater, queryClient, queryKey }: OptimisticEventSetterProps<Item>) => {
-  queryClient.setQueryData([queryKey, id], updater)
+  queryClient.setQueriesData<Item>(
+    {
+      queryKey: [queryKey, id],
+    },
+    (oldData) => {
+      return updater(oldData)
+    },
+  )
 }
 
 export const getCachedPaginatedData = <Item extends { uuid: string }>(queryClient: QueryClient, key: string) => {

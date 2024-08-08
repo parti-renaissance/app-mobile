@@ -21,6 +21,7 @@ export interface AddressAutocompleteProps {
   error?: string
   minimal?: boolean
   maxWidth?: string | number
+  minWidth?: string | number
   forceSelect?: boolean
   placeholder?: string
   onReset?: () => void
@@ -32,6 +33,7 @@ function AddressAutocomplete({
   minimal,
   error,
   maxWidth,
+  minWidth,
   onBlur,
   onReset,
   forceSelect = true,
@@ -65,11 +67,10 @@ function AddressAutocomplete({
   }
 
   return (
-    <YStack>
+    <YStack minWidth={minWidth} maxWidth={maxWidth}>
       <Select
         placeholder={'Adresse'}
         value={value}
-        maxWidth={maxWidth}
         loading={isFetching}
         onChange={onPlaceSelect}
         onBlur={onBlur}
