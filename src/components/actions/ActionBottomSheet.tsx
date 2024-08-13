@@ -68,12 +68,17 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
                 <>
-                  <Text fontWeight="$5">{action.participants.length + 1} inscrits :</Text>
+                  <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
                   <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
                     <ParticipantAvatar participant={action.author} />
-                    {action.participants.map((participant) => (
-                      <ParticipantAvatar key={participant.uuid} participant={participant} alignSelf="flex-start" />
-                    ))}
+                    {action.participants
+                      .filter((x) => {
+                        if (!x?.adherent?.uuid) return true
+                        return action.author.uuid !== x.adherent.uuid
+                      })
+                      .map((participant) => (
+                        <ParticipantAvatar key={participant.uuid} participant={participant} />
+                      ))}
                   </XStack>
                 </>
               ) : null}
@@ -158,12 +163,17 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
                 <>
-                  <Text fontWeight="$5">{action.participants.length + 1} inscrits :</Text>
+                  <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
                   <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
                     <ParticipantAvatar participant={action.author} />
-                    {action.participants.map((participant) => (
-                      <ParticipantAvatar key={participant.uuid} participant={participant} alignSelf="flex-start" />
-                    ))}
+                    {action.participants
+                      .filter((x) => {
+                        if (!x?.adherent?.uuid) return true
+                        return action.author.uuid !== x.adherent.uuid
+                      })
+                      .map((participant) => (
+                        <ParticipantAvatar key={participant.uuid} participant={participant} alignSelf="flex-start" />
+                      ))}
                   </XStack>
                 </>
               ) : null}

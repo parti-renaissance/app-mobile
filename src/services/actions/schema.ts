@@ -46,9 +46,10 @@ const ActionAuthor = z.object({
   uuid: z.string(),
   first_name: z.string(),
   last_name: z.string(),
-  role: z.string().nullable().optional(),
-  instance: z.string().nullable().optional(),
-  zone: z.string().nullable().optional(),
+  image_url: z.string().url().nullish(),
+  role: z.string().nullish(),
+  instance: z.string().nullish(),
+  zone: z.string().nullish(),
 })
 
 const ActionAddressSchema = z.object({

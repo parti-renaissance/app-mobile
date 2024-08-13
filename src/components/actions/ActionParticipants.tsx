@@ -4,7 +4,7 @@ import ProfilePicture from '@/components/ProfilePicture'
 import { RestActionAuthor, RestActionParticipant } from '@/services/actions/schema'
 import { YStack, YStackProps } from 'tamagui'
 
-export default function AcrtionParticipants({ participant, ...props }: Readonly<{ participant: RestActionParticipant | RestActionAuthor }> & YStackProps) {
+export default function ActionParticipants({ participant, ...props }: Readonly<{ participant: RestActionParticipant | RestActionAuthor }> & YStackProps) {
   const getIsAuthor = (guy: RestActionParticipant | RestActionAuthor): guy is RestActionAuthor => 'first_name' in guy
   const isAuthor = getIsAuthor(participant)
   const namesContainer = isAuthor ? participant : participant.adherent
@@ -12,7 +12,15 @@ export default function AcrtionParticipants({ participant, ...props }: Readonly<
   return (
     <YStack justifyContent="center" alignItems="center" gap="$2" {...props} overflow="hidden" width={90}>
       <YStack position="relative" width={'100%'} justifyContent="center" alignItems="center">
-        <ProfilePicture size="$5" fullName={fullName} alt={`Photo de ${fullName}`} rounded borderBlockColor="$textPrimary" borderWidth={isAuthor ? 1 : 0} />
+        <ProfilePicture
+          size="$5"
+          src={namesContainer.image_url ?? undefined}
+          fullName={fullName}
+          alt={`Photo de ${fullName}`}
+          rounded
+          borderBlockColor="$textPrimary"
+          borderWidth={isAuthor ? 1 : 0}
+        />
         {isAuthor && (
           <YStack position="absolute" bottom={0} width="100%" justifyContent="center" alignContent="center" alignItems="center">
             <YStack

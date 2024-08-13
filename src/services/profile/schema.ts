@@ -18,7 +18,7 @@ export const RestProfilResponseSchema = z.object({
   cadre_auth_path: z.string().nullable(),
   certified: z.boolean(),
   country: z.string(),
-  detailed_roles: z.array(z.string()),
+  image_url: z.string().url().nullish(),
   email_subscribed: z.boolean(),
   nickname: z.string().nullable(),
   use_nickname: z.boolean(),

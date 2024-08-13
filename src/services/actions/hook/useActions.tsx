@@ -51,11 +51,15 @@ export const useAction = (id?: string, paginatedParams?: Params) => {
 export const useSubscribeAction = (id?: string) => {
   const queryClient = useQueryClient()
   const toast = useToastController()
+  const { user } = useSession()
+  if (!user.data) {
+    throw new Error("L'utilisateur est introuvable")
+  }
   return useMutation({
     mutationFn: () => (id ? api.subscribeToAction(id) : Promise.reject(new Error('No id provided'))),
     onSuccess: () => {
-      if (id) {
-        optimisticToggleSubscribe(true, id!, queryClient)
+      if (id !== undefined) {
+        optimisticToggleSubscribe(user.data)(true, id, queryClient)
       }
       toast.show('Succès', { message: 'Inscription à l’action réussie', type: 'success' })
     },
@@ -72,11 +76,15 @@ export const useSubscribeAction = (id?: string) => {
 export const useUnsubscribeAction = (id?: string) => {
   const queryClient = useQueryClient()
   const toast = useToastController()
+  const { user } = useSession()
+  if (!user.data) {
+    throw new Error("L'utilisateur est introuvable")
+  }
   return useMutation({
     mutationFn: () => (id ? api.unsubscribeFromAction(id) : Promise.reject(new Error('No id provided'))),
     onSuccess: () => {
       if (id) {
-        optimisticToggleSubscribe(false, id!, queryClient)
+        optimisticToggleSubscribe(user.data)(false, id!, queryClient)
       }
       toast.show('Succès', { message: 'Désinscription de l’action réussie', type: 'success' })
     },
