@@ -1,5 +1,5 @@
-import { SelectPeriod, SelectType } from '@/components/actions'
 import { useSession } from '@/ctx/SessionProvider'
+import { SelectPeriod, SelectType } from '@/screens/actions'
 import * as api from '@/services/actions/api'
 import { Action, RestActionFull, RestActionRequestParams, RestActions } from '@/services/actions/schema'
 import { GenericResponseError } from '@/services/common/errors/generic-errors'

@@ -1,6 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { Dimensions, Platform, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Text from '@/components/base/Text'
+import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import MapboxGl from '@/components/Mapbox/Mapbox'
+import { useSession } from '@/ctx/SessionProvider'
+import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import {
   ActionBottomSheet,
   ActionCreateButton,
@@ -14,14 +20,8 @@ import {
   SideActionList,
   SideList,
   useSheetPosition,
-} from '@/components/actions'
-import { ActionMapView } from '@/components/actions/ActionMapView'
-import Text from '@/components/base/Text'
-import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import MapboxGl from '@/components/Mapbox/Mapbox'
-import { useSession } from '@/ctx/SessionProvider'
-import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
+} from '@/screens/actions'
+import { ActionMapView } from '@/screens/actions/ActionMapView'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/services/actions/hook/useActions'

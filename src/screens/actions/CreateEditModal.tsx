@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import ModalOrPageBase from '../ModalOrPageBase/ModalOrPageBase'
+import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import ActionForm from './ActionForm'
 
 type CreateEditModalProps = {
