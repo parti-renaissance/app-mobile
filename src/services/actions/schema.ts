@@ -94,7 +94,7 @@ export const ActionFullSchema = ActionSchema.omit({ first_participants: true, pa
 
 export const ActionCreateSchema = z.object({
   type: ActionTypeSchema,
-  date: z.coerce.date(),
+  date: z.date(),
   description: z.string(),
   post_address: z.object({
     address: z.string(),
@@ -103,6 +103,17 @@ export const ActionCreateSchema = z.object({
     country: z.string(),
   }),
 })
+
+export const propertyPathSchema = z.enum([
+  'post_address',
+  'post_address.address',
+  'post_address.postal_code',
+  'post_address.city_name',
+  'post_address.country',
+  'date',
+  'description',
+  'type',
+])
 
 export const ActionPaginationSchema = createRestPaginationSchema(ActionSchema)
 
