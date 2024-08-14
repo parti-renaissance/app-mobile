@@ -10,22 +10,40 @@ import { optimisticToggleSubscribe } from './helpers'
 export const QUERY_KEY_PAGINATED_ACTIONS = 'QUERY_KEY_PAGINATED_ACTIONS'
 export const QUERY_KEY_ACTIONS = 'QUERY_KEY_ACTIONS'
 
-type Params = Omit<RestActionRequestParams, 'page'> & {
+type ParamsEnabled = Omit<RestActionRequestParams, 'page'> & {
   filters: {
     type: SelectType
     period: SelectPeriod
   }
 }
 
+type ParamsDisabled = Omit<RestActionRequestParams, 'page' | 'longitude' | 'latitude'> & {
+  filters: {
+    type: SelectType
+    period: SelectPeriod
+  }
+  longitude?: number
+  latitude?: number
+}
+
+type Params = ParamsDisabled | ParamsEnabled
+
+const isEnabled = (x: Omit<Params, 'filters'>): x is Omit<ParamsEnabled, 'filters'> => {
+  return typeof x.latitude === 'number' && typeof x.longitude === 'number'
+}
+
 export const usePaginatedActions = (params: Params) => {
   const { filters, ...rest } = params
   return useInfiniteQuery({
     queryKey: [QUERY_KEY_PAGINATED_ACTIONS, JSON.stringify(params)],
-    queryFn: ({ pageParam }) => api.getActions({ ...rest, page: pageParam, type: filters.type, period: filters.period }),
-    getNextPageParam: (lastPage) => (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : undefined),
-    getPreviousPageParam: (firstPage) => (firstPage.metadata.current_page <= firstPage.metadata.last_page ? undefined : firstPage.metadata.current_page - 1),
+    queryFn: ({ pageParam }) =>
+      isEnabled(rest) ? api.getActions({ ...rest, page: pageParam, type: filters.type, period: filters.period }) : Promise.resolve(undefined),
+    getNextPageParam: (lastPage) =>
+      lastPage ? (lastPage.metadata.last_page > lastPage.metadata.current_page ? lastPage.metadata.current_page + 1 : null) : null,
+    getPreviousPageParam: (firstPage) => (firstPage ? firstPage.metadata.current_page - 1 : null),
     initialPageParam: 1,
     placeholderData: (prev) => prev,
+    enabled: isEnabled(rest),
   })
 }
 

@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 
 export class LocationPermissionError extends Error {
@@ -25,7 +25,7 @@ export const useLocationPermission = () => {
 }
 
 export const useLocation = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryFn: () =>
       Geolocation.getLastKnownPositionAsync()
         .then((data) => {

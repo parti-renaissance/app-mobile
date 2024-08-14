@@ -82,16 +82,18 @@ function Page() {
   const myScope = params.scope ?? scope?.data?.find((x) => x.features.includes('actions'))?.code
   const queryClient = useQueryClient()
 
-  const {
-    data: { coords },
-  } = useLocation()
+  const { data: maybeDataCoord } = useLocation()
 
   const [activeTab] = useState<'actions' | 'myActions'>('actions')
   const [period, setPeriod] = React.useState<SelectPeriod>('to-come')
   const [type, setType] = React.useState<SelectType>(FilterActionType.ALL)
 
-  const data = usePaginatedActions({ ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
-  const actionQuery = useAction(activeAction, { ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
+  const data = usePaginatedActions({
+    ...maybeDataCoord?.coords,
+    subscribeOnly: activeTab === 'myActions',
+    filters: { period, type },
+  })
+  const actionQuery = useAction(activeAction, { ...maybeDataCoord?.coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
   const positionConfig = useSheetPosition(1)
   const { setPosition } = positionConfig
 
@@ -108,7 +110,7 @@ function Page() {
   const filterHeight = useRef(70)
   const [listOpen, setListOpen] = React.useState(true)
   const mapRefs = React.useRef<{ camera: MapboxGl.Camera | null }>(null)
-  const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
+  const flattedActions = data.data?.pages.flatMap((page) => page?.items).filter((x): x is RestAction => x !== undefined) ?? []
   const filteredActions = flattedActions.filter((action) => {
     return [passType(type, action.type)].every(Boolean)
   })
@@ -340,13 +342,13 @@ function Page() {
         onCameraChange={handleOnCameraChange}
         onActionPress={handleOnActionLayerPress}
         onMapPress={handleMapPress}
-        coords={coords}
+        coords={maybeDataCoord?.coords}
         onUserPositionChange={handleOnUserLocationChange}
         followUser={followUser}
         padding={padding}
       />
     ),
-    [coords, followUser, source, padding],
+    [maybeDataCoord?.coords, followUser, source, padding],
   )
 
   const mapButton = useMemo(
