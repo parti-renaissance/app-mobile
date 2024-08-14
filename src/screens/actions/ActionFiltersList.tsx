@@ -1,17 +1,16 @@
 import React from 'react'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Select from '@/components/base/Select/Select'
-import { FilterActionType } from '@/services/actions/schema'
+import { FilterActionType, SelectPeriod } from '@/services/actions/schema'
 import { ScrollView, XStack, YStack, YStackProps } from 'tamagui'
 
 export type SelectType = FilterActionType
-export type SelectPeriod = 'all' | 'today' | 'tomorow' | 'week'
 
 const PERIOD_OPTIONS: Array<{ value: SelectPeriod; label: string }> = [
-  { value: 'all', label: 'Tout' },
-  { value: 'today', label: "Ajourd'hui" },
+  { value: 'past', label: 'Passés' },
+  { value: 'today', label: "Aujourd'hui" },
   { value: 'tomorow', label: 'Demain' },
-  { value: 'week', label: 'Cette semaine' },
+  { value: 'to-come', label: 'À venir' },
 ]
 
 const TYPE_OPTIONS: Array<{ value: SelectType; label: string }> = [

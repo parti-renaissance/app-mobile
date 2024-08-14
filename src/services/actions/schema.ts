@@ -4,7 +4,7 @@ import { DoorOpen, Layers3, Mailbox, Paintbrush } from '@tamagui/lucide-icons'
 import * as z from 'zod'
 import { createRestPaginationSchema } from '../common/schema'
 
-export type SelectPeriod = 'all' | 'today' | 'tomorow' | 'week'
+export type SelectPeriod = 'past' | 'today' | 'tomorow' | 'to-come'
 
 export enum ActionType {
   PAP = 'pap',

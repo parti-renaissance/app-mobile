@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { Dimensions, Platform, StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
@@ -15,7 +15,6 @@ import {
   CreateEditModal,
   createSource,
   passType,
-  SelectPeriod,
   SelectType,
   SideActionList,
   SideList,
@@ -25,7 +24,7 @@ import { ActionMapView } from '@/screens/actions/ActionMapView'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/services/actions/hook/useActions'
-import { FilterActionType, RestAction } from '@/services/actions/schema'
+import { FilterActionType, RestAction, SelectPeriod } from '@/services/actions/schema'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
@@ -88,7 +87,7 @@ function Page() {
   } = useLocation()
 
   const [activeTab] = useState<'actions' | 'myActions'>('actions')
-  const [period, setPeriod] = React.useState<SelectPeriod>('week')
+  const [period, setPeriod] = React.useState<SelectPeriod>('to-come')
   const [type, setType] = React.useState<SelectType>(FilterActionType.ALL)
 
   const data = usePaginatedActions({ ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
