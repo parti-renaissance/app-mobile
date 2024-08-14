@@ -406,16 +406,15 @@ function Page() {
               <Spinner size="large" color="$green8" />
             </YStack>
           )}
-          {media.md && filtersBtns}
+          {media.md && !activeAction && filtersBtns}
 
           {mapView}
         </YStack>
         {media.md && <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} />}
-        {Platform.OS === 'ios' || Platform.OS === 'web' ? modal : null}
+        {modal}
 
         {media.md && bottomSheetList}
         {media.md && actionBottomSheet}
-        {Platform.OS === 'android' ? modal : null}
         {mapButton}
       </YStack>
     </>
