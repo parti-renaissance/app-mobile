@@ -379,6 +379,10 @@ function Page() {
 
   return (
     <>
+      {modal}
+
+      {media.md && bottomSheetList}
+      {media.md && actionBottomSheet}
       {/* <Tabs<'actions' | 'myActions'>
         value={activeTab}
         onChange={setActiveTab}
@@ -412,10 +416,7 @@ function Page() {
           {mapView}
         </YStack>
         {media.md && <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} />}
-        {modal}
 
-        {media.md && bottomSheetList}
-        {media.md && actionBottomSheet}
         {mapButton}
       </YStack>
     </>
