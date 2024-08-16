@@ -41,9 +41,11 @@ const ErrorFallback = (props: FallbackProps) => {
     return <LocationAuthorization onAuthorizationRequest={() => props.resetErrorBoundary()} />
   }
   return (
-    <PageLayout.StateFrame>
-      <DefaultErrorFallback {...props} />
-    </PageLayout.StateFrame>
+    <PageLayout>
+      <PageLayout.StateFrame>
+        <DefaultErrorFallback {...props} />
+      </PageLayout.StateFrame>
+    </PageLayout>
   )
 }
 
@@ -56,20 +58,22 @@ export default function ActionsScreen() {
   }
 
   return (
-    <BoundarySuspenseWrapper errorChildren={(x) => <ErrorFallback {...x} />}>
-      {!isWeb && media.gtMd ? (
-        // <PageLayout.StateFrame bg="$white2">
-        <YStack flex={1} justifyContent="center" bg="$white2" alignItems="center">
-          <GalleryHorizontal size={40} color="$green6" />
-          <Text fontSize="$2" color="$green6">
-            Tournez votre appareil en mode portrait
-          </Text>
-        </YStack>
-      ) : (
-        // </PageLayout.StateFrame>
-        <Page />
-      )}
-    </BoundarySuspenseWrapper>
+    <PageLayout full>
+      <BoundarySuspenseWrapper errorChildren={(x) => <ErrorFallback {...x} />}>
+        {!isWeb && media.gtMd ? (
+          // <PageLayout.StateFrame bg="$white2">
+          <YStack flex={1} justifyContent="center" bg="$white2" alignItems="center">
+            <GalleryHorizontal size={40} color="$green6" />
+            <Text fontSize="$2" color="$green6">
+              Tournez votre appareil en mode portrait
+            </Text>
+          </YStack>
+        ) : (
+          // </PageLayout.StateFrame>
+          <Page />
+        )}
+      </BoundarySuspenseWrapper>
+    </PageLayout>
   )
 }
 

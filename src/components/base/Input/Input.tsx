@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { LayoutChangeEvent, NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
 import { useForwardRef } from '@/hooks/useForwardRef'
+import { isEdge } from '@shopify/react-native-skia'
 import { AlertCircle } from '@tamagui/lucide-icons'
 import { AnimatePresence, isWeb, Spinner, styled, Text, XStack, YStack } from 'tamagui'
 import { gray } from 'theme/colors.hsl'
@@ -150,14 +151,15 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   }
 
   const handleChange = (evt: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    if (inputProps.multiline) adjustTextInputSize(evt)
+    if (inputProps.multiline && isWeb) adjustTextInputSize(evt)
   }
 
   const handleLayoutChange = (evt: LayoutChangeEvent) => {
-    if (inputProps.multiline) adjustTextInputSize(evt)
+    if (inputProps.multiline && isWeb) adjustTextInputSize(evt)
   }
 
   const adjustTextInputSize = (evt) => {
+    if (!isWeb) return
     const el = evt?.target || evt?.nativeEvent?.target
     if (el) {
       const lastHeight = el.style.height

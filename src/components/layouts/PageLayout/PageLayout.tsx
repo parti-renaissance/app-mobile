@@ -1,11 +1,12 @@
 // first fetch profile,
+import { ComponentProps } from 'react'
 import Container from '@/components/layouts/Container'
 import { StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 
 export const padding = '$7'
 export const columnWidth = 333
 
-const LayoutFrame = ({ children, ...props }: StackProps) => {
+const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) => {
   return (
     <Container flex={1} bg="$gray2" $gtMd={{ pl: padding }} $gtLg={{ pl: 0 }} {...props}>
       <XStack flex={1}>{children}</XStack>
