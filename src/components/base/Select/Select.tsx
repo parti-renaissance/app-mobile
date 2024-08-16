@@ -255,7 +255,7 @@ const Select = <A extends string>({
           size={size}
           onBlur={onBlur}
           color={color}
-          iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake)}
+          iconRight={inputIcon(defaultRightIcon ?? (search ? <Search /> : <ChevronDown />), !isFake)}
           onIconRightPress={
             isSearching && !isFake
               ? () => {
@@ -288,7 +288,7 @@ const Select = <A extends string>({
                     <X />
                   </TouchableOpacity>
                 </XStack>
-                <YStack display={search ? 'flex' : 'none'} p pb="$3.5" flexGrow={1} h="$5">
+                <YStack display={search ? 'flex' : 'none'} height="$6" pb="$3.5">
                   <Input
                     ref={inputModalRef}
                     placeholder={placeholder}

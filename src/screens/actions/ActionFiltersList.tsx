@@ -44,7 +44,6 @@ export const ActionFiltersList = (allProps: ActionFiltersListProps & YStackProps
             maxWidth={130}
             minWidth={120}
             size="sm"
-            label="Rechercher"
             placeholder="Adresse"
             setAddressComponents={handleLocationChange}
             forceSelect={false}
