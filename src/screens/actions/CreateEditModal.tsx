@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import ModalOrPageBase from '../ModalOrPageBase/ModalOrPageBase'
-import ActionForm from './ActionForm'
+import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
+import ActionForm from './form/ActionForm'
 
 type CreateEditModalProps = {
   open: boolean

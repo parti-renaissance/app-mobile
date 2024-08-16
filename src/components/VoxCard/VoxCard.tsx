@@ -144,7 +144,7 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
 
 export type VoxCardAttendeesProps = {
   attendees?: {
-    pictures?: [string, string, string]
+    pictures?: Array<{ first_name: string; last_name: string; image_url?: string | null }>
     count: number
   }
 }
@@ -152,14 +152,16 @@ export type VoxCardAttendeesProps = {
 const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   if (!attendees) return <Text>0 participant, soyez le premier !</Text>
   const reverseIndex = (index: number) => (attendees.pictures ? attendees.pictures.length - 1 - index : 0)
-  const getPictureUri = (index: number) => (attendees.pictures ? attendees.pictures[reverseIndex(index)] : '')
+  const getPictureObj = (index: number) => (attendees.pictures ? attendees.pictures[reverseIndex(index)] : null)
+  const getPictureUri = (index: number) => getPictureObj(index)?.image_url ?? undefined
+  const getFullname = (index: number) => (getPictureObj(index) ? `${getPictureObj(index)?.first_name} ${getPictureObj(index)?.last_name}` : '')
   return (
     <XStack gap="$2" alignItems="center">
-      {attendees.pictures && attendees.pictures.length > 3 ? (
+      {attendees.pictures && attendees.pictures.length > 2 ? (
         <ZStack width={68} height="$2">
-          {attendees.pictures.map((_, index) => (
-            <XStack key={encodeURI(getPictureUri(index))} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
-              <Image source={{ uri: getPictureUri(index), width: 50, height: 50 }} width="100%" alt="event image" resizeMode="cover" />
+          {attendees.pictures.slice(0, 2).map((_, index) => (
+            <XStack key={getFullname(index) + index} x={reverseIndex(index) * 20} height="$2" width="$2" borderRadius="$10" overflow="hidden">
+              <ProfilePicture src={getPictureUri(index)} alt={`Image de profil de ${getFullname(index)}`} fullName={getFullname(index)} size="$2" rounded />
             </XStack>
           ))}
         </ZStack>

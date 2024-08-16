@@ -3,6 +3,10 @@ import * as schema from './schema'
 
 const calcPeriod = (period?: schema.SelectPeriod) => {
   switch (period) {
+    case 'past':
+      return {
+        before: startOfDay(new Date()).toISOString(),
+      }
     case 'today':
       return {
         after: startOfDay(new Date()).toISOString(),
@@ -13,13 +17,11 @@ const calcPeriod = (period?: schema.SelectPeriod) => {
         after: startOfDay(addDays(new Date(), 1)).toISOString(),
         before: endOfDay(addDays(new Date(), 1)).toISOString(),
       }
-    case 'week':
-      return {
-        after: startOfDay(new Date()).toISOString(),
-        before: endOfDay(addDays(new Date(), 7)).toISOString(),
-      }
+    case 'to-come':
     default:
-      return null
+      return {
+        after: new Date().toISOString(),
+      }
   }
 }
 

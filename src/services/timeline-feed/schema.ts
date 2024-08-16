@@ -17,9 +17,10 @@ export const RestTimelineFeedAddressSchema = z.object({
 export const RestTimelineFeedAuthorSchema = z.object({
   first_name: z.string().nullable(),
   last_name: z.string().nullable(),
-  role: z.string().nullable().optional(),
-  instance: z.string().nullable().optional(),
-  zone: z.string().nullable().optional(),
+  role: z.string().nullish(),
+  instance: z.string().nullish(),
+  zone: z.string().nullish(),
+  image_url: z.string().url().nullish(),
 })
 
 export type RestTimelineFeedItem = z.infer<typeof RestTimelineFeedItemSchema>

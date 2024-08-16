@@ -1,6 +1,6 @@
 import { api } from '@/utils/api'
 import { z } from 'zod'
-import { formErrorThrower } from '../common/errors/form-errors'
+import { actionFormErrorThrower } from './error'
 import { mapParams } from './paramsMapper'
 import * as schema from './schema'
 
@@ -15,7 +15,7 @@ export const insertAction = (payload: schema.ActionCreateType, scope?: string) =
     path: `api/v3/actions?scope=${scope}`,
     requestSchema: schema.ActionCreateSchema,
     responseSchema: schema.ActionFullSchema,
-    errorThrowers: [formErrorThrower],
+    errorThrowers: [actionFormErrorThrower],
   })(payload)
 }
 
@@ -25,7 +25,7 @@ export const editAction = (uuid: string, payload: schema.ActionCreateType, scope
     path: `api/v3/actions/${uuid}?scope=${scope}`,
     requestSchema: schema.ActionCreateSchema,
     responseSchema: schema.ActionFullSchema,
-    errorThrowers: [formErrorThrower],
+    errorThrowers: [actionFormErrorThrower],
   })(payload)
 }
 

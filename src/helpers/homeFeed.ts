@@ -44,7 +44,7 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
     role: feed.author?.role ?? null,
     name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : null,
     title: feed.author?.instance ?? null,
-    pictureLink: undefined,
+    pictureLink: feed.author?.image_url ?? undefined,
   }
   const location = feed.post_address
     ? {
@@ -69,8 +69,8 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
           image: feed.image ?? undefined,
           description: feed.description!,
           location,
-          ctaLabel: feed.cta_label,
-          ctaLink: feed.cta_link,
+          ctaLabel: feed.cta_label ?? null,
+          ctaLink: feed.cta_link ?? null,
           author,
           date: {
             start: new Date(feed.date!),

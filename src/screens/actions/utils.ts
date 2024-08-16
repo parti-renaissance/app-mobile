@@ -1,9 +1,8 @@
 import React from 'react'
 import { ActionVoxCardProps } from '@/components/Cards/ActionCard'
-import { Action, ActionType, FilterActionType, RestAction } from '@/services/actions/schema'
-import { addDays, isBefore, isSameDay, isSameWeek, setHours } from 'date-fns'
-import MapboxGl from '../Mapbox/Mapbox'
-import { SelectPeriod } from './ActionFiltersList'
+import MapboxGl from '@/components/Mapbox/Mapbox'
+import { Action, ActionType, FilterActionType, isFullAction, RestAction, SelectPeriod } from '@/services/actions/schema'
+import { addDays, isBefore, setHours } from 'date-fns'
 
 export function mapPayload(action: Action): ActionVoxCardProps['payload'] {
   return {
@@ -22,9 +21,16 @@ export function mapPayload(action: Action): ActionVoxCardProps['payload'] {
     },
     author: {
       name: `${action.author.first_name} ${action.author.last_name}`,
-      role: action.author.role,
-      title: action.author.instance,
+      role: action.author.role ?? null,
+      title: action.author.instance ?? null,
+      pictureLink: action.author.image_url ?? undefined,
     },
+    attendees: isFullAction(action)
+      ? undefined
+      : {
+          count: action.participants_count,
+          pictures: action.first_participants.map((x) => x.adherent),
+        },
   }
 }
 
@@ -52,19 +58,6 @@ export function useSheetPosition(defaultPosition: number) {
 
 export const getToday = setHours(new Date(), 0)
 export const getTomorow = setHours(addDays(new Date(), 1), 0)
-
-export const passPeriod = (date: Date, period: SelectPeriod) => {
-  switch (period) {
-    case 'today':
-      return isSameDay(date, new Date())
-    case 'tomorow':
-      return isSameDay(date, addDays(new Date(), 1))
-    case 'week':
-      return isSameWeek(new Date(), date)
-    default:
-      return true
-  }
-}
 
 export const passType = (type: FilterActionType, actionType: ActionType) => {
   return type === FilterActionType.ALL || (actionType as unknown as Omit<FilterActionType, 'all'>) === type

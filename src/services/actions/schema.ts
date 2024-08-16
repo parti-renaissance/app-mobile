@@ -4,7 +4,7 @@ import { DoorOpen, Layers3, Mailbox, Paintbrush } from '@tamagui/lucide-icons'
 import * as z from 'zod'
 import { createRestPaginationSchema } from '../common/schema'
 
-export type SelectPeriod = 'all' | 'today' | 'tomorow' | 'week'
+export type SelectPeriod = 'past' | 'today' | 'tomorow' | 'to-come'
 
 export enum ActionType {
   PAP = 'pap',
@@ -46,9 +46,10 @@ const ActionAuthor = z.object({
   uuid: z.string(),
   first_name: z.string(),
   last_name: z.string(),
-  role: z.string().nullable().optional(),
-  instance: z.string().nullable().optional(),
-  zone: z.string().nullable().optional(),
+  image_url: z.string().url().nullish(),
+  role: z.string().nullish(),
+  instance: z.string().nullish(),
+  zone: z.string().nullish(),
 })
 
 const ActionAddressSchema = z.object({
@@ -93,7 +94,7 @@ export const ActionFullSchema = ActionSchema.omit({ first_participants: true, pa
 
 export const ActionCreateSchema = z.object({
   type: ActionTypeSchema,
-  date: z.coerce.date(),
+  date: z.date(),
   description: z.string(),
   post_address: z.object({
     address: z.string(),
@@ -102,6 +103,17 @@ export const ActionCreateSchema = z.object({
     country: z.string(),
   }),
 })
+
+export const propertyPathSchema = z.enum([
+  'post_address',
+  'post_address.address',
+  'post_address.postal_code',
+  'post_address.city_name',
+  'post_address.country',
+  'date',
+  'description',
+  'type',
+])
 
 export const ActionPaginationSchema = createRestPaginationSchema(ActionSchema)
 

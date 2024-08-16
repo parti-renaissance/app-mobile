@@ -6,6 +6,8 @@ import clientEnv from '@/config/clientEnv'
 import { gray } from '../../../../theme/colors.hex'
 
 export default function ProcurationCTA() {
+  // desactivate procuration block
+  return null
   const onPress = useCallback(async () => {
     const link = `https://${clientEnv.CAMPAIGN_DOMAIN}/procurations?utm_source=app`
     if (await Linking.canOpenURL(link)) {

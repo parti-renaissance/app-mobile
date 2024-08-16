@@ -3,7 +3,7 @@ import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { InputProps, default as TextField } from '@/components/base/Input/Input'
 import { getFormattedDate, getHumanFormattedTime, getIntlDate } from '@/utils/date'
-import { format, parseISO } from 'date-fns'
+import { format, getHours, getMinutes, getTime, parseISO, setHours, setMinutes } from 'date-fns'
 import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {
@@ -18,7 +18,7 @@ interface DatePickerFieldProps {
   color: InputProps['color']
 }
 
-const getDateInputValue = (d: Date, type: 'date' | 'time') => (isWeb ? getIntlDate(d) : format(d, type === 'date' ? 'dd-MM-yyyy' : 'HH:mm'))
+const getDateInputValue = (d: Date, type: 'date' | 'time') => (type === 'date' ? (isWeb ? getIntlDate(d) : format(d, 'dd-MM-yyyy')) : format(d, 'HH:mm'))
 
 const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChange, error, label, disabled, color, type = 'date', onBlur }, ref) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
@@ -40,18 +40,21 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
 
     if (input != '' && input.length === 10) {
       try {
-        onChange?.(isWeb ? new Date(input) : parseISO(input))
+        const time = value ? [getHours(value), getMinutes(value)] : undefined
+        const date = isWeb ? new Date(input) : parseISO(input)
+        const dateWHour = time ? setHours(date, time[0]) : date
+        const fulldate = time ? setMinutes(dateWHour, time[1]) : date
+        onChange?.(fulldate)
       } catch (e) {
-        //
+        console.log(e)
       }
     } else if (type === 'time') {
       if (input.includes(':')) {
-        const candidate = new Date()
+        let candidate = value ?? new Date()
         const inputParts = input.split(':')
-
         if (inputParts.length === 2) {
-          candidate.setHours(Number(inputParts[0]))
-          candidate.setMinutes(Number(inputParts[1]))
+          candidate = setHours(candidate, Number(inputParts[0]))
+          candidate = setMinutes(candidate, Number(inputParts[1]))
           onChange?.(candidate)
           return
         }
@@ -87,7 +90,7 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
         placeholder={type === 'date' ? 'JJ/MM/AAAA' : 'HH:MM'}
         onSubmitEditing={onHide}
         editable={isWeb && !disabled}
-        onChangeText={handleChange}
+        onChange={handleChange}
         onPress={onShow}
         color={color}
         disabled={disabled}

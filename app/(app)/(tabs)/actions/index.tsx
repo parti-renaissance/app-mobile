@@ -1,6 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { Dimensions, Platform, StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Text from '@/components/base/Text'
+import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import MapboxGl from '@/components/Mapbox/Mapbox'
+import { useSession } from '@/ctx/SessionProvider'
+import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import {
   ActionBottomSheet,
   ActionCreateButton,
@@ -9,23 +15,16 @@ import {
   CreateEditModal,
   createSource,
   passType,
-  SelectPeriod,
   SelectType,
   SideActionList,
   SideList,
   useSheetPosition,
-} from '@/components/actions'
-import { ActionMapView } from '@/components/actions/ActionMapView'
-import Text from '@/components/base/Text'
-import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import MapboxGl from '@/components/Mapbox/Mapbox'
-import { useSession } from '@/ctx/SessionProvider'
-import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
+} from '@/screens/actions'
+import { ActionMapView } from '@/screens/actions/ActionMapView'
 import MapButton from '@/screens/doorToDoor/DoorToDoorMapButton'
 import LocationAuthorization from '@/screens/doorToDoor/LocationAuthorization'
 import { QUERY_KEY_PAGINATED_ACTIONS, useAction, usePaginatedActions } from '@/services/actions/hook/useActions'
-import { FilterActionType, RestAction } from '@/services/actions/schema'
+import { FilterActionType, RestAction, SelectPeriod } from '@/services/actions/schema'
 import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { CameraStop } from '@rnmapbox/maps'
 import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
@@ -42,9 +41,11 @@ const ErrorFallback = (props: FallbackProps) => {
     return <LocationAuthorization onAuthorizationRequest={() => props.resetErrorBoundary()} />
   }
   return (
-    <PageLayout.StateFrame>
-      <DefaultErrorFallback {...props} />
-    </PageLayout.StateFrame>
+    <PageLayout>
+      <PageLayout.StateFrame>
+        <DefaultErrorFallback {...props} />
+      </PageLayout.StateFrame>
+    </PageLayout>
   )
 }
 
@@ -57,20 +58,22 @@ export default function ActionsScreen() {
   }
 
   return (
-    <BoundarySuspenseWrapper errorChildren={(x) => <ErrorFallback {...x} />}>
-      {!isWeb && media.gtMd ? (
-        // <PageLayout.StateFrame bg="$white2">
-        <YStack flex={1} justifyContent="center" bg="$white2" alignItems="center">
-          <GalleryHorizontal size={40} color="$green6" />
-          <Text fontSize="$2" color="$green6">
-            Tournez votre appareil en mode portrait
-          </Text>
-        </YStack>
-      ) : (
-        // </PageLayout.StateFrame>
-        <Page />
-      )}
-    </BoundarySuspenseWrapper>
+    <PageLayout full>
+      <BoundarySuspenseWrapper errorChildren={(x) => <ErrorFallback {...x} />}>
+        {!isWeb && media.gtMd ? (
+          // <PageLayout.StateFrame bg="$white2">
+          <YStack flex={1} justifyContent="center" bg="$white2" alignItems="center">
+            <GalleryHorizontal size={40} color="$green6" />
+            <Text fontSize="$2" color="$green6">
+              Tournez votre appareil en mode portrait
+            </Text>
+          </YStack>
+        ) : (
+          // </PageLayout.StateFrame>
+          <Page />
+        )}
+      </BoundarySuspenseWrapper>
+    </PageLayout>
   )
 }
 
@@ -83,16 +86,18 @@ function Page() {
   const myScope = params.scope ?? scope?.data?.find((x) => x.features.includes('actions'))?.code
   const queryClient = useQueryClient()
 
-  const {
-    data: { coords },
-  } = useLocation()
+  const { data: maybeDataCoord } = useLocation()
 
   const [activeTab] = useState<'actions' | 'myActions'>('actions')
-  const [period, setPeriod] = React.useState<SelectPeriod>('week')
+  const [period, setPeriod] = React.useState<SelectPeriod>('to-come')
   const [type, setType] = React.useState<SelectType>(FilterActionType.ALL)
 
-  const data = usePaginatedActions({ ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
-  const actionQuery = useAction(activeAction, { ...coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
+  const data = usePaginatedActions({
+    ...maybeDataCoord?.coords,
+    subscribeOnly: activeTab === 'myActions',
+    filters: { period, type },
+  })
+  const actionQuery = useAction(activeAction, { ...maybeDataCoord?.coords, subscribeOnly: activeTab === 'myActions', filters: { period, type } })
   const positionConfig = useSheetPosition(1)
   const { setPosition } = positionConfig
 
@@ -109,7 +114,7 @@ function Page() {
   const filterHeight = useRef(70)
   const [listOpen, setListOpen] = React.useState(true)
   const mapRefs = React.useRef<{ camera: MapboxGl.Camera | null }>(null)
-  const flattedActions = data.data?.pages.flatMap((page) => page.items) ?? []
+  const flattedActions = data.data?.pages.flatMap((page) => page?.items).filter((x): x is RestAction => x !== undefined) ?? []
   const filteredActions = flattedActions.filter((action) => {
     return [passType(type, action.type)].every(Boolean)
   })
@@ -341,13 +346,13 @@ function Page() {
         onCameraChange={handleOnCameraChange}
         onActionPress={handleOnActionLayerPress}
         onMapPress={handleMapPress}
-        coords={coords}
+        coords={maybeDataCoord?.coords}
         onUserPositionChange={handleOnUserLocationChange}
         followUser={followUser}
         padding={padding}
       />
     ),
-    [coords, followUser, source, padding],
+    [maybeDataCoord?.coords, followUser, source, padding],
   )
 
   const mapButton = useMemo(
@@ -378,6 +383,10 @@ function Page() {
 
   return (
     <>
+      {modal}
+
+      {media.md && bottomSheetList}
+      {media.md && actionBottomSheet}
       {/* <Tabs<'actions' | 'myActions'>
         value={activeTab}
         onChange={setActiveTab}
@@ -406,16 +415,12 @@ function Page() {
               <Spinner size="large" color="$green8" />
             </YStack>
           )}
-          {media.md && filtersBtns}
+          {media.md && !activeAction && filtersBtns}
 
           {mapView}
         </YStack>
         {media.md && <ActionCreateButton onPress={() => setModalOpen(true)} style={styles.createActionContainer} />}
-        {Platform.OS === 'ios' || Platform.OS === 'web' ? modal : null}
 
-        {media.md && bottomSheetList}
-        {media.md && actionBottomSheet}
-        {Platform.OS === 'android' ? modal : null}
         {mapButton}
       </YStack>
     </>

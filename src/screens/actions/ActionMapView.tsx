@@ -39,7 +39,7 @@ export type MapViewRef = {
 
 type ActionMapViewProps = {
   onCameraChange: (location: { longitude: number; latitude: number }) => void
-  coords: { longitude: number; latitude: number }
+  coords?: { longitude: number; latitude: number }
   onMapPress: () => void
   onUserPositionChange: (location: { longitude: number; latitude: number }) => void
   source: MapboxGl.ShapeSource['props']['shape']
@@ -50,6 +50,7 @@ type ActionMapViewProps = {
 
 export const ActionMapView = forwardRef<MapViewRef, ActionMapViewProps>(({ coords, ...props }, ref) => {
   const hanldeCameraChange = (state: MapboxGl.MapState) => {
+    if (!coords) return
     if (!state.gestures.isGestureActive) return
     const center = state.properties.center
     const dataPoint = turf.point([coords.longitude, coords.latitude])
