@@ -47,7 +47,7 @@ export const RestDetailedProfileResponseSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
   gender: z.string(),
-  custom_gender: z.string(),
+  custom_gender: z.string().nullable(),
   nationality: z.string(),
   birthdate: z.coerce.date(),
   post_address: z
@@ -117,7 +117,7 @@ export const RestUpdateProfileRequestSchema = z
     first_name: z.string(),
     last_name: z.string(),
     gender: z.string(),
-    custom_gender: z.string(),
+    custom_gender: z.string().nullable(),
     nationality: z.string(),
     birthdate: z.coerce.date(),
     post_address: z
