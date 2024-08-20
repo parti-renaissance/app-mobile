@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react'
-import { LayoutChangeEvent, NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
+import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { isEdge } from '@shopify/react-native-skia'
 import { AlertCircle } from '@tamagui/lucide-icons'
@@ -17,7 +17,7 @@ export type InputProps = {
   iconLeft?: React.ReactNode
   iconRight?: React.ReactNode
   onChange?: (text: string) => void
-  onIconRightPress?: () => void
+  onIconRightPress?: (e: GestureResponderEvent) => void
   type?: 'text' | 'password' | 'email' | 'number' | 'date' | 'time'
   fake?: boolean
 } & Omit<TextInputProps, 'placeholder' | 'onChange'>
@@ -212,7 +212,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
             )}
           </AnimatePresence>
           {fake ? (
-            <Text color={placeholder ? gray.gray5 : gray.gray8} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
+            <Text color={inputProps.value ? '$textPrimary' : gray.gray5} fontSize={14} numberOfLines={1} borderBottomWidth={0}>
               {inputProps.value || placeholder}
             </Text>
           ) : (

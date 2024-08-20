@@ -13,7 +13,7 @@ import { useMutationUpdateProfil } from '@/services/profile/hook'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import isoToEmoji from '@/utils/isoToEmoji'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { getSupportedRegionCodes } from 'awesome-phonenumber'
+import { getCountryCodeForRegionCode, getSupportedRegionCodes } from 'awesome-phonenumber'
 import { Controller, useForm } from 'react-hook-form'
 import { PortalItem, Spinner, useMedia, View, XStack } from 'tamagui'
 import { validateAccountFormSchema } from './schema'
@@ -21,7 +21,7 @@ import { validateAccountFormSchema } from './schema'
 const phoneCodes = getSupportedRegionCodes().map((code) => {
   return {
     value: code,
-    label: `${code} ${isoToEmoji(code)}`,
+    label: `${isoToEmoji(code)} +${getCountryCodeForRegionCode(code)}`,
   }
 })
 
@@ -152,7 +152,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
                 <DatePickerField
                   color="gray"
                   disabled={!!profile.certified}
-                  placeholder="Date de naissance"
+                  label="Date de naissance"
                   value={value}
                   onBlur={onBlur}
                   onChange={onChange}
@@ -170,7 +170,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
                 <NationalitySelect
                   id="nationality"
                   color="gray"
-                  value={value}
+                  value={value ?? 'FR'}
                   placeholder="Nationalité"
                   onBlur={onBlur}
                   onChange={onChange}
@@ -198,7 +198,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
           control={control}
           render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
             <XStack gap="$3">
-              <View width={110}>
+              <View width={120}>
                 <Select
                   color="gray"
                   value={value.country}
