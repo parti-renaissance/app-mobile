@@ -1,4 +1,4 @@
-import { ComponentProps, memo, useCallback, useMemo, useRef, useState } from 'react'
+import { ComponentProps, ComponentPropsWithoutRef, forwardRef, memo, useCallback, useMemo, useRef, useState } from 'react'
 import { Keyboard, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity } from 'react-native'
 import { Check, ChevronDown, Search, X } from '@tamagui/lucide-icons'
 import _ from 'lodash'
@@ -34,9 +34,9 @@ type TriggerProps<A extends string> = {
   fake?: boolean
 }
 
-const Trigger = <A extends string>(props: TriggerProps<A> & ComponentProps<typeof Input>) => {
-  return <Input fake={props.fake} {...props} selectTextOnFocus />
-}
+const Trigger = forwardRef<TextInput, TriggerProps<A> & ComponentPropsWithoutRef<typeof Input>>((props, ref) => {
+  return <Input fake={props.fake} ref={ref} {...props} selectTextOnFocus />
+})
 
 export const ListFrame = styled(YStack, {
   flex: 1,
@@ -237,12 +237,14 @@ const Select = <A extends string>({
   const isSearching = search && query.length > 0
   const isFake = !search || media.md
   const inputIcon = (icon: React.ReactNode, dyn = true) => (isSearching && dyn ? <X /> : icon)
+  const inputRef = useRef<TextInput>(null)
 
   return (
     <Popover onOpenChange={handleOpen} open={open} size="$6">
       <Popover.Trigger height="auto" flex={1} asChild={!isWeb} disabled={disabled}>
         <Trigger
           onPress={onPress}
+          ref={inputRef}
           onLayout={(e) => setTriggerWidth(e.nativeEvent.layout.width)}
           label={label}
           placeholder={placeholder}
@@ -255,12 +257,16 @@ const Select = <A extends string>({
           size={size}
           onBlur={onBlur}
           color={color}
-          iconRight={inputIcon(defaultRightIcon ?? (search ? <Search /> : <ChevronDown />), !isFake)}
+          iconRight={inputIcon(defaultRightIcon ?? <ChevronDown />, !isFake && open)}
           onIconRightPress={
-            isSearching && !isFake
-              ? () => {
+            isSearching && !isFake && open
+              ? (e) => {
+                  e.stopPropagation()
                   setQuery('')
                   handleQuery('')
+                  setTimeout(() => {
+                    inputRef.current?.focus()
+                  }, 100)
                 }
               : undefined
           }

@@ -126,7 +126,15 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
               control={control}
               name={'date'}
               render={({ field, fieldState }) => (
-                <DatePicker label={'Date'} error={fieldState.error?.message} onBlur={field.onBlur} value={field.value} color="gray" onChange={field.onChange} />
+                <DatePicker
+                  label={'Date'}
+                  type="date"
+                  error={fieldState.error?.message}
+                  onBlur={field.onBlur}
+                  value={field.value}
+                  color="gray"
+                  onChange={field.onChange}
+                />
               )}
             />
           </SpacedContainer>

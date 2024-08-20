@@ -2,6 +2,7 @@ import React, { ComponentProps, memo, useCallback, useState } from 'react'
 import usePlaceAutocomplete from '@/components/AddressAutoComplete/Hooks/usePlaceAutocomplete'
 import usePlaceDetails from '@/components/AddressAutoComplete/Hooks/usePlaceDetails'
 import googleAddressMapper from '@/data/mapper/googleAddressMapper'
+import { Search } from '@tamagui/lucide-icons'
 import { useDebounceValue, YStack } from 'tamagui'
 import Select from '../base/Select/Select'
 
@@ -75,6 +76,7 @@ function AddressAutocomplete({
         onChange={onPlaceSelect}
         onBlur={onBlur}
         forceSelect={forceSelect}
+        defaultRightIcon={<Search />}
         queryHandler={onInput}
         {...rest}
         options={[
