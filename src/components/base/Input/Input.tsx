@@ -33,7 +33,7 @@ const sizes = {
     height: 4.5,
   },
   lg: {
-    height: 56,
+    height: 5,
   },
 }
 
@@ -42,7 +42,7 @@ const InputFrame = styled(XStack, {
   gap: '$2.5',
   width: '100%',
   minWidth: 100,
-  minHeight: '$3.5',
+  justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '$10',
   paddingHorizontal: '$5',
@@ -93,21 +93,6 @@ const InputFrame = styled(XStack, {
       },
       gray: {
         backgroundColor: '$gray2',
-      },
-    },
-
-    size: {
-      xs: {
-        minHeight: '$3.5',
-      },
-      sm: {
-        minHeight: '$4',
-      },
-      md: {
-        minHeight: '$4.5',
-      },
-      lg: {
-        minHeight: 56,
       },
     },
   },
@@ -190,48 +175,40 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     }
   }, [type])
 
+  const calcSize = sizes[size ?? 'lg'].height
+
   return (
     <YStack gap="$1" flex={1}>
       <InputFrame
         disabled={disabled}
         color={color ?? 'white'}
-        size={size ?? 'md'}
         error={isFailed}
         loading={loading}
         forceStyle={isFocused ? 'focus' : undefined}
         onPress={handlePress}
         iconLeft={!!iconLeft}
         iconRight={!!iconRight}
-        maxHeight={`$${sizes[size ?? 'md'].height + (inputProps.multiline ? 5 : 0)}`}
+        minHeight={`$${inputProps.multiline ? Math.round(calcSize + 4) : calcSize}`}
       >
         {!loading && iconLeft && (
           <YStack height="100%" justifyContent="center">
             {iconLeft}
           </YStack>
         )}
-        <YStack gap="$1" flex={1} height="100%" justifyContent="center" position="relative" paddingVertical={`$${sizes[size ?? 'md'].height - 1.5}`}>
+        <YStack
+          gap="$1"
+          height="100%"
+          flex={1}
+          justifyContent={inputProps.multiline ? undefined : 'center'}
+          paddingTop={inputProps.multiline ? '$3' : undefined}
+        >
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
-              <YStack
-                gap="$1"
-                flex={1}
-                alignSelf="flex-start"
-                justifyContent="center"
-                position="absolute"
-                top={0}
-                left={0}
-                animation="bouncy"
-                enterStyle={{
-                  opacity: 0,
-                }}
-                exitStyle={{
-                  opacity: 0,
-                }}
-              >
-                <Text color="$textSecondary" fontSize={10}>
+              <XStack alignSelf="flex-start">
+                <Text color="$textSecondary" fontSize={12} flex={1}>
                   {label ?? placeholder}
                 </Text>
-              </YStack>
+              </XStack>
             )}
           </AnimatePresence>
           {fake ? (
@@ -245,7 +222,6 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
                 padding: 0,
                 fontSize: 14,
                 width: '100%',
-                height: '100%',
               }}
               editable={!disabled}
               ref={inputRef}

@@ -200,8 +200,9 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
               render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
                 <AddressAutocomplete
                   color="gray"
-                  placeholder="Adresse"
-                  defaultValue={`${value?.address} ${value?.city_name}`}
+                  label="Adresse"
+                  placeholder="Rechercher une adresse"
+                  defaultValue={`${value?.address} ${value?.city_name}`.trim()}
                   onBlur={onBlur}
                   setAddressComponents={(x) =>
                     onChange({

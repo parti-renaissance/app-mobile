@@ -400,21 +400,6 @@ function Page() {
         {media.gtMd && sideActionList}
         {media.gtMd && sideList}
         <YStack flex={1} position="relative">
-          {data.isLoading && (
-            <YStack
-              backgroundColor="$gray/48"
-              position="absolute"
-              top={0}
-              left={0}
-              right={0}
-              bottom={0}
-              justifyContent="center"
-              alignItems="center"
-              zIndex={10}
-            >
-              <Spinner size="large" color="$green8" />
-            </YStack>
-          )}
           {media.md && !activeAction && filtersBtns}
 
           {mapView}

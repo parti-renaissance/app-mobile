@@ -142,7 +142,6 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
                   </View>
                 )}
               </SelectTamagui.Label>
-
               {virtualOptions?.map((option, index) => <RenderItem key={option.value} option={option} index={option.index ?? index} />)}
             </SelectTamagui.Group>
           </SelectTamagui.Viewport>
