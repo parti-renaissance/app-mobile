@@ -12,12 +12,14 @@ import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { Tabs } from '@/components/Tabs/Tabs'
 import * as metatags from '@/config/metatags'
+import { useSession } from '@/ctx/SessionProvider'
 import Head from 'expo-router/head'
 import { useMedia, YStack } from 'tamagui'
 
 const EventsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'events' | 'myEvents'>('events')
   const media = useMedia()
+  const { isAuth } = useSession()
   return (
     <>
       <Head>
@@ -37,16 +39,17 @@ const EventsScreen: React.FC = () => {
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <BottomSheetFilter />
-          <Tabs<'events' | 'myEvents'>
-            value={activeTab}
-            onChange={setActiveTab}
-            grouped={media.lg}
-            $gtMd={{ paddingHorizontal: '$7', paddingTop: '$6', paddingBottom: 0 }}
-          >
-            <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
-            <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
-          </Tabs>
-
+          {isAuth && (
+            <Tabs<'events' | 'myEvents'>
+              value={activeTab}
+              onChange={setActiveTab}
+              grouped={media.lg}
+              $gtMd={{ paddingHorizontal: '$7', paddingTop: '$6', paddingBottom: 0 }}
+            >
+              <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
+              <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
+            </Tabs>
+          )}
           <BoundarySuspenseWrapper
             fallback={
               <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>

@@ -153,6 +153,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
                   color="gray"
                   disabled={!!profile.certified}
                   label="Date de naissance"
+                  type="date"
                   value={value}
                   onBlur={onBlur}
                   onChange={onChange}
