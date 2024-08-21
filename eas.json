@@ -11,12 +11,18 @@
     "staging": {
       "distribution": "internal",
       "channel": "staging",
-      "autoIncrement": true
+      "autoIncrement": true,
+      "android": {
+        "resourceClass": "large"
+      }
     },
     "production": {
       "distribution": "store",
       "channel": "main",
-      "autoIncrement": true
+      "autoIncrement": true,
+      "android": {
+        "resourceClass": "large"
+      }
     }
   },
   "submit": {
