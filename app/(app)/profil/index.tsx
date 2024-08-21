@@ -1,34 +1,24 @@
 import React from 'react'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
+import ProfilLayout from '@/components/layouts/ProfilLayout'
 import * as metatags from '@/config/metatags'
-import EditInformations from '@/screens/profil/account/page'
+import ProfilMenu from '@/screens/profil/menu/Menu'
+import { Redirect } from 'expo-router'
 import Head from 'expo-router/head'
-import { YStack } from 'tamagui'
+import { useMedia } from 'tamagui'
 
 function ProfilScreen() {
+  const media = useMedia()
+  if (media.gtSm) return <Redirect href="/profil/informations-personnelles" />
+
   return (
     <>
       <Head>
         <title>{metatags.createTitle('Mon profil')}</title>
       </Head>
 
-      <PageLayout>
-        <PageLayout.SideBarLeft>
-          <YStack gap="$3">
-            <ProcurationCTA />
-            <AppDownloadCTA />
-          </YStack>
-        </PageLayout.SideBarLeft>
-        <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper>
-            <EditInformations />
-          </BoundarySuspenseWrapper>
-        </PageLayout.MainSingleColumn>
-        <PageLayout.SideBarRight />
-      </PageLayout>
+      <ProfilLayout>
+        <ProfilMenu />
+      </ProfilLayout>
     </>
   )
 }

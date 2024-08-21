@@ -1,7 +1,7 @@
 // first fetch profile,
 import { ComponentProps } from 'react'
 import Container from '@/components/layouts/Container'
-import { StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
+import { Media, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 
 export const padding = '$7'
 export const columnWidth = 333
@@ -14,10 +14,10 @@ const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) =
   )
 }
 
-const LayoutSideBarLeft = ({ children }: ViewProps) => {
+const LayoutSideBarLeft = ({ children, showOn = 'gtMd' }: ViewProps & { showOn?: keyof Media }) => {
   const media = useMedia()
   return (
-    media.gtMd && (
+    media[showOn] && (
       <View width={columnWidth} height="100%" pt={padding}>
         {children}
       </View>

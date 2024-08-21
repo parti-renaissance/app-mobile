@@ -3,7 +3,7 @@ import { Stack } from 'expo-router'
 
 export default function AppLayout() {
   return (
-    <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
+    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: 'slide_from_right' }}>
       <Stack.Screen name="index" options={{ title: 'Actions' }} />
       <Stack.Screen name="phoning/index" options={{ headerShown: false }} />
       <Stack.Screen name="phoning/session/[device]" options={{ presentation: 'modal', headerShown: false }} />

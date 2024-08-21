@@ -11,7 +11,7 @@ export default function AppLayout() {
   }
 
   return (
-    <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
+    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: 'slide_from_right' }}>
       <Stack.Screen
         name="index"
         options={{
@@ -21,6 +21,20 @@ export default function AppLayout() {
               <PortalHost name="ProfilHeaderRight"></PortalHost>
             </YStack>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="informations-personnelles"
+        options={{
+          title: 'Informations Personelles',
+          headerRight: () => null,
+        }}
+      />
+      <Stack.Screen
+        name="cotisation-et-dons"
+        options={{
+          title: 'Cotisation et Dons',
+          headerRight: () => null,
         }}
       />
     </Stack>
