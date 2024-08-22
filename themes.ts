@@ -158,6 +158,11 @@ export const templates = (() => {
     background: transparencies + 1,
   }
 
+  const badgeSurface = {
+    background: transparencies + 2,
+    color: transparencies + 7,
+  }
+
   const surface3 = {
     background: base.background + 3,
     backgroundHover: base.backgroundHover + 3,
@@ -288,6 +293,7 @@ export const templates = (() => {
     surfaceRadio,
     surfaceSwitch,
     surfaceSwitchThumb,
+    badgeSurface,
   }
 })()
 
@@ -408,6 +414,12 @@ const surfaceInput1 = [
   },
 ] as any
 
+const badgeSurface = [
+  {
+    template: 'badgeSurface',
+  },
+] as any
+
 // --- themeBuilder ---
 
 const themeBuilder = createThemeBuilder()
@@ -502,6 +514,7 @@ const themeBuilder = createThemeBuilder()
       Input: surface1,
       TextArea: surface1,
       VoxInput: surfaceInput1,
+      VoxBadge: badgeSurface,
       VoxRadio: {
         template: 'surfaceRadio',
       },

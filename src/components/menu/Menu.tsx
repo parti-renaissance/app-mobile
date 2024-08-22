@@ -2,11 +2,16 @@ import Item from '@/components/menu/Item'
 import { styled, withStaticProperties, YStack } from 'tamagui'
 
 const MenuFrame = styled(YStack, {
-  // flex: 1,
+  backgroundColor: '$white1',
+  flex: 1,
+  $sm: {
+    width: '100%',
+  },
   $gtSm: {
     overflow: 'hidden',
     borderRadius: '$4',
     maxWidth: 260,
+    elevation: 1,
   },
 })
 

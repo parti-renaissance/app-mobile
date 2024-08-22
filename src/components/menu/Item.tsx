@@ -1,24 +1,26 @@
 import { ComponentProps } from 'react'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { ChevronRight } from '@tamagui/lucide-icons'
-import { createStyledContext, styled, View, XStack } from 'tamagui'
+import { styled, View, XStack, YStack } from 'tamagui'
 import Text from '../base/Text'
 
 const ItemFrame = styled(XStack, {
   animation: '100ms',
   flex: 1,
-  background: '$white1',
+  width: '100%',
+  backgroundColor: '$white1',
   paddingHorizontal: '$4',
   borderBottomWidth: 1,
   alignItems: 'center',
   borderColor: '$gray2',
   cursor: 'pointer',
   hoverStyle: {
-    background: '$gray1',
+    backgroundColor: '$gray1',
   },
   pressStyle: {
-    background: '$gray3',
+    backgroundColor: '$gray3',
   },
+
   variants: {
     size: {
       sm: {
@@ -30,7 +32,7 @@ const ItemFrame = styled(XStack, {
     },
 
     active: {
-      true: { background: '$gray1' },
+      true: { backgroundColor: '$gray1' },
     },
     last: {
       true: {

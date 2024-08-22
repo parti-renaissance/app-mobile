@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProfilLayout from '@/components/layouts/ProfilLayout'
 import * as metatags from '@/config/metatags'
 import ProfilMenu from '@/screens/profil/menu/Menu'
-import { Redirect } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import Head from 'expo-router/head'
-import { useMedia } from 'tamagui'
+import { ScrollView, useMedia, YStack } from 'tamagui'
 
 function ProfilScreen() {
   const media = useMedia()
-  if (media.gtSm) return <Redirect href="/profil/informations-personnelles" />
+  if (media.gtSm) return <Redirect href="/profil/cotisation-et-dons" />
 
   return (
     <>
@@ -17,7 +17,9 @@ function ProfilScreen() {
       </Head>
 
       <ProfilLayout>
-        <ProfilMenu />
+        <ScrollView flex={1} width="100%">
+          <ProfilMenu />
+        </ScrollView>
       </ProfilLayout>
     </>
   )

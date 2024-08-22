@@ -1,6 +1,6 @@
 import { SmallHeader } from '@/components/Header/Header'
 import { useSession } from '@/ctx/SessionProvider'
-import { Redirect, Stack } from 'expo-router'
+import { Redirect, router, Stack, useNavigation } from 'expo-router'
 import { PortalHost, YStack } from 'tamagui'
 
 export default function AppLayout() {
@@ -16,6 +16,12 @@ export default function AppLayout() {
         name="index"
         options={{
           title: 'Profil',
+        }}
+      />
+      <Stack.Screen
+        name="informations-personnelles"
+        options={{
+          title: 'Informations Personelles',
           headerRight: () => (
             <YStack>
               <PortalHost name="ProfilHeaderRight"></PortalHost>
@@ -24,17 +30,10 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
-        name="informations-personnelles"
-        options={{
-          title: 'Informations Personelles',
-          headerRight: () => null,
-        }}
-      />
-      <Stack.Screen
         name="cotisation-et-dons"
         options={{
           title: 'Cotisation et Dons',
-          headerRight: () => null,
+          headerRight: () => <YStack></YStack>,
         }}
       />
     </Stack>
