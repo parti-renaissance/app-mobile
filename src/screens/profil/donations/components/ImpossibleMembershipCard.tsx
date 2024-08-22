@@ -18,7 +18,7 @@ export default function (props: CommonMembershipCardProps) {
               <Text fontWeight="$6">La double adhésion n’étant pas permise par Renaissance, il ne vous est pas possible d’adhérer.</Text>
             </YStack>
             <YStack alignContent="center" height="100%" alignItems="center" justifyContent="center">
-              <Button bg="$blue7" disabled>
+              <Button theme="blue" disabled>
                 <Button.Text>J'adhère</Button.Text>
               </Button>
             </YStack>

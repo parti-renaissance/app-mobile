@@ -1,11 +1,8 @@
 import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { getHumanFormattedDate } from '@/utils/date'
 import { CheckCircle } from '@tamagui/lucide-icons'
-import { format } from 'date-fns-tz'
-import { Image } from 'expo-image'
 import { styled, View, XStack, YStack } from 'tamagui'
 import type { CommonMembershipCardProps } from './types'
 
@@ -25,7 +22,7 @@ export default function (props: CommonMembershipCardProps) {
               </YStack>
             </XStack>
           </YStack>
-          <YStack alignContent="center" height="100%" alignItems="center" justifyContent="center">
+          <YStack justifyContent="center">
             <CheckCircle size="$5" color="$blue6" strokeWidth={1} />
           </YStack>
         </XStack>

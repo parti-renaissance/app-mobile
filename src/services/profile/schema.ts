@@ -172,6 +172,7 @@ export const RestRemoveProfileResponseSchema = z.void()
 
 // -----------------  RestDonations  -----------------
 
+export type RestDonationsRequest = z.infer<typeof RestDonationsRequestSchema>
 export const RestDonationsResponseSchema = z.array(
   z.object({
     date: z.coerce.date(),
@@ -183,4 +184,5 @@ export const RestDonationsResponseSchema = z.array(
   }),
 )
 
+export type RestDonationsResponse = z.infer<typeof RestDonationsResponseSchema>
 export const RestDonationsRequestSchema = z.void()

@@ -2,7 +2,7 @@ import { ComponentProps } from 'react'
 import { styled, View } from 'tamagui'
 import Text from '../base/Text'
 
-const BadgeFrame = styled(View, {
+export const BadgeFrame = styled(View, {
   name: 'VoxBadge',
   backgroundColor: '$background',
   borderRadius: '$12',
@@ -11,7 +11,7 @@ const BadgeFrame = styled(View, {
 } as const)
 
 export type BadgeProps = {
-  children: string
+  children: string | string[]
 } & ComponentProps<typeof BadgeFrame>
 
 const Badge = ({ children, ...props }: BadgeProps) => {

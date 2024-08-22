@@ -13,10 +13,9 @@ import AutoSizeImage from '../AutoSizeImage'
 
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
+  elevation: 1,
   $gtSm: {
     borderRadius: '$8',
-    borderColor: '$gray3',
-    borderWidth: 1,
   },
 } as const)
 
@@ -241,7 +240,7 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
   )
 }
 
-const VoxCardSeparator = (props: StackProps) => <Separator {...props} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} />
+const VoxCardSeparator = (props: StackProps) => <Separator {...props} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
 
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Content: VoxCardContent,
