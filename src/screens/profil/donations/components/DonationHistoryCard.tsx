@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import Text from '@/components/base/Text'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetDonations } from '@/services/profile/hook'
@@ -24,9 +25,9 @@ const DonationHistoryCard = () => {
         <Text>Historique de paiements</Text>
         <VoxCard bg="$gray1">
           <VoxCard.Content>
-            {data.map((donation, index) => (
-              <>
-                <XStack key={index} gap="$2" flex={1}>
+            {data.map((donation) => (
+              <Fragment key={donation.uuid}>
+                <XStack gap="$2" flex={1}>
                   <Text fontWeight="$6">{format(donation.date, 'dd MMM yyyy', { locale: fr })}</Text>
                   <Text color="$textSecondary">
                     {getType(donation)} • {donation.type.toUpperCase()}
@@ -36,7 +37,7 @@ const DonationHistoryCard = () => {
                   </XStack>
                 </XStack>
                 <VoxCard.Separator borderColor="$gray/32" />
-              </>
+              </Fragment>
             ))}
           </VoxCard.Content>
         </VoxCard>

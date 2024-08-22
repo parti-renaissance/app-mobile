@@ -175,6 +175,7 @@ export const RestRemoveProfileResponseSchema = z.void()
 export type RestDonationsRequest = z.infer<typeof RestDonationsRequestSchema>
 export const RestDonationsResponseSchema = z.array(
   z.object({
+    uuid: z.string().uuid(),
     date: z.coerce.date(),
     type: z.enum(['cb', 'check', 'transfer', 'tpe']),
     subscription: z.boolean(),
