@@ -8,7 +8,7 @@ import i18n from '@/utils/i18n'
 import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
-import { Image, Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 import AutoSizeImage from '../AutoSizeImage'
 
 const CardFrame = styled(YStack, {

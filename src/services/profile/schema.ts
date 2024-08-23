@@ -1,5 +1,3 @@
-import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumber'
-import { property } from 'lodash'
 import { z } from 'zod'
 
 // -----------------  RestProfil  -----------------
@@ -196,7 +194,7 @@ export type RestElectedProfileRequest = z.infer<typeof RestElectedProfileRequest
 export type RestElectedProfileResponse = z.infer<typeof RestElectedProfileResponseSchema>
 export const RestElectedProfileResponseSchema = z.object({
   mandates: z.array(z.string()),
-  contribution_status: z.enum(['active', 'inactive']).nullable(),
+  contribution_status: z.enum(['eligible', 'not_eligible']).nullable(),
   exempt_from_cotisation: z.boolean(),
   contributed_at: z.coerce.date().nullable(),
   payments: z.array(z.object({ date: z.coerce.date(), amount: z.number(), method: z.string(), uuid: z.string().uuid(), status_label: z.string() })),

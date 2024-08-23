@@ -25,7 +25,7 @@ const EditInformations = () => {
   return (
     <PageLayout.MainSingleColumn position="relative">
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : '$colorTransparent'}>
+        <ScrollView contentContainerStyle={scrollViewContainerStyle}>
           <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
             <MembershipCard other_party_membership={profile.other_party_membership} last_membership_donation={profile.last_membership_donation} />
             <DonationCard />
