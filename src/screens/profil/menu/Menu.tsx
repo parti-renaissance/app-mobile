@@ -19,10 +19,11 @@ const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Href<strin
     children: 'Information personnelles',
     pathname: '/profil/informations-personnelles',
   },
-  // {
-  //   icon: TreeDeciduous,
-  //   children: "Information d'élu",
-  // },
+  {
+    icon: TreeDeciduous,
+    children: "Information d'élu",
+    pathname: '/profil/informations-elu',
+  },
   // {
   //   icon: Mail,
   //   children: 'Adresse email',
