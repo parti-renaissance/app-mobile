@@ -41,7 +41,7 @@ const HomeFeedList = () => {
       style={{ flex: 1 }}
       contentContainerStyle={{
         gap: getToken('$4', 'space'),
-        paddingTop: media.gtSm ? getToken('$7', 'space') : getToken('$4', 'space'),
+        paddingTop: media.gtSm ? getToken('$5', 'space') : getToken('$1', 'space'),
         paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
       }}

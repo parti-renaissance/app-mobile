@@ -199,7 +199,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
           control={control}
           render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
             <XStack gap="$3">
-              <View width={120}>
+              <View width={130}>
                 <Select
                   color="gray"
                   value={value.country}

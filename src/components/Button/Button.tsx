@@ -67,19 +67,19 @@ export const ButtonFrame = styled(View, {
 
     size: {
       sm: {
-        paddingVertical: '$2',
+        height: '$3',
         paddingHorizontal: '$3',
-        borderRadius: '$6',
+        borderRadius: '$7',
         gap: 4,
       },
       md: {
-        paddingVertical: '$3',
+        height: '$3.5',
         paddingHorizontal: '$4',
         borderRadius: '$8',
         gap: 6,
       },
       lg: {
-        paddingVertical: '$4',
+        height: '$4',
         paddingHorizontal: '$5',
         borderRadius: '$10',
         gap: 8,
@@ -100,7 +100,7 @@ export const ButtonText = styled(Text, {
   context: ButtonContext,
   color: '$color',
   userSelect: 'none',
-  fontWeight: '$7',
+  fontWeight: '$6',
   fontSize: '$2',
 
   variants: {
@@ -120,13 +120,13 @@ export const ButtonText = styled(Text, {
     },
     size: {
       sm: {
-        fontSize: '$1',
+        fontSize: '$2',
       },
       md: {
         fontSize: '$2',
       },
       lg: {
-        fontSize: '$3',
+        fontSize: '$2',
       },
     },
   } as const,

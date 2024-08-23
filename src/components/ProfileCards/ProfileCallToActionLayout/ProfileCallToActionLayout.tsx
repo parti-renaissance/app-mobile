@@ -2,6 +2,7 @@ import { PropsWithChildren, ReactNode } from 'react'
 import { ImageSourcePropType } from 'react-native'
 import Text from '@/components/base/Text'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { Card, Image, ImageProps, TextProps, View, withStaticProperties } from 'tamagui'
 
 export interface ProfileCallToActionProps extends PropsWithChildren {
@@ -19,17 +20,9 @@ export interface ProfileCallToActionProps extends PropsWithChildren {
 
 function Layout({ children, backgroundColor, height, noPadding = false, noBorder = false }: Readonly<ProfileCallToActionProps>) {
   return (
-    <Card
-      padding={noPadding ? undefined : '$4'}
-      backgroundColor={backgroundColor ?? '$white1'}
-      height={height}
-      borderRadius={'$8'}
-      borderWidth={noBorder ? 0 : 1}
-      borderColor={'$gray3'}
-      overflow={'hidden'}
-    >
+    <VoxCard padding={noPadding ? undefined : '$4'} backgroundColor={backgroundColor ?? '$white1'} height={height} inside overflow={'hidden'}>
       {children && <SpacedContainer>{children}</SpacedContainer>}
-    </Card>
+    </VoxCard>
   )
 }
 

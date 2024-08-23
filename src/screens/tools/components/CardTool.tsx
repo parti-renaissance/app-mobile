@@ -24,16 +24,7 @@ const CardTool = ({ name, url, imageUrl }: CardToolProps) => {
   const title = maybeName.length > 0 ? maybeName.join(':').trim() : name
 
   return (
-    <VoxCard
-      borderRadius="$8"
-      onPress={() => handlePress()}
-      borderWidth={1}
-      borderColor="$gray3"
-      height="$13"
-      flexDirection="column"
-      justifyContent="flex-end"
-      cursor="pointer"
-    >
+    <VoxCard onPress={() => handlePress()} height="$13" inside flexDirection="column" justifyContent="flex-end" cursor="pointer">
       <VoxCardContent>
         <View flexDirection="row" gap={2} justifyContent="flex-end">
           {imageUrl ? (
