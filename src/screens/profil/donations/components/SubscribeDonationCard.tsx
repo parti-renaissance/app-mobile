@@ -6,9 +6,8 @@ import { useGetMagicLink } from '@/services/magic-link/hook'
 import type { RestDonationsResponse } from '@/services/profile/schema'
 import { getHumanFormattedDate } from '@/utils/date'
 import { Crown } from '@tamagui/lucide-icons'
-import { Image } from 'expo-image'
 import * as WebBrowser from 'expo-web-browser'
-import { styled, XStack, YStack } from 'tamagui'
+import { XStack, YStack } from 'tamagui'
 
 export default function (props: { subscription: RestDonationsResponse[number] }) {
   const { data: magicLink, isPending } = useGetMagicLink({ platform: 'donation' })

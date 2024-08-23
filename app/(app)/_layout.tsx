@@ -34,7 +34,7 @@ export default function AppLayout() {
   return (
     <PortalLayout>
       <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-        <Stack screenOptions={{ headerShown: false }}>
+        <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
           <Stack.Screen
             name="(tabs)"
             options={{

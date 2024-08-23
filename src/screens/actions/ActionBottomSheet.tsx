@@ -157,7 +157,7 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
           }}
         >
           {payload && action ? (
-            <ActionCard payload={payload} asFull>
+            <ActionCard payload={payload} inside asFull>
               {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
               {!isBefore(action.date, new Date()) && isMyAction ? <GradientButton onPress={onEdit}>Editer</GradientButton> : null}
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
@@ -182,9 +182,11 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
 
           {payload === null && isLoading ? (
             <SkeCard>
-              <SkeCard.Chip />
-              <SkeCard.Title />
-              <SkeCard.Description />
+              <SkeCard.Content>
+                <SkeCard.Chip />
+                <SkeCard.Title />
+                <SkeCard.Description />
+              </SkeCard.Content>
             </SkeCard>
           ) : null}
         </Sheet.ScrollView>

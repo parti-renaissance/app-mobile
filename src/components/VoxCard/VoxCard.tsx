@@ -14,12 +14,21 @@ import AutoSizeImage from '../AutoSizeImage'
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   elevation: 1,
+  shadowColor: '$gray4',
   $gtSm: {
     borderRadius: '$8',
   },
+  variants: {
+    inside: {
+      true: {
+        borderRadius: '$6',
+        elevation: 0,
+      },
+    },
+  },
 } as const)
 
-export type VoxCardFrameProps = ComponentProps<typeof YStack>
+export type VoxCardFrameProps = ComponentProps<typeof CardFrame>
 const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
   return (
     <CardFrame {...props}>
