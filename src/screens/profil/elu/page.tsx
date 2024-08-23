@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { useSession } from '@/ctx/SessionProvider'
-import { useGetElectProfil, useGetProfil } from '@/services/profile/hook'
+import { useGetElectProfil } from '@/services/profile/hook'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
+import InfoEluCard from './components/InfoEluCard'
 
 const EditInformations = () => {
   const media = useMedia()
@@ -23,7 +23,9 @@ const EditInformations = () => {
     <PageLayout.MainSingleColumn position="relative">
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : ''}>
-          <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}></YStack>
+          <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
+            <InfoEluCard profil={profile} />
+          </YStack>
         </ScrollView>
       </KeyboardAvoidingView>
     </PageLayout.MainSingleColumn>
