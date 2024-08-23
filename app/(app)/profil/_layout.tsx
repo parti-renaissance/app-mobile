@@ -33,7 +33,6 @@ export default function AppLayout() {
         name="cotisation-et-dons"
         options={{
           title: 'Cotisation et Dons',
-          headerRight: () => <YStack></YStack>,
         }}
       />
     </Stack>

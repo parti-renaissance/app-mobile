@@ -52,3 +52,12 @@ export const getDonations = api({
   responseSchema: schemas.RestDonationsResponseSchema,
   type: 'private',
 })
+
+export const getElectedProfil = (userUuid: string) =>
+  api({
+    method: 'GET',
+    path: `/api/v3/adherents/${userUuid}/elect`,
+    requestSchema: schemas.RestElectedProfileRequestSchema,
+    responseSchema: schemas.RestElectedProfileResponseSchema,
+    type: 'private',
+  })()

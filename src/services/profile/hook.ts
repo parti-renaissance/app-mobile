@@ -1,3 +1,4 @@
+import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
@@ -74,5 +75,14 @@ export const useGetDonations = () => {
   return useQuery({
     queryKey: ['donations'],
     queryFn: () => api.getDonations(),
+  })
+}
+
+export const useGetElectProfil = () => {
+  const { user } = useSession()
+  const userUuid = user?.data?.uuid
+  return useSuspenseQuery({
+    queryKey: ['electProfile', userUuid],
+    queryFn: () => api.getElectedProfil(userUuid!),
   })
 }

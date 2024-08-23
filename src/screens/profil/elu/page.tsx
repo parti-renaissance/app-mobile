@@ -1,16 +1,14 @@
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { useSession } from '@/ctx/SessionProvider'
-import { useGetDetailProfil, useGetDonations } from '@/services/profile/hook'
+import { useGetElectProfil } from '@/services/profile/hook'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
-import DonationCard from './components/DonationCard'
-import DonationHistoryCard from './components/DonationHistoryCard'
-import MembershipCard from './components/MembershipCard'
+import DeclaEluCard from './components/DeclaEluCard'
+import InfoEluCard from './components/InfoEluCard'
 
 const EditInformations = () => {
   const media = useMedia()
-  const { data: profile } = useGetDetailProfil()
+  const { data: profile } = useGetElectProfil()
 
   const scrollViewContainerStyle = useMemo(
     () => ({
@@ -27,9 +25,8 @@ const EditInformations = () => {
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
           <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
-            <MembershipCard other_party_membership={profile.other_party_membership} last_membership_donation={profile.last_membership_donation} />
-            <DonationCard />
-            <DonationHistoryCard />
+            <InfoEluCard profil={profile} />
+            <DeclaEluCard profil={profile} />
           </YStack>
         </ScrollView>
       </KeyboardAvoidingView>

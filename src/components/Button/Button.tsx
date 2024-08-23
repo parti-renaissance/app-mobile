@@ -106,7 +106,7 @@ export const ButtonText = styled(Text, {
   variants: {
     variant: {
       contained: {
-        color: '$color',
+        color: '$white1',
       },
       soft: {
         color: '$background',

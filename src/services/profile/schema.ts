@@ -1,5 +1,3 @@
-import { getCountryCodeForRegionCode, parsePhoneNumber } from 'awesome-phonenumber'
-import { property } from 'lodash'
 import { z } from 'zod'
 
 // -----------------  RestProfil  -----------------
@@ -187,3 +185,39 @@ export const RestDonationsResponseSchema = z.array(
 
 export type RestDonationsResponse = z.infer<typeof RestDonationsResponseSchema>
 export const RestDonationsRequestSchema = z.void()
+
+// -----------------  RestElectedProfil  -----------------
+
+export const RestElectedProfileRequestSchema = z.void()
+export type RestElectedProfileRequest = z.infer<typeof RestElectedProfileRequestSchema>
+
+export type RestElectedProfileResponse = z.infer<typeof RestElectedProfileResponseSchema>
+export const RestElectedProfileResponseSchema = z.object({
+  mandates: z.array(z.string()),
+  contribution_status: z.enum(['eligible', 'not_eligible']).nullable(),
+  exempt_from_cotisation: z.boolean(),
+  contributed_at: z.coerce.date().nullable(),
+  payments: z.array(z.object({ date: z.coerce.date(), amount: z.number(), method: z.string(), uuid: z.string().uuid(), status_label: z.string() })),
+  uuid: z.string().uuid(),
+  contribution_amount: z.number().nullable(),
+  elect_mandates: z.array(
+    z.object({
+      mandate_type: z.string(),
+      delegation: z.string(),
+      zone: z.object({
+        code: z.string(),
+        name: z.string(),
+        uuid: z.string().uuid(),
+      }),
+      begin_at: z.coerce.date(),
+      finish_at: z.coerce.date(),
+    }),
+  ),
+  last_revenue_declaration: z
+    .object({
+      created_at: z.coerce.date(),
+      amount: z.number(),
+      uuid: z.string().uuid(),
+    })
+    .nullable(),
+})
