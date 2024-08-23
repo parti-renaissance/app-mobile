@@ -1,34 +1,26 @@
-import React from 'react'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
+import React, { useEffect } from 'react'
+import ProfilLayout from '@/components/layouts/ProfilLayout'
 import * as metatags from '@/config/metatags'
-import EditInformations from '@/screens/profil/account/page'
+import ProfilMenu from '@/screens/profil/menu/Menu'
+import { Redirect, router } from 'expo-router'
 import Head from 'expo-router/head'
-import { YStack } from 'tamagui'
+import { ScrollView, useMedia, YStack } from 'tamagui'
 
 function ProfilScreen() {
+  const media = useMedia()
+  if (media.gtSm) return <Redirect href="/profil/cotisation-et-dons" />
+
   return (
     <>
       <Head>
         <title>{metatags.createTitle('Mon profil')}</title>
       </Head>
 
-      <PageLayout>
-        <PageLayout.SideBarLeft>
-          <YStack gap="$3">
-            <ProcurationCTA />
-            <AppDownloadCTA />
-          </YStack>
-        </PageLayout.SideBarLeft>
-        <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper>
-            <EditInformations />
-          </BoundarySuspenseWrapper>
-        </PageLayout.MainSingleColumn>
-        <PageLayout.SideBarRight />
-      </PageLayout>
+      <ProfilLayout>
+        <ScrollView flex={1} width="100%">
+          <ProfilMenu />
+        </ScrollView>
+      </ProfilLayout>
     </>
   )
 }

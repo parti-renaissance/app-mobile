@@ -50,6 +50,8 @@ export const RestDetailedProfileResponseSchema = z.object({
   custom_gender: z.string().nullable(),
   nationality: z.string(),
   birthdate: z.coerce.date(),
+  last_membership_donation: z.coerce.date().nullable(),
+  other_party_membership: z.boolean(),
   post_address: z
     .object({
       address: z.string().nullable().optional(),
@@ -167,3 +169,21 @@ export const RestRemoveProfileRequestSchema = z.void()
 
 export type RestRemoveProfileResponse = z.infer<typeof RestRemoveProfileResponseSchema>
 export const RestRemoveProfileResponseSchema = z.void()
+
+// -----------------  RestDonations  -----------------
+
+export type RestDonationsRequest = z.infer<typeof RestDonationsRequestSchema>
+export const RestDonationsResponseSchema = z.array(
+  z.object({
+    uuid: z.string().uuid(),
+    date: z.coerce.date(),
+    type: z.enum(['cb', 'check', 'transfer', 'tpe']),
+    subscription: z.boolean(),
+    membership: z.boolean(),
+    status: z.enum(['waiting_confirmation', 'subscription_in_progress', 'refunded', 'canceled', 'finished', 'error']),
+    amount: z.number(),
+  }),
+)
+
+export type RestDonationsResponse = z.infer<typeof RestDonationsResponseSchema>
+export const RestDonationsRequestSchema = z.void()

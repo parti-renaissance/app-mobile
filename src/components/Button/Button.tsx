@@ -1,14 +1,6 @@
 import { cloneElement, useContext } from 'react'
 import { getSize } from '@tamagui/get-token'
-import {
-  createStyledContext,
-  SizeTokens,
-  styled,
-  Text,
-  useTheme,
-  View,
-  withStaticProperties,
-} from '@tamagui/web'
+import { createStyledContext, SizeTokens, styled, Text, useTheme, View, withStaticProperties } from '@tamagui/web'
 
 export const ButtonContext = createStyledContext({
   size: '$md' as SizeTokens,
@@ -18,9 +10,10 @@ export const ButtonContext = createStyledContext({
 })
 
 export const ButtonFrame = styled(View, {
-  name: 'Button',
+  name: 'VoxButtonContain',
   context: ButtonContext,
-
+  animation: 'quick',
+  theme: 'gray',
   alignItems: 'center',
   flexDirection: 'row',
   justifyContent: 'center',
@@ -35,12 +28,24 @@ export const ButtonFrame = styled(View, {
   variants: {
     variant: {
       contained: {
-        backgroundColor: '$gray8',
-
+        backgroundColor: '$background',
         pressStyle: {
-          backgroundColor: '$gray7',
+          backgroundColor: '$backgroundPress',
+        },
+        hoverStyle: {
+          backgroundColor: '$backgroundHover',
         },
       },
+      soft: {
+        backgroundColor: '$color',
+        pressStyle: {
+          backgroundColor: '$colorPress',
+        },
+        hoverStyle: {
+          backgroundColor: '$colorHover',
+        },
+      },
+
       outlined: {
         backgroundColor: '$white1',
         borderColor: 'rgba(145, 158, 171, 0.32)',
@@ -59,23 +64,24 @@ export const ButtonFrame = styled(View, {
         },
       },
     },
+
     size: {
       sm: {
-        paddingVertical: '$1',
-        paddingHorizontal: '$2',
-        borderRadius: '$2',
+        paddingVertical: '$2',
+        paddingHorizontal: '$3',
+        borderRadius: '$6',
         gap: 4,
       },
       md: {
-        paddingVertical: '$2',
-        paddingHorizontal: '$3',
-        borderRadius: '$4',
+        paddingVertical: '$3',
+        paddingHorizontal: '$4',
+        borderRadius: '$8',
         gap: 6,
       },
       lg: {
-        paddingVertical: '$3',
-        paddingHorizontal: '$4',
-        borderRadius: '$5',
+        paddingVertical: '$4',
+        paddingHorizontal: '$5',
+        borderRadius: '$10',
         gap: 8,
       },
     },
@@ -90,7 +96,7 @@ export const ButtonFrame = styled(View, {
 // type ButtonProps = GetProps<typeof ButtonFrame>
 
 export const ButtonText = styled(Text, {
-  name: 'ButtonText',
+  name: 'VoxButtonContain',
   context: ButtonContext,
   color: '$color',
   userSelect: 'none',
@@ -100,7 +106,10 @@ export const ButtonText = styled(Text, {
   variants: {
     variant: {
       contained: {
-        color: '#fff',
+        color: '$color',
+      },
+      soft: {
+        color: '$background',
       },
       outlined: {
         color: '$gray9',

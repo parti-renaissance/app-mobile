@@ -69,3 +69,10 @@ export const useDeleteProfil = () => {
     },
   })
 }
+
+export const useGetDonations = () => {
+  return useQuery({
+    queryKey: ['donations'],
+    queryFn: () => api.getDonations(),
+  })
+}

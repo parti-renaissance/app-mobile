@@ -44,3 +44,11 @@ export const removeProfile = api({
   responseSchema: schemas.RestRemoveProfileResponseSchema,
   type: 'private',
 })
+
+export const getDonations = api({
+  method: 'GET',
+  path: '/api/v3/profile/me/donations',
+  requestSchema: schemas.RestDonationsRequestSchema,
+  responseSchema: schemas.RestDonationsResponseSchema,
+  type: 'private',
+})
