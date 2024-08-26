@@ -10,7 +10,7 @@ export default function (props: { profil: RestElectedProfileResponse }) {
   const handlePress = () => {
     WebBrowser.openBrowserAsync('https://app.parti-renaissance.fr/espace-elus/cotisation')
   }
-  return props.profil.contribution_status !== 'eligible' ? (
+  return props.profil.contribution_status === 'eligible' && props.profil.mandates.length > 0 ? (
     <VoxCard>
       <VoxCard.Content>
         <YStack gap="$4">
