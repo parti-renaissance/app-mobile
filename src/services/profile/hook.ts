@@ -1,6 +1,6 @@
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
-import { RestUpdateProfileRequest } from '@/services/profile/schema'
+import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
@@ -11,6 +11,7 @@ export const useGetProfil = ({ enabled }: { enabled?: boolean } = {}) => {
     queryKey: [PROFIL_QUERY_KEY],
     queryFn: () => api.getProfile(),
     enabled,
+    staleTime: 1000 * 60 * 5,
   })
 }
 
@@ -26,6 +27,7 @@ export const useGetDetailProfil = () => {
   return useSuspenseQuery({
     queryKey: ['profileDetail'],
     queryFn: () => api.getDetailedProfile(),
+    staleTime: 1000 * 60 * 5,
   })
 }
 
@@ -85,4 +87,9 @@ export const useGetElectProfil = () => {
     queryKey: ['electProfile', userUuid],
     queryFn: () => api.getElectedProfil(userUuid!),
   })
+}
+
+export const useGetTags = ({ tags }: { tags: RestProfilResponseTagTypes[] }) => {
+  const profil = useGetProfil()
+  return profil.data?.tags?.filter((x) => tags.includes(x.type))
 }

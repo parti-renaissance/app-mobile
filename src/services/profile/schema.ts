@@ -6,6 +6,15 @@ export type RestProfilRequest = z.infer<typeof RestProfilRequestSchema>
 export const RestProfilRequestSchema = z.void()
 
 export type RestProfilResponse = z.infer<typeof RestProfilResponseSchema>
+export const TagTypesSchema = z.union([
+  z.literal('sympathisant'),
+  z.literal('adherent'),
+  z.literal('elu'),
+  z.literal('meeting_lille_09_03'),
+  z.literal('procuration'),
+])
+export type RestProfilResponseTagTypes = z.infer<typeof TagTypesSchema>
+
 export const RestProfilResponseSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
@@ -23,7 +32,7 @@ export const RestProfilResponseSchema = z.object({
   tags: z.array(
     z.object({
       label: z.string(),
-      type: z.union([z.literal('sympathisant'), z.literal('adherent'), z.literal('elu'), z.literal('meeting_lille_09_03'), z.literal('procuration')]),
+      type: TagTypesSchema,
       surveys: z
         .object({
           total: z.number(),
