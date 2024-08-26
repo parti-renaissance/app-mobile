@@ -2,6 +2,7 @@ import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
+import { useGetTags } from '@/services/profile/hook'
 import { RestElectedProfileResponse, RestProfilResponse } from '@/services/profile/schema'
 import { TreeDeciduous } from '@tamagui/lucide-icons'
 import { XStack, YStack } from 'tamagui'
@@ -20,8 +21,7 @@ const tagsMapping = (tag: RestProfilResponse['tags'][number]) => {
 }
 
 const Tags = (props: { tags: RestProfilResponse['tags'] }) => {
-  const keepTags = new Set(['adherent', 'elu', 'sympathisant'])
-  const mappedTags = props.tags.filter((x) => keepTags.has(x.type)).map(tagsMapping)
+  const mappedTags = props.tags.map(tagsMapping)
   return (
     <XStack gap="$2">
       {mappedTags.map(({ theme, label }) => (
@@ -56,10 +56,8 @@ const Elu = (props: { mandates: RestElectedProfileResponse['mandates']; tags: Re
 }
 
 export default function (props: { profil: RestElectedProfileResponse }) {
-  const {
-    user: { data },
-  } = useSession()
-  const content = props.profil.mandates.length > 0 ? <Elu mandates={props.profil.mandates} tags={data?.tags ?? []} /> : <NotElu />
+  const tags = useGetTags({ tags: ['adherent', 'elu', 'sympathisant'] })
+  const content = props.profil.mandates.length > 0 ? <Elu mandates={props.profil.mandates} tags={tags ?? []} /> : <NotElu />
   return (
     <VoxCard>
       <VoxCard.Content>

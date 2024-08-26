@@ -2,15 +2,16 @@ import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { RestElectedProfileResponse } from '@/services/profile/schema'
+import { useGetTags } from '@/services/profile/hook'
 import * as WebBrowser from 'expo-web-browser'
 import { XStack, YStack } from 'tamagui'
 
-export default function (props: { profil: RestElectedProfileResponse }) {
+export default function () {
   const handlePress = () => {
     WebBrowser.openBrowserAsync('https://app.parti-renaissance.fr/espace-elus/cotisation')
   }
-  return props.profil.contribution_status === 'eligible' && props.profil.mandates.length > 0 ? (
+  const [isElu] = useGetTags({ tags: ['elu'] }) ?? [undefined]
+  return isElu ? (
     <VoxCard>
       <VoxCard.Content>
         <YStack gap="$4">

@@ -26,7 +26,7 @@ const EditInformations = () => {
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
           <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
             <InfoEluCard profil={profile} />
-            <DeclaEluCard profil={profile} />
+            <DeclaEluCard />
           </YStack>
         </ScrollView>
       </KeyboardAvoidingView>
