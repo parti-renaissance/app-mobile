@@ -47,7 +47,7 @@ export const RestDetailedProfileResponseSchema = z.object({
   gender: z.string(),
   custom_gender: z.string().nullable(),
   nationality: z.string(),
-  birthdate: z.coerce.date(),
+  birthdate: z.coerce.date().nullable(),
   last_membership_donation: z.coerce.date().nullable(),
   other_party_membership: z.boolean(),
   post_address: z
@@ -69,10 +69,12 @@ export const RestDetailedProfileResponseSchema = z.object({
   instagram_page_url: z.string().nullable().optional(),
   adherent: z.boolean(),
   certified: z.boolean(),
-  phone: z.object({
-    country: z.string(),
-    number: z.string(),
-  }),
+  phone: z
+    .object({
+      country: z.string(),
+      number: z.string(),
+    })
+    .nullable(),
   interests: z.array(
     z.object({
       code: z.string(),

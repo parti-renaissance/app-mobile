@@ -154,7 +154,7 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
                   disabled={!!profile.certified}
                   label="Date de naissance"
                   type="date"
-                  value={value}
+                  value={value ?? undefined}
                   onBlur={onBlur}
                   onChange={onChange}
                   error={error?.message}
@@ -202,19 +202,19 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
               <View width={130}>
                 <Select
                   color="gray"
-                  value={value.country}
+                  value={value?.country}
                   placeholder="Indicatif"
                   options={phoneCodes}
-                  onChange={(x) => onChange({ number: value.number, country: x })}
+                  onChange={(x) => onChange({ number: value?.number, country: x })}
                 />
               </View>
               <View flexGrow={1}>
                 <Input
-                  value={value.number}
+                  value={value?.number}
                   color="gray"
                   placeholder="Téléphone"
                   onBlur={onBlur}
-                  onChange={(x) => onChange({ number: x, country: value.country })}
+                  onChange={(x) => onChange({ number: x, country: value?.country })}
                   error={error?.message}
                 />
               </View>
