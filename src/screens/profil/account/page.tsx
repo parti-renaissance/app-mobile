@@ -27,20 +27,14 @@ const EditInformations = () => {
   const { mutateAsync } = useDeleteProfil()
 
   const onRemoveAccountConfirmed = async () => {
-    if (!isAdherent) return mutateAsync().then(() => signOut())
-    const ACCOUNT_ROUTE_RE = `https://${clientEnv.APP_RENAISSANCE_HOST}/parametres/mon-compte`
-    if (isWeb && window) {
-      window.location.href = ACCOUNT_ROUTE_RE
-    } else {
-      await WebBrowser.openAuthSessionAsync(ACCOUNT_ROUTE_RE, null, { createTask: false })
-    }
+    return mutateAsync().then(() => signOut())
   }
 
   const removeAccount = () => {
     AlertUtils.showDestructiveAlert(
-      isAdherent ? 'Désadhérer' : 'Suppression du compte',
-      isAdherent ? 'Êtes-vous sûr de vouloir désadhérer ?' : 'Êtes-vous sûr de vouloir supprimer votre compte ?',
-      isAdherent ? 'Désadhérer' : 'Supprimer',
+      'Suppression du compte',
+      'Êtes-vous sûr de vouloir supprimer votre compte ?',
+      'Supprimer',
       'Annuler',
       onRemoveAccountConfirmed,
     )
@@ -71,7 +65,7 @@ const EditInformations = () => {
                   <Button.Text>{credentials?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'}</Button.Text>
                 </Button>
                 <Button variant="outlined" size="lg" width="100%" onPress={removeAccount}>
-                  <Button.Text>{isAdherent ? 'Désadhérer' : 'Supprimer mon compte'}</Button.Text>
+                  <Button.Text>{isAdherent ? 'Supprimer mon compte' : 'Supprimer mon compte'}</Button.Text>
                 </Button>
               </YStack>
             </VoxCard.Content>
