@@ -1,9 +1,8 @@
 import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { useGetMagicLink } from '@/services/magic-link/hook'
+import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { Image } from 'expo-image'
-import * as WebBrowser from 'expo-web-browser'
 import { styled, XStack, YStack } from 'tamagui'
 
 const HeaderFrame = styled(XStack, {
@@ -14,14 +13,7 @@ const HeaderFrame = styled(XStack, {
 })
 
 export default function () {
-  const { data: magicLink, isPending } = useGetMagicLink({ platform: 'donation' })
-  const handlePress = (duration: 'monthly' | 'dayly') => () => {
-    if (magicLink) {
-      const Url = new URL(magicLink.link)
-      Url.searchParams.set('duration', duration === 'monthly' ? '-1' : '0')
-      WebBrowser.openBrowserAsync(Url.toString())
-    }
-  }
+  const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'donation' })
   return (
     <VoxCard bg="$green1">
       <HeaderFrame>

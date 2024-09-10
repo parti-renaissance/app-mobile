@@ -2,7 +2,7 @@ import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { useGetMagicLink } from '@/services/magic-link/hook'
+import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { getHumanFormattedDate } from '@/utils/date'
 import { getYear } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
@@ -10,7 +10,7 @@ import { XStack, YStack } from 'tamagui'
 import type { CommonMembershipCardProps } from './types'
 
 export default function (props: CommonMembershipCardProps) {
-  const { data: adhesionLink, isPending } = useGetMagicLink({ platform: 'adhesion' })
+  const { isPending, open: handleAdhesionLink } = useOpenExternalContent({ slug: 'adhesion' })
   return (
     <VoxCard bg="$white1">
       <VoxCard.Content>
@@ -24,15 +24,7 @@ export default function (props: CommonMembershipCardProps) {
               <Text color="$textSecondary">Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation!)}</Text>
             </YStack>
             <YStack alignContent="center" height="100%" alignItems="center" justifyContent="center">
-              <Button
-                theme="blue"
-                disabled={isPending}
-                onPress={() => {
-                  if (adhesionLink) {
-                    WebBrowser.openBrowserAsync(adhesionLink.link)
-                  }
-                }}
-              >
+              <Button theme="blue" disabled={isPending} onPress={handleAdhesionLink}>
                 <Button.Text>Me mettre à jour</Button.Text>
               </Button>
             </YStack>

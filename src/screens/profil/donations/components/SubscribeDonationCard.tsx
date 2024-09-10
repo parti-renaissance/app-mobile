@@ -1,23 +1,16 @@
-import Badge, { BadgeFrame } from '@/components/Badge'
+import { BadgeFrame } from '@/components/Badge'
 import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { useGetMagicLink } from '@/services/magic-link/hook'
+import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import type { RestDonationsResponse } from '@/services/profile/schema'
 import { getHumanFormattedDate } from '@/utils/date'
 import { Crown } from '@tamagui/lucide-icons'
-import * as WebBrowser from 'expo-web-browser'
 import { XStack, YStack } from 'tamagui'
 
 export default function (props: { subscription: RestDonationsResponse[number] }) {
-  const { data: magicLink, isPending } = useGetMagicLink({ platform: 'donation' })
-  const handlePress = (duration: 'monthly' | 'dayly') => () => {
-    if (magicLink) {
-      const Url = new URL(magicLink.link)
-      Url.searchParams.set('duration', duration === 'monthly' ? '-1' : '0')
-      WebBrowser.openBrowserAsync(Url.toString())
-    }
-  }
+  const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'donation' })
+
   return (
     <VoxCard bg="$green1">
       <VoxCard.Content>

@@ -4,22 +4,17 @@ import Text from '@/components/base/Text'
 import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
 import { SubscribeEventButton } from '@/components/Cards/EventCard'
 import { useSession } from '@/ctx/SessionProvider'
+import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import * as eventTypes from '@/services/events/schema'
-import { useGetMagicLink } from '@/services/magic-link/hook'
 import { Unlock } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
-import * as WebBrowser from 'expo-web-browser'
 import { Spinner, useMedia, YStack } from 'tamagui'
 import EventRegisterForm from '../EventRegisterForm/EventRegisterForm'
 import { RegisterButtonSheet } from './EventComponents'
 
 const AdhButton = (props: { bgColor?: string; children?: string }) => {
-  const { mutateAsync, isPending } = useGetMagicLink({ platform: 'adhesion' })
-  const handleClick = async () => {
-    return mutateAsync().then(({ link }) => {
-      return WebBrowser.openBrowserAsync(link)
-    })
-  }
+  const { isPending, open: handleClick } = useOpenExternalContent({ slug: 'adhesion' })
+
   return (
     <Button variant="contained" size="lg" width="100%" bg={props.bgColor ?? '$blue6'} onPress={handleClick}>
       {isPending ? (

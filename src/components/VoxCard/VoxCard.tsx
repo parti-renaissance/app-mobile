@@ -22,7 +22,8 @@ const CardFrame = styled(YStack, {
     inside: {
       true: {
         borderRadius: '$6',
-        elevation: 0,
+        elevation: '$0',
+        shadowColor: 'none',
       },
     },
   },
