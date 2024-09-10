@@ -18,7 +18,7 @@ export function useLogOut() {
       await queryClient.invalidateQueries()
 
       if (user?.isAdmin) {
-        window.location.href = `//${clientEnv.APP_RENAISSANCE_HOST}/admin/app/adherent/list?_switch_user=_exit`
+        window.location.href = `//${clientEnv.ADMIN_HOST}/app/adherent/list?_switch_user=_exit`
         return
       }
 

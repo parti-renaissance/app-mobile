@@ -94,7 +94,7 @@ export const ActionFullSchema = ActionSchema.omit({ first_participants: true, pa
 
 export const ActionCreateSchema = z.object({
   type: ActionTypeSchema,
-  date: z.date(),
+  date: z.string(),
   description: z.string(),
   post_address: z.object({
     address: z.string(),

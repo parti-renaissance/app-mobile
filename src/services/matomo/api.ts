@@ -1,3 +1,4 @@
+import clientEnv from '@/config/clientEnv'
 import { createApi } from '@/utils/constructApi'
 import axios, { CreateAxiosDefaults } from 'axios'
 import { z } from 'zod'
@@ -39,7 +40,7 @@ export const trackScreenView = (data: { pathname: string; userData?: Record<stri
   const screenName = data.pathname.split('/')[1]?.trim() ?? ''
   return trackAction({
     name: `Screen / ${screenName.length > 0 ? screenName : 'home'}`,
-    url: 'https://app.ensemble-2024.fr' + data.pathname,
+    url: `https://${clientEnv.ASSOCIATED_DOMAIN}` + data.pathname,
     userData: data.userData,
   })
 }
