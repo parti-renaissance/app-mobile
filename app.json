@@ -3,7 +3,7 @@
     "name": "Renaissance",
     "slug": "vox",
     "scheme": "vox",
-    "version": "5.6.0",
+    "version": "5.7.0",
     "owner": "parti-renaissance",
     "runtimeVersion": {
       "policy": "appVersion"
