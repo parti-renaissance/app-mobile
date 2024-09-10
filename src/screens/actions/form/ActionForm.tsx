@@ -13,7 +13,7 @@ import { useAction } from '@/services/actions/hook/useActions'
 import { useCreateOrEditAction } from '@/services/actions/hook/useCreateOrEditAction'
 import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/services/actions/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { addHours } from 'date-fns'
+import { addHours, formatISO } from 'date-fns'
 import { Controller, useForm } from 'react-hook-form'
 import { Spinner, useMedia, View } from 'tamagui'
 import { validateActionFormSchema } from './schema'
@@ -54,7 +54,7 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
 
   const onSubmit = handleSubmit((data) => {
     $postAction
-      .mutateAsync(data)
+      .mutateAsync({ ...data, date: formatISO(data.date) })
       .then(() => {
         reset(data)
         onClose?.()
