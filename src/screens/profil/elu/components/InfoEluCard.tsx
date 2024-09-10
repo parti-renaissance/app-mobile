@@ -1,7 +1,6 @@
 import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { useSession } from '@/ctx/SessionProvider'
 import { useGetTags } from '@/services/profile/hook'
 import { RestElectedProfileResponse, RestProfilResponse } from '@/services/profile/schema'
 import { TreeDeciduous } from '@tamagui/lucide-icons'
@@ -36,7 +35,7 @@ const Tags = (props: { tags: RestProfilResponse['tags'] }) => {
 }
 
 const NotElu = () => <Text.P>Vous n’avez pas de mandat rattaché à votre profil.</Text.P>
-const Elu = (props: { mandates: RestElectedProfileResponse['mandates']; tags: RestProfilResponse['tags'] }) => {
+const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; tags: RestProfilResponse['tags'] }) => {
   return (
     <YStack gap="$4">
       <Tags tags={props.tags} />
@@ -45,8 +44,8 @@ const Elu = (props: { mandates: RestElectedProfileResponse['mandates']; tags: Re
       <XStack gap="$2">
         {props.mandates.map((x) => (
           <XStack>
-            <Badge theme="green" key={x}>
-              {x}
+            <Badge theme="green" key={x.mandate_type}>
+              {x.mandate_type}
             </Badge>
           </XStack>
         ))}
@@ -57,7 +56,7 @@ const Elu = (props: { mandates: RestElectedProfileResponse['mandates']; tags: Re
 
 export default function (props: { profil: RestElectedProfileResponse }) {
   const tags = useGetTags({ tags: ['adherent', 'elu', 'sympathisant'] })
-  const content = props.profil.mandates.length > 0 ? <Elu mandates={props.profil.mandates} tags={tags ?? []} /> : <NotElu />
+  const content = props.profil.elect_mandates.length > 0 ? <Elu mandates={props.profil.elect_mandates} tags={tags ?? []} /> : <NotElu />
   return (
     <VoxCard>
       <VoxCard.Content>

@@ -2,14 +2,13 @@ import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
 import Button from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { useGetTags } from '@/services/profile/hook'
-import * as WebBrowser from 'expo-web-browser'
 import { XStack, YStack } from 'tamagui'
 
 export default function () {
-  const handlePress = () => {
-    WebBrowser.openBrowserAsync('https://app.parti-renaissance.fr/espace-elus/cotisation')
-  }
+  const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'contribution' })
+
   const [isElu] = useGetTags({ tags: ['elu'] }) ?? [undefined]
   return isElu ? (
     <VoxCard>
@@ -19,7 +18,7 @@ export default function () {
             <Badge theme="orange">Soumis à cotisation</Badge>
           </XStack>
           <Text.H2>En tant qu’élu, vous êtes redevable d’une cotisation élu au parti.</Text.H2>
-          <Button theme="blue" onPress={handlePress}>
+          <Button theme="blue" onPress={handlePress} disabled={isPending}>
             <Button.Text>Gérer ma cotisation</Button.Text>
           </Button>
         </YStack>

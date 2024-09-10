@@ -1,35 +1,23 @@
-import type { RestGetMagicLinkRequest, RestGetMagicLinkResponse } from './schema'
+import { api } from '@/utils/api'
+import type { RestGetMagicLinkResponse, Slugs } from './schema'
+import * as schema from './schema'
 
-export const getMagicLink = async ({ platform }: RestGetMagicLinkRequest): Promise<RestGetMagicLinkResponse> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      switch (platform) {
-        case 'adhesion':
-          resolve({ link: 'https://app.parti-renaissance.fr/adhesion' })
-          break
-        case 'donation':
-          resolve({ link: 'https://app.parti-renaissance.fr/don' })
-          break
-        default:
-          reject(new Error('Invalid platform'))
-      }
-    }, 200)
-  })
+export const getMagicLink = async ({ slug }: { slug: Slugs }): Promise<RestGetMagicLinkResponse> => {
+  return api({
+    method: 'get',
+    path: `/api/v3/app-link/${slug}`,
+    requestSchema: schema.RestGetMagicLinkRequestSchema,
+    responseSchema: schema.RestGetMagicLinkResponseSchema,
+    type: 'private',
+  })()
 }
 
-export const getLink = async ({ platform }: RestGetMagicLinkRequest): Promise<RestGetMagicLinkResponse> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      switch (platform) {
-        case 'adhesion':
-          resolve({ link: 'https://app.parti-renaissance.fr/adhesion' })
-          break
-        case 'donation':
-          resolve({ link: 'https://app.parti-renaissance.fr/don' })
-          break
-        default:
-          reject(new Error('Invalid platform'))
-      }
-    }, 200)
-  })
+export const getLink = async ({ slug }: { slug: Slugs }): Promise<RestGetMagicLinkResponse> => {
+  return api({
+    method: 'get',
+    path: `/api/app-link/${slug}`,
+    requestSchema: schema.RestGetMagicLinkRequestSchema,
+    responseSchema: schema.RestGetMagicLinkResponseSchema,
+    type: 'public',
+  })()
 }
