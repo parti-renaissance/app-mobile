@@ -1,7 +1,9 @@
 import { useGetMagicLink } from '@/services/magic-link/hook'
 import { Slugs } from '@/services/magic-link/schema'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { useQueryClient } from '@tanstack/react-query'
 import * as WebBrowser from 'expo-web-browser'
+import { isWeb } from 'tamagui'
 
 const mapTargetPath = (url: string, cb: (x: string) => string) => {
   const Url = new URL(url)
@@ -23,7 +25,7 @@ const addHttps = (url: string) => {
   return url
 }
 
-const handler = (props: { slug: Slugs; magicLink?: { url: string } }) => {
+const handler = (props: { slug: Slugs; magicLink?: { url: string }; resetQuery: () => void }) => {
   switch (props.slug) {
     case 'donation':
       return (duration: 'monthly' | 'dayly') => () => {
@@ -34,7 +36,12 @@ const handler = (props: { slug: Slugs; magicLink?: { url: string } }) => {
             return target_path_url.toString()
           })
 
-          WebBrowser.openBrowserAsync(url)
+          if (isWeb) {
+            window.open(url, '_blank')
+          } else {
+            WebBrowser.openBrowserAsync(url)
+          }
+          props.resetQuery()
         }
       }
 
@@ -42,7 +49,13 @@ const handler = (props: { slug: Slugs; magicLink?: { url: string } }) => {
     case 'adhesion':
       return () => {
         if (props.magicLink) {
-          WebBrowser.openBrowserAsync(mapTargetPath(props.magicLink.url, addHttps))
+          const link = mapTargetPath(props.magicLink.url, addHttps)
+          if (isWeb) {
+            window.open(link, '_blank')
+          } else {
+            WebBrowser.openBrowserAsync(link)
+          }
+          props.resetQuery()
         }
       }
   }
@@ -54,7 +67,18 @@ function useOpenExternalContent(
 function useOpenExternalContent(...[props]: [{ slug: Omit<Slugs, 'donation'> }]): ReturnType<typeof useGetMagicLink> & { open: () => void }
 function useOpenExternalContent(...[props]: Parameters<typeof useGetMagicLink>) {
   const queryLink = useGetMagicLink(props)
-  return { ...queryLink, open: handler({ ...props, magicLink: queryLink.data }) }
+  const queryClient = useQueryClient()
+  return {
+    ...queryLink,
+    open: handler({
+      ...props,
+      magicLink: queryLink.data,
+      resetQuery: () =>
+        queryClient.invalidateQueries({
+          queryKey: ['magicLink', props.slug],
+        }),
+    }),
+  }
 }
 
 export { useOpenExternalContent }
