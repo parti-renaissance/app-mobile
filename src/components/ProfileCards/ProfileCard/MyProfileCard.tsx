@@ -5,10 +5,14 @@ import { useSession } from '@/ctx/SessionProvider'
 import { openURL } from 'expo-linking'
 
 export default function MyProfileCard() {
-  const { user } = useSession()
+  const { user, session } = useSession()
   const profile = user?.data
 
   if (!profile) {
+    return null
+  }
+
+  if (!session) {
     return null
   }
 
