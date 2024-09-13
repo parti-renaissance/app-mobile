@@ -5,6 +5,8 @@ import Chip from '@/components/Chip/Chip'
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia'
 import { Circle, Separator, Square, Stack, StackProps, styled, Card as TCard, Text, withStaticProperties, XStack, YStack } from 'tamagui'
 
+const SkeletonColor = '#F7F7F7'
+
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   $gtSm: {
@@ -33,13 +35,9 @@ const SkeCardFrame = ({ children, ...props }: SkeCardFrameProps) => {
     >
       <YStack gap="$3.5">
         {height > 0 && width > 0 && (
-          <Canvas style={{ flex: 1, position: 'absolute', width, height }}>
-            <Rect x={0} y={0} width={width} height={height} color="lightblue">
-              <LinearGradient
-                start={vectorStart}
-                end={vectorEnd}
-                colors={['rgba(255, 255, 255, 0)', 'rgba(5,143,255,0.1)', 'rgba(38,146,41,0.1)', 'rgba(255, 255, 255, 0)']}
-              />
+          <Canvas style={{ flex: 1, position: 'absolute', zIndex: 10, width, height }}>
+            <Rect x={0} y={0} width={width} height={height}>
+              <LinearGradient start={vectorStart} end={vectorEnd} colors={['white', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)', 'white']} />
             </Rect>
           </Canvas>
         )}
@@ -57,7 +55,7 @@ export const SkeCardContent = styled(YStack, {
 const SkeCardChip = (props: Omit<ComponentProps<typeof Chip>, 'children'>) => {
   return (
     <XStack>
-      <Chip {...props} backgroundColor="$gray3" width="$6">
+      <Chip {...props} backgroundColor={SkeletonColor} width="$6">
         {'\u00a0\u00a0'}
       </Chip>
     </XStack>
@@ -65,40 +63,38 @@ const SkeCardChip = (props: Omit<ComponentProps<typeof Chip>, 'children'>) => {
 }
 
 const SkeCardTitle = () => {
-  return <Stack height="$2" width="100%" bg="$gray2" />
+  return <Stack height="$2" width="100%" bg={SkeletonColor} />
 }
 
 const SkeCardDate = () => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Square size="$2" bg="$gray2" />
-      <Stack height="$1" flex={1} bg="$gray2" />
+      <Square size="$2" bg={SkeletonColor} />
+      <Stack height="$1" flex={1} bg={SkeletonColor} />
     </XStack>
   )
 }
-
 
 const SkeActions = () => {
   return (
     <XStack gap="$2" justifyContent="space-between">
-      <Stack height="$2.5" width="$12" bg="$gray2" borderRadius="$4" />
-      <Stack height="$2.5" width="$10" bg="$gray3" borderRadius="$4" />
+      <Stack height="$2.5" width="$12" bg={SkeletonColor} borderRadius="$4" />
+      <Stack height="$2.5" width="$10" bg={SkeletonColor} borderRadius="$4" />
     </XStack>
   )
 }
 
-
 const SkeCardAuthor = () => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Circle size="$2" bg="$gray2" />
-      <Stack height="$1" flex={1} bg="$gray2" />
+      <Circle size="$2" bg={SkeletonColor} />
+      <Stack height="$1" flex={1} bg={SkeletonColor} />
     </XStack>
   )
 }
 
 const SkeCardImage = () => {
-  return <Stack height="$20" flex={1} bg="$gray2" borderRadius="$1" />
+  return <Stack height="$20" flex={1} bg={SkeletonColor} borderRadius="$1" />
 }
 
 export type SkeCardDescritionProps = {
@@ -109,7 +105,7 @@ const SkeCardDescription = ({ full }: SkeCardDescritionProps) => {
   return (
     <YStack gap="$2">
       {Array.from({ length: full ? 5 : 2 }).map((_, index) => (
-        <Stack key={index} height="$1" bg="$gray2" />
+        <Stack key={index} height="$1" bg={SkeletonColor} />
       ))}
     </YStack>
   )

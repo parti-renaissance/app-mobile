@@ -13,7 +13,9 @@ export default function (props: CommonMembershipCardProps) {
         <XStack>
           <YStack gap="$5" flex={1}>
             <XStack>
-              <Badge theme="blue">Adhérent à jour</Badge>
+              <Badge bg="$color/8" theme="blue">
+                Adhérent à jour
+              </Badge>
             </XStack>
             <XStack>
               <YStack gap="$2" flex={1}>

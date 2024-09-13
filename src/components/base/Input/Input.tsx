@@ -58,7 +58,7 @@ const InputFrame = styled(XStack, {
   },
 
   disabledStyle: {
-    backgroundColor: '$gray2',
+    backgroundColor: '$gray0',
     opacity: 0.5,
     cursor: 'not-allowed',
   },
@@ -92,7 +92,7 @@ const InputFrame = styled(XStack, {
         backgroundColor: '$white1',
       },
       gray: {
-        backgroundColor: '$gray2',
+        backgroundColor: '$gray0',
       },
     },
   },

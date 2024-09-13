@@ -21,13 +21,13 @@ const NewsCard = ({ payload, onShow, ...props }: NewsVoxCardProps) => {
     <VoxCard {...props}>
       <VoxCard.Content>
         <XStack justifyContent="space-between">
-          <VoxCard.Chip news>{payload.tag}</VoxCard.Chip>
+          <VoxCard.Chip theme="gray">{payload.tag}</VoxCard.Chip>
           <VoxCard.Date {...payload.date} icon={false} />
         </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {!!payload.image && <VoxCard.Image image={payload.image} />}
         <VoxCard.Description markdown>{payload.description}</VoxCard.Description>
-        {!!payload.author.name && <VoxCard.Author author={payload.author} />}
+        {!!payload?.author?.name && <VoxCard.Author author={payload.author} />}
         {!!payload.ctaLabel && (
           <XStack justifyContent="flex-end">
             <Button variant="contained" onPress={onShow}>

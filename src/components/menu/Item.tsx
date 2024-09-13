@@ -12,13 +12,13 @@ const ItemFrame = styled(XStack, {
   paddingHorizontal: '$4',
   borderBottomWidth: 1,
   alignItems: 'center',
-  borderColor: '$gray2',
+  borderColor: '$color1',
   cursor: 'pointer',
   hoverStyle: {
-    backgroundColor: '$gray1',
+    backgroundColor: '$gray0',
   },
   pressStyle: {
-    backgroundColor: '$gray3',
+    backgroundColor: '$gray1',
   },
 
   variants: {
@@ -32,7 +32,7 @@ const ItemFrame = styled(XStack, {
     },
 
     active: {
-      true: { backgroundColor: '$gray1' },
+      true: { backgroundColor: '$gray0' },
     },
     last: {
       true: {
@@ -75,7 +75,7 @@ const Item = ({
 }: ComponentProps<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps> }) => {
   return (
     <ItemFrame {...props}>
-      <View height="100%" width={8} backgroundColor="$gray3" display={props.active ? 'flex' : 'none'} position="absolute" top={0} left={0} />
+      <View height="100%" width={8} backgroundColor="$gray2" display={props.active ? 'flex' : 'none'} position="absolute" top={0} left={0} />
       <Icon size={props.size === 'lg' ? '$2' : '$1'} color="$textPrimary" marginRight="$2" />
       <ItemText size={props.size ?? 'sm'} active={props.active}>
         {children}

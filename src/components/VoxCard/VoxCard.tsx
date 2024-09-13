@@ -14,7 +14,7 @@ import AutoSizeImage from '../AutoSizeImage'
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   elevation: 1,
-  shadowColor: '$gray4',
+  shadowColor: '$gray1',
   $gtSm: {
     borderRadius: '$8',
   },

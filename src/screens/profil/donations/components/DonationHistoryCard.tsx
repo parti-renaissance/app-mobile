@@ -23,7 +23,7 @@ const DonationHistoryCard = () => {
     <VoxCard>
       <VoxCard.Content>
         <Text>Historique de paiements</Text>
-        <VoxCard bg="$gray1" inside>
+        <VoxCard bg="$gray0" inside>
           <VoxCard.Content>
             {data.map((donation) => (
               <Fragment key={donation.uuid}>

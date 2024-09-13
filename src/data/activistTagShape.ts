@@ -17,15 +17,12 @@ const tagsColor = {
 
 export const activistTagShape = {
   [ActivistTagEnum.ADHERENT]: {
-    color: tagsColor.variant1Text,
-    bgColor: tagsColor.variant1Background,
+    theme: 'blue',
   },
   [ActivistTagEnum.SYMPATHISANT]: {
-    color: tagsColor.variant2Text,
-    bgColor: tagsColor.variant2Background,
+    theme: 'orange',
   },
   [ActivistTagEnum.ELU]: {
-    color: tagsColor.variant3Text,
-    bgColor: tagsColor.variant3Background,
+    theme: 'green',
   },
 }

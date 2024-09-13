@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { TouchableOpacity } from 'react-native'
+import { Button } from '@/components'
 import Text from '@/components/base/Text'
-import GradientButton from '@/components/Buttons/GradientButton'
 import { ActionCard, SubscribeButton } from '@/components/Cards'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
@@ -64,7 +64,11 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
           {payload && action ? (
             <ActionCard payload={payload} asFull $gtSm={{ borderWidth: 0, borderColor: '$white1' }}>
               {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
-              {!isBefore(action.date, new Date()) && isMyAction ? <GradientButton onPress={onEdit}>Editer</GradientButton> : null}
+              {!isBefore(action.date, new Date()) && isMyAction ? (
+                <Button theme="purple" full size="lg" variant="soft" pop onPress={onEdit}>
+                  <Button.Text>Editer</Button.Text>
+                </Button>
+              ) : null}
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
                 <>
@@ -159,7 +163,11 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
           {payload && action ? (
             <ActionCard payload={payload} inside asFull>
               {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
-              {!isBefore(action.date, new Date()) && isMyAction ? <GradientButton onPress={onEdit}>Editer</GradientButton> : null}
+              {!isBefore(action.date, new Date()) && isMyAction ? (
+                <Button full pop size="lg" theme="purple" variant="soft" onPress={onEdit}>
+                  <Button.Text>Editer</Button.Text>
+                </Button>
+              ) : null}
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
                 <>

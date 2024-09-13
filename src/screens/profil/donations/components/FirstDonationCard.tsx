@@ -30,7 +30,7 @@ export default function () {
             <Button theme="green" onPress={handlePress('monthly')} disabled={isPending}>
               <Button.Text>Je finance le parti</Button.Text>
             </Button>
-            <Button theme="green" variant="soft" onPress={handlePress('dayly')} disabled={isPending}>
+            <Button theme="green" variant="outlined" onPress={handlePress('dayly')} disabled={isPending}>
               <Button.Text>Je donne</Button.Text>
             </Button>
           </XStack>

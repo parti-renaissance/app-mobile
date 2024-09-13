@@ -1,14 +1,14 @@
 import { TouchableOpacity } from 'react-native'
+import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
-import GradientButton from '@/components/Buttons/GradientButton'
+import Button from '@/components/Button'
 import ProfilePicture from '@/components/ProfilePicture'
-import Tag from '@/components/Tag/Tag'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { activistTagShape } from '@/data/activistTagShape'
 import { RestProfileTag } from '@/data/restObjects/RestProfileResponse'
 import { ChevronRight, Repeat } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
-import { Button, View, YStack } from 'tamagui'
+import { View, YStack } from 'tamagui'
 
 export interface ProfileCardProps {
   firstName?: string
@@ -31,8 +31,8 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
                   alt="profile picture"
                   size="$4"
                   src={src}
-                  backgroundColor="$gray2"
-                  textColor="$gray6"
+                  backgroundColor="$gray1"
+                  textColor="$gray3"
                   fontWeight={'$6'}
                   rounded
                 />
@@ -52,21 +52,19 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
         {tags && (
           <View flexDirection={'row'} gap={'$1.5'} flexWrap={'wrap'}>
             {tags.map((el) => (
-              <Tag key={el.type} label={el.label} color={activistTagShape[el.type]?.color} bgColor={activistTagShape[el.type]?.bgColor} />
+              <Badge key={el.type} theme={activistTagShape[el.type]?.theme}>
+                {el.label}
+              </Badge>
             ))}
           </View>
         )}
 
         {onButtonPress && (
-          <View>
-            <GradientButton onPress={onButtonPress}>
-              <Button.Icon>
-                <Repeat color={'$textSecondary'} fontWeight={'$7'} />
-              </Button.Icon>
-              <Button.Text color={'$textSecondary'} fontWeight={'$7'}>
-                Mon espace cadre
-              </Button.Text>
-            </GradientButton>
+          <View flex={1}>
+            <Button width="100%" pop variant="soft" theme="purple" onPress={onButtonPress}>
+              <Repeat color={'$color7'} fontWeight={'$7'} />
+              <Button.Text fontWeight={'$7'}>Mon espace cadre</Button.Text>
+            </Button>
           </View>
         )}
       </VoxCard.Content>

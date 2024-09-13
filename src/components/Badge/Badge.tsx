@@ -3,8 +3,7 @@ import { styled, View } from 'tamagui'
 import Text from '../base/Text'
 
 export const BadgeFrame = styled(View, {
-  name: 'VoxBadge',
-  backgroundColor: '$background',
+  backgroundColor: '$color1',
   borderRadius: '$12',
   paddingVertical: '$space.1.5',
   paddingHorizontal: '$space.2.5',
@@ -17,7 +16,7 @@ export type BadgeProps = {
 const Badge = ({ children, ...props }: BadgeProps) => {
   return (
     <BadgeFrame {...props}>
-      <Text fontWeight="$6" fontSize="$1" color="$color">
+      <Text fontWeight="$6" fontSize="$1" color="$color4">
         {children}
       </Text>
     </BadgeFrame>

@@ -43,7 +43,7 @@ export const ListFrame = styled(YStack, {
   width: '100%',
   $gtMd: {
     borderWidth: 1,
-    borderColor: '$gray/32',
+    borderColor: '$gray1',
     overflow: 'hidden',
     borderRadius: '$3',
     maxHeight: '$12',
@@ -67,7 +67,7 @@ export const ItemFrame = styled(XStack, {
     paddingHorizontal: '$3',
     h: '$3',
     minWidth: '$20',
-    borderColor: '$gray/32',
+    borderColor: '$gray1',
     borderStyle: 'dashed',
   },
 
@@ -77,34 +77,33 @@ export const ItemFrame = styled(XStack, {
     minHeight: '$5',
     paddingHorizontal: '$4.5',
 
-    borderColor: '$gray/32',
+    borderColor: '$gray1',
     hoverStyle: {
-      backgroundColor: '$gray1',
-      borderColor: '$gray/24',
+      backgroundColor: '$gray0',
+      borderColor: '$gray1',
     },
     pressStyle: {
       backgroundColor: '$gray1',
-      borderColor: '$gray/24',
+      borderColor: '$gray0',
     },
   },
   variants: {
     selected: {
       true: {
-        backgroundColor: '$gray3',
+        backgroundColor: '$gray1',
         hoverStyle: {
-          backgroundColor: '$gray3',
+          backgroundColor: '$gray1',
         },
       },
       false: {
         backgroundColor: '$white1',
         $gtMd: {
-          backgroundColor: '$gray1',
           pressStyle: {
-            backgroundColor: '$gray2',
+            backgroundColor: '$gray1',
           },
         },
 
-        borderColor: '$gray/32',
+        borderColor: '$gray1',
       },
     },
 
@@ -125,10 +124,10 @@ export const ItemFrame = styled(XStack, {
     },
   },
   hoverStyle: {
-    backgroundColor: '$gray2',
+    backgroundColor: '$gray0',
   },
   pressStyle: {
-    backgroundColor: '$gray3',
+    backgroundColor: '$gray1',
   },
 })
 

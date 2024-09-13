@@ -3,6 +3,7 @@ import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
 import { ActionStatus } from '@/services/actions/schema'
+import { Eye, Zap, ZapOff } from '@tamagui/lucide-icons'
 import { isBefore } from 'date-fns'
 import { capitalize } from 'lodash'
 import { Spinner, XStack } from 'tamagui'
@@ -28,7 +29,7 @@ const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: A
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip action>{capitalize(payload.tag)}</VoxCard.Chip>
+        <VoxCard.Chip theme="green">{capitalize(payload.tag)}</VoxCard.Chip>
         {isCancelled && (
           <InternAlert borderLess type="danger">
             Action annulée.
@@ -41,10 +42,11 @@ const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: A
         {!asFull && <VoxCard.Author author={payload.author} />}
         {!asFull && (
           <XStack justifyContent="space-between">
-            <Button variant="outlined" onPress={onShow}>
-              <Button.Text>Voir l'action</Button.Text>
+            <Button variant="outlined" theme="gray" onPress={onShow}>
+              <Eye size={16} />
+              <Button.Text>Voir</Button.Text>
             </Button>
-            {isCancelled || isPassed || isMyAction ? null : <SubscribeButton isRegister={payload.isSubscribed} id={payload.id} />}
+            {isMyAction ? null : <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />}
           </XStack>
         )}
         {asFull && props.children}
@@ -53,7 +55,7 @@ const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: A
   )
 }
 
-export function SubscribeButton({ isRegister, id, large }: { isRegister: boolean; id?: string; large?: boolean }) {
+export function SubscribeButton({ isRegister, id, large, ...props }: { isRegister: boolean; id?: string; large?: boolean; disabled?: boolean }) {
   const subscribe = useSubscribeAction(id)
   const unsubscribe = useUnsubscribeAction(id)
   const isloaderSub = subscribe.isPending || unsubscribe.isPending
@@ -63,19 +65,17 @@ export function SubscribeButton({ isRegister, id, large }: { isRegister: boolean
   }, 300)
   return (
     <Button
-      variant={isRegister ? 'text' : 'contained'}
-      borderWidth={large ? 1 : undefined}
-      borderColor={large ? '$green7' : undefined}
+      disabled={props.disabled}
+      variant={'outlined'}
+      theme="green"
       animation="quick"
       size={large ? 'lg' : 'md'}
       width={large ? '100%' : undefined}
-      bg={isRegister ? undefined : '$green7'}
       onPress={() => handleOnSubscribe(isRegister)}
     >
-      <Button.Text display={isloaderSub ? 'none' : 'flex'} color={isRegister ? '$green7' : undefined}>
-        {isRegister ? 'Me désinscrire' : "M'inscrire"}
-      </Button.Text>
-      <Spinner display={isloaderSub ? 'flex' : 'none'} color={isRegister ? '$green7' : '$white1'} />
+      {!isRegister ? <Zap size={large ? 24 : 16} color={'$color5'} /> : <ZapOff size={large ? 24 : 16} color="$color5" />}
+      <Button.Text display={isloaderSub ? 'none' : 'flex'}>{isRegister ? 'Me désinscrire' : "M'inscrire"}</Button.Text>
+      <Spinner display={isloaderSub ? 'flex' : 'none'} color="$color5" />
     </Button>
   )
 }

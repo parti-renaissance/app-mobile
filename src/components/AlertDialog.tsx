@@ -1,6 +1,6 @@
 import { Button } from '@/components'
 import Text from '@/components/base/Text'
-import { AlertDialog, XStack, YStack } from 'tamagui'
+import { AlertDialog, ThemeName, XStack, YStack } from 'tamagui'
 
 type AlertDialogProps = {
   children: React.ReactNode
@@ -8,12 +8,15 @@ type AlertDialogProps = {
   onCancel?: () => void
   title: string
   description: string
+  theme?: ThemeName
 }
 
 export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
   return (
     <AlertDialog>
-      <AlertDialog.Trigger asChild>{props.children}</AlertDialog.Trigger>
+      <AlertDialog.Trigger asChild theme={props.theme}>
+        {props.children}
+      </AlertDialog.Trigger>
       <AlertDialog.Portal>
         <AlertDialog.Overlay key="overlay" animation="quick" opacity={0.75} enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
 
@@ -43,13 +46,13 @@ export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
 
             <AlertDialog.Description>{props.description}</AlertDialog.Description>
             <XStack gap="$3" justifyContent="flex-end">
-              <AlertDialog.Cancel asChild onPress={props.onCancel}>
+              <AlertDialog.Cancel theme="gray" asChild onPress={props.onCancel}>
                 <Button variant="text">
                   <Button.Text>Annuler</Button.Text>
                 </Button>
               </AlertDialog.Cancel>
 
-              <AlertDialog.Action asChild onPress={props.onAccept}>
+              <AlertDialog.Action theme="gray" asChild onPress={props.onAccept}>
                 <Button variant="contained">
                   <Button.Text>Valider</Button.Text>
                 </Button>

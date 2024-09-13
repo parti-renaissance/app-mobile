@@ -7,6 +7,7 @@ import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCa
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import { RestEvent } from '@/services/events/schema'
+import { CalendarCheck2, CalendarOff, Eye } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { router } from 'expo-router'
 import { Spinner, XStack } from 'tamagui'
@@ -49,15 +50,17 @@ export const SubscribeEventButton = ({
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
   return isSubscribed ? (
-    <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
-      <Button variant={outside ? 'outlined' : 'text'} {...btnProps} {...outsideStyle}>
-        <Button.Text color="$blue7">Me désinscrire</Button.Text>
-        {isUnSubPending ? <Spinner size="small" color="$blue7" /> : null}
+    <VoxAlertDialog theme="blue" title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
+      <Button theme="blue" variant="outlined" {...btnProps} {...outsideStyle}>
+        <CalendarOff color={'$color5'} size={14} />
+        <Button.Text>Me désinscrire</Button.Text>
+        {isUnSubPending ? <Spinner size="small" color="$color4" /> : null}
       </Button>
     </VoxAlertDialog>
   ) : (
     <Button
-      variant="contained"
+      variant="outlined"
+      theme="blue"
       onPress={
         session
           ? handleSubscribe
@@ -70,6 +73,7 @@ export const SubscribeEventButton = ({
       {...btnProps}
       {...outsideStyle}
     >
+      <CalendarCheck2 color={'$color5'} size={16} />
       <Button.Text>M'inscrire</Button.Text>
       {isSubPending ? <Spinner size="small" color="$white1" /> : null}
     </Button>
@@ -108,19 +112,20 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
+        <VoxCard.Chip theme="blue">{payload.tag}</VoxCard.Chip>
         {status}
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}
-        <XStack justifyContent={canSubscribe ? 'space-between' : 'flex-start'}>
-          <Button variant="outlined" onPress={onShow}>
-            <Button.Text>Voir l'événement</Button.Text>
+        <XStack justifyContent={'space-between'}>
+          <Button variant="outlined" theme="gray" onPress={onShow}>
+            <Eye color="$color5" size={16} />
+            <Button.Text>Voir</Button.Text>
           </Button>
 
-          {canSubscribe && <SubscribeEventButton isSubscribed={!!payload.isSubscribed} eventId={payload.id} />}
+          <SubscribeEventButton disabled={!canSubscribe} isSubscribed={!!payload.isSubscribed} eventId={payload.id} />
         </XStack>
       </VoxCard.Content>
     </VoxCard>

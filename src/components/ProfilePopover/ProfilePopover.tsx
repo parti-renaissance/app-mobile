@@ -1,5 +1,6 @@
 import { PropsWithChildren, useCallback, useRef } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import { useUserStore } from '@/store/user-store'
 import { Link, router } from 'expo-router'
@@ -36,20 +37,20 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
         </Popover.Sheet>
       </Adapt>
 
-      <Popover.Content borderWidth={1} padding={0} borderColor="$gray4">
+      <Popover.Content borderWidth={1} padding={0} borderColor="$gray1" overflow="hidden">
         <YGroup $gtLg={{ width: 300 }}>
           <YGroup.Item>
             <Link href="/profil/" asChild>
               <MenuEntry title="Mon profil" onPress={() => ref.current?.close()} />
             </Link>
           </YGroup.Item>
-          <Separator borderStyle={'dashed'} borderColor="$gray4" />
-          {__DEV__ && (
+          <Separator borderStyle={'dashed'} borderColor="$gray1" />
+          {clientEnv.ENVIRONMENT !== 'production' && (
             <>
               <YGroup.Item>
                 <MenuEntry onPress={onGoToStorybook} title="Storybook" />
               </YGroup.Item>
-              <Separator borderStyle={'dashed'} borderColor="$gray4" />
+              <Separator borderStyle={'dashed'} borderColor="$gray1" />
             </>
           )}
           <YGroup.Item>

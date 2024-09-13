@@ -5,12 +5,12 @@ import { createStyledContext, SizeTokens, styled, Text, useTheme, View, withStat
 export const ButtonContext = createStyledContext({
   size: '$md' as SizeTokens,
   variant: 'contained' as const,
+  pop: false,
   disabled: false,
   'data-testid': 'Button',
 })
 
-export const ButtonFrame = styled(View, {
-  name: 'VoxButtonContain',
+export const ButtonFrameStyled = styled(View, {
   context: ButtonContext,
   animation: 'quick',
   theme: 'gray',
@@ -22,45 +22,59 @@ export const ButtonFrame = styled(View, {
   cursor: 'pointer',
 
   disabledStyle: {
-    opacity: 0.7,
+    opacity: 0.3,
+    cursor: 'not-allowed',
   },
 
   variants: {
+    full: {
+      true: {
+        width: '100%',
+      },
+    },
+    pop: {
+      true: {
+        transform: '$color7',
+      },
+    },
     variant: {
       contained: {
-        backgroundColor: '$background',
-        pressStyle: {
-          backgroundColor: '$backgroundPress',
-        },
+        backgroundColor: '$color4',
         hoverStyle: {
-          backgroundColor: '$backgroundHover',
+          backgroundColor: '$color6',
+        },
+        pressStyle: {
+          backgroundColor: '$color0',
         },
       },
       soft: {
-        backgroundColor: '$color',
-        pressStyle: {
-          backgroundColor: '$colorPress',
-        },
+        backgroundColor: '$color1',
         hoverStyle: {
-          backgroundColor: '$colorHover',
+          backgroundColor: '$color2',
+        },
+        pressStyle: {
+          backgroundColor: '$colorTransparent',
         },
       },
 
       outlined: {
-        backgroundColor: '$white1',
-        borderColor: 'rgba(145, 158, 171, 0.32)',
-        borderWidth: 1.5,
+        backgroundColor: '$colorTransparent',
+        borderColor: '$color5',
+        borderWidth: 2,
+        hoverStyle: {
+          borderColor: '$color6',
+          backgroundColor: '$color/8',
+        },
 
         pressStyle: {
-          borderColor: '$gray8',
-          backgroundColor: 'rgba(145, 158, 171, 0.08)',
+          borderColor: '$color5',
+          backgroundColor: '$color5',
         },
       },
       text: {
         backgroundColor: 'transparent',
-
-        pressStyle: {
-          backgroundColor: 'rgba(145, 158, 171, 0.16)',
+        hoverStyle: {
+          backgroundColor: '$color0',
         },
       },
     },
@@ -93,10 +107,16 @@ export const ButtonFrame = styled(View, {
   },
 })
 
+const ButtonFrame = (props: React.ComponentProps<typeof ButtonFrameStyled>) => {
+  if ((props.theme === undefined || props.theme === 'gray') && props.variant === 'outlined') {
+    return <ButtonFrameStyled {...props} borderColor="$textOutline32" />
+  }
+  return <ButtonFrameStyled {...props} />
+}
+
 // type ButtonProps = GetProps<typeof ButtonFrame>
 
 export const ButtonText = styled(Text, {
-  name: 'VoxButtonContain',
   context: ButtonContext,
   color: '$color',
   userSelect: 'none',
@@ -107,15 +127,29 @@ export const ButtonText = styled(Text, {
     variant: {
       contained: {
         color: '$white1',
+        pressStyle: {
+          color: '$textPrimary',
+        },
       },
       soft: {
-        color: '$background',
+        color: '$color6',
       },
       outlined: {
-        color: '$gray9',
+        color: '$color6',
+        pressStyle: {
+          color: '$white1',
+        },
       },
       text: {
-        color: '$gray9',
+        color: '$color5',
+        pressStyle: {
+          color: '$color6',
+        },
+      },
+    },
+    pop: {
+      true: {
+        color: '$color7',
       },
     },
     size: {
