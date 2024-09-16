@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { Keyboard, Platform } from 'react-native'
 import { Button } from '@/components'
+import { VoxButton } from '@/components/Button'
 import EventRegisterForm from '@/components/events/EventRegisterForm/EventRegisterForm'
 import InternAlert from '@/components/InternAlert/InternAlert'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -11,7 +12,7 @@ import useShareApi from '@/hooks/useShareApi'
 import useCreateEvent from '@/modules/Calendar/Calendar'
 import * as eventTypes from '@/services/events/schema'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { Link as LinkIcon } from '@tamagui/lucide-icons'
+import { CalendarCheck2, CalendarPlus, Link as LinkIcon, Share, Share2 } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import { isPast } from 'date-fns'
 import { ScrollView, ScrollViewProps, Sheet, useMedia, XStack } from 'tamagui'
@@ -117,17 +118,17 @@ export function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestEvent; 
       </Button>
 
       {isShareAvailable && (
-        <Button variant="outlined" width="100%" size="lg" onPress={handleShareUrl}>
-          <Button.Text>Partager</Button.Text>
-        </Button>
+        <VoxButton variant="outlined" full size="lg" iconLeft={Share2} onPress={handleShareUrl}>
+          Partager
+        </VoxButton>
       )}
 
       {isFullEvent && (
         <>
           <VoxCard.Separator />
-          <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar(createEventData(data))}>
-            <Button.Text>Ajouter à mon calendrier</Button.Text>
-          </Button>
+          <VoxButton variant="outlined" full size="lg" iconLeft={CalendarPlus} onPress={() => addToCalendar(createEventData(data))}>
+            Ajouter à mon calendrier
+          </VoxButton>
         </>
       )}
     </VoxCard.Section>
@@ -147,16 +148,18 @@ function _RegisterButtonSheet(props: { id: string }) {
 
   return (
     <>
-      <Button
+      <VoxButton
         variant="contained"
         size="lg"
         onPress={() => {
           setOpen(true)
         }}
-        width="100%"
+        theme="blue"
+        iconLeft={CalendarCheck2}
+        full
       >
-        <Button.Text>M'inscrire</Button.Text>
-      </Button>
+        M'inscrire
+      </VoxButton>
       <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress moveOnKeyboardChange open={open} onOpenChange={handleOpenChange} snapPoints={[80]}>
         <Sheet.Overlay />
         <Sheet.Handle />

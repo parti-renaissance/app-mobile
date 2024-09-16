@@ -2,7 +2,7 @@ import React, { ComponentProps, useId, useRef } from 'react'
 import { Linking, LogBox } from 'react-native'
 import Input from '@/components/base/Input/Input'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button/Button'
+import Button, { VoxButton } from '@/components/Button/Button'
 import FormikController from '@/components/FormikController'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
@@ -10,7 +10,7 @@ import { PublicEventSubscriptionFormError } from '@/services/events/error'
 import { useSubscribePublicEvent } from '@/services/events/hook'
 import type { RestPostPublicEventSubsciptionRequest } from '@/services/events/schema'
 import { CheckedState } from '@tamagui/checkbox-headless/src/useCheckbox'
-import { Check as CheckIcon } from '@tamagui/lucide-icons'
+import { CalendarCheck2, Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
 import { Formik, FormikHelpers } from 'formik'
 import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, useMedia, XStack, YStack } from 'tamagui'
@@ -163,6 +163,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
               width="100%"
               variant="text"
               size="md"
+              theme="gray"
               onPress={async () => {
                 const link = 'https://parti-renaissance.fr/politique-de-protection-des-donnees/'
 
@@ -178,12 +179,11 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             <DialogMentionLegale onPress={handlePress} />
           </YStack>
 
-          <Button size="lg" width="100%" onPress={() => handleSubmit()}>
-            <Button.Text>S'inscrire</Button.Text>
-            {isSubmitting ? <Spinner color="$white1" /> : null}
-          </Button>
+          <VoxButton size="xl" width="100%" theme="blue" onPress={() => handleSubmit()} iconLeft={CalendarCheck2} loading={isSubmitting}>
+            M'inscrire
+          </VoxButton>
 
-          <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
+          <Button variant="text" theme="gray" size="lg" width="100%" onPress={() => signIn()}>
             <Text fontSize="$1">
               <Text color="$textPrimary" fontWeight="$7">
                 Me connecter
