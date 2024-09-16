@@ -1,5 +1,5 @@
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { Image } from 'expo-image'
@@ -27,12 +27,12 @@ export default function () {
             </Text>
           </YStack>
           <XStack gap="$3">
-            <Button theme="green" onPress={handlePress('monthly')} disabled={isPending}>
-              <Button.Text>Je finance le parti</Button.Text>
-            </Button>
-            <Button theme="green" variant="soft" onPress={handlePress('dayly')} disabled={isPending}>
-              <Button.Text>Je donne</Button.Text>
-            </Button>
+            <VoxButton theme="green" onPress={handlePress('monthly')} disabled={isPending}>
+              Je finance le parti
+            </VoxButton>
+            <VoxButton theme="green" variant="outlined" onPress={handlePress('dayly')} disabled={isPending}>
+              Je donne
+            </VoxButton>
           </XStack>
         </YStack>
         <Image

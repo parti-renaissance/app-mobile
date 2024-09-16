@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import Button from '@/components/Button'
+import Button, { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { genericErrorMapping } from '@/data/network/utils'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
@@ -22,9 +22,9 @@ export const DefaultErrorFallback = ({ resetErrorBoundary }: FallbackProps) => (
       Une erreur est survenue. Veuillez recharger la page.
     </Text>
     <View>
-      <Button variant="text" onPress={resetErrorBoundary}>
-        <Button.Text>Réessayer</Button.Text>
-      </Button>
+      <VoxButton variant="text" onPress={resetErrorBoundary}>
+        Réessayer
+      </VoxButton>
     </View>
   </>
 )

@@ -34,7 +34,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
   const sizeValue = getTokenValue(size, 'size')
 
   return (
-    <Shape backgroundColor={backgroundColor || '$blue3'} size={size} {...rest} overflow="hidden">
+    <Shape backgroundColor={backgroundColor || '$blue2'} size={size} {...rest} overflow="hidden">
       {src ? (
         <Image
           alt={alt}
@@ -45,7 +45,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
           }}
         />
       ) : (
-        <Text color={textColor ?? '$blue8'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight={props.fontWeight ?? '$2'}>
+        <Text color={textColor ?? '$blue4'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight={props.fontWeight ?? '$2'}>
           {initials}
         </Text>
       )}

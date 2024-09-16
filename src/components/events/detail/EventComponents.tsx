@@ -110,7 +110,7 @@ export function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestEvent; 
   return (
     <VoxCard.Section title="Partager :" gap="$3">
       <Button variant="outlined" width="100%" onPress={() => handleCopyUrl(shareUrl)}>
-        <Button.Text variant="outlined" color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
+        <Button.Text color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
           {shareUrl}
         </Button.Text>
         <LinkIcon color="$textDisabled" />
@@ -118,7 +118,7 @@ export function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestEvent; 
 
       {isShareAvailable && (
         <Button variant="outlined" width="100%" size="lg" onPress={handleShareUrl}>
-          <Button.Text variant="outlined">Partager</Button.Text>
+          <Button.Text>Partager</Button.Text>
         </Button>
       )}
 
@@ -126,7 +126,7 @@ export function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestEvent; 
         <>
           <VoxCard.Separator />
           <Button variant="outlined" width="100%" size="lg" onPress={() => addToCalendar(createEventData(data))}>
-            <Button.Text variant="outlined">Ajouter à mon calendrier</Button.Text>
+            <Button.Text>Ajouter à mon calendrier</Button.Text>
           </Button>
         </>
       )}

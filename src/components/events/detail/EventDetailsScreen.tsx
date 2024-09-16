@@ -33,7 +33,7 @@ function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
           {imageSource && <VoxCard.Image image={imageSource} />}
           <VoxCard.Content>
             <EventStatus data={data} />
-            {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
+            {data.category && <VoxCard.Chip theme="blue">{data.category.name}</VoxCard.Chip>}
             <VoxCard.Title>{data.name}</VoxCard.Title>
             {eventTypes.isFullEvent(data) && (
               <VoxCard.Description full markdown>
@@ -64,7 +64,7 @@ function EventDetailsScreenDesktop({ data }: { data: eventTypes.RestEvent }) {
           <VoxCard overflow="hidden" paddingBottom={media.gtLg ? 0 : '$10'}>
             {imageSource && <VoxCard.Image image={imageSource} />}
             <VoxCard.Content>
-              {data.category && <VoxCard.Chip event>{data.category.name}</VoxCard.Chip>}
+              {data.category && <VoxCard.Chip theme="blue">{data.category.name}</VoxCard.Chip>}
               <VoxCard.Title>{data.name}</VoxCard.Title>
               {eventTypes.isFullEvent(data) && (
                 <VoxCard.Description full markdown>

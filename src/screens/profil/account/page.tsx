@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
-import { Button } from '@/components'
 import Text from '@/components/base/Text'
+import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
@@ -61,12 +61,12 @@ const EditInformations = () => {
                 Version: v{Constants.expoConfig?.version ?? '0.0.0'} [{isWeb ? '???' : nativeBuildVersion} - {clientEnv.ENVIRONMENT}]
               </Text>
               <YStack gap="$4">
-                <Button variant="outlined" size="lg" width="100%" onPress={signOut}>
-                  <Button.Text>{credentials?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'}</Button.Text>
-                </Button>
-                <Button variant="outlined" size="lg" width="100%" onPress={removeAccount}>
-                  <Button.Text>{isAdherent ? 'Supprimer mon compte' : 'Supprimer mon compte'}</Button.Text>
-                </Button>
+                <VoxButton variant="outlined" size="lg" width="100%" onPress={signOut}>
+                  {credentials?.isAdmin ? 'Quitter l’impersonnification' : 'Me déconnecter'}
+                </VoxButton>
+                <VoxButton variant="outlined" size="lg" width="100%" onPress={removeAccount}>
+                  {isAdherent ? 'Supprimer mon compte' : 'Supprimer mon compte'}
+                </VoxButton>
               </YStack>
             </VoxCard.Content>
           </VoxCard>

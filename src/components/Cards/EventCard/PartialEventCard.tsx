@@ -1,6 +1,7 @@
 import { ImageRequireSource } from 'react-native'
-import Button from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
+import { Eye } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'
 
 type VoxCardBasePayload = {
@@ -22,16 +23,16 @@ const PartialEventCard = ({ payload, onShow, ...props }: PartialEventVoxCardProp
     <VoxCard {...props}>
       <VoxCard.Content minHeight={200} justifyContent="space-between">
         <VoxCard.Content p={0}>
-          <VoxCard.Chip event>Evenement</VoxCard.Chip>
+          <VoxCard.Chip theme="blue">Evenement</VoxCard.Chip>
           <VoxCard.Title>{payload.title}</VoxCard.Title>
           {image && <VoxCard.Image image={image} />}
         </VoxCard.Content>
         <VoxCard.Date {...payload.date} />
         {payload.author && <VoxCard.Author author={payload.author} />}
         <XStack justifyContent={'flex-start'}>
-          <Button variant="outlined" onPress={onShow}>
-            <Button.Text>Voir l'événement</Button.Text>
-          </Button>
+          <VoxButton variant="outlined" onPress={onShow} iconLeft={Eye}>
+            Voir l'événement
+          </VoxButton>
         </XStack>
       </VoxCard.Content>
     </VoxCard>

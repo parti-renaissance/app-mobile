@@ -5,6 +5,10 @@ import { themes } from './themes'
 
 export const config = createTamagui({
   ...configBase,
+  settings: {
+    ...configBase.settings,
+    webContainerType: 'normal',
+  },
   themes,
   defaultFont: 'PublicSans',
   fonts: { ...configBase.fonts, Maax, PublicSans },

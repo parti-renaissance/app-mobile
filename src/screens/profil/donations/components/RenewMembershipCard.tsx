@@ -1,6 +1,6 @@
 import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import Button, { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { getHumanFormattedDate } from '@/utils/date'
@@ -24,9 +24,9 @@ export default function (props: CommonMembershipCardProps) {
               <Text color="$textSecondary">Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation!)}</Text>
             </YStack>
             <YStack alignContent="center" height="100%" alignItems="center" justifyContent="center">
-              <Button theme="blue" disabled={isPending} onPress={handleAdhesionLink}>
-                <Button.Text>Me mettre à jour</Button.Text>
-              </Button>
+              <VoxButton theme="blue" disabled={isPending} onPress={handleAdhesionLink}>
+                Me mettre à jour
+              </VoxButton>
             </YStack>
           </XStack>
         </YStack>

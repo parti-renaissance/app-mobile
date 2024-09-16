@@ -2,11 +2,13 @@ import React, { ComponentProps, useMemo } from 'react'
 import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
+import { VoxButton } from '@/components/Button'
 import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import { RestEvent } from '@/services/events/schema'
+import { CalendarCheck2, CalendarOff, Eye } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { router } from 'expo-router'
 import { Spinner, XStack } from 'tamagui'
@@ -49,15 +51,15 @@ export const SubscribeEventButton = ({
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
   return isSubscribed ? (
-    <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
-      <Button variant={outside ? 'outlined' : 'text'} {...btnProps} {...outsideStyle}>
-        <Button.Text color="$blue7">Me désinscrire</Button.Text>
-        {isUnSubPending ? <Spinner size="small" color="$blue7" /> : null}
-      </Button>
+    <VoxAlertDialog theme="blue" title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
+      <VoxButton theme="blue" variant="outlined" loading={isUnSubPending} iconLeft={CalendarOff} {...btnProps} {...outsideStyle}>
+        Me désinscrire
+      </VoxButton>
     </VoxAlertDialog>
   ) : (
-    <Button
-      variant="contained"
+    <VoxButton
+      variant="outlined"
+      theme="blue"
       onPress={
         session
           ? handleSubscribe
@@ -67,12 +69,13 @@ export const SubscribeEventButton = ({
                 params: { id },
               })
       }
+      iconLeft={CalendarCheck2}
+      loading={isSubPending}
       {...btnProps}
       {...outsideStyle}
     >
-      <Button.Text>M'inscrire</Button.Text>
-      {isSubPending ? <Spinner size="small" color="$white1" /> : null}
-    </Button>
+      M'inscrire
+    </VoxButton>
   )
 }
 
@@ -108,19 +111,19 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip event>{payload.tag}</VoxCard.Chip>
+        <VoxCard.Chip theme="blue">{payload.tag}</VoxCard.Chip>
         {status}
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}
-        <XStack justifyContent={canSubscribe ? 'space-between' : 'flex-start'}>
-          <Button variant="outlined" onPress={onShow}>
-            <Button.Text>Voir l'événement</Button.Text>
-          </Button>
+        <XStack justifyContent={'space-between'}>
+          <VoxButton variant="outlined" theme="gray" onPress={onShow} iconLeft={Eye}>
+            Voir
+          </VoxButton>
 
-          {canSubscribe && <SubscribeEventButton isSubscribed={!!payload.isSubscribed} eventId={payload.id} />}
+          <SubscribeEventButton disabled={!canSubscribe} isSubscribed={!!payload.isSubscribed} eventId={payload.id} />
         </XStack>
       </VoxCard.Content>
     </VoxCard>

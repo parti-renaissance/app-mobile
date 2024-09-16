@@ -3,6 +3,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { Link } from 'expo-router'
 import { Image, View } from 'tamagui'
 import Text from '../base/Text'
+import { VoxButton } from '../Button'
 
 export default function Error404() {
   return (
@@ -13,9 +14,7 @@ export default function Error404() {
 
         <View>
           <Link href="/" asChild>
-            <Button variant="text">
-              <Button.Text>Retour à l'accueil</Button.Text>
-            </Button>
+            <VoxButton variant="text">Retour à l'accueil</VoxButton>
           </Link>
         </View>
       </PageLayout.StateFrame>

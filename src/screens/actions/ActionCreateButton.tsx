@@ -1,6 +1,5 @@
 import React from 'react'
-import Button from '@/components/Button'
-import GradientButton from '@/components/Buttons/GradientButton'
+import { VoxButton } from '@/components/Button'
 import { Plus } from '@tamagui/lucide-icons'
 import { View, ViewProps } from 'tamagui'
 
@@ -10,12 +9,9 @@ type ActionCreateButtonProps = {
 
 const ActionCreateButton = (props: ActionCreateButtonProps) => (
   <View {...props}>
-    <GradientButton round onPress={props.onPress}>
-      <Plus color="$purple7" size="$1" />
-      <Button.Text fontSize="$2" fontWeight="$7" color="$purple7">
-        Créer une action
-      </Button.Text>
-    </GradientButton>
+    <VoxButton full pop size="lg" theme="purple" variant="soft" borderColor="$colorPop" borderWidth="$1" iconLeft={Plus} onPress={props.onPress}>
+      Créer une action
+    </VoxButton>
   </View>
 )
 

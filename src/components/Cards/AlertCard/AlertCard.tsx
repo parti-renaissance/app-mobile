@@ -1,5 +1,6 @@
 import { Linking } from 'react-native'
 import { Button } from '@/components'
+import { VoxButton } from '@/components/Button'
 import VoxCard, { VoxCardFrameProps } from '@/components/VoxCard/VoxCard'
 import type { RestAlertsResponse } from '@/services/alerts/schema'
 import { genericErrorThrower } from '@/services/common/errors/generic-errors'
@@ -25,9 +26,9 @@ const AlertCard = ({ payload, ...props }: AlertVoxCardProps) => {
         <VoxCard.Description markdown>{payload.description}</VoxCard.Description>
         {payload.cta_label && payload.cta_url && (
           <XStack justifyContent="flex-end">
-            <Button variant="contained" onPress={onShow}>
-              <Button.Text>{payload.cta_label}</Button.Text>
-            </Button>
+            <VoxButton variant="contained" onPress={onShow}>
+              {payload.cta_label}
+            </VoxButton>
           </XStack>
         )}
       </VoxCard.Content>

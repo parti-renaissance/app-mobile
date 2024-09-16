@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useState } from 'react'
 import { Modal, SafeAreaView, StyleSheet, View } from 'react-native'
 import { LatLng, Region } from '@/components/Maps/Maps'
+import * as metatags from '@/config/metatags'
 import { DoorToDoorCharterNotAccepted } from '@/core/entities/DoorToDoorCharterState'
 import { GetDoorToDoorAddressesInteractor } from '@/core/interactor/GetDoorToDoorAddressesInteractor'
 import DoorToDoorRepository from '@/data/DoorToDoorRepository'
@@ -18,6 +19,7 @@ import { useOnFocus } from '@/utils/useOnFocus.hook'
 import { useQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 import { router } from 'expo-router'
+import Head from 'expo-router/head'
 
 const DoorToDoorMapView = memo(_DoorToDoorMapView)
 
@@ -147,6 +149,9 @@ const DoorToDoorScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Head>
+        <title>{metatags.createTitle('Porte à porte')}</title>
+      </Head>
       <Modal visible={rankingModalState.visible} animationType="slide">
         {rankingModalState.campaignId ? (
           <RankingModal onDismissModal={() => setRankingModalState({ visible: false })} campaignId={rankingModalState.campaignId} />

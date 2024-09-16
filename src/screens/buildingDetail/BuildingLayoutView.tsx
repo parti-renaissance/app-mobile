@@ -3,6 +3,7 @@ import { Image, StyleSheet, TextInput, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { Button } from '@/components'
 import Input from '@/components/base/Input/Input'
+import { VoxButton } from '@/components/Button'
 import { Sheet, YStack } from 'tamagui'
 import { DoorToDoorAddressStatus } from '../../core/entities/DoorToDoor'
 import { Colors, Spacing, Typography } from '../../styles'
@@ -152,9 +153,9 @@ const SheetLeaflet = ({ open, onChange, onOpenChange }: { open: boolean; onChang
       <Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
       <Sheet.Handle />
       <Sheet.Frame padding="$4" justifyContent="center" gap="$5" pb="$8">
-        <Button alignSelf="flex-end" variant="text" onPress={() => onOpenChange(false)}>
-          <Button.Text>Fermer</Button.Text>
-        </Button>
+        <VoxButton alignSelf="flex-end" variant="text" onPress={() => onOpenChange(false)}>
+          Fermer
+        </VoxButton>
         <Input
           flex={1}
           ref={inputRef}
@@ -167,9 +168,9 @@ const SheetLeaflet = ({ open, onChange, onOpenChange }: { open: boolean; onChang
           value={value.toString()}
           onChangeText={handleInputChange}
         />
-        <Button onPress={handleSubmit} size="lg" width="100%">
-          <Button.Text>Valider</Button.Text>
-        </Button>
+        <VoxButton onPress={handleSubmit} size="lg" width="100%">
+          Valider
+        </VoxButton>
       </Sheet.Frame>
     </Sheet>
   )

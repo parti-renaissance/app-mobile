@@ -22,23 +22,22 @@ const lightShadowColorStrong = 'rgba(0,0,0,0.085)'
 const transparenciesPercents = [0, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80] as const
 type PercentValue = (typeof transparenciesPercents)[number]
 const transparent = (hsl: string, opacity = 0) => hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
-
 const lightColors = {
-  ...addSetOfTransparenciesToColor(colorTokens.light.blue.blue6, 'blue', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.blue.blue4, 'blue', true),
   ...colorTokens.light.blue,
-  ...addSetOfTransparenciesToColor(colorTokens.light.gray.gray6, 'gray', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.gray.gray4, 'gray', true),
   ...colorTokens.light.gray,
-  ...addSetOfTransparenciesToColor(colorTokens.light.green.green6, 'green', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.green.green4, 'green', true),
   ...colorTokens.light.green,
-  ...addSetOfTransparenciesToColor(colorTokens.light.orange.orange6, 'orange', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.orange.orange4, 'orange', true),
   ...colorTokens.light.orange,
-  ...addSetOfTransparenciesToColor(colorTokens.light.pink.pink6, 'pink', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.pink.pink4, 'pink', true),
   ...colorTokens.light.pink,
-  ...addSetOfTransparenciesToColor(colorTokens.light.purple.purple6, 'purple', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.purple.purple4, 'purple', true),
   ...colorTokens.light.purple,
-  ...addSetOfTransparenciesToColor(colorTokens.light.red.red6, 'red', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.red.red4, 'red', true),
   ...colorTokens.light.red,
-  ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow6, 'yellow', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow4, 'yellow', true),
   ...colorTokens.light.yellow,
   ...addSetOfTransparenciesToColor(white.white1, 'white', true),
   ...colorTokens.light.white,
@@ -73,6 +72,19 @@ export const palettes = (() => {
   }
 })()
 
+const text = {
+  light: {
+    textPrimary: 'hsl(211,24%, 17%)',
+    textSecondary: 'hsl(208, 13%, 45%)',
+    textDisabled: 'hsl(210, 13%, 52%)',
+    textSurface: 'hsl(240, 9%, 98%)',
+    textOutline32: 'hsl(210, 13%, 88%)',
+    textOutline20: 'hsl(204, 13%, 92%)',
+    textOutline: 'hsl(210, 13%, 94%)',
+    textDanger: red.red7,
+  },
+}
+
 export const templates = (() => {
   const transparencies = transparenciesPercents.length - 1
 
@@ -83,19 +95,21 @@ export const templates = (() => {
     background025: 1,
     background05: 2,
     background075: 3,
-    color1: transparencies + 1,
-    color2: transparencies + 2,
-    color3: transparencies + 3,
-    color4: transparencies + 4,
-    color5: transparencies + 5,
-    color6: transparencies + 6,
-    color7: transparencies + 7,
-    color8: transparencies + 8,
-    color9: transparencies + 9,
-    color10: transparencies + 10,
-    color11: transparencies + 11,
-    color12: transparencies + 12,
-    color0: -0,
+    'color/8': -1,
+
+    color0: transparencies + 1,
+    color1: transparencies + 2,
+    color2: transparencies + 3,
+    color3: transparencies + 4,
+    color4: transparencies + 5,
+    color5: transparencies + 6,
+    color6: transparencies + 7,
+    color7: transparencies + 8,
+    color8: transparencies + 9,
+    color9: transparencies + 10,
+    color10: transparencies + 11,
+    color11: transparencies + 12,
+    color12: transparencies + 13,
     color025: -1,
     color05: -2,
     color075: -3,
@@ -165,11 +179,50 @@ export const templates = (() => {
 
   const buttonSurface = {
     background: transparencies + 7,
-    color: transparencies + 2,
     backgroundHover: transparencies + 8,
-    colorHover: transparencies + 3,
     backgroundPress: transparencies + 9,
+    color: transparencies + 2,
+    colorHover: transparencies + 3,
     colorPress: transparencies + 4,
+  }
+
+  const buttonContainedSurface = {
+    background: transparencies + 5,
+    backgroundHover: transparencies + 7,
+    backgroundPress: transparencies + 1,
+    color: white.white1,
+    colorPress: text.light.textPrimary,
+    colorHover: white.white1,
+  }
+
+  const buttonSoftSurface = {
+    background: transparencies + 1,
+    backgroundHover: transparencies + 3,
+    backgroundPress: -0,
+    color: transparencies + 6,
+    colorPress: transparencies + 6,
+    colorHover: transparencies + 6,
+    colorPop: transparencies + 8,
+  }
+
+  const buttonOutlinedSurface = {
+    background: -0,
+    backgroundHover: transparencies + 3,
+    backgroundPress: transparencies + 5,
+    borderColor: transparencies + 6,
+    borderColorHover: transparencies + 6,
+    borderColorPress: transparencies + 6,
+    color: transparencies + 7,
+    colorPress: white.white1,
+    colorHover: transparencies + 7,
+  }
+
+  const buttonTextSurface = {
+    background: -0,
+    backgroundHover: transparencies + 1,
+    color: transparencies + 6,
+    colorPress: transparencies + 7,
+    colorHover: transparencies + 7,
   }
 
   const surface3 = {
@@ -304,6 +357,10 @@ export const templates = (() => {
     surfaceSwitchThumb,
     badgeSurface,
     buttonSurface,
+    buttonOutlinedSurface,
+    buttonTextSurface,
+    buttonContainedSurface,
+    buttonSoftSurface,
   }
 })()
 
@@ -313,15 +370,6 @@ const shadows = {
     shadowColorHover: lightShadowColorStrong,
     shadowColorPress: lightShadowColor,
     shadowColorFocus: lightShadowColor,
-  },
-}
-
-const text = {
-  light: {
-    textPrimary: gray.gray8,
-    textSecondary: gray.gray6,
-    textDisabled: gray.gray5,
-    textDanger: red.red7,
   },
 }
 
@@ -436,6 +484,34 @@ const buttonSurface = [
   },
 ] as any
 
+const buttonContainedSurface = [
+  {
+    parent: '',
+    template: 'buttonContainedSurface',
+  },
+] as any
+
+const buttonSoftSurface = [
+  {
+    parent: '',
+    template: 'buttonSoftSurface',
+  },
+] as any
+
+const buttonOutlinedSurface = [
+  {
+    parent: '',
+    template: 'buttonOutlinedSurface',
+  },
+] as any
+
+const buttonTextSurface = [
+  {
+    parent: '',
+    template: 'buttonTextSurface',
+  },
+] as any
+
 // --- themeBuilder ---
 
 const themeBuilder = createThemeBuilder()
@@ -531,7 +607,10 @@ const themeBuilder = createThemeBuilder()
       TextArea: surface1,
       VoxInput: surfaceInput1,
       VoxBadge: badgeSurface,
-      VoxButtonContain: buttonSurface,
+      VoxButtonContained: buttonContainedSurface,
+      VoxButtonSoft: buttonSoftSurface,
+      VoxButtonOutlined: buttonOutlinedSurface,
+      VoxButtonText: buttonTextSurface,
       VoxRadio: {
         template: 'surfaceRadio',
       },
