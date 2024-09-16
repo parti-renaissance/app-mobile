@@ -3,7 +3,7 @@ import { Linking } from 'react-native'
 import { ProfileCallToActionLayout } from '@/components/ProfileCards/ProfileCallToActionLayout/ProfileCallToActionLayout'
 import clientEnv from '@/config/clientEnv'
 import { gray } from '../../../../theme/colors.hex'
-import Button from '../../Button'
+import { VoxButton } from '../../Button'
 
 export default function ProgramCTA() {
   const onPress = useCallback(async () => {
@@ -29,9 +29,9 @@ export default function ProgramCTA() {
         compact
       />
       <ProfileCallToActionLayout.Actions>
-        <Button variant={'outlined'} marginTop={'$2'} marginLeft={'$2.5'} zIndex={10} onPress={onPress}>
-          <Button.Text>Voir Notre Projet</Button.Text>
-        </Button>
+        <VoxButton variant={'outlined'} marginTop={'$2'} marginLeft={'$2.5'} zIndex={10} onPress={onPress}>
+          Voir Notre Projet
+        </VoxButton>
       </ProfileCallToActionLayout.Actions>
       <ProfileCallToActionLayout.BackgroundImageBottomRight source={require('./assets/program.png')} bottom={-20} right={-16} height={170} />
     </ProfileCallToActionLayout>

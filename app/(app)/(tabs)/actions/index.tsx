@@ -5,6 +5,7 @@ import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import MapboxGl from '@/components/Mapbox/Mapbox'
+import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import { LocationPermissionError, QUERY_KEY_LOCATION, useLocation, useLocationPermission } from '@/hooks/useLocation'
 import {
@@ -31,9 +32,10 @@ import { OnPressEvent } from '@rnmapbox/maps/src/types/OnPressEvent'
 import { GalleryHorizontal } from '@tamagui/lucide-icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
+import Head from 'expo-router/head'
 import { Feature, Point } from 'geojson'
 import { FallbackProps } from 'react-error-boundary'
-import { isWeb, Spinner, useMedia, View, YStack } from 'tamagui'
+import { isWeb, useMedia, View, YStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 const ErrorFallback = (props: FallbackProps) => {
@@ -59,6 +61,9 @@ export default function ActionsScreen() {
 
   return (
     <PageLayout full>
+      <Head>
+        <title>{metatags.createTitle('Actions')}</title>
+      </Head>
       <BoundarySuspenseWrapper errorChildren={(x) => <ErrorFallback {...x} />}>
         {!isWeb && media.gtMd ? (
           // <PageLayout.StateFrame bg="$white2">

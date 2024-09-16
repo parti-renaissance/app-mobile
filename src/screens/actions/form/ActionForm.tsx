@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocomplete'
 import Input from '@/components/base/Input/Input'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import DatePicker from '@/components/DatePicker'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
@@ -13,6 +13,7 @@ import { useAction } from '@/services/actions/hook/useActions'
 import { useCreateOrEditAction } from '@/services/actions/hook/useCreateOrEditAction'
 import { ActionType, ActionTypeIcon, isFullAction, ReadableActionType } from '@/services/actions/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PenLine } from '@tamagui/lucide-icons'
 import { addHours, formatISO } from 'date-fns'
 import { Controller, useForm } from 'react-hook-form'
 import { Spinner, useMedia, View } from 'tamagui'
@@ -263,13 +264,12 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
         </SpacedContainer>
 
         <View flexDirection={'row'} justifyContent={'flex-end'} gap={'$4'}>
-          <Button variant={'text'} onPress={onCancel}>
-            <Button.Text>Annuler</Button.Text>
-          </Button>
-          <Button variant="contained" onPress={onSubmit}>
-            <Button.Text>{uuid ? 'Modifier l’action' : 'Créer l’action'}</Button.Text>
-            {$postAction.isPending && <Spinner size="small" color="$white1" />}
-          </Button>
+          <VoxButton variant={'text'} onPress={onCancel}>
+            Annuler
+          </VoxButton>
+          <VoxButton variant="contained" onPress={onSubmit} iconLeft={PenLine} loading={$postAction.isPending}>
+            {uuid ? 'Modifier l’action' : 'Créer l’action'}
+          </VoxButton>
         </View>
       </View>
     </View>

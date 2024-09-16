@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { VoxButton } from '@/components/Button'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { XStack } from 'tamagui'
 
@@ -30,9 +31,9 @@ const NewsCard = ({ payload, onShow, ...props }: NewsVoxCardProps) => {
         {!!payload?.author?.name && <VoxCard.Author author={payload.author} />}
         {!!payload.ctaLabel && (
           <XStack justifyContent="flex-end">
-            <Button variant="contained" onPress={onShow}>
-              <Button.Text>{payload.ctaLabel}</Button.Text>
-            </Button>
+            <VoxButton variant="contained" onPress={onShow}>
+              {payload.ctaLabel}
+            </VoxButton>
           </XStack>
         )}
       </VoxCard.Content>

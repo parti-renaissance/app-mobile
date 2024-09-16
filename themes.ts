@@ -22,7 +22,6 @@ const lightShadowColorStrong = 'rgba(0,0,0,0.085)'
 const transparenciesPercents = [0, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80] as const
 type PercentValue = (typeof transparenciesPercents)[number]
 const transparent = (hsl: string, opacity = 0) => hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
-
 const lightColors = {
   ...addSetOfTransparenciesToColor(colorTokens.light.blue.blue4, 'blue', true),
   ...colorTokens.light.blue,
@@ -72,6 +71,19 @@ export const palettes = (() => {
     ...colorPalettes,
   }
 })()
+
+const text = {
+  light: {
+    textPrimary: 'hsl(211,24%, 17%)',
+    textSecondary: 'hsl(208, 13%, 45%)',
+    textDisabled: 'hsl(210, 13%, 52%)',
+    textSurface: 'hsl(240, 9%, 98%)',
+    textOutline32: 'hsl(210, 13%, 88%)',
+    textOutline20: 'hsl(204, 13%, 92%)',
+    textOutline: 'hsl(210, 13%, 94%)',
+    textDanger: red.red7,
+  },
+}
 
 export const templates = (() => {
   const transparencies = transparenciesPercents.length - 1
@@ -167,11 +179,50 @@ export const templates = (() => {
 
   const buttonSurface = {
     background: transparencies + 7,
-    color: transparencies + 2,
     backgroundHover: transparencies + 8,
-    colorHover: transparencies + 3,
     backgroundPress: transparencies + 9,
+    color: transparencies + 2,
+    colorHover: transparencies + 3,
     colorPress: transparencies + 4,
+  }
+
+  const buttonContainedSurface = {
+    background: transparencies + 5,
+    backgroundHover: transparencies + 7,
+    backgroundPress: transparencies + 1,
+    color: white.white1,
+    colorPress: text.light.textPrimary,
+    colorHover: white.white1,
+  }
+
+  const buttonSoftSurface = {
+    background: transparencies + 1,
+    backgroundHover: transparencies + 3,
+    backgroundPress: -0,
+    color: transparencies + 6,
+    colorPress: transparencies + 6,
+    colorHover: transparencies + 6,
+    colorPop: transparencies + 8,
+  }
+
+  const buttonOutlinedSurface = {
+    background: -0,
+    backgroundHover: transparencies + 3,
+    backgroundPress: transparencies + 5,
+    borderColor: transparencies + 6,
+    borderColorHover: transparencies + 6,
+    borderColorPress: transparencies + 6,
+    color: transparencies + 7,
+    colorPress: white.white1,
+    colorHover: transparencies + 7,
+  }
+
+  const buttonTextSurface = {
+    background: -0,
+    backgroundHover: transparencies + 1,
+    color: transparencies + 6,
+    colorPress: transparencies + 7,
+    colorHover: transparencies + 7,
   }
 
   const surface3 = {
@@ -306,6 +357,10 @@ export const templates = (() => {
     surfaceSwitchThumb,
     badgeSurface,
     buttonSurface,
+    buttonOutlinedSurface,
+    buttonTextSurface,
+    buttonContainedSurface,
+    buttonSoftSurface,
   }
 })()
 
@@ -315,19 +370,6 @@ const shadows = {
     shadowColorHover: lightShadowColorStrong,
     shadowColorPress: lightShadowColor,
     shadowColorFocus: lightShadowColor,
-  },
-}
-
-const text = {
-  light: {
-    textPrimary: 'hsl(211,24%, 17%)',
-    textSecondary: 'hsl(208, 13%, 45%)',
-    textDisabled: 'hsl(210, 13%, 52%)',
-    textSurface: 'hsl(240, 9%, 98%)',
-    textOutline32: 'hsl(210, 13%, 88%)',
-    textOutline20: 'hsl(204, 13%, 92%)',
-    textOutline: 'hsl(210, 13%, 94%)',
-    textDanger: red.red7,
   },
 }
 
@@ -442,6 +484,34 @@ const buttonSurface = [
   },
 ] as any
 
+const buttonContainedSurface = [
+  {
+    parent: '',
+    template: 'buttonContainedSurface',
+  },
+] as any
+
+const buttonSoftSurface = [
+  {
+    parent: '',
+    template: 'buttonSoftSurface',
+  },
+] as any
+
+const buttonOutlinedSurface = [
+  {
+    parent: '',
+    template: 'buttonOutlinedSurface',
+  },
+] as any
+
+const buttonTextSurface = [
+  {
+    parent: '',
+    template: 'buttonTextSurface',
+  },
+] as any
+
 // --- themeBuilder ---
 
 const themeBuilder = createThemeBuilder()
@@ -537,7 +607,10 @@ const themeBuilder = createThemeBuilder()
       TextArea: surface1,
       VoxInput: surfaceInput1,
       VoxBadge: badgeSurface,
-      VoxButtonContain: buttonSurface,
+      VoxButtonContained: buttonContainedSurface,
+      VoxButtonSoft: buttonSoftSurface,
+      VoxButtonOutlined: buttonOutlinedSurface,
+      VoxButtonText: buttonTextSurface,
       VoxRadio: {
         template: 'surfaceRadio',
       },

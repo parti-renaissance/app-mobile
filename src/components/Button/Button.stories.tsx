@@ -1,77 +1,80 @@
-import { Stack } from 'tamagui'
-import Button from './Button'
+import { Fragment } from 'react'
+import { Calendar } from '@tamagui/lucide-icons'
+import { ScrollView, Stack, Text, XStack, YStack } from 'tamagui'
+import { VoxButton as Button } from './Button'
 
 export default {
   title: 'Button',
   component: Button,
 }
 
-export function Default() {
-  return (
-    <Button>
-      <Button.Text>{'Button'}</Button.Text>
-    </Button>
-  )
-}
-
 export function Size() {
   return (
     <Stack gap="$4">
-      <Button size="sm">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-
-      <Button size="md" variant="outlined">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-
-      <Button size="lg">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
+      <Button size="sm">Button Small</Button>
+      <Button size="md">Button Medium</Button>
+      <Button size="lg">Button Large</Button>
+      <Button size="xl">Button extra Large</Button>
     </Stack>
   )
 }
 
-export function Variant() {
+export function Default() {
+  const variants = ['contained', 'outlined', 'soft', 'text'] as const
+  const colors = ['gray', 'purple', 'orange', 'blue', 'green', 'yellow'] as const
+
   return (
-    <Stack gap="$4">
-      <Button variant="contained">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
+    <ScrollView flex={1} alignContent="center" justifyContent="center">
+      <Stack gap="$4">
+        {variants.map((v) => (
+          <Fragment key={v}>
+            <Text> {v}</Text>
+            <YStack gap="$2">
+              <XStack gap="$4">
+                {colors.map((c) => (
+                  <Button key={c} theme={c} variant={v}>
+                    Label
+                  </Button>
+                ))}
+              </XStack>
 
-      <Button variant="outlined">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-
-      <Button variant="text">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-    </Stack>
-  )
-}
-
-export function Disabled() {
-  return (
-    <Stack gap="$4">
-      <Button disabled variant="contained">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-
-      <Button disabled variant="outlined">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-
-      <Button disabled variant="text">
-        <Button.Text>{'Button'}</Button.Text>
-      </Button>
-    </Stack>
-  )
-}
-
-export function Loading() {
-  return (
-    <Button loading>
-      <Button.Text>{'Button'}</Button.Text>
-    </Button>
+              <XStack gap="$4">
+                {colors.map((c) => (
+                  <Button key={c} disabled theme={c} variant={v}>
+                    Label
+                  </Button>
+                ))}
+              </XStack>
+              <XStack gap="$4">
+                {colors.map((c) => (
+                  <Button key={c} theme={c} iconLeft={Calendar} variant={v}>
+                    Label
+                  </Button>
+                ))}
+              </XStack>
+              <XStack gap="$4">
+                {colors.map((c) => (
+                  <Button key={c} theme={c} iconLeft={Calendar} variant={v} />
+                ))}
+              </XStack>
+              <XStack gap="$4">
+                {colors.map((c) => (
+                  <Button key={c} theme={c} loading variant={v}>
+                    Label
+                  </Button>
+                ))}
+              </XStack>
+              <XStack gap="$4">
+                {colors.map((c) => (
+                  <Button key={c} theme={c} iconLeft={Calendar} loading variant={v}>
+                    Label
+                  </Button>
+                ))}
+              </XStack>
+            </YStack>
+          </Fragment>
+        ))}
+      </Stack>
+    </ScrollView>
   )
 }

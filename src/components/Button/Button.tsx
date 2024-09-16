@@ -1,10 +1,8 @@
-import { cloneElement, useContext } from 'react'
-import { getSize } from '@tamagui/get-token'
-import { createStyledContext, SizeTokens, styled, Text, useTheme, View, withStaticProperties } from '@tamagui/web'
+import { NamedExoticComponent } from 'react'
+import type { IconProps } from '@tamagui/helpers-icon'
+import { createStyledContext, Spinner, styled, Text, View, withStaticProperties } from 'tamagui'
 
 export const ButtonContext = createStyledContext({
-  size: '$md' as SizeTokens,
-  variant: 'contained' as const,
   pop: false,
   disabled: false,
   'data-testid': 'Button',
@@ -13,13 +11,23 @@ export const ButtonContext = createStyledContext({
 export const ButtonFrameStyled = styled(View, {
   context: ButtonContext,
   animation: 'quick',
-  theme: 'gray',
   alignItems: 'center',
   flexDirection: 'row',
   justifyContent: 'center',
   alignSelf: 'flex-start',
   gap: 6,
+  paddingHorizontal: 12,
+  borderRadius: '$12',
   cursor: 'pointer',
+  borderWidth: 2,
+  borderColor: 'transparent',
+  backgroundColor: '$background',
+  hoverStyle: {
+    backgroundColor: '$backgroundHover',
+  },
+  pressStyle: {
+    backgroundColor: '$backgroundPress',
+  },
 
   disabledStyle: {
     opacity: 0.3,
@@ -37,151 +45,138 @@ export const ButtonFrameStyled = styled(View, {
         transform: '$color7',
       },
     },
-    variant: {
-      contained: {
-        backgroundColor: '$color4',
-        hoverStyle: {
-          backgroundColor: '$color6',
-        },
-        pressStyle: {
-          backgroundColor: '$color0',
-        },
-      },
-      soft: {
-        backgroundColor: '$color1',
-        hoverStyle: {
-          backgroundColor: '$color2',
-        },
-        pressStyle: {
-          backgroundColor: '$colorTransparent',
-        },
-      },
-
-      outlined: {
-        backgroundColor: '$colorTransparent',
-        borderColor: '$color5',
-        borderWidth: 2,
-        hoverStyle: {
-          borderColor: '$color6',
-          backgroundColor: '$color/8',
-        },
-
-        pressStyle: {
-          borderColor: '$color5',
-          backgroundColor: '$color5',
-        },
-      },
-      text: {
-        backgroundColor: 'transparent',
-        hoverStyle: {
-          backgroundColor: '$color0',
-        },
-      },
-    },
-
     size: {
       sm: {
-        height: '$3',
-        paddingHorizontal: '$3',
-        borderRadius: '$7',
+        height: 32,
+
         gap: 4,
       },
       md: {
-        height: '$3.5',
-        paddingHorizontal: '$4',
-        borderRadius: '$8',
+        height: 36,
         gap: 6,
       },
       lg: {
-        height: '$4',
-        paddingHorizontal: '$5',
-        borderRadius: '$10',
+        height: 40,
         gap: 8,
+      },
+      xl: {
+        height: 44,
+
+        gap: 10,
       },
     },
   } as const,
 
   defaultVariants: {
     size: 'md',
-    variant: 'contained',
   },
 })
 
-const ButtonFrame = (props: React.ComponentProps<typeof ButtonFrameStyled>) => {
-  if ((props.theme === undefined || props.theme === 'gray') && props.variant === 'outlined') {
-    return <ButtonFrameStyled {...props} borderColor="$textOutline32" />
+const ContainedFrame = styled(ButtonFrameStyled, {
+  name: 'VoxButtonContained',
+})
+
+const OutlinedFrame = styled(ButtonFrameStyled, {
+  name: 'VoxButtonOutlined',
+  borderWidth: 2,
+  borderColor: '$borderColor',
+  hoverStyle: {
+    borderColor: '$borderColorHover',
+    backgroundColor: '$backgroundHover',
+  },
+})
+
+const TextFrame = styled(ButtonFrameStyled, {
+  name: 'VoxButtonText',
+})
+
+const SoftFrame = styled(ButtonFrameStyled, {
+  name: 'VoxButtonSoft',
+})
+
+const getFrame = (variant?: 'outlined' | 'text' | 'soft' | 'contained') => {
+  switch (variant) {
+    case 'outlined':
+      return OutlinedFrame
+    case 'text':
+      return TextFrame
+    case 'soft':
+      return SoftFrame
+    case 'contained':
+    default:
+      return ContainedFrame
   }
-  return <ButtonFrameStyled {...props} />
 }
 
-// type ButtonProps = GetProps<typeof ButtonFrame>
+const ButtonFrame = ({ variant, ...props }: React.ComponentProps<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained' }) => {
+  const Frame = getFrame(variant)
+
+  return <Frame {...props} />
+}
+
+const ButtonSpinner = styled(Spinner, {
+  color: '$color',
+})
 
 export const ButtonText = styled(Text, {
   context: ButtonContext,
   color: '$color',
   userSelect: 'none',
-  fontWeight: '$6',
+  fontWeight: '600',
   fontSize: '$2',
 
+  '$group-hover': {
+    color: '$colorHover',
+  },
+  '$group-press': {
+    color: '$colorPress',
+  },
+
   variants: {
-    variant: {
-      contained: {
-        color: '$white1',
-        pressStyle: {
-          color: '$textPrimary',
-        },
-      },
-      soft: {
-        color: '$color6',
-      },
-      outlined: {
-        color: '$color6',
-        pressStyle: {
-          color: '$white1',
-        },
-      },
-      text: {
-        color: '$color5',
-        pressStyle: {
-          color: '$color6',
-        },
-      },
-    },
     pop: {
       true: {
-        color: '$color7',
-      },
-    },
-    size: {
-      sm: {
-        fontSize: '$2',
-      },
-      md: {
-        fontSize: '$2',
-      },
-      lg: {
-        fontSize: '$2',
+        color: '$colorPop',
       },
     },
   } as const,
 })
 
-const ButtonIcon = (props: { children: any }) => {
-  const { size } = useContext(ButtonContext.context)
-  const smaller = getSize(size, {
-    shift: -2,
-  })
-  const theme = useTheme()
-  return cloneElement(props.children, {
-    size: smaller.val * 0.5,
-    color: theme.color.get(),
-  })
-}
-
 const Button = withStaticProperties(ButtonFrame, {
   Props: ButtonContext.Provider,
   Text: ButtonText,
-  Icon: ButtonIcon,
 })
 
 export default Button
+
+type VoxButtonProps = {
+  iconLeft?: NamedExoticComponent<IconProps>
+  loading?: boolean
+  children?: string[] | string
+} & React.ComponentProps<typeof Button>
+
+export const VoxButton = (props: VoxButtonProps) => {
+  const outlinedExeption =
+    props.variant === 'outlined' && (props.theme === 'gray' || !props.theme)
+      ? {
+          borderColor: '$textOutline32',
+        }
+      : {}
+  return (
+    <Button {...props} theme={props.theme ?? 'gray'} group {...outlinedExeption}>
+      {props.iconLeft && (
+        <props.iconLeft
+          size={16}
+          color={props.pop ? '$colorPop' : '$color'}
+          $group-hover={{
+            color: '$colorHover',
+          }}
+          $group-press={{
+            color: '$colorPress',
+          }}
+        />
+      )}
+      {props.children && <ButtonText pop={props.pop}>{props.children}</ButtonText>}
+      {props.loading && <ButtonSpinner size="small" />}
+    </Button>
+  )
+}

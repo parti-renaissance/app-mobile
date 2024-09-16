@@ -1,6 +1,7 @@
 import { Button } from '@/components'
 import Text from '@/components/base/Text'
 import { AlertDialog, ThemeName, XStack, YStack } from 'tamagui'
+import { VoxButton } from './Button'
 
 type AlertDialogProps = {
   children: React.ReactNode
@@ -47,15 +48,11 @@ export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
             <AlertDialog.Description>{props.description}</AlertDialog.Description>
             <XStack gap="$3" justifyContent="flex-end">
               <AlertDialog.Cancel theme="gray" asChild onPress={props.onCancel}>
-                <Button variant="text">
-                  <Button.Text>Annuler</Button.Text>
-                </Button>
+                <VoxButton variant="text">Annuler</VoxButton>
               </AlertDialog.Cancel>
 
               <AlertDialog.Action theme="gray" asChild onPress={props.onAccept}>
-                <Button variant="contained">
-                  <Button.Text>Valider</Button.Text>
-                </Button>
+                <VoxButton variant="contained">Valider</VoxButton>
               </AlertDialog.Action>
             </XStack>
           </YStack>

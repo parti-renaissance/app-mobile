@@ -2,13 +2,14 @@ import React, { useMemo } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Button } from '@/components'
 import Text from '@/components/base/Text'
+import { VoxButton } from '@/components/Button'
 import { ActionCard, SubscribeButton } from '@/components/Cards'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useLazyRef } from '@/hooks/useLazyRef'
 import { useAction } from '@/services/actions/hook'
 import { isFullAction } from '@/services/actions/schema'
-import { ArrowLeft } from '@tamagui/lucide-icons'
+import { ArrowLeft, PenLine } from '@tamagui/lucide-icons'
 import { isBefore } from 'date-fns'
 import { ScrollView, Sheet, XStack, YStack } from 'tamagui'
 import ParticipantAvatar from './ActionParticipants'
@@ -65,9 +66,9 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
             <ActionCard payload={payload} asFull $gtSm={{ borderWidth: 0, borderColor: '$white1' }}>
               {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
               {!isBefore(action.date, new Date()) && isMyAction ? (
-                <Button theme="purple" full size="lg" variant="soft" pop onPress={onEdit}>
-                  <Button.Text>Editer</Button.Text>
-                </Button>
+                <VoxButton theme="purple" full size="lg" variant="soft" iconLeft={PenLine} pop onPress={onEdit}>
+                  Editer
+                </VoxButton>
               ) : null}
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (
@@ -164,9 +165,9 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
             <ActionCard payload={payload} inside asFull>
               {!isBefore(action.date, new Date()) && !isMyAction ? <SubscribeButton large isRegister={!!action?.user_registered_at} id={action.uuid} /> : null}
               {!isBefore(action.date, new Date()) && isMyAction ? (
-                <Button full pop size="lg" theme="purple" variant="soft" onPress={onEdit}>
-                  <Button.Text>Editer</Button.Text>
-                </Button>
+                <VoxButton theme="purple" size="lg" variant="soft" iconLeft={PenLine} pop onPress={onEdit}>
+                  Editer
+                </VoxButton>
               ) : null}
               {isFullAction(action) ? <VoxCard.Description markdown full children={action.description ?? ''} /> : <SkeCard.Description />}
               {isFullAction(action) ? (

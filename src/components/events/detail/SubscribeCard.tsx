@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '@/components'
 import Text from '@/components/base/Text'
+import { VoxButton } from '@/components/Button'
 import { SignInButton, SignUpButton } from '@/components/Buttons/AuthButton'
 import { SubscribeEventButton } from '@/components/Cards/EventCard'
 import { useSession } from '@/ctx/SessionProvider'
@@ -16,15 +17,9 @@ const AdhButton = (props: { bgColor?: string; children?: string }) => {
   const { isPending, open: handleClick } = useOpenExternalContent({ slug: 'adhesion' })
 
   return (
-    <Button variant="contained" size="lg" width="100%" bg={props.bgColor ?? '$blue6'} onPress={handleClick}>
-      {isPending ? (
-        <Spinner color="$white1" />
-      ) : (
-        <Text color="$white1" fontWeight="$7">
-          {props.children ?? 'Adhérer'}
-        </Text>
-      )}
-    </Button>
+    <VoxButton variant="contained" size="lg" width="100%" theme="yellow" onPress={handleClick} loading={isPending}>
+      {props.children ?? 'Adhérer'}
+    </VoxButton>
   )
 }
 
@@ -52,7 +47,7 @@ export function LockAuthAdhCard({ activeSubscription }: { activeSubscription?: b
           {!activeSubscription ? 'Adhérez pour participer à d’autres événements similaires' : ' Cet événement est réservé aux adhérents.'}
         </Text>
       </YStack>
-      <AdhButton bgColor="$blue6" />
+      <AdhButton />
       <SignInButton size="lg" width="100%" />
     </YStack>
   )
@@ -83,7 +78,7 @@ export function LockAdhDueCard({ activeSubscription }: { activeSubscription?: bo
             : 'Cet événement est réservé aux adhérents à jour de cotisation.'}
         </Text>
       </YStack>
-      <AdhButton bgColor="$green6">{`Cotiser pour ${new Date().getFullYear()}`}</AdhButton>
+      <AdhButton>{`Cotiser pour ${new Date().getFullYear()}`}</AdhButton>
     </YStack>
   )
 }

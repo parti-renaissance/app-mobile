@@ -1,7 +1,7 @@
 import { TouchableOpacity } from 'react-native'
 import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import Button, { VoxButton } from '@/components/Button'
 import ProfilePicture from '@/components/ProfilePicture'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { activistTagShape } from '@/data/activistTagShape'
@@ -61,10 +61,9 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
 
         {onButtonPress && (
           <View flex={1}>
-            <Button width="100%" pop variant="soft" theme="purple" onPress={onButtonPress}>
-              <Repeat color={'$color7'} fontWeight={'$7'} />
-              <Button.Text fontWeight={'$7'}>Mon espace cadre</Button.Text>
-            </Button>
+            <VoxButton width="100%" pop variant="soft" theme="purple" iconLeft={Repeat} onPress={onButtonPress}>
+              Mon espace cadre
+            </VoxButton>
           </View>
         )}
       </VoxCard.Content>

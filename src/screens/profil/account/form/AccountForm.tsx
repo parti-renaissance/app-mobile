@@ -5,6 +5,7 @@ import AddressAutocomplete from '@/components/AddressAutoComplete/AddressAutocom
 import Input from '@/components/base/Input/Input'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
+import { VoxButton } from '@/components/Button'
 import CountrySelect from '@/components/CountrySelect/CountrySelect'
 import DatePickerField from '@/components/DatePicker'
 import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
@@ -73,10 +74,9 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
   }, [])
 
   const ButtonSave = (props: React.ComponentProps<typeof Button>) => (
-    <Button variant="contained" size={'lg'} onPress={onSubmit} {...props}>
-      <Button.Text>Enregistrer</Button.Text>
-      {$updateProfile.isPending && <Spinner size="small" color="$white1" />}
-    </Button>
+    <VoxButton variant="contained" size={'lg'} onPress={onSubmit} {...props} loading={$updateProfile.isPending}>
+      Enregistrer
+    </VoxButton>
   )
 
   return (
@@ -335,12 +335,9 @@ export const AccountForm = ({ profile }: { profile: RestDetailedProfileResponse 
 
         {[media.md, formState.isDirty].every(Boolean) ? (
           <PortalItem hostName="ProfilHeaderRight">
-            <Button variant="text" size="lg" onPress={onSubmit}>
-              <Text fontSize="$2" fontWeight="$6" color="$blue7">
-                Enregistrer
-              </Text>
-              {$updateProfile.isPending && <Spinner size="small" color="$blue7" />}
-            </Button>
+            <VoxButton variant="text" theme="blue" size="lg" onPress={onSubmit} loading={$updateProfile.isPending}>
+              Enregistrer
+            </VoxButton>
           </PortalItem>
         ) : null}
       </View>

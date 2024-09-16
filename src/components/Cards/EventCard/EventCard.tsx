@@ -2,6 +2,7 @@ import React, { ComponentProps, useMemo } from 'react'
 import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
+import { VoxButton } from '@/components/Button'
 import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
@@ -51,14 +52,12 @@ export const SubscribeEventButton = ({
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
   return isSubscribed ? (
     <VoxAlertDialog theme="blue" title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
-      <Button theme="blue" variant="outlined" {...btnProps} {...outsideStyle}>
-        <CalendarOff color={'$color5'} size={14} />
-        <Button.Text>Me désinscrire</Button.Text>
-        {isUnSubPending ? <Spinner size="small" color="$color4" /> : null}
-      </Button>
+      <VoxButton theme="blue" variant="outlined" loading={isUnSubPending} iconLeft={CalendarOff} {...btnProps} {...outsideStyle}>
+        Me désinscrire
+      </VoxButton>
     </VoxAlertDialog>
   ) : (
-    <Button
+    <VoxButton
       variant="outlined"
       theme="blue"
       onPress={
@@ -70,13 +69,13 @@ export const SubscribeEventButton = ({
                 params: { id },
               })
       }
+      iconLeft={CalendarCheck2}
+      loading={isSubPending}
       {...btnProps}
       {...outsideStyle}
     >
-      <CalendarCheck2 color={'$color5'} size={16} />
-      <Button.Text>M'inscrire</Button.Text>
-      {isSubPending ? <Spinner size="small" color="$white1" /> : null}
-    </Button>
+      M'inscrire
+    </VoxButton>
   )
 }
 
@@ -120,10 +119,9 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}
         <XStack justifyContent={'space-between'}>
-          <Button variant="outlined" theme="gray" onPress={onShow}>
-            <Eye color="$color5" size={16} />
-            <Button.Text>Voir</Button.Text>
-          </Button>
+          <VoxButton variant="outlined" theme="gray" onPress={onShow} iconLeft={Eye}>
+            Voir
+          </VoxButton>
 
           <SubscribeEventButton disabled={!canSubscribe} isSubscribed={!!payload.isSubscribed} eventId={payload.id} />
         </XStack>

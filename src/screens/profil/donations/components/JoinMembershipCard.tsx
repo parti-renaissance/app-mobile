@@ -1,5 +1,5 @@
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import Button, { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetMagicLink } from '@/services/magic-link/hook'
 import { Image } from 'expo-image'
@@ -33,7 +33,7 @@ export default function (props: CommonMembershipCardProps) {
           <Text fontSize="$3" color="$textSecondary">
             Adhérerez à Renaissance.
           </Text>
-          <Button
+          <VoxButton
             theme="blue"
             disabled={isPending}
             onPress={() => {
@@ -42,8 +42,8 @@ export default function (props: CommonMembershipCardProps) {
               }
             }}
           >
-            <Button.Text>J’adhère</Button.Text>
-          </Button>
+            J’adhère
+          </VoxButton>
         </YStack>
       </HeaderFrame>
       <VoxCard.Content pt={0}>

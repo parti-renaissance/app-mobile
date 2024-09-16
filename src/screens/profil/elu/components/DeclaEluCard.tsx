@@ -1,6 +1,6 @@
 import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { useGetTags } from '@/services/profile/hook'
@@ -18,9 +18,9 @@ export default function () {
             <Badge theme="orange">Soumis à cotisation</Badge>
           </XStack>
           <Text.H2>En tant qu’élu, vous êtes redevable d’une cotisation élu au parti.</Text.H2>
-          <Button theme="blue" onPress={handlePress} disabled={isPending}>
-            <Button.Text>Gérer ma cotisation</Button.Text>
-          </Button>
+          <VoxButton theme="blue" onPress={handlePress} disabled={isPending}>
+            Gérer ma cotisation
+          </VoxButton>
         </YStack>
 
         <VoxCard inside bg="$gray0">

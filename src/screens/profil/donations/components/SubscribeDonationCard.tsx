@@ -1,6 +1,6 @@
 import { BadgeFrame } from '@/components/Badge'
 import Text from '@/components/base/Text'
-import Button from '@/components/Button'
+import Button, { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import type { RestDonationsResponse } from '@/services/profile/schema'
@@ -38,12 +38,12 @@ export default function (props: { subscription: RestDonationsResponse[number] })
                 </YStack>
               </XStack>
               <XStack gap="$3">
-                <Button theme="green" variant="soft" onPress={handlePress('monthly')} disabled={isPending}>
-                  <Button.Text>Modifier</Button.Text>
-                </Button>
-                <Button theme="green" onPress={handlePress('dayly')} disabled={isPending}>
-                  <Button.Text>Faire un don</Button.Text>
-                </Button>
+                <VoxButton theme="green" variant="soft" onPress={handlePress('monthly')} disabled={isPending}>
+                  Modifier
+                </VoxButton>
+                <VoxButton theme="green" onPress={handlePress('dayly')} disabled={isPending}>
+                  Faire un don
+                </VoxButton>
               </XStack>
             </YStack>
           </YStack>

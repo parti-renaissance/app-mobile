@@ -1,4 +1,5 @@
 import { Button } from '@/components'
+import { VoxButton } from '@/components/Button'
 import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
@@ -42,10 +43,9 @@ const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: A
         {!asFull && <VoxCard.Author author={payload.author} />}
         {!asFull && (
           <XStack justifyContent="space-between">
-            <Button variant="outlined" theme="gray" onPress={onShow}>
-              <Eye size={16} />
-              <Button.Text>Voir</Button.Text>
-            </Button>
+            <VoxButton variant="outlined" theme="gray" onPress={onShow} iconLeft={Eye}>
+              Voir
+            </VoxButton>
             {isMyAction ? null : <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />}
           </XStack>
         )}
@@ -64,20 +64,22 @@ export function SubscribeButton({ isRegister, id, large, ...props }: { isRegiste
     isRegister ? unsubscribe.mutate() : subscribe.mutate()
   }, 300)
   return (
-    <Button
+    <VoxButton
       disabled={props.disabled}
       variant={'outlined'}
       theme="green"
       animation="quick"
       size={large ? 'lg' : 'md'}
-      width={large ? '100%' : undefined}
+      full={large}
       onPress={() => handleOnSubscribe(isRegister)}
+      iconLeft={isRegister ? ZapOff : Zap}
+      loading={isloaderSub}
     >
-      {!isRegister ? <Zap size={large ? 24 : 16} color={'$color5'} /> : <ZapOff size={large ? 24 : 16} color="$color5" />}
-      <Button.Text display={isloaderSub ? 'none' : 'flex'}>{isRegister ? 'Me désinscrire' : "M'inscrire"}</Button.Text>
-      <Spinner display={isloaderSub ? 'flex' : 'none'} color="$color5" />
-    </Button>
+      {isRegister ? 'Me désinscrire' : "M'inscrire"}
+    </VoxButton>
   )
 }
 
+// <Spinner display={isloaderSub ? 'flex' : 'none'} />
+// {!isRegister ? <Zap size={large ? 24 : 16} /> : <ZapOff size={large ? 24 : 16} />}
 export default ActionCard
