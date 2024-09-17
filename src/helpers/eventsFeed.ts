@@ -22,7 +22,8 @@ export const mapPropsAuthor = (item: RestEvent): Partial<VoxCardAuthorProps> => 
           role: item.organizer.role,
           name: `${item.organizer.first_name} ${item.organizer.last_name}`,
           title: item.organizer.instance,
-          pictureLink: undefined,
+          pictureLink: item.organizer.image_url ?? undefined,
+          zone: item.organizer.zone,
         }
       : undefined,
   }

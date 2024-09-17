@@ -54,9 +54,9 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
 export type VoxCardTitleProps = { children: string }
 const VoxCardTitle = (props: VoxCardTitleProps) => {
   return (
-    <Text fontWeight="$6" lineHeight="$3" fontSize="$3">
+    <Text.LG multiline semibold>
       {props.children}
-    </Text>
+    </Text.LG>
   )
 }
 
@@ -69,14 +69,14 @@ const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) =>
     <XStack gap="$2" alignItems="center">
       {icon && <CalendarDays size="$1" color="$textPrimary" />}
       <Text>
-        <Text fontWeight="$5" lineHeight="$2">
+        <Text.MD multiline medium>
           {i18n.t(`vox_card.${key}`, { start, end })}
-        </Text>
+        </Text.MD>
         {timeZone && timeZone !== 'Europe/Paris' && (
-          <Text fontWeight="$5" color="$textSecondary" lineHeight="$2">
+          <Text.MD medium secondary multiline>
             {' '}
             • UTC{format(start, 'XXX', { timeZone })} ({timeZone})
-          </Text>
+          </Text.MD>
         )}
       </Text>
     </XStack>
@@ -88,9 +88,9 @@ const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
   return (
     <XStack gap="$2" alignItems="center">
       <Users size="$1" color="$textPrimary" />
-      <Text fontWeight="$5" lineHeight="$2">
+      <Text.MD medium multiline>
         {children}
-      </Text>
+      </Text.MD>
     </XStack>
   )
 }
@@ -104,17 +104,18 @@ export type VoxCardLocationProps = {
 }
 
 const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle?: boolean }) => {
+  const T = asTitle ? Text.LG : Text.MD
   return location ? (
     <XStack gap="$2" alignItems="center">
       {!asTitle && <MapPin size="$1" color="$textPrimary" />}
       <Text lineBreakStrategyIOS="push-out">
-        <Text fontWeight={asTitle ? '$6' : '$5'} lineHeight="$2" fontSize={asTitle ? '$3' : '$2'}>
+        <T multiline medium>
           {location.city} {location.postalCode}
-        </Text>
-        <Text fontWeight="$6" color="$textSecondary" lineHeight="$2" fontSize={asTitle ? '$3' : '$2'}>
+        </T>
+        <T secondary medium multiline>
           {' '}
           . {location.street}
-        </Text>
+        </T>
       </Text>
     </XStack>
   ) : null
@@ -124,6 +125,7 @@ export type VoxCardAuthorProps = {
   author?: {
     role: string | null
     name: string | null
+    zone: string | null
     title: string | null
     pictureLink?: string
   }
@@ -134,19 +136,21 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
   return (
     <XStack gap="$2" alignItems="center">
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
-      <Text>
-        <Text fontWeight="$5" color="$textSecondary">
-          {author.name}
+      {author.title && author.role && author.zone ? (
+        <Text>
+          <Text.MD medium primary>
+            {author.title} de {author.zone}
+          </Text.MD>
+          <Text.BR />
+          <Text.MD secondary>
+            {author.name}, {author.role}
+          </Text.MD>
         </Text>
-        {author.role && author.title && (
-          <>
-            {'\n'}
-            <Text fontWeight="$4" color="$textSecondary">
-              {author.role} {author.title}
-            </Text>
-          </>
-        )}
-      </Text>
+      ) : (
+        <Text.MD primary medium>
+          {author.name}
+        </Text.MD>
+      )}
     </XStack>
   )
 }
@@ -178,9 +182,9 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
         <UserCheck size="$1" color="$textPrimary" />
       )}
 
-      <Text fontWeight="$5">
+      <Text.MD medium>
         {attendees.count} {attendees.count > 1 ? 'Inscrits' : 'Inscrit'}
-      </Text>
+      </Text.MD>
     </XStack>
   )
 }
@@ -212,6 +216,7 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
         body: {
           fontFamily: 'PublicSans-Regular',
           fontSize: 14,
+          lineHeight: 22,
           color: theme.textPrimary.val,
         },
       }}
@@ -219,19 +224,17 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
       {children}
     </Markdown>
   ) : (
-    <Text numberOfLines={full ? undefined : 3} fontWeight="$4" lineHeight="$2">
+    <Text.MD numberOfLines={full ? undefined : 3} multiline>
       {children}
-    </Text>
+    </Text.MD>
   )
 }
 
 const VoxCardVisio = () => {
   return (
     <XStack gap="$2" alignItems="center">
-      <Video size="$2" color="$textPrimary" />
-      <Text fontWeight="$5" lineHeight="$2">
-        Visioconférence
-      </Text>
+      <Video size="$1" color="$textPrimary" />
+      <Text.MD medium>Visioconférence</Text.MD>
     </XStack>
   )
 }
@@ -241,9 +244,9 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
     <>
       <VoxCardSeparator />
       <Stack gap="$2" {...props}>
-        <Text fontWeight="$5" lineHeight="$2" color="$textDisabled">
+        <Text.MD multiline color="$textDisabled">
           {title}
-        </Text>
+        </Text.MD>
         {props.children}
       </Stack>
     </>
