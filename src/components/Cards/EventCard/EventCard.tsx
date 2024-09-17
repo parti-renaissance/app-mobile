@@ -11,7 +11,7 @@ import { RestEvent } from '@/services/events/schema'
 import { CalendarCheck2, CalendarOff, Eye } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { router } from 'expo-router'
-import { Spinner, XStack } from 'tamagui'
+import { Spinner, Theme, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 type VoxCardBasePayload = {
@@ -51,7 +51,7 @@ export const SubscribeEventButton = ({
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
   return isSubscribed ? (
-    <VoxAlertDialog theme="blue" title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
+    <VoxAlertDialog title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
       <VoxButton theme="blue" variant="outlined" loading={isUnSubPending} iconLeft={CalendarOff} {...btnProps} {...outsideStyle}>
         Me désinscrire
       </VoxButton>

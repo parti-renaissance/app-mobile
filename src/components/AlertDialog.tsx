@@ -1,6 +1,6 @@
 import { Button } from '@/components'
 import Text from '@/components/base/Text'
-import { AlertDialog, ThemeName, XStack, YStack } from 'tamagui'
+import { AlertDialog, isWeb, Theme, ThemeName, XStack, YStack } from 'tamagui'
 import { VoxButton } from './Button'
 
 type AlertDialogProps = {
@@ -15,7 +15,7 @@ type AlertDialogProps = {
 export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
   return (
     <AlertDialog>
-      <AlertDialog.Trigger asChild theme={props.theme}>
+      <AlertDialog.Trigger asChild={!isWeb} theme={props.theme}>
         {props.children}
       </AlertDialog.Trigger>
       <AlertDialog.Portal>
