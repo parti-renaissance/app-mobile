@@ -34,22 +34,22 @@ export default function (props: CommonMembershipCardProps) {
           <VoxCard.Content>
             <Text fontWeight="$7">Pourquoi rester à jour de cotisation ?</Text>
             <Text>Je finance notre ancrage local</Text>
-            <Text fontSize="$1" color="$textSecondary" lineHeight="$2">
+            <Text.SM secondary multiline>
               Les cotisations d’adhérents permettent de nous ancrer localement et durablement par une organisation décentralisée. Elles sont intégralement
               reversées aux Assemblées départementales qui sont autonômes budgétairement.
-            </Text>
+            </Text.SM>
 
             <Text>Je prends part à notre orientation politique</Text>
-            <Text fontSize="$1" color="$textSecondary" lineHeight="$2">
+            <Text.SM secondary multiline>
               Seuls les adhérents à jour de cotisation sont consultés sur des questions de fond comme ce fut le cas en 2023 concernant la réforme de nos
               institutions ou des questions européennes.
-            </Text>
+            </Text.SM>
 
             <Text>Je participe aux élections internes</Text>
-            <Text fontSize="$1" color="$textSecondary" lineHeight="$2">
+            <Text.SM secondary multiline>
               Seuls les adhérents à jour de cotisation peuvent participer à l’élection du Conseil national, du bureau de leur Assemblée départementale ou de
               celui de leur Comité.
-            </Text>
+            </Text.SM>
           </VoxCard.Content>
         </VoxCard>
       </VoxCard.Content>

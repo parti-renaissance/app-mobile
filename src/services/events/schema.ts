@@ -26,6 +26,7 @@ export const RestEventOrganizerSchema = z.object({
   role: z.string().nullable(),
   instance: z.string().nullable(),
   zone: z.string().nullable(),
+  image_url: z.string().nullable().optional(),
 })
 
 export const RestEventComitteeSchema = z.object({

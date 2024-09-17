@@ -16,9 +16,9 @@ export type BadgeProps = {
 const Badge = ({ children, ...props }: BadgeProps) => {
   return (
     <BadgeFrame {...props}>
-      <Text fontWeight="$6" fontSize="$1" color="$color4">
+      <Text.SM semibold color="$color4">
         {children}
-      </Text>
+      </Text.SM>
     </BadgeFrame>
   )
 }

@@ -207,7 +207,7 @@ export const templates = (() => {
 
   const buttonOutlinedSurface = {
     background: -0,
-    backgroundHover: transparencies + 3,
+    backgroundHover: transparencies + 1,
     backgroundPress: transparencies + 5,
     borderColor: transparencies + 6,
     borderColorHover: transparencies + 6,

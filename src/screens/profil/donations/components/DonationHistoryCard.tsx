@@ -3,7 +3,6 @@ import Text from '@/components/base/Text'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetDonations } from '@/services/profile/hook'
 import { RestDonationsResponse } from '@/services/profile/schema'
-import { getHumanFormattedDate } from '@/utils/date'
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { XStack } from 'tamagui'
@@ -22,18 +21,20 @@ const DonationHistoryCard = () => {
   return data ? (
     <VoxCard>
       <VoxCard.Content>
-        <Text>Historique de paiements</Text>
+        <Text.LG>Historique de paiements</Text.LG>
         <VoxCard bg="$gray0" inside>
           <VoxCard.Content>
             {data.map((donation) => (
               <Fragment key={donation.uuid}>
                 <XStack gap="$2" flex={1}>
-                  <Text fontWeight="$6">{format(donation.date, 'dd MMM yyyy', { locale: fr })}</Text>
-                  <Text color="$textSecondary">
+                  <Text.SM semibold>{format(donation.date, 'dd MMM yyyy', { locale: fr })}</Text.SM>
+                  <Text.SM secondary>
                     {getType(donation)} • {donation.type.toUpperCase()}
-                  </Text>
+                  </Text.SM>
                   <XStack flex={1} justifyContent="flex-end">
-                    <Text color={donation.subscription ? '$green7' : '$blue7'}>{donation.amount}€</Text>
+                    <Text.SM primary={false} theme={donation.subscription ? 'green' : 'blue'}>
+                      {donation.amount}€
+                    </Text.SM>
                   </XStack>
                 </XStack>
                 <VoxCard.Separator borderColor="$gray/32" />

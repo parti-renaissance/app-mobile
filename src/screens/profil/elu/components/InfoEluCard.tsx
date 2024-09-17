@@ -39,7 +39,7 @@ const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; ta
   return (
     <YStack gap="$4">
       <Tags tags={props.tags} />
-      <Text.H2>Mandats rattachés au compte </Text.H2>
+      <Text.MD>Mandats rattachés au compte </Text.MD>
       <Text.P>Le bureau de l’Assemblée départementale vous a rattaché {props.mandates.length} mandats.</Text.P>
       <XStack gap="$2">
         {props.mandates.map((x) => (
@@ -61,8 +61,8 @@ export default function (props: { profil: RestElectedProfileResponse }) {
     <VoxCard>
       <VoxCard.Content>
         <XStack gap="$2" alignItems="center">
-          <TreeDeciduous size="$1" />
-          <Text.H1>Information d'élu</Text.H1>
+          <TreeDeciduous size="$1" color="$textPrimary" />
+          <Text.LG>Information d'élu</Text.LG>
         </XStack>
         {content}
       </VoxCard.Content>

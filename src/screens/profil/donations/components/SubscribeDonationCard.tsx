@@ -20,21 +20,17 @@ export default function (props: { subscription: RestDonationsResponse[number] })
               <BadgeFrame theme="green">
                 <XStack gap="$1.5" alignItems="center">
                   <Crown color="$color" size={10} />
-                  <Text fontSize="$1" fontWeight="$6" color="$color">
+                  <Text.SM semibold color="$color">
                     Financeur
-                  </Text>
+                  </Text.SM>
                 </XStack>
               </BadgeFrame>
             </XStack>
             <YStack gap="$3" flex={1}>
               <XStack alignItems="center" flex={1}>
                 <YStack gap="$2" flex={2}>
-                  <Text fontSize="$2" fontWeight="$6">
-                    Vous êtes financeur depuis le {getHumanFormattedDate(props.subscription.date)}
-                  </Text>
-                  <Text fontSize="$2" color="$textSecondary">
-                    Un don est programmé mensuellement.
-                  </Text>
+                  <Text.MD semibold>Vous êtes financeur depuis le {getHumanFormattedDate(props.subscription.date)}</Text.MD>
+                  <Text.MD secondary>Un don est programmé mensuellement.</Text.MD>
                 </YStack>
               </XStack>
               <XStack gap="$3">
@@ -49,9 +45,9 @@ export default function (props: { subscription: RestDonationsResponse[number] })
           </YStack>
           <YStack justifyContent="center" alignItems="flex-end">
             <YStack justifyContent="center" alignItems="center" borderWidth="$1" borderRadius="$5" borderColor="$green3" height="$9" width="$9">
-              <Text fontSize="$6" fontWeight="$8" color="$green7">
+              <Text.LG primary={false} fontSize="$6" fontWeight="$8" theme="green">
                 {props.subscription.amount} €
-              </Text>
+              </Text.LG>
             </YStack>
           </YStack>
         </XStack>

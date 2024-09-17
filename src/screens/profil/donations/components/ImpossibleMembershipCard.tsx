@@ -15,7 +15,7 @@ export default function (props: CommonMembershipCardProps) {
           </XStack>
           <XStack gap="$3">
             <YStack gap="$2" flex={1}>
-              <Text fontWeight="$6">La double adhésion n’étant pas permise par Renaissance, il ne vous est pas possible d’adhérer.</Text>
+              <Text.MD semibold>La double adhésion n’étant pas permise par Renaissance, il ne vous est pas possible d’adhérer.</Text.MD>
             </YStack>
             <YStack alignContent="center" height="100%" alignItems="center" justifyContent="center">
               <VoxButton theme="blue" disabled>

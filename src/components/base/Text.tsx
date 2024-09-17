@@ -1,25 +1,102 @@
-import { styled, Text as TamaguiText, withStaticProperties } from 'tamagui'
+import { cloneElement, Fragment, isValidElement } from 'react'
+import { styled, Text as TamaguiText, withStaticProperties, YStack } from 'tamagui'
 
 const Text = styled(TamaguiText, {
   fontSize: '$2',
-  color: '$textPrimary',
+
+  defaultVariants: {
+    regular: true,
+    primary: true,
+  },
+  variants: {
+    primary: {
+      true: {
+        color: '$textPrimary',
+      },
+      false: {
+        color: '$color5',
+      },
+    },
+    secondary: {
+      true: {
+        color: '$textSecondary',
+      },
+    },
+    semibold: {
+      true: {
+        fontWeight: 600,
+      },
+    },
+    medium: {
+      true: {
+        fontWeight: 500,
+      },
+    },
+    regular: {
+      true: {
+        fontWeight: 400,
+      },
+    },
+  } as const,
+} as const)
+
+const LG = styled(Text, {
+  fontSize: 16,
+  semibold: true,
+  primary: true,
+  variants: {
+    multiline: {
+      true: {
+        lineHeight: 24,
+      },
+    },
+  },
 })
 
-export const H1 = styled(Text, {
-  fontSize: '$4',
-  fontWeight: '$6',
+const MD = styled(Text, {
+  fontSize: 14,
+  primary: true,
+  variants: {
+    multiline: {
+      true: {
+        lineHeight: 22,
+      },
+    },
+  },
 })
 
-export const H2 = styled(Text, {
-  fontSize: '$3',
-  fontWeight: '$5',
+const SM = styled(Text, {
+  fontSize: 12,
+  regular: true,
+  primary: true,
+  variants: {
+    multiline: {
+      true: {
+        lineHeight: 20,
+      },
+    },
+  },
 })
 
-export const P = styled(Text, {
-  fontSize: '$2',
-  fontWeight: '$4',
-  lineHeight: '$3',
-  color: '$textSecondary',
+const XSM = styled(Text, {
+  fontSize: 9,
+  semibold: true,
 })
 
-export default withStaticProperties(Text, { H1, H2, P })
+const P = styled(SM, {
+  secondary: true,
+  regular: true,
+  multiline: true,
+})
+
+const BR = () => <Fragment>{'\n'}</Fragment>
+const TAB = () => <Fragment>{'\t'}</Fragment>
+export default withStaticProperties(Text, {
+  LG,
+  MD,
+  SM,
+  XSM,
+  P,
+  BR,
+  TAB,
+})

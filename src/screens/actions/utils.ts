@@ -24,6 +24,7 @@ export function mapPayload(action: Action): ActionVoxCardProps['payload'] {
       role: action.author.role ?? null,
       title: action.author.instance ?? null,
       pictureLink: action.author.image_url ?? undefined,
+      zone: action.author.zone ?? null,
     },
     attendees: isFullAction(action)
       ? undefined

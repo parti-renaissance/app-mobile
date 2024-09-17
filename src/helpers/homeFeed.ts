@@ -45,6 +45,7 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
     name: feed.author?.first_name && feed.author?.last_name ? `${feed.author.first_name} ${feed.author.last_name}` : null,
     title: feed.author?.instance ?? null,
     pictureLink: feed.author?.image_url ?? undefined,
+    zone: feed.author?.zone ?? null,
   }
   const location = feed.post_address
     ? {

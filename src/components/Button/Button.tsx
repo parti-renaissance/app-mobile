@@ -1,6 +1,7 @@
 import { NamedExoticComponent } from 'react'
+import Text from '@/components/base/Text'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { createStyledContext, Spinner, styled, Text, View, withStaticProperties } from 'tamagui'
+import { createStyledContext, Spinner, styled, View, withStaticProperties } from 'tamagui'
 
 export const ButtonContext = createStyledContext({
   pop: false,
@@ -19,7 +20,7 @@ export const ButtonFrameStyled = styled(View, {
   paddingHorizontal: 12,
   borderRadius: '$12',
   cursor: 'pointer',
-  borderWidth: 2,
+  borderWidth: 1.2,
   borderColor: 'transparent',
   backgroundColor: '$background',
   hoverStyle: {
@@ -32,6 +33,7 @@ export const ButtonFrameStyled = styled(View, {
   disabledStyle: {
     opacity: 0.3,
     cursor: 'not-allowed',
+    backgroundColor: '$background',
   },
 
   variants: {
@@ -78,7 +80,6 @@ const ContainedFrame = styled(ButtonFrameStyled, {
 
 const OutlinedFrame = styled(ButtonFrameStyled, {
   name: 'VoxButtonOutlined',
-  borderWidth: 2,
   borderColor: '$borderColor',
   hoverStyle: {
     borderColor: '$borderColorHover',
@@ -118,12 +119,11 @@ const ButtonSpinner = styled(Spinner, {
   color: '$color',
 })
 
-export const ButtonText = styled(Text, {
+export const ButtonText = styled(Text.MD, {
   context: ButtonContext,
   color: '$color',
   userSelect: 'none',
-  fontWeight: '600',
-  fontSize: '$2',
+  semibold: true,
 
   '$group-hover': {
     color: '$colorHover',

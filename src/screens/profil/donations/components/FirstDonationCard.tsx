@@ -19,12 +19,10 @@ export default function () {
       <HeaderFrame>
         <YStack gap="$3" pr="$4" flex={1}>
           <YStack gap="$3" pr="$4" flex={1}>
-            <Text fontSize="$4" fontWeight="$6">
-              Faite la différence.
-            </Text>
-            <Text fontSize="$2" color="$textSecondary">
+            <Text.LG>Faite la différence.</Text.LG>
+            <Text.MD secondary regular multiline>
               Devenez financeur du parti en faisant un don mensuel.
-            </Text>
+            </Text.MD>
           </YStack>
           <XStack gap="$3">
             <VoxButton theme="green" onPress={handlePress('monthly')} disabled={isPending}>
