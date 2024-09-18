@@ -55,7 +55,7 @@ export const SideList = (props: ContainerListProps & { children: React.ReactNode
       bottom={0}
       top={0}
     >
-      <YStack elevation={5} width={500} flex={1} backgroundColor={'$gray0'}>
+      <YStack elevation={5} width={500} flex={1} backgroundColor={'$gray1'}>
         <ScrollView
           contentContainerStyle={{
             p: '$4',
@@ -116,7 +116,7 @@ export const BottomSheetList = ({ postionConfig, onOpenChange, open, ...props }:
           contentContainerStyle={{
             pt: '$2',
             pb: '$2',
-            backgroundColor: '$gray0',
+            backgroundColor: '$gray1',
             gap: '$2',
           }}
         >

@@ -29,7 +29,7 @@ export default function (props: CommonMembershipCardProps & { full?: boolean }) 
         </YStack>
         {props.full && (
           <YStack gap="$3">
-            <VoxCard inside bg="$gray0">
+            <VoxCard inside bg="$textSurface">
               <VoxCard.Content>
                 <YStack gap="$3">
                   <Text.MD semibold>Appartenance à un autre parti politique</Text.MD>

@@ -32,7 +32,7 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
                   size="$4"
                   src={src}
                   backgroundColor="$gray1"
-                  textColor="$gray3"
+                  textColor="$gray4"
                   fontWeight={'$6'}
                   rounded
                 />

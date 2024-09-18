@@ -58,7 +58,7 @@ const InputFrame = styled(XStack, {
   },
 
   disabledStyle: {
-    backgroundColor: '$gray0',
+    backgroundColor: '$gray1',
     opacity: 0.5,
     cursor: 'not-allowed',
   },
@@ -81,9 +81,9 @@ const InputFrame = styled(XStack, {
     },
     error: {
       true: {
-        backgroundColor: '$red/8',
+        backgroundColor: '$orange1',
         focusStyle: {
-          borderColor: '$red8',
+          borderColor: '$orange1',
         },
       },
     },
@@ -92,7 +92,7 @@ const InputFrame = styled(XStack, {
         backgroundColor: '$white1',
       },
       gray: {
-        backgroundColor: '$gray0',
+        backgroundColor: '$gray1',
       },
     },
   },
@@ -247,8 +247,8 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
       </InputFrame>
       {error && (
         <XStack gap="$1" alignItems="center">
-          <AlertCircle color="$red8" size={10} />
-          <Text color="$red8" fontSize={10}>
+          <AlertCircle color="$orange6" size={10} />
+          <Text color="orange6" fontSize={10}>
             {error}
           </Text>
         </XStack>

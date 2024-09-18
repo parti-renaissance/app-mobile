@@ -7,9 +7,9 @@ const VoxToast = () => {
 
   if (!currentToast || currentToast.isHandledNatively) return null
   const type = currentToast.type as 'error' | 'success' | 'info' | 'warning'
-  const bgColor = type === 'error' ? '$red2' : type === 'success' ? '$green2' : type === 'info' ? '$blue2' : type === 'warning' ? '$yellow2' : '$gray2'
+  const bgColor = type === 'error' ? '$orange1' : type === 'success' ? '$green1' : type === 'info' ? '$blue1' : type === 'warning' ? '$yellow1' : '$gray1'
   const textColor =
-    type === 'error' ? '$red11' : type === 'success' ? '$green11' : type === 'info' ? '$blue11' : type === 'warning' ? '$yellow11' : '$textPrimary'
+    type === 'error' ? '$orange6' : type === 'success' ? '$green6' : type === 'info' ? '$blue6' : type === 'warning' ? '$yellow6' : '$textPrimary'
   return (
     <Toast
       key={currentToast.id}

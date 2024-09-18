@@ -43,9 +43,7 @@ export const ButtonFrameStyled = styled(View, {
       },
     },
     pop: {
-      true: {
-        transform: '$color7',
-      },
+      true: {},
     },
     size: {
       sm: {

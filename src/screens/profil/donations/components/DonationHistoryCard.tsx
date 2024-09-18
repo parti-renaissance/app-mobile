@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import _EmptyState from '@/components/EmptyStates/EmptyState'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { useGetDonations } from '@/services/profile/hook'
@@ -40,12 +41,24 @@ const EmptyState = () => {
 }
 
 const DonationHistoryCard = () => {
-  const { data } = useGetDonations()
+  const { data, isPending } = useGetDonations()
+  if (isPending) {
+    return (
+      <SkeCard>
+        <SkeCard.Content>
+          <SkeCard.Title />
+          <SkeCard.Content>
+            <SkeCard.Description />
+          </SkeCard.Content>
+        </SkeCard.Content>
+      </SkeCard>
+    )
+  }
   return (
     <VoxCard>
       <VoxCard.Content>
         <Text.LG>Historique de paiements</Text.LG>
-        <VoxCard bg="$gray0" inside>
+        <VoxCard bg="$textSurface" inside>
           <VoxCard.Content>
             {data && data.length > 0 ? (
               data.map((donation) => (
