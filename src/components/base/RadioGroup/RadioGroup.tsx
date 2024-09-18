@@ -13,7 +13,7 @@ type RadioGroupProps = {
 }
 
 const RadioGroupFrame = styled(ThemeableStack, {
-  gap: '4',
+  gap: '$3',
 })
 
 export default function RadioGroup({ options, value, onChange }: RadioGroupProps) {
@@ -25,7 +25,7 @@ export default function RadioGroup({ options, value, onChange }: RadioGroupProps
       {options.map((option) => (
         <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer">
           <Radio checked={value === option.value} />
-          <Text.MD>{option.label}</Text.MD>
+          <Text.MD multiline>{option.label}</Text.MD>
         </XStack>
       ))}
     </RadioGroupFrame>
