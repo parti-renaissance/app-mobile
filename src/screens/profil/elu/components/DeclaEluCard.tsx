@@ -23,7 +23,7 @@ export default function () {
           </VoxButton>
         </YStack>
 
-        <VoxCard inside bg="$gray0">
+        <VoxCard inside bg="$textSurface">
           <VoxCard.Content>
             <YStack gap="$4">
               <Text.P>

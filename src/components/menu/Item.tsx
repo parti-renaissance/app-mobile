@@ -15,7 +15,7 @@ const ItemFrame = styled(XStack, {
   borderColor: '$color1',
   cursor: 'pointer',
   hoverStyle: {
-    backgroundColor: '$gray0',
+    backgroundColor: '$gray1',
   },
   pressStyle: {
     backgroundColor: '$gray1',
@@ -32,7 +32,7 @@ const ItemFrame = styled(XStack, {
     },
 
     active: {
-      true: { backgroundColor: '$gray0' },
+      true: { backgroundColor: '$gray1' },
     },
     last: {
       true: {

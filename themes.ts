@@ -1,6 +1,6 @@
 import { createThemeBuilder } from '@tamagui/theme-builder'
 import type { Variable } from '@tamagui/web'
-import { black, blue, gray, green, orange, pink, purple, red, white, yellow } from './theme/colors.hsl'
+import { black, blue, gray, green, orange, purple, white, yellow } from './theme/colors.hsl'
 
 const colorTokens = {
   light: {
@@ -8,9 +8,7 @@ const colorTokens = {
     gray,
     green,
     orange,
-    pink,
     purple,
-    red,
     yellow,
     white,
   },
@@ -23,21 +21,17 @@ const transparenciesPercents = [0, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80] as
 type PercentValue = (typeof transparenciesPercents)[number]
 const transparent = (hsl: string, opacity = 0) => hsl.replace(`%)`, `%, ${opacity})`).replace(`hsl(`, `hsla(`)
 const lightColors = {
-  ...addSetOfTransparenciesToColor(colorTokens.light.blue.blue4, 'blue', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.blue.blue5, 'blue', true),
   ...colorTokens.light.blue,
-  ...addSetOfTransparenciesToColor(colorTokens.light.gray.gray4, 'gray', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.gray.gray5, 'gray', true),
   ...colorTokens.light.gray,
-  ...addSetOfTransparenciesToColor(colorTokens.light.green.green4, 'green', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.green.green5, 'green', true),
   ...colorTokens.light.green,
-  ...addSetOfTransparenciesToColor(colorTokens.light.orange.orange4, 'orange', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.orange.orange5, 'orange', true),
   ...colorTokens.light.orange,
-  ...addSetOfTransparenciesToColor(colorTokens.light.pink.pink4, 'pink', true),
-  ...colorTokens.light.pink,
-  ...addSetOfTransparenciesToColor(colorTokens.light.purple.purple4, 'purple', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.purple.purple5, 'purple', true),
   ...colorTokens.light.purple,
-  ...addSetOfTransparenciesToColor(colorTokens.light.red.red4, 'red', true),
-  ...colorTokens.light.red,
-  ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow4, 'yellow', true),
+  ...addSetOfTransparenciesToColor(colorTokens.light.yellow.yellow5, 'yellow', true),
   ...colorTokens.light.yellow,
   ...addSetOfTransparenciesToColor(white.white1, 'white', true),
   ...colorTokens.light.white,
@@ -81,7 +75,7 @@ const text = {
     textOutline32: 'hsl(210, 13%, 88%)',
     textOutline20: 'hsl(204, 13%, 92%)',
     textOutline: 'hsl(210, 13%, 94%)',
-    textDanger: red.red7,
+    textDanger: orange.orange5,
   },
 }
 
@@ -188,32 +182,32 @@ export const templates = (() => {
 
   const buttonContainedSurface = {
     background: transparencies + 5,
-    backgroundHover: transparencies + 7,
-    backgroundPress: transparencies + 1,
+    backgroundHover: transparencies + 6,
+    backgroundPress: transparencies + 7,
     color: white.white1,
-    colorPress: text.light.textPrimary,
+    colorPress: white.white1,
     colorHover: white.white1,
   }
 
   const buttonSoftSurface = {
     background: transparencies + 1,
-    backgroundHover: transparencies + 3,
-    backgroundPress: -0,
-    color: transparencies + 6,
-    colorPress: transparencies + 6,
-    colorHover: transparencies + 6,
-    colorPop: transparencies + 8,
+    backgroundHover: transparencies + 2,
+    backgroundPress: transparencies + 3,
+    color: transparencies + 8,
+    colorPress: transparencies + 8,
+    colorHover: transparencies + 8,
+    colorPop: transparencies + 9,
   }
 
   const buttonOutlinedSurface = {
     background: -0,
     backgroundHover: transparencies + 1,
-    backgroundPress: transparencies + 5,
+    backgroundPress: transparencies + 2,
     borderColor: transparencies + 6,
-    borderColorHover: transparencies + 6,
-    borderColorPress: transparencies + 6,
-    color: transparencies + 7,
-    colorPress: white.white1,
+    borderColorHover: transparencies + 8,
+    borderColorPress: transparencies + 8,
+    color: transparencies + 6,
+    colorPress: transparencies + 7,
     colorHover: transparencies + 7,
   }
 

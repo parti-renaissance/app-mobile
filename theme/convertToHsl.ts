@@ -1,15 +1,6 @@
 import fs from 'fs'
 import convert from 'color-convert'
-import {
-  blue,
-  gray,
-  green,
-  orange,
-  pink,
-  purple,
-  red,
-  yellow,
-} from './colors.hex'
+import { blue, gray, green, orange, purple, yellow } from './colors.hex'
 
 interface ColorMap {
   [key: string]: string
@@ -25,18 +16,14 @@ function convertColorsToHSL(colors: ColorMap): ColorMap {
   return hslColors
 }
 
-const hslPink = convertColorsToHSL(pink)
 const hslYellow = convertColorsToHSL(yellow)
-const hslRed = convertColorsToHSL(red)
 const hslPurple = convertColorsToHSL(purple)
 const hslOrange = convertColorsToHSL(orange)
 const hslGreen = convertColorsToHSL(green)
 const hslGray = convertColorsToHSL(gray)
 const hslBlue = convertColorsToHSL(blue)
 
-const hslColors = `export const pink = ${JSON.stringify(hslPink, null, 4)};
-export const yellow = ${JSON.stringify(hslYellow, null, 4)};
-export const red = ${JSON.stringify(hslRed, null, 4)};
+const hslColors = ` export const yellow = ${JSON.stringify(hslYellow, null, 4)};
 export const purple = ${JSON.stringify(hslPurple, null, 4)};
 export const orange = ${JSON.stringify(hslOrange, null, 4)};
 export const green = ${JSON.stringify(hslGreen, null, 4)};

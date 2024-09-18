@@ -29,7 +29,7 @@ const commonStyle = {
     error: {
       true: {
         borderBottomWidth: 2,
-        borderBottomColor: '$red6',
+        borderBottomColor: '$orange8',
       },
     },
 
@@ -94,7 +94,7 @@ const TextField = ({ label, error, onChange, isDate = false, fake = false, ...in
 
         {!!error && (
           <View style={{ flexDirection: 'row', alignItems: 'center' }} gap={4}>
-            <AlertCircle size={16} color={'$red6'} />
+            <AlertCircle size={16} color={'$orange8'} />
 
             <Text color="$gray6" fontSize={'$1'}>
               {error}

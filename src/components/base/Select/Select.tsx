@@ -79,12 +79,12 @@ export const ItemFrame = styled(XStack, {
 
     borderColor: '$gray1',
     hoverStyle: {
-      backgroundColor: '$gray0',
+      backgroundColor: '$gray1',
       borderColor: '$gray1',
     },
     pressStyle: {
       backgroundColor: '$gray1',
-      borderColor: '$gray0',
+      borderColor: '$gray1',
     },
   },
   variants: {
@@ -124,7 +124,7 @@ export const ItemFrame = styled(XStack, {
     },
   },
   hoverStyle: {
-    backgroundColor: '$gray0',
+    backgroundColor: '$gray1',
   },
   pressStyle: {
     backgroundColor: '$gray1',
