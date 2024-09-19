@@ -48,6 +48,9 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
       queryClient.invalidateQueries({
         queryKey: ['profileDetail'],
       })
+      queryClient.invalidateQueries({
+        queryKey: ['electProfil'],
+      })
     },
     onError: (error, profil) => {
       queryClient.setQueryData([PROFIL_QUERY_KEY], profil)

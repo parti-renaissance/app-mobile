@@ -4,6 +4,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { useGetElectProfil } from '@/services/profile/hook'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import DeclaEluCard from './components/DeclaEluCard'
+import DeclaMandateEluCard from './components/DeclaMandateEluCard'
 import InfoEluCard from './components/InfoEluCard'
 
 const EditInformations = () => {
@@ -27,6 +28,7 @@ const EditInformations = () => {
           <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
             <InfoEluCard profil={profile} />
             <DeclaEluCard />
+            <DeclaMandateEluCard profil={profile} />
           </YStack>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -146,6 +146,7 @@ export const RestUpdateProfileRequestSchema = z
     linkedin_page_url: z.string().url().nullable().optional(),
     instagram_page_url: z.string().url().nullable().optional(),
     telegram_page_url: z.string().url().nullable().optional(),
+    mandates: z.array(z.string()),
   })
   .partial()
 

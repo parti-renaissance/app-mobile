@@ -15,6 +15,9 @@ type CheckboxGroupProps = {
 
 const CheckboxGroupFrame = styled(ThemeableStack, {
   gap: '$3',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  // justifyContent: 'space-between',s
 })
 
 export default function CheckboxGroup({ options, value, onChange }: CheckboxGroupProps) {
@@ -30,7 +33,18 @@ export default function CheckboxGroup({ options, value, onChange }: CheckboxGrou
   return (
     <CheckboxGroupFrame>
       {options.map((option) => (
-        <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer">
+        <XStack
+          key={option.value}
+          flexGrow={1}
+          flexShrink={1}
+          flexBasis={'48%'}
+          $md={{ flexBasis: '100%' }}
+          gap="$2"
+          group
+          onPress={handlePress(option.value)}
+          alignItems="center"
+          cursor="pointer"
+        >
           <Checkbox checked={isChecked(option.value)} />
           <Text.MD multiline>{option.label}</Text.MD>
         </XStack>
