@@ -215,6 +215,7 @@ export const RestElectedProfileResponseSchema = z.object({
   elect_mandates: z.array(
     z.object({
       mandate_type: z.string(),
+      mandate_type_label: z.string(),
       delegation: z.string(),
       zone: z.object({
         code: z.string(),

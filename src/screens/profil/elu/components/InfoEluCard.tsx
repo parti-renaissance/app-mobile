@@ -45,7 +45,7 @@ const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; ta
         {props.mandates.map((x) => (
           <XStack>
             <Badge theme="green" key={x.mandate_type}>
-              {x.mandate_type}
+              {x.mandate_type_label}
             </Badge>
           </XStack>
         ))}
