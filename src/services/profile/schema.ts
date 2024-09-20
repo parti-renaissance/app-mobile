@@ -49,7 +49,7 @@ export const RestDetailedProfileResponseSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
   gender: z.string(),
-  custom_gender: z.string().nullable(),
+  custom_gender: z.string().nullish(),
   nationality: z.string(),
   birthdate: z.coerce.date().nullable(),
   last_membership_donation: z.coerce.date().nullable(),
@@ -164,6 +164,8 @@ export const propertyPathSchema = z.enum([
   'instagram_page_url',
   'telegram_page_url',
 ])
+
+export type ProfileUpdatePropertyPath = z.infer<typeof propertyPathSchema>
 
 export const RestUpdateProfileResponseSchema = z.string()
 export type RestUpdateProfileResponse = z.infer<typeof RestUpdateProfileResponseSchema>

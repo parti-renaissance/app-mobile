@@ -28,7 +28,7 @@ export default function (props: Props) {
       revenue_amount: props.declaration ?? 0,
     },
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'all',
   })
 
   const { mutateAsync, isPending } = usePostElectDeclaration()
