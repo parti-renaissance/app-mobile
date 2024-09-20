@@ -1,15 +1,15 @@
 import React from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, TouchableWithoutFeedback } from 'react-native'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import type { IconProps } from '@tamagui/helpers-icon'
 import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
 import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
-import { Button, isWeb, Spinner, Stack, styled, useMedia, View, XStack, YStackProps } from 'tamagui'
+import { Button, isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, View, withStaticProperties, XStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
@@ -184,3 +184,49 @@ export const SmallHeader: typeof Header = (props) => {
 }
 
 export default Header
+
+const VoxHeaderFrameStyled = styled(ThemeableStack, {
+  backgroundColor: '$white',
+  gap: 4,
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderBottomWidth: 1,
+  borderBottomColor: '$textOutline',
+  $md: {
+    height: 56,
+    paddingHorizontal: 26,
+    paddingVertical: 6,
+  },
+})
+
+const VoxHeaderFrame = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+  return (
+    <SafeAreaView>
+      <VoxHeaderFrameStyled {...props} />
+    </SafeAreaView>
+  )
+}
+
+const VoxHeaderLeftButtonFrame = styled(ThemeableStack, {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 4,
+  $md: {
+    minWidth: 36,
+    height: 36,
+  },
+})
+
+const VoxHeaderLeftButton = (
+  props: React.ComponentProps<typeof VoxHeaderLeftButtonFrame> & { icon: React.NamedExoticComponent<IconProps>; backTitle?: string },
+) => (
+  <VoxHeaderLeftButtonFrame {...props}>
+    <props.icon size={24} color="$textPrimary" />
+    {!!props.backTitle && <Text.LG semibold>{props.backTitle}</Text.LG>}
+  </VoxHeaderLeftButtonFrame>
+)
+
+export const VoxHeader = withStaticProperties(VoxHeaderFrame, {
+  LeftButtonFrame: VoxHeaderLeftButtonFrame,
+  LeftButton: VoxHeaderLeftButton,
+})

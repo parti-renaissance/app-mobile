@@ -4,6 +4,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetTags } from '@/services/profile/hook'
 import { RestElectedProfileResponse, RestProfilResponse } from '@/services/profile/schema'
 import { TreeDeciduous } from '@tamagui/lucide-icons'
+import { isAfter } from 'date-fns'
 import { XStack, YStack } from 'tamagui'
 
 const tagsMapping = (tag: RestProfilResponse['tags'][number]) => {
@@ -42,13 +43,15 @@ const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; ta
       <Text.MD>Mandats rattachés au compte </Text.MD>
       <Text.P>Le bureau de l’Assemblée départementale vous a rattaché {props.mandates.length} mandats.</Text.P>
       <XStack gap="$2">
-        {props.mandates.map((x) => (
-          <XStack>
-            <Badge theme="green" key={x.mandate_type}>
-              {x.mandate_type}
-            </Badge>
-          </XStack>
-        ))}
+        {props.mandates
+          .filter((x) => !x.finish_at || isAfter(new Date(x.finish_at), new Date()))
+          .map((x) => (
+            <XStack>
+              <Badge theme="green" key={x.mandate_type}>
+                {x.mandate_type_label}
+              </Badge>
+            </XStack>
+          ))}
       </XStack>
     </YStack>
   )

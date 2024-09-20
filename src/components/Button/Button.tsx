@@ -6,6 +6,7 @@ import { createStyledContext, Spinner, styled, View, withStaticProperties } from
 export const ButtonContext = createStyledContext({
   pop: false,
   disabled: false,
+  loading: false,
   'data-testid': 'Button',
 })
 
@@ -44,6 +45,12 @@ export const ButtonFrameStyled = styled(View, {
     },
     pop: {
       true: {},
+    },
+    loading: {
+      true: {
+        pointerEvents: 'none',
+        cursor: 'wait',
+      },
     },
     size: {
       sm: {
