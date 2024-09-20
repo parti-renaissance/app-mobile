@@ -28,7 +28,7 @@ const EditInformations = () => {
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
           <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
             <InfoEluCard profil={profile} />
-            <DeclaEluCard />
+            <DeclaEluCard declaration={profile.last_revenue_declaration?.amount} cotisation={profile.contribution_amount ?? undefined} />
             <CotisationHistoryEluCard payments={profile.payments} />
             <DeclaMandateEluCard profil={profile} />
           </YStack>

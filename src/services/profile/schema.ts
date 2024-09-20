@@ -6,13 +6,7 @@ export type RestProfilRequest = z.infer<typeof RestProfilRequestSchema>
 export const RestProfilRequestSchema = z.void()
 
 export type RestProfilResponse = z.infer<typeof RestProfilResponseSchema>
-export const TagTypesSchema = z.union([
-  z.literal('sympathisant'),
-  z.literal('adherent'),
-  z.literal('elu'),
-  z.literal('meeting_lille_09_03'),
-  z.literal('procuration'),
-])
+export const TagTypesSchema = z.union([z.literal('sympathisant'), z.literal('adherent'), z.literal('elu')])
 export type RestProfilResponseTagTypes = z.infer<typeof TagTypesSchema>
 
 export const RestProfilResponseSchema = z.object({
@@ -29,16 +23,17 @@ export const RestProfilResponseSchema = z.object({
   email_subscribed: z.boolean(),
   nickname: z.string().nullable(),
   use_nickname: z.boolean(),
+  surveys: z
+    .object({
+      total: z.number(),
+      last_month: z.number(),
+    })
+    .optional(),
   tags: z.array(
     z.object({
       label: z.string(),
       type: TagTypesSchema,
-      surveys: z
-        .object({
-          total: z.number(),
-          last_month: z.number(),
-        })
-        .optional(),
+      code: z.string(),
     }),
   ),
 })
@@ -234,3 +229,25 @@ export const RestElectedProfileResponseSchema = z.object({
     })
     .nullable(),
 })
+
+export type RestElectPaymentRequest = z.infer<typeof RestElectPaymentRequestSchema>
+export const RestElectPaymentRequestSchema = z.object({
+  account_name: z.string(),
+  iban: z.string(),
+  account_country: z.string(),
+})
+
+export type RestElectPaymentResponse = z.infer<typeof RestElectPaymentResponseSchema>
+export const RestElectPaymentResponseSchema = z.any()
+
+export const propertyPathElectPaymentSchema = z.enum(['account_name', 'iban', 'account_country'])
+
+export type RestElectDeclarationRequest = z.infer<typeof RestElectDeclarationRequestSchema>
+export const RestElectDeclarationRequestSchema = z.object({
+  revenue_amount: z.number(),
+})
+
+export type RestElectDeclarationResponse = z.infer<typeof RestElectDeclarationResponseSchema>
+export const RestElectDeclarationResponseSchema = z.any()
+
+export const propertyPathDeclarationPaymentSchema = z.enum(['revenue_amount'])

@@ -96,3 +96,31 @@ export const useGetTags = ({ tags }: { tags: RestProfilResponseTagTypes[] }) => 
   const profil = useGetProfil()
   return profil.data?.tags?.filter((x) => tags.includes(x.type))
 }
+
+export const usePostElectPayment = () => {
+  const toast = useToastController()
+  return useMutation({
+    mutationFn: api.postElectPayment,
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Informations bancaire actualisé', type: 'success' })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour vos informations bancaire', type: 'error' })
+      return e
+    },
+  })
+}
+
+export const usePostElectDeclaration = () => {
+  const toast = useToastController()
+  return useMutation({
+    mutationFn: api.postElectDeclaration,
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Déclaration actualisé', type: 'success' })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour votre déclaration', type: 'error' })
+      return e
+    },
+  })
+}
