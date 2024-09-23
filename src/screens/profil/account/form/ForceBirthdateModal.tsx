@@ -30,7 +30,9 @@ const ForceBirthdateModal = ({ profile }: { profile: RestDetailedProfileResponse
             <VoxCard inside bg="$yellow1">
               <VoxCard.Content>
                 <XStack gap={16} alignItems="center">
-                  <Info size={24} color="yellow7" />
+                  <View width={24} height={24}>
+                    <Info size={24} color="yellow7" />
+                  </View>
                   <Text.MD multiline color="$yellow7" semibold>
                     Pour accéder à votre profil, veuillez renseigner votre date de naissance.
                   </Text.MD>
