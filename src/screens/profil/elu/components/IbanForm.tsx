@@ -73,7 +73,7 @@ export default function (props: Props) {
       account_country: 'FR',
     },
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'all',
   })
 
   const { mutateAsync, isPending } = usePostElectPayment()

@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react'
 import Menu from '@/components/menu/Menu'
-import { BadgeCheck, CircleUser, HelpingHand, KeyRound, Mail, MessageCircle, PlusCircle, Settings, TreeDeciduous } from '@tamagui/lucide-icons'
+import { BadgeCheck, CircleUser, HelpingHand, KeyRound, Mail, MessageCircle, PlusCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
 import { Href, Link, usePathname } from 'expo-router'
 import { isWeb, useMedia } from 'tamagui'
 
@@ -15,7 +15,7 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
     pathname: '/profil/cotisation-et-dons',
   },
   {
-    icon: Settings,
+    icon: Settings2,
     children: 'Information personnelles',
     pathname: '/profil/informations-personnelles',
   },

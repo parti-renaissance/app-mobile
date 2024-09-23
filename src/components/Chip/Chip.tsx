@@ -15,7 +15,7 @@ export type ChipProps = {
 
 const Chip = ({ children, ...props }: ChipProps) => {
   return (
-    <ChipFrame {...props}>
+    <ChipFrame {...props} theme={props.theme ?? 'gray'}>
       <Text fontWeight="$6" fontSize="$1" color="$color4">
         {children}
       </Text>
