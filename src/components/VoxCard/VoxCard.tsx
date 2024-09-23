@@ -39,8 +39,8 @@ const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
 }
 
 export const VoxCardContent = styled(YStack, {
-  padding: '$4.5',
-  gap: '$3.5',
+  padding: 16,
+  gap: 16,
 } as const)
 
 const VoxCardChip = (props: ComponentProps<typeof Chip>) => {

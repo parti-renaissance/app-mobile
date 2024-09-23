@@ -10,21 +10,34 @@ interface ModalOrPageBaseProps extends PropsWithChildren {
   onClose?: () => void
   open?: boolean
   shouldDisplayCloseHeader?: boolean
+  header: React.ReactNode
 }
 
 /**
  * This component create a centered modal in md and more viewport, or a page in small ones
  * @constructor
  */
-export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader }: ModalOrPageBaseProps) {
+export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader, header }: ModalOrPageBaseProps) {
   const viewport = useMedia()
   const insets = useSafeAreaInsets()
 
   if (viewport.gtMd) {
     return (
       <Modal animationType={'fade'} transparent visible={!!open}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>{children}</View>
+        <View
+          style={styles.centeredView}
+          onPress={(e) => {
+            onClose?.()
+          }}
+        >
+          <View
+            onPress={(e) => {
+              e.stopPropagation()
+            }}
+            style={styles.modalView}
+          >
+            {children}
+          </View>
         </View>
       </Modal>
     )
@@ -36,7 +49,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
       open={!!open}
       snapPoints={[100]}
       snapPointsMode="percent"
-      dismissOnSnapToBottom
+      disableDrag
       moveOnKeyboardChange
       onOpenChange={(x) => {
         if (!x) {
@@ -51,12 +64,14 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
           </TouchableOpacity>
         )}
 
+        {header}
+
         <Sheet.ScrollView
           keyboardShouldPersistTaps={'handled'}
           automaticallyAdjustKeyboardInsets
           backgroundColor={'white'}
           contentContainerStyle={{
-            paddingBottom: 250,
+            // paddingBottom: 250,
             flexGrow: 1,
           }}
         >
@@ -77,12 +92,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    cursor: 'pointer',
   },
   modalView: {
     backgroundColor: 'white',
     borderRadius: 20,
     margin: Spacing.largeMargin,
     alignItems: 'center',
+    cursor: 'auto',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

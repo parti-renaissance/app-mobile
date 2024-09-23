@@ -48,6 +48,9 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
       queryClient.invalidateQueries({
         queryKey: ['profileDetail'],
       })
+      queryClient.invalidateQueries({
+        queryKey: ['electProfil'],
+      })
     },
     onError: (error, profil) => {
       queryClient.setQueryData([PROFIL_QUERY_KEY], profil)
@@ -92,4 +95,50 @@ export const useGetElectProfil = () => {
 export const useGetTags = ({ tags }: { tags: RestProfilResponseTagTypes[] }) => {
   const profil = useGetProfil()
   return profil.data?.tags?.filter((x) => tags.includes(x.type))
+}
+
+export const usePostElectPayment = () => {
+  const toast = useToastController()
+  const queryClient = useQueryClient()
+  const { user } = useSession()
+  const userUuid = user?.data?.uuid
+  return useMutation({
+    mutationFn: api.postElectPayment,
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Informations bancaire actualisé', type: 'success' })
+      queryClient.invalidateQueries({
+        queryKey: ['electProfile', userUuid],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [PROFIL_QUERY_KEY],
+      })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour vos informations bancaire', type: 'error' })
+      return e
+    },
+  })
+}
+
+export const usePostElectDeclaration = () => {
+  const toast = useToastController()
+  const queryClient = useQueryClient()
+  const { user } = useSession()
+  const userUuid = user?.data?.uuid
+  return useMutation({
+    mutationFn: api.postElectDeclaration,
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Déclaration actualisé', type: 'success' })
+      queryClient.invalidateQueries({
+        queryKey: ['electProfile', userUuid],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [PROFIL_QUERY_KEY],
+      })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour votre déclaration', type: 'error' })
+      return e
+    },
+  })
 }

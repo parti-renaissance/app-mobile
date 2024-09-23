@@ -19,7 +19,7 @@ export default function () {
       <HeaderFrame>
         <YStack gap="$3" pr="$4" flex={1}>
           <YStack gap="$3" pr="$4" flex={1}>
-            <Text.LG>Faite la différence.</Text.LG>
+            <Text.LG>Faites la différence.</Text.LG>
             <Text.MD secondary regular multiline>
               Devenez financeur du parti en faisant un don mensuel.
             </Text.MD>
