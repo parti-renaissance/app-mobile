@@ -13,6 +13,7 @@ import { nativeBuildVersion } from 'expo-application'
 import Constants from 'expo-constants'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import ContactForm from './form/ContactForm'
+import ForceBirthdateModal from './form/ForceBirthdateModal'
 import InformationsForm from './form/InformationForm'
 import LocationForm from './form/LocationForm'
 import RSForm from './form/RSForm'
@@ -54,6 +55,7 @@ const EditInformations = () => {
 
   return (
     <PageLayout.MainSingleColumn position="relative">
+      <ForceBirthdateModal profile={profile} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : ''}>
           <YStack gap={16}>

@@ -4,9 +4,11 @@ import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import DatePickerField from '@/components/DatePicker'
 import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
+import { Info } from '@tamagui/lucide-icons'
 import { Controller } from 'react-hook-form'
-import { View } from 'tamagui'
+import { View, XStack } from 'tamagui'
 import AbstractProfilForm from './AbstractProfilForm'
 import { validateInformationsFormSchema } from './schema'
 
@@ -27,6 +29,18 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
     >
       {({ control }) => (
         <Fragment>
+          {profile.certified && (
+            <VoxCard inside bg="$yellow1">
+              <VoxCard.Content>
+                <XStack gap={16} alignItems="center">
+                  <Info size={24} color="yellow7" />
+                  <Text.MD multiline color="$yellow7" semibold>
+                    Votre profil étant certifié, vous ne pouvez pas modifier vos informations d’identité.
+                  </Text.MD>
+                </XStack>
+              </VoxCard.Content>
+            </VoxCard>
+          )}
           <Text.MD semibold>Identité</Text.MD>
           <View gap="$5">
             <Controller

@@ -10,14 +10,16 @@ const requiredString = (start: string) => z.string().min(1, `${start} est obliga
 
 const buildLinkError = (start: string) => `le lien ${start} n’est pas valide.`
 
+export const validateBirthdateFormSchema = z.date().refine((birthdate) => isBefore(birthdate, subYears(new Date(), 15)), {
+  message: "L'âge doit être d'au moins 15 ans.",
+})
+
 export const validateInformationsFormSchema = z.object({
   first_name: requiredString('Le prénom'),
   last_name: requiredString('Le nom'),
   gender: z.enum(['male', 'female', 'other'], buildReqError('Le genre')),
   nationality: z.string().length(2, 'Le code pays doit être de deux lettres').optional(),
-  birthdate: z.date().refine((birthdate) => isBefore(birthdate, subYears(new Date(), 15)), {
-    message: "L'âge doit être d'au moins 15 ans.",
-  }),
+  birthdate: validateBirthdateFormSchema,
 })
 
 export const validateCoordFormSchema = z.object({
