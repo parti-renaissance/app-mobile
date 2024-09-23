@@ -16,7 +16,7 @@ const getType = (x: RestDonationsResponse[number]) => {
   if (isRecuDonation(x)) {
     return 'Don mensuel'
   }
-  return x.subscription ? 'Don' : 'Cotisation'
+  return x.membership ? 'Cotisation' : 'Don'
 }
 
 const EmptyState = () => {
@@ -69,7 +69,7 @@ const DonationHistoryCard = () => {
                       {getType(donation)} • {donation.type.toUpperCase()}
                     </Text.SM>
                     <XStack flex={1} justifyContent="flex-end">
-                      <Text.SM primary={false} theme={donation.subscription ? 'green' : 'blue'}>
+                      <Text.SM primary={false} theme={donation.membership ? 'blue' : 'green'}>
                         {donation.amount}€
                       </Text.SM>
                     </XStack>
