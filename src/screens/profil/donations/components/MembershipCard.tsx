@@ -1,11 +1,17 @@
+import { useGetTags } from '@/services/profile/hook'
 import type { RestDetailedProfileResponse } from '@/services/profile/schema'
+import { RestProfilResponse } from '@/services/profile/schema'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { Monitor } from '@tamagui/lucide-icons'
 import { isBefore, isPast, subHours, subYears } from 'date-fns'
 import ImpossibleMembershipCard from './ImpossibleMembershipCard'
 import JoinMembershipCard from './JoinMembershipCard'
 import RenewMembershipCard from './RenewMembershipCard'
 import ValidMembershipCard from './ValidMembershipCard'
 
-type MembershipCardProps = Pick<RestDetailedProfileResponse, 'last_membership_donation' | 'other_party_membership'>
+type MembershipCardProps = Pick<RestDetailedProfileResponse, 'last_membership_donation' | 'other_party_membership'> & {
+  full?: boolean
+}
 
 const cardsByStatus = {
   valid: ValidMembershipCard,
@@ -18,21 +24,30 @@ type CardStatus = keyof typeof cardsByStatus
 
 const getCardByStatus = (status: CardStatus) => cardsByStatus[status]
 
-const getMembershipCardStatus = (x: MembershipCardProps): CardStatus => {
-  if (x.last_membership_donation) {
-    const isExpired = isBefore(x.last_membership_donation, subYears(new Date(), 1))
-    return isExpired ? 'renew' : 'valid'
-  }
+const getMembershipCardStatus = (tags: RestProfilResponse['tags']): CardStatus | null => {
+  const codes = tags.map((tag) => tag.code)
 
-  if (x.other_party_membership) {
+  if (codes.includes('sympathisant:autre_parti')) {
     return 'impossible'
+  }
+  const AtDate = codes.find((code) => code.startsWith('adherent:a_jour_'))
+  if (AtDate) {
+    const todayYear = new Date().getFullYear()
+    const codeYear = parseInt(AtDate.split('_')[2])
+    if (!codeYear || Number.isNaN(codeYear)) {
+      ErrorMonitor.log(`Invalid tag code date parsing: ${AtDate}`)
+      return null
+    }
+    return codeYear >= todayYear ? 'valid' : 'renew'
   }
 
   return 'join'
 }
 
 const MembershipCard = (props: MembershipCardProps) => {
-  const status = getMembershipCardStatus(props)
+  const tags = useGetTags({ tags: ['sympathisant', 'adherent'] })
+  const status = getMembershipCardStatus(tags ?? [])
+  if (!status) return null
   const Card = getCardByStatus(status)
 
   return <Card {...props} />
