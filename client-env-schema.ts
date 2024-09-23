@@ -2,8 +2,7 @@ import { z } from 'zod'
 
 const envClientSchema = z.object({
   API_BASE_URL: z.string().url(),
-  APP_RENAISSANCE_HOST: z.string(),
-  ADMIN_HOST: z.string(),
+  ADMIN_URL: z.string(),
   ASSOCIATED_DOMAIN: z.string(),
   ENVIRONMENT: z.enum(['staging', 'production']),
   FB_API_KEY: z.string(),
