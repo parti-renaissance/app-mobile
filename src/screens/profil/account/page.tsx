@@ -57,7 +57,7 @@ const EditInformations = () => {
     <PageLayout.MainSingleColumn position="relative">
       <ForceBirthdateModal profile={profile} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView contentContainerStyle={scrollViewContainerStyle} backgroundColor={!isWeb ? '#fff' : ''}>
+        <ScrollView contentContainerStyle={scrollViewContainerStyle}>
           <YStack gap={16}>
             <InformationsForm profile={profile} />
             <ContactForm profile={profile} />
