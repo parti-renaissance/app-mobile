@@ -14,13 +14,15 @@ const isPathExist = <TF extends FieldValues, S extends string>(path: S, obj: Def
   return has(obj, path)
 }
 
-const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(props: {
-  defaultValues: DefaultValues<TF>
-  uuid: string
-  validatorSchema: T
-  onErrors?: (errors: FormState<TF>['errors']) => void
-  children: (props: { control: Control<TF>; formState: FormState<TF> }) => React.ReactNode
-}) => {
+const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
+  props: {
+    defaultValues: DefaultValues<TF>
+    uuid: string
+    validatorSchema: T
+    onErrors?: (errors: FormState<TF>['errors']) => void
+    children: (props: { control: Control<TF>; formState: FormState<TF> }) => React.ReactNode
+  } & { cardProps?: React.ComponentProps<typeof VoxCard> },
+) => {
   const { control, handleSubmit, formState, reset, setError } = useForm({
     resolver: zodResolver(props.validatorSchema),
     defaultValues: props.defaultValues,
@@ -54,7 +56,7 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(prop
   })
 
   return (
-    <VoxCard>
+    <VoxCard {...props.cardProps}>
       <VoxCard.Content>
         {props.children({ control, formState })}
         <XStack justifyContent="flex-end" gap="$2">

@@ -53,6 +53,7 @@ export const RestDetailedProfileResponseSchema = z.object({
   nationality: z.string(),
   birthdate: z.coerce.date().nullable(),
   last_membership_donation: z.coerce.date().nullable(),
+  party_membership: z.enum(['other', 'exclusive', 'agir', 'territoires_progres', 'modem']).nullish(),
   other_party_membership: z.boolean(),
   post_address: z
     .object({
@@ -133,6 +134,7 @@ export const RestUpdateProfileRequestSchema = z
     custom_gender: z.string(),
     nationality: z.string(),
     birthdate: z.coerce.date(),
+    party_membership: z.enum(['other', 'exclusive', 'agir', 'territoires_progres', 'modem']).nullish(),
     post_address: z
       .object({
         address: z.string().nullable().optional(),
