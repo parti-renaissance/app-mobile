@@ -16,7 +16,7 @@ export const RestProfilResponseSchema = z.object({
   postal_code: z.string(),
   email_address: z.string().email(),
   cadre_access: z.boolean(),
-  cadre_auth_path: z.string().nullable(),
+  cadre_auth_path: z.string().nullish(),
   certified: z.boolean(),
   country: z.string(),
   image_url: z.string().url().nullish(),
@@ -49,10 +49,11 @@ export const RestDetailedProfileResponseSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
   gender: z.string(),
-  custom_gender: z.string().nullable(),
+  custom_gender: z.string().nullish(),
   nationality: z.string(),
   birthdate: z.coerce.date().nullable(),
   last_membership_donation: z.coerce.date().nullable(),
+  party_membership: z.enum(['other', 'exclusive', 'agir', 'territoires_progres', 'modem']).nullish(),
   other_party_membership: z.boolean(),
   post_address: z
     .object({
@@ -65,6 +66,13 @@ export const RestDetailedProfileResponseSchema = z.object({
     })
     .nullable()
     .optional(),
+  change_email_token: z
+    .object({
+      email: z.string(),
+      uuid: z.string(),
+      expired_at: z.coerce.date(),
+    })
+    .nullish(),
   email_address: z.string().email(),
   facebook_page_url: z.string().nullable().optional(),
   twitter_page_url: z.string().nullable().optional(),
@@ -126,6 +134,7 @@ export const RestUpdateProfileRequestSchema = z
     custom_gender: z.string(),
     nationality: z.string(),
     birthdate: z.coerce.date(),
+    party_membership: z.enum(['other', 'exclusive', 'agir', 'territoires_progres', 'modem']).nullish(),
     post_address: z
       .object({
         address: z.string().nullable().optional(),
@@ -164,6 +173,8 @@ export const propertyPathSchema = z.enum([
   'instagram_page_url',
   'telegram_page_url',
 ])
+
+export type ProfileUpdatePropertyPath = z.infer<typeof propertyPathSchema>
 
 export const RestUpdateProfileResponseSchema = z.string()
 export type RestUpdateProfileResponse = z.infer<typeof RestUpdateProfileResponseSchema>

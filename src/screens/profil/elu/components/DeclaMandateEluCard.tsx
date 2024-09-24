@@ -79,6 +79,7 @@ export default function (props: { profil: RestElectedProfileResponse }) {
       mandates: props.profil?.mandates || [],
     },
   })
+  const { isDirty } = formState
   const { mutateAsync, isPending } = useMutationUpdateProfil({ userUuid: props.profil.uuid })
   const onSubmit = handleSubmit((x) =>
     mutateAsync(x).then(() => {
@@ -103,10 +104,10 @@ export default function (props: { profil: RestElectedProfileResponse }) {
             }}
           />
           <XStack justifyContent="flex-end" gap="$3">
-            <VoxButton variant="outlined" disabled={!formState.isDirty} onPress={() => reset()}>
+            <VoxButton variant="outlined" disabled={!isDirty} onPress={() => reset()}>
               Annuler
             </VoxButton>
-            <VoxButton theme="blue" variant="outlined" loading={isPending} onPress={onSubmit} disabled={!formState.isDirty}>
+            <VoxButton theme="blue" variant="outlined" loading={isPending} onPress={onSubmit} disabled={!isDirty}>
               Enregistrer
             </VoxButton>
           </XStack>

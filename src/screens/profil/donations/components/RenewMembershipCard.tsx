@@ -16,7 +16,7 @@ export default function (props: CommonMembershipCardProps) {
       <VoxCard.Content>
         <YStack gap="$5" flex={1}>
           <XStack>
-            <Badge theme="red">Cotisation à renouveler</Badge>
+            <Badge theme="orange">Cotisation à renouveler</Badge>
           </XStack>
           <XStack gap="$3">
             <YStack gap="$2" flex={1}>

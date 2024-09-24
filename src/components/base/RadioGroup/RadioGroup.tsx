@@ -1,7 +1,7 @@
 import Radio from '@/components/base/Radio/Radio'
 import Text from '@/components/base/Text'
 import { styled } from '@tamagui/core'
-import { ThemeableStack, XStack } from 'tamagui'
+import { Separator, ThemeableStack, XStack, YStack } from 'tamagui'
 
 type RadioGroupProps = {
   options: {
@@ -22,11 +22,14 @@ export default function RadioGroup({ options, value, onChange }: RadioGroupProps
   }
   return (
     <RadioGroupFrame>
-      {options.map((option) => (
-        <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer">
-          <Radio checked={value === option.value} />
-          <Text.MD multiline>{option.label}</Text.MD>
-        </XStack>
+      {options.map((option, i) => (
+        <YStack gap={16}>
+          <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer">
+            <Radio checked={value === option.value} />
+            <Text.MD multiline>{option.label}</Text.MD>
+          </XStack>
+          {i < options.length - 1 && <Separator bg="$textOutline" />}
+        </YStack>
       ))}
     </RadioGroupFrame>
   )

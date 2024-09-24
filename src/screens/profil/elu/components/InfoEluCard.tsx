@@ -58,7 +58,7 @@ const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; ta
 }
 
 export default function (props: { profil: RestElectedProfileResponse }) {
-  const tags = useGetTags({ tags: ['adherent', 'elu', 'sympathisant'] })
+  const { tags } = useGetTags({ tags: ['adherent', 'elu', 'sympathisant'] })
   const content = props.profil.elect_mandates.length > 0 ? <Elu mandates={props.profil.elect_mandates} tags={tags ?? []} /> : <NotElu />
   return (
     <VoxCard>

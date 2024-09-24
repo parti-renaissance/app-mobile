@@ -20,7 +20,7 @@ const AlertCard = ({ payload, ...props }: AlertVoxCardProps) => {
     <VoxCard {...props}>
       <VoxCard.Content>
         <XStack justifyContent="space-between">
-          <VoxCard.Chip news>{payload.label}</VoxCard.Chip>
+          <VoxCard.Chip>{payload.label}</VoxCard.Chip>
         </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         <VoxCard.Description markdown>{payload.description}</VoxCard.Description>

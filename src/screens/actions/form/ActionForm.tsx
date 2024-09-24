@@ -77,7 +77,7 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
     if (formState.errors.post_address) {
       setManualAddress(true)
     }
-  }, [formState.errors.post_address])
+  }, [formState])
 
   if ((!data || !isFullAction(data)) && uuid) return null
 
