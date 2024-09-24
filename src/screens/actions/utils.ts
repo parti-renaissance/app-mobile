@@ -19,13 +19,15 @@ export function mapPayload(action: Action): ActionVoxCardProps['payload'] {
       street: action.post_address.address,
       postalCode: action.post_address.postal_code,
     },
-    author: {
-      name: `${action.author.first_name} ${action.author.last_name}`,
-      role: action.author.role ?? null,
-      title: action.author.instance ?? null,
-      pictureLink: action.author.image_url ?? undefined,
-      zone: action.author.zone ?? null,
-    },
+    author: action.author
+      ? {
+          name: `${action.author.first_name} ${action.author.last_name}`,
+          role: action.author.role ?? null,
+          title: action.author.instance ?? null,
+          pictureLink: action.author.image_url ?? undefined,
+          zone: action.author.zone ?? null,
+        }
+      : undefined,
     attendees: isFullAction(action)
       ? undefined
       : {
