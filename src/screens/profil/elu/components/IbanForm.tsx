@@ -76,6 +76,8 @@ export default function (props: Props) {
     mode: 'all',
   })
 
+  const { isDirty, isValid } = formState
+
   const { mutateAsync, isPending } = usePostElectPayment()
 
   const onSubmit = handleSubmit((data) => {
@@ -178,10 +180,10 @@ export default function (props: Props) {
             }}
           />
           <XStack justifyContent="flex-end" gap="$2">
-            <VoxButton variant="outlined" display={formState.isDirty ? 'flex' : 'none'} onPress={() => reset()}>
+            <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
               Annuler
             </VoxButton>
-            <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!formState.isDirty || !formState.isValid}>
+            <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!isDirty || !isValid}>
               Enregister
             </VoxButton>
           </XStack>

@@ -28,12 +28,13 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
     defaultValues: props.defaultValues,
     mode: 'all',
   })
+  const { isDirty, isValid } = formState
 
   React.useEffect(() => {
     if (props.onErrors) {
       props.onErrors(formState.errors)
     }
-  }, [formState.errors])
+  }, [formState])
 
   const { mutateAsync, isPending } = useMutationUpdateProfil({ userUuid: props.uuid })
 
@@ -60,10 +61,10 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
       <VoxCard.Content>
         {props.children({ control, formState })}
         <XStack justifyContent="flex-end" gap="$2">
-          <VoxButton variant="outlined" display={formState.isDirty ? 'flex' : 'none'} onPress={() => reset()}>
+          <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
             Annuler
           </VoxButton>
-          <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!formState.isDirty || !formState.isValid}>
+          <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!isDirty || !isValid}>
             Enregister
           </VoxButton>
         </XStack>
