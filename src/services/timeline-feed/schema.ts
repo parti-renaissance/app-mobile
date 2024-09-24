@@ -40,6 +40,7 @@ export const RestTimelineFeedItemSchema = z.object({
   media_type: z.string().nullable().optional(),
   cta_link: z.string().nullable().optional(),
   cta_label: z.string().nullable().optional(),
+  editable: z.boolean().nullish(),
   url: z.string().nullable().optional(),
   user_registered_at: z.string().nullable().optional(),
   time_zone: z.string().nullable(),

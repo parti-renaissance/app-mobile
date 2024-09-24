@@ -4,14 +4,16 @@ import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
 import { ActionStatus } from '@/services/actions/schema'
-import { Eye, Zap, ZapOff } from '@tamagui/lucide-icons'
+import { Eye, PenLine, Zap, ZapOff } from '@tamagui/lucide-icons'
 import { isBefore } from 'date-fns'
+import { Link } from 'expo-router'
 import { capitalize } from 'lodash'
 import { Spinner, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 export type ActionVoxCardProps = {
   onShow?: () => void
+  onEdit?: () => void
   isMyAction?: boolean
   payload: {
     id?: string
@@ -24,7 +26,14 @@ export type ActionVoxCardProps = {
     VoxCardAttendeesProps
 } & VoxCardFrameProps
 
-const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
+const ActionCard = ({
+  payload,
+  onShow,
+  onEdit,
+  asFull = false,
+  isMyAction,
+  ...props
+}: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
   const isPassed = isBefore(payload.date.start, new Date())
   const isCancelled = payload.status === ActionStatus.CANCELLED
   return (
@@ -46,7 +55,13 @@ const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: A
             <VoxButton variant="outlined" theme="gray" onPress={onShow} iconLeft={Eye}>
               Voir
             </VoxButton>
-            {isMyAction ? null : <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />}
+            {isMyAction ? (
+              <VoxButton disabled={isCancelled || isPassed} variant="outlined" theme="purple" pop iconLeft={PenLine} onPress={onEdit}>
+                Editer
+              </VoxButton>
+            ) : (
+              <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />
+            )}
           </XStack>
         )}
         {asFull && props.children}

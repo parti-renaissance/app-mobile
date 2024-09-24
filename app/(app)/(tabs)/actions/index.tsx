@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
@@ -86,7 +86,7 @@ function Page() {
   useLocationPermission()
   const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { uuid: activeAction, ...params } = useLocalSearchParams<{ uuid: string; action: 'create'; scope?: string }>()
+  const { uuid: activeAction, ...params } = useLocalSearchParams<{ uuid: string; action: 'create' | 'edit'; scope?: string }>()
   const { scope } = useSession()
   const myScope = params.scope ?? scope?.data?.find((x) => x.features.includes('actions'))?.code
   const queryClient = useQueryClient()
@@ -107,7 +107,7 @@ function Page() {
   const { setPosition } = positionConfig
 
   const [_modalOpen, _setModalOpen] = React.useState(false)
-  const modalOpen = _modalOpen || params.action === 'create'
+  const modalOpen = _modalOpen || params.action === 'create' || (params.action === 'edit' && activeAction)
   const setModalOpen = (open: boolean) => {
     _setModalOpen(open)
     if (!open) {
@@ -197,6 +197,11 @@ function Page() {
     setListOpen(false)
   }
 
+  const handleOnEditAction = (action: RestAction) => {
+    setActiveAction(action)
+    setModalOpen(true)
+  }
+
   const handleOnActionLayerPress = (e: OnPressEvent) => {
     if (e.features.length === 0) {
       setActiveAction(null)
@@ -210,7 +215,7 @@ function Page() {
 
   const onCloseModal = () => setModalOpen(false)
 
-  const modal = <CreateEditModal open={modalOpen} onClose={onCloseModal} activeAction={activeAction} scope={myScope} />
+  const modal = <CreateEditModal open={!!modalOpen} onClose={onCloseModal} activeAction={activeAction} scope={myScope} />
 
   const filtersBtns = useMemo(
     () => (
@@ -239,6 +244,7 @@ function Page() {
         actions={filteredActions}
         postionConfig={positionConfig}
         open={listOpen}
+        onEdit={handleOnEditAction}
         onOpenChange={setListOpen}
         setActiveAction={handleActiveAction}
       />
@@ -252,11 +258,12 @@ function Page() {
         actions={filteredActions}
         loading={data.isFetching}
         postionConfig={positionConfig}
+        onEdit={handleOnEditAction}
         open={listOpen}
         onOpenChange={setListOpen}
         setActiveAction={handleActiveAction}
       >
-        <YStack height={200} $gtSm={{ width: 500 }}>
+        <YStack height={200} $gtSm={{ width: 500 }} display={!activeAction ? 'flex' : 'none'}>
           <ActionFiltersList
             onLocationChange={handleLocationChange}
             onAddressReset={() => handleLocationChange(refUserPosition.current ?? undefined)}
