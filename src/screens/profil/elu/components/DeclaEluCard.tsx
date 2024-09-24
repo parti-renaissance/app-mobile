@@ -149,7 +149,8 @@ export const EluBlock = ({
 }
 
 export default function (props: { declaration?: number; cotisation?: number }) {
-  const { tags: codes } = useGetTags({ tags: ['elu'] }) ?? []
+  const { tags: _codes } = useGetTags({ tags: ['elu'] })
+  const codes = _codes || []
   const [openIban, setOpenIban] = useState(false)
   const [openDecla, setOpenDecla] = useState(false)
   const handleOpenIban = () => setOpenIban(true)
