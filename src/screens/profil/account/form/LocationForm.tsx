@@ -45,7 +45,7 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
           </Text.MD>
 
           <Text.P>
-            Votre localisation détermine votre Assemblée départementale et votre circonscription legislative. Elle présellectionne également votre comité, mais
+            Votre localisation détermine votre Assemblée départementale et votre circonscription legislative. Elle présélectionne également votre comité, mais
             vous pouvez en changer dans la limite du périmètre de votre Assemblée départementale.
             <Text.BR />
             <Text.BR />
