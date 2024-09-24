@@ -79,3 +79,52 @@ export const postElectDeclaration = api({
   errorThrowers: [profileElectDeclarationFormErrorThrower],
   type: 'private',
 })
+
+export const getNotificationList = (): Promise<{ type: 'email' | 'sms'; label: string; code: string }[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          type: 'sms',
+          label: 'Recevoir les informations sur les actions militantes du mouvement par SMS ou MMS',
+          code: 'militant_action_sms',
+        },
+        {
+          type: 'email',
+          label: 'Recevoir les e-mails de mon animateur(trice) local(e) de comité',
+          code: 'subscribed_emails_local_host',
+        },
+        {
+          type: 'email',
+          label: 'Recevoir les e-mails nationaux',
+          code: 'subscribed_emails_movement_information',
+        },
+        {
+          type: 'email',
+          label: 'Recevoir la newsletter hebdomadaire nationale',
+          code: 'subscribed_emails_weekly_letter',
+        },
+        {
+          type: 'email',
+          label: "Recevoir les e-mails de mon/ma président(e) d'assemblée départementale",
+          code: 'subscribed_emails_referents',
+        },
+        {
+          type: 'email',
+          label: 'Recevoir les e-mails de mon/ma député(e)',
+          code: 'deputy_email',
+        },
+        {
+          type: 'email',
+          label: 'Recevoir les e-mails de mes candidat(e)s LaREM',
+          code: 'candidate_email',
+        },
+        {
+          type: 'email',
+          label: 'Recevoir les e-mails de mon/ma sénateur/trice',
+          code: 'senator_email',
+        },
+      ])
+    }, 1000)
+  })
+}

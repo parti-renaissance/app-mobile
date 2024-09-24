@@ -45,7 +45,7 @@ export default function CheckboxGroup({ options, value, onChange }: CheckboxGrou
           alignItems="center"
           cursor="pointer"
         >
-          <Checkbox checked={isChecked(option.value)} />
+          <Checkbox checked={isChecked(option.value)} onPress={handlePress(option.value)} />
           <Text.MD multiline>{option.label}</Text.MD>
         </XStack>
       ))}

@@ -28,10 +28,11 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
   //   icon: Mail,
   //   children: 'Adresse email',
   // },
-  // {
-  //   icon: MessageCircle,
-  //   children: 'Préference de notification',
-  // },
+  {
+    icon: MessageCircle,
+    children: 'Communications',
+    pathname: '/profil/communications',
+  },
   // {
   //   icon: KeyRound,
   //   children: 'Mot de passe',

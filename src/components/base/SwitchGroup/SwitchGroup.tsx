@@ -32,8 +32,10 @@ export default function SwitchGroup({ options, value, onChange }: SwitchGroupPro
     <SwitchGroupFrame>
       {options.map((option) => (
         <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer" justifyContent="space-between">
-          <Text.MD multiline>{option.label}</Text.MD>
-          <Switch checked={isChecked(option.value)} />
+          <Text.MD multiline flexShrink={1}>
+            {option.label}
+          </Text.MD>
+          <Switch checked={isChecked(option.value)} onPress={handlePress(option.value)} />
         </XStack>
       ))}
     </SwitchGroupFrame>

@@ -1,6 +1,6 @@
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
-import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
@@ -140,5 +140,13 @@ export const usePostElectDeclaration = () => {
       toast.show('Erreur', { message: 'Impossible de mettre à jour votre déclaration', type: 'error' })
       return e
     },
+  })
+}
+
+export const useGetNotificationList = () => {
+  return useSuspenseQuery({
+    queryKey: ['notificationList'],
+    queryFn: () => api.getNotificationList(),
+    staleTime: 1000 * 60 * 5,
   })
 }
