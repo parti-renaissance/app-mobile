@@ -10,13 +10,13 @@ import { Control, DefaultValues, FieldValues, FormState, Path, useForm } from 'r
 import { XStack } from 'tamagui'
 import * as z from 'zod'
 
-const isPathExist = <TF extends FieldValues, S extends string>(path: S, obj: DefaultValues<TF>): path is Path<TF> => {
+const isPathExist = <TF extends FieldValues, S extends string>(path: S, obj: TF): path is Path<TF> => {
   return has(obj, path)
 }
 
 const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
   props: {
-    defaultValues: DefaultValues<TF>
+    defaultValues: TF
     uuid: string
     validatorSchema: T
     onErrors?: (errors: FormState<TF>['errors']) => void
@@ -25,7 +25,7 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
 ) => {
   const { control, handleSubmit, formState, reset, setError } = useForm({
     resolver: zodResolver(props.validatorSchema),
-    defaultValues: props.defaultValues,
+    values: props.defaultValues,
     mode: 'all',
   })
   const { isDirty, isValid } = formState
@@ -39,21 +39,17 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
   const { mutateAsync, isPending } = useMutationUpdateProfil({ userUuid: props.uuid })
 
   const onSubmit = handleSubmit((data) => {
-    mutateAsync(data)
-      .then(() => {
-        reset()
-      })
-      .catch((e) => {
-        if (e instanceof ProfileFormError) {
-          e.violations.forEach((violation) => {
-            if (isPathExist(violation.propertyPath, props.defaultValues)) {
-              setError(violation.propertyPath, { message: violation.message })
-            } else {
-              ErrorMonitor.log('Unknown property path / profil form', violation)
-            }
-          })
-        }
-      })
+    mutateAsync(data).catch((e) => {
+      if (e instanceof ProfileFormError) {
+        e.violations.forEach((violation) => {
+          if (isPathExist(violation.propertyPath, props.defaultValues)) {
+            setError(violation.propertyPath, { message: violation.message })
+          } else {
+            ErrorMonitor.log('Unknown property path / profil form', violation)
+          }
+        })
+      }
+    })
   })
 
   return (

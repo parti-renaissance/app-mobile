@@ -11,7 +11,7 @@ const socialPlatforms = [
   { id: 'facebook', placeholder: 'facebook.com/nom-utilisateur', label: 'Facebook', starturl: 'https://facebook.com/' },
   { id: 'telegram', placeholder: 't.me/nom-utilisateur', label: 'Telegram', starturl: 'https://t.me/' },
   { id: 'instagram', placeholder: 'instagram.com/nom-utilisateur', label: 'Instagram', starturl: 'https://instagram.com/' },
-  { id: 'twitter', placeholder: 'twitter.com/nom-utilisateur', label: 'Twitter', starturl: 'https://twitter.com/' },
+  { id: 'twitter', placeholder: 'twitter.com/nom-utilisateur', label: 'Twitter', starturl: 'https://x.com/' },
   { id: 'linkedin', placeholder: 'linkedin.com/nom-utilisateur', label: 'Linkedin', starturl: 'https://linkedin.com/in/' },
 ] as const
 
@@ -43,7 +43,7 @@ export const RSForm = ({ profile }: { profile: RestDetailedProfileResponse }) =>
                 <Input
                   color="gray"
                   placeholder={platform.label}
-                  value={!!value ? value : platform.starturl}
+                  value={value ?? platform.starturl}
                   onBlur={onBlur}
                   error={error?.message}
                   onChange={onChange}
