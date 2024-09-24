@@ -94,7 +94,7 @@ export const useGetElectProfil = () => {
 
 export const useGetTags = ({ tags }: { tags: RestProfilResponseTagTypes[] }) => {
   const profil = useGetProfil()
-  return profil.data?.tags?.filter((x) => tags.includes(x.type))
+  return { tags: profil.data?.tags?.filter((x) => tags.includes(x.type)), ...profil }
 }
 
 export const usePostElectPayment = () => {

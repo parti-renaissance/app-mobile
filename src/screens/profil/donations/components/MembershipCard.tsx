@@ -1,9 +1,8 @@
+import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { useGetTags } from '@/services/profile/hook'
 import type { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import { Monitor } from '@tamagui/lucide-icons'
-import { isBefore, isPast, subHours, subYears } from 'date-fns'
 import ImpossibleMembershipCard from './ImpossibleMembershipCard'
 import JoinMembershipCard from './JoinMembershipCard'
 import RenewMembershipCard from './RenewMembershipCard'
@@ -45,7 +44,18 @@ const getMembershipCardStatus = (tags: RestProfilResponse['tags']): CardStatus |
 }
 
 const MembershipCard = (props: MembershipCardProps) => {
-  const tags = useGetTags({ tags: ['sympathisant', 'adherent'] })
+  const { tags, isPending } = useGetTags({ tags: ['sympathisant', 'adherent'] })
+  if (isPending || !tags)
+    return (
+      <SkeCard>
+        <SkeCard.Content>
+          <SkeCard.Title />
+          <SkeCard.Content>
+            <SkeCard.Description />
+          </SkeCard.Content>
+        </SkeCard.Content>
+      </SkeCard>
+    )
   const status = getMembershipCardStatus(tags ?? [])
   if (!status) return null
   const Card = getCardByStatus(status)
