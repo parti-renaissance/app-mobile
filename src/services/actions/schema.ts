@@ -79,7 +79,7 @@ const ActionSchema = z.object({
   user_registered_at: z.coerce.date().nullable(),
   created_at: z.coerce.date(),
   updated_at: z.coerce.date(),
-  author: ActionAuthor,
+  author: ActionAuthor.nullish(),
   participants_count: z.number(),
   first_participants: z.array(ActionParticipantSchema),
 })

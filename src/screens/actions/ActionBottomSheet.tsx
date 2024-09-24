@@ -75,11 +75,11 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
                 <>
                   <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
                   <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
-                    <ParticipantAvatar participant={action.author} />
+                    {action.author && <ParticipantAvatar participant={action.author} />}
                     {action.participants
                       .filter((x) => {
                         if (!x?.adherent?.uuid) return true
-                        return action.author.uuid !== x.adherent.uuid
+                        return action.author?.uuid !== x.adherent.uuid
                       })
                       .map((participant) => (
                         <ParticipantAvatar key={participant.uuid} participant={participant} />
