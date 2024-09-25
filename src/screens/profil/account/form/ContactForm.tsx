@@ -1,6 +1,7 @@
 import Input from '@/components/base/Input/Input'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
+import { MessageCard } from '@/components/MessageCard/MessageCard'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import isoToEmoji from '@/utils/isoToEmoji'
@@ -37,19 +38,10 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
         <>
           <Text.LG semibold>Contact</Text.LG>
           {profile.change_email_token?.email ? (
-            <VoxCard inside bg="$yellow1">
-              <VoxCard.Content>
-                <XStack gap={16} alignItems="center">
-                  <View width={24} height={24}>
-                    <Info size={24} color="yellow7" />
-                  </View>
-                  <Text.MD multiline color="$yellow7" semibold>
-                    Confirmez le changement de votre email en cliquant sur le lien que vous venez de recevoir sur « {profile.change_email_token.email} ». Il est
-                    actif pour 24h.
-                  </Text.MD>
-                </XStack>
-              </VoxCard.Content>
-            </VoxCard>
+            <MessageCard iconLeft={Info} theme="yellow">
+              Confirmez le changement de votre email en cliquant sur le lien que vous venez de recevoir sur « {profile.change_email_token.email} ». Il est actif
+              pour 24h.
+            </MessageCard>
           ) : null}
           <Controller
             name="email_address"

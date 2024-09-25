@@ -1,5 +1,6 @@
 import React from 'react'
-import { SafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView as RNSafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
@@ -201,9 +202,9 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
 
 const VoxHeaderFrame = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
-    <SafeAreaView>
+    <RNSafeAreaView>
       <VoxHeaderFrameStyled {...props} />
-    </SafeAreaView>
+    </RNSafeAreaView>
   )
 }
 

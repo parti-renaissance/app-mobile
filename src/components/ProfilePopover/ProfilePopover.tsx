@@ -1,5 +1,5 @@
 import { PropsWithChildren, useCallback, useRef } from 'react'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import { useUserStore } from '@/store/user-store'
@@ -38,7 +38,7 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
       </Adapt>
 
       <Popover.Content borderWidth={1} padding={0} borderColor="$gray1" overflow="hidden">
-        <YGroup $gtLg={{ width: 300 }}>
+        <YGroup $gtLg={{ width: 300 }} paddingBottom={16}>
           <YGroup.Item>
             <Link href="/profil/" asChild>
               <MenuEntry title="Mon profil" onPress={() => ref.current?.close()} />

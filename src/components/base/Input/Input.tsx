@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react'
-import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
+import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, Platform, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
 import Text from '@/components/base/Text'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
@@ -204,7 +204,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
                 padding: 0,
                 fontSize: 14,
                 width: '100%',
-                fontWeight: inputProps.value ? 500 : 400,
+                fontWeight: Platform.OS !== 'android' ? (inputProps.value ? 500 : 400) : undefined,
               }}
               editable={!disabled}
               ref={inputRef}
