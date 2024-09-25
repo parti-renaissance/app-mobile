@@ -8639,6 +8639,11 @@ awesome-phonenumber@^6.6.0:
   resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-6.10.0.tgz#7a3d85d14afa3f98c17f893fa2af29ab9b332d22"
   integrity sha512-nLzMoIWl7cP/1xL7ErlT3+zoGu9S/nbdZ89HdLwiW75U4tV26vaDkFQiz6QdIm5SWRY+BmI5LN9+HiiqFHHq8Q==
 
+axios-jsonp@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/axios-jsonp/-/axios-jsonp-1.0.4.tgz#28878a48bbf38dbf07875fa283d9cf958c63b498"
+  integrity sha512-KI5Fc4ery6DR+oneXG09hPZfGuNUW8Lblhe750h53Z0Eh5MRsrHn49YitDU4RsMk0HV+12zcvL2Q51QkOLGdIQ==
+
 axios@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.2.tgz#b625db8a7051fbea61c35a3cbb3a1daa7b9c7621"

@@ -1,6 +1,6 @@
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
-import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
