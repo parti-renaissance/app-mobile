@@ -35,7 +35,7 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
     >
       {({ control }) => (
         <>
-          <Text.MD semibold>Contact</Text.MD>
+          <Text.LG semibold>Contact</Text.LG>
           {profile.change_email_token?.email ? (
             <VoxCard inside bg="$yellow1">
               <VoxCard.Content>

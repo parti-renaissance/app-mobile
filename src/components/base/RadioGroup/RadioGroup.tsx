@@ -25,7 +25,7 @@ export default function RadioGroup({ options, value, onChange }: RadioGroupProps
       {options.map((option, i) => (
         <YStack gap={16}>
           <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer">
-            <Radio checked={value === option.value} />
+            <Radio checked={value === option.value} onPress={handlePress(option.value)} />
             <Text.MD multiline>{option.label}</Text.MD>
           </XStack>
           {i < options.length - 1 && <Separator bg="$textOutline" />}

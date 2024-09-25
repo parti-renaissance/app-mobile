@@ -37,6 +37,16 @@ export const updateProfile = (userUuid: string, request: Types.RestUpdateProfile
     type: 'private',
   })(request)
 
+export const updateNotificationSubscriptionTypes = (userUuid: string, request: Types.RestUpdateProfileRequest) =>
+  api({
+    method: 'PUT',
+    path: `/api/v3/profile/${userUuid}`,
+    requestSchema: schemas.RestUpdateProfileRequestSchema,
+    responseSchema: schemas.RestUpdateProfileResponseSchema,
+    errorThrowers: [profileFormErrorThrower],
+    type: 'private',
+  })(request)
+
 export const removeProfile = api({
   method: 'post',
   path: '/api/v3/profile/unregister',
