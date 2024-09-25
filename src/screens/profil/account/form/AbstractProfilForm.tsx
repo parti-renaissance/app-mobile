@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { ProfileFormError } from '@/services/profile/error'
@@ -28,7 +28,11 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
     values: props.defaultValues,
     mode: 'all',
   })
-  const { isDirty, isValid } = formState
+  const { isDirty, isValid, isSubmitSuccessful } = formState
+
+  useEffect(() => {
+    reset(props.defaultValues)
+  }, [props.defaultValues])
 
   React.useEffect(() => {
     if (props.onErrors) {
