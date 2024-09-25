@@ -142,11 +142,3 @@ export const usePostElectDeclaration = () => {
     },
   })
 }
-
-export const useGetNotificationList = () => {
-  return useSuspenseQuery({
-    queryKey: ['notificationList'],
-    queryFn: () => api.getNotificationList(),
-    staleTime: 1000 * 60 * 5,
-  })
-}

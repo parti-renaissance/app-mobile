@@ -32,7 +32,7 @@ export const RSForm = ({ profile }: { profile: RestDetailedProfileResponse }) =>
     >
       {({ control }) => (
         <Fragment>
-          <Text.MD semibold>Réseaux sociaux</Text.MD>
+          <Text.LG semibold>Réseaux sociaux</Text.LG>
 
           {socialPlatforms.map((platform) => (
             <Controller

@@ -43,7 +43,7 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
               </VoxCard.Content>
             </VoxCard>
           )}
-          <Text.MD semibold>Identité</Text.MD>
+          <Text.LG semibold>Identité</Text.LG>
           <View gap="$5">
             <Controller
               name="gender"

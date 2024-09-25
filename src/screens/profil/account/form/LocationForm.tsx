@@ -40,9 +40,9 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
     >
       {({ control }) => (
         <Fragment>
-          <Text.MD semibold multiline>
+          <Text.LG semibold multiline>
             Localisation
-          </Text.MD>
+          </Text.LG>
 
           <Text.P>
             Votre localisation détermine votre Assemblée départementale et votre circonscription legislative. Elle présélectionne également votre comité, mais
