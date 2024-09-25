@@ -60,11 +60,11 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
         )}
 
         {onButtonPress && (
-          <View flex={1}>
+          <YStack>
             <VoxButton width="100%" pop variant="soft" theme="purple" iconLeft={Repeat} onPress={onButtonPress}>
               Mon espace cadre
             </VoxButton>
-          </View>
+          </YStack>
         )}
       </VoxCard.Content>
     </VoxCard>

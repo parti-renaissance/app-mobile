@@ -12,11 +12,9 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
   return (
     <PageLayout>
       <PageLayout.SideBarLeft showOn="gtSm">
-        <YStack gap="$3">
-          <XStack justifyContent="flex-end">
-            <ProfilMenu />
-          </XStack>
-        </YStack>
+        <XStack justifyContent="flex-end">
+          <ProfilMenu />
+        </XStack>
       </PageLayout.SideBarLeft>
       <PageLayout.MainSingleColumn>{children}</PageLayout.MainSingleColumn>
       <PageLayout.SideBarRight />

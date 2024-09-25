@@ -6,7 +6,7 @@ import Text from '../base/Text'
 
 const ItemFrame = styled(XStack, {
   animation: '100ms',
-  flex: 1,
+  // flex: 1,
   width: '100%',
   backgroundColor: '$white1',
   paddingHorizontal: '$4',
@@ -77,12 +77,12 @@ const Item = ({
     <ItemFrame {...props}>
       <View height="100%" width={8} backgroundColor="$gray2" display={props.active ? 'flex' : 'none'} position="absolute" top={0} left={0} />
       <Icon size={props.size === 'lg' ? '$2' : '$1'} color="$textPrimary" marginRight="$2" />
-      <ItemText size={props.size ?? 'sm'} active={props.active}>
-        {children}
-      </ItemText>
-      <XStack justifyContent="flex-end" flex={1}>
-        <ChevronRight size="$1" color="$textPrimary" />
+      <XStack width="100%" flexShrink={1}>
+        <ItemText size={props.size ?? 'sm'} active={props.active}>
+          {children}
+        </ItemText>
       </XStack>
+      <ChevronRight size="$1" color="$textPrimary" />
     </ItemFrame>
   )
 }

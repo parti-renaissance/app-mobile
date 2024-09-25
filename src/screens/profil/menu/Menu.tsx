@@ -60,7 +60,7 @@ const ProfilMenu = () => {
     <Menu key="profil-menu">
       {itemsData.map((item, index) => (
         <Link asChild={!isWeb} href={item.pathname ?? '/profil'} key={index} replace={media.gtSm}>
-          <Menu.Item key={index} active={item.pathname === pathname} size={media.gtMd ? 'sm' : 'lg'} icon={item.icon} last={index === menuData.length - 1}>
+          <Menu.Item key={index} active={item.pathname === pathname} size={media.sm ? 'lg' : 'sm'} icon={item.icon} last={index === menuData.length - 1}>
             {item.children}
           </Menu.Item>
         </Link>
