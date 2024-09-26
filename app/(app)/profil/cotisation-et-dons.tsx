@@ -13,9 +13,7 @@ function PersonalInfoScreen() {
       </Head>
 
       <ProfilLayout>
-        <BoundarySuspenseWrapper>
-          <DonationScreen />
-        </BoundarySuspenseWrapper>
+        <DonationScreen />
       </ProfilLayout>
     </>
   )

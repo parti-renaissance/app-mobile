@@ -13,9 +13,7 @@ function CommunicationScreen() {
       </Head>
 
       <ProfilLayout>
-        <BoundarySuspenseWrapper>
-          <EluScreen />
-        </BoundarySuspenseWrapper>
+        <EluScreen />
       </ProfilLayout>
     </>
   )

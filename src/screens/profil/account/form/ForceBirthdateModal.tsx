@@ -1,19 +1,24 @@
 import { Fragment } from 'react'
+import { SafeAreaView } from 'react-native'
 import Text from '@/components/base/Text'
 import DatePickerField from '@/components/DatePicker'
+import { VoxHeader } from '@/components/Header/Header'
+import { MessageCard } from '@/components/MessageCard/MessageCard'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import { useGetDetailProfil } from '@/services/profile/hook'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { Info } from '@tamagui/lucide-icons'
 import { Controller } from 'react-hook-form'
-import { View, XStack } from 'tamagui'
+import { View, YStack } from 'tamagui'
 import * as z from 'zod'
 import AbstractProfilForm from './AbstractProfilForm'
 import { validateBirthdateFormSchema } from './schema'
 
-const ForceBirthdateModal = ({ profile }: { profile: RestDetailedProfileResponse }) => {
+const ForceBirthdateModal = () => {
+  const { data: profile } = useGetDetailProfil()
   return (
-    <ModalOrPageBase open={!Boolean(profile.birthdate)} header={<XStack />}>
+    <ModalOrPageBase open={!Boolean(profile.birthdate)} header={<VoxHeader />}>
       <AbstractProfilForm
         uuid={profile.uuid}
         defaultValues={
@@ -27,18 +32,10 @@ const ForceBirthdateModal = ({ profile }: { profile: RestDetailedProfileResponse
       >
         {({ control }) => (
           <Fragment>
-            <VoxCard inside bg="$yellow1">
-              <VoxCard.Content>
-                <XStack gap={16} alignItems="center">
-                  <View width={24} height={24}>
-                    <Info size={24} color="yellow7" />
-                  </View>
-                  <Text.MD multiline color="$yellow7" semibold>
-                    Pour accéder à votre profil, veuillez renseigner votre date de naissance.
-                  </Text.MD>
-                </XStack>
-              </VoxCard.Content>
-            </VoxCard>
+            <MessageCard theme="yellow" iconLeft={Info}>
+              Pour accéder à votre profil, veuillez renseigner votre date de naissance.
+            </MessageCard>
+
             <View $gtMd={{ flexDirection: 'row' }} gap="$4">
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <Controller

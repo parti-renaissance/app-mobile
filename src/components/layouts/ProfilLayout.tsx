@@ -1,12 +1,20 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
-import * as metatags from '@/config/metatags'
-import EditInformations from '@/screens/profil/account/page'
 import ProfilMenu from '@/screens/profil/menu/Menu'
-import { useMedia, View, XStack, YStack } from 'tamagui'
+import { isWeb, useMedia, View, XStack, YStack } from 'tamagui'
+import SkeCard from '../Skeleton/CardSkeleton'
 import PageLayout from './PageLayout/PageLayout'
+
+const Skeleton = () => (
+  <SkeCard>
+    <SkeCard.Content>
+      <SkeCard.Chip />
+      <SkeCard.Title />
+      <SkeCard.Image />
+      <SkeCard.Description />
+    </SkeCard.Content>
+  </SkeCard>
+)
 
 export default function ProfilLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +24,27 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
           <ProfilMenu />
         </XStack>
       </PageLayout.SideBarLeft>
-      <PageLayout.MainSingleColumn>{children}</PageLayout.MainSingleColumn>
+      <PageLayout.MainSingleColumn>
+        <BoundarySuspenseWrapper
+          fallback={
+            <YStack
+              gap={16}
+              $gtSm={{
+                pt: '$8',
+                pl: '$8',
+                pr: '$8',
+              }}
+              pb={isWeb ? '$10' : '$12'}
+            >
+              {[0, 0, 0].map(() => (
+                <Skeleton />
+              ))}
+            </YStack>
+          }
+        >
+          {children}
+        </BoundarySuspenseWrapper>
+      </PageLayout.MainSingleColumn>
       <PageLayout.SideBarRight />
     </PageLayout>
   )

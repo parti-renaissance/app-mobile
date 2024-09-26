@@ -8,7 +8,9 @@ import { ScrollView, useMedia, YStack } from 'tamagui'
 
 function ProfilScreen() {
   const media = useMedia()
-  if (media.gtSm) return <Redirect href="/profil/cotisation-et-dons" />
+  if (media.gtSm) {
+    router.replace('/profil/cotisation-et-dons')
+  }
 
   return (
     <>

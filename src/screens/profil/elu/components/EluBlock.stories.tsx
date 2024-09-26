@@ -20,7 +20,7 @@ export function Default() {
     <YStack gap="$3.5" justifyContent="center">
       {codeCased.map((code) => (
         <View maxWidth={500}>
-          <EluBlock code={[code]} declaration={1600} cotisation={20} />
+          <EluBlock code={[code]} declaration={1600} cotisation={20} onPressIbanForm={() => {}} onPressDeclaForm={() => {}} />
         </View>
       ))}
     </YStack>

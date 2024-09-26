@@ -13,9 +13,7 @@ function PersonalInfoScreen() {
       </Head>
 
       <ProfilLayout>
-        <BoundarySuspenseWrapper>
-          <EditInformations />
-        </BoundarySuspenseWrapper>
+        <EditInformations />
       </ProfilLayout>
     </>
   )
