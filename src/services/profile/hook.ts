@@ -1,6 +1,8 @@
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
-import { RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { Monitor } from '@tamagui/lucide-icons'
 import { useToastController } from '@tamagui/toast'
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
@@ -28,6 +30,44 @@ export const useGetDetailProfil = () => {
     queryKey: ['profileDetail'],
     queryFn: () => api.getDetailedProfile(),
     staleTime: 1000 * 60 * 5,
+  })
+}
+
+class UnsubscribedError extends Error {
+  data: RestProfilResponse
+  constructor(data: RestProfilResponse) {
+    super('Not subscribed')
+
+    this.data = data
+  }
+}
+
+export const useGetResubscribeLoop = (props: { enabled: boolean }) => {
+  return useQuery({
+    queryKey: ['profil'],
+    queryFn: () =>
+      api.getProfile().then((data) => {
+        if (!data.email_subscribed) {
+          throw new UnsubscribedError(data)
+        }
+        return data
+      }),
+    enabled: props.enabled,
+    retry: (failureCount, error) => {
+      if (error instanceof UnsubscribedError) {
+        if (failureCount < 3) {
+          return true
+        } else {
+          ErrorMonitor.log("Can't resubscribe", {
+            obfusctedName: error.data.first_name.slice(0, 2) + '*** ' + error.data.last_name.slice(0, 2) + '***',
+            uuid: error.data.uuid,
+          })
+          return false
+        }
+      }
+      return false
+    },
+    retryDelay: 5000,
   })
 }
 
