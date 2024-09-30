@@ -62,13 +62,7 @@ export default function (props: { profil: RestElectedProfileResponse }) {
   const content = props.profil.elect_mandates.length > 0 ? <Elu mandates={props.profil.elect_mandates} tags={tags ?? []} /> : <NotElu />
   return (
     <VoxCard>
-      <VoxCard.Content>
-        <XStack gap="$2" alignItems="center">
-          <TreeDeciduous size="$1" color="$textPrimary" />
-          <Text.LG>Information d'élu</Text.LG>
-        </XStack>
-        {content}
-      </VoxCard.Content>
+      <VoxCard.Content>{content}</VoxCard.Content>
     </VoxCard>
   )
 }

@@ -9,6 +9,7 @@ import { useGetNotificationList, useGetReSubscribeConfig } from '@/services/noti
 import { useGetProfil, useGetResubscribeLoop, useMutationUpdateProfil } from '@/services/profile/hook'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { AlertTriangle, Info } from '@tamagui/lucide-icons'
+import { keepPreviousData } from '@tanstack/react-query'
 import { Controller, useForm } from 'react-hook-form'
 import { isWeb, Separator, XStack, YStack } from 'tamagui'
 
@@ -184,7 +185,7 @@ const UnSubscribeCase = () => {
 }
 
 const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCard>; profile: RestDetailedProfileResponse }) => {
-  const { data: userData } = useGetProfil()
+  const { data: userData } = useGetProfil({ placeholderData: keepPreviousData })
   const subscription_types = props.profile.subscription_types
   const user_subscription_values = subscription_types.map((st) => st.code)
 
@@ -193,7 +194,10 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
   const emailList = notificationList.filter((n) => n.type === 'email')
   const smsList = notificationList.filter((n) => n.type === 'sms')
   const { control, handleSubmit, formState, reset } = useForm({
-    values: { subscription_email: user_subscription_values, subscription_sms: user_subscription_values },
+    values: {
+      subscription_email: user_subscription_values.filter((x) => emailList.find((y) => y.value === x)),
+      subscription_sms: user_subscription_values.filter((x) => smsList.find((y) => y.value === x)),
+    },
     mode: 'all',
   })
   const { isDirty, isValid } = formState
@@ -234,7 +238,7 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
     <VoxCard {...props.cardProps}>
       <VoxCard.Content>
         <VoxCard.Title>Préférences de communication</VoxCard.Title>
-        {userData && !userData.email_subscribed ? (
+        {!userData?.email_subscribed ? (
           <UnSubscribeCase />
         ) : (
           <>

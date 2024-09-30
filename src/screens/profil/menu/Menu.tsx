@@ -52,31 +52,24 @@ const ProfilMenu = () => {
   const pathname = usePathname()
   const itemsData = media.gtSm
     ? [
-        // {
-        //   icon: CircleUser,
-        //   children: 'Mon Profil',
-        //   pathname: '/profil',
-        // } as const,
+        {
+          icon: CircleUser,
+          children: 'Mon Profil',
+          pathname: '/profil',
+        } as const,
         ...menuData,
       ]
     : menuData
   return (
-    <YStack gap={16}>
-      <Menu key="profil-menu">
-        {itemsData.map((item, index) => (
-          <Link asChild={!isWeb} href={item.pathname ?? '/profil'} key={index} replace={media.gtSm}>
-            <Menu.Item key={index} active={item.pathname === pathname} size={media.sm ? 'lg' : 'sm'} icon={item.icon} last={index === menuData.length - 1}>
-              {item.children}
-            </Menu.Item>
-          </Link>
-        ))}
-      </Menu>
-      <Text.P alignSelf="center">
-        Version: v{Constants.expoConfig?.version ?? '0.0.0'} [{isWeb ? '' : nativeBuildVersion}
-        {isWeb ? '' : ' - '}
-        {clientEnv.ENVIRONMENT}]
-      </Text.P>
-    </YStack>
+    <Menu key="profil-menu">
+      {itemsData.map((item, index) => (
+        <Link asChild={!isWeb} href={item.pathname ?? '/profil'} key={index} replace={media.gtSm}>
+          <Menu.Item key={index} active={item.pathname === pathname} size={media.sm ? 'lg' : 'sm'} icon={item.icon} last={index === menuData.length - 1}>
+            {item.children}
+          </Menu.Item>
+        </Link>
+      ))}
+    </Menu>
   )
 }
 

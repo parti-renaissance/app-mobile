@@ -32,7 +32,7 @@ export function useLogOut() {
       return WebBrowser.openAuthSessionAsync(`${discoveryDocument.endSessionEndpoint}?redirect_uri=${encodeURIComponent(REDIRECT_URI)}`, REDIRECT_URI)
     },
     onSuccess: async () => {
-      router.replace({ pathname: '/(tabs)/evenements/' })
+      // router.replace({ pathname: '/(tabs)/evenements/' })
     },
     onError: (error) => {
       ErrorMonitor.log('Cannot open web browser on disconnect', {

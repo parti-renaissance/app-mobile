@@ -1,7 +1,7 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import ProfilMenu from '@/screens/profil/menu/Menu'
-import { isWeb, useMedia, View, XStack, YStack } from 'tamagui'
+import { isWeb, XStack, YStack } from 'tamagui'
 import SkeCard from '../Skeleton/CardSkeleton'
 import PageLayout from './PageLayout/PageLayout'
 
@@ -36,8 +36,8 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
               }}
               pb={isWeb ? '$10' : '$12'}
             >
-              {[0, 0, 0].map(() => (
-                <Skeleton />
+              {[1, 2, 3].map((x) => (
+                <Skeleton key={x} />
               ))}
             </YStack>
           }
