@@ -25,4 +25,4 @@ export const activistTagShape = {
   [ActivistTagEnum.ELU]: {
     theme: 'green',
   },
-}
+} as const

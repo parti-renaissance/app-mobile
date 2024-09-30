@@ -1,7 +1,7 @@
-import { NamedExoticComponent } from 'react'
+import { forwardRef, NamedExoticComponent } from 'react'
 import Text from '@/components/base/Text'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { createStyledContext, Spinner, styled, View, withStaticProperties } from 'tamagui'
+import { createStyledContext, Spinner, styled, TamaguiElement, View, withStaticProperties } from 'tamagui'
 
 export const ButtonContext = createStyledContext({
   pop: false,
@@ -155,11 +155,12 @@ export default Button
 
 type VoxButtonProps = {
   iconLeft?: NamedExoticComponent<IconProps>
+  iconRight?: NamedExoticComponent<IconProps>
   loading?: boolean
   children?: string[] | string
 } & React.ComponentProps<typeof Button>
 
-export const VoxButton = (props: VoxButtonProps) => {
+export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref) => {
   const outlinedExeption =
     props.variant === 'outlined' && (props.theme === 'gray' || !props.theme)
       ? {
@@ -167,7 +168,7 @@ export const VoxButton = (props: VoxButtonProps) => {
         }
       : {}
   return (
-    <Button {...props} theme={props.theme ?? 'gray'} group {...outlinedExeption}>
+    <Button {...props} ref={ref} theme={props.theme ?? 'gray'} group {...outlinedExeption}>
       {props.iconLeft && (
         <props.iconLeft
           size={16}
@@ -181,7 +182,19 @@ export const VoxButton = (props: VoxButtonProps) => {
         />
       )}
       {props.children && <ButtonText pop={props.pop}>{props.children}</ButtonText>}
+      {props.iconRight && (
+        <props.iconRight
+          size={16}
+          color={props.pop ? '$colorPop' : '$color'}
+          $group-hover={{
+            color: '$colorHover',
+          }}
+          $group-press={{
+            color: '$colorPress',
+          }}
+        />
+      )}
       {props.loading && <ButtonSpinner size="small" />}
     </Button>
   )
-}
+})

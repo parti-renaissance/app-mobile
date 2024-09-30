@@ -17,7 +17,7 @@ const HeaderFrame = styled(XStack, {
 export default function (props: CommonMembershipCardProps) {
   const { data: adhesionLink, isPending } = useGetMagicLink({ slug: 'adhesion' })
   return (
-    <VoxCard>
+    <VoxCard bg={props.full ? 'white' : '$yellow1'} inside={!props.full}>
       <HeaderFrame>
         <Image
           source={require('@/assets/images/cotisation/cotisation-illu.png')}
@@ -30,7 +30,7 @@ export default function (props: CommonMembershipCardProps) {
           <Text.MD semibold>Prenez part à la vie politique française !</Text.MD>
           <Text.MD secondary>Adhérerez à Renaissance.</Text.MD>
           <VoxButton
-            theme="blue"
+            theme="yellow"
             disabled={isPending}
             onPress={() => {
               if (adhesionLink) {
@@ -42,7 +42,7 @@ export default function (props: CommonMembershipCardProps) {
           </VoxButton>
         </YStack>
       </HeaderFrame>
-      <VoxCard.Content pt={0}>
+      <VoxCard.Content pt={0} display={props.full ? 'flex' : 'none'}>
         <VoxCard bg="$gray1" borderColor={'$colorTransparent'}>
           <VoxCard.Content>
             <Text fontWeight="$7">Pourquoi adhérer à Renaissance ?</Text>

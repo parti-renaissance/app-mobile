@@ -3,7 +3,7 @@ import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { Image } from 'expo-image'
-import { styled, XStack, YStack } from 'tamagui'
+import { styled, useMedia, XStack, YStack } from 'tamagui'
 
 const HeaderFrame = styled(XStack, {
   paddingLeft: '$4.5',
@@ -12,10 +12,11 @@ const HeaderFrame = styled(XStack, {
   paddingTop: '$4.5',
 })
 
-export default function () {
+export default function (props: { full?: boolean }) {
   const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'donation' })
+  const media = useMedia()
   return (
-    <VoxCard bg="$green1">
+    <VoxCard bg="$green1" inside={!props.full}>
       <HeaderFrame>
         <YStack gap="$3" pr="$4" flex={1}>
           <YStack gap="$3" pr="$4" flex={1}>
@@ -36,8 +37,8 @@ export default function () {
         <Image
           source={require('@/assets/images/donation/don-illu.png')}
           style={{
-            width: 187,
-            height: 128,
+            width: media.sm ? 100 : 187,
+            height: media.sm ? 68 : 128,
           }}
         />
       </HeaderFrame>

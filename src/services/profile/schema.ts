@@ -99,6 +99,11 @@ export const RestDetailedProfileResponseSchema = z.object({
       label: z.string(),
     }),
   ),
+  main_zone: z
+    .object({
+      name: z.string(),
+    })
+    .nullish(),
 })
 
 // -----------------  RestUserScopes  -----------------
