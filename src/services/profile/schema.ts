@@ -50,7 +50,7 @@ export const RestDetailedProfileResponseSchema = z.object({
   last_name: z.string(),
   gender: z.string(),
   custom_gender: z.string().nullish(),
-  nationality: z.string(),
+  nationality: z.string().nullable(),
   birthdate: z.coerce.date().nullable(),
   last_membership_donation: z.coerce.date().nullable(),
   party_membership: z.enum(['other', 'exclusive', 'agir', 'territoires_progres', 'modem']).nullish(),
@@ -99,6 +99,11 @@ export const RestDetailedProfileResponseSchema = z.object({
       label: z.string(),
     }),
   ),
+  main_zone: z
+    .object({
+      name: z.string(),
+    })
+    .nullish(),
 })
 
 // -----------------  RestUserScopes  -----------------

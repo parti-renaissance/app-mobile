@@ -1,12 +1,12 @@
 import React from 'react'
-import { SafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView as RNSafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import ProfilePopover from '@/components/ProfilePopover/ProfilePopover'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { ArrowLeft, ChevronDown } from '@tamagui/lucide-icons'
+import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
 import { Button, isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, View, withStaticProperties, XStack, YStackProps } from 'tamagui'
@@ -109,12 +109,13 @@ const LoginView = () => (
 export const ProfileNav = () => {
   return (
     <AuthFallbackWrapper fallback={<LoginView />}>
-      <ProfilePopover>
-        <View flexDirection="row" alignItems="center" gap={'$3'}>
-          <ProfileView />
-          <ChevronDown size={16} color="$gray6" />
-        </View>
-      </ProfilePopover>
+      <View flexDirection="row" alignItems="center" gap={'$3'}>
+        <Link href="/profil">
+          <View>
+            <ProfileView />
+          </View>
+        </Link>
+      </View>
     </AuthFallbackWrapper>
   )
 }
@@ -186,7 +187,7 @@ export const SmallHeader: typeof Header = (props) => {
 export default Header
 
 const VoxHeaderFrameStyled = styled(ThemeableStack, {
-  backgroundColor: '$white',
+  backgroundColor: '$white1',
   gap: 4,
   flexDirection: 'row',
   alignItems: 'center',
@@ -199,11 +200,19 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
   },
 })
 
-const VoxHeaderFrame = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
       <VoxHeaderFrameStyled {...props} />
     </SafeAreaView>
+  )
+}
+
+const VoxHeaderFrameModal = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+  return (
+    <RNSafeAreaView style={{ backgroundColor: 'white' }}>
+      <VoxHeaderFrameStyled {...props} />
+    </RNSafeAreaView>
   )
 }
 
@@ -226,7 +235,18 @@ const VoxHeaderLeftButton = (
   </VoxHeaderLeftButtonFrame>
 )
 
-export const VoxHeader = withStaticProperties(VoxHeaderFrame, {
+const VoxHeaderTitle = (props: { children: string; icon: React.NamedExoticComponent<IconProps> }) => {
+  return (
+    <XStack alignItems="center" gap={10}>
+      <props.icon size={24} color="$textPrimary" />
+      <Text.LG semibold>{props.children}</Text.LG>
+    </XStack>
+  )
+}
+
+export const VoxHeader = withStaticProperties(VoxHeaderFrameRouter, {
+  ModalFrame: VoxHeaderFrameModal,
   LeftButtonFrame: VoxHeaderLeftButtonFrame,
   LeftButton: VoxHeaderLeftButton,
+  Title: VoxHeaderTitle,
 })

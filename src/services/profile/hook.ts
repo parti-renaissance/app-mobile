@@ -1,17 +1,19 @@
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
-import { RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
 export const PROFIL_QUERY_KEY = 'profil'
 
-export const useGetProfil = ({ enabled }: { enabled?: boolean } = {}) => {
+export const useGetProfil = (props?: { enabled?: boolean; placeholderData?: RestProfilResponse | PlaceholderDataFunction<RestProfilResponse> }) => {
   return useQuery({
     queryKey: [PROFIL_QUERY_KEY],
     queryFn: () => api.getProfile(),
-    enabled,
+    enabled: props?.enabled,
     staleTime: 1000 * 60 * 5,
+    placeholderData: props?.placeholderData,
   })
 }
 
@@ -31,15 +33,50 @@ export const useGetDetailProfil = () => {
   })
 }
 
+class UnsubscribedError extends Error {
+  data: RestProfilResponse
+  constructor(data: RestProfilResponse) {
+    super('Not subscribed')
+
+    this.data = data
+  }
+}
+
+export const useGetResubscribeLoop = (props: { enabled: boolean }) => {
+  return useQuery({
+    queryKey: ['profil'],
+    queryFn: () =>
+      api.getProfile().then((data) => {
+        if (!data.email_subscribed) {
+          throw new UnsubscribedError(data)
+        }
+        return data
+      }),
+    enabled: props.enabled,
+    retry: (failureCount, error) => {
+      if (error instanceof UnsubscribedError) {
+        if (failureCount < 3) {
+          return true
+        } else {
+          ErrorMonitor.log("Can't resubscribe", {
+            obfusctedName: error.data.first_name.slice(0, 2) + '*** ' + error.data.last_name.slice(0, 2) + '***',
+            uuid: error.data.uuid,
+          })
+          return false
+        }
+      }
+      return false
+    },
+    retryDelay: 5000,
+  })
+}
+
 export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
   const toast = useToastController()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: (data: RestUpdateProfileRequest) => api.updateProfile(userUuid, data),
-    onMutate: (profil) => {
-      queryClient.setQueryData([PROFIL_QUERY_KEY], profil)
-    },
     onSuccess: () => {
       toast.show('Succès', { message: 'Profil mis à jour', type: 'success' })
       queryClient.invalidateQueries({
@@ -53,7 +90,6 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
       })
     },
     onError: (error, profil) => {
-      queryClient.setQueryData([PROFIL_QUERY_KEY], profil)
       toast.show('Erreur', { message: 'Impossible de mettre à jour le profil', type: 'error' })
     },
   })

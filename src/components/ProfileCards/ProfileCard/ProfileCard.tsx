@@ -5,17 +5,18 @@ import Button, { VoxButton } from '@/components/Button'
 import ProfilePicture from '@/components/ProfilePicture'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { activistTagShape } from '@/data/activistTagShape'
-import { RestProfileTag } from '@/data/restObjects/RestProfileResponse'
+import { RestProfilResponse } from '@/services/profile/schema'
 import { ChevronRight, Repeat } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
 import { View, YStack } from 'tamagui'
+import ProfileTags from './ProfileTags'
 
 export interface ProfileCardProps {
   firstName?: string
   lastName?: string
   src?: string
   onButtonPress?: () => void
-  tags?: RestProfileTag[]
+  tags?: RestProfilResponse['tags']
 }
 
 export default function ProfileCard({ firstName = '', lastName = '', tags, onButtonPress, src }: ProfileCardProps) {
@@ -49,22 +50,14 @@ export default function ProfileCard({ firstName = '', lastName = '', tags, onBut
           </TouchableOpacity>
         </Link>
 
-        {tags && (
-          <View flexDirection={'row'} gap={'$1.5'} flexWrap={'wrap'}>
-            {tags.map((el) => (
-              <Badge key={el.type} theme={activistTagShape[el.type]?.theme}>
-                {el.label}
-              </Badge>
-            ))}
-          </View>
-        )}
+        <ProfileTags tags={tags || []} />
 
         {onButtonPress && (
-          <View flex={1}>
+          <YStack>
             <VoxButton width="100%" pop variant="soft" theme="purple" iconLeft={Repeat} onPress={onButtonPress}>
               Mon espace cadre
             </VoxButton>
-          </View>
+          </YStack>
         )}
       </VoxCard.Content>
     </VoxCard>

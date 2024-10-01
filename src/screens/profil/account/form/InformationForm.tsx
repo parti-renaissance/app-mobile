@@ -3,6 +3,7 @@ import Input from '@/components/base/Input/Input'
 import Select from '@/components/base/Select/Select'
 import Text from '@/components/base/Text'
 import DatePickerField from '@/components/DatePicker'
+import { MessageCard } from '@/components/MessageCard/MessageCard'
 import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
@@ -30,18 +31,9 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
       {({ control }) => (
         <Fragment>
           {profile.certified && (
-            <VoxCard inside bg="$yellow1">
-              <VoxCard.Content>
-                <XStack gap={16} alignItems="center">
-                  <View width={24} height={24}>
-                    <Info size={24} color="yellow7" />
-                  </View>
-                  <Text.MD multiline color="$yellow7" semibold>
-                    Votre profil étant certifié, vous ne pouvez pas modifier vos informations d’identité.
-                  </Text.MD>
-                </XStack>
-              </VoxCard.Content>
-            </VoxCard>
+            <MessageCard iconLeft={Info} theme="yellow">
+              Votre profil étant certifié, vous ne pouvez pas modifier vos informations d’identité.
+            </MessageCard>
           )}
           <Text.LG semibold>Identité</Text.LG>
           <View gap="$5">

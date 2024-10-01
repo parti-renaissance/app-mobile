@@ -8,11 +8,11 @@ import { getHumanFormattedDate } from '@/utils/date'
 import { Crown } from '@tamagui/lucide-icons'
 import { XStack, YStack } from 'tamagui'
 
-export default function (props: { subscription: RestDonationsResponse[number] }) {
+export default function (props: { subscription: RestDonationsResponse[number]; full?: boolean }) {
   const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'donation' })
 
   return (
-    <VoxCard bg="$green1">
+    <VoxCard bg="$green1" inside={!props.full}>
       <VoxCard.Content>
         <XStack gap="$4">
           <YStack flex={1} gap="$3">

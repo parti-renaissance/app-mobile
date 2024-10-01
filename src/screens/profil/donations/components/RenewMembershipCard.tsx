@@ -12,25 +12,25 @@ import type { CommonMembershipCardProps } from './types'
 export default function (props: CommonMembershipCardProps) {
   const { isPending, open: handleAdhesionLink } = useOpenExternalContent({ slug: 'adhesion' })
   return (
-    <VoxCard bg="$white1">
+    <VoxCard inside={!props.full}>
       <VoxCard.Content>
         <YStack gap="$5" flex={1}>
           <XStack>
             <Badge theme="orange">Cotisation à renouveler</Badge>
           </XStack>
-          <XStack gap="$3">
+          <XStack gap="$3" $sm={{ flexDirection: 'column' }}>
             <YStack gap="$2" flex={1}>
               <Text fontWeight="$6">Renouvelez votre cotisation pour l’année {getYear(new Date())} pour garder vos droits d’adhérent.</Text>
               <Text color="$textSecondary">Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation!)}</Text>
             </YStack>
-            <YStack alignContent="center" height="100%" alignItems="center" justifyContent="center">
-              <VoxButton theme="blue" disabled={isPending} onPress={handleAdhesionLink}>
+            <YStack alignContent="center" alignItems="center" justifyContent="center">
+              <VoxButton theme="yellow" disabled={isPending} onPress={handleAdhesionLink}>
                 Me mettre à jour
               </VoxButton>
             </YStack>
           </XStack>
         </YStack>
-        <VoxCard bg="$gray1" borderColor={'$colorTransparent'}>
+        <VoxCard bg="$gray1" borderColor={'$colorTransparent'} inside display={props.full ? 'flex' : 'none'}>
           <VoxCard.Content>
             <Text fontWeight="$7">Pourquoi rester à jour de cotisation ?</Text>
             <Text>Je finance notre ancrage local</Text>

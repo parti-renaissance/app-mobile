@@ -17,7 +17,7 @@ export const MessageCard = ({ children, iconLeft: IconLeft, rightComponent, ...p
         <View width={24} height={24}>
           <IconLeft size={24} color="$color7" />
         </View>
-        <Text.MD multiline color="$color7" semibold>
+        <Text.MD multiline color="$color7" semibold flexShrink={1}>
           {children}
         </Text.MD>
         {rightComponent ?? null}

@@ -74,6 +74,13 @@
       "bundler": "metro"
     },
     "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Autorisez $(PRODUCT_NAME) à accéder à vos photos",
+          "cameraPermission": "Autorisez $(PRODUCT_NAME) à accéder à votre appareil photo"
+        }
+      ],
       "expo-router",
       [
         "@sentry/react-native/expo",

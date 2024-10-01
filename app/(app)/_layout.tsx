@@ -5,13 +5,14 @@ import { useSession } from '@/ctx/SessionProvider'
 import useInit from '@/hooks/useInit'
 import { parse, useURL } from 'expo-linking'
 import { Stack, useGlobalSearchParams } from 'expo-router'
-import { isWeb, View } from 'tamagui'
+import { isWeb, useMedia, View } from 'tamagui'
 
 export default function AppLayout() {
   const { signIn, isAuth, isLoading } = useSession()
 
   const { code, _switch_user } = useGlobalSearchParams<{ code?: string; _switch_user?: string }>()
   const url = useURL()
+  const media = useMedia()
 
   useInit()
 
@@ -45,6 +46,7 @@ export default function AppLayout() {
             name="profil"
             options={{
               title: 'Profil',
+              animation: media.gtSm ? 'none' : 'slide_from_right',
             }}
           ></Stack.Screen>
         </Stack>

@@ -1,44 +1,191 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { WebView } from 'react-native-webview'
 import SwitchGroup from '@/components/base/SwitchGroup/SwitchGroup'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import { MessageCard } from '@/components/MessageCard/MessageCard'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { useSession } from '@/ctx/SessionProvider'
 import { useGetNotificationList, useGetReSubscribeConfig } from '@/services/notifications/hook'
-import { useMutationUpdateProfil } from '@/services/profile/hook'
+import { useGetProfil, useGetResubscribeLoop, useMutationUpdateProfil } from '@/services/profile/hook'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { AlertTriangle, Info } from '@tamagui/lucide-icons'
+import { keepPreviousData } from '@tanstack/react-query'
 import { Controller, useForm } from 'react-hook-form'
-import { Separator, XStack, YStack } from 'tamagui'
+import { isWeb, Separator, XStack, YStack } from 'tamagui'
 
 const UnSubscribeCase = () => {
+  const [execWebView, setExecWebView] = React.useState(false)
+  const [enableLoop, setEnableLoop] = React.useState(false)
+  const [isStartResub, setIsStartResub] = React.useState(false)
+
+  const retry = useGetResubscribeLoop({
+    enabled: enableLoop,
+  })
+
+  useEffect(() => setEnableLoop(false), [])
+  const { data: config } = useGetReSubscribeConfig()
+
+  const getUrl = () => {
+    const params = new URLSearchParams({ callback: 'c', ...JSON.parse(atob(config.payload)) })
+    const url = new URL(config.url + '/subscribe/post-json')
+    url.search = params.toString()
+    return url.toString()
+  }
+  const handlePress = () => {
+    if (isWeb) {
+      interface JsonpOptions {
+        callbackName?: string
+        onSuccess?: (data: any) => void
+        onTimeout?: () => void
+        timeout?: number // seconds
+      }
+
+      const jsonp = (() => {
+        let that = {} as {
+          send: (src: string, options?: JsonpOptions) => void
+        }
+
+        that.send = function (src: string, options: JsonpOptions = {}) {
+          const callbackName = options.callbackName || 'callback'
+          const onSuccess = options.onSuccess || (() => {})
+          const onTimeout = options.onTimeout || (() => {})
+          const timeout = options.timeout || 10 // seconds
+
+          let timeoutTrigger: NodeJS.Timeout
+
+          timeoutTrigger = setTimeout(() => {
+            ;(window as any)[callbackName] = () => {}
+            onTimeout()
+          }, timeout * 1000)
+          ;(window as any)[callbackName] = function (data: any) {
+            clearTimeout(timeoutTrigger)
+            onSuccess(data)
+          }
+
+          const script = document.createElement('script')
+          script.type = 'text/javascript'
+          script.async = true
+          script.src = src
+          ;(document.getElementsByTagName('head')[0] as HTMLHeadElement).appendChild(script)
+        }
+
+        return that
+      })()
+
+      setIsStartResub(true)
+
+      jsonp.send(getUrl(), {
+        onSuccess: function (json) {
+          setEnableLoop(true)
+          setIsStartResub(false)
+        },
+        onTimeout: function () {
+          setEnableLoop(true)
+          setIsStartResub(false)
+        },
+        timeout: 5,
+      })
+    } else {
+      setExecWebView(true)
+    }
+  }
   return (
     <YStack gap={16}>
-      <MessageCard
-        iconLeft={AlertTriangle}
-        theme="orange"
-        rightComponent={
-          <YStack>
-            <VoxButton disabled theme="orange">
-              Me réabonner
-            </VoxButton>
-          </YStack>
-        }
-      >
-        Vous êtes désabonné de toutes nos communications.
-      </MessageCard>
-      <YStack>
-        <Text.SM>(Le réabonnement sera de nouveau possible prochainement)</Text.SM>
-      </YStack>
+      {execWebView && (
+        <WebView
+          source={{
+            html: `<html><head>    <script>
+                setTimeout(function () {
+                var $jsonp = (function(){
+                  var that = {};
+
+                  that.send = function(src, options) {
+                    var callback_name = options.callbackName || 'callback',
+                      on_success = options.onSuccess || function(){},
+                      on_timeout = options.onTimeout || function(){},
+                      timeout = options.timeout || 10; // sec
+
+                    var timeout_trigger = window.setTimeout(function(){
+                      window[callback_name] = function(){};
+                      on_timeout();
+                    }, timeout * 1000);
+
+                    window[callback_name] = function(data){
+                      window.clearTimeout(timeout_trigger);
+                      on_success(data);
+                    }
+
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.async = true;
+                    script.src = src;
+
+                    document.getElementsByTagName('head')[0].appendChild(script);
+                  }
+
+                  return that;
+                })();
+                $jsonp.send('${getUrl()}', {
+                  onSuccess: function (json) {
+                   window.ReactNativeWebView.postMessage(json);
+                  },
+                  onTimeout: function () {
+                    window.ReactNativeWebView.postMessage('timeput');
+                  },
+                  timeout: 5,
+                })
+                }, 2000)
+              </script></head></html>`,
+          }}
+          javaScriptEnabled={true}
+          onMessage={(e) => {
+            setEnableLoop(true)
+            setIsStartResub(true)
+            setExecWebView(false)
+          }}
+        />
+      )}
+      {!enableLoop && (
+        <MessageCard
+          iconLeft={AlertTriangle}
+          theme="orange"
+          rightComponent={
+            <YStack>
+              <VoxButton
+                loading={execWebView || isStartResub}
+                theme="orange"
+                onPress={() => {
+                  handlePress()
+                }}
+              >
+                Me réabonner
+              </VoxButton>
+            </YStack>
+          }
+        >
+          Vous êtes désabonné de toutes nos communications
+        </MessageCard>
+      )}
+
+      {retry.isError && (
+        <MessageCard iconLeft={AlertTriangle} theme="orange">
+          Une erreur est survenue lors de votre réabonnement.
+          {'\n'}
+          Nos équipes sont mobilisées pour résoudre le problème.
+        </MessageCard>
+      )}
+
+      {enableLoop && !retry.isError && (
+        <MessageCard iconLeft={Info} theme="blue">
+          Votre réabonnement est en cours de traitement.
+        </MessageCard>
+      )}
     </YStack>
   )
 }
 
 const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCard>; profile: RestDetailedProfileResponse }) => {
-  const {
-    user: { data: userData },
-  } = useSession()
+  const { data: userData } = useGetProfil({ placeholderData: keepPreviousData })
   const subscription_types = props.profile.subscription_types
   const user_subscription_values = subscription_types.map((st) => st.code)
 
@@ -47,7 +194,10 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
   const emailList = notificationList.filter((n) => n.type === 'email')
   const smsList = notificationList.filter((n) => n.type === 'sms')
   const { control, handleSubmit, formState, reset } = useForm({
-    values: { subscription_email: user_subscription_values, subscription_sms: user_subscription_values },
+    values: {
+      subscription_email: user_subscription_values.filter((x) => emailList.find((y) => y.value === x)),
+      subscription_sms: user_subscription_values.filter((x) => smsList.find((y) => y.value === x)),
+    },
     mode: 'all',
   })
   const { isDirty, isValid } = formState
@@ -88,7 +238,7 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
     <VoxCard {...props.cardProps}>
       <VoxCard.Content>
         <VoxCard.Title>Préférences de communication</VoxCard.Title>
-        {userData && !userData.email_subscribed ? (
+        {!userData?.email_subscribed ? (
           <UnSubscribeCase />
         ) : (
           <>

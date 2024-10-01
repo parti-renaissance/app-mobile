@@ -6,33 +6,40 @@ import Text from '../base/Text'
 
 const ItemFrame = styled(XStack, {
   animation: '100ms',
-  flex: 1,
   width: '100%',
   backgroundColor: '$white1',
-  paddingHorizontal: '$4',
-  borderBottomWidth: 1,
+  paddingHorizontal: 20,
   alignItems: 'center',
-  borderColor: '$color1',
   cursor: 'pointer',
+  height: 56,
   hoverStyle: {
-    backgroundColor: '$gray1',
+    backgroundColor: '$gray2',
   },
   pressStyle: {
-    backgroundColor: '$gray1',
+    backgroundColor: '$gray2',
   },
 
   variants: {
     size: {
       sm: {
-        height: '$4',
+        height: 56,
       },
       lg: {
-        height: '$6',
+        borderBottomWidth: 1,
+        borderBottomColor: '$textOutline',
       },
     },
 
     active: {
-      true: { backgroundColor: '$gray1' },
+      true: {
+        backgroundColor: '$gray1',
+        hoverStyle: {
+          backgroundColor: '$gray1',
+        },
+        pressStyle: {
+          backgroundColor: '$gray1',
+        },
+      },
     },
     last: {
       true: {
@@ -51,16 +58,14 @@ const ItemText = styled(Text, {
   variants: {
     size: {
       sm: {
-        fontSize: '$2',
+        fontSize: 14,
       },
       lg: {
         fontSize: '$4',
       },
     },
     active: {
-      true: {
-        fontWeight: 600,
-      },
+      true: {},
     },
   } as const,
   defaultVariants: {
@@ -75,14 +80,13 @@ const Item = ({
 }: ComponentProps<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps> }) => {
   return (
     <ItemFrame {...props}>
-      <View height="100%" width={8} backgroundColor="$gray2" display={props.active ? 'flex' : 'none'} position="absolute" top={0} left={0} />
-      <Icon size={props.size === 'lg' ? '$2' : '$1'} color="$textPrimary" marginRight="$2" />
-      <ItemText size={props.size ?? 'sm'} active={props.active}>
-        {children}
-      </ItemText>
-      <XStack justifyContent="flex-end" flex={1}>
-        <ChevronRight size="$1" color="$textPrimary" />
+      <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
+      <XStack width="100%" flexShrink={1}>
+        <ItemText size={props.size ?? 'sm'} active={props.active}>
+          {children}
+        </ItemText>
       </XStack>
+      {props.size === 'lg' && <ChevronRight size="$1" color="$textPrimary" />}
     </ItemFrame>
   )
 }

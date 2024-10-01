@@ -1,5 +1,4 @@
 import React from 'react'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import ProfilLayout from '@/components/layouts/ProfilLayout'
 import * as metatags from '@/config/metatags'
 import EluScreen from '@/screens/profil/elu/page'
@@ -13,9 +12,7 @@ function CommunicationScreen() {
       </Head>
 
       <ProfilLayout>
-        <BoundarySuspenseWrapper>
-          <EluScreen />
-        </BoundarySuspenseWrapper>
+        <EluScreen />
       </ProfilLayout>
     </>
   )
