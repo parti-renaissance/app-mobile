@@ -14,7 +14,7 @@ import { validateBirthdateFormSchema } from './schema'
 const ForceBirthdateModal = () => {
   const { data: profile } = useGetDetailProfil()
   return (
-    <ModalOrPageBase open={!Boolean(profile.birthdate)} header={<VoxHeader />}>
+    <ModalOrPageBase open={!Boolean(profile.birthdate)} header={<VoxHeader.ModalFrame />}>
       <AbstractProfilForm
         uuid={profile.uuid}
         defaultValues={

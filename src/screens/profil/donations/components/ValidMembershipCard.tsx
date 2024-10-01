@@ -8,7 +8,7 @@ import type { CommonMembershipCardProps } from './types'
 
 export default function (props: CommonMembershipCardProps) {
   return (
-    <VoxCard bg="$blue1">
+    <VoxCard bg="$blue1" inside={!props.full}>
       <VoxCard.Content>
         <XStack>
           <YStack gap="$5" flex={1}>

@@ -200,11 +200,19 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
   },
 })
 
-const VoxHeaderFrame = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
       <VoxHeaderFrameStyled {...props} />
     </SafeAreaView>
+  )
+}
+
+const VoxHeaderFrameModal = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+  return (
+    <RNSafeAreaView style={{ backgroundColor: 'white' }}>
+      <VoxHeaderFrameStyled {...props} />
+    </RNSafeAreaView>
   )
 }
 
@@ -236,7 +244,8 @@ const VoxHeaderTitle = (props: { children: string; icon: React.NamedExoticCompon
   )
 }
 
-export const VoxHeader = withStaticProperties(VoxHeaderFrame, {
+export const VoxHeader = withStaticProperties(VoxHeaderFrameRouter, {
+  ModalFrame: VoxHeaderFrameModal,
   LeftButtonFrame: VoxHeaderLeftButtonFrame,
   LeftButton: VoxHeaderLeftButton,
   Title: VoxHeaderTitle,
