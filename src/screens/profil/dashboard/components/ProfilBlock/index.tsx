@@ -6,10 +6,12 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetDetailProfil, useGetProfil, useGetTags } from '@/services/profile/hook'
 import { RestProfilRequest, RestProfilResponse } from '@/services/profile/schema'
 import { XStack, YStack } from 'tamagui'
+import ImageCroper from '../CropImg'
 
 const UploadPP = (props: { profil: RestProfilResponse }) => {
   return (
     <YStack justifyContent="center" alignItems="center" gap={16}>
+      <ImageCroper />
       <XStack alignItems="center" justifyContent="center">
         <ProfilePicture
           size="$11"

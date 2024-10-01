@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { AppState, useColorScheme } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
@@ -93,19 +94,21 @@ function Root() {
   }, [])
 
   return (
-    <ToastProvider>
-      <QueryClientProvider client={queryClient}>
-        <TamaguiProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <SessionProvider>
-              <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
-              </WaitingRoomHoc>
-            </SessionProvider>
-          </ThemeProvider>
-        </TamaguiProvider>
-      </QueryClientProvider>
-    </ToastProvider>
+    <GestureHandlerRootView>
+      <ToastProvider>
+        <QueryClientProvider client={queryClient}>
+          <TamaguiProvider>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <SessionProvider>
+                <WaitingRoomHoc isLoading={!isFontsLoaded}>
+                  {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
+                </WaitingRoomHoc>
+              </SessionProvider>
+            </ThemeProvider>
+          </TamaguiProvider>
+        </QueryClientProvider>
+      </ToastProvider>
+    </GestureHandlerRootView>
   )
 }
 
