@@ -1,6 +1,7 @@
-import { Image, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { GetThemeValueForKey } from '@tamagui/web'
-import { Circle, CircleProps, getTokenValue, Square, SquareProps, Token } from 'tamagui'
+import { Image } from 'expo-image'
+import { Circle, CircleProps, getTokenValue, Spinner, Square, SquareProps, Token } from 'tamagui'
 import Text from '../base/Text'
 
 type ProfilePictureProps = {
@@ -11,6 +12,7 @@ type ProfilePictureProps = {
   textColor?: string
   rounded?: boolean
   fontWeight?: 'unset' | GetThemeValueForKey<'fontWeight'>
+  loading?: boolean
 } & (
   | ({
       rounded: true
@@ -32,23 +34,25 @@ const ProfilePicture = (props: ProfilePictureProps) => {
   const Shape = rounded ? Circle : Square
 
   const sizeValue = getTokenValue(size, 'size')
+  const content = src ? (
+    <Image
+      alt={alt}
+      source={{ uri: src }}
+      key={src}
+      style={{
+        width: sizeValue,
+        height: sizeValue,
+      }}
+    />
+  ) : (
+    <Text color={textColor ?? '$blue4'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight={props.fontWeight ?? '$2'}>
+      {initials}
+    </Text>
+  )
 
   return (
     <Shape backgroundColor={backgroundColor || '$blue2'} size={size} {...rest} overflow="hidden">
-      {src ? (
-        <Image
-          alt={alt}
-          source={{ uri: src }}
-          style={{
-            width: sizeValue,
-            height: sizeValue,
-          }}
-        />
-      ) : (
-        <Text color={textColor ?? '$blue4'} fontSize={Platform.OS === 'ios' ? sizeValue / 2 : sizeValue / 2.5} fontWeight={props.fontWeight ?? '$2'}>
-          {initials}
-        </Text>
-      )}
+      {props.loading ? <Spinner color={textColor ?? '$blue4'} /> : content}
     </Shape>
   )
 }

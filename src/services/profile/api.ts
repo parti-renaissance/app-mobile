@@ -89,3 +89,13 @@ export const postElectDeclaration = api({
   errorThrowers: [profileElectDeclarationFormErrorThrower],
   type: 'private',
 })
+
+export const postProfilePicture = (userUuid: string, request: Types.RestPostProfilePictureRequest) => {
+  return api({
+    method: 'POST',
+    path: `/api/v3/profile/${userUuid}/image`,
+    requestSchema: schemas.RestPostProfilePictureRequestSchema,
+    responseSchema: schemas.RestPostProfilePictureResponseSchema,
+    type: 'private',
+  })(request)
+}

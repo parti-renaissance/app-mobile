@@ -2,11 +2,13 @@ import { useCallback } from 'react'
 import ProfileCard from '@/components/ProfileCards/ProfileCard/ProfileCard'
 import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
+import { useGetProfil } from '@/services/profile/hook'
 import { useUserStore } from '@/store/user-store'
 import { openURL } from 'expo-linking'
 
 export default function MyProfileCard() {
-  const { user, session } = useSession()
+  const user = useGetProfil()
+  const { session } = useSession()
   const { user: credentials } = useUserStore()
   const profile = user?.data
 
@@ -24,6 +26,7 @@ export default function MyProfileCard() {
     <ProfileCard
       lastName={profile.last_name}
       firstName={profile.first_name}
+      src={user.data?.image_url ?? undefined}
       tags={profile.tags}
       onButtonPress={profile.cadre_access ? onNavigateToCadre : undefined}
     />

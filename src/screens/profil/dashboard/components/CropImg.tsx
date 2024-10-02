@@ -1,19 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, StyleSheet } from 'react-native'
+import React, { ComponentProps, useEffect, useRef, useState } from 'react'
+import { Dimensions, StyleSheet, View } from 'react-native'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { VoxButton } from '@/components/Button'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
-import { Asset } from 'expo-asset'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { ImageResult, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
-import { Image, styled, Text, ThemeableStack, View, XStack, YStack } from 'tamagui'
+import { isWeb, styled, ThemeableStack, useMedia, XStack, YStack } from 'tamagui'
 
-const ImgCroperFrame = styled(ThemeableStack, {
-  flex: 1,
-  height: '100%',
-  position: 'relative',
-  overflow: 'hidden',
-  backgroundColor: 'black',
+const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    overflow: 'hidden',
+    backgroundColor: 'black',
+  },
+  flex: {
+    flex: 1,
+  },
 })
 
 const ImgCroperOverlayFrame = styled(ThemeableStack, {
@@ -28,16 +31,15 @@ const ImgCroperOverlayFrame = styled(ThemeableStack, {
 const IngCropperDarkFrame = styled(ThemeableStack, {
   backgroundColor: 'rgba(0, 0, 0, 0.3)',
 })
-const { width, height } = Dimensions.get('screen')
 
 function clamp(val: number, min: number, max: number) {
   return Math.min(Math.max(val, min), max)
 }
 const CROP_SIZE = 300
 
-const getMinImgWidthForCrop = (img: Asset) => {
+const getMinImgWidthForCrop = (img: ImageResult) => {
   const imageMetaData = img
-  const sizes = { width: imageMetaData.width!, height: imageMetaData.height! }
+  const sizes = { width: imageMetaData.width, height: imageMetaData.height }
   const smallerSideLabel = sizes.width > sizes.height ? 'height' : 'width'
   const smallerSide = sizes[smallerSideLabel]
   if (smallerSide < CROP_SIZE) {
@@ -53,14 +55,18 @@ type Size = {
   height: number
 }
 
-const getMaxImgWidth = (img: Size) => {
-  if (img.width! > width) {
-    return { width: width, height: (width * img.height!) / img.width! }
+const getMaxImgWidth = (img: Size, { width }: Size) => {
+  let newSize = img
+  if (img.width > width) {
+    newSize = { width: width, height: (width * img.height!) / img.width! }
   }
-  return img
+  if (newSize.height < CROP_SIZE + 10) {
+    newSize = { width: ((CROP_SIZE + 10) * newSize.width) / newSize.height, height: CROP_SIZE + 10 }
+  }
+  return newSize
 }
 
-export default function ImageCroper() {
+function ImageCroper(props: { windowSize: { width: number; height: number }; image: ImageResult; onChange: (image: string) => void }) {
   const scale = useSharedValue(1)
   const startScale = useSharedValue(0)
   const translationX = useSharedValue(0)
@@ -68,18 +74,36 @@ export default function ImageCroper() {
   const prevTranslationX = useSharedValue(0)
   const prevTranslationY = useSharedValue(0)
   const [ready, setReady] = useState(false)
-  const [image, setImage] = useState<ImageResult | null>(null)
   const originalImage = useRef<ImageResult | null>(null)
   const [originalSizes, setOriginalSizes] = useState({ width: 0, height: 0 })
   const defaultImagePosition = {
-    x: (width - originalSizes.width) / 2,
-    y: (height - originalSizes.height) / 2,
+    x: (props.windowSize.width - originalSizes.width) / 2,
+    y: (props.windowSize.height - originalSizes.height) / 2,
   }
+
+  const frameRef = useRef<View>(null)
+  const media = useMedia()
+
+  useEffect(() => {
+    if (frameRef.current && isWeb && ready) {
+      const el = frameRef.current as unknown as HTMLElement
+      el.onwheel = (e) => {
+        e.preventDefault()
+        const w = originalSizes.width
+        const h = originalSizes.height
+        const maxScale = Math.min(w / 100, h / 100)
+        scale.value = clamp(scale.value - e.deltaY / props.windowSize.height, Math.max(CROP_SIZE / w, CROP_SIZE / h), maxScale)
+        const maxTranslateX = (w - CROP_SIZE / scale.value) / 2
+        const maxTranslateY = (h - CROP_SIZE / scale.value) / 2
+        translationX.value = clamp(translationX.value, -maxTranslateX, maxTranslateX)
+        translationY.value = clamp(translationY.value, -maxTranslateY, maxTranslateY)
+      }
+    }
+  }, [ready])
 
   useEffect(() => {
     ;(async () => {
-      const image = Asset.fromModule(require('@/assets/images/portrait-test.jpg'))
-      await image.downloadAsync()
+      const image = props.image
       const maybeNewSize = getMinImgWidthForCrop(image)
       if (maybeNewSize) {
         const newImg = await manipulateAsync(image.uri, [
@@ -94,14 +118,14 @@ export default function ImageCroper() {
       } else {
         originalImage.current = image as ImageResult
       }
-      const orignalSize = { width: originalImage.current.width!, height: originalImage.current.height! }
+      const orignalSize = { width: originalImage.current.width, height: originalImage.current.height }
       setOriginalSizes(orignalSize)
-      const showSize = getMaxImgWidth(orignalSize)
+      const showSize = getMaxImgWidth(orignalSize, props.windowSize)
       const displaySizeRatio = showSize.width / orignalSize.width
       scale.value = displaySizeRatio
       setReady(true)
     })()
-  }, [])
+  }, [props.image])
 
   const pinch = Gesture.Pinch()
     .onStart(() => {
@@ -161,55 +185,75 @@ export default function ImageCroper() {
         { crop },
         {
           resize: {
-            width: CROP_SIZE,
-            height: CROP_SIZE,
+            width: 360,
+            height: 360,
           },
         },
       ],
-      { compress: 1, format: SaveFormat.PNG },
+      { compress: 0.5, format: SaveFormat.JPEG, base64: true },
     ).then((result) => {
-      setImage(result)
+      props.onChange('data:image/jpeg;base64,' + result.base64!)
     })
   }
 
-  return ready ? (
-    <ModalOrPageBase open header={<View />} scrollable={false}>
-      <GestureDetector gesture={composed}>
-        <ImgCroperFrame>
-          <Animated.Image
-            style={[boxAnimatedStyles, { position: 'absolute', top: defaultImagePosition.y, right: defaultImagePosition.x }]}
-            source={require('@/assets/images/portrait-test.jpg')}
-          />
+  const dimentionStyle = media.gtMd ? props.windowSize : {}
 
-          <ImgCroperOverlayFrame>
-            <YStack flex={1}>
+  return ready && originalSizes.width > 0 ? (
+    <GestureDetector gesture={composed}>
+      <View ref={frameRef} style={[dimentionStyle, styles.container, media.gtMd ? {} : styles.flex]}>
+        <Animated.Image
+          style={[
+            boxAnimatedStyles,
+            { position: 'absolute', top: defaultImagePosition.y, right: defaultImagePosition.x, width: originalSizes.width, height: originalSizes.height },
+          ]}
+          source={{ uri: props.image.uri }}
+        />
+
+        <ImgCroperOverlayFrame style={[dimentionStyle]}>
+          <YStack flex={1}>
+            <IngCropperDarkFrame flex={1} />
+            <XStack>
               <IngCropperDarkFrame flex={1} />
-              <XStack>
-                <IngCropperDarkFrame flex={1} />
-                <View width={CROP_SIZE} height={CROP_SIZE} borderWidth={3} borderColor={'black'} />
-                <IngCropperDarkFrame flex={1} />
-              </XStack>
-              <IngCropperDarkFrame flex={1}>
-                <YStack gap={16} p={16} justifyContent="center" alignItems="center">
-                  <VoxButton onPress={cropImg}>Crop</VoxButton>
-                  <View height={50} width={50} bg="red">
-                    {ready && image ? (
-                      <Image
-                        source={{ uri: image.uri }}
-                        style={{
-                          width: 50,
-                          height: 50,
-                        }}
-                      />
-                    ) : null}
-                    <Text>{image?.uri}</Text>
-                  </View>
-                </YStack>
-              </IngCropperDarkFrame>
-            </YStack>
-          </ImgCroperOverlayFrame>
-        </ImgCroperFrame>
-      </GestureDetector>
-    </ModalOrPageBase>
+              <YStack width={CROP_SIZE} height={CROP_SIZE} borderWidth={3} borderColor={'white'} />
+              <IngCropperDarkFrame flex={1} />
+            </XStack>
+            <IngCropperDarkFrame flex={1}>
+              <YStack gap={16} p={16} justifyContent="center" alignItems="center" position="absolute" bottom={0} right={0}>
+                <VoxButton theme="yellow" onPress={cropImg}>
+                  Terminé
+                </VoxButton>
+              </YStack>
+            </IngCropperDarkFrame>
+          </YStack>
+        </ImgCroperOverlayFrame>
+      </View>
+    </GestureDetector>
   ) : null
+}
+const windowSize = Dimensions.get(isWeb ? 'window' : 'screen')
+
+export default function ModalImageCroper(props: { image: ImageResult | null; onClose: (img: string) => void; open: boolean }) {
+  const media = useMedia()
+  return (
+    <>
+      {props.image ? (
+        <ModalOrPageBase header={<View />} scrollable={false} open={props.open}>
+          {media.md ? (
+            <ImageCroper image={props.image} onChange={props.onClose} windowSize={windowSize} />
+          ) : (
+            <VoxCard width={600} height={600} overflow="hidden">
+              <ImageCroper
+                image={props.image}
+                onChange={props.onClose}
+                windowSize={{
+                  width: 600,
+                  height: 600,
+                }}
+              />
+            </VoxCard>
+          )}
+        </ModalOrPageBase>
+      ) : null}
+    </>
+  )
 }
