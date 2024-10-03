@@ -268,3 +268,13 @@ export type RestElectDeclarationResponse = z.infer<typeof RestElectDeclarationRe
 export const RestElectDeclarationResponseSchema = z.any()
 
 export const propertyPathDeclarationPaymentSchema = z.enum(['revenue_amount'])
+
+export const RestPostProfilePictureRequestSchema = z.object({
+  content: z.string(),
+})
+export type RestPostProfilePictureRequest = z.infer<typeof RestPostProfilePictureRequestSchema>
+export const RestPostProfilePictureResponseSchema = z.any()
+
+export type RestDeleteProfilePictureRequest = z.infer<typeof RestDeleteProfilePictureRequestSchema>
+export const RestDeleteProfilePictureRequestSchema = z.void()
+export const RestDeleteProfilePictureResponseSchema = z.any()
