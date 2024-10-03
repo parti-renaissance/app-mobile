@@ -4,6 +4,7 @@ import { AlertCard, FeedCard } from '@/components/Cards'
 import { useSession } from '@/ctx/SessionProvider'
 import { transformFeedItemToProps } from '@/helpers/homeFeed'
 import { useAlerts } from '@/services/alerts/hook'
+import { useGetProfil } from '@/services/profile/hook'
 import { useGetPaginatedFeed } from '@/services/timeline-feed/hook'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { useScrollToTop } from '@react-navigation/native'
@@ -22,7 +23,7 @@ const renderFeedItem = ({ item }: { item: RestTimelineFeedItem }) => {
 
 const HomeFeedList = () => {
   const media = useMedia()
-  const { user } = useSession()
+  const user = useGetProfil()
   const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed(user.data?.postal_code)
   const feedData = paginatedFeed?.pages.map((page) => page?.hits ?? []).flat()
   const loadMore = () => {

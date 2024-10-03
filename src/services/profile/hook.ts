@@ -120,7 +120,7 @@ export const useGetDonations = () => {
 }
 
 export const useGetElectProfil = () => {
-  const { user } = useSession()
+  const user = useGetProfil()
   const userUuid = user?.data?.uuid
   return useSuspenseQuery({
     queryKey: ['electProfile', userUuid],
@@ -136,7 +136,7 @@ export const useGetTags = ({ tags }: { tags: RestProfilResponseTagTypes[] }) => 
 export const usePostElectPayment = () => {
   const toast = useToastController()
   const queryClient = useQueryClient()
-  const { user } = useSession()
+  const user = useGetProfil()
   const userUuid = user?.data?.uuid
   return useMutation({
     mutationFn: api.postElectPayment,
@@ -159,7 +159,7 @@ export const usePostElectPayment = () => {
 export const usePostElectDeclaration = () => {
   const toast = useToastController()
   const queryClient = useQueryClient()
-  const { user } = useSession()
+  const user = useGetProfil()
   const userUuid = user?.data?.uuid
   return useMutation({
     mutationFn: api.postElectDeclaration,

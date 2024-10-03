@@ -114,7 +114,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         user,
         scope,
       }) satisfies AuthContext,
-    [handleSignIn, handleSignOut, session, isLoginInProgress, user],
+    [handleSignIn, handleSignOut, session, isLoginInProgress],
   )
 
   return <AuthContext.Provider value={providerValue}>{props.children}</AuthContext.Provider>

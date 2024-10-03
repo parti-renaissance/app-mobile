@@ -10,6 +10,7 @@ import { useGetProfil, useGetResubscribeLoop, useMutationUpdateProfil } from '@/
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { AlertTriangle, Info } from '@tamagui/lucide-icons'
 import { keepPreviousData } from '@tanstack/react-query'
+import { useLocalSearchParams } from 'expo-router'
 import { Controller, useForm } from 'react-hook-form'
 import { isWeb, Separator, XStack, YStack } from 'tamagui'
 
@@ -17,6 +18,8 @@ const UnSubscribeCase = () => {
   const [execWebView, setExecWebView] = React.useState(false)
   const [enableLoop, setEnableLoop] = React.useState(false)
   const [isStartResub, setIsStartResub] = React.useState(false)
+  const { autorun } = useLocalSearchParams<{ autorun?: '1' | '0' }>()
+  const [hasAutorun, setHasAutoRun] = React.useState(false)
 
   const retry = useGetResubscribeLoop({
     enabled: enableLoop,
@@ -31,6 +34,7 @@ const UnSubscribeCase = () => {
     url.search = params.toString()
     return url.toString()
   }
+
   const handlePress = () => {
     if (isWeb) {
       interface JsonpOptions {
@@ -89,6 +93,14 @@ const UnSubscribeCase = () => {
       setExecWebView(true)
     }
   }
+
+  useEffect(() => {
+    if (autorun === '1' && !hasAutorun) {
+      handlePress()
+      setHasAutoRun(true)
+    }
+  }, [autorun, hasAutorun])
+
   return (
     <YStack gap={16}>
       {execWebView && (

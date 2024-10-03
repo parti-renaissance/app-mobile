@@ -82,7 +82,7 @@ const Item = ({
     <ItemFrame {...props}>
       <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
       <XStack width="100%" flexShrink={1}>
-        <ItemText size={props.size ?? 'sm'} active={props.active}>
+        <ItemText size={'sm'} active={props.active}>
           {children}
         </ItemText>
       </XStack>

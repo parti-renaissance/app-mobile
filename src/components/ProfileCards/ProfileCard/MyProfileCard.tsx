@@ -11,6 +11,7 @@ export default function MyProfileCard() {
   const { session } = useSession()
   const { user: credentials } = useUserStore()
   const profile = user?.data
+  const onNavigateToCadre = useCallback(() => openURL(`${credentials?.isAdmin ? clientEnv.ADMIN_URL : clientEnv.OAUTH_BASE_URL}${profile.cadre_auth_path}`), [])
 
   if (!profile) {
     return null
@@ -19,8 +20,6 @@ export default function MyProfileCard() {
   if (!session) {
     return null
   }
-
-  const onNavigateToCadre = useCallback(() => openURL(`${credentials?.isAdmin ? clientEnv.ADMIN_URL : clientEnv.OAUTH_BASE_URL}${profile.cadre_auth_path}`), [])
 
   return (
     <ProfileCard
