@@ -60,8 +60,8 @@ const getMaxImgWidth = (img: Size, { width }: Size) => {
   if (img.width > width) {
     newSize = { width: width, height: (width * img.height!) / img.width! }
   }
-  if (newSize.height < CROP_SIZE + 10) {
-    newSize = { width: ((CROP_SIZE + 10) * newSize.width) / newSize.height, height: CROP_SIZE + 10 }
+  if (newSize.height < CROP_SIZE) {
+    newSize = { width: (CROP_SIZE * newSize.width) / newSize.height, height: CROP_SIZE }
   }
   return newSize
 }
@@ -219,7 +219,7 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
             </XStack>
             <IngCropperDarkFrame flex={1}>
               <YStack gap={16} p={16} justifyContent="center" alignItems="center" position="absolute" bottom={0} right={0}>
-                <VoxButton theme="yellow" onPress={cropImg}>
+                <VoxButton theme="yellow" size="lg" onPress={cropImg}>
                   Terminé
                 </VoxButton>
               </YStack>
@@ -235,25 +235,23 @@ const windowSize = Dimensions.get(isWeb ? 'window' : 'screen')
 export default function ModalImageCroper(props: { image: ImageResult | null; onClose: (img: string) => void; open: boolean }) {
   const media = useMedia()
   return (
-    <>
+    <ModalOrPageBase header={<View />} scrollable={false} open={props.open}>
       {props.image ? (
-        <ModalOrPageBase header={<View />} scrollable={false} open={props.open}>
-          {media.md ? (
-            <ImageCroper image={props.image} onChange={props.onClose} windowSize={windowSize} />
-          ) : (
-            <VoxCard width={600} height={600} overflow="hidden">
-              <ImageCroper
-                image={props.image}
-                onChange={props.onClose}
-                windowSize={{
-                  width: 600,
-                  height: 600,
-                }}
-              />
-            </VoxCard>
-          )}
-        </ModalOrPageBase>
+        media.md ? (
+          <ImageCroper image={props.image} onChange={props.onClose} windowSize={windowSize} />
+        ) : (
+          <VoxCard width={600} height={600} overflow="hidden">
+            <ImageCroper
+              image={props.image}
+              onChange={props.onClose}
+              windowSize={{
+                width: 600,
+                height: 600,
+              }}
+            />
+          </VoxCard>
+        )
       ) : null}
-    </>
+    </ModalOrPageBase>
   )
 }

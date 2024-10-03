@@ -99,3 +99,13 @@ export const postProfilePicture = (userUuid: string, request: Types.RestPostProf
     type: 'private',
   })(request)
 }
+
+export const deleteProfilePicture = (userUuid: string) => {
+  return api({
+    method: 'DELETE',
+    path: `/api/v3/profile/${userUuid}/image`,
+    requestSchema: schemas.RestDeleteProfilePictureRequestSchema,
+    responseSchema: schemas.RestDeleteProfilePictureResponseSchema,
+    type: 'private',
+  })()
+}

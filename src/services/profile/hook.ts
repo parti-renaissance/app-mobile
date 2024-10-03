@@ -197,3 +197,22 @@ export const usePostProfilPicture = (props: { uuid: string }) => {
     },
   })
 }
+
+export const useDeleteProfilPicture = (props: { uuid: string }) => {
+  const toast = useToastController()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: () => api.deleteProfilePicture(props.uuid),
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Photo de profil supprimé', type: 'success' })
+      queryClient.invalidateQueries({
+        queryKey: [PROFIL_QUERY_KEY],
+      })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      return e
+    },
+  })
+}

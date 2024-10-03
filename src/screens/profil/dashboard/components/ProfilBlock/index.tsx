@@ -1,20 +1,30 @@
 import { useState } from 'react'
+import { DropdownWrapper } from '@/components/base/Dropdown'
 import Text from '@/components/base/Text'
+import { VoxButton } from '@/components/Button'
 import ProfileTags from '@/components/ProfileCards/ProfileCard/ProfileTags'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { useGetDetailProfil, useGetProfil, useGetTags, usePostProfilPicture } from '@/services/profile/hook'
+import { useDeleteProfilPicture, useGetDetailProfil, useGetProfil, useGetTags, usePostProfilPicture } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
+import { Delete, Plus, Repeat2, Settings } from '@tamagui/lucide-icons'
 import { ImageResult } from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 import { XStack, YStack } from 'tamagui'
 import ImageCroper from '../CropImg'
 
+const dropDownItems = [
+  { title: 'Remplacer ma photo', id: 'change', icon: Repeat2 },
+  { title: 'Supprimer ma photo', id: 'delete', color: '$orange6', icon: Delete },
+]
+
 const UploadPP = (props: { profil: RestProfilResponse }) => {
   const [image, setImage] = useState<ImageResult | null>(null)
   const [openCrop, setOpenCrop] = useState(false)
-  const { mutate, isPending } = usePostProfilPicture({ uuid: props.profil.uuid })
+  const { mutate, isPending: postPending } = usePostProfilPicture({ uuid: props.profil.uuid })
+  const { mutate: del, isPending: deletePending } = useDeleteProfilPicture({ uuid: props.profil.uuid })
+  const isPending = postPending || deletePending
 
   const handleCloseCrop = (img: string) => {
     mutate(img)
@@ -36,19 +46,47 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
       setOpenCrop(true)
     }
   }
+
+  const handleDropSelect = (id: string) => {
+    if (id === 'change') {
+      pickImage()
+    } else {
+      del()
+    }
+  }
+
   return (
     <YStack justifyContent="center" alignItems="center" gap={16}>
       <ImageCroper image={image} open={openCrop} onClose={handleCloseCrop} />
       <XStack alignItems="center" justifyContent="center">
-        <ProfilePicture
-          onPress={pickImage}
-          size="$11"
-          loading={isPending}
-          rounded
-          fullName={props.profil.first_name + ' ' + props.profil.last_name}
-          src={props.profil.image_url ?? undefined}
-          alt="profile"
-        />
+        <DropdownWrapper items={dropDownItems} onSelect={handleDropSelect}>
+          <YStack>
+            <ProfilePicture
+              size="$11"
+              loading={isPending}
+              rounded
+              fullName={props.profil.first_name + ' ' + props.profil.last_name}
+              src={props.profil.image_url ?? undefined}
+              alt="profile"
+            />
+            <YStack
+              position="absolute"
+              justifyContent="center"
+              alignItems="center"
+              borderColor="$textOutline32"
+              borderWidth={2}
+              bottom={0}
+              right={0}
+              borderRadius={999}
+              disabled
+              width={40}
+              height={40}
+              bg="white"
+            >
+              {props.profil.image_url ? <Settings size={20} color="$textPrimary" /> : <Plus size={20} color="$textPrimary" />}
+            </YStack>
+          </YStack>
+        </DropdownWrapper>
       </XStack>
       <Text.LG>
         {props.profil.first_name} {props.profil.last_name}
