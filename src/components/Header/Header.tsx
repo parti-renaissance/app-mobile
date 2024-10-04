@@ -78,7 +78,7 @@ export const NavBar = () => {
   ) : null
 }
 
-const ProfileView = () => {
+export const ProfileView = () => {
   const user = useGetProfil()
   const profile = user?.data
   return (
@@ -200,17 +200,23 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
   alignItems: 'center',
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
+
   $md: {
     height: 56,
     paddingHorizontal: 26,
     paddingVertical: 6,
+  },
+  $gtMd: {
+    height: 82,
   },
 })
 
 const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <VoxHeaderFrameStyled {...props} />
+      <Container $md={{ height: 56 }} $gtMd={{ height: 82, paddingHorizontal: 18 }}>
+        <VoxHeaderFrameStyled {...props} />
+      </Container>
     </SafeAreaView>
   )
 }
@@ -218,7 +224,9 @@ const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameS
 const VoxHeaderFrameModal = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <RNSafeAreaView style={{ backgroundColor: 'white' }}>
-      <VoxHeaderFrameStyled {...props} />
+      <Container>
+        <VoxHeaderFrameStyled {...props} />
+      </Container>
     </RNSafeAreaView>
   )
 }

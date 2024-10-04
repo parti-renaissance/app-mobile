@@ -3,6 +3,7 @@ import { SelectType } from '@/screens/actions'
 import * as api from '@/services/actions/api'
 import { Action, RestActionFull, RestActionRequestParams, RestActions, SelectPeriod } from '@/services/actions/schema'
 import { GenericResponseError } from '@/services/common/errors/generic-errors'
+import { useGetProfil } from '@/services/profile/hook'
 import { useToastController } from '@tamagui/toast'
 import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { optimisticToggleSubscribe } from './helpers'
@@ -69,7 +70,7 @@ export const useAction = (id?: string, paginatedParams?: Params) => {
 export const useSubscribeAction = (id?: string) => {
   const queryClient = useQueryClient()
   const toast = useToastController()
-  const { user } = useSession()
+  const user = useGetProfil()
   if (!user.data) {
     throw new Error("L'utilisateur est introuvable")
   }
@@ -94,7 +95,7 @@ export const useSubscribeAction = (id?: string) => {
 export const useUnsubscribeAction = (id?: string) => {
   const queryClient = useQueryClient()
   const toast = useToastController()
-  const { user } = useSession()
+  const user = useGetProfil()
   if (!user.data) {
     throw new Error("L'utilisateur est introuvable")
   }

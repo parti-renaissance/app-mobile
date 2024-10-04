@@ -13,6 +13,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
 import { useSuspensePaginatedEvents } from '@/services/events/hook'
 import { isFullEvent, isPartialEvent, RestItemEvent, RestPublicItemEvent } from '@/services/events/schema'
+import { useGetProfil } from '@/services/profile/hook'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown, Filter } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
@@ -120,7 +121,7 @@ const EventListCard = memo((args: { item: RestItemEvent; cb: Parameters<typeof m
 
 const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
   const media = useMedia()
-  const { user } = useSession()
+  const user = useGetProfil()
   const listRef = useRef<SectionList>(null)
   useScrollToTop(listRef)
 

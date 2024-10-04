@@ -5,6 +5,7 @@ import EmptyState from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { useSession } from '@/ctx/SessionProvider'
 import { RestAction } from '@/services/actions/schema'
+import { useGetProfil } from '@/services/profile/hook'
 import { ScrollView, Sheet, XStack, YStack } from 'tamagui'
 import { mapPayload } from './utils'
 import type { useSheetPosition } from './utils'
@@ -16,7 +17,7 @@ type ActionListProps = {
 }
 
 export const ActionList = (props: ActionListProps) => {
-  const { user } = useSession()
+  const user = useGetProfil()
   const isMyAction = (action: RestAction) => action?.author?.uuid === user?.data?.uuid
   if (props.loading) {
     return [1, 2, 3, 4, 5].map((i) => (
