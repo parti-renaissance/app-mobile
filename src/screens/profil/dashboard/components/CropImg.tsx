@@ -1,6 +1,6 @@
-import React, { ComponentProps, useEffect, useRef, useState } from 'react'
-import { Dimensions, SafeAreaView, StyleSheet, View } from 'react-native'
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
+import React, { useEffect, useRef, useState } from 'react'
+import { Dimensions, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { VoxButton } from '@/components/Button'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
@@ -217,7 +217,7 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
     </GestureDetector>
   ) : null
 }
-const windowSize = Dimensions.get(isWeb ? 'window' : 'screen')
+const windowSize = Dimensions.get(isWeb || Platform.OS === 'android' ? 'window' : 'screen')
 
 export default function ModalImageCroper(props: { image: ImageResult | null; onClose: (img?: string) => void; open: boolean }) {
   const media = useMedia()
