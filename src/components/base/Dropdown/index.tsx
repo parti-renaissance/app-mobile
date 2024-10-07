@@ -1,4 +1,4 @@
-import React, { NamedExoticComponent, useCallback } from 'react'
+import React, { NamedExoticComponent, useCallback, useEffect } from 'react'
 import { FlatList, Modal, TouchableOpacity } from 'react-native'
 import Text from '@/components/base/Text'
 import { useLazyRef } from '@/hooks/useLazyRef'
@@ -76,8 +76,8 @@ const DropdownFrame = styled(ThemeableStack, {
   backgroundColor: 'white',
   borderRadius: 16,
   overflow: 'hidden',
-  elevation: 2,
-  shadowColor: '$gray6',
+  elevation: 1,
+  shadowColor: '$gray1',
   borderWidth: 1,
   borderColor: '$textOutline',
   variants: {
@@ -119,17 +119,21 @@ function Dropdown({ items, onSelect, value, ...props }: DropdownProps) {
   )
 }
 
-export function DropdownWrapper({ children, onSelect, ...props }: DropdownProps & { children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false)
+export function DropdownWrapper({
+  children,
+  onSelect,
+  ...props
+}: DropdownProps & { children: React.ReactNode; open?: boolean; onOpenChange?: (x: boolean) => void }) {
+  const open = props.open ?? false
+  const setOpen = props.onOpenChange ?? (() => {})
   const container = React.useRef<TouchableOpacity | null>(null)
   const [dropdownTop, setDropdownTop] = React.useState(0)
-  const handleOpen = useCallback(() => {
-    if (!container.current) return
+  useEffect(() => {
+    if (!container.current || !props.open) return
     container.current.measure((_fx, _fy, _w, h, _px, py) => {
       setDropdownTop(py + h)
     })
-    setOpen(true)
-  }, [])
+  }, [props.open])
 
   const handleClose = useCallback(() => {
     setOpen(false)
@@ -141,7 +145,7 @@ export function DropdownWrapper({ children, onSelect, ...props }: DropdownProps 
   }, [])
 
   return (
-    <TouchableOpacity ref={container} onPress={handleOpen}>
+    <TouchableOpacity ref={container}>
       <Modal visible={open} transparent animationType="fade" onRequestClose={handleClose}>
         <TouchableOpacity style={{ flex: 1 }} onPress={handleClose}>
           <Dropdown {...props} onSelect={handleSelect} position="absolute" top={dropdownTop} alignSelf="center" minWidth={230} />

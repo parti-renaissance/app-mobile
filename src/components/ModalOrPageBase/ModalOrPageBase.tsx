@@ -98,10 +98,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 32,
     margin: Spacing.largeMargin,
     alignItems: 'center',
     cursor: 'auto',
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

@@ -8,7 +8,7 @@ import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useDeleteProfilPicture, useGetDetailProfil, useGetProfil, useGetTags, usePostProfilPicture } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
-import { Delete, Plus, Repeat2, Settings } from '@tamagui/lucide-icons'
+import { Delete, Plus, Repeat2, Settings2 } from '@tamagui/lucide-icons'
 import { ImageResult } from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 import { XStack, YStack } from 'tamagui'
@@ -26,8 +26,8 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
   const { mutate: del, isPending: deletePending } = useDeleteProfilPicture({ uuid: props.profil.uuid })
   const isPending = postPending || deletePending
 
-  const handleCloseCrop = (img: string) => {
-    mutate(img)
+  const handleCloseCrop = (img?: string) => {
+    if (img) mutate(img)
     setOpenCrop(false)
   }
   const pickImage = async () => {
@@ -55,11 +55,17 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
     }
   }
 
+  const [openDropdown, setOpenDropdown] = useState(false)
+
+  const handleOpenDropdown = () => {
+    props.profil.image_url ? setOpenDropdown(!openDropdown) : pickImage()
+  }
+
   return (
     <YStack justifyContent="center" alignItems="center" gap={16}>
       <ImageCroper image={image} open={openCrop} onClose={handleCloseCrop} />
       <XStack alignItems="center" justifyContent="center">
-        <DropdownWrapper items={dropDownItems} onSelect={handleDropSelect}>
+        <DropdownWrapper items={dropDownItems} onSelect={handleDropSelect} onOpenChange={setOpenDropdown} open={openDropdown}>
           <YStack>
             <ProfilePicture
               size="$11"
@@ -68,23 +74,22 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
               fullName={props.profil.first_name + ' ' + props.profil.last_name}
               src={props.profil.image_url ?? undefined}
               alt="profile"
+              onPress={handleOpenDropdown}
             />
-            <YStack
+            <VoxButton
               position="absolute"
-              justifyContent="center"
-              alignItems="center"
               borderColor="$textOutline32"
+              variant="outlined"
               borderWidth={2}
               bottom={0}
               right={0}
               borderRadius={999}
-              disabled
               width={40}
               height={40}
               bg="white"
-            >
-              {props.profil.image_url ? <Settings size={20} color="$textPrimary" /> : <Plus size={20} color="$textPrimary" />}
-            </YStack>
+              onPress={handleOpenDropdown}
+              iconLeft={props.profil.image_url ? Settings2 : Plus}
+            />
           </YStack>
         </DropdownWrapper>
       </XStack>
