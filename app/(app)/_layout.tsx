@@ -16,7 +16,7 @@ export default function AppLayout() {
 
   useInit()
 
-  if (!isAuth && !isLoading && (code || url)) {
+  if (!isLoading && (code || url)) {
     if (isWeb && code) {
       signIn({ code, isAdmin: _switch_user === 'true' })
       return <WaitingScreen />
