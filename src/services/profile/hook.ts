@@ -1,9 +1,14 @@
+import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import Constants from 'expo-constants'
+import * as FileSystem from 'expo-file-system'
+import { isWeb } from 'tamagui'
 
 export const PROFIL_QUERY_KEY = 'profil'
 
@@ -214,5 +219,32 @@ export const useDeleteProfilPicture = (props: { uuid: string }) => {
       toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
       return e
     },
+  })
+}
+
+export const useGetTaxReceipts = () => {
+  return useQuery({
+    queryKey: ['taxReceipts'],
+    queryFn: () => api.getTaxReceipts(),
+  })
+}
+
+export const useGetTaxReceiptFile = () => {
+  const { user } = useUserStore()
+  return useMutation({
+    mutationFn: isWeb
+      ? ({ uuid }: { uuid: string; label: string }) => api.getTaxReceiptFile(uuid)
+      : ({ uuid, label }: { uuid: string; label: string }) => {
+          return FileSystem.downloadAsync(
+            `${clientEnv.API_BASE_URL}/api/v3/profile/me/tax_receipts/${uuid}/file`,
+            FileSystem.documentDirectory + `reçu-fiscal-${label}.pdf`,
+            {
+              headers: {
+                Authorization: `Bearer ${user?.accessToken}`,
+                ['X-App-version']: Constants.expoConfig?.version ?? '0.0.0',
+              },
+            },
+          )
+        },
   })
 }

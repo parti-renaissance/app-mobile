@@ -8,6 +8,7 @@ import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import ForceBirthdateModal from '../account/form/ForceBirthdateModal'
 import DonationCard from './components/DonationCard'
 import DonationHistoryCard from './components/DonationHistoryCard'
+import DonationTaxReceiptCard from './components/DonationTaxReceiptsCard'
 import MembershipCard from './components/MembershipCard'
 
 const EditInformations = () => {
@@ -32,6 +33,7 @@ const EditInformations = () => {
           <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
             <MembershipCard full other_party_membership={profile.other_party_membership} last_membership_donation={profile.last_membership_donation} />
             <DonationCard />
+            <DonationTaxReceiptCard />
             <DonationHistoryCard />
           </YStack>
         </ScrollView>

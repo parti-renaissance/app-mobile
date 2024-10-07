@@ -109,3 +109,24 @@ export const deleteProfilePicture = (userUuid: string) => {
     type: 'private',
   })()
 }
+
+export const getTaxReceipts = api({
+  method: 'GET',
+  path: `api/v3/profile/me/tax_receipts`,
+  requestSchema: schemas.RestTaxReceiptsRequestSchema,
+  responseSchema: schemas.RestTaxReceiptsResponseSchema,
+  type: 'private',
+})
+
+export const getTaxReceiptFile = (taxReceiptUuid: string) => {
+  return api({
+    method: 'GET',
+    path: `api/v3/profile/me/tax_receipts/${taxReceiptUuid}/file`,
+    requestSchema: schemas.RestTaxReceiptFileRequestSchema,
+    responseSchema: schemas.RestTaxReceiptFileResponseSchema,
+    type: 'private',
+    axiosConfig: {
+      responseType: 'blob',
+    },
+  })()
+}

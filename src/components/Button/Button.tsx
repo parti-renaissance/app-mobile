@@ -118,15 +118,14 @@ const getFrame = (variant?: 'outlined' | 'text' | 'soft' | 'contained', inverse?
   }
 }
 
-const ButtonFrame = ({
-  variant,
-  inverse,
-  ...props
-}: React.ComponentProps<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained'; inverse?: boolean }) => {
+const ButtonFrame = forwardRef<
+  TamaguiElement,
+  React.ComponentPropsWithoutRef<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained'; inverse?: boolean }
+>(({ variant, inverse, ...props }, ref) => {
   const Frame = getFrame(variant, inverse)
 
-  return <Frame {...props} />
-}
+  return <Frame ref={ref} {...props} />
+})
 
 const ButtonSpinner = styled(Spinner, {
   color: '$color',

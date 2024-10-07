@@ -11,6 +11,7 @@ interface APICallPayload<Request, Response> {
   requestSchema: z.ZodType<Request>
   responseSchema: z.ZodType<Response>
   errorThrowers?: ErrorThrower[]
+  axiosConfig?: AxiosRequestConfig
 
   type?: 'private' | 'public'
 }
@@ -22,7 +23,16 @@ export interface Instances {
 
 export const createApi =
   ({ instance, instanceWithoutInterceptors }: Instances) =>
-  <Request, Response>({ type = 'private', method, path, requestSchema, responseSchema, useParams, errorThrowers }: APICallPayload<Request, Response>) => {
+  <Request, Response>({
+    type = 'private',
+    method,
+    path,
+    requestSchema,
+    responseSchema,
+    useParams,
+    errorThrowers,
+    axiosConfig,
+  }: APICallPayload<Request, Response>) => {
     return async (requestData: Request) => {
       try {
         // Validate request data
@@ -45,6 +55,7 @@ export const createApi =
           url: path,
           data,
           params,
+          ...axiosConfig,
         }
 
         // Make API call base on the type of request

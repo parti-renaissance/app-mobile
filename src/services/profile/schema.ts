@@ -269,6 +269,8 @@ export const RestElectDeclarationResponseSchema = z.any()
 
 export const propertyPathDeclarationPaymentSchema = z.enum(['revenue_amount'])
 
+// -----------------  RestProfilPicture  -----------------
+
 export const RestPostProfilePictureRequestSchema = z.object({
   content: z.string(),
 })
@@ -278,3 +280,20 @@ export const RestPostProfilePictureResponseSchema = z.any()
 export type RestDeleteProfilePictureRequest = z.infer<typeof RestDeleteProfilePictureRequestSchema>
 export const RestDeleteProfilePictureRequestSchema = z.void()
 export const RestDeleteProfilePictureResponseSchema = z.any()
+
+// -----------------  RestTaxReceipts  -----------------
+
+export type RestTaxReceiptsRequest = z.infer<typeof RestTaxReceiptsRequestSchema>
+export const RestTaxReceiptsRequestSchema = z.void()
+
+export type RestTaxReceiptsResponse = z.infer<typeof RestTaxReceiptsResponseSchema>
+export const RestTaxReceiptsResponseSchema = z.array(
+  z.object({
+    uuid: z.string().uuid(),
+    created_at: z.coerce.date(),
+    label: z.string(),
+  }),
+)
+
+export const RestTaxReceiptFileRequestSchema = z.void()
+export const RestTaxReceiptFileResponseSchema = z.any()
