@@ -160,11 +160,11 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
             },
           },
         ],
-        { compress: 0.5, format: SaveFormat.JPEG, base64: true },
+        { compress: 0.75, format: SaveFormat.WEBP, base64: true },
       )
     },
     onSuccess: (result) => {
-      props.onChange('data:image/jpeg;base64,' + result.base64!)
+      props.onChange('data:image/webp;base64,' + result.base64!)
     },
   })
 

@@ -1,7 +1,7 @@
-import { ComponentProps } from 'react'
+import { ComponentPropsWithoutRef, forwardRef } from 'react'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { ChevronRight } from '@tamagui/lucide-icons'
-import { styled, View, XStack, YStack } from 'tamagui'
+import { styled, TamaguiElement, View, XStack, YStack } from 'tamagui'
 import Text from '../base/Text'
 
 const ItemFrame = styled(XStack, {
@@ -73,22 +73,20 @@ const ItemText = styled(Text, {
   },
 })
 
-const Item = ({
-  children,
-  icon: Icon,
-  ...props
-}: ComponentProps<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps> }) => {
-  return (
-    <ItemFrame {...props}>
-      <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
-      <XStack width="100%" flexShrink={1}>
-        <ItemText size={'sm'} active={props.active}>
-          {children}
-        </ItemText>
-      </XStack>
-      {props.size === 'lg' && <ChevronRight size="$1" color="$textPrimary" />}
-    </ItemFrame>
-  )
-}
+const Item = forwardRef<TamaguiElement, ComponentPropsWithoutRef<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps> }>(
+  ({ children, icon: Icon, ...props }) => {
+    return (
+      <ItemFrame {...props}>
+        <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
+        <XStack width="100%" flexShrink={1}>
+          <ItemText size={'sm'} active={props.active}>
+            {children}
+          </ItemText>
+        </XStack>
+        {props.size === 'lg' && <ChevronRight size="$1" color="$textPrimary" />}
+      </ItemFrame>
+    )
+  },
+)
 
 export default Item
