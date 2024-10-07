@@ -1,10 +1,11 @@
 import React, { ComponentProps, useEffect, useRef, useState } from 'react'
-import { Dimensions, StyleSheet, View } from 'react-native'
+import { Dimensions, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { VoxButton } from '@/components/Button'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import { useMutation } from '@tanstack/react-query'
 import { ImageResult, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import { isWeb, styled, ThemeableStack, useMedia, XStack, YStack } from 'tamagui'
 
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     overflow: 'hidden',
-    backgroundColor: 'black',
+    backgroundColor: '$gray5',
   },
   flex: {
     flex: 1,
@@ -37,36 +38,19 @@ function clamp(val: number, min: number, max: number) {
 }
 const CROP_SIZE = 300
 
-const getMinImgWidthForCrop = (img: ImageResult) => {
-  const imageMetaData = img
-  const sizes = { width: imageMetaData.width, height: imageMetaData.height }
-  const smallerSideLabel = sizes.width > sizes.height ? 'height' : 'width'
-  const smallerSide = sizes[smallerSideLabel]
-  if (smallerSide < CROP_SIZE) {
-    const calcNewWidth = smallerSideLabel === 'width' ? CROP_SIZE : (CROP_SIZE * sizes.width) / sizes.height
-    const calcNewHeight = smallerSideLabel === 'height' ? CROP_SIZE : (CROP_SIZE * sizes.height) / sizes.width
-    return { width: calcNewWidth, height: calcNewHeight }
-  }
-  return false
-}
-
 type Size = {
   width: number
   height: number
 }
 
-const getMaxImgWidth = (img: Size, { width }: Size) => {
-  let newSize = img
-  if (img.width > width) {
-    newSize = { width: width, height: (width * img.height!) / img.width! }
-  }
-  if (newSize.height < CROP_SIZE) {
-    newSize = { width: (CROP_SIZE * newSize.width) / newSize.height, height: CROP_SIZE }
-  }
-  return newSize
+const getMaxImgWidth = (img: Size) => {
+  const smallerSideLabel = img.width > img.height ? 'height' : 'width'
+  const smallerSide = img[smallerSideLabel]
+  const result = CROP_SIZE / smallerSide
+  return result
 }
 
-function ImageCroper(props: { windowSize: { width: number; height: number }; image: ImageResult; onChange: (image: string) => void }) {
+function ImageCroper(props: { windowSize: { width: number; height: number }; image: ImageResult; onChange: (image?: string) => void }) {
   const scale = useSharedValue(1)
   const startScale = useSharedValue(0)
   const translationX = useSharedValue(0)
@@ -104,24 +88,10 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
   useEffect(() => {
     ;(async () => {
       const image = props.image
-      const maybeNewSize = getMinImgWidthForCrop(image)
-      if (maybeNewSize) {
-        const newImg = await manipulateAsync(image.uri, [
-          {
-            resize: {
-              width: maybeNewSize.width,
-              height: maybeNewSize.height,
-            },
-          },
-        ])
-        originalImage.current = newImg
-      } else {
-        originalImage.current = image as ImageResult
-      }
+      originalImage.current = image as ImageResult
       const orignalSize = { width: originalImage.current.width, height: originalImage.current.height }
       setOriginalSizes(orignalSize)
-      const showSize = getMaxImgWidth(orignalSize, props.windowSize)
-      const displaySizeRatio = showSize.width / orignalSize.width
+      const displaySizeRatio = getMaxImgWidth(orignalSize)
       scale.value = displaySizeRatio
       setReady(true)
     })()
@@ -171,29 +141,35 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
     return { x: x > 0 ? x : 0, y: y > 0 ? y : 0, width: CROP_SIZE / scale.value, height: CROP_SIZE / scale.value }
   }
 
-  const cropImg = () => {
-    const cropSize = calcCropSize()
-    const crop = {
-      originX: cropSize.x,
-      originY: cropSize.y,
-      width: cropSize.width,
-      height: cropSize.height,
-    }
-    manipulateAsync(
-      originalImage.current?.uri || '',
-      [
-        { crop },
-        {
-          resize: {
-            width: 360,
-            height: 360,
+  const { mutate, isPending } = useMutation({
+    mutationFn: (cropSize: { x: number; y: number; width: number; height: number }) => {
+      const crop = {
+        originX: cropSize.x,
+        originY: cropSize.y,
+        width: cropSize.width,
+        height: cropSize.height,
+      }
+      return manipulateAsync(
+        originalImage.current?.uri || '',
+        [
+          { crop },
+          {
+            resize: {
+              width: 360,
+              height: 360,
+            },
           },
-        },
-      ],
-      { compress: 0.5, format: SaveFormat.JPEG, base64: true },
-    ).then((result) => {
+        ],
+        { compress: 0.5, format: SaveFormat.JPEG, base64: true },
+      )
+    },
+    onSuccess: (result) => {
       props.onChange('data:image/jpeg;base64,' + result.base64!)
-    })
+    },
+  })
+
+  const cropImg = () => {
+    mutate(calcCropSize())
   }
 
   const dimentionStyle = media.gtMd ? props.windowSize : {}
@@ -214,15 +190,26 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
             <IngCropperDarkFrame flex={1} />
             <XStack>
               <IngCropperDarkFrame flex={1} />
-              <YStack width={CROP_SIZE} height={CROP_SIZE} borderWidth={3} borderColor={'white'} />
+              <YStack width={CROP_SIZE + 4} height={CROP_SIZE + 4} borderWidth={2} borderColor={'white'} />
               <IngCropperDarkFrame flex={1} />
             </XStack>
             <IngCropperDarkFrame flex={1}>
-              <YStack gap={16} p={16} justifyContent="center" alignItems="center" position="absolute" bottom={0} right={0}>
-                <VoxButton theme="yellow" size="lg" onPress={cropImg}>
-                  Terminé
-                </VoxButton>
-              </YStack>
+              <SafeAreaView
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  right: 0,
+                }}
+              >
+                <XStack gap={16} p={16} justifyContent="center" alignItems="center">
+                  <VoxButton size="lg" onPress={() => props.onChange()} disabled={isPending}>
+                    Annuler
+                  </VoxButton>
+                  <VoxButton theme="gray" inverse={true} size="lg" onPress={cropImg} loading={isPending}>
+                    Enregistrer
+                  </VoxButton>
+                </XStack>
+              </SafeAreaView>
             </IngCropperDarkFrame>
           </YStack>
         </ImgCroperOverlayFrame>
@@ -232,15 +219,15 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
 }
 const windowSize = Dimensions.get(isWeb ? 'window' : 'screen')
 
-export default function ModalImageCroper(props: { image: ImageResult | null; onClose: (img: string) => void; open: boolean }) {
+export default function ModalImageCroper(props: { image: ImageResult | null; onClose: (img?: string) => void; open: boolean }) {
   const media = useMedia()
   return (
-    <ModalOrPageBase header={<View />} scrollable={false} open={props.open}>
+    <ModalOrPageBase header={<View />} scrollable={false} open={props.open} onClose={props.onClose}>
       {props.image ? (
         media.md ? (
           <ImageCroper image={props.image} onChange={props.onClose} windowSize={windowSize} />
         ) : (
-          <VoxCard width={600} height={600} overflow="hidden">
+          <VoxCard width={600} height={600} overflow="hidden" backgroundColor="$gray6">
             <ImageCroper
               image={props.image}
               onChange={props.onClose}
