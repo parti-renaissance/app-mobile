@@ -7,8 +7,8 @@ import ProfilMenu from '@/screens/profil/menu/Menu'
 import { TabRouter } from '@react-navigation/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { ArrowLeft, CircleUser, HelpingHand, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
-import { Link, Navigator, Redirect, router, Slot, Stack, useNavigation, usePathname } from 'expo-router'
+import { ArrowLeft, CircleUser, HelpingHand, KeyRound, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
+import { Link, Navigator, Redirect, router, Slot, Stack } from 'expo-router'
 import { useMedia, XStack } from 'tamagui'
 
 function CustomRouter() {
@@ -56,6 +56,7 @@ const CotisHeader = createProfilHeader(HelpingHand)
 const InfoHeader = createProfilHeader(Settings2)
 const ComHeader = createProfilHeader(MessageCircle)
 const ElusHeader = createProfilHeader(TreeDeciduous)
+const MDPHeader = createProfilHeader(KeyRound)
 
 export default function AppLayout() {
   const { isAuth } = useSession()
@@ -66,47 +67,55 @@ export default function AppLayout() {
   }
 
   return media.md ? (
-    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: media.gtSm ? 'none' : 'slide_from_right' }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Mon profil',
-          header: (x) => <IndexHeader {...x} />,
-        }}
-      />
 
-      <Stack.Screen
-        name="cotisation-et-dons"
-        options={{
-          title: 'Cotisation et dons',
-          header: (x) => <CotisHeader {...x} />,
-        }}
-      />
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            title: 'Mon profil',
+            header: IndexHeader,
+          }}
+        />
 
-      <Stack.Screen
-        name="informations-personnelles"
-        options={{
-          title: 'Informations personnelles',
-          header: (x) => <InfoHeader {...x} />,
-        }}
-      />
+        <Stack.Screen
+          name="cotisation-et-dons"
+          options={{
+            title: 'Cotisation et dons',
+            header: (x) => <CotisHeader {...x} />,
+          }}
+        />
 
-      <Stack.Screen
-        name="communications"
-        options={{
-          title: 'Communication',
-          header: (x) => <ComHeader {...x} />,
-        }}
-      />
+        <Stack.Screen
+          name="informations-personnelles"
+          options={{
+            title: 'Informations personnelles',
+            header: (x) => <InfoHeader {...x} />,
+          }}
+        />
 
-      <Stack.Screen
-        name="informations-elu"
-        options={{
-          title: "Information d'élu",
-          header: (x) => <ElusHeader {...x} />,
-        }}
-      />
-    </Stack>
+        <Stack.Screen
+          name="communications"
+          options={{
+            title: 'Communication',
+            header: (x) => <ComHeader {...x} />,
+          }}
+        />
+
+        <Stack.Screen
+          name="informations-elu"
+          options={{
+            title: "Information d'élu",
+            header: (x) => <ElusHeader {...x} />,
+          }}
+        />
+        <Stack.Screen
+          name="mot-de-passe"
+          options={{
+            title: 'Mot de passe',
+            header: (x) => <MDPHeader {...x} />,
+          }}
+        />
+      </Stack>
   ) : (
     <CustomRouter />
   )
