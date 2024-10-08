@@ -15,17 +15,17 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
   // },
   {
     icon: HelpingHand,
-    children: 'Cotisation et dons',
+    children: 'Cotisations et dons',
     pathname: '/profil/cotisation-et-dons',
   },
   {
     icon: Settings2,
-    children: 'Information personnelles',
+    children: 'Informations personnelles',
     pathname: '/profil/informations-personnelles',
   },
   {
     icon: TreeDeciduous,
-    children: "Information d'élu",
+    children: "Informations d'élu",
     pathname: '/profil/informations-elu',
   },
   // {

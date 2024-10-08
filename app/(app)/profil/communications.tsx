@@ -9,7 +9,7 @@ function CommunicationScreen() {
   return (
     <>
       <Head>
-        <title>{metatags.createTitle('Cotisation et dons')}</title>
+        <title>{metatags.createTitle('Cotisations et dons')}</title>
       </Head>
 
       <ProfilLayout>

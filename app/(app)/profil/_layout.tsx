@@ -67,55 +67,54 @@ export default function AppLayout() {
   }
 
   return media.md ? (
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: 'Mon profil',
+          header: IndexHeader,
+        }}
+      />
 
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: 'Mon profil',
-            header: IndexHeader,
-          }}
-        />
+      <Stack.Screen
+        name="cotisation-et-dons"
+        options={{
+          title: 'Cotisations et dons',
+          header: (x) => <CotisHeader {...x} />,
+        }}
+      />
 
-        <Stack.Screen
-          name="cotisation-et-dons"
-          options={{
-            title: 'Cotisation et dons',
-            header: (x) => <CotisHeader {...x} />,
-          }}
-        />
+      <Stack.Screen
+        name="informations-personnelles"
+        options={{
+          title: 'Informations personnelles',
+          header: (x) => <InfoHeader {...x} />,
+        }}
+      />
 
-        <Stack.Screen
-          name="informations-personnelles"
-          options={{
-            title: 'Informations personnelles',
-            header: (x) => <InfoHeader {...x} />,
-          }}
-        />
+      <Stack.Screen
+        name="communications"
+        options={{
+          title: 'Communication',
+          header: (x) => <ComHeader {...x} />,
+        }}
+      />
 
-        <Stack.Screen
-          name="communications"
-          options={{
-            title: 'Communication',
-            header: (x) => <ComHeader {...x} />,
-          }}
-        />
-
-        <Stack.Screen
-          name="informations-elu"
-          options={{
-            title: "Information d'élu",
-            header: (x) => <ElusHeader {...x} />,
-          }}
-        />
-        <Stack.Screen
-          name="mot-de-passe"
-          options={{
-            title: 'Mot de passe',
-            header: (x) => <MDPHeader {...x} />,
-          }}
-        />
-      </Stack>
+      <Stack.Screen
+        name="informations-elu"
+        options={{
+          title: "Informations d'élu",
+          header: (x) => <ElusHeader {...x} />,
+        }}
+      />
+      <Stack.Screen
+        name="mot-de-passe"
+        options={{
+          title: 'Mot de passe',
+          header: (x) => <MDPHeader {...x} />,
+        }}
+      />
+    </Stack>
   ) : (
     <CustomRouter />
   )
