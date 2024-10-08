@@ -248,3 +248,17 @@ export const useGetTaxReceiptFile = () => {
         },
   })
 }
+
+export const usetPostChangePassword = () => {
+  const toast = useToastController()
+  return useMutation({
+    mutationFn: api.postChangePassword,
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Mot de passe modifié', type: 'success' })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de modifier le mot de passe', type: 'error' })
+      return e
+    },
+  })
+}

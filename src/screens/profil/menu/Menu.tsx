@@ -37,10 +37,11 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
     children: 'Communications',
     pathname: '/profil/communications',
   },
-  // {
-  //   icon: KeyRound,
-  //   children: 'Mot de passe',
-  // },
+  {
+    icon: KeyRound,
+    children: 'Mot de passe',
+    pathname: '/profil/mot-de-passe',
+  },
   // {
   //   icon: BadgeCheck,
   //   children: 'Certification du profil',

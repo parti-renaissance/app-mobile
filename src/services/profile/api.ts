@@ -1,4 +1,9 @@
-import { profileElectDeclarationFormErrorThrower, profileElectPaymentFormErrorThrower, profileFormErrorThrower } from '@/services/profile/error'
+import {
+  profilChangePasswordFormErrorThrower,
+  profileElectDeclarationFormErrorThrower,
+  profileElectPaymentFormErrorThrower,
+  profileFormErrorThrower,
+} from '@/services/profile/error'
 import * as schemas from '@/services/profile/schema'
 import type * as Types from '@/services/profile/schema'
 import { api } from '@/utils/api'
@@ -130,3 +135,11 @@ export const getTaxReceiptFile = (taxReceiptUuid: string) => {
     },
   })()
 }
+export const postChangePassword = api({
+  method: 'POST',
+  path: '/api/v3/profile/me/password-change',
+  requestSchema: schemas.RestChangePasswordRequestSchema,
+  responseSchema: schemas.RestChangePasswordResponseSchema,
+  errorThrowers: [profilChangePasswordFormErrorThrower],
+  type: 'private',
+})

@@ -50,6 +50,24 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
       <PageLayout.SideBarRight />
     </PageLayout>
   ) : (
-    children
+    <BoundarySuspenseWrapper
+      fallback={
+        <YStack
+          gap={16}
+          $gtSm={{
+            pt: '$8',
+            pl: '$8',
+            pr: '$8',
+          }}
+          pb={isWeb ? '$10' : '$12'}
+        >
+          {[1, 2, 3].map((x) => (
+            <Skeleton key={x} />
+          ))}
+        </YStack>
+      }
+    >
+      {children}
+    </BoundarySuspenseWrapper>
   )
 }
