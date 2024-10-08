@@ -121,7 +121,8 @@ const EventListCard = memo((args: { item: RestItemEvent; cb: Parameters<typeof m
 
 const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
   const media = useMedia()
-  const user = useGetProfil()
+  const { session } = useSession()
+  const user = useGetProfil({ enabled: Boolean(session) })
   const listRef = useRef<SectionList>(null)
   useScrollToTop(listRef)
 

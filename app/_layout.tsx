@@ -5,6 +5,7 @@ import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
+import useInitPushNotification from '@/hooks/useInit'
 import UpdateScreen from '@/screens/update/updateScreen'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -34,6 +35,7 @@ const useRegisterRoutingInstrumentation = () => {
 }
 
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
+  useInitPushNotification()
   const { isLoading } = useSession()
   if (isLoading) {
     return <WaitingScreen />

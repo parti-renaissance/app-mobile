@@ -1,29 +1,16 @@
 import { NamedExoticComponent } from 'react'
-import { View } from 'react-native'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { NavBar, ProfileView, SmallHeader, VoxHeader } from '@/components/Header/Header'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { useSession } from '@/ctx/SessionProvider'
 import ProfilMenu from '@/screens/profil/menu/Menu'
 import { TabRouter } from '@react-navigation/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { ArrowLeft, CircleUser, HelpingHand, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
-import { Link, Navigator, Redirect, router, Slot, Stack, useNavigation, usePathname } from 'expo-router'
-import { isWeb, useMedia, XStack, YStack } from 'tamagui'
+import { ArrowLeft, CircleUser, HelpingHand, KeyRound, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
+import { Link, Navigator, Redirect, router, Slot, Stack } from 'expo-router'
+import { useMedia, XStack } from 'tamagui'
 
-const Skeleton = () => (
-  <SkeCard>
-    <SkeCard.Content>
-      <SkeCard.Chip />
-      <SkeCard.Title />
-      <SkeCard.Image />
-      <SkeCard.Description />
-    </SkeCard.Content>
-  </SkeCard>
-)
 function CustomRouter() {
   return (
     <Navigator router={TabRouter}>
@@ -69,6 +56,7 @@ const CotisHeader = createProfilHeader(HelpingHand)
 const InfoHeader = createProfilHeader(Settings2)
 const ComHeader = createProfilHeader(MessageCircle)
 const ElusHeader = createProfilHeader(TreeDeciduous)
+const MDPHeader = createProfilHeader(KeyRound)
 
 export default function AppLayout() {
   const { isAuth } = useSession()
@@ -79,19 +67,19 @@ export default function AppLayout() {
   }
 
   return media.md ? (
-    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: media.gtSm ? 'none' : 'slide_from_right' }}>
+    <Stack>
       <Stack.Screen
         name="index"
         options={{
           title: 'Mon profil',
-          header: (x) => <IndexHeader {...x} />,
+          header: IndexHeader,
         }}
       />
 
       <Stack.Screen
         name="cotisation-et-dons"
         options={{
-          title: 'Cotisation et dons',
+          title: 'Cotisations et dons',
           header: (x) => <CotisHeader {...x} />,
         }}
       />
@@ -115,8 +103,15 @@ export default function AppLayout() {
       <Stack.Screen
         name="informations-elu"
         options={{
-          title: "Information d'élu",
+          title: "Informations d'élu",
           header: (x) => <ElusHeader {...x} />,
+        }}
+      />
+      <Stack.Screen
+        name="mot-de-passe"
+        options={{
+          title: 'Mot de passe',
+          header: (x) => <MDPHeader {...x} />,
         }}
       />
     </Stack>

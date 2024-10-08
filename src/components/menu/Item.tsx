@@ -74,9 +74,9 @@ const ItemText = styled(Text, {
 })
 
 const Item = forwardRef<TamaguiElement, ComponentPropsWithoutRef<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps> }>(
-  ({ children, icon: Icon, ...props }) => {
+  ({ children, icon: Icon, ...props }, ref) => {
     return (
-      <ItemFrame {...props}>
+      <ItemFrame {...props} ref={ref}>
         <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
         <XStack width="100%" flexShrink={1}>
           <ItemText size={'sm'} active={props.active}>

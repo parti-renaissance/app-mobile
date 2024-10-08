@@ -7,9 +7,9 @@ import { useUserStore } from '@/store/user-store'
 import { openURL } from 'expo-linking'
 
 export default function MyProfileCard() {
-  const user = useGetProfil()
   const { session } = useSession()
   const { user: credentials } = useUserStore()
+  const user = useGetProfil({ enabled: !!session })
   const profile = user?.data
   const onNavigateToCadre = useCallback(
     () => openURL(`${credentials?.isAdmin ? clientEnv.ADMIN_URL : clientEnv.OAUTH_BASE_URL}${profile?.cadre_auth_path}`),

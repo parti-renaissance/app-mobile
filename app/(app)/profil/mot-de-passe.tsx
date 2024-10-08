@@ -8,7 +8,7 @@ function ChangePasswordScreen() {
   return (
     <>
       <Head>
-        <title>{metatags.createTitle('Cotisation et dons')}</title>
+        <title>{metatags.createTitle('Mot de passe')}</title>
       </Head>
 
       <ProfilLayout>

@@ -5,7 +5,7 @@ import { useSession } from '@/ctx/SessionProvider'
 export const SignInButton = (props: Omit<ComponentProps<typeof VoxButton>, 'children'>) => {
   const { signIn } = useSession()
   return (
-    <VoxButton onPress={signIn} variant="text" size="md" {...props}>
+    <VoxButton onPress={() => signIn()} variant="text" size="md" {...props}>
       Me connecter
     </VoxButton>
   )

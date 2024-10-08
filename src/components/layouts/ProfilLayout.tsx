@@ -21,11 +21,6 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
 
   return media.md ? (
     <PageLayout>
-      <PageLayout.SideBarLeft showOn="gtSm">
-        <XStack justifyContent="flex-end">
-          <ProfilMenu />
-        </XStack>
-      </PageLayout.SideBarLeft>
       <PageLayout.MainSingleColumn>
         <BoundarySuspenseWrapper
           fallback={
