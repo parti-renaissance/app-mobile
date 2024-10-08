@@ -43,25 +43,7 @@ function CustomRouter() {
           </XStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
-          <BoundarySuspenseWrapper
-            fallback={
-              <YStack
-                gap={16}
-                $gtSm={{
-                  pt: '$8',
-                  pl: '$8',
-                  pr: '$8',
-                }}
-                pb={isWeb ? '$10' : '$12'}
-              >
-                {[1, 2, 3].map((x) => (
-                  <Skeleton key={x} />
-                ))}
-              </YStack>
-            }
-          >
-            <Slot />
-          </BoundarySuspenseWrapper>
+          <Slot />
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight />
       </PageLayout>

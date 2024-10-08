@@ -297,3 +297,15 @@ export const RestTaxReceiptsResponseSchema = z.array(
 
 export const RestTaxReceiptFileRequestSchema = z.void()
 export const RestTaxReceiptFileResponseSchema = z.any()
+
+export const RestChangePasswordRequestSchema = z.object({
+  old_password: z.string(),
+  new_password: z.string(),
+  new_password_confirmation: z.string(),
+})
+
+export type RestChangePasswordRequest = z.infer<typeof RestChangePasswordRequestSchema>
+
+export const RestChangePasswordResponseSchema = z.any()
+
+export const propertyPathChangePasswordSchema = z.enum(['old_password', 'new_password', 'new_password_confirmation'])
