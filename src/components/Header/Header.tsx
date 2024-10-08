@@ -79,7 +79,8 @@ export const NavBar = () => {
 }
 
 export const ProfileView = () => {
-  const user = useGetProfil()
+  const { session } = useSession()
+  const user = useGetProfil({ enabled: !!session })
   const profile = user?.data
   return (
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
