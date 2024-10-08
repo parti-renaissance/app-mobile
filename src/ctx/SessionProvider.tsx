@@ -5,7 +5,9 @@ import { useGetProfil, useGetUserScopes } from '@/services/profile/hook'
 import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { router, useLocalSearchParams } from 'expo-router'
+import { parse, useURL } from 'expo-linking'
+import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import { isWeb } from 'tamagui'
 
 type AuthContext = {
   signIn: (props?: { code: string; isAdmin?: boolean }) => Promise<void>
@@ -44,6 +46,10 @@ export function useSession() {
 export function SessionProvider(props: React.PropsWithChildren) {
   const { user: session, setCredentials: setSession, _hasHydrated } = useUserStore()
   const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: string }>()
+  const params = useGlobalSearchParams<{ code?: string; _switch_user?: string }>()
+  const [onShotParams, setOneShotParams] = React.useState(params)
+
+  const url = useURL()
 
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
   const toast = useToastController()
@@ -63,24 +69,47 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const isGlobalLoading = [isLoginInProgress, user.isLoading, scope.isLoading, !_hasHydrated].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
 
-  const handleSignIn: AuthContext['signIn'] = async (props) => {
-    try {
-      setIsLoginInProgress(true)
-      const session = await login(props?.code)
-      if (!session) {
-        return
+  const handleSignIn: AuthContext['signIn'] = React.useCallback(
+    async (props) => {
+      try {
+        if (isLoginInProgress) {
+          return
+        }
+        setIsLoginInProgress(true)
+        const session = await login(props?.code)
+        if (!session) {
+          return
+        }
+        const { accessToken, refreshToken } = session
+        setSession({ accessToken, refreshToken, isAdmin: props?.isAdmin })
+      } catch (e) {
+        ErrorMonitor.log(e.message, { e })
+        toast.show('Erreur lors de la connexion', { type: 'error' })
+      } finally {
+        setIsLoginInProgress(false)
       }
-      const { accessToken, refreshToken } = session
-      setSession({ accessToken, refreshToken, isAdmin: props?.isAdmin })
-    } catch (e) {
-      ErrorMonitor.log(e.message, { e })
-      toast.show('Erreur lors de la connexion', { type: 'error' })
-    } finally {
-      setIsLoginInProgress(false)
-    }
-  }
+    },
+    [isLoginInProgress, login],
+  )
 
-  const handleRegister = async () => {
+  React.useEffect(() => {
+    const { code, _switch_user } = onShotParams
+    if (code || url) {
+      if (isWeb && code) {
+        setOneShotParams({})
+        handleSignIn({ code, isAdmin: _switch_user === 'true' })
+      }
+      if (url && !isWeb) {
+        const { queryParams } = parse(url)
+        const code = queryParams?.code as string | undefined
+        if (code) {
+          handleSignIn({ code })
+        }
+      }
+    }
+  }, [])
+
+  const handleRegister = React.useCallback(async () => {
     try {
       setIsLoginInProgress(true)
       const session = await register()
@@ -96,11 +125,11 @@ export function SessionProvider(props: React.PropsWithChildren) {
     } finally {
       setIsLoginInProgress(false)
     }
-  }
+  }, [isLoginInProgress])
 
-  const handleSignOut = async () => {
+  const handleSignOut = React.useCallback(async () => {
     await logout()
-  }
+  }, [])
 
   const providerValue = useMemo(
     () =>
@@ -114,7 +143,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         user,
         scope,
       }) satisfies AuthContext,
-    [handleSignIn, handleSignOut, session, isLoginInProgress],
+    [handleSignIn, handleSignOut, session, isLoginInProgress, isGlobalLoading],
   )
 
   return <AuthContext.Provider value={providerValue}>{props.children}</AuthContext.Provider>
