@@ -24,7 +24,7 @@ const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
   const isCadre = profil?.cadre_auth_path && scopes?.data && scopes.data.length > 0
   const onNavigateToCadre = useCallback(() => {
     if (isCadre) openURL(`${credentials?.isAdmin ? clientEnv.ADMIN_URL : clientEnv.OAUTH_BASE_URL}${profil?.cadre_auth_path}`)
-  }, [profil])
+  }, [profil, isCadre])
   if (!isCadre) {
     return null
   }
