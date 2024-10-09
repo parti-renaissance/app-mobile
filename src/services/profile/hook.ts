@@ -9,6 +9,8 @@ import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSusp
 import Constants from 'expo-constants'
 import * as FileSystem from 'expo-file-system'
 import { isWeb } from 'tamagui'
+import { GenericResponseError } from '../common/errors/generic-errors'
+import { ProfilChangePasswordFormError } from './error'
 
 export const PROFIL_QUERY_KEY = 'profil'
 
@@ -257,7 +259,13 @@ export const usetPostChangePassword = () => {
       toast.show('Succès', { message: 'Mot de passe modifié', type: 'success' })
     },
     onError: (e) => {
-      toast.show('Erreur', { message: 'Impossible de modifier le mot de passe', type: 'error' })
+      if (e instanceof GenericResponseError) {
+        toast.show('Erreur', { message: e.message, type: 'error' })
+      } else if (e instanceof ProfilChangePasswordFormError) {
+        toast.show('Erreur', { message: 'Le formulaire est invalide', type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de modifier le mot de passe', type: 'error' })
+      }
       return e
     },
   })

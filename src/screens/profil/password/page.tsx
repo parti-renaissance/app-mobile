@@ -87,7 +87,9 @@ export default function ChangePasswordScreen() {
                     onChange={field.onChange}
                     onBlur={field.onBlur}
                     value={field.value}
+                    secureTextEntry
                     placeholder="Mot de passe actuel"
+                    autoComplete="current-password"
                     type="password"
                     error={fieldState.error?.message}
                   />
@@ -104,6 +106,8 @@ export default function ChangePasswordScreen() {
                     onBlur={field.onBlur}
                     value={field.value}
                     type="password"
+                    secureTextEntry
+                    autoComplete="new-password"
                     placeholder="Nouveau mot de passe"
                     error={fieldState.error?.message}
                   />
@@ -120,6 +124,8 @@ export default function ChangePasswordScreen() {
                     onBlur={field.onBlur}
                     value={field.value}
                     placeholder="Confirmer le nouveau mot de passe"
+                    autoComplete="new-password"
+                    secureTextEntry
                     type="password"
                     error={fieldState.error?.message}
                   />
