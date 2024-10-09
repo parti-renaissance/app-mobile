@@ -1,6 +1,5 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import ProfilMenu from '@/screens/profil/menu/Menu'
 import { isWeb, useMedia, XStack, YStack } from 'tamagui'
 import SkeCard from '../Skeleton/CardSkeleton'
 import PageLayout from './PageLayout/PageLayout'
@@ -50,9 +49,9 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
         <YStack
           gap={16}
           $gtSm={{
-            pt: '$8',
-            pl: '$8',
-            pr: '$8',
+            pt: '$5',
+            pl: '$5',
+            pr: '$5',
           }}
           pb={isWeb ? '$10' : '$12'}
         >

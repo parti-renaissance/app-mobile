@@ -1,14 +1,11 @@
-import { Button } from '@/components'
 import { VoxButton } from '@/components/Button'
-import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
 import { ActionStatus } from '@/services/actions/schema'
-import { Eye, PenLine, Zap, ZapOff } from '@tamagui/lucide-icons'
+import { Clock9, Eye, PenLine, XCircle, Zap, ZapOff } from '@tamagui/lucide-icons'
 import { isBefore } from 'date-fns'
-import { Link } from 'expo-router'
 import { capitalize } from 'lodash'
-import { Spinner, XStack } from 'tamagui'
+import { XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 export type ActionVoxCardProps = {
@@ -39,13 +36,17 @@ const ActionCard = ({
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip theme="green">{capitalize(payload.tag)}</VoxCard.Chip>
-        {isCancelled && (
-          <InternAlert borderLess type="danger">
-            Action annulée.
-          </InternAlert>
-        )}
-        {!isCancelled && isPassed && <InternAlert borderLess>Action passée.</InternAlert>}
+        <XStack justifyContent="space-between">
+          <VoxCard.Chip theme="green" icon={Zap}>
+            {capitalize(payload.tag)}
+          </VoxCard.Chip>
+          {isCancelled && (
+            <VoxCard.Chip theme="orange" icon={XCircle}>
+              Annulée.
+            </VoxCard.Chip>
+          )}
+          {!isCancelled && isPassed && <VoxCard.Chip icon={Clock9}>Terminé</VoxCard.Chip>}
+        </XStack>
         <VoxCard.Location asTitle location={payload.location} />
         <VoxCard.Date {...payload.date} />
         {!asFull && payload.attendees && <VoxCard.Attendees attendees={payload.attendees} />}
@@ -95,6 +96,4 @@ export function SubscribeButton({ isRegister, id, large, ...props }: { isRegiste
   )
 }
 
-// <Spinner display={isloaderSub ? 'flex' : 'none'} />
-// {!isRegister ? <Zap size={large ? 24 : 16} /> : <ZapOff size={large ? 24 : 16} />}
 export default ActionCard

@@ -108,7 +108,7 @@ export default function (props: Props) {
       <VoxCard $gtMd={{ maxWidth: 500 }} $md={{ shadowColor: 'transparent' }} height="100%">
         <VoxCard.Content>
           <XStack justifyContent="space-between" alignItems="flex-start">
-            <VoxCard.Title>Renseigner mes informations bancaires</VoxCard.Title>
+            <Text.LG>Renseigner mes informations bancaires</Text.LG>
             <VoxButton $md={{ display: 'none' }} variant="text" theme="gray" iconLeft={X} size="sm" onPress={props.onClose} />
           </XStack>
           <Text.P>

@@ -1,24 +1,28 @@
-import { ComponentProps } from 'react'
-import { styled, View } from 'tamagui'
+import { ComponentProps, ExoticComponent } from 'react'
+import { IconProps } from '@tamagui/helpers-icon'
+import { styled, View, XStack } from 'tamagui'
 import Text from '../base/Text'
 
-const ChipFrame = styled(View, {
+const ChipFrame = styled(XStack, {
   backgroundColor: '$color1',
-  borderRadius: '$12',
-  paddingVertical: '$space.1.5',
-  paddingHorizontal: '$space.2.5',
+  borderRadius: 999,
+  paddingVertical: 4,
+  paddingHorizontal: 8,
+  alignItems: 'center',
+  gap: 4,
 } as const)
 
 export type ChipProps = {
   children: string
 } & ComponentProps<typeof ChipFrame>
 
-const Chip = ({ children, ...props }: ChipProps) => {
+const Chip = ({ children, ...props }: ChipProps & { icon?: ExoticComponent<IconProps> }) => {
   return (
     <ChipFrame {...props} theme={props.theme ?? 'gray'}>
-      <Text fontWeight="$6" fontSize="$1" color="$color5">
+      {props.icon && <props.icon color="$color5" size={12} />}
+      <Text.SM semibold color="$color5">
         {children}
-      </Text>
+      </Text.SM>
     </ChipFrame>
   )
 }

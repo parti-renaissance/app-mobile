@@ -3,15 +3,14 @@ import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
 import { VoxButton } from '@/components/Button'
-import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import { RestEvent } from '@/services/events/schema'
-import { CalendarCheck2, CalendarOff, Eye } from '@tamagui/lucide-icons'
+import { Calendar, CalendarCheck2, CalendarOff, Clock9, Eye, Users, XCircle } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { router } from 'expo-router'
-import { Spinner, XStack } from 'tamagui'
+import { XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 type VoxCardBasePayload = {
@@ -92,18 +91,14 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   const status = useMemo(() => {
     if (isCancelled) {
       return (
-        <InternAlert borderLess type="danger">
-          Événement annulée.
-        </InternAlert>
+        <VoxCard.Chip theme="orange" icon={XCircle}>
+          Annulée.
+        </VoxCard.Chip>
       )
     } else if (isPassed) {
-      return <InternAlert borderLess>Événement passée.</InternAlert>
+      return <VoxCard.Chip icon={Clock9}>Terminé</VoxCard.Chip>
     } else if (payload.isCompleted) {
-      return (
-        <InternAlert borderLess type="info">
-          Événement complet.
-        </InternAlert>
-      )
+      return <VoxCard.Chip icon={Users}>Complet</VoxCard.Chip>
     }
     return null
   }, [isCancelled, isPassed, payload.isCompleted])
@@ -111,8 +106,12 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip theme="blue">{payload.tag}</VoxCard.Chip>
-        {status}
+        <XStack justifyContent={'space-between'}>
+          <VoxCard.Chip icon={Calendar} theme="blue">
+            {payload.tag}
+          </VoxCard.Chip>
+          {status}
+        </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />

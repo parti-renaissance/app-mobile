@@ -1,7 +1,6 @@
 import { memo, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { AlertCard, FeedCard } from '@/components/Cards'
-import { useSession } from '@/ctx/SessionProvider'
 import { transformFeedItemToProps } from '@/helpers/homeFeed'
 import { useAlerts } from '@/services/alerts/hook'
 import { useGetProfil } from '@/services/profile/hook'

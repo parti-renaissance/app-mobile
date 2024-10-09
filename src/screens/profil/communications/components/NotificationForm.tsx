@@ -249,7 +249,7 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
   return (
     <VoxCard {...props.cardProps}>
       <VoxCard.Content>
-        <VoxCard.Title>Préférences de communication</VoxCard.Title>
+        <Text.LG>Préférences de communication</Text.LG>
         {!userData?.email_subscribed ? (
           <UnSubscribeCase />
         ) : (

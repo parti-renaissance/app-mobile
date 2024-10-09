@@ -37,9 +37,9 @@ export default function ChangePasswordScreen() {
   const media = useMedia()
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$8' : undefined,
-      pl: media.gtSm ? '$8' : undefined,
-      pr: media.gtSm ? '$8' : undefined,
+      pt: media.gtSm ? '$5' : undefined,
+      pl: media.gtSm ? '$5' : undefined,
+      pr: media.gtSm ? '$5' : undefined,
       pb: isWeb ? '$10' : '$12',
     }),
     [media],
@@ -76,7 +76,7 @@ export default function ChangePasswordScreen() {
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
           <VoxCard>
             <VoxCard.Content>
-              <VoxCard.Title>Modifier mon mot de passe</VoxCard.Title>
+              <Text.LG>Modifier mon mot de passe</Text.LG>
               <Text.P> Vous devez renseigner votre mot de passe actuel pour changer de mot de passe.</Text.P>
               <Controller
                 control={control}

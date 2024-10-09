@@ -17,9 +17,9 @@ const EditInformations = () => {
 
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$8' : undefined,
-      pl: media.gtSm ? '$8' : undefined,
-      pr: media.gtSm ? '$8' : undefined,
+      pt: media.gtSm ? '$5' : undefined,
+      pl: media.gtSm ? '$5' : undefined,
+      pr: media.gtSm ? '$5' : undefined,
       pb: isWeb ? '$10' : '$12',
     }),
     [media],
