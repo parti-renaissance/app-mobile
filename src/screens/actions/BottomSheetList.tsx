@@ -13,6 +13,7 @@ type ActionListProps = {
   actions: RestAction[]
   loading: boolean
   setActiveAction: (action: RestAction | null) => void
+  onEdit: (action: RestAction) => void
 }
 
 export const ActionList = (props: ActionListProps) => {
@@ -34,7 +35,13 @@ export const ActionList = (props: ActionListProps) => {
     <EmptyState state="actions" />
   ) : (
     props.actions.map((action) => (
-      <ActionCard key={action.uuid} isMyAction={isMyAction(action)} payload={mapPayload(action)} onShow={() => props.setActiveAction(action)} />
+      <ActionCard
+        key={action.uuid}
+        isMyAction={isMyAction(action)}
+        payload={mapPayload(action)}
+        onShow={() => props.setActiveAction(action)}
+        onEdit={() => props?.onEdit(action)}
+      />
     ))
   )
 }

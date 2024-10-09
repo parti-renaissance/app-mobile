@@ -108,17 +108,18 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
       return {
         type,
         onShow: () => {
-          switch (feed.type) {
-            case 'action':
-              router.push({
-                pathname: '/(tabs)/actions',
-                params: { uuid: feed.objectID },
-              })
-              break
-            default:
-              break
-          }
+          router.push({
+            pathname: '/(tabs)/actions',
+            params: { uuid: feed.objectID },
+          })
         },
+        onEdit: () => {
+          router.push({
+            pathname: '/(tabs)/actions',
+            params: { uuid: feed.objectID, action: 'edit' },
+          })
+        },
+        isMyAction: feed.editable ?? undefined,
         payload: {
           tag: ReadableActionType[feed.category?.toLowerCase() as ActionType],
           id: feed.objectID,
