@@ -3,7 +3,7 @@ import { RefreshControl, ScrollView } from 'react-native'
 import { useTools } from '@/hooks/useTools'
 import CardTool from '@/screens/tools/components/CardTool'
 import { useScrollToTop } from '@react-navigation/native'
-import { getToken, useMedia, View } from 'tamagui'
+import { getToken, isWeb, useMedia, View } from 'tamagui'
 
 const ResourcesList = () => {
   const media = useMedia()
@@ -26,15 +26,16 @@ const ResourcesList = () => {
       contentContainerStyle={{
         flexDirection: 'row',
         flexWrap: 'wrap',
+        width: '100%',
         gap: getToken('$4', 'space'),
-        paddingTop: getToken(media.gtSm ? '$7' : '$4', 'space'),
-        paddingHorizontal: getToken(media.gtSm ? '$7' : '$4', 'space'),
+        paddingTop: getToken(media.gtSm ? '$5' : '$4', 'space'),
+        paddingHorizontal: getToken(media.gtSm ? '$5' : '$4', 'space'),
         paddingBottom: getToken('$6', 'space'),
       }}
       refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
     >
       {tools?.map((item) => (
-        <View key={item.url + item.name} width={media.gtSm ? 'calc(50% - 16px)' : '100%'}>
+        <View key={item.url + item.name} width={media.gtSm ? (isWeb ? 'calc(50% - 9px)' : '48.8%') : '100%'}>
           <CardTool {...item} />
         </View>
       ))}

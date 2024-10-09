@@ -13,7 +13,7 @@ const ItemFrame = styled(XStack, {
   cursor: 'pointer',
   height: 56,
   hoverStyle: {
-    backgroundColor: '$gray2',
+    backgroundColor: '$gray1',
   },
   pressStyle: {
     backgroundColor: '$gray2',
@@ -27,6 +27,18 @@ const ItemFrame = styled(XStack, {
       lg: {
         borderBottomWidth: 1,
         borderBottomColor: '$textOutline',
+      },
+    },
+    disabled: {
+      true: {
+        cursor: 'not-allowed',
+        opacity: 0.5,
+        hoverStyle: {
+          backgroundColor: '$white1',
+        },
+        pressStyle: {
+          backgroundColor: '$white1',
+        },
       },
     },
 
@@ -73,20 +85,21 @@ const ItemText = styled(Text, {
   },
 })
 
-const Item = forwardRef<TamaguiElement, ComponentPropsWithoutRef<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps> }>(
-  ({ children, icon: Icon, ...props }, ref) => {
-    return (
-      <ItemFrame {...props} ref={ref}>
-        <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
-        <XStack width="100%" flexShrink={1}>
-          <ItemText size={'sm'} active={props.active}>
-            {children}
-          </ItemText>
-        </XStack>
-        {props.size === 'lg' && <ChevronRight size="$1" color="$textPrimary" />}
-      </ItemFrame>
-    )
-  },
-)
+const Item = forwardRef<
+  TamaguiElement,
+  ComponentPropsWithoutRef<typeof ItemFrame> & { children: string | string[]; icon: React.ExoticComponent<IconProps>; showArrow?: boolean }
+>(({ children, icon: Icon, showArrow, ...props }, ref) => {
+  return (
+    <ItemFrame {...props} ref={ref}>
+      <Icon size={props.size === 'lg' ? 16 : '$1'} color="$textPrimary" marginRight={8} />
+      <XStack width="100%" flexShrink={1}>
+        <ItemText size={'sm'} active={props.active}>
+          {children}
+        </ItemText>
+      </XStack>
+      {showArrow && <ChevronRight size="$1" color="$textPrimary" />}
+    </ItemFrame>
+  )
+})
 
 export default Item
