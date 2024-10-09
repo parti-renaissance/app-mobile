@@ -3,7 +3,7 @@ import { ComponentProps } from 'react'
 import Container from '@/components/layouts/Container'
 import { Media, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 
-export const padding = '$7'
+export const padding = '$5'
 export const columnWidth = 333
 
 const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) => {

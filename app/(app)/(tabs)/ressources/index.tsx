@@ -31,7 +31,7 @@ const DoubleRessourceCardSkeleton = () => {
 
 const ToolsSkeleton = () => {
   return (
-    <YStack gap="$4" padding="$8" $sm={{ paddingTop: '$4' }}>
+    <YStack gap="$4" padding="$5" $sm={{ paddingTop: '$4' }}>
       <DoubleRessourceCardSkeleton />
       <DoubleRessourceCardSkeleton />
       <DoubleRessourceCardSkeleton />
@@ -50,7 +50,6 @@ const ToolsScreen: React.FC = () => {
         <PageLayout.SideBarLeft>
           <View gap={'$2'}>
             <MyProfileCard />
-            <AppDownloadCTA />
           </View>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>

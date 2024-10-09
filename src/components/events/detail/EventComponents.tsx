@@ -18,7 +18,7 @@ import { isPast } from 'date-fns'
 import { ScrollView, ScrollViewProps, Sheet, useMedia, XStack } from 'tamagui'
 import { useHandleCopyUrl } from './utils'
 
-const padding = '$7'
+const padding = '$5'
 
 export function ScrollStack({ children }: ScrollViewProps) {
   const media = useMedia()

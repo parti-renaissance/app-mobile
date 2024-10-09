@@ -24,6 +24,9 @@ const StyledFrame = styled(XStack, {
     grouped: {
       true: {
         bg: '$white1',
+        $gtMd: {
+          bg: '$colorTransparent',
+        },
         gap: 0,
         padding: 0,
       },

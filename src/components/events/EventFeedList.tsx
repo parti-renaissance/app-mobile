@@ -177,8 +177,8 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
         // height: '100%',
         gap: getToken('$4', 'space'),
         paddingTop: 0,
-        paddingLeft: media.gtSm ? getToken('$7', 'space') : undefined,
-        paddingRight: media.gtSm ? getToken('$7', 'space') : undefined,
+        paddingLeft: media.gtSm ? getToken('$5', 'space') : undefined,
+        paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
         paddingBottom: getToken('$10', 'space'),
         // height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
       }}

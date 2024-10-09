@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react'
 import { DropdownWrapper } from '@/components/base/Dropdown'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
@@ -93,21 +93,27 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
           </YStack>
         </DropdownWrapper>
       </XStack>
-      <Text.LG>
-        {props.profil.first_name} {props.profil.last_name}
-      </Text.LG>
     </YStack>
   )
 }
 
-export default function () {
+export default function ({ editablePicture = true, ...props }: ComponentPropsWithoutRef<typeof VoxCard> & { editablePicture?: boolean }) {
   const { data: profil } = useGetProfil()
   const { tags } = useGetTags({ tags: ['elu', 'sympathisant', 'adherent'] })
   const { data: detProfil } = useGetDetailProfil()
   return profil ? (
-    <VoxCard $sm={{ bg: 'transparent' }}>
+    <VoxCard $sm={{ bg: 'transparent' }} {...props}>
       <VoxCard.Content>
-        <UploadPP profil={profil} />
+        <YStack justifyContent="center" alignItems="center" gap={16}>
+          {editablePicture ? (
+            <UploadPP profil={profil} />
+          ) : (
+            <ProfilePicture size="$6" rounded fullName={profil.first_name + ' ' + profil.last_name} src={profil.image_url ?? undefined} alt="profile" />
+          )}
+          <Text.LG>
+            {profil.first_name} {profil.last_name}
+          </Text.LG>
+        </YStack>
         <ProfileTags tags={tags ?? []} justifyContent="center" />
         <Text.MD textAlign="center">
           {detProfil.main_zone?.name}, {detProfil.post_address?.city_name}

@@ -192,9 +192,9 @@ export const templates = (() => {
     background: white.white1,
     backgroundHover: transparencies + 2,
     backgroundPress: transparencies + 3,
-    color: text.light.textPrimary,
-    colorPress: text.light.textPrimary,
-    colorHover: text.light.textPrimary,
+    color: transparencies + 6,
+    colorHover: transparencies + 8,
+    colorPress: transparencies + 8,
   }
 
   const buttonSoftSurface = {

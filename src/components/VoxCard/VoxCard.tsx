@@ -13,14 +13,16 @@ import AutoSizeImage from '../AutoSizeImage'
 
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
-
   $gtSm: {
-    borderRadius: '$8',
+    borderRadius: 16,
   },
   variants: {
     inside: {
       true: {
-        borderRadius: '$6',
+        borderRadius: 8,
+        $gtSm: {
+          borderRadius: 8,
+        },
       },
       false: {
         elevation: 1,
