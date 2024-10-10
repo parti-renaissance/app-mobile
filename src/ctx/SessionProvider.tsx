@@ -6,7 +6,7 @@ import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { parse, useURL } from 'expo-linking'
-import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import { Href, router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
 import { isWeb } from 'tamagui'
 
 type AuthContext = {
@@ -45,20 +45,13 @@ export function useSession() {
 
 export function SessionProvider(props: React.PropsWithChildren) {
   const { user: session, setCredentials: setSession, _hasHydrated } = useUserStore()
-  const { redirect: pRedirect } = useLocalSearchParams<{ redirect?: string }>()
-  const params = useGlobalSearchParams<{ code?: string; _switch_user?: string }>()
+  const params = useGlobalSearchParams<{ code?: string; _switch_user?: string; redirect?: string; state?: string }>()
   const [onShotParams, setOneShotParams] = React.useState(params)
 
   const url = useURL()
 
   const [isLoginInProgress, setIsLoginInProgress] = React.useState(false)
   const toast = useToastController()
-
-  React.useEffect(() => {
-    if (session && pRedirect) {
-      pRedirect && router.replace({ pathname: pRedirect })
-    }
-  }, [session, pRedirect])
 
   const login = useLogin()
   const { mutateAsync: logout } = useLogOut()
@@ -68,6 +61,13 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const isGlobalLoading = [isLoginInProgress, user.isLoading, scope.isLoading, !_hasHydrated].some(Boolean)
   const isAuth = Boolean(session && !isGlobalLoading)
+
+  React.useEffect(() => {
+    const { redirect, state } = params
+    if (session && [redirect, state].some(Boolean) && !isGlobalLoading) {
+      router.replace({ pathname: (redirect ?? state) as any })
+    }
+  }, [session, params, isGlobalLoading])
 
   const handleSignIn: AuthContext['signIn'] = React.useCallback(
     async (props) => {
