@@ -260,9 +260,9 @@ export const usetPostChangePassword = () => {
     },
     onError: (e) => {
       if (e instanceof GenericResponseError) {
-        toast.show('Erreur', { message: e.message, type: 'error' })
+        toast.show('', { message: e.message, type: 'error' })
       } else if (e instanceof ProfilChangePasswordFormError) {
-        toast.show('Erreur', { message: 'Le formulaire est invalide', type: 'error' })
+        toast.show('', { message: 'Le formulaire est invalide', type: 'error' })
       } else {
         toast.show('Erreur', { message: 'Impossible de modifier le mot de passe', type: 'error' })
       }

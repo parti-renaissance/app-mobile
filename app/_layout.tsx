@@ -97,7 +97,7 @@ function Root() {
 
   return (
     <GestureHandlerRootView>
-      <ToastProvider>
+      <ToastProvider swipeDirection="up">
         <QueryClientProvider client={queryClient}>
           <TamaguiProvider>
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

@@ -121,7 +121,7 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
           isSubscribed: !!feed.user_registered_at,
           date: {
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
-            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date!),
+            end: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
           },
           location,
           author,

@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Button } from '@/components'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import { ActionCard, SubscribeButton } from '@/components/Cards'

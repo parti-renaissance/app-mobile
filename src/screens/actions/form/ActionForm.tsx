@@ -71,7 +71,7 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
     resetOptions: {
       keepDirtyValues: true, // keep dirty fields unchanged, but update defaultValues
     },
-    values: {
+    defaultValues: {
       type: data?.type ?? ActionType.PAP,
       date: data?.date ?? addHours(new Date(), 1),
       addressInput: data?.post_address ? `${data.post_address.address}  ${data.post_address.city_name}` : '',
@@ -114,7 +114,7 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
     if (formState.errors.post_address) {
       setManualAddress(true)
     }
-  }, [formState])
+  }, [formState.errors.post_address])
 
   return (
     <Fragment>

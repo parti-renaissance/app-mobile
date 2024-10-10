@@ -195,13 +195,15 @@ export const SmallHeader: typeof Header = (props) => {
 export default Header
 
 const VoxHeaderFrameStyled = styled(ThemeableStack, {
-  backgroundColor: '$white1',
   gap: 4,
   flexDirection: 'row',
   alignItems: 'center',
+  flex: 1,
+})
+
+const VoxHeaderContainerStyled = styled(Container, {
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
-
   $md: {
     height: 56,
     paddingHorizontal: 26,
@@ -209,15 +211,16 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
   },
   $gtMd: {
     height: 82,
+    paddingHorizontal: 18,
   },
 })
 
 const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <Container $md={{ height: 56 }} $gtMd={{ height: 82, paddingHorizontal: 18 }}>
+      <VoxHeaderContainerStyled>
         <VoxHeaderFrameStyled {...props} />
-      </Container>
+      </VoxHeaderContainerStyled>
     </SafeAreaView>
   )
 }
@@ -225,9 +228,9 @@ const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameS
 const VoxHeaderFrameModal = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <RNSafeAreaView style={{ backgroundColor: 'white' }}>
-      <Container>
+      <VoxHeaderContainerStyled>
         <VoxHeaderFrameStyled {...props} />
-      </Container>
+      </VoxHeaderContainerStyled>
     </RNSafeAreaView>
   )
 }
