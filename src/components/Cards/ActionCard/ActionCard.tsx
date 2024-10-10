@@ -2,7 +2,7 @@ import { VoxButton } from '@/components/Button'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
 import { ActionStatus } from '@/services/actions/schema'
-import { Clock9, Eye, PenLine, XCircle, Zap, ZapOff } from '@tamagui/lucide-icons'
+import { Clock9, Eye, PenLine, Sparkle, XCircle, Zap, ZapOff } from '@tamagui/lucide-icons'
 import { isBefore } from 'date-fns'
 import { capitalize } from 'lodash'
 import { XStack } from 'tamagui'
@@ -57,8 +57,8 @@ const ActionCard = ({
               Voir
             </VoxButton>
             {isMyAction ? (
-              <VoxButton disabled={isCancelled || isPassed} variant="outlined" theme="purple" pop iconLeft={PenLine} onPress={onEdit}>
-                Editer
+              <VoxButton disabled={isCancelled || isPassed} variant="outlined" theme="purple" pop iconLeft={Sparkle} onPress={onEdit}>
+                Gérer
               </VoxButton>
             ) : (
               <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />

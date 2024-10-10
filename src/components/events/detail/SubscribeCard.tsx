@@ -7,6 +7,7 @@ import { SubscribeEventButton } from '@/components/Cards/EventCard'
 import { useSession } from '@/ctx/SessionProvider'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import * as eventTypes from '@/services/events/schema'
+import { useGetProfil } from '@/services/profile/hook'
 import { Unlock } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { Spinner, useMedia, YStack } from 'tamagui'
@@ -103,6 +104,7 @@ export function SubscribePublicCard({ data }: Readonly<{ data: eventTypes.RestEv
 
 export function SubscribeCard({ data }: Readonly<{ data: eventTypes.RestEvent }>) {
   const { isAuth } = useSession()
+  const { date: user } = useGetProfil()
   const media = useMedia()
   const isEventActive = !(
     isPast(data.finish_at) ||
@@ -113,7 +115,18 @@ export function SubscribeCard({ data }: Readonly<{ data: eventTypes.RestEvent }>
   if (isAuth) {
     if (eventTypes.isFullEvent(data)) {
       if (!isEventActive) return null
-      return <SubscribeEventButton outside eventId={data.uuid} isSubscribed={!!data.user_registered_at} />
+      return (
+        <SubscribeEventButton
+          outside
+          editData={{
+            editable: data.editable,
+            edit_link: data.edit_link,
+            isAuthor: Boolean(data?.organizer?.uuid === user?.uuid && data?.organizer?.uuid),
+          }}
+          eventId={data.uuid}
+          isSubscribed={!!data.user_registered_at}
+        />
+      )
     }
 
     switch (data.visibility) {
