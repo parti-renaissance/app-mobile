@@ -1,11 +1,13 @@
 import { StackProps, YStack, YStackProps } from 'tamagui'
 
-export default function Container({ children, full, ...props }: YStackProps & { full?: boolean }) {
+export const Container = YStack.styleable(({ children, full, ...props }: YStackProps & { full?: boolean }, ref) => {
   return (
-    <YStack alignItems="center" {...props}>
+    <YStack alignItems="center" {...props} ref={ref}>
       <YStack maxWidth={!full ? 1300 : undefined} width="100%" flex={1}>
         {children}
       </YStack>
     </YStack>
   )
-}
+})
+
+export default Container

@@ -164,7 +164,7 @@ export default function (props: { declaration?: number; cotisation?: number }) {
       {codes.find((x) => x.type === 'elu') ? (
         <VoxCard>
           <VoxCard.Content>
-            <VoxCard.Title>Cotisation élus</VoxCard.Title>
+            <Text.LG>Cotisation élus</Text.LG>
             <EluBlock code={codes.map((x) => x.code)} {...props} onPressIbanForm={handleOpenIban} onPressDeclaForm={handleOpenDecla} />
             <VoxCard inside bg="$textSurface">
               <VoxCard.Content>

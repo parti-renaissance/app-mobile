@@ -188,6 +188,15 @@ export const templates = (() => {
     colorHover: white.white1,
   }
 
+  const inverseButtonContainedSurface = {
+    background: white.white1,
+    backgroundHover: transparencies + 2,
+    backgroundPress: transparencies + 3,
+    color: transparencies + 6,
+    colorHover: transparencies + 8,
+    colorPress: transparencies + 8,
+  }
+
   const buttonSoftSurface = {
     background: transparencies + 1,
     backgroundHover: transparencies + 2,
@@ -353,6 +362,7 @@ export const templates = (() => {
     buttonOutlinedSurface,
     buttonTextSurface,
     buttonContainedSurface,
+    inverseButtonContainedSurface,
     buttonSoftSurface,
   }
 })()
@@ -484,6 +494,13 @@ const buttonContainedSurface = [
   },
 ] as any
 
+const inverseButtonContainedSurface = [
+  {
+    parent: '',
+    template: 'inverseButtonContainedSurface',
+  },
+] as any
+
 const buttonSoftSurface = [
   {
     parent: '',
@@ -601,6 +618,7 @@ const themeBuilder = createThemeBuilder()
       VoxInput: surfaceInput1,
       VoxBadge: badgeSurface,
       VoxButtonContained: buttonContainedSurface,
+      VoxButtonInverseContained: inverseButtonContainedSurface,
       VoxButtonSoft: buttonSoftSurface,
       VoxButtonOutlined: buttonOutlinedSurface,
       VoxButtonText: buttonTextSurface,

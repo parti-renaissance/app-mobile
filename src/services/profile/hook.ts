@@ -1,9 +1,16 @@
+import clientEnv from '@/config/clientEnv'
 import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
+import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import Constants from 'expo-constants'
+import * as FileSystem from 'expo-file-system'
+import { isWeb } from 'tamagui'
+import { GenericResponseError } from '../common/errors/generic-errors'
+import { ProfilChangePasswordFormError } from './error'
 
 export const PROFIL_QUERY_KEY = 'profil'
 
@@ -120,7 +127,7 @@ export const useGetDonations = () => {
 }
 
 export const useGetElectProfil = () => {
-  const { user } = useSession()
+  const user = useGetProfil()
   const userUuid = user?.data?.uuid
   return useSuspenseQuery({
     queryKey: ['electProfile', userUuid],
@@ -136,7 +143,7 @@ export const useGetTags = ({ tags }: { tags: RestProfilResponseTagTypes[] }) => 
 export const usePostElectPayment = () => {
   const toast = useToastController()
   const queryClient = useQueryClient()
-  const { user } = useSession()
+  const user = useGetProfil()
   const userUuid = user?.data?.uuid
   return useMutation({
     mutationFn: api.postElectPayment,
@@ -159,7 +166,7 @@ export const usePostElectPayment = () => {
 export const usePostElectDeclaration = () => {
   const toast = useToastController()
   const queryClient = useQueryClient()
-  const { user } = useSession()
+  const user = useGetProfil()
   const userUuid = user?.data?.uuid
   return useMutation({
     mutationFn: api.postElectDeclaration,
@@ -174,6 +181,91 @@ export const usePostElectDeclaration = () => {
     },
     onError: (e) => {
       toast.show('Erreur', { message: 'Impossible de mettre à jour votre déclaration', type: 'error' })
+      return e
+    },
+  })
+}
+
+export const usePostProfilPicture = (props: { uuid: string }) => {
+  const toast = useToastController()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (x: string) => api.postProfilePicture(props.uuid, { content: x }),
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Photo de profil mise à jour', type: 'success' })
+      queryClient.invalidateQueries({
+        queryKey: [PROFIL_QUERY_KEY],
+      })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      return e
+    },
+  })
+}
+
+export const useDeleteProfilPicture = (props: { uuid: string }) => {
+  const toast = useToastController()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: () => api.deleteProfilePicture(props.uuid),
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Photo de profil supprimé', type: 'success' })
+      queryClient.invalidateQueries({
+        queryKey: [PROFIL_QUERY_KEY],
+      })
+    },
+    onError: (e) => {
+      toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      return e
+    },
+  })
+}
+
+export const useGetTaxReceipts = () => {
+  return useQuery({
+    queryKey: ['taxReceipts'],
+    queryFn: () => api.getTaxReceipts(),
+  })
+}
+
+export const useGetTaxReceiptFile = () => {
+  const { user } = useUserStore()
+  return useMutation({
+    mutationFn: isWeb
+      ? ({ uuid }: { uuid: string; label: string }) => api.getTaxReceiptFile(uuid)
+      : ({ uuid, label }: { uuid: string; label: string }) => {
+          return FileSystem.downloadAsync(
+            `${clientEnv.API_BASE_URL}/api/v3/profile/me/tax_receipts/${uuid}/file`,
+            FileSystem.documentDirectory + `reçu-fiscal-${label}.pdf`,
+            {
+              headers: {
+                Authorization: `Bearer ${user?.accessToken}`,
+                ['X-App-version']: Constants.expoConfig?.version ?? '0.0.0',
+              },
+            },
+          )
+        },
+  })
+}
+
+export const usetPostChangePassword = () => {
+  const toast = useToastController()
+  return useMutation({
+    mutationFn: api.postChangePassword,
+    onSuccess: () => {
+      toast.show('Succès', { message: 'Mot de passe modifié', type: 'success' })
+    },
+    onError: (e) => {
+      if (e instanceof GenericResponseError) {
+        toast.show('', { message: e.message, type: 'error' })
+      } else if (e instanceof ProfilChangePasswordFormError) {
+        toast.show('', { message: 'Le formulaire est invalide', type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de modifier le mot de passe', type: 'error' })
+      }
       return e
     },
   })

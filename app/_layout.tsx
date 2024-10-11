@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import { AppState, useColorScheme } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
+import useInitPushNotification from '@/hooks/useInit'
 import UpdateScreen from '@/screens/update/updateScreen'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -33,6 +35,7 @@ const useRegisterRoutingInstrumentation = () => {
 }
 
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
+  useInitPushNotification()
   const { isLoading } = useSession()
   if (isLoading) {
     return <WaitingScreen />
@@ -93,19 +96,21 @@ function Root() {
   }, [])
 
   return (
-    <ToastProvider>
-      <QueryClientProvider client={queryClient}>
-        <TamaguiProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <SessionProvider>
-              <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
-              </WaitingRoomHoc>
-            </SessionProvider>
-          </ThemeProvider>
-        </TamaguiProvider>
-      </QueryClientProvider>
-    </ToastProvider>
+    <GestureHandlerRootView>
+      <ToastProvider swipeDirection="up">
+        <QueryClientProvider client={queryClient}>
+          <TamaguiProvider>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <SessionProvider>
+                <WaitingRoomHoc isLoading={!isFontsLoaded}>
+                  {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
+                </WaitingRoomHoc>
+              </SessionProvider>
+            </ThemeProvider>
+          </TamaguiProvider>
+        </QueryClientProvider>
+      </ToastProvider>
+    </GestureHandlerRootView>
   )
 }
 

@@ -83,6 +83,10 @@ const ContainedFrame = styled(ButtonFrameStyled, {
   name: 'VoxButtonContained',
 })
 
+const InverseContainedFrame = styled(ButtonFrameStyled, {
+  name: 'VoxButtonInverseContained',
+})
+
 const OutlinedFrame = styled(ButtonFrameStyled, {
   name: 'VoxButtonOutlined',
   borderColor: '$borderColor',
@@ -100,7 +104,7 @@ const SoftFrame = styled(ButtonFrameStyled, {
   name: 'VoxButtonSoft',
 })
 
-const getFrame = (variant?: 'outlined' | 'text' | 'soft' | 'contained') => {
+const getFrame = (variant?: 'outlined' | 'text' | 'soft' | 'contained', inverse?: boolean) => {
   switch (variant) {
     case 'outlined':
       return OutlinedFrame
@@ -110,15 +114,18 @@ const getFrame = (variant?: 'outlined' | 'text' | 'soft' | 'contained') => {
       return SoftFrame
     case 'contained':
     default:
-      return ContainedFrame
+      return inverse ? InverseContainedFrame : ContainedFrame
   }
 }
 
-const ButtonFrame = ({ variant, ...props }: React.ComponentProps<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained' }) => {
-  const Frame = getFrame(variant)
+const ButtonFrame = forwardRef<
+  TamaguiElement,
+  React.ComponentPropsWithoutRef<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained'; inverse?: boolean }
+>(({ variant, inverse, ...props }, ref) => {
+  const Frame = getFrame(variant, inverse)
 
-  return <Frame {...props} />
-}
+  return <Frame ref={ref} {...props} />
+})
 
 const ButtonSpinner = styled(Spinner, {
   color: '$color',

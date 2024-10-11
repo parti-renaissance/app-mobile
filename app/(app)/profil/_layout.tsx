@@ -1,11 +1,42 @@
 import { NamedExoticComponent } from 'react'
-import { SmallHeader, VoxHeader } from '@/components/Header/Header'
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import { NavBar, ProfileView, SmallHeader, VoxHeader } from '@/components/Header/Header'
+import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { useSession } from '@/ctx/SessionProvider'
+import ProfilMenu from '@/screens/profil/menu/Menu'
+import { TabRouter } from '@react-navigation/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { ArrowLeft, CircleUser, HelpingHand, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
-import { Redirect, router, Stack } from 'expo-router'
-import { useMedia } from 'tamagui'
+import { ArrowLeft, CircleUser, HelpingHand, KeyRound, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
+import { Link, Navigator, Redirect, router, Slot, Stack } from 'expo-router'
+import { useMedia, XStack } from 'tamagui'
+
+function CustomRouter() {
+  return (
+    <Navigator router={TabRouter}>
+      <VoxHeader justifyContent="space-between">
+        <Link href="/">
+          <EuCampaignIllustration cursor="pointer" />
+        </Link>
+        <NavBar />
+        <Link href="/profil">
+          <ProfileView />
+        </Link>
+      </VoxHeader>
+      <PageLayout>
+        <PageLayout.SideBarLeft>
+          <XStack justifyContent="flex-end">
+            <ProfilMenu />
+          </XStack>
+        </PageLayout.SideBarLeft>
+        <PageLayout.MainSingleColumn>
+          <Slot />
+        </PageLayout.MainSingleColumn>
+        <PageLayout.SideBarRight />
+      </PageLayout>
+    </Navigator>
+  )
+}
 
 const createProfilHeader = (icon: NamedExoticComponent<IconProps>) => (props: NativeStackHeaderProps) => {
   const media = useMedia()
@@ -25,6 +56,7 @@ const CotisHeader = createProfilHeader(HelpingHand)
 const InfoHeader = createProfilHeader(Settings2)
 const ComHeader = createProfilHeader(MessageCircle)
 const ElusHeader = createProfilHeader(TreeDeciduous)
+const MDPHeader = createProfilHeader(KeyRound)
 
 export default function AppLayout() {
   const { isAuth } = useSession()
@@ -34,20 +66,20 @@ export default function AppLayout() {
     return <Redirect href={'/(app)/(tabs)/evenements/'} />
   }
 
-  return (
-    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: media.gtSm ? 'none' : 'slide_from_right' }}>
+  return media.md ? (
+    <Stack>
       <Stack.Screen
         name="index"
         options={{
           title: 'Mon profil',
-          header: (x) => <IndexHeader {...x} />,
+          header: IndexHeader,
         }}
       />
 
       <Stack.Screen
         name="cotisation-et-dons"
         options={{
-          title: 'Cotisation et dons',
+          title: 'Cotisations et dons',
           header: (x) => <CotisHeader {...x} />,
         }}
       />
@@ -71,10 +103,19 @@ export default function AppLayout() {
       <Stack.Screen
         name="informations-elu"
         options={{
-          title: "Information d'élu",
+          title: "Informations d'élu",
           header: (x) => <ElusHeader {...x} />,
         }}
       />
+      <Stack.Screen
+        name="mot-de-passe"
+        options={{
+          title: 'Mot de passe',
+          header: (x) => <MDPHeader {...x} />,
+        }}
+      />
     </Stack>
+  ) : (
+    <CustomRouter />
   )
 }

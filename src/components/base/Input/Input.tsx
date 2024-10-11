@@ -187,7 +187,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
               <XStack alignSelf="flex-start">
-                <Text.SM color="$textSecondary" flex={1}>
+                <Text.SM flex={1} color={error ? '$orange7' : '$textPrimary'}>
                   {label ?? placeholder}
                 </Text.SM>
               </XStack>
@@ -204,7 +204,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
                 padding: 0,
                 fontSize: 14,
                 width: '100%',
-                fontWeight: Platform.OS !== 'android' ? (inputProps.value ? 500 : 400) : undefined,
+                fontWeight: isWeb ? (inputProps.value ? 500 : 400) : undefined,
               }}
               editable={!disabled}
               ref={inputRef}
@@ -229,11 +229,9 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         {loading && <Spinner color="$blue7" />}
       </InputFrame>
       {error && (
-        <XStack gap="$1" alignItems="center">
-          <AlertCircle color="$orange6" size={10} />
-          <Text color="orange6" fontSize={10}>
-            {error}
-          </Text>
+        <XStack gap="$1.5" alignItems="center" pl={16}>
+          <AlertCircle color="$orange7" size={12} />
+          <Text.SM color="$orange7">{error}</Text.SM>
         </XStack>
       )}
     </YStack>

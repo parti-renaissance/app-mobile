@@ -68,6 +68,8 @@ export const RestFullEventSchema = z
     visio_url: z.string().nullable(),
     user_registered_at: z.string().nullable(),
     post_address: RestEventAddressSchema.nullable(),
+    editable: z.boolean(),
+    edit_link: z.string().optional(),
   })
   .merge(RestBaseEventSchema)
 

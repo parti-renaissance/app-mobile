@@ -61,20 +61,20 @@ const DonationHistoryCard = () => {
         <VoxCard bg="$textSurface" inside>
           <VoxCard.Content>
             {data && data.length > 0 ? (
-              data.map((donation) => (
+              data.map((donation, i) => (
                 <Fragment key={donation.uuid}>
                   <XStack gap="$2" flex={1}>
-                    <Text.SM semibold>{format(donation.date, 'dd MMM yyyy', { locale: fr })}</Text.SM>
-                    <Text.SM secondary>
+                    <Text.MD semibold>{format(donation.date, 'dd MMM yyyy', { locale: fr })}</Text.MD>
+                    <Text.MD secondary>
                       {getType(donation)} • {donation.type.toUpperCase()}
-                    </Text.SM>
+                    </Text.MD>
                     <XStack flex={1} justifyContent="flex-end">
-                      <Text.SM primary={false} theme={donation.membership ? 'blue' : 'green'}>
-                        {donation.amount}€
-                      </Text.SM>
+                      <Text.MD primary={false} semibold theme={donation.membership ? 'blue' : 'green'}>
+                        {donation.amount.toFixed(2)} €
+                      </Text.MD>
                     </XStack>
                   </XStack>
-                  <VoxCard.Separator borderColor="$gray/32" />
+                  {i < data.length - 1 && <VoxCard.Separator borderColor="$gray/32" />}
                 </Fragment>
               ))
             ) : (

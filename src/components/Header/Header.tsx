@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
+import { useGetProfil } from '@/services/profile/hook'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { ArrowLeft } from '@tamagui/lucide-icons'
@@ -77,8 +78,9 @@ export const NavBar = () => {
   ) : null
 }
 
-const ProfileView = () => {
-  const { user } = useSession()
+export const ProfileView = () => {
+  const { session } = useSession()
+  const user = useGetProfil({ enabled: !!session })
   const profile = user?.data
   return (
     <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
@@ -89,7 +91,13 @@ const ProfileView = () => {
               {profile?.first_name} {profile?.last_name}
             </Text>
           </Stack>
-          <ProfilePicture fullName={`${profile?.first_name} ${profile?.last_name}`} src={undefined} alt="profile picture" size="$3" rounded />
+          <ProfilePicture
+            fullName={`${profile?.first_name} ${profile?.last_name}`}
+            src={profile?.image_url ?? undefined}
+            alt="profile picture"
+            size="$3"
+            rounded
+          />
         </>
       ) : (
         <Spinner size="small" />
@@ -187,10 +195,13 @@ export const SmallHeader: typeof Header = (props) => {
 export default Header
 
 const VoxHeaderFrameStyled = styled(ThemeableStack, {
-  backgroundColor: '$white1',
   gap: 4,
   flexDirection: 'row',
   alignItems: 'center',
+  flex: 1,
+})
+
+const VoxHeaderContainerStyled = styled(Container, {
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
   $md: {
@@ -198,12 +209,18 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
     paddingHorizontal: 26,
     paddingVertical: 6,
   },
+  $gtMd: {
+    height: 82,
+    paddingHorizontal: 18,
+  },
 })
 
 const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <VoxHeaderFrameStyled {...props} />
+      <VoxHeaderContainerStyled>
+        <VoxHeaderFrameStyled {...props} />
+      </VoxHeaderContainerStyled>
     </SafeAreaView>
   )
 }
@@ -211,7 +228,9 @@ const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameS
 const VoxHeaderFrameModal = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
   return (
     <RNSafeAreaView style={{ backgroundColor: 'white' }}>
-      <VoxHeaderFrameStyled {...props} />
+      <VoxHeaderContainerStyled>
+        <VoxHeaderFrameStyled {...props} />
+      </VoxHeaderContainerStyled>
     </RNSafeAreaView>
   )
 }

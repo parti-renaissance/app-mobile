@@ -59,11 +59,6 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
     case 'news':
       return {
         type,
-        onShow: async () => {
-          if (feed.cta_link && (await Linking.canOpenURL(feed.cta_link))) {
-            await Linking.openURL(feed.cta_link).catch(logDefaultError)
-          }
-        },
         payload: {
           title: feed.title!,
           tag,
@@ -101,31 +96,34 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
           },
           location: feed.mode === 'online' ? undefined : location,
           isOnline: feed.mode === 'online',
-          author,
+          author: { ...author, uuid: feed.author?.uuid },
+          editable: feed.editable!,
+          edit_link: feed.edit_link,
         },
       }
     case 'action':
       return {
         type,
         onShow: () => {
-          switch (feed.type) {
-            case 'action':
-              router.push({
-                pathname: '/(tabs)/actions',
-                params: { uuid: feed.objectID },
-              })
-              break
-            default:
-              break
-          }
+          router.push({
+            pathname: '/(tabs)/actions',
+            params: { uuid: feed.objectID },
+          })
         },
+        onEdit: () => {
+          router.push({
+            pathname: '/(tabs)/actions',
+            params: { uuid: feed.objectID, action: 'edit' },
+          })
+        },
+        isMyAction: feed.editable ?? undefined,
         payload: {
           tag: ReadableActionType[feed.category?.toLowerCase() as ActionType],
           id: feed.objectID,
           isSubscribed: !!feed.user_registered_at,
           date: {
             start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
-            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date!),
+            end: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
           },
           location,
           author,

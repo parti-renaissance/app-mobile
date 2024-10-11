@@ -43,7 +43,7 @@ export const RSForm = ({ profile }: { profile: RestDetailedProfileResponse }) =>
                 <Input
                   color="gray"
                   placeholder={platform.label}
-                  value={value ?? platform.starturl}
+                  value={value ? value : platform.starturl}
                   onBlur={onBlur}
                   error={error?.message}
                   onChange={onChange}

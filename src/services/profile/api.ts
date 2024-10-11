@@ -1,4 +1,9 @@
-import { profileElectDeclarationFormErrorThrower, profileElectPaymentFormErrorThrower, profileFormErrorThrower } from '@/services/profile/error'
+import {
+  profilChangePasswordFormErrorThrower,
+  profileElectDeclarationFormErrorThrower,
+  profileElectPaymentFormErrorThrower,
+  profileFormErrorThrower,
+} from '@/services/profile/error'
 import * as schemas from '@/services/profile/schema'
 import type * as Types from '@/services/profile/schema'
 import { api } from '@/utils/api'
@@ -87,5 +92,54 @@ export const postElectDeclaration = api({
   requestSchema: schemas.RestElectDeclarationRequestSchema,
   responseSchema: schemas.RestElectDeclarationResponseSchema,
   errorThrowers: [profileElectDeclarationFormErrorThrower],
+  type: 'private',
+})
+
+export const postProfilePicture = (userUuid: string, request: Types.RestPostProfilePictureRequest) => {
+  return api({
+    method: 'POST',
+    path: `/api/v3/profile/${userUuid}/image`,
+    requestSchema: schemas.RestPostProfilePictureRequestSchema,
+    responseSchema: schemas.RestPostProfilePictureResponseSchema,
+    type: 'private',
+  })(request)
+}
+
+export const deleteProfilePicture = (userUuid: string) => {
+  return api({
+    method: 'DELETE',
+    path: `/api/v3/profile/${userUuid}/image`,
+    requestSchema: schemas.RestDeleteProfilePictureRequestSchema,
+    responseSchema: schemas.RestDeleteProfilePictureResponseSchema,
+    type: 'private',
+  })()
+}
+
+export const getTaxReceipts = api({
+  method: 'GET',
+  path: `api/v3/profile/me/tax_receipts`,
+  requestSchema: schemas.RestTaxReceiptsRequestSchema,
+  responseSchema: schemas.RestTaxReceiptsResponseSchema,
+  type: 'private',
+})
+
+export const getTaxReceiptFile = (taxReceiptUuid: string) => {
+  return api({
+    method: 'GET',
+    path: `api/v3/profile/me/tax_receipts/${taxReceiptUuid}/file`,
+    requestSchema: schemas.RestTaxReceiptFileRequestSchema,
+    responseSchema: schemas.RestTaxReceiptFileResponseSchema,
+    type: 'private',
+    axiosConfig: {
+      responseType: 'blob',
+    },
+  })()
+}
+export const postChangePassword = api({
+  method: 'POST',
+  path: '/api/v3/profile/me/password-change',
+  requestSchema: schemas.RestChangePasswordRequestSchema,
+  responseSchema: schemas.RestChangePasswordResponseSchema,
+  errorThrowers: [profilChangePasswordFormErrorThrower],
   type: 'private',
 })

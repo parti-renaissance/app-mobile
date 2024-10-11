@@ -32,7 +32,6 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
       }
       validatorSchema={validateLocationFormSchema}
       onErrors={(errors) => {
-        console.log(errors)
         if (errors.post_address) {
           setManualAddress(true)
         }

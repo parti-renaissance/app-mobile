@@ -11,6 +11,7 @@ import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLo
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { Tabs } from '@/components/Tabs/Tabs'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import Head from 'expo-router/head'
@@ -31,10 +32,6 @@ const EventsScreen: React.FC = () => {
           <YStack gap="$3">
             <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
             <MyProfileCard />
-            <ProcurationCTA />
-            <AuthFallbackWrapper>
-              <AppDownloadCTA />
-            </AuthFallbackWrapper>
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
@@ -43,8 +40,8 @@ const EventsScreen: React.FC = () => {
             <Tabs<'events' | 'myEvents'>
               value={activeTab}
               onChange={setActiveTab}
-              grouped={media.lg}
-              $gtMd={{ paddingHorizontal: '$7', paddingTop: '$6', paddingBottom: 0 }}
+              grouped={media.gtMd}
+              $gtMd={{ paddingHorizontal: '$5', paddingTop: '$4', paddingBottom: 0 }}
             >
               <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
               <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
@@ -52,7 +49,7 @@ const EventsScreen: React.FC = () => {
           )}
           <BoundarySuspenseWrapper
             fallback={
-              <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
+              <YStack gap="$4" padding="$5" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
                 <SkeCard>
                   <SkeCard.Content>
                     <SkeCard.Chip />
@@ -102,7 +99,13 @@ const EventsScreen: React.FC = () => {
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
-          <EventFilterForm />
+          <VoxCard.Content>
+            <EventFilterForm />
+            <ProcurationCTA />
+            <AuthFallbackWrapper>
+              <AppDownloadCTA />
+            </AuthFallbackWrapper>
+          </VoxCard.Content>
         </PageLayout.SideBarRight>
       </PageLayout>
     </>

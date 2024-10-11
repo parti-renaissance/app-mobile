@@ -25,8 +25,8 @@
     "vox_card": {
       "dayDate": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}}",
       "dayDateEnd": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}} / {{end, HH:mm}}",
-      "daysDate": "{{start, EEEE d MMMM yyyy}} / {{end, EEEE d MMMM yyyy}} \n à {{end, HH:mm}}",
-      "daysDateEnd": "du {{start, EEEE d MMMM yyyy}} à {{start, HH:mm}}\nau {{end, EEEE d MMMM yyyy}} à {{end, HH:mm}}",
+      "daysDate": "{{start, EEEE d MMMM yyyy}} / {{end, EEEE d MMMM yyyy}} à {{end, HH:mm}}",
+      "daysDateEnd": "{{start, E d MMM yyyy}} à {{start, HH:mm}} → {{end, E d MMM yyyy}} à {{end, HH:mm}}",
       "dateCreated": "{{date, EEEE d MMMM yyyy}}"
     },
     "tab": {

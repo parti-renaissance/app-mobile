@@ -1,17 +1,16 @@
-import { Button } from '@/components'
 import { VoxButton } from '@/components/Button'
-import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAttendeesProps, VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSubscribeAction, useUnsubscribeAction } from '@/services/actions/hook/useActions'
 import { ActionStatus } from '@/services/actions/schema'
-import { Eye, Zap, ZapOff } from '@tamagui/lucide-icons'
+import { Clock9, Eye, PenLine, Sparkle, XCircle, Zap, ZapOff } from '@tamagui/lucide-icons'
 import { isBefore } from 'date-fns'
 import { capitalize } from 'lodash'
-import { Spinner, XStack } from 'tamagui'
+import { XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 export type ActionVoxCardProps = {
   onShow?: () => void
+  onEdit?: () => void
   isMyAction?: boolean
   payload: {
     id?: string
@@ -24,19 +23,30 @@ export type ActionVoxCardProps = {
     VoxCardAttendeesProps
 } & VoxCardFrameProps
 
-const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
+const ActionCard = ({
+  payload,
+  onShow,
+  onEdit,
+  asFull = false,
+  isMyAction,
+  ...props
+}: ActionVoxCardProps & { asFull?: boolean; children?: React.ReactNode }) => {
   const isPassed = isBefore(payload.date.start, new Date())
   const isCancelled = payload.status === ActionStatus.CANCELLED
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip theme="green">{capitalize(payload.tag)}</VoxCard.Chip>
-        {isCancelled && (
-          <InternAlert borderLess type="danger">
-            Action annulée.
-          </InternAlert>
-        )}
-        {!isCancelled && isPassed && <InternAlert borderLess>Action passée.</InternAlert>}
+        <XStack justifyContent="space-between">
+          <VoxCard.Chip theme="green" icon={Zap}>
+            {capitalize(payload.tag)}
+          </VoxCard.Chip>
+          {isCancelled && (
+            <VoxCard.Chip theme="orange" icon={XCircle}>
+              Annulée.
+            </VoxCard.Chip>
+          )}
+          {!isCancelled && isPassed && <VoxCard.Chip icon={Clock9}>Terminé</VoxCard.Chip>}
+        </XStack>
         <VoxCard.Location asTitle location={payload.location} />
         <VoxCard.Date {...payload.date} />
         {!asFull && payload.attendees && <VoxCard.Attendees attendees={payload.attendees} />}
@@ -46,7 +56,13 @@ const ActionCard = ({ payload, onShow, asFull = false, isMyAction, ...props }: A
             <VoxButton variant="outlined" theme="gray" onPress={onShow} iconLeft={Eye}>
               Voir
             </VoxButton>
-            {isMyAction ? null : <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />}
+            {isMyAction ? (
+              <VoxButton disabled={isCancelled || isPassed} variant="outlined" theme="purple" pop iconLeft={Sparkle} onPress={onEdit}>
+                Gérer
+              </VoxButton>
+            ) : (
+              <SubscribeButton disabled={isCancelled || isPassed} isRegister={payload.isSubscribed} id={payload.id} />
+            )}
           </XStack>
         )}
         {asFull && props.children}
@@ -80,6 +96,4 @@ export function SubscribeButton({ isRegister, id, large, ...props }: { isRegiste
   )
 }
 
-// <Spinner display={isloaderSub ? 'flex' : 'none'} />
-// {!isRegister ? <Zap size={large ? 24 : 16} /> : <ZapOff size={large ? 24 : 16} />}
 export default ActionCard

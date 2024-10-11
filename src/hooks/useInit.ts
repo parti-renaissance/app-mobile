@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { ROUTES } from '@/config/routes'
+
 import { useSession } from '@/ctx/SessionProvider'
 import PushRepository from '@/data/PushRepository'
 import { useMatomo } from '@/services/matomo/hook'

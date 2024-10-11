@@ -15,17 +15,17 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
   // },
   {
     icon: HelpingHand,
-    children: 'Cotisation et dons',
+    children: 'Cotisations et dons',
     pathname: '/profil/cotisation-et-dons',
   },
   {
     icon: Settings2,
-    children: 'Information personnelles',
+    children: 'Informations personnelles',
     pathname: '/profil/informations-personnelles',
   },
   {
     icon: TreeDeciduous,
-    children: "Information d'élu",
+    children: "Informations d'élu",
     pathname: '/profil/informations-elu',
   },
   // {
@@ -37,10 +37,11 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
     children: 'Communications',
     pathname: '/profil/communications',
   },
-  // {
-  //   icon: KeyRound,
-  //   children: 'Mot de passe',
-  // },
+  {
+    icon: KeyRound,
+    children: 'Mot de passe',
+    pathname: '/profil/mot-de-passe',
+  },
   // {
   //   icon: BadgeCheck,
   //   children: 'Certification du profil',
@@ -64,7 +65,14 @@ const ProfilMenu = () => {
     <Menu key="profil-menu">
       {itemsData.map((item, index) => (
         <Link asChild={!isWeb} href={item.pathname ?? '/profil'} key={index} replace={media.gtSm}>
-          <Menu.Item key={index} active={item.pathname === pathname} size={media.sm ? 'lg' : 'sm'} icon={item.icon} last={index === menuData.length - 1}>
+          <Menu.Item
+            key={index}
+            active={item.pathname === pathname}
+            size={media.sm ? 'lg' : 'sm'}
+            showArrow={media.sm}
+            icon={item.icon}
+            last={index === menuData.length - 1}
+          >
             {item.children}
           </Menu.Item>
         </Link>

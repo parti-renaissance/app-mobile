@@ -20,7 +20,7 @@ export interface ProfileCallToActionProps extends PropsWithChildren {
 
 function Layout({ children, backgroundColor, height, noPadding = false, noBorder = false }: Readonly<ProfileCallToActionProps>) {
   return (
-    <VoxCard padding={noPadding ? undefined : '$4'} backgroundColor={backgroundColor ?? '$white1'} height={height} inside overflow={'hidden'}>
+    <VoxCard padding={noPadding ? undefined : '$4'} backgroundColor={backgroundColor ?? '$white1'} height={height} overflow={'hidden'}>
       {children && <SpacedContainer>{children}</SpacedContainer>}
     </VoxCard>
   )

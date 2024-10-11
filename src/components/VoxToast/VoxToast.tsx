@@ -1,40 +1,71 @@
-import { Toast, useToastState } from '@tamagui/toast'
-import { YStack } from 'tamagui'
+import { Info } from '@tamagui/lucide-icons'
+import { Toast, useToastController, useToastState } from '@tamagui/toast'
+import { ThemeName, useTheme, XStack, YStack } from 'tamagui'
 import Text from '../base/Text'
+import { VoxButton } from '../Button'
+import VoxCard from '../VoxCard/VoxCard'
+
+const getThemeByType = (type: 'error' | 'success' | 'info' | 'warning'): ThemeName => {
+  switch (type) {
+    case 'error':
+      return 'orange'
+    case 'success':
+      return 'green'
+    case 'info':
+      return 'blue'
+    case 'warning':
+      return 'yellow'
+    default:
+      return 'gray'
+  }
+}
 
 const VoxToast = () => {
   const currentToast = useToastState()
+  const toast = useToastController()
 
   if (!currentToast || currentToast.isHandledNatively) return null
   const type = currentToast.type as 'error' | 'success' | 'info' | 'warning'
-  const bgColor = type === 'error' ? '$orange1' : type === 'success' ? '$green1' : type === 'info' ? '$blue1' : type === 'warning' ? '$yellow1' : '$gray1'
-  const textColor =
-    type === 'error' ? '$orange6' : type === 'success' ? '$green6' : type === 'info' ? '$blue6' : type === 'warning' ? '$yellow6' : '$textPrimary'
+  const theme = getThemeByType(type)
+  const bgColor = '$color5'
+  const textColor = '$white1'
   return (
     <Toast
       key={currentToast.id}
       duration={currentToast.duration}
       enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
       exitStyle={{ opacity: 0, scale: 1, y: -20 }}
-      bg={bgColor}
-      borderRadius="$12"
       opacity={1}
       alignSelf="center"
       scale={1}
-      p="$5"
       animation="100ms"
+      bg={bgColor}
+      padding={0}
+      borderRadius={999}
+      height="auto"
+      theme={theme}
       viewportName={currentToast.viewportName}
     >
-      <YStack>
-        <Text color={textColor} textAlign="center" fontWeight="$6" fontSize="$3" lineHeight="$2" fontFamily="$PublicSans">
-          {currentToast.title}
-        </Text>
-        {!!currentToast.message && (
-          <Text color={textColor} fontWeight="$5" fontSize="$1" lineHeight="$1" fontFamily="$PublicSans">
-            {currentToast.message}
-          </Text>
+      <VoxCard.Content paddingVertical={10}>
+        {currentToast.title.length > 0 && (
+          <Text.SM semibold position="absolute" color={textColor} top={5} left={45}>
+            {currentToast.title}
+          </Text.SM>
         )}
-      </YStack>
+        <XStack gap={10} justifyContent="space-between" alignContent="center" alignItems="center" position="relative">
+          <Info size={20} color={textColor} />
+          <YStack>
+            {!!currentToast.message && (
+              <Text.LG multiline color={textColor}>
+                {currentToast.message}
+              </Text.LG>
+            )}
+          </YStack>
+          <VoxButton variant="soft" theme={theme} onPress={toast.hide}>
+            Fermer
+          </VoxButton>
+        </XStack>
+      </VoxCard.Content>
     </Toast>
   )
 }

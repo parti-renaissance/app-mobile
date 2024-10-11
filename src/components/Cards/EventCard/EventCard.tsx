@@ -1,17 +1,17 @@
-import React, { ComponentProps, useMemo } from 'react'
+import React, { ComponentProps, Fragment, useMemo } from 'react'
 import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
 import { VoxButton } from '@/components/Button'
-import InternAlert from '@/components/InternAlert/InternAlert'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import { RestEvent } from '@/services/events/schema'
-import { CalendarCheck2, CalendarOff, Eye } from '@tamagui/lucide-icons'
+import { useGetProfil } from '@/services/profile/hook'
+import { Calendar, CalendarCheck2, CalendarOff, Clock9, Eye, PencilLine, Sparkle, Users, XCircle } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
-import { router } from 'expo-router'
-import { Spinner, XStack } from 'tamagui'
+import { Href, Link, router } from 'expo-router'
+import { isWeb, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
 
 type VoxCardBasePayload = {
@@ -25,7 +25,9 @@ type VoxCardBasePayload = {
   isOnline: boolean
   location?: VoxCardLocationProps['location']
   date: VoxCardDateProps
-} & Partial<VoxCardAuthorProps>
+  editable: boolean
+  edit_link?: string
+} & ({ author: Partial<VoxCardAuthorProps>['author'] & { uuid?: string } } | { author: undefined })
 
 export type EventVoxCardProps = {
   onShow?: () => void
@@ -39,18 +41,26 @@ export type EventVoxCardProps = {
         isOnline: true
       } & VoxCardBasePayload)
 } & VoxCardFrameProps
-export const SubscribeEventButton = ({
-  isSubscribed,
-  eventId: id,
-  outside = false,
-  ...btnProps
-}: { eventId: string; isSubscribed: boolean; outside?: boolean } & ComponentProps<typeof Button>) => {
+
+type SubscribeEventButtonProps = {
+  isSubscribed: boolean
+  eventId: string
+  outside?: boolean
+} & ComponentProps<typeof Button> & {
+    editData: {
+      editable: boolean
+      edit_link?: string
+      isAuthor?: boolean
+    }
+  }
+
+export const SubscribeEventButton = ({ isSubscribed, eventId: id, outside = false, editData, ...btnProps }: SubscribeEventButtonProps) => {
   const { session } = useSession()
   const { mutate: subscribe, isPending: isSubPending } = useSubscribeEvent({ id })
   const { mutate: unsubscribe, isPending: isUnSubPending } = useUnsubscribeEvent({ id })
   const handleSubscribe = useDebouncedCallback(() => (isSubscribed ? unsubscribe() : subscribe()), 200)
   const outsideStyle = outside ? ({ size: 'lg', width: '100%' } as const) : {}
-  return isSubscribed ? (
+  const subscribeButton = isSubscribed ? (
     <VoxAlertDialog theme="blue" title="Se désinscrire" description={`Voulez-vous vraiment vous désinscrire de l'événement ?`} onAccept={handleSubscribe}>
       <VoxButton theme="blue" variant="outlined" loading={isUnSubPending} iconLeft={CalendarOff} {...btnProps} {...outsideStyle}>
         Me désinscrire
@@ -77,11 +87,28 @@ export const SubscribeEventButton = ({
       M'inscrire
     </VoxButton>
   )
+
+  const editButton = (
+    <Link href={editData.edit_link as Href<string>} asChild={!isWeb}>
+      <VoxButton variant="outlined" theme="purple" iconLeft={Sparkle} {...outsideStyle}>
+        Gérer
+      </VoxButton>
+    </Link>
+  )
+
+  return (
+    <XStack gap={16}>
+      {editData.editable ? editButton : null}
+      {!editData.isAuthor ? subscribeButton : null}
+    </XStack>
+  )
 }
 
 const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
+  const { data: user } = useGetProfil()
   const isCancelled = payload.status === 'CANCELLED'
   const isPassed = isPast(payload.date.end ?? payload.date.start)
+  const isAuthor = Boolean(user?.uuid === payload.author?.uuid && payload.author?.uuid)
   const canSubscribe = [
     !isPast(payload.date.end),
     payload.isSubscribed !== undefined,
@@ -92,18 +119,14 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   const status = useMemo(() => {
     if (isCancelled) {
       return (
-        <InternAlert borderLess type="danger">
-          Événement annulée.
-        </InternAlert>
+        <VoxCard.Chip theme="orange" icon={XCircle}>
+          Annulée.
+        </VoxCard.Chip>
       )
     } else if (isPassed) {
-      return <InternAlert borderLess>Événement passée.</InternAlert>
+      return <VoxCard.Chip icon={Clock9}>Terminé</VoxCard.Chip>
     } else if (payload.isCompleted) {
-      return (
-        <InternAlert borderLess type="info">
-          Événement complet.
-        </InternAlert>
-      )
+      return <VoxCard.Chip icon={Users}>Complet</VoxCard.Chip>
     }
     return null
   }, [isCancelled, isPassed, payload.isCompleted])
@@ -111,8 +134,12 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
   return (
     <VoxCard {...props}>
       <VoxCard.Content>
-        <VoxCard.Chip theme="blue">{payload.tag}</VoxCard.Chip>
-        {status}
+        <XStack justifyContent={'space-between'}>
+          <VoxCard.Chip icon={Calendar} theme="blue">
+            {payload.tag}
+          </VoxCard.Chip>
+          {status}
+        </XStack>
         <VoxCard.Title>{payload.title}</VoxCard.Title>
         {payload.image ? <VoxCard.Image image={payload.image} /> : null}
         <VoxCard.Date {...payload.date} />
@@ -123,7 +150,16 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
             Voir
           </VoxButton>
 
-          <SubscribeEventButton disabled={!canSubscribe} isSubscribed={!!payload.isSubscribed} eventId={payload.id} />
+          <SubscribeEventButton
+            editData={{
+              editable: payload.editable,
+              edit_link: payload.edit_link,
+              isAuthor,
+            }}
+            disabled={!canSubscribe}
+            isSubscribed={!!payload.isSubscribed}
+            eventId={payload.id}
+          />
         </XStack>
       </VoxCard.Content>
     </VoxCard>

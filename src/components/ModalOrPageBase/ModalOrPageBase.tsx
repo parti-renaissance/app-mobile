@@ -11,13 +11,14 @@ interface ModalOrPageBaseProps extends PropsWithChildren {
   open?: boolean
   shouldDisplayCloseHeader?: boolean
   header: React.ReactNode
+  scrollable?: boolean
 }
 
 /**
  * This component create a centered modal in md and more viewport, or a page in small ones
  * @constructor
  */
-export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader, header }: ModalOrPageBaseProps) {
+export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader, header, scrollable }: ModalOrPageBaseProps) {
   const viewport = useMedia()
   const insets = useSafeAreaInsets()
 
@@ -67,6 +68,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
         {header}
 
         <Sheet.ScrollView
+          scrollEnabled={scrollable}
           keyboardShouldPersistTaps={'handled'}
           automaticallyAdjustKeyboardInsets
           backgroundColor={'white'}
@@ -96,10 +98,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 32,
     margin: Spacing.largeMargin,
     alignItems: 'center',
     cursor: 'auto',
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

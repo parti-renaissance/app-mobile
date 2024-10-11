@@ -268,3 +268,44 @@ export type RestElectDeclarationResponse = z.infer<typeof RestElectDeclarationRe
 export const RestElectDeclarationResponseSchema = z.any()
 
 export const propertyPathDeclarationPaymentSchema = z.enum(['revenue_amount'])
+
+// -----------------  RestProfilPicture  -----------------
+
+export const RestPostProfilePictureRequestSchema = z.object({
+  content: z.string(),
+})
+export type RestPostProfilePictureRequest = z.infer<typeof RestPostProfilePictureRequestSchema>
+export const RestPostProfilePictureResponseSchema = z.any()
+
+export type RestDeleteProfilePictureRequest = z.infer<typeof RestDeleteProfilePictureRequestSchema>
+export const RestDeleteProfilePictureRequestSchema = z.void()
+export const RestDeleteProfilePictureResponseSchema = z.any()
+
+// -----------------  RestTaxReceipts  -----------------
+
+export type RestTaxReceiptsRequest = z.infer<typeof RestTaxReceiptsRequestSchema>
+export const RestTaxReceiptsRequestSchema = z.void()
+
+export type RestTaxReceiptsResponse = z.infer<typeof RestTaxReceiptsResponseSchema>
+export const RestTaxReceiptsResponseSchema = z.array(
+  z.object({
+    uuid: z.string().uuid(),
+    created_at: z.coerce.date(),
+    label: z.string(),
+  }),
+)
+
+export const RestTaxReceiptFileRequestSchema = z.void()
+export const RestTaxReceiptFileResponseSchema = z.any()
+
+export const RestChangePasswordRequestSchema = z.object({
+  old_password: z.string(),
+  new_password: z.string(),
+  new_password_confirmation: z.string(),
+})
+
+export type RestChangePasswordRequest = z.infer<typeof RestChangePasswordRequestSchema>
+
+export const RestChangePasswordResponseSchema = z.any()
+
+export const propertyPathChangePasswordSchema = z.enum(['old_password', 'new_password', 'new_password_confirmation'])
