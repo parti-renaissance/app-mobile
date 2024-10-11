@@ -42,8 +42,8 @@ const DatePickerField = forwardRef<Input, DatePickerFieldProps>(({ value, onChan
       try {
         const time = value ? [getHours(value), getMinutes(value)] : undefined
         const date = isWeb ? new Date(input) : parseISO(input)
-        const dateWHour = time ? setHours(date, time[0]) : date
-        const fulldate = time ? setMinutes(dateWHour, time[1]) : date
+        const dateWHour = time && time[0] ? setHours(date, time[0]) : date
+        const fulldate = time && time[1] ? setMinutes(dateWHour, time[1]) : date
         onChange?.(fulldate)
       } catch (e) {
         console.log(e)
