@@ -204,7 +204,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
                 padding: 0,
                 fontSize: 14,
                 width: '100%',
-                fontWeight: !isWeb ? (inputProps.value ? 500 : 400) : undefined,
+                fontWeight: isWeb ? (inputProps.value ? 500 : 400) : undefined,
               }}
               editable={!disabled}
               ref={inputRef}

@@ -15,7 +15,7 @@ export const mapPropsLocation = (item: RestEvent): VoxCardLocationProps => {
   }
 }
 
-export const mapPropsAuthor = (item: RestEvent): Partial<VoxCardAuthorProps> => {
+export const mapPropsAuthor = (item: RestEvent): { author?: Partial<VoxCardAuthorProps>['author'] & { uuid: string } } => {
   return {
     author: item.organizer
       ? {
@@ -24,6 +24,7 @@ export const mapPropsAuthor = (item: RestEvent): Partial<VoxCardAuthorProps> => 
           title: item.organizer.instance,
           pictureLink: item.organizer.image_url ?? undefined,
           zone: item.organizer.zone,
+          uuid: item.organizer.uuid,
         }
       : undefined,
   }
@@ -55,6 +56,8 @@ export const mapFullProps = (
       ...mapPropsLocation(item),
       date: mapPropsDate(item),
       ...mapPropsAuthor(item),
+      editable: item.editable,
+      edit_link: item.edit_link,
     },
     onShow: () => cb.onShow(item.uuid),
   }

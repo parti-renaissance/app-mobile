@@ -96,7 +96,9 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
           },
           location: feed.mode === 'online' ? undefined : location,
           isOnline: feed.mode === 'online',
-          author,
+          author: { ...author, uuid: feed.author?.uuid },
+          editable: feed.editable!,
+          edit_link: feed.edit_link,
         },
       }
     case 'action':

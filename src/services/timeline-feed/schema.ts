@@ -21,6 +21,7 @@ export const RestTimelineFeedAuthorSchema = z.object({
   instance: z.string().nullish(),
   zone: z.string().nullish(),
   image_url: z.string().url().nullish(),
+  uuid: z.string().nullish(),
 })
 
 export type RestTimelineFeedItem = z.infer<typeof RestTimelineFeedItemSchema>
@@ -41,6 +42,7 @@ export const RestTimelineFeedItemSchema = z.object({
   cta_link: z.string().nullable().optional(),
   cta_label: z.string().nullable().optional(),
   editable: z.boolean().nullish(),
+  edit_link: z.string().optional(),
   url: z.string().nullable().optional(),
   user_registered_at: z.string().nullable().optional(),
   time_zone: z.string().nullable(),
