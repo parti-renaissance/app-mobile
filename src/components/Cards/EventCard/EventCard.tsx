@@ -1,4 +1,4 @@
-import React, { ComponentProps, useMemo } from 'react'
+import React, { ComponentProps, Fragment, useMemo } from 'react'
 import { ImageRequireSource } from 'react-native'
 import { Button } from '@/components'
 import { VoxAlertDialog } from '@/components/AlertDialog'
@@ -13,10 +13,6 @@ import { isPast } from 'date-fns'
 import { Href, Link, router } from 'expo-router'
 import { isWeb, XStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
-
-const hasEditLink = (payload: VoxCardBasePayload): payload is VoxCardBasePayload & { edit_link: string } => {
-  return 'edit_link' in payload && payload.editable
-}
 
 type VoxCardBasePayload = {
   id: string
@@ -94,7 +90,7 @@ export const SubscribeEventButton = ({ isSubscribed, eventId: id, outside = fals
 
   const editButton = (
     <Link href={editData.edit_link as Href<string>} asChild={!isWeb}>
-      <VoxButton variant="outlined" theme="purple" iconLeft={Sparkle}>
+      <VoxButton variant="outlined" theme="purple" iconLeft={Sparkle} {...outsideStyle}>
         Gérer
       </VoxButton>
     </Link>
