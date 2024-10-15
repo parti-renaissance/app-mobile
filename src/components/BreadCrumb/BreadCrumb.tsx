@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import Text from '@/components/base/Text'
@@ -30,9 +30,9 @@ const BreadCrumbItemFrame = styled(ThemeableStack, {
         height: 50,
       },
       false: {
-        paddingHorizontal: 4,
         alignItems: 'center',
-
+        paddingHorizontal: 8,
+        paddingVertical: 16,
         height: 38,
       },
     },
@@ -61,7 +61,6 @@ const BreadCrumbFrame = styled(ThemeableStack, {
   context: BreadCrumContext,
   justifyContent: 'flex-start',
   gap: 4,
-  // overflow: 'hidden',
   position: 'relative',
   variants: {
     vertical: {
@@ -76,6 +75,7 @@ const BreadCrumbFrame = styled(ThemeableStack, {
         flexDirection: 'row',
         borderBottomWidth: 2,
         borderBottomColor: '$textOutline32',
+        alignItems: 'center',
         height: 48,
       },
     },
@@ -135,6 +135,11 @@ export const BreadCrumb = <ID extends string>(
     setActivePostion(x, y, width)
   }
 
+  useEffect(() => {
+    const element = refs.current.get(props.value) as View
+    element?.measure(setActivePostion)
+  }, [props.value])
+
   const initParentPosition = (props: LayoutChangeEvent) => {
     const { x, y } = props.nativeEvent.layout
     parentLayout.current = props.nativeEvent.layout
@@ -156,7 +161,7 @@ export const BreadCrumb = <ID extends string>(
   const items = props.items.map((item, index) => {
     return (
       <BreadCrumbApi.Item key={item.id} onLayout={initPosition(item.id)} ref={setRef(item.id)} onPress={handlePress(item.id)}>
-        <Text.MD> {item.label}</Text.MD>
+        <Text.MD semibold> {item.label}</Text.MD>
       </BreadCrumbApi.Item>
     )
   })
