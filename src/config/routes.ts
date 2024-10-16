@@ -1,7 +1,8 @@
 import { ActionIcon, DoorIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
+import { GraduationCap } from '@tamagui/lucide-icons'
 
 export type TabRoute = {
-  name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources' | 'porte-a-porte'
+  name: '(home)' | 'evenements' | 'actions' | 'news' | 'ressources' | 'porte-a-porte' | 'formations'
   screenName: string
   icon: typeof HomeIcon
   gradiant: string[]
@@ -44,6 +45,14 @@ export const ROUTES: TabRoute[] = [
     name: 'ressources',
     screenName: 'Ressources',
     icon: ToolsIcon,
+    gradiant: ['#E461E8', '#8B2DBF'],
+    labelColor: '#8B2DBF',
+  },
+  {
+    name: 'formations',
+    screenName: 'Formations',
+    icon: GraduationCap,
+    hidden: true,
     gradiant: ['#E461E8', '#8B2DBF'],
     labelColor: '#8B2DBF',
   },

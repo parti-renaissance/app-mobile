@@ -262,7 +262,9 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
   )
 }
 
-const VoxCardSeparator = (props: StackProps) => <Separator {...props} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
+const VoxCardSeparator = (props: StackProps) => (
+  <Separator {...props} borderColor={props.backgroundColor ?? '$textOutline32'} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
+)
 
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Content: VoxCardContent,

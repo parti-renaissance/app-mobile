@@ -47,14 +47,14 @@ const VoxToast = () => {
       viewportName={currentToast.viewportName}
     >
       <VoxCard.Content paddingVertical={10}>
-        {currentToast.title.length > 0 && (
-          <Text.SM semibold position="absolute" color={textColor} top={5} left={45}>
-            {currentToast.title}
-          </Text.SM>
-        )}
         <XStack gap={10} justifyContent="space-between" alignContent="center" alignItems="center" position="relative">
           <Info size={20} color={textColor} />
           <YStack>
+            {currentToast.title.length > 0 && (
+              <Text.SM semibold color={textColor} top={5} left={45}>
+                {currentToast.title}
+              </Text.SM>
+            )}
             {!!currentToast.message && (
               <Text.LG multiline color={textColor}>
                 {currentToast.message}

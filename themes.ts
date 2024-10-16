@@ -189,7 +189,7 @@ export const templates = (() => {
   }
 
   const inverseButtonContainedSurface = {
-    background: white.white1,
+    background: transparencies + 1,
     backgroundHover: transparencies + 2,
     backgroundPress: transparencies + 3,
     color: transparencies + 6,

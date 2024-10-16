@@ -14,11 +14,11 @@ const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) =
   )
 }
 
-const LayoutSideBarLeft = ({ children, showOn = 'gtMd' }: ViewProps & { showOn?: keyof Media }) => {
+const LayoutSideBarLeft = ({ children, showOn = 'gtMd', ...props }: ViewProps & { showOn?: keyof Media }) => {
   const media = useMedia()
   return (
     media[showOn] && (
-      <View width={columnWidth} height="100%" pt={padding}>
+      <View width={columnWidth} height="100%" pt={padding} {...props}>
         {children}
       </View>
     )

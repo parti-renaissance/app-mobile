@@ -174,9 +174,11 @@ export default function MyProfileCard() {
             Ressources
           </Menu.Item>
         </Link>
-        <Menu.Item size="sm" icon={GraduationCap} showArrow disabled>
-          Formations (bientôt disponible)
-        </Menu.Item>
+        <Link href="/formations" asChild={!isWeb}>
+          <Menu.Item size="sm" icon={GraduationCap} showArrow>
+            Formations
+          </Menu.Item>
+        </Link>
         <Menu.Item size="sm" icon={ClipboardCheck} showArrow disabled>
           Questionnaires (bientôt disponible)
         </Menu.Item>
