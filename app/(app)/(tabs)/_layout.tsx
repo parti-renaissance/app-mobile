@@ -13,6 +13,7 @@ export default function AppLayout() {
   const insets = useSafeAreaInsets()
   const media = useMedia()
   const { session, isAuth } = useSession()
+  const [openSheet, setOpenSheet] = React.useState(false)
 
   const segments = useSegments()
   const getTabBarVisibility = () => {

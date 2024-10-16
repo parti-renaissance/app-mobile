@@ -67,7 +67,7 @@ export default function AppLayout() {
   }
 
   return media.md ? (
-    <Stack>
+    <Stack screenOptions={{ animation: 'slide_from_right' }}>
       <Stack.Screen
         name="index"
         options={{

@@ -11,7 +11,7 @@ export default function ActionsScreen() {
 
   return (
     <Stack screenOptions={{ header: SmallHeader, animation: 'slide_from_right' }}>
-      <Stack.Screen name="index" options={{ title: 'Ressources' }} />
+      <Stack.Screen name="index" options={{ title: 'Formations' }} />
     </Stack>
   )
 }

@@ -32,7 +32,6 @@ const BreadCrumbItemFrame = styled(ThemeableStack, {
       false: {
         alignItems: 'center',
         paddingHorizontal: 8,
-        paddingVertical: 16,
         height: 38,
       },
     },
@@ -97,7 +96,7 @@ export const BreadCrumb = <ID extends string>(
       }[]
     >
     value: ID
-    onChange: (value: ID) => void
+    onChange?: (value: ID) => void
   },
 ) => {
   const { vertical = false } = props

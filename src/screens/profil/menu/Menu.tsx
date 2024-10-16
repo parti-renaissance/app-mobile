@@ -2,7 +2,7 @@ import { ComponentProps } from 'react'
 import Text from '@/components/base/Text'
 import Menu from '@/components/menu/Menu'
 import clientEnv from '@/config/clientEnv'
-import { BadgeCheck, CircleUser, HelpingHand, KeyRound, Mail, MessageCircle, PlusCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
+import { BadgeCheck, CircleUser, GraduationCap, HelpingHand, KeyRound, Mail, MessageCircle, PlusCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
 import { nativeBuildVersion } from 'expo-application'
 import Constants from 'expo-constants'
 import { Href, Link, usePathname } from 'expo-router'
@@ -42,6 +42,7 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
     children: 'Mot de passe',
     pathname: '/profil/mot-de-passe',
   },
+
   // {
   //   icon: BadgeCheck,
   //   children: 'Certification du profil',
@@ -60,7 +61,14 @@ const ProfilMenu = () => {
         } as const,
         ...menuData,
       ]
-    : menuData
+    : [
+        ...menuData,
+        {
+          icon: GraduationCap,
+          children: 'Formations',
+          pathname: '/formations',
+        },
+      ]
   return (
     <Menu key="profil-menu">
       {itemsData.map((item, index) => (
@@ -71,7 +79,7 @@ const ProfilMenu = () => {
             size={media.sm ? 'lg' : 'sm'}
             showArrow={media.sm}
             icon={item.icon}
-            last={index === menuData.length - 1}
+            last={index === itemsData.length - 1}
           >
             {item.children}
           </Menu.Item>

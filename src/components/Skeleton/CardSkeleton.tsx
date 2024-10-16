@@ -75,11 +75,15 @@ const SkeCardDate = () => {
   )
 }
 
+const SkeCardButton = () => {
+  return <Stack height="$2.5" width="$12" bg={SkeletonColor} borderRadius="$4" />
+}
+
 const SkeActions = () => {
   return (
     <XStack gap="$2" justifyContent="space-between">
-      <Stack height="$2.5" width="$12" bg={SkeletonColor} borderRadius="$4" />
-      <Stack height="$2.5" width="$10" bg={SkeletonColor} borderRadius="$4" />
+      <SkeCardButton />
+      <SkeCardButton />
     </XStack>
   )
 }
@@ -128,7 +132,7 @@ const SkeCardSeparator = (props: StackProps) => <Separator borderStyle={Platform
 export const SkeCard = withStaticProperties(SkeCardFrame, {
   Content: SkeCardContent,
   Chip: SkeCardChip,
-
+  Separator: SkeCardSeparator,
   Title: SkeCardTitle,
   Date: SkeCardDate,
   Actions: SkeActions,
@@ -136,6 +140,7 @@ export const SkeCard = withStaticProperties(SkeCardFrame, {
   Author: SkeCardAuthor,
   Section: SkeCardSection,
   Description: SkeCardDescription,
+  Button: SkeCardButton,
 })
 
 export default SkeCard
