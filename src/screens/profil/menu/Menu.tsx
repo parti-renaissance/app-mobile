@@ -2,7 +2,19 @@ import { ComponentProps } from 'react'
 import Text from '@/components/base/Text'
 import Menu from '@/components/menu/Menu'
 import clientEnv from '@/config/clientEnv'
-import { BadgeCheck, CircleUser, GraduationCap, HelpingHand, KeyRound, Mail, MessageCircle, PlusCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
+import {
+  BadgeCheck,
+  CircleUser,
+  GraduationCap,
+  HelpingHand,
+  KeyRound,
+  LandPlot,
+  Mail,
+  MessageCircle,
+  PlusCircle,
+  Settings2,
+  TreeDeciduous,
+} from '@tamagui/lucide-icons'
 import { nativeBuildVersion } from 'expo-application'
 import Constants from 'expo-constants'
 import { Href, Link, usePathname } from 'expo-router'
@@ -17,6 +29,11 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
     icon: HelpingHand,
     children: 'Cotisations et dons',
     pathname: '/profil/cotisation-et-dons',
+  },
+  {
+    icon: LandPlot,
+    children: 'Mes instances',
+    pathname: '/profil/mes-instances',
   },
   {
     icon: Settings2,

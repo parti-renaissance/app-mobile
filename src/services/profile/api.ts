@@ -143,3 +143,11 @@ export const postChangePassword = api({
   errorThrowers: [profilChangePasswordFormErrorThrower],
   type: 'private',
 })
+
+export const getInstances = api({
+  method: 'GET',
+  path: '/api/v3/profile/instances',
+  requestSchema: schemas.RestInstancesRequestSchema,
+  responseSchema: schemas.RestInstancesResponseSchema,
+  type: 'private',
+})
