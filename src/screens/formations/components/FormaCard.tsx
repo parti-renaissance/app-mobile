@@ -1,29 +1,32 @@
+import { Linking } from 'react-native'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import clientEnv from '@/config/clientEnv'
 import { useFileDownload } from '@/hooks/useFileDownload'
+import { useGetFormationLink } from '@/services/formations/hook'
 import { RestGetFormationsResponse } from '@/services/formations/schema'
-import { Download, GraduationCap, Share } from '@tamagui/lucide-icons'
-import { Href, Link } from 'expo-router'
+import { Download, Eye, GraduationCap } from '@tamagui/lucide-icons'
 import { snakeCase } from 'lodash'
-import { isWeb, XStack, YStackProps } from 'tamagui'
+import { XStack, YStackProps } from 'tamagui'
 
-const LinkBtn = ({ link }: { link: string }) => {
+const LinkBtn = (props: { uuid: string }) => {
+  const { mutateAsync, isPending } = useGetFormationLink(props.uuid)
+  const handlePress = async () => {
+    const { link } = await mutateAsync()
+    Linking.openURL(link)
+  }
   return (
-    <Link href={link as Href} target="_blank" asChild={!isWeb}>
-      <VoxButton variant="outlined" iconLeft={Share}>
-        Voir la formation
-      </VoxButton>
-    </Link>
+    <VoxButton variant="outlined" iconLeft={Eye} loading={isPending} onPress={handlePress}>
+      Voir la formation
+    </VoxButton>
   )
 }
 
-const DownloadBtn = (props: { file_path: string; fileName: string }) => {
+const DownloadBtn = (props: { fileName: string; uuid: string }) => {
   const { handleDownload, isPending } = useFileDownload()
   const fileName = snakeCase(props.fileName)
-  const handlePress = () => handleDownload({ url: props.file_path.replace(clientEnv.API_BASE_URL, ''), fileName })
+  const handlePress = () => handleDownload({ url: `/api/v3/formations/${props.uuid}/file`, fileName })
   return (
     <VoxButton variant="outlined" iconLeft={Download} loading={isPending} onPress={handlePress}>
       Télécharger
@@ -32,10 +35,10 @@ const DownloadBtn = (props: { file_path: string; fileName: string }) => {
 }
 
 const Btn = ({ payload }: { payload: RestGetFormationsResponse[number] }) => {
-  if (payload.file_path) {
-    return <DownloadBtn fileName={payload.title} file_path={payload.file_path} />
-  } else if (payload.link) {
-    return <LinkBtn link={payload.link} />
+  if (payload.content_type === 'file') {
+    return <DownloadBtn fileName={payload.title} uuid={payload.uuid} />
+  } else {
+    return <LinkBtn uuid={payload.uuid} />
   }
   return null
 }

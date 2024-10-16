@@ -6,7 +6,7 @@ import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { items } from '@/screens/formations/bread-crumbs-items'
 import { FormationScreenProps } from '@/screens/formations/types'
 import { useGetFormations } from '@/services/formations/hook'
-import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
+import { isWeb, ScrollView, YStack } from 'tamagui'
 import FormationDesktopLayout from './ FormationDesktopLayout'
 import FormationSection, { FormationSectionSkeleton } from './FormationSection'
 
@@ -19,7 +19,6 @@ const scrollViewContainerStyle = {
 
 const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
   const { data } = useGetFormations()
-  const media = useMedia()
   const formationsNational = data.filter((formation) => formation.visibility === 'national')
   const formationsLocal = data.filter((formation) => formation.visibility === 'local')
   const firstSection = formationsLocal.length > 0 ? 'local' : 'national'

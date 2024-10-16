@@ -52,7 +52,7 @@ export const menuData: Array<ComponentProps<typeof Menu.Item> & { pathname?: Hre
 const ProfilMenu = () => {
   const media = useMedia()
   const pathname = usePathname()
-  const itemsData = media.gtSm
+  const itemsData: typeof menuData = media.gtSm
     ? [
         {
           icon: CircleUser,

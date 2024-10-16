@@ -73,7 +73,7 @@ const BreadCrumbFrame = styled(ThemeableStack, {
         backgroundColor: '$white1',
         flexDirection: 'row',
         borderBottomWidth: 2,
-        borderBottomColor: '$textOutline32',
+        borderBottomColor: '$textOutline',
         alignItems: 'center',
         height: 48,
       },
@@ -124,13 +124,13 @@ export const BreadCrumb = <ID extends string>(
   const handlePress = (id: ID) => () => {
     const element = refs.current.get(id) as View
     element?.measure(setActivePostion)
-    props.onChange(id)
+    props.onChange?.(id)
   }
 
   const initPosition = (id: string) => (e: LayoutChangeEvent) => {
-    if (id === props.value) return
+    if (id !== props.value) return
     const { x, y, width } = e.nativeEvent.layout
-    if ([x, y, width].every((x) => x === 0)) return
+    if ([x, y, width].every((x) => x === 0 && vertical)) return
     setActivePostion(x, y, width)
   }
 

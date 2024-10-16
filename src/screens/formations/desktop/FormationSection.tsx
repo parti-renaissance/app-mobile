@@ -1,4 +1,3 @@
-import { forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { LayoutChangeEvent } from 'react-native'
 import EmptyStateFormationIllustration from '@/assets/illustrations/EmptyStateFormationIllustration'
 import ButtonGroup from '@/components/base/ButtonGroup/ButtonGroup'
@@ -7,7 +6,9 @@ import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestGetFormationsResponse } from '@/services/formations/schema'
 import { XStack, YStack } from 'tamagui'
+import EmptyFormaState from '../components/EmptyFormaState'
 import { FormaCard, FormaCardSkeleton } from '../components/FormaCard'
+import { useCategories } from '../hooks/useCategories'
 
 const splitIntoCol = <Data,>(array: Data[]) => {
   const col1: Data[] = []
@@ -31,34 +32,14 @@ type Props = {
 }
 
 export const FormationSection = ({ data: formations, visibility, onLayout, theme }: Props) => {
-  const categories = useMemo(() => {
-    const catSet = new Set<string>()
-    formations.forEach((formation) => {
-      catSet.add(formation.category ?? 'no-cat')
-    })
-    return Array.from(catSet)
-  }, [formations])
-
-  const options = useMemo(() => {
-    return categories.map((cat) => ({
-      label: cat === 'no-cat' ? 'Sans catégorie' : cat,
-      value: cat,
-    }))
-  }, [categories])
-  const [activeCategories, setActiveCategories] = useState<Array<string>>(categories)
-  const formationsCol = splitIntoCol(formations.filter((formation) => activeCategories.includes(formation.category ?? 'no-cat')))
+  const { options, filteredFormations, activeCategories, setActiveCategories } = useCategories({ formations })
+  const formationsCol = splitIntoCol(filteredFormations)
   const textColor = theme === 'blue' ? '$blue6' : '$green6'
   return (
     <VoxCard onLayout={onLayout}>
       <VoxCard.Content padding={24} gap={24}>
         {formations.length === 0 ? (
-          <YStack gap={16} justifyContent="center" alignItems="center">
-            <EmptyStateFormationIllustration />
-            <Text.LG multiline semibold>
-              Aucune formation <Text.LG color={textColor}>{visibility === 'local' ? 'locale' : 'nationale'}</Text.LG>
-            </Text.LG>
-            <Text.P textAlign="center">Lorem ipsum dolor sit amet consectetur. Nibh lectus diam ultrices cras volutpat aliquet interdum commodo arcu. </Text.P>
-          </YStack>
+          <EmptyFormaState textColor={textColor} visibility={visibility} />
         ) : (
           <>
             <Text.LG>

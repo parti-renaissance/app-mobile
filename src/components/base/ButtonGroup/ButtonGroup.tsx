@@ -1,3 +1,4 @@
+import { ComponentPropsWithoutRef, ComponentPropsWithRef } from 'react'
 import { VoxButton as Button } from '@/components/Button'
 import { styled } from '@tamagui/core'
 import { ThemeableStack, ThemeName } from 'tamagui'
@@ -18,7 +19,7 @@ const ButtonGroupFrame = styled(ThemeableStack, {
   flexWrap: 'wrap',
 })
 
-export default function ButtonGroup({ options, value, onChange, theme }: ButtonGroupProps) {
+export default function ButtonGroup({ options, value, onChange, theme, ...props }: ButtonGroupProps & ComponentPropsWithoutRef<typeof ButtonGroupFrame>) {
   const handlePress = (item: string) => () => {
     if (value.includes(item)) {
       onChange(value.filter((v) => v !== item))
@@ -29,7 +30,7 @@ export default function ButtonGroup({ options, value, onChange, theme }: ButtonG
 
   const isChecked = (item: string) => value.includes(item)
   return (
-    <ButtonGroupFrame>
+    <ButtonGroupFrame {...props}>
       {options.map((option) => (
         <Button size="sm" theme={theme} inverse={!isChecked(option.value)} onPress={handlePress(option.value)}>
           {option.label}
