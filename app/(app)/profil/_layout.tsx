@@ -7,7 +7,7 @@ import ProfilMenu from '@/screens/profil/menu/Menu'
 import { TabRouter } from '@react-navigation/native'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import type { IconProps } from '@tamagui/helpers-icon'
-import { ArrowLeft, CircleUser, HelpingHand, KeyRound, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
+import { ArrowLeft, CircleUser, HelpingHand, KeyRound, LandPlot, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
 import { Link, Navigator, Redirect, router, Slot, Stack } from 'expo-router'
 import { useMedia, XStack } from 'tamagui'
 
@@ -57,6 +57,7 @@ const InfoHeader = createProfilHeader(Settings2)
 const ComHeader = createProfilHeader(MessageCircle)
 const ElusHeader = createProfilHeader(TreeDeciduous)
 const MDPHeader = createProfilHeader(KeyRound)
+const InstanceHeader = createProfilHeader(LandPlot)
 
 export default function AppLayout() {
   const { isAuth } = useSession()
@@ -81,6 +82,14 @@ export default function AppLayout() {
         options={{
           title: 'Cotisations et dons',
           header: (x) => <CotisHeader {...x} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="mes-instances"
+        options={{
+          title: 'Mes instances',
+          header: (x) => <InstanceHeader {...x} />,
         }}
       />
 

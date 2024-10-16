@@ -270,3 +270,10 @@ export const usetPostChangePassword = () => {
     },
   })
 }
+
+export const useGetInstances = () => {
+  return useSuspenseQuery({
+    queryKey: ['profil', 'instances'],
+    queryFn: () => api.getInstances(),
+  })
+}

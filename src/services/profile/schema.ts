@@ -309,3 +309,23 @@ export type RestChangePasswordRequest = z.infer<typeof RestChangePasswordRequest
 export const RestChangePasswordResponseSchema = z.any()
 
 export const propertyPathChangePasswordSchema = z.enum(['old_password', 'new_password', 'new_password_confirmation'])
+
+export const RestInstancesRequestSchema = z.void()
+
+export type RestInstancesRequest = z.infer<typeof RestInstancesRequestSchema>
+
+export type RestInstancesResponse = z.infer<typeof RestInstancesResponseSchema>
+export const RestInstancesResponseSchema = z.array(
+  z.discriminatedUnion('type', [
+    z.object({
+      type: z.enum(['assembly', 'circonscription']),
+      name: z.string(),
+    }),
+    z.object({
+      type: z.literal('committee'),
+      name: z.string(),
+      members_count: z.number(),
+      assembly_committees_count: z.number(),
+    }),
+  ]),
+)
