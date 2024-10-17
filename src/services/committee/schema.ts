@@ -12,3 +12,9 @@ export const RestGetComitteesResponseSchema = z.array(
 
 export type RestGetComitteesRequest = z.infer<typeof RestGetComitteesRequestSchema>
 export const RestGetComitteesRequestSchema = z.void()
+
+export const RestSetMyCommitteeRequestSchema = z.void()
+export type RestSetMyCommitteeRequest = z.infer<typeof RestSetMyCommitteeRequestSchema>
+
+export type RestSetMyCommitteeResponse = z.infer<typeof RestSetMyCommitteeResponseSchema>
+export const RestSetMyCommitteeResponseSchema = z.any()

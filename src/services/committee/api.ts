@@ -8,3 +8,12 @@ export const getCommittees = api({
   responseSchema: schemas.RestGetComitteesResponseSchema,
   type: 'private',
 })
+
+export const setMyCommittee = (uuid: string) =>
+  api({
+    method: 'PUT',
+    path: `/api/v3/profile/committees/${uuid}/join`,
+    requestSchema: schemas.RestSetMyCommitteeRequestSchema,
+    responseSchema: schemas.RestSetMyCommitteeResponseSchema,
+    type: 'private',
+  })()

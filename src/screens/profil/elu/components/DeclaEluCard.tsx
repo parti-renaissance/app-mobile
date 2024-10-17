@@ -173,7 +173,7 @@ export default function (props: { declaration?: number; cotisation?: number }) {
                     En application de l’article 4.1.2 du Règlement Intérieur, les élus titulaires de mandats électifs locaux ouvrant droit à indemnisation
                     doivent s’acquitter d’une cotisation mensuelle dont le montant est fixé suivant le barème décidé par le Bureau Exécutif du 28 novembre 2022.
                   </Text.P>
-                  <Text.MD>Comment est calculé le montant de la coisation élu ?</Text.MD>
+                  <Text.MD>Comment est calculé le montant de la cotisation élu ?</Text.MD>
                   <Text.P>
                     La cotisation calculée est égale à 2% du montant de l’ensemble des indemnités brutes perçues par l’adhérent, avec un plafond fixé à 200€ et
                     un seuil de déclenchement à partir de 250€ d’indemnités mensuelles brutes.

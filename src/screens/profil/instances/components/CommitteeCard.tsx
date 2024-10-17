@@ -2,7 +2,7 @@ import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import VoxCard, { VoxCardFrame } from '@/components/VoxCard/VoxCard'
 import type { RestGetComitteesResponse } from '@/services/committee/schema'
-import { styled, XStack, YStack } from 'tamagui'
+import { isWeb, styled, XStack, YStack } from 'tamagui'
 
 const CommitteeCardFrame = styled(VoxCardFrame, {
   tag: 'button',
@@ -50,9 +50,9 @@ type CommitteeCardProps = {
   loading?: boolean
 }
 
-export default function CommitteeCard({ committee, selected, onPress }: CommitteeCardProps) {
+export default function CommitteeCard({ committee, selected, onPress, loading }: CommitteeCardProps) {
   return (
-    <CommitteeCardFrame inside selected={selected} onPress={onPress} focusable>
+    <CommitteeCardFrame inside selected={selected} onPress={selected ? undefined : onPress} focusable>
       <VoxCard.Content>
         <XStack justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={16}>
           <YStack flex={1} gap={8}>
@@ -61,13 +61,13 @@ export default function CommitteeCard({ committee, selected, onPress }: Committe
             </Text.MD>
             <Text.SM color="$blue5">{committee.members_count} Adhérents</Text.SM>
           </YStack>
-          <YStack flex={1}>
+          <YStack>
             {selected ? (
-              <VoxButton variant="text" w={90} theme="blue" onPress={onPress}>
+              <VoxButton variant="text" w={120} theme="blue">
                 Membre
               </VoxButton>
             ) : (
-              <VoxButton variant="outlined" bg="white" w={90} theme="blue" onPress={onPress}>
+              <VoxButton variant="outlined" bg="white" w={120} theme="blue" onPress={isWeb ? undefined : onPress} loading={loading}>
                 Rejoindre
               </VoxButton>
             )}

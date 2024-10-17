@@ -8,14 +8,11 @@ import { createDoubleIcon } from '@/components/utils'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetInstances, useGetTags } from '@/services/profile/hook'
 import { RestInstancesResponse } from '@/services/profile/schema'
-import { Circle, Diamond, Triangle, UserPlus } from '@tamagui/lucide-icons'
+import { UserPlus } from '@tamagui/lucide-icons'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import ChangeCommitteeModal from './components/ChangeCommittee'
+import { DoubleCircle, DoubleDiamond, DoubleTriangle } from './components/icons'
 import InstanceCard from './components/InstanceCard'
-
-const DoubleCircle = createDoubleIcon({ icon: Circle })
-const DoubleDiamond = createDoubleIcon({ icon: Diamond })
-const DoubleTriangle = createDoubleIcon({ icon: Triangle, middleIconOffset: 2.5 })
 
 type Instance = RestInstancesResponse[number]
 
@@ -132,7 +129,8 @@ const InstancesScreen = () => {
               footer={
                 committeeContent.footerText || committeeContent.button ? (
                   <YStack gap={16}>
-                    {committeeContent.footerText} {committeeContent.button}
+                    {committeeContent.footerText}
+                    {committeeContent.button}
                   </YStack>
                 ) : null
               }

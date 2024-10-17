@@ -24,7 +24,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
 
   if (viewport.gtMd) {
     return (
-      <Modal animationType={'fade'} transparent visible={!!open} propagateSwipe>
+      <Modal animationType={'fade'} transparent visible={!!open}>
         <View
           style={styles.centeredView}
           onPress={(e) => {
@@ -67,18 +67,22 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
 
         {header}
 
-        <Sheet.ScrollView
-          scrollEnabled={scrollable}
-          keyboardShouldPersistTaps={'handled'}
-          automaticallyAdjustKeyboardInsets
-          backgroundColor={'white'}
-          contentContainerStyle={{
-            // paddingBottom: 250,
-            flexGrow: 1,
-          }}
-        >
-          {children}
-        </Sheet.ScrollView>
+        {!scrollable ? (
+          children
+        ) : (
+          <Sheet.ScrollView
+            scrollEnabled={scrollable}
+            keyboardShouldPersistTaps={'handled'}
+            automaticallyAdjustKeyboardInsets
+            backgroundColor={'white'}
+            contentContainerStyle={{
+              // paddingBottom: 250,
+              flexGrow: 1,
+            }}
+          >
+            {children}
+          </Sheet.ScrollView>
+        )}
       </Sheet.Frame>
     </Sheet>
   )
