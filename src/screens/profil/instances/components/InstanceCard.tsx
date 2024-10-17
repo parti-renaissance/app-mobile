@@ -13,25 +13,29 @@ type InstanceCardProps = {
   description: string
   children: React.ReactNode
   footer: React.ReactNode
+  headerLeft?: React.ReactNode
 }
 
 const InstanceCard = (props: InstanceCardProps) => {
   return (
     <VoxCard>
       <VoxCard.Content>
-        <XStack gap={8} alignItems="center">
-          <ZStack height={20} width={20}>
-            <props.icon color="$textPrimary" size={20} />
-            <props.icon
-              color="$textPrimary"
-              size={20}
-              transform={[{ translateY: props.middleIconOffset || 0 }]}
-              strokeWidth={5}
-              scale={0.375}
-              overflow="visible"
-            />
-          </ZStack>
-          <Text.LG semibold>{props.title}</Text.LG>
+        <XStack gap={8} alignItems="center" justifyContent="space-between">
+          <XStack gap={8} alignItems="center">
+            <ZStack height={20} width={20}>
+              <props.icon color="$textPrimary" size={20} />
+              <props.icon
+                color="$textPrimary"
+                size={20}
+                transform={[{ translateY: props.middleIconOffset || 0 }]}
+                strokeWidth={5}
+                scale={0.375}
+                overflow="visible"
+              />
+            </ZStack>
+            <Text.LG semibold>{props.title}</Text.LG>
+          </XStack>
+          {props.headerLeft}
         </XStack>
         <Text.P>{props.description}</Text.P>
         {props.children}

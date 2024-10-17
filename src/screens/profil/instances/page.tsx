@@ -2,11 +2,13 @@ import React, { Fragment, useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
+import InfoCard from '@/components/InfoCard/InfoCard'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { useGetInstances } from '@/services/profile/hook'
+import VoxCard from '@/components/VoxCard/VoxCard'
+import { useGetInstances, useGetTags } from '@/services/profile/hook'
 import { RestInstancesResponse } from '@/services/profile/schema'
-import { Circle, Diamond, Triangle } from '@tamagui/lucide-icons'
-import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
+import { Circle, Diamond, LockKeyhole, Triangle, UserPlus } from '@tamagui/lucide-icons'
+import { isWeb, ScrollView, useMedia, XStack, YStack } from 'tamagui'
 import InstanceCard from './components/InstanceCard'
 
 type Instance = RestInstancesResponse[number]
@@ -19,6 +21,8 @@ const InstancesScreen = () => {
   const media = useMedia()
 
   const { data } = useGetInstances()
+  const { tags } = useGetTags({ tags: ['sympathisant'] })
+  const isSympathisant = tags && tags.length > 0
   const [assembly] = data.filter(isAssembly)
   const [committee] = data.filter(isCommittee)
   const [circonscription] = data.filter(isCirconscription)
@@ -32,6 +36,39 @@ const InstancesScreen = () => {
     }),
     [media],
   )
+
+  const committeeContent = useMemo(() => {
+    if (isSympathisant) {
+      return {
+        content: (
+          <InfoCard theme="yellow" icon={UserPlus} buttonText="J’adhère pour devenir membre" href="/profil/cotisation-et-dons">
+            La vie militante liée aux comités est réservée aux adhérents. Adhérez pour devenir membre d’un comité.
+          </InfoCard>
+        ),
+        footerText: null,
+        button: null,
+      }
+    }
+    if (committee && committee.name) {
+      return {
+        content: <InstanceCard.Content title={committee.name} description={`${committee.members_count ?? 0} Adhérents`} />,
+        footerText: <Text.P>Vous êtes rattaché à ce comité par défaut. Vous pouvez en changer pour un autre comité de votre département.</Text.P>,
+        button: <VoxButton variant="outlined">Changer de comité</VoxButton>,
+      }
+    } else if (committee && !committee.uuid && committee.assembly_committees_count > 0) {
+      return {
+        content: <InstanceCard.EmptyState message={'Vous n’êtes rattaché à aucun comité.'} />,
+        footerText: <Text.P>Vous pouvez choisir parmi les ${committee.assembly_committees_count} comités de votre Assemblée.</Text.P>,
+        button: <VoxButton variant="outlined">Choisir parmi {committee.assembly_committees_count} comités</VoxButton>,
+      }
+    } else {
+      return {
+        content: <InstanceCard.EmptyState message={'Malheureusement, votre comité ne dispose d’aucun comité.'} />,
+        footerText: null,
+        button: null,
+      }
+    }
+  }, [committee])
 
   return (
     <PageLayout.MainSingleColumn position="relative">
@@ -76,25 +113,16 @@ const InstancesScreen = () => {
               title="Mon comité"
               icon={Diamond}
               description="Échelon de proximité, les comités locaux sont le lieux privilégié de l’action militant. Ils animent la vie du parti et contribuent à notre implantation territoriale."
+              headerLeft={isSympathisant ? <VoxCard.AdhLock /> : null}
               footer={
-                <YStack gap={16}>
-                  <Text.P>
-                    Le comité de votre lieu de résidence vous est attribué par défaut. Vous pouvez néanmoins en changer pour un autre comité de votre
-                    département.
-                  </Text.P>
-                  {committee && committee.assembly_committees_count > 1 ? (
-                    <VoxButton variant="outlined">Choisir parmi {committee.assembly_committees_count} comités</VoxButton>
-                  ) : null}
-                </YStack>
+                committeeContent.footerText || committeeContent.button ? (
+                  <YStack gap={16}>
+                    {committeeContent.footerText} {committeeContent.button}
+                  </YStack>
+                ) : null
               }
             >
-              {committee && committee.assembly_committees_count > 0 ? (
-                <InstanceCard.Content title={committee.name} description={`${committee.members_count} Adhérents`} />
-              ) : (
-                <InstanceCard.EmptyState
-                  message={committee === undefined ? 'Vous n’êtes rattaché à aucun comité.' : 'Malheureusement, votre comité ne dispose d’aucun comité.'}
-                />
-              )}
+              {committeeContent.content}
             </InstanceCard>
           </YStack>
         </ScrollView>

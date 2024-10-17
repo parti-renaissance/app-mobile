@@ -5,7 +5,7 @@ import Text from '@/components/base/Text'
 import Chip from '@/components/Chip/Chip'
 import ProfilePicture from '@/components/ProfilePicture'
 import i18n from '@/utils/i18n'
-import { CalendarDays, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
+import { CalendarDays, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
 import { Separator, Stack, StackProps, styled, TamaguiTextElement, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
@@ -266,6 +266,17 @@ const VoxCardSeparator = (props: StackProps) => (
   <Separator {...props} borderColor={props.backgroundColor ?? '$textOutline32'} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
 )
 
+const VoxCardAdhLock = () => {
+  return (
+    <XStack gap={4} alignItems="center">
+      <LockKeyhole color="$yellow5" size={12} />
+      <Text.SM semibold color="$yellow5">
+        Réservé aux adhérents
+      </Text.SM>
+    </XStack>
+  )
+}
+
 export const VoxCard = withStaticProperties(VoxCardFrame, {
   Content: VoxCardContent,
   Chip: VoxCardChip,
@@ -280,6 +291,7 @@ export const VoxCard = withStaticProperties(VoxCardFrame, {
   Capacity: VoxCardCapacity,
   Separator: VoxCardSeparator,
   Section: VoxCardSection,
+  AdhLock: VoxCardAdhLock,
 })
 
 export default VoxCard
