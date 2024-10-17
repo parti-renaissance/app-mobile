@@ -24,7 +24,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
 
   if (viewport.gtMd) {
     return (
-      <Modal animationType={'fade'} transparent visible={!!open}>
+      <Modal animationType={'fade'} transparent visible={!!open} propagateSwipe>
         <View
           style={styles.centeredView}
           onPress={(e) => {
@@ -98,8 +98,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: 'white',
-    borderRadius: 32,
+    borderRadius: 16,
     margin: Spacing.largeMargin,
+    flex: 1,
     alignItems: 'center',
     cursor: 'auto',
     overflow: 'hidden',

@@ -8,7 +8,7 @@ import i18n from '@/utils/i18n'
 import { CalendarDays, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
-import { Separator, Stack, StackProps, styled, TamaguiTextElement, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 import AutoSizeImage from '../AutoSizeImage'
 
 const CardFrame = styled(YStack, {
@@ -36,13 +36,13 @@ const CardFrame = styled(YStack, {
 } as const)
 
 export type VoxCardFrameProps = ComponentProps<typeof CardFrame>
-const VoxCardFrame = ({ children, ...props }: VoxCardFrameProps) => {
+export const VoxCardFrame = CardFrame.styleable(({ children, ...props }: VoxCardFrameProps, ref) => {
   return (
-    <CardFrame {...props}>
+    <CardFrame {...props} ref={ref}>
       <YStack gap="$3.5">{children}</YStack>
     </CardFrame>
   )
-}
+})
 
 export const VoxCardContent = styled(YStack, {
   padding: 16,

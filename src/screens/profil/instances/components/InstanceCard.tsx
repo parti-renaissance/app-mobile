@@ -1,42 +1,41 @@
-import { NamedExoticComponent } from 'react'
+import { memo, NamedExoticComponent } from 'react'
 import EmptyStateInstanceIllustration from '@/assets/illustrations/EmptyStateInstanceIllustration'
 import Text from '@/components/base/Text'
 import ProfilePicture from '@/components/ProfilePicture'
-import VoxCard, { VoxCardAuthorProps } from '@/components/VoxCard/VoxCard'
-import { IconProps } from '@tamagui/helpers-icon'
-import { withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
+import VoxCard from '@/components/VoxCard/VoxCard'
+import { IconProps, themed } from '@tamagui/helpers-icon'
+import { withStaticProperties, XStack, YStack } from 'tamagui'
 
-type InstanceCardProps = {
+type InstanceCardHeaderProps = {
   title: string
   icon: NamedExoticComponent<IconProps>
   middleIconOffset?: number
+  headerLeft?: React.ReactNode
+}
+
+export const InstanceCardHeader = (props: InstanceCardHeaderProps) => {
+  return (
+    <XStack gap={8} alignItems="center" justifyContent="space-between">
+      <XStack gap={8} alignItems="center">
+        <props.icon color="$textPrimary" size={20} />
+        <Text.LG semibold>{props.title}</Text.LG>
+      </XStack>
+      {props.headerLeft}
+    </XStack>
+  )
+}
+
+type InstanceCardProps = {
   description: string
   children: React.ReactNode
   footer: React.ReactNode
-  headerLeft?: React.ReactNode
-}
+} & InstanceCardHeaderProps
 
 const InstanceCard = (props: InstanceCardProps) => {
   return (
     <VoxCard>
       <VoxCard.Content>
-        <XStack gap={8} alignItems="center" justifyContent="space-between">
-          <XStack gap={8} alignItems="center">
-            <ZStack height={20} width={20}>
-              <props.icon color="$textPrimary" size={20} />
-              <props.icon
-                color="$textPrimary"
-                size={20}
-                transform={[{ translateY: props.middleIconOffset || 0 }]}
-                strokeWidth={5}
-                scale={0.375}
-                overflow="visible"
-              />
-            </ZStack>
-            <Text.LG semibold>{props.title}</Text.LG>
-          </XStack>
-          {props.headerLeft}
-        </XStack>
+        <InstanceCardHeader {...props} />
         <Text.P>{props.description}</Text.P>
         {props.children}
         {props.footer}
@@ -45,15 +44,30 @@ const InstanceCard = (props: InstanceCardProps) => {
   )
 }
 
+type AuthorContentProps = {
+  name: string
+  avatar: string
+  role: string
+}
+
 type InstanceCardContentProps = {
   title: string
   description?: string
-  author?: {
-    name: string
-    avatar: string
-    role: string
-  }
+  author?: AuthorContentProps
 }
+
+export const AuthorContent = (props: AuthorContentProps) => {
+  return (
+    <XStack>
+      <ProfilePicture rounded src={props.avatar} fullName={props.name} alt={`Avatar de ${props.name}`} />
+      <YStack>
+        <Text.SM>{props.name}</Text.SM>
+        <Text.P>{props.role}</Text.P>
+      </YStack>
+    </XStack>
+  )
+}
+
 const InstanceCardContent = (props: InstanceCardContentProps) => {
   return (
     <VoxCard inside borderWidth={1} borderColor="$textOutline32">
@@ -62,15 +76,7 @@ const InstanceCardContent = (props: InstanceCardContentProps) => {
           <Text.MD semibold>{props.title}</Text.MD>
           {props.description ? <Text.SM color="$textSecondary">{props.description}</Text.SM> : null}
         </YStack>
-        {props.author && (
-          <XStack>
-            <ProfilePicture rounded src={props.author.avatar} fullName={props.author.name} alt={`Avatar de ${props.author.name}`} />
-            <YStack>
-              <Text.SM>{props.author.name}</Text.SM>
-              <Text.P>{props.author.role}</Text.P>
-            </YStack>
-          </XStack>
-        )}
+        {props.author && <AuthorContent {...props.author} />}
       </VoxCard.Content>
     </VoxCard>
   )
