@@ -42,7 +42,7 @@ const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; ta
       <Tags tags={props.tags} />
       <Text.MD>Mandats rattachés au compte </Text.MD>
       <Text.P>Le bureau de l’Assemblée départementale vous a rattaché {props.mandates.length} mandats.</Text.P>
-      <XStack gap="$2">
+      <XStack gap={8} flexWrap="wrap">
         {props.mandates
           .filter((x) => !x.finish_at || isAfter(new Date(x.finish_at), new Date()))
           .map((x) => (

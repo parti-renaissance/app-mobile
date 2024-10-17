@@ -17,10 +17,18 @@ import { openURL } from 'expo-linking'
 import { Link } from 'expo-router'
 import { isWeb, XStack, YStack } from 'tamagui'
 
-const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
+const useGetDefaultScope = () => {
   const { user: credentials } = useUserStore()
   const scopes = useGetUserScopes({ enabled: !!credentials })
-  const isCadre = profil?.cadre_auth_path && scopes?.data && scopes.data.length > 0
+  const cadre_scopes = scopes?.data?.filter((s) => s.apps.includes('data_corner'))
+  const [default_scope] = cadre_scopes?.sort((a, b) => (b.features.length > a.features.length ? 1 : -1)) || []
+  return default_scope
+}
+
+const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
+  const { user: credentials } = useUserStore()
+  const default_scope = useGetDefaultScope()
+  const isCadre = profil?.cadre_auth_path && default_scope
   const onNavigateToCadre = useCallback(() => {
     if (isCadre) openURL(`${credentials?.isAdmin ? clientEnv.ADMIN_URL : clientEnv.OAUTH_BASE_URL}${profil?.cadre_auth_path}`)
   }, [profil, isCadre])
@@ -45,9 +53,9 @@ const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
         <XStack justifyContent="space-between" alignItems="center">
           <YStack flexShrink={1} flex={1}>
             <Text.MD color="$purple6" semibold>
-              {scopes.data[0].name}
+              {default_scope.name}
             </Text.MD>
-            {scopes.data[0].zones.map((z) => (
+            {default_scope.zones.map((z) => (
               <Text.P color="$purple6">
                 {z.name} ({z.code})
               </Text.P>
