@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView as RNSafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { Platform, SafeAreaView as RNSafeAreaView, TouchableWithoutFeedback } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
@@ -226,12 +226,14 @@ const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameS
 }
 
 const VoxHeaderFrameModal = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+  const SAV = Platform.OS !== 'ios' ? SafeAreaView : RNSafeAreaView
+  const SAVProps: any = Platform.OS !== 'ios' ? { edges: ['top'] } : {}
   return (
-    <RNSafeAreaView style={{ backgroundColor: 'white' }}>
+    <SAV style={{ backgroundColor: 'white' }} {...SAVProps}>
       <VoxHeaderContainerStyled>
         <VoxHeaderFrameStyled {...props} />
       </VoxHeaderContainerStyled>
-    </RNSafeAreaView>
+    </SAV>
   )
 }
 

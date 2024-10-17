@@ -1,11 +1,10 @@
 import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
-import Button, { VoxButton } from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { getHumanFormattedDate } from '@/utils/date'
 import { getYear } from 'date-fns'
-import * as WebBrowser from 'expo-web-browser'
 import { XStack, YStack } from 'tamagui'
 import type { CommonMembershipCardProps } from './types'
 
@@ -21,7 +20,9 @@ export default function (props: CommonMembershipCardProps) {
           <XStack gap="$3" $sm={{ flexDirection: 'column' }}>
             <YStack gap="$2" flex={1}>
               <Text fontWeight="$6">Renouvelez votre cotisation pour l’année {getYear(new Date())} pour garder vos droits d’adhérent.</Text>
-              <Text color="$textSecondary">Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation!)}</Text>
+              {props.last_membership_donation ? (
+                <Text color="$textSecondary">Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation)}</Text>
+              ) : null}
             </YStack>
             <YStack alignContent="center" alignItems="center" justifyContent="center">
               <VoxButton theme="yellow" disabled={isPending} onPress={handleAdhesionLink}>

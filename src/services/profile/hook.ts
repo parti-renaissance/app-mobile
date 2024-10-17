@@ -1,5 +1,4 @@
 import clientEnv from '@/config/clientEnv'
-import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'

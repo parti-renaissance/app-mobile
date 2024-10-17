@@ -67,18 +67,22 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
 
         {header}
 
-        <Sheet.ScrollView
-          scrollEnabled={scrollable}
-          keyboardShouldPersistTaps={'handled'}
-          automaticallyAdjustKeyboardInsets
-          backgroundColor={'white'}
-          contentContainerStyle={{
-            // paddingBottom: 250,
-            flexGrow: 1,
-          }}
-        >
-          {children}
-        </Sheet.ScrollView>
+        {!scrollable ? (
+          children
+        ) : (
+          <Sheet.ScrollView
+            scrollEnabled={scrollable}
+            keyboardShouldPersistTaps={'handled'}
+            automaticallyAdjustKeyboardInsets
+            backgroundColor={'white'}
+            contentContainerStyle={{
+              // paddingBottom: 250,
+              flexGrow: 1,
+            }}
+          >
+            {children}
+          </Sheet.ScrollView>
+        )}
       </Sheet.Frame>
     </Sheet>
   )
@@ -98,8 +102,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: 'white',
-    borderRadius: 32,
+    borderRadius: 16,
     margin: Spacing.largeMargin,
+    flex: 1,
     alignItems: 'center',
     cursor: 'auto',
     overflow: 'hidden',

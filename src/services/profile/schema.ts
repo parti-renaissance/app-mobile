@@ -322,9 +322,10 @@ export const RestInstancesResponseSchema = z.array(
       name: z.string(),
     }),
     z.object({
+      uuid: z.string().uuid().nullable(),
       type: z.literal('committee'),
-      name: z.string(),
-      members_count: z.number(),
+      name: z.string().nullable(),
+      members_count: z.number().nullable(),
       assembly_committees_count: z.number(),
     }),
   ]),

@@ -1,7 +1,7 @@
-import { NamedExoticComponent, useCallback } from 'react'
+import { useCallback } from 'react'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import { VoxButton } from '@/components/Button'
+import InfoCard from '@/components/InfoCard/InfoCard'
 import Menu from '@/components/menu/Menu'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
@@ -11,12 +11,11 @@ import { useGetProfil, useGetUserScopes } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
-import type { IconProps } from '@tamagui/helpers-icon'
 import { ChevronRight, ClipboardCheck, GraduationCap, History, Link as LinkIcon, SquareUser, UserPlus } from '@tamagui/lucide-icons'
 import { getYear } from 'date-fns'
 import { openURL } from 'expo-linking'
-import { Href, Link } from 'expo-router'
-import { isWeb, ThemeName, XStack, YStack } from 'tamagui'
+import { Link } from 'expo-router'
+import { isWeb, XStack, YStack } from 'tamagui'
 
 const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
   const { user: credentials } = useUserStore()
@@ -63,33 +62,6 @@ const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
   )
 }
 
-const InfoCard = (props: {
-  buttonText: string
-  icon: NamedExoticComponent<IconProps>
-  children: string | string[]
-  href: Href<string | object>
-  theme?: ThemeName | null
-}) => {
-  return (
-    <VoxCard inside bg="$color1" theme={props.theme}>
-      <VoxCard.Content justifyContent="space-between" alignItems="center">
-        <props.icon size={24} color="$color5" />
-        <YStack flexShrink={1}>
-          <Text.SM multiline textAlign="center" color="$color7">
-            {props.children}
-          </Text.SM>
-        </YStack>
-        <YStack width="100%">
-          <Link href={props.href} asChild={!isWeb}>
-            <VoxButton full inverse theme={props.theme}>
-              {props.buttonText}
-            </VoxButton>
-          </Link>
-        </YStack>
-      </VoxCard.Content>
-    </VoxCard>
-  )
-}
 export const getMembershipCardStatus = (tags: RestProfilResponse['tags']): 'renew' | 'tofinish' | null => {
   const codes = tags.map((tag) => tag.code)
 
