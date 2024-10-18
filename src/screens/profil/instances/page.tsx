@@ -9,6 +9,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetInstances, useGetTags } from '@/services/profile/hook'
 import { RestInstancesResponse } from '@/services/profile/schema'
 import { UserPlus } from '@tamagui/lucide-icons'
+import { Link } from 'expo-router'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import ChangeCommitteeModal from './components/ChangeCommittee'
 import { DoubleCircle, DoubleDiamond, DoubleTriangle } from './components/icons'
@@ -93,7 +94,13 @@ const InstancesScreen = () => {
               icon={DoubleCircle}
               description="Les Assemblées départementales, des Outr-Mer et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
               footer={
-                <Text.P>Cette Assemblée vous a été attribuée en fonction de votre lieu de résidence. Modifiez votre adresse postale pour en changer.</Text.P>
+                <Text.P>
+                  Cette Assemblée vous a été attribuée en fonction de votre lieu de résidence.{' '}
+                  <Link href="/(app)/profil/informations-personnelles" asChild>
+                    <Text.P link>Modifiez votre adresse postale</Text.P>
+                  </Link>{' '}
+                  pour en changer.
+                </Text.P>
               }
             >
               {assembly ? (
@@ -109,7 +116,11 @@ const InstancesScreen = () => {
               footer={
                 <YStack>
                   <Text.P>
-                    Cette circonscription vous a été attribuée en fonction de votre lieu de résidence. Modifiez votre adresse postale pour en changer.
+                    Cette circonscription vous a été attribuée en fonction de votre lieu de résidence.{' '}
+                    <Link href="/(app)/profil/informations-personnelles" asChild>
+                      <Text.P link>Modifiez votre adresse postale</Text.P>
+                    </Link>{' '}
+                    pour en changer.
                   </Text.P>
                 </YStack>
               }
