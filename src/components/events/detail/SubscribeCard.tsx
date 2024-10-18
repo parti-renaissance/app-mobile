@@ -104,7 +104,7 @@ export function SubscribePublicCard({ data }: Readonly<{ data: eventTypes.RestEv
 
 export function SubscribeCard({ data }: Readonly<{ data: eventTypes.RestEvent }>) {
   const { isAuth } = useSession()
-  const { data: user } = useGetProfil()
+  const { data: user } = useGetProfil({ enabled: isAuth })
   const media = useMedia()
   const isEventActive = !(
     isPast(data.finish_at) ||
