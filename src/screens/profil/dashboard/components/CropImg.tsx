@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
-import { Gesture, GestureDetector } from 'react-native-gesture-handler'
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { VoxButton } from '@/components/Button'
 import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
@@ -8,12 +8,12 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useMutation } from '@tanstack/react-query'
 import { ImageResult, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import { isWeb, styled, ThemeableStack, useMedia, XStack, YStack } from 'tamagui'
+import { gray } from './../../../../../theme/colors.hsl'
 
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
     overflow: 'hidden',
-    backgroundColor: '$gray5',
   },
   flex: {
     flex: 1,
@@ -172,47 +172,49 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
     mutate(calcCropSize())
   }
 
-  const dimentionStyle = media.gtMd ? props.windowSize : {}
+  const dimentionStyle = media.gtMd || Platform.OS === 'android' ? props.windowSize : {}
 
   return ready && originalSizes.width > 0 ? (
     <GestureDetector gesture={composed}>
-      <View ref={frameRef} style={[dimentionStyle, styles.container, media.gtMd ? {} : styles.flex]}>
-        <Animated.Image
-          style={[
-            boxAnimatedStyles,
-            { position: 'absolute', top: defaultImagePosition.y, right: defaultImagePosition.x, width: originalSizes.width, height: originalSizes.height },
-          ]}
-          source={{ uri: props.image.uri }}
-        />
+      <View ref={frameRef} style={[dimentionStyle, media.gtMd ? {} : styles.flex]}>
+        <View style={[media.gtMd ? {} : styles.flex, { backgroundColor: gray.gray6 }]}>
+          <Animated.Image
+            style={[
+              boxAnimatedStyles,
+              { position: 'absolute', top: defaultImagePosition.y, right: defaultImagePosition.x, width: originalSizes.width, height: originalSizes.height },
+            ]}
+            source={{ uri: props.image.uri }}
+          />
 
-        <ImgCroperOverlayFrame style={[dimentionStyle]}>
-          <YStack flex={1}>
-            <IngCropperDarkFrame flex={1} />
-            <XStack>
+          <ImgCroperOverlayFrame style={[dimentionStyle]}>
+            <YStack flex={1}>
               <IngCropperDarkFrame flex={1} />
-              <YStack width={CROP_SIZE + 4} height={CROP_SIZE + 4} borderWidth={2} borderColor={'white'} />
-              <IngCropperDarkFrame flex={1} />
-            </XStack>
-            <IngCropperDarkFrame flex={1}>
-              <SafeAreaView
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  right: 0,
-                }}
-              >
-                <XStack gap={16} p={16} justifyContent="center" alignItems="center">
-                  <VoxButton size="lg" onPress={() => props.onChange()} disabled={isPending}>
-                    Annuler
-                  </VoxButton>
-                  <VoxButton theme="gray" inverse={true} size="lg" onPress={cropImg} loading={isPending}>
-                    Enregistrer
-                  </VoxButton>
-                </XStack>
-              </SafeAreaView>
-            </IngCropperDarkFrame>
-          </YStack>
-        </ImgCroperOverlayFrame>
+              <XStack>
+                <IngCropperDarkFrame flex={1} />
+                <YStack width={CROP_SIZE + 4} height={CROP_SIZE + 4} borderWidth={2} borderColor={'white'} />
+                <IngCropperDarkFrame flex={1} />
+              </XStack>
+              <IngCropperDarkFrame flex={1}></IngCropperDarkFrame>
+            </YStack>
+          </ImgCroperOverlayFrame>
+        </View>
+        <SafeAreaView
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            zIndex: 200,
+          }}
+        >
+          <XStack gap={16} p={16} justifyContent="center" alignItems="center">
+            <VoxButton size="lg" onPress={() => props.onChange()} disabled={isPending}>
+              Annuler
+            </VoxButton>
+            <VoxButton theme="gray" inverse={true} size="lg" onPress={cropImg} loading={isPending}>
+              Enregistrer
+            </VoxButton>
+          </XStack>
+        </SafeAreaView>
       </View>
     </GestureDetector>
   ) : null
@@ -227,16 +229,18 @@ export default function ModalImageCroper(props: { image: ImageResult | null; onC
         media.md ? (
           <ImageCroper image={props.image} onChange={props.onClose} windowSize={windowSize} />
         ) : (
-          <VoxCard width={600} height={600} overflow="hidden" backgroundColor="$gray6">
-            <ImageCroper
-              image={props.image}
-              onChange={props.onClose}
-              windowSize={{
-                width: 600,
-                height: 600,
-              }}
-            />
-          </VoxCard>
+          <GestureHandlerRootView style={{ width: 600, height: 600 }}>
+            <VoxCard width={600} height={600} overflow="hidden" backgroundColor="$gray6">
+              <ImageCroper
+                image={props.image}
+                onChange={props.onClose}
+                windowSize={{
+                  width: 600,
+                  height: 600,
+                }}
+              />
+            </VoxCard>
+          </GestureHandlerRootView>
         )
       ) : null}
     </ModalOrPageBase>

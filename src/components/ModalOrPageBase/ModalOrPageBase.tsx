@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import { Modal, StyleSheet, TouchableOpacity } from 'react-native'
+import { Modal, Pressable, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from '@/styles'
 import { gray } from '@tamagui/colors'
@@ -25,21 +25,9 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
   if (viewport.gtMd) {
     return (
       <Modal animationType={'fade'} transparent visible={!!open}>
-        <View
-          style={styles.centeredView}
-          onPress={(e) => {
-            onClose?.()
-          }}
-        >
-          <View
-            onPress={(e) => {
-              e.stopPropagation()
-            }}
-            style={styles.modalView}
-          >
-            {children}
-          </View>
-        </View>
+        <Pressable style={styles.centeredView} onPress={(event) => event.target == event.currentTarget && onClose?.()}>
+          <View style={styles.modalView}>{children}</View>
+        </Pressable>
       </Modal>
     )
   }
@@ -104,7 +92,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 16,
     margin: Spacing.largeMargin,
-    flex: 1,
     alignItems: 'center',
     cursor: 'auto',
     overflow: 'hidden',
