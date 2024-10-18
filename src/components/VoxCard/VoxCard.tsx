@@ -148,7 +148,7 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
       {author.title && author.role && author.zone ? (
         <Text>
           <Text.SM medium primary>
-            {author.title} de {author.zone}
+            {author.title} • {author.zone}
           </Text.SM>
           <Text.BR />
           <Text.SM secondary>
