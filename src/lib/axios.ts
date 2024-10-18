@@ -49,11 +49,16 @@ instance.interceptors.response.use(identity, async function (error: AxiosError) 
         client_id: clientEnv.OAUTH_CLIENT_ID,
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
+      }).catch(() => {
+        useUserStore.getState().removeCredentials()
+        return undefined
       })
 
-      useUserStore.setState({ user: { accessToken: response.access_token, refreshToken: response.refresh_token } })
+      if (response) {
+        useUserStore.setState({ user: { accessToken: response.access_token, refreshToken: response.refresh_token } })
 
-      originalRequest.headers.Authorization = `Bearer ${response.access_token}`
+        originalRequest.headers.Authorization = `Bearer ${response.access_token}`
+      }
 
       return instance(originalRequest)
     } catch (error) {
