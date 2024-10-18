@@ -20,7 +20,9 @@ export default function (props: CommonMembershipCardProps) {
             <XStack>
               <YStack gap="$2" flex={1}>
                 <Text.MD semibold>Vous êtes à jour de cotisation</Text.MD>
-                <Text.MD secondary>Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation!)}</Text.MD>
+                {props.last_membership_donation ? (
+                  <Text.MD secondary>Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation)}</Text.MD>
+                ) : null}
               </YStack>
             </XStack>
           </YStack>
