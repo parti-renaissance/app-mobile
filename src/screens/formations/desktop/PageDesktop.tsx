@@ -1,5 +1,5 @@
 import { ComponentRef, useMemo, useRef, useState } from 'react'
-import { LayoutChangeEvent } from 'react-native'
+import { LayoutChangeEvent, LayoutRectangle } from 'react-native'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import BreadCrumb from '@/components/BreadCrumb/BreadCrumb'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
@@ -25,26 +25,31 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
   const navItems = firstSection === 'local' ? items.slice().reverse() : items
   const [selected, setSelected] = useState<'local' | 'national'>('national')
 
-  const nationalLayout = useRef<LayoutChangeEvent | null>(null)
-  const localLayout = useRef<LayoutChangeEvent | null>(null)
+  const nationalLayout = useRef<LayoutRectangle | null>(null)
+  const localLayout = useRef<LayoutRectangle | null>(null)
   const isScrolling = useRef(false)
 
   const scrollRef = useRef<ComponentRef<typeof ScrollView> | null>(null)
   const scrollToSection = (x: 'national' | 'local') => {
     if (x === 'national' && nationalLayout.current) {
-      scrollRef?.current?.scrollTo({ y: nationalLayout.current.nativeEvent.layout.y - 140 })
-    } else if (x === 'local' && localLayout.current) {
-      scrollRef?.current?.scrollTo({ y: localLayout.current.nativeEvent.layout.y - 140 })
+      scrollRef?.current?.scrollTo({ y: nationalLayout.current.y - 140 })
+    }
+    if (x === 'local' && localLayout.current) {
+      scrollRef?.current?.scrollTo({ y: localLayout.current.y - 140 })
     }
   }
 
-  const handleLayout = (filter: 'national' | 'local') => (layout: LayoutChangeEvent) => {
-    if (filter === 'national') {
-      nationalLayout.current = layout
-    } else {
-      localLayout.current = layout
+  const handleLayout =
+    (filter: 'national' | 'local') =>
+    ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
+      if (typeof layout.y !== 'number') return
+      if (filter === 'national') {
+        nationalLayout.current = layout
+      }
+      if (filter === 'local') {
+        localLayout.current = layout
+      }
     }
-  }
 
   return (
     <FormationDesktopLayout topVisual={topVisual} leftComponent={<BreadCrumb items={navItems} vertical onChange={scrollToSection} value={selected} />}>
@@ -62,9 +67,8 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
           }, 500)
           if (scrollRef?.current) {
             if (nationalLayout.current && localLayout.current) {
-              const nationalY = nationalLayout.current.nativeEvent.layout.y
-              const localY = localLayout.current.nativeEvent.layout.y
-
+              const nationalY = nationalLayout.current.y
+              const localY = localLayout.current.y
               const firstSectionY = firstSection === 'local' ? localY : nationalY
               const secondSectionY = firstSection === 'local' ? nationalY : localY
               const contentOffsetY = e.nativeEvent.contentOffset.y + 300
