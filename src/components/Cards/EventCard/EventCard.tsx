@@ -8,6 +8,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import { RestEvent } from '@/services/events/schema'
 import { useGetProfil } from '@/services/profile/hook'
+import { useUserStore } from '@/store/user-store'
 import { Calendar, CalendarCheck2, CalendarOff, Clock9, Eye, PencilLine, Sparkle, Users, XCircle } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { Href, Link, router } from 'expo-router'
@@ -105,7 +106,8 @@ export const SubscribeEventButton = ({ isSubscribed, eventId: id, outside = fals
 }
 
 const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
-  const { data: user } = useGetProfil()
+  const { user: session } = useUserStore()
+  const { data: user } = useGetProfil({ enabled: Boolean(session) })
   const isCancelled = payload.status === 'CANCELLED'
   const isPassed = isPast(payload.date.end ?? payload.date.start)
   const isAuthor = Boolean(user?.uuid === payload.author?.uuid && payload.author?.uuid)
