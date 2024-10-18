@@ -1,4 +1,5 @@
 import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react'
+import { Platform } from 'react-native'
 import { DropdownWrapper } from '@/components/base/Dropdown'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
@@ -9,7 +10,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useDeleteProfilPicture, useGetDetailProfil, useGetProfil, useGetTags, usePostProfilPicture } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { Delete, Plus, Repeat2, Settings2 } from '@tamagui/lucide-icons'
-import { ImageResult } from 'expo-image-manipulator'
+import { ImageResult, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 import { XStack, YStack } from 'tamagui'
 import ImageCroper from '../CropImg'
@@ -33,7 +34,9 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
+      allowsEditing: Platform.OS === 'android',
+      aspect: [1, 1],
+      quality: Platform.OS === 'android' ? 0.75 : 1,
     })
 
     if (!result.canceled) {
@@ -42,8 +45,25 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
         height: result.assets[0].height,
         width: result.assets[0].width,
       }
-      setImage(_img)
-      setOpenCrop(true)
+      if (Platform.OS === 'android') {
+        manipulateAsync(
+          _img.uri,
+          [
+            {
+              resize: {
+                width: 360,
+                height: 360,
+              },
+            },
+          ],
+          { compress: 0.75, format: SaveFormat.WEBP, base64: true },
+        ).then((result) => {
+          mutate('data:image/webp;base64,' + result.base64!)
+        })
+      } else {
+        setImage(_img)
+        setOpenCrop(true)
+      }
     }
   }
 

@@ -10,6 +10,7 @@ const CommitteeCardFrame = styled(VoxCardFrame, {
   animation: 'quick',
   cursor: 'pointer',
   flex: 1,
+  flexBasis: 0,
   height: 148,
   borderWidth: 2,
   borderColor: 'white',
@@ -54,8 +55,8 @@ export default function CommitteeCard({ committee, selected, onPress, loading }:
   return (
     <CommitteeCardFrame inside selected={selected} onPress={selected ? undefined : onPress} focusable>
       <VoxCard.Content>
-        <XStack justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={16}>
-          <YStack flex={1} gap={8}>
+        <XStack justifyContent="space-between" alignItems="center" gap={16}>
+          <YStack flexShrink={1} gap={8}>
             <Text.MD semibold color="$blue6">
               {committee.name}
             </Text.MD>
@@ -63,11 +64,11 @@ export default function CommitteeCard({ committee, selected, onPress, loading }:
           </YStack>
           <YStack>
             {selected ? (
-              <VoxButton variant="text" w={120} theme="blue">
+              <VoxButton variant="text" theme="blue">
                 Membre
               </VoxButton>
             ) : (
-              <VoxButton variant="outlined" bg="white" w={120} theme="blue" onPress={isWeb ? undefined : onPress} loading={loading}>
+              <VoxButton variant="outlined" bg="white" theme="blue" onPress={isWeb ? undefined : onPress} loading={loading}>
                 Rejoindre
               </VoxButton>
             )}

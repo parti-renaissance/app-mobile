@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, memo, useMemo, useRef, useState } from 'react'
-import { Dimensions, FlatList, Platform, SafeAreaView, View } from 'react-native'
+import { Dimensions, FlatList, SafeAreaView, View } from 'react-native'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { VoxButton } from '@/components/Button'
@@ -52,14 +52,7 @@ const ChangeCommiteeList = ({ currentUuid, ...props }: { currentUuid: string | n
       data={list}
       key={key}
       numColumns={media.gtSm ? 2 : undefined}
-      ListHeaderComponent={
-        <Text.P $gtSm={{ pb: 16 }}>
-          Trouvez un comité dans la région des Hauts-de-Seine Si vous avez déménagé et souhaitez changer de comité,{' '}
-          <Link href="/(app)/profil/informations-personnelles" asChild onPress={() => props.onClose?.()}>
-            <Text.P link>mettez à jour votre adresse ici.</Text.P>
-          </Link>
-        </Text.P>
-      }
+      ListHeaderComponent={<Text.P $gtSm={{ pb: 16 }}>Vous pouvez seulement changer de comité au sein de votre Assemblée.</Text.P>}
       renderItem={({ item }) => (
         <MemoizedCommitteeCard
           committee={item}
@@ -70,7 +63,7 @@ const ChangeCommiteeList = ({ currentUuid, ...props }: { currentUuid: string | n
       )}
       keyExtractor={(item) => item.uuid}
       contentContainerStyle={{ gap: media.gtSm ? 0 : 16, flexGrow: 1, padding: 16, marginBottom: 24 }}
-      columnWrapperStyle={media.gtSm ? { gap: 16, paddingBottom: 16 } : undefined}
+      columnWrapperStyle={media.gtSm ? { gap: 16, paddingBottom: 16, flex: 1 } : undefined}
     />
   )
 }

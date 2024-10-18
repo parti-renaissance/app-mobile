@@ -44,7 +44,10 @@ const Text = styled(TamaguiText, {
         textDecorationLine: 'underline',
         color: '$blue6',
         pressStyle: {
-          opacity: 0.7,
+          opacity: 0.6,
+        },
+        hoverStyle: {
+          opacity: 0.8,
         },
       },
     },
