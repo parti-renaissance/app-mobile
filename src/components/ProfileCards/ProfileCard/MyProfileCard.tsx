@@ -114,7 +114,7 @@ const EluCard = () => {
 }
 
 export default function MyProfileCard() {
-  const { session } = useSession()
+  const { user: session } = useUserStore()
   const user = useGetProfil({ enabled: !!session })
   const profile = user?.data
   const statusAdh = profile ? getMembershipCardStatus(profile.tags) : null
