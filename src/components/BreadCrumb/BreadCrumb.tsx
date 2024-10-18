@@ -104,8 +104,12 @@ export const BreadCrumb = <ID extends string>(
   const parentLayout = useRef<LayoutRectangle | null>(null)
   const coordNumber = useSharedValue(0)
   const widthNumber = useSharedValue(0)
+  const parentRef = useRef<View>(null)
+  const lastPosition = useRef([0, 0, 0])
   const refs = useRef(new Map<string, TamaguiElement | null>())
   const setActivePostion = (x: number, y: number, width: number) => {
+    const record = [x, y, width]
+    if (record.every((x, i) => x === lastPosition.current[i])) return
     const clp = (x: number) =>
       parentLayout.current
         ? clamp(
@@ -120,10 +124,17 @@ export const BreadCrumb = <ID extends string>(
       coordNumber.value = withSpring(clp(x))
       widthNumber.value = withTiming(width)
     }
+    lastPosition.current = record
   }
-  const handlePress = (id: ID) => () => {
+
+  const setActivePositionById = (id: ID) => {
     const element = refs.current.get(id) as View
-    element?.measure(setActivePostion)
+    if (!element || !parentRef.current) return
+    element?.measureLayout(parentRef.current, setActivePostion)
+  }
+
+  const handlePress = (id: ID) => () => {
+    setActivePositionById(id)
     props.onChange?.(id)
   }
 
@@ -135,8 +146,7 @@ export const BreadCrumb = <ID extends string>(
   }
 
   useEffect(() => {
-    const element = refs.current.get(props.value) as View
-    element?.measure(setActivePostion)
+    setActivePositionById(props.value)
   }, [props.value])
 
   const initParentPosition = (props: LayoutChangeEvent) => {
@@ -165,7 +175,7 @@ export const BreadCrumb = <ID extends string>(
     )
   })
   return (
-    <BreadCrumbApi onLayout={initParentPosition} vertical={vertical}>
+    <BreadCrumbApi ref={parentRef} onLayout={initParentPosition} vertical={vertical}>
       <Animated.View style={[animation, { position: 'absolute' }]}>
         <BreadCrumbApi.ActiveIndicator />
       </Animated.View>
