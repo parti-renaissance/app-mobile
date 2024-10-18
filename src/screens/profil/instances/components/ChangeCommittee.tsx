@@ -1,6 +1,5 @@
 import { ComponentPropsWithoutRef, memo, useMemo, useRef, useState } from 'react'
 import { Dimensions, FlatList, Platform, SafeAreaView, View } from 'react-native'
-// import { SafeAreaView } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import { VoxButton } from '@/components/Button'
@@ -9,6 +8,7 @@ import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetCommittees, useSetMyCommittee } from '@/services/committee/hook'
 import { Diamond, X } from '@tamagui/lucide-icons'
+import { Link } from 'expo-router'
 import { useMedia, YStack } from 'tamagui'
 import CommitteeCard from './CommitteeCard'
 import { DoubleDiamond } from './icons'
@@ -54,7 +54,10 @@ const ChangeCommiteeList = ({ currentUuid, ...props }: { currentUuid: string | n
       numColumns={media.gtSm ? 2 : undefined}
       ListHeaderComponent={
         <Text.P $gtSm={{ pb: 16 }}>
-          Trouvez un comité dans la région des Hauts-de-Seine Si vous avez déménagé et souhaitez changer de comité, mettez à jour votre adresse ici.
+          Trouvez un comité dans la région des Hauts-de-Seine Si vous avez déménagé et souhaitez changer de comité,{' '}
+          <Link href="/(app)/profil/informations-personnelles" asChild onPress={() => props.onClose?.()}>
+            <Text.P link>mettez à jour votre adresse ici.</Text.P>
+          </Link>
         </Text.P>
       }
       renderItem={({ item }) => (

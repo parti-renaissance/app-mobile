@@ -1,4 +1,4 @@
-import { cloneElement, Fragment, isValidElement } from 'react'
+import { cloneElement, ComponentPropsWithoutRef, Fragment, isValidElement } from 'react'
 import { styled, Text as TamaguiText, withStaticProperties, YStack } from 'tamagui'
 
 const Text = styled(TamaguiText, {
@@ -32,13 +32,24 @@ const Text = styled(TamaguiText, {
         fontWeight: 500,
       },
     },
+
     regular: {
       true: {
         fontWeight: 400,
       },
     },
+    link: {
+      true: {
+        cursor: 'pointer',
+        textDecorationLine: 'underline',
+        color: '$blue6',
+        pressStyle: {
+          opacity: 0.7,
+        },
+      },
+    },
   } as const,
-} as const)
+})
 
 const LG = styled(Text, {
   fontSize: 16,
@@ -91,6 +102,7 @@ const P = styled(SM, {
 
 const BR = () => <Fragment>{'\n'}</Fragment>
 const TAB = () => <Fragment>{'\t'}</Fragment>
+
 export default withStaticProperties(Text, {
   LG,
   MD,
