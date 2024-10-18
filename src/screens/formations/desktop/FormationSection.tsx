@@ -57,13 +57,13 @@ export const FormationSection = ({ data: formations, visibility, onLayout, theme
             )}
             <VoxCard.Separator />
             <XStack gap={24}>
-              <YStack flex={1} gap={24}>
+              <YStack flex={1} gap={24} flexBasis={0}>
                 {formationsCol[0].map((formation, index) => (
                   <FormaCard key={index} payload={formation} last={index === formationsCol[0].length - 1} />
                 ))}
               </YStack>
               {formations.length > 1 && <YStack width={1} backgroundColor={'$textOutline'} />}
-              <YStack flex={1} gap={24}>
+              <YStack flex={1} gap={24} flexBasis={0}>
                 {formationsCol[1].map((formation, index) => (
                   <FormaCard key={index} payload={formation} last={index === formationsCol[1].length - 1} />
                 ))}

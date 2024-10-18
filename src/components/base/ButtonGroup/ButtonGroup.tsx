@@ -25,7 +25,7 @@ export default function ButtonGroup({ options, value, onChange, theme, ...props 
       onChange(value.filter((v) => v !== item))
       return
     }
-    onChange([...value, item])
+    onChange([item])
   }
 
   const isChecked = (item: string) => value.includes(item)
