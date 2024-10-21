@@ -10,7 +10,7 @@ import type { IconProps } from '@tamagui/helpers-icon'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
-import { Button, isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, View, withStaticProperties, XStack, YStackProps } from 'tamagui'
+import { Button, isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, View, ViewProps, withStaticProperties, XStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
@@ -22,39 +22,47 @@ const opacityToHexCode = (hex: string, opacity: number) => {
   return `${hex}${opacityHex}`
 }
 
-const ButtonNav = styled(Button, {
+const ButtonNav = styled(ThemeableStack, {
+  tag: 'button',
   backgroundColor: 'transparent',
+  animation: 'quick',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: 2,
+  cursor: 'pointer',
+  gap: 6,
+  borderRadius: 999,
+  paddingHorizontal: 12,
+  borderWidth: 1,
+  borderColor: 'transparent',
+  height: 32,
+  hoverStyle: {
+    backgroundColor: '$color1',
+  },
+  focusable: true,
+  focusStyle: {
+    backgroundColor: '$color1',
+  },
+  variants: {
+    active: {
+      true: {
+        backgroundColor: '$color1',
+      },
+    },
+  },
 })
 
 const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) => {
-  const colorOpacity = opacityToHexCode(props.route.gradiant[0], 0.09)
   const [isHover, setIsHover] = React.useState(false)
+  const activeColor = (props.isActive || isHover) && props.route.theme !== 'gray' ? '$color5' : '$textPrimary'
   return (
     <Link href={`/(tabs)/${props.route.name}`} asChild key={props.route.name}>
-      <ButtonNav
-        onHoverIn={() => setIsHover(true)}
-        onHoverOut={() => setIsHover(false)}
-        animation="bouncy"
-        hoverStyle={{
-          bg: colorOpacity,
-          bc: 'transparent',
-        }}
-        pressStyle={{
-          bg: colorOpacity,
-          bc: 'transparent',
-        }}
-      >
-        <Button.Icon scaleIcon={2}>
-          <props.route.icon size={28} active={[props.isActive, isHover].some(Boolean)} />
-        </Button.Icon>
+      <ButtonNav onHoverIn={() => setIsHover(true)} onHoverOut={() => setIsHover(false)} theme={props.route.theme} active={props.isActive}>
+        <props.route.icon color={activeColor} size={16} active={[props.isActive, isHover].some(Boolean)} />
 
-        <Button.Text $md={{ display: 'none' }} color={props.isActive ? props.route.gradiant[1] : '$gray8'} fontWeight={'500'}>
+        <Text.MD color={activeColor} fontWeight={'500'}>
           {props.route.screenName}
-        </Button.Text>
+        </Text.MD>
       </ButtonNav>
     </Link>
   )
@@ -68,13 +76,13 @@ export const NavBar = () => {
   const { session } = useSession()
   if (!session) return null
   return gtSm ? (
-    <Stack flexDirection="row" gap={4}>
+    <XStack gap={24}>
       {ROUTES.filter((x) => !x.hidden).map((route) => {
         const isIndex = route.name === '(home)'
         const focused = pathname.includes(route.name) || (isIndex && pathname === '/')
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}
-    </Stack>
+    </XStack>
   ) : null
 }
 
@@ -114,16 +122,16 @@ const LoginView = () => (
   </View>
 )
 
-export const ProfileNav = () => {
+export const ProfileNav = (props: ViewProps) => {
   return (
     <AuthFallbackWrapper fallback={<LoginView />}>
-      <View flexDirection="row" alignItems="center" gap={'$3'}>
+      <XStack {...props}>
         <Link href="/profil">
           <View>
             <ProfileView />
           </View>
         </Link>
-      </View>
+      </XStack>
     </AuthFallbackWrapper>
   )
 }
@@ -204,13 +212,12 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
 const VoxHeaderContainerStyled = styled(Container, {
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
+  height: 56,
   $md: {
-    height: 56,
     paddingHorizontal: 26,
     paddingVertical: 6,
   },
   $gtMd: {
-    height: 82,
     paddingHorizontal: 18,
   },
 })

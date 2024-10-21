@@ -75,7 +75,15 @@ function Root() {
   const appState = useRef(AppState.currentState)
 
   const colorScheme = useColorScheme()
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        retry: false,
+      },
+    },
+  })
   const [isFontsLoaded] = useImportFont()
   useRegisterRoutingInstrumentation()
 

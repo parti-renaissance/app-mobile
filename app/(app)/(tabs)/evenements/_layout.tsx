@@ -6,11 +6,8 @@ import { Stack } from 'expo-router'
 export default function EventLayout() {
   const { isAuth } = useSession()
   return (
-    <Stack screenOptions={{ header: (x) => <SmallHeader {...x} />, animation: 'slide_from_right' }}>
-      <Stack.Screen
-        name="index"
-        options={isAuth ? { title: 'Événements' } : { header: (x) => <Header {...x} />, title: 'Événements', headerLeft: () => <EuCampaignIllustration /> }}
-      />
+    <Stack screenOptions={{ header: (x) => null }}>
+      <Stack.Screen name="index" />
       <Stack.Screen name="[id]" options={{ title: '' }} />
     </Stack>
   )

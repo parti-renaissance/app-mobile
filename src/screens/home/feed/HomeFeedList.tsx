@@ -43,18 +43,20 @@ const HomeFeedList = () => {
       ref={flatListRef}
       style={{ flex: 1 }}
       contentContainerStyle={{
-        gap: getToken('$4', 'space'),
-        paddingTop: media.gtSm ? getToken('$5', 'space') : getToken('$4', 'space'),
+        gap: media.gtSm ? 16 : 8,
+        paddingTop: media.gtSm ? getToken('$5', 'space') : 0,
         paddingLeft: media.gtSm ? getToken('$5', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
       }}
-      ListHeaderComponent={() => (
-        <YStack flex={1}>
-          {alerts.map((alert, i) => (
-            <AlertCard key={`${i}-alert`} payload={alert} />
-          ))}
-        </YStack>
-      )}
+      ListHeaderComponent={() =>
+        alerts.length > 0 && (
+          <YStack p="$3">
+            {alerts.map((alert, i) => (
+              <AlertCard key={`${i}-alert`} payload={alert} />
+            ))}
+          </YStack>
+        )
+      }
       data={feedData}
       renderItem={renderFeedItem}
       keyExtractor={(item) => item.objectID}
