@@ -14,8 +14,7 @@ export type TabRoute = {
 export const ROUTES: TabRoute[] = [
   {
     name: '(home)',
-    screenName: 'Mon fil',
-    href: '/',
+    screenName: 'Acceuil',
     icon: Home,
     theme: 'gray',
   },
@@ -36,5 +35,20 @@ export const ROUTES: TabRoute[] = [
     screenName: 'Porte à Porte',
     icon: DoorOpen,
     theme: 'orange',
+  },
+
+  {
+    name: 'ressources',
+    screenName: 'Ressources',
+    icon: GraduationCap,
+    theme: 'purple',
+    // hidden: true,
+  },
+  {
+    name: 'formations',
+    screenName: 'Formations',
+    icon: ToolsIcon,
+    theme: 'red',
+    hidden: true,
   },
 ]

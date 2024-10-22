@@ -1,21 +1,15 @@
-import React, { NamedExoticComponent } from 'react'
-import Animated, { FadingTransition, LinearTransition } from 'react-native-reanimated'
+import React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import Text from '@/components/base/Text'
-import { NavBar, ProfileNav, ProfileView, SmallHeader, VoxHeader } from '@/components/Header/Header'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
 import TabBar from '@/components/TabBar/TabBar'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import { TabRouter } from '@react-navigation/native'
-import { Link, Navigator, Redirect, router, Slot, Stack, Tabs, useSegments } from 'expo-router'
+import { Link, Navigator, Slot, Tabs, useSegments } from 'expo-router'
 import { isWeb, useMedia, View, XStack, YStack } from 'tamagui'
 
-const TAB_BAR_HEIGHT = 80
-
 function CustomRouter() {
-  const media = useMedia()
   return (
     <Navigator router={TabRouter}>
       <YStack flex={1}>
@@ -29,7 +23,6 @@ function CustomRouter() {
           <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
         </VoxHeader>
         <Slot />
-        {media.sm ? <TabBar /> : null}
       </YStack>
     </Navigator>
   )
@@ -49,7 +42,27 @@ export default function AppLayout() {
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      <CustomRouter />
+      {media.gtMd ? (
+        <CustomRouter />
+      ) : (
+        <Tabs tabBar={(props) => <TabBar {...props} />}>
+          {ROUTES.map((route) => (
+            <Tabs.Screen
+              key={route.name}
+              name={route.name}
+              options={{
+                // @ts-expect-error
+                tabBarVisible: !route.hidden,
+                tabBarTheme: route.theme,
+                tabBarActiveTintColor: '$color5',
+                tabBarInactiveTintColor: '$textPrimary',
+                tabBarIcon: ({ focused, ...props }) => <route.icon {...props} />,
+                tabBarLabel: route.screenName,
+              }}
+            />
+          ))}
+        </Tabs>
+      )}
     </View>
   )
 }
