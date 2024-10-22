@@ -15,13 +15,6 @@ export default function AppLayout() {
               title: '',
             }}
           ></Stack.Screen>
-          <Stack.Screen
-            name="profil"
-            options={{
-              title: 'Profil',
-              animation: media.gtSm ? 'none' : 'slide_from_right',
-            }}
-          ></Stack.Screen>
         </Stack>
       </View>
     </PortalLayout>

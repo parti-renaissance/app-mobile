@@ -2,6 +2,7 @@ import React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
+import MoreSheet from '@/components/TabBar/MoreSheet'
 import TabBar from '@/components/TabBar/TabBar'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
@@ -42,17 +43,23 @@ export default function AppLayout() {
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
+      {/* <MoreSheet /> */}
       {media.gtMd ? (
         <CustomRouter />
       ) : (
-        <Tabs tabBar={(props) => <TabBar {...props} />}>
+        <Tabs
+          tabBar={(props) => <TabBar {...props} />}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
           {ROUTES.map((route) => (
             <Tabs.Screen
               key={route.name}
               name={route.name}
               options={{
                 // @ts-expect-error
-                tabBarVisible: !route.hidden,
+                tabBarVisible: !route.hiddenMobile,
                 tabBarTheme: route.theme,
                 tabBarActiveTintColor: '$color5',
                 tabBarInactiveTintColor: '$textPrimary',

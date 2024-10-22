@@ -14,15 +14,6 @@ import { useMedia, XStack } from 'tamagui'
 function CustomRouter() {
   return (
     <Navigator router={TabRouter}>
-      <VoxHeader justifyContent="space-between">
-        <Link href="/">
-          <EuCampaignIllustration cursor="pointer" />
-        </Link>
-        <NavBar />
-        <Link href="/profil">
-          <ProfileView />
-        </Link>
-      </VoxHeader>
       <PageLayout>
         <PageLayout.SideBarLeft>
           <XStack justifyContent="flex-end">

@@ -1,10 +1,13 @@
 import React, { useRef } from 'react'
 import { LayoutChangeEvent, LayoutRectangle, Platform, SafeAreaView as RNSafeAreaView, StyleSheet } from 'react-native'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withClamp, withSpring, withTiming } from 'react-native-reanimated'
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
-import { BottomTabBarProps, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
+import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import { MoreHorizontal } from '@tamagui/lucide-icons'
 import { getThemes, styled, ThemeableStack, ThemeName, useTheme, withStaticProperties, YStack } from 'tamagui'
+import MoreSheet from './MoreSheet'
+import { TabBarNavProps, TabNavOptions } from './types'
 
 const SAV = Platform.OS !== 'ios' ? SafeAreaView : RNSafeAreaView
 const SAVProps: any = Platform.OS !== 'ios' ? { edges: ['bottom'] } : {}
@@ -46,18 +49,18 @@ const TabBar = withStaticProperties(TabBarFrame, {
 })
 
 type TabProps = {
-  route: BottomTabBarProps['state']['routes'][number]
+  name: string
   isFocus: boolean
   onPress: () => void
-  options: BottomTabNavigationOptions & { tabBarTheme?: ThemeName; tabBarVisible?: boolean }
+  options: TabNavOptions
   onLayout: (e: LayoutChangeEvent) => void
 }
 
-const Tab = ({ isFocus, options, route, onPress, onLayout }: TabProps) => {
+const Tab = ({ isFocus, options, name, onPress, onLayout }: TabProps) => {
   const scale = useSharedValue(0)
 
   React.useEffect(() => {
-    scale.value = withTiming(isFocus ? 1 : 0, { duration: 100 })
+    scale.value = withSpring(isFocus ? 1 : 0, { duration: 350 })
   }, [isFocus])
 
   const animatedIconStyle = useAnimatedStyle(() => {
@@ -73,7 +76,7 @@ const Tab = ({ isFocus, options, route, onPress, onLayout }: TabProps) => {
   })
 
   const activeColor = (isFocus ? options.tabBarActiveTintColor : options.tabBarInactiveTintColor) ?? 'black'
-  const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : route.name
+  const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : name
   const tabBarIcon = options.tabBarIcon ? (
     <Animated.View style={[animatedIconStyle]}>
       <options.tabBarIcon color={activeColor} size={16} focused={isFocus} />
@@ -92,20 +95,25 @@ const Tab = ({ isFocus, options, route, onPress, onLayout }: TabProps) => {
 }
 const MemoTab = React.memo(Tab)
 
-const TabBarNav = ({
-  state,
-  descriptors,
-  navigation,
-}: BottomTabBarProps & {
-  descriptors: BottomTabBarProps['descriptors'] & {
-    [key: string]: { options: BottomTabNavigationOptions & { tabBarTheme?: ThemeName; tabBarVisible?: boolean } }
-  }
-}) => {
+const TabBarNav = ({ state, descriptors, navigation }: TabBarNavProps) => {
+  const [otherFocus, setOtherFocus] = React.useState(false)
+
   const filteredRoutes = React.useMemo(
     () =>
       state.routes.filter((route) => {
         const { options } = descriptors[route.key]
         return options.tabBarVisible === true || options.tabBarVisible === undefined
+      }),
+    [state.routes, descriptors],
+  )
+
+  const otherIsFocus = otherFocus || state.index > filteredRoutes.length - 1
+
+  const hiddenRoutes = React.useMemo(
+    () =>
+      state.routes.filter((route) => {
+        const { options } = descriptors[route.key]
+        return options.tabBarVisible === false
       }),
     [state.routes, descriptors],
   )
@@ -131,6 +139,11 @@ const TabBarNav = ({
     activeColor.value = activeColorValue
   }, [activeColorValue])
 
+  React.useEffect(() => {
+    const key = state.index > filteredRoutes.length - 1 ? 'more' : state.routes[state.index].key
+    position.value = withSpring(getPositionFromKey(key), { duration: 2000 })
+  }, [state.index])
+
   const indicatorAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: position.value }],
@@ -146,30 +159,80 @@ const TabBarNav = ({
       layoutsByKey.current.set(key, e.nativeEvent.layout)
     }
   }
+
+  const moreSheetRef = useRef<BottomSheet>(null)
+
+  const handleMoreClose = () => {
+    setOtherFocus(false)
+    if (layoutsByKey.current.get(state.routes[state.index].key)) {
+      position.value = withSpring(getPositionFromKey(state.routes[state.index].key), { duration: 2000 })
+    }
+  }
+
+  const handleOtherPress = () => {
+    setOtherFocus((x) => {
+      if (x) {
+        moreSheetRef.current?.close()
+        position.value = withSpring(getPositionFromKey(state.routes[state.index].key), { duration: 2000 })
+      } else {
+        moreSheetRef.current?.expand()
+        position.value = withSpring(getPositionFromKey('more'), { duration: 2000 })
+      }
+      return !x
+    })
+  }
   return (
-    <SAV {...SAVProps} style={{ backgroundColor: 'white' }}>
-      <TabBar>
-        <Animated.View style={[indicatorStyle.indicator, indicatorAnimatedStyle]} />
-        {filteredRoutes.map((route, index) => {
-          const { options } = descriptors[route.key]
-          const isFocus = state.index === index
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            })
-            position.value = withSpring(getPositionFromKey(route.key), { duration: 2000 })
+    <>
+      <SAV {...SAVProps} style={{ backgroundColor: 'white' }}>
+        <TabBar>
+          <Animated.View style={[indicatorStyle.indicator, indicatorAnimatedStyle]} />
+          {filteredRoutes.map((route, index) => {
+            const { options } = descriptors[route.key]
+            const isFocus = state.index === index && !otherIsFocus
+            const onPress = () => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              })
+              moreSheetRef.current?.close()
+              setOtherFocus(false)
+              position.value = withSpring(getPositionFromKey(route.key), { duration: 2000 })
 
-            if (!isFocus && !event.defaultPrevented) {
-              navigation.navigate(route.name)
+              if (!isFocus && !event.defaultPrevented) {
+                navigation.navigate(route.name)
+              }
             }
-          }
 
-          return <MemoTab onLayout={handleSaveLayout(route.key)} key={route.name} route={route} isFocus={isFocus} onPress={onPress} options={options} />
-        })}
-      </TabBar>
-    </SAV>
+            return <MemoTab onLayout={handleSaveLayout(route.key)} key={route.name} name={route.name} isFocus={isFocus} onPress={onPress} options={options} />
+          })}
+          <MemoTab
+            name="more"
+            isFocus={otherIsFocus}
+            onPress={handleOtherPress}
+            options={{
+              tabBarVisible: true,
+              tabBarTheme: 'purple',
+              tabBarActiveTintColor: '$color5',
+              tabBarInactiveTintColor: '$textPrimary',
+              tabBarIcon: ({ focused, ...props }) => <MoreHorizontal {...props} />,
+              tabBarLabel: 'Autre',
+            }}
+            onLayout={handleSaveLayout('more')}
+          />
+        </TabBar>
+      </SAV>
+      <MoreSheet
+        ref={moreSheetRef}
+        onClose={handleMoreClose}
+        navProps={{
+          state: { ...state, routes: hiddenRoutes },
+          descriptors,
+          navigation,
+          mainNavLength: filteredRoutes.length,
+        }}
+      />
+    </>
   )
 }
 
