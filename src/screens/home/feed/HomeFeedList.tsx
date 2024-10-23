@@ -49,13 +49,13 @@ const HomeFeedList = () => {
         paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
       }}
       ListHeaderComponent={() =>
-        alerts.length > 0 && (
-          <YStack p="$3">
+        alerts.length > 0 ? (
+          <YStack gap={8}>
             {alerts.map((alert, i) => (
               <AlertCard key={`${i}-alert`} payload={alert} />
             ))}
           </YStack>
-        )
+        ) : null
       }
       data={feedData}
       renderItem={renderFeedItem}

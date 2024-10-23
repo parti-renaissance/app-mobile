@@ -1,21 +1,11 @@
 import React from 'react'
-import ProfilLayout from '@/components/layouts/ProfilLayout'
-import * as metatags from '@/config/metatags'
-import ChangePassScreen from '@/screens/profil/password/page'
-import Head from 'expo-router/head'
+import ProfilLayout from '@/features/profil/components/ProfilPage'
+import Screen from '@/features/profil/pages/password'
 
-function ChangePasswordScreen() {
+export default function PasswordScreen() {
   return (
-    <>
-      <Head>
-        <title>{metatags.createTitle('Mot de passe')}</title>
-      </Head>
-
-      <ProfilLayout>
-        <ChangePassScreen />
-      </ProfilLayout>
-    </>
+    <ProfilLayout screenName="mot-de-passe">
+      <Screen />
+    </ProfilLayout>
   )
 }
-
-export default ChangePasswordScreen

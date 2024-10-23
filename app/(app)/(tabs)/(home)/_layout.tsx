@@ -1,8 +1,21 @@
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import Header, { SmallHeader } from '@/components/Header/Header'
+import { ProfileNav, VoxHeader } from '@/components/Header/Header'
 import { useSession } from '@/ctx/SessionProvider'
-import { Redirect, Stack } from 'expo-router'
-import { useMedia } from 'tamagui'
+import { Link, Redirect, Stack } from 'expo-router'
+import { useMedia, XStack } from 'tamagui'
+
+const HomeHeader = () => {
+  return (
+    <VoxHeader justifyContent="space-between" backgroundColor="$textSurface">
+      <XStack flex={1} flexBasis={0}>
+        <Link href="/" replace>
+          <EuCampaignIllustration cursor="pointer" />
+        </Link>
+      </XStack>
+      <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
+    </VoxHeader>
+  )
+}
 
 export default function AppLayout() {
   const { isAuth } = useSession()
@@ -15,7 +28,7 @@ export default function AppLayout() {
   return (
     <Stack
       screenOptions={{
-        header: (props) => (media.md ? <SmallHeader {...props} /> : null),
+        header: () => (media.md ? <HomeHeader /> : null),
         headerLeft: () => <EuCampaignIllustration />,
         animation: 'slide_from_right',
       }}

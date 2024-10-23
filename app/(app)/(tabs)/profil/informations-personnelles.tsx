@@ -1,22 +1,11 @@
 import React from 'react'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import ProfilLayout from '@/components/layouts/ProfilLayout'
-import * as metatags from '@/config/metatags'
-import EditInformations from '@/screens/profil/account/page'
-import Head from 'expo-router/head'
+import ProfilLayout from '@/features/profil/components/ProfilPage'
+import Screen from '@/features/profil/pages/account'
 
-function PersonalInfoScreen() {
+export default function InformationsPersonelScreen() {
   return (
-    <>
-      <Head>
-        <title>{metatags.createTitle('Mes informations')}</title>
-      </Head>
-
-      <ProfilLayout>
-        <EditInformations />
-      </ProfilLayout>
-    </>
+    <ProfilLayout screenName="informations-personnelles">
+      <Screen />
+    </ProfilLayout>
   )
 }
-
-export default PersonalInfoScreen

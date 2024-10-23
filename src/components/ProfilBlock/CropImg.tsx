@@ -8,7 +8,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useMutation } from '@tanstack/react-query'
 import { ImageResult, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import { isWeb, styled, ThemeableStack, useMedia, XStack, YStack } from 'tamagui'
-import { gray } from './../../../../../theme/colors.hsl'
+import { gray } from './../../../theme/colors.hsl'
 
 const styles = StyleSheet.create({
   container: {

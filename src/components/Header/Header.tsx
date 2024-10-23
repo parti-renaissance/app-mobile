@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform, SafeAreaView as RNSafeAreaView, TouchableWithoutFeedback } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
@@ -10,7 +10,23 @@ import type { IconProps } from '@tamagui/helpers-icon'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
-import { Button, isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, View, ViewProps, withStaticProperties, XStack, YStackProps } from 'tamagui'
+import {
+  getTokenValue,
+  isWeb,
+  Spinner,
+  Stack,
+  styled,
+  ThemeableStack,
+  useMedia,
+  useStyle,
+  useTheme,
+  View,
+  ViewProps,
+  withStaticProperties,
+  XStack,
+  YStack,
+  YStackProps,
+} from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
@@ -207,12 +223,13 @@ const VoxHeaderFrameStyled = styled(ThemeableStack, {
   flexDirection: 'row',
   alignItems: 'center',
   flex: 1,
+  height: 56,
 })
 
 const VoxHeaderContainerStyled = styled(Container, {
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
-  height: 56,
+
   $md: {
     paddingHorizontal: 26,
     paddingVertical: 6,
@@ -222,13 +239,28 @@ const VoxHeaderContainerStyled = styled(Container, {
   },
 })
 
-const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+const Wrapper = React.memo(
+  ({ children, backgroundColor, safeAreaView = true }: { children: React.ReactNode; backgroundColor: string; safeAreaView?: boolean }) => {
+    return safeAreaView ? (
+      <SafeAreaView edges={['top']} style={{ backgroundColor }}>
+        {children}
+      </SafeAreaView>
+    ) : (
+      <YStack style={{ backgroundColor }}>{children}</YStack>
+    )
+  },
+)
+
+const VoxHeaderFrameRouter = ({ safeAreaView = true, ...props }: React.ComponentProps<typeof VoxHeaderFrameStyled> & { safeAreaView?: boolean }) => {
+  const styles = useStyle(props)
+  const backgroundColor = (styles.backgroundColor as string) ?? 'white'
+  const insets = useSafeAreaInsets()
+  console.log(insets.top)
+
   return (
-    <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <VoxHeaderContainerStyled>
-        <VoxHeaderFrameStyled {...props} />
-      </VoxHeaderContainerStyled>
-    </SafeAreaView>
+    <VoxHeaderContainerStyled height={insets.top + 56} style={{ paddingTop: insets.top }} backgroundColor={backgroundColor}>
+      <VoxHeaderFrameStyled {...props} />
+    </VoxHeaderContainerStyled>
   )
 }
 

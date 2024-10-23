@@ -13,7 +13,7 @@ import { Delete, Plus, Repeat2, Settings2 } from '@tamagui/lucide-icons'
 import { ImageResult, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 import { XStack, YStack } from 'tamagui'
-import ImageCroper from '../CropImg'
+import ImageCroper from './CropImg'
 
 const dropDownItems = [
   { title: 'Remplacer ma photo', id: 'change', icon: Repeat2 },
