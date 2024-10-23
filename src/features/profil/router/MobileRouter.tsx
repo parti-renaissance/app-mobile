@@ -9,6 +9,7 @@ export default function MobileProfilRouter() {
     <Stack screenOptions={{ animation: 'slide_from_right' }}>
       {configArray.map(([screenName, config]) => (
         <Stack.Screen
+          key={screenName}
           name={screenName}
           options={{
             header: () => <PageHeader {...config} backArrow={screenName !== 'index'} />,

@@ -8,7 +8,7 @@ export default function DesktopProfilRouter() {
   return (
     <Navigator router={TabRouter}>
       <PageLayout>
-        <PageLayout.SideBarLeft>
+        <PageLayout.SideBarLeft showOn="gtSm">
           <XStack justifyContent="flex-end">
             <ProfilMenu />
           </XStack>

@@ -44,7 +44,7 @@ export default function AppLayout() {
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
       {/* <MoreSheet /> */}
-      {media.gtMd ? (
+      {media.gtSm ? (
         <CustomRouter />
       ) : (
         <Tabs

@@ -22,6 +22,11 @@ const BreadCrumbItemFrame = styled(ThemeableStack, {
   cursor: 'pointer',
   justifyContent: 'center',
   variants: {
+    first: {
+      true: {
+        paddingLeft: 20,
+      },
+    },
     vertical: {
       true: {
         paddingLeft: 16,
@@ -169,7 +174,7 @@ export const BreadCrumb = <ID extends string>(
 
   const items = props.items.map((item, index) => {
     return (
-      <BreadCrumbApi.Item key={item.id} onLayout={initPosition(item.id)} ref={setRef(item.id)} onPress={handlePress(item.id)}>
+      <BreadCrumbApi.Item first={!vertical && index === 0} key={item.id} onLayout={initPosition(item.id)} ref={setRef(item.id)} onPress={handlePress(item.id)}>
         <Text.MD semibold> {item.label}</Text.MD>
       </BreadCrumbApi.Item>
     )

@@ -1,12 +1,24 @@
 import { ComponentPropsWithoutRef, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ButtonGroup from '@/components/base/ButtonGroup/ButtonGroup'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import BreadCrumb from '@/components/BreadCrumb/BreadCrumb'
+import { VoxHeader, VoxHeaderFrameStyled } from '@/components/Header/Header'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import FormationMobileLayout from '@/screens/formations/mobile/FormationMobileLayout'
 import { FormationScreenProps } from '@/screens/formations/types'
 import { useGetFormations } from '@/services/formations/hook'
+import { GraduationCap } from '@tamagui/lucide-icons'
 import { ScrollView, YStack } from 'tamagui'
 import { items } from '../bread-crumbs-items'
 import EmptyFormaState from '../components/EmptyFormaState'
@@ -19,6 +31,20 @@ const CategoriesSelector = (props: ComponentPropsWithoutRef<typeof ButtonGroup>)
 
 const FormationMobileScreen: FormationScreenProps = (props) => {
   const { data } = useGetFormations()
+  const insets = useSafeAreaInsets()
+  const scrollY = useSharedValue(0)
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y // Update scrollY with current offset
+    },
+  })
+
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      paddingTop: interpolate(scrollY.value, [props.topVisual - insets.top * 2, props.topVisual], [0, insets.top], Extrapolation.CLAMP),
+    }
+  })
 
   const nationalFormations = data.filter((formation) => formation.visibility === 'national')
   const localFormations = data.filter((formation) => formation.visibility === 'local')
@@ -31,9 +57,11 @@ const FormationMobileScreen: FormationScreenProps = (props) => {
 
   return (
     <FormationMobileLayout {...props}>
-      <FlatList
+      <Animated.FlatList
         data={filteredFormations}
         keyExtractor={(x) => x.uuid}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
         renderItem={({ item, index }) => (
           <FormaCard
             payload={item}
@@ -50,32 +78,37 @@ const FormationMobileScreen: FormationScreenProps = (props) => {
           </VoxCard.Content>
         }
         ListHeaderComponent={
-          <YStack backgroundColor="white">
-            <BreadCrumb items={items} onChange={(x) => setFilter(x)} value={filter} />
-            {options.length > 1 && (
-              <>
-                <ScrollView
-                  horizontal
-                  key={filter}
-                  contentContainerStyle={{
-                    paddingVertical: 16,
-                    paddingHorizontal: 16,
-                  }}
-                >
-                  <CategoriesSelector
-                    theme={filter === 'local' ? 'green' : 'blue'}
-                    flexWrap="nowrap"
-                    options={options}
-                    value={activeCategories}
-                    onChange={setActiveCategories}
-                  />
-                </ScrollView>
-                <YStack paddingHorizontal={16} backgroundColor={'white'}>
-                  <YStack height={1} backgroundColor={'$textOutline'} />
-                </YStack>
-              </>
-            )}
-          </YStack>
+          <Animated.View style={[headerAnimatedStyle, { backgroundColor: 'white' }]}>
+            <YStack>
+              <VoxHeaderFrameStyled height={54} pl={20}>
+                <VoxHeader.Title icon={GraduationCap}>Formations</VoxHeader.Title>
+              </VoxHeaderFrameStyled>
+              <BreadCrumb items={items} onChange={(x) => setFilter(x)} value={filter} />
+              {options.length > 1 && (
+                <>
+                  <ScrollView
+                    horizontal
+                    key={filter}
+                    contentContainerStyle={{
+                      paddingVertical: 16,
+                      paddingHorizontal: 16,
+                    }}
+                  >
+                    <CategoriesSelector
+                      theme={filter === 'local' ? 'green' : 'blue'}
+                      flexWrap="nowrap"
+                      options={options}
+                      value={activeCategories}
+                      onChange={setActiveCategories}
+                    />
+                  </ScrollView>
+                  <YStack paddingHorizontal={16} backgroundColor={'white'}>
+                    <YStack height={1} backgroundColor={'$textOutline'} />
+                  </YStack>
+                </>
+              )}
+            </YStack>
+          </Animated.View>
         }
         stickyHeaderIndices={[0]}
         ItemSeparatorComponent={() => (

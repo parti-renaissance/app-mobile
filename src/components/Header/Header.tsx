@@ -218,7 +218,7 @@ export const SmallHeader: typeof Header = (props) => {
 
 export default Header
 
-const VoxHeaderFrameStyled = styled(ThemeableStack, {
+export const VoxHeaderFrameStyled = styled(ThemeableStack, {
   gap: 4,
   flexDirection: 'row',
   alignItems: 'center',
@@ -255,10 +255,10 @@ const VoxHeaderFrameRouter = ({ safeAreaView = true, ...props }: React.Component
   const styles = useStyle(props)
   const backgroundColor = (styles.backgroundColor as string) ?? 'white'
   const insets = useSafeAreaInsets()
-  console.log(insets.top)
+  const height = safeAreaView ? insets.top + 56 : 56
 
   return (
-    <VoxHeaderContainerStyled height={insets.top + 56} style={{ paddingTop: insets.top }} backgroundColor={backgroundColor}>
+    <VoxHeaderContainerStyled height={height} style={{ paddingTop: safeAreaView ? insets.top : 0 }} backgroundColor={backgroundColor}>
       <VoxHeaderFrameStyled {...props} />
     </VoxHeaderContainerStyled>
   )

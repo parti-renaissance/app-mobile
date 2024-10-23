@@ -12,5 +12,5 @@ export default function AppLayout() {
     return <Redirect href={'/(app)/(tabs)/evenements/'} />
   }
 
-  return media.md ? <MobileRouter /> : <DesktopProfilRouter />
+  return media.sm ? <MobileRouter /> : <DesktopProfilRouter />
 }
