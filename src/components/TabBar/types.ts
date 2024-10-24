@@ -3,6 +3,7 @@ import { ThemeName } from 'tamagui'
 
 export type TabBarNavProps = BottomTabBarProps & {
   descriptors: TabBarNavDescriptors
+  hide?: boolean
 }
 
 export type TabBarNavDescriptors = BottomTabBarProps['descriptors'] & {

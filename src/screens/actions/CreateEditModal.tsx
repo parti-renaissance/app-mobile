@@ -17,9 +17,9 @@ const CreateEditModal = (props: CreateEditModalProps) => {
       open={props.open}
       onClose={props.onClose}
       header={
-        <VoxHeader.ModalFrame>
+        <VoxHeader>
           <VoxHeader.LeftButton onPress={props.onClose} icon={X} backTitle="Annuler" />
-        </VoxHeader.ModalFrame>
+        </VoxHeader>
       }
     >
       {props.open && <ActionForm onCancel={props.onClose} onClose={props.onClose} uuid={props.activeAction} scope={props.scope} />}

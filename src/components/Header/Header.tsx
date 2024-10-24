@@ -71,8 +71,9 @@ const ButtonNav = styled(ThemeableStack, {
 const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) => {
   const [isHover, setIsHover] = React.useState(false)
   const activeColor = (props.isActive || isHover) && props.route.theme !== 'gray' ? '$color5' : '$textPrimary'
+  const path = props.route.name === 'index' ? '/' : (`/${props.route.name}` as const)
   return (
-    <Link href={`/(tabs)/${props.route.name}`} asChild key={props.route.name}>
+    <Link href={path} asChild key={props.route.name}>
       <ButtonNav onHoverIn={() => setIsHover(true)} onHoverOut={() => setIsHover(false)} theme={props.route.theme} active={props.isActive}>
         <props.route.icon color={activeColor} size={16} active={[props.isActive, isHover].some(Boolean)} />
 
@@ -94,7 +95,7 @@ export const NavBar = () => {
   return gtSm ? (
     <XStack gap={24}>
       {ROUTES.filter((x) => !x.hidden).map((route) => {
-        const isIndex = route.name === '(home)'
+        const isIndex = route.name === 'index'
         const focused = pathname.includes(route.name) || (isIndex && pathname === '/')
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}

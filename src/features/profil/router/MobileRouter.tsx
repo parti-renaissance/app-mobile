@@ -1,8 +1,9 @@
 import { Stack } from 'expo-router'
+import { omit } from 'lodash'
 import PageHeader from '../components/PageHeader'
 import { pageConfigs } from '../configs'
 
-const configArray = Object.entries(pageConfigs)
+const configArray = Object.entries(omit(pageConfigs, ['index']))
 
 export default function MobileProfilRouter() {
   return (

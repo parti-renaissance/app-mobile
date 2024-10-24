@@ -1,6 +1,7 @@
 import { useSession } from '@/ctx/SessionProvider'
 import DesktopProfilRouter from '@/features/profil/router/DesktopRouter'
-import { Redirect, Slot } from 'expo-router'
+import MobileRouter from '@/features/profil/router/MobileRouter'
+import { Redirect } from 'expo-router'
 import { useMedia } from 'tamagui'
 
 export default function AppLayout() {
@@ -11,5 +12,5 @@ export default function AppLayout() {
     return <Redirect href={'/(app)/(tabs)/evenements/'} />
   }
 
-  return media.sm ? <Slot /> : <DesktopProfilRouter key="profil-router" />
+  return media.sm ? <MobileRouter /> : <DesktopProfilRouter key="profil-router" />
 }

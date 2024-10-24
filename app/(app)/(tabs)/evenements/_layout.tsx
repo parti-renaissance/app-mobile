@@ -1,14 +1,27 @@
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import Header, { SmallHeader } from '@/components/Header/Header'
+import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
 import { useSession } from '@/ctx/SessionProvider'
-import { Stack } from 'expo-router'
+import { Link, Redirect, Slot } from 'expo-router'
+import { XStack } from 'tamagui'
 
-export default function EventLayout() {
+export default function AppLayout() {
   const { isAuth } = useSession()
-  return (
-    <Stack screenOptions={{ header: (x) => null }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="[id]" options={{ title: '' }} />
-    </Stack>
-  )
+
+  if (!isAuth) {
+    return (
+      <>
+        <VoxHeader justifyContent="space-between">
+          <XStack flex={1} flexBasis={0}>
+            <Link href="/" replace>
+              <EuCampaignIllustration cursor="pointer" showText={false} />
+            </Link>
+          </XStack>
+          <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
+        </VoxHeader>
+        <Slot />
+      </>
+    )
+  }
+
+  return <Slot />
 }

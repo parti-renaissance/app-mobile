@@ -12,7 +12,7 @@ type ProfilHeaderProps = {
 
 const ProfilHeader = ({ icon, title, backArrow = true }: ProfilHeaderProps) => {
   return (
-    <VoxHeader justifyContent="space-between" backgroundColor="white" $gtMd={{ display: 'none' }} safeAreaView={false}>
+    <VoxHeader justifyContent="space-between" backgroundColor="white" $gtMd={{ display: 'none' }}>
       {backArrow ? (
         <Link href="/profil">
           <VoxHeader.LeftButton icon={ArrowLeft} />

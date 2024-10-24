@@ -95,7 +95,7 @@ const Tab = ({ isFocus, options, name, onPress, onLayout }: TabProps) => {
 }
 const MemoTab = React.memo(Tab)
 
-const TabBarNav = ({ state, descriptors, navigation }: TabBarNavProps) => {
+const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => {
   const [otherFocus, setOtherFocus] = React.useState(false)
 
   const filteredRoutes = React.useMemo(

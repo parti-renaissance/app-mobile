@@ -100,9 +100,9 @@ export default function (props: Props) {
       open={props.open}
       onClose={props.onClose}
       header={
-        <VoxHeader.ModalFrame>
+        <VoxHeader>
           <VoxHeader.LeftButton onPress={props.onClose} icon={X} backTitle="Annuler" />
-        </VoxHeader.ModalFrame>
+        </VoxHeader>
       }
     >
       <VoxCard $gtMd={{ maxWidth: 500 }} $md={{ shadowColor: 'transparent' }} height="100%">

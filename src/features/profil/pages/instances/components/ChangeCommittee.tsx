@@ -83,10 +83,10 @@ export default function ChangeCommitteeModal({
       scrollable={false}
       header={
         <YStack>
-          <VoxHeader.ModalFrame justifyContent="space-between">
+          <VoxHeader justifyContent="space-between">
             <VoxHeader.Title icon={Diamond}>Changer de comité</VoxHeader.Title>
             <VoxButton onPress={modalProps.onClose} variant="text" iconLeft={X} size="lg" />
-          </VoxHeader.ModalFrame>
+          </VoxHeader>
         </YStack>
       }
     >

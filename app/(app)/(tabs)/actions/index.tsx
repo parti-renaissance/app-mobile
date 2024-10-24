@@ -228,7 +228,7 @@ function Page() {
         onTypeChange={setType}
         bg="$transparentColor"
         position="absolute"
-        top={5}
+        top={5 + insets.top}
         zIndex={100}
         left={0}
         right={0}

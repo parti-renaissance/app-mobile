@@ -1,58 +1,62 @@
-import React from 'react'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import React, { useEffect } from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
-import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
-import MoreSheet from '@/components/TabBar/MoreSheet'
+import { ProfileNav, VoxHeader } from '@/components/Header/Header'
 import TabBar from '@/components/TabBar/TabBar'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
-import { TabRouter } from '@react-navigation/native'
-import { Link, Navigator, Slot, Tabs, useSegments } from 'expo-router'
-import { isWeb, useMedia, View, XStack, YStack } from 'tamagui'
+import PageHeader from '@/features/profil/components/PageHeader'
+import { pageConfigs } from '@/features/profil/configs'
+import { Link2 } from '@tamagui/lucide-icons'
+import { Link, Redirect, router, Slot, Tabs } from 'expo-router'
+import { isWeb, useMedia, View, XStack } from 'tamagui'
 
-function CustomRouter() {
+const HomeHeader = () => {
   return (
-    <Navigator router={TabRouter}>
-      <YStack flex={1}>
-        <VoxHeader justifyContent="space-between">
-          <XStack flex={1} flexBasis={0}>
-            <Link href="/" replace>
-              <EuCampaignIllustration cursor="pointer" />
-            </Link>
-          </XStack>
-          <NavBar />
-          <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
-        </VoxHeader>
-        <Slot />
-      </YStack>
-    </Navigator>
+    <VoxHeader justifyContent="space-between" backgroundColor="$textSurface">
+      <XStack flex={1} flexBasis={0}>
+        <Link href="/" replace>
+          <EuCampaignIllustration cursor="pointer" />
+        </Link>
+      </XStack>
+      <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
+    </VoxHeader>
   )
 }
 
-export default function AppLayout() {
-  const insets = useSafeAreaInsets()
-  const media = useMedia()
-  const { session, isAuth } = useSession()
-  const [openSheet, setOpenSheet] = React.useState(false)
-
-  const segments = useSegments()
-  const getTabBarVisibility = () => {
-    const hideOnScreens = ['tunnel', 'building-detail', 'polls'] // put here name of screen where you want to hide tabBar
-    return hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
+const exectParams = (x: string) => {
+  switch (x) {
+    case '(home)':
+      return {
+        header: () => <HomeHeader />,
+        headerShown: true,
+      }
+    case 'profil':
+      return {
+        header: () => <PageHeader {...pageConfigs.index} backArrow={false} />,
+        headerShown: true,
+      }
+    case 'ressources':
+      return {
+        header: () => <PageHeader title="Ressources" icon={Link2} backArrow={false} />,
+        headerShown: true,
+      }
+    default:
+      return {
+        headerShown: false,
+      }
   }
+}
+
+export default function AppLayout() {
+  const media = useMedia()
+  const { isAuth } = useSession()
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      {/* <MoreSheet /> */}
-      {media.gtSm ? (
-        <CustomRouter />
+      {media.gtSm || !isAuth ? (
+        <Slot />
       ) : (
-        <Tabs
-          tabBar={(props) => <TabBar {...props} />}
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
+        <Tabs tabBar={(props) => <TabBar {...props} />} screenOptions={{}}>
           {ROUTES.map((route) => (
             <Tabs.Screen
               key={route.name}
@@ -65,6 +69,7 @@ export default function AppLayout() {
                 tabBarInactiveTintColor: '$textPrimary',
                 tabBarIcon: ({ focused, ...props }) => <route.icon {...props} />,
                 tabBarLabel: route.screenName,
+                ...exectParams(route.name),
               }}
             />
           ))}

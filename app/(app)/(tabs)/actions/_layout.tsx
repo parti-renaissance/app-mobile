@@ -1,4 +1,3 @@
-import { SmallHeader } from '@/components/Header/Header'
 import { Stack } from 'expo-router'
 
 export default function AppLayout() {

@@ -1,18 +1,13 @@
-import { SmallHeader } from '@/components/Header/Header'
-import { Stack } from 'expo-router'
+import { useSession } from '@/ctx/SessionProvider'
+import { Redirect, Slot } from 'expo-router'
+import { useMedia } from 'tamagui'
 
-export default function DoorToDoorLayout() {
-  return (
-    <Stack screenOptions={{ header: (x) => null, animation: 'slide_from_right' }}>
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Porte à porte',
-          headerShadowVisible: false,
-        }}
-      />
-      <Stack.Screen name="building-detail" options={{ title: '' }} />
-      <Stack.Screen name="tunnel" options={{ presentation: 'fullScreenModal', headerShown: false }} />
-    </Stack>
-  )
+export default function AppLayout() {
+  const { isAuth } = useSession()
+
+  if (!isAuth) {
+    return <Redirect href={'/(app)/(tabs)/evenements/'} />
+  }
+
+  return <Slot />
 }
