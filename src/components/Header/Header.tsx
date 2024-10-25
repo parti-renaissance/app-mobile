@@ -1,6 +1,6 @@
 import React from 'react'
 import { Platform, SafeAreaView as RNSafeAreaView, TouchableWithoutFeedback } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
@@ -10,7 +10,23 @@ import type { IconProps } from '@tamagui/helpers-icon'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
-import { Button, isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, View, withStaticProperties, XStack, YStackProps } from 'tamagui'
+import {
+  getTokenValue,
+  isWeb,
+  Spinner,
+  Stack,
+  styled,
+  ThemeableStack,
+  useMedia,
+  useStyle,
+  useTheme,
+  View,
+  ViewProps,
+  withStaticProperties,
+  XStack,
+  YStack,
+  YStackProps,
+} from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
@@ -22,39 +38,48 @@ const opacityToHexCode = (hex: string, opacity: number) => {
   return `${hex}${opacityHex}`
 }
 
-const ButtonNav = styled(Button, {
+const ButtonNav = styled(ThemeableStack, {
+  tag: 'button',
   backgroundColor: 'transparent',
+  animation: 'quick',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: 2,
+  cursor: 'pointer',
+  gap: 6,
+  borderRadius: 999,
+  paddingHorizontal: 12,
+  borderWidth: 1,
+  borderColor: 'transparent',
+  height: 32,
+  hoverStyle: {
+    backgroundColor: '$color1',
+  },
+  focusable: true,
+  focusStyle: {
+    backgroundColor: '$color1',
+  },
+  variants: {
+    active: {
+      true: {
+        backgroundColor: '$color1',
+      },
+    },
+  },
 })
 
 const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) => {
-  const colorOpacity = opacityToHexCode(props.route.gradiant[0], 0.09)
   const [isHover, setIsHover] = React.useState(false)
+  const activeColor = (props.isActive || isHover) && props.route.theme !== 'gray' ? '$color5' : '$textPrimary'
+  const path = props.route.name === '(home)' ? '/' : (`/${props.route.name}` as const)
   return (
-    <Link href={`/(tabs)/${props.route.name}`} asChild key={props.route.name}>
-      <ButtonNav
-        onHoverIn={() => setIsHover(true)}
-        onHoverOut={() => setIsHover(false)}
-        animation="bouncy"
-        hoverStyle={{
-          bg: colorOpacity,
-          bc: 'transparent',
-        }}
-        pressStyle={{
-          bg: colorOpacity,
-          bc: 'transparent',
-        }}
-      >
-        <Button.Icon scaleIcon={2}>
-          <props.route.icon size={28} active={[props.isActive, isHover].some(Boolean)} />
-        </Button.Icon>
+    <Link href={path} asChild key={props.route.name}>
+      <ButtonNav onHoverIn={() => setIsHover(true)} onHoverOut={() => setIsHover(false)} theme={props.route.theme} active={props.isActive}>
+        <props.route.icon color={activeColor} size={16} active={[props.isActive, isHover].some(Boolean)} />
 
-        <Button.Text $md={{ display: 'none' }} color={props.isActive ? props.route.gradiant[1] : '$gray8'} fontWeight={'500'}>
+        <Text.MD color={activeColor} fontWeight={'500'}>
           {props.route.screenName}
-        </Button.Text>
+        </Text.MD>
       </ButtonNav>
     </Link>
   )
@@ -68,13 +93,13 @@ export const NavBar = () => {
   const { session } = useSession()
   if (!session) return null
   return gtSm ? (
-    <Stack flexDirection="row" gap={4}>
+    <XStack gap={24}>
       {ROUTES.filter((x) => !x.hidden).map((route) => {
         const isIndex = route.name === '(home)'
         const focused = pathname.includes(route.name) || (isIndex && pathname === '/')
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}
-    </Stack>
+    </XStack>
   ) : null
 }
 
@@ -114,16 +139,16 @@ const LoginView = () => (
   </View>
 )
 
-export const ProfileNav = () => {
+export const ProfileNav = (props: ViewProps) => {
   return (
     <AuthFallbackWrapper fallback={<LoginView />}>
-      <View flexDirection="row" alignItems="center" gap={'$3'}>
+      <XStack {...props}>
         <Link href="/profil">
           <View>
             <ProfileView />
           </View>
         </Link>
-      </View>
+      </XStack>
     </AuthFallbackWrapper>
   )
 }
@@ -194,34 +219,49 @@ export const SmallHeader: typeof Header = (props) => {
 
 export default Header
 
-const VoxHeaderFrameStyled = styled(ThemeableStack, {
+export const VoxHeaderFrameStyled = styled(ThemeableStack, {
   gap: 4,
   flexDirection: 'row',
   alignItems: 'center',
   flex: 1,
+  height: 56,
 })
 
 const VoxHeaderContainerStyled = styled(Container, {
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
+
   $md: {
-    height: 56,
     paddingHorizontal: 26,
     paddingVertical: 6,
   },
   $gtMd: {
-    height: 82,
     paddingHorizontal: 18,
   },
 })
 
-const VoxHeaderFrameRouter = (props: React.ComponentProps<typeof VoxHeaderFrameStyled>) => {
+const Wrapper = React.memo(
+  ({ children, backgroundColor, safeAreaView = true }: { children: React.ReactNode; backgroundColor: string; safeAreaView?: boolean }) => {
+    return safeAreaView ? (
+      <SafeAreaView edges={['top']} style={{ backgroundColor }}>
+        {children}
+      </SafeAreaView>
+    ) : (
+      <YStack style={{ backgroundColor }}>{children}</YStack>
+    )
+  },
+)
+
+const VoxHeaderFrameRouter = ({ safeAreaView = true, ...props }: React.ComponentProps<typeof VoxHeaderFrameStyled> & { safeAreaView?: boolean }) => {
+  const styles = useStyle(props)
+  const backgroundColor = (styles.backgroundColor as string) ?? 'white'
+  const insets = useSafeAreaInsets()
+  const height = safeAreaView ? insets.top + 56 : 56
+
   return (
-    <SafeAreaView edges={['top']} style={{ backgroundColor: 'white' }}>
-      <VoxHeaderContainerStyled>
-        <VoxHeaderFrameStyled {...props} />
-      </VoxHeaderContainerStyled>
-    </SafeAreaView>
+    <VoxHeaderContainerStyled height={height} style={{ paddingTop: safeAreaView ? insets.top : 0 }} backgroundColor={backgroundColor}>
+      <VoxHeaderFrameStyled {...props} />
+    </VoxHeaderContainerStyled>
   )
 }
 
@@ -243,14 +283,14 @@ const VoxHeaderLeftButtonFrame = styled(ThemeableStack, {
   gap: 4,
   $md: {
     minWidth: 36,
-    height: 36,
+    // height: 36,
   },
 })
 
 const VoxHeaderLeftButton = (
   props: React.ComponentProps<typeof VoxHeaderLeftButtonFrame> & { icon: React.NamedExoticComponent<IconProps>; backTitle?: string },
 ) => (
-  <VoxHeaderLeftButtonFrame {...props}>
+  <VoxHeaderLeftButtonFrame {...props} height="100%">
     <props.icon size={24} color="$textPrimary" />
     {!!props.backTitle && <Text.LG semibold>{props.backTitle}</Text.LG>}
   </VoxHeaderLeftButtonFrame>

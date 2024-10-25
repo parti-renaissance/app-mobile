@@ -1,22 +1,11 @@
 import React from 'react'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import ProfilLayout from '@/components/layouts/ProfilLayout'
-import * as metatags from '@/config/metatags'
-import ComScreen from '@/screens/profil/communications/page'
-import Head from 'expo-router/head'
+import ProfilLayout from '@/features/profil/components/ProfilPage'
+import Screen from '@/features/profil/pages/communications'
 
-function CommunicationScreen() {
+export default function CommunicationScreen() {
   return (
-    <>
-      <Head>
-        <title>{metatags.createTitle('Cotisations et dons')}</title>
-      </Head>
-
-      <ProfilLayout>
-        <ComScreen />
-      </ProfilLayout>
-    </>
+    <ProfilLayout screenName="communications">
+      <Screen />
+    </ProfilLayout>
   )
 }
-
-export default CommunicationScreen

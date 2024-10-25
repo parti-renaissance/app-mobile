@@ -1,82 +1,81 @@
-import React from 'react'
-import { Pressable } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import Text from '@/components/base/Text'
+import React, { useEffect } from 'react'
+import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import { ProfileNav, VoxHeader } from '@/components/Header/Header'
+import TabBar from '@/components/TabBar/TabBar'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
-import { Tabs, useSegments } from 'expo-router'
-import { isWeb, useMedia, View } from 'tamagui'
+import PageHeader from '@/features/profil/components/PageHeader'
+import { pageConfigs } from '@/features/profil/configs'
+import { Link2 } from '@tamagui/lucide-icons'
+import { Link, Redirect, router, Slot, Tabs } from 'expo-router'
+import { isWeb, useMedia, View, XStack } from 'tamagui'
 
-const TAB_BAR_HEIGHT = 80
+const HomeHeader = () => {
+  return (
+    <VoxHeader justifyContent="space-between" backgroundColor="$textSurface">
+      <XStack flex={1} flexBasis={0}>
+        <Link href="/" replace>
+          <EuCampaignIllustration cursor="pointer" />
+        </Link>
+      </XStack>
+      <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
+    </VoxHeader>
+  )
+}
+
+const exectParams = (x: string) => {
+  switch (x) {
+    case '(home)':
+      return {
+        header: () => <HomeHeader />,
+        headerShown: true,
+      }
+    case 'profil':
+      return {
+        header: () => <PageHeader {...pageConfigs.index} backArrow={false} />,
+        headerShown: true,
+      }
+    case 'ressources':
+      return {
+        header: () => <PageHeader title="Ressources" icon={Link2} backArrow={false} />,
+        headerShown: true,
+      }
+    default:
+      return {
+        headerShown: false,
+      }
+  }
+}
 
 export default function AppLayout() {
-  const insets = useSafeAreaInsets()
   const media = useMedia()
-  const { session, isAuth } = useSession()
-  const [openSheet, setOpenSheet] = React.useState(false)
-
-  const segments = useSegments()
-  const getTabBarVisibility = () => {
-    const hideOnScreens = ['tunnel', 'building-detail', 'polls'] // put here name of screen where you want to hide tabBar
-    return hideOnScreens.map((screen) => segments.includes(screen)).some(Boolean)
-  }
+  const { isAuth } = useSession()
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      <Tabs
-        initialRouteName={isAuth ? '(home)' : 'evenements'}
-        screenOptions={{
-          headerShown: false,
-          tabBarLabel: () => null,
-          tabBarLabelPosition: 'below-icon',
-          tabBarButton: (props) => <Pressable {...props} />,
-          tabBarHideOnKeyboard: true,
-          headerShadowVisible: false,
-          tabBarStyle: {
-            backgroundColor: 'white',
-            borderTopWidth: 1,
-            shadowOffset: { width: 0, height: 0 },
-            elevation: 0,
-            borderTopColor: 'rgba(145, 158, 171, 0.2)',
-            display: media.gtSm || !session || getTabBarVisibility() ? 'none' : 'flex',
-            height: TAB_BAR_HEIGHT + insets.bottom,
-            alignContent: 'center',
-            justifyContent: 'center',
-            padding: 0,
-            paddingTop: 15,
-          },
-
-          tabBarItemStyle: {
-            paddingBottom: 20,
-          },
-        }}
-      >
-        {ROUTES.map((route) => (
-          <Tabs.Screen
-            key={route.name}
-            name={route.name}
-            options={{
-              href: route.hidden === true ? null : undefined,
-              title: route.screenName,
-              tabBarLabel: ({ focused }) => (
-                <Text color={focused ? route.labelColor : '$textSecondary'} fontWeight={focused ? '$6' : '$5'} fontSize={10} allowFontScaling={false}>
-                  {route.screenName}
-                </Text>
-              ),
-              tabBarActiveTintColor: route.labelColor,
-              tabBarIcon: ({ focused }) => {
-                const Icon = ({ focused }) => <route.icon active={focused} />
-
-                return (
-                  <View>
-                    <Icon focused={focused} />
-                  </View>
-                )
-              },
-            }}
-          />
-        ))}
-      </Tabs>
+      {media.gtMd || !isAuth ? (
+        <Slot />
+      ) : (
+        <Tabs tabBar={(props) => <TabBar {...props} />} screenOptions={{}}>
+          {ROUTES.map((route) => (
+            <Tabs.Screen
+              key={route.name}
+              name={route.name}
+              options={{
+                title: route.screenName,
+                // @ts-expect-error
+                tabBarVisible: !route.hiddenMobile,
+                tabBarTheme: route.theme,
+                tabBarActiveTintColor: '$color5',
+                tabBarInactiveTintColor: '$textPrimary',
+                tabBarIcon: ({ focused, ...props }) => <route.icon {...props} />,
+                tabBarLabel: route.screenName,
+                ...exectParams(route.name),
+              }}
+            />
+          ))}
+        </Tabs>
+      )}
     </View>
   )
 }

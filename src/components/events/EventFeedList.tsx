@@ -145,7 +145,7 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
 
   const handleSubscribe = () => {}
   const handleShow = (id: string) => {
-    router.push({ pathname: '/(tabs)/evenements/[id]', params: { id } })
+    router.push({ pathname: '/evenements/[id]', params: { id } })
   }
 
   const callbacks = useMemo(
@@ -174,22 +174,20 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
       stickySectionHeadersEnabled={false}
       contentContainerStyle={{
         flexGrow: 1,
-        // height: '100%',
         gap: getToken('$4', 'space'),
         paddingTop: 0,
         paddingLeft: media.gtSm ? getToken('$5', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
         paddingBottom: getToken('$10', 'space'),
-        // height: feedData.length === 0 && !isLoading && media.sm ? '100%' : undefined,
       }}
       sections={feedData}
       renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
       renderSectionHeader={({ section }) => {
         return (
           <XStack gap="$2" $md={{ paddingLeft: '$4' }} $gtLg={{ paddingTop: section.index === 0 ? '$6' : 0 }}>
-            <Text fontWeight="$6" color={section.data.length === 0 ? '$textDisabled' : '$textPrimary'}>
-              {section.title} {section.index === 0 ? `(${section.data.length})` : ''}
-            </Text>
+            <Text.MD color={section.data.length === 0 ? '$textDisabled' : '$gray4'} semibold>
+              {`${section.title} ${section.index === 0 ? `(${section.data.length})` : ''}`.toUpperCase()}
+            </Text.MD>
             <ChevronDown size={16} color="$textPrimary" />
           </XStack>
         )
@@ -200,13 +198,6 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
         </PageLayout.StateFrame>
       }
       keyboardDismissMode="on-drag"
-      ListHeaderComponent={
-        media.lg ? (
-          <YStack>
-            <HeaderList listRef={listRef} />
-          </YStack>
-        ) : null
-      }
       keyExtractor={(item) => item.uuid}
       refreshing={isRefetching}
       onRefresh={() => refetch()}

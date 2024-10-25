@@ -55,7 +55,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
 
         {header}
 
-        {!scrollable ? (
+        {scrollable === false ? (
           children
         ) : (
           <Sheet.ScrollView

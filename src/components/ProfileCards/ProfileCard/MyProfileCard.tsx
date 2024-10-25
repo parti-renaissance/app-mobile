@@ -3,10 +3,9 @@ import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import InfoCard from '@/components/InfoCard/InfoCard'
 import Menu from '@/components/menu/Menu'
+import ProfilBlock from '@/components/ProfilBlock'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
-import { useSession } from '@/ctx/SessionProvider'
-import ProfilBlock from '@/screens/profil/dashboard/components/ProfilBlock'
 import { useGetProfil, useGetUserScopes } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'
@@ -25,7 +24,7 @@ const useGetDefaultScope = () => {
   return default_scope
 }
 
-const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
+export const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
   const { user: credentials } = useUserStore()
   const default_scope = useGetDefaultScope()
   const isCadre = profil?.cadre_auth_path && default_scope

@@ -1,21 +1,11 @@
 import React from 'react'
-import ProfilLayout from '@/components/layouts/ProfilLayout'
-import * as metatags from '@/config/metatags'
-import InstancesScreen from '@/screens/profil/instances/page'
-import Head from 'expo-router/head'
+import ProfilLayout from '@/features/profil/components/ProfilPage'
+import Screen from '@/features/profil/pages/instances'
 
-function ChangePasswordScreen() {
+export default function InstancesScreen() {
   return (
-    <>
-      <Head>
-        <title>{metatags.createTitle('Mes instances')}</title>
-      </Head>
-
-      <ProfilLayout>
-        <InstancesScreen />
-      </ProfilLayout>
-    </>
+    <ProfilLayout screenName="mes-instances">
+      <Screen />
+    </ProfilLayout>
   )
 }
-
-export default ChangePasswordScreen
