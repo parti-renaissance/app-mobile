@@ -106,7 +106,7 @@ const MembershipCard = ({ status }: { status: 'renew' | 'tofinish' }) => {
 
 const EluCard = () => {
   return (
-    <InfoCard buttonText="Je complète mon informations d’élu" icon={SquareUser} href="/profil/informations-elu" theme="green">
+    <InfoCard buttonText="Je complète mes informations d’élu" icon={SquareUser} href="/profil/informations-elu" theme="green">
       Complétez votre profil d’élu pour participer à l’Assemblée des territoires.
     </InfoCard>
   )
