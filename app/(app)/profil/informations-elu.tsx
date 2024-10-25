@@ -1,21 +1,11 @@
 import React from 'react'
-import ProfilLayout from '@/components/layouts/ProfilLayout'
-import * as metatags from '@/config/metatags'
-import EluScreen from '@/screens/profil/elu/page'
-import Head from 'expo-router/head'
+import ProfilLayout from '@/features/profil/components/ProfilPage'
+import Screen from '@/features/profil/pages/elu'
 
-function CommunicationScreen() {
+export default function InformationsEluScreen() {
   return (
-    <>
-      <Head>
-        <title>{metatags.createTitle('Communication')}</title>
-      </Head>
-
-      <ProfilLayout>
-        <EluScreen />
-      </ProfilLayout>
-    </>
+    <ProfilLayout screenName="informations-elu">
+      <Screen />
+    </ProfilLayout>
   )
 }
-
-export default CommunicationScreen

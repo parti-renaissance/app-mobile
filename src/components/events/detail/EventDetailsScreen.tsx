@@ -46,11 +46,11 @@ function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {
           </VoxCard.Content>
         </VoxCard>
       </ScrollStack>
-      <SafeAreaView edges={['bottom']}>
-        <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
+      <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p="$3">
+        <SafeAreaView edges={['bottom']}>
           <SubscribeCard data={data} />
-        </YStack>
-      </SafeAreaView>
+        </SafeAreaView>
+      </YStack>
     </PageLayout.MainSingleColumn>
   )
 }

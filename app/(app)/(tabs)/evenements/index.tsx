@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import EventFeedList from '@/components/events/EventFeedList'
-import BottomSheetFilter from '@/components/events/EventFilterForm/BottomSheetFilters'
 import EventFilterForm from '@/components/events/EventFilterForm/EventFilterForm'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
@@ -15,11 +15,12 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import Head from 'expo-router/head'
-import { useMedia, YStack } from 'tamagui'
+import { useMedia, XStack, YStack } from 'tamagui'
 
 const EventsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'events' | 'myEvents'>('events')
   const media = useMedia()
+  const insets = useSafeAreaInsets()
   const { isAuth } = useSession()
   return (
     <>
@@ -35,18 +36,19 @@ const EventsScreen: React.FC = () => {
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
-          <BottomSheetFilter />
-          {isAuth && (
-            <Tabs<'events' | 'myEvents'>
-              value={activeTab}
-              onChange={setActiveTab}
-              grouped={media.gtMd}
-              $gtMd={{ paddingHorizontal: '$5', paddingTop: '$4', paddingBottom: 0 }}
-            >
-              <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
-              <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
-            </Tabs>
-          )}
+          <YStack paddingTop={isAuth ? insets.top : 16} pb={16} $gtLg={{ display: 'none' }}>
+            <XStack gap={16}>
+              {isAuth && (
+                <Tabs<'events' | 'myEvents'> value={activeTab} onChange={setActiveTab} grouped={media.gtMd}>
+                  <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
+                  <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
+                </Tabs>
+              )}
+            </XStack>
+            <YStack paddingHorizontal={16} height={50}>
+              <EventFilterForm />
+            </YStack>
+          </YStack>
           <BoundarySuspenseWrapper
             fallback={
               <YStack gap="$4" padding="$5" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
@@ -95,12 +97,26 @@ const EventsScreen: React.FC = () => {
               </YStack>
             }
           >
-            <EventFeedList activeTab={activeTab} />
+            <YStack flex={1}>
+              <EventFeedList activeTab={activeTab} />
+            </YStack>
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
           <VoxCard.Content>
-            <EventFilterForm />
+            <YStack gap={16} $lg={{ display: 'none' }}>
+              <YStack paddingHorizontal={16}>
+                <EventFilterForm />
+              </YStack>
+              <XStack gap={16} mt={16}>
+                {isAuth && (
+                  <Tabs<'events' | 'myEvents'> value={activeTab} onChange={setActiveTab} grouped={media.gtMd}>
+                    <Tabs.Tab id="events">Tous les événements</Tabs.Tab>
+                    <Tabs.Tab id="myEvents">J'y participe</Tabs.Tab>
+                  </Tabs>
+                )}
+              </XStack>
+            </YStack>
             <ProcurationCTA />
             <AuthFallbackWrapper>
               <AppDownloadCTA />

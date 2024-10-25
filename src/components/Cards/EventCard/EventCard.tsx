@@ -75,8 +75,8 @@ export const SubscribeEventButton = ({ isSubscribed, eventId: id, outside = fals
         session
           ? handleSubscribe
           : () =>
-              router.push({
-                pathname: '/(tabs)/evenements/[id]',
+              router.navigate({
+                pathname: '/evenements/[id]',
                 params: { id },
               })
       }
@@ -148,9 +148,11 @@ const EventCard = ({ payload, onShow, ...props }: EventVoxCardProps) => {
         {payload.isOnline ? <VoxCard.Visio /> : payload.location && <VoxCard.Location location={payload.location} />}
         {payload.author && <VoxCard.Author author={payload.author} />}
         <XStack justifyContent={'space-between'}>
-          <VoxButton variant="outlined" theme="gray" onPress={onShow} iconLeft={Eye}>
-            Voir
-          </VoxButton>
+          <Link href={`/evenements/${payload.id}`} asChild={!isWeb}>
+            <VoxButton variant="outlined" theme="gray" iconLeft={Eye}>
+              Voir
+            </VoxButton>
+          </Link>
 
           <SubscribeEventButton
             editData={{
