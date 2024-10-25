@@ -48,14 +48,16 @@ const HomeFeedList = () => {
         paddingLeft: media.gtSm ? getToken('$5', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
       }}
-      ListHeaderComponent={() =>
-        alerts.length > 0 ? (
-          <YStack gap={8}>
-            {alerts.map((alert, i) => (
-              <AlertCard key={`${i}-alert`} payload={alert} />
-            ))}
-          </YStack>
-        ) : null
+      ListHeaderComponent={
+        alerts.length > 0
+          ? () => (
+              <YStack gap={8} $gtSm={{ gap: 16 }}>
+                {alerts.map((alert, i) => (
+                  <AlertCard key={`${i}-alert`} payload={alert} />
+                ))}
+              </YStack>
+            )
+          : undefined
       }
       data={feedData}
       renderItem={renderFeedItem}

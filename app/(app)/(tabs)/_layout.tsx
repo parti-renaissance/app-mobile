@@ -53,7 +53,7 @@ export default function AppLayout() {
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      {media.gtSm || !isAuth ? (
+      {media.gtMd || !isAuth ? (
         <Slot />
       ) : (
         <Tabs tabBar={(props) => <TabBar {...props} />} screenOptions={{}}>
@@ -62,6 +62,7 @@ export default function AppLayout() {
               key={route.name}
               name={route.name}
               options={{
+                title: route.screenName,
                 // @ts-expect-error
                 tabBarVisible: !route.hiddenMobile,
                 tabBarTheme: route.theme,

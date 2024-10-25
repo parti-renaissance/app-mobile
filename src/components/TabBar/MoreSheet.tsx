@@ -1,14 +1,30 @@
-import React, { forwardRef, useCallback, useMemo, useRef } from 'react'
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Animated, { useAnimatedRef, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { GoToAdminCard as _GoToAdminCard } from '@/components/ProfileCards/ProfileCard/MyProfileCard'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { useForwardRef } from '@/hooks/useForwardRef'
+import { useGetDetailProfil, useGetProfil } from '@/services/profile/hook'
+import { useUserStore } from '@/store/user-store'
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetView } from '@gorhom/bottom-sheet'
 import Menu from '../menu/Menu'
 import { TabBarNavProps } from './types'
 
+const GoToAdminCard = () => {
+  const { user: session } = useUserStore()
+  const user = useGetProfil({ enabled: !!session })
+  const profile = user?.data
+  if (!profile) return null
+  return <_GoToAdminCard profil={profile} />
+}
+
 const MoreSheet = forwardRef<
-  BottomSheet,
+  {
+    expand: () => void
+    close: () => void
+  },
   {
     onClose?: () => void
     navProps: {
@@ -18,39 +34,79 @@ const MoreSheet = forwardRef<
       mainNavLength: number
     }
   }
->(({ onClose, navProps }, bottomSheetRef) => {
+>(({ onClose, navProps }, ref) => {
   const insets = useSafeAreaInsets()
-  const ref = useForwardRef(bottomSheetRef)
+  const bsRef = useRef<BottomSheet>(null)
+  const zIndex = useSharedValue(-10)
+
+  const handleClose = useCallback(() => {
+    onClose?.()
+    zIndex.value = -10
+  }, [onClose])
+
+  useImperativeHandle(ref, () => {
+    return {
+      expand: () => {
+        bsRef.current?.expand()
+        zIndex.value = 10
+      },
+      close: () => {
+        bsRef.current?.close()
+        zIndex.value = -10
+      },
+    }
+  })
+
+  const styleContainer = useAnimatedStyle(() => {
+    return {
+      zIndex: zIndex.value,
+    }
+  })
   const renderBackdrop = useCallback((props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={1} />, [])
   return (
-    <GestureHandlerRootView style={[styles.container, { bottom: 54 + insets.bottom + 5 }]}>
-      <BottomSheet ref={ref} index={-1} backdropComponent={renderBackdrop} onClose={onClose}>
-        <BottomSheetView style={styles.contentContainer}>
-          <Menu bg="red">
-            {navProps.state.routes.map((route, index) => {
-              const { options } = navProps.descriptors[route.key]
-              const label = options.tabBarLabel ?? options.title ?? route.name
-              return (
-                <Menu.Item
-                  key={route.key}
-                  size="lg"
-                  showArrow
-                  active={navProps.state.index === index + navProps.mainNavLength}
-                  // @ts-expect-error icon is not in the type
-                  icon={options.tabBarIcon}
-                  onPress={() => {
-                    navProps.navigation.navigate(route.name)
-                    ref.current?.close()
-                  }}
-                >
-                  {label}
-                </Menu.Item>
-              )
-            })}
-          </Menu>
-        </BottomSheetView>
-      </BottomSheet>
-    </GestureHandlerRootView>
+    <Animated.View style={[styles.container, { bottom: 54 + insets.bottom + 9 }, styleContainer]}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheet
+          ref={bsRef}
+          index={-1}
+          backdropComponent={renderBackdrop}
+          onClose={handleClose}
+          enablePanDownToClose
+          handleIndicatorStyle={{
+            backgroundColor: '#D2DCE5',
+            width: 48,
+          }}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            <VoxCard.Content>
+              <GoToAdminCard />
+            </VoxCard.Content>
+            <Menu>
+              {navProps.state.routes.map((route, index) => {
+                const { options } = navProps.descriptors[route.key]
+                const label = options.tabBarLabel ?? options.title ?? route.name
+                return (
+                  <Menu.Item
+                    key={route.key}
+                    size="lg"
+                    showArrow
+                    active={navProps.state.index === index + navProps.mainNavLength}
+                    // @ts-expect-error icon is not in the type
+                    icon={options.tabBarIcon}
+                    onPress={() => {
+                      navProps.navigation.navigate(route.name)
+                      bsRef.current?.close()
+                    }}
+                  >
+                    {label}
+                  </Menu.Item>
+                )
+              })}
+            </Menu>
+          </BottomSheetView>
+        </BottomSheet>
+      </GestureHandlerRootView>
+    </Animated.View>
   )
 })
 

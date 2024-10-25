@@ -71,7 +71,7 @@ const ButtonNav = styled(ThemeableStack, {
 const NavItem = (props: { route: (typeof ROUTES)[number]; isActive: boolean }) => {
   const [isHover, setIsHover] = React.useState(false)
   const activeColor = (props.isActive || isHover) && props.route.theme !== 'gray' ? '$color5' : '$textPrimary'
-  const path = props.route.name === 'index' ? '/' : (`/${props.route.name}` as const)
+  const path = props.route.name === '(home)' ? '/' : (`/${props.route.name}` as const)
   return (
     <Link href={path} asChild key={props.route.name}>
       <ButtonNav onHoverIn={() => setIsHover(true)} onHoverOut={() => setIsHover(false)} theme={props.route.theme} active={props.isActive}>
@@ -95,7 +95,7 @@ export const NavBar = () => {
   return gtSm ? (
     <XStack gap={24}>
       {ROUTES.filter((x) => !x.hidden).map((route) => {
-        const isIndex = route.name === 'index'
+        const isIndex = route.name === '(home)'
         const focused = pathname.includes(route.name) || (isIndex && pathname === '/')
         return <MemoizedNavItem key={route.name} route={route} isActive={focused} />
       })}
@@ -283,14 +283,14 @@ const VoxHeaderLeftButtonFrame = styled(ThemeableStack, {
   gap: 4,
   $md: {
     minWidth: 36,
-    height: 36,
+    // height: 36,
   },
 })
 
 const VoxHeaderLeftButton = (
   props: React.ComponentProps<typeof VoxHeaderLeftButtonFrame> & { icon: React.NamedExoticComponent<IconProps>; backTitle?: string },
 ) => (
-  <VoxHeaderLeftButtonFrame {...props}>
+  <VoxHeaderLeftButtonFrame {...props} height="100%">
     <props.icon size={24} color="$textPrimary" />
     {!!props.backTitle && <Text.LG semibold>{props.backTitle}</Text.LG>}
   </VoxHeaderLeftButtonFrame>

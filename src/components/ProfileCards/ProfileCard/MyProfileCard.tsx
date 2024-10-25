@@ -24,7 +24,7 @@ const useGetDefaultScope = () => {
   return default_scope
 }
 
-const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
+export const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
   const { user: credentials } = useUserStore()
   const default_scope = useGetDefaultScope()
   const isCadre = profil?.cadre_auth_path && default_scope

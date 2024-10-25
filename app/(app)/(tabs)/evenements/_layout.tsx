@@ -2,12 +2,13 @@ import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustratio
 import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
 import { useSession } from '@/ctx/SessionProvider'
 import { Link, Redirect, Slot } from 'expo-router'
-import { XStack } from 'tamagui'
+import { useMedia, XStack } from 'tamagui'
 
 export default function AppLayout() {
   const { isAuth } = useSession()
+  const media = useMedia()
 
-  if (!isAuth) {
+  if (!isAuth && media.md) {
     return (
       <>
         <VoxHeader justifyContent="space-between">

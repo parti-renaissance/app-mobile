@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import { MoreHorizontal } from '@tamagui/lucide-icons'
-import { getThemes, styled, ThemeableStack, ThemeName, useTheme, withStaticProperties, YStack } from 'tamagui'
+import { getThemes, isWeb, styled, ThemeableStack, ThemeName, useTheme, withStaticProperties, YStack } from 'tamagui'
 import MoreSheet from './MoreSheet'
 import { TabBarNavProps, TabNavOptions } from './types'
 
@@ -41,7 +41,7 @@ const TabBarFrame = styled(ThemeableStack, {
   paddingHorizontal: 22,
   backgroundColor: 'white',
   alignItems: 'center',
-  height: 60,
+  height: 64,
 })
 
 const TabBar = withStaticProperties(TabBarFrame, {
@@ -59,13 +59,18 @@ type TabProps = {
 const Tab = ({ isFocus, options, name, onPress, onLayout }: TabProps) => {
   const scale = useSharedValue(0)
 
+  const handlePress = () => {
+    scale.value = withSpring(1, { duration: 350 })
+    onPress()
+  }
+
   React.useEffect(() => {
     scale.value = withSpring(isFocus ? 1 : 0, { duration: 350 })
   }, [isFocus])
 
   const animatedIconStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ scale: interpolate(scale.value, [0, 1], [1, 1.334]) }, { translateY: interpolate(scale.value, [0, 1], [0, 7]) }],
+      transform: [{ scale: interpolate(scale.value, [0, 1], [1, 1.334]) }, { translateY: interpolate(scale.value, [0, 1], [0, 6]) }],
     }
   })
 
@@ -83,7 +88,7 @@ const Tab = ({ isFocus, options, name, onPress, onLayout }: TabProps) => {
     </Animated.View>
   ) : null
   return (
-    <TabBar.Tab theme={options.tabBarTheme} onPress={onPress} group onLayout={onLayout}>
+    <TabBar.Tab theme={options.tabBarTheme} onPress={handlePress} group onLayout={onLayout}>
       {tabBarIcon}
       <Animated.View style={[animatedTextStyle]}>
         <Text.XSM semibold color={activeColor}>
@@ -120,7 +125,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
 
   const layoutsByKey = useRef(new Map<string, LayoutRectangle>())
   const getPosition = (layout: LayoutRectangle) => {
-    return layout.x + layout?.width / 2 - 27
+    return layout.x + layout?.width / 2 - (isWeb ? 50 : 27)
   }
 
   const getPositionFromKey = (routeKey: string) => {
@@ -129,7 +134,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
     return getPosition(layout)
   }
   const themes = getThemes()
-  const tabTheme = descriptors[state.routes[state.index].key].options.tabBarTheme ?? 'gray'
+  const tabTheme = (state.index < filteredRoutes.length ? descriptors[state.routes[state.index].key].options.tabBarTheme : 'gray') ?? 'gray'
   const activeColorValue = themes.light[`${tabTheme}1`].val
 
   const position = useSharedValue(0)
@@ -164,19 +169,21 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
 
   const handleMoreClose = () => {
     setOtherFocus(false)
-    if (layoutsByKey.current.get(state.routes[state.index].key)) {
-      position.value = withSpring(getPositionFromKey(state.routes[state.index].key), { duration: 2000 })
-    }
+    const key = state.index > filteredRoutes.length - 1 ? 'more' : state.routes[state.index].key
+    position.value = withSpring(getPositionFromKey(key), { duration: 2000 })
+    setTimeout(() => {
+      activeColor.value = activeColorValue
+    }, 100)
   }
 
   const handleOtherPress = () => {
     setOtherFocus((x) => {
       if (x) {
         moreSheetRef.current?.close()
-        position.value = withSpring(getPositionFromKey(state.routes[state.index].key), { duration: 2000 })
       } else {
         moreSheetRef.current?.expand()
         position.value = withSpring(getPositionFromKey('more'), { duration: 2000 })
+        activeColor.value = themes.light[`gray1`].val
       }
       return !x
     })
@@ -198,6 +205,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
               moreSheetRef.current?.close()
               setOtherFocus(false)
               position.value = withSpring(getPositionFromKey(route.key), { duration: 2000 })
+              activeColor.value = themes.light[`${options.tabBarTheme}1`].val
 
               if (!isFocus && !event.defaultPrevented) {
                 navigation.navigate(route.name)
@@ -212,7 +220,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
             onPress={handleOtherPress}
             options={{
               tabBarVisible: true,
-              tabBarTheme: 'purple',
+              tabBarTheme: 'gray',
               tabBarActiveTintColor: '$color5',
               tabBarInactiveTintColor: '$textPrimary',
               tabBarIcon: ({ focused, ...props }) => <MoreHorizontal {...props} />,

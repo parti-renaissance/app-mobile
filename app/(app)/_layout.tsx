@@ -8,13 +8,14 @@ import { Link, Navigator, Slot, Stack } from 'expo-router'
 import { isWeb, useMedia, View, XStack, YStack } from 'tamagui'
 
 function CustomRouter() {
+  const media = useMedia()
   return (
     <Navigator router={TabRouter}>
       <YStack flex={1}>
         <VoxHeader justifyContent="space-between">
           <XStack flex={1} flexBasis={0}>
             <Link href="/" replace>
-              <EuCampaignIllustration cursor="pointer" />
+              <EuCampaignIllustration cursor="pointer" showText={media.gtLg} />
             </Link>
           </XStack>
           <NavBar />
@@ -28,7 +29,7 @@ function CustomRouter() {
 
 export default function AppLayout() {
   const media = useMedia()
-  return media.gtSm ? (
+  return media.gtMd ? (
     <CustomRouter />
   ) : (
     <PortalLayout>
@@ -50,11 +51,15 @@ export default function AppLayout() {
           <Stack.Screen
             name="evenements/[id]"
             options={{
-              header: (x) => (
-                <VoxHeader>
-                  <VoxHeader.LeftButton backTitle="Événements" icon={ArrowLeft} />
-                </VoxHeader>
-              ),
+              header: ({ navigation }) => {
+                return (
+                  <VoxHeader>
+                    <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace>
+                      <VoxHeader.LeftButton backTitle={''} icon={ArrowLeft} />
+                    </Link>
+                  </VoxHeader>
+                )
+              },
             }}
           />
           <Stack.Screen name="porte-a-porte/building-detail" options={{ title: '' }} />

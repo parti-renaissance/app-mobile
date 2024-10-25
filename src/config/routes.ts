@@ -33,14 +33,6 @@ export const ROUTES: TabRoute[] = [
   },
 
   {
-    name: 'profil',
-    screenName: 'Profile',
-    icon: CircleUser,
-    theme: 'gray',
-    hidden: true,
-    hiddenMobile: true,
-  },
-  {
     name: 'porte-a-porte',
     screenName: 'Porte à Porte',
     icon: DoorOpen,
@@ -59,6 +51,14 @@ export const ROUTES: TabRoute[] = [
     name: 'ressources',
     screenName: 'Ressources',
     icon: Link,
+    theme: 'gray',
+    hidden: true,
+    hiddenMobile: true,
+  },
+  {
+    name: 'profil',
+    screenName: 'Profile',
+    icon: CircleUser,
     theme: 'gray',
     hidden: true,
     hiddenMobile: true,
