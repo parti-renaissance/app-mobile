@@ -25,17 +25,21 @@ export const validateInformationsFormSchema = z.object({
 export const validateCoordFormSchema = z.object({
   phone: z
     .object({
-      country: z.string(buildReqError('Le code pays')).refine((x) => getCountryCodeForRegionCode(x) !== undefined, {
-        message: 'Le code pays doit être de deux lettres',
-      }),
-      number: requiredString('Le numéro de téléphone'),
+      country: z
+        .string(buildReqError('Le code pays'))
+        .refine((x) => getCountryCodeForRegionCode(x) !== undefined, {
+          message: 'Le code pays doit être de deux lettres',
+        })
+        .optional(),
+      number: z.string().optional(),
     })
     .refine(
       ({ country, number }) => {
+        if (!number) return true
         return parsePhoneNumber(number, { regionCode: country }).valid
       },
       {
-        message: 'Le numéro de téléphone n’est pas valide',
+        message: 'Numéro invalide',
       },
     ),
   email_address: z.string().email('L’adresse email n’est pas valide'),
