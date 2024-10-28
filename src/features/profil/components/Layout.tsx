@@ -25,6 +25,8 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
           fallback={
             <YStack
               gap={16}
+              flex={1}
+              $sm={{ pt: 8, gap: 8 }}
               $gtSm={{
                 pt: '$8',
                 pl: '$8',

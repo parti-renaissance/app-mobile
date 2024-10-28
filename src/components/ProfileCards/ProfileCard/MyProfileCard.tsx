@@ -98,7 +98,7 @@ const MembershipCard = ({ status }: { status: 'renew' | 'tofinish' }) => {
   const icon = status === 'renew' ? History : UserPlus
 
   return (
-    <InfoCard buttonText={buttonText} icon={icon} href="/profil/cotisation-et-dons" theme="yellow">
+    <InfoCard buttonText={buttonText} icon={icon} href="/profil/cotisations-et-dons" theme="yellow">
       {text}
     </InfoCard>
   )

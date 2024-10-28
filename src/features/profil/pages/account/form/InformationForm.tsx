@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import Input from '@/components/base/Input/Input'
-import Select from '@/components/base/Select/Select'
+import Select from '@/components/base/Select/SelectV3'
 import Text from '@/components/base/Text'
 import DatePickerField from '@/components/DatePicker'
 import { MessageCard } from '@/components/MessageCard/MessageCard'
@@ -45,7 +45,6 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
                   placeholder="Civilité"
                   onBlur={onBlur}
                   color="gray"
-                  search={false}
                   disabled={!!profile.certified}
                   value={value}
                   onChange={onChange}
