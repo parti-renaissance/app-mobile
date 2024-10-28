@@ -23,22 +23,22 @@ const HomeHeader = () => {
   )
 }
 
-const exectParams = (x: string) => {
+const exectParams = (x: string, canShowHeader: boolean) => {
   switch (x) {
     case '(home)':
       return {
         header: () => <HomeHeader />,
-        headerShown: true,
+        headerShown: canShowHeader,
       }
     case 'profil':
       return {
         header: () => <PageHeader {...pageConfigs.index} backArrow={false} />,
-        headerShown: true,
+        headerShown: canShowHeader,
       }
     case 'ressources':
       return {
         header: () => <PageHeader title="Ressources" icon={Link2} backArrow={false} />,
-        headerShown: true,
+        headerShown: canShowHeader,
       }
     default:
       return {
@@ -53,10 +53,10 @@ export default function AppLayout() {
 
   return (
     <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
-      {media.gtMd || !isAuth ? (
+      {!isAuth ? (
         <Slot />
       ) : (
-        <Tabs tabBar={(props) => <TabBar {...props} />} screenOptions={{}}>
+        <Tabs tabBar={(props) => <TabBar {...props} hide={media.gtMd} />} screenOptions={{}}>
           {ROUTES.map((route) => (
             <Tabs.Screen
               key={route.name}
@@ -70,7 +70,7 @@ export default function AppLayout() {
                 tabBarInactiveTintColor: '$textPrimary',
                 tabBarIcon: ({ focused, ...props }) => <route.icon {...props} />,
                 tabBarLabel: route.screenName,
-                ...exectParams(route.name),
+                ...exectParams(route.name, media.md),
               }}
             />
           ))}

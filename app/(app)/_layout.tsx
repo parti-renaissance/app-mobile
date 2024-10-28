@@ -2,17 +2,16 @@ import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
 import { PortalLayout } from '@/components/layouts/PortalLayout'
-import { TabRouter } from '@react-navigation/native'
 import { ArrowLeft } from '@tamagui/lucide-icons'
-import { Link, Navigator, Slot, Stack } from 'expo-router'
-import { isWeb, useMedia, View, XStack, YStack } from 'tamagui'
+import { Link, Stack } from 'expo-router'
+import { useMedia, View, XStack } from 'tamagui'
 
-function CustomRouter() {
+export default function AppLayout() {
   const media = useMedia()
   return (
-    <Navigator router={TabRouter}>
-      <YStack flex={1}>
-        <VoxHeader justifyContent="space-between">
+    <PortalLayout>
+      {media.gtMd ? (
+        <VoxHeader justifyContent="space-between" display="none" $gtMd={{ display: 'flex' }}>
           <XStack flex={1} flexBasis={0}>
             <Link href="/" replace>
               <EuCampaignIllustration cursor="pointer" showText={media.gtLg} />
@@ -21,19 +20,8 @@ function CustomRouter() {
           <NavBar />
           <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
         </VoxHeader>
-        <Slot />
-      </YStack>
-    </Navigator>
-  )
-}
-
-export default function AppLayout() {
-  const media = useMedia()
-  return media.gtMd ? (
-    <CustomRouter />
-  ) : (
-    <PortalLayout>
-      <View style={{ height: isWeb ? '100svh' : '100%' }} position="relative">
+      ) : null}
+      <View style={{ height: '100%', flex: 1 }} position="relative">
         <Stack screenOptions={{ animation: 'slide_from_right' }}>
           <Stack.Screen
             name="(tabs)"
@@ -52,13 +40,13 @@ export default function AppLayout() {
             name="evenements/[id]"
             options={{
               header: ({ navigation }) => {
-                return (
+                return media.md ? (
                   <VoxHeader>
                     <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace>
                       <VoxHeader.LeftButton backTitle={''} icon={ArrowLeft} />
                     </Link>
                   </VoxHeader>
-                )
+                ) : null
               },
             }}
           />

@@ -27,7 +27,7 @@ const EditInformations = () => {
     <PageLayout.MainSingleColumn position="relative">
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
+          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
             <ForceBirthdateModal />
             <InfoEluCard profil={profile} />
             <DeclaEluCard declaration={profile.last_revenue_declaration?.amount} cotisation={profile.contribution_amount ?? undefined} />

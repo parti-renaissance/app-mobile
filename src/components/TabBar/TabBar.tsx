@@ -188,6 +188,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
       return !x
     })
   }
+  if (hide) return null
   return (
     <>
       <SAV {...SAVProps} style={{ backgroundColor: 'white' }}>

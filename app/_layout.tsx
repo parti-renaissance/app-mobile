@@ -9,6 +9,7 @@ import useInitPushNotification from '@/hooks/useInit'
 import UpdateScreen from '@/screens/update/updateScreen'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { ToastProvider } from '@tamagui/toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -104,15 +105,17 @@ function Root() {
   }, [])
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ToastProvider swipeDirection="up">
         <QueryClientProvider client={queryClient}>
           <TamaguiProvider>
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <SessionProvider>
-                <WaitingRoomHoc isLoading={!isFontsLoaded}>
-                  {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
-                </WaitingRoomHoc>
+                <BottomSheetModalProvider>
+                  <WaitingRoomHoc isLoading={!isFontsLoaded}>
+                    {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
+                  </WaitingRoomHoc>
+                </BottomSheetModalProvider>
               </SessionProvider>
             </ThemeProvider>
           </TamaguiProvider>

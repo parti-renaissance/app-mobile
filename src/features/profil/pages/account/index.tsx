@@ -32,7 +32,7 @@ const EditInformations = () => {
     <PageLayout.MainSingleColumn position="relative">
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap={16}>
+          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
             <ForceBirthdateModal />
 
             <InformationsForm profile={profile} />
