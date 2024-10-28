@@ -3,7 +3,7 @@ import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, Platfor
 import Text from '@/components/base/Text'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { AnimatePresence, isWeb, Spinner, styled, useTheme, XStack, YStack } from 'tamagui'
+import { AnimatePresence, isWeb, Spinner, styled, TamaguiElement, useTheme, XStack, YStack } from 'tamagui'
 
 export type InputProps = {
   size?: 'xs' | 'sm' | 'md' | 'lg'
@@ -17,6 +17,7 @@ export type InputProps = {
   iconRight?: React.ReactNode
   onChange?: (text: string) => void
   onIconRightPress?: (e: GestureResponderEvent) => void
+  frameRef?: React.RefObject<TamaguiElement>
   type?: 'text' | 'password' | 'email' | 'number' | 'date' | 'time'
   fake?: boolean
 } & Omit<TextInputProps, 'placeholder' | 'onChange'>
@@ -100,6 +101,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     onChangeText,
     onIconRightPress,
     onChange,
+    frameRef,
     ...inputProps
   } = _props
   const [isFocused, setIsFocused] = useState(false)
@@ -163,7 +165,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   const theme = useTheme()
 
   return (
-    <YStack gap="$1" flex={1}>
+    <YStack gap="$1" flex={1} ref={frameRef}>
       <InputFrame
         disabled={disabled}
         color={color ?? 'white'}

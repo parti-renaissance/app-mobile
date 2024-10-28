@@ -108,9 +108,7 @@ export const ItemFrame = styled(XStack, {
     },
 
     empty: {
-      true: {
-        color: '$textDisabled',
-      },
+      true: {},
     },
     last: {
       true: {
@@ -122,7 +120,7 @@ export const ItemFrame = styled(XStack, {
         borderBottomWidth: 1,
       },
     },
-  },
+  } as const,
   hoverStyle: {
     backgroundColor: '$gray1',
   },

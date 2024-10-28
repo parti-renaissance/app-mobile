@@ -1,5 +1,6 @@
 import Input from '@/components/base/Input/Input'
 import Select from '@/components/base/Select/Select'
+import SelectV3 from '@/components/base/Select/SelectV3'
 import Text from '@/components/base/Text'
 import { MessageCard } from '@/components/MessageCard/MessageCard'
 import VoxCard from '@/components/VoxCard/VoxCard'
@@ -27,7 +28,7 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
         {
           email_address: profile.email_address,
           phone: {
-            country: profile.phone?.country,
+            country: profile.phone?.country ?? 'FR',
             number: profile.phone?.number,
           },
         } as const
@@ -57,10 +58,10 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
             render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
               <XStack gap="$3">
                 <View width={130}>
-                  <Select
+                  <SelectV3
+                    searchable={true}
                     color="gray"
                     value={value?.country}
-                    placeholder="Indicatif"
                     options={phoneCodes}
                     onChange={(x) => onChange({ number: value?.number, country: x })}
                   />

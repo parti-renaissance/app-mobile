@@ -46,7 +46,7 @@ const InstancesScreen = () => {
     if (isSympathisant) {
       return {
         content: (
-          <InfoCard theme="yellow" icon={UserPlus} buttonText="J’adhère pour devenir membre" href="/profil/cotisation-et-dons">
+          <InfoCard theme="yellow" icon={UserPlus} buttonText="J’adhère pour devenir membre" href="/profil/cotisations-et-dons">
             La vie militante liée aux comités est réservée aux adhérents. Adhérez pour devenir membre d’un comité.
           </InfoCard>
         ),
@@ -88,7 +88,7 @@ const InstancesScreen = () => {
       <ChangeCommitteeModal currentCommitteeUuid={committee?.uuid ?? null} open={openChange} onClose={() => setOpenChange(false)} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
+          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
             <InstanceCard
               title="Mon assemblée"
               icon={DoubleCircle}

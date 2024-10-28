@@ -6,7 +6,7 @@ import type { IconProps } from '@tamagui/helpers-icon'
 import { Check } from '@tamagui/lucide-icons'
 import { styled, ThemeableStack, XStack, YStack } from 'tamagui'
 
-const DropdownItemFrame = styled(ThemeableStack, {
+export const DropdownItemFrame = styled(ThemeableStack, {
   paddingHorizontal: 20,
   gap: 16,
   backgroundColor: 'white',
@@ -55,7 +55,7 @@ type ItemProps = {
   icon?: NamedExoticComponent<IconProps>
 } & React.ComponentPropsWithoutRef<typeof DropdownItemFrame>
 
-const DropdownItem = ({ title, subtitle, color = '$textPrimary', ...props }: ItemProps) => {
+export const DropdownItem = ({ title, subtitle, color = '$textPrimary', ...props }: ItemProps) => {
   return (
     <DropdownItemFrame {...props}>
       <YStack flex={1}>
@@ -72,7 +72,7 @@ const DropdownItem = ({ title, subtitle, color = '$textPrimary', ...props }: Ite
   )
 }
 
-const DropdownFrame = styled(ThemeableStack, {
+export const DropdownFrame = styled(ThemeableStack, {
   backgroundColor: 'white',
   borderRadius: 16,
   overflow: 'hidden',
@@ -83,13 +83,13 @@ const DropdownFrame = styled(ThemeableStack, {
   variants: {
     size: {
       sm: {
-        height: 40 * 4,
+        maxHeight: 40 * 4,
       },
       md: {
-        width: 48 * 4,
+        maxHeight: 48 * 4,
       },
       lg: {
-        width: 56 * 4,
+        maxHeight: 56 * 4,
       },
     },
   },
@@ -98,16 +98,16 @@ const DropdownFrame = styled(ThemeableStack, {
   },
 })
 
-type DropdownProps = {
-  items: Array<ItemProps & { id: string }>
-  onSelect: (value: string) => void
+type DropdownProps<A extends string> = {
+  items: Array<ItemProps & { id: A }>
+  onSelect: (value: A) => void
   value?: string
 } & React.ComponentPropsWithoutRef<typeof DropdownFrame>
 
 const MemoItem = React.memo(DropdownItem)
 
-function Dropdown({ items, onSelect, value, ...props }: DropdownProps) {
-  const { current: handleSelect } = useLazyRef(() => (id: string) => () => onSelect(id))
+export function Dropdown<A extends string>({ items, onSelect, value, ...props }: DropdownProps<A>) {
+  const { current: handleSelect } = useLazyRef(() => (id: A) => () => onSelect(id))
   return (
     <DropdownFrame {...props}>
       <FlatList
@@ -119,11 +119,11 @@ function Dropdown({ items, onSelect, value, ...props }: DropdownProps) {
   )
 }
 
-export function DropdownWrapper({
+export function DropdownWrapper<A extends string>({
   children,
   onSelect,
   ...props
-}: DropdownProps & { children: React.ReactNode; open?: boolean; onOpenChange?: (x: boolean) => void }) {
+}: DropdownProps<A> & { children: React.ReactNode; open?: boolean; onOpenChange?: (x: boolean) => void }) {
   const open = props.open ?? false
   const setOpen = props.onOpenChange ?? (() => {})
   const container = React.useRef<TouchableOpacity | null>(null)
@@ -139,7 +139,7 @@ export function DropdownWrapper({
     setOpen(false)
   }, [])
 
-  const handleSelect = useCallback((value: string) => {
+  const handleSelect = useCallback((value: A) => {
     onSelect(value)
     setOpen(false)
   }, [])
