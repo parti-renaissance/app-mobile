@@ -18,7 +18,7 @@ const HomeScreen: React.FC = () => {
       </Head>
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <YStack gap="$3">
+          <YStack gap="$3" position="sticky" align-self="flex-start" top={24}>
             <MyProfileCard />
             <ProcurationCTA />
           </YStack>
@@ -74,7 +74,9 @@ const HomeScreen: React.FC = () => {
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
-          <AppDownloadCTA />
+          <YStack gap="$3" position="sticky" align-self="flex-start" top={24}>
+            <AppDownloadCTA />
+          </YStack>
         </PageLayout.SideBarRight>
       </PageLayout>
     </>

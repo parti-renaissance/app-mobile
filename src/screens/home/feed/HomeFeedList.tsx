@@ -41,7 +41,8 @@ const HomeFeedList = () => {
   return (
     <FlatList
       ref={flatListRef}
-      style={{ flex: 1 }}
+      // style={{ flex: 1 }}
+      scrollEnabled={false}
       contentContainerStyle={{
         gap: media.gtSm ? 16 : 8,
         paddingTop: media.gtSm ? getToken('$5', 'space') : 0,

@@ -1,8 +1,15 @@
-import { StackProps, YStack, YStackProps } from 'tamagui'
+import { ScrollView, StackProps, YStack, YStackProps } from 'tamagui'
 
 export const Container = YStack.styleable(({ children, full, ...props }: YStackProps & { full?: boolean }, ref) => {
   return (
-    <YStack alignItems="center" {...props} ref={ref}>
+    <YStack
+      alignItems="center"
+      {...props}
+      ref={ref}
+      style={{
+        overflow: 'scroll',
+      }}
+    >
       <YStack maxWidth={!full ? 1300 : undefined} width="100%" flex={1}>
         {children}
       </YStack>

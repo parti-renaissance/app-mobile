@@ -9,7 +9,7 @@ export const columnWidth = 333
 const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) => {
   return (
     <Container flex={1} bg="$textSurface" $gtMd={{ pl: padding }} $gtLg={{ pl: 0 }} {...props}>
-      <XStack flex={1}>{children}</XStack>
+      <XStack>{children}</XStack>
     </Container>
   )
 }
