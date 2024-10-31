@@ -14,7 +14,7 @@ i18n.use(initReactI18next).init({
   },
   keySeparator: '.',
   fallbackLng: false,
-  debug: true,
+  debug: false,
   interpolation: {
     escapeValue: false,
     format: function (value, format) {

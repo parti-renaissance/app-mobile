@@ -20,7 +20,7 @@ type AuthContext = {
   scope: ReturnType<typeof useGetUserScopes>
 }
 
-const AuthContext = React.createContext<AuthContext>({
+export const AuthContext = React.createContext<AuthContext>({
   signIn: () => Promise.resolve(),
   signOut: () => Promise.resolve(),
   signUp: () => Promise.resolve(),
