@@ -23,6 +23,13 @@ export const useGetProfil = (props?: { enabled?: boolean; placeholderData?: Rest
   })
 }
 
+export const useGetSuspenseProfil = (props?: { enabled?: boolean; placeholderData?: RestProfilResponse | PlaceholderDataFunction<RestProfilResponse> }) => {
+  return useSuspenseQuery({
+    queryKey: [PROFIL_QUERY_KEY],
+    queryFn: () => api.getProfile(),
+  })
+}
+
 export const useGetUserScopes = ({ enabled }: { enabled?: boolean } = {}) => {
   return useQuery({
     queryKey: ['userScopes'],
@@ -126,7 +133,7 @@ export const useGetDonations = () => {
 }
 
 export const useGetElectProfil = () => {
-  const user = useGetProfil()
+  const user = useGetSuspenseProfil()
   const userUuid = user?.data?.uuid
   return useSuspenseQuery({
     queryKey: ['electProfile', userUuid],

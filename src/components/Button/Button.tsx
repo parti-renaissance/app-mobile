@@ -7,7 +7,7 @@ export const ButtonContext = createStyledContext({
   pop: false,
   disabled: false,
   loading: false,
-  'data-testid': 'Button',
+  // 'data-testid': 'Button',
 })
 
 export const ButtonFrameStyled = styled(View, {
@@ -43,6 +43,11 @@ export const ButtonFrameStyled = styled(View, {
         width: '100%',
       },
     },
+    shrink: {
+      true: {
+        paddingHorizontal: 0,
+      },
+    },
     pop: {
       true: {},
     },
@@ -55,20 +60,22 @@ export const ButtonFrameStyled = styled(View, {
     size: {
       sm: {
         height: 32,
-
+        minWidth: 32,
         gap: 4,
       },
       md: {
         height: 36,
+        minWidth: 36,
         gap: 6,
       },
       lg: {
         height: 40,
+        minWidth: 40,
         gap: 8,
       },
       xl: {
         height: 44,
-
+        minWidth: 44,
         gap: 10,
       },
     },
@@ -168,6 +175,7 @@ type VoxButtonProps = {
 } & React.ComponentProps<typeof Button>
 
 export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref) => {
+  const children = props.shrink ? undefined : props.children
   const outlinedExeption =
     props.variant === 'outlined' && (props.theme === 'gray' || !props.theme)
       ? {
@@ -188,7 +196,7 @@ export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref)
           }}
         />
       )}
-      {props.children && <ButtonText pop={props.pop}>{props.children}</ButtonText>}
+      {children && <ButtonText pop={props.pop}>{children}</ButtonText>}
       {props.iconRight && (
         <props.iconRight
           size={16}
