@@ -9,8 +9,8 @@ export const RestTimelineFeedRequestSchema = z.object({
 export type RestTimelineFeedAddress = z.infer<typeof RestTimelineFeedAddressSchema>
 export const RestTimelineFeedAddressSchema = z.object({
   address: z.string().nullable(),
-  postal_code: z.string().nullable(),
   city_name: z.string().nullable(),
+  postal_code: z.string().nullable(),
   country: z.string().nullable(),
 })
 
@@ -48,6 +48,8 @@ export const RestTimelineFeedItemSchema = z.object({
   time_zone: z.string().nullable(),
   mode: z.enum(['meeting', 'online']).nullable().optional(),
   post_address: RestTimelineFeedAddressSchema.nullable().optional(),
+  object_state: z.enum(['full', 'partial']).nullish(),
+  visibility: z.string().nullish(),
 })
 
 export type RestTimelineFeedResponse = z.infer<typeof RestTimelineFeedResponseSchema>

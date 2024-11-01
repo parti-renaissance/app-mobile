@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { FontAwesome } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 
 interface AutoSizeImageProps {
@@ -46,13 +45,6 @@ function AutoSizeImage(props: AutoSizeImageProps) {
           }
         }}
       />
-
-      {/* ATTENTION : Pour une raison inconnue, si ce conteneur est placé au dessus de l'image, alors on rerender en boucle*/}
-      {showOverlay && (
-        <View style={[styles.overlay]}>
-          <FontAwesome name={'plus-circle'} size={50} color={'rgba(255,255,255,0.9)'} />
-        </View>
-      )}
     </Animated.View>
   )
 }

@@ -3,6 +3,7 @@ import { type FeedCardProps } from '@/components/Cards'
 import { ActionType } from '@/core/entities/Action'
 import { logDefaultError } from '@/data/network/NetworkLogger'
 import { ReadableActionType } from '@/services/actions/schema'
+import * as FeedMapper from '@/services/common/mapper/mapTimelineFeedToRestEvent'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { router } from 'expo-router'
 
@@ -75,32 +76,7 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
         },
       }
     case 'event':
-      return {
-        type,
-        onShow: () => {
-          router.push({
-            pathname: '/evenements/[id]',
-            params: { id: feed.objectID },
-          })
-        },
-        payload: {
-          id: feed.objectID,
-          title: feed.title!,
-          tag,
-          image: feed.image ?? undefined,
-          isSubscribed: !!feed.user_registered_at,
-          date: {
-            start: feed.begin_at ? new Date(feed.begin_at) : new Date(feed.date!),
-            end: feed.finish_at ? new Date(feed.finish_at) : new Date(feed.date!),
-            timeZone: feed.time_zone ?? undefined,
-          },
-          location: feed.mode === 'online' ? undefined : location,
-          isOnline: feed.mode === 'online',
-          author: { ...author, uuid: feed.author?.uuid },
-          editable: feed.editable!,
-          edit_link: feed.edit_link,
-        },
-      }
+      return { type, event: FeedMapper.map(feed) }
     case 'action':
       return {
         type,

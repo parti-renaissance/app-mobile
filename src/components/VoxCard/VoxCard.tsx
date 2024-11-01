@@ -5,7 +5,7 @@ import Text from '@/components/base/Text'
 import Chip from '@/components/Chip/Chip'
 import ProfilePicture from '@/components/ProfilePicture'
 import i18n from '@/utils/i18n'
-import { CalendarDays, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
+import { CalendarDays, Check, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
 import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
@@ -58,20 +58,20 @@ const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
 }
 
 export type VoxCardTitleProps = { children: string | string[] | ReactNode }
-const VoxCardTitle = (props: VoxCardTitleProps) => {
+const VoxCardTitle = ({ children, underline = true }: VoxCardTitleProps & { underline?: boolean }) => {
   return (
-    <XStack borderBottomWidth={1} pb={8} borderColor="$textOutline32" flex={1}>
+    <XStack borderBottomWidth={underline ? 1 : 0} pb={underline ? 8 : 0} borderColor="$textOutline32" flex={1}>
       <Text.MD multiline semibold lineBreakStrategyIOS="push-out">
-        {props.children}
+        {children}
       </Text.MD>
     </XStack>
   )
 }
 
-export type VoxCardDateProps = { start: Date; end: Date; icon?: boolean; timeZone?: string }
+export type VoxCardDateProps = { start: Date; end?: Date; icon?: boolean; timeZone?: string }
 const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) => {
-  const keySuffix = getHours(start) === getHours(end) ? '' : 'End'
-  const keyPrefix = isSameDay(start, end) ? 'day' : 'days'
+  const keySuffix = getHours(start) === getHours(end ?? start) ? '' : 'End'
+  const keyPrefix = isSameDay(start, end ?? start) ? 'day' : 'days'
   const key = `${keyPrefix}Date${keySuffix}`
   return (
     <XStack gap="$2" alignItems="center">
@@ -132,34 +132,37 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
 
 export type VoxCardAuthorProps = {
   author?: {
-    role: string | null
-    name: string | null
-    zone: string | null
-    title: string | null
+    role?: string | null
+    name?: string | null
+    zone?: string | null
+    title?: string | null
     pictureLink?: string
   }
 }
 
 const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
   if (!author || !author.name) return null
+
+  const pair1 = [author.title, author.zone].filter(Boolean)
+  const pair2 = [author.name, author.role].filter(Boolean)
   return (
     <XStack gap="$2" alignItems="center">
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
-      {author.title && author.role && author.zone ? (
-        <Text>
-          <Text.SM medium primary>
-            {author.title} • {author.zone}
-          </Text.SM>
-          <Text.BR />
-          <Text.SM secondary>
-            {author.name}, {author.role}
-          </Text.SM>
-        </Text>
-      ) : (
-        <Text.SM primary medium>
-          {author.name}
+      <Text>
+        {pair1.length > 0 ? (
+          <>
+            <Text.SM medium>{pair1.join(' • ')}</Text.SM>
+            <Text.BR />
+          </>
+        ) : null}
+        <Text.SM
+          secondary={pair1.length > 0 ? true : undefined}
+          primary={pair1.length === 0 ? true : undefined}
+          semibold={pair1.length === 0 ? true : undefined}
+        >
+          {pair2.join(', ')}
         </Text.SM>
-      )}
+      </Text>
     </XStack>
   )
 }
@@ -266,12 +269,13 @@ const VoxCardSeparator = (props: StackProps) => (
   <Separator {...props} borderColor={props.backgroundColor ?? '$textOutline32'} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
 )
 
-const VoxCardAdhLock = () => {
+const VoxCardAdhLock = (props?: { lock?: boolean; due?: boolean }) => {
+  const { lock = true, due = false } = props ?? {}
   return (
     <XStack gap={4} alignItems="center">
-      <LockKeyhole color="$yellow5" size={12} />
+      {lock ? <LockKeyhole color="$yellow5" size={12} /> : <Check color="$yellow5" size={12} />}
       <Text.SM semibold color="$yellow5">
-        Réservé aux adhérents
+        {due ? 'Réservé aux adhérents à jour' : 'Réservé aux adhérents'}
       </Text.SM>
     </XStack>
   )

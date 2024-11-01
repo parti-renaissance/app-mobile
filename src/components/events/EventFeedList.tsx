@@ -1,18 +1,15 @@
-import { memo, useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Platform, SectionList } from 'react-native'
-import DialogAuth from '@/components/AuthDialog'
 import Text from '@/components/base/Text'
-import { EventCard, PartialEventCard } from '@/components/Cards/EventCard'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import { bottomSheetFilterStates } from '@/components/events/EventFilterForm/BottomSheetFilters'
 import EventFilterForm, { eventFiltersState, Controller as FilterController, FiltersState } from '@/components/events/EventFilterForm/EventFilterForm'
 import SearchBox from '@/components/events/EventFilterForm/SearchBox'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import { useSession } from '@/ctx/SessionProvider'
-import { mapFullProps, mapPartialProps } from '@/helpers/eventsFeed'
+import EventListItem from '@/features/events/components/EventListItem'
 import { useSuspensePaginatedEvents } from '@/services/events/hook'
-import { isFullEvent, isPartialEvent, RestItemEvent, RestPublicItemEvent } from '@/services/events/schema'
+import { RestItemEvent, RestPublicItemEvent } from '@/services/events/schema'
 import { useGetProfil } from '@/services/profile/hook'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown, Filter } from '@tamagui/lucide-icons'
@@ -20,9 +17,6 @@ import { isPast } from 'date-fns'
 import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, XStack, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
-
-const MemoizedEventCard = memo(EventCard) as typeof EventCard
-const MemoizedPartialEventCard = memo(PartialEventCard) as typeof PartialEventCard
 
 const splitEvents = (events: RestItemEvent[] | RestPublicItemEvent[]) => {
   const incomming: typeof events = []
@@ -99,25 +93,24 @@ const HeaderList = (props: { listRef: React.RefObject<SectionList> }) => {
   return null
 }
 
-const EventListCard = memo((args: { item: RestItemEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
-  if (isFullEvent(args.item)) {
-    return <MemoizedEventCard {...mapFullProps(args.item, args.cb)} />
-  }
-  if (isPartialEvent(args.item)) {
-    return (
-      <AuthFallbackWrapper
-        fallback={
-          <DialogAuth title="D'autres événements vous attendent, connectez-vous ou créez un compte !">
-            <MemoizedPartialEventCard {...mapPartialProps(args.item, args.cb)} />
-          </DialogAuth>
-        }
-      >
-        <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
-      </AuthFallbackWrapper>
-    )
-  }
-  return null
-})
+// const EventListCard = memo((args: { item: RestItemEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
+//   if (isFullEvent(args.item)) {
+//     return <MemoizedEventCard {...mapFullProps(args.item, args.cb)} />
+//   }
+//   if (isPartialEvent(args.item)) {
+//     return (
+//       <AuthFallbackWrapper
+//         fallback={
+//           <DialogAuth title="D'autres événements vous attendent, connectez-vous ou créez un compte !">
+//           </DialogAuth>
+//         }
+//       >
+//         <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
+//       </AuthFallbackWrapper>
+//     )
+//   }
+//   return null
+// })
 
 const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
   const media = useMedia()
@@ -181,7 +174,7 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
         paddingBottom: getToken('$10', 'space'),
       }}
       sections={feedData}
-      renderItem={({ item }) => <EventListCard item={item} cb={callbacks} />}
+      renderItem={({ item }) => <EventListItem event={item} userUuid={user.data?.uuid} />}
       renderSectionHeader={({ section }) => {
         return (
           <XStack gap="$2" $md={{ paddingLeft: '$4' }} $gtLg={{ paddingTop: section.index === 0 ? '$6' : 0 }}>

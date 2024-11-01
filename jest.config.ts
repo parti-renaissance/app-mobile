@@ -6,19 +6,13 @@ module.exports = {
 
     '^__mocks__/(.*)$': '<rootDir>/__mocks__/$1',
   },
-  setupFilesAfterEnv: ['./jest.setup.ts'],
+  setupFilesAfterEnv: ['./jest.setup.tsx'],
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
   ],
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: [
-    './src/**/*.test.{js,ts}',
-    '!**/coverage/**',
-    '!**/node_modules/**',
-    '!**/babel.config.js',
-    '!**/jest.setup.js',
-  ],
+  collectCoverageFrom: ['./src/**/*.test.{js,ts}', '!**/coverage/**', '!**/node_modules/**', '!**/babel.config.js', '!**/jest.setup.js'],
   coverageThreshold: {
     global: {
       branches: 30,
