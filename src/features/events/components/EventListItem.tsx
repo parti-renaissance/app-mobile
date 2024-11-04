@@ -1,19 +1,21 @@
 import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { RestItemEvent } from '@/services/events/schema'
+import { RestEvent, RestItemEvent } from '@/services/events/schema'
 import { Eye } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
 import { isWeb } from 'tamagui'
+import { isEventFull } from '../utils'
 import { CategoryChip } from './CategoryChip'
 import { EventItemActions } from './EventItemActions'
 import { EventItemHandleButton } from './EventItemHandleButton'
 import { EventItemHeader } from './EventItemHeader'
 import { EventItemToggleSubscribeButton } from './EventItemSubscribeButton'
+import { EventLocation } from './EventLocation'
 import { EventPremiumChip } from './EventPremiumChip'
 import { StatusChip } from './StatusChip'
 
 type EventListItemProps = {
-  event: Partial<RestItemEvent> & { uuid: string }
+  event: Partial<RestEvent> & { uuid: string }
 }
 
 const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>>) => {
@@ -45,6 +47,7 @@ const EventListItem = ({ event, userUuid }: EventListItemProps & { userUuid?: st
         {event.name ? <VoxCard.Title underline={!event.image_url}>{event.name}</VoxCard.Title> : null}
         {event.image_url ? <VoxCard.Image image={event.image_url} /> : null}
         <DateItem begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
+        <EventLocation event={event} />
         <VoxCard.Author
           author={{
             role: event.organizer?.role,
