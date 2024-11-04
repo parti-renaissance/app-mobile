@@ -1,10 +1,13 @@
+import { useMemo } from 'react'
+import AuthDialog from '@/components/AuthDialog'
 import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { RestEvent, RestItemEvent } from '@/services/events/schema'
+import { RestItemEvent } from '@/services/events/schema'
 import { Eye } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
 import { isWeb } from 'tamagui'
-import { isEventFull } from '../utils'
+import { EventItemProps } from '../types'
+import { getEventItemImageFallback, isEventPrivate } from '../utils'
 import { CategoryChip } from './CategoryChip'
 import { EventItemActions } from './EventItemActions'
 import { EventItemHandleButton } from './EventItemHandleButton'
@@ -13,10 +16,6 @@ import { EventItemToggleSubscribeButton } from './EventItemSubscribeButton'
 import { EventLocation } from './EventLocation'
 import { EventPremiumChip } from './EventPremiumChip'
 import { StatusChip } from './StatusChip'
-
-type EventListItemProps = {
-  event: Partial<RestEvent> & { uuid: string }
-}
 
 const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>>) => {
   if (!props.begin_at) {
@@ -35,7 +34,8 @@ const GoToButton = ({ eventUuid }: { eventUuid: string }) => {
   )
 }
 
-const EventListItem = ({ event, userUuid }: EventListItemProps & { userUuid?: string }) => {
+const _EventListItem = ({ event, userUuid }: EventItemProps) => {
+  const fallbackImage = getEventItemImageFallback(event, userUuid)
   return (
     <VoxCard>
       <VoxCard.Content>
@@ -44,8 +44,8 @@ const EventListItem = ({ event, userUuid }: EventListItemProps & { userUuid?: st
           <StatusChip event={event} />
           <EventPremiumChip event={event} />
         </EventItemHeader>
-        {event.name ? <VoxCard.Title underline={!event.image_url}>{event.name}</VoxCard.Title> : null}
-        {event.image_url ? <VoxCard.Image image={event.image_url} /> : null}
+        {event.name ? <VoxCard.Title underline={!fallbackImage}>{event.name}</VoxCard.Title> : null}
+        {fallbackImage ? <VoxCard.Image image={fallbackImage} /> : null}
         <DateItem begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
         <EventLocation event={event} />
         <VoxCard.Author
@@ -65,6 +65,17 @@ const EventListItem = ({ event, userUuid }: EventListItemProps & { userUuid?: st
       </VoxCard.Content>
     </VoxCard>
   )
+}
+
+const EventListItem = ({ event, userUuid }: EventItemProps) => {
+  if (!userUuid && isEventPrivate(event)) {
+    return (
+      <AuthDialog title={`D'autres événements vous attendent,\n connectez-vous ou adhérez !`} testID="event-item-sign-in-dialog">
+        <_EventListItem event={event} />
+      </AuthDialog>
+    )
+  }
+  return <_EventListItem event={event} userUuid={userUuid} />
 }
 
 export default EventListItem

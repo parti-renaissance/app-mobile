@@ -201,4 +201,17 @@ describe('EventListItem', () => {
     )
     expect(await findByTestId('event-premium-chip')).toBeTruthy()
   })
+
+  it('should popup a dialog when event is private and user is not logged in', async () => {
+    const { findByTestId } = customRender(
+      <EventListItem
+        event={{
+          uuid: '1',
+          visibility: 'private',
+        }}
+      />,
+    )
+    const button = await findByTestId('event-item-sign-in-dialog')
+    expect(button).toBeTruthy()
+  })
 })
