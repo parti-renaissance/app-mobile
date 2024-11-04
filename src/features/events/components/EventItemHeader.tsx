@@ -20,8 +20,10 @@ export const EventItemHeader = ({ children }: EventItemHeader) => {
   const [first, second, last] = elements
 
   return (
-    <XStack justifyContent="space-between" alignItems="center" gap={8}>
-      <XStack gap={8}>{[first, second]}</XStack>
+    <XStack justifyContent="space-between" alignItems="flex-start" gap={8}>
+      <XStack flexWrap="wrap" flexShrink={1} gap={8}>
+        {[first, second]}
+      </XStack>
       <XStack>{[last]}</XStack>
     </XStack>
   )

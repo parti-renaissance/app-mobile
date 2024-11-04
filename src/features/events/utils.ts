@@ -37,6 +37,10 @@ export const isEventAdherentDuesReserved = (event: Partial<RestItemEvent>) => {
   return event.visibility === 'adherent_dues'
 }
 
+export const isEventPrivate = (event: Partial<RestItemEvent>) => {
+  return event.visibility === 'private'
+}
+
 export const isAdherentLock = (event: Partial<RestItemEvent>) => isEventPartial(event) && isEventAdherentReserved(event)
 export const isAdherentDuesLock = (event: Partial<RestItemEvent>) => isEventPartial(event) && isEventAdherentDuesReserved(event)
 
@@ -66,3 +70,10 @@ export const isEventUserAuthor = (event: Partial<RestItemEvent>, userUuid?: stri
   typeof userUuid === 'string' && typeof event.organizer?.uuid === 'string' && userUuid === event.organizer.uuid
 
 export const isEventToggleRegisterHided = (event: Partial<RestItemEvent>, userUuid?: string) => [isEventUserAuthor(event, userUuid)].some(Boolean)
+
+export const getEventItemImageFallback = (event: Partial<RestItemEvent>, userUuid?: string) => {
+  if (isEventPrivate(event) && !event.image_url && !userUuid) {
+    return require('@/features/events/assets/images/event-fallback-private-lock.png')
+  }
+  return event.image_url
+}

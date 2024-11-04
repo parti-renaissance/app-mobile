@@ -64,6 +64,15 @@ jest.mock('expo-image', () => {
   }
 })
 
+jest.mock('expo-blur', () => {
+  return {
+    __esModule: true,
+    BlurView: () => {
+      return <></>
+    },
+  }
+})
+
 jest.mock('expo-router', () => {
   return {
     __esModule: true,
