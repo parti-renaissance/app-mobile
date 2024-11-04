@@ -41,7 +41,8 @@ export const validateCoordFormSchema = z.object({
       {
         message: 'Numéro invalide',
       },
-    ),
+    )
+    .nullable(),
   email_address: z.string().email('L’adresse email n’est pas valide'),
 })
 
