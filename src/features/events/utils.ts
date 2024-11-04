@@ -37,6 +37,10 @@ export const isEventAdherentDuesReserved = (event: Partial<RestItemEvent>) => {
   return event.visibility === 'adherent_dues'
 }
 
+export const isEventPrivate = (event: Partial<RestItemEvent>) => {
+  return event.visibility === 'private'
+}
+
 export const isAdherentLock = (event: Partial<RestItemEvent>) => isEventPartial(event) && isEventAdherentReserved(event)
 export const isAdherentDuesLock = (event: Partial<RestItemEvent>) => isEventPartial(event) && isEventAdherentDuesReserved(event)
 

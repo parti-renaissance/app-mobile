@@ -5,7 +5,7 @@ import Text from '@/components/base/Text'
 import Chip from '@/components/Chip/Chip'
 import ProfilePicture from '@/components/ProfilePicture'
 import i18n from '@/utils/i18n'
-import { CalendarDays, Check, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
+import { CalendarDays, CheckCircle, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
 import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
 import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
@@ -269,13 +269,19 @@ const VoxCardSeparator = (props: StackProps) => (
   <Separator {...props} borderColor={props.backgroundColor ?? '$textOutline32'} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
 )
 
-const VoxCardAdhLock = (props?: { lock?: boolean; due?: boolean }) => {
-  const { lock = true, due = false } = props ?? {}
+const VoxCardAdhLock = (props?: { lock?: boolean; due?: boolean; isPrivate?: boolean }) => {
+  const { lock = true, due = false, isPrivate = false } = props ?? {}
+  const color = isPrivate ? '$gray5' : '$yellow5'
+  const text = (() => {
+    if (isPrivate) return 'Réservé aux militants'
+    if (due) return 'Réservé aux adhérents à jour'
+    return 'Réservé aux adhérents'
+  })()
   return (
-    <XStack gap={4} alignItems="center">
-      {lock ? <LockKeyhole color="$yellow5" size={12} /> : <Check color="$yellow5" size={12} />}
-      <Text.SM semibold color="$yellow5">
-        {due ? 'Réservé aux adhérents à jour' : 'Réservé aux adhérents'}
+    <XStack gap={4} paddingVertical={4} alignItems="center">
+      {lock ? <LockKeyhole color={color} size={12} /> : <CheckCircle color={color} size={12} />}
+      <Text.SM semibold color={color}>
+        {text}
       </Text.SM>
     </XStack>
   )
