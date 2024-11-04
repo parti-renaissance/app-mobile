@@ -149,6 +149,12 @@ export const RestUpdateProfileRequestSchema = z
       })
       .optional()
       .nullable(),
+    // phone: z
+    //   .object({
+    //     country: z.string(),
+    //     number: z.string().,
+    //   })
+    //   .nullable(),
     email_address: z.string().email(),
     facebook_page_url: z.string().url().nullable().optional(),
     twitter_page_url: z.string().url().nullable().optional(),

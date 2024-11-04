@@ -60,7 +60,7 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
                   <SelectV3
                     searchable={true}
                     color="gray"
-                    value={value?.country}
+                    value={value?.country ?? 'FR'}
                     options={phoneCodes}
                     onChange={(x) => onChange({ number: value?.number, country: x })}
                   />
@@ -71,7 +71,13 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
                     color="gray"
                     placeholder="Téléphone"
                     onBlur={onBlur}
-                    onChange={(x) => onChange({ number: x, country: value?.country })}
+                    onChange={(x) => {
+                      if (!x) {
+                        onChange(null)
+                      } else {
+                        onChange({ number: x, country: value?.country })
+                      }
+                    }}
                     error={error?.message}
                   />
                 </View>
