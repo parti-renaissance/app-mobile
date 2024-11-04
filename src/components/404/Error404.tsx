@@ -35,7 +35,7 @@ export default function Error404() {
           <View>
             <Link href="/" asChild>
               <VoxButton variant="soft" size="lg">
-                Retour à l'accueil
+                Retourner à l'accueil
               </VoxButton>
             </Link>
           </View>
