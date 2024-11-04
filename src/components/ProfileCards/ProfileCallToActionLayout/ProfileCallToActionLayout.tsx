@@ -3,7 +3,7 @@ import { ImageSourcePropType } from 'react-native'
 import Text from '@/components/base/Text'
 import SpacedContainer from '@/components/SpacedContainer/SpacedContainer'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { Card, Image, ImageProps, TextProps, View, withStaticProperties } from 'tamagui'
+import { Image, ImageProps, TextProps, View, withStaticProperties } from 'tamagui'
 
 export interface ProfileCallToActionProps extends PropsWithChildren {
   title?: string
