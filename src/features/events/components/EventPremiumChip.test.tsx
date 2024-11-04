@@ -1,7 +1,5 @@
 import React from 'react'
-import * as mockedEvnt from '@/services/events/mock/feed-item'
 import TamaguiProvider from '@/tamagui/provider'
-import { Check } from '@tamagui/lucide-icons'
 import { render } from '@testing-library/react-native'
 import { EventPremiumChip } from './EventPremiumChip'
 
@@ -34,5 +32,17 @@ describe('EventPremiumChip', () => {
       />,
     )
     expect(root).toHaveTextContent('Réservé aux adhérents à jour')
+  })
+
+  it('should display "Réservé aux militants" when event reserved to account owner (Non public) ', async () => {
+    const { root } = customRender(
+      <EventPremiumChip
+        event={{
+          uuid: 'id',
+          visibility: 'private',
+        }}
+      />,
+    )
+    expect(root).toHaveTextContent('Réservé aux militants')
   })
 })

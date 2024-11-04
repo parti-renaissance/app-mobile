@@ -14,8 +14,8 @@ export const SignInButton = (props: Omit<ComponentProps<typeof VoxButton>, 'chil
 export const SignUpButton = (props: Omit<ComponentProps<typeof VoxButton>, 'children'>) => {
   const { signUp } = useSession()
   return (
-    <VoxButton onPress={signUp} variant="contained" size="md" theme="blue" {...props}>
-      Créer un compte
+    <VoxButton onPress={signUp} variant="outlined" size="md" theme="yellow" {...props}>
+      Adhérer
     </VoxButton>
   )
 }
