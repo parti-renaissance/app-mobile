@@ -22,7 +22,7 @@ export const pageConfigs: {
     icon: LandPlot,
   },
   'informations-personnelles': {
-    title: 'Informations personnel',
+    title: 'Informations personnelles',
     icon: Settings2,
   },
   communications: {
