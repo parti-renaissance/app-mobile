@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useState } from 'react'
-import { Modal, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Modal, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LatLng, Region } from '@/components/Maps/Maps'
 import * as metatags from '@/config/metatags'
 import { DoorToDoorCharterNotAccepted } from '@/core/entities/DoorToDoorCharterState'
@@ -20,6 +21,7 @@ import { useQuery } from '@tanstack/react-query'
 import * as Geolocation from 'expo-location'
 import { router } from 'expo-router'
 import Head from 'expo-router/head'
+import { YStack } from 'tamagui'
 
 const DoorToDoorMapView = memo(_DoorToDoorMapView)
 
@@ -117,12 +119,14 @@ const DoorToDoorScreen = () => {
     setRankingModalState({ visible: true, campaignId: campaignId })
   }, [])
 
+  const insets = useSafeAreaInsets()
+
   const renderMap = useCallback(
     (initalLocation?: LatLng) => (
       <>
-        <View style={styles.filter}>
+        <YStack style={styles.filter} pt={insets.top}>
           <DoorToDoorFilter filter={filter} onPress={setFilter} />
-        </View>
+        </YStack>
         <View style={{ display: displayMode === 'map' ? 'flex' : 'none', flex: 1 }}>
           <DoorToDoorMapView
             data={filteredAddresses}
@@ -148,7 +152,7 @@ const DoorToDoorScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <YStack style={styles.container}>
       <Head>
         <title>{metatags.createTitle('Porte à porte')}</title>
       </Head>
@@ -171,7 +175,7 @@ const DoorToDoorScreen = () => {
         {!error && <MapListSwitch mode={displayMode} onPress={setDisplayMode} />}
       </View> */}
       {renderContent()}
-    </SafeAreaView>
+    </YStack>
   )
 }
 
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   filter: {
-    height: 52,
+    minHeight: 52,
   },
   header: {
     alignItems: 'center',

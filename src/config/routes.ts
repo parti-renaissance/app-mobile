@@ -57,7 +57,7 @@ export const ROUTES: TabRoute[] = [
   },
   {
     name: 'profil',
-    screenName: 'Profile',
+    screenName: 'Mon profil',
     icon: CircleUser,
     theme: 'gray',
     hidden: true,

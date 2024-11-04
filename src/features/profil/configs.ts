@@ -1,14 +1,5 @@
 import { IconProps } from '@tamagui/helpers-icon'
-import {
-  // BadgeCheck,
-  CircleUser,
-  HelpingHand,
-  KeyRound,
-  LandPlot,
-  MessageCircle,
-  Settings2,
-  TreeDeciduous,
-} from '@tamagui/lucide-icons'
+import { CircleUser, HelpingHand, KeyRound, LandPlot, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
 
 export type PageConfig = {
   title: string
@@ -31,7 +22,7 @@ export const pageConfigs: {
     icon: LandPlot,
   },
   'informations-personnelles': {
-    title: 'Informations personnel',
+    title: 'Informations personnelles',
     icon: Settings2,
   },
   communications: {
