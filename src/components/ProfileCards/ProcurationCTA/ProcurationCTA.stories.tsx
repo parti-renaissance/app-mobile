@@ -3,7 +3,7 @@ import { StoryObj } from '@storybook/react'
 import { View } from 'tamagui'
 
 const meta = {
-  title: 'Profile CTA/Procuration',
+  title: 'Profil CTA/Procuration',
   component: () => (
     <View width={400}>
       <ProcurationCTA />

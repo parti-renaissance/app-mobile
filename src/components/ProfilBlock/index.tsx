@@ -93,7 +93,7 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
               rounded
               fullName={props.profil.first_name + ' ' + props.profil.last_name}
               src={props.profil.image_url ?? undefined}
-              alt="profile"
+              alt="profil"
               onPress={handleOpenDropdown}
             />
             <VoxButton

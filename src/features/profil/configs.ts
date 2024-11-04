@@ -1,14 +1,5 @@
 import { IconProps } from '@tamagui/helpers-icon'
-import {
-  // BadgeCheck,
-  CircleUser,
-  HelpingHand,
-  KeyRound,
-  LandPlot,
-  MessageCircle,
-  Settings2,
-  TreeDeciduous,
-} from '@tamagui/lucide-icons'
+import { CircleUser, HelpingHand, KeyRound, LandPlot, MessageCircle, Settings2, TreeDeciduous } from '@tamagui/lucide-icons'
 
 export type PageConfig = {
   title: string
