@@ -93,7 +93,7 @@ export default function (props: Props) {
             <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
               Annuler
             </VoxButton>
-            <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!isDirty || !isValid}>
+            <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!isValid}>
               Enregister
             </VoxButton>
           </XStack>
