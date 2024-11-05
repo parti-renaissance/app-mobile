@@ -60,7 +60,7 @@ const _EventListItem = ({ event, userUuid }: EventItemProps) => {
         <EventItemActions>
           <GoToButton eventUuid={event.uuid} />
           <EventItemToggleSubscribeButton event={event} userUuid={userUuid} />
-          <EventItemHandleButton event={event} />
+          <EventItemHandleButton event={event} userUuid={userUuid} />
         </EventItemActions>
       </VoxCard.Content>
     </VoxCard>
