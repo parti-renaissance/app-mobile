@@ -1,10 +1,11 @@
 import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import { VoxButton } from '@/components/Button'
 import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
 import { PortalLayout } from '@/components/layouts/PortalLayout'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, Stack } from 'expo-router'
-import { useMedia, View, XStack } from 'tamagui'
+import { isWeb, useMedia, View, XStack } from 'tamagui'
 
 export default function AppLayout() {
   const media = useMedia()
@@ -39,11 +40,12 @@ export default function AppLayout() {
           <Stack.Screen
             name="evenements/[id]"
             options={{
+              headerTransparent: true,
               header: ({ navigation }) => {
                 return media.md ? (
-                  <VoxHeader>
-                    <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace>
-                      <VoxHeader.LeftButton backTitle={''} icon={ArrowLeft} />
+                  <VoxHeader backgroundColor="transparent" borderWidth={0}>
+                    <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace asChild={!isWeb}>
+                      <VoxButton iconLeft={ArrowLeft} shrink size="lg" mt={24} />
                     </Link>
                   </VoxHeader>
                 ) : null

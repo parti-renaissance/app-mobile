@@ -4,8 +4,10 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
 import * as eventTypes from '@/services/events/schema'
+import { useGetSuspenseProfil } from '@/services/profile/hook'
 import { ScrollView, useMedia, YStack } from 'tamagui'
 import { AsideCardContent, AsideShare, EventStatus, ScrollStack } from './EventComponents'
+import EventMobileScreen from './EventMobileScreen'
 import { SubscribeCard } from './SubscribeCard'
 
 const useSharedState = (data: eventTypes.RestEvent) => {
@@ -21,7 +23,8 @@ const useSharedState = (data: eventTypes.RestEvent) => {
 
 export default function EventDetailsScreen({ data }: { data: eventTypes.RestEvent }) {
   const media = useMedia()
-  return media.lg ? <EventDetailsScreenMobile data={data} /> : <EventDetailsScreenDesktop data={data} />
+  const { data: user } = useGetSuspenseProfil()
+  return media.lg ? <EventMobileScreen event={data} userUuid={user?.uuid} /> : <EventDetailsScreenDesktop data={data} />
 }
 
 function EventDetailsScreenMobile({ data }: { data: eventTypes.RestEvent }) {

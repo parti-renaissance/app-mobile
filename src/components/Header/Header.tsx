@@ -252,14 +252,18 @@ const Wrapper = React.memo(
   },
 )
 
-const VoxHeaderFrameRouter = ({ safeAreaView = true, ...props }: React.ComponentProps<typeof VoxHeaderFrameStyled> & { safeAreaView?: boolean }) => {
+const VoxHeaderFrameRouter = ({
+  safeAreaView = true,
+  borderWidth,
+  ...props
+}: React.ComponentProps<typeof VoxHeaderFrameStyled> & { safeAreaView?: boolean }) => {
   const styles = useStyle(props)
   const backgroundColor = (styles.backgroundColor as string) ?? 'white'
   const insets = useSafeAreaInsets()
   const height = safeAreaView ? insets.top + 56 : 56
 
   return (
-    <VoxHeaderContainerStyled height={height} style={{ paddingTop: safeAreaView ? insets.top : 0 }} backgroundColor={backgroundColor}>
+    <VoxHeaderContainerStyled height={height} style={{ paddingTop: safeAreaView ? insets.top : 0 }} backgroundColor={backgroundColor} borderWidth={borderWidth}>
       <VoxHeaderFrameStyled {...props} />
     </VoxHeaderContainerStyled>
   )

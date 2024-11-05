@@ -77,3 +77,10 @@ export const getEventItemImageFallback = (event: Partial<RestItemEvent>, userUui
   }
   return event.image_url
 }
+
+export const getEventDetailImageFallback = (event: Partial<RestItemEvent>, userUuid?: string) => {
+  if (isEventPrivate(event) && !event.image_url && !userUuid) {
+    return require('@/features/events/assets/images/event-fallback-private-lock.png')
+  }
+  return event.image_url ?? require('@/features/events/assets/images/event-fallback.png')
+}

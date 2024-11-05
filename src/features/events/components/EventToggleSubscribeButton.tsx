@@ -20,11 +20,10 @@ type EventItemSubscribeButtonProps = {
   buttonProps?: ComponentPropsWithoutRef<typeof VoxButton>
 }
 
-export const EventItemToggleSubscribeButton = ({ event, userUuid, buttonProps }: EventItemSubscribeButtonProps) => {
+export const EventToggleSubscribeButton = ({ event, userUuid, buttonProps }: EventItemSubscribeButtonProps) => {
   const isRegister = isEventRegister(event)
   const ButtonSub = isRegister ? EventUnSubscribeButton : EventSubscribeButton
-  const isDisabled = isEventToggleRegisterDisabled(event)
-  const shouldHide = isEventToggleRegisterHided(event, userUuid)
+  const shouldHide = [isEventToggleRegisterDisabled(event), isEventToggleRegisterHided(event, userUuid)].some(Boolean)
   const isAdh = isEventAdherentReserved(event)
   const isAdhDues = isEventAdherentDuesReserved(event)
   const isLocked = isEventPartial(event)
@@ -33,8 +32,8 @@ export const EventItemToggleSubscribeButton = ({ event, userUuid, buttonProps }:
 
   if (shouldHide) return false
   return (
-    <XStack testID="event-item-toggle-subscribe-button">
-      <Button uuid={event.uuid} disabled={isDisabled} isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)} {...buttonProps} />
+    <XStack testID="event-toggle-subscribe-button">
+      <Button uuid={event.uuid} isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)} {...buttonProps} />
     </XStack>
   )
 }

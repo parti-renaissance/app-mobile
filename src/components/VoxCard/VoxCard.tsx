@@ -206,9 +206,9 @@ export type VoxCardImageProps = {
   large?: boolean
 }
 
-const VoxCardImage = ({ image }: VoxCardImageProps) => {
+const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
   return (
-    <XStack borderRadius="$1" overflow="hidden">
+    <XStack borderRadius={large ? 0 : 8} overflow="hidden">
       <AutoSizeImage source={image} />
     </XStack>
   )
@@ -265,9 +265,7 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
   )
 }
 
-const VoxCardSeparator = (props: StackProps) => (
-  <Separator {...props} borderColor={props.backgroundColor ?? '$textOutline32'} borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} borderRadius={1} />
-)
+const VoxCardSeparator = (props: StackProps) => <Separator {...props} borderColor={props.backgroundColor ?? '$textOutline32'} borderRadius={1} />
 
 const VoxCardAdhLock = (props?: { lock?: boolean; due?: boolean; isPrivate?: boolean }) => {
   const { lock = true, due = false, isPrivate = false } = props ?? {}

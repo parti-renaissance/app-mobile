@@ -41,6 +41,7 @@ export const ButtonFrameStyled = styled(View, {
     full: {
       true: {
         width: '100%',
+        flex: 1,
       },
     },
     shrink: {

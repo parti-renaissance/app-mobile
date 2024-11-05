@@ -1,8 +1,10 @@
 import React from 'react'
+import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import * as mockedEvnt from '@/services/events/mock/feed-item'
 import TamaguiProvider from '@/tamagui/provider'
-import { render } from '@testing-library/react-native'
-import { EventItemToggleSubscribeButton } from './EventItemSubscribeButton'
+import { Calendar, CalendarOff } from '@tamagui/lucide-icons'
+import { fireEvent, render } from '@testing-library/react-native'
+import { EventToggleSubscribeButton } from './EventToggleSubscribeButton'
 
 const mockedUnSubMutate = jest.fn()
 const mockedSubMutate = jest.fn()
@@ -45,10 +47,10 @@ const customRender: typeof render = (ui) => {
   return render(<TamaguiProvider>{ui}</TamaguiProvider>)
 }
 
-describe('EventItemToggleSubscribeButton', () => {
+describe('EventToggleSubscribeButton', () => {
   it('should display "Unsubscribe" button when registered ', async () => {
     const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+      <EventToggleSubscribeButton
         event={{
           uuid: 'unsubscribe-id',
           ...mockedEvnt.registerEvent,
@@ -61,7 +63,7 @@ describe('EventItemToggleSubscribeButton', () => {
 
   it('should display "Subscribe" button when unregistered ', async () => {
     const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.unRegisterEvent,
@@ -72,48 +74,45 @@ describe('EventItemToggleSubscribeButton', () => {
     expect(button).toBeTruthy()
   })
 
-  it('should be disabled when canceled', async () => {
-    const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+  it('should be hide when canceled', async () => {
+    const { root } = customRender(
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.cancelledEvent,
         }}
       />,
     )
-    const button = getByTestId('event-subscribe-button')
-    expect(button).toBeDisabled()
+    expect(root).toBeUndefined()
   })
 
-  it('should be disabled when finished', async () => {
-    const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+  it('should be hide when finished', async () => {
+    const { root } = customRender(
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.finishedEvent,
         }}
       />,
     )
-    const button = getByTestId('event-subscribe-button')
-    expect(button).toBeDisabled()
+    expect(root).toBeUndefined()
   })
 
-  it('should be disabled when capacity is full', async () => {
-    const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+  it('should be hide when capacity is full', async () => {
+    const { root } = customRender(
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.capacityFullEvent,
         }}
       />,
     )
-    const button = getByTestId('event-subscribe-button')
-    expect(button).toBeDisabled()
+    expect(root).toBeUndefined()
   })
 
   it('should not be disabled if capacity is full and registered', async () => {
     const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.capacityFullEvent,
@@ -128,7 +127,7 @@ describe('EventItemToggleSubscribeButton', () => {
   it('should not display if the user is the author', async () => {
     const userUUID = 'author_uuid'
     const { root } = customRender(
-      <EventItemToggleSubscribeButton
+      <EventToggleSubscribeButton
         userUuid={userUUID}
         event={{
           uuid: 'subscribe-id',
@@ -145,7 +144,7 @@ describe('EventItemToggleSubscribeButton', () => {
 
   it('should display lock subsrcibe button to adherents', async () => {
     const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           object_state: 'partial',
@@ -160,7 +159,7 @@ describe('EventItemToggleSubscribeButton', () => {
 
   it('should display lock subsrcibe button to adherents with pending dues', async () => {
     const { getByTestId } = customRender(
-      <EventItemToggleSubscribeButton
+      <EventToggleSubscribeButton
         event={{
           uuid: 'subscribe-id',
           object_state: 'partial',

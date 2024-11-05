@@ -136,19 +136,6 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
     },
   })
 
-  const handleSubscribe = () => {}
-  const handleShow = (id: string) => {
-    router.push({ pathname: '/evenements/[id]', params: { id } })
-  }
-
-  const callbacks = useMemo(
-    () => ({
-      onSubscribe: handleSubscribe,
-      onShow: handleShow,
-    }),
-    [],
-  )
-
   const feedData = useMemo(() => {
     if (!paginatedFeed) return []
     return splitEvents(paginatedFeed.pages.flatMap((page) => page.items))

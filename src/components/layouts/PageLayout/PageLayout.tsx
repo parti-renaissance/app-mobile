@@ -62,9 +62,9 @@ const LayoutSideBarRight = ({ children }: ViewProps) => {
   )
 }
 
-const LayoutMainSingleColumn = ({ children }: StackProps) => {
+const LayoutMainSingleColumn = ({ children, ...props }: StackProps) => {
   return (
-    <YStack flex={1} flexBasis={0} gap={2}>
+    <YStack flex={1} flexBasis={0} {...props}>
       {children}
     </YStack>
   )
