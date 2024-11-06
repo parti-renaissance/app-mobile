@@ -18,10 +18,11 @@ const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) =
 
 const LayoutSideBarLeft = ({ children, showOn = 'gtSm', ...props }: ViewProps & { showOn?: keyof Media }) => {
   const media = useMedia()
+  const insets = useSafeAreaInsets()
   return (
     media[showOn] && (
       <View $gtMd={{ width: columnWidth }} $md={{ width: 250 }} height="100%" pt={padding} $lg={{ pl: padding }} {...props}>
-        <ScrollView>{children}</ScrollView>
+        <ScrollView pb={56 + 24 + insets.bottom}>{children}</ScrollView>
       </View>
     )
   )

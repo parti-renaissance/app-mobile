@@ -90,7 +90,6 @@ export function EventShareGroup({ event }: Props) {
 
       {isFullEvent && (
         <>
-          <VoxCard.Separator />
           <VoxButton variant="outlined" full size="xl" iconLeft={CalendarPlus} onPress={() => addToCalendar(createEventData(event))}>
             Ajouter à mon calendrier
           </VoxButton>
