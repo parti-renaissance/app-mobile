@@ -2,7 +2,7 @@ import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import ProfilMenu from '@/features/profil/components/Menu'
 import { TabRouter } from '@react-navigation/native'
 import { Navigator, Slot } from 'expo-router'
-import { XStack } from 'tamagui'
+import { XStack, YStack } from 'tamagui'
 
 export default function DesktopProfilRouter() {
   return (

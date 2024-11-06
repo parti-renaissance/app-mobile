@@ -56,7 +56,7 @@ export default function AppLayout() {
       {!isAuth ? (
         <Slot />
       ) : (
-        <Tabs tabBar={(props) => <TabBar {...props} hide={media.gtMd} />} screenOptions={{}}>
+        <Tabs tabBar={(props) => <TabBar {...props} hide={media.gtSm} />} screenOptions={{}}>
           {ROUTES.map((route) => (
             <Tabs.Screen
               key={route.name}
@@ -70,7 +70,7 @@ export default function AppLayout() {
                 tabBarInactiveTintColor: '$textPrimary',
                 tabBarIcon: ({ focused, ...props }) => <route.icon {...props} />,
                 tabBarLabel: route.screenName,
-                ...exectParams(route.name, media.md),
+                ...exectParams(route.name, media.sm),
               }}
             />
           ))}

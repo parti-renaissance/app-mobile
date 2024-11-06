@@ -20,12 +20,13 @@ import { useHandleCopyUrl } from './utils'
 
 const padding = '$5'
 
-export function ScrollStack({ children }: ScrollViewProps) {
+export function ScrollStack({ children, ...props }: ScrollViewProps) {
   const media = useMedia()
 
   return (
     <PageLayout.MainSingleColumn>
       <ScrollView
+        {...props}
         flex={1}
         contentContainerStyle={{
           pt: media.gtSm ? padding : undefined,

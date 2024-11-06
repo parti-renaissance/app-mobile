@@ -1,17 +1,18 @@
 import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
+import { VoxButton } from '@/components/Button'
 import { NavBar, ProfileNav, VoxHeader } from '@/components/Header/Header'
 import { PortalLayout } from '@/components/layouts/PortalLayout'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, Stack } from 'expo-router'
-import { useMedia, View, XStack } from 'tamagui'
+import { isWeb, useMedia, View, XStack } from 'tamagui'
 
 export default function AppLayout() {
   const media = useMedia()
   return (
     <PortalLayout>
-      {media.gtMd ? (
-        <VoxHeader justifyContent="space-between" display="none" $gtMd={{ display: 'flex' }}>
+      {media.gtSm ? (
+        <VoxHeader justifyContent="space-between" display="none" $gtSm={{ display: 'flex' }} safeAreaView={true}>
           <XStack flex={1} flexBasis={0}>
             <Link href="/" replace>
               <EuCampaignIllustration cursor="pointer" showText={media.gtLg} />
@@ -34,16 +35,18 @@ export default function AppLayout() {
             name="profil"
             options={{
               headerShown: false,
+              animation: media.sm ? 'slide_from_right' : 'none',
             }}
           ></Stack.Screen>
           <Stack.Screen
             name="evenements/[id]"
             options={{
+              headerTransparent: true,
               header: ({ navigation }) => {
-                return media.md ? (
-                  <VoxHeader>
-                    <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace>
-                      <VoxHeader.LeftButton backTitle={''} icon={ArrowLeft} />
+                return media.sm ? (
+                  <VoxHeader backgroundColor="transparent" borderWidth={0}>
+                    <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace asChild={!isWeb}>
+                      <VoxButton iconLeft={ArrowLeft} shrink size="lg" mt={24} />
                     </Link>
                   </VoxHeader>
                 ) : null
