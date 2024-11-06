@@ -11,18 +11,19 @@ export default function AppLayout() {
   const media = useMedia()
   return (
     <PortalLayout>
-      {media.gtSm ? (
-        <VoxHeader justifyContent="space-between" display="none" $gtSm={{ display: 'flex' }} safeAreaView={true}>
-          <XStack flex={1} flexBasis={0}>
-            <Link href="/" replace>
-              <EuCampaignIllustration cursor="pointer" showText={media.gtLg} />
-            </Link>
-          </XStack>
-          <NavBar />
-          <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
-        </VoxHeader>
-      ) : null}
       <View style={{ height: '100%', flex: 1 }} position="relative">
+        {media.gtSm ? (
+          <VoxHeader justifyContent="space-between" display="none" $gtSm={{ display: 'flex' }} safeAreaView={true}>
+            <XStack flex={1} flexBasis={0}>
+              <Link href="/" replace>
+                <EuCampaignIllustration cursor="pointer" showText={media.gtLg} />
+              </Link>
+            </XStack>
+            <NavBar />
+            <ProfileNav flex={1} flexBasis={0} justifyContent="flex-end" />
+          </VoxHeader>
+        ) : null}
+
         <Stack screenOptions={{ animation: 'slide_from_right' }}>
           <Stack.Screen
             name="(tabs)"
