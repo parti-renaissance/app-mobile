@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { CategoryChip } from '@/features/events/components/CategoryChip'
 import { EventItemHandleButton } from '@/features/events/components/EventItemHandleButton'
@@ -133,3 +134,59 @@ const EventDesktopScreen = ({ event, userUuid }: EventItemProps) => {
 }
 
 export default EventDesktopScreen
+
+const EventDesktopMainSkeleton = () => {
+  return (
+    <PageLayout.MainSingleColumn>
+      <SkeCard.Content>
+        <SkeCard.Image />
+        <XStack justifyContent="space-between" alignItems="center">
+          <SkeCard.Chip />
+          <SkeCard.Chip />
+        </XStack>
+        <SkeCard.Title />
+        <SkeCard.Description />
+      </SkeCard.Content>
+    </PageLayout.MainSingleColumn>
+  )
+}
+
+const EventDesktopAsideSkeleton = () => {
+  return (
+    <PageLayout.SideBarRight alwaysShow paddingTop={0}>
+      <SkeCard.Content>
+        <SkeCard.Button />
+        <SkeCard.Separator />
+        <SkeCard.Date />
+        <SkeCard.Date />
+        <SkeCard.Date />
+        <SkeCard.Section>
+          <SkeCard.Author />
+        </SkeCard.Section>
+        <SkeCard.Section>
+          <SkeCard.Button full />
+          <SkeCard.Button full />
+          <SkeCard.Button full />
+        </SkeCard.Section>
+      </SkeCard.Content>
+    </PageLayout.SideBarRight>
+  )
+}
+
+export const EventDesktopScreenSkeleton = () => {
+  return (
+    <YStack padding="$5" flex={1}>
+      <PageLayout.MainSingleColumn>
+        <XStack alignItems="flex-start" alignSelf="flex-start" pb={16}>
+          <SkeCard.Button />
+        </XStack>
+        <SkeCard>
+          <XStack>
+            <EventDesktopMainSkeleton />
+            <EventDesktopAsideSkeleton />
+          </XStack>
+        </SkeCard>
+      </PageLayout.MainSingleColumn>
+    </YStack>
+  )
+}

@@ -7,14 +7,12 @@ import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownload
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
-import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
-import EventDetailsScreen from '@/features/events/pages/detail/EventDetailsScreen'
+import EventDetailsScreen, { EventDetailsScreenSkeleton } from '@/features/events/pages/detail/EventDetailsScreen'
 import { useGetEvent } from '@/services/events/hook'
-import { ArrowLeft } from '@tamagui/lucide-icons'
-import { Link, Stack as RouterStack, useLocalSearchParams, useNavigation } from 'expo-router'
+import { Stack as RouterStack, useLocalSearchParams, useNavigation } from 'expo-router'
 import Head from 'expo-router/head'
-import { isWeb, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
 
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
@@ -30,57 +28,7 @@ const HomeScreen: React.FC = () => {
           </AuthFallbackWrapper>
         </YStack>
       </PageLayout.SideBarLeft>
-      <BoundarySuspenseWrapper
-        fallback={
-          <>
-            <PageLayout.MainSingleColumn>
-              <YStack gap="$4" padding="$8" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
-                <SkeCard>
-                  {isWeb ? (
-                    <>
-                      <SkeCard.Image />
-                      <SkeCard.Content>
-                        <SkeCard.Chip />
-                        <SkeCard.Title />
-                        <SkeCard.Description />
-                        <SkeCard.Description />
-                        <SkeCard.Description />
-                        <SkeCard.Description />
-                      </SkeCard.Content>
-                    </>
-                  ) : (
-                    <SkeCard.Content>
-                      <SkeCard.Image />
-                      <SkeCard.Chip />
-                      <SkeCard.Title />
-                      <SkeCard.Date />
-                      <SkeCard.Description />
-                      <SkeCard.Author />
-                      <SkeCard.Author />
-                      <SkeCard.Actions />
-                    </SkeCard.Content>
-                  )}
-                </SkeCard>
-              </YStack>
-            </PageLayout.MainSingleColumn>
-            <PageLayout.SideBarRight>
-              <SkeCard>
-                <SkeCard.Content>
-                  <SkeCard.Date />
-                  <SkeCard.Author />
-                  <SkeCard.Author />
-                  <SkeCard.Section>
-                    <SkeCard.Author />
-                  </SkeCard.Section>
-                  <SkeCard.Section>
-                    <SkeCard.Actions />
-                  </SkeCard.Section>
-                </SkeCard.Content>
-              </SkeCard>
-            </PageLayout.SideBarRight>
-          </>
-        }
-      >
+      <BoundarySuspenseWrapper fallback={<EventDetailsScreenSkeleton />}>
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
     </PageLayout>

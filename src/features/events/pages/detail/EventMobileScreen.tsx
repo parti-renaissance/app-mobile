@@ -2,6 +2,7 @@ import { Children, isValidElement } from 'react'
 import { StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { CategoryChip } from '@/features/events/components/CategoryChip'
 import { EventItemHandleButton } from '@/features/events/components/EventItemHandleButton'
@@ -98,3 +99,32 @@ const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
 }
 
 export default EventMobileScreen
+
+export const EventMobileScreenSkeleton = () => {
+  return (
+    <PageLayout.MainSingleColumn>
+      <StatusBar barStyle={'light-content'} />
+      <SkeCard.Image />
+      <SkeCard>
+        <SkeCard.Content>
+          <XStack justifyContent="space-between" alignItems="center">
+            <SkeCard.Chip />
+            <SkeCard.Chip />
+          </XStack>
+          <VoxCard.Separator />
+          <SkeCard.Date />
+          <SkeCard.Date />
+          <SkeCard.Date />
+          <SkeCard.Section>
+            <SkeCard.Author />
+          </SkeCard.Section>
+          <SkeCard.Section>
+            <SkeCard.Button full />
+            <SkeCard.Button full />
+            <SkeCard.Button full />
+          </SkeCard.Section>
+        </SkeCard.Content>
+      </SkeCard>
+    </PageLayout.MainSingleColumn>
+  )
+}

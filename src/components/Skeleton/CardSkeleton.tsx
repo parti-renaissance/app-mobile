@@ -4,6 +4,7 @@ import { useDerivedValue, useSharedValue, withRepeat, withTiming } from 'react-n
 import Chip from '@/components/Chip/Chip'
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia'
 import { Circle, Separator, Square, Stack, StackProps, styled, Card as TCard, Text, withStaticProperties, XStack, YStack } from 'tamagui'
+import { ButtonFrameStyled } from '../Button'
 
 const SkeletonColor = '#F7F7F7'
 
@@ -75,8 +76,8 @@ const SkeCardDate = () => {
   )
 }
 
-const SkeCardButton = () => {
-  return <Stack height="$2.5" width="$12" bg={SkeletonColor} borderRadius="$4" />
+const SkeCardButton = (props: { full?: boolean }) => {
+  return <ButtonFrameStyled bg={SkeletonColor} {...props} />
 }
 
 const SkeActions = () => {
