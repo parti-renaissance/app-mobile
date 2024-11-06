@@ -31,11 +31,6 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
         } as const
       }
       validatorSchema={validateLocationFormSchema}
-      onErrors={(errors) => {
-        if (errors.post_address) {
-          setManualAddress(true)
-        }
-      }}
     >
       {({ control }) => (
         <Fragment>
