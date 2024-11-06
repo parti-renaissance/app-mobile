@@ -8,6 +8,7 @@ import { EventItemHandleButton } from '@/features/events/components/EventItemHan
 import { EventItemHeader } from '@/features/events/components/EventItemHeader'
 import { EventLocation } from '@/features/events/components/EventLocation'
 import { EventPremiumChip } from '@/features/events/components/EventPremiumChip'
+import { EventShareGroup } from '@/features/events/components/EventShareGroup'
 import { EventToggleSubscribeButton } from '@/features/events/components/EventToggleSubscribeButton'
 import { StatusChip } from '@/features/events/components/StatusChip'
 import { EventItemProps } from '@/features/events/types'
@@ -59,9 +60,9 @@ const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
     <PageLayout.MainSingleColumn backgroundColor="black">
       <StatusBar barStyle={'light-content'} />
       <ScrollStack marginTop={insets.top} backgroundColor="$textSurface">
-        <VoxCard overflow="hidden">
+        <VoxCard overflow="hidden" pb={66}>
           {fallbackImage ? <VoxCard.Image large={true} image={fallbackImage} /> : null}
-          <VoxCard.Content>
+          <VoxCard.Content pt={fallbackImage ? 0 : undefined}>
             <EventItemHeader>
               <CategoryChip>{event.category?.name}</CategoryChip>
               <StatusChip event={event} />
@@ -87,6 +88,7 @@ const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
                 />
               </VoxCard.Section>
             ) : null}
+            <EventShareGroup event={event} />
           </VoxCard.Content>
         </VoxCard>
       </ScrollStack>

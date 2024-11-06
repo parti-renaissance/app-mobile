@@ -16,25 +16,13 @@ import { Link, Stack as RouterStack, useLocalSearchParams, useNavigation } from 
 import Head from 'expo-router/head'
 import { isWeb, YStack } from 'tamagui'
 
-const BackButton: React.FC = () => {
-  const { canGoBack } = useNavigation()
-  return (
-    <Link href={canGoBack() ? '../' : '/evenements'}>
-      <VoxButton full variant="outlined" iconLeft={ArrowLeft} bg={'white'} borderRadius={16}>
-        Retour
-      </VoxButton>
-    </Link>
-  )
-}
-
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
   if (!params.id) return <Error404 />
   return (
     <PageLayout>
-      <PageLayout.SideBarLeft>
+      <PageLayout.SideBarLeft showOn="gtLg">
         <YStack gap="$3">
-          <BackButton />
           <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
           <ProcurationCTA />
           <AuthFallbackWrapper>

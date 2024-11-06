@@ -1,25 +1,27 @@
 // first fetch profile,
 import { ComponentProps } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Container from '@/components/layouts/Container'
-import { Media, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
+import { Media, ScrollView, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 
 export const padding = '$5'
 export const columnWidth = 333
 
 const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) => {
+  const insets = useSafeAreaInsets()
   return (
-    <Container flex={1} bg="$textSurface" $gtMd={{ pl: padding }} $gtLg={{ pl: 0 }} {...props}>
+    <Container flex={1} bg="$textSurface" pl={insets.left} pr={insets.right} $gtMd={{ pl: insets.left ?? padding }} $gtLg={{ pl: 0 + insets.left }} {...props}>
       <XStack flex={1}>{children}</XStack>
     </Container>
   )
 }
 
-const LayoutSideBarLeft = ({ children, showOn = 'gtMd', ...props }: ViewProps & { showOn?: keyof Media }) => {
+const LayoutSideBarLeft = ({ children, showOn = 'gtSm', ...props }: ViewProps & { showOn?: keyof Media }) => {
   const media = useMedia()
   return (
     media[showOn] && (
-      <View width={columnWidth} height="100%" pt={padding} {...props}>
-        {children}
+      <View $gtMd={{ width: columnWidth }} $md={{ width: 250 }} height="100%" pt={padding} $lg={{ pl: padding }} {...props}>
+        <ScrollView>{children}</ScrollView>
       </View>
     )
   )
@@ -51,15 +53,13 @@ const LayoutMainBarLeft = ({ children }: ViewProps) => {
   )
 }
 
-const LayoutSideBarRight = ({ children }: ViewProps) => {
+const LayoutSideBarRight = ({ children, alwaysShow = false, ...props }: ViewProps & { alwaysShow?: boolean }) => {
   const media = useMedia()
-  return (
-    media.gtLg && (
-      <View width={columnWidth} height="100%" pt={padding}>
-        {children}
-      </View>
-    )
-  )
+  return media.gtLg || alwaysShow ? (
+    <View width={columnWidth} height="100%" pt={padding} {...props}>
+      {children}
+    </View>
+  ) : null
 }
 
 const LayoutMainSingleColumn = ({ children, ...props }: StackProps) => {

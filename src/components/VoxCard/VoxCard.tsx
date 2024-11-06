@@ -191,7 +191,7 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
           ))}
         </ZStack>
       ) : (
-        <UserCheck size="$1" color="$textPrimary" />
+        <UserCheck size={16} color="$textPrimary" />
       )}
 
       <Text.SM medium>

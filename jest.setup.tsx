@@ -37,6 +37,10 @@ jest.mock('expo-linking', () => ({
   useUrl: jest.fn(() => ({ openUrl: jest.fn() })),
 }))
 
+jest.mock('expo-clipboard', () => ({
+  getStringAsync: jest.fn(() => Promise.resolve('clipboard-content')),
+}))
+
 jest.mock('expo-secure-store', () => {
   return {
     NativeModulesProxy: {

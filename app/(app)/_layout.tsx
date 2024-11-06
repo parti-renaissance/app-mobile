@@ -11,8 +11,8 @@ export default function AppLayout() {
   const media = useMedia()
   return (
     <PortalLayout>
-      {media.gtMd ? (
-        <VoxHeader justifyContent="space-between" display="none" $gtMd={{ display: 'flex' }}>
+      {media.gtSm ? (
+        <VoxHeader justifyContent="space-between" display="none" $gtSm={{ display: 'flex' }} safeAreaView={true}>
           <XStack flex={1} flexBasis={0}>
             <Link href="/" replace>
               <EuCampaignIllustration cursor="pointer" showText={media.gtLg} />
@@ -35,6 +35,7 @@ export default function AppLayout() {
             name="profil"
             options={{
               headerShown: false,
+              animation: media.sm ? 'slide_from_right' : 'none',
             }}
           ></Stack.Screen>
           <Stack.Screen
@@ -42,7 +43,7 @@ export default function AppLayout() {
             options={{
               headerTransparent: true,
               header: ({ navigation }) => {
-                return media.md ? (
+                return media.sm ? (
                   <VoxHeader backgroundColor="transparent" borderWidth={0}>
                     <Link href={navigation.canGoBack() ? '../' : '/evenements'} replace asChild={!isWeb}>
                       <VoxButton iconLeft={ArrowLeft} shrink size="lg" mt={24} />
