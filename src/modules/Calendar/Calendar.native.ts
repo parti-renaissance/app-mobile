@@ -1,7 +1,6 @@
 import { Platform } from 'react-native'
 import { presentEventCreatingDialog } from 'react-native-add-calendar-event'
 import * as Permissions from 'react-native-permissions'
-import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { UseCreateEvent } from './CalendarTypes'
 import { isAllday as getIsAllDay, handleCreateEventError } from './utils'

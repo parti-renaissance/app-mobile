@@ -41,6 +41,7 @@ export const ButtonFrameStyled = styled(View, {
     full: {
       true: {
         width: '100%',
+        flex: 1,
       },
     },
     shrink: {
@@ -130,8 +131,14 @@ const ButtonFrame = forwardRef<
   React.ComponentPropsWithoutRef<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained'; inverse?: boolean }
 >(({ variant, inverse, ...props }, ref) => {
   const Frame = getFrame(variant, inverse)
+  const outlinedExeption =
+    variant === 'outlined' && (props.theme === 'gray' || !props.theme)
+      ? {
+          borderColor: '$textOutline32',
+        }
+      : {}
 
-  return <Frame ref={ref} {...props} />
+  return <Frame ref={ref} {...props} {...outlinedExeption} />
 })
 
 const ButtonSpinner = styled(Spinner, {
@@ -176,14 +183,9 @@ type VoxButtonProps = {
 
 export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref) => {
   const children = props.shrink ? undefined : props.children
-  const outlinedExeption =
-    props.variant === 'outlined' && (props.theme === 'gray' || !props.theme)
-      ? {
-          borderColor: '$textOutline32',
-        }
-      : {}
+
   return (
-    <Button {...props} ref={ref} theme={props.theme ?? 'gray'} group {...outlinedExeption}>
+    <Button {...props} ref={ref} theme={props.theme ?? 'gray'} group>
       {props.iconLeft && (
         <props.iconLeft
           size={16}

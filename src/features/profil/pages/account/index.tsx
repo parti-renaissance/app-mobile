@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
-import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetDetailProfil } from '@/services/profile/hook'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import ContactForm from './form/ContactForm'

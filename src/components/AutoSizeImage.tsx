@@ -26,7 +26,7 @@ function AutoSizeImage(props: AutoSizeImageProps) {
   return (
     <Animated.View style={[styles.imageContainer]}>
       <Image
-        blurRadius={showOverlay ? 2 : 0}
+        // blurRadius={showOverlay ? 2 : 0}
         style={[
           styles.image,
           {
