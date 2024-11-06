@@ -287,7 +287,9 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
         <Controller
           control={control}
           name={'description'}
-          render={({ field }) => <Input placeholder={'Ajoutez une description'} multiline numberOfLines={5} color="gray" onChange={field.onChange} />}
+          render={({ field }) => (
+            <Input placeholder={'Ajoutez une description'} multiline numberOfLines={5} color="gray" value={field.value} onChange={field.onChange} />
+          )}
         />
 
         <Text mt={'$2'}>1000 caractères maximum</Text>
