@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react'
 import { Modal, Pressable, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from '@/styles'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { gray } from '@tamagui/colors'
 import { X } from '@tamagui/lucide-icons'
 import { Sheet, useMedia, View } from 'tamagui'
@@ -47,30 +48,31 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
       }}
     >
       <Sheet.Frame>
-        {shouldDisplayCloseHeader && (
-          <TouchableOpacity style={[styles.header, { paddingTop: insets.top }]} onPress={onClose}>
-            <X />
-          </TouchableOpacity>
-        )}
+        <BottomSheetModalProvider>
+          {shouldDisplayCloseHeader && (
+            <TouchableOpacity style={[styles.header, { paddingTop: insets.top }]} onPress={onClose}>
+              <X />
+            </TouchableOpacity>
+          )}
 
-        {header}
+          {header}
 
-        {scrollable === false ? (
-          children
-        ) : (
-          <Sheet.ScrollView
-            scrollEnabled={scrollable}
-            keyboardShouldPersistTaps={'handled'}
-            automaticallyAdjustKeyboardInsets
-            backgroundColor={'white'}
-            contentContainerStyle={{
-              // paddingBottom: 250,
-              flexGrow: 1,
-            }}
-          >
-            {children}
-          </Sheet.ScrollView>
-        )}
+          {scrollable === false ? (
+            children
+          ) : (
+            <Sheet.ScrollView
+              scrollEnabled={scrollable}
+              keyboardShouldPersistTaps={'handled'}
+              automaticallyAdjustKeyboardInsets
+              backgroundColor={'white'}
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}
+            >
+              {children}
+            </Sheet.ScrollView>
+          )}
+        </BottomSheetModalProvider>
       </Sheet.Frame>
     </Sheet>
   )

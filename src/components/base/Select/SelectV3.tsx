@@ -19,11 +19,11 @@ const Select = <A extends string>(props: SelectProps<A>) => {
   }, [props.disabled])
 
   const Selector = useMemo(() => {
-    return media.gtMd ? SelectDropdown : SelectBottomSheet
+    return media.gtSm ? SelectDropdown : SelectBottomSheet
   }, [media])
 
   const selectorRef = useMemo(() => {
-    return media.gtMd ? modalRef : bottomSheetRef
+    return media.gtSm ? modalRef : bottomSheetRef
   }, [media])
 
   return (

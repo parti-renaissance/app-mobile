@@ -14,11 +14,15 @@ export const validateBirthdateFormSchema = z.date().refine((birthdate) => isBefo
   message: "L'âge doit être d'au moins 15 ans.",
 })
 
+export const validateNationalityFormSchema = z.string({ message: 'La nationalité est obligatoire.' }).refine((nationality) => nationality.length === 2, {
+  message: 'La nationalité doit être composée de 2 caractères.',
+})
+
 export const validateInformationsFormSchema = z.object({
   first_name: requiredString('Le prénom'),
   last_name: requiredString('Le nom'),
   gender: z.enum(['male', 'female', 'other'], buildReqError('Le genre')),
-  nationality: z.string().length(2, 'Le code pays doit être de deux lettres').optional(),
+  nationality: validateNationalityFormSchema,
   birthdate: validateBirthdateFormSchema,
 })
 
