@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import { Platform } from 'react-native'
 import { useDerivedValue, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import Chip from '@/components/Chip/Chip'
@@ -76,8 +76,8 @@ const SkeCardDate = () => {
   )
 }
 
-const SkeCardButton = (props: { full?: boolean }) => {
-  return <ButtonFrameStyled bg={SkeletonColor} {...props} />
+const SkeCardButton = (props: ComponentPropsWithoutRef<typeof ButtonFrameStyled>) => {
+  return <ButtonFrameStyled bg={SkeletonColor} width={100} {...props}></ButtonFrameStyled>
 }
 
 const SkeActions = () => {
@@ -99,7 +99,7 @@ const SkeCardAuthor = () => {
 }
 
 const SkeCardImage = () => {
-  return <Stack height="$20" flex={1} bg={SkeletonColor} borderRadius="$1" />
+  return <Stack height="$15" flex={1} bg={SkeletonColor} borderRadius="$1" />
 }
 
 export type SkeCardDescritionProps = {

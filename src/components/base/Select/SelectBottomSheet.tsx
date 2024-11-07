@@ -51,6 +51,7 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
         ref={bottomSheetRef}
         backdropComponent={renderBackdrop}
         enablePanDownToClose
+        // index={-1}
         enableDynamicSizing={false}
         snapPoints={snapPoints}
         onDismiss={handleClose}

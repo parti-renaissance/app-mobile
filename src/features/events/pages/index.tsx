@@ -14,7 +14,6 @@ import { useGetProfil } from '@/services/profile/hook'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown, Filter } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
-import { router } from 'expo-router'
 import { getToken, Spinner, useMedia, XStack, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
 
@@ -92,25 +91,6 @@ const HeaderList = (props: { listRef: React.RefObject<SectionList> }) => {
   }
   return null
 }
-
-// const EventListCard = memo((args: { item: RestItemEvent; cb: Parameters<typeof mapFullProps>[1] }) => {
-//   if (isFullEvent(args.item)) {
-//     return <MemoizedEventCard {...mapFullProps(args.item, args.cb)} />
-//   }
-//   if (isPartialEvent(args.item)) {
-//     return (
-//       <AuthFallbackWrapper
-//         fallback={
-//           <DialogAuth title="D'autres événements vous attendent, connectez-vous ou créez un compte !">
-//           </DialogAuth>
-//         }
-//       >
-//         <PartialEventCard {...mapPartialProps(args.item, args.cb)} />
-//       </AuthFallbackWrapper>
-//     )
-//   }
-//   return null
-// })
 
 const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
   const media = useMedia()

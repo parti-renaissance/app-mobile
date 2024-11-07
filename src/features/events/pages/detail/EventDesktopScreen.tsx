@@ -155,7 +155,7 @@ const EventDesktopAsideSkeleton = () => {
   return (
     <PageLayout.SideBarRight alwaysShow paddingTop={0}>
       <SkeCard.Content>
-        <SkeCard.Button />
+        <SkeCard.Button full size="xl" />
         <SkeCard.Separator />
         <SkeCard.Date />
         <SkeCard.Date />
@@ -164,9 +164,9 @@ const EventDesktopAsideSkeleton = () => {
           <SkeCard.Author />
         </SkeCard.Section>
         <SkeCard.Section>
-          <SkeCard.Button full />
-          <SkeCard.Button full />
-          <SkeCard.Button full />
+          <SkeCard.Button full size="xl" />
+          <SkeCard.Button full size="xl" />
+          <SkeCard.Button full size="xl" />
         </SkeCard.Section>
       </SkeCard.Content>
     </PageLayout.SideBarRight>
