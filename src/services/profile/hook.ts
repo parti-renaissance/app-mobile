@@ -177,7 +177,7 @@ export const usePostElectDeclaration = () => {
   return useMutation({
     mutationFn: api.postElectDeclaration,
     onSuccess: () => {
-      toast.show('Succès', { message: 'Déclaration actualisé', type: 'success' })
+      toast.show('Succès', { message: 'Déclaration actualisée', type: 'success' })
       queryClient.invalidateQueries({
         queryKey: ['electProfile', userUuid],
       })
