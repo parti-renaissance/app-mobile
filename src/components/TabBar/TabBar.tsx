@@ -12,6 +12,14 @@ import { TabBarNavProps, TabNavOptions } from './types'
 const SAV = Platform.OS !== 'ios' ? SafeAreaView : RNSafeAreaView
 const SAVProps: any = Platform.OS !== 'ios' ? { edges: ['bottom'] } : {}
 
+const springConfig = {
+  duration: 2000,
+  dampingRatio: 0.7,
+  restDisplacementThreshold: 0.01,
+  restSpeedThreshold: 0.01,
+  stiffness: 1,
+}
+
 const indicatorStyle = StyleSheet.create({
   indicator: {
     height: 54,
@@ -146,7 +154,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
 
   React.useEffect(() => {
     const key = state.index > filteredRoutes.length - 1 ? 'more' : state.routes[state.index].key
-    position.value = withSpring(getPositionFromKey(key), { duration: 2000 })
+    position.value = withSpring(getPositionFromKey(key), springConfig)
   }, [state.index])
 
   const indicatorAnimatedStyle = useAnimatedStyle(() => {
@@ -170,7 +178,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
   const handleMoreClose = () => {
     setOtherFocus(false)
     const key = state.index > filteredRoutes.length - 1 ? 'more' : state.routes[state.index].key
-    position.value = withSpring(getPositionFromKey(key), { duration: 2000 })
+    position.value = withSpring(getPositionFromKey(key), springConfig)
     setTimeout(() => {
       activeColor.value = activeColorValue
     }, 100)
@@ -182,7 +190,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
         moreSheetRef.current?.close()
       } else {
         moreSheetRef.current?.expand()
-        position.value = withSpring(getPositionFromKey('more'), { duration: 2000 })
+        position.value = withSpring(getPositionFromKey('more'), springConfig)
         activeColor.value = themes.light[`gray1`].val
       }
       return !x
@@ -205,7 +213,7 @@ const TabBarNav = ({ state, descriptors, navigation, hide }: TabBarNavProps) => 
               })
               moreSheetRef.current?.close()
               setOtherFocus(false)
-              position.value = withSpring(getPositionFromKey(route.key), { duration: 2000 })
+              position.value = withSpring(getPositionFromKey(route.key), springConfig)
               activeColor.value = themes.light[`${options.tabBarTheme}1`].val
 
               if (!isFocus && !event.defaultPrevented) {
