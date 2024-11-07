@@ -13,6 +13,8 @@ interface UserState {
   user: User | null
   setCredentials: (user: User) => void
   removeCredentials: () => void
+  hideResubscribeAlert: string | null
+  setHideReSubscribeAlert: (x: string | null) => void
   _hasHydrated: boolean
   _setHasHydrated: (hasHydrated: boolean) => void
 }
@@ -20,9 +22,11 @@ interface UserState {
 const userStoreSlice: StateCreator<UserState> = (set) => ({
   user: null,
   _hasHydrated: false,
+  hideResubscribeAlert: null,
   setCredentials: (user) => set({ user }),
   removeCredentials: () => set({ user: null }),
   _setHasHydrated: (hasHydrated) => set({ _hasHydrated: hasHydrated }),
+  setHideReSubscribeAlert: (hideResubscribeAlert) => set({ hideResubscribeAlert }),
 })
 
 const persistedUserStore = persist<UserState>(userStoreSlice, {

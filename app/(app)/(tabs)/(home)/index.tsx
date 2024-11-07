@@ -6,7 +6,7 @@ import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/Procuration
 import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
-import HomeFeedList from '@/screens/home/feed/HomeFeedList'
+import HomeFeedList from '@/features/homefeed/HomeFeedList'
 import Head from 'expo-router/head'
 import { YStack } from 'tamagui'
 
