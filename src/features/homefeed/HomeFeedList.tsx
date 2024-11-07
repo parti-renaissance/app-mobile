@@ -3,12 +3,14 @@ import { FlatList } from 'react-native'
 import { AlertCard, FeedCard } from '@/components/Cards'
 import { transformFeedItemToProps } from '@/helpers/homeFeed'
 import { useAlerts } from '@/services/alerts/hook'
-import { useGetProfil } from '@/services/profile/hook'
+import { useGetProfil, useGetSuspenseProfil } from '@/services/profile/hook'
 import { useGetPaginatedFeed } from '@/services/timeline-feed/hook'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { useScrollToTop } from '@react-navigation/native'
 import { getToken, Spinner, useMedia, YStack } from 'tamagui'
 import { useDebouncedCallback } from 'use-debounce'
+import NotificationSubscribeCard from './components/NotificationSubscribeCard'
+import { useShouldShowNotificationCard } from './hooks/useShouldShowNotificationCard'
 
 const FeedCardMemoized = memo(FeedCard) as typeof FeedCard
 
@@ -19,7 +21,8 @@ const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
 
 const HomeFeedList = () => {
   const media = useMedia()
-  const user = useGetProfil()
+  const user = useGetSuspenseProfil()
+  const shouldShowNotificationCard = useShouldShowNotificationCard()
   const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed(user.data?.postal_code)
   const feedData = paginatedFeed?.pages.map((page) => page?.hits ?? []).flat()
   const _loadMore = () => {
@@ -49,9 +52,10 @@ const HomeFeedList = () => {
         paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
       }}
       ListHeaderComponent={
-        alerts.length > 0
+        alerts.length > 0 || shouldShowNotificationCard
           ? () => (
               <YStack gap={8} $gtSm={{ gap: 16 }}>
+                {shouldShowNotificationCard ? <NotificationSubscribeCard /> : null}
                 {alerts.map((alert, i) => (
                   <AlertCard key={`${i}-alert`} payload={alert} />
                 ))}
