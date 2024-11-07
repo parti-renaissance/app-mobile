@@ -1,7 +1,6 @@
 import React from 'react'
 import Error404 from '@/components/404/Error404'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
 import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
