@@ -33,6 +33,7 @@ instance.interceptors.request.use(
     return Promise.reject(error)
   },
 )
+let refreshing_token: Promise<Awaited<ReturnType<ReturnType<typeof getRefreshToken>>> | undefined> | null = null
 
 instance.interceptors.response.use(identity, async function (error: AxiosError) {
   const originalRequest: CustomAxiosRequestConfig | undefined = error.config
@@ -45,14 +46,19 @@ instance.interceptors.response.use(identity, async function (error: AxiosError) 
         useUserStore.getState().removeCredentials()
         return
       }
-      const response = await getRefreshToken({ instance, instanceWithoutInterceptors })({
-        client_id: clientEnv.OAUTH_CLIENT_ID,
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-      }).catch(() => {
-        useUserStore.getState().removeCredentials()
-        return undefined
-      })
+
+      refreshing_token =
+        refreshing_token ??
+        getRefreshToken({ instance, instanceWithoutInterceptors })({
+          client_id: clientEnv.OAUTH_CLIENT_ID,
+          grant_type: 'refresh_token',
+          refresh_token: refreshToken,
+        }).catch(() => {
+          useUserStore.getState().removeCredentials()
+          return undefined
+        })
+      const response = await refreshing_token
+      refreshing_token = null
 
       if (response) {
         useUserStore.setState({ user: { accessToken: response.access_token, refreshToken: response.refresh_token } })
