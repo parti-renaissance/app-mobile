@@ -8,7 +8,7 @@ export default function AppLayout() {
   const { isAuth } = useSession()
   const media = useMedia()
 
-  if (!isAuth && media.md) {
+  if (!isAuth && media.sm) {
     return (
       <>
         <VoxHeader justifyContent="space-between">
