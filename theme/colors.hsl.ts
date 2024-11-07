@@ -1,7 +1,7 @@
 export const yellow = {
   yellow1: 'hsl(36, 100%, 96%)',
-  yellow2: 'hsl(37, 66%, 88%)',
-  yellow3: 'hsl(36, 60%, 82%)',
+  yellow2: 'hsl(38, 100%, 90%)',
+  yellow3: 'hsl(37, 100%, 85%)',
   yellow4: 'hsl(39, 89%, 59%)',
   yellow5: 'hsl(39, 59%, 49%)',
   yellow6: 'hsl(39, 64%, 46%)',
