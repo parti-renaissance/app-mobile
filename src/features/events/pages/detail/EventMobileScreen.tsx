@@ -119,9 +119,9 @@ export const EventMobileScreenSkeleton = () => {
             <SkeCard.Author />
           </SkeCard.Section>
           <SkeCard.Section>
-            <SkeCard.Button full />
-            <SkeCard.Button full />
-            <SkeCard.Button full />
+            <SkeCard.Button full size="xl" />
+            <SkeCard.Button full size="xl" />
+            <SkeCard.Button full size="xl" />
           </SkeCard.Section>
         </SkeCard.Content>
       </SkeCard>
