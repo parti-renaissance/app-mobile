@@ -13,30 +13,21 @@ interface AutoSizeImageProps {
 }
 
 function AutoSizeImage(props: AutoSizeImageProps) {
-  const [imageSize, setImageSize] = useState<{ width: number; height: number }>({ width: 1, height: 1 })
-
-  const showOverlay = useMemo(() => props.hasMore && props.isLast, [])
-
-  const headers = props.token
-    ? {
-        'X-Moonstore-UUID': props.token,
-      }
-    : undefined
+  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null)
 
   return (
     <Animated.View style={[styles.imageContainer]}>
       <Image
-        // blurRadius={showOverlay ? 2 : 0}
         style={[
           styles.image,
           {
-            aspectRatio: imageSize ? imageSize.width / imageSize.height : 1,
+            aspectRatio: imageSize ? imageSize.width / imageSize.height : 16 / 9,
           },
         ]}
-        source={typeof props.source === 'string' ? { uri: props.source, headers } : props.source}
+        source={typeof props.source === 'string' ? { uri: props.source } : props.source}
         contentFit={'contain'}
         onLoad={(evt) => {
-          if (evt.source && imageSize.height !== evt.source.height) {
+          if (evt.source && !imageSize) {
             setImageSize({
               width: evt.source.width,
               height: evt.source.height,
