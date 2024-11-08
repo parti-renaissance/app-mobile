@@ -100,7 +100,9 @@
             "useFrameworks": "static"
           },
           "android": {
-            "playServicesLocationVersion": "21.0.1"
+            "playServicesLocationVersion": "21.0.1",
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
           }
         }
       ],

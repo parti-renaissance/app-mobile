@@ -12,7 +12,7 @@ export default function NotificationSubscribeCard() {
   const handleClose = () => userStore.setHideReSubscribeAlert(addMonths(new Date(), 1).toISOString())
 
   return (
-    <VoxCard>
+    <VoxCard $sm={{ bg: 'transparent' }}>
       <VoxCard.Content>
         <XStack justifyContent="flex-end" gap={16}>
           <VoxButton variant="text" shrink iconLeft={X} onPress={handleClose} />

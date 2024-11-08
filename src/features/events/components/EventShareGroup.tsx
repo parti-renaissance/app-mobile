@@ -1,7 +1,8 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Platform } from 'react-native'
 import Text from '@/components/base/Text'
 import Button, { VoxButton } from '@/components/Button'
+import { getFormatedVoxCardDate } from '@/components/utils'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
 import useShareApi from '@/hooks/useShareApi'
@@ -28,22 +29,31 @@ export function EventShareGroup({ event }: Props) {
   const { shareAsync, isShareAvailable } = useShareApi()
 
   const handleShareUrl = () => {
-    if (!event.name || !isFullEvent || !event.description || !isShareAvailable) {
+    if (!event.name || !isShareAvailable) {
       return
     }
+    const date = () => {
+      const start = event.begin_at ? new Date(event.begin_at) : null
+      const endDate = event.finish_at ?? event.begin_at
+      const end = endDate ? new Date(endDate) : undefined
+      const formatedDateObj = start ? getFormatedVoxCardDate({ start, end, timeZone: event.time_zone }) : undefined
+      const timezone = formatedDateObj?.timezone ? ` ${formatedDateObj?.timezone}` : ''
+
+      return formatedDateObj ? formatedDateObj.date + timezone : ''
+    }
+    const name = event.name.toUpperCase()
     shareAsync(
       Platform.select({
         android: {
-          title: event.name,
-          message: (isFullEvent ? `${event.description}\n\n${shareUrl}` : undefined) ?? shareUrl,
+          message: `${name}\n${date()}\n\n${shareUrl}`,
+          url: shareUrl,
         },
         ios: {
-          message: event.name,
+          message: `${name}\n${date()}`,
           url: shareUrl,
         },
         default: {
-          title: event.name,
-          message: isFullEvent ? event.description : event.name,
+          title: `${name}\n${date()}\n`,
           url: shareUrl,
         },
       }),
