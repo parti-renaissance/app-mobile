@@ -2,24 +2,7 @@ import { Share } from 'react-native'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import * as Sharing from 'expo-sharing'
 
-type ShareContent = {
-  message: string
-} & (
-  | {
-      url: string
-    }
-  | {
-      title: string
-    }
-  | {
-      url: string
-      title: string
-    }
-)
-
-const isWebShareContent = (content: ShareContent): content is { url: string; title: string; message: string } => {
-  return 'url' in content && 'title' in content
-}
+type ShareContent = { url: string; title?: string; message?: string }
 
 export default function useShareApi() {
   const { data } = useSuspenseQuery({
@@ -30,12 +13,10 @@ export default function useShareApi() {
   })
 
   const shareAsync = async (payload: ShareContent) => {
-    if (typeof window !== 'undefined' && navigator.share && isWebShareContent(payload)) {
+    if (typeof window !== 'undefined' && navigator.share) {
       return navigator.share({
         title: payload.title,
-        // @ts-ignore
         text: payload.message,
-        // @ts-ignore
         url: payload.url,
       })
     }

@@ -1,5 +1,5 @@
-import { type FirebaseAnalyticsTypes } from '@react-native-firebase/analytics'
-import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+import type { FirebaseAnalyticsTypes } from '@react-native-firebase/analytics'
+import type { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import * as wAnalytics from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import * as wMessaging from 'firebase/messaging'

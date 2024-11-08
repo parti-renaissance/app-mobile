@@ -1,6 +1,21 @@
 import { memo, NamedExoticComponent } from 'react'
+import i18n from '@/utils/i18n'
 import { IconProps } from '@tamagui/helpers-icon'
+import { getHours, isSameDay } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { ZStack } from 'tamagui'
+
+export const getFormatedVoxCardDate = (props: { start: Date; end?: Date; timeZone?: string }) => {
+  const { start, end, timeZone } = props
+  const keySuffix = getHours(start) === getHours(end ?? start) ? '' : 'End'
+  const keyPrefix = isSameDay(start, end ?? start) ? 'day' : 'days'
+  const key = `${keyPrefix}Date${keySuffix}`
+  const shouldFormatTimeZone = timeZone && timeZone !== 'Europe/Paris'
+  return {
+    date: i18n.t(`vox_card.${key}`, { start, end }),
+    timezone: shouldFormatTimeZone ? `• UTC${format(start, 'XXX', { timeZone })} ({timeZone})` : undefined,
+  }
+}
 
 export const createDoubleIcon = (props: { icon: NamedExoticComponent<IconProps>; middleIconOffset?: number }) => {
   const DoubleIcon = (iconProps: any) => {

@@ -12,7 +12,7 @@ import { isWeb, useMedia, View, XStack } from 'tamagui'
 
 const HomeHeader = () => {
   return (
-    <VoxHeader justifyContent="space-between" backgroundColor="$textSurface">
+    <VoxHeader justifyContent="space-between" backgroundColor="$textSurface" borderWidth={0}>
       <XStack flex={1} flexBasis={0}>
         <Link href="/" replace>
           <EuCampaignIllustration cursor="pointer" />
