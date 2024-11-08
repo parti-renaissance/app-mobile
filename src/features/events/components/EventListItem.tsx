@@ -70,7 +70,7 @@ const _EventListItem = ({ event, userUuid }: EventItemProps) => {
 const EventListItem = ({ event, userUuid }: EventItemProps) => {
   if (!userUuid && isEventPrivate(event)) {
     return (
-      <AuthDialog title={`Cet événement est réservé aux militants,\n connectez-vous ou adhérez pour y participer.`} testID="event-item-sign-in-dialog">
+      <AuthDialog title={`Cet événement est réservé aux militants. Rejoignez-nous pour y participer.`} testID="event-item-sign-in-dialog">
         <_EventListItem event={event} />
       </AuthDialog>
     )
