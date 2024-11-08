@@ -33,7 +33,7 @@ export const EventToggleSubscribeButton = ({ event, userUuid, buttonProps }: Eve
   if (shouldHide) return false
   return (
     <XStack testID="event-toggle-subscribe-button">
-      <Button uuid={event.uuid} isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)} {...buttonProps} />
+      <Button uuid={event.uuid} userUuid={userUuid} isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)} {...buttonProps} />
     </XStack>
   )
 }

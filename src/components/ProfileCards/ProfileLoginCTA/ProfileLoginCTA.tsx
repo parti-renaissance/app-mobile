@@ -6,7 +6,7 @@ export default function ProfileLoginCTA() {
   return (
     <ProfileCallToActionLayout>
       <ProfileCallToActionLayout.Image source={require('./loginCTAImage.png')} height={205} />
-      <ProfileCallToActionLayout.Content content={'Créez un compte ou connectez-vous pour rejoindre la campagne dès maintenant.'} />
+      <ProfileCallToActionLayout.Content content={'Adhérez ou connectez-vous pour rejoindre le mouvement.'} />
       <ProfileCallToActionLayout.Actions>
         <View flex={1}>
           <AuthButton.SignInButton />

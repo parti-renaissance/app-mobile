@@ -44,6 +44,7 @@ export const RestTimelineFeedItemSchema = z.object({
   editable: z.boolean().nullish(),
   edit_link: z.string().optional(),
   url: z.string().nullable().optional(),
+  capacity: z.number().nullish(),
   user_registered_at: z.string().nullable().optional(),
   time_zone: z.string().nullable(),
   mode: z.enum(['meeting', 'online']).nullable().optional(),

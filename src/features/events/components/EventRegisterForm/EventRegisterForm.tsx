@@ -87,7 +87,6 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
         action.setSubmitting(false)
       })
   }
-  const media = useMedia()
 
   const position = useRef<null | { x: number; y: number }>(null)
   const handlePress = () => {
@@ -176,7 +175,11 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
                 Politique de protection des données
               </Button.Text>
             </Button>
-            <DialogMentionLegale onPress={handlePress} />
+            <Button variant="text" onPress={handlePress} width="100%" size="md">
+              <Button.Text color="$black1" fontWeight="$4" fontSize="$1" textAlign="center" textDecorationLine="underline">
+                Mention d’informations relatives au traitement de mes données
+              </Button.Text>
+            </Button>
           </YStack>
 
           <VoxButton size="xl" width="100%" theme="blue" onPress={() => handleSubmit()} iconLeft={CalendarCheck2} loading={isSubmitting}>
@@ -192,18 +195,16 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
             </Text>
           </Button>
 
-          {media.lg && (
-            <YStack
-              id="mention-legale"
-              gap="$4"
-              onLayout={(l) => {
-                position.current = { x: l.nativeEvent.layout.x, y: l.nativeEvent.layout.y }
-              }}
-            >
-              <VoxCard.Separator />
-              <MentionLegale />
-            </YStack>
-          )}
+          <YStack
+            id="mention-legale"
+            gap="$4"
+            onLayout={(l) => {
+              position.current = { x: l.nativeEvent.layout.x, y: l.nativeEvent.layout.y }
+            }}
+          >
+            <VoxCard.Separator />
+            <MentionLegale />
+          </YStack>
         </YStack>
       )}
     </Formik>

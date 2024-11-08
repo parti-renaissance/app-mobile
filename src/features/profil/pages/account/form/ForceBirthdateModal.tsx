@@ -7,7 +7,7 @@ import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
 import { useGetDetailProfil } from '@/services/profile/hook'
 import { Info } from '@tamagui/lucide-icons'
 import { Controller } from 'react-hook-form'
-import { View } from 'tamagui'
+import { View, YStack } from 'tamagui'
 import * as z from 'zod'
 import AbstractProfilForm from './AbstractProfilForm'
 import { validateBirthdateFormSchema, validateNationalityFormSchema } from './schema'
@@ -46,46 +46,42 @@ const ForceBirthdateModal = () => {
               {message}
             </MessageCard>
 
-            <View $gtMd={{ flexDirection: 'column' }} gap="$4">
+            <YStack gap="$4">
               {!profile.birthdate ? (
-                <View $gtMd={{ flex: 1, flexBasis: 0 }}>
-                  <Controller
-                    name="birthdate"
-                    control={control}
-                    render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                      <DatePickerField
-                        color="gray"
-                        label="Date de naissance"
-                        type="date"
-                        value={value ?? undefined}
-                        onBlur={onBlur}
-                        onChange={onChange}
-                        error={error?.message}
-                      />
-                    )}
-                  />
-                </View>
+                <Controller
+                  name="birthdate"
+                  control={control}
+                  render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
+                    <DatePickerField
+                      color="gray"
+                      label="Date de naissance"
+                      type="date"
+                      value={value ?? undefined}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      error={error?.message}
+                    />
+                  )}
+                />
               ) : null}
               {!profile.nationality ? (
-                <View $gtMd={{ flex: 1, flexBasis: 0 }}>
-                  <Controller
-                    name="nationality"
-                    control={control}
-                    render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                      <NationalitySelect
-                        id="nationality"
-                        color="gray"
-                        value={value ?? undefined}
-                        placeholder="Nationalité"
-                        onBlur={onBlur}
-                        onChange={onChange}
-                        error={error?.message}
-                      />
-                    )}
-                  />
-                </View>
+                <Controller
+                  name="nationality"
+                  control={control}
+                  render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
+                    <NationalitySelect
+                      id="nationality"
+                      color="gray"
+                      value={value ?? undefined}
+                      placeholder="Nationalité"
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      error={error?.message}
+                    />
+                  )}
+                />
               ) : null}
-            </View>
+            </YStack>
           </Fragment>
         )}
       </AbstractProfilForm>

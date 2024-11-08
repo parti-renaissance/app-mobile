@@ -1,11 +1,11 @@
-import { PropsWithChildren } from 'react'
+import { LegacyRef, MutableRefObject, PropsWithChildren } from 'react'
 import { Modal, Pressable, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from '@/styles'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { gray } from '@tamagui/colors'
 import { X } from '@tamagui/lucide-icons'
-import { Sheet, useMedia, View } from 'tamagui'
+import { ScrollView, Sheet, useMedia, View } from 'tamagui'
 
 interface ModalOrPageBaseProps extends PropsWithChildren {
   onClose?: () => void
@@ -13,13 +13,14 @@ interface ModalOrPageBaseProps extends PropsWithChildren {
   shouldDisplayCloseHeader?: boolean
   header: React.ReactNode
   scrollable?: boolean
+  scrollRef?: MutableRefObject<ScrollView | null>
 }
 
 /**
  * This component create a centered modal in md and more viewport, or a page in small ones
  * @constructor
  */
-export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader, header, scrollable }: ModalOrPageBaseProps) {
+export default function ModalOrPageBase({ children, onClose, open, shouldDisplayCloseHeader, header, scrollable, scrollRef }: ModalOrPageBaseProps) {
   const viewport = useMedia()
   const insets = useSafeAreaInsets()
 
@@ -61,6 +62,7 @@ export default function ModalOrPageBase({ children, onClose, open, shouldDisplay
             children
           ) : (
             <Sheet.ScrollView
+              ref={scrollRef}
               scrollEnabled={scrollable}
               keyboardShouldPersistTaps={'handled'}
               automaticallyAdjustKeyboardInsets
