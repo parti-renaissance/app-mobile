@@ -1,15 +1,13 @@
 import React, { ComponentProps, ReactNode } from 'react'
-import { ImageRequireSource, Platform } from 'react-native'
+import { ImageRequireSource } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 import Text from '@/components/base/Text'
 import Chip from '@/components/Chip/Chip'
 import ProfilePicture from '@/components/ProfilePicture'
-import i18n from '@/utils/i18n'
 import { CalendarDays, CheckCircle, LockKeyhole, MapPin, UserCheck, Users, Video } from '@tamagui/lucide-icons'
-import { getHours, isSameDay } from 'date-fns'
-import { format } from 'date-fns-tz'
 import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, XStack, YStack, ZStack } from 'tamagui'
 import AutoSizeImage from '../AutoSizeImage'
+import { getFormatedVoxCardDate } from '../utils'
 
 const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
@@ -70,22 +68,20 @@ const VoxCardTitle = ({ children, underline = true }: VoxCardTitleProps & { unde
 
 export type VoxCardDateProps = { start: Date; end?: Date; icon?: boolean; timeZone?: string }
 const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) => {
-  const keySuffix = getHours(start) === getHours(end ?? start) ? '' : 'End'
-  const keyPrefix = isSameDay(start, end ?? start) ? 'day' : 'days'
-  const key = `${keyPrefix}Date${keySuffix}`
+  const { date, timezone } = getFormatedVoxCardDate({ start, end, timeZone })
   return (
     <XStack gap="$2" alignItems="center">
       {icon && <CalendarDays size={16} color="$textPrimary" />}
       <Text>
         <Text.SM multiline medium>
-          {i18n.t(`vox_card.${key}`, { start, end })}
+          {date}
         </Text.SM>
-        {timeZone && timeZone !== 'Europe/Paris' && (
+        {timezone ? (
           <Text.SM medium secondary multiline>
             {' '}
-            • UTC{format(start, 'XXX', { timeZone })} ({timeZone})
+            {timezone}
           </Text.SM>
-        )}
+        ) : null}
       </Text>
     </XStack>
   )

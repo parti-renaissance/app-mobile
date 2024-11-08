@@ -3,7 +3,6 @@ import Text from '@/components/base/Text'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetTags } from '@/services/profile/hook'
 import { RestElectedProfileResponse, RestProfilResponse } from '@/services/profile/schema'
-import { TreeDeciduous } from '@tamagui/lucide-icons'
 import { isAfter } from 'date-fns'
 import { XStack, YStack } from 'tamagui'
 
@@ -37,21 +36,20 @@ const Tags = (props: { tags: RestProfilResponse['tags'] }) => {
 
 const NotElu = () => <Text.P>Vous n’avez pas de mandat rattaché à votre profil.</Text.P>
 const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; tags: RestProfilResponse['tags'] }) => {
+  const activeMandates = props.mandates.filter((x) => !x.finish_at || isAfter(new Date(x.finish_at), new Date()))
   return (
     <YStack gap="$4">
       <Tags tags={props.tags} />
       <Text.MD>Mandats rattachés au compte </Text.MD>
-      <Text.P>Le bureau de l’Assemblée départementale vous a rattaché {props.mandates.length} mandats.</Text.P>
+      <Text.P>Le bureau de l’Assemblée départementale vous a rattaché {activeMandates.length} mandats.</Text.P>
       <XStack gap={8} flexWrap="wrap">
-        {props.mandates
-          .filter((x) => !x.finish_at || isAfter(new Date(x.finish_at), new Date()))
-          .map((x) => (
-            <XStack>
-              <Badge theme="green" key={x.mandate_type}>
-                {x.mandate_type_label}
-              </Badge>
-            </XStack>
-          ))}
+        {activeMandates.map((x) => (
+          <XStack>
+            <Badge theme="green" key={x.mandate_type}>
+              {x.mandate_type_label}
+            </Badge>
+          </XStack>
+        ))}
       </XStack>
     </YStack>
   )
