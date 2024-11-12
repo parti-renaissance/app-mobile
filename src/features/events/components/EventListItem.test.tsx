@@ -1,5 +1,4 @@
 import React, { NamedExoticComponent } from 'react'
-import { View } from 'react-native'
 import { payload } from '@/services/events/mock/feed-item'
 import * as mockedEvnt from '@/services/events/mock/feed-item'
 import TamaguiProvider from '@/tamagui/provider'

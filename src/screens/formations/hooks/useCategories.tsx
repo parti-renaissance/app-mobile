@@ -21,13 +21,13 @@ export const useCategories = ({ formations }: UseCategoriesProps) => {
     }))
   }, [categories])
 
-  const [activeCategories, setActiveCategories] = useState<Array<string>>([])
+  const [activeCategories, setActiveCategories] = useState<string | undefined>(undefined)
 
   const filteredFormations = useMemo(() => {
-    if (activeCategories.length === 0) {
+    if (!activeCategories) {
       return formations
     }
-    return formations.filter((formation) => activeCategories.includes(formation.category ?? 'no-cat'))
+    return formations.filter((formation) => formation.category ?? 'no-cat' === activeCategories)
   }, [formations, activeCategories])
 
   return {

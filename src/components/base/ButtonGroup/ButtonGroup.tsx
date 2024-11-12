@@ -9,8 +9,8 @@ type ButtonGroupProps = {
     label: string
     value: string
   }[]
-  value: string[]
-  onChange: (value: string[]) => void
+  value: string
+  onChange: (value?: string) => void
 }
 
 const ButtonGroupFrame = styled(ThemeableStack, {
@@ -21,14 +21,10 @@ const ButtonGroupFrame = styled(ThemeableStack, {
 
 export default function ButtonGroup({ options, value, onChange, theme, ...props }: ButtonGroupProps & ComponentPropsWithoutRef<typeof ButtonGroupFrame>) {
   const handlePress = (item: string) => () => {
-    if (value.includes(item)) {
-      onChange(value.filter((v) => v !== item))
-      return
-    }
-    onChange([item])
+    onChange(item === value ? undefined : item)
   }
 
-  const isChecked = (item: string) => value.includes(item)
+  const isChecked = (item: string) => value === item
   return (
     <ButtonGroupFrame {...props}>
       {options.map((option) => (

@@ -55,7 +55,7 @@ export const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
               {default_scope.name}
             </Text.MD>
             {default_scope.zones.map((z) => (
-              <Text.P color="$purple6">
+              <Text.P color="$purple6" key={z.name + z.code}>
                 {z.name} ({z.code})
               </Text.P>
             ))}

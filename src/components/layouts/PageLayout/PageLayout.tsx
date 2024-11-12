@@ -1,4 +1,3 @@
-// first fetch profile,
 import { ComponentProps } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Container from '@/components/layouts/Container'
@@ -22,7 +21,7 @@ const LayoutSideBarLeft = ({ children, showOn = 'gtSm', ...props }: ViewProps & 
   return (
     media[showOn] && (
       <View $gtMd={{ width: columnWidth }} $md={{ width: 250 }} height="100%" pt={padding} $lg={{ pl: padding }} {...props}>
-        <ScrollView pb={56 + 24 + insets.bottom}>{children}</ScrollView>
+        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 56 }}>{children}</ScrollView>
       </View>
     )
   )

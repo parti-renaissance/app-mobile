@@ -1,5 +1,4 @@
 import React, { ComponentProps, ComponentPropsWithoutRef } from 'react'
-import { Platform } from 'react-native'
 import { useDerivedValue, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import Chip from '@/components/Chip/Chip'
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia'
@@ -34,7 +33,7 @@ const SkeCardFrame = ({ children, ...props }: SkeCardFrameProps) => {
         sharedWidth.value = withRepeat(withTiming(e.nativeEvent.layout.width, { duration: 1000 }), -1, true)
       }}
     >
-      <YStack gap="$3.5">
+      <YStack gap="$3.5" style={{ flex: 1, position: 'absolute', zIndex: 10, width, height }}>
         {height > 0 && width > 0 && (
           <Canvas style={{ flex: 1, position: 'absolute', zIndex: 10, width, height }}>
             <Rect x={0} y={0} width={width} height={height}>
@@ -77,7 +76,11 @@ const SkeCardDate = () => {
 }
 
 const SkeCardButton = (props: ComponentPropsWithoutRef<typeof ButtonFrameStyled>) => {
-  return <ButtonFrameStyled bg={SkeletonColor} width={100} {...props}></ButtonFrameStyled>
+  return (
+    <XStack>
+      <ButtonFrameStyled bg={SkeletonColor} width={100} height={50} {...props}></ButtonFrameStyled>
+    </XStack>
+  )
 }
 
 const SkeActions = () => {
@@ -99,7 +102,7 @@ const SkeCardAuthor = () => {
 }
 
 const SkeCardImage = () => {
-  return <Stack height="$15" flex={1} bg={SkeletonColor} borderRadius="$1" />
+  return <YStack minHeight="$15" flex={1} bg={SkeletonColor} borderRadius="$1" />
 }
 
 export type SkeCardDescritionProps = {
@@ -128,7 +131,7 @@ const SkeCardSection = ({ children, ...props }: StackProps) => {
   )
 }
 
-const SkeCardSeparator = (props: StackProps) => <Separator borderStyle={Platform.OS !== 'ios' ? 'dashed' : 'solid'} {...props} />
+const SkeCardSeparator = (props: StackProps) => <Separator {...props} />
 
 export const SkeCard = withStaticProperties(SkeCardFrame, {
   Content: SkeCardContent,

@@ -7,11 +7,13 @@ import { CalendarOff } from '@tamagui/lucide-icons'
 type ButtonProps = ComponentPropsWithoutRef<typeof VoxButton> &
   Pick<RestItemEvent, 'uuid'> & {
     isPremium?: boolean
+    userUuid?: string
   }
 
-export const EventUnSubscribeButton = ({ uuid, isPremium, variant, ...buttonProps }: ButtonProps) => {
+export const EventUnSubscribeButton = ({ uuid, isPremium, variant, userUuid, disabled, ...buttonProps }: ButtonProps) => {
   const { mutate, isPending } = useUnsubscribeEvent({ id: uuid })
   const handlePress = () => {
+    if (!userUuid) return
     mutate()
   }
   const dynVariant = variant === 'contained' ? 'soft' : 'outlined'
@@ -23,6 +25,7 @@ export const EventUnSubscribeButton = ({ uuid, isPremium, variant, ...buttonProp
       testID="event-unsubscribe-button"
       loading={isPending}
       onPress={handlePress}
+      disabled={[disabled, !Boolean(userUuid)].some(Boolean)}
       {...buttonProps}
     >
       Me désinscrire

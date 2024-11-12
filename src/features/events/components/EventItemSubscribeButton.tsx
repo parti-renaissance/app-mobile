@@ -34,7 +34,13 @@ export const EventItemToggleSubscribeButton = ({ event, userUuid, buttonProps }:
   if (shouldHide) return false
   return (
     <XStack testID="event-item-toggle-subscribe-button">
-      <Button uuid={event.uuid} disabled={isDisabled} isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)} {...buttonProps} />
+      <Button
+        uuid={event.uuid}
+        disabled={isDisabled}
+        userUuid={userUuid}
+        isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)}
+        {...buttonProps}
+      />
     </XStack>
   )
 }

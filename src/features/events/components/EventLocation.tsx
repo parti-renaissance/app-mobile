@@ -1,20 +1,20 @@
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestItemEvent } from '@/services/events/schema'
-import { XStack } from 'tamagui'
+import { YStack } from 'tamagui'
 import { isEventFull } from '../utils'
 
 export const EventLocation = ({ event }: { event: Partial<RestItemEvent> }) => {
   if (event.mode === 'online') {
     return (
-      <XStack testID="event-location-visio">
+      <YStack testID="event-location-visio">
         <VoxCard.Visio />
-      </XStack>
+      </YStack>
     )
   }
 
   if (isEventFull(event) && event.post_address) {
     return (
-      <XStack testID="event-location-location">
+      <YStack testID="event-location-location">
         <VoxCard.Location
           location={{
             city: event.post_address.city_name,
@@ -22,7 +22,7 @@ export const EventLocation = ({ event }: { event: Partial<RestItemEvent> }) => {
             street: event.post_address.address,
           }}
         />
-      </XStack>
+      </YStack>
     )
   }
 

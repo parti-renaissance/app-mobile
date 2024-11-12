@@ -1,5 +1,5 @@
 import { Children, isValidElement } from 'react'
-import { StatusBar } from 'react-native'
+import { Dimensions, StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
@@ -111,7 +111,9 @@ export const EventMobileScreenSkeleton = () => {
             <SkeCard.Chip />
             <SkeCard.Chip />
           </XStack>
-          <VoxCard.Separator />
+          <SkeCard.Title />
+          <SkeCard.Description />
+          <SkeCard.Separator />
           <SkeCard.Date />
           <SkeCard.Date />
           <SkeCard.Date />

@@ -8,7 +8,7 @@ import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSubscribeEvent } from '@/services/events/hook'
 import { RestItemEvent } from '@/services/events/schema'
 import { Calendar, X } from '@tamagui/lucide-icons'
-import { ScrollView, ScrollViewProps, useMedia, XStack, YStack } from 'tamagui'
+import { ScrollView, ScrollViewProps, useMedia, XStack } from 'tamagui'
 import EventRegisterForm from './EventRegisterForm/EventRegisterForm'
 
 type ButtonProps = ComponentPropsWithoutRef<typeof VoxButton> &

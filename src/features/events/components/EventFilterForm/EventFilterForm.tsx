@@ -49,11 +49,9 @@ type EventFiltersProps = {
 
 const EventFilters = ({ onSearchFocus }: EventFiltersProps) => {
   return (
-    <YStack gap="$5">
-      <Controller name="search">
-        {(p) => <SearchBox enterKeyHint="done" value={p.value} ref={p.ref as RefObject<TextInput>} onChange={p.onChange} onFocus={onSearchFocus} />}
-      </Controller>
-    </YStack>
+    <Controller name="search">
+      {(p) => <SearchBox enterKeyHint="done" value={p.value} ref={p.ref as RefObject<TextInput>} onChange={p.onChange} onFocus={onSearchFocus} />}
+    </Controller>
   )
 }
 const MemoizedEF = React.memo(EventFilters)

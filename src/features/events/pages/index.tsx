@@ -76,22 +76,6 @@ const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: 
   )
 }
 
-const HeaderList = (props: { listRef: React.RefObject<SectionList> }) => {
-  const media = useMedia()
-  if (media.md) {
-    return <SmallHeaderList listRef={props.listRef} />
-  }
-
-  if (media.lg) {
-    return (
-      <YStack p="$3" overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
-        <EventFilterForm />
-      </YStack>
-    )
-  }
-  return null
-}
-
 const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
   const media = useMedia()
   const { session } = useSession()

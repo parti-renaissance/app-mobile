@@ -9,9 +9,11 @@ import { isWeb } from 'tamagui'
 export type PremiumLockButtonProps = ComponentPropsWithoutRef<typeof VoxButton> &
   Pick<RestItemEvent, 'uuid'> & {
     isPremium?: boolean
+    isDue?: boolean
+    userUuid?: string
   }
 
-export const EventSubscribePremiumLockButton = ({ uuid, isPremium, isDue, variant, ...buttonProps }: PremiumLockButtonProps & { isDue?: Boolean }) => {
+export const EventSubscribePremiumLockButton = ({ uuid, isPremium, isDue, variant, userUuid, ...buttonProps }: PremiumLockButtonProps) => {
   const { mutate, isPending } = useUnsubscribeEvent({ id: uuid })
   const handlePress = () => {
     mutate()

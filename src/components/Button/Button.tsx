@@ -181,13 +181,13 @@ type VoxButtonProps = {
   children?: string[] | string
 } & React.ComponentProps<typeof Button>
 
-export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref) => {
-  const children = props.shrink ? undefined : props.children
+export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>(({ children: child, shrink, iconLeft: IconLeft, iconRight: IconRight, ...props }, ref) => {
+  const children = shrink ? undefined : child
 
   return (
     <Button {...props} ref={ref} theme={props.theme ?? 'gray'} group>
-      {props.iconLeft && (
-        <props.iconLeft
+      {IconLeft ? (
+        <IconLeft
           size={16}
           color={props.pop ? '$colorPop' : '$color'}
           $group-hover={{
@@ -197,10 +197,10 @@ export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref)
             color: '$colorPress',
           }}
         />
-      )}
-      {children && <ButtonText pop={props.pop}>{children}</ButtonText>}
-      {props.iconRight && (
-        <props.iconRight
+      ) : null}
+      {children ? <ButtonText pop={props.pop}>{children}</ButtonText> : null}
+      {IconRight ? (
+        <IconRight
           size={16}
           color={props.pop ? '$colorPop' : '$color'}
           $group-hover={{
@@ -210,7 +210,7 @@ export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>((props, ref)
             color: '$colorPress',
           }}
         />
-      )}
+      ) : null}
       {props.loading && <ButtonSpinner size="small" />}
     </Button>
   )

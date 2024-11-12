@@ -109,11 +109,11 @@ export type VoxCardLocationProps = {
 
 const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & { asTitle?: boolean }) => {
   const T = asTitle ? Text.MD : Text.SM
-  const WRPT = asTitle ? VoxCardTitle : Text
+  const WRPT = asTitle ? VoxCardTitle : Text.MD
   return location ? (
     <XStack gap="$2" alignItems="center">
       {!asTitle && <MapPin size={16} color="$textPrimary" />}
-      <WRPT>
+      <WRPT flexGrow={1} lineBreakStrategyIOS="push-out">
         <T multiline medium>
           {location.city} {location.postalCode}
         </T>
