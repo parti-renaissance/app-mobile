@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Dimensions, StyleSheet } from 'react-native'
+import { Dimensions, Platform, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
@@ -200,6 +200,7 @@ function Page() {
   const handleOnEditAction = (action: RestAction) => {
     setActiveAction(action)
     setModalOpen(true)
+    setListOpen(false)
   }
 
   const handleOnActionLayerPress = (e: OnPressEvent) => {
@@ -395,10 +396,10 @@ function Page() {
 
   return (
     <>
-      {modal}
-
+      {Platform.OS !== 'android' ? modal : null}
       {media.md && bottomSheetList}
       {media.md && actionBottomSheet}
+      {Platform.OS === 'android' ? modal : null}
       {/* <Tabs<'actions' | 'myActions'>
         value={activeTab}
         onChange={setActiveTab}

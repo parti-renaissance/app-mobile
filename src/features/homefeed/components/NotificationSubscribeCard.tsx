@@ -23,9 +23,11 @@ export default function NotificationSubscribeCard() {
           <Text.SM secondary multiline textAlign="center">
             Vous ne recevez pas nos emails nationaux et locaux car vous êtes désabonnés de nos communication.
           </Text.SM>
-          <Link href={{ pathname: '/profil/communications', params: { autorun: '1' } }} asChild={!isWeb}>
-            <VoxButton variant="outlined">Me réabonner</VoxButton>
-          </Link>
+          <XStack justifyContent="center" gap={16}>
+            <Link href={{ pathname: '/profil/communications', params: { autorun: '1' } }} asChild={!isWeb}>
+              <VoxButton variant="outlined">Me réabonner</VoxButton>
+            </Link>
+          </XStack>
         </YStack>
       </VoxCard.Content>
     </VoxCard>

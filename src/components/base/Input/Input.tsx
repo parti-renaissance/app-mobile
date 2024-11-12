@@ -64,6 +64,11 @@ const InputFrame = styled(XStack, {
   },
 
   variants: {
+    multiline: {
+      true: {
+        alignItems: 'flex-start',
+      },
+    },
     error: {
       true: {
         backgroundColor: '$orange1',
@@ -214,6 +219,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
               onChangeText={handleValueChange}
               placeholderTextColor={theme.textSecondary.val}
               placeholder={placeholder}
+              textAlignVertical={inputProps.multiline ? 'top' : 'center'}
               onFocus={handleFocus}
               onBlur={handleBlur}
               {...inputProps}
