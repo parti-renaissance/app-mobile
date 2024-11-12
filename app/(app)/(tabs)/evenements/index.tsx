@@ -37,7 +37,7 @@ const EventsScreen: React.FC = () => {
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <YStack flex={1} flexGrow={1} flexBasis={0} gap={16}>
-            <YStack $gtLg={{ display: 'none' }} gap={16} paddingTop={!isAuth ? insets.top + 24 : 24}>
+            <YStack $gtLg={{ display: 'none' }} gap={16} paddingTop={insets.top + 24}>
               <XStack pl={24}>
                 {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
               </XStack>
