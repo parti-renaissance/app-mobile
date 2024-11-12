@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { AppState, useColorScheme } from 'react-native'
+import { AppState, StatusBar, useColorScheme } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
@@ -106,6 +106,7 @@ function Root() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar barStyle="light-content" />
       <ToastProvider swipeDirection="up">
         <QueryClientProvider client={queryClient}>
           <TamaguiProvider>
