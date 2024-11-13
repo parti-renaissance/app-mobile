@@ -135,7 +135,7 @@ export default function ({ editablePicture = true, ...props }: ComponentPropsWit
           </Text.LG>
         </YStack>
         <ProfileTags tags={tags ?? []} justifyContent="center" />
-        <Text.MD textAlign="center">
+        <Text.MD medium textAlign="center">
           {detProfil.main_zone?.name}, {detProfil.post_address?.city_name}
         </Text.MD>
       </VoxCard.Content>

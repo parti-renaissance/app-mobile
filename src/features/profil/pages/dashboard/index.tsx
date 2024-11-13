@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -21,6 +21,7 @@ const DashboardScreen = () => {
   const media = useMedia()
   const { data: profile } = useGetDetailProfil()
   const { data: me } = useGetProfil()
+  const insets = useSafeAreaInsets()
 
   const isAdherent = !!me?.tags?.find((tag) => tag.type === 'adherent')
   const { signOut } = useSession()
@@ -55,7 +56,7 @@ const DashboardScreen = () => {
   return (
     <PageLayout.MainSingleColumn position="relative">
       <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-        <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
+        <YStack gap={16} flex={1} $sm={{ pt: 8 + insets.top, gap: 8 }}>
           <ProfilBlock />
           {media.sm && <ProfilMenu />}
           <VoxCard>
