@@ -49,15 +49,15 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
       top={0}
     >
       <YStack elevation={5} flex={1} backgroundColor={'$white1'}>
-        <YStack p="$4">
+        <YStack p="$medium">
           <TouchableOpacity onPress={() => onOpenChange?.(false)}>
             <ArrowLeft size={30} color="$textPrimary" />
           </TouchableOpacity>
         </YStack>
         <ScrollView
           contentContainerStyle={{
-            p: '$4',
-            gap: '$3',
+            p: '$medium',
+            gap: '$small',
           }}
           flex={1}
         >
@@ -73,7 +73,7 @@ export const SideActionList = ({ actionQuery, onEdit, onOpenChange }: Readonly<A
               {isFullAction(action) ? (
                 <>
                   <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
-                  <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
+                  <XStack flexWrap="wrap" gap="$medium" justifyContent="space-between">
                     {action.author && <ParticipantAvatar participant={action.author} />}
                     {action.participants
                       .filter((x) => {
@@ -172,7 +172,7 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
               {isFullAction(action) ? (
                 <>
                   <Text fontWeight="$5">{action.participants.length} inscrits :</Text>
-                  <XStack flexWrap="wrap" gap="$5" justifyContent="space-between">
+                  <XStack flexWrap="wrap" gap="$medium" justifyContent="space-between">
                     <ParticipantAvatar participant={action.author} />
                     {action.participants
                       .filter((x) => {

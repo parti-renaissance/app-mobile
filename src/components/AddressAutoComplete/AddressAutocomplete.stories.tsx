@@ -5,7 +5,7 @@ import { Card, YStack } from 'tamagui'
 const meta = {
   title: 'Address autocomplete',
   component: () => (
-    <Card width={400} p={'$5'}>
+    <Card width={400} p={'$medium'}>
       <YStack>
         <AddressAutocomplete />
       </YStack>

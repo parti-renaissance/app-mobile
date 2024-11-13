@@ -40,7 +40,7 @@ export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
           opacity={1}
           y={0}
         >
-          <YStack gap="$4">
+          <YStack gap="$medium">
             <Text fontSize="$3" fontWeight="$5">
               {props.title}
             </Text>

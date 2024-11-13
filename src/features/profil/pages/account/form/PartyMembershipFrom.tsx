@@ -26,11 +26,9 @@ const PartyMembershipForm = ({ profile }: { profile: RestDetailedProfileResponse
     >
       {({ control }) => (
         <Fragment>
-          <YStack gap="$3">
-            <Text.LG semibold multiline>
-              Appartenance à un autre parti politique
-            </Text.LG>
-          </YStack>
+          <Text.MD semibold multiline>
+            Appartenance à un autre parti politique
+          </Text.MD>
           <Controller
             name="party_membership"
             control={control}

@@ -47,7 +47,7 @@ const DonationTaxReceiptCard = () => {
           <VoxCard.Content>
             {data.map((receipt, i) => (
               <Fragment key={receipt.uuid}>
-                <XStack gap="$2" flex={1} justifyContent="space-between" alignItems="center">
+                <XStack gap="$small" flex={1} justifyContent="space-between" alignItems="center">
                   <Text.MD>{receipt.label}</Text.MD>
                   <DownloadBtn receipt={receipt} />
                 </XStack>

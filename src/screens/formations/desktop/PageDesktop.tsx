@@ -12,8 +12,8 @@ import FormationSection, { FormationSectionSkeleton } from './FormationSection'
 
 const scrollViewContainerStyle = {
   pt: 166,
-  pl: '$5',
-  pr: '$5',
+  pl: '$medium',
+  pr: '$medium',
   pb: isWeb ? '$10' : '$12',
 } as const
 

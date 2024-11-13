@@ -9,6 +9,15 @@ const ChipFrame = styled(XStack, {
   paddingVertical: 4,
   paddingHorizontal: 8,
   alignItems: 'center',
+  variants: {
+    outlined: {
+      true: {
+        backgroundColor: 'transparent',
+        borderWidth: '1',
+        borderColor: '$color5',
+      },
+    },
+  },
   gap: 4,
 } as const)
 

@@ -14,7 +14,7 @@ type ButtonGroupProps = {
 }
 
 const ButtonGroupFrame = styled(ThemeableStack, {
-  gap: '$3',
+  gap: '$small',
   flexDirection: 'row',
   flexWrap: 'wrap',
 })

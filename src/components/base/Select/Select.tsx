@@ -75,7 +75,7 @@ export const ItemFrame = styled(XStack, {
     backgroundColor: '$white1',
     flex: 1,
     minHeight: '$5',
-    paddingHorizontal: '$4.5',
+    paddingHorizontal: '$medium',
 
     borderColor: '$gray1',
     hoverStyle: {
@@ -275,8 +275,8 @@ const Select = <A extends string>({
             <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'padding' : 'height'} keyboardVerticalOffset={50} style={{ flex: 1 }}>
               <Popover.Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={4} />
 
-              <YStack paddingHorizontal="$4.5">
-                <XStack paddingVertical="$5" alignItems="center" justifyContent="space-between">
+              <YStack paddingHorizontal="$medium">
+                <XStack paddingVertical="$medium" alignItems="center" justifyContent="space-between">
                   <Text fontWeight="$6" fontSize="$5">
                     {label}
                   </Text>

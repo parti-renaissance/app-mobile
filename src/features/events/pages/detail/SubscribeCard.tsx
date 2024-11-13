@@ -26,7 +26,7 @@ const AdhButton = (props: { bgColor?: string; children?: string }) => {
 
 export function LockAuthCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
-    <YStack justifyContent="center" gap="$4.5">
+    <YStack justifyContent="center" gap="$medium">
       <YStack gap="$3" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
@@ -41,7 +41,7 @@ export function LockAuthCard({ activeSubscription }: { activeSubscription?: bool
 
 export function LockAuthAdhCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
-    <YStack justifyContent="center" gap="$4.5">
+    <YStack justifyContent="center" gap="$medium">
       <YStack gap="$3" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
@@ -56,7 +56,7 @@ export function LockAuthAdhCard({ activeSubscription }: { activeSubscription?: b
 
 export function LockAdhCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
-    <YStack justifyContent="center" gap="$4.5">
+    <YStack justifyContent="center" gap="$medium">
       <YStack gap="$3" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
@@ -70,7 +70,7 @@ export function LockAdhCard({ activeSubscription }: { activeSubscription?: boole
 
 export function LockAdhDueCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
-    <YStack justifyContent="center" gap="$4.5">
+    <YStack justifyContent="center" gap="$medium">
       <YStack gap="$3" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">

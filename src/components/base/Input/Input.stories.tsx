@@ -9,7 +9,7 @@ export default {
 
 export function Default() {
   return (
-    <Stack gap="$4" bg="$gray3">
+    <Stack gap="$medium" bg="$gray3">
       <Input placeholder="Je suis une placeholder" />
       <Input placeholder="Je suis un input avec un label !" label="je suis un label" loading />
       <Input placeholder="Je suis une placeholder" label="je suis un label" iconRight={<Lock size="$1" />} />

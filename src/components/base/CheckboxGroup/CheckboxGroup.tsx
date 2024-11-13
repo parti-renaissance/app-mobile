@@ -14,10 +14,9 @@ type CheckboxGroupProps = {
 }
 
 const CheckboxGroupFrame = styled(ThemeableStack, {
-  gap: '$3',
+  gap: '$medium',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  // justifyContent: 'space-between',s
 })
 
 export default function CheckboxGroup({ options, value, onChange }: CheckboxGroupProps) {
@@ -39,7 +38,7 @@ export default function CheckboxGroup({ options, value, onChange }: CheckboxGrou
           flexShrink={1}
           flexBasis={'48%'}
           $md={{ flexBasis: '100%' }}
-          gap="$2"
+          gap="$small"
           group
           onPress={handlePress(option.value)}
           alignItems="center"

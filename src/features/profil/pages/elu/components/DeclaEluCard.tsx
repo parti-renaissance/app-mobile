@@ -69,7 +69,7 @@ const EluOkSoumis = (props: { declaration: number; cotisation: number; onPressDe
           <Text.SM>Vous avez déclaré une indemnitée d’élu de {props.declaration} €.</Text.SM>
         </VoxCard.Content>
       </VoxCard>
-      <XStack gap="$4" justifyContent="flex-end">
+      <XStack gap="$medium" justifyContent="flex-end">
         {/*  <VoxButton variant="outlined">Annuler ma cotisation</VoxButton> */}
         <ButtonDeclaration onPress={props.onPressDeclaForm}>Modifier ma déclaration</ButtonDeclaration>
       </XStack>
@@ -168,7 +168,7 @@ export default function (props: { declaration?: number; cotisation?: number }) {
             <EluBlock code={codes.map((x) => x.code)} {...props} onPressIbanForm={handleOpenIban} onPressDeclaForm={handleOpenDecla} />
             <VoxCard inside bg="$textSurface">
               <VoxCard.Content>
-                <YStack gap="$4">
+                <YStack gap="$medium">
                   <Text.P>
                     En application de l’article 4.1.2 du Règlement Intérieur, les élus titulaires de mandats électifs locaux ouvrant droit à indemnisation
                     doivent s’acquitter d’une cotisation mensuelle dont le montant est fixé suivant le barème décidé par le Bureau Exécutif du 28 novembre 2022.

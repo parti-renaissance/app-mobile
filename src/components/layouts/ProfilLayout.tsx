@@ -49,9 +49,9 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
         <YStack
           gap={16}
           $gtSm={{
-            pt: '$5',
-            pl: '$5',
-            pr: '$5',
+            pt: '$medium',
+            pl: '$medium',
+            pr: '$medium',
           }}
           pb={isWeb ? '$10' : '$12'}
         >

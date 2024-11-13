@@ -108,7 +108,7 @@ export const ProfileView = () => {
   const user = useGetProfil({ enabled: !!session })
   const profile = user?.data
   return (
-    <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
+    <View flexDirection="row" gap={'$medium'} justifyContent="space-between" alignItems="center">
       {!user.isLoading ? (
         <>
           <Stack gap={4} flexDirection="column" alignContent="flex-end" alignItems="flex-end" display="none" $gtMd={{ display: 'flex' }}>
@@ -131,7 +131,7 @@ export const ProfileView = () => {
   )
 }
 const LoginView = () => (
-  <View flexDirection="row" gap={'$4'} justifyContent="space-between" alignItems="center">
+  <View flexDirection="row" gap={'$medium'} justifyContent="space-between" alignItems="center">
     <Stack gap={'$2'} flexDirection="row">
       <SignInButton />
       <SignUpButton />
@@ -197,7 +197,7 @@ const Header = (_props: NativeStackHeaderProps & YStackProps) => {
       <Container
         borderBottomWidth={options.headerShadowVisible === undefined ? 1 : undefined}
         borderBottomColor="rgba(145, 158, 171, 0.2)"
-        paddingHorizontal={'$4'}
+        paddingHorizontal={'$medium'}
         height={82}
         {...props}
         alignContent="center"

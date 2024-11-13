@@ -3,7 +3,7 @@ import { View } from 'tamagui'
 
 export default function EmptyState(props: { children: React.ReactNode }) {
   return (
-    <View alignSelf="center" alignContent="center" gap="$4">
+    <View alignSelf="center" alignContent="center" gap="$medium">
       <EmptyStateIllustration />
       {props.children}
     </View>

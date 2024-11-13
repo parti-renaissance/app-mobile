@@ -175,9 +175,9 @@ const EventDesktopAsideSkeleton = () => {
 
 export const EventDesktopScreenSkeleton = () => {
   return (
-    <YStack padding="$5" flex={1}>
+    <YStack padding="$medium" flex={1}>
       <PageLayout.MainSingleColumn>
-        <XStack alignItems="flex-start" alignSelf="flex-start" pb={16}>
+        <XStack alignItems="flex-start" alignSelf="flex-start" pb="$medium">
           <SkeCard.Button />
         </XStack>
         <SkeCard>

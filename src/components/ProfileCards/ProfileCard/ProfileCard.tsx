@@ -21,7 +21,7 @@ export interface ProfileCardProps {
 export default function ProfileCard({ firstName = '', lastName = '', tags, onButtonPress, src }: ProfileCardProps) {
   return (
     <VoxCard inside bg={'$white1'}>
-      <VoxCard.Content gap={'$4'}>
+      <VoxCard.Content gap={'$medium'}>
         <Link href={'/profil'} asChild>
           <TouchableOpacity>
             <View alignItems={'center'} flexDirection={'row'}>

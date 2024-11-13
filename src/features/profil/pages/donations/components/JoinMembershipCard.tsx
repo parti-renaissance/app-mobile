@@ -8,27 +8,31 @@ import { styled, XStack, YStack } from 'tamagui'
 import type { CommonMembershipCardProps } from './types'
 
 const HeaderFrame = styled(XStack, {
+  padding: '$medium',
   paddingLeft: 0,
-  paddingRight: '$4.5',
-  paddingBottom: '$4.5',
-  paddingTop: '$8',
+  gap: '$large',
 })
 
 export default function (props: CommonMembershipCardProps) {
   const { data: adhesionLink, isPending } = useGetMagicLink({ slug: 'adhesion' })
   return (
-    <VoxCard bg={props.full ? 'white' : '$yellow1'} inside={!props.full}>
+    <VoxCard bg={props.full ? 'white' : '$yellow1'} inside>
       <HeaderFrame>
         <Image
-          source={require('@/assets/images/cotisation/cotisation-illu.png')}
+          source={require('@/features/profil/assets/cotisation-illu.png')}
+          contentFit="contain"
+          contentPosition={'left'}
           style={{
-            width: 241,
-            height: 128,
+            width: '100%',
+            flex: 1,
+            flexBasis: 0,
           }}
         />
-        <YStack gap="$3" pl="$4" flex={1}>
-          <Text.MD semibold>Prenez part à la vie politique française !</Text.MD>
-          <Text.MD secondary>Adhérerez à Renaissance.</Text.MD>
+        <YStack gap="$medium" pl="$medium" flex={1} flexBasis={0} flexGrow={2} alignSelf={'flex-start'}>
+          <YStack gap="$small">
+            <Text.MD semibold>Prenez part à la vie politique française !</Text.MD>
+            <Text.MD secondary>Adhérerez à Renaissance.</Text.MD>
+          </YStack>
           <VoxButton
             theme="yellow"
             disabled={isPending}
@@ -45,7 +49,7 @@ export default function (props: CommonMembershipCardProps) {
       <VoxCard.Content pt={0} display={props.full ? 'flex' : 'none'}>
         <VoxCard bg="$gray1" borderColor={'$colorTransparent'}>
           <VoxCard.Content>
-            <Text fontWeight="$7">Pourquoi adhérer à Renaissance ?</Text>
+            <Text.MD bold>Pourquoi adhérer à Renaissance ?</Text.MD>
             <Text>Je finance notre ancrage local</Text>
             <Text.SM secondary multiline>
               Les cotisations d’adhérents permettent de nous ancrer localement et durablement par une organisation décentralisée. Elles sont intégralement

@@ -26,7 +26,7 @@ export default function MobileWallLayout() {
             <AppDownloadCTA variant={'screenshots'} />
           </YStack>
         ) : (
-          <PageLayout.StateFrame paddingHorizontal={'$4'}>
+          <PageLayout.StateFrame paddingHorizontal={'$medium'}>
             <MobileWall />
           </PageLayout.StateFrame>
         )}

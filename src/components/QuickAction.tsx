@@ -216,11 +216,11 @@ export const ItemFrame = styled(XStack, {
   animation: 'quickest',
   borderColor: '$purple/8',
   borderBottomWidth: 1,
-  gap: '$4',
+  gap: '$medium',
 
   backgroundColor: '$white1',
   minHeight: '$5',
-  paddingHorizontal: '$4.5',
+  paddingHorizontal: '$medium',
 
   hoverStyle: {
     backgroundColor: '$gray1',

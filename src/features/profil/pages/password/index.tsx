@@ -37,9 +37,9 @@ export default function ChangePasswordScreen() {
   const media = useMedia()
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$5' : undefined,
-      pl: media.gtSm ? '$5' : undefined,
-      pr: media.gtSm ? '$5' : undefined,
+      pt: media.gtSm ? '$medium' : undefined,
+      pl: media.gtSm ? '$medium' : undefined,
+      pr: media.gtSm ? '$medium' : undefined,
       pb: isWeb ? '$10' : '$12',
     }),
     [media],

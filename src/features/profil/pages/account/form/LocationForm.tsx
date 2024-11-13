@@ -47,7 +47,7 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
           </Text.P>
 
           {manualAddress ? (
-            <View gap="$4">
+            <View gap="$medium">
               <Controller
                 name="post_address.address"
                 control={control}

@@ -102,8 +102,13 @@ export const useMutationUpdateProfil = ({ userUuid }: { userUuid: string }) => {
         queryKey: ['electProfil'],
       })
     },
-    onError: (error, profil) => {
-      toast.show('Erreur', { message: 'Impossible de mettre à jour le profil', type: 'error' })
+    onError: (error) => {
+      if (error instanceof GenericResponseError) {
+        toast.show('Erreur', { message: error.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de mettre à jour le profil', type: 'error' })
+      }
+      return error
     },
   })
 }
@@ -129,6 +134,26 @@ export const useGetDonations = () => {
   return useQuery({
     queryKey: ['donations'],
     queryFn: () => api.getDonations(),
+  })
+}
+
+export const useCancelDonation = () => {
+  const queryClient = useQueryClient()
+  const toast = useToastController()
+  return useMutation({
+    mutationFn: () => api.cancelDonation(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['donations', PROFIL_QUERY_KEY, 'profile-detail'] })
+      toast.show('Succès', { message: 'Don mensuel annulé', type: 'success' })
+    },
+    onError: (e) => {
+      if (e instanceof GenericResponseError) {
+        toast.show('Erreur', { message: e.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: "Une erreur s'est produite", type: 'error' })
+      }
+      return e
+    },
   })
 }
 
@@ -163,7 +188,11 @@ export const usePostElectPayment = () => {
       })
     },
     onError: (e) => {
-      toast.show('Erreur', { message: 'Impossible de mettre à jour vos informations bancaire', type: 'error' })
+      if (e instanceof GenericResponseError) {
+        toast.show('Erreur', { message: e.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de mettre à jour vos informations bancaire', type: 'error' })
+      }
       return e
     },
   })
@@ -186,7 +215,11 @@ export const usePostElectDeclaration = () => {
       })
     },
     onError: (e) => {
-      toast.show('Erreur', { message: 'Impossible de mettre à jour votre déclaration', type: 'error' })
+      if (e instanceof GenericResponseError) {
+        toast.show('Erreur', { message: e.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de mettre à jour votre déclaration', type: 'error' })
+      }
       return e
     },
   })
@@ -205,7 +238,11 @@ export const usePostProfilPicture = (props: { uuid: string }) => {
       })
     },
     onError: (e) => {
-      toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      if (e instanceof GenericResponseError) {
+        toast.show('Erreur', { message: e.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      }
       return e
     },
   })
@@ -224,7 +261,11 @@ export const useDeleteProfilPicture = (props: { uuid: string }) => {
       })
     },
     onError: (e) => {
-      toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      if (e instanceof GenericResponseError) {
+        toast.show('Erreur', { message: e.message, type: 'error' })
+      } else {
+        toast.show('Erreur', { message: 'Impossible de mettre à jour votre photo de profil', type: 'error' })
+      }
       return e
     },
   })

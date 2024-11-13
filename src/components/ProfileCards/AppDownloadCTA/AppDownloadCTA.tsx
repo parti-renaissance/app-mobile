@@ -22,7 +22,7 @@ export default function AppDownloadCTA({ variant = 'date' }: AppDownloadCTAProps
         height={isDateVariant ? 120 : 220}
       />
       <ProfileCallToActionLayout.Content>
-        <Text fontWeight={'$7'} textAlign={'center'} mb={isDateVariant ? undefined : '$4'}>
+        <Text fontWeight={'$7'} textAlign={'center'} mb={isDateVariant ? undefined : '$medium'}>
           {isDateVariant
             ? 'Gardez le parti à portée de main avec l’application mobile.'
             : 'Les Questionnaires et le Porte à porte sont pour le moment réservées à notre application mobile.'}

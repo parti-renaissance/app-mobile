@@ -213,6 +213,12 @@ export const RestDonationsResponseSchema = z.array(
   }),
 )
 
+export type RestCancelDonationRequestSchema = z.infer<typeof RestCancelDonationRequestSchema>
+export const RestCancelDonationRequestSchema = z.void()
+
+export type RestCancelDonationResponseSchema = z.infer<typeof RestCancelDonationResponseSchema>
+export const RestCancelDonationResponseSchema = z.any()
+
 export type RestDonationsResponse = z.infer<typeof RestDonationsResponseSchema>
 export const RestDonationsRequestSchema = z.void()
 

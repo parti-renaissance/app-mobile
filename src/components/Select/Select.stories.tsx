@@ -8,7 +8,7 @@ export default {
 
 export function Default() {
   return (
-    <Stack gap="$4" width={400}>
+    <Stack gap="$medium" width={400}>
       <Select
         id={'select-id'}
         label={'This is the label'}

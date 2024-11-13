@@ -60,7 +60,7 @@ const AbstractForm = <T extends z.Schema<any, any>, TF extends FieldValues>(
     <VoxCard {...props.cardProps}>
       <VoxCard.Content>
         {props.children({ control, formState })}
-        <XStack justifyContent="flex-end" gap="$2">
+        <XStack justifyContent="flex-end" gap="$small">
           <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
             Annuler
           </VoxButton>

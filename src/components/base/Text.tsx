@@ -32,6 +32,11 @@ const Text = styled(TamaguiText, {
         fontWeight: 500,
       },
     },
+    bold: {
+      true: {
+        fontWeight: 700,
+      },
+    },
 
     regular: {
       true: {

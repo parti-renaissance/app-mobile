@@ -18,7 +18,7 @@ import { isPast } from 'date-fns'
 import { ScrollView, ScrollViewProps, Sheet, useMedia, XStack } from 'tamagui'
 import { useHandleCopyUrl } from './utils'
 
-const padding = '$5'
+const padding = '$medium'
 
 export function ScrollStack({ children, ...props }: ScrollViewProps) {
   const media = useMedia()
@@ -164,7 +164,7 @@ function _RegisterButtonSheet(props: { id: string }) {
       <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress moveOnKeyboardChange open={open} onOpenChange={handleOpenChange} snapPoints={[80]}>
         <Sheet.Overlay />
         <Sheet.Handle />
-        <Sheet.Frame padding="$4" elevation="$1">
+        <Sheet.Frame padding="$medium" elevation="$1">
           {/* @ts-expect-error ref don't match  */}
           <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{ alignItems: 'center' }}>
             <XStack maxWidth={600} alignItems="center">

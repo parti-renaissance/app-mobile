@@ -65,8 +65,8 @@ export const SideList = (props: ContainerListProps & { children: React.ReactNode
       <YStack elevation={5} width={500} flex={1} backgroundColor={'$gray1'}>
         <ScrollView
           contentContainerStyle={{
-            p: '$4',
-            gap: '$3',
+            p: '$medium',
+            gap: '$medium',
           }}
           flex={1}
         >

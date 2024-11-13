@@ -45,9 +45,9 @@ const DashboardScreen = () => {
 
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$5' : undefined,
-      pl: media.gtSm ? '$5' : undefined,
-      pr: media.gtSm ? '$5' : undefined,
+      pt: media.gtSm ? '$medium' : undefined,
+      pl: media.gtSm ? '$medium' : undefined,
+      pr: media.gtSm ? '$medium' : undefined,
       pb: '$12',
     }),
     [media],
@@ -61,19 +61,21 @@ const DashboardScreen = () => {
           {media.sm && <ProfilMenu />}
           <VoxCard>
             <VoxCard.Content>
-              <Link asChild={!isWeb} href="/profil/cotisation-et-dons" replace={media.gtSm}>
-                <XStack gap={6} alignItems="center">
-                  <HelpingHand size={20} />
-                  <XStack width="100%" flexShrink={1}>
-                    <Text.LG multiline semibold>
-                      Cotisations et don
-                    </Text.LG>
-                  </XStack>
-                  <ArrowRight size={20} alignSelf="flex-end" />
+              <XStack gap={6} alignItems="center">
+                <HelpingHand size={20} />
+                <XStack width="100%" flexShrink={1}>
+                  <Text.LG multiline semibold>
+                    Cotisations et don
+                  </Text.LG>
                 </XStack>
-              </Link>
+              </XStack>
               <MembershipCard last_membership_donation={profile.last_membership_donation} other_party_membership={profile.other_party_membership} />
               <DonationCard />
+              <XStack alignItems="center" justifyContent="center">
+                <Link asChild={!isWeb} href="/profil/cotisations-et-dons" replace={media.gtSm}>
+                  <VoxButton variant="outlined">Mon historique de paiement</VoxButton>
+                </Link>
+              </XStack>
             </VoxCard.Content>
           </VoxCard>
 

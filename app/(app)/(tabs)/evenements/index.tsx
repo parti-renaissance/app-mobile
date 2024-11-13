@@ -48,7 +48,7 @@ const EventsScreen: React.FC = () => {
 
             <BoundarySuspenseWrapper
               fallback={
-                <YStack gap="$4" padding="$5" $sm={{ paddingHorizontal: 0, paddingTop: '$4' }}>
+                <YStack gap="$medium" padding="$medium" $sm={{ paddingHorizontal: 0, paddingTop: '$medium' }}>
                   <SkeCard>
                     <SkeCard.Content>
                       <SkeCard.Chip />

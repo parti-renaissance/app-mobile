@@ -33,7 +33,7 @@ function RegionFilterInput(props: RegionFilterInputProps) {
   }, [filter])
 
   return (
-    <RovingFocusGroup height="100%" flexDirection="column" paddingTop="$4" width="100%">
+    <RovingFocusGroup height="100%" flexDirection="column" paddingTop="$medium" width="100%">
       <Input marginHorizontal="$3" size="$2">
         <Input.Box>
           <Input.Area
@@ -92,7 +92,7 @@ function RegionFilterInput(props: RegionFilterInputProps) {
                   borderBottomWidth={1}
                   flexDirection="row"
                   gap="$3"
-                  paddingHorizontal="$4"
+                  paddingHorizontal="$medium"
                   paddingVertical="$2"
                   cursor="pointer"
                 >
@@ -149,7 +149,7 @@ function RegionSelectBox(props: RegionSelectBoxProps) {
 
       <Adapt when="sm" platform="touch">
         <Popover.Sheet modal dismissOnSnapToBottom>
-          <Popover.Sheet.Frame padding="$4">
+          <Popover.Sheet.Frame padding="$medium">
             <Adapt.Contents />
           </Popover.Sheet.Frame>
           <Popover.Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />

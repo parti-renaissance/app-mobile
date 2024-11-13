@@ -7,8 +7,8 @@ import { Check } from '@tamagui/lucide-icons'
 import { styled, ThemeableStack, XStack, YStack } from 'tamagui'
 
 export const DropdownItemFrame = styled(ThemeableStack, {
-  paddingHorizontal: 20,
-  gap: 16,
+  paddingHorizontal: '$large',
+  gap: '$medium',
   backgroundColor: 'white',
   flexDirection: 'row',
   alignItems: 'center',
