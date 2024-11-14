@@ -24,11 +24,11 @@ export default function ProcurationCTA() {
           color: gray.gray6,
         }}
         content={'Aucune voix ne doit manquer !'}
-        padding={'$3'}
+        padding={'$medium'}
         compact
       />
       <ProfileCallToActionLayout.Actions>
-        <Button variant={'outlined'} marginTop={'$2'} marginLeft={'$2.5'} zIndex={10} onPress={onPress}>
+        <Button variant={'outlined'} marginTop={'$small'} marginLeft={'$small'} zIndex={10} onPress={onPress}>
           <Button.Text>Accéder aux démarches</Button.Text>
         </Button>
       </ProfileCallToActionLayout.Actions>

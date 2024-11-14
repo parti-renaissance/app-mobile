@@ -38,14 +38,14 @@ const VoxCheckbox = ({ label, id: _id, error, ...rest }: VoxCheckboxProps) => {
   const id = uniqueId + _id
 
   return (
-    <YStack gap="$2" theme={error ? 'red' : undefined}>
+    <YStack gap="$small" theme={error ? 'red' : undefined}>
       <XStack gap="$medium" alignItems="center">
         <Checkbox id={id} size="$2" {...rest}>
           <Checkbox.Indicator>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox>
-        <Label htmlFor={id} gap="$1" flex={1} lineHeight="$2" fontSize="$2">
+        <Label htmlFor={id} gap="$xsmall" flex={1} lineHeight="$2" fontSize="$2">
           <Text>{label}</Text>
         </Label>
       </XStack>
@@ -122,7 +122,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
           <FormikController<PublicSubscribtionFormData, 'postal_code'> name="postal_code">
             {({ inputProps }) => <VoxInput placeholder="Code postal" {...inputProps} />}
           </FormikController>
-          <YStack gap="$3">
+          <YStack gap="$medium">
             <FormikController<PublicSubscribtionFormData, 'join_newsletter'> name="join_newsletter">
               {({ inputProps }) => (
                 <VoxCheckbox

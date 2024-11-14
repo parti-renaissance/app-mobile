@@ -22,7 +22,7 @@ const tagsMapping = (tag: RestProfilResponse['tags'][number]) => {
 const Tags = (props: { tags: RestProfilResponse['tags'] }) => {
   const mappedTags = props.tags.map(tagsMapping)
   return (
-    <XStack gap="$2">
+    <XStack gap="$small">
       {mappedTags.map(({ theme, label }) => (
         <XStack>
           <Badge theme={theme} key={label}>

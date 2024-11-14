@@ -17,9 +17,7 @@ const ProfilPage = (props: PageProps) => {
       <Head>
         <title>{metatags.createTitle(config.title)}</title>
       </Head>
-      <PageLayout>
-        <>{props.children}</>
-      </PageLayout>
+      <PageLayout>{props.children}</PageLayout>
     </>
   )
 }

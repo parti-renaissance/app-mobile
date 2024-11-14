@@ -42,7 +42,7 @@ const SkeCardFrame = ({ children, ...props }: SkeCardFrameProps) => {
           </Canvas>
         )}
       </YStack>
-      <YStack gap="$3.5">{children}</YStack>
+      <YStack gap="$medium">{children}</YStack>
     </CardFrame>
   )
 }

@@ -16,7 +16,7 @@ const EditInformations = () => {
       pt: media.gtSm ? '$medium' : undefined,
       pl: media.gtSm ? '$medium' : undefined,
       pr: media.gtSm ? '$medium' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pb: 'xxlarge',
     }),
     [media],
   )

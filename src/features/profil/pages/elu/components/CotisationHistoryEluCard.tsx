@@ -11,7 +11,7 @@ import { XStack, YStack } from 'tamagui'
 const EmptyState = () => {
   return (
     <_EmptyState>
-      <YStack gap="$3">
+      <YStack gap="$medium">
         <Text.MD semibold>Aucun paiement pour le moment</Text.MD>
       </YStack>
     </_EmptyState>
@@ -28,7 +28,7 @@ const CotisationHistoryEluCard = ({ payments: data }: { payments: RestElectedPro
             {data && data.length > 0 ? (
               data.map((payment) => (
                 <Fragment key={payment.uuid}>
-                  <XStack gap="$2" flex={1}>
+                  <XStack gap="$small" flex={1}>
                     <Text.MD semibold>{format(payment.date, 'dd MMM yyyy', { locale: fr })}</Text.MD>
                     <Text.MD secondary>
                       {payment.method.toUpperCase()} • {payment.status_label}

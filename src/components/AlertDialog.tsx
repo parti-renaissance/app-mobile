@@ -46,7 +46,7 @@ export function VoxAlertDialog(props: Readonly<AlertDialogProps>) {
             </Text>
 
             <AlertDialog.Description>{props.description}</AlertDialog.Description>
-            <XStack gap="$3" justifyContent="flex-end">
+            <XStack gap="$medium" justifyContent="flex-end">
               <AlertDialog.Cancel theme="gray" asChild onPress={props.onCancel}>
                 <VoxButton variant="text">Annuler</VoxButton>
               </AlertDialog.Cancel>

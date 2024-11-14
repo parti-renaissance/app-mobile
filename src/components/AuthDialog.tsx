@@ -24,7 +24,7 @@ const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string
           <Text.MD semibold multiline maxWidth={300} textAlign="center" color="$textSecondary">
             {title}
           </Text.MD>
-          <XStack justifyContent="space-between" alignItems="center" gap={16}>
+          <XStack justifyContent="space-between" alignItems="center" gap="$medium">
             <SignInButton />
             <SignUpButton />
           </XStack>

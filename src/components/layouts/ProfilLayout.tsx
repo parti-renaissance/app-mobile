@@ -24,13 +24,13 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
         <BoundarySuspenseWrapper
           fallback={
             <YStack
-              gap={16}
+              gap="$medium"
               $gtSm={{
-                pt: '$8',
-                pl: '$8',
-                pr: '$8',
+                pt: '$large',
+                pl: '$large',
+                pr: '$large',
               }}
-              pb={isWeb ? '$10' : '$12'}
+              pb={'$xxlarge'}
             >
               {[1, 2, 3].map((x) => (
                 <Skeleton key={x} />
@@ -47,13 +47,13 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
     <BoundarySuspenseWrapper
       fallback={
         <YStack
-          gap={16}
+          gap="$medium"
           $gtSm={{
             pt: '$medium',
             pl: '$medium',
             pr: '$medium',
           }}
-          pb={isWeb ? '$10' : '$12'}
+          pb={'$xxlarge'}
         >
           {[1, 2, 3].map((x) => (
             <Skeleton key={x} />

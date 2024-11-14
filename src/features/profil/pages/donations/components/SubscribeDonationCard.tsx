@@ -1,8 +1,9 @@
-import { BadgeFrame } from '@/components/Badge'
+
 import Text from '@/components/base/Text'
-import Button, { VoxButton } from '@/components/Button'
+import  { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
+import { AlertUtils } from '@/screens/shared/AlertUtils'
 import { useCancelDonation } from '@/services/profile/hook'
 import type { RestDonationsResponse } from '@/services/profile/schema'
 import { getHumanFormattedDate } from '@/utils/date'
@@ -14,7 +15,9 @@ export default function (props: { subscription: RestDonationsResponse[number]; f
   const { mutate: cancelDonation, isPending: isCancelPending } = useCancelDonation()
 
   const handleCancel = () => {
-    cancelDonation()
+    AlertUtils.showDestructiveAlert('Confirmation', 'Êtes-vous sûr de vouloir annuler votre don ?', 'Oui', 'Non', () => {
+      cancelDonation()
+    })
   }
 
   return (

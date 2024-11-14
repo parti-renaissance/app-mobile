@@ -103,7 +103,7 @@ export default function (props: { profil: RestElectedProfileResponse }) {
               return <CheckboxGroup options={declarationsValues} onChange={field.onChange} value={field.value} />
             }}
           />
-          <XStack justifyContent="flex-end" gap="$3">
+          <XStack justifyContent="flex-end" gap="$small">
             <VoxButton variant="outlined" disabled={!isDirty} onPress={() => reset()}>
               Annuler
             </VoxButton>

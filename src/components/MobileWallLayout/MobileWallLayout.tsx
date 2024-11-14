@@ -16,13 +16,13 @@ export default function MobileWallLayout() {
   return (
     <PageLayout>
       <PageLayout.SideBarLeft>
-        <YStack gap="$3">
+        <YStack gap="$medium">
           <MyProfileCard />
         </YStack>
       </PageLayout.SideBarLeft>
       <PageLayout.MainSingleColumn>
         {gtMd ? (
-          <YStack p={'$7'}>
+          <YStack p={'$xlarge'}>
             <AppDownloadCTA variant={'screenshots'} />
           </YStack>
         ) : (

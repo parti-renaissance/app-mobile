@@ -35,7 +35,7 @@ export default function AppDownloadCTA({ variant = 'date' }: AppDownloadCTAProps
         )}
       </ProfileCallToActionLayout.Content>
       <ProfileCallToActionLayout.Actions>
-        <View flexDirection={'row'} flex={1} justifyContent={'center'} gap={'$3'}>
+        <View flexDirection={'row'} flex={1} justifyContent={'center'} gap={'$medium'}>
           <TouchableOpacity onPress={redirectToApple}>
             <Image source={require('./Assets/Apple.png')} resizeMode={'contain'} width={130} height={45} />
           </TouchableOpacity>

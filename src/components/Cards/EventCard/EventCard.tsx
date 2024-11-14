@@ -98,7 +98,7 @@ export const SubscribeEventButton = ({ isSubscribed, eventId: id, outside = fals
   )
 
   return (
-    <XStack gap={16}>
+    <XStack gap="$medium">
       {editData.editable ? editButton : null}
       {!editData.isAuthor ? subscribeButton : null}
     </XStack>

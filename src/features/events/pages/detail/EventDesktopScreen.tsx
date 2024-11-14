@@ -117,8 +117,8 @@ const EventDesktopScreen = ({ event, userUuid }: EventItemProps) => {
   return (
     <>
       <ScrollStack>
-        <PageLayout.MainSingleColumn>
-          <XStack alignItems="flex-start" alignSelf="flex-start" pb={16}>
+        <PageLayout.MainSingleColumn pb="$xlarge">
+          <XStack alignItems="flex-start" alignSelf="flex-start" pb="$medium">
             <BackButton />
           </XStack>
           <VoxCard>

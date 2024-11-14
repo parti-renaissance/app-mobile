@@ -15,9 +15,9 @@ type ZoneFilterProps = {
 
 const ZoneFilter = ({ value, onChange }: ZoneFilterProps) => {
   return (
-    <YStack gap="$3">
+    <YStack gap="$medium">
       <Text fontWeight="$5">Zone</Text>
-      <XStack gap="$3" rowGap="$3">
+      <XStack gap="$medium" rowGap="$medium">
         {zoneValues.map((item) => (
           <RadioCard
             height="$2.5"
@@ -27,11 +27,11 @@ const ZoneFilter = ({ value, onChange }: ZoneFilterProps) => {
             flex={1}
             // flexBasis={0}
             alignItems="center"
-            gap="$3"
+            gap="$medium"
             padding={0}
             minWidth="initial"
             active={value === item}
-            paddingHorizontal="$2.5"
+            paddingHorizontal="$small"
             cursor="pointer"
             onPress={() => onChange(item)}
             $gtXs={{

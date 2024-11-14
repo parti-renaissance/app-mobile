@@ -48,7 +48,7 @@ const ToolsScreen: React.FC = () => {
 
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <View gap={'$2'}>
+          <View gap={'$small'}>
             <MyProfileCard />
           </View>
         </PageLayout.SideBarLeft>

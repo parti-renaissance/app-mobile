@@ -47,7 +47,7 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
           </Text.P>
 
           {manualAddress ? (
-            <View gap="$medium">
+            <View gap="$large">
               <Controller
                 name="post_address.address"
                 control={control}
@@ -122,7 +122,7 @@ export const LocationForm = ({ profile }: { profile: RestDetailedProfileResponse
             />
           )}
 
-          <YStack>
+          <YStack gap="$medium">
             {manualAddress ? (
               <VoxButton onPress={onManualAddressToggle} alignSelf="center" variant="outlined">
                 Revenir à la saisie simplifiée.

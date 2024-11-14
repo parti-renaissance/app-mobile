@@ -21,12 +21,12 @@ const InternAlert = (props: InternAlertProps) => {
         <XStack
           {...XStackProps}
           borderRadius="$3"
-          padding="$3"
+          padding="$medium"
           borderWidth={borderLess ? 0 : '$1'}
           borderColor={'$borderColor'}
           backgroundColor={'$background'}
         >
-          <Paragraph size="$4" color="$color" textAlign="center" flex={1}>
+          <Paragraph size="$medium" color="$color" textAlign="center" flex={1}>
             {children}
           </Paragraph>
         </XStack>

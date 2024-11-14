@@ -206,7 +206,7 @@ function ImageCroper(props: { windowSize: { width: number; height: number }; ima
             zIndex: 200,
           }}
         >
-          <XStack gap={16} p={16} justifyContent="center" alignItems="center">
+          <XStack gap="$medium" p={16} justifyContent="center" alignItems="center">
             <VoxButton size="lg" onPress={() => props.onChange()} disabled={isPending}>
               Annuler
             </VoxButton>

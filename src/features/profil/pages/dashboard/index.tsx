@@ -48,7 +48,7 @@ const DashboardScreen = () => {
       pt: media.gtSm ? '$medium' : undefined,
       pl: media.gtSm ? '$medium' : undefined,
       pr: media.gtSm ? '$medium' : undefined,
-      pb: '$12',
+      pb: 'xxlarge',
     }),
     [media],
   )
@@ -56,7 +56,7 @@ const DashboardScreen = () => {
   return (
     <PageLayout.MainSingleColumn position="relative">
       <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-        <YStack gap={16} flex={1} $sm={{ pt: 8 + insets.top, gap: 8 }}>
+        <YStack gap="$medium" flex={1} $sm={{ pt: 8 + insets.top, gap: 8 }}>
           <ProfilBlock />
           {media.sm && <ProfilMenu />}
           <VoxCard>

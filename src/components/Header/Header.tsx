@@ -10,33 +10,12 @@ import type { IconProps } from '@tamagui/helpers-icon'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, router, usePathname, useSegments } from 'expo-router'
 import { capitalize } from 'lodash'
-import {
-  getTokenValue,
-  isWeb,
-  Spinner,
-  Stack,
-  styled,
-  ThemeableStack,
-  useMedia,
-  useStyle,
-  useTheme,
-  View,
-  ViewProps,
-  withStaticProperties,
-  XStack,
-  YStack,
-  YStackProps,
-} from 'tamagui'
+import { isWeb, Spinner, Stack, styled, ThemeableStack, useMedia, useStyle, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 import Text from '../base/Text'
 import { SignInButton, SignUpButton } from '../Buttons/AuthButton'
 import Container from '../layouts/Container'
 import ProfilePicture from '../ProfilePicture'
 import AuthFallbackWrapper from '../Skeleton/AuthFallbackWrapper'
-
-const opacityToHexCode = (hex: string, opacity: number) => {
-  const opacityHex = Math.round(opacity * 255).toString(16)
-  return `${hex}${opacityHex}`
-}
 
 const ButtonNav = styled(ThemeableStack, {
   tag: 'button',
@@ -132,7 +111,7 @@ export const ProfileView = () => {
 }
 const LoginView = () => (
   <View flexDirection="row" gap={'$medium'} justifyContent="space-between" alignItems="center">
-    <Stack gap={'$2'} flexDirection="row">
+    <Stack gap={'$medium'} flexDirection="row">
       <SignInButton />
       <SignUpButton />
     </Stack>
@@ -161,8 +140,8 @@ const Header = (_props: NativeStackHeaderProps & YStackProps) => {
   const BackBtn = () => (
     <Stack justifyContent="center" alignItems="center">
       <TouchableWithoutFeedback onPress={() => (navigation.canGoBack() ? navigation.goBack() : router.navigate('/'))}>
-        <XStack gap={'$3'} alignItems="center" cursor="pointer">
-          <View flexDirection="row" gap={'$3'} alignItems="center">
+        <XStack gap={'$medium'} alignItems="center" cursor="pointer">
+          <View flexDirection="row" gap={'$medium'} alignItems="center">
             <ArrowLeft color="$textPrimary" />
           </View>
           <Text fontSize="$4" fontWeight="$6">

@@ -10,7 +10,7 @@ export default function ActionParticipants({ participant, ...props }: Readonly<{
   const namesContainer = isAuthor ? participant : participant.adherent
   const fullName = `${namesContainer.first_name} ${namesContainer.last_name}`
   return (
-    <YStack justifyContent="center" alignItems="center" gap="$2" {...props} overflow="hidden" width={90}>
+    <YStack justifyContent="center" alignItems="center" gap="$small" {...props} overflow="hidden" width={90}>
       <YStack position="relative" width={'100%'} justifyContent="center" alignItems="center">
         <ProfilePicture
           size="$5"
@@ -31,7 +31,7 @@ export default function ActionParticipants({ participant, ...props }: Readonly<{
               alignContent="center"
               bg="$white1"
               p={2}
-              paddingHorizontal="$2.5"
+              paddingHorizontal="$small"
             >
               <Text fontSize="$1" color="$textPrimary" textAlign="center" fontWeight="$5">
                 Auteur
@@ -40,7 +40,7 @@ export default function ActionParticipants({ participant, ...props }: Readonly<{
           </YStack>
         )}
       </YStack>
-      <YStack justifyContent="center" alignItems="center" gap="$2">
+      <YStack justifyContent="center" alignItems="center" gap="$small">
         <Text numberOfLines={1} color={isAuthor ? '$textPrimary' : '$textSecondary'}>
           {namesContainer.first_name}
         </Text>

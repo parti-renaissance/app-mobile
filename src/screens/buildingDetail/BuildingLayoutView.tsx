@@ -68,10 +68,10 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
             )
           })}
         <View style={[styles.layoutContainer, { marginTop: 0 }]}>
-          <YStack gap="$3.5" backgroundColor="$white1">
+          <YStack gap="$medium" backgroundColor="$white1">
             {viewModel.buildingStatus === 'todo' && !!viewModel.buildings && (
               <>
-                <YStack mt="$1.5" />
+                <YStack mt="$small" />
                 <BuildingLayoutActionType
                   onPress={() => onSelect(viewModel.buildings[0].floors[0].buildingBlock, viewModel.buildings[0].floors[0].floorNumber)}
                   viewModel={{

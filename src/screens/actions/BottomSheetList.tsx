@@ -110,8 +110,8 @@ export const BottomSheetList = ({ postionConfig, onOpenChange, open, ...props }:
     >
       <Sheet.Frame borderTopLeftRadius={pageMode ? 0 : 20} borderTopRightRadius={pageMode ? 0 : 20}>
         <YStack onPress={handleHandlePress}>
-          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
-          <XStack justifyContent="center" p="$3">
+          <Sheet.Handle backgroundColor="$textDisabled" mt="$medium" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
+          <XStack justifyContent="center" p="$medium">
             <Text fontWeight={'$6'} color="$textDisabled" textAlign="center">
               Toutes les actions
             </Text>
@@ -121,10 +121,10 @@ export const BottomSheetList = ({ postionConfig, onOpenChange, open, ...props }:
           scrollEnabled={position === 0}
           flex={1}
           contentContainerStyle={{
-            pt: '$2',
-            pb: '$2',
+            pt: '$small',
+            pb: '$small',
             backgroundColor: '$gray1',
-            gap: '$2',
+            gap: '$small',
           }}
         >
           {/* {data} */}

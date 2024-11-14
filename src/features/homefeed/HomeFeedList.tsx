@@ -72,7 +72,7 @@ const HomeFeedList = () => {
       onEndReachedThreshold={0.5}
       ListFooterComponent={
         hasNextPage ? (
-          <YStack p="$3" pb="$6">
+          <YStack p="$medium" pb="$large">
             <Spinner size="large" />
           </YStack>
         ) : null

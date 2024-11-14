@@ -27,7 +27,7 @@ const AdhButton = (props: { bgColor?: string; children?: string }) => {
 export function LockAuthCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
     <YStack justifyContent="center" gap="$medium">
-      <YStack gap="$3" alignItems="center">
+      <YStack gap="$medium" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
           {!activeSubscription ? 'Créer un compte pour participer à d’autres événements similaires' : ' Créer un compte pour participer à cet événement.'}
@@ -42,7 +42,7 @@ export function LockAuthCard({ activeSubscription }: { activeSubscription?: bool
 export function LockAuthAdhCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
     <YStack justifyContent="center" gap="$medium">
-      <YStack gap="$3" alignItems="center">
+      <YStack gap="$medium" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
           {!activeSubscription ? 'Adhérez pour participer à d’autres événements similaires' : ' Cet événement est réservé aux adhérents.'}
@@ -57,7 +57,7 @@ export function LockAuthAdhCard({ activeSubscription }: { activeSubscription?: b
 export function LockAdhCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
     <YStack justifyContent="center" gap="$medium">
-      <YStack gap="$3" alignItems="center">
+      <YStack gap="$medium" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
           {!activeSubscription ? 'Adhérez pour participer à d’autres événements similaires' : 'Cet événement est réservé aux adhérents.'}
@@ -71,7 +71,7 @@ export function LockAdhCard({ activeSubscription }: { activeSubscription?: boole
 export function LockAdhDueCard({ activeSubscription }: { activeSubscription?: boolean }) {
   return (
     <YStack justifyContent="center" gap="$medium">
-      <YStack gap="$3" alignItems="center">
+      <YStack gap="$medium" alignItems="center">
         <Unlock size="$3" rotate="-15deg" color="$textSecondary" />
         <Text fontWeight="$6" fontSize="$1" color="$textSecondary">
           {!activeSubscription
@@ -88,7 +88,7 @@ export function SubscribePublicCard({ data }: Readonly<{ data: eventTypes.RestEv
   const { signIn } = useSession()
 
   return (
-    <YStack gap="$3" width="100%">
+    <YStack gap="$medium" width="100%">
       <RegisterButtonSheet id={data.uuid} />
       <Button variant="text" size="lg" width="100%" onPress={() => signIn()}>
         <Text fontSize="$1">

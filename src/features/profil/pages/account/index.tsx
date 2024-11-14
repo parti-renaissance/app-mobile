@@ -18,7 +18,7 @@ const EditInformations = () => {
       pt: media.gtSm ? '$medium' : undefined,
       pl: media.gtSm ? '$medium' : undefined,
       pr: media.gtSm ? '$medium' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pb: 'xxlarge',
     }),
     [media],
   )
@@ -27,7 +27,7 @@ const EditInformations = () => {
     <PageLayout.MainSingleColumn position="relative">
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
+          <YStack gap="$medium" flex={1} $sm={{ pt: 8, gap: 8 }}>
             <ForceBirthdateModal />
 
             <InformationsForm profile={profile} />

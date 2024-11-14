@@ -18,7 +18,7 @@ const HomeScreen: React.FC = () => {
       </Head>
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <YStack gap="$3">
+          <YStack gap="$medium">
             <MyProfileCard />
             <ProcurationCTA />
           </YStack>

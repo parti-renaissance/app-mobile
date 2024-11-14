@@ -40,7 +40,7 @@ export default function ChangePasswordScreen() {
       pt: media.gtSm ? '$medium' : undefined,
       pl: media.gtSm ? '$medium' : undefined,
       pr: media.gtSm ? '$medium' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pb: 'xxlarge',
     }),
     [media],
   )
@@ -153,7 +153,7 @@ export default function ChangePasswordScreen() {
                 </YStack>
               </YStack>
 
-              <XStack justifyContent="flex-end" gap="$2">
+              <XStack justifyContent="flex-end" gap="$small">
                 <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
                   Annuler
                 </VoxButton>

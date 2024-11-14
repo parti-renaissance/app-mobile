@@ -148,7 +148,7 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
     >
       <Sheet.Frame borderTopLeftRadius={20} borderTopRightRadius={20} position="relative">
         <YStack onPress={handleHandlePress}>
-          <Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
+          <Sheet.Handle backgroundColor="$textDisabled" mt="$medium" mb="$0" height={3} width={50} alignSelf="center" onPress={handleHandlePress} />
         </YStack>
 
         <Sheet.ScrollView
@@ -157,7 +157,7 @@ export function ActionBottomSheet({ actionQuery, onPositionChange, onOpenChange,
           contentContainerStyle={{
             pt: '$2',
             pb: '$12',
-            gap: '$2',
+            gap: '$small',
           }}
         >
           {payload && action ? (

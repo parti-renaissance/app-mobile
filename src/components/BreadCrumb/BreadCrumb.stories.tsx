@@ -21,7 +21,7 @@ export default {
 
 export function Default() {
   return (
-    <YStack gap={16}>
+    <YStack gap="$medium">
       <BreadCrumb items={items} />
       <BreadCrumb items={items} vertical={true} />
     </YStack>

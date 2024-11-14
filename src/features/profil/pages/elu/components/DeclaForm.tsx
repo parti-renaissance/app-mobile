@@ -89,7 +89,7 @@ export default function (props: Props) {
               )
             }}
           />
-          <XStack justifyContent="flex-end" gap="$2">
+          <XStack justifyContent="flex-end" gap="$small">
             <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
               Annuler
             </VoxButton>

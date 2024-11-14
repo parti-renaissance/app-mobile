@@ -37,7 +37,7 @@ const InstancesScreen = () => {
       pt: media.gtSm ? '$medium' : undefined,
       pl: media.gtSm ? '$medium' : undefined,
       pr: media.gtSm ? '$medium' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pb: 'xxlarge',
     }),
     [media],
   )
@@ -88,7 +88,7 @@ const InstancesScreen = () => {
       <ChangeCommitteeModal currentCommitteeUuid={committee?.uuid ?? null} open={openChange} onClose={() => setOpenChange(false)} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
+          <YStack gap="$medium" flex={1} $sm={{ pt: 8, gap: 8 }}>
             <InstanceCard
               title="Mon assemblée"
               icon={DoubleCircle}
@@ -139,7 +139,7 @@ const InstancesScreen = () => {
               headerLeft={isSympathisant ? <VoxCard.AdhLock /> : null}
               footer={
                 committeeContent.footerText || committeeContent.button ? (
-                  <YStack gap={16}>
+                  <YStack gap="$medium">
                     {committeeContent.footerText}
                     {committeeContent.button}
                   </YStack>

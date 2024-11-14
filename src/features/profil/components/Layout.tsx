@@ -24,9 +24,8 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
         <BoundarySuspenseWrapper
           fallback={
             <YStack
-              gap={16}
+              gap="$medium"
               flex={1}
-              $sm={{ pt: '$small', gap: '$small' }}
               $gtSm={{
                 pt: '$medium',
                 pl: '$medium',

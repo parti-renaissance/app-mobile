@@ -13,7 +13,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import EventFilterForm from '@/features/events/components/EventFilterForm/EventFilterForm'
 import EventFeedList from '@/features/events/pages'
 import Head from 'expo-router/head'
-import { useMedia, XStack, YStack } from 'tamagui'
+import { getToken, useMedia, XStack, YStack } from 'tamagui'
 
 const options = [{ label: 'Tous les événements', value: 'events' } as const, { label: "J'y participe", value: 'myEvents' } as const]
 
@@ -30,18 +30,18 @@ const EventsScreen: React.FC = () => {
 
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <YStack gap="$3">
+          <YStack gap="$medium">
             <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
             <MyProfileCard />
           </YStack>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
-          <YStack flex={1} flexGrow={1} flexBasis={0} gap={16}>
-            <YStack $gtLg={{ display: 'none' }} gap={16} paddingTop={insets.top + 24}>
+          <YStack flex={1} flexGrow={1} flexBasis={0} gap="$medium">
+            <YStack $gtLg={{ display: 'none' }} gap="$medium" paddingTop={insets.top + getToken('$large', 'space')}>
               <XStack pl={24}>
                 {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
               </XStack>
-              <YStack paddingHorizontal={16} height={50}>
+              <YStack paddingHorizontal="$medium" height={50}>
                 <EventFilterForm />
               </YStack>
             </YStack>
@@ -102,8 +102,8 @@ const EventsScreen: React.FC = () => {
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
           <VoxCard.Content>
-            <YStack gap={16} $lg={{ display: 'none' }}>
-              <XStack gap={16}>
+            <YStack gap="$medium" $lg={{ display: 'none' }}>
+              <XStack gap="$medium">
                 {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
               </XStack>
               <YStack>

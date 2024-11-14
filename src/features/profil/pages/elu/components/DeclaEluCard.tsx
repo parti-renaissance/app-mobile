@@ -58,7 +58,7 @@ const EluOkSoumis = (props: { declaration: number; cotisation: number; onPressDe
     <FrameElu badgeTitle="À jour de cotisation" badgeColor="green">
       <VoxCard inside bg="$textSurface">
         <VoxCard.Content>
-          <XStack alignItems="center" gap="$3.5">
+          <XStack alignItems="center" gap="$medium">
             <Coins color="$textPrimary" />
             <Text.MD semibold>
               Montant de cotisation mensuelle calculé {props.cotisation} €.
@@ -106,7 +106,7 @@ const EluNonOk = (props: { declaration: number; cotisation: number; onPressDecla
         <Text.BR />
         Vous avez déclaré une indemnités d’élu de {props.declaration} €.
       </Text.P>
-      <XStack $sm={{ flexDirection: 'column' }} gap={16} justifyContent="space-between">
+      <XStack $sm={{ flexDirection: 'column' }} gap="$medium" justifyContent="space-between">
         <ButtonDeclaration theme="gray" full={media.sm} alignSelf="flex-start" onPress={props.onPressDeclaForm}>
           Modifier ma declaration
         </ButtonDeclaration>
@@ -182,7 +182,7 @@ export default function (props: { declaration?: number; cotisation?: number }) {
                     Par exemple,
                     <Text.BR />
                   </Text.P>
-                  <View pl="$2">
+                  <View pl="$small">
                     <Text.P>
                       - Si vos indemnités brutes sont de 200 euros, vous ne serez pas redevable de cotisation élu ;
                       <Text.BR />
