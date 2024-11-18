@@ -92,7 +92,7 @@ const InstancesScreen = () => {
             <InstanceCard
               title="Mon assemblée"
               icon={DoubleCircle}
-              description="Les Assemblées départementales, des Outr-Mer et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
+              description="Les Assemblées départementales, des Outre-Mers et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
               footer={
                 <Text.P>
                   Cette Assemblée vous a été attribuée en fonction de votre lieu de résidence.{' '}
