@@ -3,7 +3,6 @@ import RadioGroup from '@/components/base/RadioGroup/RadioGroup'
 import Text from '@/components/base/Text'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { Controller } from 'react-hook-form'
-import { YStack } from 'tamagui'
 import * as z from 'zod'
 import AbstractProfilForm from './AbstractProfilForm'
 

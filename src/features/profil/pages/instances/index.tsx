@@ -4,13 +4,12 @@ import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import InfoCard from '@/components/InfoCard/InfoCard'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { createDoubleIcon } from '@/components/utils'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetInstances, useGetTags } from '@/services/profile/hook'
 import { RestInstancesResponse } from '@/services/profile/schema'
 import { UserPlus } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
-import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
+import { ScrollView, useMedia, YStack } from 'tamagui'
 import ChangeCommitteeModal from './components/ChangeCommittee'
 import { DoubleCircle, DoubleDiamond, DoubleTriangle } from './components/icons'
 import InstanceCard from './components/InstanceCard'
@@ -92,7 +91,7 @@ const InstancesScreen = () => {
             <InstanceCard
               title="Mon assemblée"
               icon={DoubleCircle}
-              description="Les Assemblées départementales, des Outre-Mers et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
+              description="Les Assemblées départementales, des Outre-Mer et celle des Français de l’Étranger sont le visage de notre parti à l’échelle locale. Elles sont pilotées par un bureau et leur Président, élus directement par les adhérents."
               footer={
                 <Text.P>
                   Cette Assemblée vous a été attribuée en fonction de votre lieu de résidence.{' '}
@@ -135,7 +134,7 @@ const InstancesScreen = () => {
             <InstanceCard
               title="Mon comité"
               icon={DoubleDiamond}
-              description="Échelon de proximité, les comités locaux sont le lieux privilégié de l’action militant. Ils animent la vie du parti et contribuent à notre implantation territoriale."
+              description="Échelon de proximité, les comités locaux sont le lieu privilégié de l’action militante. Ils animent la vie du parti et contribuent à notre implantation territoriale."
               headerLeft={isSympathisant ? <VoxCard.AdhLock /> : null}
               footer={
                 committeeContent.footerText || committeeContent.button ? (

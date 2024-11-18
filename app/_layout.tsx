@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { AppState, StatusBar, useColorScheme } from 'react-native'
+import { AppState, useColorScheme } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'

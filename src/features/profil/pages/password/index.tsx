@@ -9,7 +9,7 @@ import { ProfilChangePasswordFormError } from '@/services/profile/error'
 import { usetPostChangePassword } from '@/services/profile/hook'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
-import { isWeb, ScrollView, useMedia, XStack, YStack } from 'tamagui'
+import { ScrollView, useMedia, XStack, YStack } from 'tamagui'
 import * as z from 'zod'
 
 const ChangePasswordSchema = z
