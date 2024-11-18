@@ -1,10 +1,9 @@
 import React from 'react'
 import Text from '@/components/base/Text'
-import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetDetailProfil } from '@/services/profile/hook'
 import { XOctagon } from '@tamagui/lucide-icons'
-import { styled, XStack, YStack } from 'tamagui'
+import { XStack, YStack } from 'tamagui'
 import PartyMembershipForm from '../../account/form/PartyMembershipFrom'
 import type { CommonMembershipCardProps } from './types'
 

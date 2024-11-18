@@ -1,6 +1,6 @@
 import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
-import { isWeb, useMedia, XStack, YStack } from 'tamagui'
+import { useMedia, YStack } from 'tamagui'
 import SkeCard from '../Skeleton/CardSkeleton'
 import PageLayout from './PageLayout/PageLayout'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
-import { isWeb, useMedia, YStack } from 'tamagui'
+import { useMedia, YStack } from 'tamagui'
 
 const Skeleton = () => (
   <SkeCard>

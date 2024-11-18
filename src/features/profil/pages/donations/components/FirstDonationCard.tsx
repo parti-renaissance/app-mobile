@@ -3,7 +3,7 @@ import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { Image } from 'expo-image'
-import { styled, useMedia, XStack, YStack } from 'tamagui'
+import { styled, XStack, YStack } from 'tamagui'
 
 const HeaderFrame = styled(XStack, {
   padding: '$medium',
