@@ -27,7 +27,7 @@ const ProfilMenu = () => {
   const { signOut } = useSession()
   const { user: credentials } = useUserStore()
   return (
-    <YStack gap="$medium" key="profil-menu">>
+    <YStack gap="$medium" key="profil-menu">
       <Menu>
         {itemsData.map((item, index) => (
           <Link asChild={!isWeb} href={item.pathname} key={index} replace={media.gtSm}>

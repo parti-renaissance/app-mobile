@@ -24,10 +24,10 @@ export default function (props: { full?: boolean }) {
             </Text.MD>
           </YStack>
           <XStack gap="$small" flexWrap="wrap">
-            <VoxButton theme="green" onPress={handlePress('monthly')} disabled={isPending}>
+            <VoxButton theme="green" size="lg" onPress={handlePress('monthly')} disabled={isPending}>
               Je finance le parti
             </VoxButton>
-            <VoxButton theme="green" variant="outlined" onPress={handlePress('dayly')} disabled={isPending}>
+            <VoxButton theme="green" size="lg" variant="outlined" onPress={handlePress('dayly')} disabled={isPending}>
               Je donne
             </VoxButton>
           </XStack>

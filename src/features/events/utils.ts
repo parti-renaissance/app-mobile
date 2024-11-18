@@ -73,15 +73,15 @@ export const isEventUserAuthor = (event: Partial<RestItemEvent>, userUuid?: stri
 
 export const isEventToggleRegisterHided = (event: Partial<RestItemEvent>, userUuid?: string) => [isEventUserAuthor(event, userUuid)].some(Boolean)
 
-export const getEventItemImageFallback = (event: Partial<RestItemEvent>, userUuid?: string) => {
-  if (isEventPrivate(event) && !event.image_url && !userUuid) {
+export const getEventItemImageFallback = (event: Partial<RestItemEvent>) => {
+  if (isEventPartial(event)) {
     return require('@/features/events/assets/images/event-fallback-private-lock.png')
   }
   return event.image_url
 }
 
-export const getEventDetailImageFallback = (event: Partial<RestItemEvent>, userUuid?: string) => {
-  if (isEventPrivate(event) && !event.image_url && !userUuid) {
+export const getEventDetailImageFallback = (event: Partial<RestItemEvent>) => {
+  if (isEventPartial(event)) {
     return require('@/features/events/assets/images/event-fallback-private-lock.png')
   }
   return event.image_url ?? require('@/features/events/assets/images/event-fallback.png')

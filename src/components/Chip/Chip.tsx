@@ -1,6 +1,6 @@
 import { ComponentProps, ExoticComponent, NamedExoticComponent } from 'react'
 import { IconProps } from '@tamagui/helpers-icon'
-import { styled, View, XStack } from 'tamagui'
+import { styled, XStack } from 'tamagui'
 import Text from '../base/Text'
 
 const ChipFrame = styled(XStack, {
@@ -13,7 +13,7 @@ const ChipFrame = styled(XStack, {
     outlined: {
       true: {
         backgroundColor: 'transparent',
-        borderWidth: '1',
+        borderWidth: 1.2,
         borderColor: '$color5',
       },
     },

@@ -1,7 +1,6 @@
 import React from 'react'
-import Text from '@/components/base/Text'
-import { XStack, YStack, YStackProps } from 'tamagui'
-import { SignInButton, SignUpButton } from './Buttons/AuthButton'
+import { YStack, YStackProps } from 'tamagui'
+import AuthComponent from './AuthComponent'
 import VoxCard from './VoxCard/VoxCard'
 
 const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string }) => {
@@ -20,14 +19,8 @@ const DialogAuth = ({ children, title, ...props }: YStackProps & { title: string
         }}
       />
       <YStack position="absolute" top={0} left={0} width="100%" height="100%" justifyContent="center" alignItems="center">
-        <YStack bg="$white1" p={24} borderRadius={16} gap={24} maxWidth={300} borderColor="$textOutline" borderWidth={4}>
-          <Text.MD semibold multiline maxWidth={300} textAlign="center" color="$textSecondary">
-            {title}
-          </Text.MD>
-          <XStack justifyContent="space-between" alignItems="center" gap="$medium">
-            <SignInButton />
-            <SignUpButton />
-          </XStack>
+        <YStack bg="$white1" p={24} borderRadius={16} gap={24} maxWidth={300} borderColor="$textOutline" borderWidth={4} {...props}>
+          <AuthComponent>{title}</AuthComponent>
         </YStack>
       </YStack>
     </VoxCard>

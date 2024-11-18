@@ -18,7 +18,7 @@ export const ButtonFrameStyled = styled(View, {
   justifyContent: 'center',
   alignSelf: 'flex-start',
   gap: 6,
-  paddingHorizontal: 12,
+  paddingHorizontal: '$medium',
   borderRadius: '$12',
   cursor: 'pointer',
   borderWidth: 1.2,
@@ -185,7 +185,7 @@ export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>(({ children:
   const children = shrink ? undefined : child
 
   return (
-    <Button {...props} ref={ref} theme={props.theme ?? 'gray'} group>
+    <Button {...props} shrink={shrink} ref={ref} theme={props.theme ?? 'gray'} group>
       {IconLeft ? (
         <IconLeft
           size={16}
