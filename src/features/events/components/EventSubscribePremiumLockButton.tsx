@@ -22,7 +22,14 @@ export const EventSubscribePremiumLockButton = ({ uuid, isPremium, isDue, varian
   return buttonProps.disabled ? (
     button
   ) : (
-    <Link href="/profil/cotisations-et-dons" asChild={!isWeb} disabled={buttonProps.disabled}>
+    <Link
+      href="/profil/cotisations-et-dons"
+      asChild={!isWeb}
+      disabled={buttonProps.disabled}
+      style={{
+        width: buttonProps.full ? '100%' : undefined,
+      }}
+    >
       {button}
     </Link>
   )
