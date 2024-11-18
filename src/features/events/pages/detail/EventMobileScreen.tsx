@@ -1,10 +1,11 @@
-import { Children, isValidElement } from 'react'
-import { Dimensions, StatusBar } from 'react-native'
+import { Children, isValidElement, useCallback, useMemo } from 'react'
+import { StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { CategoryChip } from '@/features/events/components/CategoryChip'
+import { EventAuthComponent } from '@/features/events/components/EventAuthComponent'
 import { EventItemHandleButton } from '@/features/events/components/EventItemHandleButton'
 import { EventItemHeader } from '@/features/events/components/EventItemHeader'
 import { EventLocation } from '@/features/events/components/EventLocation'
@@ -14,8 +15,8 @@ import { EventToggleSubscribeButton } from '@/features/events/components/EventTo
 import { StatusChip } from '@/features/events/components/StatusChip'
 import { EventItemProps } from '@/features/events/types'
 import { RestItemEvent } from '@/services/events/schema'
-import { XStack, YStack } from 'tamagui'
-import { getEventDetailImageFallback, isEventFull } from '../../utils'
+import { XStack, YStack, YStackProps } from 'tamagui'
+import { getEventDetailImageFallback, isEventFull, isEventPartial } from '../../utils'
 import { ScrollStack } from './EventComponents'
 
 const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>>) => {
@@ -28,6 +29,7 @@ const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 
 const BottomCTA = (props: EventItemProps) => {
   const insets = useSafeAreaInsets()
   const buttonProps = { variant: 'contained', full: true, flex: 1, width: '100%', size: 'xl', shrink: false } as const
+  const needAuth = isEventPartial(props.event) && !props.userUuid
   const elements = Children.map(
     [
       <EventToggleSubscribeButton {...props} buttonProps={buttonProps} />,
@@ -37,24 +39,43 @@ const BottomCTA = (props: EventItemProps) => {
     (child) => isValidElement(child) && child?.type(child.props),
   ).filter(Boolean)
 
-  if (elements.length > 0) {
-    return (
+  const AbsoluteWrapper = useCallback(
+    (props: YStackProps) => (
       <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p={16} pb={16 + insets.bottom}>
         <XStack gap={8} width="100%">
-          {elements.map((x) => (
-            <YStack key={x.key} flex={1}>
-              {x}
-            </YStack>
-          ))}
+          {props.children}
         </XStack>
       </YStack>
+    ),
+    [insets.bottom],
+  )
+
+  if (needAuth) {
+    return (
+      <AbsoluteWrapper>
+        <YStack flex={1} justifyContent="center" alignItems="center">
+          <EventAuthComponent />
+        </YStack>
+      </AbsoluteWrapper>
+    )
+  }
+
+  if (elements.length > 0) {
+    return (
+      <AbsoluteWrapper>
+        {elements.map((x) => (
+          <YStack key={x.key} flex={1}>
+            {x}
+          </YStack>
+        ))}
+      </AbsoluteWrapper>
     )
   }
   return null
 }
 
 const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
-  const fallbackImage = getEventDetailImageFallback(event, userUuid)
+  const fallbackImage = getEventDetailImageFallback(event)
   const isFull = isEventFull(event)
   const insets = useSafeAreaInsets()
   return (

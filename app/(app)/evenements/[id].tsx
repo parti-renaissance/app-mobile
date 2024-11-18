@@ -9,7 +9,7 @@ import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import * as metatags from '@/config/metatags'
 import EventDetailsScreen, { EventDetailsScreenSkeleton } from '@/features/events/pages/detail/EventDetailsScreen'
 import { useGetEvent } from '@/services/events/hook'
-import { Stack as RouterStack, useLocalSearchParams, useNavigation } from 'expo-router'
+import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
 import { YStack } from 'tamagui'
 

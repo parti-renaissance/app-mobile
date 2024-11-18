@@ -19,7 +19,6 @@ const options = [{ label: 'Tous les événements', value: 'events' } as const, {
 
 const EventsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'events' | 'myEvents'>('events')
-  const media = useMedia()
   const insets = useSafeAreaInsets()
   const { isAuth } = useSession()
   return (
@@ -37,8 +36,8 @@ const EventsScreen: React.FC = () => {
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <YStack flex={1} flexGrow={1} flexBasis={0} gap="$medium">
-            <YStack $gtLg={{ display: 'none' }} gap="$medium" paddingTop={insets.top + getToken('$large', 'space')}>
-              <XStack pl={24}>
+            <YStack $gtLg={{ display: 'none' }} gap="$medium" paddingTop={isAuth ? insets.top + getToken('$large', 'space') : '$medium'}>
+              <XStack pl={24} display={isAuth ? 'flex' : 'none'}>
                 {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
               </XStack>
               <YStack paddingHorizontal="$medium" height={50}>

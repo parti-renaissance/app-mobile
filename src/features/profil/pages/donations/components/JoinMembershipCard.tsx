@@ -35,6 +35,7 @@ export default function (props: CommonMembershipCardProps) {
           </YStack>
           <VoxButton
             theme="yellow"
+            size="lg"
             disabled={isPending}
             onPress={() => {
               if (adhesionLink) {

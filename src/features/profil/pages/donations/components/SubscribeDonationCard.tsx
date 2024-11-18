@@ -1,6 +1,5 @@
-
 import Text from '@/components/base/Text'
-import  { VoxButton } from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { AlertUtils } from '@/screens/shared/AlertUtils'
@@ -49,10 +48,10 @@ export default function (props: { subscription: RestDonationsResponse[number]; f
                 </VoxCard.Content>
               </VoxCard>
               <XStack gap="$small">
-                <VoxButton theme="green" onPress={handlePress('dayly')} disabled={isPending}>
+                <VoxButton size="lg" theme="green" onPress={handlePress('dayly')} disabled={isPending}>
                   Faire un don
                 </VoxButton>
-                <VoxButton theme="green" variant="text" bg="white" onPress={handleCancel} disabled={isCancelPending} loading={isCancelPending}>
+                <VoxButton size="lg" theme="green" variant="text" bg="white" onPress={handleCancel} disabled={isCancelPending} loading={isCancelPending}>
                   Annuler
                 </VoxButton>
               </XStack>

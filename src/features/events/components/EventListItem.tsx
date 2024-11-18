@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-import AuthDialog from '@/components/AuthDialog'
 import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestItemEvent } from '@/services/events/schema'
@@ -9,6 +7,7 @@ import { isWeb } from 'tamagui'
 import { EventItemProps } from '../types'
 import { getEventItemImageFallback, isEventPrivate } from '../utils'
 import { CategoryChip } from './CategoryChip'
+import { EventAuthDialog } from './EventAuthComponent'
 import { EventItemActions } from './EventItemActions'
 import { EventItemHandleButton } from './EventItemHandleButton'
 import { EventItemHeader } from './EventItemHeader'
@@ -35,7 +34,7 @@ const GoToButton = ({ eventUuid }: { eventUuid: string }) => {
 }
 
 const _EventListItem = ({ event, userUuid }: EventItemProps) => {
-  const fallbackImage = getEventItemImageFallback(event, userUuid)
+  const fallbackImage = getEventItemImageFallback(event)
   return (
     <VoxCard>
       <VoxCard.Content>
@@ -70,9 +69,9 @@ const _EventListItem = ({ event, userUuid }: EventItemProps) => {
 const EventListItem = ({ event, userUuid }: EventItemProps) => {
   if (!userUuid && isEventPrivate(event)) {
     return (
-      <AuthDialog title={`Cet événement est réservé aux militants. Rejoignez-nous pour y participer.`} testID="event-item-sign-in-dialog">
+      <EventAuthDialog testID="event-item-sign-in-dialog">
         <_EventListItem event={event} />
-      </AuthDialog>
+      </EventAuthDialog>
     )
   }
   return <_EventListItem event={event} userUuid={userUuid} />
