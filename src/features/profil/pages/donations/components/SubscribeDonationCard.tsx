@@ -1,8 +1,10 @@
-import { BadgeFrame } from '@/components/Badge'
+
 import Text from '@/components/base/Text'
-import Button, { VoxButton } from '@/components/Button'
+import  { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
+import { AlertUtils } from '@/screens/shared/AlertUtils'
+import { useCancelDonation } from '@/services/profile/hook'
 import type { RestDonationsResponse } from '@/services/profile/schema'
 import { getHumanFormattedDate } from '@/utils/date'
 import { Crown } from '@tamagui/lucide-icons'
@@ -10,44 +12,50 @@ import { XStack, YStack } from 'tamagui'
 
 export default function (props: { subscription: RestDonationsResponse[number]; full?: boolean }) {
   const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'donation' })
+  const { mutate: cancelDonation, isPending: isCancelPending } = useCancelDonation()
+
+  const handleCancel = () => {
+    AlertUtils.showDestructiveAlert('Confirmation', 'Êtes-vous sûr de vouloir annuler votre don ?', 'Oui', 'Non', () => {
+      cancelDonation()
+    })
+  }
 
   return (
-    <VoxCard bg="$green1" inside={!props.full}>
+    <VoxCard bg="$green1" inside>
       <VoxCard.Content>
-        <XStack gap="$4">
-          <YStack flex={1} gap="$3">
-            <XStack>
-              <BadgeFrame theme="green">
-                <XStack gap="$1.5" alignItems="center">
-                  <Crown color="$color" size={10} />
-                  <Text.SM semibold color="$color">
-                    Financeur
-                  </Text.SM>
-                </XStack>
-              </BadgeFrame>
-            </XStack>
-            <YStack gap="$3" flex={1}>
-              <XStack alignItems="center" flex={1}>
-                <YStack gap="$2" flex={2}>
-                  <Text.MD semibold>Vous êtes financeur depuis le {getHumanFormattedDate(props.subscription.date)}</Text.MD>
-                  <Text.MD secondary>Un don est programmé mensuellement.</Text.MD>
-                </YStack>
-              </XStack>
-              <XStack gap="$3">
-                <VoxButton theme="green" variant="soft" onPress={handlePress('monthly')} disabled={isPending}>
-                  Modifier
-                </VoxButton>
+        <XStack gap="$medium">
+          <YStack flex={1} gap="$medium">
+            <VoxCard.Chip outlined theme="green" icon={Crown}>
+              Financeur
+            </VoxCard.Chip>
+            <YStack gap="$medium" flex={1}>
+              <VoxCard inside>
+                <VoxCard.Content>
+                  <XStack alignItems="center" flex={1}>
+                    <YStack gap="$small" flex={2}>
+                      {props.subscription?.date ? (
+                        <Text.SM semibold color="$green6">
+                          Vous êtes financeur depuis le {getHumanFormattedDate(props.subscription?.date)}
+                        </Text.SM>
+                      ) : null}
+                      <Text.MD secondary color="$green6">
+                        Un don de <Text.LG color="$green6">{props.subscription?.amount ?? 'Oups'} €</Text.LG> est programmé mensuellement.
+                      </Text.MD>
+                    </YStack>
+                    <YStack justifyContent="center">
+                      <Crown size="$5" color="$green6" strokeWidth={1} />
+                    </YStack>
+                  </XStack>
+                </VoxCard.Content>
+              </VoxCard>
+              <XStack gap="$small">
                 <VoxButton theme="green" onPress={handlePress('dayly')} disabled={isPending}>
                   Faire un don
                 </VoxButton>
+                <VoxButton theme="green" variant="text" bg="white" onPress={handleCancel} disabled={isCancelPending} loading={isCancelPending}>
+                  Annuler
+                </VoxButton>
               </XStack>
-            </YStack>
-          </YStack>
-          <YStack justifyContent="center" alignItems="flex-end">
-            <YStack justifyContent="center" alignItems="center" borderWidth="$1" borderRadius="$5" borderColor="$green3" height="$9" width="$9">
-              <Text.LG primary={false} fontSize="$6" fontWeight="$8" theme="green">
-                {props.subscription.amount} €
-              </Text.LG>
             </YStack>
           </YStack>
         </XStack>

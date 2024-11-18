@@ -46,7 +46,7 @@ const ForceBirthdateModal = () => {
               {message}
             </MessageCard>
 
-            <YStack gap="$4">
+            <YStack gap="$large">
               {!profile.birthdate ? (
                 <Controller
                   name="birthdate"

@@ -19,7 +19,7 @@ const HomeScreen: React.FC = () => {
   return (
     <PageLayout>
       <PageLayout.SideBarLeft showOn="gtLg">
-        <YStack gap="$3">
+        <YStack gap="$medium">
           <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
           <ProcurationCTA />
           <AuthFallbackWrapper>

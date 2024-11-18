@@ -76,7 +76,7 @@ const TextField = ({ label, error, onChange, isDate = false, fake = false, ...in
       <View gap={6}>
         {fake ? (
           <FakeTextFieldComponent onPress={inputProps.onPress}>
-            <Text color="$gray6" py="$3.5">
+            <Text color="$gray6" py="$medium">
               {inputProps.value}
             </Text>
           </FakeTextFieldComponent>

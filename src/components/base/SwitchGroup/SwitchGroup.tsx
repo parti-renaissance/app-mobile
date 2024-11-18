@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Switch from '@/components/base/SwitchV2/SwitchV2'
 import Text from '@/components/base/Text'
 import { styled } from '@tamagui/core'
@@ -14,7 +13,7 @@ type SwitchGroupProps = {
 }
 
 const SwitchGroupFrame = styled(ThemeableStack, {
-  gap: '$3',
+  gap: '$medium',
   flexDirection: 'column',
 })
 
@@ -31,7 +30,7 @@ export default function SwitchGroup({ options, value, onChange }: SwitchGroupPro
   return (
     <SwitchGroupFrame>
       {options.map((option) => (
-        <XStack key={option.value} gap="$2" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer" justifyContent="space-between">
+        <XStack key={option.value} gap="$xsmall" group onPress={handlePress(option.value)} alignItems="center" cursor="pointer" justifyContent="space-between">
           <Text.MD multiline flexShrink={1}>
             {option.label}
           </Text.MD>

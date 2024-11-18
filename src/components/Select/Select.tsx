@@ -108,7 +108,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
         </Adapt>
 
         <SelectTamagui.Content zIndex={200}>
-          <SelectTamagui.ScrollUpButton ai="center" jc="center" pos="relative" w="100%" h="$3">
+          <SelectTamagui.ScrollUpButton ai="center" jc="center" pos="relative" w="100%" h="$medium">
             <YStack zi={10}>
               <ChevronUp size={20} />
             </YStack>
@@ -146,7 +146,7 @@ const Select = ({ id, value, onChange, placeholder, label, options, canSearch = 
             </SelectTamagui.Group>
           </SelectTamagui.Viewport>
 
-          <SelectTamagui.ScrollDownButton ai="center" jc="center" pos="relative" w="100%" h="$3">
+          <SelectTamagui.ScrollDownButton ai="center" jc="center" pos="relative" w="100%" h="$medium">
             <YStack zi={10}>
               <ChevronDown size={20} />
             </YStack>

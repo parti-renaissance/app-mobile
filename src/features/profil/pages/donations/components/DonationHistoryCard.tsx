@@ -25,9 +25,9 @@ const EmptyState = () => {
 
   return (
     <_EmptyState>
-      <YStack gap="$3">
+      <YStack gap="$medium">
         <Text.MD semibold>Aucun paiement pour le moment</Text.MD>
-        <XStack gap="$2" justifyContent="space-between">
+        <XStack gap="$small" justifyContent="space-between">
           <VoxButton variant="text" theme="yellow" loading={subscriptionLink.isPending} onPress={subscriptionLink.open}>
             Adhérer
           </VoxButton>
@@ -63,7 +63,7 @@ const DonationHistoryCard = () => {
             {data && data.length > 0 ? (
               data.map((donation, i) => (
                 <Fragment key={donation.uuid}>
-                  <XStack gap="$2" flex={1}>
+                  <XStack gap="$small" flex={1}>
                     <Text.MD semibold>{format(donation.date, 'dd MMM yyyy', { locale: fr })}</Text.MD>
                     <Text.MD secondary>
                       {getType(donation)} • {donation.type.toUpperCase()}

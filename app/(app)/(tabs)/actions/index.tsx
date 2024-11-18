@@ -274,7 +274,7 @@ function Page() {
             onTypeChange={setType}
             zIndex={10000}
           />
-          <YStack pl="$3">
+          <YStack pl="$medium">
             <ActionCreateButton width={200} onPress={() => setModalOpen(true)} />
           </YStack>
         </YStack>

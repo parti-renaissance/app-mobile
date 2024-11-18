@@ -32,8 +32,7 @@ const exectParams = (x: string, canShowHeader: boolean) => {
       }
     case 'profil':
       return {
-        header: () => <PageHeader {...pageConfigs.index} backArrow={false} />,
-        headerShown: canShowHeader,
+        headerShown: false,
       }
     case 'ressources':
       return {

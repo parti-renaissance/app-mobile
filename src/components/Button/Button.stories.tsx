@@ -10,7 +10,7 @@ export default {
 
 export function Size() {
   return (
-    <Stack gap="$4">
+    <Stack gap="$medium">
       <Button size="sm">Button Small</Button>
       <Button size="md">Button Medium</Button>
       <Button size="lg">Button Large</Button>
@@ -25,12 +25,12 @@ export function Default() {
 
   return (
     <ScrollView flex={1} alignContent="center" justifyContent="center">
-      <Stack gap="$4">
+      <Stack gap="$medium">
         {variants.map((v) => (
           <Fragment key={v}>
             <Text> {v}</Text>
-            <YStack gap="$2">
-              <XStack gap="$4">
+            <YStack gap="$small">
+              <XStack gap="$medium">
                 {colors.map((c) => (
                   <Button key={c} theme={c} variant={v}>
                     Label
@@ -38,33 +38,33 @@ export function Default() {
                 ))}
               </XStack>
 
-              <XStack gap="$4">
+              <XStack gap="$medium">
                 {colors.map((c) => (
                   <Button key={c} disabled theme={c} variant={v}>
                     Label
                   </Button>
                 ))}
               </XStack>
-              <XStack gap="$4">
+              <XStack gap="$medium">
                 {colors.map((c) => (
                   <Button key={c} theme={c} iconLeft={Calendar} variant={v}>
                     Label
                   </Button>
                 ))}
               </XStack>
-              <XStack gap="$4">
+              <XStack gap="$medium">
                 {colors.map((c) => (
                   <Button key={c} theme={c} iconLeft={Calendar} variant={v} />
                 ))}
               </XStack>
-              <XStack gap="$4">
+              <XStack gap="$medium">
                 {colors.map((c) => (
                   <Button key={c} theme={c} loading variant={v}>
                     Label
                   </Button>
                 ))}
               </XStack>
-              <XStack gap="$4">
+              <XStack gap="$medium">
                 {colors.map((c) => (
                   <Button key={c} theme={c} iconLeft={Calendar} loading variant={v}>
                     Label

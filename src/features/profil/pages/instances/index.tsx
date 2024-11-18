@@ -34,10 +34,10 @@ const InstancesScreen = () => {
 
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$5' : undefined,
-      pl: media.gtSm ? '$5' : undefined,
-      pr: media.gtSm ? '$5' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pt: media.gtSm ? '$medium' : undefined,
+      pl: media.gtSm ? '$medium' : undefined,
+      pr: media.gtSm ? '$medium' : undefined,
+      pb: 'xxlarge',
     }),
     [media],
   )
@@ -88,11 +88,11 @@ const InstancesScreen = () => {
       <ChangeCommitteeModal currentCommitteeUuid={committee?.uuid ?? null} open={openChange} onClose={() => setOpenChange(false)} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
+          <YStack gap="$medium" flex={1} $sm={{ pt: 8, gap: 8 }}>
             <InstanceCard
               title="Mon assemblée"
               icon={DoubleCircle}
-              description="Les Assemblées départementales, des Outr-Mer et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
+              description="Les Assemblées départementales, des Outre-Mers et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
               footer={
                 <Text.P>
                   Cette Assemblée vous a été attribuée en fonction de votre lieu de résidence.{' '}
@@ -139,7 +139,7 @@ const InstancesScreen = () => {
               headerLeft={isSympathisant ? <VoxCard.AdhLock /> : null}
               footer={
                 committeeContent.footerText || committeeContent.button ? (
-                  <YStack gap={16}>
+                  <YStack gap="$medium">
                     {committeeContent.footerText}
                     {committeeContent.button}
                   </YStack>

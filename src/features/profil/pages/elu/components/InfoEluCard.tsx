@@ -22,7 +22,7 @@ const tagsMapping = (tag: RestProfilResponse['tags'][number]) => {
 const Tags = (props: { tags: RestProfilResponse['tags'] }) => {
   const mappedTags = props.tags.map(tagsMapping)
   return (
-    <XStack gap="$2">
+    <XStack gap="$small">
       {mappedTags.map(({ theme, label }) => (
         <XStack>
           <Badge theme={theme} key={label}>
@@ -38,7 +38,7 @@ const NotElu = () => <Text.P>Vous n’avez pas de mandat rattaché à votre prof
 const Elu = (props: { mandates: RestElectedProfileResponse['elect_mandates']; tags: RestProfilResponse['tags'] }) => {
   const activeMandates = props.mandates.filter((x) => !x.finish_at || isAfter(new Date(x.finish_at), new Date()))
   return (
-    <YStack gap="$4">
+    <YStack gap="$medium">
       <Tags tags={props.tags} />
       <Text.MD>Mandats rattachés au compte </Text.MD>
       <Text.P>Le bureau de l’Assemblée départementale vous a rattaché {activeMandates.length} mandats.</Text.P>

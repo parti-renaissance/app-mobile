@@ -58,7 +58,7 @@ const SmallHeaderList = (props: { listRef: React.RefObject<SectionList<{ title: 
   }
 
   return (
-    <YStack p="$3" opacity={open ? 0 : 1} overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
+    <YStack p="$medium" opacity={open ? 0 : 1} overflow="hidden" animation="100ms" animateOnly={['opacity', 'height']}>
       <FilterController name="search">
         {(p) => (
           <SearchBox
@@ -118,17 +118,17 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
       stickySectionHeadersEnabled={false}
       contentContainerStyle={{
         flexGrow: 1,
-        gap: getToken('$4', 'space'),
+        gap: getToken('$medium', 'space'),
         paddingTop: 0,
-        paddingLeft: media.gtSm ? getToken('$5', 'space') : undefined,
-        paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
-        paddingBottom: getToken('$10', 'space'),
+        paddingLeft: media.gtSm ? getToken('$medium', 'space') : undefined,
+        paddingRight: media.gtSm ? getToken('$medium', 'space') : undefined,
+        paddingBottom: getToken('$xxlarge', 'space'),
       }}
       sections={feedData}
       renderItem={({ item }) => <EventListItem event={item} userUuid={user.data?.uuid} />}
       renderSectionHeader={({ section }) => {
         return (
-          <XStack gap="$2" $md={{ paddingLeft: '$4' }} $gtLg={{ paddingTop: section.index === 0 ? '$6' : 0 }}>
+          <XStack gap="$small" $md={{ paddingLeft: '$medium' }} $gtLg={{ paddingTop: section.index === 0 ? '$xlarge' : 0 }}>
             <Text.MD color={section.data.length === 0 ? '$textDisabled' : '$gray4'} semibold>
               {`${section.title} ${section.index === 0 ? `(${section.data.length})` : ''}`.toUpperCase()}
             </Text.MD>
@@ -149,7 +149,7 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
       onEndReachedThreshold={0.5}
       ListFooterComponent={
         hasNextPage ? (
-          <YStack p="$3" pb="$6">
+          <YStack p="$medium" pb="$large">
             <Spinner size="large" />
           </YStack>
         ) : null

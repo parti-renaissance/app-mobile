@@ -55,7 +55,7 @@ export default function CommitteeCard({ committee, selected, onPress, loading }:
   return (
     <CommitteeCardFrame inside selected={selected} onPress={selected ? undefined : onPress} focusable>
       <VoxCard.Content>
-        <XStack justifyContent="space-between" alignItems="center" gap={16}>
+        <XStack justifyContent="space-between" alignItems="center" gap="$medium">
           <YStack flexShrink={1} gap={8}>
             <Text.MD semibold color="$blue6">
               {committee.name}

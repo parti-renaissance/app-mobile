@@ -49,9 +49,9 @@ const BottomSheetFilter = () => {
     >
       <Sheet.Overlay />
       <Sheet.Frame overflow="hidden" bg="$white1" position="relative" flex={1}>
-        <Sheet.Handle backgroundColor="$gray9" mt="$3" height={5} />
+        <Sheet.Handle backgroundColor="$gray9" mt="$medium" height={5} />
         <VoxCard bg="$colorTransparent">
-          <VoxCard.Content pt="$1">
+          <VoxCard.Content pt="$xsmall">
             <EventFilterForm />
           </VoxCard.Content>
         </VoxCard>

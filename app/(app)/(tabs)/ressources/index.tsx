@@ -22,7 +22,7 @@ const RessourceCardSkeleton = () => {
 
 const DoubleRessourceCardSkeleton = () => {
   return (
-    <YStack gap="$4" $gtSm={{ flexDirection: 'row' }}>
+    <YStack gap="$medium" $gtSm={{ flexDirection: 'row' }}>
       <RessourceCardSkeleton />
       <RessourceCardSkeleton />
     </YStack>
@@ -31,7 +31,7 @@ const DoubleRessourceCardSkeleton = () => {
 
 const ToolsSkeleton = () => {
   return (
-    <YStack gap="$4" padding="$5" $sm={{ paddingTop: '$4' }}>
+    <YStack gap="$medium" padding="$medium" $sm={{ paddingTop: '$medium' }}>
       <DoubleRessourceCardSkeleton />
       <DoubleRessourceCardSkeleton />
       <DoubleRessourceCardSkeleton />
@@ -48,7 +48,7 @@ const ToolsScreen: React.FC = () => {
 
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <View gap={'$2'}>
+          <View gap={'$small'}>
             <MyProfileCard />
           </View>
         </PageLayout.SideBarLeft>

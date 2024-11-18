@@ -68,10 +68,10 @@ const BuildingLayoutView: FunctionComponent<Props> = ({
             )
           })}
         <View style={[styles.layoutContainer, { marginTop: 0 }]}>
-          <YStack gap="$3.5" backgroundColor="$white1">
+          <YStack gap="$medium" backgroundColor="$white1">
             {viewModel.buildingStatus === 'todo' && !!viewModel.buildings && (
               <>
-                <YStack mt="$1.5" />
+                <YStack mt="$small" />
                 <BuildingLayoutActionType
                   onPress={() => onSelect(viewModel.buildings[0].floors[0].buildingBlock, viewModel.buildings[0].floors[0].floorNumber)}
                   viewModel={{
@@ -152,7 +152,7 @@ const SheetLeaflet = ({ open, onChange, onOpenChange }: { open: boolean; onChang
     >
       <Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
       <Sheet.Handle />
-      <Sheet.Frame padding="$4" justifyContent="center" gap="$5" pb="$8">
+      <Sheet.Frame padding="$medium" justifyContent="center" gap="$medium" pb="$large">
         <VoxButton alignSelf="flex-end" variant="text" onPress={() => onOpenChange(false)}>
           Fermer
         </VoxButton>

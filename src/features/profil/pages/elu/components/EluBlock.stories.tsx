@@ -17,7 +17,7 @@ export default {
 
 export function Default() {
   return (
-    <YStack gap="$3.5" justifyContent="center">
+    <YStack gap="$medium" justifyContent="center">
       {codeCased.map((code) => (
         <View maxWidth={500}>
           <EluBlock code={[code]} declaration={1600} cotisation={20} onPressIbanForm={() => {}} onPressDeclaForm={() => {}} />

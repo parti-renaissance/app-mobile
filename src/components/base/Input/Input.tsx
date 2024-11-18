@@ -39,14 +39,14 @@ const sizes = {
 
 const InputFrame = styled(XStack, {
   name: 'Input',
-  gap: '$2.5',
+  gap: '$small',
   width: '100%',
   minWidth: 100,
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '$10',
-  paddingHorizontal: 16,
-  borderWidth: '$1',
+  paddingHorizontal: '$medium',
+  borderWidth: 2,
   borderColor: '$colorTransparent',
   animation: 'bouncy',
   hoverStyle: {
@@ -170,7 +170,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   const theme = useTheme()
 
   return (
-    <YStack gap="$1" flex={1} ref={frameRef}>
+    <YStack gap="$xsmall" flex={1} ref={frameRef}>
       <InputFrame
         disabled={disabled}
         color={color ?? 'white'}
@@ -185,11 +185,11 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
           </YStack>
         )}
         <YStack
-          gap="$1"
+          gap="$xsmall"
           height="100%"
           flex={1}
           justifyContent={inputProps.multiline ? undefined : 'center'}
-          paddingTop={inputProps.multiline ? '$3' : undefined}
+          paddingTop={inputProps.multiline ? '$medium' : undefined}
         >
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
@@ -237,7 +237,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         {loading && <Spinner color="$blue7" />}
       </InputFrame>
       {error && (
-        <XStack gap="$1.5" alignItems="center" pl={16}>
+        <XStack gap="$small" alignItems="center" pl="$medium">
           <AlertCircle color="$orange7" size={12} />
           <Text.SM color="$orange7">{error}</Text.SM>
         </XStack>

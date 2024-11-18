@@ -4,7 +4,7 @@ import { View, XStack, YStackProps } from 'tamagui'
 
 function EuCampaignIllustration({ showText = true, ...props }: YStackProps & { showText?: boolean }) {
   return (
-    <XStack {...props} gap="$2" alignItems="center">
+    <XStack {...props} gap="$small" alignItems="center">
       <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
         <Path
           fillRule="evenodd"

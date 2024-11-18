@@ -6,7 +6,7 @@ const meta = {
   title: 'Profil CTA/App Download',
   component: () => (
     <>
-      <View width={400} mb={'$4'}>
+      <View width={400} mb={'$medium'}>
         <AppDownloadCTA />
       </View>
       <View width={400}>

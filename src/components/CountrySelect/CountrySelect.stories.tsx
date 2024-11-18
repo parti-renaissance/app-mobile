@@ -12,7 +12,7 @@ const Component = () => {
     <View width={400}>
       <CountrySelect id="country" value={state} onChange={setState} />
 
-      <Text mt="$4">Selected country is {state}</Text>
+      <Text mt="$medium">Selected country is {state}</Text>
     </View>
   )
 }

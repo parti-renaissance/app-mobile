@@ -18,7 +18,7 @@ const HomeScreen: React.FC = () => {
       </Head>
       <PageLayout>
         <PageLayout.SideBarLeft>
-          <YStack gap="$3">
+          <YStack gap="$medium">
             <MyProfileCard />
             <ProcurationCTA />
           </YStack>
@@ -26,7 +26,7 @@ const HomeScreen: React.FC = () => {
         <PageLayout.MainSingleColumn>
           <BoundarySuspenseWrapper
             fallback={
-              <YStack gap="$4" padding="$5" $sm={{ paddingHorizontal: 0 }}>
+              <YStack gap="$medium" padding="$medium" $sm={{ paddingHorizontal: 0 }}>
                 <SkeCard>
                   <SkeCard.Content>
                     <SkeCard.Chip />

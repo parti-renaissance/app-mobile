@@ -14,16 +14,16 @@ export default function NotificationSubscribeCard() {
   return (
     <VoxCard $sm={{ bg: 'transparent' }}>
       <VoxCard.Content>
-        <XStack justifyContent="flex-end" gap={16}>
+        <XStack justifyContent="flex-end" gap="$medium">
           <VoxButton variant="text" shrink iconLeft={X} onPress={handleClose} />
         </XStack>
-        <YStack alignItems="center" gap={16} justifyContent="center">
+        <YStack alignItems="center" gap="$medium" justifyContent="center">
           <Image source={require('../assets/reabo-illu.png')} />
           <Text.MD semibold> Pensez à vous réabonner !</Text.MD>
           <Text.SM secondary multiline textAlign="center">
             Vous ne recevez pas nos emails nationaux et locaux car vous êtes désabonnés de nos communication.
           </Text.SM>
-          <XStack justifyContent="center" gap={16}>
+          <XStack justifyContent="center" gap="$medium">
             <Link href={{ pathname: '/profil/communications', params: { autorun: '1' } }} asChild={!isWeb}>
               <VoxButton variant="outlined">Me réabonner</VoxButton>
             </Link>

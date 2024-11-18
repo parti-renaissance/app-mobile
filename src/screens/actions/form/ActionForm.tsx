@@ -35,8 +35,8 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
   console.log(uuid)
 
   return (
-    <View padding={'$4'} style={{ marginBottom: webViewPort ? 0 : 80 }}>
-      <Text fontSize={16} fontWeight={'$6'} mb={'$4'}>
+    <View padding={'$medium'} style={{ marginBottom: webViewPort ? 0 : 80 }}>
+      <Text fontSize={16} fontWeight={'$6'} mb={'$medium'}>
         {uuid ? 'Je modifie une action' : 'Je crée une action'}
       </Text>
       <View>
@@ -119,12 +119,12 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
 
   return (
     <Fragment>
-      <View mb={'$4'}>
+      <View mb={'$medium'}>
         <Text fontSize={14} fontWeight={'$6'}>
           Catégories d’actions
         </Text>
       </View>
-      <View flexDirection={webViewPort ? 'row' : undefined} gap={'$4'} mb={'$4'}>
+      <View flexDirection={webViewPort ? 'row' : undefined} gap={'$medium'} mb={'$medium'}>
         <Controller
           control={control}
           name={'type'}
@@ -152,7 +152,7 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
         </Text>
       </SpacedContainer>
 
-      <View flexDirection={webViewPort ? 'row' : undefined} gap={webViewPort ? '$4' : undefined}>
+      <View flexDirection={webViewPort ? 'row' : undefined} gap={webViewPort ? '$medium' : undefined}>
         <SpacedContainer style={{ flex: 1 }}>
           <Controller
             control={control}
@@ -192,7 +192,7 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
 
       <SpacedContainer>
         {manualAddress ? (
-          <View gap="$4">
+          <View gap="$medium">
             <Controller
               name="post_address.address"
               control={control}
@@ -262,7 +262,7 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
       <SpacedContainer>
         <TouchableOpacity onPress={onManualAddressToggle}>
           {manualAddress ? (
-            <Text color={'$textSecondary'} textAlign="center" mt={'$4'}>
+            <Text color={'$textSecondary'} textAlign="center" mt={'$medium'}>
               <Text color={'$blue6'}>Revenir</Text> à une saisie simplifiée
             </Text>
           ) : (
@@ -296,7 +296,7 @@ function _ActionForm({ onCancel, onClose, uuid, scope, data }: Props & { data: A
         <Text mt={'$2'}>1000 caractères maximum</Text>
       </SpacedContainer>
 
-      <View flexDirection={'row'} justifyContent={'flex-end'} gap={'$4'}>
+      <View flexDirection={'row'} justifyContent={'flex-end'} gap={'$medium'}>
         <VoxButton variant={'text'} onPress={onCancel}>
           Annuler
         </VoxButton>

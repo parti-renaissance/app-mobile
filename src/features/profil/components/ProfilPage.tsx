@@ -3,7 +3,6 @@ import * as metatags from '@/config/metatags'
 import Head from 'expo-router/head'
 import { pageConfigs } from '../configs'
 import PageLayout from './Layout'
-import PageHeader from './PageHeader'
 
 type PageProps = {
   screenName: string
@@ -18,12 +17,7 @@ const ProfilPage = (props: PageProps) => {
       <Head>
         <title>{metatags.createTitle(config.title)}</title>
       </Head>
-      <PageLayout>
-        <>
-          {/* <PageHeader {...config} backArrow={props.backArrow} /> */}
-          {props.children}
-        </>
-      </PageLayout>
+      <PageLayout>{props.children}</PageLayout>
     </>
   )
 }

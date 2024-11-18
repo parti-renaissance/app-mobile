@@ -30,7 +30,7 @@ export default function ProfilePopover({ children }: PropsWithChildren) {
       <Adapt when="sm" platform="touch">
         <Popover.Sheet modal dismissOnSnapToBottom snapPointsMode="fit">
           <Popover.Sheet.Handle />
-          <Popover.Sheet.Frame padding="$4" pb={bottom}>
+          <Popover.Sheet.Frame padding="$medium" pb={bottom}>
             <Adapt.Contents />
           </Popover.Sheet.Frame>
           <Popover.Sheet.Overlay animation="100ms" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />

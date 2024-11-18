@@ -38,14 +38,14 @@ const VoxCheckbox = ({ label, id: _id, error, ...rest }: VoxCheckboxProps) => {
   const id = uniqueId + _id
 
   return (
-    <YStack gap="$2" theme={error ? 'red' : undefined}>
-      <XStack gap="$4" alignItems="center">
+    <YStack gap="$small" theme={error ? 'red' : undefined}>
+      <XStack gap="$medium" alignItems="center">
         <Checkbox id={id} size="$2" {...rest}>
           <Checkbox.Indicator>
             <CheckIcon />
           </Checkbox.Indicator>
         </Checkbox>
-        <Label htmlFor={id} gap="$1" flex={1} lineHeight="$2" fontSize="$2">
+        <Label htmlFor={id} gap="$xsmall" flex={1} lineHeight="$2" fontSize="$2">
           <Text>{label}</Text>
         </Label>
       </XStack>
@@ -102,7 +102,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
       onSubmit={onSubmit}
     >
       {({ isSubmitting, handleSubmit, setFieldValue }) => (
-        <YStack gap="$4" flex={1}>
+        <YStack gap="$medium" flex={1}>
           <Text fontWeight="$6" fontSize="$3" textAlign="center" color="$textPrimary">
             M’inscrire à cet évènement
           </Text>
@@ -122,7 +122,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
           <FormikController<PublicSubscribtionFormData, 'postal_code'> name="postal_code">
             {({ inputProps }) => <VoxInput placeholder="Code postal" {...inputProps} />}
           </FormikController>
-          <YStack gap="$3">
+          <YStack gap="$medium">
             <FormikController<PublicSubscribtionFormData, 'join_newsletter'> name="join_newsletter">
               {({ inputProps }) => (
                 <VoxCheckbox
@@ -197,7 +197,7 @@ const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) =
 
           <YStack
             id="mention-legale"
-            gap="$4"
+            gap="$medium"
             onLayout={(l) => {
               position.current = { x: l.nativeEvent.layout.x, y: l.nativeEvent.layout.y }
             }}
@@ -257,7 +257,7 @@ function DialogMentionLegale(props: { onPress?: () => void }) {
 
 function MentionLegale() {
   return (
-    <YStack gap="$4" flex={1} height="100%">
+    <YStack gap="$medium" flex={1} height="100%">
       <H2>Légalité</H2>
       <Paragraph>
         Les données recueillies sur ce formulaire sont traitées par Renaissance et ses équipes aux fins d’organisation de cet événement. Elles permettront à ses

@@ -27,20 +27,20 @@ export default function UpdateScreen({ isBuildUpdate = false }: Props) {
 
   return (
     <View height="100%">
-      <YStack alignItems="center" justifyContent="center" flex={1} gap={'$4'} p={'$5'}>
+      <YStack alignItems="center" justifyContent="center" flex={1} gap={'$medium'} p={'$medium'}>
         <Image source={require('./assets/updateRefresh.png')} height={153} objectFit="contain" />
 
         <Title>Mise à jour requise</Title>
 
-        <Text fontWeight="$5" textAlign="center">
+        <Text.MD semibold textAlign="center">
           Votre version d’application est trop ancienne pour fonctionner correctement.
-        </Text>
-        <Text fontWeight="$5" textAlign="center">
+        </Text.MD>
+        <Text.MD semibold textAlign="center">
           Mettez à jour votre application pour découvrir les nouveautés.
-        </Text>
+        </Text.MD>
       </YStack>
 
-      <YStack p={'$5'} mb={'$2'}>
+      <YStack p={'$medium'} mb={'$2'}>
         <Button
           onPress={onUpdate}
           height={44}

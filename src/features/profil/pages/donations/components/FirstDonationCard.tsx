@@ -6,26 +6,24 @@ import { Image } from 'expo-image'
 import { styled, useMedia, XStack, YStack } from 'tamagui'
 
 const HeaderFrame = styled(XStack, {
-  paddingLeft: '$4.5',
+  padding: '$medium',
   paddingRight: 0,
-  paddingBottom: '$4.5',
-  paddingTop: '$4.5',
+  gap: '$large',
 })
 
 export default function (props: { full?: boolean }) {
   const { isPending, open: handlePress } = useOpenExternalContent({ slug: 'donation' })
-  const media = useMedia()
   return (
-    <VoxCard bg="$green1" inside={!props.full}>
+    <VoxCard bg="$green1" inside>
       <HeaderFrame>
-        <YStack gap="$3" pr="$4" flex={1}>
-          <YStack gap="$3" pr="$4" flex={1}>
+        <YStack gap="$medium" flex={1} flexBasis={0} flexGrow={2} maxWidth={360}>
+          <YStack gap="$small">
             <Text.LG>Faites la différence.</Text.LG>
             <Text.MD secondary regular multiline>
               Devenez financeur du parti en faisant un don mensuel.
             </Text.MD>
           </YStack>
-          <XStack gap="$3">
+          <XStack gap="$small" flexWrap="wrap">
             <VoxButton theme="green" onPress={handlePress('monthly')} disabled={isPending}>
               Je finance le parti
             </VoxButton>
@@ -35,11 +33,10 @@ export default function (props: { full?: boolean }) {
           </XStack>
         </YStack>
         <Image
-          source={require('@/assets/images/donation/don-illu.png')}
-          style={{
-            width: media.sm ? 100 : 187,
-            height: media.sm ? 68 : 128,
-          }}
+          style={{ width: '100%', flex: 1, flexBasis: 0 }}
+          source={require('@/features/profil/assets/don-illu.png')}
+          contentFit="contain"
+          contentPosition="right"
         />
       </HeaderFrame>
     </VoxCard>

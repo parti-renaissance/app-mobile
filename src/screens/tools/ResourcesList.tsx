@@ -1,14 +1,14 @@
-import React, { useRef } from 'react'
-import { RefreshControl, ScrollView } from 'react-native'
+import React, { ComponentRef, useRef } from 'react'
+import { RefreshControl } from 'react-native'
 import { useTools } from '@/hooks/useTools'
 import CardTool from '@/screens/tools/components/CardTool'
 import { useScrollToTop } from '@react-navigation/native'
-import { getToken, isWeb, useMedia, View } from 'tamagui'
+import { getToken, isWeb, ScrollView, useMedia, View } from 'tamagui'
 
 const ResourcesList = () => {
   const media = useMedia()
   const { data, refetch, isRefetching } = useTools()
-  const ref = useRef<ScrollView>(null)
+  const ref = useRef<ComponentRef<typeof ScrollView>>(null)
   useScrollToTop(ref)
 
   const tools = data.pages
@@ -27,10 +27,10 @@ const ResourcesList = () => {
         flexDirection: 'row',
         flexWrap: 'wrap',
         width: '100%',
-        gap: getToken('$4', 'space'),
-        paddingTop: getToken(media.gtSm ? '$5' : '$4', 'space'),
-        paddingHorizontal: getToken(media.gtSm ? '$5' : '$4', 'space'),
-        paddingBottom: getToken('$6', 'space'),
+        gap: '$medium',
+        paddingTop: '$medium',
+        paddingHorizontal: '$medium',
+        paddingBottom: '$large',
       }}
       refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />}
     >

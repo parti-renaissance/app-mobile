@@ -102,7 +102,7 @@ const UnSubscribeCase = () => {
   }, [autorun, hasAutorun])
 
   return (
-    <YStack gap={16}>
+    <YStack gap="$medium">
       {execWebView && (
         <WebView
           source={{
@@ -221,27 +221,30 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
   })
 
   const SmsSection = () => {
-    return (
+    return props.profile.phone ? (
+      <>
+        <YStack gap="$small">
+          <Text.MD multiline secondary semibold>
+            Par SMS
+          </Text.MD>
+          <Text.P>Nous n’envoyons des SMS que très rarement, pour les occasions les plus importantes.</Text.P>
+        </YStack>
+        <Controller
+          name="subscription_sms"
+          control={control}
+          render={({ field }) => {
+            return <SwitchGroup options={smsList} onChange={field.onChange} value={field.value} />
+          }}
+        />
+      </>
+    ) : (
       <>
         <Text.MD multiline secondary semibold>
           Par SMS
         </Text.MD>
-        {props.profile.phone ? (
-          <>
-            <Text.P>Nous n’envoyons des SMS que très rarement, pour les occasions les plus importantes.</Text.P>
-            <Controller
-              name="subscription_sms"
-              control={control}
-              render={({ field }) => {
-                return <SwitchGroup options={smsList} onChange={field.onChange} value={field.value} />
-              }}
-            />
-          </>
-        ) : (
-          <MessageCard iconLeft={Info} theme="yellow">
-            Ajoutez un numéro de téléphone pour ne pas manquer les informations les plus importantes.
-          </MessageCard>
-        )}
+        <MessageCard iconLeft={Info} theme="yellow">
+          Ajoutez un numéro de téléphone pour ne pas manquer les informations les plus importantes.
+        </MessageCard>
       </>
     )
   }
@@ -256,10 +259,12 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
           <>
             <SmsSection />
             <Separator backgroundColor="$textOutlined" />
-            <Text.MD multiline secondary semibold>
-              Par Email
-            </Text.MD>
-            <Text.P>En cochant ces cases j’accepte de recevoir les emails : </Text.P>
+            <YStack gap="$small">
+              <Text.MD multiline secondary semibold>
+                Par Email
+              </Text.MD>
+              <Text.P>En cochant ces cases j’accepte de recevoir les emails : </Text.P>
+            </YStack>
             <Controller
               name="subscription_email"
               control={control}
@@ -267,7 +272,7 @@ const NotificationForm = (props: { cardProps?: React.ComponentProps<typeof VoxCa
                 return <SwitchGroup options={emailList} onChange={field.onChange} value={field.value} />
               }}
             />
-            <XStack justifyContent="flex-end" gap="$2">
+            <XStack justifyContent="flex-end" gap="$small">
               <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
                 Annuler
               </VoxButton>

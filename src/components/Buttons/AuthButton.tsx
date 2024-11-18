@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react'
-import Button, { VoxButton } from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import { useSession } from '@/ctx/SessionProvider'
 
 export const SignInButton = (props: Omit<ComponentProps<typeof VoxButton>, 'children'>) => {

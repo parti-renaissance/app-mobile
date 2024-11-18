@@ -55,7 +55,7 @@ const CardTool = ({ name, url, imageUrl }: CardToolProps) => {
           </Text>
         </View>
 
-        <View flexDirection="row" gap="$2">
+        <View flexDirection="row" gap="$small">
           <Text fontWeight="$7" fontSize="$1" color="$gray8" justifyContent={'center'}>
             Ouvrir
           </Text>

@@ -12,9 +12,9 @@ import FormationSection, { FormationSectionSkeleton } from './FormationSection'
 
 const scrollViewContainerStyle = {
   pt: 166,
-  pl: '$5',
-  pr: '$5',
-  pb: isWeb ? '$10' : '$12',
+  pl: '$medium',
+  pr: '$medium',
+  pb: '$xlarge',
 } as const
 
 const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
@@ -82,7 +82,7 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
         }}
         contentContainerStyle={scrollViewContainerStyle}
       >
-        <YStack gap={16} flexDirection={firstSection === 'local' ? 'column-reverse' : 'column'}>
+        <YStack gap="$medium" flexDirection={firstSection === 'local' ? 'column-reverse' : 'column'}>
           <FormationSection onLayout={handleLayout('national')} data={formationsNational} visibility="national" theme="blue" />
           <FormationSection onLayout={handleLayout('local')} data={formationsLocal} visibility="local" theme="green" />
         </YStack>
@@ -102,7 +102,7 @@ export const FormationDesktopScreenSkeleton: FormationScreenProps = ({ topVisual
       }
     >
       <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-        <YStack gap={16}>
+        <YStack gap="$medium">
           <FormationSectionSkeleton />
           <FormationSectionSkeleton />
         </YStack>

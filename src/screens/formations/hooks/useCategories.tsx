@@ -27,7 +27,7 @@ export const useCategories = ({ formations }: UseCategoriesProps) => {
     if (!activeCategories) {
       return formations
     }
-    return formations.filter((formation) => formation.category ?? 'no-cat' === activeCategories)
+    return formations.filter((formation) => (formation.category ?? 'no-cat') === activeCategories)
   }, [formations, activeCategories])
 
   return {

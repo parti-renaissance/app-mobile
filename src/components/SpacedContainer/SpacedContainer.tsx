@@ -9,7 +9,7 @@ import { View, ViewProps } from 'tamagui'
  */
 export default function SpacedContainer({ children, ...rest }: PropsWithChildren & ViewProps) {
   return (
-    <View paddingBottom={'$4'} {...rest}>
+    <View paddingBottom={'$medium'} {...rest}>
       {children}
     </View>
   )

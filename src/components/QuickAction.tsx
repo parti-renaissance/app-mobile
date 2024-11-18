@@ -193,7 +193,7 @@ export default function QuickAction() {
         // opacity={open ? 0.5 : 1}
         bottom={10 + 80 + 10 + insets.bottom}
         right={10}
-        gap="$2"
+        gap="$small"
         bg="red"
         zIndex={100_000}
       >
@@ -216,11 +216,11 @@ export const ItemFrame = styled(XStack, {
   animation: 'quickest',
   borderColor: '$purple/8',
   borderBottomWidth: 1,
-  gap: '$4',
+  gap: '$medium',
 
   backgroundColor: '$white1',
   minHeight: '$5',
-  paddingHorizontal: '$4.5',
+  paddingHorizontal: '$medium',
 
   hoverStyle: {
     backgroundColor: '$gray1',
@@ -266,7 +266,7 @@ const ActionList = <D extends string, ID extends string>({ onActionPress, data, 
 
   return (
     <YStack
-      gap="$2"
+      gap="$small"
       zIndex={100_000}
       overflow="hidden"
       borderRadius="$4"
@@ -276,7 +276,7 @@ const ActionList = <D extends string, ID extends string>({ onActionPress, data, 
       exitStyle={{ opacity: 0, scale: 0 }}
       {...props}
     >
-      <LinearGradient p="$1" width="100%" colors={['$blue4', '$purple6', '$blue4', '$purple6', '$blue4']} start={[1, 1]} end={[0, 0]}>
+      <LinearGradient p="$xsmall" width="100%" colors={['$blue4', '$purple6', '$blue4', '$purple6', '$blue4']} start={[1, 1]} end={[0, 0]}>
         <ListFrame width="100%">
           {loading && <SkeCard.Title />}
           {list}

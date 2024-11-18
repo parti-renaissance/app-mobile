@@ -33,7 +33,7 @@ const SkeCardFrame = ({ children, ...props }: SkeCardFrameProps) => {
         sharedWidth.value = withRepeat(withTiming(e.nativeEvent.layout.width, { duration: 1000 }), -1, true)
       }}
     >
-      <YStack gap="$3.5" style={{ flex: 1, position: 'absolute', zIndex: 10, width, height }}>
+      <YStack gap="$medium" style={{ flex: 1, position: 'absolute', zIndex: 10, width, height }}>
         {height > 0 && width > 0 && (
           <Canvas style={{ flex: 1, position: 'absolute', zIndex: 10, width, height }}>
             <Rect x={0} y={0} width={width} height={height}>
@@ -42,14 +42,14 @@ const SkeCardFrame = ({ children, ...props }: SkeCardFrameProps) => {
           </Canvas>
         )}
       </YStack>
-      <YStack gap="$3.5">{children}</YStack>
+      <YStack gap="$medium">{children}</YStack>
     </CardFrame>
   )
 }
 
 export const SkeCardContent = styled(YStack, {
-  padding: '$4.5',
-  gap: '$3.5',
+  padding: '$medium',
+  gap: '$medium',
 } as const)
 
 const SkeCardChip = (props: Omit<ComponentProps<typeof Chip>, 'children'>) => {
@@ -68,7 +68,7 @@ const SkeCardTitle = () => {
 
 const SkeCardDate = () => {
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       <Square size="$2" bg={SkeletonColor} />
       <Stack height="$1" flex={1} bg={SkeletonColor} />
     </XStack>
@@ -85,7 +85,7 @@ const SkeCardButton = (props: ComponentPropsWithoutRef<typeof ButtonFrameStyled>
 
 const SkeActions = () => {
   return (
-    <XStack gap="$2" justifyContent="space-between">
+    <XStack gap="$small" justifyContent="space-between">
       <SkeCardButton />
       <SkeCardButton />
     </XStack>
@@ -94,7 +94,7 @@ const SkeActions = () => {
 
 const SkeCardAuthor = () => {
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       <Circle size="$2" bg={SkeletonColor} />
       <Stack height="$1" flex={1} bg={SkeletonColor} />
     </XStack>
@@ -111,7 +111,7 @@ export type SkeCardDescritionProps = {
 
 const SkeCardDescription = ({ full }: SkeCardDescritionProps) => {
   return (
-    <YStack gap="$2">
+    <YStack gap="$small">
       {Array.from({ length: full ? 5 : 2 }).map((_, index) => (
         <Stack key={index} height="$1" bg={SkeletonColor} />
       ))}
@@ -123,7 +123,7 @@ const SkeCardSection = ({ children, ...props }: StackProps) => {
   return (
     <>
       <SkeCardSeparator />
-      <Stack gap="$2" {...props}>
+      <Stack gap="$small" {...props}>
         <Stack height="$1" width="$6" bg="$gray1" />
         {children}
       </Stack>
