@@ -12,18 +12,24 @@ import { EventLocation } from '@/features/events/components/EventLocation'
 import { EventPremiumChip } from '@/features/events/components/EventPremiumChip'
 import { EventShareGroup } from '@/features/events/components/EventShareGroup'
 import { EventToggleSubscribeButton } from '@/features/events/components/EventToggleSubscribeButton'
-import { StatusChip } from '@/features/events/components/StatusChip'
 import { EventItemProps } from '@/features/events/types'
 import { RestItemEvent } from '@/services/events/schema'
 import { XStack, YStack, YStackProps } from 'tamagui'
 import { getEventDetailImageFallback, isEventFull, isEventPartial } from '../../utils'
 import { ScrollStack } from './EventComponents'
 
-const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>>) => {
+const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>> & { showTime?: boolean }) => {
   if (!props.begin_at) {
     return null
   }
-  return <VoxCard.Date start={new Date(props.begin_at)} end={props.finish_at ? new Date(props.finish_at) : undefined} timeZone={props.time_zone} />
+  return (
+    <VoxCard.Date
+      showTime={props.showTime}
+      start={new Date(props.begin_at)}
+      end={props.finish_at ? new Date(props.finish_at) : undefined}
+      timeZone={props.time_zone}
+    />
+  )
 }
 
 const BottomCTA = (props: EventItemProps) => {
@@ -87,13 +93,12 @@ const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
           <VoxCard.Content pt={fallbackImage ? 0 : undefined}>
             <EventItemHeader>
               <CategoryChip>{event.category?.name}</CategoryChip>
-              <StatusChip event={event} />
               <EventPremiumChip event={event} />
             </EventItemHeader>
             {event.name ? <VoxCard.Title underline={false}>{event.name}</VoxCard.Title> : null}
             {isFull && event.description ? <VoxCard.Description markdown>{event.description}</VoxCard.Description> : null}
             {event.name || (isFull && event.description) ? <VoxCard.Separator /> : null}
-            <DateItem begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
+            <DateItem begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} showTime={isFull} />
             <EventLocation event={event} />
             {isFull && !!event.capacity ? <VoxCard.Capacity>Capacité {event.capacity} personnes</VoxCard.Capacity> : null}
             {isFull ? <VoxCard.Attendees attendees={{ count: event.participants_count ?? 12 }} /> : null}

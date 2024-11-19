@@ -30,7 +30,7 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
                 pl: '$large',
                 pr: '$large',
               }}
-              pb={'$xxlarge'}
+              pb={'$11'}
             >
               {[1, 2, 3].map((x) => (
                 <Skeleton key={x} />
@@ -53,7 +53,7 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
             pl: '$medium',
             pr: '$medium',
           }}
-          pb={'$xxlarge'}
+          pb={'$11'}
         >
           {[1, 2, 3].map((x) => (
             <Skeleton key={x} />

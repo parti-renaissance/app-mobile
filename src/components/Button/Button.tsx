@@ -7,6 +7,7 @@ export const ButtonContext = createStyledContext({
   pop: false,
   disabled: false,
   loading: false,
+  asChip: false,
   // 'data-testid': 'Button',
 })
 
@@ -58,6 +59,17 @@ export const ButtonFrameStyled = styled(View, {
         cursor: 'wait',
       },
     },
+    asChip: {
+      true: {
+        cursor: 'default',
+        hoverStyle: {
+          backgroundColor: '$background',
+        },
+        pressStyle: {
+          backgroundColor: '$background',
+        },
+      },
+    },
     size: {
       sm: {
         height: 32,
@@ -84,6 +96,7 @@ export const ButtonFrameStyled = styled(View, {
 
   defaultVariants: {
     size: 'md',
+    asChip: false,
   },
 })
 
@@ -130,7 +143,7 @@ const ButtonFrame = forwardRef<
   TamaguiElement,
   React.ComponentPropsWithoutRef<typeof ButtonFrameStyled> & { variant?: 'outlined' | 'text' | 'soft' | 'contained'; inverse?: boolean }
 >(({ variant, inverse, ...props }, ref) => {
-  const Frame = getFrame(variant, inverse)
+  const Frame = getFrame(props.asChip ? 'text' : variant, inverse)
   const outlinedExeption =
     variant === 'outlined' && (props.theme === 'gray' || !props.theme)
       ? {
@@ -164,6 +177,16 @@ export const ButtonText = styled(Text.MD, {
         color: '$colorPop',
       },
     },
+    asChip: {
+      true: {
+        '$group-hover': {
+          color: '$color',
+        },
+        '$group-press': {
+          color: '$color',
+        },
+      },
+    },
   } as const,
 })
 
@@ -181,37 +204,40 @@ type VoxButtonProps = {
   children?: string[] | string
 } & React.ComponentProps<typeof Button>
 
-export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>(({ children: child, shrink, iconLeft: IconLeft, iconRight: IconRight, ...props }, ref) => {
-  const children = shrink ? undefined : child
+export const VoxButton = forwardRef<TamaguiElement, VoxButtonProps>(
+  ({ children: child, shrink, iconLeft: IconLeft, iconRight: IconRight, onPress, ...props }, ref) => {
+    const children = shrink ? undefined : child
+    const fnOnPress = props.asChip ? undefined : onPress
 
-  return (
-    <Button {...props} shrink={shrink} ref={ref} theme={props.theme ?? 'gray'} group>
-      {IconLeft ? (
-        <IconLeft
-          size={16}
-          color={props.pop ? '$colorPop' : '$color'}
-          $group-hover={{
-            color: '$colorHover',
-          }}
-          $group-press={{
-            color: '$colorPress',
-          }}
-        />
-      ) : null}
-      {children ? <ButtonText pop={props.pop}>{children}</ButtonText> : null}
-      {IconRight ? (
-        <IconRight
-          size={16}
-          color={props.pop ? '$colorPop' : '$color'}
-          $group-hover={{
-            color: '$colorHover',
-          }}
-          $group-press={{
-            color: '$colorPress',
-          }}
-        />
-      ) : null}
-      {props.loading && <ButtonSpinner size="small" />}
-    </Button>
-  )
-})
+    return (
+      <Button {...props} onPress={fnOnPress} shrink={shrink} ref={ref} theme={props.theme ?? 'gray'} group>
+        {IconLeft ? (
+          <IconLeft
+            size={16}
+            color={props.pop ? '$colorPop' : '$color'}
+            $group-hover={{
+              color: '$colorHover',
+            }}
+            $group-press={{
+              color: '$colorPress',
+            }}
+          />
+        ) : null}
+        {children ? <ButtonText pop={props.pop}>{children}</ButtonText> : null}
+        {IconRight ? (
+          <IconRight
+            size={16}
+            color={props.pop ? '$colorPop' : '$color'}
+            $group-hover={{
+              color: '$colorHover',
+            }}
+            $group-press={{
+              color: '$colorPress',
+            }}
+          />
+        ) : null}
+        {props.loading && <ButtonSpinner size="small" />}
+      </Button>
+    )
+  },
+)

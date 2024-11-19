@@ -10,21 +10,27 @@ import { EventItemHeader } from '@/features/events/components/EventItemHeader'
 import { EventLocation } from '@/features/events/components/EventLocation'
 import { EventPremiumChip } from '@/features/events/components/EventPremiumChip'
 import { EventShareGroup } from '@/features/events/components/EventShareGroup'
-import { StatusChip } from '@/features/events/components/StatusChip'
 import { EventItemProps } from '@/features/events/types'
 import { RestItemEvent } from '@/services/events/schema'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, useNavigation } from 'expo-router'
 import { isWeb, XStack, YStack } from 'tamagui'
-import { EventItemToggleSubscribeButton } from '../../components/EventItemSubscribeButton'
+import { EventToggleSubscribeButton } from '../../components/EventToggleSubscribeButton'
 import { getEventDetailImageFallback, isEventFull, isEventPartial } from '../../utils'
 import { ScrollStack } from './EventComponents'
 
-const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>>) => {
+const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>> & { showTime?: boolean }) => {
   if (!props.begin_at) {
     return null
   }
-  return <VoxCard.Date start={new Date(props.begin_at)} end={props.finish_at ? new Date(props.finish_at) : undefined} timeZone={props.time_zone} />
+  return (
+    <VoxCard.Date
+      showTime={props.showTime}
+      start={new Date(props.begin_at)}
+      end={props.finish_at ? new Date(props.finish_at) : undefined}
+      timeZone={props.time_zone}
+    />
+  )
 }
 
 const HeaderCTA = (props: EventItemProps) => {
@@ -32,11 +38,11 @@ const HeaderCTA = (props: EventItemProps) => {
   const needAuth = isEventPartial(props.event) && !props.userUuid
   const elements = Children.map(
     [
-      <EventItemToggleSubscribeButton {...props} buttonProps={buttonProps} />,
+      <EventToggleSubscribeButton {...props} buttonProps={buttonProps} />,
       <EventItemHandleButton {...props} buttonProps={{ ...buttonProps, variant: 'soft' }} />,
     ],
     //@ts-expect-error child type on string
-    (child) => isValidElement(child) && child?.type(child.props),
+    (child) => isValidElement(child) && child?.type?.(child.props),
   ).filter(Boolean)
 
   if (needAuth) {
@@ -68,7 +74,7 @@ const EventDesktopAside = ({ event, userUuid }: EventItemProps) => {
       <VoxCard.Content>
         <HeaderCTA event={event} userUuid={userUuid} />
         <VoxCard.Separator />
-        <DateItem begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
+        <DateItem showTime={isFull} begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
         <EventLocation event={event} />
         {isFull && !!event.capacity ? <VoxCard.Capacity>Capacité {event.capacity} personnes</VoxCard.Capacity> : null}
         {isFull ? <VoxCard.Attendees attendees={{ count: event.participants_count ?? 12 }} /> : null}
@@ -91,20 +97,21 @@ const EventDesktopAside = ({ event, userUuid }: EventItemProps) => {
   )
 }
 
-const EventDesktopMain = ({ event, userUuid }: EventItemProps) => {
+const EventDesktopMain = ({ event }: EventItemProps) => {
   const fallbackImage = getEventDetailImageFallback(event)
   const isFull = isEventFull(event)
   return (
-    <PageLayout.MainSingleColumn>
-      <VoxCard.Content>
-        {fallbackImage ? <VoxCard.Image image={fallbackImage} /> : null}
-        <EventItemHeader>
-          <CategoryChip>{event.category?.name}</CategoryChip>
-          <StatusChip event={event} />
-          <EventPremiumChip event={event} />
-        </EventItemHeader>
-        {event.name ? <VoxCard.Title underline={false}>{event.name}</VoxCard.Title> : null}
-        {isFull && event.description ? <VoxCard.Description markdown>{event.description}</VoxCard.Description> : null}
+    <PageLayout.MainSingleColumn height="100%">
+      <VoxCard.Content pr={0} height="100%">
+        <VoxCard.Content height="100%" p={0} pr="$medium" borderRightColor="$textOutline32" borderRightWidth={1}>
+          {fallbackImage ? <VoxCard.Image image={fallbackImage} /> : null}
+          <EventItemHeader>
+            <CategoryChip>{event.category?.name}</CategoryChip>
+            <EventPremiumChip event={event} />
+          </EventItemHeader>
+          {event.name ? <VoxCard.Title underline={false}>{event.name}</VoxCard.Title> : null}
+          {isFull && event.description ? <VoxCard.Description markdown>{event.description}</VoxCard.Description> : null}
+        </VoxCard.Content>
       </VoxCard.Content>
     </PageLayout.MainSingleColumn>
   )
@@ -125,7 +132,7 @@ const EventDesktopScreen = ({ event, userUuid }: EventItemProps) => {
   return (
     <>
       <ScrollStack>
-        <PageLayout.MainSingleColumn pb="$xlarge">
+        <PageLayout.MainSingleColumn pb="$11">
           <XStack alignItems="flex-start" alignSelf="flex-start" pb="$medium">
             <BackButton />
           </XStack>

@@ -23,10 +23,14 @@
       "noDataPlaceholder": "-"
     },
     "vox_card": {
-      "dayDate": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}}",
-      "dayDateEnd": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}} / {{end, HH:mm}}",
-      "daysDate": "{{start, EEEE d MMMM yyyy}} / {{end, EEEE d MMMM yyyy}} à {{end, HH:mm}}",
-      "daysDateEnd": "{{start, E d MMM yyyy}} à {{start, HH:mm}} → {{end, E d MMM yyyy}} à {{end, HH:mm}}",
+      "dayDateTime": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}}",
+      "dayDateTimeEnd": "{{start, EEEE d MMMM yyyy}} à {{start, HH:mm}} / {{end, HH:mm}}",
+      "daysDateTime": "{{start, EEEE d MMMM yyyy}} / {{end, EEEE d MMMM yyyy}} à {{end, HH:mm}}",
+      "daysDateTimeEnd": "{{start, E d MMM yyyy}} à {{start, HH:mm}} → {{end, E d MMM yyyy}} à {{end, HH:mm}}",
+      "dayDate": "{{start, EEEE d MMMM yyyy}}",
+      "dayDateEnd": "{{start, EEEE d MMMM yyyy}}",
+      "daysDate": "{{start, EEEE d MMMM yyyy}} / {{end, EEEE d MMMM yyyy}}",
+      "daysDateEnd": "{{start, E d MMM yyyy}} → {{end, E d MMM yyyy}}",
       "dateCreated": "{{date, EEEE d MMMM yyyy}}"
     },
     "tab": {

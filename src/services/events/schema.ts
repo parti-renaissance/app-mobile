@@ -20,7 +20,7 @@ export const RestEventCategorySchema = z.object({
 
 export const RestEventStatusSchema = z.enum(['SCHEDULED', 'CANCELLED'])
 export const RestEventOrganizerSchema = z.object({
-  uuid: z.string(),
+  uuid: z.string().nullable(),
   first_name: z.string(),
   last_name: z.string(),
   role: z.string().nullable(),
@@ -50,8 +50,9 @@ export const RestBaseEventSchema = z.object({
   status: RestEventStatusSchema,
   visibility: EventVisibilitySchema,
   begin_at: z.string(),
-  finish_at: z.string(),
+  finish_at: z.string().nullable(),
   time_zone: z.string(),
+  post_address: RestEventAddressSchema.nullable(),
   organizer: RestEventOrganizerSchema.nullable(),
   image_url: z.string().nullable(),
   mode: z.enum(['online', 'meeting']).nullable(),
@@ -67,7 +68,7 @@ export const RestFullEventSchema = z
     capacity: z.number().nullable(),
     visio_url: z.string().nullable(),
     user_registered_at: z.string().nullable(),
-    post_address: RestEventAddressSchema.nullable(),
+
     editable: z.boolean(),
     edit_link: z.string().optional(),
   })

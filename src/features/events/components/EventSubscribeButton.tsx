@@ -36,7 +36,7 @@ export const EventSubscribeButton = ({ uuid, isPremium, userUuid, ...buttonProps
     else setOpen(true)
   }
   return (
-    <>
+    <Fragment>
       {!userUuid ? (
         <ModalOrPageBase
           open={open}
@@ -83,6 +83,6 @@ export const EventSubscribeButton = ({ uuid, isPremium, userUuid, ...buttonProps
       >
         M'inscrire
       </VoxButton>
-    </>
+    </Fragment>
   )
 }

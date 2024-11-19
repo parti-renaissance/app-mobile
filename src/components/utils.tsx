@@ -5,15 +5,16 @@ import { getHours, isSameDay } from 'date-fns'
 import { format } from 'date-fns-tz'
 import { ZStack } from 'tamagui'
 
-export const getFormatedVoxCardDate = (props: { start: Date; end?: Date; timeZone?: string }) => {
-  const { start, end, timeZone } = props
+export const getFormatedVoxCardDate = (props: { start: Date; end?: Date; timeZone?: string; showTime?: boolean }) => {
+  const { start, end, timeZone, showTime = true } = props
   const keySuffix = getHours(start) === getHours(end ?? start) ? '' : 'End'
   const keyPrefix = isSameDay(start, end ?? start) ? 'day' : 'days'
-  const key = `${keyPrefix}Date${keySuffix}`
+  const keyType = showTime ? 'DateTime' : 'Date'
+  const key = `${keyPrefix}${keyType}${keySuffix}`
   const shouldFormatTimeZone = timeZone && timeZone !== 'Europe/Paris'
   return {
     date: i18n.t(`vox_card.${key}`, { start, end }),
-    timezone: shouldFormatTimeZone ? `• UTC${format(start, 'XXX', { timeZone })} ({timeZone})` : undefined,
+    timezone: shouldFormatTimeZone ? `• UTC${format(start, 'XXX', { timeZone })}` : undefined,
   }
 }
 
