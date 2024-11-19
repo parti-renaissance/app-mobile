@@ -122,13 +122,13 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
         paddingTop: 0,
         paddingLeft: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$medium', 'space') : undefined,
-        paddingBottom: getToken('$xxlarge', 'space'),
+        paddingBottom: getToken('$11', 'space'),
       }}
       sections={feedData}
       renderItem={({ item }) => <EventListItem event={item} userUuid={user.data?.uuid} />}
       renderSectionHeader={({ section }) => {
         return (
-          <XStack gap="$small" $md={{ paddingLeft: '$medium' }} $gtLg={{ paddingTop: section.index === 0 ? '$xlarge' : 0 }}>
+          <XStack gap="$small" $md={{ paddingLeft: '$medium' }} $gtLg={{ paddingTop: section.index === 0 ? '$large' : 0 }}>
             <Text.MD color={section.data.length === 0 ? '$textDisabled' : '$gray4'} semibold>
               {`${section.title} ${section.index === 0 ? `(${section.data.length})` : ''}`.toUpperCase()}
             </Text.MD>

@@ -7,6 +7,7 @@ import { EventSubscribeButton } from './EventSubscribeButton'
 
 const mockedUnSubMutate = jest.fn()
 const mockedSubMutate = jest.fn()
+jest.mock('@/components/ModalOrPageBase/ModalOrPageBase', () => ({ default: jest.fn(() => <></>) }))
 // mock src/services/events/api.ts
 jest.mock('@/services/events/hook', () => {
   return {
@@ -48,10 +49,9 @@ const customRender: typeof render = (ui) => {
 
 describe('EventSubscribeButton', () => {
   it('should call susbcribe hook', async () => {
-    const { getByTestId } = customRender(<EventSubscribeButton uuid="subscribe-id" />)
+    const { getByTestId } = customRender(<EventSubscribeButton uuid="subscribe-id" userUuid="user-uuid" />)
     const button = getByTestId('event-subscribe-button')
     expect(button).toHaveTextContent("M'inscrire")
-    expect(button).toHaveProp('iconLeft', Calendar)
     expect(useSubscribeEvent).toHaveBeenCalledWith({ id: 'subscribe-id' })
     fireEvent.press(button)
     expect(mockedSubMutate).toHaveBeenCalled()

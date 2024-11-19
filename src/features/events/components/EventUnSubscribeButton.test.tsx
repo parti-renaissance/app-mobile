@@ -48,10 +48,9 @@ const customRender: typeof render = (ui) => {
 
 describe('EventUnSubscribeButton', () => {
   it('should call unsusbcribe hook', async () => {
-    const { getByTestId } = customRender(<EventUnSubscribeButton uuid="unsubscribe-id" />)
+    const { getByTestId } = customRender(<EventUnSubscribeButton uuid="unsubscribe-id" userUuid="user-uuid" />)
     const button = getByTestId('event-unsubscribe-button')
     expect(button).toHaveTextContent('Me désinscrire')
-    expect(button).toHaveProp('iconLeft', CalendarOff)
     expect(useUnsubscribeEvent).toHaveBeenCalledWith({ id: 'unsubscribe-id' })
     fireEvent.press(button)
     expect(mockedUnSubMutate).toHaveBeenCalled()

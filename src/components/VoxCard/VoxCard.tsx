@@ -66,9 +66,9 @@ const VoxCardTitle = ({ children, underline = true }: VoxCardTitleProps & { unde
   )
 }
 
-export type VoxCardDateProps = { start: Date; end?: Date; icon?: boolean; timeZone?: string }
-const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) => {
-  const { date, timezone } = getFormatedVoxCardDate({ start, end, timeZone })
+export type VoxCardDateProps = { start: Date; end?: Date; icon?: boolean; timeZone?: string; showTime?: boolean }
+const VoxCardDate = ({ start, end, icon = true, timeZone, showTime = true }: VoxCardDateProps) => {
+  const { date, timezone } = getFormatedVoxCardDate({ start, end, timeZone, showTime })
   return (
     <XStack gap="$small" alignItems="center">
       {icon && <CalendarDays size={16} color="$textPrimary" />}
@@ -115,12 +115,14 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
       {!asTitle && <MapPin size={16} color="$textPrimary" />}
       <WRPT flexGrow={1} lineBreakStrategyIOS="push-out">
         <T multiline medium>
-          {location.city} {location.postalCode}
+          {[location.city, location.postalCode].filter(Boolean).join(' ')}
         </T>
-        <T secondary medium multiline>
-          {' '}
-          . {location.street}
-        </T>
+        {location.street ? (
+          <T secondary medium multiline>
+            {' '}
+            . {location.street}
+          </T>
+        ) : null}
       </WRPT>
     </XStack>
   ) : null

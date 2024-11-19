@@ -14,7 +14,7 @@ const scrollViewContainerStyle = {
   pt: 166,
   pl: '$medium',
   pr: '$medium',
-  pb: '$xlarge',
+  pb: '$11',
 } as const
 
 const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {

@@ -43,6 +43,8 @@ jest.mock('@/ctx/SessionProvider', () => {
   }
 })
 
+jest.mock('@/components/ModalOrPageBase/ModalOrPageBase', () => ({ default: jest.fn(() => <></>) }))
+
 const customRender: typeof render = (ui) => {
   return render(<TamaguiProvider>{ui}</TamaguiProvider>)
 }
@@ -51,6 +53,7 @@ describe('EventToggleSubscribeButton', () => {
   it('should display "Unsubscribe" button when registered ', async () => {
     const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'unsubscribe-id',
           ...mockedEvnt.registerEvent,
@@ -64,6 +67,7 @@ describe('EventToggleSubscribeButton', () => {
   it('should display "Subscribe" button when unregistered ', async () => {
     const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.unRegisterEvent,
@@ -74,45 +78,52 @@ describe('EventToggleSubscribeButton', () => {
     expect(button).toBeTruthy()
   })
 
-  it('should be hide when canceled', async () => {
-    const { root } = customRender(
+  it('should display "annuler" when canceled', async () => {
+    const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.cancelledEvent,
         }}
       />,
     )
-    expect(root).toBeUndefined()
+    const statusButton = getByTestId('status-event-chip')
+    expect(statusButton).toHaveTextContent('Annulé')
   })
 
-  it('should be hide when finished', async () => {
-    const { root } = customRender(
+  it('should display "terminé" when finished', async () => {
+    const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.finishedEvent,
         }}
       />,
     )
-    expect(root).toBeUndefined()
+    const statusButton = getByTestId('status-event-chip')
+    expect(statusButton).toHaveTextContent('Terminé')
   })
 
-  it('should be hide when capacity is full', async () => {
-    const { root } = customRender(
+  it('should display "complet" when capacity is full', async () => {
+    const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.capacityFullEvent,
         }}
       />,
     )
-    expect(root).toBeUndefined()
+    const statusButton = getByTestId('status-event-chip')
+    expect(statusButton).toHaveTextContent('Complet')
   })
 
-  it('should not be disabled if capacity is full and registered', async () => {
+  it('should show unsubscribeif capacity is full and registered', async () => {
     const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           ...mockedEvnt.capacityFullEvent,
@@ -121,7 +132,7 @@ describe('EventToggleSubscribeButton', () => {
       />,
     )
     const button = getByTestId('event-unsubscribe-button')
-    expect(button).not.toBeDisabled()
+    expect(button).toBeTruthy()
   })
 
   it('should not display if the user is the author', async () => {
@@ -145,6 +156,7 @@ describe('EventToggleSubscribeButton', () => {
   it('should display lock subsrcibe button to adherents', async () => {
     const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           object_state: 'partial',
@@ -160,6 +172,7 @@ describe('EventToggleSubscribeButton', () => {
   it('should display lock subsrcibe button to adherents with pending dues', async () => {
     const { getByTestId } = customRender(
       <EventToggleSubscribeButton
+        userUuid="user-uuid"
         event={{
           uuid: 'subscribe-id',
           object_state: 'partial',

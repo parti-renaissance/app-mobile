@@ -1,7 +1,6 @@
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestItemEvent } from '@/services/events/schema'
 import { YStack } from 'tamagui'
-import { isEventFull } from '../utils'
 
 export const EventLocation = ({ event }: { event: Partial<RestItemEvent> }) => {
   if (event.mode === 'online') {
@@ -12,7 +11,7 @@ export const EventLocation = ({ event }: { event: Partial<RestItemEvent> }) => {
     )
   }
 
-  if (isEventFull(event) && event.post_address) {
+  if (event.post_address) {
     return (
       <YStack testID="event-location-location">
         <VoxCard.Location

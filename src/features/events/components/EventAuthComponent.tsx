@@ -9,5 +9,5 @@ export function EventAuthComponent() {
 }
 
 export function EventAuthDialog(props: Omit<ComponentPropsWithoutRef<typeof AuthDialog>, 'title'>) {
-  return <AuthDialog title={title} {...props} />
+  return <AuthDialog title={title} {...props} testID="event-item-sign-in-dialog" />
 }

@@ -32,7 +32,7 @@ export function ScrollStack({ children, ...props }: ScrollViewProps) {
           pt: media.gtSm ? padding : undefined,
           pl: media.gtSm ? padding : undefined,
           pr: media.gtSm ? padding : undefined,
-          pb: '$xxlarge',
+          pb: '$11',
         }}
       >
         {children}
