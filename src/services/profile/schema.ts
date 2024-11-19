@@ -339,6 +339,8 @@ export const RestInstancesResponseSchema = z.array(
       name: z.string().nullable(),
       members_count: z.number().nullable(),
       assembly_committees_count: z.number(),
+      can_change_committee: z.boolean(),
+      message: z.string().nullable(),
     }),
   ]),
 )
