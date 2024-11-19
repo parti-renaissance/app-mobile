@@ -1,4 +1,4 @@
-import { memo, NamedExoticComponent } from 'react'
+import { NamedExoticComponent } from 'react'
 import EmptyStateInstanceIllustration from '@/assets/illustrations/EmptyStateInstanceIllustration'
 import Text from '@/components/base/Text'
 import ProfilePicture from '@/components/ProfilePicture'
@@ -89,9 +89,9 @@ type InstanceCardEmptyStateProps = {
 const EmptyState = (props: InstanceCardEmptyStateProps) => {
   return (
     <VoxCard inside borderWidth={1} borderColor="$textOutline32">
-      <VoxCard.Content>
+      <VoxCard.Content alignItems="center" justifyContent="center">
         <EmptyStateInstanceIllustration />
-        <Text.P>{props.message}</Text.P>
+        <Text.P textAlign="center">{props.message}</Text.P>
       </VoxCard.Content>
     </VoxCard>
   )
