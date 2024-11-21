@@ -4,7 +4,9 @@ require('react-native-reanimated').setUpTests()
 
 jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'))
 jest.mock('@sentry/react-native', () => ({ init: () => jest.fn() }))
-jest.mock('@gorhom/bottom-sheet', () => ({ default: jest.fn() }))
+jest.mock('@gorhom/bottom-sheet', () => ({
+  default: jest.fn(),
+}))
 jest.mock('expo-constants', () => {
   return {
     __esModule: true,

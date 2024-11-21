@@ -37,8 +37,12 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
     setQuery('')
   }
 
-  const handleSelect = (value: string) => () => {
-    props.onChange?.(value)
+  const handleSelect = (payload: { title: string; id: string }) => () => {
+    props.onChange?.(payload.id)
+    props.onDetailChange?.({
+      value: payload.id,
+      label: payload.title,
+    })
     setQuery('')
     bottomSheetRef.current?.close()
   }
@@ -80,7 +84,7 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
             data={filteredItems}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
-              <MemoItem {...item} onPress={handleSelect(item.id)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
+              <MemoItem {...item} onPress={handleSelect(item)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
             )}
           />
         </DropdownFrame>

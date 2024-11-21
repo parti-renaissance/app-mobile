@@ -193,8 +193,8 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         >
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
-              <XStack alignSelf="flex-start">
-                <Text.SM flex={1} color={error ? '$orange7' : '$textPrimary'}>
+              <XStack alignSelf="flex-start" width="100%">
+                <Text.SM flex={1} color={error ? '$orange7' : '$textPrimary'} numberOfLines={1}>
                   {label ?? placeholder}
                 </Text.SM>
               </XStack>
@@ -217,9 +217,10 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
               ref={inputRef}
               value={inputProps.value}
               onChangeText={handleValueChange}
-              placeholderTextColor={theme.textSecondary.val}
+              placeholderTextColor={theme.textDisabled.val}
               placeholder={placeholder}
               textAlignVertical={inputProps.multiline ? 'top' : 'center'}
+              numberOfLines={inputProps.multiline ? undefined : 1}
               onFocus={handleFocus}
               onBlur={handleBlur}
               {...inputProps}

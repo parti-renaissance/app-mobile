@@ -1,10 +1,11 @@
 import clientEnv from '@/config/clientEnv'
+import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 import Constants from 'expo-constants'
 import * as FileSystem from 'expo-file-system'
 import { isWeb } from 'tamagui'
@@ -23,12 +24,18 @@ export const useGetProfil = (props?: { enabled?: boolean; placeholderData?: Rest
   })
 }
 
-export const useGetSuspenseProfil = (props?: { enabled?: boolean; placeholderData?: RestProfilResponse | PlaceholderDataFunction<RestProfilResponse> }) => {
+function useGetSuspenseProfil(props?: { enabled?: boolean }) {
+  if (props?.enabled === false) {
+    return { data: null }
+  }
+
   return useSuspenseQuery({
     queryKey: [PROFIL_QUERY_KEY],
     queryFn: () => api.getProfile(),
   })
 }
+
+export { useGetSuspenseProfil }
 
 export const useGetUserScopes = ({ enabled }: { enabled?: boolean } = {}) => {
   return useQuery({

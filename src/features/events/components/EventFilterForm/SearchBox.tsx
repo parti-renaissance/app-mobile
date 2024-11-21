@@ -11,13 +11,13 @@ type SearchBoxProps = {
   DefaultIcon?: typeof Filter | typeof Search
 } & Omit<ComponentProps<typeof Input>, 'value' | 'onChange' | 'onFocus'>
 
-const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ value, onChange, onFocus, DefaultIcon = Search, ...rest }, ref) => {
+const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ label, value, onChange, onFocus, DefaultIcon = Search, ...rest }, ref) => {
   const searchInputRef = useForwardRef(ref)
 
   const IconRight = useCallback((props: { isInputFill: boolean }) => {
     return props.isInputFill ? (
       <Pressable onPress={() => onChange('')}>
-        <XCircle />
+        <XCircle color="$blue9" />
       </Pressable>
     ) : (
       <DefaultIcon />
@@ -26,8 +26,9 @@ const SearchBox = forwardRef<TextInput, SearchBoxProps>(({ value, onChange, onFo
 
   return (
     <Input
-      placeholder="Rechercher un événement"
-      size="md"
+      placeholder="Rechercher"
+      label={label}
+      size="sm"
       ref={searchInputRef}
       color="white"
       placeholderTextColor={'$textSecondary'}
