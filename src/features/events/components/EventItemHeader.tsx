@@ -1,4 +1,4 @@
-import React, { Children, isValidElement, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { XStack } from 'tamagui'
 
 type EventItemHeader = {

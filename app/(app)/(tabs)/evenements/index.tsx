@@ -13,7 +13,7 @@ import { useSession } from '@/ctx/SessionProvider'
 import EventFilterForm from '@/features/events/components/EventFilterForm/EventFilterForm'
 import EventFeedList from '@/features/events/pages'
 import Head from 'expo-router/head'
-import { getToken, useMedia, XStack, YStack } from 'tamagui'
+import { getTokenValue, XStack, YStack } from 'tamagui'
 
 const options = [{ label: 'Tous les événements', value: 'events' } as const, { label: "J'y participe", value: 'myEvents' } as const]
 
@@ -36,8 +36,8 @@ const EventsScreen: React.FC = () => {
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
           <YStack flex={1} flexGrow={1} flexBasis={0} gap="$medium">
-            <YStack $gtLg={{ display: 'none' }} gap="$medium" paddingTop={isAuth ? insets.top + getToken('$large', 'space') : '$medium'}>
-              <XStack pl={24} display={isAuth ? 'flex' : 'none'}>
+            <YStack $gtLg={{ display: 'none' }} gap="$medium" paddingTop={(isAuth ? insets.top : 0) + getTokenValue('$medium', 'space')}>
+              <XStack pl="$medium" display={isAuth ? 'flex' : 'none'}>
                 {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
               </XStack>
               <YStack paddingHorizontal="$medium" height={50}>
@@ -100,16 +100,16 @@ const EventsScreen: React.FC = () => {
           </YStack>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
-          <VoxCard.Content>
-            <YStack gap="$medium" $lg={{ display: 'none' }}>
+          <YStack gap="$medium" $lg={{ display: 'none' }}>
+            {isAuth ? (
               <XStack gap="$medium">
-                {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
+                <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} />
               </XStack>
-              <YStack>
-                <EventFilterForm />
-              </YStack>
+            ) : null}
+            <YStack>
+              <EventFilterForm />
             </YStack>
-          </VoxCard.Content>
+          </YStack>
         </PageLayout.SideBarRight>
       </PageLayout>
     </>

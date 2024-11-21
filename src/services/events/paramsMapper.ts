@@ -30,6 +30,7 @@ const paramsCollection = {
   orderBySubscriptions: (x: boolean) => ({ 'order[subscriptions]': x ? 'desc' : 'asc' }),
   orderByBeginAt: (x: boolean) => ({ 'order[beginAt]': x ? 'desc' : 'asc' }),
   zipCode: (x: string) => ({ zipCode: x }),
+  zone: (x: string) => ({ zone: x }),
   page: (x: number) => ({ page: x }),
   subscribedOnly: (x: boolean) => ({ subscribedOnly: x }),
 } as const

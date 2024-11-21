@@ -38,7 +38,8 @@ const Select = <A extends string>(props: SelectProps<A>) => {
         }}
       >
         <Input
-          color="gray"
+          color={props.color ?? 'gray'}
+          size={props.size}
           onPress={handlePress}
           fake
           placeholder={props.placeholder}

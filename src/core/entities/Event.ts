@@ -57,6 +57,7 @@ export interface Committee {
 export interface EventFilters {
   subscribedOnly?: boolean
   finishAfter?: Date
+  zone?: string
   searchText?: string
   mode?: EventMode
 }
