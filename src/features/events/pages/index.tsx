@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react'
-import { SectionList } from 'react-native'
+import { NativeScrollEvent, NativeSyntheticEvent, SectionList } from 'react-native'
 import Text from '@/components/base/Text'
 import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -35,7 +35,17 @@ const splitEvents = (events: RestItemEvent[] | RestPublicItemEvent[]) => {
   ]
 }
 
-const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
+const EventList = ({
+  activeTab,
+  onScroll,
+  paddingTop,
+  onMomentumScrollEnd,
+}: {
+  activeTab: 'events' | 'myEvents'
+  onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void
+  onMomentumScrollEnd?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void
+  paddingTop?: number
+}) => {
   const media = useMedia()
   const { session } = useSession()
   const user = useGetProfil({ enabled: Boolean(session) })
@@ -75,11 +85,17 @@ const EventList = ({ activeTab }: { activeTab: 'events' | 'myEvents' }) => {
     <SectionList
       style={{ width: '100%' }}
       ref={listRef}
+      onScroll={onScroll}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      scrollEventThrottle={16}
       stickySectionHeadersEnabled={false}
+      initialNumToRender={10}
+      maxToRenderPerBatch={10}
+      removeClippedSubviews={true}
       contentContainerStyle={{
         flexGrow: 1,
         gap: getToken('$medium', 'space'),
-        paddingTop: 0,
+        paddingTop: paddingTop,
         paddingLeft: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingBottom: getToken('$11', 'space'),
