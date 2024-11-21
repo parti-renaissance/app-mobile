@@ -1,14 +1,14 @@
 import { useMemo, useRef } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent, SectionList } from 'react-native'
 import Text from '@/components/base/Text'
-import EmptyEvent from '@/components/EmptyStates/EmptyEvent/EmptyEvent'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { useSession } from '@/ctx/SessionProvider'
-import { eventFiltersState } from '@/features/events/components/EventFilterForm/EventFilterForm'
+import EmptyEvent from '@/features/events/components/EmptyEvent'
 import EventListItem from '@/features/events/components/EventListItem'
+import { eventFiltersState } from '@/features/events/store/filterStore'
 import { useSuspensePaginatedEvents } from '@/services/events/hook'
 import { RestItemEvent, RestPublicItemEvent } from '@/services/events/schema'
-import { useGetProfil } from '@/services/profile/hook'
+import { useGetSuspenseProfil } from '@/services/profile/hook'
 import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
@@ -48,7 +48,7 @@ const EventList = ({
 }) => {
   const media = useMedia()
   const { session } = useSession()
-  const user = useGetProfil({ enabled: Boolean(session) })
+  const user = useGetSuspenseProfil({ enabled: Boolean(session) })
   const listRef = useRef<SectionList>(null)
   useScrollToTop(listRef)
 
@@ -62,10 +62,9 @@ const EventList = ({
     isRefetching,
     refetch,
   } = useSuspensePaginatedEvents({
-    postalCode: user.data?.postal_code,
     filters: {
       searchText: filters.search,
-      zone: filters.zone,
+      zone: filters.zone ?? user.data?.instances?.assembly?.code,
       subscribedOnly: activeTab === 'myEvents',
     },
   })
@@ -104,18 +103,22 @@ const EventList = ({
       renderItem={({ item }) => <EventListItem event={item} userUuid={user.data?.uuid} />}
       renderSectionHeader={({ section }) => {
         return (
-          <XStack gap="$small" $md={{ paddingLeft: '$medium' }} $gtLg={{ paddingTop: section.index === 0 ? '$large' : 0 }}>
-            <Text.MD color={section.data.length === 0 ? '$textDisabled' : '$gray4'} semibold>
-              {`${section.title} ${section.index === 0 ? `(${section.data.length})` : ''}`.toUpperCase()}
-            </Text.MD>
-            <ChevronDown size={16} color="$textPrimary" />
+          <XStack justifyContent="center">
+            <XStack gap="$small" $md={{ paddingLeft: '$medium' }} $gtLg={{ paddingTop: section.index === 0 ? '$large' : 0 }}>
+              <Text.MD color={section.data.length === 0 ? '$textDisabled' : '$gray4'} semibold>
+                {`${section.title} ${section.index === 0 ? `(${section.data.length})` : ''}`.toUpperCase()}
+              </Text.MD>
+              <ChevronDown size={16} color="$textPrimary" />
+            </XStack>
           </XStack>
         )
       }}
       ListEmptyComponent={
-        <PageLayout.StateFrame>
-          <EmptyEvent state="évenements" />
-        </PageLayout.StateFrame>
+        <VoxCard.Content paddingTop="$xxlarge">
+          <XStack flex={1}>
+            <EmptyEvent state="évenements" />
+          </XStack>
+        </VoxCard.Content>
       }
       keyboardDismissMode="on-drag"
       keyExtractor={(item) => item.uuid}

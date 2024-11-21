@@ -24,5 +24,6 @@ export type SelectProps<A extends string> = {
     noResults?: string
     icon?: NamedExoticComponent<IconProps>
   }
+  resetable?: boolean
   color?: 'gray' | 'white'
 }

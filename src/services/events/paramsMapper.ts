@@ -38,6 +38,9 @@ const paramsCollection = {
 export const mapParams = ({ page, filters, orderByBeginAt, orderBySubscriptions }: GetEventsSearchParametersMapperProps): RestGetEventsRequest => {
   const p = { page, orderByBeginAt, orderBySubscriptions, ...filters }
   return Object.entries(p).reduce((acc, [key, value]) => {
+    if (key === 'zone' && value === 'all') {
+      return acc
+    }
     if (value) {
       return { ...acc, ...paramsCollection[key](value) }
     }

@@ -1,4 +1,4 @@
-export const departements = [
+export const assemblies = [
   {
     value: '01',
     label: 'Ain',
@@ -74,6 +74,10 @@ export const departements = [
   {
     value: '19',
     label: 'Corrèze',
+  },
+  {
+    value: '20',
+    label: 'Corse',
   },
   {
     value: '21',
@@ -260,6 +264,14 @@ export const departements = [
     label: 'Pyrénées-Atlantiques',
   },
   {
+    value: '64B',
+    label: 'Béarn',
+  },
+  {
+    value: '64PB',
+    label: 'Pays-Basque',
+  },
+  {
     value: '65',
     label: 'Hautes-Pyrénées',
   },
@@ -278,6 +290,14 @@ export const departements = [
   {
     value: '69',
     label: 'Rhône',
+  },
+  {
+    value: '69D',
+    label: 'Nouveau Rhône',
+  },
+  {
+    value: '69M',
+    label: 'Métropole de Lyon',
   },
   {
     value: '70',
@@ -400,7 +420,43 @@ export const departements = [
     label: 'La Réunion',
   },
   {
+    value: '975',
+    label: 'Saint-Pierre-et-Miquelon',
+  },
+  {
     value: '976',
     label: 'Mayotte',
+  },
+  {
+    value: '977',
+    label: 'Saint-Barthélemy',
+  },
+  {
+    value: '978',
+    label: 'Saint-Martin',
+  },
+  {
+    value: '984',
+    label: 'Terres australes et antarctiques françaises',
+  },
+  {
+    value: '986',
+    label: 'Wallis et Futuna',
+  },
+  {
+    value: '987',
+    label: 'Polynésie française',
+  },
+  {
+    value: '988',
+    label: 'Nouvelle-Calédonie',
+  },
+  {
+    value: '989',
+    label: 'Île de Clipperton',
+  },
+  {
+    value: 'FDE',
+    label: "Français de l'Étranger",
   },
 ]

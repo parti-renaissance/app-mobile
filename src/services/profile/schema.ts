@@ -9,6 +9,33 @@ export type RestProfilResponse = z.infer<typeof RestProfilResponseSchema>
 export const TagTypesSchema = z.union([z.literal('sympathisant'), z.literal('adherent'), z.literal('elu')])
 export type RestProfilResponseTagTypes = z.infer<typeof TagTypesSchema>
 
+const RestProfilInstancesSchema = z
+  .object({
+    assembly: z
+      .object({
+        code: z.string(),
+        name: z.string(),
+      })
+      .nullish(),
+    circonscription: z
+      .object({
+        code: z.string(),
+        name: z.string(),
+      })
+      .nullish(),
+    committee: z
+      .object({
+        name: z.string(),
+        uuid: z.string().uuid(),
+        members_count: z.number(),
+        assembly_committees_count: z.number(),
+        can_change_committee: z.boolean(),
+        message: z.string().nullable(),
+      })
+      .nullish(),
+  })
+  .nullable()
+
 export const RestProfilResponseSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
@@ -23,6 +50,7 @@ export const RestProfilResponseSchema = z.object({
   email_subscribed: z.boolean(),
   nickname: z.string().nullable(),
   use_nickname: z.boolean(),
+  instances: RestProfilInstancesSchema,
   surveys: z
     .object({
       total: z.number(),

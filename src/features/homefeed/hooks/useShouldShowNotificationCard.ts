@@ -16,5 +16,5 @@ export const useShouldShowNotificationCard = () => {
   const userStore = useUserStore()
   const shouldNotShow = isUserHidedNotificationCard(userStore.hideResubscribeAlert)
   const { data: user } = useGetSuspenseProfil()
-  return !shouldNotShow && !user.email_subscribed
+  return !shouldNotShow && !user?.email_subscribed
 }

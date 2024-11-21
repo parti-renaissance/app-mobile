@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import Animated, { Extrapolation, interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,6 +12,7 @@ import SkeCard from '@/components/Skeleton/CardSkeleton'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import EventFilterForm from '@/features/events/components/EventFilterForm/EventFilterForm'
+import useResetFilters from '@/features/events/hooks/useResetFilters'
 import EventFeedList from '@/features/events/pages'
 import Head from 'expo-router/head'
 import { getTokenValue, XStack, YStack } from 'tamagui'
@@ -22,6 +23,12 @@ const EventsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'events' | 'myEvents'>('events')
   const insets = useSafeAreaInsets()
   const { isAuth } = useSession()
+  const { handleReset } = useResetFilters()
+
+  const handleSetActiveTab = useCallback((x: typeof activeTab) => {
+    setActiveTab((x) => (x === 'events' ? 'myEvents' : 'events'))
+    handleReset()
+  }, [])
 
   const scrollY = useSharedValue(0)
   const RA_headerHeight = useSharedValue(0)
@@ -125,7 +132,7 @@ const EventsScreen: React.FC = () => {
                 paddingTop={(isAuth ? insets.top : 0) + getTokenValue('$medium', 'space')}
               >
                 <XStack pl="$medium" display={isAuth ? 'flex' : 'none'}>
-                  {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={(x) => setActiveTab(x ?? 'events')} /> : null}
+                  {isAuth ? <ButtonGroup theme="blue" options={options} value={activeTab} onChange={handleSetActiveTab} /> : null}
                 </XStack>
                 <YStack paddingHorizontal="$medium" height={50}>
                   <EventFilterForm />
