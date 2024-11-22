@@ -189,7 +189,8 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
           height="100%"
           flex={1}
           justifyContent={inputProps.multiline ? undefined : 'center'}
-          paddingTop={inputProps.multiline ? '$medium' : undefined}
+          paddingTop={inputProps.multiline ? '$medium' : 'xsmall'}
+          paddingBottom="$xsmall"
         >
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (

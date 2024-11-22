@@ -34,7 +34,7 @@ export default function ButtonGroup<VALUE extends string>({
   return (
     <ButtonGroupFrame {...props}>
       {options.map((option) => (
-        <Button size="sm" theme={theme} inverse={!isChecked(option.value)} onPress={handlePress(option.value)}>
+        <Button size="sm" key={option.value} theme={theme} inverse={!isChecked(option.value)} onPress={handlePress(option.value)}>
           {option.label}
         </Button>
       ))}

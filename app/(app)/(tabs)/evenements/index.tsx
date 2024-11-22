@@ -71,7 +71,7 @@ const EventsScreen: React.FC = () => {
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 100,
+      zIndex: 10,
       transform: [
         {
           translateY: headerOffset.value,
@@ -139,7 +139,7 @@ const EventsScreen: React.FC = () => {
 
             <BoundarySuspenseWrapper
               fallback={
-                <YStack gap="$medium" padding="$medium" $sm={{ paddingHorizontal: 0, paddingTop: '$medium' }}>
+                <YStack gap="$medium" padding="$medium" $sm={{ paddingHorizontal: 0, paddingTop: headerHeight }}>
                   <SkeCard>
                     <SkeCard.Content>
                       <SkeCard.Chip />

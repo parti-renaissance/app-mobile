@@ -31,7 +31,7 @@ const splitEvents = (events: RestItemEvent[] | RestPublicItemEvent[]) => {
 
   return [
     { title: 'À venir', data: incomming, index: 0 },
-    { title: 'Évènements passées', data: past, index: 1 },
+    { title: 'Événements passés', data: past, index: 1 },
   ]
 }
 

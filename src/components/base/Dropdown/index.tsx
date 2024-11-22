@@ -14,6 +14,7 @@ export const DropdownItemFrame = styled(ThemeableStack, {
   alignItems: 'center',
   alignContent: 'center',
   justifyContent: 'space-between',
+  paddingVertical: '$xsmall',
   borderBottomWidth: 1,
   borderBottomColor: '$textOutline',
   focusable: true,
@@ -31,13 +32,13 @@ export const DropdownItemFrame = styled(ThemeableStack, {
     },
     size: {
       sm: {
-        height: 40,
+        minHeight: 40,
       },
       md: {
-        height: 48,
+        minHeight: 48,
       },
       lg: {
-        height: 56,
+        minHeight: 56,
       },
     },
   },
@@ -59,15 +60,17 @@ export const DropdownItem = ({ title, subtitle, color = '$textPrimary', ...props
   return (
     <DropdownItemFrame {...props}>
       <YStack flex={1}>
-        <Text.MD semibold color={color}>
+        <Text.MD multiline semibold color={color}>
           {title}
         </Text.MD>
         {subtitle ? <Text.SM secondary>{subtitle}</Text.SM> : null}
       </YStack>
-      <XStack>
-        {props.icon ? <props.icon color={color} size={20} /> : null}
-        {props.selected ? <Check color={color} size={20} /> : null}
-      </XStack>
+      {[props.icon, props.selected].some((x) => x) ? (
+        <XStack>
+          {props.icon ? <props.icon color={color} size={20} /> : null}
+          {props.selected ? <Check color={color} size={20} /> : null}
+        </XStack>
+      ) : null}
     </DropdownItemFrame>
   )
 }
@@ -83,13 +86,13 @@ export const DropdownFrame = styled(ThemeableStack, {
   variants: {
     size: {
       sm: {
-        maxHeight: 40 * 4,
+        maxHeight: 40 * 6,
       },
       md: {
-        maxHeight: 48 * 4,
+        maxHeight: 48 * 6,
       },
       lg: {
-        maxHeight: 56 * 4,
+        maxHeight: 56 * 6,
       },
     },
   },

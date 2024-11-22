@@ -13,7 +13,7 @@ type BottomsheetLogicProps = {
   frameRef?: RefObject<TouchableOpacity>
 } & SelectProps<string>
 
-const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({ options, searchableOptions, frameRef, ...props }, ref) => {
+const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({ options, searchableOptions, frameRef, resetable, ...props }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['60%'], [])
   const { setQuery, filteredItems, queryInputRef, searchableIcon } = useSelectSearch({ options, searchableOptions })
@@ -64,7 +64,7 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
           width: 48,
         }}
       >
-        <DropdownFrame minHeight="100%" flex={1} borderRadius={0} borderWidth="none">
+        <DropdownFrame minHeight="100%" flex={1} borderRadius={0} borderWidth={0}>
           <BottomSheetFlatList
             stickyHeaderHiddenOnScroll={props.searchable}
             stickyHeaderIndices={props.searchable ? [0] : undefined}

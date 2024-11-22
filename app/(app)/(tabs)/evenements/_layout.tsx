@@ -11,7 +11,7 @@ export default function AppLayout() {
   if (!isAuth && media.sm) {
     return (
       <>
-        <VoxHeader justifyContent="space-between">
+        <VoxHeader justifyContent="space-between" zIndex={100}>
           <XStack flex={1} flexBasis={0}>
             <Link href="/" replace>
               <EuCampaignIllustration cursor="pointer" showText={false} />

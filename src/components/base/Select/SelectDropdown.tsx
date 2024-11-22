@@ -56,7 +56,7 @@ export type SelectDropdownRef = ModalDropDownRef & {
   setModalPosition: () => void
 }
 
-const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ frameRef, options, searchableOptions, ...props }, ref) => {
+const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ frameRef, options, searchableOptions, resetable, ...props }, ref) => {
   const modalRef = useRef<ModalDropDownRef>(null)
   const dropdownTop = useSharedValue(0)
   const dropdownX = useSharedValue(0)

@@ -242,7 +242,12 @@ const VoxHeaderFrameRouter = ({
   const height = safeAreaView ? insets.top + 56 : 56
 
   return (
-    <VoxHeaderContainerStyled height={height} style={{ paddingTop: safeAreaView ? insets.top : 0 }} backgroundColor={backgroundColor} borderWidth={borderWidth}>
+    <VoxHeaderContainerStyled
+      height={height}
+      style={{ paddingTop: safeAreaView ? insets.top : 0, zIndex: 20 }}
+      backgroundColor={backgroundColor}
+      borderWidth={borderWidth}
+    >
       <VoxHeaderFrameStyled {...props} />
     </VoxHeaderContainerStyled>
   )

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import Select from '@/components/base/Select/SelectV3'
 import { InputProps } from '../base/Input/Input'
 import { assemblies } from './assemblies'
@@ -27,7 +27,7 @@ const options = [
 
 const optionMap = new Map(options.map((options) => [options.value, options]))
 
-export default function AssemblySelect({ id, onChange, onDetailChange, value, defaultValue, ...props }: Readonly<AssemblySelectProps>) {
+function AssemblySelect({ id, onChange, onDetailChange, value, defaultValue, ...props }: Readonly<AssemblySelectProps>) {
   const handleChange = useCallback(
     (value: string) => {
       onChange?.(value)
@@ -66,3 +66,5 @@ export default function AssemblySelect({ id, onChange, onDetailChange, value, de
     />
   )
 }
+
+export default memo(AssemblySelect)

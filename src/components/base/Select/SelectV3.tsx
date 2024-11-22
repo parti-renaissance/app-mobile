@@ -34,7 +34,6 @@ const Select = <A extends string>(props: SelectProps<A>) => {
           props.onChange?.(undefined)
           // @ts-ignore
           props.onDetailChange?.(undefined)
-          console.log('reset')
         }}
       >
         <XCircle color="$blue9" />
