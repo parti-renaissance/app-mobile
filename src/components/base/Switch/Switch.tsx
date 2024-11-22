@@ -22,7 +22,7 @@ function _LineSwitch(props: { children: React.ReactNode } & SwitchProps) {
     props.onCheckedChange?.(checked)
   }
   return (
-    <View flexDirection="row" maxWidth="100%" alignItems="center" gap="$2.5" onPress={() => handleCheckedChange(!props.checked)}>
+    <View flexDirection="row" maxWidth="100%" alignItems="center" gap="$medium" onPress={() => handleCheckedChange(!props.checked)}>
       <Text flex={1}>{typeof props.children === 'string' ? <Text>{props.children}</Text> : props.children}</Text>
       <Switch checked={props.checked} onCheckedChange={handleCheckedChange} />
     </View>

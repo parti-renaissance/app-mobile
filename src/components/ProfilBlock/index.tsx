@@ -82,7 +82,7 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
   }
 
   return (
-    <YStack justifyContent="center" alignItems="center" gap={16}>
+    <YStack justifyContent="center" alignItems="center" gap="$medium">
       <ImageCroper image={image} open={openCrop} onClose={handleCloseCrop} />
       <XStack alignItems="center" justifyContent="center">
         <DropdownWrapper items={dropDownItems} onSelect={handleDropSelect} onOpenChange={setOpenDropdown} open={openDropdown}>
@@ -124,7 +124,7 @@ export default function ({ editablePicture = true, ...props }: ComponentPropsWit
   return profil ? (
     <VoxCard $sm={{ bg: 'transparent' }} {...props}>
       <VoxCard.Content>
-        <YStack justifyContent="center" alignItems="center" gap={16}>
+        <YStack justifyContent="center" alignItems="center" gap="$medium">
           {editablePicture ? (
             <UploadPP profil={profil} />
           ) : (
@@ -135,8 +135,8 @@ export default function ({ editablePicture = true, ...props }: ComponentPropsWit
           </Text.LG>
         </YStack>
         <ProfileTags tags={tags ?? []} justifyContent="center" />
-        <Text.MD textAlign="center">
-          {detProfil.main_zone?.name}, {detProfil.post_address?.city_name}
+        <Text.MD medium textAlign="center">
+          {[detProfil.main_zone?.name, detProfil.post_address?.city_name].filter(Boolean).join(', ')}
         </Text.MD>
       </VoxCard.Content>
     </VoxCard>

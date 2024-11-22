@@ -4,11 +4,11 @@ import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import InfoCard from '@/components/InfoCard/InfoCard'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { createDoubleIcon } from '@/components/utils'
+import { MessageCard } from '@/components/MessageCard/MessageCard'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetInstances, useGetTags } from '@/services/profile/hook'
 import { RestInstancesResponse } from '@/services/profile/schema'
-import { UserPlus } from '@tamagui/lucide-icons'
+import { Info, UserPlus } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
 import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
 import ChangeCommitteeModal from './components/ChangeCommittee'
@@ -34,10 +34,10 @@ const InstancesScreen = () => {
 
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$5' : undefined,
-      pl: media.gtSm ? '$5' : undefined,
-      pr: media.gtSm ? '$5' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pt: media.gtSm ? '$medium' : undefined,
+      pl: media.gtSm ? '$medium' : undefined,
+      pr: media.gtSm ? '$medium' : undefined,
+      pb: '$11',
     }),
     [media],
   )
@@ -59,17 +59,19 @@ const InstancesScreen = () => {
         content: <InstanceCard.Content title={committee.name} description={`${committee.members_count ?? 0} Adhérents`} />,
         footerText: <Text.P>Vous êtes rattaché à ce comité par défaut. Vous pouvez en changer pour un autre comité de votre département.</Text.P>,
         button: (
-          <VoxButton variant="outlined" onPress={() => setOpenChange(true)}>
-            Changer de comité
-          </VoxButton>
+          <>
+            <VoxButton variant="outlined" onPress={() => setOpenChange(true)} disabled={!committee.can_change_committee}>
+              Changer de comité
+            </VoxButton>
+          </>
         ),
       }
     } else if (committee && !committee.uuid && committee.assembly_committees_count > 0) {
       return {
         content: <InstanceCard.EmptyState message={'Vous n’êtes rattaché à aucun comité.'} />,
-        footerText: <Text.P>Vous pouvez choisir parmi les ${committee.assembly_committees_count} comités de votre Assemblée.</Text.P>,
+        footerText: <Text.P>Vous pouvez choisir parmi les {committee.assembly_committees_count} comités de votre Assemblée.</Text.P>,
         button: (
-          <VoxButton variant="outlined" onPress={() => setOpenChange(true)}>
+          <VoxButton variant="outlined" onPress={() => setOpenChange(true)} disabled={!committee.can_change_committee}>
             Choisir parmi {committee.assembly_committees_count} comités
           </VoxButton>
         ),
@@ -88,15 +90,15 @@ const InstancesScreen = () => {
       <ChangeCommitteeModal currentCommitteeUuid={committee?.uuid ?? null} open={openChange} onClose={() => setOpenChange(false)} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap={16} flex={1} $sm={{ pt: 8, gap: 8 }}>
+          <YStack gap="$medium" flex={1} $sm={{ pt: 8, gap: 8 }}>
             <InstanceCard
               title="Mon assemblée"
               icon={DoubleCircle}
-              description="Les Assemblées départementales, des Outr-Mer et celle des Français de l’Étranger sont le visage de notre parti à l’échelle local. Elle est pilotée par un bureau et son Président, élus directement par les adhérents."
+              description="Les Assemblées départementales, des Outre-Mer et celle des Français de l’Étranger sont le visage de notre parti à l’échelle locale. Elles sont pilotées par un bureau et leur Président, élus directement par les adhérents."
               footer={
                 <Text.P>
                   Cette Assemblée vous a été attribuée en fonction de votre lieu de résidence.{' '}
-                  <Link href="/(app)/profil/informations-personnelles" asChild>
+                  <Link href="/(app)/profil/informations-personnelles" asChild={!isWeb}>
                     <Text.P link>Modifiez votre adresse postale</Text.P>
                   </Link>{' '}
                   pour en changer.
@@ -117,7 +119,7 @@ const InstancesScreen = () => {
                 <YStack>
                   <Text.P>
                     Cette circonscription vous a été attribuée en fonction de votre lieu de résidence.{' '}
-                    <Link href="/(app)/profil/informations-personnelles" asChild>
+                    <Link href="/(app)/profil/informations-personnelles" asChild={!isWeb}>
                       <Text.P link>Modifiez votre adresse postale</Text.P>
                     </Link>{' '}
                     pour en changer.
@@ -135,12 +137,17 @@ const InstancesScreen = () => {
             <InstanceCard
               title="Mon comité"
               icon={DoubleDiamond}
-              description="Échelon de proximité, les comités locaux sont le lieux privilégié de l’action militant. Ils animent la vie du parti et contribuent à notre implantation territoriale."
+              description="Échelon de proximité, les comités locaux sont le lieu privilégié de l’action militante. Ils animent la vie du parti et contribuent à notre implantation territoriale."
               headerLeft={isSympathisant ? <VoxCard.AdhLock /> : null}
               footer={
                 committeeContent.footerText || committeeContent.button ? (
-                  <YStack gap={16}>
+                  <YStack gap="$medium">
                     {committeeContent.footerText}
+                    {committee.message ? (
+                      <MessageCard theme="yellow" iconLeft={Info}>
+                        {committee.message}
+                      </MessageCard>
+                    ) : null}
                     {committeeContent.button}
                   </YStack>
                 ) : null

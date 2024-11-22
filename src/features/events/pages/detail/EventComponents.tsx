@@ -18,7 +18,7 @@ import { isPast } from 'date-fns'
 import { ScrollView, ScrollViewProps, Sheet, useMedia, XStack } from 'tamagui'
 import { useHandleCopyUrl } from './utils'
 
-const padding = '$5'
+const padding = '$medium'
 
 export function ScrollStack({ children, ...props }: ScrollViewProps) {
   const media = useMedia()
@@ -32,7 +32,7 @@ export function ScrollStack({ children, ...props }: ScrollViewProps) {
           pt: media.gtSm ? padding : undefined,
           pl: media.gtSm ? padding : undefined,
           pr: media.gtSm ? padding : undefined,
-          pb: '$10',
+          pb: '$11',
         }}
       >
         {children}
@@ -110,7 +110,7 @@ export function AsideShare({ data, id }: Readonly<{ data: eventTypes.RestEvent; 
 
   const addToCalendar = useCreateEvent()
   return (
-    <VoxCard.Section title="Partager :" gap="$3">
+    <VoxCard.Section title="Partager :" gap="$medium">
       <Button variant="outlined" width="100%" onPress={() => handleCopyUrl(shareUrl)}>
         <Button.Text color="$purple6" fontWeight="$4" numberOfLines={1} flex={1}>
           {shareUrl}
@@ -145,7 +145,7 @@ function _RegisterButtonSheet(props: { id: string }) {
     setOpen(nextOpen)
   }
 
-  const scrollRef = React.useRef<ScrollView>(null)
+  const scrollRef = React.useRef<React.ComponentRef<typeof Sheet.ScrollView>>(null)
 
   return (
     <>
@@ -164,8 +164,7 @@ function _RegisterButtonSheet(props: { id: string }) {
       <Sheet modal dismissOnSnapToBottom dismissOnOverlayPress moveOnKeyboardChange open={open} onOpenChange={handleOpenChange} snapPoints={[80]}>
         <Sheet.Overlay />
         <Sheet.Handle />
-        <Sheet.Frame padding="$4" elevation="$1">
-          {/* @ts-expect-error ref don't match  */}
+        <Sheet.Frame padding="$medium" elevation="$1">
           <Sheet.ScrollView ref={scrollRef} contentContainerStyle={{ alignItems: 'center' }}>
             <XStack maxWidth={600} alignItems="center">
               <EventRegisterForm

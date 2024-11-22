@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { ChevronsUpDown } from '@tamagui/lucide-icons'
+import { Pressable, TouchableOpacity } from 'react-native'
+import { ChevronsUpDown, XCircle } from '@tamagui/lucide-icons'
 import { useMedia } from 'tamagui'
 import Input from '../Input/Input'
 import SelectBottomSheet from './SelectBottomSheet'
@@ -25,7 +25,23 @@ const Select = <A extends string>(props: SelectProps<A>) => {
   const selectorRef = useMemo(() => {
     return media.gtSm ? modalRef : bottomSheetRef
   }, [media])
-
+  const IconRight = useCallback(() => {
+    return props.resetable ? (
+      <Pressable
+        onPress={(e) => {
+          e.stopPropagation()
+          // @ts-ignore
+          props.onChange?.(undefined)
+          // @ts-ignore
+          props.onDetailChange?.(undefined)
+        }}
+      >
+        <XCircle color="$blue9" />
+      </Pressable>
+    ) : (
+      <ChevronsUpDown color="$textPrimary" />
+    )
+  }, [props.resetable])
   return (
     <>
       <Selector ref={selectorRef} frameRef={frameRef} {...props} />
@@ -38,7 +54,8 @@ const Select = <A extends string>(props: SelectProps<A>) => {
         }}
       >
         <Input
-          color="gray"
+          color={props.color ?? 'gray'}
+          size={props.size}
           onPress={handlePress}
           fake
           placeholder={props.placeholder}
@@ -46,7 +63,7 @@ const Select = <A extends string>(props: SelectProps<A>) => {
           error={props.error}
           disabled={props.disabled}
           value={props.options.find((option) => option.value === props.value)?.label}
-          iconRight={<ChevronsUpDown color="$textPrimary" />}
+          iconRight={<IconRight />}
         />
       </TouchableOpacity>
     </>

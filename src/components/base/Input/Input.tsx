@@ -39,14 +39,14 @@ const sizes = {
 
 const InputFrame = styled(XStack, {
   name: 'Input',
-  gap: '$2.5',
+  gap: '$small',
   width: '100%',
   minWidth: 100,
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '$10',
-  paddingHorizontal: 16,
-  borderWidth: '$1',
+  paddingHorizontal: '$medium',
+  borderWidth: 2,
   borderColor: '$colorTransparent',
   animation: 'bouncy',
   hoverStyle: {
@@ -170,7 +170,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   const theme = useTheme()
 
   return (
-    <YStack gap="$1" flex={1} ref={frameRef}>
+    <YStack gap="$xsmall" flex={1} ref={frameRef}>
       <InputFrame
         disabled={disabled}
         color={color ?? 'white'}
@@ -185,16 +185,17 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
           </YStack>
         )}
         <YStack
-          gap="$1"
+          gap="$xsmall"
           height="100%"
           flex={1}
           justifyContent={inputProps.multiline ? undefined : 'center'}
-          paddingTop={inputProps.multiline ? '$3' : undefined}
+          paddingTop={inputProps.multiline ? '$medium' : 'xsmall'}
+          paddingBottom="$xsmall"
         >
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
-              <XStack alignSelf="flex-start">
-                <Text.SM flex={1} color={error ? '$orange7' : '$textPrimary'}>
+              <XStack alignSelf="flex-start" width="100%">
+                <Text.SM flex={1} color={error ? '$orange7' : '$textPrimary'} numberOfLines={1}>
                   {label ?? placeholder}
                 </Text.SM>
               </XStack>
@@ -217,9 +218,10 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
               ref={inputRef}
               value={inputProps.value}
               onChangeText={handleValueChange}
-              placeholderTextColor={theme.textSecondary.val}
+              placeholderTextColor={theme.textDisabled.val}
               placeholder={placeholder}
               textAlignVertical={inputProps.multiline ? 'top' : 'center'}
+              numberOfLines={inputProps.multiline ? undefined : 1}
               onFocus={handleFocus}
               onBlur={handleBlur}
               {...inputProps}
@@ -237,7 +239,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
         {loading && <Spinner color="$blue7" />}
       </InputFrame>
       {error && (
-        <XStack gap="$1.5" alignItems="center" pl={16}>
+        <XStack gap="$small" alignItems="center" pl="$medium">
           <AlertCircle color="$orange7" size={12} />
           <Text.SM color="$orange7">{error}</Text.SM>
         </XStack>

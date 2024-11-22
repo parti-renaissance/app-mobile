@@ -37,14 +37,14 @@ export type VoxCardFrameProps = ComponentProps<typeof CardFrame>
 export const VoxCardFrame = CardFrame.styleable(({ children, ...props }: VoxCardFrameProps, ref) => {
   return (
     <CardFrame {...props} ref={ref}>
-      <YStack gap="$3.5">{children}</YStack>
+      <YStack gap="$medium">{children}</YStack>
     </CardFrame>
   )
 })
 
 export const VoxCardContent = styled(YStack, {
-  padding: 16,
-  gap: 16,
+  padding: '$medium',
+  gap: '$medium',
 } as const)
 
 const VoxCardChip = (props: ComponentProps<typeof Chip>) => {
@@ -66,11 +66,11 @@ const VoxCardTitle = ({ children, underline = true }: VoxCardTitleProps & { unde
   )
 }
 
-export type VoxCardDateProps = { start: Date; end?: Date; icon?: boolean; timeZone?: string }
-const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) => {
-  const { date, timezone } = getFormatedVoxCardDate({ start, end, timeZone })
+export type VoxCardDateProps = { start: Date; end?: Date; icon?: boolean; timeZone?: string; showTime?: boolean }
+const VoxCardDate = ({ start, end, icon = true, timeZone, showTime = true }: VoxCardDateProps) => {
+  const { date, timezone } = getFormatedVoxCardDate({ start, end, timeZone, showTime })
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       {icon && <CalendarDays size={16} color="$textPrimary" />}
       <Text>
         <Text.SM multiline medium>
@@ -90,7 +90,7 @@ const VoxCardDate = ({ start, end, icon = true, timeZone }: VoxCardDateProps) =>
 export type VoxCardCapacity = { children: React.ReactNode }
 const VoxCardCapacity = ({ children }: VoxCardCapacity) => {
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       <Users size={16} color="$textPrimary" />
       <Text.SM medium multiline>
         {children}
@@ -111,16 +111,18 @@ const VoxCardLocation = ({ location, asTitle = false }: VoxCardLocationProps & {
   const T = asTitle ? Text.MD : Text.SM
   const WRPT = asTitle ? VoxCardTitle : Text.MD
   return location ? (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       {!asTitle && <MapPin size={16} color="$textPrimary" />}
       <WRPT flexGrow={1} lineBreakStrategyIOS="push-out">
         <T multiline medium>
-          {location.city} {location.postalCode}
+          {[location.city, location.postalCode].filter(Boolean).join(' ')}
         </T>
-        <T secondary medium multiline>
-          {' '}
-          . {location.street}
-        </T>
+        {location.street ? (
+          <T secondary medium multiline>
+            {' '}
+            . {location.street}
+          </T>
+        ) : null}
       </WRPT>
     </XStack>
   ) : null
@@ -142,7 +144,7 @@ const VoxCardAuthor = ({ author }: VoxCardAuthorProps) => {
   const pair1 = [author.title, author.zone].filter(Boolean)
   const pair2 = [author.name, author.role].filter(Boolean)
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       <ProfilePicture size="$2" rounded src={author.pictureLink} alt="Profile picture" fullName={author.name} />
       <Text>
         {pair1.length > 0 ? (
@@ -177,7 +179,7 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
   const getPictureUri = (index: number) => getPictureObj(index)?.image_url ?? undefined
   const getFullname = (index: number) => (getPictureObj(index) ? `${getPictureObj(index)?.first_name} ${getPictureObj(index)?.last_name}` : '')
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       {attendees.pictures && attendees.pictures.length > 2 ? (
         <ZStack width={68} height="$2">
           {attendees.pictures.slice(0, 2).map((_, index) => (
@@ -240,7 +242,7 @@ const VoxCardDescription = ({ children, full, markdown }: VoxCardDescriptionProp
 
 const VoxCardVisio = () => {
   return (
-    <XStack gap="$2" alignItems="center">
+    <XStack gap="$small" alignItems="center">
       <Video size={16} color="$textPrimary" />
       <Text.SM medium>Visioconférence</Text.SM>
     </XStack>
@@ -251,7 +253,7 @@ const VoxCardSection = ({ title, ...props }: StackProps & { title: string }) => 
   return (
     <>
       <VoxCardSeparator />
-      <Stack gap="$2" {...props}>
+      <Stack gap="$small" {...props}>
         <Text.SM multiline color="$textDisabled">
           {title}
         </Text.SM>
@@ -272,7 +274,7 @@ const VoxCardAdhLock = (props?: { lock?: boolean; due?: boolean; isPrivate?: boo
     return 'Réservé aux adhérents'
   })()
   return (
-    <XStack gap={4} paddingVertical={4} alignItems="center">
+    <XStack gap="$xsmall" paddingVertical="$xsmall" alignItems="center">
       {lock ? <LockKeyhole color={color} size={12} /> : <CheckCircle color={color} size={12} />}
       <Text.SM semibold color={color}>
         {text}

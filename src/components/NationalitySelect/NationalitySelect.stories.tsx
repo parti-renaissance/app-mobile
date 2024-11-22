@@ -12,7 +12,7 @@ const Component = () => {
     <View width={400}>
       <NationalitySelect id="nationality" value={state} onChange={setState} />
 
-      <Text mt="$4">Selected nationality is {state}</Text>
+      <Text mt="$medium">Selected nationality is {state}</Text>
     </View>
   )
 }

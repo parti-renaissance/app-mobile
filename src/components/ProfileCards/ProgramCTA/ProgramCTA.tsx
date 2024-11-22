@@ -25,11 +25,11 @@ export default function ProgramCTA() {
         contentStyle={{
           lineHeight: 24,
         }}
-        padding={'$3'}
+        padding={'$medium'}
         compact
       />
       <ProfileCallToActionLayout.Actions>
-        <VoxButton variant={'outlined'} marginTop={'$2'} marginLeft={'$2.5'} zIndex={10} onPress={onPress}>
+        <VoxButton variant={'outlined'} marginTop={'$small'} marginLeft={'$small'} zIndex={10} onPress={onPress}>
           Voir Notre Projet
         </VoxButton>
       </ProfileCallToActionLayout.Actions>

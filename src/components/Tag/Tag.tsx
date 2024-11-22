@@ -9,7 +9,7 @@ export interface TagProps {
 
 export default function Tag({ color, bgColor, label }: TagProps) {
   return (
-    <View borderRadius={'$2'} backgroundColor={bgColor} paddingHorizontal={'$2'} paddingVertical={'$1'}>
+    <View borderRadius={'$2'} backgroundColor={bgColor} paddingHorizontal={'$small'} paddingVertical={'$xsmall'}>
       <Text width={'unset'} color={color}>
         {label}
       </Text>

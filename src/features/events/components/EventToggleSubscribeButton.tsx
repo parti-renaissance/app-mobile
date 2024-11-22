@@ -1,5 +1,6 @@
-import { ComponentPropsWithoutRef } from 'react'
+import { ComponentPropsWithoutRef, useMemo } from 'react'
 import { VoxButton } from '@/components/Button'
+import { useStatusChip } from '@/features/events/hooks/useStatusChip'
 import { RestItemEvent } from '@/services/events/schema'
 import { XStack } from 'tamagui'
 import {
@@ -23,17 +24,25 @@ type EventItemSubscribeButtonProps = {
 export const EventToggleSubscribeButton = ({ event, userUuid, buttonProps }: EventItemSubscribeButtonProps) => {
   const isRegister = isEventRegister(event)
   const ButtonSub = isRegister ? EventUnSubscribeButton : EventSubscribeButton
-  const shouldHide = [isEventToggleRegisterDisabled(event), isEventToggleRegisterHided(event, userUuid)].some(Boolean)
+  const isDisabled = isEventToggleRegisterDisabled(event)
+  const shouldHide = isEventToggleRegisterHided(event, userUuid)
   const isAdh = isEventAdherentReserved(event)
   const isAdhDues = isEventAdherentDuesReserved(event)
   const isLocked = isEventPartial(event)
   const ButtonLock = (props: PremiumLockButtonProps) => <EventSubscribePremiumLockButton {...props} isDue={isAdhDues} />
   const Button = [isAdhDues || isAdh, isLocked].every(Boolean) ? ButtonLock : ButtonSub
+  const StatusChip = useStatusChip({ event, buttonProps })
+  const StatusChipOrButton = useMemo(() => (StatusChip && isDisabled ? () => StatusChip : Button), [StatusChip, Button, isDisabled])
 
   if (shouldHide) return false
   return (
-    <XStack testID="event-toggle-subscribe-button">
-      <Button uuid={event.uuid} userUuid={userUuid} isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)} {...buttonProps} />
+    <XStack testID="event-item-toggle-subscribe-button">
+      <StatusChipOrButton
+        uuid={event.uuid}
+        userUuid={userUuid}
+        isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)}
+        {...buttonProps}
+      />
     </XStack>
   )
 }

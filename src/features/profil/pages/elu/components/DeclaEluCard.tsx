@@ -58,7 +58,7 @@ const EluOkSoumis = (props: { declaration: number; cotisation: number; onPressDe
     <FrameElu badgeTitle="À jour de cotisation" badgeColor="green">
       <VoxCard inside bg="$textSurface">
         <VoxCard.Content>
-          <XStack alignItems="center" gap="$3.5">
+          <XStack alignItems="center" gap="$medium">
             <Coins color="$textPrimary" />
             <Text.MD semibold>
               Montant de cotisation mensuelle calculé {props.cotisation} €.
@@ -69,7 +69,7 @@ const EluOkSoumis = (props: { declaration: number; cotisation: number; onPressDe
           <Text.SM>Vous avez déclaré une indemnitée d’élu de {props.declaration} €.</Text.SM>
         </VoxCard.Content>
       </VoxCard>
-      <XStack gap="$4" justifyContent="flex-end">
+      <XStack gap="$medium" justifyContent="flex-end">
         {/*  <VoxButton variant="outlined">Annuler ma cotisation</VoxButton> */}
         <ButtonDeclaration onPress={props.onPressDeclaForm}>Modifier ma déclaration</ButtonDeclaration>
       </XStack>
@@ -106,7 +106,7 @@ const EluNonOk = (props: { declaration: number; cotisation: number; onPressDecla
         <Text.BR />
         Vous avez déclaré une indemnités d’élu de {props.declaration} €.
       </Text.P>
-      <XStack $sm={{ flexDirection: 'column' }} gap={16} justifyContent="space-between">
+      <XStack $sm={{ flexDirection: 'column' }} gap="$medium" justifyContent="space-between">
         <ButtonDeclaration theme="gray" full={media.sm} alignSelf="flex-start" onPress={props.onPressDeclaForm}>
           Modifier ma declaration
         </ButtonDeclaration>
@@ -168,7 +168,7 @@ export default function (props: { declaration?: number; cotisation?: number }) {
             <EluBlock code={codes.map((x) => x.code)} {...props} onPressIbanForm={handleOpenIban} onPressDeclaForm={handleOpenDecla} />
             <VoxCard inside bg="$textSurface">
               <VoxCard.Content>
-                <YStack gap="$4">
+                <YStack gap="$medium">
                   <Text.P>
                     En application de l’article 4.1.2 du Règlement Intérieur, les élus titulaires de mandats électifs locaux ouvrant droit à indemnisation
                     doivent s’acquitter d’une cotisation mensuelle dont le montant est fixé suivant le barème décidé par le Bureau Exécutif du 28 novembre 2022.
@@ -182,7 +182,7 @@ export default function (props: { declaration?: number; cotisation?: number }) {
                     Par exemple,
                     <Text.BR />
                   </Text.P>
-                  <View pl="$2">
+                  <View pl="$small">
                     <Text.P>
                       - Si vos indemnités brutes sont de 200 euros, vous ne serez pas redevable de cotisation élu ;
                       <Text.BR />

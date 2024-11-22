@@ -8,7 +8,6 @@ import ModalOrPageBase from '@/components/ModalOrPageBase/ModalOrPageBase'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetCommittees, useSetMyCommittee } from '@/services/committee/hook'
 import { Diamond, X } from '@tamagui/lucide-icons'
-import { Link } from 'expo-router'
 import { useMedia, YStack } from 'tamagui'
 import CommitteeCard from './CommitteeCard'
 import { DoubleDiamond } from './icons'
@@ -85,7 +84,7 @@ export default function ChangeCommitteeModal({
         <YStack>
           <VoxHeader justifyContent="space-between">
             <VoxHeader.Title icon={Diamond}>Changer de comité</VoxHeader.Title>
-            <VoxButton onPress={modalProps.onClose} variant="text" iconLeft={X} size="lg" />
+            <VoxButton onPress={modalProps.onClose} variant="text" shrink iconLeft={X} size="lg" />
           </VoxHeader>
         </YStack>
       }
@@ -97,7 +96,7 @@ export default function ChangeCommitteeModal({
               <InstanceCardHeader
                 icon={DoubleDiamond}
                 title="Changer de comité"
-                headerLeft={<VoxButton onPress={modalProps.onClose} variant="text" iconLeft={X} size="lg"></VoxButton>}
+                headerLeft={<VoxButton onPress={modalProps.onClose} variant="text" shrink iconLeft={X} size="lg" />}
               />
             </VoxCard.Content>
           ) : null}

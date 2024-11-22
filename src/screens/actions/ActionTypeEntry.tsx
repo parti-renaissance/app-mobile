@@ -15,7 +15,7 @@ type ActionTypeEntryProps = {
 export default function ActionTypeEntry({ Icon, ...props }: ActionTypeEntryProps) {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ width: '100%' }}>
-      <View borderWidth={1} borderColor={props.selected ? '$black' : '#919EAB29'} p={'$2'} borderRadius={'$4'}>
+      <View borderWidth={1} borderColor={props.selected ? '$black' : '#919EAB29'} p={'$small'} borderRadius={'$4'}>
         {!!Icon && (
           <View mb={'$3'}>
             <Icon />

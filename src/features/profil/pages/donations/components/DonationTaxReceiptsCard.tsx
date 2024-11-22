@@ -16,7 +16,7 @@ const DownloadBtn = ({ receipt }: { receipt: RestTaxReceiptsResponse[number] }) 
   const fileName = `reçu-fiscal-${receipt.label}.pdf`
   const handlePress = () => handleDownload({ url, fileName })
   return (
-    <VoxButton theme="gray" variant="text" iconLeft={Download} bg="white" onPress={handlePress} loading={isPending}>
+    <VoxButton theme="gray" size="lg" variant="text" iconLeft={Download} bg="white" onPress={handlePress} loading={isPending}>
       Télécharger
     </VoxButton>
   )
@@ -47,7 +47,7 @@ const DonationTaxReceiptCard = () => {
           <VoxCard.Content>
             {data.map((receipt, i) => (
               <Fragment key={receipt.uuid}>
-                <XStack gap="$2" flex={1} justifyContent="space-between" alignItems="center">
+                <XStack gap="$small" flex={1} justifyContent="space-between" alignItems="center">
                   <Text.MD>{receipt.label}</Text.MD>
                   <DownloadBtn receipt={receipt} />
                 </XStack>

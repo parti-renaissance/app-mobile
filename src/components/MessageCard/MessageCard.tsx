@@ -13,7 +13,7 @@ type Props = {
 export const MessageCard = ({ children, iconLeft: IconLeft, rightComponent, ...props }: Props) => (
   <VoxCard inside bg="$color1" {...props}>
     <VoxCard.Content>
-      <XStack gap={16} alignItems="center">
+      <XStack gap="$medium" alignItems="center">
         <View width={24} height={24}>
           <IconLeft size={24} color="$color7" />
         </View>

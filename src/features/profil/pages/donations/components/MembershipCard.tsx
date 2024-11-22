@@ -3,6 +3,7 @@ import { useGetTags } from '@/services/profile/hook'
 import type { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
+import { FullWrapper } from './FullWrapper'
 import ImpossibleMembershipCard from './ImpossibleMembershipCard'
 import JoinMembershipCard from './JoinMembershipCard'
 import RenewMembershipCard from './RenewMembershipCard'
@@ -59,8 +60,11 @@ const MembershipCard = (props: MembershipCardProps) => {
   const status = getMembershipCardStatus(tags ?? [])
   if (!status) return null
   const Card = getCardByStatus(status)
-
-  return <Card {...props} />
+  return (
+    <FullWrapper title="Cotisations" full={props.full}>
+      <Card {...props} />
+    </FullWrapper>
+  )
 }
 
 export default MembershipCard

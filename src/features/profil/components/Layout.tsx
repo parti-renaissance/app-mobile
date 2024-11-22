@@ -2,7 +2,7 @@ import React from 'react'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
-import { isWeb, useMedia, YStack } from 'tamagui'
+import { useMedia, YStack } from 'tamagui'
 
 const Skeleton = () => (
   <SkeCard>
@@ -24,15 +24,14 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
         <BoundarySuspenseWrapper
           fallback={
             <YStack
-              gap={16}
+              gap="$medium"
               flex={1}
-              $sm={{ pt: 8, gap: 8 }}
               $gtSm={{
-                pt: '$8',
-                pl: '$8',
-                pr: '$8',
+                pt: '$medium',
+                pl: '$medium',
+                pr: '$medium',
               }}
-              pb={isWeb ? '$10' : '$12'}
+              pb="$11"
             >
               {[1, 2, 3].map((x) => (
                 <Skeleton key={x} />
@@ -49,13 +48,13 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
     <BoundarySuspenseWrapper
       fallback={
         <YStack
-          gap={16}
+          gap="$medium"
           $gtSm={{
-            pt: '$5',
-            pl: '$5',
-            pr: '$5',
+            pt: '$medium',
+            pl: '$medium',
+            pr: '$medium',
           }}
-          pb={isWeb ? '$10' : '$12'}
+          pb="$11"
         >
           {[1, 2, 3].map((x) => (
             <Skeleton key={x} />

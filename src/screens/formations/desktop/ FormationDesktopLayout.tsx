@@ -8,7 +8,7 @@ function FormationDesktopLayout({ topVisual, leftComponent, children }: { topVis
         showOn="gtSm"
         $md={{
           width: 200,
-          pl: '$5',
+          pl: '$medium',
         }}
       >
         <View marginTop={topVisual}>{leftComponent}</View>

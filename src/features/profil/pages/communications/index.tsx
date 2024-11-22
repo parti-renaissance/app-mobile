@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import { useGetDetailProfil, useGetElectProfil } from '@/services/profile/hook'
-import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
+import { useGetDetailProfil } from '@/services/profile/hook'
+import { ScrollView, useMedia, YStack } from 'tamagui'
 import ContactForm from '../account/form/ContactForm'
 import ForceBirthdateModal from '../account/form/ForceBirthdateModal'
 import NotificationForm from './components/NotificationForm'
@@ -13,10 +13,10 @@ const EditInformations = () => {
 
   const scrollViewContainerStyle = useMemo(
     () => ({
-      pt: media.gtSm ? '$5' : undefined,
-      pl: media.gtSm ? '$5' : undefined,
-      pr: media.gtSm ? '$5' : undefined,
-      pb: isWeb ? '$10' : '$12',
+      pt: media.gtSm ? '$medium' : undefined,
+      pl: media.gtSm ? '$medium' : undefined,
+      pr: media.gtSm ? '$medium' : undefined,
+      pb: '$11',
     }),
     [media],
   )
@@ -25,7 +25,7 @@ const EditInformations = () => {
     <PageLayout.MainSingleColumn position="relative">
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
         <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <YStack gap="$4" flex={1} $sm={{ pt: '$4' }}>
+          <YStack gap="$medium" flex={1} $sm={{ pt: '$medium' }}>
             <ForceBirthdateModal />
 
             <ContactForm profile={profile} />

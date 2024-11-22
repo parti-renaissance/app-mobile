@@ -3,7 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Container from '@/components/layouts/Container'
 import { Media, ScrollView, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 
-export const padding = '$5'
+export const padding = '$medium'
 export const columnWidth = 333
 
 const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) => {
@@ -30,7 +30,7 @@ const LayoutSideBarLeft = ({ children, showOn = 'gtSm', ...props }: ViewProps & 
 export const LayoutStateFrame = ({ children, ...props }: YStackProps) => {
   return (
     <YStack $sm={{ justifyContent: 'center' }} $gtSm={{ pt: 80 }} flex={1} {...props}>
-      <YStack p="$4.5" paddingTop="$4.5" alignItems="center" gap="$4">
+      <YStack p="$medium" paddingTop="$medium" alignItems="center" gap="$medium">
         {children}
       </YStack>
     </YStack>

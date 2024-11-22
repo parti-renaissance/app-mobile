@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-import AuthDialog from '@/components/AuthDialog'
 import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestItemEvent } from '@/services/events/schema'
@@ -7,21 +5,28 @@ import { Eye } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
 import { isWeb } from 'tamagui'
 import { EventItemProps } from '../types'
-import { getEventItemImageFallback, isEventPrivate } from '../utils'
+import { getEventItemImageFallback, isEventFull, isEventPrivate } from '../utils'
 import { CategoryChip } from './CategoryChip'
+import { EventAuthDialog } from './EventAuthComponent'
 import { EventItemActions } from './EventItemActions'
 import { EventItemHandleButton } from './EventItemHandleButton'
 import { EventItemHeader } from './EventItemHeader'
-import { EventItemToggleSubscribeButton } from './EventItemSubscribeButton'
 import { EventLocation } from './EventLocation'
 import { EventPremiumChip } from './EventPremiumChip'
-import { StatusChip } from './StatusChip'
+import { EventToggleSubscribeButton } from './EventToggleSubscribeButton'
 
-const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>>) => {
+const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>> & { showTime?: boolean }) => {
   if (!props.begin_at) {
     return null
   }
-  return <VoxCard.Date start={new Date(props.begin_at)} end={props.finish_at ? new Date(props.finish_at) : undefined} timeZone={props.time_zone} />
+  return (
+    <VoxCard.Date
+      showTime={props.showTime}
+      start={new Date(props.begin_at)}
+      end={props.finish_at ? new Date(props.finish_at) : undefined}
+      timeZone={props.time_zone}
+    />
+  )
 }
 
 const GoToButton = ({ eventUuid }: { eventUuid: string }) => {
@@ -34,19 +39,19 @@ const GoToButton = ({ eventUuid }: { eventUuid: string }) => {
   )
 }
 
-const _EventListItem = ({ event, userUuid }: EventItemProps) => {
-  const fallbackImage = getEventItemImageFallback(event, userUuid)
+export const BaseEventListItem = ({ event, userUuid }: EventItemProps) => {
+  const fallbackImage = getEventItemImageFallback(event)
+  const isFull = isEventFull(event)
   return (
     <VoxCard>
       <VoxCard.Content>
         <EventItemHeader>
           <CategoryChip>{event.category?.name}</CategoryChip>
-          <StatusChip event={event} />
           <EventPremiumChip event={event} />
         </EventItemHeader>
         {event.name ? <VoxCard.Title underline={!fallbackImage}>{event.name}</VoxCard.Title> : null}
         {fallbackImage ? <VoxCard.Image image={fallbackImage} /> : null}
-        <DateItem begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
+        <DateItem showTime={isFull} begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
         <EventLocation event={event} />
         <VoxCard.Author
           author={{
@@ -59,7 +64,7 @@ const _EventListItem = ({ event, userUuid }: EventItemProps) => {
         />
         <EventItemActions>
           <GoToButton eventUuid={event.uuid} />
-          <EventItemToggleSubscribeButton event={event} userUuid={userUuid} />
+          <EventToggleSubscribeButton event={event} userUuid={userUuid} />
           <EventItemHandleButton event={event} userUuid={userUuid} />
         </EventItemActions>
       </VoxCard.Content>
@@ -70,12 +75,12 @@ const _EventListItem = ({ event, userUuid }: EventItemProps) => {
 const EventListItem = ({ event, userUuid }: EventItemProps) => {
   if (!userUuid && isEventPrivate(event)) {
     return (
-      <AuthDialog title={`Cet événement est réservé aux militants. Rejoignez-nous pour y participer.`} testID="event-item-sign-in-dialog">
-        <_EventListItem event={event} />
-      </AuthDialog>
+      <EventAuthDialog>
+        <BaseEventListItem event={event} />
+      </EventAuthDialog>
     )
   }
-  return <_EventListItem event={event} userUuid={userUuid} />
+  return <BaseEventListItem event={event} userUuid={userUuid} />
 }
 
 export default EventListItem

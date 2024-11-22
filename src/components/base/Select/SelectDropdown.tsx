@@ -56,7 +56,7 @@ export type SelectDropdownRef = ModalDropDownRef & {
   setModalPosition: () => void
 }
 
-const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ frameRef, options, searchableOptions, ...props }, ref) => {
+const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ frameRef, options, searchableOptions, resetable, ...props }, ref) => {
   const modalRef = useRef<ModalDropDownRef>(null)
   const dropdownTop = useSharedValue(0)
   const dropdownX = useSharedValue(0)
@@ -95,8 +95,12 @@ const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ fram
     setQuery('')
   }
 
-  const handleSelect = (value: string) => () => {
-    props.onChange?.(value)
+  const handleSelect = (payload: { title: string; id: string }) => () => {
+    props.onChange?.(payload.id)
+    props.onDetailChange?.({
+      value: payload.id,
+      label: payload.title,
+    })
     modalRef.current?.close()
     setQuery('')
   }
@@ -135,7 +139,7 @@ const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ fram
               data={filteredItems}
               keyExtractor={(item) => item.id}
               renderItem={({ item, index }) => (
-                <MemoItem {...item} onPress={handleSelect(item.id)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
+                <MemoItem {...item} onPress={handleSelect(item)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
               )}
             />
           </DropdownFrame>

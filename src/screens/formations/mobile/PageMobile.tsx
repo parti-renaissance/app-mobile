@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, useState } from 'react'
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import { FlatList } from 'react-native'
 import Animated, {
   Extrapolation,
   interpolate,

@@ -5,8 +5,17 @@ import Text from '../base/Text'
 export const BadgeFrame = styled(View, {
   backgroundColor: '$color1',
   borderRadius: '$12',
-  paddingVertical: '$space.1.5',
-  paddingHorizontal: '$space.2.5',
+  paddingVertical: '$xsmall',
+  paddingHorizontal: '$small',
+  variants: {
+    outlined: {
+      true: {
+        backgroundColor: 'transparent',
+        borderWidth: '$borderWidth',
+        borderColor: '$color1',
+      },
+    },
+  },
 } as const)
 
 export type BadgeProps = {

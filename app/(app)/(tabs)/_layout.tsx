@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import EuCampaignIllustration from '@/assets/illustrations/EuCampaignIllustration'
 import { ProfileNav, VoxHeader } from '@/components/Header/Header'
 import TabBar from '@/components/TabBar/TabBar'
 import { ROUTES } from '@/config/routes'
 import { useSession } from '@/ctx/SessionProvider'
 import PageHeader from '@/features/profil/components/PageHeader'
-import { pageConfigs } from '@/features/profil/configs'
 import { Link2 } from '@tamagui/lucide-icons'
-import { Link, Redirect, router, Slot, Tabs } from 'expo-router'
+import { Link, Slot, Tabs } from 'expo-router'
 import { isWeb, useMedia, View, XStack } from 'tamagui'
 
 const HomeHeader = () => {
@@ -32,8 +31,7 @@ const exectParams = (x: string, canShowHeader: boolean) => {
       }
     case 'profil':
       return {
-        header: () => <PageHeader {...pageConfigs.index} backArrow={false} />,
-        headerShown: canShowHeader,
+        headerShown: false,
       }
     case 'ressources':
       return {

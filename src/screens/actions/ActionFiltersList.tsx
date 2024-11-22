@@ -38,8 +38,8 @@ export const ActionFiltersList = (allProps: ActionFiltersListProps & YStackProps
   }
   return (
     <YStack {...props}>
-      <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$3' }} keyboardShouldPersistTaps="always">
-        <XStack gap="$3">
+      <ScrollView horizontal flex={1} contentContainerStyle={{ p: '$medium' }} keyboardShouldPersistTaps="always">
+        <XStack gap="$medium">
           <AddressAutocomplete
             maxWidth={130}
             minWidth={120}

@@ -2,7 +2,7 @@ import { ComponentProps, ComponentPropsWithoutRef, forwardRef, memo, useCallback
 import { Keyboard, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity } from 'react-native'
 import { Check, ChevronDown, Search, X } from '@tamagui/lucide-icons'
 import _ from 'lodash'
-import { Adapt, isWeb, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
+import { Adapt, getToken, isWeb, Popover, styled, useMedia, XStack, YStack } from 'tamagui'
 import { useDebounce } from 'use-debounce'
 import Input, { InputProps } from '../Input/Input'
 import Text from '../Text'
@@ -34,7 +34,7 @@ type TriggerProps<A extends string> = {
   fake?: boolean
 }
 
-const Trigger = forwardRef<TextInput, TriggerProps<A> & ComponentPropsWithoutRef<typeof Input>>((props, ref) => {
+const Trigger = forwardRef<TextInput>(<A extends string>(props: TriggerProps<A> & ComponentPropsWithoutRef<typeof Input>, ref: TextInput) => {
   return <Input fake={props.fake} ref={ref} {...props} selectTextOnFocus />
 })
 
@@ -64,7 +64,7 @@ export const ItemFrame = styled(XStack, {
 
   $gtMd: {
     cursor: 'pointer',
-    paddingHorizontal: '$3',
+    paddingHorizontal: '$medium',
     h: '$3',
     minWidth: '$20',
     borderColor: '$gray1',
@@ -75,7 +75,7 @@ export const ItemFrame = styled(XStack, {
     backgroundColor: '$white1',
     flex: 1,
     minHeight: '$5',
-    paddingHorizontal: '$4.5',
+    paddingHorizontal: '$medium',
 
     borderColor: '$gray1',
     hoverStyle: {
@@ -273,10 +273,10 @@ const Select = <A extends string>({
         <Popover.Sheet modal dismissOnSnapToBottom native>
           <Popover.Sheet.Frame>
             <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'padding' : 'height'} keyboardVerticalOffset={50} style={{ flex: 1 }}>
-              <Popover.Sheet.Handle backgroundColor="$textDisabled" mt="$3.5" mb="$0" height={4} />
+              <Popover.Sheet.Handle backgroundColor="$textDisabled" mt="$medium" mb="$0" height={4} />
 
-              <YStack paddingHorizontal="$4.5">
-                <XStack paddingVertical="$5" alignItems="center" justifyContent="space-between">
+              <YStack paddingHorizontal="$medium">
+                <XStack paddingVertical="$medium" alignItems="center" justifyContent="space-between">
                   <Text fontWeight="$6" fontSize="$5">
                     {label}
                   </Text>
@@ -286,12 +286,12 @@ const Select = <A extends string>({
                       if (search) Keyboard.dismiss()
                       onBlur?.()
                     }}
-                    style={{ padding: 5 }}
+                    style={{ padding: getToken('$xsmall', 'space') }}
                   >
                     <X />
                   </TouchableOpacity>
                 </XStack>
-                <YStack display={search ? 'flex' : 'none'} height="$6" pb="$3.5">
+                <YStack display={search ? 'flex' : 'none'} height="$6" pb="$medium">
                   <Input
                     ref={inputModalRef}
                     placeholder={placeholder}

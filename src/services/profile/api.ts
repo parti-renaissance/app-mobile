@@ -68,6 +68,14 @@ export const getDonations = api({
   type: 'private',
 })
 
+export const cancelDonation = api({
+  method: 'POST',
+  path: '/api/v3/profile/me/donations/cancel',
+  requestSchema: schemas.RestCancelDonationRequestSchema,
+  responseSchema: schemas.RestCancelDonationResponseSchema,
+  type: 'private',
+})
+
 export const getElectedProfil = (userUuid: string) =>
   api({
     method: 'GET',

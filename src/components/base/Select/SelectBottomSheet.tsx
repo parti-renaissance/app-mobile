@@ -13,7 +13,7 @@ type BottomsheetLogicProps = {
   frameRef?: RefObject<TouchableOpacity>
 } & SelectProps<string>
 
-const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({ options, searchableOptions, frameRef, ...props }, ref) => {
+const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({ options, searchableOptions, frameRef, resetable, ...props }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['60%'], [])
   const { setQuery, filteredItems, queryInputRef, searchableIcon } = useSelectSearch({ options, searchableOptions })
@@ -37,8 +37,12 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
     setQuery('')
   }
 
-  const handleSelect = (value: string) => () => {
-    props.onChange?.(value)
+  const handleSelect = (payload: { title: string; id: string }) => () => {
+    props.onChange?.(payload.id)
+    props.onDetailChange?.({
+      value: payload.id,
+      label: payload.title,
+    })
     setQuery('')
     bottomSheetRef.current?.close()
   }
@@ -60,7 +64,7 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
           width: 48,
         }}
       >
-        <DropdownFrame minHeight="100%" flex={1} borderRadius={0} borderWidth="none">
+        <DropdownFrame minHeight="100%" flex={1} borderRadius={0} borderWidth={0}>
           <BottomSheetFlatList
             stickyHeaderHiddenOnScroll={props.searchable}
             stickyHeaderIndices={props.searchable ? [0] : undefined}
@@ -80,7 +84,7 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
             data={filteredItems}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
-              <MemoItem {...item} onPress={handleSelect(item.id)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
+              <MemoItem {...item} onPress={handleSelect(item)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
             )}
           />
         </DropdownFrame>

@@ -11,7 +11,7 @@ export const Card = styled(View, {
         cursor: 'pointer',
         width: '100%',
         borderRadius: '$4',
-        padding: '$3',
+        padding: '$medium',
         backgroundColor: '$background',
         borderColor: '$borderColor',
         borderWidth: 1,

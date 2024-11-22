@@ -3,7 +3,7 @@ import { FlatList } from 'react-native'
 import { AlertCard, FeedCard } from '@/components/Cards'
 import { transformFeedItemToProps } from '@/helpers/homeFeed'
 import { useAlerts } from '@/services/alerts/hook'
-import { useGetProfil, useGetSuspenseProfil } from '@/services/profile/hook'
+import { useGetSuspenseProfil } from '@/services/profile/hook'
 import { useGetPaginatedFeed } from '@/services/timeline-feed/hook'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { useScrollToTop } from '@react-navigation/native'
@@ -47,9 +47,9 @@ const HomeFeedList = () => {
       style={{ flex: 1 }}
       contentContainerStyle={{
         gap: media.gtSm ? 16 : 8,
-        paddingTop: media.gtSm ? getToken('$5', 'space') : 0,
-        paddingLeft: media.gtSm ? getToken('$5', 'space') : undefined,
-        paddingRight: media.gtSm ? getToken('$5', 'space') : undefined,
+        paddingTop: media.gtSm ? getToken('$medium', 'space') : 0,
+        paddingLeft: media.gtSm ? getToken('$medium', 'space') : undefined,
+        paddingRight: media.gtSm ? getToken('$medium', 'space') : undefined,
       }}
       ListHeaderComponent={
         alerts.length > 0 || shouldShowNotificationCard
@@ -72,7 +72,7 @@ const HomeFeedList = () => {
       onEndReachedThreshold={0.5}
       ListFooterComponent={
         hasNextPage ? (
-          <YStack p="$3" pb="$6">
+          <YStack p="$medium" pb="$large">
             <Spinner size="large" />
           </YStack>
         ) : null

@@ -20,11 +20,11 @@ export default function BotBilanCTA() {
           color: gray.gray6,
         }}
         content={'Retrouvez tous les éléments de bilan européen sur ces 5 dernières années'}
-        padding={'$3'}
+        padding={'$medium'}
         compact
       />
       <ProfileCallToActionLayout.Actions>
-        <Button variant={'outlined'} marginTop={'$2'} marginLeft={'$2.5'} zIndex={10} onPress={onPress}>
+        <Button variant={'outlined'} marginTop={'$small'} marginLeft={'$small'} zIndex={10} onPress={onPress}>
           <Button.Text>Ouvrir</Button.Text>
         </Button>
       </ProfileCallToActionLayout.Actions>

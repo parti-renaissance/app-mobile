@@ -80,7 +80,7 @@ export function EventShareGroup({ event }: Props) {
 
   const addToCalendar = useCreateEvent()
   return (
-    <VoxCard.Section title="Partagez cet événement avec vos contacts pour maximiser sa portée." gap="$3">
+    <VoxCard.Section title="Partagez cet événement avec vos contacts pour maximiser sa portée.">
       <Button variant="outlined" size="xl" theme="gray" width="100%" onPress={() => handleCopyUrl(shareUrl)} justifyContent="space-between">
         <XStack flex={1}>
           <Text.MD secondary numberOfLines={1} flex={1}>

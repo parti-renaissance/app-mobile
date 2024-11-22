@@ -55,7 +55,7 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
             name="phone"
             control={control}
             render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-              <XStack gap="$3">
+              <XStack gap="$medium">
                 <View width={130}>
                   <SelectV3
                     searchable={true}

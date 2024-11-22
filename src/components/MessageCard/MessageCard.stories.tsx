@@ -13,8 +13,8 @@ export function Default() {
 
   return (
     <ScrollView flex={1} alignContent="center" justifyContent="center">
-      <Stack gap="$4">
-        <YStack gap="$2">
+      <Stack gap="$medium">
+        <YStack gap="$small">
           {colors.map((c) => (
             <MessageCard key={c} theme={c} iconLeft={Calendar}>
               Label

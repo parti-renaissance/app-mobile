@@ -3,7 +3,6 @@ import RadioGroup from '@/components/base/RadioGroup/RadioGroup'
 import Text from '@/components/base/Text'
 import { RestDetailedProfileResponse } from '@/services/profile/schema'
 import { Controller } from 'react-hook-form'
-import { YStack } from 'tamagui'
 import * as z from 'zod'
 import AbstractProfilForm from './AbstractProfilForm'
 
@@ -26,11 +25,9 @@ const PartyMembershipForm = ({ profile }: { profile: RestDetailedProfileResponse
     >
       {({ control }) => (
         <Fragment>
-          <YStack gap="$3">
-            <Text.LG semibold multiline>
-              Appartenance à un autre parti politique
-            </Text.LG>
-          </YStack>
+          <Text.MD semibold multiline>
+            Appartenance à un autre parti politique
+          </Text.MD>
           <Controller
             name="party_membership"
             control={control}

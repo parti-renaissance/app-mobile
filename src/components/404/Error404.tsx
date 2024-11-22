@@ -22,8 +22,8 @@ export default function Error404() {
             height: 300,
           }}
         />
-        <YStack gap={24} justifyContent="center" alignItems="center">
-          <YStack gap={16}>
+        <YStack gap="$large" justifyContent="center" alignItems="center">
+          <YStack gap="$medium">
             <Text.LG semibold textAlign="center">
               404
             </Text.LG>

@@ -35,7 +35,7 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
             </MessageCard>
           )}
           <Text.LG semibold>Identité</Text.LG>
-          <View gap="$5">
+          <View gap="$large">
             <Controller
               name="gender"
               control={control}
@@ -55,7 +55,7 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
                 />
               )}
             />
-            <View $gtMd={{ flexDirection: 'row' }} gap="$4">
+            <View $gtMd={{ flexDirection: 'row', gap: '$medium' }} gap="$large">
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <Controller
                   name="first_name"
@@ -92,7 +92,7 @@ const InformationsForm = ({ profile }: { profile: RestDetailedProfileResponse })
                 />
               </View>
             </View>
-            <View $gtMd={{ flexDirection: 'row' }} gap="$4">
+            <View $gtMd={{ flexDirection: 'row', gap: '$medium' }} gap="$large">
               <View $gtMd={{ flex: 1, flexBasis: 0 }}>
                 <Controller
                   name="birthdate"
