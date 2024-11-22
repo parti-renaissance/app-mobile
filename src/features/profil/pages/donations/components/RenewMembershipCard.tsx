@@ -3,9 +3,10 @@ import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useOpenExternalContent } from '@/hooks/useOpenExternalContent'
 import { getHumanFormattedDate } from '@/utils/date'
-import { RotateCw } from '@tamagui/lucide-icons'
+import { Download, RotateCw } from '@tamagui/lucide-icons'
 import { getYear } from 'date-fns'
-import { XStack, YStack } from 'tamagui'
+import { Link } from 'expo-router'
+import { isWeb, XStack, YStack } from 'tamagui'
 import type { CommonMembershipCardProps } from './types'
 
 export default function (props: CommonMembershipCardProps) {
@@ -27,9 +28,16 @@ export default function (props: CommonMembershipCardProps) {
                   <Text.SM secondary>Dernière cotisation le {getHumanFormattedDate(props.last_membership_donation)}</Text.SM>
                 ) : null}
               </YStack>
-              <VoxButton size="lg" theme="yellow" disabled={isPending} onPress={handleAdhesionLink}>
-                Me mettre à jour
-              </VoxButton>
+              <XStack gap="$small" flexWrap="wrap">
+                <VoxButton size="lg" theme="yellow" disabled={isPending} onPress={handleAdhesionLink}>
+                  Me mettre à jour
+                </VoxButton>
+                <Link href="https://doc.parti.re/bulletin-adhesion.pdf" target="_blank" asChild={!isWeb}>
+                  <VoxButton size="sm" theme="yellow" variant="text" iconLeft={Download}>
+                    Bulletin papier
+                  </VoxButton>
+                </Link>
+              </XStack>
             </YStack>
             <YStack justifyContent="center">
               <RotateCw size="$7" color="$yellow6" strokeWidth={1} />

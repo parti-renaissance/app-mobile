@@ -14,6 +14,7 @@ import * as z from 'zod'
 type UseFileDownloadProps = {
   url: string
   fileName: string
+  publicDownload?: boolean
 }
 export function useFileDownload() {
   const toast = useToastController()
@@ -21,23 +22,25 @@ export function useFileDownload() {
   const isAbsoluteUrl = (x: string) => x.startsWith('https://')
   const { mutateAsync: getFile, isPending } = useMutation({
     mutationFn: isWeb
-      ? ({ url }: UseFileDownloadProps) =>
+      ? ({ url, publicDownload }: UseFileDownloadProps) =>
           api({
             method: 'GET',
             path: url,
             requestSchema: z.void(),
             responseSchema: z.any(),
-            type: 'private',
+            type: publicDownload ? 'public' : 'private',
             axiosConfig: {
               responseType: 'blob',
             },
           })()
-      : ({ url, fileName }: UseFileDownloadProps) => {
+      : ({ url, fileName, publicDownload }: UseFileDownloadProps) => {
           return FileSystem.downloadAsync(isAbsoluteUrl(url) ? url : `${clientEnv.API_BASE_URL}${url}`, FileSystem.documentDirectory + fileName, {
-            headers: {
-              Authorization: `Bearer ${user?.accessToken}`,
-              ['X-App-version']: Constants.expoConfig?.version ?? '0.0.0',
-            },
+            headers: publicDownload
+              ? undefined
+              : {
+                  Authorization: `Bearer ${user?.accessToken}`,
+                  ['X-App-version']: Constants.expoConfig?.version ?? '0.0.0',
+                },
           })
         },
   })
