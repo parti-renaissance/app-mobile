@@ -16,7 +16,7 @@ import { XStack } from 'tamagui'
 import { isEventFull, useHandleCopyUrl } from '../utils'
 
 type Props = {
-  event: Partial<RestEvent> & Pick<RestEvent, 'uuid'>
+  event: Partial<RestEvent> & Pick<RestEvent, 'uuid' | 'slug'>
 }
 
 export function EventShareGroup({ event }: Props) {
@@ -24,7 +24,7 @@ export function EventShareGroup({ event }: Props) {
   const handleCopyUrl = useHandleCopyUrl()
   const toast = useToastController()
 
-  const shareUrl = `https://${clientEnv.ASSOCIATED_DOMAIN}/evenements/${event.uuid}`
+  const shareUrl = `https://${clientEnv.ASSOCIATED_DOMAIN}/evenements/${event.slug}`
 
   const { shareAsync, isShareAvailable } = useShareApi()
 
@@ -67,7 +67,7 @@ export function EventShareGroup({ event }: Props) {
     return {
       title: event.name,
       startDate: new Date(event.begin_at).toISOString(),
-      endDate: new Date(event.finish_at).toISOString(),
+      endDate: event.finish_at ? new Date(event.finish_at).toISOString() : new Date(event.begin_at).toISOString(),
       location:
         event.mode !== 'online' && event.post_address
           ? `${event.post_address.address}, ${event.post_address.city_name} ${event.post_address.postal_code}`
@@ -98,13 +98,13 @@ export function EventShareGroup({ event }: Props) {
         </VoxButton>
       )}
 
-      {isFullEvent && (
+      {isFullEvent ? (
         <>
-          <VoxButton variant="outlined" full size="xl" iconLeft={CalendarPlus} onPress={() => addToCalendar(createEventData(event))}>
+          <VoxButton variant="outlined" full size="xl" iconLeft={CalendarPlus} onPress={() => addToCalendar(createEventData(event!))}>
             Ajouter à mon calendrier
           </VoxButton>
         </>
-      )}
+      ) : null}
     </VoxCard.Section>
   )
 }

@@ -16,7 +16,11 @@ export const isEventCancelled = (
   return event.status === 'CANCELLED'
 }
 
-export const isEventFull = (event: Partial<RestItemEvent>): event is Partial<RestFullEvent> => {
+export const isEventFull = (
+  event: Partial<RestItemEvent>,
+): event is Partial<RestFullEvent> & {
+  object_state: 'full'
+} => {
   return event.object_state === 'full'
 }
 
@@ -27,7 +31,11 @@ export const isEventCapacityReached = (event: Partial<RestItemEvent>) => {
   return false
 }
 
-export const isEventPartial = (event: Partial<RestItemEvent>): event is Partial<RestPartialEvent> => {
+export const isEventPartial = (
+  event: Partial<RestItemEvent>,
+): event is Partial<RestPartialEvent> & {
+  object_state: 'partial'
+} => {
   return event.object_state === 'partial'
 }
 

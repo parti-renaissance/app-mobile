@@ -4,6 +4,7 @@ import { RestTimelineFeedItem, RestTimelineFeedItemSchema } from '@/services/tim
 export const map = (x: RestTimelineFeedItem): Partial<RestFullEvent> & { uuid: string } => {
   return {
     uuid: x.objectID,
+    slug: x.identifier!,
     name: x.title ?? undefined,
     editable: x.editable ?? undefined,
     edit_link: x.edit_link,

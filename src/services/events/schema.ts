@@ -47,6 +47,7 @@ export const RestEventAddressSchema = z.object({
 export const RestBaseEventSchema = z.object({
   uuid: z.string(),
   name: z.string(),
+  slug: z.string(),
   status: RestEventStatusSchema,
   visibility: EventVisibilitySchema,
   begin_at: z.string(),

@@ -63,7 +63,7 @@ export const BaseEventListItem = ({ event, userUuid }: EventItemProps) => {
           }}
         />
         <EventItemActions>
-          <GoToButton eventUuid={event.uuid} />
+          <GoToButton eventUuid={event.slug} />
           <EventToggleSubscribeButton event={event} userUuid={userUuid} />
           <EventItemHandleButton event={event} userUuid={userUuid} />
         </EventItemActions>
