@@ -1,13 +1,13 @@
-import { forwardRef, useEffect, useState } from 'react'
+import { ComponentProps, forwardRef, useEffect, useState } from 'react'
 import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, Platform, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
 import Text from '@/components/base/Text'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { AnimatePresence, isWeb, Spinner, styled, TamaguiElement, useTheme, XStack, YStack } from 'tamagui'
+import { AnimatePresence, isWeb, Spinner, styled, TamaguiElement, TextProps, useTheme, XStack, YStack } from 'tamagui'
 
 export type InputProps = {
-  size?: 'xs' | 'sm' | 'md' | 'lg'
-  color?: 'white' | 'gray'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  color?: 'white' | 'gray' | 'purple'
   error?: string
   label?: string
   placeholder?: string
@@ -20,22 +20,29 @@ export type InputProps = {
   frameRef?: React.RefObject<TamaguiElement>
   type?: 'text' | 'password' | 'email' | 'number' | 'date' | 'time'
   fake?: boolean
+  fakeProps?: {
+    multiline?: boolean
+    customTextComponent?: (props: ComponentProps<typeof Text>) => React.ReactNode
+  }
 } & Omit<TextInputProps, 'placeholder' | 'onChange'>
 
 const sizes = {
   xs: {
-    height: 3.5,
+    height: 40,
   },
   sm: {
-    height: 4,
+    height: 44,
   },
   md: {
-    height: 4.5,
+    height: 48,
   },
   lg: {
-    height: 5,
+    height: 52,
   },
-}
+  xl: {
+    height: 64,
+  },
+} as const
 
 const InputFrame = styled(XStack, {
   name: 'Input',
@@ -69,6 +76,13 @@ const InputFrame = styled(XStack, {
         alignItems: 'flex-start',
       },
     },
+    fake: {
+      true: {
+        hoverStyle: {
+          cursor: 'pointer',
+        },
+      },
+    },
     error: {
       true: {
         backgroundColor: '$orange1',
@@ -84,8 +98,25 @@ const InputFrame = styled(XStack, {
       gray: {
         backgroundColor: '$gray1',
       },
+      purple: {
+        backgroundColor: '$white1',
+        hoverStyle: {
+          backgroundColor: '$purple3',
+          cursor: 'text',
+        },
+      },
     },
-  },
+    size: {
+      xs: {},
+      sm: {},
+      md: {},
+      lg: {},
+      xl: {
+        paddingVertical: '$xsmall',
+        paddingHorizontal: '$large',
+      },
+    },
+  } as const,
 })
 
 export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
@@ -107,6 +138,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
     onIconRightPress,
     onChange,
     frameRef,
+    fakeProps,
     ...inputProps
   } = _props
   const [isFocused, setIsFocused] = useState(false)
@@ -169,15 +201,27 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
   const calcSize = sizes[size ?? 'lg'].height
   const theme = useTheme()
 
+  const defaultFakeTextProps = {
+    color: inputProps.value ? (color !== 'purple' ? '$textPrimary' : '$purple6') : '$textSecondary',
+    semibold: !!inputProps.value,
+    numberOfLines: fakeProps?.multiline ? undefined : 1,
+    borderBottomWidth: 0,
+    children: inputProps.value || placeholder,
+  }
+
+  const FakeTextComponent = fakeProps?.customTextComponent ?? Text.MD
+
   return (
     <YStack gap="$xsmall" flex={1} ref={frameRef}>
       <InputFrame
         disabled={disabled}
         color={color ?? 'white'}
         error={isFailed}
+        fake={fake}
+        size={size}
         forceStyle={isFocused ? 'focus' : undefined}
         onPress={handlePress}
-        minHeight={`$${inputProps.multiline ? Math.round(calcSize + 4) : calcSize}`}
+        minHeight={inputProps.multiline ? Math.round(calcSize + 40) : calcSize}
       >
         {!loading && iconLeft && (
           <YStack height="100%" justifyContent="center">
@@ -190,7 +234,6 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
           flex={1}
           justifyContent={inputProps.multiline ? undefined : 'center'}
           paddingTop={inputProps.multiline ? '$medium' : 'xsmall'}
-          paddingBottom="$xsmall"
         >
           <AnimatePresence>
             {(label || (placeholder && inputProps.value && inputProps.value.length > 0)) && (
@@ -202,9 +245,7 @@ export default forwardRef<TextInput, InputProps>(function Input(_props, ref) {
             )}
           </AnimatePresence>
           {fake ? (
-            <Text.MD color={inputProps.value ? '$textPrimary' : '$textSecondary'} semibold={!!inputProps.value} numberOfLines={1} borderBottomWidth={0}>
-              {inputProps.value || placeholder}
-            </Text.MD>
+            <FakeTextComponent {...defaultFakeTextProps} />
           ) : (
             <TextInput
               style={{

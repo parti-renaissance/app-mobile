@@ -84,7 +84,7 @@ const SelectBottomSheet = forwardRef<ModalDropDownRef, BottomsheetLogicProps>(({
             data={filteredItems}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
-              <MemoItem {...item} onPress={handleSelect(item)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
+              <MemoItem {...item} onPress={handleSelect(item)} size={props.size} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
             )}
           />
         </DropdownFrame>

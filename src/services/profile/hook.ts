@@ -1,5 +1,4 @@
 import clientEnv from '@/config/clientEnv'
-import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'
@@ -43,6 +42,38 @@ export const useGetUserScopes = ({ enabled }: { enabled?: boolean } = {}) => {
     queryFn: () => api.getUserScopes(),
     enabled,
   })
+}
+
+export const useGetSuspenseUserScopes = () => {
+  return useSuspenseQuery({
+    queryKey: ['userScopes'],
+    queryFn: () => api.getUserScopes(),
+  })
+}
+
+export const useGetExecutiveScopes = () => {
+  const { data, ...rest } = useGetSuspenseUserScopes()
+  const { defaultScope: localDefaultScopeCode } = useUserStore()
+  const cadre_scopes = data.filter((s) => s.apps.includes('data_corner'))
+  const [scopeWithMoreFeatures] = cadre_scopes.sort((a, b) => (b.features.length > a.features.length ? 1 : -1)) || []
+  const localDefaultScope = localDefaultScopeCode ? cadre_scopes.find((s) => s.code === localDefaultScopeCode) : undefined
+  const defaultScope = localDefaultScope ?? scopeWithMoreFeatures
+  return {
+    data: {
+      list: cadre_scopes,
+      default: defaultScope,
+    },
+    ...rest,
+  }
+}
+
+export const useMutateExecutiveScope = () => {
+  const { setDefaultScope } = useUserStore()
+  return {
+    mutate: (payload: { scope: string }) => {
+      setDefaultScope(payload.scope)
+    },
+  }
 }
 
 export const useGetDetailProfil = () => {
