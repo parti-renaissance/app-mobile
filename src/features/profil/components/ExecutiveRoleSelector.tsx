@@ -17,8 +17,10 @@ export default function ExecutiveRoleSelector() {
     mutateScope({ scope: value })
   }
 
+  if (scopes.list.length === 0) return null
+
   return (
-    <VoxCard backgroundColor="$purple1">
+    <VoxCard backgroundColor="$purple1" inside>
       <VoxCard.Content>
         <Text.MD semibold textAlign="center" color="$purple6">
           Changer de rôle actif
