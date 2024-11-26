@@ -7,6 +7,7 @@ import ProfileTags from '@/components/ProfileCards/ProfileCard/ProfileTags'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import ExecutiveRoleSelector from '@/features/profil/components/ExecutiveRoleSelector'
 import { useDeleteProfilPicture, useGetDetailProfil, useGetProfil, useGetTags, usePostProfilPicture } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { Delete, Plus, Repeat2, Settings2 } from '@tamagui/lucide-icons'
@@ -104,6 +105,7 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
               bottom={0}
               right={0}
               borderRadius={999}
+              shrink
               width={40}
               height={40}
               bg="white"
@@ -138,6 +140,7 @@ export default function ({ editablePicture = true, ...props }: ComponentPropsWit
         <Text.MD medium textAlign="center">
           {[detProfil.main_zone?.name, detProfil.post_address?.city_name].filter(Boolean).join(', ')}
         </Text.MD>
+        {editablePicture ? <ExecutiveRoleSelector /> : null}
       </VoxCard.Content>
     </VoxCard>
   ) : (

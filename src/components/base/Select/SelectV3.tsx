@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Pressable, TouchableOpacity } from 'react-native'
+import Text from '@/components/base/Text'
 import { ChevronsUpDown, XCircle } from '@tamagui/lucide-icons'
-import { useMedia } from 'tamagui'
+import { useMedia, YStack } from 'tamagui'
 import Input from '../Input/Input'
 import SelectBottomSheet from './SelectBottomSheet'
 import SelectDropdown, { SelectDropdownRef } from './SelectDropdown'
@@ -39,9 +40,11 @@ const Select = <A extends string>(props: SelectProps<A>) => {
         <XCircle color="$blue9" />
       </Pressable>
     ) : (
-      <ChevronsUpDown color="$textPrimary" />
+      <ChevronsUpDown color={props.color !== 'purple' ? '$textPrimary' : '$purple6'} />
     )
   }, [props.resetable])
+
+  const fullValue = props.options.find((option) => option.value === props.value)
   return (
     <>
       <Selector ref={selectorRef} frameRef={frameRef} {...props} />
@@ -59,10 +62,23 @@ const Select = <A extends string>(props: SelectProps<A>) => {
           onPress={handlePress}
           fake
           placeholder={props.placeholder}
+          fakeProps={{
+            multiline: props.multiline,
+            customTextComponent: fullValue?.subLabel
+              ? (ctprops) => {
+                  return (
+                    <YStack gap="$xsmall">
+                      <Text.MD {...ctprops} />
+                      <Text.SM color={ctprops.color}>{fullValue?.subLabel}</Text.SM>
+                    </YStack>
+                  )
+                }
+              : undefined,
+          }}
           label={props.label}
           error={props.error}
           disabled={props.disabled}
-          value={props.options.find((option) => option.value === props.value)?.label}
+          value={fullValue?.label}
           iconRight={<IconRight />}
         />
       </TouchableOpacity>

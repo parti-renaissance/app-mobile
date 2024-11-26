@@ -31,8 +31,11 @@ export const DropdownItemFrame = styled(ThemeableStack, {
       },
     },
     size: {
-      sm: {
+      xs: {
         minHeight: 40,
+      },
+      sm: {
+        minHeight: 44,
       },
       md: {
         minHeight: 48,
@@ -40,8 +43,11 @@ export const DropdownItemFrame = styled(ThemeableStack, {
       lg: {
         minHeight: 56,
       },
+      xl: {
+        minHeight: 64,
+      },
     },
-  },
+  } as const,
   defaultVariants: {
     size: 'md',
   },
@@ -85,14 +91,20 @@ export const DropdownFrame = styled(ThemeableStack, {
   borderColor: '$textOutline',
   variants: {
     size: {
-      sm: {
+      xs: {
         maxHeight: 40 * 6,
+      },
+      sm: {
+        maxHeight: 44 * 6,
       },
       md: {
         maxHeight: 48 * 6,
       },
       lg: {
         maxHeight: 56 * 6,
+      },
+      xl: {
+        maxHeight: 64 * 6,
       },
     },
   },
@@ -116,7 +128,9 @@ export function Dropdown<A extends string>({ items, onSelect, value, ...props }:
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => <MemoItem {...item} onPress={handleSelect(item.id)} selected={item.id === value} last={items.length - 1 === index} />}
+        renderItem={({ item, index }) => (
+          <MemoItem {...item} size={props.size ?? 'lg'} onPress={handleSelect(item.id)} selected={item.id === value} last={items.length - 1 === index} />
+        )}
       />
     </DropdownFrame>
   )

@@ -61,6 +61,7 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
                     searchable={true}
                     color="gray"
                     value={value?.country ?? 'FR'}
+                    size="lg"
                     options={phoneCodes}
                     onChange={(x) => onChange({ number: value?.number, country: x })}
                   />
