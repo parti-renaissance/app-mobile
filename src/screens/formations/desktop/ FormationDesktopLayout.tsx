@@ -1,9 +1,10 @@
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
+import StickyBox from '@/components/StickyBox/StickyBox'
 import { View } from 'tamagui'
 
 function FormationDesktopLayout({ topVisual, leftComponent, children }: { topVisual: number; children: React.ReactNode; leftComponent?: React.ReactNode }) {
   return (
-    <PageLayout marginTop={-topVisual} bg="transparent">
+    <PageLayout marginTop={-topVisual} bg="transparent" webScrollable>
       <PageLayout.SideBarLeft
         showOn="gtSm"
         $md={{
@@ -11,7 +12,9 @@ function FormationDesktopLayout({ topVisual, leftComponent, children }: { topVis
           pl: '$medium',
         }}
       >
-        <View marginTop={topVisual}>{leftComponent}</View>
+        <StickyBox offsetTop="$medium" offsetBottom="$xxxlarge">
+          <View marginTop={topVisual}>{leftComponent}</View>
+        </StickyBox>
       </PageLayout.SideBarLeft>
       <PageLayout.MainSingleColumn>{children}</PageLayout.MainSingleColumn>
     </PageLayout>

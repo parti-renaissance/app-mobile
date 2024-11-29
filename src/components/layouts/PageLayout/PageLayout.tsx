@@ -1,16 +1,32 @@
-import { ComponentProps } from 'react'
+import { ComponentProps, useContext, useRef } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Container from '@/components/layouts/Container'
-import { Media, ScrollView, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
+import { isWeb, Media, ScrollView, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
+import { ScrollContext } from './scrollContext'
+import { usePageLayoutScroll } from './usePageLayoutScroll'
 
 export const padding = '$medium'
 export const columnWidth = 333
 
-const LayoutFrame = ({ children, ...props }: ComponentProps<typeof Container>) => {
+const LayoutFrame = ({ children, webScrollable, ...props }: ComponentProps<typeof Container> & { webScrollable?: boolean }) => {
   const insets = useSafeAreaInsets()
+  const layoutRef = useRef<HTMLDivElement>(null)
+  const media = useMedia()
   return (
-    <Container flex={1} bg="$textSurface" pl={insets.left} pr={insets.right} $gtMd={{ pl: insets.left ?? padding }} $gtLg={{ pl: 0 + insets.left }} {...props}>
-      <XStack flex={1}>{children}</XStack>
+    <Container
+      ref={layoutRef}
+      flex={1}
+      bg="$textSurface"
+      pl={insets.left}
+      pr={insets.right}
+      $gtMd={{ pl: insets.left ?? padding }}
+      $gtLg={{ pl: 0 + insets.left }}
+      overflow={isWeb && webScrollable && media.gtSm ? 'scroll' : undefined}
+      {...props}
+    >
+      <ScrollContext.Provider value={{ layoutRef, scrollActive: Boolean(isWeb && webScrollable && media.gtSm) }}>
+        <XStack flex={1}>{children}</XStack>
+      </ScrollContext.Provider>
     </Container>
   )
 }
@@ -21,7 +37,7 @@ const LayoutSideBarLeft = ({ children, showOn = 'gtSm', ...props }: ViewProps & 
   return (
     media[showOn] && (
       <View $gtMd={{ width: columnWidth }} $md={{ width: 250 }} height="100%" pt={padding} $lg={{ pl: padding }} {...props}>
-        <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 56 }}>{children}</ScrollView>
+        {children}
       </View>
     )
   )

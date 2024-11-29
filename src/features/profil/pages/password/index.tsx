@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import Input from '@/components/base/Input/Input'
 import Text from '@/components/base/Text'
@@ -9,8 +8,9 @@ import { ProfilChangePasswordFormError } from '@/services/profile/error'
 import { usetPostChangePassword } from '@/services/profile/hook'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
-import { ScrollView, useMedia, XStack, YStack } from 'tamagui'
+import { XStack, YStack } from 'tamagui'
 import * as z from 'zod'
+import ScrollView from '../../components/ScrollView'
 
 const ChangePasswordSchema = z
   .object({
@@ -34,16 +34,6 @@ const ChangePasswordSchema = z
   })
 
 export default function ChangePasswordScreen() {
-  const media = useMedia()
-  const scrollViewContainerStyle = useMemo(
-    () => ({
-      pt: media.gtSm ? '$medium' : undefined,
-      pl: media.gtSm ? '$medium' : undefined,
-      pr: media.gtSm ? '$medium' : undefined,
-      pb: '$11',
-    }),
-    [media],
-  )
   const { control, formState, handleSubmit, reset, setError } = useForm({
     resolver: zodResolver(ChangePasswordSchema),
     mode: 'all',
@@ -71,100 +61,98 @@ export default function ChangePasswordScreen() {
   })
 
   return (
-    <PageLayout.MainSingleColumn position="relative">
-      <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView contentContainerStyle={scrollViewContainerStyle}>
-          <VoxCard>
-            <VoxCard.Content>
-              <Text.LG>Modifier mon mot de passe</Text.LG>
-              <Text.P> Vous devez renseigner votre mot de passe actuel pour changer de mot de passe.</Text.P>
-              <Controller
-                control={control}
-                name="old_password"
-                render={({ field, fieldState }) => (
-                  <Input
-                    color="gray"
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    value={field.value}
-                    secureTextEntry
-                    placeholder="Mot de passe actuel"
-                    autoComplete="current-password"
-                    type="password"
-                    error={fieldState.error?.message}
-                  />
-                )}
-              />
+    <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
+      <ScrollView>
+        <VoxCard>
+          <VoxCard.Content>
+            <Text.LG>Modifier mon mot de passe</Text.LG>
+            <Text.P> Vous devez renseigner votre mot de passe actuel pour changer de mot de passe.</Text.P>
+            <Controller
+              control={control}
+              name="old_password"
+              render={({ field, fieldState }) => (
+                <Input
+                  color="gray"
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  value={field.value}
+                  secureTextEntry
+                  placeholder="Mot de passe actuel"
+                  autoComplete="current-password"
+                  type="password"
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
 
-              <Controller
-                control={control}
-                name="new_password"
-                render={({ field, fieldState }) => (
-                  <Input
-                    color="gray"
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    value={field.value}
-                    type="password"
-                    secureTextEntry
-                    autoComplete="new-password"
-                    placeholder="Nouveau mot de passe"
-                    error={fieldState.error?.message}
-                  />
-                )}
-              />
+            <Controller
+              control={control}
+              name="new_password"
+              render={({ field, fieldState }) => (
+                <Input
+                  color="gray"
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  value={field.value}
+                  type="password"
+                  secureTextEntry
+                  autoComplete="new-password"
+                  placeholder="Nouveau mot de passe"
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
 
-              <Controller
-                control={control}
-                name="new_password_confirmation"
-                render={({ field, fieldState }) => (
-                  <Input
-                    color="gray"
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    value={field.value}
-                    placeholder="Confirmer le nouveau mot de passe"
-                    autoComplete="new-password"
-                    secureTextEntry
-                    type="password"
-                    error={fieldState.error?.message}
-                  />
-                )}
-              />
-              <YStack>
-                <Text.P>Afin de garantir un minimum de sécurité sur les accès votre mot de passe doit contenir au moins :</Text.P>
-                <YStack pl={12}>
-                  <XStack gap={6}>
-                    <Text.P>•</Text.P>
-                    <Text.P>8 caractères minimum</Text.P>
-                  </XStack>
-                  <XStack gap={6}>
-                    <Text.P>•</Text.P>
-                    <Text.P>Une lettre majuscule</Text.P>
-                  </XStack>
-                  <XStack gap={6}>
-                    <Text.P>•</Text.P>
-                    <Text.P>Une lettre minuscule</Text.P>
-                  </XStack>
-                  <XStack gap={6}>
-                    <Text.P>•</Text.P>
-                    <Text.P>Un caractère spécial</Text.P>
-                  </XStack>
-                </YStack>
+            <Controller
+              control={control}
+              name="new_password_confirmation"
+              render={({ field, fieldState }) => (
+                <Input
+                  color="gray"
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  value={field.value}
+                  placeholder="Confirmer le nouveau mot de passe"
+                  autoComplete="new-password"
+                  secureTextEntry
+                  type="password"
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
+            <YStack>
+              <Text.P>Afin de garantir un minimum de sécurité sur les accès votre mot de passe doit contenir au moins :</Text.P>
+              <YStack pl={12}>
+                <XStack gap={6}>
+                  <Text.P>•</Text.P>
+                  <Text.P>8 caractères minimum</Text.P>
+                </XStack>
+                <XStack gap={6}>
+                  <Text.P>•</Text.P>
+                  <Text.P>Une lettre majuscule</Text.P>
+                </XStack>
+                <XStack gap={6}>
+                  <Text.P>•</Text.P>
+                  <Text.P>Une lettre minuscule</Text.P>
+                </XStack>
+                <XStack gap={6}>
+                  <Text.P>•</Text.P>
+                  <Text.P>Un caractère spécial</Text.P>
+                </XStack>
               </YStack>
+            </YStack>
 
-              <XStack justifyContent="flex-end" gap="$small">
-                <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
-                  Annuler
-                </VoxButton>
-                <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!isDirty || !isValid}>
-                  Enregister
-                </VoxButton>
-              </XStack>
-            </VoxCard.Content>
-          </VoxCard>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </PageLayout.MainSingleColumn>
+            <XStack justifyContent="flex-end" gap="$small">
+              <VoxButton variant="outlined" display={isDirty ? 'flex' : 'none'} onPress={() => reset()}>
+                Annuler
+              </VoxButton>
+              <VoxButton variant="outlined" theme="blue" onPress={onSubmit} loading={isPending} disabled={!isDirty || !isValid}>
+                Enregister
+              </VoxButton>
+            </XStack>
+          </VoxCard.Content>
+        </VoxCard>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }

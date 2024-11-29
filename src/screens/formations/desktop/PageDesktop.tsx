@@ -1,7 +1,8 @@
-import { ComponentRef, useRef, useState } from 'react'
-import { LayoutChangeEvent, LayoutRectangle } from 'react-native'
+import { ComponentRef, RefObject, useRef, useState } from 'react'
+import { LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import BreadCrumb from '@/components/BreadCrumb/BreadCrumb'
+import { usePageLayoutScroll } from '@/components/layouts/PageLayout/usePageLayoutScroll'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import { items } from '@/screens/formations/bread-crumbs-items'
 import { FormationScreenProps } from '@/screens/formations/types'
@@ -19,6 +20,7 @@ const scrollViewContainerStyle = {
 
 const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
   const { data } = useGetFormations()
+
   const formationsNational = data.filter((formation) => formation.visibility === 'national')
   const formationsLocal = data.filter((formation) => formation.visibility === 'local')
   const firstSection = formationsLocal.length > 0 ? 'local' : 'national'
@@ -29,13 +31,15 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
   const localLayout = useRef<LayoutRectangle | null>(null)
   const isScrolling = useRef(false)
 
+  type TamRef = ComponentRef<typeof ScrollView>
+
   const scrollRef = useRef<ComponentRef<typeof ScrollView> | null>(null)
   const scrollToSection = (x: 'national' | 'local') => {
     if (x === 'national' && nationalLayout.current) {
-      scrollRef?.current?.scrollTo({ y: nationalLayout.current.y - 140 })
+      ;(scrollRef?.current as TamRef | null)?.scrollTo({ y: nationalLayout.current.y - 140, animated: true })
     }
     if (x === 'local' && localLayout.current) {
-      scrollRef?.current?.scrollTo({ y: localLayout.current.y - 140 })
+      ;(scrollRef?.current as TamRef | null)?.scrollTo({ y: localLayout.current.y - 140, animated: true })
     }
   }
 
@@ -51,35 +55,46 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
       }
     }
 
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    console.log('coucou')
+    let timeout: NodeJS.Timeout | null = null
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+    isScrolling.current = true
+    timeout = setTimeout(() => {
+      isScrolling.current = false
+    }, 500)
+    if (scrollRef?.current) {
+      if (nationalLayout.current && localLayout.current) {
+        const nationalY = nationalLayout.current.y
+        const localY = localLayout.current.y
+        const firstSectionY = firstSection === 'local' ? localY : nationalY
+        const secondSectionY = firstSection === 'local' ? nationalY : localY
+        const contentOffsetY = e.nativeEvent.contentOffset.y + 300
+        console.log(firstSectionY)
+        if (contentOffsetY > firstSectionY && contentOffsetY < secondSectionY) {
+          setSelected(firstSection)
+        } else if (contentOffsetY > secondSectionY) {
+          setSelected(firstSection === 'local' ? 'national' : 'local')
+        }
+      }
+    }
+  }
+
+  const { isWebPageLayoutScrollActive } = usePageLayoutScroll({
+    onScroll: handleScroll,
+    scrollEventThrottle: 32,
+    ref: scrollRef as RefObject<HTMLDivElement>,
+  })
+
   return (
     <FormationDesktopLayout topVisual={topVisual} leftComponent={<BreadCrumb items={navItems} vertical onChange={scrollToSection} value={selected} />}>
       <ScrollView
-        ref={scrollRef}
+        ref={!isWebPageLayoutScrollActive ? scrollRef : undefined}
+        scrollEnabled={!isWebPageLayoutScrollActive}
         scrollEventThrottle={32}
-        onScroll={(e) => {
-          let timeout: NodeJS.Timeout | null = null
-          if (timeout) {
-            clearTimeout(timeout)
-          }
-          isScrolling.current = true
-          timeout = setTimeout(() => {
-            isScrolling.current = false
-          }, 500)
-          if (scrollRef?.current) {
-            if (nationalLayout.current && localLayout.current) {
-              const nationalY = nationalLayout.current.y
-              const localY = localLayout.current.y
-              const firstSectionY = firstSection === 'local' ? localY : nationalY
-              const secondSectionY = firstSection === 'local' ? nationalY : localY
-              const contentOffsetY = e.nativeEvent.contentOffset.y + 300
-              if (contentOffsetY > firstSectionY && contentOffsetY < secondSectionY) {
-                setSelected(firstSection)
-              } else if (contentOffsetY > secondSectionY) {
-                setSelected(firstSection === 'local' ? 'national' : 'local')
-              }
-            }
-          }
-        }}
+        onScroll={handleScroll}
         contentContainerStyle={scrollViewContainerStyle}
       >
         <YStack gap="$medium" flexDirection={firstSection === 'local' ? 'column-reverse' : 'column'}>

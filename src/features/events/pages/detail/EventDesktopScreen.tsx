@@ -2,6 +2,7 @@ import { Children, isValidElement } from 'react'
 import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
+import StickyBox from '@/components/StickyBox/StickyBox'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { CategoryChip } from '@/features/events/components/CategoryChip'
 import { EventAuthComponent } from '@/features/events/components/EventAuthComponent'
@@ -130,21 +131,17 @@ const BackButton: React.FC = () => {
 
 const EventDesktopScreen = ({ event, userUuid }: EventItemProps) => {
   return (
-    <>
-      <ScrollStack>
-        <PageLayout.MainSingleColumn pb="$11">
-          <XStack alignItems="flex-start" alignSelf="flex-start" pb="$medium">
-            <BackButton />
-          </XStack>
-          <VoxCard>
-            <XStack>
-              <EventDesktopMain event={event} userUuid={userUuid} />
-              <EventDesktopAside event={event} userUuid={userUuid} />
-            </XStack>
-          </VoxCard>
-        </PageLayout.MainSingleColumn>
-      </ScrollStack>
-    </>
+    <ScrollStack>
+      <XStack alignItems="flex-start" alignSelf="flex-start" pb="$medium">
+        <BackButton />
+      </XStack>
+      <VoxCard>
+        <XStack>
+          <EventDesktopMain event={event} userUuid={userUuid} />
+          <EventDesktopAside event={event} userUuid={userUuid} />
+        </XStack>
+      </VoxCard>
+    </ScrollStack>
   )
 }
 

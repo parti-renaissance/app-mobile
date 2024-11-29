@@ -128,6 +128,8 @@
     "react-native-svg": "15.2.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "^13.12.2",
+    "react-sticky-box": "^2.0.5",
+    "react-stickynode": "^4.1.1",
     "react-test-renderer": "18.1.0",
     "tamagui": "1.98.0",
     "tinycolor2": "^1.6.0",

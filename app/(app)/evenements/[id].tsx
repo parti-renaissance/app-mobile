@@ -2,34 +2,22 @@ import React from 'react'
 import Error404 from '@/components/404/Error404'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
-import AppDownloadCTA from '@/components/ProfileCards/AppDownloadCTA/AppDownloadCTA'
-import ProcurationCTA from '@/components/ProfileCards/ProcurationCTA/ProcurationCTA'
-import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
-import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import * as metatags from '@/config/metatags'
 import EventDetailsScreen, { EventDetailsScreenSkeleton } from '@/features/events/pages/detail/EventDetailsScreen'
 import { useGetEvent } from '@/services/events/hook'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
-import { YStack } from 'tamagui'
 
 const HomeScreen: React.FC = () => {
   const params = useLocalSearchParams<{ id: string }>()
   if (!params.id) return <Error404 />
   return (
-    <PageLayout>
-      <PageLayout.SideBarLeft showOn="gtLg">
-        <YStack gap="$medium">
-          <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
-          <ProcurationCTA />
-          <AuthFallbackWrapper>
-            <AppDownloadCTA />
-          </AuthFallbackWrapper>
-        </YStack>
-      </PageLayout.SideBarLeft>
+    <PageLayout webScrollable>
+      <PageLayout.SideBarLeft showOn="gtLg" maxWidth={177}></PageLayout.SideBarLeft>
       <BoundarySuspenseWrapper fallback={<EventDetailsScreenSkeleton />}>
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
+      <PageLayout.SideBarRight maxWidth={177} />
     </PageLayout>
   )
 }
