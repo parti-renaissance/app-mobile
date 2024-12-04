@@ -188,7 +188,12 @@ const EventsScreen: React.FC = () => {
                 </YStack>
               }
             >
-              <EventFeedList activeTab={activeTab} onScroll={handleListScroll} onMomentumScrollEnd={handleMomentumScrollEnd} paddingTop={headerHeight} />
+              <EventFeedList
+                activeTab={activeTab}
+                onScroll={handleListScroll}
+                onMomentumScrollEnd={handleMomentumScrollEnd}
+                paddingTop={headerHeight ?? getTokenValue('$medium', 'space')}
+              />
             </BoundarySuspenseWrapper>
           </YStack>
         </PageLayout.MainSingleColumn>

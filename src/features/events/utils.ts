@@ -1,11 +1,11 @@
 import { RestFullEvent, RestItemEvent, RestPartialEvent } from '@/services/events/schema'
 import { useToastController } from '@tamagui/toast'
-import { isPast } from 'date-fns'
+import { isBefore, isPast } from 'date-fns'
 import * as Clipboard from 'expo-clipboard'
 
 export const isEventPast = (event: Partial<RestItemEvent>) => {
   const date = event.finish_at || event.begin_at
-  return date ? isPast(new Date(date)) : false
+  return date ? isBefore(new Date(date), new Date()) : false
 }
 
 export const isEventCancelled = (

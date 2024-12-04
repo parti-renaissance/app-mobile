@@ -19,8 +19,10 @@ export default function ScopesSelector() {
   const { mutate: mutateScope } = useMutateExecutiveScope()
   const [selectedScope, setSelectedScope] = useState(scopes.default.code)
   const [hasSelectedScope, setHasSelectedScope] = useState(false)
-  const [userConfirm, setUserConfirm] = useState(false)
   const scopesCodeList = useMemo(() => scopes.list.map((scope) => scope.code), [scopes])
+  const [shouldOpen, setShouldOpen] = useState(
+    !scopes.lastAvailableScopes || scopes.lastAvailableScopes.length === 0 || difference(scopesCodeList, scopes.lastAvailableScopes).length > 0,
+  )
   const ScrollView = useModalOrPageScrollView()
   const media = useMedia()
 
@@ -30,23 +32,14 @@ export default function ScopesSelector() {
       lastAvailableScopes: scopesCodeList,
     })
     setHasSelectedScope(true)
-    setUserConfirm(Boolean(confirm))
+    if (confirm) {
+      setShouldOpen(false)
+    }
   }
 
   const handleChange = (scope: string) => {
     setSelectedScope(scope)
   }
-
-  const shouldOpen = useMemo(() => {
-    return (
-      !scopes.lastAvailableScopes ||
-      scopes.lastAvailableScopes.length === 0 ||
-      difference(scopesCodeList, scopes.lastAvailableScopes).length > 0 ||
-      !userConfirm
-    )
-  }, [scopes, userConfirm, scopesCodeList])
-
-  console.log('shouldOpen', shouldOpen)
 
   const MultiScopeStep = useCallback(() => {
     return (
@@ -131,7 +124,7 @@ export default function ScopesSelector() {
             <Image p="$medium" source={media.gtSm ? tutoNavDesktopImg : tutoNavMobileImg} />
             <Text.SM>Vous pouvez changer de rôle principal à tout moment depuis votre profil.</Text.SM>
             <XStack alignSelf="center" paddingVertical="$medium">
-              <VoxButton theme="purple" pop iconRight={ArrowRight} onPress={() => setUserConfirm(true)}>
+              <VoxButton theme="purple" pop iconRight={ArrowRight} onPress={() => setShouldOpen(false)}>
                 C'est noté !
               </VoxButton>
             </XStack>
