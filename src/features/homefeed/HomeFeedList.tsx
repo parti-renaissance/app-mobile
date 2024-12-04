@@ -57,12 +57,12 @@ const HomeFeedList = () => {
       style={{ flex: 1 }}
       scrollEnabled={!isWebPageLayoutScrollActive}
       contentContainerStyle={{
-        flexGrow: 1,
         gap: getToken('$medium', 'space'),
         paddingTop: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingLeft: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingBottom: getToken('$11', 'space'),
+        justifyContent: 'space-around',
       }}
       ListHeaderComponent={
         alerts.length > 0 || shouldShowNotificationCard

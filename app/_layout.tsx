@@ -110,13 +110,13 @@ function Root() {
         <QueryClientProvider client={queryClient}>
           <TamaguiProvider>
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <SessionProvider>
-                <BottomSheetModalProvider>
+              <BottomSheetModalProvider>
+                <SessionProvider>
                   <WaitingRoomHoc isLoading={!isFontsLoaded}>
                     {(isBuildUpdateAvailable || isUpdateAvailable) && !isWeb ? <UpdateScreen isBuildUpdate={isBuildUpdateAvailable} /> : <Slot />}
                   </WaitingRoomHoc>
-                </BottomSheetModalProvider>
-              </SessionProvider>
+                </SessionProvider>
+              </BottomSheetModalProvider>
             </ThemeProvider>
           </TamaguiProvider>
         </QueryClientProvider>

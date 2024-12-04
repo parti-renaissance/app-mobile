@@ -7,6 +7,7 @@ import SkeCard from '@/components/Skeleton/CardSkeleton'
 import StickyBox from '@/components/StickyBox/StickyBox'
 import * as metatags from '@/config/metatags'
 import HomeFeedList from '@/features/homefeed/HomeFeedList'
+import ScopeModal from '@/features/ScopesSelector'
 import Head from 'expo-router/head'
 import { YStack } from 'tamagui'
 
@@ -71,6 +72,7 @@ const HomeScreen: React.FC = () => {
               </YStack>
             }
           >
+            <ScopeModal />
             <HomeFeedList />
           </BoundarySuspenseWrapper>
         </PageLayout.MainSingleColumn>

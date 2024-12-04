@@ -9,7 +9,7 @@ import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, X
 import AutoSizeImage from '../AutoSizeImage'
 import { getFormatedVoxCardDate } from '../utils'
 
-const CardFrame = styled(YStack, {
+export const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   $gtSm: {
     borderRadius: 16,

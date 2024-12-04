@@ -53,7 +53,7 @@ export const useGetSuspenseUserScopes = () => {
 
 export const useGetExecutiveScopes = () => {
   const { data, ...rest } = useGetSuspenseUserScopes()
-  const { defaultScope: localDefaultScopeCode } = useUserStore()
+  const { defaultScope: localDefaultScopeCode, lastAvailableScopes } = useUserStore()
   const cadre_scopes = data.filter((s) => s.apps.includes('data_corner'))
   const [scopeWithMoreFeatures] = cadre_scopes.sort((a, b) => (b.features.length > a.features.length ? 1 : -1)) || []
   const localDefaultScope = localDefaultScopeCode ? cadre_scopes.find((s) => s.code === localDefaultScopeCode) : undefined
@@ -62,16 +62,22 @@ export const useGetExecutiveScopes = () => {
     data: {
       list: cadre_scopes,
       default: defaultScope,
+      lastAvailableScopes,
     },
     ...rest,
   }
 }
 
 export const useMutateExecutiveScope = () => {
-  const { setDefaultScope } = useUserStore()
+  const { setDefaultScope, setLastAvailableScopes } = useUserStore()
   return {
-    mutate: (payload: { scope: string }) => {
-      setDefaultScope(payload.scope)
+    mutate: (payload: { scope?: string; lastAvailableScopes?: string[] }) => {
+      if (payload.scope) {
+        setDefaultScope(payload.scope)
+      }
+      if (payload.lastAvailableScopes) {
+        setLastAvailableScopes(payload.lastAvailableScopes)
+      }
     },
   }
 }
