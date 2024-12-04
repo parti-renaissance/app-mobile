@@ -138,7 +138,7 @@ export default function ({ editablePicture = true, ...props }: ComponentPropsWit
         </YStack>
         <ProfileTags tags={tags ?? []} justifyContent="center" />
         <Text.MD medium textAlign="center">
-          {[profil.instances?.assembly?.name, profil.instances?.circonscription?.name, profil.instances?.committee?.name].filter(Boolean).join(', ')}
+          {[profil.instances?.assembly?.name, profil.instances?.committee?.name].filter(Boolean).join(', ')}
         </Text.MD>
         {editablePicture ? <ExecutiveRoleSelector /> : null}
       </VoxCard.Content>
