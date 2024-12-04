@@ -10,6 +10,7 @@ interface AutoSizeImageProps {
   hasMore?: boolean
   isLast?: boolean
   token?: string
+  ratio?: number
 }
 
 function AutoSizeImage(props: AutoSizeImageProps) {
@@ -21,7 +22,7 @@ function AutoSizeImage(props: AutoSizeImageProps) {
         style={[
           styles.image,
           {
-            aspectRatio: imageSize ? imageSize.width / imageSize.height : 16 / 9,
+            aspectRatio: imageSize ? imageSize.width / imageSize.height : (props.ratio ?? 16 / 9),
           },
         ]}
         source={typeof props.source === 'string' ? { uri: props.source } : props.source}

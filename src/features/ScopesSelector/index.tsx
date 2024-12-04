@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import { useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
@@ -25,6 +26,8 @@ export default function ScopesSelector() {
   )
   const ScrollView = useModalOrPageScrollView()
   const media = useMedia()
+  const viewport = useSafeAreaInsets()
+  const { height } = useWindowDimensions()
 
   const handleSubmit = (confirm?: boolean) => () => {
     mutateScope({
@@ -49,14 +52,16 @@ export default function ScopesSelector() {
         }}
         gap="$medium"
       >
-        <YStack>
+        <YStack flex={1}>
           <YStack p="$medium" borderBottomWidth={1} borderBottomColor="$textOutline">
             <Text.LG multiline semibold>
               Vous avez plusieurs rôles Cadre
             </Text.LG>
             <Text.SM>Choisissez en un principal.</Text.SM>
           </YStack>
-          <ScopeList scopes={scopes.list} onChange={handleChange} value={selectedScope} />
+          <YStack>
+            <ScopeList scopes={scopes.list} onChange={handleChange} value={selectedScope} />
+          </YStack>
         </YStack>
         <YStack p="$medium" pt={0} alignItems="center" gap="$medium">
           <Text.SM>Vos fonctonnalités de cadre sont indiquées en violet dans votre espace Militant.</Text.SM>
@@ -136,8 +141,21 @@ export default function ScopesSelector() {
 
   return (
     <ModalOrPageV2 open={shouldOpen}>
-      <YStack maxHeight={800} flex={1}>
-        <ScrollView>{!hasSelectedScope ? <FirstStep /> : <SecondStep />}</ScrollView>
+      <YStack
+        $sm={{ flex: 1 }}
+        $gtSm={{
+          maxHeight: height * 0.8 - viewport.top - viewport.bottom,
+        }}
+      >
+        {!hasSelectedScope ? (
+          <ScrollView style={{ flex: 1, paddingBottom: viewport.bottom }}>
+            <FirstStep />
+          </ScrollView>
+        ) : (
+          <ScrollView style={{ flex: 1, paddingBottom: viewport.bottom }}>
+            <SecondStep />
+          </ScrollView>
+        )}
       </YStack>
     </ModalOrPageV2>
   )

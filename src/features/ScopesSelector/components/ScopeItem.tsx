@@ -127,7 +127,9 @@ export const ScopeItem = ({ title, description, onPress, pop, showButton = true,
         <Text.SM semibold textAlign="center">
           {title}
         </Text.SM>
-        <Text.SM textAlign="center">{description}</Text.SM>
+        <Text.SM numberOfLines={1} textAlign="center">
+          {description}
+        </Text.SM>
       </YStack>
       {showButton && (
         <XStack>

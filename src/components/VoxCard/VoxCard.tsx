@@ -201,10 +201,22 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
 
 export type VoxCardImageProps = {
   image: string | ImageRequireSource
+  imageData?: null | {
+    url: string | null
+    width: number | null
+    height: number | null
+  }
   large?: boolean
 }
 
-const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
+const calcRatio = (payload: VoxCardImageProps['imageData']) => {
+  let ratio = 16 / 9
+  if (payload?.width && payload.height) {
+    ratio = payload.width / payload.height
+  }
+  return ratio
+}
+const VoxCardImage = ({ image, large, imageData }: VoxCardImageProps) => {
   return (
     <XStack borderRadius={large ? 0 : 8} overflow="hidden">
       <AutoSizeImage source={image} />
