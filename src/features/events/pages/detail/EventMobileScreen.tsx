@@ -89,7 +89,7 @@ const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
       <StatusBar barStyle={'light-content'} />
       <ScrollStack marginTop={insets.top} backgroundColor="$textSurface">
         <VoxCard overflow="hidden" pb={66}>
-          {fallbackImage ? <VoxCard.Image large={true} image={fallbackImage} /> : null}
+          {fallbackImage ? <VoxCard.Image large={true} image={fallbackImage} imageData={event.image} /> : null}
           <VoxCard.Content pt={fallbackImage ? 0 : undefined}>
             <EventItemHeader>
               <CategoryChip>{event.category?.name}</CategoryChip>

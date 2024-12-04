@@ -56,6 +56,11 @@ export const RestBaseEventSchema = z.object({
   post_address: RestEventAddressSchema.nullable(),
   organizer: RestEventOrganizerSchema.nullable(),
   image_url: z.string().nullable(),
+  image: z.object({
+    url: z.string().nullable(),
+    width: z.number().nullable(),
+    height: z.number().nullable(),
+  }),
   mode: z.enum(['online', 'meeting']).nullable(),
   category: RestEventCategorySchema.nullable(),
 })

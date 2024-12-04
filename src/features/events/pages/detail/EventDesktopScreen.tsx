@@ -105,7 +105,7 @@ const EventDesktopMain = ({ event }: EventItemProps) => {
     <PageLayout.MainSingleColumn height="100%">
       <VoxCard.Content pr={0} height="100%">
         <VoxCard.Content height="100%" p={0} pr="$medium" borderRightColor="$textOutline32" borderRightWidth={1}>
-          {fallbackImage ? <VoxCard.Image image={fallbackImage} /> : null}
+          {fallbackImage ? <VoxCard.Image image={fallbackImage} imageData={event.image} /> : null}
           <EventItemHeader>
             <CategoryChip>{event.category?.name}</CategoryChip>
             <EventPremiumChip event={event} />
