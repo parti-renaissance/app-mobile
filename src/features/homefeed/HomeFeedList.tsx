@@ -4,7 +4,6 @@ import { AlertCard, FeedCard } from '@/components/Cards'
 import { usePageLayoutScroll } from '@/components/layouts/PageLayout/usePageLayoutScroll'
 import { transformFeedItemToProps } from '@/helpers/homeFeed'
 import { useAlerts } from '@/services/alerts/hook'
-import { useGetSuspenseProfil } from '@/services/profile/hook'
 import { useGetPaginatedFeed } from '@/services/timeline-feed/hook'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 import { useScrollToTop } from '@react-navigation/native'
@@ -22,9 +21,8 @@ const TimelineFeedCard = memo((item: RestTimelineFeedItem) => {
 
 const HomeFeedList = () => {
   const media = useMedia()
-  const user = useGetSuspenseProfil()
   const shouldShowNotificationCard = useShouldShowNotificationCard()
-  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed(user.data?.postal_code)
+  const { data: paginatedFeed, fetchNextPage, hasNextPage, refetch, isRefetching } = useGetPaginatedFeed()
   const feedData = paginatedFeed?.pages.map((page) => page?.hits ?? []).flat()
 
   const loadMoreGeneric = () => {
