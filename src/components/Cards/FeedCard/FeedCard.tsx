@@ -1,6 +1,5 @@
 import { ComponentProps } from 'react'
 import { ActionCard, ActionVoxCardProps } from '@/components/Cards/ActionCard'
-import { EventCard, EventVoxCardProps } from '@/components/Cards/EventCard'
 import { NewsCard, NewsVoxCardProps } from '@/components/Cards/NewsCard'
 import EventListItem from '@/features/events/components/EventListItem'
 import { useGetSuspenseProfil } from '@/services/profile/hook'
@@ -20,7 +19,7 @@ const FeedCard = (props: FeedCardProps) => {
   const { data } = useGetSuspenseProfil()
   switch (props.type) {
     case 'event':
-      return <EventListItem {...props} userUuid={data.uuid} />
+      return <EventListItem {...props} userUuid={data!.uuid} />
     case 'action':
       return <ActionCard {...props} />
     case 'news':

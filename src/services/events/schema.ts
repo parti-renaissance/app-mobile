@@ -55,7 +55,6 @@ export const RestBaseEventSchema = z.object({
   time_zone: z.string(),
   post_address: RestEventAddressSchema.nullable(),
   organizer: RestEventOrganizerSchema.nullable(),
-  image_url: z.string().nullable(),
   image: z.object({
     url: z.string().nullable(),
     width: z.number().nullable(),

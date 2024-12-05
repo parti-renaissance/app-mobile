@@ -219,7 +219,13 @@ const calcRatio = (payload: VoxCardImageProps['imageData']) => {
 const VoxCardImage = ({ image, large, imageData }: VoxCardImageProps) => {
   return (
     <XStack borderRadius={large ? 0 : 8} overflow="hidden">
-      <AutoSizeImage source={image} />
+      <AutoSizeImage
+        key={imageData?.url ?? image}
+        source={image}
+        width={imageData?.width ?? undefined}
+        height={imageData?.height ?? undefined}
+        ratio={calcRatio(imageData)}
+      />
     </XStack>
   )
 }
