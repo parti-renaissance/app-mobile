@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Defs, G, LinearGradient, Path, Stop, Svg, SvgProps } from 'react-native-svg'
+import { Defs, LinearGradient, Path, Stop, Svg, SvgProps } from 'react-native-svg'
 
 function EmptyStateFormationIllustration(props: SvgProps) {
   const id = React.useId()

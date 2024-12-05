@@ -1,9 +1,9 @@
 import { ComponentProps, forwardRef, useEffect, useState } from 'react'
-import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, Platform, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
+import { GestureResponderEvent, LayoutChangeEvent, NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
 import Text from '@/components/base/Text'
 import { useForwardRef } from '@/hooks/useForwardRef'
 import { AlertCircle } from '@tamagui/lucide-icons'
-import { AnimatePresence, isWeb, Spinner, styled, TamaguiElement, TextProps, useTheme, XStack, YStack } from 'tamagui'
+import { AnimatePresence, isWeb, Spinner, styled, TamaguiElement, useTheme, XStack, YStack } from 'tamagui'
 
 export type InputProps = {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'

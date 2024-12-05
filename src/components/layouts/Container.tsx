@@ -1,4 +1,4 @@
-import { StackProps, YStack, YStackProps } from 'tamagui'
+import { YStack, YStackProps } from 'tamagui'
 
 export const Container = YStack.styleable(({ children, full, ...props }: YStackProps & { full?: boolean }, ref) => {
   return (

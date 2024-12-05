@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Text from '@/components/base/Text'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import { MoreHorizontal } from '@tamagui/lucide-icons'
-import { getThemes, isWeb, styled, ThemeableStack, ThemeName, useTheme, withStaticProperties, YStack } from 'tamagui'
+import { getThemes, isWeb, styled, ThemeableStack, withStaticProperties } from 'tamagui'
 import MoreSheet from './MoreSheet'
 import { TabBarNavProps, TabNavOptions } from './types'
 

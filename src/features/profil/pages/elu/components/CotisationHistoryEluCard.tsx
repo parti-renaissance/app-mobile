@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 import Text from '@/components/base/Text'
-import { VoxButton } from '@/components/Button'
 import _EmptyState from '@/components/EmptyStates/EmptyState'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { RestElectedProfileResponse } from '@/services/profile/schema'

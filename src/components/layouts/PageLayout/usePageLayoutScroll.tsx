@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
-import { isWeb, useMedia } from 'tamagui'
+import { isWeb } from 'tamagui'
 import { ScrollContext } from './scrollContext'
 
 type Props = {

@@ -1,4 +1,4 @@
-import StickyBox, { StickyBoxCompProps } from 'react-sticky-box'
+import StickyBox from 'react-sticky-box'
 import { getTokenValue } from 'tamagui'
 
 type StickyBoxProps = {

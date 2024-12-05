@@ -1,7 +1,7 @@
 import React from 'react'
 import { ActionVoxCardProps } from '@/components/Cards/ActionCard'
 import MapboxGl from '@/components/Mapbox/Mapbox'
-import { Action, ActionType, FilterActionType, isFullAction, RestAction, SelectPeriod } from '@/services/actions/schema'
+import { Action, ActionType, FilterActionType, isFullAction, RestAction } from '@/services/actions/schema'
 import { addDays, isBefore, setHours } from 'date-fns'
 
 export function mapPayload(action: Action): ActionVoxCardProps['payload'] {

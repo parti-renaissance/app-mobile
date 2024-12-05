@@ -25,7 +25,7 @@ export const EventUnSubscribeButton = ({ uuid, isPremium, variant, userUuid, dis
       testID="event-unsubscribe-button"
       loading={isPending}
       onPress={handlePress}
-      disabled={[disabled, !Boolean(userUuid)].some(Boolean)}
+      disabled={[disabled, !userUuid].some(Boolean)}
       {...buttonProps}
     >
       Me désinscrire

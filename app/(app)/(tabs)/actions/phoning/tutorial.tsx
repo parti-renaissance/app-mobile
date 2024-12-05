@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import PhoningCampaignRepository from '@/data/PhoningCampaignRepository'
 import { StatefulView } from '@/screens/shared/StatefulView'

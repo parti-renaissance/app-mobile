@@ -1,5 +1,5 @@
 import Text from '@/components/base/Text'
-import Button, { VoxButton } from '@/components/Button'
+import { VoxButton } from '@/components/Button'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetMagicLink } from '@/services/magic-link/hook'
 import { Image } from 'expo-image'

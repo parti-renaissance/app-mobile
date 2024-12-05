@@ -1,5 +1,4 @@
 import { LayoutChangeEvent } from 'react-native'
-import EmptyStateFormationIllustration from '@/assets/illustrations/EmptyStateFormationIllustration'
 import ButtonGroup from '@/components/base/ButtonGroup/ButtonGroup'
 import Text from '@/components/base/Text'
 import SkeCard from '@/components/Skeleton/CardSkeleton'

@@ -6,7 +6,7 @@ import { useMutationUpdateProfil } from '@/services/profile/hook'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { has } from 'lodash'
-import { Control, DefaultValues, FieldValues, FormState, Path, useForm } from 'react-hook-form'
+import { Control, FieldValues, FormState, Path, useForm } from 'react-hook-form'
 import { XStack } from 'tamagui'
 import * as z from 'zod'
 

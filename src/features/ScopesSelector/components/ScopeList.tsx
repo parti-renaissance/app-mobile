@@ -1,6 +1,6 @@
 import { ScopeItem } from '@/features/ScopesSelector/components/ScopeItem'
 import { RestUserScopesResponse } from '@/services/profile/schema'
-import { styled, XStack, YStack } from 'tamagui'
+import { styled, XStack } from 'tamagui'
 import { getFormatedScope } from '../utils'
 
 type Props = {

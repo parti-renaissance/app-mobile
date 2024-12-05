@@ -1,9 +1,8 @@
-import { ComponentProps, useContext, useRef } from 'react'
+import { ComponentProps, useRef } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Container from '@/components/layouts/Container'
-import { isWeb, Media, ScrollView, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
+import { isWeb, Media, StackProps, useMedia, View, ViewProps, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
 import { ScrollContext } from './scrollContext'
-import { usePageLayoutScroll } from './usePageLayoutScroll'
 
 export const padding = '$medium'
 export const columnWidth = 333

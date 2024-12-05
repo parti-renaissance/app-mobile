@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from 'react'
-import { createStyledContext, getVariableValue, styled } from '@tamagui/core'
+import { createStyledContext, styled } from '@tamagui/core'
 import { ThemeableStack } from '@tamagui/stacks'
 
 export const RadioContext = createStyledContext({

@@ -108,7 +108,7 @@ const formSection = (
 
 export const PollDetailQuestionUserDataViewModelMapper = {
   map: (data: UserConsentData): PollDetailQuestionUserDataViewModel => {
-    var sections: Array<PollDetailQuestionUserDataSectionViewModel> = [
+    const sections: Array<PollDetailQuestionUserDataSectionViewModel> = [
       consentSection(data),
     ]
     if (data.isConsenting) {

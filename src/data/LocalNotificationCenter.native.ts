@@ -7,7 +7,7 @@ export interface LocalNotification {
   deeplinkUrl?: string
 }
 
-var currentObserver: ((url: string) => void) | undefined
+let currentObserver: ((url: string) => void) | undefined
 
 PushNotification.configure({
   onNotification: (notification) => {

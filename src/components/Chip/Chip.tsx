@@ -1,4 +1,4 @@
-import { ComponentProps, ExoticComponent, NamedExoticComponent } from 'react'
+import { ComponentProps, NamedExoticComponent } from 'react'
 import { IconProps } from '@tamagui/helpers-icon'
 import { styled, XStack } from 'tamagui'
 import Text from '../base/Text'

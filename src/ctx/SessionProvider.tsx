@@ -6,7 +6,7 @@ import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { parse, useURL } from 'expo-linking'
-import { Href, router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import { router, useGlobalSearchParams } from 'expo-router'
 import { isWeb } from 'tamagui'
 
 type AuthContext = {

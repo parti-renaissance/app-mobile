@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react'
+import { ComponentPropsWithoutRef, useState } from 'react'
 import { Platform } from 'react-native'
 import { DropdownWrapper } from '@/components/base/Dropdown'
 import Text from '@/components/base/Text'
@@ -33,7 +33,7 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
     setOpenCrop(false)
   }
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: Platform.OS === 'android',
       aspect: [1, 1],

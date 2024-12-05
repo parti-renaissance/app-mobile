@@ -1,9 +1,7 @@
 import React from 'react'
-import { useSubscribeEvent, useUnsubscribeEvent } from '@/services/events/hook'
 import * as mockedEvnt from '@/services/events/mock/feed-item'
 import TamaguiProvider from '@/tamagui/provider'
-import { Calendar, CalendarOff } from '@tamagui/lucide-icons'
-import { fireEvent, render } from '@testing-library/react-native'
+import { render } from '@testing-library/react-native'
 import { EventToggleSubscribeButton } from './EventToggleSubscribeButton'
 
 const mockedUnSubMutate = jest.fn()

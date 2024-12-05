@@ -4,7 +4,7 @@ import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileReques
 import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
+import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import Constants from 'expo-constants'
 import * as FileSystem from 'expo-file-system'
 import { isWeb } from 'tamagui'

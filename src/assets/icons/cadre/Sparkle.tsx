@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Circle as _Circle, Text as _Text, Path, Svg, Symbol } from 'react-native-svg'
+import { Path, Svg } from 'react-native-svg'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { themed } from '@tamagui/helpers-icon'
 

@@ -7,7 +7,7 @@ import { isWeb } from 'tamagui'
 
 const mapTargetPath = (url: string, cb: (x: string) => string) => {
   const Url = new URL(url)
-  let target_path_url = Url.searchParams.get('_target_path')
+  const target_path_url = Url.searchParams.get('_target_path')
   if (target_path_url) {
     try {
       Url.searchParams.set('_target_path', cb(target_path_url))

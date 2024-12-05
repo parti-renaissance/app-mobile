@@ -49,7 +49,7 @@ const BuildingDetailScreen = () => {
   const [rankingModalState, setRankingModalState] = useState<RankingModalState>({ visible: false })
   const viewModel = BuildingDetailScreenViewModelMapper.map(address!, history, layout)
   const buildingBlockHelper = new BuildingBlockHelper()
-  const campaignStatistics = address!.building.campaignStatistics!!
+  const campaignStatistics = address!.building.campaignStatistics!
 
   const navigation = useNavigation()
 

@@ -3,7 +3,7 @@ import { Keyboard } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { InputProps, default as TextField } from '@/components/base/Input/Input'
 import { getFormattedDate, getHumanFormattedTime, getIntlDate } from '@/utils/date'
-import { format, getHours, getMinutes, getTime, parseISO, setHours, setMinutes } from 'date-fns'
+import { format, getHours, getMinutes, parseISO, setHours, setMinutes } from 'date-fns'
 import { Input, isWeb, View } from 'tamagui'
 
 interface DatePickerFieldProps {

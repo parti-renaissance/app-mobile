@@ -1,5 +1,5 @@
-import { cloneElement, ComponentPropsWithoutRef, Fragment, isValidElement } from 'react'
-import { styled, Text as TamaguiText, withStaticProperties, YStack } from 'tamagui'
+import { Fragment } from 'react'
+import { styled, Text as TamaguiText, withStaticProperties } from 'tamagui'
 
 const Text = styled(TamaguiText, {
   fontSize: '$2',

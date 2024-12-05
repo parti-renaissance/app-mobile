@@ -7,10 +7,10 @@ interface ColorMap {
 }
 
 function convertColorsToHSL(colors: ColorMap): ColorMap {
-  let hslColors: ColorMap = {}
-  for (let key in colors) {
-    let hex = colors[key].substring(1) // remove #
-    let hsl = convert.hex.hsl(hex)
+  const hslColors: ColorMap = {}
+  for (const key in colors) {
+    const hex = colors[key].substring(1) // remove #
+    const hsl = convert.hex.hsl(hex)
     hslColors[key] = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
   }
   return hslColors

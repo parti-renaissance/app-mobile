@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { useGetDetailProfil } from '@/services/profile/hook'
 import { YStack } from 'tamagui'
 import ScrollView from '../../components/ScrollView'

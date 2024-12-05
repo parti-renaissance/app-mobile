@@ -1,7 +1,6 @@
 import { ComponentPropsWithRef } from 'react'
 import { Platform } from 'react-native'
 import { GetThemeValueForKey } from '@tamagui/web'
-import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import { Circle, CircleProps, getTokenValue, Spinner, Square, SquareProps, Token, YStack, ZStack } from 'tamagui'
 import Text from '../base/Text'

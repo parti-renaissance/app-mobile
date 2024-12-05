@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import { useGetDetailProfil } from '@/services/profile/hook'
 import { YStack } from 'tamagui'

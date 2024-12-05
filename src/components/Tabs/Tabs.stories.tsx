@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Lock } from '@tamagui/lucide-icons'
 import { Stack } from 'tamagui'
 import { Tabs } from './Tabs'
 
