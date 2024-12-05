@@ -1,4 +1,4 @@
-import { Suspense, useMemo } from 'react'
+import { useMemo } from 'react'
 import Menu from '@/components/menu/Menu'
 import { useSession } from '@/ctx/SessionProvider'
 import { useUserStore } from '@/store/user-store'
@@ -35,15 +35,8 @@ const ProfilMenu = () => {
   )
   const { user: credentials } = useUserStore()
   const Item = ({ item, index }: { item: (typeof itemsData)[number]; index: number }) => (
-    <Link asChild={!isWeb} href={item.pathname} key={index} replace={media.gtSm}>
-      <Menu.Item
-        key={item.key}
-        active={item.pathname === pathname}
-        size={media.sm ? 'lg' : 'sm'}
-        showArrow={media.sm}
-        icon={item.icon}
-        last={index === itemsData.length - 1}
-      >
+    <Link asChild={!isWeb} href={item.pathname} key={item.key} replace={media.gtSm}>
+      <Menu.Item active={item.pathname === pathname} size={media.sm ? 'lg' : 'sm'} showArrow={media.sm} icon={item.icon} last={index === itemsData.length - 1}>
         {item.children}
       </Menu.Item>
     </Link>
@@ -52,7 +45,7 @@ const ProfilMenu = () => {
     <YStack gap="$medium" key="profil-menu">
       <Menu>
         {itemsData.map((item, index) => (
-          <Item item={item} index={index} />
+          <Item item={item} index={index} key={item.key} />
         ))}
       </Menu>
       <Menu>

@@ -18,7 +18,7 @@ const tutoNavDesktopImg = require('@/features/ScopesSelector/assets/sidebar-tuto
 export default function ScopesSelector() {
   const { data: scopes } = useGetExecutiveScopes()
   const { mutate: mutateScope } = useMutateExecutiveScope()
-  const [selectedScope, setSelectedScope] = useState(scopes.default.code)
+  const [selectedScope, setSelectedScope] = useState(scopes.default?.code)
   const [hasSelectedScope, setHasSelectedScope] = useState(false)
   const scopesCodeList = useMemo(() => scopes.list.map((scope) => scope.code), [scopes])
   const [shouldOpen, setShouldOpen] = useState(

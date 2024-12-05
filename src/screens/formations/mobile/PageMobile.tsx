@@ -1,26 +1,24 @@
-import { ComponentPropsWithoutRef, useState } from 'react'
+import { ComponentPropsWithoutRef, Fragment, useState } from 'react'
 import { FlatList } from 'react-native'
-import Animated, {
-  Extrapolation,
-  interpolate,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated'
+import Animated, { Extrapolation, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ButtonGroup from '@/components/base/ButtonGroup/ButtonGroup'
+import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import BreadCrumb from '@/components/BreadCrumb/BreadCrumb'
+import { VoxButton } from '@/components/Button'
 import { VoxHeader, VoxHeaderFrameStyled } from '@/components/Header/Header'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import FormationMobileLayout from '@/screens/formations/mobile/FormationMobileLayout'
 import { FormationScreenProps } from '@/screens/formations/types'
 import { useGetFormations } from '@/services/formations/hook'
+import { useGetMagicLink } from '@/services/magic-link/hook'
+import { useGetSuspenseProfil } from '@/services/profile/hook'
 import { GraduationCap } from '@tamagui/lucide-icons'
-import { ScrollView, YStack } from 'tamagui'
+import { Href, Link } from 'expo-router'
+import { Image, isWeb, ScrollView, XStack, YStack } from 'tamagui'
 import { items } from '../bread-crumbs-items'
+import { FormationDenyCard } from '../components/DenyCard'
 import EmptyFormaState from '../components/EmptyFormaState'
 import { FormaCard, FormaCardSkeleton } from '../components/FormaCard'
 import { useCategories } from '../hooks/useCategories'
@@ -29,7 +27,7 @@ const CategoriesSelector = (props: ComponentPropsWithoutRef<typeof ButtonGroup>)
   return <ButtonGroup {...props} />
 }
 
-const FormationMobileScreen: FormationScreenProps = (props) => {
+const FormationMobileScreenAllow: FormationScreenProps = (props) => {
   const { data } = useGetFormations()
   const insets = useSafeAreaInsets()
   const scrollY = useSharedValue(0)
@@ -146,6 +144,21 @@ const FormationMobileScreenSkeleton: FormationScreenProps = (props) => {
       />
     </FormationMobileLayout>
   )
+}
+
+export const FormationMobileScreenDeny: FormationScreenProps = (props) => {
+  return (
+    <FormationMobileLayout {...props}>
+      <YStack gap="$medium" padding="$medium" pt={props.topVisual} flex={1}>
+        <FormationDenyCard {...props} />
+      </YStack>
+    </FormationMobileLayout>
+  )
+}
+
+const FormationMobileScreen: FormationScreenProps = (props) => {
+  const { data } = useGetSuspenseProfil()
+  return data?.tags?.find((tag) => tag.code.startsWith('adherent:')) ? <FormationMobileScreenAllow {...props} /> : <FormationMobileScreenDeny {...props} />
 }
 
 const Screen: FormationScreenProps = (props) => {

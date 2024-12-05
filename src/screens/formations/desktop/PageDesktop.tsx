@@ -1,26 +1,34 @@
-import { ComponentRef, RefObject, useRef, useState } from 'react'
+import { ComponentRef, Fragment, RefObject, useMemo, useRef, useState } from 'react'
 import { LayoutChangeEvent, LayoutRectangle, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import Text from '@/components/base/Text'
 import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
 import BreadCrumb from '@/components/BreadCrumb/BreadCrumb'
+import { VoxButton } from '@/components/Button'
 import { usePageLayoutScroll } from '@/components/layouts/PageLayout/usePageLayoutScroll'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
+import VoxCard from '@/components/VoxCard/VoxCard'
 import { items } from '@/screens/formations/bread-crumbs-items'
 import { FormationScreenProps } from '@/screens/formations/types'
 import { useGetFormations } from '@/services/formations/hook'
-import { isWeb, ScrollView, YStack } from 'tamagui'
+import { useGetMagicLink } from '@/services/magic-link/hook'
+import { useGetSuspenseProfil } from '@/services/profile/hook'
+import { Href, Link } from 'expo-router'
+import { getTokenValue, Image, isWeb, ScrollView, XStack, YStack } from 'tamagui'
+import { FormationDenyCard } from '../components/DenyCard'
 import FormationDesktopLayout from './ FormationDesktopLayout'
 import FormationSection, { FormationSectionSkeleton } from './FormationSection'
 
-const scrollViewContainerStyle = {
-  pt: 166,
-  pl: '$medium',
-  pr: '$medium',
-  pb: '$11',
-} as const
-
-const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
+const FormationDesktopScreenAllow: FormationScreenProps = ({ topVisual }) => {
   const { data } = useGetFormations()
-
+  const scrollViewContainerStyle = useMemo(
+    () => ({
+      pt: 166,
+      pl: '$medium',
+      pr: '$medium',
+      paddingBottom: getTokenValue('$xxlarge', 'space') + 166,
+    }),
+    [],
+  )
   const formationsNational = data.filter((formation) => formation.visibility === 'national')
   const formationsLocal = data.filter((formation) => formation.visibility === 'local')
   const firstSection = formationsLocal.length > 0 ? 'local' : 'national'
@@ -56,7 +64,6 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
     }
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    console.log('coucou')
     let timeout: NodeJS.Timeout | null = null
     if (timeout) {
       clearTimeout(timeout)
@@ -95,6 +102,7 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
         scrollEnabled={!isWebPageLayoutScrollActive}
         scrollEventThrottle={32}
         onScroll={handleScroll}
+        flex={1}
         contentContainerStyle={scrollViewContainerStyle}
       >
         <YStack gap="$medium" flexDirection={firstSection === 'local' ? 'column-reverse' : 'column'}>
@@ -106,7 +114,39 @@ const FormationDesktopScreen: FormationScreenProps = ({ topVisual }) => {
   )
 }
 
+export const FormationDesktopScreenDeny: FormationScreenProps = ({ topVisual }) => {
+  const { data: adhesionLink, isPending } = useGetMagicLink({ slug: 'adhesion' })
+  const MaybeLink = ({ children }: { children: React.ReactNode }) => {
+    if (adhesionLink?.url && !isPending) {
+      return (
+        <Link href={adhesionLink.url as Href<string>} asChild={!isWeb} target="_blank">
+          {children}
+        </Link>
+      )
+    }
+    return <Fragment>{children}</Fragment>
+  }
+  return (
+    <FormationDesktopLayout topVisual={topVisual} leftComponent={null}>
+      <YStack gap="$medium" padding="$medium" pt={topVisual / 2} justifyContent="center" alignItems="center">
+        <VoxCard maxWidth={660} flex={1} width="100%">
+          <FormationDenyCard topVisual={topVisual} />
+        </VoxCard>
+      </YStack>
+    </FormationDesktopLayout>
+  )
+}
+
 export const FormationDesktopScreenSkeleton: FormationScreenProps = ({ topVisual }) => {
+  const scrollViewContainerStyle = useMemo(
+    () => ({
+      pt: 166,
+      pl: '$medium',
+      pr: '$medium',
+      paddingBottom: getTokenValue('$xxlarge', 'space') + 166,
+    }),
+    [],
+  )
   return (
     <FormationDesktopLayout
       topVisual={topVisual}
@@ -124,6 +164,11 @@ export const FormationDesktopScreenSkeleton: FormationScreenProps = ({ topVisual
       </ScrollView>
     </FormationDesktopLayout>
   )
+}
+
+const FormationDesktopScreen: FormationScreenProps = (props) => {
+  const { data } = useGetSuspenseProfil()
+  return data?.tags?.find((tag) => tag.code.startsWith('adherent:')) ? <FormationDesktopScreenAllow {...props} /> : <FormationDesktopScreenDeny {...props} />
 }
 
 const Screen: FormationScreenProps = (props) => {
