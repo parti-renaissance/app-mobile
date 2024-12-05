@@ -32,11 +32,13 @@ export const RestTimelineFeedItemSchema = z.object({
   date: z.string().nullable(),
   begin_at: z.string().nullable(),
   finish_at: z.string().nullable(),
-  image: z.object({
-    url: z.string().nullable(),
-    width: z.number().nullable(),
-    height: z.number().nullable(),
-  }),
+  image: z
+    .object({
+      url: z.string().nullable(),
+      width: z.number().nullable(),
+      height: z.number().nullable(),
+    })
+    .nullable(),
   address: z.string().nullable(),
   category: z.string().nullable(),
   is_local: z.boolean().nullable(),
@@ -62,5 +64,5 @@ export const RestTimelineFeedResponseSchema = z.object({
   nbHits: z.number(),
   nbPages: z.number(),
   hitsPerPage: z.number(),
-  params: z.string(),
+  params: z.string().optional(),
 })

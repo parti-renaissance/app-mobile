@@ -61,7 +61,7 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
         payload: {
           title: feed.title!,
           tag,
-          image: feed.image ?? undefined,
+          image: feed.image?.url ?? undefined,
           description: feed.description!,
           location,
           ctaLabel: feed.cta_label ?? null,
