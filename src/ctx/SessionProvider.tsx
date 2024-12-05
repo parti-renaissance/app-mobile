@@ -10,7 +10,7 @@ import { Href, router, useGlobalSearchParams, useLocalSearchParams } from 'expo-
 import { isWeb } from 'tamagui'
 
 type AuthContext = {
-  signIn: (props?: { code: string; isAdmin?: boolean }) => Promise<void>
+  signIn: (props?: { code?: string; isAdmin?: boolean; state?: string }) => Promise<void>
   signOut: () => Promise<void>
   signUp: () => Promise<void>
   isAuth: boolean
@@ -76,7 +76,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
           return
         }
         setIsLoginInProgress(true)
-        const session = await login(props?.code)
+        const session = await login({ code: props?.code, state: props?.state })
         if (!session) {
           return
         }
@@ -93,17 +93,18 @@ export function SessionProvider(props: React.PropsWithChildren) {
   )
 
   React.useEffect(() => {
-    const { code, _switch_user } = onShotParams
+    const { code, _switch_user, state } = onShotParams
     if (code || url) {
       if (isWeb && code) {
         setOneShotParams({})
-        handleSignIn({ code, isAdmin: _switch_user === 'true' })
+        handleSignIn({ code, isAdmin: _switch_user === 'true', state })
       }
       if (url && !isWeb) {
         const { queryParams } = parse(url)
         const code = queryParams?.code as string | undefined
+        const state = queryParams?.state as string | undefined
         if (code) {
-          handleSignIn({ code })
+          handleSignIn({ code, state })
         }
       }
     }
