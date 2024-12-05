@@ -2,7 +2,6 @@ import { Children, isValidElement } from 'react'
 import { VoxButton } from '@/components/Button'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
-import StickyBox from '@/components/StickyBox/StickyBox'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { CategoryChip } from '@/features/events/components/CategoryChip'
 import { EventAuthComponent } from '@/features/events/components/EventAuthComponent'
@@ -15,10 +14,11 @@ import { EventItemProps } from '@/features/events/types'
 import { RestItemEvent } from '@/services/events/schema'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Link, useNavigation } from 'expo-router'
-import { isWeb, XStack, YStack } from 'tamagui'
+import { Image, isWeb, XStack, YStack } from 'tamagui'
 import { EventToggleSubscribeButton } from '../../components/EventToggleSubscribeButton'
 import { getEventDetailImageFallback, isEventFull, isEventPartial } from '../../utils'
 import { ScrollStack } from './EventComponents'
+import { LockPublicAuthAdhCard } from './SubscribeCard'
 
 const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>> & { showTime?: boolean }) => {
   if (!props.begin_at) {
@@ -118,12 +118,12 @@ const EventDesktopMain = ({ event }: EventItemProps) => {
   )
 }
 
-const BackButton: React.FC = () => {
+const BackButton = (props: { children?: React.ReactNode }) => {
   const { canGoBack } = useNavigation()
   return (
     <Link href={canGoBack() ? '../' : '/evenements'} asChild={!isWeb}>
       <VoxButton variant="text" iconLeft={ArrowLeft} borderRadius={16}>
-        Retour
+        {props.children ?? 'Retour'}
       </VoxButton>
     </Link>
   )
@@ -200,5 +200,43 @@ export const EventDesktopScreenSkeleton = () => {
         </SkeCard>
       </PageLayout.MainSingleColumn>
     </YStack>
+  )
+}
+
+const EventDesktopAsideDeny = () => {
+  return (
+    <PageLayout.SideBarRight alwaysShow paddingTop={0}>
+      <VoxCard.Content height="100%">
+        <YStack flex={1} justifyContent="center" alignItems="center" height="100%">
+          <LockPublicAuthAdhCard />
+        </YStack>
+      </VoxCard.Content>
+    </PageLayout.SideBarRight>
+  )
+}
+
+const EventDesktopMainDeny = () => {
+  return (
+    <PageLayout.MainSingleColumn height={500} backgroundColor="#ECF1F5">
+      <VoxCard.Content pr={0} height="100%" justifyContent="center" alignItems="center">
+        <Image src={require('@/assets/illustrations/VisuCadnas.png')} />
+      </VoxCard.Content>
+    </PageLayout.MainSingleColumn>
+  )
+}
+
+export const EventDesktopScreenDeny = () => {
+  return (
+    <ScrollStack>
+      <XStack alignItems="flex-start" alignSelf="flex-start" pb="$medium">
+        <BackButton>Événements</BackButton>
+      </XStack>
+      <VoxCard overflow="hidden">
+        <XStack>
+          <EventDesktopMainDeny />
+          <EventDesktopAsideDeny />
+        </XStack>
+      </VoxCard>
+    </ScrollStack>
   )
 }

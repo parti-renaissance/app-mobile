@@ -2,8 +2,8 @@ import React from 'react'
 import { useSession } from '@/ctx/SessionProvider'
 import * as eventTypes from '@/services/events/schema'
 import { useMedia } from 'tamagui'
-import EventDesktopScreen, { EventDesktopScreenSkeleton } from './EventDesktopScreen'
-import EventMobileScreen, { EventMobileScreenSkeleton } from './EventMobileScreen'
+import EventDesktopScreen, { EventDesktopScreenDeny, EventDesktopScreenSkeleton } from './EventDesktopScreen'
+import EventMobileScreen, { EventMobileScreenDeny, EventMobileScreenSkeleton } from './EventMobileScreen'
 
 export default function EventDetailsScreen({ data }: { data: eventTypes.RestEvent }) {
   const media = useMedia()
@@ -14,4 +14,9 @@ export default function EventDetailsScreen({ data }: { data: eventTypes.RestEven
 export function EventDetailsScreenSkeleton() {
   const media = useMedia()
   return media.sm ? <EventMobileScreenSkeleton /> : <EventDesktopScreenSkeleton />
+}
+
+export function EventDetailsScreenDeny() {
+  const media = useMedia()
+  return media.sm ? <EventMobileScreenDeny /> : <EventDesktopScreenDeny />
 }

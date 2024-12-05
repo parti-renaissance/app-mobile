@@ -1,9 +1,10 @@
 import React from 'react'
 import Error404 from '@/components/404/Error404'
-import BoundarySuspenseWrapper from '@/components/BoundarySuspenseWrapper'
+import BoundarySuspenseWrapper, { DefaultErrorFallback } from '@/components/BoundarySuspenseWrapper'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import * as metatags from '@/config/metatags'
-import EventDetailsScreen, { EventDetailsScreenSkeleton } from '@/features/events/pages/detail/EventDetailsScreen'
+import { UnauthorizedError } from '@/core/errors'
+import EventDetailsScreen, { EventDetailsScreenDeny, EventDetailsScreenSkeleton } from '@/features/events/pages/detail/EventDetailsScreen'
 import { useGetEvent } from '@/services/events/hook'
 import { Stack as RouterStack, useLocalSearchParams } from 'expo-router'
 import Head from 'expo-router/head'
@@ -14,7 +15,20 @@ const HomeScreen: React.FC = () => {
   return (
     <PageLayout webScrollable>
       <PageLayout.SideBarLeft showOn="gtLg" maxWidth={177}></PageLayout.SideBarLeft>
-      <BoundarySuspenseWrapper fallback={<EventDetailsScreenSkeleton />}>
+      <BoundarySuspenseWrapper
+        fallback={<EventDetailsScreenSkeleton />}
+        errorChildren={(payload) => {
+          if (payload.error instanceof UnauthorizedError) {
+            return <EventDetailsScreenDeny />
+          } else {
+            return (
+              <PageLayout.StateFrame>
+                <DefaultErrorFallback {...payload} />
+              </PageLayout.StateFrame>
+            )
+          }
+        }}
+      >
         <EventDetailScreen id={params.id} />
       </BoundarySuspenseWrapper>
       <PageLayout.SideBarRight maxWidth={177} />
