@@ -11,10 +11,12 @@ interface AutoSizeImageProps {
   isLast?: boolean
   token?: string
   ratio?: number
+  width?: number
+  height?: number
 }
 
-function AutoSizeImage(props: AutoSizeImageProps) {
-  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null)
+function AutoSizeImage({ width, height, ...props }: AutoSizeImageProps) {
+  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(width && height ? { width, height } : null)
 
   return (
     <Animated.View style={[styles.imageContainer]}>

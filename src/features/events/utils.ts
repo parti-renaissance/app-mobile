@@ -85,14 +85,14 @@ export const getEventItemImageFallback = (event: Partial<RestItemEvent>) => {
   if (isEventPartial(event)) {
     return require('@/features/events/assets/images/event-fallback-private-lock.png')
   }
-  return event.image_url
+  return event.image?.url
 }
 
 export const getEventDetailImageFallback = (event: Partial<RestItemEvent>) => {
   if (isEventPartial(event)) {
     return require('@/features/events/assets/images/event-fallback-private-lock.png')
   }
-  return event.image_url ?? require('@/features/events/assets/images/event-fallback.png')
+  return event.image?.url ?? require('@/features/events/assets/images/event-fallback.png')
 }
 
 export function useHandleCopyUrl() {

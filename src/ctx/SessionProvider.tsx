@@ -93,18 +93,18 @@ export function SessionProvider(props: React.PropsWithChildren) {
   )
 
   React.useEffect(() => {
-    const { code, _switch_user, state } = onShotParams
+    const { code, _switch_user } = onShotParams
     if (code || url) {
       if (isWeb && code) {
         setOneShotParams({})
-        handleSignIn({ code, isAdmin: _switch_user === 'true', state })
+        handleSignIn({ code, isAdmin: _switch_user === 'true' })
       }
       if (url && !isWeb) {
         const { queryParams } = parse(url)
         const code = queryParams?.code as string | undefined
-        const state = queryParams?.state as string | undefined
+
         if (code) {
-          handleSignIn({ code, state })
+          handleSignIn({ code })
         }
       }
     }
