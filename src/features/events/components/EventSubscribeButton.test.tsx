@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSubscribeEvent } from '@/services/events/hook'
 import TamaguiProvider from '@/tamagui/provider'
-import { Calendar } from '@tamagui/lucide-icons'
 import { fireEvent, render } from '@testing-library/react-native'
 import { EventSubscribeButton } from './EventSubscribeButton'
 

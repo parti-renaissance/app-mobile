@@ -63,7 +63,7 @@ const DoorToDoorScreen = ({ navigation }) => {
     if (!locationAuthorized) return
     ;(async () => {
       setLoading(true)
-      let { status } = await Geolocation.requestForegroundPermissionsAsync()
+      const { status } = await Geolocation.requestForegroundPermissionsAsync()
       const position = await Geolocation.getCurrentPositionAsync({
         accuracy: Geolocation.Accuracy.High,
       })

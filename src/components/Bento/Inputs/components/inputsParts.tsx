@@ -1,12 +1,8 @@
 import { useState } from 'react'
-import { Disabled } from '@/components/Button/Button.stories'
 import { getFontSized } from '@tamagui/get-font-sized'
 import { getSpace } from '@tamagui/get-token'
 import { User } from '@tamagui/lucide-icons'
 import type { SizeVariantSpreadFunction } from '@tamagui/web'
-import { act } from '@testing-library/react-native'
-import { press } from '@testing-library/react-native/build/user-event/press'
-import { tr } from 'date-fns/locale'
 import type { ColorTokens, FontSizeTokens } from 'tamagui'
 import {
   createStyledContext,

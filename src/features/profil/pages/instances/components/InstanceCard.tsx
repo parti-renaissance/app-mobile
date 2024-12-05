@@ -3,7 +3,7 @@ import EmptyStateInstanceIllustration from '@/assets/illustrations/EmptyStateIns
 import Text from '@/components/base/Text'
 import ProfilePicture from '@/components/ProfilePicture'
 import VoxCard from '@/components/VoxCard/VoxCard'
-import { IconProps, themed } from '@tamagui/helpers-icon'
+import { IconProps } from '@tamagui/helpers-icon'
 import { withStaticProperties, XStack, YStack } from 'tamagui'
 
 type InstanceCardHeaderProps = {

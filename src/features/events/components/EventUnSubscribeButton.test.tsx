@@ -1,7 +1,6 @@
 import React from 'react'
 import { useUnsubscribeEvent } from '@/services/events/hook'
 import TamaguiProvider from '@/tamagui/provider'
-import { CalendarOff } from '@tamagui/lucide-icons'
 import { fireEvent, render } from '@testing-library/react-native'
 import { EventUnSubscribeButton } from './EventUnSubscribeButton'
 

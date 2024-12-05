@@ -1,6 +1,5 @@
 import ApiService from '@/data/network/ApiService'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { hoursToMilliseconds } from 'date-fns'
+import { useMutation } from '@tanstack/react-query'
 
 interface PlaceAutocompleteProps {
   placeId?: string

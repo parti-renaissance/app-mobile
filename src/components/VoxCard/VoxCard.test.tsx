@@ -1,9 +1,5 @@
 import React from 'react'
-import { payload } from '@/services/events/mock/feed-item'
-import TamaguiProvider from '@/tamagui/provider'
 import { render } from '@/utils/test-utils'
-import { screen } from '@testing-library/react-native'
-import type { ReactTestInstance } from 'react-test-renderer'
 import VoxCard from './VoxCard'
 
 jest.mock('expo-image', () => {

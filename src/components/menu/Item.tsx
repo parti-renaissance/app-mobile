@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, forwardRef } from 'react'
 import type { IconProps } from '@tamagui/helpers-icon'
 import { ChevronRight } from '@tamagui/lucide-icons'
-import { styled, TamaguiElement, View, XStack, YStack } from 'tamagui'
+import { styled, TamaguiElement, XStack } from 'tamagui'
 import Text from '../base/Text'
 
 const ItemFrame = styled(XStack, {

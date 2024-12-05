@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react'
+import React from 'react'
 import Text from '@/components/base/Text'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { Sparkle } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'

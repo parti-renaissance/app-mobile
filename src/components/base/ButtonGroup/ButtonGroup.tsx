@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ComponentPropsWithRef } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 import { VoxButton as Button } from '@/components/Button'
 import { styled } from '@tamagui/core'
 import { ThemeableStack, ThemeName } from 'tamagui'

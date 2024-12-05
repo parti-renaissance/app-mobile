@@ -1,5 +1,5 @@
 import { RestFullEvent } from '@/services/events/schema'
-import { RestTimelineFeedItem, RestTimelineFeedItemSchema } from '@/services/timeline-feed/schema'
+import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
 
 export const map = (x: RestTimelineFeedItem): Partial<RestFullEvent> & { uuid: string; slug: string } => {
   return {

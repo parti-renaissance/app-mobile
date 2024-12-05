@@ -3,7 +3,7 @@ import StickyBox from '@/components/StickyBox/StickyBox'
 import ProfilMenu from '@/features/profil/components/Menu'
 import { TabRouter } from '@react-navigation/native'
 import { Navigator, Slot } from 'expo-router'
-import { XStack, YStack } from 'tamagui'
+import { XStack } from 'tamagui'
 
 export default function DesktopProfilRouter() {
   return (

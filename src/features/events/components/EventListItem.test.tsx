@@ -7,7 +7,7 @@ import { Calendar } from '@tamagui/lucide-icons'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render } from '@testing-library/react-native'
 import type { ReactTestInstance } from 'react-test-renderer'
-import EventListItem, { BaseEventListItem } from './EventListItem'
+import EventListItem from './EventListItem'
 
 jest.mock('@/components/ModalOrPageBase/ModalOrPageBase', () => ({ default: jest.fn(({ children }) => {}) }))
 

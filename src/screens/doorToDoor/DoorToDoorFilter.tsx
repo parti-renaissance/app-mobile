@@ -1,6 +1,5 @@
 import React from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
-import Container from '@/components/layouts/Container'
 import { Spacing } from '../../styles'
 import i18n from '../../utils/i18n'
 import { DoorToDoorFilterDisplay } from './DoorToDoor'

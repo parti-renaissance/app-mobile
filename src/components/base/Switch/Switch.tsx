@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SwitchProps, Switch as TSwitch, View } from 'tamagui'
 import Text from '../Text'
 

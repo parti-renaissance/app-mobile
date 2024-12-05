@@ -13,9 +13,9 @@ import { KeyValueListViewModel } from './KeyValueListView'
 export const BuildingHistoryViewModelMapper = {
   map: (history: BuildingHistoryPoint[]): BuildingHistoryViewModel => {
     const buildingsMap = groupByBuilding(history)
-    var buildingsViewModel: BuildingVisitsHistoryViewModel[] = []
+    const buildingsViewModel: BuildingVisitsHistoryViewModel[] = []
     buildingsMap.forEach((buildingHistory, buildingName) => {
-      var dateRecords: BuildingVisitsDateRecordsViewModel[] = []
+      const dateRecords: BuildingVisitsDateRecordsViewModel[] = []
       groupByDate(buildingHistory).forEach((visits) => {
         const date = visits[0].createdAt
         dateRecords.push(dateRecordsViewModel(date, visits))
@@ -66,11 +66,11 @@ function dateRecordsViewModel(
 }
 
 function footnote(history: BuildingHistoryPoint[]): string {
-  var questionersSet: Set<string> = new Set()
+  const questionersSet: Set<string> = new Set()
   history.forEach((historyPoint) => {
     questionersSet.add(historyPoint.questioner)
   })
-  var questioners: string[] = Array.from(questionersSet)
+  const questioners: string[] = Array.from(questionersSet)
   if (questioners.length > 1) {
     const last = questioners.pop()
     const beforeLast = questioners.pop()
@@ -104,9 +104,9 @@ function doorVisitViewModel(
 function groupByBuilding(
   history: BuildingHistoryPoint[],
 ): Map<string, BuildingHistoryPoint[]> {
-  var buildingMap = new Map<string, BuildingHistoryPoint[]>()
+  const buildingMap = new Map<string, BuildingHistoryPoint[]>()
   history.forEach((historyPoint) => {
-    var pointsForBuilding = buildingMap.get(historyPoint.buildingBlock) ?? []
+    const pointsForBuilding = buildingMap.get(historyPoint.buildingBlock) ?? []
     pointsForBuilding.push(historyPoint)
     buildingMap.set(historyPoint.buildingBlock, pointsForBuilding)
   })
@@ -116,10 +116,10 @@ function groupByBuilding(
 function groupByDate(
   history: BuildingHistoryPoint[],
 ): Map<string, BuildingHistoryPoint[]> {
-  var buildingMap = new Map<string, BuildingHistoryPoint[]>()
+  const buildingMap = new Map<string, BuildingHistoryPoint[]>()
   history.forEach((historyPoint) => {
     const date = format(historyPoint.createdAt, 'yyyy-MM-dd')
-    var pointsForBuilding = buildingMap.get(date) ?? []
+    const pointsForBuilding = buildingMap.get(date) ?? []
     pointsForBuilding.push(historyPoint)
     buildingMap.set(date, pointsForBuilding)
   })

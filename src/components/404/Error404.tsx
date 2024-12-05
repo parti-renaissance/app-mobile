@@ -2,7 +2,7 @@
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 // import { Image } from 'expo-image'
 import { Link } from 'expo-router'
-import { Image, View, XStack, YStack } from 'tamagui'
+import { Image, View, YStack } from 'tamagui'
 import Text from '../base/Text'
 import { VoxButton } from '../Button'
 

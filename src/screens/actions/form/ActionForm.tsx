@@ -17,7 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PenLine } from '@tamagui/lucide-icons'
 import { addHours, formatISO } from 'date-fns'
 import { Controller, useForm } from 'react-hook-form'
-import { Spinner, useMedia, View, YStack } from 'tamagui'
+import { useMedia, View } from 'tamagui'
 import { validateActionFormSchema } from './schema'
 
 interface Props {

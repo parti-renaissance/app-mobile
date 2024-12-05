@@ -1,4 +1,4 @@
-import { ActionIcon, DoorIcon, EventIcon, HomeIcon, RipostIcon, ToolsIcon } from '@/assets/icons/nav'
+import { HomeIcon } from '@/assets/icons/nav'
 import { Calendar, CircleUser, DoorOpen, GraduationCap, Home, Link, Zap } from '@tamagui/lucide-icons'
 import { ThemeName } from 'tamagui'
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { Image } from 'expo-image'

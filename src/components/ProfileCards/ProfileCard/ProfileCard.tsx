@@ -1,5 +1,4 @@
 import { TouchableOpacity } from 'react-native'
-import Badge from '@/components/Badge'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import ProfilePicture from '@/components/ProfilePicture'

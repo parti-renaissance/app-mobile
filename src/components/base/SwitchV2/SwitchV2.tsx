@@ -1,6 +1,5 @@
 import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from 'react'
-import { createStyledContext, GetThemeValueForKey, getVariableValue, styled } from '@tamagui/core'
-import { Check } from '@tamagui/lucide-icons'
+import { createStyledContext, styled } from '@tamagui/core'
 import { ThemeableStack } from '@tamagui/stacks'
 
 export const SwitchContext = createStyledContext({

@@ -1,5 +1,5 @@
 import { createContext, memo, ReactElement, useCallback, useContext } from 'react'
-import { styled, ThemeableStack, withStaticProperties, XStack, YStack, YStackProps } from 'tamagui'
+import { styled, ThemeableStack, withStaticProperties, YStackProps } from 'tamagui'
 import _Tab, { TabProps } from './Tab'
 
 const TabMemo = memo(_Tab)
