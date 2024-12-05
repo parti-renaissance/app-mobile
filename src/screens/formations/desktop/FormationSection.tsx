@@ -43,7 +43,7 @@ export const FormationSection = ({ data: formations, visibility, onLayout, theme
         ) : (
           <>
             <Text.LG>
-              Formations <Text.LG color={textColor}>{visibility === 'local' ? 'locale' : 'nationale'}</Text.LG>
+              Formations <Text.LG color={textColor}>{visibility === 'local' ? 'locales' : 'nationales'}</Text.LG>
             </Text.LG>
             {options.length > 1 && (
               <ButtonGroup
