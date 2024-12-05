@@ -1,10 +1,7 @@
 import { z } from 'zod'
 
 export type RestTimelineFeedRequest = z.infer<typeof RestTimelineFeedRequestSchema>
-export const RestTimelineFeedRequestSchema = z.object({
-  page: z.number(),
-  postal_code: z.string(),
-})
+export const RestTimelineFeedRequestSchema = z.object({ page: z.number() })
 
 export type RestTimelineFeedAddress = z.infer<typeof RestTimelineFeedAddressSchema>
 export const RestTimelineFeedAddressSchema = z.object({
