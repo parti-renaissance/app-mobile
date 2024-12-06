@@ -119,7 +119,6 @@
           "androidPermissions": ["android.permission.WRITE_CALENDAR"]
         }
       ],
-      ["react-native-add-calendar-event"],
       ["expo-notifications"]
     ],
     "extra": {
