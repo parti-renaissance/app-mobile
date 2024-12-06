@@ -55,11 +55,13 @@ export const RestBaseEventSchema = z.object({
   time_zone: z.string(),
   post_address: RestEventAddressSchema.nullable(),
   organizer: RestEventOrganizerSchema.nullable(),
-  image: z.object({
-    url: z.string().nullable(),
-    width: z.number().nullable(),
-    height: z.number().nullable(),
-  }),
+  image: z
+    .object({
+      url: z.string().nullable(),
+      width: z.number().nullable(),
+      height: z.number().nullable(),
+    })
+    .nullable(),
   mode: z.enum(['online', 'meeting']).nullable(),
   category: RestEventCategorySchema.nullable(),
 })

@@ -5,7 +5,7 @@ import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import { useGetExecutiveScopes, useMutateExecutiveScope } from '@/services/profile/hook'
 import { ArrowRight } from '@tamagui/lucide-icons'
-import { difference } from 'lodash'
+import { xor } from 'lodash'
 import { Image, useMedia, XStack, YStack } from 'tamagui'
 import { ScopeItem } from './components/ScopeItem'
 import { ScopeList } from './components/ScopeList'
@@ -22,12 +22,17 @@ export default function ScopesSelector() {
   const [hasSelectedScope, setHasSelectedScope] = useState(false)
   const scopesCodeList = useMemo(() => scopes.list.map((scope) => scope.code), [scopes])
   const [shouldOpen, setShouldOpen] = useState(
-    !scopes.lastAvailableScopes || scopes.lastAvailableScopes.length === 0 || difference(scopesCodeList, scopes.lastAvailableScopes).length > 0,
+    !scopes.lastAvailableScopes || scopes.lastAvailableScopes.length === 0 || xor(scopesCodeList, scopes.lastAvailableScopes).length > 0,
   )
+
   const ScrollView = useModalOrPageScrollView()
   const media = useMedia()
   const viewport = useSafeAreaInsets()
   const { height } = useWindowDimensions()
+
+  if (scopes.list.length === 0) {
+    return null
+  }
 
   const handleSubmit = (confirm?: boolean) => () => {
     mutateScope({
@@ -76,6 +81,8 @@ export default function ScopesSelector() {
   }, [scopes, selectedScope, handleChange, handleSubmit])
 
   const HeaderOneScope = () => {
+    const _scope = scopes.list.find((x) => x.code === selectedScope)
+    if (!_scope) return null
     const { name, description } = getFormatedScope(scopes.list.find((x) => x.code === selectedScope)!)
     return (
       <YStack backgroundColor="$purple1" paddingVertical="$xxlarge" paddingHorizontal="$large">
