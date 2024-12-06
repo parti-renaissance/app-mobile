@@ -42,7 +42,6 @@ export function LockAuthCard({ activeSubscription }: { activeSubscription?: bool
 
 export function LockPublicAuthAdhCard() {
   const path = usePathname()
-  console.log(path)
   return (
     <YStack justifyContent="center" gap="$medium">
       <YStack gap="$medium" alignItems="center">

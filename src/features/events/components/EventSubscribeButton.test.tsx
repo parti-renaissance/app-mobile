@@ -48,7 +48,7 @@ const customRender: typeof render = (ui) => {
 
 describe('EventSubscribeButton', () => {
   it('should call susbcribe hook', async () => {
-    const { getByTestId } = customRender(<EventSubscribeButton uuid="subscribe-id" userUuid="user-uuid" />)
+    const { getByTestId } = customRender(<EventSubscribeButton uuid="subscribe-id" slug="coucou" userUuid="user-uuid" />)
     const button = getByTestId('event-subscribe-button')
     expect(button).toHaveTextContent("M'inscrire")
     expect(useSubscribeEvent).toHaveBeenCalledWith({ id: 'subscribe-id' })

@@ -77,7 +77,6 @@ const FormationDesktopScreenAllow: FormationScreenProps = ({ topVisual }) => {
         const firstSectionY = firstSection === 'local' ? localY : nationalY
         const secondSectionY = firstSection === 'local' ? nationalY : localY
         const contentOffsetY = e.nativeEvent.contentOffset.y + 300
-        console.log(firstSectionY)
         if (contentOffsetY > firstSectionY && contentOffsetY < secondSectionY) {
           setSelected(firstSection)
         } else if (contentOffsetY > secondSectionY) {

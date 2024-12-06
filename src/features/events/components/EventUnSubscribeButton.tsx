@@ -5,13 +5,13 @@ import { RestItemEvent } from '@/services/events/schema'
 import { CalendarOff } from '@tamagui/lucide-icons'
 
 type ButtonProps = ComponentPropsWithoutRef<typeof VoxButton> &
-  Pick<RestItemEvent, 'uuid'> & {
+  Pick<RestItemEvent, 'uuid' | 'slug'> & {
     isPremium?: boolean
     userUuid?: string
   }
 
-export const EventUnSubscribeButton = ({ uuid, isPremium, variant, userUuid, disabled, ...buttonProps }: ButtonProps) => {
-  const { mutate, isPending } = useUnsubscribeEvent({ id: uuid })
+export const EventUnSubscribeButton = ({ uuid, slug, isPremium, variant, userUuid, disabled, ...buttonProps }: ButtonProps) => {
+  const { mutate, isPending } = useUnsubscribeEvent({ id: uuid, slug })
   const handlePress = () => {
     if (!userUuid) return
     mutate()

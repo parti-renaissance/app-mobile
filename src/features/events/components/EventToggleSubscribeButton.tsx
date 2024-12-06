@@ -16,7 +16,7 @@ import { EventSubscribePremiumLockButton, type PremiumLockButtonProps } from './
 import { EventUnSubscribeButton } from './EventUnSubscribeButton'
 
 type EventItemSubscribeButtonProps = {
-  event: Partial<RestItemEvent> & Pick<RestItemEvent, 'uuid'>
+  event: Partial<RestItemEvent> & Pick<RestItemEvent, 'uuid' | 'slug'>
   userUuid?: string
   buttonProps?: ComponentPropsWithoutRef<typeof VoxButton>
 }
@@ -39,6 +39,7 @@ export const EventToggleSubscribeButton = ({ event, userUuid, buttonProps }: Eve
     <XStack testID="event-item-toggle-subscribe-button">
       <StatusChipOrButton
         uuid={event.uuid}
+        slug={event.slug}
         userUuid={userUuid}
         isPremium={isEventAdherentReserved(event) || isEventAdherentDuesReserved(event)}
         {...buttonProps}

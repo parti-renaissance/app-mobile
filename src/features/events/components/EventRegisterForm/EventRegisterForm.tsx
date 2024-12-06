@@ -63,9 +63,9 @@ const initialValues = {
   join_newsletter: false,
 } satisfies PublicSubscribtionFormData
 
-const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void; eventId: string }) => {
+const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void; eventId: string; eventSlug?: string }) => {
   const { signIn } = useSession()
-  const { mutateAsync } = useSubscribePublicEvent({ id: props.eventId })
+  const { mutateAsync } = useSubscribePublicEvent({ id: props.eventId, slug: props.eventSlug })
   const onSubmit = (values: PublicSubscribtionFormData, action: FormikHelpers<PublicSubscribtionFormData>) => {
     action.setSubmitting(true)
     mutateAsync(values)

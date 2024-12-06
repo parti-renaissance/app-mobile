@@ -84,7 +84,6 @@ const EventList = ({
 
   const loadMoreNative = () => {
     if (isWebPageLayoutScrollActive) return
-    console.log('loadMoreNative')
     loadMore()
   }
 

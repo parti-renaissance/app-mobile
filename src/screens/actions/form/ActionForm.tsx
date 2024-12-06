@@ -32,7 +32,6 @@ export default function ActionForm({ onCancel, onClose, uuid, scope }: Props) {
   const webViewPort = media.gtXs
 
   const { data, isLoading } = useAction(uuid)
-  console.log(uuid)
 
   return (
     <View padding={'$medium'} style={{ marginBottom: webViewPort ? 0 : 80 }}>

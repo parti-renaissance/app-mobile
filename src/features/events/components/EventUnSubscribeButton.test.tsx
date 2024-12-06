@@ -47,7 +47,7 @@ const customRender: typeof render = (ui) => {
 
 describe('EventUnSubscribeButton', () => {
   it('should call unsusbcribe hook', async () => {
-    const { getByTestId } = customRender(<EventUnSubscribeButton uuid="unsubscribe-id" userUuid="user-uuid" />)
+    const { getByTestId } = customRender(<EventUnSubscribeButton uuid="unsubscribe-id" slug="wekjfhwe" userUuid="user-uuid" />)
     const button = getByTestId('event-unsubscribe-button')
     expect(button).toHaveTextContent('Me désinscrire')
     expect(useUnsubscribeEvent).toHaveBeenCalledWith({ id: 'unsubscribe-id' })
