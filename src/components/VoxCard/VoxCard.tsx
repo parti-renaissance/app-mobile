@@ -9,7 +9,7 @@ import { Separator, Stack, StackProps, styled, useTheme, withStaticProperties, X
 import AutoSizeImage from '../AutoSizeImage'
 import { getFormatedVoxCardDate } from '../utils'
 
-const CardFrame = styled(YStack, {
+export const CardFrame = styled(YStack, {
   backgroundColor: '$white1',
   $gtSm: {
     borderRadius: 16,
@@ -201,13 +201,18 @@ const VoxCardAttendees = ({ attendees }: VoxCardAttendeesProps) => {
 
 export type VoxCardImageProps = {
   image: string | ImageRequireSource
+  imageData?: null | {
+    url: string | null
+    width: number | null
+    height: number | null
+  }
   large?: boolean
 }
 
-const VoxCardImage = ({ image, large }: VoxCardImageProps) => {
+const VoxCardImage = ({ image, large, imageData }: VoxCardImageProps) => {
   return (
     <XStack borderRadius={large ? 0 : 8} overflow="hidden">
-      <AutoSizeImage source={image} />
+      <AutoSizeImage key={imageData?.url ?? image} source={image} width={imageData?.width ?? undefined} height={imageData?.height ?? undefined} />
     </XStack>
   )
 }

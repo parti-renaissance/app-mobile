@@ -11,7 +11,7 @@ maybeCompleteAuthSession()
 export const REDIRECT_URI = AuthSession.makeRedirectUri()
 const BASE_REQUEST_CONFIG = { clientId: clientEnv.OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI }
 
-export const useCodeAuthRequest = (props?: { register: boolean }) => {
+export const useCodeAuthRequest = (props?: { register?: boolean }) => {
   return AuthSession.useAuthRequest(
     {
       ...BASE_REQUEST_CONFIG,
@@ -43,10 +43,13 @@ const exchangeCodeAsync = ({ code }: { code: string }) => {
 export const useLogin = () => {
   useBrowserWarmUp()
   const [req, , promptAsync] = useCodeAuthRequest()
-  return async (code?: string) => {
-    if (code) {
+  return async (payload?: { code?: string; state?: string }) => {
+    if (payload?.code) {
       WebBrowser.dismissAuthSession()
-      return exchangeCodeAsync({ code })
+      return exchangeCodeAsync({ code: payload.code })
+    }
+    if (payload?.state && req) {
+      req.state = payload.state
     }
 
     if (isWeb) {
@@ -54,7 +57,11 @@ export const useLogin = () => {
       url.searchParams.set('redirect_uri', req?.redirectUri!)
       url.searchParams.set('client_id', req?.clientId!)
       url.searchParams.set('response_type', 'code')
+      if (req?.state) {
+        url.searchParams.set('state', req?.state)
+      }
       req?.scopes!.forEach((scope) => url.searchParams.append('scope[]', scope))
+      Object.entries(req?.extraParams ?? {}).forEach(([key, value]) => url.searchParams.set(key, value))
       window.location.href = url.toString()
       return null
     }

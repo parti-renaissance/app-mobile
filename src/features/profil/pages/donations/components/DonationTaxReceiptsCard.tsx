@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
-import _EmptyState from '@/components/EmptyStates/EmptyState'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useFileDownload } from '@/hooks/useFileDownload'

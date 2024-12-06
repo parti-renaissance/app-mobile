@@ -1,4 +1,4 @@
-import { Children, isValidElement, useCallback, useMemo } from 'react'
+import { Children, isValidElement, useCallback } from 'react'
 import { StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PageLayout from '@/components/layouts/PageLayout/PageLayout'
@@ -14,9 +14,10 @@ import { EventShareGroup } from '@/features/events/components/EventShareGroup'
 import { EventToggleSubscribeButton } from '@/features/events/components/EventToggleSubscribeButton'
 import { EventItemProps } from '@/features/events/types'
 import { RestItemEvent } from '@/services/events/schema'
-import { XStack, YStack, YStackProps } from 'tamagui'
+import { getTokenValue, Image, XStack, YStack, YStackProps } from 'tamagui'
 import { getEventDetailImageFallback, isEventFull, isEventPartial } from '../../utils'
 import { ScrollStack } from './EventComponents'
+import { LockPublicAuthAdhCard } from './SubscribeCard'
 
 const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 'time_zone'>> & { showTime?: boolean }) => {
   if (!props.begin_at) {
@@ -32,8 +33,18 @@ const DateItem = (props: Partial<Pick<RestItemEvent, 'begin_at' | 'finish_at' | 
   )
 }
 
-const BottomCTA = (props: EventItemProps) => {
+const AbsoluteWrapper = (props: YStackProps) => {
   const insets = useSafeAreaInsets()
+  return (
+    <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p={16} pb={16 + insets.bottom}>
+      <XStack gap={8} width="100%">
+        {props.children}
+      </XStack>
+    </YStack>
+  )
+}
+
+const BottomCTA = (props: EventItemProps) => {
   const buttonProps = { variant: 'contained', full: true, flex: 1, width: '100%', size: 'xl', shrink: false } as const
   const needAuth = isEventPartial(props.event) && !props.userUuid
   const elements = Children.map(
@@ -44,17 +55,6 @@ const BottomCTA = (props: EventItemProps) => {
     //@ts-expect-error child type on string
     (child) => isValidElement(child) && child?.type(child.props),
   ).filter(Boolean)
-
-  const AbsoluteWrapper = useCallback(
-    (props: YStackProps) => (
-      <YStack position="absolute" bg="$white1" bottom={0} left="$0" width="100%" elevation="$1" p={16} pb={16 + insets.bottom}>
-        <XStack gap={8} width="100%">
-          {props.children}
-        </XStack>
-      </YStack>
-    ),
-    [insets.bottom],
-  )
 
   if (needAuth) {
     return (
@@ -89,7 +89,7 @@ const EventMobileScreen = ({ event, userUuid }: EventItemProps) => {
       <StatusBar barStyle={'light-content'} />
       <ScrollStack marginTop={insets.top} backgroundColor="$textSurface">
         <VoxCard overflow="hidden" pb={66}>
-          {fallbackImage ? <VoxCard.Image large={true} image={fallbackImage} /> : null}
+          {fallbackImage ? <VoxCard.Image large={true} image={fallbackImage} imageData={event.image} /> : null}
           <VoxCard.Content pt={fallbackImage ? 0 : undefined}>
             <EventItemHeader>
               <CategoryChip>{event.category?.name}</CategoryChip>
@@ -153,6 +153,21 @@ export const EventMobileScreenSkeleton = () => {
           </SkeCard.Section>
         </SkeCard.Content>
       </SkeCard>
+    </PageLayout.MainSingleColumn>
+  )
+}
+
+export const EventMobileScreenDeny = () => {
+  const insets = useSafeAreaInsets()
+  return (
+    <PageLayout.MainSingleColumn backgroundColor="#ECF1F5">
+      <StatusBar barStyle={'dark-content'} />
+      <YStack flex={1} justifyContent="center" alignItems="center">
+        <Image src={require('@/assets/illustrations/VisuCadnas.png')} />
+      </YStack>
+      <YStack padding="$xlarge" pb={getTokenValue('$xlarge') + insets.bottom} bg="white" justifyContent="center" alignItems="center">
+        <LockPublicAuthAdhCard />
+      </YStack>
     </PageLayout.MainSingleColumn>
   )
 }

@@ -3,14 +3,14 @@ import { KeyboardAvoidingView, Platform } from 'react-native'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
 import InfoCard from '@/components/InfoCard/InfoCard'
-import PageLayout from '@/components/layouts/PageLayout/PageLayout'
 import { MessageCard } from '@/components/MessageCard/MessageCard'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import { useGetInstances, useGetTags } from '@/services/profile/hook'
 import { RestInstancesResponse } from '@/services/profile/schema'
 import { Info, UserPlus } from '@tamagui/lucide-icons'
 import { Link } from 'expo-router'
-import { isWeb, ScrollView, useMedia, YStack } from 'tamagui'
+import { isWeb, YStack } from 'tamagui'
+import ScrollView from '../../components/ScrollView'
 import ChangeCommitteeModal from './components/ChangeCommittee'
 import { DoubleCircle, DoubleDiamond, DoubleTriangle } from './components/icons'
 import InstanceCard from './components/InstanceCard'
@@ -22,8 +22,6 @@ const isAssembly = (instance: any): instance is Instance & { type: 'assembly' } 
 const isCirconscription = (instance: any): instance is Instance & { type: 'circonscription' } => instance.type === 'circonscription'
 
 const InstancesScreen = () => {
-  const media = useMedia()
-
   const { data } = useGetInstances()
   const { tags } = useGetTags({ tags: ['sympathisant'] })
   const [openChange, setOpenChange] = useState(false)
@@ -31,16 +29,6 @@ const InstancesScreen = () => {
   const [assembly] = data.filter(isAssembly)
   const [committee] = data.filter(isCommittee)
   const [circonscription] = data.filter(isCirconscription)
-
-  const scrollViewContainerStyle = useMemo(
-    () => ({
-      pt: media.gtSm ? '$medium' : undefined,
-      pl: media.gtSm ? '$medium' : undefined,
-      pr: media.gtSm ? '$medium' : undefined,
-      pb: '$11',
-    }),
-    [media],
-  )
 
   const committeeContent = useMemo(() => {
     if (isSympathisant) {
@@ -86,10 +74,10 @@ const InstancesScreen = () => {
   }, [committee])
 
   return (
-    <PageLayout.MainSingleColumn position="relative">
+    <>
       <ChangeCommitteeModal currentCommitteeUuid={committee?.uuid ?? null} open={openChange} onClose={() => setOpenChange(false)} />
       <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'height' : 'padding'} style={{ flex: 1 }} keyboardVerticalOffset={100}>
-        <ScrollView contentContainerStyle={scrollViewContainerStyle}>
+        <ScrollView>
           <YStack gap="$medium" flex={1} $sm={{ pt: 8, gap: 8 }}>
             <InstanceCard
               title="Mon assemblée"
@@ -158,7 +146,7 @@ const InstancesScreen = () => {
           </YStack>
         </ScrollView>
       </KeyboardAvoidingView>
-    </PageLayout.MainSingleColumn>
+    </>
   )
 }
 

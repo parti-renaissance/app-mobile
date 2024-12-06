@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Checkbox from '@/components/base/Checkbox/Checkbox'
 import Text from '@/components/base/Text'
 import { styled } from '@tamagui/core'

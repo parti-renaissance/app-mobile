@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { Image, StyleSheet, TextInput, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import { Button } from '@/components'
 import Input from '@/components/base/Input/Input'
 import { VoxButton } from '@/components/Button'
 import { Sheet, YStack } from 'tamagui'

@@ -1,14 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { useDtdTunnelStore } from '@/data/store/door-to-door'
-import { YStack } from 'tamagui'
-import { BuildingBlock, BuildingBlockStatus } from '../../core/entities/BuildingBlock'
+import { BuildingBlockStatus } from '../../core/entities/BuildingBlock'
 import { Colors, Spacing, Typography } from '../../styles'
 import { margin, small } from '../../styles/spacing'
 import i18n from '../../utils/i18n'
-import CardView from '../shared/CardView'
 import { TouchablePlatform } from '../shared/TouchablePlatform'
-import BuildingLayoutFloorCell, { BuildingLayoutActionType, BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
+import BuildingLayoutFloorCell, { BuildingLayoutFloorCellViewModel } from './BuildingLayoutFloorCell'
 
 export interface BuildingLayoutBlockCardViewModel {
   id: string

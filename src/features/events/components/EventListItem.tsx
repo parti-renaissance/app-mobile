@@ -50,7 +50,7 @@ export const BaseEventListItem = ({ event, userUuid }: EventItemProps) => {
           <EventPremiumChip event={event} />
         </EventItemHeader>
         {event.name ? <VoxCard.Title underline={!fallbackImage}>{event.name}</VoxCard.Title> : null}
-        {fallbackImage ? <VoxCard.Image image={fallbackImage} /> : null}
+        {fallbackImage ? <VoxCard.Image image={fallbackImage} imageData={event.image} /> : null}
         <DateItem showTime={isFull} begin_at={event.begin_at} finish_at={event.finish_at} time_zone={event.time_zone} />
         <EventLocation event={event} />
         <VoxCard.Author
@@ -63,7 +63,7 @@ export const BaseEventListItem = ({ event, userUuid }: EventItemProps) => {
           }}
         />
         <EventItemActions>
-          <GoToButton eventUuid={event.uuid} />
+          <GoToButton eventUuid={event.slug} />
           <EventToggleSubscribeButton event={event} userUuid={userUuid} />
           <EventItemHandleButton event={event} userUuid={userUuid} />
         </EventItemActions>

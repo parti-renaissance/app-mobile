@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { FlatList, ListRenderItemInfo, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { Colors, Spacing, Typography } from '../../styles'
 import i18n from '../../utils/i18n'

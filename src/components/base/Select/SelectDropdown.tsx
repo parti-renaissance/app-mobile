@@ -124,7 +124,7 @@ const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ fram
               stickyHeaderIndices={props.searchable ? [0] : undefined}
               ListHeaderComponent={
                 props.searchable ? (
-                  <YStack padding={8} bg="white">
+                  <YStack padding={8} bg="white" borderBottomColor="$textOutline" borderBottomWidth={1}>
                     <Input
                       ref={queryInputRef}
                       size="sm"
@@ -139,7 +139,13 @@ const SelectDropdown = forwardRef<SelectDropdownRef, DropDownLogicProps>(({ fram
               data={filteredItems}
               keyExtractor={(item) => item.id}
               renderItem={({ item, index }) => (
-                <MemoItem {...item} onPress={handleSelect(item)} selected={item.id === props.value} last={filteredItems.length - 1 === index} />
+                <MemoItem
+                  {...item}
+                  onPress={handleSelect(item)}
+                  size={props.size ?? 'lg'}
+                  selected={item.id === props.value}
+                  last={filteredItems.length - 1 === index}
+                />
               )}
             />
           </DropdownFrame>

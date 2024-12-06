@@ -1,11 +1,10 @@
 import clientEnv from '@/config/clientEnv'
-import { useSession } from '@/ctx/SessionProvider'
 import * as api from '@/services/profile/api'
 import { RestProfilResponse, RestProfilResponseTagTypes, RestUpdateProfileRequest } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
-import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
+import { PlaceholderDataFunction, useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import Constants from 'expo-constants'
 import * as FileSystem from 'expo-file-system'
 import { isWeb } from 'tamagui'
@@ -43,6 +42,44 @@ export const useGetUserScopes = ({ enabled }: { enabled?: boolean } = {}) => {
     queryFn: () => api.getUserScopes(),
     enabled,
   })
+}
+
+export const useGetSuspenseUserScopes = () => {
+  return useSuspenseQuery({
+    queryKey: ['userScopes'],
+    queryFn: () => api.getUserScopes(),
+  })
+}
+
+export const useGetExecutiveScopes = () => {
+  const { data, ...rest } = useGetSuspenseUserScopes()
+  const { defaultScope: localDefaultScopeCode, lastAvailableScopes } = useUserStore()
+  const cadre_scopes = data.filter((s) => s.apps.includes('data_corner'))
+  const [scopeWithMoreFeatures] = cadre_scopes.sort((a, b) => (b.features.length > a.features.length ? 1 : -1)) || []
+  const localDefaultScope = localDefaultScopeCode ? cadre_scopes.find((s) => s.code === localDefaultScopeCode) : undefined
+  const defaultScope = localDefaultScope ?? scopeWithMoreFeatures
+  return {
+    data: {
+      list: cadre_scopes,
+      default: defaultScope,
+      lastAvailableScopes,
+    },
+    ...rest,
+  }
+}
+
+export const useMutateExecutiveScope = () => {
+  const { setDefaultScope, setLastAvailableScopes } = useUserStore()
+  return {
+    mutate: (payload: { scope?: string; lastAvailableScopes?: string[] }) => {
+      if (payload.scope) {
+        setDefaultScope(payload.scope)
+      }
+      if (payload.lastAvailableScopes) {
+        setLastAvailableScopes(payload.lastAvailableScopes)
+      }
+    },
+  }
 }
 
 export const useGetDetailProfil = () => {

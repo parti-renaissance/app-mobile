@@ -47,6 +47,7 @@ export const RestEventAddressSchema = z.object({
 export const RestBaseEventSchema = z.object({
   uuid: z.string(),
   name: z.string(),
+  slug: z.string(),
   status: RestEventStatusSchema,
   visibility: EventVisibilitySchema,
   begin_at: z.string(),
@@ -54,7 +55,13 @@ export const RestBaseEventSchema = z.object({
   time_zone: z.string(),
   post_address: RestEventAddressSchema.nullable(),
   organizer: RestEventOrganizerSchema.nullable(),
-  image_url: z.string().nullable(),
+  image: z
+    .object({
+      url: z.string().nullable(),
+      width: z.number().nullable(),
+      height: z.number().nullable(),
+    })
+    .nullable(),
   mode: z.enum(['online', 'meeting']).nullable(),
   category: RestEventCategorySchema.nullable(),
 })

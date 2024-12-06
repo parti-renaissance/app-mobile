@@ -15,6 +15,10 @@ interface UserState {
   removeCredentials: () => void
   hideResubscribeAlert: string | null
   setHideReSubscribeAlert: (x: string | null) => void
+  setDefaultScope: (scope: string) => void
+  setLastAvailableScopes: (scopes: string[]) => void
+  defaultScope: string | null
+  lastAvailableScopes: string[] | null
   _hasHydrated: boolean
   _setHasHydrated: (hasHydrated: boolean) => void
 }
@@ -23,6 +27,10 @@ const userStoreSlice: StateCreator<UserState> = (set) => ({
   user: null,
   _hasHydrated: false,
   hideResubscribeAlert: null,
+  defaultScope: null,
+  lastAvailableScopes: null,
+  setDefaultScope: (scope) => set({ defaultScope: scope }),
+  setLastAvailableScopes: (scopes) => set({ lastAvailableScopes: scopes }),
   setCredentials: (user) => set({ user }),
   removeCredentials: () => set({ user: null }),
   _setHasHydrated: (hasHydrated) => set({ _hasHydrated: hasHydrated }),

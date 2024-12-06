@@ -4,7 +4,7 @@ export type RestGetFormationsResponse = z.infer<typeof RestGetFormationsResponse
 export const RestGetFormationsResponseSchema = z.array(
   z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().nullable(),
     content_type: z.enum(['link', 'file']),
     category: z.string().nullable(),
     uuid: z.string().uuid(),

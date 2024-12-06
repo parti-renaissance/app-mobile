@@ -4,7 +4,7 @@ import * as metatags from '@/config/metatags'
 import FormationScreen from '@/screens/formations/page'
 import { ImageBackground } from 'expo-image'
 import Head from 'expo-router/head'
-import { useMedia, View, YStack } from 'tamagui'
+import { useMedia, YStack } from 'tamagui'
 
 const styles = StyleSheet.create({
   image: {

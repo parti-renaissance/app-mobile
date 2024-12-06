@@ -12,7 +12,7 @@ import { ScrollView, ScrollViewProps, useMedia, XStack } from 'tamagui'
 import EventRegisterForm from './EventRegisterForm/EventRegisterForm'
 
 type ButtonProps = ComponentPropsWithoutRef<typeof VoxButton> &
-  Pick<RestItemEvent, 'uuid'> & {
+  Pick<RestItemEvent, 'uuid' | 'slug'> & {
     isPremium?: boolean
     userUuid?: string
   }
@@ -22,8 +22,8 @@ const Wrapper = forwardRef<ScrollView, ScrollViewProps>((x, r) => {
   return media.gtMd ? <ScrollView ref={r} {...x} /> : <Fragment children={x.children} />
 })
 
-export const EventSubscribeButton = ({ uuid, isPremium, userUuid, ...buttonProps }: ButtonProps) => {
-  const { mutate, isPending } = useSubscribeEvent({ id: uuid })
+export const EventSubscribeButton = ({ uuid, slug, isPremium, userUuid, ...buttonProps }: ButtonProps) => {
+  const { mutate, isPending } = useSubscribeEvent({ id: uuid, slug })
   const [open, setOpen] = useState(false)
   const media = useMedia()
   const modalScreenRef = useRef<ScrollView | null>(null)
@@ -63,6 +63,7 @@ export const EventSubscribeButton = ({ uuid, isPremium, userUuid, ...buttonProps
             <Wrapper ref={modalScreenRef}>
               <EventRegisterForm
                 eventId={uuid}
+                eventSlug={slug}
                 onScrollTo={(x) => {
                   modalScreenRef.current?.scrollTo(x)
                   sheetScrollRef.current?.scrollTo(x)

@@ -6,7 +6,7 @@ import Menu from '@/components/menu/Menu'
 import ProfilBlock from '@/components/ProfilBlock'
 import VoxCard from '@/components/VoxCard/VoxCard'
 import clientEnv from '@/config/clientEnv'
-import { useGetProfil, useGetUserScopes } from '@/services/profile/hook'
+import { useGetExecutiveScopes, useGetProfil } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -16,17 +16,9 @@ import { openURL } from 'expo-linking'
 import { Link } from 'expo-router'
 import { isWeb, XStack, YStack } from 'tamagui'
 
-const useGetDefaultScope = () => {
-  const { user: credentials } = useUserStore()
-  const scopes = useGetUserScopes({ enabled: !!credentials })
-  const cadre_scopes = scopes?.data?.filter((s) => s.apps.includes('data_corner'))
-  const [default_scope] = cadre_scopes?.sort((a, b) => (b.features.length > a.features.length ? 1 : -1)) || []
-  return default_scope
-}
-
 export const GoToAdminCard = ({ profil }: { profil: RestProfilResponse }) => {
   const { user: credentials } = useUserStore()
-  const default_scope = useGetDefaultScope()
+  const { data: { default: default_scope } = {} } = useGetExecutiveScopes()
   const isCadre = profil?.cadre_auth_path && default_scope
   const onNavigateToCadre = useCallback(() => {
     if (isCadre) openURL(`${credentials?.isAdmin ? clientEnv.ADMIN_URL : clientEnv.OAUTH_BASE_URL}${profil?.cadre_auth_path}`)
@@ -132,21 +124,24 @@ export default function MyProfileCard() {
       <YStack>
         <VoxCard.Content>
           <BoundarySuspenseWrapper>
-            <Link href="/profil" asChild={!isWeb}>
-              <ProfilBlock
-                editablePicture={false}
-                inside
-                bg="$textSurface"
-                animation="100ms"
-                hoverStyle={{
-                  bg: '$gray1',
-                }}
-              />
-            </Link>
+            <>
+              <Link href="/profil" asChild={!isWeb}>
+                <ProfilBlock
+                  editablePicture={false}
+                  inside
+                  bg="$textSurface"
+                  animation="100ms"
+                  hoverStyle={{
+                    bg: '$gray1',
+                  }}
+                />
+              </Link>
+
+              {!showEluCard && statusAdh ? <MembershipCard status={statusAdh} /> : null}
+              {showEluCard ? <EluCard /> : null}
+              <GoToAdminCard profil={profile} />
+            </>
           </BoundarySuspenseWrapper>
-          {!showEluCard && statusAdh ? <MembershipCard status={statusAdh} /> : null}
-          {showEluCard ? <EluCard /> : null}
-          <GoToAdminCard profil={profile} />
         </VoxCard.Content>
         <Link href="/ressources" asChild={!isWeb}>
           <Menu.Item size="sm" icon={LinkIcon} showArrow>

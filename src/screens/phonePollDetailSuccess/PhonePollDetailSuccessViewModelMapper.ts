@@ -12,7 +12,7 @@ export const PhonePollDetailSuccessViewModelMapper = {
   map: (
     campaign: PhoningCampaign | undefined,
   ): PhonePollDetailSuccessViewModel => {
-    var sections: Array<PhonePollDetailSuccessSection> = [
+    const sections: Array<PhonePollDetailSuccessSection> = [
       {
         title: i18n.t('phoningsession.success.title'),
         data: [

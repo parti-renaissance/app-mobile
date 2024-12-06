@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react'
+import { ComponentPropsWithoutRef, useState } from 'react'
 import { Platform } from 'react-native'
 import { DropdownWrapper } from '@/components/base/Dropdown'
 import Text from '@/components/base/Text'
@@ -7,6 +7,7 @@ import ProfileTags from '@/components/ProfileCards/ProfileCard/ProfileTags'
 import ProfilePicture from '@/components/ProfilePicture'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
 import VoxCard from '@/components/VoxCard/VoxCard'
+import ExecutiveRoleSelector from '@/features/profil/components/ExecutiveRoleSelector'
 import { useDeleteProfilPicture, useGetDetailProfil, useGetProfil, useGetTags, usePostProfilPicture } from '@/services/profile/hook'
 import { RestProfilResponse } from '@/services/profile/schema'
 import { Delete, Plus, Repeat2, Settings2 } from '@tamagui/lucide-icons'
@@ -32,7 +33,7 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
     setOpenCrop(false)
   }
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: Platform.OS === 'android',
       aspect: [1, 1],
@@ -104,6 +105,7 @@ const UploadPP = (props: { profil: RestProfilResponse }) => {
               bottom={0}
               right={0}
               borderRadius={999}
+              shrink
               width={40}
               height={40}
               bg="white"
@@ -136,8 +138,9 @@ export default function ({ editablePicture = true, ...props }: ComponentPropsWit
         </YStack>
         <ProfileTags tags={tags ?? []} justifyContent="center" />
         <Text.MD medium textAlign="center">
-          {[detProfil.main_zone?.name, detProfil.post_address?.city_name].filter(Boolean).join(', ')}
+          {[profil.instances?.assembly?.name, profil.instances?.committee?.name].filter(Boolean).join(', ')}
         </Text.MD>
+        {editablePicture ? <ExecutiveRoleSelector /> : null}
       </VoxCard.Content>
     </VoxCard>
   ) : (

@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from 'react'
-import { createStyledContext, GetThemeValueForKey, getVariableValue, styled } from '@tamagui/core'
+import { createStyledContext, styled } from '@tamagui/core'
 import { Check } from '@tamagui/lucide-icons'
 import { ThemeableStack } from '@tamagui/stacks'
 

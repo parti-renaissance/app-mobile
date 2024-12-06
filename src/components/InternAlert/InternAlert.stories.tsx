@@ -1,4 +1,3 @@
-import { satisfies } from 'semver'
 import InternAlert, { InternAlertProps } from './InternAlert'
 
 export default {

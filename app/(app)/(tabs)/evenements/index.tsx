@@ -9,6 +9,7 @@ import MyProfileCard from '@/components/ProfileCards/ProfileCard/MyProfileCard'
 import ProfileLoginCTA from '@/components/ProfileCards/ProfileLoginCTA/ProfileLoginCTA'
 import AuthFallbackWrapper from '@/components/Skeleton/AuthFallbackWrapper'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
+import StickyBox from '@/components/StickyBox/StickyBox'
 import * as metatags from '@/config/metatags'
 import { useSession } from '@/ctx/SessionProvider'
 import EventFilterForm from '@/features/events/components/EventFilterForm/EventFilterForm'
@@ -105,15 +106,17 @@ const EventsScreen: React.FC = () => {
         <title>{metatags.createTitle('Nos événements')}</title>
       </Head>
 
-      <PageLayout>
+      <PageLayout webScrollable>
         <PageLayout.SideBarLeft>
-          <YStack gap="$medium">
-            <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
-            <MyProfileCard />
-          </YStack>
+          <StickyBox offsetTop="$medium" offsetBottom="$medium">
+            <YStack gap="$medium">
+              <AuthFallbackWrapper fallback={<ProfileLoginCTA />} />
+              <MyProfileCard />
+            </YStack>
+          </StickyBox>
         </PageLayout.SideBarLeft>
         <PageLayout.MainSingleColumn>
-          <YStack flex={1} flexGrow={1} flexBasis={0} gap="$medium" position="relative">
+          <YStack gap="$medium" position="relative" flex={1}>
             <Animated.View
               style={headerAnimatedStyle}
               onLayout={(e) => {
@@ -139,7 +142,7 @@ const EventsScreen: React.FC = () => {
 
             <BoundarySuspenseWrapper
               fallback={
-                <YStack gap="$medium" padding="$medium" $sm={{ paddingHorizontal: 0, paddingTop: headerHeight }}>
+                <YStack gap="$medium" padding="$medium" $sm={{ paddingHorizontal: 0 }} $lg={{ marginTop: headerHeight }}>
                   <SkeCard>
                     <SkeCard.Content>
                       <SkeCard.Chip />
@@ -185,23 +188,28 @@ const EventsScreen: React.FC = () => {
                 </YStack>
               }
             >
-              <YStack flex={1} height="100%">
-                <EventFeedList activeTab={activeTab} onScroll={handleListScroll} onMomentumScrollEnd={handleMomentumScrollEnd} paddingTop={headerHeight} />
-              </YStack>
+              <EventFeedList
+                activeTab={activeTab}
+                onScroll={handleListScroll}
+                onMomentumScrollEnd={handleMomentumScrollEnd}
+                paddingTop={headerHeight ?? getTokenValue('$medium', 'space')}
+              />
             </BoundarySuspenseWrapper>
           </YStack>
         </PageLayout.MainSingleColumn>
         <PageLayout.SideBarRight>
-          <YStack gap="$medium" $lg={{ display: 'none' }}>
-            {isAuth ? (
-              <XStack gap="$medium">
-                <ButtonGroup theme="blue" options={options} value={activeTab} onChange={handleSetActiveTab} />
-              </XStack>
-            ) : null}
-            <YStack>
-              <EventFilterForm />
+          <StickyBox offsetTop="$medium" offsetBottom="$medium">
+            <YStack gap="$medium" $lg={{ display: 'none' }}>
+              {isAuth ? (
+                <XStack gap="$medium">
+                  <ButtonGroup theme="blue" options={options} value={activeTab} onChange={handleSetActiveTab} />
+                </XStack>
+              ) : null}
+              <YStack>
+                <EventFilterForm />
+              </YStack>
             </YStack>
-          </YStack>
+          </StickyBox>
         </PageLayout.SideBarRight>
       </PageLayout>
     </>

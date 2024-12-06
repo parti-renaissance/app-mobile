@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSubscribeEvent } from '@/services/events/hook'
 import TamaguiProvider from '@/tamagui/provider'
-import { Calendar } from '@tamagui/lucide-icons'
 import { fireEvent, render } from '@testing-library/react-native'
 import { EventSubscribeButton } from './EventSubscribeButton'
 
@@ -49,7 +48,7 @@ const customRender: typeof render = (ui) => {
 
 describe('EventSubscribeButton', () => {
   it('should call susbcribe hook', async () => {
-    const { getByTestId } = customRender(<EventSubscribeButton uuid="subscribe-id" userUuid="user-uuid" />)
+    const { getByTestId } = customRender(<EventSubscribeButton uuid="subscribe-id" slug="coucou" userUuid="user-uuid" />)
     const button = getByTestId('event-subscribe-button')
     expect(button).toHaveTextContent("M'inscrire")
     expect(useSubscribeEvent).toHaveBeenCalledWith({ id: 'subscribe-id' })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import { Button } from '@/components'
 import Text from '@/components/base/Text'
 import { VoxButton } from '@/components/Button'
@@ -11,14 +11,15 @@ import * as eventTypes from '@/services/events/schema'
 import { useGetProfil } from '@/services/profile/hook'
 import { Unlock } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
-import { useMedia, YStack } from 'tamagui'
+import { usePathname } from 'expo-router'
+import { useMedia, XStack, YStack } from 'tamagui'
 import { RegisterButtonSheet } from './EventComponents'
 
-const AdhButton = (props: { bgColor?: string; children?: string }) => {
+const AdhButton = (props: { bgColor?: string; children?: string; variant?: ComponentProps<typeof VoxButton>['variant'] }) => {
   const { isPending, open: handleClick } = useOpenExternalContent({ slug: 'adhesion' })
 
   return (
-    <VoxButton variant="contained" size="lg" width="100%" theme="yellow" onPress={handleClick} loading={isPending}>
+    <VoxButton variant={props.variant} size="lg" width="100%" theme="yellow" onPress={handleClick} loading={isPending}>
       {props.children ?? 'Adhérer'}
     </VoxButton>
   )
@@ -35,6 +36,25 @@ export function LockAuthCard({ activeSubscription }: { activeSubscription?: bool
       </YStack>
       <SignUpButton size="lg" width="100%" />
       <SignInButton size="lg" width="100%" />
+    </YStack>
+  )
+}
+
+export function LockPublicAuthAdhCard() {
+  const path = usePathname()
+  return (
+    <YStack justifyContent="center" gap="$medium">
+      <YStack gap="$medium" alignItems="center">
+        <Text.MD multiline secondary textAlign="center" semibold>
+          Cet événement est réservé aux militants. Rejoignez-nous pour y participer.
+        </Text.MD>
+      </YStack>
+      <XStack gap="$small">
+        <SignInButton redirectUri={path} variant="text" size="lg" flex={1} />
+        <XStack flex={1}>
+          <AdhButton variant="outlined" />
+        </XStack>
+      </XStack>
     </YStack>
   )
 }
@@ -107,7 +127,7 @@ export function SubscribeCard({ data }: Readonly<{ data: eventTypes.RestEvent }>
   const { data: user } = useGetProfil({ enabled: isAuth })
   const media = useMedia()
   const isEventActive = !(
-    isPast(data.finish_at) ||
+    isPast(data.finish_at ?? data.begin_at) ||
     data.status === 'CANCELLED' ||
     (eventTypes.isFullEvent(data) && data.capacity && data.participants_count >= data.capacity && !data.user_registered_at)
   )

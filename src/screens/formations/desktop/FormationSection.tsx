@@ -1,5 +1,4 @@
 import { LayoutChangeEvent } from 'react-native'
-import EmptyStateFormationIllustration from '@/assets/illustrations/EmptyStateFormationIllustration'
 import ButtonGroup from '@/components/base/ButtonGroup/ButtonGroup'
 import Text from '@/components/base/Text'
 import SkeCard from '@/components/Skeleton/CardSkeleton'
@@ -43,7 +42,7 @@ export const FormationSection = ({ data: formations, visibility, onLayout, theme
         ) : (
           <>
             <Text.LG>
-              Formations <Text.LG color={textColor}>{visibility === 'local' ? 'locale' : 'nationale'}</Text.LG>
+              Formations <Text.LG color={textColor}>{visibility === 'local' ? 'locales' : 'nationales'}</Text.LG>
             </Text.LG>
             {options.length > 1 && (
               <ButtonGroup

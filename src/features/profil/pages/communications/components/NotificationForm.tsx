@@ -45,7 +45,7 @@ const UnSubscribeCase = () => {
       }
 
       const jsonp = (() => {
-        let that = {} as {
+        const that = {} as {
           send: (src: string, options?: JsonpOptions) => void
         }
 

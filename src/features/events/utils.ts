@@ -1,11 +1,11 @@
 import { RestFullEvent, RestItemEvent, RestPartialEvent } from '@/services/events/schema'
 import { useToastController } from '@tamagui/toast'
-import { isPast } from 'date-fns'
+import { isBefore } from 'date-fns'
 import * as Clipboard from 'expo-clipboard'
 
 export const isEventPast = (event: Partial<RestItemEvent>) => {
   const date = event.finish_at || event.begin_at
-  return date ? isPast(new Date(date)) : false
+  return date ? isBefore(new Date(date), new Date()) : false
 }
 
 export const isEventCancelled = (
@@ -16,7 +16,11 @@ export const isEventCancelled = (
   return event.status === 'CANCELLED'
 }
 
-export const isEventFull = (event: Partial<RestItemEvent>): event is Partial<RestFullEvent> => {
+export const isEventFull = (
+  event: Partial<RestItemEvent>,
+): event is Partial<RestFullEvent> & {
+  object_state: 'full'
+} => {
   return event.object_state === 'full'
 }
 
@@ -27,7 +31,11 @@ export const isEventCapacityReached = (event: Partial<RestItemEvent>) => {
   return false
 }
 
-export const isEventPartial = (event: Partial<RestItemEvent>): event is Partial<RestPartialEvent> => {
+export const isEventPartial = (
+  event: Partial<RestItemEvent>,
+): event is Partial<RestPartialEvent> & {
+  object_state: 'partial'
+} => {
   return event.object_state === 'partial'
 }
 
@@ -77,14 +85,14 @@ export const getEventItemImageFallback = (event: Partial<RestItemEvent>) => {
   if (isEventPartial(event)) {
     return require('@/features/events/assets/images/event-fallback-private-lock.png')
   }
-  return event.image_url
+  return event.image?.url
 }
 
 export const getEventDetailImageFallback = (event: Partial<RestItemEvent>) => {
   if (isEventPartial(event)) {
     return require('@/features/events/assets/images/event-fallback-private-lock.png')
   }
-  return event.image_url ?? require('@/features/events/assets/images/event-fallback.png')
+  return event.image?.url ?? require('@/features/events/assets/images/event-fallback.png')
 }
 
 export function useHandleCopyUrl() {

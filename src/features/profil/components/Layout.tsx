@@ -19,7 +19,7 @@ export default function ProfilLayout({ children }: { children: React.ReactNode }
   const media = useMedia()
 
   return media.md ? (
-    <PageLayout>
+    <PageLayout webScrollable>
       <PageLayout.MainSingleColumn>
         <BoundarySuspenseWrapper
           fallback={

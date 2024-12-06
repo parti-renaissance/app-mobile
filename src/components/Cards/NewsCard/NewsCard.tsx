@@ -1,4 +1,3 @@
-import { Linking } from 'react-native'
 import { VoxButton } from '@/components/Button'
 import VoxCard, { VoxCardAuthorProps, VoxCardDateProps, VoxCardFrameProps, VoxCardLocationProps } from '@/components/VoxCard/VoxCard'
 import { genericErrorThrower } from '@/services/common/errors/generic-errors'

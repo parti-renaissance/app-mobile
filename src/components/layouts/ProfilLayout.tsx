@@ -18,8 +18,8 @@ const Skeleton = () => (
 export default function ProfilLayout({ children }: { children: React.ReactNode }) {
   const media = useMedia()
 
-  return media.md ? (
-    <PageLayout>
+  return media.gtSm ? (
+    <PageLayout webScrollable>
       <PageLayout.MainSingleColumn>
         <BoundarySuspenseWrapper
           fallback={

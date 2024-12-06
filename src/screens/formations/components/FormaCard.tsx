@@ -60,7 +60,7 @@ export const FormaCard = ({ payload, last, ...props }: Props & YStackProps) => {
         {payload.category ? <VoxCard.Chip>{payload.category}</VoxCard.Chip> : null}
       </XStack>
       <Text.LG>{payload.title}</Text.LG>
-      <VoxCard.Description markdown>{payload.description}</VoxCard.Description>
+      {payload.description ? <VoxCard.Description markdown>{payload.description}</VoxCard.Description> : null}
       <Btn payload={payload} />
     </VoxCard.Content>
   )

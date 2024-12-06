@@ -1,6 +1,5 @@
-import { Fragment } from 'react'
 import { Calendar } from '@tamagui/lucide-icons'
-import { ScrollView, Stack, Text, XStack, YStack } from 'tamagui'
+import { ScrollView, Stack, YStack } from 'tamagui'
 import { MessageCard } from './MessageCard'
 
 export default {

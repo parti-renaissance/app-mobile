@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { Image } from 'expo-image'
@@ -10,10 +10,13 @@ interface AutoSizeImageProps {
   hasMore?: boolean
   isLast?: boolean
   token?: string
+  ratio?: number
+  width?: number
+  height?: number
 }
 
-function AutoSizeImage(props: AutoSizeImageProps) {
-  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null)
+function AutoSizeImage({ width, height, ...props }: AutoSizeImageProps) {
+  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(width && height ? { width, height } : null)
 
   return (
     <Animated.View style={[styles.imageContainer]}>
@@ -21,7 +24,7 @@ function AutoSizeImage(props: AutoSizeImageProps) {
         style={[
           styles.image,
           {
-            aspectRatio: imageSize ? imageSize.width / imageSize.height : 16 / 9,
+            aspectRatio: imageSize ? imageSize.width / imageSize.height : (props.ratio ?? 16 / 9),
           },
         ]}
         source={typeof props.source === 'string' ? { uri: props.source } : props.source}

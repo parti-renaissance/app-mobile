@@ -196,7 +196,7 @@ export function PhoneInput({ size, placeholder, onChange, value, countryCode = '
   const [containerWidth, setContainerWidth] = useState<number>()
 
   const handlePhoneNumberChange = (text: string) => {
-    let candidate: string = text
+    const candidate: string = text
     let isFrenchNumber = false
 
     // If no country code is set, we assume that is a french number

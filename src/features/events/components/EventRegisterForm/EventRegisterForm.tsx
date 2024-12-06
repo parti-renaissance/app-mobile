@@ -13,7 +13,7 @@ import { CheckedState } from '@tamagui/checkbox-headless/src/useCheckbox'
 import { CalendarCheck2, Check as CheckIcon } from '@tamagui/lucide-icons'
 import { router } from 'expo-router'
 import { Formik, FormikHelpers } from 'formik'
-import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, Spinner, useMedia, XStack, YStack } from 'tamagui'
+import { Checkbox, CheckboxProps, Dialog, H2, isWeb, Label, Paragraph, ScrollView, useMedia, XStack, YStack } from 'tamagui'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { PublicSubscribtionFormDataSchema } from './schema'
 
@@ -63,9 +63,9 @@ const initialValues = {
   join_newsletter: false,
 } satisfies PublicSubscribtionFormData
 
-const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void; eventId: string }) => {
+const EventRegisterForm = (props: { onScrollTo?: (x: { x: number; y: number }) => void; eventId: string; eventSlug?: string }) => {
   const { signIn } = useSession()
-  const { mutateAsync } = useSubscribePublicEvent({ id: props.eventId })
+  const { mutateAsync } = useSubscribePublicEvent({ id: props.eventId, slug: props.eventSlug })
   const onSubmit = (values: PublicSubscribtionFormData, action: FormikHelpers<PublicSubscribtionFormData>) => {
     action.setSubmitting(true)
     mutateAsync(values)

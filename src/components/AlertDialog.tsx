@@ -1,4 +1,3 @@
-import { Button } from '@/components'
 import Text from '@/components/base/Text'
 import { AlertDialog, isWeb, ThemeName, XStack, YStack } from 'tamagui'
 import { VoxButton } from './Button'

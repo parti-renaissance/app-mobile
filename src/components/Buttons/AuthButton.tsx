@@ -2,10 +2,10 @@ import { ComponentProps } from 'react'
 import { VoxButton } from '@/components/Button'
 import { useSession } from '@/ctx/SessionProvider'
 
-export const SignInButton = (props: Omit<ComponentProps<typeof VoxButton>, 'children'>) => {
+export const SignInButton = (props: Omit<ComponentProps<typeof VoxButton>, 'children'> & { redirectUri?: string }) => {
   const { signIn } = useSession()
   return (
-    <VoxButton onPress={() => signIn()} variant="text" size="md" {...props}>
+    <VoxButton onPress={() => signIn({ state: props.redirectUri })} variant="text" size="md" {...props}>
       Me connecter
     </VoxButton>
   )

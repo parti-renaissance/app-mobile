@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 import { headerBlank } from '@/styles/navigationAppearance'
 import i18n from '@/utils/i18n'
-import { Stack, useNavigation, useRootNavigationState } from 'expo-router'
+import { Stack } from 'expo-router'
 
 const DoorToDoorTunnelModalNavigator: FunctionComponent = () => {
   return (

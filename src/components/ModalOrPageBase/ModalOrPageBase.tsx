@@ -1,4 +1,4 @@
-import { LegacyRef, MutableRefObject, PropsWithChildren } from 'react'
+import { MutableRefObject, PropsWithChildren } from 'react'
 import { Modal, Pressable, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Spacing } from '@/styles'

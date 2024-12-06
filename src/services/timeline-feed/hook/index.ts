@@ -1,16 +1,14 @@
-import { RestTimelineFeedResponse } from '@/data/restObjects/RestTimelineFeedResponse'
 import { getTimelineFeed } from '@/services/timeline-feed/api'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 
 export const PAGINATED_QUERY_FEED = 'feed' as const
 
-const fetchTimelineFeed = async (pageParam: number, zipcode?: string) =>
-  zipcode ? await getTimelineFeed({ page: pageParam, postal_code: zipcode }) : (Promise.resolve(undefined) as Promise<RestTimelineFeedResponse | undefined>)
+const fetchTimelineFeed = async (page: number) => await getTimelineFeed({ page })
 
-export const useGetPaginatedFeed = (postalCode?: string) => {
+export const useGetPaginatedFeed = () => {
   return useSuspenseInfiniteQuery({
-    queryKey: [PAGINATED_QUERY_FEED, postalCode],
-    queryFn: ({ pageParam }) => fetchTimelineFeed(pageParam, postalCode),
+    queryKey: [PAGINATED_QUERY_FEED],
+    queryFn: ({ pageParam }) => fetchTimelineFeed(pageParam),
     getNextPageParam: (lastPage) => (lastPage ? (lastPage.nbPages > lastPage.page ? lastPage.page + 1 : null) : null),
     getPreviousPageParam: (firstPage) => (firstPage ? firstPage.page - 1 : null),
     initialPageParam: 0,

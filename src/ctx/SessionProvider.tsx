@@ -6,11 +6,11 @@ import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { parse, useURL } from 'expo-linking'
-import { Href, router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import { Href, router, useGlobalSearchParams } from 'expo-router'
 import { isWeb } from 'tamagui'
 
 type AuthContext = {
-  signIn: (props?: { code: string; isAdmin?: boolean }) => Promise<void>
+  signIn: (props?: { code?: string; isAdmin?: boolean; state?: string }) => Promise<void>
   signOut: () => Promise<void>
   signUp: () => Promise<void>
   isAuth: boolean
@@ -63,9 +63,12 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const isAuth = Boolean(session && !isGlobalLoading)
 
   React.useEffect(() => {
-    const { redirect, state } = params
-    if (session && [redirect, state].some(Boolean) && !isGlobalLoading) {
-      router.replace({ pathname: (redirect ?? state) as any })
+    const { state } = params
+    if (session && [state].some(Boolean) && !isGlobalLoading) {
+      if (state?.startsWith('/'))
+        router.replace({
+          pathname: state,
+        } as Href)
     }
   }, [session, params, isGlobalLoading])
 
@@ -76,7 +79,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
           return
         }
         setIsLoginInProgress(true)
-        const session = await login(props?.code)
+        const session = await login({ code: props?.code, state: props?.state })
         if (!session) {
           return
         }
@@ -102,6 +105,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
       if (url && !isWeb) {
         const { queryParams } = parse(url)
         const code = queryParams?.code as string | undefined
+
         if (code) {
           handleSignIn({ code })
         }

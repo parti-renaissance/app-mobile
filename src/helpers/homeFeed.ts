@@ -1,7 +1,5 @@
-import { Linking } from 'react-native'
 import { type FeedCardProps } from '@/components/Cards'
 import { ActionType } from '@/core/entities/Action'
-import { logDefaultError } from '@/data/network/NetworkLogger'
 import { ReadableActionType } from '@/services/actions/schema'
 import * as FeedMapper from '@/services/common/mapper/mapTimelineFeedToRestEvent'
 import { RestTimelineFeedItem } from '@/services/timeline-feed/schema'
@@ -63,7 +61,7 @@ export const transformFeedItemToProps = (feed: RestTimelineFeedItem): FeedCardPr
         payload: {
           title: feed.title!,
           tag,
-          image: feed.image ?? undefined,
+          image: feed.image?.url ?? undefined,
           description: feed.description!,
           location,
           ctaLabel: feed.cta_label ?? null,

@@ -2,7 +2,7 @@ import React, { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import { useDerivedValue, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import Chip from '@/components/Chip/Chip'
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia'
-import { Circle, Separator, Square, Stack, StackProps, styled, Card as TCard, Text, withStaticProperties, XStack, YStack } from 'tamagui'
+import { Circle, Separator, Square, Stack, StackProps, styled, Card as TCard, withStaticProperties, XStack, YStack } from 'tamagui'
 import { ButtonFrameStyled } from '../Button'
 
 const SkeletonColor = '#F7F7F7'

@@ -7,7 +7,7 @@ import NationalitySelect from '@/components/NationalitySelect/NationalitySelect'
 import { useGetDetailProfil } from '@/services/profile/hook'
 import { Info } from '@tamagui/lucide-icons'
 import { Controller } from 'react-hook-form'
-import { View, YStack } from 'tamagui'
+import { YStack } from 'tamagui'
 import * as z from 'zod'
 import AbstractProfilForm from './AbstractProfilForm'
 import { validateBirthdateFormSchema, validateNationalityFormSchema } from './schema'
@@ -26,7 +26,7 @@ const ForceBirthdateModal = () => {
   }, [profile])
 
   return (
-    <ModalOrPageBase open={!Boolean(profile.birthdate) || !Boolean(profile.nationality)} header={<VoxHeader.ModalFrame />}>
+    <ModalOrPageBase open={!profile.birthdate || !profile.nationality} header={<VoxHeader.ModalFrame />}>
       <AbstractProfilForm
         uuid={profile.uuid}
         defaultValues={

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import Menu from '@/components/menu/Menu'
 import { useSession } from '@/ctx/SessionProvider'
 import { useUserStore } from '@/store/user-store'
@@ -11,6 +12,7 @@ const mapPageConfigs = (config: typeof pageConfigs) =>
   Object.entries(config).map(
     ([screenName, options]) =>
       ({
+        key: screenName,
         icon: options.icon,
         children: options.title,
         pathname: ('/profil' + (screenName === 'index' ? '' : '/' + screenName)) as Href<string>,
@@ -23,25 +25,27 @@ export const mobileNavConfig = mapPageConfigs(omit(pageConfigs, ['index']))
 const ProfilMenu = () => {
   const media = useMedia()
   const pathname = usePathname()
-  const itemsData = media.gtSm ? dektopNavConfig : mobileNavConfig
-  const { signOut } = useSession()
+  const { signOut, user } = useSession()
+  const itemsData = useMemo(
+    () =>
+      (media.gtSm ? dektopNavConfig : mobileNavConfig).filter((x) => {
+        return x.key !== 'acces-cadre' || user.data?.cadre_access
+      }),
+    [media.gtSm, user.data?.cadre_access],
+  )
   const { user: credentials } = useUserStore()
+  const Item = ({ item, index }: { item: (typeof itemsData)[number]; index: number }) => (
+    <Link asChild={!isWeb} href={item.pathname} key={item.key} replace={media.gtSm}>
+      <Menu.Item active={item.pathname === pathname} size={media.sm ? 'lg' : 'sm'} showArrow={media.sm} icon={item.icon} last={index === itemsData.length - 1}>
+        {item.children}
+      </Menu.Item>
+    </Link>
+  )
   return (
     <YStack gap="$medium" key="profil-menu">
       <Menu>
         {itemsData.map((item, index) => (
-          <Link asChild={!isWeb} href={item.pathname} key={index} replace={media.gtSm}>
-            <Menu.Item
-              key={index}
-              active={item.pathname === pathname}
-              size={media.sm ? 'lg' : 'sm'}
-              showArrow={media.sm}
-              icon={item.icon}
-              last={index === itemsData.length - 1}
-            >
-              {item.children}
-            </Menu.Item>
-          </Link>
+          <Item item={item} index={index} key={item.key} />
         ))}
       </Menu>
       <Menu>

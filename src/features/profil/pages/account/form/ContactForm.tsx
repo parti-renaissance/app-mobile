@@ -1,5 +1,4 @@
 import Input from '@/components/base/Input/Input'
-import Select from '@/components/base/Select/Select'
 import SelectV3 from '@/components/base/Select/SelectV3'
 import Text from '@/components/base/Text'
 import { MessageCard } from '@/components/MessageCard/MessageCard'
@@ -61,6 +60,7 @@ const ContactForm = ({ profile }: { profile: RestDetailedProfileResponse }) => {
                     searchable={true}
                     color="gray"
                     value={value?.country ?? 'FR'}
+                    size="lg"
                     options={phoneCodes}
                     onChange={(x) => onChange({ number: value?.number, country: x })}
                   />

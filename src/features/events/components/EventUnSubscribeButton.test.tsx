@@ -1,7 +1,6 @@
 import React from 'react'
 import { useUnsubscribeEvent } from '@/services/events/hook'
 import TamaguiProvider from '@/tamagui/provider'
-import { CalendarOff } from '@tamagui/lucide-icons'
 import { fireEvent, render } from '@testing-library/react-native'
 import { EventUnSubscribeButton } from './EventUnSubscribeButton'
 
@@ -48,7 +47,7 @@ const customRender: typeof render = (ui) => {
 
 describe('EventUnSubscribeButton', () => {
   it('should call unsusbcribe hook', async () => {
-    const { getByTestId } = customRender(<EventUnSubscribeButton uuid="unsubscribe-id" userUuid="user-uuid" />)
+    const { getByTestId } = customRender(<EventUnSubscribeButton uuid="unsubscribe-id" slug="wekjfhwe" userUuid="user-uuid" />)
     const button = getByTestId('event-unsubscribe-button')
     expect(button).toHaveTextContent('Me désinscrire')
     expect(useUnsubscribeEvent).toHaveBeenCalledWith({ id: 'unsubscribe-id' })

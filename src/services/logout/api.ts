@@ -5,7 +5,6 @@ import { REDIRECT_URI } from '@/hooks/useLogin'
 import { useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { router } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 
 export function useLogOut() {
