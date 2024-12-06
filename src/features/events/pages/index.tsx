@@ -107,7 +107,7 @@ const EventList = ({
       contentContainerStyle={{
         flexGrow: 1,
         gap: getToken('$medium', 'space'),
-        paddingTop: paddingTop + getTokenValue('$medium', 'space'),
+        paddingTop: paddingTop,
         paddingLeft: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingRight: media.gtSm ? getToken('$medium', 'space') : undefined,
         paddingBottom: getToken('$11', 'space'),

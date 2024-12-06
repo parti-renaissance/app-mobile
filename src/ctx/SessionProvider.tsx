@@ -6,7 +6,7 @@ import { User, useUserStore } from '@/store/user-store'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
 import { useToastController } from '@tamagui/toast'
 import { parse, useURL } from 'expo-linking'
-import { router, useGlobalSearchParams } from 'expo-router'
+import { Href, router, useGlobalSearchParams } from 'expo-router'
 import { isWeb } from 'tamagui'
 
 type AuthContext = {
@@ -63,9 +63,12 @@ export function SessionProvider(props: React.PropsWithChildren) {
   const isAuth = Boolean(session && !isGlobalLoading)
 
   React.useEffect(() => {
-    const { redirect, state } = params
-    if (session && [redirect, state].some(Boolean) && !isGlobalLoading) {
-      router.replace({ pathname: (redirect ?? state) as any })
+    const { state } = params
+    if (session && [state].some(Boolean) && !isGlobalLoading) {
+      if (state?.startsWith('/'))
+        router.replace({
+          pathname: state,
+        } as Href)
     }
   }, [session, params, isGlobalLoading])
 

@@ -11,13 +11,12 @@ maybeCompleteAuthSession()
 export const REDIRECT_URI = AuthSession.makeRedirectUri()
 const BASE_REQUEST_CONFIG = { clientId: clientEnv.OAUTH_CLIENT_ID, redirectUri: REDIRECT_URI }
 
-export const useCodeAuthRequest = (props?: { register?: boolean; state?: string }) => {
+export const useCodeAuthRequest = (props?: { register?: boolean }) => {
   return AuthSession.useAuthRequest(
     {
       ...BASE_REQUEST_CONFIG,
       scopes: ['jemarche_app', 'read:profile', 'write:profile'],
       usePKCE: false,
-      state: props?.state,
       extraParams: {
         utm_source: 'app',
       },
@@ -49,7 +48,6 @@ export const useLogin = () => {
       WebBrowser.dismissAuthSession()
       return exchangeCodeAsync({ code: payload.code })
     }
-
     if (payload?.state && req) {
       req.state = payload.state
     }
