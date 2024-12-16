@@ -1,3 +1,4 @@
+import { createAnimations } from '@tamagui/animations-moti'
 import { config as configBase } from '@tamagui/config/v3'
 import { createTamagui, createTokens } from 'tamagui'
 import { Maax, PublicSans } from './theme/fonts'
@@ -41,12 +42,27 @@ const myTokens = createTokens({
     '-12': '-80',
   },
 })
+const animations = createAnimations({
+  fast: {
+    type: 'timing',
+    duration: 200,
+  },
+  medium: {
+    type: 'timing',
+    duration: 400,
+  },
+  slow: {
+    type: 'timing',
+    duration: 600,
+  },
+})
 
 export const config = createTamagui({
   ...configBase,
   settings: {
     webContainerType: 'normal',
   },
+  animations,
   themes,
   tokens: myTokens,
   media: configBase.media,

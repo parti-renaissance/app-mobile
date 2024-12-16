@@ -18,6 +18,23 @@ const CheckboxGroupFrame = styled(ThemeableStack, {
   flexWrap: 'wrap',
 })
 
+const CheckboxGroupItem = ({ option, isChecked, handlePress }: { option: { label: string; value: string }; isChecked: boolean; handlePress: () => void }) => (
+  <XStack
+    flexGrow={1}
+    flexShrink={1}
+    flexBasis={'48%'}
+    $md={{ flexBasis: '100%' }}
+    gap="$small"
+    group
+    onPress={handlePress}
+    alignItems="center"
+    cursor="pointer"
+  >
+    <Checkbox checked={isChecked} onPress={handlePress} />
+    <Text.MD multiline>{option.label}</Text.MD>
+  </XStack>
+)
+
 export default function CheckboxGroup({ options, value, onChange }: CheckboxGroupProps) {
   const handlePress = (item: string) => () => {
     if (value.includes(item)) {
@@ -31,21 +48,7 @@ export default function CheckboxGroup({ options, value, onChange }: CheckboxGrou
   return (
     <CheckboxGroupFrame>
       {options.map((option) => (
-        <XStack
-          key={option.value}
-          flexGrow={1}
-          flexShrink={1}
-          flexBasis={'48%'}
-          $md={{ flexBasis: '100%' }}
-          gap="$small"
-          group
-          onPress={handlePress(option.value)}
-          alignItems="center"
-          cursor="pointer"
-        >
-          <Checkbox checked={isChecked(option.value)} onPress={handlePress(option.value)} />
-          <Text.MD multiline>{option.label}</Text.MD>
-        </XStack>
+        <CheckboxGroupItem key={option.value} option={option} isChecked={isChecked(option.value)} handlePress={handlePress(option.value)} />
       ))}
     </CheckboxGroupFrame>
   )

@@ -1,9 +1,7 @@
 import { useEffect } from 'react'
-
 import { useSession } from '@/ctx/SessionProvider'
 import PushRepository from '@/data/PushRepository'
 import { useMatomo } from '@/services/matomo/hook'
-import { Analytics } from '@/utils/Analytics'
 import { PushNotification } from '@/utils/PushNotification'
 import { SendDoorToDoorPollAnswersJobWorker } from '@/workers/SendDoorToDoorPollAnswsersJobWorker'
 import { usePathname } from 'expo-router'
@@ -27,15 +25,12 @@ export default function useInitPushNotification() {
 
   useEffect(() => {
     if (session) {
-      Analytics.enable()
       SendDoorToDoorPollAnswersJobWorker.getInstance().then((worker) => {
         worker.start()
       })
       subscribeNotification().catch((error) => {
         console.error('Failed to subscribe to notifications', error)
       })
-    } else {
-      Analytics.disable()
     }
   }, [session])
 

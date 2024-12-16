@@ -7,7 +7,7 @@ import { isWeb, styled, XStack, YStack } from 'tamagui'
 const CommitteeCardFrame = styled(VoxCardFrame, {
   tag: 'button',
   backgroundColor: '$blue/8',
-  animation: 'quick',
+  animation: 'fast',
   cursor: 'pointer',
   flex: 1,
   flexBasis: 0,

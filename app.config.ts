@@ -60,6 +60,7 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
         RNMapboxMapsDownloadToken: process.env.MAP_BOX_SECRET_KEY,
       },
     ])
+    config.plugins.push(['expo-router', { origin: `https://${process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN}` }])
   }
 
   const profile = process.env.EAS_BUILD_PROFILE

@@ -55,7 +55,7 @@ const InputFrame = styled(XStack, {
   paddingHorizontal: '$medium',
   borderWidth: 2,
   borderColor: '$colorTransparent',
-  animation: 'bouncy',
+  animation: 'fast',
   hoverStyle: {
     backgroundColor: 'rgba(237, 239, 242, 1)',
     cursor: 'text',

@@ -213,7 +213,7 @@ export const ItemFrame = styled(XStack, {
   justifyContent: 'space-between',
   alignContent: 'center',
   alignItems: 'center',
-  animation: 'quickest',
+  animation: 'fast',
   borderColor: '$purple/8',
   borderBottomWidth: 1,
   gap: '$medium',

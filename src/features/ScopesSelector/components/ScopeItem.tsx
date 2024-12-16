@@ -25,7 +25,7 @@ const ScopeItemContainer = styled(YStack, {
   paddingVertical: '$large',
   backgroundColor: '$white1',
   flex: 1,
-  animation: '100ms',
+  animation: 'fast',
   group: true,
   gap: '$medium',
 
@@ -53,7 +53,7 @@ const ScopeItemContainer = styled(YStack, {
 
 const CircleIcon = styled(Circle, {
   context: propsContext,
-  animation: '100ms',
+  animation: 'fast',
   width: 64,
   height: 64,
   justifyContent: 'center',
@@ -83,7 +83,7 @@ const CircleIcon = styled(Circle, {
 
 const CircleBadge = styled(Circle, {
   context: propsContext,
-  animation: '100ms',
+  animation: 'fast',
   width: 20,
   height: 20,
   backgroundColor: '$white1',

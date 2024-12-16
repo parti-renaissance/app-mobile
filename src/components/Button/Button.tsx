@@ -13,7 +13,7 @@ export const ButtonContext = createStyledContext({
 
 export const ButtonFrameStyled = styled(View, {
   context: ButtonContext,
-  animation: 'quick',
+  animation: 'fast',
   alignItems: 'center',
   flexDirection: 'row',
   justifyContent: 'center',

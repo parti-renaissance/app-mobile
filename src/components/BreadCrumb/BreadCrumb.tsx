@@ -46,7 +46,7 @@ const BreadCrumbItemFrame = styled(ThemeableStack, {
 const ActiveIndicator = styled(ThemeableStack, {
   context: BreadCrumContext,
   backgroundColor: '$textPrimary',
-  animation: 'bouncy',
+  animation: 'fast',
   variants: {
     vertical: {
       true: {

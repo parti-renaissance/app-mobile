@@ -2,7 +2,7 @@ import { styled, View } from 'tamagui'
 
 export const Card = styled(View, {
   name: 'VoxRadio',
-  animation: 'bouncy',
+  animation: 'fast',
   variants: {
     unstyled: {
       false: {

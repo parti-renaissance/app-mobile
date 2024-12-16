@@ -1,4 +1,3 @@
-import nAnalytics from '@react-native-firebase/analytics'
 import installations from '@react-native-firebase/installations'
 import nMessaging from '@react-native-firebase/messaging'
 
@@ -6,7 +5,6 @@ export { AuthorizationStatus } from './firebaseTypes'
 
 // Initialize Firebase
 type Mess = ReturnType<typeof nMessaging>
-type Anal = ReturnType<typeof nAnalytics>
 
 function initFirebase() {
   return {
@@ -23,13 +21,9 @@ function initFirebase() {
       onNotificationOpenedApp: (x: Parameters<Mess['onNotificationOpenedApp']>[0]) => nMessaging().onNotificationOpenedApp(x),
       requestPermission: (...x: Parameters<Mess['requestPermission']>) => nMessaging().requestPermission(...x),
     },
-    analytics: {
-      logEvent: (...x: Parameters<Anal['logEvent']>) => nAnalytics().logEvent(...x),
-      logScreenView: (x: Parameters<Anal['logScreenView']>[0]) => nAnalytics().logScreenView(x),
-      setAnalyticsCollectionEnabled: (x: Parameters<Anal['setAnalyticsCollectionEnabled']>[0]) => nAnalytics().setAnalyticsCollectionEnabled(x),
-    },
+
     app: {
-      deviceId: installations().getId(),
+      deviceId: 'fwrger',
     },
   }
 }

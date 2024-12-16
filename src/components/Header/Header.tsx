@@ -20,7 +20,7 @@ import AuthFallbackWrapper from '../Skeleton/AuthFallbackWrapper'
 const ButtonNav = styled(ThemeableStack, {
   tag: 'button',
   backgroundColor: 'transparent',
-  animation: 'quick',
+  animation: 'fast',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',

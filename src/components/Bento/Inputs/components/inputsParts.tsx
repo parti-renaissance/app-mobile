@@ -39,7 +39,7 @@ export const defaultInputGroupStyles = {
   borderWidth: 1,
   outlineWidth: 0,
   color: '$color',
-  animation: 'quick',
+  animation: 'fast',
   ...(isWeb
     ? {
         tabIndex: 0,
@@ -82,7 +82,7 @@ export const defaultInputGroupStyles = {
 const InputGroupFrame = styled(XGroup, {
   justifyContent: 'space-between',
   context: InputContext,
-  animation: 'quick',
+  animation: 'fast',
   variants: {
     unstyled: {
       false: defaultInputGroupStyles,

@@ -1,11 +1,11 @@
 import clientEnv from '@/config/clientEnv'
-import FB from '@/config/firebaseConfig'
-import { addPushToken } from '@/services/push-token/api'
+// import FB from '@/config/firebaseConfig'
+// import { addPushToken } from '@/services/push-token/api'
 import { Mutex } from 'async-mutex'
 import { Department } from '../core/entities/Department'
 import { NotificationCategory } from '../core/entities/Notification'
 import { Region } from '../core/entities/Region'
-import { TokenCannotBeSubscribedError } from '../core/errors'
+// import { TokenCannotBeSubscribedError } from '../core/errors'
 import ApiService from './network/ApiService'
 import LocalStore from './store/LocalStore'
 
@@ -18,51 +18,48 @@ class PushRepository {
   private constructor() {}
 
   public synchronizePushTokenAssociation(): Promise<void> {
-    return this.syncrhonizePushTokenMutex.runExclusive(async () => {
-      const registration = await this.localStore.getTopicsRegistration()
-      const pushToken = await FB.messaging.getToken()
-
-      /* Sauvegarde du token dans le store local */
-      if (registration?.pushTokenAssociated !== pushToken) {
-        await this.localStore.updateTopicsRegistration({
-          pushTokenAssociated: pushToken,
-        })
-      }
-
-      /* Enregistrement du token sur le serveur */
-      try {
-        await addPushToken({
-          identifier: pushToken,
-          source: TOKEN_SOURCE,
-        })
-      } catch (error) {
-        if (!(error instanceof TokenCannotBeSubscribedError)) {
-          throw error
-        }
-      }
-
-      /* Suppression de l'ancien token */
-      if (registration?.pushTokenAssociated && registration.pushTokenAssociated !== pushToken) {
-        try {
-          await this.apiService.removePushToken(registration.pushTokenAssociated)
-        } catch (error) {
-          console.log('[PushRepository](synchronizePushTokenAssociation) Error removing push token', error)
-        }
-      }
-    })
+    // return this.syncrhonizePushTokenMutex.runExclusive(async () => {
+    //   const registration = await this.localStore.getTopicsRegistration()
+    //   const pushToken = await FB.messaging.getToken()
+    //   /* Sauvegarde du token dans le store local */
+    //   if (registration?.pushTokenAssociated !== pushToken) {
+    //     await this.localStore.updateTopicsRegistration({
+    //       pushTokenAssociated: pushToken,
+    //     })
+    //   }
+    //   /* Enregistrement du token sur le serveur */
+    //   try {
+    //     await addPushToken({
+    //       identifier: pushToken,
+    //       source: TOKEN_SOURCE,
+    //     })
+    //   } catch (error) {
+    //     if (!(error instanceof TokenCannotBeSubscribedError)) {
+    //       throw error
+    //     }
+    //   }
+    //   /* Suppression de l'ancien token */
+    //   if (registration?.pushTokenAssociated && registration.pushTokenAssociated !== pushToken) {
+    //     try {
+    //       await this.apiService.removePushToken(registration.pushTokenAssociated)
+    //     } catch (error) {
+    //       console.log('[PushRepository](synchronizePushTokenAssociation) Error removing push token', error)
+    //     }
+    //   }
+    // })
   }
 
   public dissociateToken(): Promise<void> {
-    return this.dissociatedTokenMutex.runExclusive(async () => {
-      const pushToken = await FB.messaging.getToken()
-      try {
-        await this.apiService.removePushToken(pushToken)
-        console.log('pushToken dissociated with success')
-      } catch (error) {
-        // no-op
-        console.log(error)
-      }
-    })
+    // return this.dissociatedTokenMutex.runExclusive(async () => {
+    //   const pushToken = await FB.messaging.getToken()
+    //   try {
+    //     await this.apiService.removePushToken(pushToken)
+    //     console.log('pushToken dissociated with success')
+    //   } catch (error) {
+    //     // no-op
+    //     console.log(error)
+    //   }
+    // })
   }
 
   public async synchronizeGeneralTopicSubscription(): Promise<void> {
@@ -75,29 +72,29 @@ class PushRepository {
   }
 
   private async subscribeToGeneralTopic() {
-    const registrations = await this.localStore.getTopicsRegistration()
-    if (registrations?.globalRegistered !== true) {
-      await FB.messaging.subscribeToTopic(this.createTopicName('global'))
-      await this.localStore.updateTopicsRegistration({
-        globalRegistered: true,
-      })
-      console.log('global topic subscribed with success')
-    } else {
-      console.log('already subscribed to global topic')
-    }
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // if (registrations?.globalRegistered !== true) {
+    //   await FB.messaging.subscribeToTopic(this.createTopicName('global'))
+    //   await this.localStore.updateTopicsRegistration({
+    //     globalRegistered: true,
+    //   })
+    //   console.log('global topic subscribed with success')
+    // } else {
+    //   console.log('already subscribed to global topic')
+    // }
   }
 
   private async unsubscribeFromGeneralTopic() {
-    const registrations = await this.localStore.getTopicsRegistration()
-    if (registrations?.globalRegistered === true) {
-      await FB.messaging.unsubscribeFromTopic(this.createTopicName('global'))
-      await this.localStore.updateTopicsRegistration({
-        globalRegistered: false,
-      })
-      console.log('global topic unsubscribed with success')
-    } else {
-      console.log('already unsubscribed from global topic')
-    }
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // if (registrations?.globalRegistered === true) {
+    //   await FB.messaging.unsubscribeFromTopic(this.createTopicName('global'))
+    //   await this.localStore.updateTopicsRegistration({
+    //     globalRegistered: false,
+    //   })
+    //   console.log('global topic unsubscribed with success')
+    // } else {
+    //   console.log('already unsubscribed from global topic')
+    // }
   }
 
   public async synchronizeDepartmentSubscription(department: Department): Promise<void> {
@@ -110,36 +107,36 @@ class PushRepository {
   }
 
   private async subscribeToDepartment(department: Department): Promise<void> {
-    const topicName = this.createTopicName('department_' + department.code)
-    const registrations = await this.localStore.getTopicsRegistration()
-    const previousTopic = registrations?.departementRegistered
-    if (previousTopic !== topicName) {
-      if (previousTopic !== undefined) {
-        await FB.messaging.unsubscribeFromTopic(previousTopic)
-        console.log(`unsubscribed from ${previousTopic}`)
-      }
-      await FB.messaging.subscribeToTopic(topicName)
-      await this.localStore.updateTopicsRegistration({
-        departementRegistered: topicName,
-      })
-      console.log(`subscribed to ${topicName} with success`)
-    } else {
-      console.log(`already subscribed to ${topicName}`)
-    }
+    // const topicName = this.createTopicName('department_' + department.code)
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // const previousTopic = registrations?.departementRegistered
+    // if (previousTopic !== topicName) {
+    //   if (previousTopic !== undefined) {
+    //     await FB.messaging.unsubscribeFromTopic(previousTopic)
+    //     console.log(`unsubscribed from ${previousTopic}`)
+    //   }
+    //   await FB.messaging.subscribeToTopic(topicName)
+    //   await this.localStore.updateTopicsRegistration({
+    //     departementRegistered: topicName,
+    //   })
+    //   console.log(`subscribed to ${topicName} with success`)
+    // } else {
+    //   console.log(`already subscribed to ${topicName}`)
+    // }
   }
 
   private async unsubscribeDepartments() {
-    const registrations = await this.localStore.getTopicsRegistration()
-    const previousTopic = registrations?.departementRegistered
-    if (previousTopic !== undefined) {
-      await FB.messaging.unsubscribeFromTopic(previousTopic)
-      await this.localStore.updateTopicsRegistration({
-        departementRegistered: undefined,
-      })
-      console.log(`unsubscribed from ${previousTopic}`)
-    } else {
-      console.log('already unsubscribed from departments')
-    }
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // const previousTopic = registrations?.departementRegistered
+    // if (previousTopic !== undefined) {
+    //   await FB.messaging.unsubscribeFromTopic(previousTopic)
+    //   await this.localStore.updateTopicsRegistration({
+    //     departementRegistered: undefined,
+    //   })
+    //   console.log(`unsubscribed from ${previousTopic}`)
+    // } else {
+    //   console.log('already unsubscribed from departments')
+    // }
   }
 
   public async synchronizeRegionSubscription(region: Region): Promise<void> {
@@ -152,36 +149,36 @@ class PushRepository {
   }
 
   private async subscribeToRegion(region: Region): Promise<void> {
-    const topicName = this.createTopicName('region_' + region.code)
-    const registrations = await this.localStore.getTopicsRegistration()
-    const previousTopic = registrations?.regionRegistered
-    if (previousTopic !== topicName) {
-      if (previousTopic !== undefined) {
-        await FB.messaging.unsubscribeFromTopic(previousTopic)
-        console.log(`unsubscribed from ${previousTopic}`)
-      }
-      await FB.messaging.subscribeToTopic(topicName)
-      await this.localStore.updateTopicsRegistration({
-        regionRegistered: topicName,
-      })
-      console.log(`subscribed to ${topicName} with success`)
-    } else {
-      console.log(`already subscribed to ${topicName}`)
-    }
+    // const topicName = this.createTopicName('region_' + region.code)
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // const previousTopic = registrations?.regionRegistered
+    // if (previousTopic !== topicName) {
+    //   if (previousTopic !== undefined) {
+    //     await FB.messaging.unsubscribeFromTopic(previousTopic)
+    //     console.log(`unsubscribed from ${previousTopic}`)
+    //   }
+    //   await FB.messaging.subscribeToTopic(topicName)
+    //   await this.localStore.updateTopicsRegistration({
+    //     regionRegistered: topicName,
+    //   })
+    //   console.log(`subscribed to ${topicName} with success`)
+    // } else {
+    //   console.log(`already subscribed to ${topicName}`)
+    // }
   }
 
   private async unsubscribeRegion() {
-    const registrations = await this.localStore.getTopicsRegistration()
-    const previousTopic = registrations?.regionRegistered
-    if (previousTopic !== undefined) {
-      await FB.messaging.unsubscribeFromTopic(previousTopic)
-      await this.localStore.updateTopicsRegistration({
-        regionRegistered: undefined,
-      })
-      console.log(`unsubscribed from ${previousTopic}`)
-    } else {
-      console.log('already unsubscribed from regions')
-    }
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // const previousTopic = registrations?.regionRegistered
+    // if (previousTopic !== undefined) {
+    //   await FB.messaging.unsubscribeFromTopic(previousTopic)
+    //   await this.localStore.updateTopicsRegistration({
+    //     regionRegistered: undefined,
+    //   })
+    //   console.log(`unsubscribed from ${previousTopic}`)
+    // } else {
+    //   console.log('already unsubscribed from regions')
+    // }
   }
 
   public async synchronizeBoroughSubscription(zipCode: string): Promise<void> {
@@ -194,29 +191,29 @@ class PushRepository {
   }
 
   private async subscribeToBorough(zipCode: string): Promise<void> {
-    const topicName = this.createTopicName('borough_' + zipCode)
-    const registrations = await this.localStore.getTopicsRegistration()
-    const previousTopic = registrations?.boroughRegistered
-    if (previousTopic !== topicName) {
-      if (previousTopic !== undefined) {
-        await FB.messaging.unsubscribeFromTopic(previousTopic)
-        console.log(`unsubscribed from ${previousTopic}`)
-      }
-      if (this.boroughSubscriptionSupported(zipCode)) {
-        await FB.messaging.subscribeToTopic(topicName)
-        await this.localStore.updateTopicsRegistration({
-          boroughRegistered: topicName,
-        })
-        console.log(`subscribed to ${topicName} with success`)
-      } else {
-        await this.localStore.updateTopicsRegistration({
-          boroughRegistered: undefined,
-        })
-        console.log(`Borough subscription is not supported for ${zipCode}`)
-      }
-    } else {
-      console.log(`already subscribed to ${topicName}`)
-    }
+    // const topicName = this.createTopicName('borough_' + zipCode)
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // const previousTopic = registrations?.boroughRegistered
+    // if (previousTopic !== topicName) {
+    //   if (previousTopic !== undefined) {
+    //     await FB.messaging.unsubscribeFromTopic(previousTopic)
+    //     console.log(`unsubscribed from ${previousTopic}`)
+    //   }
+    //   if (this.boroughSubscriptionSupported(zipCode)) {
+    //     await FB.messaging.subscribeToTopic(topicName)
+    //     await this.localStore.updateTopicsRegistration({
+    //       boroughRegistered: topicName,
+    //     })
+    //     console.log(`subscribed to ${topicName} with success`)
+    //   } else {
+    //     await this.localStore.updateTopicsRegistration({
+    //       boroughRegistered: undefined,
+    //     })
+    //     console.log(`Borough subscription is not supported for ${zipCode}`)
+    //   }
+    // } else {
+    //   console.log(`already subscribed to ${topicName}`)
+    // }
   }
 
   private boroughSubscriptionSupported(zipCode: string): boolean {
@@ -224,21 +221,21 @@ class PushRepository {
   }
 
   private async unsubscribeBorough() {
-    const registrations = await this.localStore.getTopicsRegistration()
-    const previousTopic = registrations?.boroughRegistered
-    if (previousTopic !== undefined) {
-      await FB.messaging.unsubscribeFromTopic(previousTopic)
-      await this.localStore.updateTopicsRegistration({
-        boroughRegistered: undefined,
-      })
-      console.log(`unsubscribed from ${previousTopic}`)
-    } else {
-      console.log('already unsubscribed from borough')
-    }
+    // const registrations = await this.localStore.getTopicsRegistration()
+    // const previousTopic = registrations?.boroughRegistered
+    // if (previousTopic !== undefined) {
+    //   await FB.messaging.unsubscribeFromTopic(previousTopic)
+    //   await this.localStore.updateTopicsRegistration({
+    //     boroughRegistered: undefined,
+    //   })
+    //   console.log(`unsubscribed from ${previousTopic}`)
+    // } else {
+    //   console.log('already unsubscribed from borough')
+    // }
   }
 
   public async invalidatePushToken(): Promise<void> {
-    return FB.messaging.deleteToken().then(() => this.localStore.clearTopicsRegistration())
+    // return FB.messaging.deleteToken().then(() => this.localStore.clearTopicsRegistration())
   }
 
   public async enablePushNotifications(notificationCategory: NotificationCategory, enable: boolean) {

@@ -35,7 +35,7 @@ export const listAvailableFeatureByGroup = (scope: RestUserScopesResponse[number
 const ScopeCardFrame = styled(VoxCardFrame, {
   tag: 'button',
   backgroundColor: '$purple/8',
-  animation: 'quick',
+  animation: 'fast',
   cursor: 'pointer',
   borderWidth: 2,
   borderColor: '$textOutline',

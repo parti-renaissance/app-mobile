@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "Renaissance",
     "slug": "vox",
     "scheme": "vox",
@@ -37,11 +38,16 @@
         "NSCalendarsWriteOnlyAccessUsageDescription": "Requis pour partager les événements dans le calendrier",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés.",
         "NSLocationWhenInUseUsageDescription": "Requis pour localiser les portes à frapper et les questionnaires réalisés."
-      }
+      },
+      "associatedDomains": ["applinks:localhost:8081", "webcredentials:localhost:8081", "activitycontinuation:localhost:8081"],
+      "bundleIdentifier": "fr.en-marche.jecoute.development",
+      "googleServicesFile": "./config/GoogleService-Info.plist",
+      "icon": "./assets/developement/icon.png",
+      "appleTeamId": "2B4W43UD9Y"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/developement/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "intentFilters": [
@@ -50,7 +56,8 @@
           "autoVerify": true,
           "data": [
             {
-              "scheme": "https"
+              "scheme": "https",
+              "host": "localhost:8081"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
@@ -65,9 +72,11 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "key"
+          "apiKey": "AIzaSyDU5_oNlGUgaHNjCUN3D7i6vqgjIpkDUs8"
         }
-      }
+      },
+      "package": "fr.en_marche.jecoute.development",
+      "googleServicesFile": "./config/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -119,7 +128,43 @@
           "androidPermissions": ["android.permission.WRITE_CALENDAR"]
         }
       ],
-      ["expo-notifications"]
+      ["expo-notifications"],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/PublicSans/PublicSans-Black.ttf",
+            "./assets/fonts/PublicSans/PublicSans-BlackItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Bold.ttf",
+            "./assets/fonts/PublicSans/PublicSans-BoldItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraBold.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraBoldItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraLight.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ExtraLightItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Italic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Light.ttf",
+            "./assets/fonts/PublicSans/PublicSans-LightItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Medium.ttf",
+            "./assets/fonts/PublicSans/PublicSans-MediumItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Regular.ttf",
+            "./assets/fonts/PublicSans/PublicSans-SemiBold.ttf",
+            "./assets/fonts/PublicSans/PublicSans-SemiBoldItalic.ttf",
+            "./assets/fonts/PublicSans/PublicSans-Thin.ttf",
+            "./assets/fonts/PublicSans/PublicSans-ThinItalic.ttf",
+            "./assets/fonts/SharpGrotesk-SemiBold25.ttf",
+            "./assets/fonts/Value-Bold.ttf",
+            "./assets/fonts/Value-Medium.ttf",
+            "./assets/fonts/Value-MediumItalic.ttf",
+            "./assets/fonts/Value-Regular.ttf"
+          ]
+        }
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoibGFyZW0iLCJhIjoiY2x2emZidTJ5MWl1ZzJxcGo4aTJuM3k3aCJ9.T-vLG8pyOiAze-lpdabDzQ"
+        }
+      ]
     ],
     "extra": {
       "router": {

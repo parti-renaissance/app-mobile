@@ -16,12 +16,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BlurView } from 'expo-blur'
 import { Slot, SplashScreen, useNavigationContainerRef } from 'expo-router'
 import { isWeb, ViewProps } from 'tamagui'
+import '../reanimatedConfig'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
 }
 
-const { routingInstrumentation } = ErrorMonitor.configure()
+const { navigationIntegration } = ErrorMonitor.configure()
 
 SplashScreen.preventAutoHideAsync()
 
@@ -30,7 +31,7 @@ const useRegisterRoutingInstrumentation = () => {
 
   useEffect(() => {
     if (navigationRef) {
-      routingInstrumentation.registerNavigationContainer(navigationRef)
+      navigationIntegration.registerNavigationContainer(navigationRef)
     }
   }, [navigationRef])
 }

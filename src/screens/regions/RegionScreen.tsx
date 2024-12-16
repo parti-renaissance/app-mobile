@@ -3,7 +3,6 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useLocalSearchParams } from 'expo-router'
 import RegionsRepository from '../../data/RegionsRepository'
 import { Colors, Spacing, Styles, Typography } from '../../styles'
-import { Analytics } from '../../utils/Analytics'
 import i18n from '../../utils/i18n'
 import { PrimaryButton } from '../shared/Buttons'
 import { ExternalLink } from '../shared/ExternalLink'
@@ -77,7 +76,6 @@ const RegionScreen = () => {
             <PrimaryButton
               title={i18n.t('regions.website')}
               onPress={async () => {
-                await Analytics.logRegionDetails()
                 ExternalLink.openUrl(regionViewModel.websiteUrl as string)
               }}
             />

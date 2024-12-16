@@ -19,7 +19,7 @@ export const CheckboxGroupZone = styled(ThemeableStack, {
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  animation: 'bouncy',
+  animation: 'fast',
   '$group-hover': { backgroundColor: '$blue2' },
   focusStyle: {
     backgroundColor: '$blue2',
@@ -41,7 +41,7 @@ export const CheckboxGroupZone = styled(ThemeableStack, {
 
 export const CheckboxGroupItemFrame = styled(ThemeableStack, {
   context: CheckboxContext,
-  animation: 'bouncy',
+  animation: 'fast',
   borderRadius: 2,
   height: 18,
   width: 18,
@@ -65,7 +65,7 @@ export const CheckboxGroupIndicatorFrame = styled(ThemeableStack, {
   context: CheckboxContext,
   width: 18,
   height: 18,
-  animation: 'bouncy',
+  animation: 'fast',
   borderColor: 'transparent',
   borderRadius: 2,
   justifyContent: 'center',
@@ -91,7 +91,7 @@ export default forwardRef<ComponentRef<typeof CheckboxGroupZone>, ComponentProps
     <CheckboxGroupZone {...props} ref={ref}>
       <CheckboxGroupItemFrame borderColor={props.checked ? hintColor : '$textSecondary'}>
         <CheckboxGroupIndicatorFrame backgroundColor={props.checked ? hintColor : undefined}>
-          <Check size={14} color="white1" />
+          <Check size={14} color="$white1" />
         </CheckboxGroupIndicatorFrame>
       </CheckboxGroupItemFrame>
     </CheckboxGroupZone>

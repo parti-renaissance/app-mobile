@@ -67,3 +67,6 @@ app-release.apks
 # SonarQube
 .scannerwork
 /coverage
+
+#yarn
+.yarn

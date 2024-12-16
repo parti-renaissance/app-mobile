@@ -5,7 +5,7 @@ import { styled, TamaguiElement, XStack } from 'tamagui'
 import Text from '../base/Text'
 
 const ItemFrame = styled(XStack, {
-  animation: '100ms',
+  animation: 'fast',
   width: '100%',
   backgroundColor: '$white1',
   paddingHorizontal: 20,
@@ -66,7 +66,7 @@ const ItemFrame = styled(XStack, {
 })
 
 const ItemText = styled(Text, {
-  animation: '100ms',
+  animation: 'fast',
   variants: {
     size: {
       sm: {

@@ -18,7 +18,7 @@ export const RadioGroupZone = styled(ThemeableStack, {
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  animation: 'bouncy',
+  animation: 'fast',
   '$group-hover': { backgroundColor: '$blue2' },
   focusStyle: {
     backgroundColor: '$blue2',
@@ -41,7 +41,7 @@ export const RadioGroupZone = styled(ThemeableStack, {
 export const RadioGroupItemFrame = styled(ThemeableStack, {
   context: RadioContext,
   borderRadius: 1000,
-  animation: 'bouncy',
+  animation: 'fast',
   height: 18,
   width: 18,
   backgroundColor: 'transparent',
@@ -65,7 +65,7 @@ export const RadioGroupIndicatorFrame = styled(ThemeableStack, {
   width: 18,
   height: 18,
   borderRadius: 1000,
-  animation: 'bouncy',
+  animation: 'fast',
   borderWidth: 4,
   borderColor: 'transparent',
   scale: 0,
