@@ -26,7 +26,7 @@ export const ErrorMonitor = {
     }
   },
   wrap: (RootComponent: React.ComponentType<Record<string, unknown>>) => {
-    Sentry.withProfiler(RootComponent)
+    return Sentry.wrap(RootComponent)
   },
   setUser: (options: { id: string; email: string }) => {
     const { id, email } = options

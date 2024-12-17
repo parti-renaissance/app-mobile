@@ -14,6 +14,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import { ChevronDown } from '@tamagui/lucide-icons'
 import { isPast } from 'date-fns'
 import { getToken, Spinner, useMedia, XStack, YStack } from 'tamagui'
+import { useDebounce, useDebouncedCallback } from 'use-debounce'
 
 const splitEvents = (events: RestItemEvent[] | RestPublicItemEvent[]) => {
   const incomming: typeof events = []
@@ -52,7 +53,8 @@ const EventList = ({
   const listRef = useRef<SectionList>(null)
   useScrollToTop(listRef)
 
-  const { value: filters } = eventFiltersState()
+  const { value: _filters } = eventFiltersState()
+  const [filters] = useDebounce(_filters, 300)
 
   const {
     data: paginatedFeed,
@@ -73,7 +75,7 @@ const EventList = ({
     }
   }
 
-  const loadMore = loadMoreGeneric
+  const loadMore = useDebouncedCallback(loadMoreGeneric, 1000, { leading: true, trailing: false })
 
   const { isWebPageLayoutScrollActive } = usePageLayoutScroll({
     onEndReached: loadMore,
