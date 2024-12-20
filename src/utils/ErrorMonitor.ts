@@ -1,24 +1,22 @@
 import clientEnv from '@/config/clientEnv'
 import * as Sentry from '@sentry/react-native'
+import { isRunningInExpoGo } from 'expo'
 
 export const ErrorMonitor = {
   configure: () => {
-    const routingInstrumentation = new Sentry.ReactNavigationInstrumentation()
+    const navigationIntegration = Sentry.reactNavigationIntegration({
+      enableTimeToInitialDisplay: !isRunningInExpoGo(),
+    })
 
     Sentry.init({
       dsn: clientEnv.SENTRY_DSN,
       environment: clientEnv.ENVIRONMENT,
       enabled: !__DEV__,
       //debug: ENVIRONMENT !== 'production', // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
-      integrations: [
-        new Sentry.ReactNativeTracing({
-          // Pass instrumentation to be used as `routingInstrumentation`
-          routingInstrumentation,
-          // ...
-        }),
-      ],
+      integrations: [navigationIntegration],
+      enableNativeFramesTracking: !isRunningInExpoGo(),
     })
-    return { routingInstrumentation }
+    return { navigationIntegration }
   },
   log: (message: string, payload?: Record<string, unknown>, sendToSentryIfProduction = true) => {
     if (__DEV__) {
@@ -27,8 +25,8 @@ export const ErrorMonitor = {
       Sentry.captureMessage(message, { extra: payload })
     }
   },
-  wrap: (RootComponent: React.ComponentType<Record<string, any>>) => {
-    Sentry.withProfiler(RootComponent)
+  wrap: (RootComponent: React.ComponentType<Record<string, unknown>>) => {
+    return Sentry.wrap(RootComponent)
   },
   setUser: (options: { id: string; email: string }) => {
     const { id, email } = options
@@ -42,7 +40,7 @@ export const ErrorMonitor = {
     if (__DEV__) {
       console.log('[ErrorMonitor] clearUser')
     } else {
-      Sentry.configureScope((scope) => scope.setUser(null))
+      // Sentry.configureScope((scope) => scope.setUser(null))
     }
   },
 }
