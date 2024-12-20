@@ -5,7 +5,6 @@ import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
-import useInitPushNotification from '@/hooks/useInit'
 import UpdateScreen from '@/screens/update/updateScreen'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -17,10 +16,15 @@ import { BlurView } from 'expo-blur'
 import { Slot, SplashScreen, useNavigationContainerRef } from 'expo-router'
 import { isWeb, ViewProps } from 'tamagui'
 import '../reanimatedConfig'
+import { useInitMatomo } from '@/features/matomo/hook'
+import { useInitPushNotification } from '@/features/push-notification/hook'
+import initRootAppNotification from '@/features/push-notification/logic/initRootAppNotification'
 
 if (isWeb) {
   require('@tamagui/core/reset.css')
 }
+
+initRootAppNotification()
 
 const { navigationIntegration } = ErrorMonitor.configure()
 
@@ -37,6 +41,7 @@ const useRegisterRoutingInstrumentation = () => {
 }
 
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
+  useInitMatomo()
   useInitPushNotification()
   const { isLoading } = useSession()
   if (isLoading) {
@@ -75,7 +80,6 @@ export const unstable_settings = {
 
 function Root() {
   const appState = useRef(AppState.currentState)
-
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient({
     defaultOptions: {

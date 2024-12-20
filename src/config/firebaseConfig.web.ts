@@ -34,9 +34,13 @@ function initFirebase() {
             return AuthorizationStatus.NOT_DETERMINED
         }
       },
+      getInitialNotification: () =>
+        new Promise((resolve) => {
+          resolve(null)
+          logNotImplemented('getInitialNotification')
+        }),
+      onNotificationOpenedApp: (x: Parameters<Mess['onNotificationOpenedApp']>[0]) => logNotImplemented('onNotificationOpenedApp', x),
     },
-    getInitialNotification: () => logNotImplemented('getInitialNotification'),
-    onNotificationOpenedApp: (x: Parameters<Mess['onNotificationOpenedApp']>[0]) => logNotImplemented('onNotificationOpenedApp', x),
 
     app: {
       deviceId: app.options.appId,

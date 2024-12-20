@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import clientEnv from '@/config/clientEnv'
-import * as api from '@/services/matomo/api'
+import * as api from '@/features/matomo/api'
+import { usePathname } from 'expo-router'
 
 export const useMatomo = () => {
   const userInfo = {}
@@ -32,4 +34,16 @@ export const useMatomo = () => {
           console.log('trackAppStart', x)
         },
       }
+}
+
+export const useInitMatomo = () => {
+  const matomo = useMatomo()
+  const pathname = usePathname()
+  useEffect(() => {
+    matomo.trackAppStart()
+  }, [])
+
+  useEffect(() => {
+    matomo.trackScreenView({ pathname })
+  }, [pathname])
 }

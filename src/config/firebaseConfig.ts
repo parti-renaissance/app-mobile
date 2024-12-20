@@ -1,8 +1,9 @@
-import installations from '@react-native-firebase/installations'
+import { PermissionsAndroid, Platform } from 'react-native'
 import nMessaging from '@react-native-firebase/messaging'
+import Constants from 'expo-constants'
+import { AuthorizationStatus } from './firebaseTypes'
 
-export { AuthorizationStatus } from './firebaseTypes'
-
+export { AuthorizationStatus }
 // Initialize Firebase
 type Mess = ReturnType<typeof nMessaging>
 
@@ -19,11 +20,21 @@ function initFirebase() {
       setBackgroundMessageHandler: (x: Parameters<Mess['setBackgroundMessageHandler']>[0]) => nMessaging().setBackgroundMessageHandler(x),
       getInitialNotification: () => nMessaging().getInitialNotification(),
       onNotificationOpenedApp: (x: Parameters<Mess['onNotificationOpenedApp']>[0]) => nMessaging().onNotificationOpenedApp(x),
-      requestPermission: (...x: Parameters<Mess['requestPermission']>) => nMessaging().requestPermission(...x),
+      requestPermission: (...x: Parameters<Mess['requestPermission']>) => {
+        if (Platform.OS === 'android') {
+          PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS).then((e) => {
+            if (e === PermissionsAndroid.RESULTS.GRANTED) {
+              return AuthorizationStatus.AUTHORIZED
+            }
+            return AuthorizationStatus.DENIED
+          })
+        }
+        return nMessaging().requestPermission(...x)
+      },
     },
 
     app: {
-      deviceId: 'fwrger',
+      deviceId: Constants.sessionId,
     },
   }
 }
