@@ -3,9 +3,11 @@ import { AppState, useColorScheme } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import WaitingScreen from '@/components/WaitingScreen'
 import { SessionProvider, useSession } from '@/ctx/SessionProvider'
+import { useInitMatomo } from '@/features/matomo/hook'
+import { useInitPushNotification } from '@/features/push-notification/hook'
+import initRootAppNotification from '@/features/push-notification/logic/initRootAppNotification'
 import useAppUpdate from '@/hooks/useAppUpdate'
 import useImportFont from '@/hooks/useImportFont'
-import useInitPushNotification from '@/hooks/useInit'
 import UpdateScreen from '@/screens/update/updateScreen'
 import TamaguiProvider from '@/tamagui/provider'
 import { ErrorMonitor } from '@/utils/ErrorMonitor'
@@ -20,6 +22,8 @@ import { isWeb, ViewProps } from 'tamagui'
 if (isWeb) {
   require('@tamagui/core/reset.css')
 }
+
+initRootAppNotification()
 
 const { routingInstrumentation } = ErrorMonitor.configure()
 
@@ -36,8 +40,9 @@ const useRegisterRoutingInstrumentation = () => {
 }
 
 const WaitingRoomHoc = (props: { children: ViewProps['children']; isLoading?: boolean }) => {
-  useInitPushNotification()
-  const { isLoading } = useSession()
+  useInitMatomo()
+  const { isLoading, isAuth } = useSession()
+  useInitPushNotification({ enable: isAuth && !isLoading && !props.isLoading })
   if (isLoading) {
     return <WaitingScreen />
   }
@@ -74,7 +79,6 @@ export const unstable_settings = {
 
 function Root() {
   const appState = useRef(AppState.currentState)
-
   const colorScheme = useColorScheme()
   const queryClient = new QueryClient({
     defaultOptions: {
